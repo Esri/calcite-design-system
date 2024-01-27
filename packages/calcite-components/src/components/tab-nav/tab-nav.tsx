@@ -526,7 +526,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
         tabTitles.reverse();
       }
 
-      let closestToEdge: DOMRect = null;
+      let closestToEdge: HTMLCalciteTabTitleElement = null;
 
       tabTitles.forEach((tabTitle) => {
         const tabTitleBounds = tabTitle.getBoundingClientRect();
@@ -535,44 +535,43 @@ export class TabNav implements LocalizedComponent, T9nComponent {
           const beyondContainer = tabTitleBounds.x > containerBounds.x + containerBounds.width;
 
           if (beyondContainer) {
-            closestToEdge = tabTitleBounds;
+            closestToEdge = tabTitle;
           } else {
             const crossingContainer =
               tabTitleBounds.x + tabTitleBounds.width > containerBounds.x + containerBounds.width &&
               tabTitleBounds.x > containerBounds.x;
 
             if (crossingContainer) {
-              closestToEdge = tabTitleBounds;
+              closestToEdge = tabTitle;
             }
           }
         } else {
           const beyondContainer = tabTitleBounds.x + tabTitleBounds.width < containerBounds.x;
           if (beyondContainer) {
-            closestToEdge = tabTitleBounds;
+            closestToEdge = tabTitle;
           } else {
             const crossingContainer =
               tabTitleBounds.x < containerBounds.x &&
               tabTitleBounds.x + tabTitleBounds.width < containerBounds.x + containerBounds.width;
 
             if (crossingContainer) {
-              closestToEdge = tabTitleBounds;
+              closestToEdge = tabTitle;
             }
           }
         }
       });
 
       if (closestToEdge) {
-        const closestBounds = closestToEdge;
-        const scrollBy: number =
+        const scrollTo: number =
           direction === "forward"
-            ? closestBounds.x - this.scrollerButtonWidth
-            : -containerBounds.width +
-              closestBounds.x +
-              closestBounds.width +
+            ? closestToEdge.offsetLeft - this.scrollerButtonWidth
+            : closestToEdge.offsetLeft +
+              closestToEdge.offsetWidth -
+              tabTitleContainer.clientWidth +
               this.scrollerButtonWidth;
 
-        tabTitleContainer.scrollBy({
-          left: scrollBy,
+        tabTitleContainer.scrollTo({
+          left: scrollTo,
           behavior: "smooth",
         });
       }
