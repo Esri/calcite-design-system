@@ -562,13 +562,12 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       });
 
       if (closestToEdge) {
-        const scrollTo: number =
+        const { scrollerButtonWidth } = this;
+        const offsetAdjustment =
           direction === "forward"
-            ? closestToEdge.offsetLeft - this.scrollerButtonWidth
-            : closestToEdge.offsetLeft +
-              closestToEdge.offsetWidth -
-              tabTitleContainer.clientWidth +
-              this.scrollerButtonWidth;
+            ? -scrollerButtonWidth
+            : closestToEdge.offsetWidth - tabTitleContainer.clientWidth + scrollerButtonWidth;
+        const scrollTo = closestToEdge.offsetLeft + offsetAdjustment;
 
         tabTitleContainer.scrollTo({
           left: scrollTo,
