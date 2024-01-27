@@ -1,5 +1,7 @@
 :host {
   @apply block;
+  --calcite-select-internal-border-width: 0px;
+  --calcite-select-internal-icon-border-inline-end-width: 0px;
 }
 
 .header {
