@@ -7,31 +7,28 @@
 *
 * @prop --calcite-progress-background-color: The background color of the component.
 * @prop --calcite-progress-font-size: The font size of the component.
-* @prop --calcite-progress-font-color: The font color of the component.
+* @prop --calcite-progress-color: The font color of the component.
 */
 
 :host {
   @apply relative block;
   inline-size: var(--calcite-container-size-content-fluid);
+  --calcite-progress-background-color: var(--calcite-color-brand);
 }
 
 .track,
 .bar {
   @apply absolute top-0;
 
-  block-size: 2px;
+  block-size: --calcite-size-xxxs;
+  z-index: var(--calcite-z-index);
 }
 
 .track {
   @apply overflow-hidden;
 
   inline-size: var(--calcite-container-size-content-fluid);
-  z-index: var(--calcite-z-index);
   --calcite-progress-background-color: var(--calcite-color-border-3);
-}
-
-.bar {
-  --calcite-progress-background-color: var(--calcite-color-brand);
 }
 
 @media (forced-colors: active) {
@@ -58,7 +55,7 @@
 .text {
   @apply px-0 pt-4 pb-0 text-center font-medium;
   --calcite-progress-font-size: theme("fontSize.n2h");
-  --calcite-progress-font-color: var(--calcite-color-text-2);
+  --calcite-progress-color: var(--calcite-color-text-2);
 }
 
 @keyframes looping-progress-bar-ani {
