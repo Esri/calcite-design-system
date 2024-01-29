@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.3.1-next.0...@esri/calcite-components@2.4.0-next.0) (2024-01-26)
+
+### Features
+
+- add `no-dynamic-createelement` rule ([#8656](https://github.com/Esri/calcite-design-system/issues/8656)) ([c7e9444](https://github.com/Esri/calcite-design-system/commit/c7e94441f8cc263935e60a6c920dd9673af9b8c0)), closes [#8651](https://github.com/Esri/calcite-design-system/issues/8651)
+
+### Bug Fixes
+
+- **combobox:** ensure supporting components are auto-defined ([#8657](https://github.com/Esri/calcite-design-system/issues/8657)) ([e6d792b](https://github.com/Esri/calcite-design-system/commit/e6d792b1a78a3a21a54f04fda4c4795d336deba8)), closes [#8495](https://github.com/Esri/calcite-design-system/issues/8495)
+
+## [2.3.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.3.0...@esri/calcite-components@2.3.1-next.0) (2024-01-26)
+
+### Bug Fixes
+
+- **tile-select:** ensure supporting components are auto-defined ([#8648](https://github.com/Esri/calcite-design-system/issues/8648)) ([2c27f40](https://github.com/Esri/calcite-design-system/commit/2c27f409fedfd12bb06b3b4f0e0355816bb50e9a)), closes [#8495](https://github.com/Esri/calcite-design-system/issues/8495)
+
 ## [2.3.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0...@esri/calcite-components@2.3.0) (2024-01-24)
 
 ### Features
