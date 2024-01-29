@@ -857,22 +857,27 @@ describe("calcite-list", () => {
       await page.waitForChanges();
 
       await page.keyboard.press("Tab");
+      await page.waitForChanges();
 
       expect(await getFocusedElementProp(page, "id")).toBe("item1");
 
       await page.keyboard.press("Tab");
+      await page.waitForChanges();
 
       expect(await getFocusedElementProp(page, "id")).toBe("action1");
 
       await page.keyboard.press("Tab");
+      await page.waitForChanges();
 
       expect(await getFocusedElementProp(page, "id")).toBe("action2");
 
       await page.keyboard.press("Tab");
+      await page.waitForChanges();
 
       expect(await getFocusedElementProp(page, "id")).toBe("action3");
 
       await page.keyboard.press("Tab");
+      await page.waitForChanges();
 
       expect(await getFocusedElementProp(page, "id")).toBe("action4");
     });
