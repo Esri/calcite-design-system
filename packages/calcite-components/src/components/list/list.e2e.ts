@@ -822,6 +822,61 @@ describe("calcite-list", () => {
       expect(await one.getProperty("open")).toBe(false);
     });
 
+    it("should allow tabbing through slotted actions within a cell", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-list>
+          <calcite-list-item
+            id="item1"
+            label="Hiking trails"
+            description="Designated routes for hikers to use."
+            value="hiking-trails"
+          >
+            <calcite-action
+              id="action1"
+              slot="actions-start"
+              icon="gear"
+              text="Setup the trails layer"
+            ></calcite-action>
+            <calcite-action
+              id="action2"
+              slot="actions-start"
+              icon="hammer"
+              text="Troubleshoot the trails layer"
+            ></calcite-action>
+            <calcite-action
+              id="action3"
+              slot="actions-end"
+              icon="bookmark"
+              text="Bookmark trails layer"
+            ></calcite-action>
+            <calcite-action id="action4" slot="actions-end" icon="plus" text="Add trails layer"></calcite-action>
+          </calcite-list-item>
+        </calcite-list> `,
+      );
+      await page.waitForChanges();
+
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedElementProp(page, "id")).toBe("item1");
+
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedElementProp(page, "id")).toBe("action1");
+
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedElementProp(page, "id")).toBe("action2");
+
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedElementProp(page, "id")).toBe("action3");
+
+      await page.keyboard.press("Tab");
+
+      expect(await getFocusedElementProp(page, "id")).toBe("action4");
+    });
+
     it("should navigate after focusing within a cell", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
