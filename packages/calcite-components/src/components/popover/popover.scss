@@ -15,7 +15,6 @@
   --calcite-floating-ui-z-index: var(--calcite-popover-z-index, theme("zIndex.popover"));
   --calcite-popover-background-color: var(--calcite-color-foreground-1);
   --calcite-popover-border-color: var(--calcite-color-border-3);
-  --calcite-popover-border-color: var(--calcite-color-border-3);
 }
 
 @include floatingUIHost();
