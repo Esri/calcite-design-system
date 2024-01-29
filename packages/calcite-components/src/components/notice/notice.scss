@@ -156,19 +156,26 @@
 }
 
 .notice-close {
-  @apply text-color-3 flex cursor-pointer items-center self-stretch border-none bg-transparent outline-none;
+  @apply flex cursor-pointer items-center self-stretch border-none bg-transparent outline-none;
+  @include notice-element-base;
   border-end-end-radius: var(--calcite-notice-corner-radius, var(--calcite-corner-radius-sharp));
   border-start-end-radius: var(--calcite-notice-corner-radius, var(--calcite-corner-radius-sharp));
-  @include notice-element-base;
   -webkit-appearance: none;
+  color: var(--calcite-notice-close-icon-color, var(--calcite-color-text-3));
+  background-color: var(--calcite-notice-close-background-color, var(--calcite-color-transparent));
 
-  &:hover,
-  &:focus {
-    @apply bg-foreground-2 text-color-1;
+  &:hover {
+    background-color: var(--calcite-notice-close-background-color-hover, var(--calcite-color-foreground-2));
   }
 
   &:active {
-    @apply bg-foreground-3;
+    background-color: var(--calcite-notice-close-background-color-active, var(--calcite-color-foreground-2));
+  }
+
+  &:focus {
+    background-color: var(--calcite-notice-close-background-color-focus, var(--calcite-color-foreground-2));
+    outline-color: var(--calcite-notice-close-focus-color, inherit);
+    color: var(--calcite-notice-close-icon-color, var(--calcite-color-text-1));
   }
 }
 
@@ -190,7 +197,7 @@ $noticeKinds:
   :host([kind="#{$name}"]) .container {
     border-color: var(--calcite-notice-border-color, $kind);
     & .notice-icon {
-      color: $kind;
+      color: var(--calcite-notice-icon-color, $kind);
     }
   }
 }

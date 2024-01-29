@@ -106,7 +106,9 @@ export const theming_TestOnly = (): string => html`
       --calcite-notice-corner-radius: 4px;
       --calcite-notice-icon-color: rgb(244, 229, 229);
       --calcite-notice-close-icon-color: orange;
-      --calcite-notice-text-color: rgb(244, 229, 229);"
+      --calcite-notice-text-color: rgb(244, 229, 229);
+      --calcite-notice-close-icon-color: purple;
+      --calcite-notice-close-background-color: rgb(236, 166, 178);"
   >
     <div slot="title">This is a message</div>
     <div slot="message">Be sure you know what you are doing, folks.</div>
