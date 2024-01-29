@@ -6,8 +6,12 @@
 * These properties can be overridden using the component's tag as selector.
 *
 * @prop --calcite-progress-background-color: The background color of the component.
-* @prop --calcite-progress-font-size: The font size of the component.
 * @prop --calcite-progress-color: The font color of the component.
+* @prop --calcite-progress-font-size: The font size of the component.
+*
+* @prop —-calcite-progress-label-inline-padding: Component label inline padding
+* @prop —-calcite-progress-label-block-end-padding: Component label block-end padding.
+* @prop —-calcite-progress-label-block-start-padding: Component label block-start padding.
 */
 
 :host {
@@ -53,9 +57,12 @@
 }
 
 .text {
-  @apply px-0 pt-4 pb-0 text-center font-medium;
+  @apply text-center font-medium;
   --calcite-progress-font-size: theme("fontSize.n2h");
   --calcite-progress-color: var(--calcite-color-text-2);
+  --calcite-progress-label-inline-padding: 0;
+  --calcite-progress-label-block-start-padding: 4;
+  --calcite-progress-label-block-end-padding: 0;
 }
 
 @keyframes looping-progress-bar-ani {
