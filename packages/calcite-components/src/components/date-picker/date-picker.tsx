@@ -68,10 +68,17 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Prop({ mutable: true }) activeDate: Date;
 
   @Watch("activeDate")
-  activeDateWatcher(): void {
-    // if (this.activeRange === "end") {
-    //   // this.activeEndDate = newActiveDate;
-    // }
+  activeDateWatcher(newValue: Date): void {
+    //updates activeValue when user is typing in input.
+    if (this.range) {
+      if (Array.isArray(newValue)) {
+        this.activeStartDate = newValue[0];
+        this.activeEndDate = newValue[1];
+      } else {
+        this.activeStartDate = newValue;
+        this.activeEndDate = nextMonth(newValue);
+      }
+    }
   }
 
   /**
