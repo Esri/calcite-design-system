@@ -9,17 +9,44 @@
 
 :host {
   @extend %component-host;
-  @apply relative flex w-full h-full flex-auto;
-
-  --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
+  position: relative;
+  display: flex;
+  inline-size: 100%;
+  block-size: 100%;
+  flex: 1 1 auto;
 }
 
 @include disabled();
 
-@import "../../assets/styles/header";
+.header {
+  color: var(--calcite-color-text-2); // todo: make --calcite-panel-header-color?
+  fill: var(--calcite-color-text-2); // todo: make --calcite-panel-header-color?
+  margin: 0;
+  display: flex;
+  align-content: space-between;
+  align-items: center;
+}
+
+.heading {
+  margin: 0;
+  padding: 0;
+  font-weight: var(--calcite-font-weight-medium); // todo: make --calcite-panel-font-weight?
+}
+
+.header .heading {
+  flex: 1 1 auto;
+  padding: var(--calcite-spacing-xxs);
+}
 
 .container {
-  @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
+  background-color: var(--calcite-color-background); // todo: make --calcite-panel-background-color?
+  margin: 0;
+  display: flex;
+  inline-size: 100%;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
 
   transition:
     max-block-size var(--calcite-animation-timing),
@@ -27,106 +54,118 @@
 }
 
 .container[hidden] {
-  @apply hidden;
+  display: none;
 }
 
 .header {
-  @apply bg-foreground-1 flex flex-col
-    z-header;
-  border-block-end: var(--calcite-panel-header-border-block-end, 1px solid var(--calcite-color-border-3));
+  display: flex;
+  flex-direction: column;
+  z-index: var(--calcite-z-index-header); // todo: make --calcite-panel-header-z-index?
+  background-color: var(--calcite-color-foreground-1); // todo: make --calcite-panel-header-background-color?
+  border-block-end: var(
+    --calcite-panel-header-border-block-end,
+    var(--calcite-border-width-sm) solid var(--calcite-color-border-3)
+  ); // todo: make --calcite-panel-border-color?
 }
 
 .header-container {
-  @apply flex flex-row w-full
-  items-stretch
-  justify-start;
+  display: flex;
+  flex-direction: row;
+  inline-size: 100%;
+  align-items: stretch;
+  justify-content: flex-start;
   flex: 0 0 auto;
 }
 
 .header-container--border-end {
-  border-block-end: 1px solid var(--calcite-color-border-3);
+  border-block-end: var(--calcite-border-width-sm) solid var(--calcite-color-border-3); // todo: make --calcite-panel-border-color?
 }
 
 .action-bar-container {
-  @apply w-full;
+  inline-size: 100%;
 }
 
 .action-bar-container ::slotted(calcite-action-bar) {
-  @apply w-full;
+  inline-size: 100%;
 }
 
 .header-content {
-  @apply flex
-    flex-col
-    overflow-hidden
-    px-3
-    py-3.5;
+  flex-direction: column;
+  display: flex;
+  overflow: hidden;
+  padding-inline: var(--calcite-spacing-sm);
+  padding-block: var(--calcite-spacing-md);
   margin-inline-end: auto;
   .heading,
   .description {
-    @apply block
-      break-words
-      p-0;
+    display: block;
+    overflow-wrap: break-word;
+    padding: 0;
   }
   .heading {
-    @apply text-0h mx-0 mt-0 mb-1 font-medium;
+    margin-inline: 0px;
+    margin-block: 0px var(--calcite-spacing-xxs);
+    font-weight: var(--calcite-font-weight-medium);
+    font-size: var(--calcite-font-size-0); // todo: --calcite-panel-heading-font-size?
+    line-height: 1.25rem;
     &:only-child {
-      @apply mb-0;
+      margin-block-end: 0;
     }
   }
   .description {
-    @apply text-color-2 text-n1h;
+    color: var(--calcite-color-text-2); // todo: --calcite-panel-description-color?
+    font-size: var(--calcite-font-size--1); // todo: --calcite-panel-description-font-size?
+    line-height: 1rem;
   }
 }
 
 .back-button {
-  @apply border-color-3
-  border-0
-  border-solid;
-  border-inline-end-width: theme("borderWidth.DEFAULT");
+  border-color: var(--calcite-color-border-3); // todo: calcite-panel-border-color?
+  border-style: solid;
+  border-width: 0px;
+  border-inline-end-width: var(--calcite-border-width-sm);
 }
 
 .header-actions {
-  @apply flex
-  flex-row
-  flex-nowrap
-  items-stretch;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
 }
 
 .header-actions--end {
-  margin-inline-start: theme("margin.auto");
+  margin-inline-start: "auto";
 }
 
 .content-wrapper {
-  @apply flex
-  flex-auto
-  flex-col
-  flex-nowrap
-  items-stretch
-  bg-background
-  overflow-auto
-  h-full;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  background-color: var(--calcite-color-background); // todo: make --calcite-panel-background-color?
+  overflow: auto;
+  block-size: 100%;
 }
 
 .footer {
-  @apply bg-foreground-1
-  flex
-  w-full
-  justify-evenly;
-
+  background-color: var(--calcite-color-foreground-1); // todo: make --calcite-panel-footer-background-color?
+  inline-size: 100%;
+  display: flex;
+  justify-content: space-evenly;
   flex: 0 0 auto;
-  padding: var(--calcite-panel-footer-padding, theme("spacing.2"));
-  border-block-start: 1px solid var(--calcite-color-border-3);
+  padding: var(--calcite-panel-footer-padding, var(--calcite-spacing-xxs));
+  border-block-start: var(--calcite-border-width-sm) solid var(--calcite-color-border-3); // todo: make --calcite-panel-border-color?
 }
 
 .fab-container {
-  @apply sticky
-  bottom-0
-  my-0
-  mx-auto
-  block
-  p-2
-  z-sticky;
+  position: sticky;
+  inset-block-end: 0;
+  margin-inline: auto;
+  margin-block: 0;
+  display: block;
+  z-index: var(--calcite-z-index-sticky); // todo: make --calcite-panel-fab-z-index?
+  padding: var(--calcite-spacing-xxs);
   inset-inline: 0;
   inline-size: fit-content;
 }
