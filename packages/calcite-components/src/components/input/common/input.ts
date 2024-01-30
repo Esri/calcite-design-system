@@ -27,11 +27,16 @@ export const patternTypes = ["email", "password", "search", "tel", "text", "url"
  */
 export const minMaxLengthTypes = ["email", "password", "search", "tel", "text", "textarea", "url"];
 
-function updateConstraintValidation(inputComponent: InputComponent, input: HTMLInputElement, propName: string): void {
+function updateConstraintValidation(
+  inputComponent: InputComponent,
+  input: HTMLInputElement,
+  propName: string,
+  matchesType: boolean,
+): void {
   const attributeName = propName.toLowerCase();
   const value = inputComponent[propName];
 
-  if (value != null) {
+  if (matchesType && value != null) {
     input.setAttribute(attributeName, `${value}`);
   } else {
     // we remove the attribute to ensure validation-constraints are properly reset
@@ -55,24 +60,21 @@ export function syncHiddenFormInput(
 ): void {
   hiddenFormInput.type = type === "textarea" ? "text" : type;
 
-  if (minMaxStepTypes.includes(type)) {
-    const numericInputComponent = inputComponent as NumericInputComponent;
+  const isMinMaxStepType = minMaxStepTypes.includes(type);
+  const numericInputComponent = inputComponent as NumericInputComponent;
 
-    updateConstraintValidation(numericInputComponent, hiddenFormInput, "min");
-    updateConstraintValidation(numericInputComponent, hiddenFormInput, "max");
-    updateConstraintValidation(numericInputComponent, hiddenFormInput, "step");
-  }
+  updateConstraintValidation(numericInputComponent, hiddenFormInput, "min", isMinMaxStepType);
+  updateConstraintValidation(numericInputComponent, hiddenFormInput, "max", isMinMaxStepType);
+  updateConstraintValidation(numericInputComponent, hiddenFormInput, "step", isMinMaxStepType);
 
-  if (minMaxLengthTypes.includes(type)) {
-    const textualInputComponent = inputComponent as TextualInputComponent;
+  const isMinMaxLengthType = minMaxLengthTypes.includes(type);
 
-    updateConstraintValidation(textualInputComponent, hiddenFormInput, "minLength");
-    updateConstraintValidation(textualInputComponent, hiddenFormInput, "maxLength");
-  }
+  const textualInputComponent = inputComponent as TextualInputComponent;
 
-  if (patternTypes.includes(type)) {
-    const textualInputComponent = inputComponent as TextualInputComponent;
+  updateConstraintValidation(textualInputComponent, hiddenFormInput, "minLength", isMinMaxLengthType);
+  updateConstraintValidation(textualInputComponent, hiddenFormInput, "maxLength", isMinMaxLengthType);
 
-    updateConstraintValidation(textualInputComponent, hiddenFormInput, "pattern");
-  }
+  const isPatternType = patternTypes.includes(type);
+
+  updateConstraintValidation(textualInputComponent, hiddenFormInput, "pattern", isPatternType);
 }
