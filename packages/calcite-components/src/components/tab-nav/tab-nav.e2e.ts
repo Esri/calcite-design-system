@@ -152,8 +152,6 @@ describe("calcite-tab-nav", () => {
       expectedForwardVisibility: boolean,
     ): Promise<void> {
       /* we need to find the scroll buttons to ensure visibility */
-      const scrollBackButton = await page.find(`calcite-tab-nav >>> .${CSS.scrollBackwardContainerButton}`);
-      const scrollForwardButton = await page.find(`calcite-tab-nav >>> .${CSS.scrollForwardContainerButton}`);
       expect(await scrollBackButton.isVisible()).toBe(backExpectedVisibility);
       expect(await scrollForwardButton.isVisible()).toBe(expectedForwardVisibility);
     }
