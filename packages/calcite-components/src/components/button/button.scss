@@ -150,12 +150,10 @@
     &.loading-in {
       animation-name: loader-in;
       animation-duration: var(--calcite-internal-animation-timing-slow);
-      animation-play-state: paused;
     }
     &.loading-out {
       animation-name: loader-out;
       animation-duration: var(--calcite-internal-animation-timing-slow);
-      animation-play-state: paused;
     }
   }
 }
@@ -165,7 +163,6 @@
   .content--slotted {
     .calcite-button--loader calcite-loader {
       margin-inline-end: var(--calcite-internal-button-content-margin);
-      animation-play-state: running;
     }
   }
   /* hide icons when loading with no text */
