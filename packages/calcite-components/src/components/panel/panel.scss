@@ -6,13 +6,13 @@
  * @prop --calcite-panel-background-color: Specifies the background color of the component.
  * @prop --calcite-panel-border-color: Specifies the border color of the component.
  * @prop --calcite-panel-description-color: Specifies the color of the component's description.
+ * @prop --calcite-panel-fab-z-index: Specifies the component fab's z-index.
  * @prop --calcite-panel-footer-background-color: Specifies the background color of the component's footer.
  * @prop --calcite-panel-footer-padding: Specifies the padding of the component's footer.
  * @prop --calcite-panel-header-background-color: Specifies the component header's background color.
  * @prop --calcite-panel-header-border-block-end: Specifies the component header's block end border.
  * @prop --calcite-panel-header-color: Specifies the component header's  color.
  * @prop --calcite-panel-header-z-index: Specifies the component header's z-index.
- * @prop --calcite-panel-fab-z-index: Specifies the component fab's z-index.
  */
 
 :host {
@@ -22,16 +22,26 @@
   inline-size: 100%;
   block-size: 100%;
   flex: 1 1 auto;
+  --calcite-internal-panel-transition: max-block-size var(--calcite-animation-timing),
+    inline-size var(--calcite-animation-timing);
+
+  --calcite-panel-background-color: var(--calcite-color-background);
+  --calcite-panel-border-color: var(--calcite-color-border-3);
+  --calcite-panel-description-color: var(--calcite-color-text-2);
+  --calcite-panel-fab-z-index: var(--calcite-z-index-sticky);
+  --calcite-panel-footer-background-color: var(--calcite-color-foreground-1);
+  --calcite-panel-footer-padding: var(--calcite-spacing-xxs);
+  --calcite-panel-header-color: var(--calcite-color-text-2);
+  --calcite-panel-header-background-color: var(--calcite-color-foreground-1);
+  --calcite-panel-header-z-index: var(--calcite-z-index-header);
+
+  --calcite-panel-header-border-block-end: var(--calcite-border-width-sm) solid var(--calcite-panel-border-color);
 }
 
 @include disabled();
 
 .header {
-  color: var(--calcite-panel-header-color, var(--calcite-color-text-2));
-  fill: var(
-    --calcite-panel-header-color,
-    var(--calcite-color-text-2)
-  ); // question: not sure if this is needed. Not sure why it was there in the first place.  https://github.com/Esri/calcite-design-system/blame/2e8abc5cea258e188445a223b15c2e469d6baef5/src/assets/styles/_header.scss
+  color: var(--calcite-panel-header-color);
   margin: 0;
   display: flex;
   align-content: space-between;
@@ -41,7 +51,7 @@
 .heading {
   margin: 0;
   padding: 0;
-  font-weight: var(--calcite-font-weight-medium); // question: are we doing font-weight tokens?
+  font-weight: var(--calcite-font-weight-medium);
 }
 
 .header .heading {
@@ -50,7 +60,7 @@
 }
 
 .container {
-  background-color: var(--calcite-panel-background-color, var(--calcite-color-background));
+  background-color: var(--calcite-panel-background-color);
   margin: 0;
   display: flex;
   inline-size: 100%;
@@ -58,12 +68,7 @@
   flex-direction: column;
   align-items: stretch;
   padding: 0;
-
-  transition: var(
-    --calcite-internal-panel-transition,
-    max-block-size var(--calcite-animation-timing),
-    inline-size var(--calcite-animation-timing)
-  );
+  transition: var(--calcite-internal-panel-transition);
 }
 
 .container[hidden] {
@@ -73,12 +78,9 @@
 .header {
   display: flex;
   flex-direction: column;
-  z-index: var(--calcite-panel-header-z-index, var(--calcite-z-index-header));
-  background-color: var(--calcite-panel-header-background-color, var(--calcite-color-foreground-1));
-  border-block-end: var(
-    --calcite-panel-header-border-block-end,
-    var(--calcite-border-width-sm) solid var(--calcite-panel-border-color, var(--calcite-color-border-3))
-  );
+  z-index: var(--calcite-panel-header-z-index);
+  background-color: var(--calcite-panel-header-background-color);
+  border-block-end: var(--calcite-panel-header-border-block-end);
 }
 
 .header-container {
@@ -91,8 +93,7 @@
 }
 
 .header-container--border-end {
-  border-block-end: var(--calcite-border-width-sm) solid
-    var(--calcite-panel-border-color, var(--calcite-color-border-3));
+  border-block-end: var(--calcite-border-width-sm) solid var(--calcite-panel-border-color);
 }
 
 .action-bar-container {
@@ -120,21 +121,21 @@
     margin-inline: 0px;
     margin-block: 0px var(--calcite-spacing-xxs);
     font-weight: var(--calcite-font-weight-medium);
-    font-size: var(--calcite-font-size-0); // question: we doing font sizes?
+    font-size: var(--calcite-font-size-0);
     line-height: 1.25rem;
     &:only-child {
       margin-block-end: 0;
     }
   }
   .description {
-    color: var(--calcite-panel-description-color, var(--calcite-color-text-2));
-    font-size: var(--calcite-font-size--1); // question: we doing font sizes?
+    color: var(--calcite-panel-description-color);
+    font-size: var(--calcite-font-size--1);
     line-height: 1rem;
   }
 }
 
 .back-button {
-  border-color: var(--calcite-panel-border-color, var(--calcite-color-border-3));
+  border-color: var(--calcite-panel-border-color);
   border-style: solid;
   border-width: 0px;
   border-inline-end-width: var(--calcite-border-width-sm);
@@ -157,20 +158,19 @@
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: stretch;
-  background-color: var(--calcite-panel-background-color, var(--calcite-color-background));
+  background-color: var(--calcite-panel-background-color);
   overflow: auto;
   block-size: 100%;
 }
 
 .footer {
-  background-color: var(calcite-panel-footer-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-panel-footer-background-color);
   inline-size: 100%;
   display: flex;
   justify-content: space-evenly;
   flex: 0 0 auto;
-  padding: var(--calcite-panel-footer-padding, var(--calcite-spacing-xxs));
-  border-block-start: var(--calcite-border-width-sm) solid
-    var(--calcite-panel-border-color, var(--calcite-color-border-3));
+  padding: var(--calcite-panel-footer-padding);
+  border-block-start: var(--calcite-border-width-sm) solid var(--calcite-panel-border-color);
 }
 
 .fab-container {
@@ -179,7 +179,7 @@
   margin-inline: auto;
   margin-block: 0;
   display: block;
-  z-index: var(--calcite-panel-fab-z-index, var(--calcite-z-index-sticky));
+  z-index: var(--calcite-panel-fab-z-index);
   padding: var(--calcite-spacing-xxs);
   inset-inline: 0;
   inline-size: fit-content;
