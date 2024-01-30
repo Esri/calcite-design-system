@@ -1,6 +1,8 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS, SCROLL_TO_DELAY } from "./resources";
+import { getElementRect } from "../../tests/utils";
 
 describe("calcite-tab-nav", () => {
   describe("defaults", () => {
@@ -138,23 +140,137 @@ describe("calcite-tab-nav", () => {
         <calcite-tab>Tab 8 Content</calcite-tab>
       </calcite-tabs>
     `;
+    const sizeShowingAllTabs = { width: 1200, height: 1200 };
+    const sizeShowingSomeTabs = { width: 350, height: 1200 };
+
     let page: E2EPage;
+    let scrollBackButton: E2EElement;
+    let scrollForwardButton: E2EElement;
+
+    async function assertScrollButtonVisibility(
+      backExpectedVisibility: boolean,
+      expectedForwardVisibility: boolean,
+    ): Promise<void> {
+      /* we need to find the scroll buttons to ensure visibility */
+      const scrollBackButton = await page.find(`calcite-tab-nav >>> .${CSS.scrollBackwardContainerButton}`);
+      const scrollForwardButton = await page.find(`calcite-tab-nav >>> .${CSS.scrollForwardContainerButton}`);
+      expect(await scrollBackButton.isVisible()).toBe(backExpectedVisibility);
+      expect(await scrollForwardButton.isVisible()).toBe(expectedForwardVisibility);
+    }
 
     beforeEach(async () => {
       page = await newE2EPage();
       await page.setContent(tabsHTML);
+      await page.setViewport(sizeShowingSomeTabs);
+      await page.waitForChanges();
+      scrollBackButton = await page.find(`calcite-tab-nav >>> .${CSS.scrollBackwardContainerButton}`);
+      scrollForwardButton = await page.find(`calcite-tab-nav >>> .${CSS.scrollForwardContainerButton}`);
     });
 
     it("shows scrolling buttons if tab-titles overflow", async () => {
-      // do for both wheel scrolling (individual) and button clicking (scrolls to last visible tab-title)
-      // assert no scrolling buttons initially (full width)
-      // assert scrolling start button after making narrow
-      // assert scrolling start and end after wheel scrolling on tabs
-      // assert scrolling end after wheel scrolling to the end
-      // scroll back and assert to beginning?
-      // assert no scrolling buttons initially (full width)
+      await assertScrollButtonVisibility(false, true);
+
+      await page.click("calcite-tab-title:nth-child(4)");
+      await page.waitForChanges();
+
+      await assertScrollButtonVisibility(true, true);
+
+      await page.setViewport(sizeShowingAllTabs);
+      await page.waitForChanges();
+
+      await assertScrollButtonVisibility(false, false);
+
+      await page.setViewport(sizeShowingSomeTabs);
+      await page.waitForChanges();
+
+      await assertScrollButtonVisibility(false, true);
+
+      await page.click("calcite-tab-title:nth-child(4)");
+      await page.waitForChanges();
+
+      await assertScrollButtonVisibility(true, true);
     });
 
-    it("scrolls into view clipped start or end tab-title when selected", async () => {});
+    it("scrolling tabs via buttons", async () => {
+      await assertScrollButtonVisibility(false, true);
+
+      await scrollForwardButton.click();
+      await page.waitForChanges();
+      await page.waitForTimeout(SCROLL_TO_DELAY);
+
+      await assertScrollButtonVisibility(true, true);
+
+      await scrollForwardButton.click();
+      await page.waitForChanges();
+      await page.waitForTimeout(SCROLL_TO_DELAY);
+
+      await assertScrollButtonVisibility(true, false);
+
+      await scrollBackButton.click();
+      await page.waitForChanges();
+      await page.waitForTimeout(SCROLL_TO_DELAY);
+
+      await assertScrollButtonVisibility(true, true);
+
+      await scrollBackButton.click();
+      await page.waitForChanges();
+      await page.waitForTimeout(SCROLL_TO_DELAY);
+
+      await assertScrollButtonVisibility(false, true);
+    });
+
+    it("scrolling tabs via mouse wheel", async () => {
+      await assertScrollButtonVisibility(false, true);
+
+      const tabNavBounds = await getElementRect(page, "calcite-tab-nav");
+      await page.mouse.move(tabNavBounds.x + tabNavBounds.width / 2, tabNavBounds.y + tabNavBounds.height / 2);
+      await page.mouse.wheel({ deltaY: 200 });
+      await page.waitForChanges();
+
+      await assertScrollButtonVisibility(true, true);
+
+      await page.mouse.wheel({ deltaY: 200 });
+      await page.waitForChanges();
+
+      await assertScrollButtonVisibility(true, false);
+
+      await page.mouse.wheel({ deltaY: -200 });
+      await page.waitForChanges();
+
+      await assertScrollButtonVisibility(true, true);
+
+      await page.mouse.wheel({ deltaY: -200 });
+      await page.waitForChanges();
+
+      await assertScrollButtonVisibility(false, true);
+    });
+
+    it("scrolls into view clipped start or end tab-title when selected", async () => {
+      const tabNavBounds = await getElementRect(page, "calcite-tab-nav");
+      await page.mouse.move(tabNavBounds.x + tabNavBounds.width / 2, tabNavBounds.y + tabNavBounds.height / 2);
+      await page.waitForChanges();
+
+      await page.mouse.wheel({ deltaY: 1 });
+      await page.waitForChanges();
+
+      await assertScrollButtonVisibility(true, true);
+
+      const firstTab = await page.find("calcite-tab-title:first-child");
+      await firstTab.callMethod("click"); // we call method to avoid having E2E click element in the middle, which would hit the scroll button
+      await page.waitForChanges();
+
+      await assertScrollButtonVisibility(false, true);
+
+      await page.mouse.wheel({ deltaY: 375 });
+      await page.waitForChanges();
+
+      await assertScrollButtonVisibility(true, true);
+
+      const lastTab = await page.find("calcite-tab-title:last-child");
+      await lastTab.callMethod("click"); // we call method to avoid having E2E click element in the middle, which would hit the scroll button
+      await page.waitForChanges();
+
+      await assertScrollButtonVisibility(true, false);
+    });
   });
 });

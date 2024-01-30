@@ -14,3 +14,5 @@ export const CSS = {
   scrollForwardContainerButton: "scroll-button-container--forward",
   tabTitleSlotWrapper: "tab-titles-slot-wrapper",
 };
+
+export const SCROLL_TO_DELAY = 100;

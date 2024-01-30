@@ -23,7 +23,7 @@ import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
-import { CSS, ICON } from "./resources";
+import { CSS, ICON, SCROLL_TO_DELAY } from "./resources";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -578,7 +578,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       setTimeout(() => {
         this.updateActiveIndicator();
         this.updateScrollingState();
-      }, 300);
+      }, SCROLL_TO_DELAY);
     });
   };
 
