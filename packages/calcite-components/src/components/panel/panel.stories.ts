@@ -446,3 +446,45 @@ export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
   html`<calcite-panel style="--calcite-panel-header-border-block-end:none;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-panel
   >`;
+
+export const theming_TestOnly = (): string => html`
+  <style>
+    .container {
+      max-height: 300px;
+      width: 300px;
+    }
+  </style>
+  <div class="container">
+    <calcite-panel
+      heading="My Panel"
+      description="My description"
+      style="
+      --calcite-panel-background-color: lightblue;
+      --calcite-panel-border-color: red;
+      --calcite-panel-description-color: purple;
+      --calcite-panel-footer-background-color: lightgreen;
+      --calcite-panel-footer-padding: 24px;
+      --calcite-panel-header-background-color: yellow;
+      --calcite-panel-header-border-block-end: 1px solid magenta;
+      --calcite-panel-header-color: orange;
+      --calcite-panel-header-z-index: 999;
+      --calcite-panel-fab-z-index: 998;
+    "
+    >
+      <calcite-list>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+      </calcite-list>
+      <calcite-fab slot="fab"></calcite-fab>
+    </calcite-panel>
+  </div>
+`;
