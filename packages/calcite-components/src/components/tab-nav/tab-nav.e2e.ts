@@ -22,7 +22,7 @@ describe("calcite-tab-nav", () => {
   });
 
   describe("translation support", () => {
-    t9n("tab-nav");
+    t9n("calcite-tab-nav");
   });
 
   it("emits on user interaction", async () => {
