@@ -485,6 +485,7 @@ export const theming_TestOnly = (): string => html`
         <calcite-list-item label="My list item" description="My description"></calcite-list-item>
       </calcite-list>
       <calcite-fab slot="fab"></calcite-fab>
+      ${footerHTML}
     </calcite-panel>
   </div>
 `;
