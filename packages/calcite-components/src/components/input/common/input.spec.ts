@@ -14,7 +14,10 @@ describe("common input utils", () => {
 
     allTypes.forEach((type) => {
       syncHiddenFormInput(type, allValueFakeInputComponent, hiddenFormInput);
-      expect(hiddenFormInput.type).toBe(type);
+
+      const expectedType = type === "textarea" ? "text" : type;
+
+      expect(hiddenFormInput.type).toBe(expectedType);
 
       if (minMaxStepTypes.includes(type)) {
         expect(hiddenFormInput.min).toBe("0");
