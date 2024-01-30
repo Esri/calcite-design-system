@@ -900,13 +900,11 @@ export class ListItem
 
   // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
   private setFocusCell = (
-    focusEl: HTMLTableCellElement,
+    focusEl: HTMLTableCellElement | null,
     focusedEl: HTMLElement,
     saveFocusIndex: boolean,
   ): void => {
     const { parentListEl } = this;
-
-    focusEl.tabIndex = focusEl === focusedEl ? 0 : -1;
 
     if (saveFocusIndex) {
       focusMap.set(parentListEl, null);
@@ -919,6 +917,11 @@ export class ListItem
       tableCell.removeAttribute(activeCellTestAttribute);
     });
 
+    if (!focusEl) {
+      return;
+    }
+
+    focusEl.tabIndex = focusEl === focusedEl ? 0 : -1;
     focusEl.setAttribute(activeCellTestAttribute, "");
 
     if (saveFocusIndex) {
@@ -928,12 +931,7 @@ export class ListItem
 
   private focusCell = (focusEl: HTMLTableCellElement | null, saveFocusIndex = true): void => {
     const focusedEl = getFirstTabbable(focusEl);
-
-    if (focusEl) {
-      focusEl.tabIndex = focusEl === focusedEl ? 0 : -1;
-      this.setFocusCell(focusEl, focusedEl, saveFocusIndex);
-    }
-
+    this.setFocusCell(focusEl, focusedEl, saveFocusIndex);
     focusedEl?.focus();
   };
 }
