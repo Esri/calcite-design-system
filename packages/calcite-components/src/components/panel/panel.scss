@@ -3,130 +3,184 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-panel-background-color: Specifies the background color of the component.
+ * @prop --calcite-panel-border-color: Specifies the border color of the component.
+ * @prop --calcite-panel-description-color: Specifies the color of the component's description.
+ * @prop --calcite-panel-footer-background-color: Specifies the background color of the component's footer.
  * @prop --calcite-panel-footer-padding: Specifies the padding of the component's footer.
+ * @prop --calcite-panel-header-background-color: Specifies the component header's background color.
  * @prop --calcite-panel-header-border-block-end: Specifies the component header's block end border.
+ * @prop --calcite-panel-header-color: Specifies the component header's  color.
+ * @prop --calcite-panel-header-z-index: Specifies the component header's z-index.
+ * @prop --calcite-panel-fab-z-index: Specifies the component fab's z-index.
  */
 
 :host {
   @extend %component-host;
-  @apply relative flex w-full h-full flex-auto;
-
-  --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
+  position: relative;
+  display: flex;
+  inline-size: 100%;
+  block-size: 100%;
+  flex: 1 1 auto;
 }
 
 @include disabled();
 
-@import "../../assets/styles/header";
+.header {
+  color: var(--calcite-panel-header-color, var(--calcite-color-text-2));
+  fill: var(
+    --calcite-panel-header-color,
+    var(--calcite-color-text-2)
+  ); // question: not sure if this is needed. Not sure why it was there in the first place.  https://github.com/Esri/calcite-design-system/blame/2e8abc5cea258e188445a223b15c2e469d6baef5/src/assets/styles/_header.scss
+  margin: 0;
+  display: flex;
+  align-content: space-between;
+  align-items: center;
+}
+
+.heading {
+  margin: 0;
+  padding: 0;
+  font-weight: var(--calcite-font-weight-medium); // question: are we doing font-weight tokens?
+}
+
+.header .heading {
+  flex: 1 1 auto;
+  padding: var(--calcite-spacing-xxs);
+}
 
 .container {
-  @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
+  background-color: var(--calcite-panel-background-color, var(--calcite-color-background));
+  margin: 0;
+  display: flex;
+  inline-size: 100%;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
 
-  transition:
+  transition: var(
+    --calcite-internal-panel-transition,
     max-block-size var(--calcite-animation-timing),
-    inline-size var(--calcite-animation-timing);
+    inline-size var(--calcite-animation-timing)
+  );
 }
 
 .container[hidden] {
-  @apply hidden;
+  display: none;
 }
 
 .header {
-  @apply bg-foreground-1 flex flex-col
-    z-header;
-  border-block-end: var(--calcite-panel-header-border-block-end, 1px solid var(--calcite-color-border-3));
+  display: flex;
+  flex-direction: column;
+  z-index: var(--calcite-panel-header-z-index, var(--calcite-z-index-header));
+  background-color: var(--calcite-panel-header-background-color, var(--calcite-color-foreground-1));
+  border-block-end: var(
+    --calcite-panel-header-border-block-end,
+    var(--calcite-border-width-sm) solid var(--calcite-panel-border-color, var(--calcite-color-border-3))
+  );
 }
 
 .header-container {
-  @apply flex flex-row w-full
-  items-stretch
-  justify-start;
+  display: flex;
+  flex-direction: row;
+  inline-size: 100%;
+  align-items: stretch;
+  justify-content: flex-start;
   flex: 0 0 auto;
 }
 
 .header-container--border-end {
-  border-block-end: 1px solid var(--calcite-color-border-3);
+  border-block-end: var(--calcite-border-width-sm) solid
+    var(--calcite-panel-border-color, var(--calcite-color-border-3));
 }
 
 .action-bar-container {
-  @apply w-full;
+  inline-size: 100%;
 }
 
 .action-bar-container ::slotted(calcite-action-bar) {
-  @apply w-full;
+  inline-size: 100%;
 }
 
 .header-content {
-  @apply flex
-    flex-col
-    overflow-hidden
-    px-3
-    py-3.5;
+  flex-direction: column;
+  display: flex;
+  overflow: hidden;
+  padding-inline: var(--calcite-spacing-sm);
+  padding-block: var(--calcite-spacing-md);
   margin-inline-end: auto;
   .heading,
   .description {
-    @apply block
-      break-words
-      p-0;
+    display: block;
+    overflow-wrap: break-word;
+    padding: 0;
   }
   .heading {
-    @apply text-0h mx-0 mt-0 mb-1 font-medium;
+    margin-inline: 0px;
+    margin-block: 0px var(--calcite-spacing-xxs);
+    font-weight: var(--calcite-font-weight-medium);
+    font-size: var(--calcite-font-size-0); // question: we doing font sizes?
+    line-height: 1.25rem;
     &:only-child {
-      @apply mb-0;
+      margin-block-end: 0;
     }
   }
   .description {
-    @apply text-color-2 text-n1h;
+    color: var(--calcite-panel-description-color, var(--calcite-color-text-2));
+    font-size: var(--calcite-font-size--1); // question: we doing font sizes?
+    line-height: 1rem;
   }
 }
 
 .back-button {
-  @apply border-color-3
-  border-0
-  border-solid;
-  border-inline-end-width: theme("borderWidth.DEFAULT");
+  border-color: var(--calcite-panel-border-color, var(--calcite-color-border-3));
+  border-style: solid;
+  border-width: 0px;
+  border-inline-end-width: var(--calcite-border-width-sm);
 }
 
 .header-actions {
-  @apply flex
-  flex-row
-  flex-nowrap
-  items-stretch;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
 }
 
 .header-actions--end {
-  margin-inline-start: theme("margin.auto");
+  margin-inline-start: "auto";
 }
 
 .content-wrapper {
-  @apply flex
-  flex-auto
-  flex-col
-  flex-nowrap
-  items-stretch
-  bg-background
-  overflow-auto
-  h-full;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  background-color: var(--calcite-panel-background-color, var(--calcite-color-background));
+  overflow: auto;
+  block-size: 100%;
 }
 
 .footer {
-  @apply bg-foreground-1
-  flex
-  w-full
-  justify-evenly;
-
+  background-color: var(calcite-panel-footer-background-color, var(--calcite-color-foreground-1));
+  inline-size: 100%;
+  display: flex;
+  justify-content: space-evenly;
   flex: 0 0 auto;
-  padding: var(--calcite-panel-footer-padding, theme("spacing.2"));
-  border-block-start: 1px solid var(--calcite-color-border-3);
+  padding: var(--calcite-panel-footer-padding, var(--calcite-spacing-xxs));
+  border-block-start: var(--calcite-border-width-sm) solid
+    var(--calcite-panel-border-color, var(--calcite-color-border-3));
 }
 
 .fab-container {
-  @apply sticky
-  bottom-0
-  my-0
-  mx-auto
-  block
-  p-2
-  z-sticky;
+  position: sticky;
+  inset-block-end: 0;
+  margin-inline: auto;
+  margin-block: 0;
+  display: block;
+  z-index: var(--calcite-panel-fab-z-index, var(--calcite-z-index-sticky));
+  padding: var(--calcite-spacing-xxs);
   inset-inline: 0;
   inline-size: fit-content;
 }
