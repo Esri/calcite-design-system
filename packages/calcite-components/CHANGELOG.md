@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.4.0-next.0...@esri/calcite-components@2.4.0-next.1) (2024-01-30)
+
+### Bug Fixes
+
+- **chip:** Prevent rendering internal icon if not necessary. ([#8663](https://github.com/Esri/calcite-design-system/issues/8663)) ([8ca2929](https://github.com/Esri/calcite-design-system/commit/8ca292967309429f75d1308fe432f56628b6fee9)), closes [#8674](https://github.com/Esri/calcite-design-system/issues/8674)
+- **list-item:** Do not focus on item cells on focusIn ([#8665](https://github.com/Esri/calcite-design-system/issues/8665)) ([ce9c9ae](https://github.com/Esri/calcite-design-system/commit/ce9c9aedc2581ad3eca1a9bda728e556f7b8b96e)), closes [#8664](https://github.com/Esri/calcite-design-system/issues/8664)
+
 ## [2.4.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.3.1-next.0...@esri/calcite-components@2.4.0-next.0) (2024-01-26)
 
 ### Features
