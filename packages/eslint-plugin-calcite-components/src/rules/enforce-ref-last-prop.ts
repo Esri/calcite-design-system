@@ -17,20 +17,37 @@ const rule: Rule.RuleModule = {
       JSXIdentifier(node) {
         const openingElement = node.parent as JSXOpeningElement;
         if (openingElement.type === "JSXOpeningElement") {
-          const attributes: string[] = [];
+          const attributes: (JSXAttribute | JSXSpreadAttribute)[] = [];
 
           openingElement.attributes.forEach((attr: JSXAttribute | JSXSpreadAttribute) => {
             if (attr.type === "JSXAttribute" && attr.name?.type === "JSXIdentifier") {
-              attributes.push(attr.name.name);
+              attributes.push(attr);
             }
           });
 
-          const refAttribute = attributes.find((attr: string) => attr === "ref");
+          const refAttribute = attributes.find(
+            (attr: JSXAttribute | JSXSpreadAttribute) =>
+              attr.type === "JSXAttribute" && attr.name?.type === "JSXIdentifier" && attr.name.name === "ref",
+          );
 
           if (refAttribute && attributes.indexOf(refAttribute) !== attributes.length - 1) {
             context.report({
               node,
               message: `"ref" prop should be placed last in JSX to ensure the node attrs/props are in sync.`,
+              fix(fixer) {
+                const sourceCode = context.getSourceCode();
+
+                const refAttrText = sourceCode.getText(refAttribute as typeof node);
+                const otherAttrs = attributes.filter((attr) => attr !== refAttribute);
+
+                return [
+                  fixer.remove(refAttribute as typeof node),
+                  fixer.insertTextAfterRange(
+                    [otherAttrs[otherAttrs.length - 1].range[1], otherAttrs[otherAttrs.length - 1].range[1]],
+                    ` ${refAttrText}`,
+                  ),
+                ];
+              },
             });
           }
         }
