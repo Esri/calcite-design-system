@@ -1418,7 +1418,6 @@ export namespace Components {
           * The focused date is indicated and will become the selected date if the user proceeds.
          */
         "activeDate": Date;
-        "displayAbbreviations": boolean;
         /**
           * Specifies the number at which section headings should start.
          */
@@ -1440,6 +1439,7 @@ export namespace Components {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        "monthAbbreviations": boolean;
         "position": "start" | "end";
         /**
           * Specifies the size of the component.
@@ -8939,7 +8939,6 @@ declare namespace LocalJSX {
           * The focused date is indicated and will become the selected date if the user proceeds.
          */
         "activeDate"?: Date;
-        "displayAbbreviations"?: boolean;
         /**
           * Specifies the number at which section headings should start.
          */
@@ -8961,6 +8960,7 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min"?: Date;
+        "monthAbbreviations"?: boolean;
         /**
           * Fires to active date
          */

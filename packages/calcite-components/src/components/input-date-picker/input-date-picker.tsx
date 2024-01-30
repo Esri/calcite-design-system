@@ -838,7 +838,6 @@ export class InputDatePicker
   };
 
   private blurHandler = (): void => {
-    console.log("blur handler");
     this.open = false;
   };
 

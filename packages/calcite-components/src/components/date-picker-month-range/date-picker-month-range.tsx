@@ -364,22 +364,6 @@ export class DatePickerMonthRange {
   }
 
   /**
-   * Get dates for  the next month
-   *
-   * @param month
-   * @param year
-   * @param startOfWeek
-   */
-  private getNextMonthWholeDays(month: number, year: number): number[] {
-    const num = new Date(year, month + 2, 0).getDate();
-    const days = [];
-    for (let i = 0; i < num; i++) {
-      days.push(i + 1);
-    }
-    return days;
-  }
-
-  /**
    * Determine if the date is in between the start and end dates
    *
    * @param date

@@ -69,9 +69,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("activeDate")
   activeDateWatcher(): void {
-    if (this.activeRange === "end") {
-      // this.activeEndDate = newActiveDate;
-    }
+    // if (this.activeRange === "end") {
+    //   // this.activeEndDate = newActiveDate;
+    // }
   }
 
   /**
@@ -278,15 +278,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     return (
       <Host onKeyDown={this.keyDownHandler}>
         <div class="container">
-          {this.range
-            ? this.renderRangeCalendar(
-                startCalendarActiveDate,
-                this.maxAsDate,
-                minDate,
-                date,
-                endDate
-              )
-            : this.renderCalendar(startCalendarActiveDate, this.maxAsDate, minDate, date, endDate)}
+          {this.renderCalendar(startCalendarActiveDate, this.maxAsDate, minDate, date, endDate)}
         </div>
       </Host>
     );
@@ -378,7 +370,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
     const date = new Date(event.detail);
     const target = event.target as HTMLCalciteDatePickerMonthHeaderElement;
-
     if (!this.range) {
       this.activeDate = date;
     } else {
@@ -497,97 +488,76 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     minDate: Date,
     date: Date,
     endDate: Date
-  ) {
+  ): VNode {
     return (
-      this.localeData && [
-        <calcite-date-picker-month-header
-          activeDate={activeDate}
-          headingLevel={this.headingLevel || HEADING_LEVEL}
-          localeData={this.localeData}
-          max={maxDate}
-          messages={this.messages}
-          min={minDate}
-          onCalciteInternalDatePickerSelect={this.monthHeaderSelectChange}
-          scale={this.scale}
-          selectedDate={this.activeRange === "end" ? endDate : date || new Date()}
-        />,
-        <calcite-date-picker-month
-          activeDate={activeDate}
-          dateTimeFormat={this.dateTimeFormat}
-          endDate={this.range ? endDate : undefined}
-          hoverRange={this.hoverRange}
-          localeData={this.localeData}
-          max={maxDate}
-          min={minDate}
-          onCalciteInternalDatePickerActiveDateChange={this.monthActiveDateChange}
-          onCalciteInternalDatePickerHover={this.monthHoverChange}
-          onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
-          onCalciteInternalDatePickerSelect={this.monthDateChange}
-          range={this.range}
-          scale={this.scale}
-          selectedDate={this.activeRange === "end" ? endDate || date : date}
-          startDate={this.range ? date : undefined}
-        />,
-      ]
-    );
-  }
-
-  private renderRangeCalendar(
-    activeDate: Date,
-    maxDate: Date,
-    minDate: Date,
-    date: Date,
-    endDate: Date
-  ) {
-    return (
-      <div class="range-calendar">
-        <div class="month-header">
-          <calcite-date-picker-month-header
-            activeDate={activeDate}
-            displayAbbreviations={false}
-            headingLevel={this.headingLevel || HEADING_LEVEL}
-            localeData={this.localeData}
-            max={maxDate}
-            messages={this.messages}
-            min={minDate}
-            onCalciteInternalDatePickerSelect={this.monthHeaderSelectChange}
-            position={"start"}
-            scale={this.scale}
-            selectedDate={date || new Date()}
-          />
-          <calcite-date-picker-month-header
-            activeDate={nextMonth(activeDate)}
-            headingLevel={this.headingLevel || HEADING_LEVEL}
-            localeData={this.localeData}
-            max={maxDate}
-            messages={this.messages}
-            min={minDate}
-            onCalciteInternalDatePickerSelect={this.monthHeaderSelectChange}
-            position={"end"}
-            scale={this.scale}
-            selectedDate={endDate}
-          />
+      this.localeData && (
+        <div class="range-calendar">
+          <div class="month-header">
+            <calcite-date-picker-month-header
+              activeDate={activeDate}
+              headingLevel={this.headingLevel || HEADING_LEVEL}
+              localeData={this.localeData}
+              max={maxDate}
+              messages={this.messages}
+              min={minDate}
+              onCalciteInternalDatePickerSelect={this.monthHeaderSelectChange}
+              position={this.range ? "start" : null}
+              scale={this.scale}
+              selectedDate={this.activeRange === "end" ? endDate : date || new Date()}
+            />
+            {this.range && (
+              <calcite-date-picker-month-header
+                activeDate={nextMonth(activeDate)}
+                headingLevel={this.headingLevel || HEADING_LEVEL}
+                localeData={this.localeData}
+                max={maxDate}
+                messages={this.messages}
+                min={minDate}
+                onCalciteInternalDatePickerSelect={this.monthHeaderSelectChange}
+                position={"end"}
+                scale={this.scale}
+                selectedDate={endDate}
+              />
+            )}
+          </div>
+          {this.range ? (
+            <calcite-date-picker-month-range
+              activeDate={activeDate}
+              dateTimeFormat={this.dateTimeFormat}
+              endDate={this.range ? endDate : undefined}
+              hoverRange={this.hoverRange}
+              localeData={this.localeData}
+              max={this.maxAsDate}
+              messages={this.messages}
+              min={minDate}
+              onCalciteInternalDatePickerActiveDateChange={this.monthActiveDateChange}
+              onCalciteInternalDatePickerHover={this.monthHoverChange}
+              onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
+              onCalciteInternalDatePickerSelect={this.monthDateChange}
+              scale={this.scale}
+              selectedDate={this.activeRange === "end" ? endDate || date : date}
+              startDate={this.range ? date : undefined}
+            />
+          ) : (
+            <calcite-date-picker-month
+              activeDate={activeDate}
+              dateTimeFormat={this.dateTimeFormat}
+              endDate={this.range ? endDate : undefined}
+              hoverRange={this.hoverRange}
+              localeData={this.localeData}
+              max={maxDate}
+              min={minDate}
+              onCalciteInternalDatePickerActiveDateChange={this.monthActiveDateChange}
+              onCalciteInternalDatePickerHover={this.monthHoverChange}
+              onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
+              onCalciteInternalDatePickerSelect={this.monthDateChange}
+              scale={this.scale}
+              selectedDate={this.activeRange === "end" ? endDate || date : date}
+              startDate={this.range ? date : undefined}
+            />
+          )}
         </div>
-        <calcite-date-picker-month-range
-          activeDate={activeDate}
-          dateTimeFormat={this.dateTimeFormat}
-          endDate={this.range ? endDate : undefined}
-          hoverRange={this.hoverRange}
-          localeData={this.localeData}
-          max={this.maxAsDate}
-          messages={this.messages}
-          min={minDate}
-          onCalciteInternalDatePickerActiveDateChange={this.monthActiveDateChange}
-          onCalciteInternalDatePickerHover={this.monthHoverChange}
-          onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
-          onCalciteInternalDatePickerSelect={this.monthDateChange}
-          // position={position}
-          // range={this.range}
-          scale={this.scale}
-          selectedDate={this.activeRange === "end" ? endDate || date : date}
-          startDate={this.range ? date : undefined}
-        />
-      </div>
+      )
     );
   }
 

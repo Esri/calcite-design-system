@@ -78,7 +78,7 @@ export class DatePickerMonthHeader {
   /** @internal */
   @Prop() position: "start" | "end";
 
-  @Prop() displayAbbreviations: boolean;
+  @Prop() monthAbbreviations: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -187,7 +187,7 @@ export class DatePickerMonthHeader {
   }
 
   private renderMonthPicker(months: DateLocaleData["months"], activeMonth: number): VNode {
-    const monthData = this.displayAbbreviations ? months.abbreviated : months.wide;
+    const monthData = this.monthAbbreviations ? months.abbreviated : months.wide;
     return (
       <calcite-select
         class="start-year"
@@ -287,7 +287,9 @@ export class DatePickerMonthHeader {
 
   handleMonthChange = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteOptionElement;
-    const monthIndex = this.localeData.months.abbreviated.indexOf(target.value);
+    const { abbreviated, wide } = this.localeData.months;
+    const localeMonths = this.monthAbbreviations ? abbreviated : wide;
+    const monthIndex = localeMonths.indexOf(target.value);
     const newDate = requestedMonth(this.activeDate, monthIndex);
     this.calciteInternalDatePickerSelect.emit(newDate);
   };
