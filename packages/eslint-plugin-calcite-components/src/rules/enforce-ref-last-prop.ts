@@ -44,7 +44,7 @@ const rule: Rule.RuleModule = {
                   fixer.remove(refAttribute as typeof node),
                   fixer.insertTextAfterRange(
                     [otherAttrs[otherAttrs.length - 1].range[1], otherAttrs[otherAttrs.length - 1].range[1]],
-                    ` ${refAttrText}`,
+                    ` // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)\n${refAttrText}`,
                   ),
                 ];
               },
