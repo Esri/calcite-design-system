@@ -1,14 +1,34 @@
 :host {
-  display: flex;
-  flex-wrap: wrap;
+  box-sizing: border-box;
+  display: inline-block;
+
+  .tile-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
   ::slotted(calcite-tile) {
     margin-block-end: 1px;
     margin-inline-end: 1px;
   }
 }
 
+:host([scale="s"]) {
+  .tile-group {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+}
+:host([scale="l"]) {
+  .tile-group {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+}
+
 :host([layout="vertical"]) {
-  flex-direction: column;
+  .tile-group {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 @include disabled();

@@ -32,9 +32,10 @@
 
   .tile {
     background-color: var(--calcite-tile-background-color);
+    block-size: 100%;
     box-sizing: border-box;
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: var(--calcite-spacing-md);
     inline-size: 100%;
     pointer-events: none;
@@ -43,16 +44,7 @@
     user-select: none;
   }
 
-  .content {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    justify-content: center;
-    inline-size: 10%;
-  }
-
   .content-container {
-    align-items: stretch;
     display: flex;
     outline-color: transparent;
     padding: 0px;
@@ -81,17 +73,17 @@
   }
   .large-visual {
     align-items: center;
+    justify-content: center;
     min-block-size: 12rem;
     text-align: center;
 
     calcite-icon {
-      align-self: self-end;
       block-size: 64px;
       inline-size: 64px;
       justify-self: center;
     }
     .content-container {
-      align-self: center;
+      justify-content: center;
     }
   }
   .description {
@@ -105,7 +97,7 @@
 
 :host([alignment="center"]) {
   .tile {
-    justify-items: center;
+    align-items: center;
     text-align: center;
   }
 }

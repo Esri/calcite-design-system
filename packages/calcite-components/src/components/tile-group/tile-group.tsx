@@ -8,6 +8,7 @@ import {
 } from "../../utils/interactive";
 import { TileGroupLayout } from "./interfaces";
 import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-tile` elements.
@@ -84,7 +85,9 @@ export class TileGroup implements InteractiveComponent {
   render(): VNode {
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <slot />
+        <div class={CSS.tileGroup}>
+          <slot />
+        </div>
       </InteractiveContainer>
     );
   }
