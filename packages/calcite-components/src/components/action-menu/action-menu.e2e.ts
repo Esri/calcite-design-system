@@ -1,6 +1,15 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  delegatesToFloatingUiOwningComponent,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+} from "../../tests/commonTests";
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS, activeAttr } from "./resources";
 
@@ -82,6 +91,15 @@ describe("calcite-action-menu", () => {
         value: "auto",
       },
     ]);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      html`<calcite-action-menu>
+        <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
+      </calcite-action-menu>`,
+      "calcite-popover",
+    );
   });
 
   it("should emit 'calciteActionMenuOpen' event", async () => {

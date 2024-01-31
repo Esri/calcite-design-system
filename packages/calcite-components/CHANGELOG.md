@@ -3,17 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.2.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.1-next.0...@esri/calcite-components@2.2.1-next.1) (2024-01-19)
+## [2.4.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.4.0-next.0...@esri/calcite-components@2.4.0-next.1) (2024-01-30)
 
 ### Bug Fixes
 
-- **action-menu:** clicking an action menu item should call click event. ([#8627](https://github.com/Esri/calcite-design-system/issues/8627)) ([b12ef6b](https://github.com/Esri/calcite-design-system/commit/b12ef6bf2cd8c9587c1f5b3aeab890d21336ffd4)), closes [#8577](https://github.com/Esri/calcite-design-system/issues/8577) [#8628](https://github.com/Esri/calcite-design-system/issues/8628)
+- **chip:** Prevent rendering internal icon if not necessary. ([#8663](https://github.com/Esri/calcite-design-system/issues/8663)) ([8ca2929](https://github.com/Esri/calcite-design-system/commit/8ca292967309429f75d1308fe432f56628b6fee9)), closes [#8674](https://github.com/Esri/calcite-design-system/issues/8674)
+- **list-item:** Do not focus on item cells on focusIn ([#8665](https://github.com/Esri/calcite-design-system/issues/8665)) ([ce9c9ae](https://github.com/Esri/calcite-design-system/commit/ce9c9aedc2581ad3eca1a9bda728e556f7b8b96e)), closes [#8664](https://github.com/Esri/calcite-design-system/issues/8664)
 
-## [2.2.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0...@esri/calcite-components@2.2.1-next.0) (2024-01-18)
+## [2.4.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.3.1-next.0...@esri/calcite-components@2.4.0-next.0) (2024-01-26)
+
+### Features
+
+- add `no-dynamic-createelement` rule ([#8656](https://github.com/Esri/calcite-design-system/issues/8656)) ([c7e9444](https://github.com/Esri/calcite-design-system/commit/c7e94441f8cc263935e60a6c920dd9673af9b8c0)), closes [#8651](https://github.com/Esri/calcite-design-system/issues/8651)
 
 ### Bug Fixes
 
-- **list-item:** always show hover and pointer styling ([#8622](https://github.com/Esri/calcite-design-system/issues/8622)) ([4a8a91a](https://github.com/Esri/calcite-design-system/commit/4a8a91ae7fed59203f856b005974d5bca4771cf1)), closes [#6700](https://github.com/Esri/calcite-design-system/issues/6700) [/github.com/Esri/calcite-design-system/issues/6123#issuecomment-1361770131](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/6123/issues/issuecomment-1361770131)
+- **combobox:** ensure supporting components are auto-defined ([#8657](https://github.com/Esri/calcite-design-system/issues/8657)) ([e6d792b](https://github.com/Esri/calcite-design-system/commit/e6d792b1a78a3a21a54f04fda4c4795d336deba8)), closes [#8495](https://github.com/Esri/calcite-design-system/issues/8495)
+
+## [2.3.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.3.0...@esri/calcite-components@2.3.1-next.0) (2024-01-26)
+
+### Bug Fixes
+
+- **tile-select:** ensure supporting components are auto-defined ([#8648](https://github.com/Esri/calcite-design-system/issues/8648)) ([2c27f40](https://github.com/Esri/calcite-design-system/commit/2c27f409fedfd12bb06b3b4f0e0355816bb50e9a)), closes [#8495](https://github.com/Esri/calcite-design-system/issues/8495)
+
+## [2.3.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0...@esri/calcite-components@2.3.0) (2024-01-24)
+
+### Features
+
+- **action-bar, action-pad, block, flow-item, panel:** Add `overlayPositioning` prop for built-in menus ([#8633](https://github.com/Esri/calcite-design-system/issues/8633)) ([714b889](https://github.com/Esri/calcite-design-system/commit/714b88949cbb66c0acfd360a785e4af34ea54d3e))
+- **tab:** Add `--calcite-tab-content-block-padding` to override built-in block-padding ([#8629](https://github.com/Esri/calcite-design-system/issues/8629)) ([7dae525](https://github.com/Esri/calcite-design-system/commit/7dae525d45a429e7b5c2d1b285ff474525d3113b))
+
+### Bug Fixes
+
+- **action-menu:** Clicking an action menu item should call click event. ([#8627](https://github.com/Esri/calcite-design-system/issues/8627)) ([b12ef6b](https://github.com/Esri/calcite-design-system/commit/b12ef6bf2cd8c9587c1f5b3aeab890d21336ffd4))
+- **list-item:** Always show hover and pointer styling ([#8622](https://github.com/Esri/calcite-design-system/issues/8622)) ([4a8a91a](https://github.com/Esri/calcite-design-system/commit/4a8a91ae7fed59203f856b005974d5bca4771cf1))
 
 ## [2.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.1.0...@esri/calcite-components@2.2.0) (2024-01-17)
 
