@@ -22,6 +22,7 @@ export const simple = (): string =>
     ${boolean("numbered", false)}
     ${boolean("bordered", false)}
     ${boolean("striped", false)}
+    ${boolean("non-interactive", false)}
     caption="Simple table"
   >
     <calcite-table-row slot="table-header">
