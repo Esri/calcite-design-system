@@ -86,7 +86,7 @@ export class TileGroup implements InteractiveComponent {
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div class={CSS.tileGroup}>
-          <slot />
+          <slot onSlotchange={this.updateTiles} />
         </div>
       </InteractiveContainer>
     );
