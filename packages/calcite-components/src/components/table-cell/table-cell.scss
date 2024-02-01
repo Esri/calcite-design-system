@@ -28,11 +28,11 @@ td {
   background: var(--calcite-internal-table-cell-background);
   font-size: var(--calcite-internal-table-cell-font-size);
   border-inline-end: 1px solid var(--calcite-color-border-3);
+  padding: var(--calcite-internal-table-cell-padding);
 
-  &:focus {
+  &:not(.non-interactive):focus {
     @apply focus-inset;
   }
-  padding: var(--calcite-internal-table-cell-padding);
 }
 
 td.last-cell {
@@ -56,8 +56,11 @@ td.last-cell {
 }
 
 .selection-cell {
-  @apply cursor-pointer text-color-3;
+  @apply text-color-3;
   inset-inline-start: 2rem;
+  &:not(.footer-cell) {
+    @apply cursor-pointer;
+  }
 }
 
 .selected-cell:not(.number-cell):not(.footer-cell) {

@@ -62,6 +62,9 @@ export class TableCell
   @Prop() lastCell: boolean;
 
   /** @internal */
+  @Prop() nonInteractive = false;
+
+  /** @internal */
   @Prop() numberCell: boolean;
 
   /** @internal */
@@ -212,6 +215,10 @@ export class TableCell
 
   render(): VNode {
     const dir = getElementDir(this.el);
+    const nonFocusable =
+      this.disabled ||
+      (this.nonInteractive &&
+        (!this.selectionCell || (this.selectionCell && this.parentRowType === "foot")));
 
     return (
       <Host>
@@ -225,13 +232,14 @@ export class TableCell
               [CSS.selectedCell]: this.parentRowIsSelected,
               [CSS.lastCell]: this.lastCell,
               [CSS_UTILITY.rtl]: dir === "rtl",
+              [CSS.nonInteractive]: nonFocusable,
             }}
             colSpan={this.colSpan}
             onBlur={this.onContainerBlur}
             onFocus={this.onContainerFocus}
             role="gridcell"
             rowSpan={this.rowSpan}
-            tabIndex={this.disabled ? -1 : 0}
+            tabIndex={nonFocusable ? -1 : 0}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.containerEl = el)}
           >

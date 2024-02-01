@@ -68,6 +68,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   /** Specifies the layout of the component. */
   @Prop({ reflect: true }) layout: TableLayout = "auto";
 
+  /** When `true`, does not support focus of cells or allow navigation with arrow keys. Content slotted in Table Cell components remains focusable. */
+  @Prop({ reflect: true }) nonInteractive = false;
+
   /** When `true`, displays the position of the row in numeric form. */
   @Prop({ reflect: true }) numbered = false;
 
@@ -103,6 +106,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) striped = false;
 
   @Watch("groupSeparator")
+  @Watch("nonInteractive")
   @Watch("numbered")
   @Watch("numberingSystem")
   @Watch("pageSize")
@@ -328,6 +332,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     });
 
     allRows?.forEach((row) => {
+      row.nonInteractive = this.nonInteractive;
       row.selectionMode = this.selectionMode;
       row.bodyRowCount = bodyRows?.length;
       row.positionAll = allRows?.indexOf(row);

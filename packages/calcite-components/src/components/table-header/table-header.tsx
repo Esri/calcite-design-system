@@ -51,6 +51,9 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Prop() lastCell: boolean;
 
   /** @internal */
+  @Prop() nonInteractive = false;
+
+  /** @internal */
   @Prop() numberCell = false;
 
   /** @internal */
@@ -205,7 +208,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
 
     const allSelected = this.selectedRowCount === this.bodyRowCount;
     const selectionIcon = allSelected ? "check-square-f" : "check-square";
-
+    const nonFocusable = this.nonInteractive && !this.selectionCell;
     return (
       <Host>
         <th
@@ -217,13 +220,14 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
             [CSS.selectionCell]: this.selectionCell,
             [CSS.selectedCell]: this.parentRowIsSelected,
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
+            [CSS.nonInteractive]: nonFocusable,
             [CSS.lastCell]: this.lastCell,
           }}
           colSpan={this.colSpan}
           role="columnheader"
           rowSpan={this.rowSpan}
           scope={scope}
-          tabIndex={0}
+          tabIndex={this.selectionCell ? 0 : nonFocusable ? -1 : 0}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.containerEl = el)}
         >

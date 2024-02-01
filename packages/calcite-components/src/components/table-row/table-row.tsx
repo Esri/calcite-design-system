@@ -58,6 +58,9 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   @Prop() rowType: RowType;
 
   /** @internal */
+  @Prop() nonInteractive = false;
+
+  /** @internal */
   @Prop() numbered = false;
 
   /** @internal */
@@ -91,6 +94,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   @Watch("scale")
   @Watch("selected")
   @Watch("selectedRowCount")
+  @Watch("nonInteractive")
   handleCellChanges(): void {
     if (this.tableRowEl && this.rowCells.length > 0) {
       this.updateCells();
@@ -284,6 +288,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
 
     if (cells.length > 0) {
       cells?.forEach((cell: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement, index) => {
+        cell.nonInteractive = this.nonInteractive;
         cell.positionInRow = index + 1;
         cell.parentRowType = this.rowType;
         cell.parentRowIsSelected = this.selected;
@@ -385,7 +390,11 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
             aria-rowindex={this.positionAll + 1}
             aria-selected={this.selected}
             class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
-            onKeyDown={(event) => this.keyDownHandler(event)}
+            onKeyDown={(event) => {
+              if (!this.nonInteractive) {
+                this.keyDownHandler(event);
+              }
+            }}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.tableRowEl = el)}
           >
