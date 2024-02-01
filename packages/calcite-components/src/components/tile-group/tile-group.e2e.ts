@@ -4,7 +4,7 @@ import { html } from "../../../support/formatting";
 
 describe("calcite-tile-group", () => {
   describe("renders", () => {
-    renders("calcite-tile-group", { display: "flex" });
+    renders("calcite-tile-group", { display: "inline-block" });
   });
 
   describe("honors hidden attribute.", () => {
