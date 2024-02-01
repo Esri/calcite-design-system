@@ -9,8 +9,8 @@ import { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowP
 import { RequestedItem } from "./components/accordion/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 import { ActionMessages } from "./components/action/assets/action/t9n";
-import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 import { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 import { AlertDuration, Sync } from "./components/alert/interfaces";
@@ -95,8 +95,8 @@ export { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowP
 export { RequestedItem } from "./components/accordion/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 export { ActionMessages } from "./components/action/assets/action/t9n";
-export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 export { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 export { AlertDuration, Sync } from "./components/alert/interfaces";
@@ -345,6 +345,10 @@ export namespace Components {
          */
         "overflowActionsDisabled": boolean;
         /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning;
+        /**
           * Arranges the component depending on the element's `dir` property.
          */
         "position": Position;
@@ -463,6 +467,10 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": ActionPadMessages;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning;
         /**
           * Arranges the component depending on the element's `dir` property.
          */
@@ -605,6 +613,10 @@ export namespace Components {
          */
         "open": boolean;
         /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning;
+        /**
           * Sets focus on the component's first tabbable element.
          */
         "setFocus": () => Promise<void>;
@@ -639,7 +651,7 @@ export namespace Components {
          */
         "text": string;
         /**
-          * Specifies how the component's toggle is displayed -  `"button"` (selectable header), or  `"switch"` (toggle switch).
+          * Specifies how the component's toggle is displayed, where:  `"button"` sets the toggle to a selectable header, and  `"switch"` sets the toggle to a switch.
          */
         "toggleDisplay": BlockSectionToggleDisplay;
     }
@@ -660,7 +672,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -775,7 +787,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -850,7 +862,7 @@ export namespace Components {
          */
         "interactive": boolean;
         /**
-          * Specifies the kind of the component (will apply to border and background if applicable).
+          * Specifies the kind of the component, which will apply to border and background if applicable.
          */
         "kind": Extract<"brand" | "inverse" | "neutral", Kind>;
         /**
@@ -1070,7 +1082,7 @@ export namespace Components {
          */
         "flipPlacements": EffectivePlacement[];
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -1133,7 +1145,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteComboboxItemElement[];
         /**
-          * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections - `"all"` (displays all selections with individual `calcite-chip`s), `"fit"` (displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed), or `"single"` (display one `calcite-chip` with the total number of selections).
+          * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:  `"all"` displays all selections with individual `calcite-chip`s,  `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed, and  `"single"` displays one `calcite-chip` with the total number of selections.
          */
         "selectionDisplay": SelectionDisplay;
         /**
@@ -1580,7 +1592,7 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
-          * Specifies the kind of the component (will apply to border and background).
+          * Specifies the kind of the component, which will apply to border and background.
          */
         "kind": Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
         /**
@@ -1724,6 +1736,10 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": FlowItemMessages;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning;
         /**
           * Scrolls the component's content to a specified set of coordinates.
           * @example myCalciteFlowItem.scrollContentTo({   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value). });
@@ -1898,18 +1914,13 @@ export namespace Components {
          */
         "files": FileList | undefined;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
           * When `true`, number values are displayed with a group separator corresponding to the language and country format.
          */
         "groupSeparator": boolean;
-        /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden": boolean;
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
@@ -2075,7 +2086,7 @@ export namespace Components {
          */
         "focusTrapDisabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -2231,18 +2242,13 @@ export namespace Components {
          */
         "enterKeyHint": string;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
           * When `true`, number values are displayed with a group separator corresponding to the language and country format.
          */
         "groupSeparator": boolean;
-        /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden": boolean;
         /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
@@ -2401,14 +2407,9 @@ export namespace Components {
          */
         "enterKeyHint": string;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
-        /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden": boolean;
         /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
@@ -2520,7 +2521,7 @@ export namespace Components {
          */
         "focusTrapDisabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -2600,7 +2601,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -2633,7 +2634,7 @@ export namespace Components {
          */
         "overlayPositioning": OverlayPositioning;
         /**
-          * This date will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS.SSSZ)
+          * This `date` will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
           * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
          */
         "referenceDate": Date | string;
@@ -3040,7 +3041,7 @@ export namespace Components {
          */
         "fillType": "single" | "range";
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -3449,6 +3450,10 @@ export namespace Components {
          */
         "messages": PanelMessages;
         /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning;
+        /**
           * Scrolls the component's content to a specified set of coordinates.
           * @example myCalciteFlowItem.scrollContentTo({   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value). });
           * @param options - allows specific coordinates to be defined.
@@ -3722,17 +3727,13 @@ export namespace Components {
          */
         "focused": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
           * The `id` of the component. When omitted, a globally unique identifier is used.
          */
         "guid": string;
-        /**
-          * When `true`, the component is not displayed and is not focusable or checkable.
-         */
-        "hidden": boolean;
         /**
           * The hovered state of the component.
          */
@@ -3768,10 +3769,6 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable.
-         */
-        "hidden": boolean;
-        /**
           * Defines the layout of the component.
          */
         "layout": Layout;
@@ -3796,6 +3793,18 @@ export namespace Components {
           * Sets focus on the fist focusable `calcite-radio-button` element in the component.
          */
         "setFocus": () => Promise<void>;
+        /**
+          * Specifies the status of the validation message.
+         */
+        "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
     }
     interface CalciteRating {
         /**
@@ -3811,7 +3820,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -3875,7 +3884,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -3903,6 +3912,18 @@ export namespace Components {
           * Sets focus on the component.
          */
         "setFocus": () => Promise<void>;
+        /**
+          * Specifies the status of the validation message.
+         */
+        "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
         /**
           * The component's `selectedItem` value.
          */
@@ -3952,7 +3973,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -4096,7 +4117,7 @@ export namespace Components {
          */
         "detachedHeightScale": Scale;
         /**
-          * Specifies the display mode - `"dock"` (full height, displays adjacent to center content), `"float"` (not full height, content is separated detached from `calcite-action-bar`, displays on top of center content), or `"overlay"` (full height, displays on top of center content).
+          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
          */
         "displayMode": DisplayMode1;
         /**
@@ -4134,7 +4155,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -4473,7 +4494,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -4817,7 +4838,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
         /**
@@ -4935,10 +4956,6 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * When `true`, the component is not displayed and is not focusable.
-         */
-        "hidden": boolean;
-        /**
           * When embed is `"false"`, the URL for the component.
          */
         "href": string;
@@ -4950,6 +4967,10 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
     }
     interface CalciteTileSelect {
         /**
@@ -4968,10 +4989,6 @@ export namespace Components {
           * The component header text, which displays between the icon and description.
          */
         "heading": string;
-        /**
-          * When `true`, the component is not displayed and is not focusable or checkable.
-         */
-        "hidden": boolean;
         /**
           * Specifies an icon to display.
          */
@@ -4997,7 +5014,7 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * The selection mode of the component.  Use `"radio"` for single selection, and `"checkbox"` for multiple selections.
+          * Specifies the selection mode of the component, where:  `"radio"` is for single selection, and  `"checkbox"` is for multiple selections.
          */
         "type": TileSelectType;
         /**
@@ -5168,7 +5185,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteTreeItemElement[];
         /**
-          * Specifies the selection mode, where `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections, `"children"` allows any number of selections from one parent from corresponding parent and child selections, `"multichildren"` allows any number of selections from corresponding parent and child selections, `"multiple"` allows any number of selections, `"none"` allows no selections, `"single"` allows one selection, and `"single-persist"` allows and requires one selection.
+          * Specifies the selection mode of the component, where:  `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections,  `"children"` allows any number of selections from one parent from corresponding parent and child selections,  `"multichildren"` allows any number of selections from corresponding parent and child selections,  `"multiple"` allows any number of selections,  `"none"` allows no selections,  `"single"` allows one selection, and  `"single-persist"` allows and requires one selection.
           * @default "single"
          */
         "selectionMode": SelectionMode;
@@ -7571,6 +7588,10 @@ declare namespace LocalJSX {
          */
         "overflowActionsDisabled"?: boolean;
         /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning;
+        /**
           * Arranges the component depending on the element's `dir` property.
          */
         "position"?: Position;
@@ -7685,6 +7706,10 @@ declare namespace LocalJSX {
           * Fires when the `expanded` property is toggled.
          */
         "onCalciteActionPadToggle"?: (event: CalciteActionPadCustomEvent<void>) => void;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning;
         /**
           * Arranges the component depending on the element's `dir` property.
          */
@@ -7864,6 +7889,10 @@ declare namespace LocalJSX {
          */
         "open"?: boolean;
         /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning;
+        /**
           * Displays a status-related indicator icon.
          */
         "status"?: Status;
@@ -7894,7 +7923,7 @@ declare namespace LocalJSX {
          */
         "text"?: string;
         /**
-          * Specifies how the component's toggle is displayed -  `"button"` (selectable header), or  `"switch"` (toggle switch).
+          * Specifies how the component's toggle is displayed, where:  `"button"` sets the toggle to a selectable header, and  `"switch"` sets the toggle to a switch.
          */
         "toggleDisplay"?: BlockSectionToggleDisplay;
     }
@@ -7915,7 +7944,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -8030,7 +8059,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -8113,7 +8142,7 @@ declare namespace LocalJSX {
          */
         "interactive"?: boolean;
         /**
-          * Specifies the kind of the component (will apply to border and background if applicable).
+          * Specifies the kind of the component, which will apply to border and background if applicable.
          */
         "kind"?: Extract<"brand" | "inverse" | "neutral", Kind>;
         /**
@@ -8342,7 +8371,7 @@ declare namespace LocalJSX {
          */
         "flipPlacements"?: EffectivePlacement[];
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -8427,7 +8456,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteComboboxItemElement[];
         /**
-          * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections - `"all"` (displays all selections with individual `calcite-chip`s), `"fit"` (displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed), or `"single"` (display one `calcite-chip` with the total number of selections).
+          * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:  `"all"` displays all selections with individual `calcite-chip`s,  `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed, and  `"single"` displays one `calcite-chip` with the total number of selections.
          */
         "selectionDisplay"?: SelectionDisplay;
         /**
@@ -8914,7 +8943,7 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
-          * Specifies the kind of the component (will apply to border and background).
+          * Specifies the kind of the component, which will apply to border and background.
          */
         "kind"?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
         /**
@@ -9056,6 +9085,10 @@ declare namespace LocalJSX {
           * Fires when the collapse button is clicked.
          */
         "onCalciteFlowItemToggle"?: (event: CalciteFlowItemCustomEvent<void>) => void;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning;
         /**
           * When `true`, displays a back button in the component's header.
          */
@@ -9231,18 +9264,13 @@ declare namespace LocalJSX {
          */
         "files"?: FileList | undefined;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
           * When `true`, number values are displayed with a group separator corresponding to the language and country format.
          */
         "groupSeparator"?: boolean;
-        /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden"?: boolean;
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
@@ -9410,7 +9438,7 @@ declare namespace LocalJSX {
          */
         "focusTrapDisabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -9462,7 +9490,7 @@ declare namespace LocalJSX {
          */
         "onCalciteInputDatePickerBeforeOpen"?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
         /**
-          * Fires when the component's value changes.
+          * Fires when the component's `value` changes.
          */
         "onCalciteInputDatePickerChange"?: (event: CalciteInputDatePickerCustomEvent<void>) => void;
         /**
@@ -9577,18 +9605,13 @@ declare namespace LocalJSX {
          */
         "enterKeyHint"?: string;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
           * When `true`, number values are displayed with a group separator corresponding to the language and country format.
          */
         "groupSeparator"?: boolean;
-        /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden"?: boolean;
         /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
@@ -9749,14 +9772,9 @@ declare namespace LocalJSX {
          */
         "enterKeyHint"?: string;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
-        /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden"?: boolean;
         /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
@@ -9873,7 +9891,7 @@ declare namespace LocalJSX {
          */
         "focusTrapDisabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -9901,7 +9919,7 @@ declare namespace LocalJSX {
          */
         "onCalciteInputTimePickerBeforeOpen"?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
         /**
-          * Fires when the time value is changed as a result of user input.
+          * Fires when the component's `value` is changes.
          */
         "onCalciteInputTimePickerChange"?: (event: CalciteInputTimePickerCustomEvent<void>) => void;
         /**
@@ -9964,7 +9982,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -9988,10 +10006,25 @@ declare namespace LocalJSX {
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
         "name"?: string;
+        /**
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
         "onCalciteInputTimeZoneBeforeClose"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
         "onCalciteInputTimeZoneBeforeOpen"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+        /**
+          * Fires when the component's `value` changes.
+         */
         "onCalciteInputTimeZoneChange"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+        /**
+          * Fires after the component is closed and animation is complete.
+         */
         "onCalciteInputTimeZoneClose"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
+        /**
+          * Fires after the component is opened and animation is complete.
+         */
         "onCalciteInputTimeZoneOpen"?: (event: CalciteInputTimeZoneCustomEvent<void>) => void;
         /**
           * When `true`, displays and positions the component.
@@ -10002,7 +10035,7 @@ declare namespace LocalJSX {
          */
         "overlayPositioning"?: OverlayPositioning;
         /**
-          * This date will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS.SSSZ)
+          * This `date` will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
           * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
          */
         "referenceDate"?: Date | string;
@@ -10446,7 +10479,7 @@ declare namespace LocalJSX {
          */
         "fillType"?: "single" | "range";
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -10866,6 +10899,10 @@ declare namespace LocalJSX {
           * Fires when the collapse button is clicked.
          */
         "onCalcitePanelToggle"?: (event: CalcitePanelCustomEvent<void>) => void;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning;
     }
     /**
      * @deprecated Use the `list` component instead.
@@ -11145,17 +11182,13 @@ declare namespace LocalJSX {
          */
         "focused"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
           * The `id` of the component. When omitted, a globally unique identifier is used.
          */
         "guid"?: string;
-        /**
-          * When `true`, the component is not displayed and is not focusable or checkable.
-         */
-        "hidden"?: boolean;
         /**
           * The hovered state of the component.
          */
@@ -11203,10 +11236,6 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable.
-         */
-        "hidden"?: boolean;
-        /**
           * Defines the layout of the component.
          */
         "layout"?: Layout;
@@ -11231,6 +11260,18 @@ declare namespace LocalJSX {
           * @readonly
          */
         "selectedItem"?: HTMLCalciteRadioButtonElement;
+        /**
+          * Specifies the status of the validation message.
+         */
+        "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
     }
     interface CalciteRating {
         /**
@@ -11246,7 +11287,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11310,7 +11351,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11338,6 +11379,18 @@ declare namespace LocalJSX {
           * @readonly
          */
         "selectedItem"?: HTMLCalciteSegmentedControlItemElement;
+        /**
+          * Specifies the status of the validation message.
+         */
+        "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
         /**
           * The component's `selectedItem` value.
          */
@@ -11391,7 +11444,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11543,7 +11596,7 @@ declare namespace LocalJSX {
          */
         "detachedHeightScale"?: Scale;
         /**
-          * Specifies the display mode - `"dock"` (full height, displays adjacent to center content), `"float"` (not full height, content is separated detached from `calcite-action-bar`, displays on top of center content), or `"overlay"` (full height, displays on top of center content).
+          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
          */
         "displayMode"?: DisplayMode1;
         /**
@@ -11583,7 +11636,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -11921,7 +11974,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -12277,7 +12330,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The ID of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
         /**
@@ -12395,10 +12448,6 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * When `true`, the component is not displayed and is not focusable.
-         */
-        "hidden"?: boolean;
-        /**
           * When embed is `"false"`, the URL for the component.
          */
         "href"?: string;
@@ -12410,6 +12459,10 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
     }
     interface CalciteTileSelect {
         /**
@@ -12428,10 +12481,6 @@ declare namespace LocalJSX {
           * The component header text, which displays between the icon and description.
          */
         "heading"?: string;
-        /**
-          * When `true`, the component is not displayed and is not focusable or checkable.
-         */
-        "hidden"?: boolean;
         /**
           * Specifies an icon to display.
          */
@@ -12457,7 +12506,7 @@ declare namespace LocalJSX {
          */
         "onCalciteTileSelectChange"?: (event: CalciteTileSelectCustomEvent<void>) => void;
         /**
-          * The selection mode of the component.  Use `"radio"` for single selection, and `"checkbox"` for multiple selections.
+          * Specifies the selection mode of the component, where:  `"radio"` is for single selection, and  `"checkbox"` is for multiple selections.
          */
         "type"?: TileSelectType;
         /**
@@ -12642,7 +12691,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteTreeItemElement[];
         /**
-          * Specifies the selection mode, where `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections, `"children"` allows any number of selections from one parent from corresponding parent and child selections, `"multichildren"` allows any number of selections from corresponding parent and child selections, `"multiple"` allows any number of selections, `"none"` allows no selections, `"single"` allows one selection, and `"single-persist"` allows and requires one selection.
+          * Specifies the selection mode of the component, where:  `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections,  `"children"` allows any number of selections from one parent from corresponding parent and child selections,  `"multichildren"` allows any number of selections from corresponding parent and child selections,  `"multiple"` allows any number of selections,  `"none"` allows no selections,  `"single"` allows one selection, and  `"single-persist"` allows and requires one selection.
           * @default "single"
          */
         "selectionMode"?: SelectionMode;

@@ -41,13 +41,20 @@ export class Tree {
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the selection mode, where
+   * Specifies the selection mode of the component, where:
+   *
    * `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections,
+   *
    * `"children"` allows any number of selections from one parent from corresponding parent and child selections,
+   *
    * `"multichildren"` allows any number of selections from corresponding parent and child selections,
+   *
    * `"multiple"` allows any number of selections,
+   *
    * `"none"` allows no selections,
+   *
    * `"single"` allows one selection, and
+   *
    * `"single-persist"` allows and requires one selection.
    *
    * @default "single"

@@ -13,7 +13,7 @@ export function testPostValidationFocusing(
 
     await page.setContent(html`
         <form>
-          <${inputTag} type="text" required name="${inputName}"></${inputTag}>
+          <${inputTag} required name="${inputName}"></${inputTag}>
         </form>
         <script>
           const form = document.querySelector("form");
@@ -32,8 +32,8 @@ export function testPostValidationFocusing(
     const hiddenInputSelector = `input[slot=${hiddenFormInputSlotName}]`;
     const inputSelector = `${inputTag}[name=${inputName}]`;
 
-    expect(await isElementFocused(page, hiddenInputSelector)).toBe(true);
-    expect(await isElementFocused(page, inputSelector)).toBe(false);
+    expect(await isElementFocused(page, hiddenInputSelector)).toBe(false);
+    expect(await isElementFocused(page, inputSelector)).toBe(true);
     expect(await input.getProperty("value")).toBe("");
 
     const expectedValue = "12345"; // number works for both text and number types
