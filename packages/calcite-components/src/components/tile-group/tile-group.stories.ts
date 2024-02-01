@@ -11,7 +11,7 @@ export default {
   ...storyFilters(),
 };
 
-export const simple = (): string => html`
+export const playground = (): string => html`
   <calcite-tile-group
     dir="${select("dir", ["ltr", "rtl"], "ltr", "Tile Group")}"
     ${boolean("disabled", false)}
