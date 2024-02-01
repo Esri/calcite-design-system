@@ -36,17 +36,29 @@ const rule: Rule.RuleModule = {
               message: `"ref" prop should be placed last in JSX to ensure the node attrs/props are in sync.`,
               fix(fixer) {
                 const sourceCode = context.getSourceCode();
+                const eslintDisableComments = sourceCode
+                  .getCommentsBefore(refAttribute as typeof node)
+                  .filter((comment) => comment.value.includes("eslint-disable-next-line"));
 
                 const refAttrText = sourceCode.getText(refAttribute as typeof node);
                 const otherAttrs = attributes.filter((attr) => attr !== refAttribute);
 
-                return [
-                  fixer.remove(refAttribute as typeof node),
-                  fixer.insertTextAfterRange(
-                    [otherAttrs[otherAttrs.length - 1].range[1], otherAttrs[otherAttrs.length - 1].range[1]],
-                    ` // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)\n${refAttrText}`,
-                  ),
-                ];
+                return eslintDisableComments
+                  ? [
+                      ...eslintDisableComments.map((comment) => fixer.remove(comment as typeof node)),
+                      fixer.remove(refAttribute as typeof node),
+                      fixer.insertTextAfterRange(
+                        [otherAttrs[otherAttrs.length - 1].range[1], otherAttrs[otherAttrs.length - 1].range[1]],
+                        ` // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)\n${refAttrText}`,
+                      ),
+                    ]
+                  : [
+                      fixer.remove(refAttribute as typeof node),
+                      fixer.insertTextAfterRange(
+                        [otherAttrs[otherAttrs.length - 1].range[1], otherAttrs[otherAttrs.length - 1].range[1]],
+                        ` // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)\n${refAttrText}`,
+                      ),
+                    ];
               },
             });
           }
