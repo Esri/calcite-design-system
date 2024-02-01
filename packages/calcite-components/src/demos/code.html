@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -36,25 +36,35 @@
   </head>
 
   <body>
-    <calcite-code>
-      <pre><code>
-.myClass{
+    <h2>CSS</h2>
+    <calcite-code
+      code=".myClass{
   display:block;
 }
 
 calcite-block {
   color:red;
-}
-      </code></pre>
-    </calcite-code>
+}"
+    ></calcite-code>
 
-    <calcite-code>
-      <pre><code>
-&lt;calcite-panel&gt;
-  &lt;div slot=&quot;header-content&quot;&gt;Header!&lt;/div&gt;
+    <h2>HTML</h2>
+    <calcite-code
+      code='&lt;calcite-panel&gt;
+  &lt;div slot="header-content"&gt;Header!&lt;/div&gt;
   &lt;p&gt;Slotted content!&lt;/p&gt;
-&lt;/calcite-panel&gt;
-      </code></pre>
-    </calcite-code>
+&lt;/calcite-panel&gt;'
+    ></calcite-code>
+
+    <h2>TS</h2>
+    <calcite-code
+      code="export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
+  if (a.parentNode !== b.parentNode) {
+    return false;
+  }
+
+  const children = Array.from(a.parentNode.children);
+  return children.indexOf(a) &lt; children.indexOf(b);
+}"
+    ></calcite-code>
   </body>
 </html>

@@ -1,9 +1,12 @@
+@import "~highlight.js/scss/github";
+
 :host {
-  @apply flex bg-transparent p-4;
+  display: flex;
 }
 
-@import "../../node_modules/highlight.js/scss/github";
-
-@include disabled();
+pre {
+  padding: 0;
+  margin: var(--calcite-spacing-md);
+}
 
 @include base-component();

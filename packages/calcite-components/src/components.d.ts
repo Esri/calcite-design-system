@@ -928,6 +928,9 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
     }
+    interface CalciteCode {
+        "code": string;
+    }
     interface CalciteColorPicker {
         /**
           * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
@@ -5907,6 +5910,12 @@ declare global {
         prototype: HTMLCalciteChipGroupElement;
         new (): HTMLCalciteChipGroupElement;
     };
+    interface HTMLCalciteCodeElement extends Components.CalciteCode, HTMLStencilElement {
+    }
+    var HTMLCalciteCodeElement: {
+        prototype: HTMLCalciteCodeElement;
+        new (): HTMLCalciteCodeElement;
+    };
     interface HTMLCalciteColorPickerElementEventMap {
         "calciteColorPickerChange": void;
         "calciteColorPickerInput": void;
@@ -7329,6 +7338,7 @@ declare global {
         "calcite-checkbox": HTMLCalciteCheckboxElement;
         "calcite-chip": HTMLCalciteChipElement;
         "calcite-chip-group": HTMLCalciteChipGroupElement;
+        "calcite-code": HTMLCalciteCodeElement;
         "calcite-color-picker": HTMLCalciteColorPickerElement;
         "calcite-color-picker-hex-input": HTMLCalciteColorPickerHexInputElement;
         "calcite-color-picker-swatch": HTMLCalciteColorPickerSwatchElement;
@@ -8212,6 +8222,9 @@ declare namespace LocalJSX {
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
   >;
+    }
+    interface CalciteCode {
+        "code"?: string;
     }
     interface CalciteColorPicker {
         /**
@@ -12887,6 +12900,7 @@ declare namespace LocalJSX {
         "calcite-checkbox": CalciteCheckbox;
         "calcite-chip": CalciteChip;
         "calcite-chip-group": CalciteChipGroup;
+        "calcite-code": CalciteCode;
         "calcite-color-picker": CalciteColorPicker;
         "calcite-color-picker-hex-input": CalciteColorPickerHexInput;
         "calcite-color-picker-swatch": CalciteColorPickerSwatch;
@@ -12999,6 +13013,7 @@ declare module "@stencil/core" {
             "calcite-checkbox": LocalJSX.CalciteCheckbox & JSXBase.HTMLAttributes<HTMLCalciteCheckboxElement>;
             "calcite-chip": LocalJSX.CalciteChip & JSXBase.HTMLAttributes<HTMLCalciteChipElement>;
             "calcite-chip-group": LocalJSX.CalciteChipGroup & JSXBase.HTMLAttributes<HTMLCalciteChipGroupElement>;
+            "calcite-code": LocalJSX.CalciteCode & JSXBase.HTMLAttributes<HTMLCalciteCodeElement>;
             "calcite-color-picker": LocalJSX.CalciteColorPicker & JSXBase.HTMLAttributes<HTMLCalciteColorPickerElement>;
             "calcite-color-picker-hex-input": LocalJSX.CalciteColorPickerHexInput & JSXBase.HTMLAttributes<HTMLCalciteColorPickerHexInputElement>;
             "calcite-color-picker-swatch": LocalJSX.CalciteColorPickerSwatch & JSXBase.HTMLAttributes<HTMLCalciteColorPickerSwatchElement>;
