@@ -42,6 +42,32 @@ export const simple = (): string => html`
 `;
 
 export const allVariants_TestOnly = (): string => html`
+  <style>
+    .parent {
+      display: flex;
+      color: var(--calcite-color-text-3);
+      font-family: var(--calcite-sans-family);
+      font-size: var(--calcite-font-size-0);
+      font-weight: var(--calcite-font-weight-medium);
+    }
+
+    .child {
+      display: inline-flex;
+      flex-direction: column;
+      flex: 0 1 50%;
+      padding: 15px;
+    }
+
+    .right-aligned-text {
+      text-align: right;
+      flex: 0 0 21%;
+    }
+
+    hr {
+      margin: 25px 0;
+      border-top: 1px solid var(--calcite-color-border-2);
+    }
+  </style>
   <!-- horizontal -->
   <div class="parent">
     <div class="child right-aligned-text"><h2>horizontal</h2></div>
