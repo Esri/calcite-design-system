@@ -63,9 +63,6 @@ export class Tile implements InteractiveComponent {
   /** The component header text, which displays between the icon and description. */
   @Prop({ reflect: true }) heading: string;
 
-  /** When `true`, the component is not displayed and is not focusable.  */
-  @Prop({ reflect: true }) hidden = false;
-
   /** When embed is `"false"`, the URL for the component. */
   @Prop({ reflect: true }) href: string;
 

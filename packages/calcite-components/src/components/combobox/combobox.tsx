@@ -742,6 +742,12 @@ export class Combobox
         break;
       case "Delete":
       case "Backspace":
+        const notDeletable =
+          this.selectionDisplay === "single" ||
+          (this.selectionDisplay === "fit" && this.selectedHiddenChipsCount > 0);
+        if (notDeletable) {
+          return;
+        }
         if (this.activeChipIndex > -1) {
           event.preventDefault();
           this.removeActiveChip();
@@ -1215,7 +1221,7 @@ export class Combobox
       if (!this.isMulti()) {
         this.toggleSelection(this.selectedItems[this.selectedItems.length - 1], false);
       }
-      const item = document.createElement(ComboboxItem) as HTMLCalciteComboboxItemElement;
+      const item = document.createElement("calcite-combobox-item");
       item.value = value;
       item.textLabel = value;
       item.selected = true;
