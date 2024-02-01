@@ -4,6 +4,7 @@
 
   .tile-group {
     display: grid;
+    grid-auto-rows: minmax(auto, 1fr);
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
 
