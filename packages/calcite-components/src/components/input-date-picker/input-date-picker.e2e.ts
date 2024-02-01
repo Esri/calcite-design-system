@@ -45,6 +45,18 @@ describe("calcite-input-date-picker", () => {
         propertyName: "flipPlacements",
         defaultValue: undefined,
       },
+      {
+        propertyName: "status",
+        defaultValue: "idle",
+      },
+      {
+        propertyName: "validationIcon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "validationMessage",
+        defaultValue: undefined,
+      },
     ]);
   });
 

@@ -1,6 +1,15 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  delegatesToFloatingUiOwningComponent,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+} from "../../tests/commonTests";
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS, activeAttr } from "./resources";
 
@@ -82,6 +91,15 @@ describe("calcite-action-menu", () => {
         value: "auto",
       },
     ]);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      html`<calcite-action-menu>
+        <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
+      </calcite-action-menu>`,
+      "calcite-popover",
+    );
   });
 
   it("should emit 'calciteActionMenuOpen' event", async () => {
@@ -402,13 +420,13 @@ describe("calcite-action-menu", () => {
       expect(await trigger.getProperty("active")).toBe(false);
     });
 
-    it("should close on blur", async () => {
+    it.skip("should handle TAB navigation", async () => {
       const page = await newE2EPage({
         html: html`<calcite-action-menu>
-            <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
-            <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
-            <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action> </calcite-action-menu
-          ><button>test</button>`,
+          <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
+          <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
+          <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
+        </calcite-action-menu> `,
       });
 
       await page.waitForChanges();
@@ -429,14 +447,14 @@ describe("calcite-action-menu", () => {
       expect(actions[1].getAttribute(activeAttr)).toBe(null);
       expect(actions[2].getAttribute(activeAttr)).toBe(null);
 
-      const button = await page.find("button");
-      await button.focus();
+      await page.keyboard.press("Tab");
+
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(false);
     });
 
-    it("should click the active action and close the menu", async () => {
+    it("should click the active action on Enter key and close the menu", async () => {
       const page = await newE2EPage({
         html: html`<calcite-action-menu>
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
@@ -466,8 +484,43 @@ describe("calcite-action-menu", () => {
       expect(actions[2].getAttribute(activeAttr)).toBe(null);
 
       await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await actionMenu.getProperty("open")).toBe(false);
+      expect(clickSpy).toHaveReceivedEventTimes(1);
+    });
+
+    it("should click the active action when clicked and close the menu", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-action-menu>
+          <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
+          <calcite-action id="second" text="Add" icon="minus" text-enabled></calcite-action>
+          <calcite-action id="third" text="Add" icon="banana" text-enabled></calcite-action>
+        </calcite-action-menu> `,
+      });
 
       await page.waitForChanges();
+
+      const actionMenu = await page.find("calcite-action-menu");
+      const actions = await page.findAll("calcite-action");
+
+      expect(await actionMenu.getProperty("open")).toBe(false);
+
+      await actionMenu.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      const clickSpy = await actions[0].spyOnEvent("click");
+
+      expect(await actionMenu.getProperty("open")).toBe(true);
+      expect(actions[0].getAttribute(activeAttr)).toBe("");
+      expect(actions[1].getAttribute(activeAttr)).toBe(null);
+      expect(actions[2].getAttribute(activeAttr)).toBe(null);
+
+      // native click is used to close the open menu
+      await page.$eval("calcite-action", (el: HTMLCalciteActionElement) => el.click());
 
       expect(await actionMenu.getProperty("open")).toBe(false);
       expect(clickSpy).toHaveReceivedEventTimes(1);

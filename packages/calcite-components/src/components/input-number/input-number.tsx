@@ -123,7 +123,7 @@ export class InputNumber
   }
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -133,13 +133,6 @@ export class InputNumber
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
-
-  /**
-   * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) hidden = false;
 
   /**
    * Specifies an icon to display.
@@ -216,7 +209,7 @@ export class InputNumber
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop() validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -803,13 +796,6 @@ export class InputNumber
       this.nudgeNumberValue(direction, event);
     }
   };
-
-  onFormReset(): void {
-    this.setNumberValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.type = "number";

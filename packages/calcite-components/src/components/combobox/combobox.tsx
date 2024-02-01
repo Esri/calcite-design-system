@@ -122,8 +122,13 @@ export class Combobox
   @Prop({ reflect: true }) clearDisabled = false;
 
   /**
-   * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections
-   * - `"all"` (displays all selections with individual `calcite-chip`s), `"fit"` (displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed), or `"single"` (display one `calcite-chip` with the total number of selections).
+   * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:
+   *
+   * `"all"` displays all selections with individual `calcite-chip`s,
+   *
+   * `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed, and
+   *
+   * `"single"` displays one `calcite-chip` with the total number of selections.
    */
   @Prop({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
 
@@ -153,7 +158,7 @@ export class Combobox
   }
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -183,7 +188,7 @@ export class Combobox
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop() validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -737,6 +742,12 @@ export class Combobox
         break;
       case "Delete":
       case "Backspace":
+        const notDeletable =
+          this.selectionDisplay === "single" ||
+          (this.selectionDisplay === "fit" && this.selectedHiddenChipsCount > 0);
+        if (notDeletable) {
+          return;
+        }
         if (this.activeChipIndex > -1) {
           event.preventDefault();
           this.removeActiveChip();
@@ -1210,7 +1221,7 @@ export class Combobox
       if (!this.isMulti()) {
         this.toggleSelection(this.selectedItems[this.selectedItems.length - 1], false);
       }
-      const item = document.createElement(ComboboxItem) as HTMLCalciteComboboxItemElement;
+      const item = document.createElement("calcite-combobox-item");
       item.value = value;
       item.textLabel = value;
       item.selected = true;
