@@ -99,6 +99,19 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
    */
   @Prop({ mutable: true }) value: string | string[];
 
+  @Watch("value")
+  valueHandler(value: string | string[]): void {
+    if (Array.isArray(value)) {
+      this.valueAsDate = getValueAsDateRange(value);
+      // avoids updating activeDates after every selection. Update of activeDate's happen when user parses value programmatically
+      if (!this.mostRecentRangeValue) {
+        this.resetActiveDates();
+      }
+    } else if (value) {
+      this.valueAsDate = dateFromISO(value);
+    }
+  }
+
   /**
    * Specifies the number at which section headings should start.
    */
@@ -348,15 +361,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       this.resetActiveDates();
     }
   };
-
-  @Watch("value")
-  valueHandler(value: string | string[]): void {
-    if (Array.isArray(value)) {
-      this.valueAsDate = getValueAsDateRange(value);
-    } else if (value) {
-      this.valueAsDate = dateFromISO(value);
-    }
-  }
 
   @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {

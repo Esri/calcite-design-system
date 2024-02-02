@@ -96,7 +96,7 @@ describe("calcite-date-picker", () => {
 
   it("fires a calciteDatePickerChange event when day is selected", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-date-picker value='2000-11-27' active></calcite-date-picker>");
+    await page.setContent("<calcite-date-picker value='2000-11-27'></calcite-date-picker>");
     const changedEvent = await page.spyOnEvent("calciteDatePickerChange");
 
     await page.waitForTimeout(animationDurationInMs);
@@ -108,7 +108,7 @@ describe("calcite-date-picker", () => {
     expect(changedEvent).toHaveReceivedEventTimes(2);
   });
 
-  it("Emits change event and updates value property when start and end dates are selected", async () => {
+  it("Emits change event and updates value property when start and end dates are selected from start calendar", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-date-picker range></calcite-date-picker>");
     const datePicker = await page.find("calcite-date-picker");
@@ -122,12 +122,38 @@ describe("calcite-date-picker", () => {
     const startDate = `${currentYear}-${formatTimePart(currentMonth)}-01`;
     const endDate = `${currentYear}-${formatTimePart(currentMonth)}-15`;
 
-    await selectDay(startDate.replaceAll("-", ""), page, "mouse");
+    await selectDay(startDate.replaceAll("-", ""), page, "mouse", true);
     await page.waitForChanges();
 
     expect(await datePicker.getProperty("value")).toEqual([startDate, ""]);
 
-    await selectDay(endDate.replaceAll("-", ""), page, "mouse");
+    await selectDay(endDate.replaceAll("-", ""), page, "mouse", true);
+    await page.waitForChanges();
+
+    expect(await datePicker.getProperty("value")).toEqual([startDate, endDate]);
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+  });
+
+  it("Emits change event and updates value property when start and end dates are selected from end calendar", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-date-picker range></calcite-date-picker>");
+    const datePicker = await page.find("calcite-date-picker");
+    const eventSpy = await page.spyOnEvent("calciteDatePickerRangeChange");
+
+    await page.waitForTimeout(animationDurationInMs);
+
+    const now = new Date();
+    const currentYear = now.getUTCFullYear();
+    const currentMonth = now.getUTCMonth() + 2;
+    const startDate = `${currentYear}-${formatTimePart(currentMonth)}-01`;
+    const endDate = `${currentYear}-${formatTimePart(currentMonth)}-15`;
+
+    await selectDay(startDate.replaceAll("-", ""), page, "mouse", true);
+    await page.waitForChanges();
+
+    expect(await datePicker.getProperty("value")).toEqual([startDate, ""]);
+
+    await selectDay(endDate.replaceAll("-", ""), page, "mouse", true);
     await page.waitForChanges();
 
     expect(await datePicker.getProperty("value")).toEqual([startDate, endDate]);
@@ -156,12 +182,13 @@ describe("calcite-date-picker", () => {
     expect(changedEvent).toHaveReceivedEventTimes(0);
   });
 
-  async function selectDay(id: string, page: E2EPage, method: "mouse" | "keyboard"): Promise<void> {
+  async function selectDay(id: string, page: E2EPage, method: "mouse" | "keyboard", isRange = false): Promise<void> {
     await page.$eval(
       "calcite-date-picker",
-      (datePicker: HTMLCalciteDatePickerElement, id: string, method: "mouse" | "keyboard") => {
+      (datePicker: HTMLCalciteDatePickerElement, id: string, method: "mouse" | "keyboard", isRange: boolean) => {
+        const datePickerMonthEl = isRange ? "calcite-date-picker-month-range" : "calcite-date-picker-month";
         const day = datePicker.shadowRoot
-          .querySelector<HTMLCalciteDatePickerMonthElement>("calcite-date-picker-month")
+          .querySelector<HTMLCalciteDatePickerMonthElement>(datePickerMonthEl)
           .shadowRoot.getElementById(id);
 
         if (method === "mouse") {
@@ -171,7 +198,8 @@ describe("calcite-date-picker", () => {
         }
       },
       id,
-      method
+      method,
+      isRange
     );
     await page.waitForChanges();
   }
@@ -263,6 +291,12 @@ describe("calcite-date-picker", () => {
 
     expect(await date.getProperty("value")).toEqual(["2020-09-08", "2020-09-23"]);
 
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
     await page.keyboard.press("Tab");
     await page.waitForChanges();
     await page.keyboard.press("Tab");
