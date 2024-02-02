@@ -267,9 +267,9 @@ describe("calcite-table", () => {
       );
     });
 
-    describe("is accessible with pagination and non-interactive", () => {
+    describe("is accessible with pagination and interaction mode static", () => {
       accessible(
-        html`<calcite-table page-size="4" caption="Simple table" non-interactive>
+        html`<calcite-table page-size="4" caption="Simple table" interaction-mode="static">
           <calcite-table-row slot=${SLOTS.tableHeader}>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -2504,10 +2504,10 @@ describe("keyboard navigation", () => {
     ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
   });
 
-  it("navigates correctly when number and selection column present numbered and non-interactive - only focusing selection cells", async () => {
+  it("navigates correctly when number and selection column present numbered and interaction-mode static - only focusing selection cells", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-table numbered selection-mode="multiple" caption="Simple table" non-interactive>
+      html`<calcite-table numbered selection-mode="multiple" caption="Simple table" interaction-mode="static">
         <calcite-table-row id="row-head" slot=${SLOTS.tableHeader}>
           <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>

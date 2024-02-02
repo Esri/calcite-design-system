@@ -24,14 +24,17 @@
 }
 
 td {
-  @apply text-start focus-base align-middle text-color-1 whitespace-normal;
+  @apply text-start  align-middle text-color-1 whitespace-normal;
   background: var(--calcite-internal-table-cell-background);
   font-size: var(--calcite-internal-table-cell-font-size);
   border-inline-end: 1px solid var(--calcite-color-border-3);
   padding: var(--calcite-internal-table-cell-padding);
 
-  &:not(.non-interactive):focus {
-    @apply focus-inset;
+  &:not(.non-interactive) {
+    @apply focus-base;
+    &:focus {
+      @apply focus-inset;
+    }
   }
 }
 

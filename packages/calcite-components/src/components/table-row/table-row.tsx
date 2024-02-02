@@ -14,7 +14,7 @@ import {
 import { LocalizedComponent } from "../../utils/locale";
 import { Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
-import { RowType, TableRowFocusEvent } from "../table/interfaces";
+import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
 import { isActivationKey } from "../../utils/key";
 import {
   connectInteractive,
@@ -52,13 +52,13 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   @Prop({ mutable: true }) cellCount: number;
 
   /** @internal */
+  @Prop() interactionMode: TableInteractionMode = "interactive";
+
+  /** @internal */
   @Prop() lastVisibleRow: boolean;
 
   /** @internal */
   @Prop() rowType: RowType;
-
-  /** @internal */
-  @Prop() nonInteractive = false;
 
   /** @internal */
   @Prop() numbered = false;
@@ -94,7 +94,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   @Watch("scale")
   @Watch("selected")
   @Watch("selectedRowCount")
-  @Watch("nonInteractive")
+  @Watch("interactionMode")
   handleCellChanges(): void {
     if (this.tableRowEl && this.rowCells.length > 0) {
       this.updateCells();
@@ -288,7 +288,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
 
     if (cells.length > 0) {
       cells?.forEach((cell: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement, index) => {
-        cell.nonInteractive = this.nonInteractive;
+        cell.interactionMode = this.interactionMode;
         cell.positionInRow = index + 1;
         cell.parentRowType = this.rowType;
         cell.parentRowIsSelected = this.selected;
@@ -391,7 +391,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
             aria-selected={this.selected}
             class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
             onKeyDown={(event) => {
-              if (!this.nonInteractive) {
+              if (this.interactionMode === "interactive") {
                 this.keyDownHandler(event);
               }
             }}

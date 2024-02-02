@@ -31,7 +31,7 @@ import {
   numberStringFormatter,
   NumberingSystem,
 } from "../../utils/locale";
-import { TableLayout, TableRowFocusEvent } from "./interfaces";
+import { TableInteractionMode, TableLayout, TableRowFocusEvent } from "./interfaces";
 import { CSS, SLOTS } from "./resources";
 import { TableMessages } from "./assets/table/t9n";
 import { getUserAgentString } from "../../utils/browser";
@@ -65,11 +65,11 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @Prop({ reflect: true }) groupSeparator = false;
 
+  /** When `interactive`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `static`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable. */
+  @Prop({ reflect: true }) interactionMode: TableInteractionMode = "interactive";
+
   /** Specifies the layout of the component. */
   @Prop({ reflect: true }) layout: TableLayout = "auto";
-
-  /** When `true`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable. */
-  @Prop({ reflect: true }) nonInteractive = false;
 
   /** When `true`, displays the position of the row in numeric form. */
   @Prop({ reflect: true }) numbered = false;
@@ -106,7 +106,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) striped = false;
 
   @Watch("groupSeparator")
-  @Watch("nonInteractive")
+  @Watch("interactionMode")
   @Watch("numbered")
   @Watch("numberingSystem")
   @Watch("pageSize")
@@ -332,7 +332,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     });
 
     allRows?.forEach((row) => {
-      row.nonInteractive = this.nonInteractive;
+      row.interactionMode = this.interactionMode;
       row.selectionMode = this.selectionMode;
       row.bodyRowCount = bodyRows?.length;
       row.positionAll = allRows?.indexOf(row);

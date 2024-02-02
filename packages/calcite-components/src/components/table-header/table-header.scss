@@ -26,7 +26,7 @@
 }
 
 th {
-  @apply text-color-1 focus-base text-start font-medium align-top whitespace-normal;
+  @apply text-color-1 text-start font-medium align-top whitespace-normal;
   font-size: var(--calcite-internal-table-cell-font-size);
   border-inline-end: 1px solid var(--calcite-internal-table-header-border-color);
   border-block-end: 1px solid var(--calcite-internal-table-header-border-color);
@@ -34,8 +34,11 @@ th {
   padding-inline: var(--calcite-internal-table-cell-padding);
   background-color: var(--calcite-internal-table-header-background);
 
-  &:not(.non-interactive):focus-within {
-    @apply focus-inset;
+  &:not(.non-interactive) {
+    @apply focus-base;
+    &:not(.non-interactive):focus-within {
+      @apply focus-inset;
+    }
   }
 }
 

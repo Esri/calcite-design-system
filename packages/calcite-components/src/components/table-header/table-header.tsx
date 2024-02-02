@@ -16,7 +16,7 @@ import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../..
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { TableHeaderMessages } from "./assets/table-header/t9n";
 import { CSS } from "./resources";
-import { RowType } from "../table/interfaces";
+import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getIconScale } from "../../utils/component";
 
 @Component({
@@ -48,10 +48,10 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Prop({ reflect: true }) rowSpan: number;
 
   /** @internal */
-  @Prop() lastCell: boolean;
+  @Prop() interactionMode: TableInteractionMode = "interactive";
 
   /** @internal */
-  @Prop() nonInteractive = false;
+  @Prop() lastCell: boolean;
 
   /** @internal */
   @Prop() numberCell = false;
@@ -208,7 +208,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
 
     const allSelected = this.selectedRowCount === this.bodyRowCount;
     const selectionIcon = allSelected ? "check-square-f" : "check-square";
-    const nonFocusable = this.nonInteractive && !this.selectionCell;
+    const nonFocusable = this.interactionMode === "static" && !this.selectionCell;
     return (
       <Host>
         <th

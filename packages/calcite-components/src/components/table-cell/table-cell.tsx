@@ -24,7 +24,7 @@ import {
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { TableCellMessages } from "./assets/table-cell/t9n";
 import { CSS } from "./resources";
-import { RowType } from "../table/interfaces";
+import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -59,10 +59,10 @@ export class TableCell
   @Prop() disabled: boolean;
 
   /** @internal */
-  @Prop() lastCell: boolean;
+  @Prop() interactionMode: TableInteractionMode = "interactive";
 
   /** @internal */
-  @Prop() nonInteractive = false;
+  @Prop() lastCell: boolean;
 
   /** @internal */
   @Prop() numberCell: boolean;
@@ -217,7 +217,7 @@ export class TableCell
     const dir = getElementDir(this.el);
     const nonFocusable =
       this.disabled ||
-      (this.nonInteractive &&
+      (this.interactionMode === "static" &&
         (!this.selectionCell || (this.selectionCell && this.parentRowType === "foot")));
 
     return (

@@ -15,6 +15,7 @@ export default {
 export const simple = (): string =>
   html`<calcite-table
     page-size="${number("page-size", 0)}"
+    interaction-mode="${select("interaction-mode", ["interactive", "static"], "interactive")}"
     selection-mode="${select("selection-mode", ["none", "single", "multiple"], "none")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["auto", "fixed"], "auto")}"
@@ -22,7 +23,6 @@ export const simple = (): string =>
     ${boolean("numbered", false)}
     ${boolean("bordered", false)}
     ${boolean("striped", false)}
-    ${boolean("non-interactive", false)}
     caption="Simple table"
   >
     <calcite-table-row slot="table-header">
