@@ -49,14 +49,14 @@ const rule: Rule.RuleModule = {
                       fixer.remove(refAttribute as typeof node),
                       fixer.insertTextAfterRange(
                         [otherAttrs[otherAttrs.length - 1].range[1], otherAttrs[otherAttrs.length - 1].range[1]],
-                        ` // eslint-disable-next-line react/jsx-sort-props -- ref node is placed last per enforce-ref-last-prop rule\n${refAttrText}`,
+                        `\n// eslint-disable-next-line react/jsx-sort-props -- ref node is placed last per enforce-ref-last-prop rule\n${refAttrText}`,
                       ),
                     ]
                   : [
                       fixer.remove(refAttribute as typeof node),
                       fixer.insertTextAfterRange(
                         [otherAttrs[otherAttrs.length - 1].range[1], otherAttrs[otherAttrs.length - 1].range[1]],
-                        ` // eslint-disable-next-line react/jsx-sort-props -- ref node is placed last per enforce-ref-last-prop rule\n${refAttrText}`,
+                        `\n// eslint-disable-next-line react/jsx-sort-props -- ref node is placed last per enforce-ref-last-prop rule\n${refAttrText}`,
                       ),
                     ];
               },

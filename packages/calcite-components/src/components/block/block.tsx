@@ -400,7 +400,6 @@ export class Block
               class={CSS.content}
               hidden={!open}
               id={IDS.content}
-              tabIndex={-1} // eslint-disable-next-line react/jsx-sort-props -- ref node is placed last per enforce-ref-last-prop rule
               ref={this.setTransitionEl}
             >
               {this.renderScrim()}
