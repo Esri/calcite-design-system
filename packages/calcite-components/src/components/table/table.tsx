@@ -65,7 +65,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @Prop({ reflect: true }) groupSeparator = false;
 
-  /** When `interactive`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `static`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable. */
+  /** When `"interactive"`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `"static"`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable. */
   @Prop({ reflect: true }) interactionMode: TableInteractionMode = "interactive";
 
   /** Specifies the layout of the component. */
