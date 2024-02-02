@@ -9,8 +9,8 @@
   }
 
   ::slotted(calcite-tile) {
-    margin-block-end: 1px;
-    margin-inline-end: 1px;
+    margin-block-end: var(--calcite-spacing-px);
+    margin-inline-end: var(--calcite-spacing-px);
   }
 }
 
