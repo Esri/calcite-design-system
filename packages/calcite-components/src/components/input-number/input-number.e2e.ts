@@ -1749,6 +1749,7 @@ describe("calcite-input-number", () => {
       testValue: 5,
       submitsOnEnter: true,
       inputType: "number",
+      validation: true,
     });
 
     testPostValidationFocusing("calcite-input-number");
