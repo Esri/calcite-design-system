@@ -4,7 +4,7 @@ import { FunctionalComponent, h } from "@stencil/core";
 /**
  * Any form <Component> with a `calcite<Component>Input` event needs to be included in this array.
  */
-const componentsWithInputEvent = [
+export const componentsWithInputEvent = [
   "calcite-input",
   "calcite-input-number",
   "calcite-input-text",

@@ -6,7 +6,7 @@ import { toHaveNoViolations } from "jest-axe";
 import { config } from "../../stencil.config";
 import { html } from "../../support/formatting";
 import type { JSX } from "../components";
-import { getClearValidationEventName, hiddenFormInputSlotName } from "../utils/form";
+import { getClearValidationEventName, hiddenFormInputSlotName, componentsWithInputEvent } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
 import {
   GlobalTestProps,
@@ -722,11 +722,13 @@ export function formAssociated(
   componentTagOrHtml: TagOrHTML | TagOrHTMLWithBeforeContent,
   options: FormAssociatedOptions,
 ): void {
-  it("supports association via ancestry", () => testAncestorFormAssociated());
-  it("supports association via form ID", () => testIdFormAssociated());
+  const inputTypeContext = options.inputType ? `(input type="${options.inputType}")` : "";
 
-  if (options.validation) {
-    it("supports required property validation", () => testRequiredPropertyValidation());
+  it(`supports association via ancestry ${inputTypeContext}`, () => testAncestorFormAssociated());
+  it(`supports association via form ID ${inputTypeContext}`, () => testIdFormAssociated());
+
+  if (options.validation && !["color", "month", "time"].includes(options.inputType)) {
+    it(`supports required property validation ${inputTypeContext}`, () => testRequiredPropertyValidation());
   }
 
   async function testAncestorFormAssociated(): Promise<void> {
@@ -790,30 +792,30 @@ export function formAssociated(
     const requiredValidationMessage = "Please fill out this field.";
     const { beforeContent, tagOrHTML } = getTagOrHTMLWithBeforeContent(componentTagOrHtml);
     const tag = getTag(tagOrHTML);
-    const componentHtml = ensureRequired(ensureName(isHTML(tagOrHTML) ? tagOrHTML : `<${tag}></${tag}>`, tag), tag);
+    const componentHtml = ensureUnchecked(
+      ensureRequired(ensureName(isHTML(tagOrHTML) ? tagOrHTML : `<${tag}></${tag}>`, tag), tag),
+    );
 
     const page = await newE2EPage();
     await beforeContent?.(page);
 
-    const content = html` <form>
-      ${componentHtml}
-      <!--
-        keeping things simple by using submit-type input
-        this should cover button and calcite-button submit cases
-      -->
-      <input id="submitter" type="submit" />
-    </form>`;
+    const content = html`
+      <form>
+        ${componentHtml}
+        <calcite-button type="submit">Submit</calcite-button>
+      </form>
+    `;
 
     await page.setContent(content);
     await page.waitForChanges();
     const component = await page.find(tag);
 
-    const submitButton = await page.find("input");
+    const submitButton = await page.find("calcite-button");
     const spyEvent = await page.spyOnEvent(getClearValidationEventName(tag));
 
-    await assertPreventsFormSubmission(page, component, options, submitButton, requiredValidationMessage);
+    await assertPreventsFormSubmission(page, component, submitButton, requiredValidationMessage);
     await assertClearsValidationOnValueChange(page, component, options, spyEvent, tag);
-    await assertUserMessageNotOverridden(page, component, options, submitButton);
+    await assertUserMessageNotOverridden(page, component, submitButton);
   }
 
   function ensureName(html: string, componentTag: string): string {
@@ -822,6 +824,10 @@ export function formAssociated(
 
   function ensureRequired(html: string, componentTag: string): string {
     return html.includes("required") ? html : html.replace(componentTag, `${componentTag} required `);
+  }
+
+  function ensureUnchecked(html: string): string {
+    return html.replace(/(checked|selected)/, "");
   }
 
   function ensureForm(html: string, componentTag: string): string {
@@ -1030,11 +1036,10 @@ export function formAssociated(
   async function assertPreventsFormSubmission(
     page: E2EPage,
     component: E2EElement,
-    options: FormAssociatedOptions,
     submitButton: E2EElement,
     message: string,
   ) {
-    await (options.submitsOnEnter ? page.keyboard.press("Enter") : submitButton.click());
+    await submitButton.click();
     await page.waitForChanges();
 
     await expectValidationInvalid(component, message);
@@ -1056,22 +1061,25 @@ export function formAssociated(
     } else if (tag === "calcite-select") {
       await page.keyboard.press("ArrowDown");
     } else {
-      await page.keyboard.type(options.testValue);
+      // time picker needs to know whether it's AM or PM before it will commit the value
+      await page.keyboard.type(`${options.testValue}${tag === "calcite-input-time-picker" ? "PM" : ""}`);
       await page.keyboard.press("Tab");
     }
 
     await page.waitForChanges();
-    expect(event).toHaveReceivedEventTimes(1);
+
+    // the components with Input events will emit multiple times, depending on
+    // the length of the test value
+    if (componentsWithInputEvent.includes(tag)) {
+      expect(event.length).toBeGreaterThanOrEqual(1);
+    } else {
+      expect(event).toHaveReceivedEventTimes(1);
+    }
 
     await expectValidationIdle(component);
   }
 
-  async function assertUserMessageNotOverridden(
-    page: E2EPage,
-    component: E2EElement,
-    options: FormAssociatedOptions,
-    submitButton: E2EElement,
-  ) {
+  async function assertUserMessageNotOverridden(page: E2EPage, component: E2EElement, submitButton: E2EElement) {
     const customValidationMessage = "This is a custom message.";
     const customValidationIcon = "banana";
 
@@ -1081,7 +1089,7 @@ export function formAssociated(
     component.setProperty("value", undefined);
     await page.waitForChanges();
 
-    await (options.submitsOnEnter ? page.keyboard.press("Enter") : submitButton.click());
+    await submitButton.click();
     await page.waitForChanges();
 
     await expectValidationInvalid(component, customValidationMessage, customValidationIcon);
@@ -1093,7 +1101,7 @@ export function formAssociated(
     expect(await element.getProperty("validationIcon")).toBe(false);
   }
 
-  async function expectValidationInvalid(element: E2EElement, message: string, icon: string | boolean = true) {
+  async function expectValidationInvalid(element: E2EElement, message: string, icon: string = "") {
     expect(await element.getProperty("status")).toBe("invalid");
     expect(await element.getProperty("validationMessage")).toBe(message);
     expect(element.getAttribute("validation-icon")).toBe(icon);

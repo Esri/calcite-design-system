@@ -406,6 +406,7 @@ describe("calcite-select", () => {
     formAssociated(
       html`
         <calcite-select>
+          <calcite-option id="0"></calcite-option>
           <calcite-option id="1">uno</calcite-option>
           <calcite-option id="2">dos</calcite-option>
           <calcite-option id="3">tres</calcite-option>
