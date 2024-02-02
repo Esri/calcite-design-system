@@ -68,7 +68,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   /** Specifies the layout of the component. */
   @Prop({ reflect: true }) layout: TableLayout = "auto";
 
-  /** When `true`, prevents focus and keyboard navigation of Table Header and Table Cell components. Selection affordances and slotted content within Table Cell components remains focusable. */
+  /** When `true`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable. */
   @Prop({ reflect: true }) nonInteractive = false;
 
   /** When `true`, displays the position of the row in numeric form. */
