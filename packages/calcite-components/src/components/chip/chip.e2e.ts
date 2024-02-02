@@ -27,6 +27,18 @@ describe("calcite-chip", () => {
     disabled("<calcite-chip interactive>doritos</calcite-chip>");
   });
 
+  it("should not render a calcite-icon when selectionMode is single and not selected", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`<calcite-chip selection-mode="single" id="chip-1" >cheetos</calcite-chip>`);
+
+    await page.waitForChanges();
+
+    const icon = await page.find("#chip-1 >>> calcite-icon");
+
+    expect(icon).toBeNull();
+  });
+
   it("should not emit event after the chip is clicked if interactive if not set", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip id="chip-1" >cheetos</calcite-chip>`);
