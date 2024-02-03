@@ -12,7 +12,7 @@ export default {
   ...storyFilters(),
 };
 
-export const playground = (): string => html`
+export const simple = (): string => html`
   <calcite-tile
     ${boolean("active", false)}
     description="${text(
