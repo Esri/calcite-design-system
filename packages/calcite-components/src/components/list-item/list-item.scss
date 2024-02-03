@@ -103,6 +103,20 @@ td:focus {
     py-2;
 }
 
+.label {
+  @apply text-color-1;
+}
+
+.description {
+  @apply text-color-3
+    mt-0.5;
+}
+
+.content-bottom {
+  @apply flex
+    flex-col;
+}
+
 .label,
 .description,
 .content-bottom {
@@ -117,17 +131,8 @@ td:focus {
   }
 }
 
-.label {
-  @apply text-color-1;
-}
-
 :host([selected]) .label {
   @apply font-medium;
-}
-
-.description {
-  @apply text-color-3
-    mt-0.5;
 }
 
 :host([selected]) .description {
@@ -145,11 +150,10 @@ td:focus {
 .content-start,
 .content-end {
   @apply flex-auto;
-}
 
-.content-bottom {
-  @apply flex
-    flex-col;
+  ::slotted(calcite-icon) {
+    @apply self-center;
+  }
 }
 
 .content-container--has-center-content .content-start,
@@ -196,8 +200,6 @@ td:focus {
     items-center
     justify-center;
 
-  min-inline-size: theme("spacing.8");
-
   calcite-action,
   calcite-handle {
     @apply self-stretch;
@@ -207,13 +209,6 @@ td:focus {
 .open-container,
 .selection-container {
   @apply cursor-pointer;
-}
-
-.content-start,
-.content-end {
-  ::slotted(calcite-icon) {
-    @apply self-center;
-  }
 }
 
 .actions-start,
@@ -234,10 +229,6 @@ td:focus {
     border-0
     border-t
     border-color-3;
-}
-
-::slotted(calcite-list:empty) {
-  @apply py-3;
 }
 
 @include base-component();
