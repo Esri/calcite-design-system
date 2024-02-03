@@ -231,4 +231,8 @@ td:focus {
     border-color-3;
 }
 
+::slotted(calcite-list:empty) {
+  @apply border-t-0;
+}
+
 @include base-component();
