@@ -5,7 +5,6 @@
   .tile-group {
     display: grid;
     grid-auto-rows: minmax(auto, 1fr);
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
 
   ::slotted(calcite-tile) {
@@ -17,6 +16,11 @@
 :host([scale="s"]) {
   .tile-group {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+}
+:host([scale="m"]) {
+  .tile-group {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
 }
 :host([scale="l"]) {
