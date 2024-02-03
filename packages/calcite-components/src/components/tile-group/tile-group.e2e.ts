@@ -36,6 +36,32 @@ describe("calcite-tile-group", () => {
         <calcite-tile></calcite-tile>
         <calcite-tile></calcite-tile>
       </calcite-tile-group>`,
+      { focusTarget: "none" },
+    );
+  });
+
+  describe("disabled with link tiles", () => {
+    disabled(
+      html`<calcite-tile-group>
+        <calcite-tile
+          heading="Tile heading lorem ipsum"
+          href="/"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+          icon="layers"
+        ></calcite-tile>
+        <calcite-tile
+          heading="Tile heading lorem ipsum"
+          href="/"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+          icon="layers"
+        ></calcite-tile>
+        <calcite-tile
+          heading="Tile heading lorem ipsum"
+          href="/"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+          icon="layers"
+        ></calcite-tile>
+      </calcite-tile-group>`,
       { focusTarget: "child" },
     );
   });
