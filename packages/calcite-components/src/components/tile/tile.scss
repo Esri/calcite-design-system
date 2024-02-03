@@ -30,7 +30,7 @@
   max-inline-size: 460px;
   min-inline-size: 140px;
 
-  .tile {
+  .container {
     background-color: var(--calcite-tile-background-color);
     block-size: var(--calcite-container-size-content-fluid);
     box-sizing: border-box;
@@ -95,7 +95,7 @@
 }
 
 :host([alignment="center"]) {
-  .tile {
+  .container {
     align-items: center;
     text-align: center;
   }
@@ -104,7 +104,7 @@
 :host([scale="s"]) {
   max-inline-size: 400px;
   min-inline-size: 100px;
-  .tile {
+  .container {
     gap: var(--calcite-spacing-sm);
   }
   .heading {
@@ -120,7 +120,7 @@
 :host([scale="l"]) {
   max-inline-size: 520px;
   min-inline-size: 160px;
-  .tile {
+  .container {
     gap: var(--calcite-spacing-xl);
   }
   .heading {
@@ -147,29 +147,29 @@
   }
 }
 :host(:not([embed])) {
-  .tile {
+  .container {
     box-shadow: 0 0 0 1px var(--calcite-tile-border-color);
     padding: var(--calcite-spacing-md);
   }
 }
 :host(:not([embed])[scale="s"]) {
-  .tile {
+  .container {
     padding: var(--calcite-spacing-sm);
   }
 }
 :host(:not([embed])[scale="l"]) {
-  .tile {
+  .container {
     padding: var(--calcite-spacing-xl);
   }
 }
 :host(:not([embed])[href]:hover) {
-  .tile {
+  .container {
     box-shadow: 0 0 0 2px var(--calcite-tile-border-color-hover);
     cursor: pointer;
   }
 }
 :host(:not([embed])[href]:active) {
-  .tile {
+  .container {
     box-shadow: 0 0 0 3px var(--calcite-tile-border-color-active);
   }
 }

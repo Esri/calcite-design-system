@@ -1,6 +1,10 @@
 export const CSS = {
+  container: "container",
+  content: "content",
+  contentContainer: "content-container",
   contentSlotContainer: "content-slot-container",
-  tile: "tile",
+  description: "description",
+  heading: "heading",
 };
 
 export const SLOTS = {
