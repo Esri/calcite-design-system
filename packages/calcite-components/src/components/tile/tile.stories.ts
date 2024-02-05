@@ -1,6 +1,6 @@
 import { select, text } from "@storybook/addon-knobs";
 import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -522,3 +522,13 @@ export const disabled_TestOnly = (): string => html`
   >
   </calcite-tile>
 `;
+
+export const widthSetToBreakpoints_TestOnly = (): string =>
+  createBreakpointStories(
+    html` <calcite-tile
+      description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+      heading="Tile title lorem ipsum"
+      icon="layers"
+      scale="{scale}"
+    ></calcite-tile>`,
+  );
