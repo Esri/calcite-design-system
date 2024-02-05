@@ -15,6 +15,7 @@ import {
   newProgrammaticE2EPage,
   skipAnimations,
 } from "./utils";
+import { KeyInput } from "puppeteer";
 
 expect.extend(toHaveNoViolations);
 
@@ -689,6 +690,24 @@ interface FormAssociatedOptions {
    */
   expectedSubmitValue?: any;
 
+  /*
+   * Set this if the value required to emit an input/change event is different from `testValue`.
+   * The value is passed to `page.keyboard.type()`. For example, input-time-picker requires
+   * appending AM or PM before the value commits and calciteInputTimePickerChange emits.
+   *
+   * This option is only relevant when the `validation` option is enabled.
+   */
+  validUserInputTestValue?: any;
+
+  /*
+   * Set this if emitting an input/change event requires key presses. Each array item will be passed
+   * to `page.keyboard.press()`. For example, the combobox value can be changed by pressing "Space"
+   * to open the component and "Enter" to select a value.
+   *
+   * This option is only relevant when the `validation` option is enabled.
+   */
+  changeValueKeys?: KeyInput[];
+
   /**
    * Specifies the input type that will be used to capture the value.
    */
@@ -705,7 +724,7 @@ interface FormAssociatedOptions {
   clearable?: boolean;
 
   /**
-   * Specifies whether the component supports preventing submission and displaying validation messages
+   * Specifies whether the component supports preventing submission and displaying validation messages.
    */
   validation?: boolean;
 }
@@ -802,7 +821,7 @@ export function formAssociated(
     const content = html`
       <form>
         ${componentHtml}
-        <calcite-button type="submit">Submit</calcite-button>
+        <calcite-button id="submitButton" type="submit">Submit</calcite-button>
       </form>
     `;
 
@@ -810,7 +829,7 @@ export function formAssociated(
     await page.waitForChanges();
     const component = await page.find(tag);
 
-    const submitButton = await page.find("calcite-button");
+    const submitButton = await page.find("#submitButton");
     const spyEvent = await page.spyOnEvent(getClearValidationEventName(tag));
 
     await assertPreventsFormSubmission(page, component, submitButton, requiredValidationMessage);
@@ -1055,14 +1074,12 @@ export function formAssociated(
     await component.callMethod("setFocus");
     await page.waitForChanges();
 
-    if (tag === "calcite-combobox") {
-      await page.keyboard.press("Space");
-      await page.keyboard.press("Enter");
-    } else if (tag === "calcite-select") {
-      await page.keyboard.press("ArrowDown");
+    if (options?.changeValueKeys) {
+      for (const key of options?.changeValueKeys) {
+        await page.keyboard.press(key);
+      }
     } else {
-      // time picker needs to know whether it's AM or PM before it will commit the value
-      await page.keyboard.type(`${options.testValue}${tag === "calcite-input-time-picker" ? "PM" : ""}`);
+      await page.keyboard.type(options?.validUserInputTestValue || options.testValue);
       await page.keyboard.press("Tab");
     }
 

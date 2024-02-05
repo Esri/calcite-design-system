@@ -412,7 +412,7 @@ describe("calcite-select", () => {
           <calcite-option id="3">tres</calcite-option>
         </calcite-select>
       `,
-      { testValue: "dos", validation: true },
+      { testValue: "dos", validation: true, changeValueKeys: ["ArrowDown"] },
     );
   });
 });
