@@ -742,12 +742,12 @@ export function formAssociated(
   componentTagOrHtml: TagOrHTML | TagOrHTMLWithBeforeContent,
   options: FormAssociatedOptions,
 ): void {
-  const inputTypeContext = options.inputType ? ` (input type="${options.inputType}")` : "";
+  const inputTypeContext = options?.inputType ? ` (input type="${options.inputType}")` : "";
 
   it(`supports association via ancestry${inputTypeContext}`, () => testAncestorFormAssociated());
   it(`supports association via form ID${inputTypeContext}`, () => testIdFormAssociated());
 
-  if (options.validation && !["color", "month", "time"].includes(options.inputType)) {
+  if (options?.validation && !["color", "month", "time"].includes(options?.inputType)) {
     it(`supports required property validation${inputTypeContext}`, () => testRequiredPropertyValidation());
   }
 
@@ -1072,22 +1072,18 @@ export function formAssociated(
     event: EventSpy,
     tag: string,
   ) {
-    await component.callMethod("setFocus");
-    await page.waitForChanges();
-
     if (options?.changeValueKeys) {
-      for (const key of options?.changeValueKeys) {
+      for (const key of options.changeValueKeys) {
         await page.keyboard.press(key);
       }
     } else {
-      await page.keyboard.type(options?.validUserInputTestValue || options.testValue);
+      await page.keyboard.type(options?.validUserInputTestValue ?? options.testValue);
       await page.keyboard.press("Tab");
     }
 
     await page.waitForChanges();
 
-    // the components with Input events will emit multiple times, depending on
-    // the length of the test value
+    // components with an Input event will emit multiple times depending on the length of testValue
     if (componentsWithInputEvent.includes(tag)) {
       expect(event.length).toBeGreaterThanOrEqual(1);
     } else {
