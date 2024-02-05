@@ -292,7 +292,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         this.activeEndDate &&
         !this.hasSameMonthAndYear(this.activeStartDate, this.activeEndDate)
         ? prevMonth(this.activeEndDate)
-        : this.activeStartDate
+        : this.activeStartDate || prevMonth(this.activeEndDate)
       : activeDate;
 
     return (

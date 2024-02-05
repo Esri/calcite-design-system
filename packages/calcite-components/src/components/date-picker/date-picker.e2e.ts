@@ -182,11 +182,11 @@ describe("calcite-date-picker", () => {
     expect(changedEvent).toHaveReceivedEventTimes(0);
   });
 
-  async function selectDay(id: string, page: E2EPage, method: "mouse" | "keyboard", isRange = false): Promise<void> {
+  async function selectDay(id: string, page: E2EPage, method: "mouse" | "keyboard", range = false): Promise<void> {
     await page.$eval(
       "calcite-date-picker",
-      (datePicker: HTMLCalciteDatePickerElement, id: string, method: "mouse" | "keyboard", isRange: boolean) => {
-        const datePickerMonthEl = isRange ? "calcite-date-picker-month-range" : "calcite-date-picker-month";
+      (datePicker: HTMLCalciteDatePickerElement, id: string, method: "mouse" | "keyboard", range: boolean) => {
+        const datePickerMonthEl = range ? "calcite-date-picker-month-range" : "calcite-date-picker-month";
         const day = datePicker.shadowRoot
           .querySelector<HTMLCalciteDatePickerMonthElement>(datePickerMonthEl)
           .shadowRoot.getElementById(id);
@@ -199,7 +199,7 @@ describe("calcite-date-picker", () => {
       },
       id,
       method,
-      isRange
+      range
     );
     await page.waitForChanges();
   }
