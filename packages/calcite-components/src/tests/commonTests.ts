@@ -686,7 +686,8 @@ interface FormAssociatedOptions {
   testValue: any;
 
   /**
-   * Set this if the expected submit value **is different** from stringifying `testValue`. For example, a component may transform an object to a serializable string.
+   * Set this if the expected submit value **is different** from stringifying `testValue`.
+   * For example, a component may transform an object to a serializable string.
    */
   expectedSubmitValue?: any;
 
@@ -697,7 +698,7 @@ interface FormAssociatedOptions {
    *
    * This option is only relevant when the `validation` option is enabled.
    */
-  validUserInputTestValue?: any;
+  validUserInputTestValue?: string;
 
   /*
    * Set this if emitting an input/change event requires key presses. Each array item will be passed
@@ -724,7 +725,7 @@ interface FormAssociatedOptions {
   clearable?: boolean;
 
   /**
-   * Specifies whether the component supports preventing submission and displaying validation messages.
+   * Specifies if the component supports preventing submission and displaying validation messages.
    */
   validation?: boolean;
 }
@@ -741,13 +742,13 @@ export function formAssociated(
   componentTagOrHtml: TagOrHTML | TagOrHTMLWithBeforeContent,
   options: FormAssociatedOptions,
 ): void {
-  const inputTypeContext = options.inputType ? `(input type="${options.inputType}")` : "";
+  const inputTypeContext = options.inputType ? ` (input type="${options.inputType}")` : "";
 
-  it(`supports association via ancestry ${inputTypeContext}`, () => testAncestorFormAssociated());
-  it(`supports association via form ID ${inputTypeContext}`, () => testIdFormAssociated());
+  it(`supports association via ancestry${inputTypeContext}`, () => testAncestorFormAssociated());
+  it(`supports association via form ID${inputTypeContext}`, () => testIdFormAssociated());
 
   if (options.validation && !["color", "month", "time"].includes(options.inputType)) {
-    it(`supports required property validation ${inputTypeContext}`, () => testRequiredPropertyValidation());
+    it(`supports required property validation${inputTypeContext}`, () => testRequiredPropertyValidation());
   }
 
   async function testAncestorFormAssociated(): Promise<void> {
