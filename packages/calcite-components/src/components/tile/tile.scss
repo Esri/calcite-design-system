@@ -130,9 +130,7 @@
 :host([href]),
 :host([href]:hover) {
   --calcite-tile-heading-text-color: var(--calcite-color-text-link);
-
   .heading {
-    color: var(--calcite-tile-heading-text-color);
     text-decoration-line: underline;
   }
 }
@@ -174,13 +172,6 @@
 :host([active]) {
   --calcite-tile-description-text-color: var(--calcite-color-text-2);
   --calcite-tile-heading-text-color: var(--calcite-color-text-1);
-
-  .heading {
-    color: var(--calcite-tile-heading-text-color);
-  }
-  .description {
-    color: var(--calcite-tile-description-text-color);
-  }
 }
 
 @include base-component();
