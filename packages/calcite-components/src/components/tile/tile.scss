@@ -5,25 +5,15 @@
  *
  * @prop --calcite-tile-background-color: Specifies the background color of the component.
  * @prop --calcite-tile-border-color: Specifies the border color of the component.
- * @prop --calcite-tile-border-color-active: Specifies the border color of the component when in an active state.
- * @prop --calcite-tile-border-color-hover: Specifies the border color of the component when in a hover state.
  * @prop --calcite-tile-description-text-color: Specifies the description text color of the component.
- * @prop --calcite-tile-description-text-color-hover: Specifies the description text color of the component when in an active or hover state.
  * @prop --calcite-tile-heading-text-color: Specifies the heading text color of the component.
- * @prop --calcite-tile-heading-text-color-hover: Specifies the heading text color of the component when in an active or hover state.
- * @prop --calcite-tile-icon-color: Specifies the icon color of the component.
  */
 
 :host {
   --calcite-tile-background-color: var(--calcite-color-foreground-1);
   --calcite-tile-border-color: var(--calcite-color-border-2);
-  --calcite-tile-border-color-active: var(--calcite-color-brand);
-  --calcite-tile-border-color-hover: var(--calcite-color-brand);
   --calcite-tile-description-text-color: var(--calcite-color-text-3);
-  --calcite-tile-description-text-color-hover: var(--calcite-color-text-2);
   --calcite-tile-heading-text-color: var(--calcite-color-text-2);
-  --calcite-tile-heading-text-color-hover: var(--calcite-color-text-1);
-  --calcite-tile-icon-color: var(--calcite-color-text-3);
 
   box-sizing: border-box;
   display: inline-block;
@@ -134,15 +124,15 @@
 }
 
 :host(:not([href])) {
-  calcite-icon {
-    color: var(--calcite-tile-icon-color);
-  }
+  --calcite-ui-icon-color: var(--calcite-color-text-3);
 }
 
 :host([href]),
 :host([href]:hover) {
+  --calcite-tile-heading-text-color: var(--calcite-color-text-link);
+
   .heading {
-    color: var(--calcite-color-text-link);
+    color: var(--calcite-tile-heading-text-color);
     text-decoration-line: underline;
   }
 }
@@ -163,14 +153,18 @@
   }
 }
 :host(:not([embed])[href]:hover) {
+  --calcite-tile-border-color: var(--calcite-color-brand);
+
   .container {
-    box-shadow: 0 0 0 2px var(--calcite-tile-border-color-hover);
+    box-shadow: 0 0 0 2px var(--calcite-tile-border-color);
     cursor: pointer;
   }
 }
 :host(:not([embed])[href]:active) {
+  --calcite-tile-border-color: var(--calcite-color-brand);
+
   .container {
-    box-shadow: 0 0 0 3px var(--calcite-tile-border-color-active);
+    box-shadow: 0 0 0 3px var(--calcite-tile-border-color);
   }
 }
 
@@ -178,11 +172,14 @@
 
 :host(:hover),
 :host([active]) {
+  --calcite-tile-description-text-color: var(--calcite-color-text-2);
+  --calcite-tile-heading-text-color: var(--calcite-color-text-1);
+
   .heading {
-    color: var(--calcite-tile-heading-text-color-hover);
+    color: var(--calcite-tile-heading-text-color);
   }
   .description {
-    color: var(--calcite-tile-description-text-color-hover);
+    color: var(--calcite-tile-description-text-color);
   }
 }
 
