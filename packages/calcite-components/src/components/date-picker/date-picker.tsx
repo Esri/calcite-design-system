@@ -70,13 +70,13 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Watch("activeDate")
   activeDateWatcher(newValue: Date): void {
     //updates activeValue when user is typing in input.
-    if (this.range) {
-      if (Array.isArray(newValue)) {
+
+    if (this.range && Array.isArray(newValue)) {
+      if (newValue[0] || newValue[1]) {
         this.activeStartDate = newValue[0];
-        this.activeEndDate = newValue[1];
+        this.activeEndDate = newValue[1] || nextMonth(this.activeStartDate);
       } else {
-        this.activeStartDate = newValue;
-        this.activeEndDate = nextMonth(newValue);
+        this.resetActiveDates();
       }
     }
   }
@@ -720,6 +720,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   private hasSameMonthAndYear(startDate: Date, endDate: Date): boolean {
     if (!Array.isArray(this.valueAsDate) || !this.valueAsDate[1]) {
+      return false;
+    }
+    if (!startDate || !endDate) {
       return false;
     }
     const startYearMonth = startDate.getMonth();

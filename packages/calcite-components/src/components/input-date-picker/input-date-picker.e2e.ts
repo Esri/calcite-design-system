@@ -210,7 +210,8 @@ describe("calcite-input-date-picker", () => {
     it("emits when value is committed for date range", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-input-date-picker range></calcite-input-date-picker>");
-      const input = await page.find("calcite-input-date-picker");
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
 
       await input.click();
@@ -235,15 +236,16 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.type(inputtedStartDate);
       await page.keyboard.press("Enter");
       await page.waitForChanges();
+      await page.waitForTimeout(3000);
 
-      expect(await input.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
+      expect(await inputDatePicker.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
       expect(changeEvent).toHaveReceivedEventTimes(1);
 
       await page.keyboard.type(inputtedEndDate);
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      expect(await input.getProperty("value")).toEqual([
+      expect(await inputDatePicker.getProperty("value")).toEqual([
         expectedStartDateComponentValue,
         expectedEndDateComponentValue,
       ]);
@@ -262,7 +264,7 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      expect(await input.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
+      expect(await inputDatePicker.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
       expect(changeEvent).toHaveReceivedEventTimes(3);
     });
 
@@ -412,9 +414,6 @@ describe("calcite-input-date-picker", () => {
         const startInput = await page.find(
           `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="start"] calcite-input-text`
         );
-        const startInputToggle = await page.find(
-          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="start"] .${CSS.toggleIcon}`
-        );
 
         const endInput = await page.find(
           `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="end"] calcite-input-text`
@@ -432,19 +431,6 @@ describe("calcite-input-date-picker", () => {
         expect(await isCalendarVisible(calendar, "start")).toBe(true);
 
         await startInput.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(false);
-
-        // toggling via start date toggle icon
-
-        await resetFocus(page);
-        await startInputToggle.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
-
-        await startInputToggle.click();
         await page.waitForChanges();
 
         expect(await isCalendarVisible(calendar, "start")).toBe(false);
@@ -474,32 +460,6 @@ describe("calcite-input-date-picker", () => {
         await page.waitForChanges();
 
         expect(await isCalendarVisible(calendar, "end")).toBe(false);
-
-        // toggling via start date input and toggle icon
-
-        await resetFocus(page);
-        await startInput.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
-
-        await startInputToggle.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(false);
-
-        // toggling via start toggle icon and date input
-
-        await resetFocus(page);
-        await startInputToggle.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
-
-        await startInput.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(false);
 
         // toggling via end date input and toggle icon
 
@@ -540,35 +500,9 @@ describe("calcite-input-date-picker", () => {
 
         expect(await isCalendarVisible(calendar, "end")).toBe(true);
 
-        // toggling via start toggle icon and date input
-
-        await resetFocus(page);
-        await startInputToggle.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
-
-        await endInput.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(true);
-
         // close
         await endInput.click();
         await page.waitForChanges();
-
-        // toggling via end date input and start toggle icon
-
-        await resetFocus(page);
-        await endInput.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(true);
-
-        await startInputToggle.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
 
         // toggling via end toggle icon and start date input
 

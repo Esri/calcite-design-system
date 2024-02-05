@@ -983,7 +983,7 @@ export class InputDatePicker
   private shouldFocusRangeStart(): boolean {
     const startValue = this.value[0];
     const endValue = this.value[1];
-    return !!(endValue && !startValue && this.focusedInput === "start" && this.startInput);
+    return !!(endValue && !startValue && this.focusedInput === "end" && this.startInput);
   }
 
   //update these logics to allow focus restoration during editing
@@ -991,7 +991,7 @@ export class InputDatePicker
   private shouldFocusRangeEnd(): boolean {
     const startValue = this.value[0];
     const endValue = this.value[1];
-    return !!(startValue && !endValue && this.focusedInput === "end" && this.endInput);
+    return !!(startValue && !endValue && this.focusedInput === "start" && this.endInput);
   }
 
   private handleDateRangeChange = (event: CustomEvent<void>): void => {
