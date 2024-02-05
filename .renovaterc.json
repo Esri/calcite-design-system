@@ -10,8 +10,9 @@
   "platformCommit": true,
   "enabledManagers": ["npm"],
   "timezone": "America/Los_Angeles",
-  "schedule": ["before 5am on every weekday"],
+  "schedule": ["daily"],
   "labels": ["dependencies"],
+  "prConcurrentLimit": 0,
   "ignoreDeps": [
     "@types/jest",
     "@types/node",
