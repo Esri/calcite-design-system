@@ -152,7 +152,6 @@
 }
 :host(:not([embed])[href]:hover) {
   --calcite-tile-border-color: var(--calcite-color-brand);
-
   .container {
     box-shadow: 0 0 0 2px var(--calcite-tile-border-color);
     cursor: pointer;
@@ -160,7 +159,6 @@
 }
 :host(:not([embed])[href]:active) {
   --calcite-tile-border-color: var(--calcite-color-brand);
-
   .container {
     box-shadow: 0 0 0 3px var(--calcite-tile-border-color);
   }
