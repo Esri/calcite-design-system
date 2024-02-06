@@ -1680,6 +1680,7 @@ export class Combobox
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setReferenceEl}
           >
+            {this.renderIconStart()}
             <div
               class={{
                 "grid-input": true,
@@ -1688,7 +1689,6 @@ export class Combobox
               }}
               ref={this.setChipContainerEl}
             >
-              {this.renderIconStart()}
               {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
               {!singleSelectionMode &&
                 !allSelectionDisplay && [
