@@ -2,6 +2,8 @@ import type Color from "color";
 
 export type ColorMode = "rgb" | "hsv";
 
+export type SliderType = "colorField" | "hue" | "opacity";
+
 export type Channels = [number, number, number, number];
 
 // need to do this otherwise, stencil build doesn't pick up the type import
