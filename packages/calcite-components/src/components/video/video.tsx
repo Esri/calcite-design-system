@@ -308,7 +308,9 @@ export class CalciteVideo {
     return (
       <Host>
         <div
-          class={`container ${this.isFullscreen ? " container-fullscreen" : ""}`}
+          class={`container ${this.isFullscreen ? " container-fullscreen" : ""} ${
+            this.width ? " container-set-width" : ""
+          }`}
           dir={dir}
           onBlur={() => this.handleBlur()}
           onClick={() => this.handleClick()}

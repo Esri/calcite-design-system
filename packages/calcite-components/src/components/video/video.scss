@@ -10,6 +10,9 @@ calcite-video .container {
   max-inline-size: 100%;
   background-color: var(--calcite-color-foreground-1);
 
+  &.container-set-width {
+    display: inline-flex;
+  }
   & video {
     max-block-size: 100%;
     max-inline-size: 100%;
