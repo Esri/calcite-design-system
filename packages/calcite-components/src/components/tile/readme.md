@@ -39,17 +39,12 @@
 
 ## CSS Custom Properties
 
-| Name                                          | Description                                                                             |
-| --------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `--calcite-tile-background-color`             | Specifies the background color of the component.                                        |
-| `--calcite-tile-border-color`                 | Specifies the border color of the component.                                            |
-| `--calcite-tile-border-color-active`          | Specifies the border color of the component when in an active state.                    |
-| `--calcite-tile-border-color-hover`           | Specifies the border color of the component when in a hover state.                      |
-| `--calcite-tile-description-text-color`       | Specifies the description text color of the component.                                  |
-| `--calcite-tile-description-text-color-hover` | Specifies the description text color of the component when in an active or hover state. |
-| `--calcite-tile-heading-text-color`           | Specifies the heading text color of the component.                                      |
-| `--calcite-tile-heading-text-color-hover`     | Specifies the heading text color of the component when in an active or hover state.     |
-| `--calcite-tile-icon-color`                   | Specifies the icon color of the component.                                              |
+| Name                                    | Description                                            |
+| --------------------------------------- | ------------------------------------------------------ |
+| `--calcite-tile-background-color`       | Specifies the background color of the component.       |
+| `--calcite-tile-border-color`           | Specifies the border color of the component.           |
+| `--calcite-tile-description-text-color` | Specifies the description text color of the component. |
+| `--calcite-tile-heading-text-color`     | Specifies the heading text color of the component.     |
 
 ## Dependencies
 
