@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Перетащить маркер",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "Изменить порядок {itemLabel}, текущее положение {position} из {total}.",
   "dragHandleChange": "{itemLabel}, новое положение {position} из {total}. Нажмите пробел для подтверждения.",
   "dragHandleCommit": "{itemLabel}, текущее положение {position} из {total}.",

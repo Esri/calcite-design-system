@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Dra håndtak",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "Endrer rekkefølgen på {itemLabel}, gjeldende posisjon {position} av {total}.",
   "dragHandleChange": "{itemLabel}, ny posisjon {position} av {total}. Trykk på mellomromstasten for å bekrefte.",
   "dragHandleCommit": "{itemLabel}, gjeldende posisjon {position} av {total}.",

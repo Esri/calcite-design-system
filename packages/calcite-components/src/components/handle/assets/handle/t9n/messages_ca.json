@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Arrossega el controlador",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "S'està canviant l'ordre de {itemLabel}, posició actual {position} de {total}.",
   "dragHandleChange": "{itemLabel}, posició nova {position} de {total}. Premeu la tecla d'espai per confirmar-ho.",
   "dragHandleCommit": "{itemLabel}, posició actual {position} de {total}.",

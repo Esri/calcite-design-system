@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Trascina maniglia",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "Riordinare {itemLabel}, posizione attuale {position} di {total}.",
   "dragHandleChange": "{itemLabel}, nuova posizione {position} di {total}. Fare clic sul tasto spaziatore per confermare.",
   "dragHandleCommit": "{itemLabel}, posizione attuale {position} di {total}.",

@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Povleci ročico",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "Preurejanje {itemLabel}, trenutni položaj {position} od {total}.",
   "dragHandleChange": "{itemLabel}, nov položaj {position} od {total}. Za potrditev pritisnite presledek.",
   "dragHandleCommit": "{itemLabel}, trenutni položaj {position} od {total}.",

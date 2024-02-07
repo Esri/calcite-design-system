@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Ručica za vuču",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "Promjena redoslijeda {itemLabel}, trenutačni položaj {position} od {total}.",
   "dragHandleChange": "{itemLabel}, novi položaj {position} od {total}. Pritisnite razmaknicu za potvrdu.",
   "dragHandleCommit": "{itemLabel}, trenutačni položaj {position} od {total}.",

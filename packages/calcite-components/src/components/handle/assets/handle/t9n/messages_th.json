@@ -1,5 +1,6 @@
 {
-  "dragHandle": "ลากที่จับ",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "กำลังเรียงลำดับใหม่ {itemLabel}, ตำแหน่งปัจจุบัน {position} จาก {total}",
   "dragHandleChange": "{itemLabel}, ตำแหน่งใหม่ {position} จาก {total} กด Space เพื่อยืนยัน",
   "dragHandleCommit": "{itemLabel}, ตำแหน่งปัจจุบัน {position} จาก {total}",

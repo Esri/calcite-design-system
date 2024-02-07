@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Regulator prevlačenja",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "Promena redosleda {itemLabel}, trenutna pozicija {position} od {total}.",
   "dragHandleChange": "{itemLabel}, nova pozicija {position} od {total}. Pritisnite razmak da potvrdite.",
   "dragHandleCommit": "{itemLabel}, trenutna pozicija {position} od {total}.",

@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Lohistamispide",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "Üksuse {itemLabel} ümberjärjestamine, praegune asukoht {position}/{total}.",
   "dragHandleChange": "{itemLabel}, uus asukoht {position}/{total}. Kinnitamiseks vajutage tühikuklahvi.",
   "dragHandleCommit": "{itemLabel}, praegune asukoht {position}/{total}.",

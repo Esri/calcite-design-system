@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Seret handle",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "Mengurutkan ulang {itemLabel}, posisi terkini {position} dari {total}.",
   "dragHandleChange": "{itemLabel}, posisi baru {position} dari {total}. Tekan spasi untuk mengonfirmasi.",
   "dragHandleCommit": "{itemLabel}, posisi terkini {position} dari {total}.",

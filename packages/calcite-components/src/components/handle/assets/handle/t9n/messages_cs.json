@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Přetáhnout úchyt",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "Změna pořadí {itemLabel}, aktuální pozice {position} z {total}.",
   "dragHandleChange": "{itemLabel}, nová pozice {position} z {total}. Potvrďte stisknutím mezerníku.",
   "dragHandleCommit": "{itemLabel}, aktuální pozice {position} z {total}.",

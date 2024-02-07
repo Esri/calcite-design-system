@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Uchwyt przeciągania",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "Reorganizowanie {itemLabel}, bieżąca pozycja {position} z {total}.",
   "dragHandleChange": "{itemLabel}, nowa pozycja {position} z {total}. Naciśnij spację, aby potwierdzić.",
   "dragHandleCommit": "{itemLabel}, bieżąca pozycja {position} z {total}.",

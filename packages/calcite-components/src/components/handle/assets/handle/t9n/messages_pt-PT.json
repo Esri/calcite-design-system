@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Arrastar alça",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "A reordenar {itemLabel}, posição atual {position} de {total}.",
   "dragHandleChange": "{itemLabel}, nova posição {position} de {total}. Prima o espaço para continuar.",
   "dragHandleCommit": "{itemLabel}, posição atual {position} de {total}.",

@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Knop slepen",
+  "dragHandle": "Reposition: {itemLabel}",
+  "dragHandleUntitled": "Reposition",
   "dragHandleActive": "{itemLabel} opnieuw rangschikken, huidige positie {position} van {total}.",
   "dragHandleChange": "{itemLabel}, nieuwe positie {position} van {total}. Druk op de spatiebalk om te bevestigen.",
   "dragHandleCommit": "{itemLabel}, huidige positie {position} van {total}.",
