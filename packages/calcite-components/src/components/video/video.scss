@@ -8,13 +8,13 @@ calcite-video .container {
   position: relative;
   inline-size: auto;
   max-inline-size: 100%;
-  background-color: var(--calcite-ui-foreground-1);
+  background-color: var(--calcite-color-foreground-1);
 
   & video {
     max-block-size: 100%;
     max-inline-size: 100%;
     cursor: pointer;
-    border: 1px solid var(--calcite-ui-border-3);
+    border: 1px solid var(--calcite-color-border-3);
     border-block-end: 0;
   }
 
@@ -54,7 +54,7 @@ calcite-video[show-controls-on-hover] {
     inset-block-end: 0;
     opacity: 0;
     transition: all 0.15s ease-in-out;
-    background-color: var(--calcite-ui-foreground-1);
+    background-color: var(--calcite-color-foreground-1);
     box-sizing: border-box;
     z-index: 9;
   }
@@ -76,7 +76,7 @@ calcite-video[show-controls-on-hover] .container:hover {
   position: relative;
   box-sizing: border-box;
   block-size: 100%;
-  border: 1px solid var(--calcite-ui-border-3);
+  border: 1px solid var(--calcite-color-border-3);
   &.calcite-video-fullscreen {
     block-size: 100%;
     border-color: transparent;
@@ -91,7 +91,7 @@ calcite-video[show-controls-on-hover] .container:hover {
   display: flex;
   flex-direction: column;
   inline-size: 100%;
-  border: 1px solid var(--calcite-ui-border-3);
+  border: 1px solid var(--calcite-color-border-3);
   border-block-start: 0;
   box-sizing: border-box;
   & calcite-action:focus {
@@ -108,7 +108,7 @@ calcite-video[show-controls-on-hover] .container:hover {
   position: relative;
   padding-block: 0;
   padding-inline: 10px;
-  border-block-end: 1px solid var(--calcite-ui-border-3);
+  border-block-end: 1px solid var(--calcite-color-border-3);
 }
 
 // custom subtitles
@@ -146,14 +146,14 @@ calcite-slider.calcite-video-scrubber {
   display: flex;
   flex-direction: row;
   cursor: pointer;
-  border-inline-end: 1px solid var(--calcite-ui-border-3);
+  border-inline-end: 1px solid var(--calcite-color-border-3);
 
   &:hover,
   &:focus {
-    background-color: var(--calcite-ui-foreground-2);
+    background-color: var(--calcite-color-foreground-2);
   }
   &:active {
-    background-color: var(--calcite-ui-foreground-3);
+    background-color: var(--calcite-color-foreground-3);
   }
   & calcite-chip {
     display: inline-flex;
@@ -165,12 +165,12 @@ calcite-slider.calcite-video-scrubber {
 
 calcite-video .container[dir="rtl"] .calcite-video-control-item {
   border-inline-end: 0;
-  border-inline-start: 1px solid var(--calcite-ui-border-3);
+  border-inline-start: 1px solid var(--calcite-color-border-3);
 }
 
 .calcite-video-playback-rate-control-item {
   border-inline-end: 0;
-  border-inline-start: 1px solid var(--calcite-ui-border-3);
+  border-inline-start: 1px solid var(--calcite-color-border-3);
   order: 5;
   margin-inline-start: auto;
   & ~ .calcite-video-control-item {
@@ -179,7 +179,7 @@ calcite-video .container[dir="rtl"] .calcite-video-control-item {
 }
 .calcite-video-subtitle-control-item {
   border-inline-end: 0;
-  border-inline-start: 1px solid var(--calcite-ui-border-3);
+  border-inline-start: 1px solid var(--calcite-color-border-3);
   order: 4;
   &:nth-last-child(3) {
     margin-inline-start: auto;
@@ -194,7 +194,7 @@ calcite-video .container[dir="rtl"] .calcite-video-control-item {
 calcite-video .container[dir="rtl"] {
   & .calcite-video-subtitle-control-item {
     border-inline-start: 0;
-    border-inline-end: 1px solid var(--calcite-ui-border-3);
+    border-inline-end: 1px solid var(--calcite-color-border-3);
     &:nth-last-child(3) {
       margin-inline: 0 auto;
     }
@@ -207,14 +207,14 @@ calcite-video .container[dir="rtl"] {
 .calcite-video-fullscreen-control-item {
   margin-inline-start: auto;
   border-inline-end: 0;
-  border-inline-start: 1px solid var(--calcite-ui-border-3);
+  border-inline-start: 1px solid var(--calcite-color-border-3);
   order: 6;
 }
 
 calcite-video .container[dir="rtl"] .calcite-video-fullscreen-control-item {
   margin-inline: 0 auto;
   border-inline-start: 0;
-  border-inline-end: 1px solid var(--calcite-ui-border-3);
+  border-inline-end: 1px solid var(--calcite-color-border-3);
 }
 
 .calcite-video-volume-control-item {
@@ -227,7 +227,7 @@ calcite-video .container[dir="rtl"] .calcite-video-fullscreen-control-item {
   padding-block: 8px;
   padding-inline: 12px;
   order: 3;
-  color: var(--calcite-ui-text-1);
+  color: var(--calcite-color-text-1);
   & span:first-child {
     font-weight: 500;
   }
