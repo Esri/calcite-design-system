@@ -3,7 +3,6 @@ import { FunctionalComponent, h } from "@stencil/core";
 
 /**
  * Any form <Component> with a `calcite<Component>Input` event needs to be included in this array.
- * Exported for testing purposes.
  */
 export const componentsWithInputEvent = [
   "calcite-input",
@@ -11,6 +10,32 @@ export const componentsWithInputEvent = [
   "calcite-input-text",
   "calcite-text-area",
 ];
+
+/**
+ * Get the event name to listen for that, when emitted, will clear the
+ * validation message that displays after form submission. Only validation
+ * messages that are set by the browser will be cleared. If a user sets
+ * validationMessage to a custom value, they are responsible for clearing it.
+ *
+ * Exported for testing purposes.
+ *
+ * @param componentTag the tag of the component, e.g. "calcite-input"
+ * @returns the event name
+ */
+export function getClearValidationEventName(componentTag: string): string {
+  const componentTagCamelCase = componentTag
+    .split("-")
+    .map((part: string, index: number) =>
+      index === 0 ? part : `${part[0].toUpperCase()}${part.slice(1)}`,
+    )
+    .join("");
+
+  const clearValidationEvent = `${componentTagCamelCase}${
+    componentsWithInputEvent.includes(componentTag) ? "Input" : "Change"
+  }`;
+
+  return clearValidationEvent;
+}
 
 /**
  * Exported for testing purposes.
@@ -180,8 +205,12 @@ function setInvalidFormValidation(
   message: string,
 ): void {
   "status" in component && (component.status = "invalid");
-  "validationIcon" in component && (component.validationIcon = true);
-  "validationMessage" in component && (component.validationMessage = message);
+
+  "validationIcon" in component && !component.validationIcon && (component.validationIcon = true);
+
+  "validationMessage" in component &&
+    !component.validationMessage &&
+    (component.validationMessage = message);
 }
 
 function displayValidationMessage(event: Event) {
@@ -201,18 +230,13 @@ function displayValidationMessage(event: Event) {
   // prevent the browser from showing the native validation popover
   event?.preventDefault();
 
-  setInvalidFormValidation(formComponent, hiddenInput?.validationMessage || "");
+  setInvalidFormValidation(formComponent, hiddenInput?.validationMessage);
 
-  const componentTagCamelCase = componentTagParts
-    .map((part: string, index: number) =>
-      index === 0 ? part : `${part[0].toUpperCase()}${part.slice(1)}`,
-    )
-    .join("");
+  if (formComponent?.validationMessage !== hiddenInput?.validationMessage) {
+    return;
+  }
 
-  const clearValidationEvent = `${componentTagCamelCase}${
-    componentsWithInputEvent.includes(componentTag) ? "Input" : "Change"
-  }`;
-
+  const clearValidationEvent = getClearValidationEventName(componentTag);
   formComponent.addEventListener(clearValidationEvent, () => clearFormValidation(formComponent), {
     once: true,
   });

@@ -462,7 +462,7 @@ describe("calcite-input-text", () => {
   });
 
   describe("is form-associated", () => {
-    formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true });
+    formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true, validation: true });
 
     testPostValidationFocusing("calcite-input-text");
   });

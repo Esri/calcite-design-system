@@ -99,6 +99,7 @@ describe("calcite-text-area", () => {
       testValue: "zion national park",
       expectedSubmitValue: "zion national park",
       submitsOnEnter: false,
+      validation: true,
     });
   });
 

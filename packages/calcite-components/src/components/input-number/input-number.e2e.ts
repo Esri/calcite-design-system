@@ -1746,9 +1746,10 @@ describe("calcite-input-number", () => {
 
   describe("is form-associated", () => {
     formAssociated("calcite-input-number", {
-      testValue: 5,
+      testValue: "5",
       submitsOnEnter: true,
       inputType: "number",
+      validation: true,
     });
 
     testPostValidationFocusing("calcite-input-number");
