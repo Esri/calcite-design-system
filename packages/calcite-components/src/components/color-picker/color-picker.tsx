@@ -1111,6 +1111,7 @@ export class ColorPicker
       },
     } = this;
     const hue = (HUE_LIMIT_CONSTRAINED / width) * x;
+
     this.internalColorSet(this.baseColorFieldColor.hue(hue), false);
   }
 
@@ -1121,6 +1122,7 @@ export class ColorPicker
       },
     } = this;
     const alpha = opacityToAlpha((OPACITY_LIMITS.max / width) * x);
+
     this.internalColorSet(this.baseColorFieldColor.alpha(alpha), false);
   }
 
