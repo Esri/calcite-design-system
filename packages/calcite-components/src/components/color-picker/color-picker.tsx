@@ -13,16 +13,7 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import {
-  Channels,
-  ColorMode,
-  ColorValue,
-  HSLA,
-  HSVA,
-  InternalColor,
-  RGBA,
-  SliderType,
-} from "./interfaces";
+import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
 import { throttle } from "lodash-es";
 import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { Scale } from "../interfaces";
@@ -1385,14 +1376,13 @@ export class ColorPicker
 
     const x = hsvColor.saturationv() / (HSV_LIMITS.s / width);
     const y = height - hsvColor.value() / (HSV_LIMITS.v / height);
-    const sliderType = "colorField";
 
     requestAnimationFrame(() => {
       this.colorFieldScopeLeft = x;
       this.colorFieldScopeTop = y;
     });
 
-    this.drawThumb(this.colorFieldRenderingContext, radius, x, y, hsvColor, sliderType);
+    this.drawThumb(this.colorFieldRenderingContext, radius, x, y, hsvColor, false);
   }
 
   private drawThumb(
@@ -1401,7 +1391,7 @@ export class ColorPicker
     x: number,
     y: number,
     color: Color,
-    sliderType: SliderType,
+    applyAlpha: boolean,
   ): void {
     const startAngle = 0;
     const endAngle = 2 * Math.PI;
@@ -1418,16 +1408,18 @@ export class ColorPicker
 
     const pattern = context.createPattern(this.getCheckeredBackgroundPattern(), "repeat");
 
-    context.beginPath();
-    context.arc(x, y, radius - 3, startAngle, endAngle);
-    context.fillStyle = pattern;
-    context.fill();
+    if (color.alpha() < 1) {
+      context.beginPath();
+      context.arc(x, y, radius - 3, startAngle, endAngle);
+      context.fillStyle = pattern;
+      context.fill();
+    }
 
     context.globalCompositeOperation = "source-atop";
 
     context.beginPath();
     context.arc(x, y, radius - 3, startAngle, endAngle);
-    sliderType === "opacity"
+    applyAlpha
       ? (context.fillStyle = color.rgb().alpha(color.alpha()).string())
       : (context.fillStyle = color.rgb().alpha(1).string());
     context.fill();
@@ -1454,13 +1446,12 @@ export class ColorPicker
     const x = hsvColor.hue() / (HUE_LIMIT_CONSTRAINED / width);
     const y = radius;
     const sliderBoundX = this.getSliderBoundX(x, width, radius);
-    const sliderType = "hue";
 
     requestAnimationFrame(() => {
       this.hueScopeLeft = sliderBoundX;
     });
 
-    this.drawThumb(this.hueSliderRenderingContext, radius, sliderBoundX, y, hsvColor, sliderType);
+    this.drawThumb(this.hueSliderRenderingContext, radius, sliderBoundX, y, hsvColor, false);
   }
 
   private drawHueSlider(): void {
@@ -1610,20 +1601,12 @@ export class ColorPicker
     const x = alphaToOpacity(hsvColor.alpha()) / (OPACITY_LIMITS.max / width);
     const y = radius;
     const sliderBoundX = this.getSliderBoundX(x, width, radius);
-    const sliderType = "opacity";
 
     requestAnimationFrame(() => {
       this.opacityScopeLeft = sliderBoundX;
     });
 
-    this.drawThumb(
-      this.opacitySliderRenderingContext,
-      radius,
-      sliderBoundX,
-      y,
-      hsvColor,
-      sliderType,
-    );
+    this.drawThumb(this.opacitySliderRenderingContext, radius, sliderBoundX, y, hsvColor, true);
   }
 
   private getSliderBoundX(x: number, width: number, radius: number): number {
