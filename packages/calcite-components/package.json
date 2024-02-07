@@ -69,7 +69,6 @@
     "composed-offset-position": "0.0.4",
     "dayjs": "1.11.10",
     "focus-trap": "7.5.4",
-    "form-request-submit-polyfill": "2.0.0",
     "lodash-es": "4.17.21",
     "sortablejs": "1.15.1",
     "timezone-groups": "0.8.0"
