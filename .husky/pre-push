@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # from https://riptutorial.com/git/example/16164/pre-push
 
 protected_branch="main"
