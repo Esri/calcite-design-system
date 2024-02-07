@@ -94,6 +94,9 @@ calcite-video[show-controls-on-hover] .container:hover {
   border: 1px solid var(--calcite-ui-border-3);
   border-block-start: 0;
   box-sizing: border-box;
+  & calcite-action:focus {
+    z-index: 1;
+  }
 }
 
 .calcite-video-controls {
