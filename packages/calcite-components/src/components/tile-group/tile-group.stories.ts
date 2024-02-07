@@ -7,7 +7,7 @@ export default {
   title: "Components/Tiles/Tile Group",
   parameters: {
     notes: readme,
-    chromatic: { delay: 2000 },
+    chromatic: { delay: 10000 },
   },
   ...storyFilters(),
 };
