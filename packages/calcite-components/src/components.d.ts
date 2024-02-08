@@ -6101,7 +6101,10 @@ declare global {
         "calciteInternalDatePickerHover": Date;
         "calciteInternalDatePickerActiveDateChange": Date;
         "calciteInternalDatePickerMouseOut": void;
-        "calciteInternalDatePickerMonthChange": {date: Date, position : string};
+        "calciteInternalDatePickerMonthChange": {
+    date: Date;
+    position: string;
+  };
     }
     interface HTMLCalciteDatePickerMonthElement extends Components.CalciteDatePickerMonth, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthElement, ev: CalciteDatePickerMonthCustomEvent<HTMLCalciteDatePickerMonthElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8855,7 +8858,10 @@ declare namespace LocalJSX {
         /**
           * Emits when user updates month or year using `calcite-date-picker-month-header` component.
          */
-        "onCalciteInternalDatePickerMonthChange"?: (event: CalciteDatePickerMonthCustomEvent<{date: Date, position : string}>) => void;
+        "onCalciteInternalDatePickerMonthChange"?: (event: CalciteDatePickerMonthCustomEvent<{
+    date: Date;
+    position: string;
+  }>) => void;
         "onCalciteInternalDatePickerMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
         /**
           * Fires when user selects the date.

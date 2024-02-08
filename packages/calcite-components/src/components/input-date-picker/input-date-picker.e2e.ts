@@ -83,6 +83,7 @@ describe("calcite-input-date-picker", () => {
             document
               .querySelector("calcite-input-date-picker")
               .shadowRoot.querySelector("calcite-date-picker")
+              .shadowRoot.querySelector("calcite-date-picker-month")
               .shadowRoot.querySelector("calcite-date-picker-month-header")
               .shadowRoot.querySelectorAll<HTMLAnchorElement>(`.${MONTH_HEADER_CSS.chevron}`)
               [linkIndex].click(),
@@ -94,6 +95,7 @@ describe("calcite-input-date-picker", () => {
             document
               .querySelector("calcite-input-date-picker")
               .shadowRoot.querySelector("calcite-date-picker")
+              .shadowRoot.querySelector("calcite-date-picker-month")
               .shadowRoot.querySelectorAll("calcite-date-picker-month-header")
               [linkIndex].shadowRoot.querySelector<HTMLAnchorElement>(`.${MONTH_HEADER_CSS.chevron}`)
               .click(),
@@ -107,8 +109,8 @@ describe("calcite-input-date-picker", () => {
     const dayIndex = day - 1;
 
     await page.evaluate(
-      async (dayIndex: number, range: boolean) => {
-        const datePickerMonthEl = range ? "calcite-date-picker-month-range" : "calcite-date-picker-month";
+      async (dayIndex: number) => {
+        const datePickerMonthEl = "calcite-date-picker-month";
         document
           .querySelector<HTMLCalciteInputDatePickerElement>("calcite-input-date-picker")
           .shadowRoot.querySelector<HTMLCalciteDatePickerElement>("calcite-date-picker")
@@ -128,6 +130,7 @@ describe("calcite-input-date-picker", () => {
         document
           .querySelector("calcite-input-date-picker")
           .shadowRoot.querySelector("calcite-date-picker")
+          .shadowRoot.querySelector("calcite-date-picker-month")
           .shadowRoot.querySelector("calcite-date-picker-month-header")
           .shadowRoot.querySelector("calcite-select")
           .querySelector("calcite-option[selected]").textContent
