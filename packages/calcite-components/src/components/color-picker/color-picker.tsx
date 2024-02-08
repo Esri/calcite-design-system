@@ -1408,7 +1408,7 @@ export class ColorPicker
 
     const pattern = context.createPattern(this.getCheckeredBackgroundPattern(), "repeat");
 
-    if (color.alpha() < 1) {
+    if (color.alpha() < 1 && applyAlpha) {
       context.beginPath();
       context.arc(x, y, radius - 3, startAngle, endAngle);
       context.fillStyle = pattern;
@@ -1419,9 +1419,8 @@ export class ColorPicker
 
     context.beginPath();
     context.arc(x, y, radius - 3, startAngle, endAngle);
-    applyAlpha
-      ? (context.fillStyle = color.rgb().alpha(color.alpha()).string())
-      : (context.fillStyle = color.rgb().alpha(1).string());
+    const alpha = applyAlpha ? color.alpha() : 1;
+    context.fillStyle = color.rgb().alpha(alpha).string();
     context.fill();
 
     context.globalCompositeOperation = "source-over";
