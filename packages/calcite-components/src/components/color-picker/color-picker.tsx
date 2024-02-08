@@ -1406,9 +1406,8 @@ export class ColorPicker
     context.lineWidth = outlineWidth;
     context.stroke();
 
-    const pattern = context.createPattern(this.getCheckeredBackgroundPattern(), "repeat");
-
-    if (color.alpha() < 1 && applyAlpha) {
+    if (applyAlpha && color.alpha() < 1) {
+      const pattern = context.createPattern(this.getCheckeredBackgroundPattern(), "repeat");
       context.beginPath();
       context.arc(x, y, radius - 3, startAngle, endAngle);
       context.fillStyle = pattern;
