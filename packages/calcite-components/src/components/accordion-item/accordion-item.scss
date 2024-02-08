@@ -27,7 +27,10 @@
     no-underline;
 
   // Component Tokens
-  --calcite-accordion-item-background-color: var(--calcite-accordion-background, var(--calcite-color-foreground-1));
+  --calcite-accordion-item-background-color: var(
+    --calcite-accordion-background-color,
+    var(--calcite-color-foreground-1)
+  );
   --calcite-accordion-item-border-color: var(--calcite-accordion-border-color, var(--calcite-color-border-2));
   --calcite-accordion-item-heading-text-color: var(--calcite-accordion-header-text-color, var(--calcite-color-text-2));
   --calcite-accordion-item-heading-background-color: var(

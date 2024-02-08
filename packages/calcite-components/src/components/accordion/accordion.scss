@@ -3,7 +3,7 @@
  *
  * @prop --calcite-accordion-space: defines space around and between accordion item elements. Other spacing is calculated at a +4.
  * @prop --calcite-accordion-border-color: The border around an accordion and accordion items.
- * @prop --calcite-accordion-background: The background color of the accordion and accordion items.
+ * @prop --calcite-accordion-background-color: The background color of the accordion and accordion items.
  */
 
 /*
@@ -51,7 +51,7 @@
 
 .accordion--transparent {
   --calcite-accordion-border-color: var(--calcite-color-transparent);
-  --calcite-accordion-background: var(--calcite-color-transparent);
+  --calcite-accordion-background-color: var(--calcite-color-transparent);
 }
 
 .accordion {
