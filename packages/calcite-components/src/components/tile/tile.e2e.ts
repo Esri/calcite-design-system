@@ -11,7 +11,7 @@ describe("calcite-tile", () => {
     hidden("calcite-tile");
   });
 
-  describe("accessible", () => {
+  describe("accessible.", () => {
     accessible(`<calcite-tile></calcite-tile>`);
   });
 
@@ -22,6 +22,8 @@ describe("calcite-tile", () => {
       { propertyName: "embed", defaultValue: false },
       { propertyName: "focused", defaultValue: false },
       { propertyName: "hidden", defaultValue: false },
+      { propertyName: "iconFlipRtl", defaultValue: false },
+      { propertyName: "scale", defaultValue: "m" },
     ]);
   });
 
@@ -32,12 +34,15 @@ describe("calcite-tile", () => {
   describe("reflects", () => {
     reflects("calcite-tile", [
       { propertyName: "active", value: true },
-      { propertyName: "alignment", value: true },
+      { propertyName: "alignment", value: "center" },
+      { propertyName: "description", value: "My test description" },
       { propertyName: "disabled", value: true },
       { propertyName: "embed", value: true },
       { propertyName: "focused", value: true },
+      { propertyName: "heading", value: "My test heading" },
       { propertyName: "href", value: "http://www.esri.com" },
       { propertyName: "icon", value: "layers" },
+      { propertyName: "scale", value: "s" },
     ]);
   });
 
