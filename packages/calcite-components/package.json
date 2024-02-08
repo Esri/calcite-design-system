@@ -81,6 +81,7 @@
     "@stencil/angular-output-target": "0.8.4",
     "@stencil/react-output-target": "0.5.3",
     "@stencil/sass": "3.0.9",
+    "cheerio": "1.0.0-rc.10",
     "jsdom": "22.1.0"
   },
   "license": "SEE LICENSE.md",
