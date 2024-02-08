@@ -1,7 +1,7 @@
 /**
  * CSS Custom Properties
  *
- * @prop --calcite-accordion-space: defines space around and between accordion item elements. Other spacing is calculated at a +4.
+ * @prop --calcite-accordion-space: defines space around and between accordion item elements. Other spacing is calculated from --calcite-size-xxs.
  * @prop --calcite-accordion-border-color: The border around an accordion and accordion items.
  * @prop --calcite-accordion-background-color: The background color of the accordion and accordion items.
  */
@@ -23,8 +23,9 @@
 
   --calcite-accordion-space: unset;
 
-  --calcite-internal-accordion-icon-margin: calc(var(--calcite-accordion-space) + 4px);
-  --calcite-internal-accordion-padding: var(--calcite-accordion-space) calc(var(--calcite-accordion-space) + 4px);
+  --calcite-internal-accordion-icon-margin: calc(var(--calcite-accordion-space) + var(--calcite-size-xxs));
+  --calcite-internal-accordion-padding: var(--calcite-accordion-space)
+    calc(var(--calcite-accordion-space) + var(--calcite-size-xxs));
 
   font-size: var(--calcite-internal-accordion-font-size);
   line-height: var(--calcite-internal-accordion-line-height, var(--calcite-font-size-xxl));
