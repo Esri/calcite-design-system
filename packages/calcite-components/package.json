@@ -42,7 +42,7 @@
     "util:build-docs": "npm run util:prep-build-reqs && stencil build --docs --config stencil.storybook.config.ts && npm run lint:md",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-assets": "npm run util:copy-icons",
-    "util:copy-icons": "cpy \"../../node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
+    "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:generate-t9n-docs-json": "tsx support/generateT9nDocsJSON.ts",
     "util:generate-t9n-types": "tsx support/generateT9nTypes.ts",
     "util:hydration-styles": "tsx support/hydrationStyles.ts",
@@ -74,7 +74,7 @@
   },
   "devDependencies": {
     "@esri/calcite-design-tokens": "^2.1.2-next.0",
-    "@esri/calcite-ui-icons": "3.25.6",
+    "@esri/calcite-ui-icons": "3.26.2",
     "@esri/eslint-plugin-calcite-components": "^1.1.1-next.0",
     "@stencil-community/eslint-plugin": "0.7.1",
     "@stencil-community/postcss": "2.2.0",
