@@ -593,7 +593,12 @@ describe("calcite-input-time-picker", () => {
   });
 
   describe("is form-associated", () => {
-    formAssociated("calcite-input-time-picker", { testValue: "03:23", submitsOnEnter: true });
+    formAssociated("calcite-input-time-picker", {
+      testValue: "03:23",
+      submitsOnEnter: true,
+      validation: true,
+      validUserInputTestValue: "03:23 AM",
+    });
   });
 
   it("updates value appropriately as step changes", async () => {
