@@ -3,8 +3,17 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-checkbox-size: Specifies the component's height and width.
+ * @prop --calcite-checkbox-size: defines the checkbox's size vertically and horizontally.
+ * @prop --calcite-checkbox-background-color: defines the background color of the checkbox.
+ * @prop --calcite-checkbox-box-shadow: defines the box shadow of the checkbox.
+ * @prop --calcite-checkbox-icon-color: defines the icon color of the checkbox.
  */
+
+:host {
+  --calcite-checkbox-background-color: var(--calcite-color-foreground-1);
+  --calcite-checkbox-box-shadow: inset 0 0 0 1px var(--calcite-color-border-input);
+  --calcite-checkbox-icon-color: var(--calcite-color-background);
+}
 
 :host([scale="s"]) {
   --calcite-checkbox-size: theme("spacing.3");
@@ -30,8 +39,7 @@
   }
 
   .check-svg {
-    @apply bg-foreground-1
-      pointer-events-none
+    @apply pointer-events-none
       box-border
       block
       overflow-hidden
@@ -39,15 +47,15 @@
       stroke-current
       stroke-1
       transition-default;
-    box-shadow: inset 0 0 0 1px var(--calcite-color-border-input);
-    color: theme("backgroundColor.background");
+    background-color: var(--calcite-checkbox-background-color);
+    box-shadow: var(--calcite-checkbox-box-shadow);
+    color: var(--calcite-checkbox-icon-color);
   }
 }
 
 :host([status="invalid"]:not([checked])) {
-  .check-svg {
-    box-shadow: inset 0 0 0 1px var(--calcite-color-status-danger);
-  }
+  --calcite-checkbox-box-shadow: inset 0 0 0 1px var(--calcite-color-status-danger);
+
   .toggle:focus {
     @apply focus-outset-danger;
   }
@@ -55,16 +63,12 @@
 
 :host([checked]),
 :host([indeterminate]) {
-  .check-svg {
-    @apply bg-brand;
-    box-shadow: inset 0 0 0 1px var(--calcite-color-brand);
-  }
+  --calcite-checkbox-box-shadow: inset 0 0 0 1px var(--calcite-color-brand);
+  --calcite-checkbox-background-color: var(--calcite-color-brand);
 }
 :host([hovered]) .toggle,
 :host .toggle:hover {
-  .check-svg {
-    box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
-  }
+  --calcite-checkbox-box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
 }
 
 .toggle {
