@@ -17,6 +17,7 @@ describe("calcite-tile", () => {
 
   describe("defaults", () => {
     defaults("calcite-tile", [
+      { propertyName: "alignment", defaultValue: "start" },
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "embed", defaultValue: false },
       { propertyName: "focused", defaultValue: false },
@@ -31,6 +32,7 @@ describe("calcite-tile", () => {
   describe("reflects", () => {
     reflects("calcite-tile", [
       { propertyName: "active", value: true },
+      { propertyName: "alignment", value: true },
       { propertyName: "disabled", value: true },
       { propertyName: "embed", value: true },
       { propertyName: "focused", value: true },
