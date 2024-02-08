@@ -86,12 +86,6 @@ export class Tile implements InteractiveComponent {
 
   @Element() el: HTMLCalciteTileElement;
 
-  // --------------------------------------------------------------------------
-  //
-  //  State
-  //
-  // --------------------------------------------------------------------------
-
   @State() hasContentStart = false;
 
   @State() hasContentEnd = false;
@@ -139,7 +133,7 @@ export class Tile implements InteractiveComponent {
     const isLargeVisual = heading && icon && !description;
 
     return (
-      <div class={{ [CSS.container]: true, "large-visual": isLargeVisual }}>
+      <div class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual }}>
         {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
         <div class={CSS.contentContainer}>
           <div class={{ [CSS.contentSlotContainer]: hasContentStart }}>

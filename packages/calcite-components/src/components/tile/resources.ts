@@ -5,6 +5,7 @@ export const CSS = {
   contentSlotContainer: "content-slot-container",
   description: "description",
   heading: "heading",
+  largeVisual: "large-visual",
 };
 
 export const SLOTS = {
