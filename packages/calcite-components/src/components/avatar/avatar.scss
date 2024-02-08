@@ -1,17 +1,47 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-avatar-border-radius: defines the border radius of the avatar component.
+ * @prop --calcite-avatar-text-color: defines the text color of the avatar component.
+ *
+ */
+
+/* Internal
+ *
+ * --calcite-internal-avatar-inline-size: defines the horizontal size of an avatar component.
+ * --calcite-internal-avatar-block-size: defines the vertical size of an avatar component.
+ * --calcite-internal-font-size: defines the font size of the avatar component.
+ */
+
 :host {
-  @apply rounded-half inline-block overflow-hidden;
+  --calcite-avatar-border-radius: 50%;
+  --calcite-avatar-text-color: var(--calcite-color-text-2);
+
+  @apply inline-block overflow-hidden;
+  border-radius: var(--calcite-avatar-border-radius);
+  block-size: var(--calcite-internal-avatar-block-size);
+  inline-size: var(--calcite-internal-avatar-inline-size);
+  font-size: var(--calcite-internal-font-size);
 }
 
 :host([scale="s"]) {
-  @apply text-n3 h-6 w-6;
+  --calcite-internal-font-size: var(--calcite-font-size--3);
+  --calcite-internal-avatar-block-size: 1.5rem /* 24px */;
+  --calcite-internal-avatar-inline-size: 1.5rem /* 24px */;
 }
 
 :host([scale="m"]) {
-  @apply text-n2 h-8 w-8;
+  --calcite-internal-font-size: var(--calcite-font-size--2);
+  --calcite-internal-avatar-block-size: 2rem /* 32px */;
+  --calcite-internal-avatar-inline-size: 2rem /* 32px */;
 }
 
 :host([scale="l"]) {
-  @apply text-0 h-11 w-11;
+  --calcite-internal-font-size: var(--calcite-font-size-0);
+  --calcite-internal-avatar-block-size: 2.75rem /* 44px */;
+  --calcite-internal-avatar-inline-size: 2.75rem /* 44px */;
 }
 
 .icon {
@@ -19,15 +49,22 @@
 }
 
 .background {
-  @apply rounded-half flex h-full w-full items-center justify-center;
+  @apply flex items-center justify-center;
+  border-radius: var(--calcite-avatar-border-radius);
+  block-size: var(--calcite-container-size-content-fluid);
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 .initials {
-  @apply text-color-2 font-bold uppercase;
+  @apply uppercase;
+  color: var(--calcite-avatar-text-color);
+  font-weight: var(--calcite-font-weight-bold);
 }
 
 .thumbnail {
-  @apply rounded-half h-full w-full;
+  border-radius: var(--calcite-avatar-border-radius);
+  block-size: var(--calcite-container-size-content-fluid);
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 @include base-component();
