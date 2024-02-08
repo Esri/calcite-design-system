@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-focused-tests */
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";

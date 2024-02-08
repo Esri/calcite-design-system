@@ -69,9 +69,8 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("activeDate")
   activeDateWatcher(newValue: Date): void {
-    //updates activeValue when user is typing in input.
-
-    if (this.range && Array.isArray(newValue)) {
+    //updates activeValue when user is typing in input and avoid updating activeDates when value is set programmatically
+    if (this.range && Array.isArray(newValue) && !this.mostRecentRangeValue) {
       if (newValue[0] || newValue[1]) {
         this.activeStartDate = newValue[0];
         this.activeEndDate = newValue[1] || nextMonth(this.activeStartDate);
@@ -90,7 +89,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   handleActiveRangeChange(newValue: "start" | "end"): void {
     if (newValue) {
       //to reset activeDates when user switches between the input while navigating between months. This wont preserve the state of the calendar while user switch between input.
-      this.resetActiveDates();
+      //this.resetActiveDates();
     }
   }
 
@@ -378,13 +377,14 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     this.dateTimeFormat = getDateTimeFormat(this.effectiveLocale, DATE_PICKER_FORMAT_OPTIONS);
   }
 
-  monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
-    const date = new Date(event.detail);
-    const target = event.target as HTMLCalciteDatePickerMonthHeaderElement;
+  monthHeaderSelectChange = (event: CustomEvent<{ date: Date; position: string }>): void => {
+    const date = new Date(event.detail.date);
+    const position = event.detail.position;
+
     if (!this.range) {
       this.activeDate = date;
     } else {
-      if (target.position === "end") {
+      if (position === "end") {
         this.activeEndDate = date;
         this.activeStartDate = prevMonth(date);
       } else {
@@ -503,70 +503,26 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     return (
       this.localeData && (
         <div class="range-calendar">
-          <div class="month-header">
-            <calcite-date-picker-month-header
-              activeDate={activeDate}
-              headingLevel={this.headingLevel || HEADING_LEVEL}
-              localeData={this.localeData}
-              max={maxDate}
-              messages={this.messages}
-              min={minDate}
-              onCalciteInternalDatePickerSelect={this.monthHeaderSelectChange}
-              position={this.range ? "start" : null}
-              scale={this.scale}
-              selectedDate={this.activeRange === "end" ? endDate : date || new Date()}
-            />
-            {this.range && (
-              <calcite-date-picker-month-header
-                activeDate={nextMonth(activeDate)}
-                headingLevel={this.headingLevel || HEADING_LEVEL}
-                localeData={this.localeData}
-                max={maxDate}
-                messages={this.messages}
-                min={minDate}
-                onCalciteInternalDatePickerSelect={this.monthHeaderSelectChange}
-                position={"end"}
-                scale={this.scale}
-                selectedDate={endDate}
-              />
-            )}
-          </div>
-          {this.range ? (
-            <calcite-date-picker-month-range
-              activeDate={activeDate}
-              dateTimeFormat={this.dateTimeFormat}
-              endDate={this.range ? endDate : undefined}
-              hoverRange={this.hoverRange}
-              localeData={this.localeData}
-              max={this.maxAsDate}
-              messages={this.messages}
-              min={minDate}
-              onCalciteInternalDatePickerActiveDateChange={this.monthActiveDateChange}
-              onCalciteInternalDatePickerHover={this.monthHoverChange}
-              onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
-              onCalciteInternalDatePickerSelect={this.monthDateChange}
-              scale={this.scale}
-              selectedDate={this.activeRange === "end" ? endDate || date : date}
-              startDate={this.range ? date : undefined}
-            />
-          ) : (
-            <calcite-date-picker-month
-              activeDate={activeDate}
-              dateTimeFormat={this.dateTimeFormat}
-              endDate={this.range ? endDate : undefined}
-              hoverRange={this.hoverRange}
-              localeData={this.localeData}
-              max={maxDate}
-              min={minDate}
-              onCalciteInternalDatePickerActiveDateChange={this.monthActiveDateChange}
-              onCalciteInternalDatePickerHover={this.monthHoverChange}
-              onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
-              onCalciteInternalDatePickerSelect={this.monthDateChange}
-              scale={this.scale}
-              selectedDate={this.activeRange === "end" ? endDate || date : date}
-              startDate={this.range ? date : undefined}
-            />
-          )}
+          <calcite-date-picker-month
+            activeDate={activeDate}
+            dateTimeFormat={this.dateTimeFormat}
+            endDate={this.range ? endDate : undefined}
+            headingLevel={this.headingLevel || HEADING_LEVEL}
+            hoverRange={this.hoverRange}
+            localeData={this.localeData}
+            max={maxDate}
+            messages={this.messages}
+            min={minDate}
+            onCalciteInternalDatePickerActiveDateChange={this.monthActiveDateChange}
+            onCalciteInternalDatePickerHover={this.monthHoverChange}
+            onCalciteInternalDatePickerMonthChange={this.monthHeaderSelectChange}
+            onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
+            onCalciteInternalDatePickerSelect={this.monthDateChange}
+            range={this.range}
+            scale={this.scale}
+            selectedDate={this.activeRange === "end" ? endDate || date : date}
+            startDate={this.range ? date : undefined}
+          />
         </div>
       )
     );
@@ -594,9 +550,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   private setEndDate(date: Date): void {
     const startDate = this.getStartDate();
     const newEndDate = date ? setEndOfDay(date) : date;
+    this.mostRecentRangeValue = newEndDate;
     this.value = [dateToISO(startDate), dateToISO(date)];
     this.valueAsDate = [startDate, date];
-    this.mostRecentRangeValue = newEndDate;
     this.calciteDatePickerRangeChange.emit();
   }
 
@@ -606,9 +562,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   private setStartDate(date: Date): void {
     const endDate = this.getEndDate();
+    this.mostRecentRangeValue = date;
     this.value = [dateToISO(date), dateToISO(endDate)];
     this.valueAsDate = [date, endDate];
-    this.mostRecentRangeValue = date;
     this.calciteDatePickerRangeChange.emit();
   }
 
@@ -652,7 +608,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           if (this.activeRange == "end") {
             this.setEndDate(date);
           } else {
-            //debugger;
             //allows start end to go beyond end date and set the end date to empty while editing
             if (date > end) {
               this.setEndDate(null);

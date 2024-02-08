@@ -52,3 +52,7 @@
     @apply outline-none;
   }
 }
+
+.month-header {
+  @apply flex w-full justify-between;
+}

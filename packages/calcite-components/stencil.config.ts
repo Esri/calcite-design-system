@@ -33,7 +33,6 @@ export const create: () => Config = () => ({
         "calcite-date-picker",
         "calcite-date-picker-day",
         "calcite-date-picker-month",
-        "calcite-date-picker-month-range",
         "calcite-date-picker-month-header",
       ],
     },

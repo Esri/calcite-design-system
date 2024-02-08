@@ -32,7 +32,6 @@ import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
-import { DatePickerMessages as DatePickerMessages1 } from "./components";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 import { FilterMessages } from "./components/filter/assets/filter/t9n";
@@ -119,7 +118,6 @@ export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
-export { DatePickerMessages as DatePickerMessages1 } from "./components";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 export { FilterMessages } from "./components/filter/assets/filter/t9n";
@@ -1383,6 +1381,10 @@ export namespace Components {
          */
         "focusedDate": Date;
         /**
+          * Specifies the number at which section headings should start.
+         */
+        "headingLevel": HeadingLevel;
+        /**
           * The range of dates currently being hovered.
          */
         "hoverRange": HoverRange;
@@ -1394,6 +1396,10 @@ export namespace Components {
           * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
         "max": Date;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": DatePickerMessages;
         /**
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
@@ -1449,58 +1455,6 @@ export namespace Components {
           * Already selected date.
          */
         "selectedDate": Date;
-    }
-    interface CalciteDatePickerMonthRange {
-        /**
-          * The currently active Date.
-         */
-        "activeDate": Date;
-        /**
-          * The DateTimeFormat used to provide screen reader labels.
-         */
-        "dateTimeFormat": Intl.DateTimeFormat;
-        /**
-          * End date currently active.
-         */
-        "endDate"?: Date;
-        /**
-          * The currently active Date.
-         */
-        "focusedDate": Date;
-        /**
-          * The range of dates currently being hovered.
-         */
-        "hoverRange": HoverRange;
-        /**
-          * CLDR locale data for current locale.
-         */
-        "localeData": DateLocaleData;
-        /**
-          * Specifies the latest allowed date (`"yyyy-mm-dd"`).
-         */
-        "max": Date;
-        /**
-          * This property specifies accessible strings for the component's previous month button ,next month button & year input elements. Made into a prop for testing purposes only.
-          * @readonly
-         */
-        "messages": DatePickerMessages1;
-        /**
-          * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
-         */
-        "min": Date;
-        "position": "start" | "end";
-        /**
-          * Specifies the size of the component.
-         */
-        "scale": Scale;
-        /**
-          * Already selected date.
-         */
-        "selectedDate": Date;
-        /**
-          * Start date currently active.
-         */
-        "startDate"?: Date;
     }
     interface CalciteDropdown {
         /**
@@ -5536,10 +5490,6 @@ export interface CalciteDatePickerMonthHeaderCustomEvent<T> extends CustomEvent<
     detail: T;
     target: HTMLCalciteDatePickerMonthHeaderElement;
 }
-export interface CalciteDatePickerMonthRangeCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLCalciteDatePickerMonthRangeElement;
-}
 export interface CalciteDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteDropdownElement;
@@ -6151,6 +6101,7 @@ declare global {
         "calciteInternalDatePickerHover": Date;
         "calciteInternalDatePickerActiveDateChange": Date;
         "calciteInternalDatePickerMouseOut": void;
+        "calciteInternalDatePickerMonthChange": {date: Date, position : string};
     }
     interface HTMLCalciteDatePickerMonthElement extends Components.CalciteDatePickerMonth, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthElement, ev: CalciteDatePickerMonthCustomEvent<HTMLCalciteDatePickerMonthElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6167,7 +6118,7 @@ declare global {
         new (): HTMLCalciteDatePickerMonthElement;
     };
     interface HTMLCalciteDatePickerMonthHeaderElementEventMap {
-        "calciteInternalDatePickerSelect": Date;
+        "calciteInternalDatePickerMonthHeaderSelect": Date;
     }
     interface HTMLCalciteDatePickerMonthHeaderElement extends Components.CalciteDatePickerMonthHeader, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthHeaderElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthHeaderElement, ev: CalciteDatePickerMonthHeaderCustomEvent<HTMLCalciteDatePickerMonthHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6182,26 +6133,6 @@ declare global {
     var HTMLCalciteDatePickerMonthHeaderElement: {
         prototype: HTMLCalciteDatePickerMonthHeaderElement;
         new (): HTMLCalciteDatePickerMonthHeaderElement;
-    };
-    interface HTMLCalciteDatePickerMonthRangeElementEventMap {
-        "calciteInternalDatePickerSelect": Date;
-        "calciteInternalDatePickerHover": Date;
-        "calciteInternalDatePickerActiveDateChange": Date;
-        "calciteInternalDatePickerMouseOut": void;
-    }
-    interface HTMLCalciteDatePickerMonthRangeElement extends Components.CalciteDatePickerMonthRange, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLCalciteDatePickerMonthRangeElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthRangeElement, ev: CalciteDatePickerMonthRangeCustomEvent<HTMLCalciteDatePickerMonthRangeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLCalciteDatePickerMonthRangeElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthRangeElement, ev: CalciteDatePickerMonthRangeCustomEvent<HTMLCalciteDatePickerMonthRangeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLCalciteDatePickerMonthRangeElement: {
-        prototype: HTMLCalciteDatePickerMonthRangeElement;
-        new (): HTMLCalciteDatePickerMonthRangeElement;
     };
     interface HTMLCalciteDropdownElementEventMap {
         "calciteDropdownSelect": void;
@@ -7526,7 +7457,6 @@ declare global {
         "calcite-date-picker-day": HTMLCalciteDatePickerDayElement;
         "calcite-date-picker-month": HTMLCalciteDatePickerMonthElement;
         "calcite-date-picker-month-header": HTMLCalciteDatePickerMonthHeaderElement;
-        "calcite-date-picker-month-range": HTMLCalciteDatePickerMonthRangeElement;
         "calcite-dropdown": HTMLCalciteDropdownElement;
         "calcite-dropdown-group": HTMLCalciteDropdownGroupElement;
         "calcite-dropdown-item": HTMLCalciteDropdownItemElement;
@@ -8891,6 +8821,10 @@ declare namespace LocalJSX {
          */
         "focusedDate"?: Date;
         /**
+          * Specifies the number at which section headings should start.
+         */
+        "headingLevel"?: HeadingLevel;
+        /**
           * The range of dates currently being hovered.
          */
         "hoverRange"?: HoverRange;
@@ -8903,6 +8837,10 @@ declare namespace LocalJSX {
          */
         "max"?: Date;
         /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: DatePickerMessages;
+        /**
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min"?: Date;
@@ -8914,6 +8852,10 @@ declare namespace LocalJSX {
           * Fires when user hovers the date.
          */
         "onCalciteInternalDatePickerHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        /**
+          * Emits when user updates month or year using `calcite-date-picker-month-header` component.
+         */
+        "onCalciteInternalDatePickerMonthChange"?: (event: CalciteDatePickerMonthCustomEvent<{date: Date, position : string}>) => void;
         "onCalciteInternalDatePickerMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
         /**
           * Fires when user selects the date.
@@ -8964,7 +8906,7 @@ declare namespace LocalJSX {
         /**
           * Fires to active date
          */
-        "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        "onCalciteInternalDatePickerMonthHeaderSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
         "position"?: "start" | "end";
         /**
           * Specifies the size of the component.
@@ -8974,71 +8916,6 @@ declare namespace LocalJSX {
           * Already selected date.
          */
         "selectedDate"?: Date;
-    }
-    interface CalciteDatePickerMonthRange {
-        /**
-          * The currently active Date.
-         */
-        "activeDate"?: Date;
-        /**
-          * The DateTimeFormat used to provide screen reader labels.
-         */
-        "dateTimeFormat"?: Intl.DateTimeFormat;
-        /**
-          * End date currently active.
-         */
-        "endDate"?: Date;
-        /**
-          * The currently active Date.
-         */
-        "focusedDate"?: Date;
-        /**
-          * The range of dates currently being hovered.
-         */
-        "hoverRange"?: HoverRange;
-        /**
-          * CLDR locale data for current locale.
-         */
-        "localeData"?: DateLocaleData;
-        /**
-          * Specifies the latest allowed date (`"yyyy-mm-dd"`).
-         */
-        "max"?: Date;
-        /**
-          * This property specifies accessible strings for the component's previous month button ,next month button & year input elements. Made into a prop for testing purposes only.
-          * @readonly
-         */
-        "messages"?: DatePickerMessages1;
-        /**
-          * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
-         */
-        "min"?: Date;
-        /**
-          * Active date for the user keyboard access.
-         */
-        "onCalciteInternalDatePickerActiveDateChange"?: (event: CalciteDatePickerMonthRangeCustomEvent<Date>) => void;
-        /**
-          * Fires when user hovers the date.
-         */
-        "onCalciteInternalDatePickerHover"?: (event: CalciteDatePickerMonthRangeCustomEvent<Date>) => void;
-        "onCalciteInternalDatePickerMouseOut"?: (event: CalciteDatePickerMonthRangeCustomEvent<void>) => void;
-        /**
-          * Fires when user selects the date.
-         */
-        "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthRangeCustomEvent<Date>) => void;
-        "position"?: "start" | "end";
-        /**
-          * Specifies the size of the component.
-         */
-        "scale"?: Scale;
-        /**
-          * Already selected date.
-         */
-        "selectedDate"?: Date;
-        /**
-          * Start date currently active.
-         */
-        "startDate"?: Date;
     }
     interface CalciteDropdown {
         /**
@@ -13209,7 +13086,6 @@ declare namespace LocalJSX {
         "calcite-date-picker-day": CalciteDatePickerDay;
         "calcite-date-picker-month": CalciteDatePickerMonth;
         "calcite-date-picker-month-header": CalciteDatePickerMonthHeader;
-        "calcite-date-picker-month-range": CalciteDatePickerMonthRange;
         "calcite-dropdown": CalciteDropdown;
         "calcite-dropdown-group": CalciteDropdownGroup;
         "calcite-dropdown-item": CalciteDropdownItem;
@@ -13325,7 +13201,6 @@ declare module "@stencil/core" {
             "calcite-date-picker-day": LocalJSX.CalciteDatePickerDay & JSXBase.HTMLAttributes<HTMLCalciteDatePickerDayElement>;
             "calcite-date-picker-month": LocalJSX.CalciteDatePickerMonth & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthElement>;
             "calcite-date-picker-month-header": LocalJSX.CalciteDatePickerMonthHeader & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthHeaderElement>;
-            "calcite-date-picker-month-range": LocalJSX.CalciteDatePickerMonthRange & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthRangeElement>;
             "calcite-dropdown": LocalJSX.CalciteDropdown & JSXBase.HTMLAttributes<HTMLCalciteDropdownElement>;
             "calcite-dropdown-group": LocalJSX.CalciteDropdownGroup & JSXBase.HTMLAttributes<HTMLCalciteDropdownGroupElement>;
             "calcite-dropdown-item": LocalJSX.CalciteDropdownItem & JSXBase.HTMLAttributes<HTMLCalciteDropdownItemElement>;

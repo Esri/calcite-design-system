@@ -90,7 +90,7 @@ export class DatePickerMonthHeader {
    *
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalDatePickerSelect: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteInternalDatePickerMonthHeaderSelect: EventEmitter<Date>;
 
   //--------------------------------------------------------------------------
   //
@@ -282,7 +282,7 @@ export class DatePickerMonthHeader {
    */
   private handleArrowClick = (event: MouseEvent | KeyboardEvent, date: Date): void => {
     event.preventDefault();
-    this.calciteInternalDatePickerSelect.emit(date);
+    this.calciteInternalDatePickerMonthHeaderSelect.emit(date);
   };
 
   handleMonthChange = (event: CustomEvent): void => {
@@ -291,7 +291,7 @@ export class DatePickerMonthHeader {
     const localeMonths = this.monthAbbreviations ? abbreviated : wide;
     const monthIndex = localeMonths.indexOf(target.value);
     const newDate = requestedMonth(this.activeDate, monthIndex);
-    this.calciteInternalDatePickerSelect.emit(newDate);
+    this.calciteInternalDatePickerMonthHeaderSelect.emit(newDate);
   };
 
   private getInRangeDate({
@@ -338,7 +338,7 @@ export class DatePickerMonthHeader {
 
     // if you've supplied a year and it's in range, update active date
     if (inRangeDate) {
-      this.calciteInternalDatePickerSelect.emit(inRangeDate);
+      this.calciteInternalDatePickerMonthHeaderSelect.emit(inRangeDate);
     }
 
     if (commit) {

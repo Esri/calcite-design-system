@@ -10,9 +10,11 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { dateFromRange, HoverRange, inRange, sameDate } from "../../utils/date";
+import { dateFromRange, HoverRange, inRange, nextMonth, sameDate } from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
+import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
+import { HeadingLevel } from "../functional/Heading";
 
 const DAYS_PER_WEEK = 7;
 const DAYS_MAXIMUM_INDEX = 6;
@@ -98,6 +100,19 @@ export class DatePickerMonth {
   /** The range of dates currently being hovered. */
   @Prop() hoverRange: HoverRange;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: DatePickerMessages;
+
+  /**
+   * Specifies the number at which section headings should start.
+   */
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -129,6 +144,16 @@ export class DatePickerMonth {
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalDatePickerMouseOut: EventEmitter<void>;
+
+  /**
+   * Emits when user updates month or year using `calcite-date-picker-month-header` component.
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalDatePickerMonthChange: EventEmitter<{
+    date: Date;
+    position: string;
+  }>;
 
   //--------------------------------------------------------------------------
   //
@@ -240,38 +265,37 @@ export class DatePickerMonth {
 
     return (
       <Host onFocusOut={this.disableActiveFocus} onKeyDown={this.keyDownHandler}>
-        <div class="calendar" role="grid">
-          <div class="month">
-            <div class="week-headers" role="row">
-              {adjustedWeekDays.map((weekday) => (
-                <span class="week-header" role="columnheader">
-                  {weekday}
-                </span>
-              ))}
-            </div>
-            {weeks.map((days) => (
-              <div class="week-days" role="row">
-                {days.map((day) => this.renderDateDay(day))}
-              </div>
-            ))}
-          </div>
-
+        <div class="month-header">
+          <calcite-date-picker-month-header
+            activeDate={this.activeDate}
+            headingLevel={this.headingLevel}
+            localeData={this.localeData}
+            max={this.max}
+            messages={this.messages}
+            min={this.min}
+            onCalciteInternalDatePickerMonthHeaderSelect={this.monthHeaderSelectChange}
+            position={this.range ? "start" : null}
+            scale={this.scale}
+            selectedDate={this.selectedDate}
+          />
           {this.range && (
-            <div class="month">
-              <div class="week-headers" role="row">
-                {adjustedWeekDays.map((weekday) => (
-                  <span class="week-header" role="columnheader">
-                    {weekday}
-                  </span>
-                ))}
-              </div>
-              {nextMonthWeeks.map((days) => (
-                <div class="week-days" role="row">
-                  {days.map((day) => this.renderDateDay(day))}
-                </div>
-              ))}
-            </div>
+            <calcite-date-picker-month-header
+              activeDate={nextMonth(this.activeDate)}
+              headingLevel={this.headingLevel}
+              localeData={this.localeData}
+              max={this.max}
+              messages={this.messages}
+              min={this.min}
+              onCalciteInternalDatePickerMonthHeaderSelect={this.monthHeaderSelectChange}
+              position={"end"}
+              scale={this.scale}
+              selectedDate={this.selectedDate}
+            />
           )}
+        </div>
+        <div class="calendar" role="grid">
+          {this.renderMonthCalendar(adjustedWeekDays, weeks)}
+          {this.range && this.renderMonthCalendar(adjustedWeekDays, nextMonthWeeks)}
         </div>
       </Host>
     );
@@ -599,4 +623,29 @@ export class DatePickerMonth {
     }
     return weeks;
   }
+
+  private renderMonthCalendar(weekDays: string[], weeks: Day[][]): VNode {
+    return (
+      <div class="month">
+        <div class="week-headers" role="row">
+          {weekDays.map((weekday) => (
+            <span class="week-header" role="columnheader">
+              {weekday}
+            </span>
+          ))}
+        </div>
+        {weeks.map((days) => (
+          <div class="week-days" role="row">
+            {days.map((day) => this.renderDateDay(day))}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
+    const date = new Date(event.detail);
+    const target = event.target as HTMLCalciteDatePickerMonthHeaderElement;
+    this.calciteInternalDatePickerMonthChange.emit({ date, position: target.position });
+  };
 }
