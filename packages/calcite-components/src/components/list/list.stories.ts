@@ -934,3 +934,23 @@ export const filteredListItemsNoResults_TestOnly = (): string =>
       <div slot="message">Try a different fruit?</div>
     </calcite-notice>
   </calcite-list>`;
+
+export const nestingLists_TestOnly = (): string => html`<h4>Nesting List Items</h4>
+  <calcite-list>
+    <calcite-list-item label="List Item" open>
+      <calcite-list-item label="List Item"></calcite-list-item>
+      <calcite-list-item label="List Item"></calcite-list-item>
+      <calcite-list-item label="List Item"></calcite-list-item>
+    </calcite-list-item>
+  </calcite-list>
+  </br>
+  <h4>Nesting Lists</h4>
+  <calcite-list>
+    <calcite-list-item label="List Item" open>
+      <calcite-list>
+        <calcite-list-item label="List Item"></calcite-list-item>
+        <calcite-list-item label="List Item"></calcite-list-item>
+        <calcite-list-item label="List Item"></calcite-list-item>
+      </calcite-list>
+    </calcite-list-item>
+  </calcite-list>`;
