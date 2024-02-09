@@ -136,13 +136,6 @@ export class Input
   @Prop({ reflect: true }) groupSeparator = false;
 
   /**
-   * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) hidden = false;
-
-  /**
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
@@ -889,13 +882,6 @@ export class Input
       this.nudgeNumberValue(direction, event);
     }
   };
-
-  onFormReset(): void {
-    this.setValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     const { type } = this;
