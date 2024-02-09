@@ -9,6 +9,7 @@ import {
   Prop,
   VNode,
   Watch,
+  State,
 } from "@stencil/core";
 import { dateFromRange, HoverRange, inRange, nextMonth, sameDate } from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
@@ -64,11 +65,6 @@ export class DatePickerMonth {
       this.focusedDate = newActiveDate;
     }
   }
-
-  /** The currently active Date.
-   * @internal
-   */
-  @Prop({ mutable: true }) focusedDate: Date;
 
   /** Start date currently active. */
   @Prop() startDate?: Date;
@@ -155,6 +151,8 @@ export class DatePickerMonth {
     position: string;
   }>;
 
+  /** The currently focused Date. */
+  @State() focusedDate: Date;
   //--------------------------------------------------------------------------
   //
   //  Event Listeners

@@ -85,14 +85,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
    */
   @Prop({ reflect: true }) activeRange: "start" | "end";
 
-  @Watch("activeRange")
-  handleActiveRangeChange(newValue: "start" | "end"): void {
-    if (newValue) {
-      //to reset activeDates when user switches between the input while navigating between months. This wont preserve the state of the calendar while user switch between input.
-      //this.resetActiveDates();
-    }
-  }
-
   /**
    * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`).
    */
@@ -386,10 +378,15 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     } else {
       if (position === "end") {
         this.activeEndDate = date;
-        this.activeStartDate = prevMonth(date);
+        //preserves the state of the calendar while user switch between input.
+        if (!this.valueAsDate || !this.valueAsDate[0]) {
+          this.activeStartDate = prevMonth(date);
+        }
       } else {
         this.activeStartDate = date;
-        this.activeEndDate = nextMonth(date);
+        if (!this.valueAsDate || !this.valueAsDate[1]) {
+          this.activeEndDate = nextMonth(date);
+        }
       }
     }
   };

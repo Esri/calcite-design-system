@@ -1377,10 +1377,6 @@ export namespace Components {
          */
         "endDate"?: Date;
         /**
-          * The currently active Date.
-         */
-        "focusedDate": Date;
-        /**
           * Specifies the number at which section headings should start.
          */
         "headingLevel": HeadingLevel;
@@ -8819,10 +8815,6 @@ declare namespace LocalJSX {
           * End date currently active.
          */
         "endDate"?: Date;
-        /**
-          * The currently active Date.
-         */
-        "focusedDate"?: Date;
         /**
           * Specifies the number at which section headings should start.
          */
