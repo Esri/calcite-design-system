@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.4.1-next.1...@esri/calcite-components@2.5.0-next.0) (2024-02-09)
+
+### Features
+
+- **tile:** add responsive layout features ([#8691](https://github.com/Esri/calcite-design-system/issues/8691)) ([f4f872e](https://github.com/Esri/calcite-design-system/commit/f4f872eeba08f1063457b97889f823d5c09d8974)), closes [#6690](https://github.com/Esri/calcite-design-system/issues/6690) [#6662](https://github.com/Esri/calcite-design-system/issues/6662)
+
 ## [2.4.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.4.1-next.0...@esri/calcite-components@2.4.1-next.1) (2024-02-09)
 
 ### Bug Fixes
