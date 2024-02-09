@@ -1,5 +1,4 @@
 import { Component, h, VNode, Prop } from "@stencil/core";
-
 import hljs from "highlight.js";
 
 @Component({
