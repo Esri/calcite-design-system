@@ -43,6 +43,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { PanelMessages } from "./assets/panel/t9n";
+import { OverlayPositioning } from "../../utils/floating-ui";
 
 /**
  * @slot - A slot for adding custom content.
@@ -139,6 +140,16 @@ export class Panel
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
+
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   *
+   */
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   //--------------------------------------------------------------------------
   //
@@ -477,6 +488,7 @@ export class Panel
         key="menu"
         label={messages.options}
         open={menuOpen}
+        overlayPositioning={this.overlayPositioning}
         placement="bottom-end"
       >
         <calcite-action

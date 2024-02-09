@@ -67,6 +67,14 @@ describe("calcite-list-item", () => {
     disabled(`<calcite-list-item label="test" active></calcite-list-item>`);
   });
 
+  it("always displays hover class", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-list-item></calcite-list-item>`);
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).not.toBeNull();
+  });
+
   it("renders dragHandle when property is true", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-list-item></calcite-list-item>`);
