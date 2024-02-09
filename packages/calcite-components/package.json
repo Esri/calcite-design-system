@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "2.4.0",
+  "version": "2.4.1-next.1",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
@@ -76,7 +76,7 @@
   "devDependencies": {
     "@esri/calcite-design-tokens": "^2.1.2-next.0",
     "@esri/calcite-ui-icons": "3.25.6",
-    "@esri/eslint-plugin-calcite-components": "^1.1.0",
+    "@esri/eslint-plugin-calcite-components": "^1.1.1-next.0",
     "@stencil-community/eslint-plugin": "0.7.1",
     "@stencil-community/postcss": "2.2.0",
     "@stencil/angular-output-target": "0.8.3",

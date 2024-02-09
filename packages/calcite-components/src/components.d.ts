@@ -4938,6 +4938,10 @@ export namespace Components {
          */
         "active": boolean;
         /**
+          * Specifies the alignment of the Tile's content.
+         */
+        "alignment": Exclude<Alignment, "end">;
+        /**
           * A description for the component, which displays below the heading.
          */
         "description": string;
@@ -12450,6 +12454,10 @@ declare namespace LocalJSX {
           * When `true`, the component is active.
          */
         "active"?: boolean;
+        /**
+          * Specifies the alignment of the Tile's content.
+         */
+        "alignment"?: Exclude<Alignment, "end">;
         /**
           * A description for the component, which displays below the heading.
          */
