@@ -463,10 +463,10 @@ export const theming_TestOnly = (): string => html`
       --calcite-panel-border-color: red;
       --calcite-panel-description-color: purple;
       --calcite-panel-footer-background-color: lightgreen;
-      --calcite-panel-footer-padding: 24px;
+      --calcite-panel-footer-space: 24px;
       --calcite-panel-header-background-color: yellow;
-      --calcite-panel-header-border-block-end: 1px solid magenta;
-      --calcite-panel-header-color: orange;
+      --calcite-panel-header-border-width: 1px;
+      --calcite-panel-heading-text-color: orange;
       --calcite-panel-header-z-index: 999;
       --calcite-panel-fab-z-index: 998;
     "

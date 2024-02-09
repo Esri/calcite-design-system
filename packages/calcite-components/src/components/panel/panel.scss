@@ -5,13 +5,16 @@
  *
  * @prop --calcite-panel-background-color: Specifies the background color of the component.
  * @prop --calcite-panel-border-color: Specifies the border color of the component.
- * @prop --calcite-panel-description-color: Specifies the color of the component's description.
+ * @prop --calcite-panel-description-text-color: Specifies the text color of the component's description.
  * @prop --calcite-panel-fab-z-index: Specifies the component fab's z-index.
  * @prop --calcite-panel-footer-background-color: Specifies the background color of the component's footer.
- * @prop --calcite-panel-footer-padding: Specifies the padding of the component's footer.
+ * @prop --calcite-panel-footer-padding: [Deprecated] Use `--calcite-panel-footer-space` instead. Specifies the padding of the component's footer.
+ * @prop --calcite-panel-footer-space: Specifies the spacing of the component's footer.
  * @prop --calcite-panel-header-background-color: Specifies the component header's background color.
- * @prop --calcite-panel-header-border-block-end: Specifies the component header's block end border.
- * @prop --calcite-panel-header-color: Specifies the component header's  color.
+ * @prop --calcite-panel-header-border-block-end: [Deprecated] Use `--calcite-panel-header-border-width` instead. Specifies the component header's block end border.
+ * @prop --calcite-panel-header-border-width: Specifies the component header's border width.
+ * @prop --calcite-panel-header-color: [Deprecated] Use `--calcite-panel-heading-text-color` instead. Specifies the component header's  color.
+ * @prop --calcite-panel-heading-text-color: Specifies the component's heading text color.
  * @prop --calcite-panel-header-z-index: Specifies the component header's z-index.
  */
 
@@ -27,21 +30,21 @@
 
   --calcite-panel-background-color: var(--calcite-color-background);
   --calcite-panel-border-color: var(--calcite-color-border-3);
-  --calcite-panel-description-color: var(--calcite-color-text-2);
+  --calcite-panel-description-text-color: var(--calcite-color-text-2);
   --calcite-panel-fab-z-index: var(--calcite-z-index-sticky);
   --calcite-panel-footer-background-color: var(--calcite-color-foreground-1);
-  --calcite-panel-footer-padding: var(--calcite-spacing-xxs);
-  --calcite-panel-header-color: var(--calcite-color-text-2);
+  --calcite-panel-footer-space: var(--calcite-panel-footer-padding, var(--calcite-spacing-xxs));
+  --calcite-panel-heading-text-color: var(--calcite-panel-header-color, var(--calcite-color-text-2));
   --calcite-panel-header-background-color: var(--calcite-color-foreground-1);
   --calcite-panel-header-z-index: var(--calcite-z-index-header);
-
+  --calcite-panel-header-border-width: var(--calcite-border-width-sm);
   --calcite-panel-header-border-block-end: var(--calcite-border-width-sm) solid var(--calcite-panel-border-color);
 }
 
 @include disabled();
 
 .header {
-  color: var(--calcite-panel-header-color);
+  color: var(--calcite-panel-heading-text-color);
   margin: 0;
   align-content: space-between;
   align-items: center;
@@ -50,7 +53,10 @@
   flex-direction: column;
   z-index: var(--calcite-panel-header-z-index);
   background-color: var(--calcite-panel-header-background-color);
-  border-block-end: var(--calcite-panel-header-border-block-end);
+  border-block-end: var(
+    --calcite-panel-header-border-block-end,
+    var(--calcite-panel-header-border-width) solid var(--calcite-panel-border-color)
+  );
 }
 
 .heading {
@@ -125,7 +131,7 @@
     }
   }
   .description {
-    color: var(--calcite-panel-description-color);
+    color: var(--calcite-panel-description-text-color);
     font-size: var(--calcite-font-size--1);
     line-height: var(--calcite-font-line-height-relative);
   }
@@ -166,7 +172,7 @@
   display: flex;
   justify-content: space-evenly;
   flex: 0 0 auto;
-  padding: var(--calcite-panel-footer-padding);
+  padding: var(--calcite-panel-footer-space);
   border-block-start: var(--calcite-border-width-sm) solid var(--calcite-panel-border-color);
 }
 
