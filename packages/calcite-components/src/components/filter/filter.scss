@@ -1,77 +1,36 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden
+ *
+ * @prop --calcite-filter-background-color: Specifies the background color of the filter.
+ * @prop --calcite-filter-width: Specifies a width used for the filter.
+ */
+
 :host {
-  @extend %component-host;
-  @apply flex w-full;
+  @include base-host();
+  --calcite-filter-background-color: var(--calcite-color-foreground-1);
+  --calcite-filter-width: 100%;
+
+  display: flex;
+  background-color: var(--calcite-filter-background-color);
+  inline-size: var(--calcite-filter-width);
 }
 
 @include disabled();
 
 .container {
-  @apply flex w-full p-2;
-}
-
-label {
-  @apply relative
-    mx-1
-    my-0
-    flex w-full
-    items-center
-    overflow-hidden;
-}
-
-input[type="text"] {
-  @apply font-inherit
-    text-color-1
-    text-n2h
-    mb-1
-    w-full
-    border-none
-    bg-transparent
-    py-1;
-  padding-inline-end: theme("spacing.1");
-  padding-inline-start: theme("spacing.6");
-  transition:
-    padding var(--calcite-animation-timing),
-    box-shadow var(--calcite-animation-timing);
-  &::-ms-clear {
-    @apply hidden;
-  }
+  padding: var(--calcite-spacing-sm);
+  margin-inline: var(--calcite-spacing-xxs);
+  display: flex;
+  inline-size: 100%;
+  position: relative;
+  overflow: hidden;
+  align-items: center;
 }
 
 calcite-input {
-  @apply w-full;
-}
-
-.search-icon {
-  @apply text-color-2
-    absolute
-    flex;
-  inset-inline-start: 0;
-  transition:
-    inset-inline-start var(--calcite-animation-timing),
-    inset-inline-end var(--calcite-animation-timing),
-    opacity var(--calcite-animation-timing);
-}
-
-input[type="text"]:focus {
-  @apply border-color-brand outline-none;
-  padding-inline: theme("padding.1");
-  & ~ .search-icon {
-    inset-inline-start: calc(theme("spacing.4") * -1);
-    @apply opacity-0;
-  }
-}
-
-.clear-button {
-  @apply text-color-2
-    flex
-    cursor-pointer
-    items-center
-    border-0
-    bg-transparent;
-  &:hover,
-  &:focus {
-    @apply text-color-1;
-  }
+  inline-size: 100%;
 }
 
 @include base-component();
