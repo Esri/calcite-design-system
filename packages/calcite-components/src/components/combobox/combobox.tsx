@@ -1632,7 +1632,7 @@ export class Combobox
 
     return (
       this.showingInlineIcon && (
-        <span class="icon-start">
+        <span class="icon-start" key="selected-placeholder-icon">
           <calcite-icon
             class="selected-icon"
             flipRtl={this.open && selectedItem ? selectedItem.iconFlipRtl : placeholderIconFlipRtl}
@@ -1647,7 +1647,7 @@ export class Combobox
   renderChevronIcon(): VNode {
     const { open } = this;
     return (
-      <span class="icon-end">
+      <span class="icon-end" key="chevron">
         <calcite-icon
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
@@ -1692,6 +1692,7 @@ export class Combobox
                 [CSS.selectionDisplayFit]: fitSelectionDisplay,
                 [CSS.selectionDisplaySingle]: singleSelectionDisplay,
               }}
+              key="grid"
               ref={this.setChipContainerEl}
             >
               {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
