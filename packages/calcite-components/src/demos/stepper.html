@@ -43,6 +43,447 @@
     <demo-dom-swapper>
       <!--
       **************************************************
+      * SMALL single-horizontal
+      **************************************************
+    -->
+      <!-- headers -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text"></div>
+        <div class="child-flex">Small</div>
+      </div>
+
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">complete, active, error, idle + icons</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" numbered icon scale="s">
+            <calcite-stepper-item heading="Choose method" complete>
+              <calcite-notice open width="full">
+                <div slot="message">Step 1 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" complete>
+              <calcite-notice open width="full">
+                <div slot="message">Step 2 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" error>
+              <calcite-notice open width="full">
+                <div slot="message">Step 3 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Confirm and complete">
+              <calcite-notice open width="full">
+                <div slot="message">Step 4 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <!-- no content -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">no content</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" numbered scale="s">
+            <calcite-stepper-item heading="Choose method" complete> </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" complete> </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" active>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Confirm and complete"> </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <!-- numbered -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">numbered</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" numbered scale="s">
+            <calcite-stepper-item heading="Choose method" complete>
+              <calcite-notice open width="full">
+                <div slot="message">Step 1 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" complete>
+              <calcite-notice open width="full">
+                <div slot="message">Step 2 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" active>
+              <calcite-notice open width="full">
+                <div slot="message">Step 3 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Confirm and complete">
+              <calcite-notice open width="full">
+                <div slot="message">Step 4 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <!-- Arabic numberingSystem -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">Arabic numbering system</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" numbered numbering-system="arab" lang="ar" dir="rtl" scale="s">
+            <calcite-stepper-item heading="الخطوةالاولى" complete>
+              <calcite-notice open width="full">
+                <div slot="message">الخطوة الأولى للمحتوى هنا</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="الخطوة الثانية" complete>
+              <calcite-notice open width="full">
+                <div slot="message">الخطوة الثانية للمحتوى هنا</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="الخطوة الثالثة" description="بعض النصوص الفرعية" active>
+              <calcite-notice open width="full">
+                <div slot="message">الخطوة الثالثة المحتوى يذهب هنا</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="الخطوة الرابعة">
+              <calcite-notice open width="full">
+                <div slot="message">الخطوة الرابعة المحتوى يذهب هنا</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <!-- disabled -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">disabled</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" scale="s">
+            <calcite-stepper-item heading="Choose method" complete disabled>
+              <calcite-notice open width="full">
+                <div slot="message">Step 1 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" error>
+              <calcite-notice open width="full">
+                <div slot="message">Step 2 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" active>
+              <calcite-notice open width="full">
+                <div slot="message">Step 3 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Another thing!" disabled id="demo-make-non-disabled">
+              <calcite-notice open width="full">
+                <div slot="message">Step 4 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <hr />
+
+      <!--
+      **************************************************
+      * MEDIUM
+      **************************************************
+    -->
+      <!-- headers -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text"></div>
+        <div class="child-flex">Medium</div>
+      </div>
+
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">complete, active, error, idle + icons</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" numbered icon scale="m">
+            <calcite-stepper-item heading="Choose method" complete>
+              <calcite-notice open width="full">
+                <div slot="message">Step 1 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" complete>
+              <calcite-notice open width="full">
+                <div slot="message">Step 2 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" error>
+              <calcite-notice open width="full">
+                <div slot="message">Step 3 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Confirm and complete">
+              <calcite-notice open width="full">
+                <div slot="message">Step 4 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <!-- no content -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">no content</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" numbered scale="m">
+            <calcite-stepper-item heading="Choose method" complete> </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" complete> </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" active>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Confirm and complete"> </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <!-- numbered -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">numbered</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" numbered scale="m">
+            <calcite-stepper-item heading="Choose method" complete>
+              <calcite-notice open width="full">
+                <div slot="message">Step 1 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" complete>
+              <calcite-notice open width="full">
+                <div slot="message">Step 2 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" active>
+              <calcite-notice open width="full">
+                <div slot="message">Step 3 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Confirm and complete">
+              <calcite-notice open width="full">
+                <div slot="message">Step 4 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <!-- Arabic numberingSystem -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">Arabic numbering system</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" numbered numbering-system="arab" lang="ar" dir="rtl" scale="m">
+            <calcite-stepper-item heading="الخطوةالاولى" complete>
+              <calcite-notice open width="full">
+                <div slot="message">الخطوة الأولى للمحتوى هنا</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="الخطوة الثانية" complete>
+              <calcite-notice open width="full">
+                <div slot="message">الخطوة الثانية للمحتوى هنا</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="الخطوة الثالثة" description="بعض النصوص الفرعية" active>
+              <calcite-notice open width="full">
+                <div slot="message">الخطوة الثالثة المحتوى يذهب هنا</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="الخطوة الرابعة">
+              <calcite-notice open width="full">
+                <div slot="message">الخطوة الرابعة المحتوى يذهب هنا</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <!-- disabled -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">disabled</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" scale="m">
+            <calcite-stepper-item heading="Choose method" complete disabled>
+              <calcite-notice open width="full">
+                <div slot="message">Step 1 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" error>
+              <calcite-notice open width="full">
+                <div slot="message">Step 2 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" active>
+              <calcite-notice open width="full">
+                <div slot="message">Step 3 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Another thing!" disabled id="demo-make-non-disabled">
+              <calcite-notice open width="full">
+                <div slot="message">Step 4 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <hr />
+
+      <!--
+      **************************************************
+      * LARGE
+      **************************************************
+    -->
+      <!-- headers -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text"></div>
+        <div class="child-flex">Large</div>
+      </div>
+
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">complete, active, error, idle + icons</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" numbered icon scale="l">
+            <calcite-stepper-item heading="Choose method" complete>
+              <calcite-notice open width="full">
+                <div slot="message">Step 1 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" complete>
+              <calcite-notice open width="full">
+                <div slot="message">Step 2 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" error>
+              <calcite-notice open width="full">
+                <div slot="message">Step 3 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Confirm and complete">
+              <calcite-notice open width="full">
+                <div slot="message">Step 4 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <!-- no content -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">no content</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" numbered scale="l">
+            <calcite-stepper-item heading="Choose method" complete> </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" complete> </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" active>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Confirm and complete"> </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <!-- numbered -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">numbered</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" numbered scale="l">
+            <calcite-stepper-item heading="Choose method" complete>
+              <calcite-notice open width="full">
+                <div slot="message">Step 1 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" complete>
+              <calcite-notice open width="full">
+                <div slot="message">Step 2 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" active>
+              <calcite-notice open width="full">
+                <div slot="message">Step 3 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Confirm and complete">
+              <calcite-notice open width="full">
+                <div slot="message">Step 4 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <!-- Arabic numberingSystem -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">Arabic numbering system</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" numbered numbering-system="arab" lang="ar" dir="rtl" scale="l">
+            <calcite-stepper-item heading="الخطوةالاولى" complete>
+              <calcite-notice open width="full">
+                <div slot="message">الخطوة الأولى للمحتوى هنا</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="الخطوة الثانية" complete>
+              <calcite-notice open width="full">
+                <div slot="message">الخطوة الثانية للمحتوى هنا</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="الخطوة الثالثة" description="بعض النصوص الفرعية" active>
+              <calcite-notice open width="full">
+                <div slot="message">الخطوة الثالثة المحتوى يذهب هنا</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="الخطوة الرابعة">
+              <calcite-notice open width="full">
+                <div slot="message">الخطوة الرابعة المحتوى يذهب هنا</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <!-- disabled -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">disabled</div>
+
+        <div class="child-flex">
+          <calcite-stepper layout="single-horizontal" scale="l">
+            <calcite-stepper-item heading="Choose method" complete disabled>
+              <calcite-notice open width="full">
+                <div slot="message">Step 1 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" error>
+              <calcite-notice open width="full">
+                <div slot="message">Step 2 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" active>
+              <calcite-notice open width="full">
+                <div slot="message">Step 3 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Another thing!" disabled id="demo-make-non-disabled">
+              <calcite-notice open width="full">
+                <div slot="message">Step 4 Content Goes Here</div>
+              </calcite-notice>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        </div>
+      </div>
+
+      <hr />
+
+      <!--
+      **************************************************
       * SMALL
       **************************************************
     -->

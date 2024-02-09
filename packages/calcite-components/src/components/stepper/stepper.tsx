@@ -14,8 +14,12 @@ import {
   readTask,
 } from "@stencil/core";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
-import { Layout, Position, Scale } from "../interfaces";
-import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
+import { Position, Scale } from "../interfaces";
+import {
+  StepperItemChangeEventDetail,
+  StepperItemKeyEventDetail,
+  StepperLayout,
+} from "./interfaces";
 import { createObserver } from "../../utils/observers";
 import { StepBar } from "./functional/step-bar";
 import { ITEM_MIN_WIDTH, CSS } from "./resources";
@@ -56,7 +60,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   @Prop({ reflect: true }) icon = false;
 
   /** Defines the layout of the component. */
-  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
+  @Prop({ reflect: true }) layout: StepperLayout = "horizontal";
 
   /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) numbered = false;

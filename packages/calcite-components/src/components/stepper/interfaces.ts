@@ -9,3 +9,5 @@ export interface StepperItemKeyEventDetail {
 export interface StepperItemChangeEventDetail {
   position: number;
 }
+
+export type StepperLayout = "horizontal" | "vertical" | "single-horizontal";
