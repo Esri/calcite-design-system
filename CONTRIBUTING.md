@@ -67,8 +67,8 @@ There are four labels that mean an issue is not ready for development:
 
 Milestones are used to organize issues targeted for a sprint in a planned release, and are not closed until all of the issues are verified. We have multiple milestones open at a time to help with future sprint planning. Calcite Core team members should grab issues from the current milestone when you are looking for something to work on. External contributors should ask before working on issues in upcoming milestones, since some of them need to be completed in a timely manner. There are also two constant milestones:
 
-- __Stalled:__ Issues we want to work on now, but are blocked, missing information, or require discussion to define action items. Try not to work on these issues unless an issue has a `spike` label and the research can be added to the issue for consideration in a future sprint.
-- __Freezer:__ Items that we want to look into, but do not have an immediate timeline associated. Try not to work on these issues unless they have a `help wanted` label.
+- **Stalled:** Issues we want to work on now, but are blocked, missing information, or require discussion to define action items. Try not to work on these issues unless an issue has a `spike` label and the research can be added to the issue for consideration in a future sprint.
+- **Freezer:** Items that we want to look into, but do not have an immediate timeline associated. Try not to work on these issues unless they have a `help wanted` label.
 
 ### Estimates
 
@@ -117,7 +117,7 @@ We also recommend installing the following extensions in your editor of choice: 
 
 If your IDE supports the [Language Server Protocol (LSP) specification](https://microsoft.github.io/language-server-protocol/) but isn't mentioned in the links above, ask Ben for help getting set up.
 
-__NOTE:__ If you are on Windows, we strongly recommend using the Bash emulation that ships with [Git for Windows](https://gitforwindows.org/). Or better yet, use [Ubuntu in WSL](https://ubuntu.com/wsl)! Otherwise, keep in mind that some of the scripts used by maintainers (such as for releasing) likely won't work in Command Prompt or PowerShell. However, please log an issue if scripts used for normal development (start/test/build/etc) don't work in your Windows environment.
+**NOTE:** If you are on Windows, we strongly recommend using the Bash emulation that ships with [Git for Windows](https://gitforwindows.org/). Or better yet, use [Ubuntu in WSL](https://ubuntu.com/wsl)! Otherwise, keep in mind that some of the scripts used by maintainers (such as for releasing) likely won't work in Command Prompt or PowerShell. However, please log an issue if scripts used for normal development (start/test/build/etc) don't work in your Windows environment.
 
 ## Starting the demos
 
