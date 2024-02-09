@@ -1,4 +1,4 @@
-import { Component, Element, h, VNode, Prop } from "@stencil/core";
+import { Component, h, VNode, Prop } from "@stencil/core";
 
 import hljs from "highlight.js";
 
@@ -15,14 +15,6 @@ export class Code {
   // --------------------------------------------------------------------------
 
   @Prop() code: string;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteCodeElement;
 
   // --------------------------------------------------------------------------
   //
