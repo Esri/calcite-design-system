@@ -7,8 +7,6 @@
  * @prop --calcite-card-border-color: Specifies the border color of the component.
  * @prop --calcite-card-box-shadow: Specifies the box shadow of the component.
  * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
- * @prop --calcite-card-subtitle-color: Specifies the color of the component's `"subtitle"` slot.
- * @prop --calcite-card-title-color: Specifies the color of the component's `"title"` slot.
  *
  */
 
@@ -73,7 +71,7 @@
   @apply text-n1-wrap;
   margin: 0;
   font-weight: var(--calcite-font-weight-medium);
-  color: var(--calcite-card-title-color, var(--calcite-color-text-1));
+  color: var(--calcite-color-text-1);
 }
 
 :host([selectable]) {
@@ -87,7 +85,7 @@
   @apply text-n2-wrap font-normal;
   margin: 0;
   margin-block-start: var(--calcite-spacing-sm);
-  color: var(--calcite-card-subtitle-color, var(--calcite-color-text-2));
+  color: var(--calcite-color-text-2);
 }
 
 @include slotted("thumbnail", "img") {
