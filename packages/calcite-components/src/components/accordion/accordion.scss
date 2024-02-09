@@ -1,7 +1,6 @@
 /**
  * CSS Custom Properties
  *
- * @prop --calcite-accordion-space: defines space around and between accordion item elements. Other spacing is calculated from --calcite-size-xxs.
  * @prop --calcite-accordion-border-color: The border around an accordion and accordion items.
  * @prop --calcite-accordion-background-color: The background color of the accordion and accordion items.
  */
@@ -9,9 +8,10 @@
 /*
  * Internal
  *
- * --calcite-internal-accordion-icon-space: space around the accordion icon. Calculated from --calcite-accordion-space
- * --calcite-internal-accordion-padding: space around the accordion. Calculated from --calcite-accordion-space
- * --calcite-internal-accordion-icon-margin: space between the accordion items' icons and other ShadowDom elements. Calculated from --calcite-accordion-space
+ * --calcite-internal-accordion-space: defines space around and between accordion item elements. Other spacing is calculated from --calcite-size-xxs.
+ * --calcite-internal-accordion-icon-space: space around the accordion icon. Calculated from --calcite-internal-accordion-space
+ * --calcite-internal-accordion-padding: space around the accordion. Calculated from --calcite-internal-accordion-space
+ * --calcite-internal-accordion-icon-margin: space between the accordion items' icons and other ShadowDom elements. Calculated from --calcite-internal-accordion-space
  * --calcite-internal-accordion-font-size: Inherited from global font-size variables. Set based on the component scale prop.
  * --calcite-internal-accordion-line-height: References global line-height variables. Set based on the component scale prop.
  */
@@ -21,11 +21,10 @@
     block
     max-w-full;
 
-  --calcite-accordion-space: unset;
-
-  --calcite-internal-accordion-icon-margin: calc(var(--calcite-accordion-space) + var(--calcite-size-xxs));
-  --calcite-internal-accordion-padding: var(--calcite-accordion-space)
-    calc(var(--calcite-accordion-space) + var(--calcite-size-xxs));
+  --calcite-internal-accordion-space: unset;
+  --calcite-internal-accordion-icon-margin: calc(var(--calcite-internal-accordion-space) + var(--calcite-size-xxs));
+  --calcite-internal-accordion-padding: var(--calcite-internal-accordion-space)
+    calc(var(--calcite-internal-accordion-space) + var(--calcite-size-xxs));
 
   font-size: var(--calcite-internal-accordion-font-size);
   line-height: var(--calcite-internal-accordion-line-height, var(--calcite-font-size-xxl));
@@ -33,19 +32,19 @@
 
 // scale variants for child
 :host([scale="s"]) {
-  --calcite-accordion-space: var(--calcite-spacing-xxs);
+  --calcite-internal-accordion-space: var(--calcite-spacing-xxs);
   --calcite-internal-accordion-font-size: var(--calcite-font-size-sm);
   --calcite-internal-accordion-line-height: var(--calcite-font-size-md);
 }
 
 :host([scale="m"]) {
-  --calcite-accordion-space: var(--calcite-spacing-sm);
+  --calcite-internal-accordion-space: var(--calcite-spacing-sm);
   --calcite-internal-accordion-font-size: var(--calcite-font-size);
   --calcite-internal-accordion-line-height: var(--calcite-font-size-md);
 }
 
 :host([scale="l"]) {
-  --calcite-accordion-space: var(--calcite-spacing-md);
+  --calcite-internal-accordion-space: var(--calcite-spacing-md);
   --calcite-internal-accordion-font-size: var(--calcite-font-size-md);
   --calcite-internal-accordion-line-height: var(--calcite-font-line-height-relative-tight);
 }
