@@ -245,9 +245,7 @@ export const theming_TestOnly = (): string => html`
     style="--calcite-card-corner-radius: var(--calcite-corner-radius-round);
       --calcite-card-background-color: var(--calcite-color-foreground-3);
       --calcite-card-border-color: var(--calcite-color-status-success);
-      --calcite-card-box-shadow: var(--calcite-shadow-md);
-      --calcite-card-title-color: var(--calcite-color-status-success);
-      --calcite-card-subtitle-color: var(--calcite-color-status-danger)"
+      --calcite-card-box-shadow: var(--calcite-shadow-md);"
   >
     <span slot="title">ArcGIS Online: Gallery and Organization pages</span>
     <span slot="subtitle"
