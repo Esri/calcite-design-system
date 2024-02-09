@@ -223,12 +223,9 @@ td:focus {
   }
 }
 
-::slotted(calcite-list),
-::slotted(calcite-list-item) {
-  @apply border-solid
-    border-0
-    border-t
-    border-color-3;
+::slotted(calcite-list-item),
+::slotted(calcite-list) {
+  @apply border-solid border-0 border-t border-color-3;
 }
 
 ::slotted(calcite-list:empty) {

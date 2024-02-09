@@ -2053,6 +2053,7 @@ describe("calcite-input", () => {
         testValue: value,
         submitsOnEnter: true,
         inputType: type,
+        validation: true,
       });
     }
 
