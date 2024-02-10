@@ -1,10 +1,4 @@
-import { Component, Element, h, Prop, VNode } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import { getSlotted } from "../../utils/dom";
+import { Component, Element, h, Prop, State, VNode } from "@stencil/core";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -12,8 +6,9 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { SLOTS } from "./resources";
-import { Scale } from "../interfaces";
+import { CSS, SLOTS } from "./resources";
+import { Alignment, Scale } from "../interfaces";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 
 /**
  * @slot content-start - A slot for adding non-actionable elements before the component's content.
@@ -24,7 +19,7 @@ import { Scale } from "../interfaces";
   styleUrl: "tile.scss",
   shadow: true,
 })
-export class Tile implements ConditionalSlotComponent, InteractiveComponent {
+export class Tile implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -35,6 +30,11 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
    * When `true`, the component is active.
    */
   @Prop({ reflect: true }) active = false;
+
+  /**
+   * Specifies the alignment of the Tile's content.
+   */
+  @Prop({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
   /**
    * A description for the component, which displays below the heading.
@@ -86,6 +86,24 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
 
   @Element() el: HTMLCalciteTileElement;
 
+  @State() hasContentStart = false;
+
+  @State() hasContentEnd = false;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  private handleContentStartSlotChange = (event: Event): void => {
+    this.hasContentStart = slotChangeHasAssignedElement(event);
+  };
+
+  private handleContentEndSlotChange = (event: Event): void => {
+    this.hasContentEnd = slotChangeHasAssignedElement(event);
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -93,12 +111,10 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     connectInteractive(this);
   }
 
   disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
     disconnectInteractive(this);
   }
 
@@ -113,27 +129,23 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   renderTile(): VNode {
-    const { icon, el, heading, description, iconFlipRtl } = this;
+    const { icon, hasContentStart, hasContentEnd, heading, description, iconFlipRtl } = this;
     const isLargeVisual = heading && icon && !description;
 
     return (
-      <div class={{ container: true, "large-visual": isLargeVisual }}>
+      <div class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual }}>
         {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
-        <div class="content-container">
-          {getSlotted(el, SLOTS.contentStart) ? (
-            <div class="content-slot-container">
-              <slot name={SLOTS.contentStart} />
-            </div>
-          ) : null}
-          <div class="content">
-            {heading && <div class="heading">{heading}</div>}
-            {description && <div class="description">{description}</div>}
+        <div class={CSS.contentContainer}>
+          <div class={{ [CSS.contentSlotContainer]: hasContentStart }}>
+            <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
           </div>
-          {getSlotted(el, SLOTS.contentEnd) ? (
-            <div class="content-slot-container">
-              <slot name={SLOTS.contentEnd} />
-            </div>
-          ) : null}
+          <div class={CSS.content}>
+            {heading && <div class={CSS.heading}>{heading}</div>}
+            {description && <div class={CSS.description}>{description}</div>}
+          </div>
+          <div class={{ [CSS.contentSlotContainer]: hasContentEnd }}>
+            <slot name={SLOTS.contentEnd} onSlotchange={this.handleContentEndSlotChange} />
+          </div>
         </div>
       </div>
     );
