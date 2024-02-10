@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0-next.0...@esri/calcite-components@2.5.0-next.1) (2024-02-10)
+
+### Bug Fixes
+
+- **input, input-number, input-text, text-area:** ensure all applicable props are considered in form validation ([#8655](https://github.com/Esri/calcite-design-system/issues/8655)) ([6de8534](https://github.com/Esri/calcite-design-system/commit/6de8534c5d36bfc90548a4bace1fa8ab81515bf9)), closes [#8647](https://github.com/Esri/calcite-design-system/issues/8647) [#8126](https://github.com/Esri/calcite-design-system/issues/8126)
+
 ## [2.5.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.4.1-next.1...@esri/calcite-components@2.5.0-next.0) (2024-02-09)
 
 ### Features
