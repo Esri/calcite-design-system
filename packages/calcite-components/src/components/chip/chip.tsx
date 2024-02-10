@@ -340,7 +340,7 @@ export class Chip
           [CSS.selectIconActive]: this.selectionMode === "multiple" || this.selected,
         }}
       >
-        <calcite-icon icon={icon} scale={getIconScale(this.scale)} />
+        {icon ? <calcite-icon icon={icon} scale={getIconScale(this.scale)} /> : null}
       </div>
     );
   }

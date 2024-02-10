@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.4.1-next.1...@esri/calcite-components@2.5.0-next.0) (2024-02-09)
+
+### Features
+
+- **tile:** add responsive layout features ([#8691](https://github.com/Esri/calcite-design-system/issues/8691)) ([f4f872e](https://github.com/Esri/calcite-design-system/commit/f4f872eeba08f1063457b97889f823d5c09d8974)), closes [#6690](https://github.com/Esri/calcite-design-system/issues/6690) [#6662](https://github.com/Esri/calcite-design-system/issues/6662)
+
+## [2.4.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.4.1-next.0...@esri/calcite-components@2.4.1-next.1) (2024-02-09)
+
+### Bug Fixes
+
+- **color-picker:** alpha-channel slider scope updates to reflect current opacity ([#8700](https://github.com/Esri/calcite-design-system/issues/8700)) ([cd0b532](https://github.com/Esri/calcite-design-system/commit/cd0b5328a902ae2a909ecb8ec2648bb7541b95d2)), closes [#7761](https://github.com/Esri/calcite-design-system/issues/7761)
+- **combobox:** avoid inline-start padding on combobox label when icon is displayed ([#8672](https://github.com/Esri/calcite-design-system/issues/8672)) ([9eb680a](https://github.com/Esri/calcite-design-system/commit/9eb680a5045e142d6db4c1d971c69961a73a44ee)), closes [#8396](https://github.com/Esri/calcite-design-system/issues/8396)
+- **list-item:** Fix slotted list border styling. ([#8712](https://github.com/Esri/calcite-design-system/issues/8712)) ([855f98d](https://github.com/Esri/calcite-design-system/commit/855f98d897e2158e58bb56d6e694d9bd08e4dbac)), closes [#8684](https://github.com/Esri/calcite-design-system/issues/8684)
+- **loader:** optimize animation performance ([#8714](https://github.com/Esri/calcite-design-system/issues/8714)) ([1ed8a01](https://github.com/Esri/calcite-design-system/commit/1ed8a01cb4d187afe374044b03b7fe5851c9a135)), closes [#8709](https://github.com/Esri/calcite-design-system/issues/8709)
+- **preset:** add back legacy token for calcite-ui-focus-color ([#8694](https://github.com/Esri/calcite-design-system/issues/8694)) ([1d1b933](https://github.com/Esri/calcite-design-system/commit/1d1b933eafb8e9c3b8058aa1acaa9c0c990bd84b)), closes [#8548](https://github.com/Esri/calcite-design-system/issues/8548)
+
+## [2.4.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.4.0...@esri/calcite-components@2.4.1-next.0) (2024-02-07)
+
+### Bug Fixes
+
+- don't override existing validationMessage when displaying after form submission ([#8690](https://github.com/Esri/calcite-design-system/issues/8690)) ([3076220](https://github.com/Esri/calcite-design-system/commit/3076220bf9d463bafe5c00cd14e7246a7995ab66)), closes [#8000](https://github.com/Esri/calcite-design-system/issues/8000) [/github.com/Esri/calcite-design-system/pull/8574#discussion_r1453899164](https://github.com/Esri//github.com/Esri/calcite-design-system/pull/8574/issues/discussion_r1453899164)
+
+## [2.4.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.3.0...@esri/calcite-components@2.4.0) (2024-01-30)
+
+### Features
+
+- Add `no-dynamic-createelement` rule ([#8656](https://github.com/Esri/calcite-design-system/issues/8656)) ([c7e9444](https://github.com/Esri/calcite-design-system/commit/c7e94441f8cc263935e60a6c920dd9673af9b8c0))
+
+### Bug Fixes
+
+- **chip:** Prevent rendering internal icon if not necessary. ([#8663](https://github.com/Esri/calcite-design-system/issues/8663)) ([8ca2929](https://github.com/Esri/calcite-design-system/commit/8ca292967309429f75d1308fe432f56628b6fee9))
+- **combobox:** Ensure supporting components are auto-defined ([#8657](https://github.com/Esri/calcite-design-system/issues/8657)) ([e6d792b](https://github.com/Esri/calcite-design-system/commit/e6d792b1a78a3a21a54f04fda4c4795d336deba8))
+- **list-item:** Do not focus on item cells on focusIn ([#8665](https://github.com/Esri/calcite-design-system/issues/8665)) ([ce9c9ae](https://github.com/Esri/calcite-design-system/commit/ce9c9aedc2581ad3eca1a9bda728e556f7b8b96e))
+- **tile-select:** Ensure supporting components are auto-defined ([#8648](https://github.com/Esri/calcite-design-system/issues/8648)) ([2c27f40](https://github.com/Esri/calcite-design-system/commit/2c27f409fedfd12bb06b3b4f0e0355816bb50e9a))
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - devDependencies
+    - @esri/eslint-plugin-calcite-components bumped from ^1.1.0-next.0 to ^1.1.0
+
 ## [2.3.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.2.0...@esri/calcite-components@2.3.0) (2024-01-24)
 
 ### Features
