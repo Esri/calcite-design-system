@@ -4,21 +4,29 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-flow-item-background-color: Specifies the background of the component.
- * @prop --calcite-flow-item-color: Specifies the color of the component.
- * @prop --calcite-flow-item-footer-padding: Specifies the padding of the component's footer.
- * @prop --calcite-flow-item-header-border-block-end: Specifies the component header's block end border.
+ * @prop --calcite-flow-item-footer-padding: [Deprecated] Use `--calcite-flow-item-footer-space` instead. Specifies the padding of the component's footer.
+ * @prop --calcite-flow-item-footer-space: Specifies the spacing of the component's footer.
+ * @prop --calcite-flow-item-header-border-block-end: [Deprecated] No longer necessary. Specifies the component header's block end border.
  */
 
 :host {
   @include base-host();
+  --calcite-flow-item-border-color: var(--calcite-color-border-3);
+  --calcite-flow-item-description-text-color: var(--calcite-color-text-2);
+  --calcite-flow-item-fab-z-index: var(--calcite-z-index-sticky);
+  --calcite-flow-item-footer-background-color: var(--calcite-color-foreground-1);
+  --calcite-flow-item-footer-space: var(--calcite-flow-item-footer-padding, var(--calcite-spacing-xxs));
+  --calcite-flow-item-heading-text-color: var(--calcite-color-text-2);
+  --calcite-flow-item-header-background-color: var(--calcite-color-foreground-1);
+  --calcite-flow-item-header-z-index: var(--calcite-z-index-header);
+  --calcite-flow-item-header-border-width: var(--calcite-border-width-sm);
+  --calcite-flow-item-header-border-block-end: var(--calcite-border-width-sm) solid
+    var(--calcite-flow-item-border-color);
 
-  --calcite-flow-item-background-color: var(--calcite-color-foreground-1);
-  --calcite-flow-item-color: var(--calcite-color-text-2);
   --calcite-internal-flow-item-back-border-inline-end-width: var(--calcite-border-width-sm);
   --calcite-internal-flow-item-back-border-color: var(--calcite-color-border-3);
 
   background-color: var(--calcite-flow-item-background-color);
-  color: var(--calcite-flow-item-color);
   font-size: var(--calcite-font-size--1);
   position: relative;
   display: flex;
@@ -36,7 +44,16 @@
 }
 
 calcite-panel {
-  --calcite-panel-footer-padding: var(--calcite-flow-item-footer-padding);
+  --calcite-panel-background-color: var(--calcite-flow-item-background-color);
+  --calcite-panel-border-color: var(--calcite-flow-item-border-color);
+  --calcite-panel-description-text-color: var(--calcite-flow-item-description-text-color);
+  --calcite-panel-fab-z-index: var(--calcite-flow-item-fab-z-index);
+  --calcite-panel-footer-background-color: var(--calcite-flow-item-footer-background-color);
+  --calcite-panel-footer-space: var(--calcite-flow-item-footer-space);
+  --calcite-panel-heading-text-color: var(--calcite-flow-item-heading-text-color);
+  --calcite-panel-header-background-color: var(--calcite-flow-item-header-background-color);
+  --calcite-panel-header-z-index: var(--calcite-flow-item-header-z-index);
+  --calcite-panel-header-border-width: var(--calcite-flow-item-header-border-width);
   --calcite-panel-header-border-block-end: var(--calcite-flow-item-header-border-block-end);
 }
 
