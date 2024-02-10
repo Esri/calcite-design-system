@@ -3,10 +3,17 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-flow-item-background-color: Specifies the background of the component.
+ * @prop --calcite-flow-item-background-color: Specifies the background color of the component.
+ * @prop --calcite-flow-item-border-color: Specifies the border color of the component.
+ * @prop --calcite-flow-item-description-text-color: Specifies the text color of the component's description.
+ * @prop --calcite-flow-item-fab-z-index: Specifies the component fab's z-index.
+ * @prop --calcite-flow-item-footer-background-color: Specifies the background color of the component's footer.
  * @prop --calcite-flow-item-footer-padding: [Deprecated] Use `--calcite-flow-item-footer-space` instead. Specifies the padding of the component's footer.
  * @prop --calcite-flow-item-footer-space: Specifies the spacing of the component's footer.
+ * @prop --calcite-flow-item-header-background-color: Specifies the component header's background color.
  * @prop --calcite-flow-item-header-border-block-end: [Deprecated] No longer necessary. Specifies the component header's block end border.
+ * @prop --calcite-flow-item-heading-text-color: Specifies the component's heading text color.
+ * @prop --calcite-flow-item-header-z-index: Specifies the component header's z-index.
  */
 
 :host {

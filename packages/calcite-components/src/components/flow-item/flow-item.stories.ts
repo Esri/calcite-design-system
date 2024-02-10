@@ -309,3 +309,46 @@ export const themed_TestOnly = (): string =>
     sollicitudin ac nulla. Pellentesque tincidunt malesuada arcu et placerat. In malesuada neque lectus, at congue est
     malesuada quis.
   </calcite-flow-item>`;
+
+export const theming_TestOnly = (): string => html`
+  <style>
+    .container {
+      max-height: 300px;
+      width: 300px;
+    }
+  </style>
+  <div class="container">
+    <calcite-flow-item
+      heading="My Flow Item"
+      description="My description"
+      style="
+      --calcite-flow-item-background-color: lightblue;
+      --calcite-flow-item-border-color: red;
+      --calcite-flow-item-description-color: purple;
+      --calcite-flow-item-footer-background-color: lightgreen;
+      --calcite-flow-item-footer-space: 24px;
+      --calcite-flow-item-header-background-color: yellow;
+      --calcite-flow-item-header-border-width: 1px;
+      --calcite-flow-item-heading-text-color: orange;
+      --calcite-flow-item-header-z-index: 999;
+      --calcite-flow-item-fab-z-index: 998;
+    "
+    >
+      <calcite-list>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
+      </calcite-list>
+      <calcite-fab slot="fab"></calcite-fab>
+      ${footerHTML}
+    </calcite-flow-item>
+  </div>
+`;
