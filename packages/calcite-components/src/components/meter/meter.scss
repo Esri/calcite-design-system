@@ -9,7 +9,6 @@
  * @prop --calcite-meter-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-meter-fill-color: Specifies the color of the component's fill.
  * @prop --calcite-meter-range-text-color: Specifies the color of the component's range labels.
- * @prop --calcite-meter-unit-text-color: Specifies the color of the component's unit labels.
  * @prop --calcite-meter-value-text-color: Specifies the color of the component's value label.
  *
  */
@@ -35,8 +34,9 @@
 }
 
 .container {
-  @apply flex relative items-center w-full;
+  @apply flex relative items-center;
   margin: 0;
+  width: var(--calcite-container-size-content-fluid);
   block-size: var(--calcite-internal-meter-height);
   background-color: var(--calcite-meter-background-color, var(--calcite-color-foreground-2));
   border: var(--calcite-border-width-sm) solid var(--calcite-meter-border-color, var(--calcite-color-border-3));
@@ -88,14 +88,8 @@
   inset-block-start: calc(100% + 0.5em);
 }
 
-.unit-label {
-  color: var(--calcite-meter-unit-text-color, var(--calcite-color-text-3));
+.label-range .unit-label {
   font-weight: var(--calcite-font-weight-medium);
-}
-
-.label-value .unit-label {
-  color: var(--calcite-meter-unit-text-color, var(--calcite-color-text-2));
-  font-weight: var(--calcite-font-weight-bold);
 }
 
 .fill {

@@ -230,7 +230,6 @@ export const theming_TestOnly = (): string => html`
       --calcite-meter-corner-radius: 0px;
       --calcite-meter-fill-color: rgb(174, 69, 174);
       --calcite-meter-range-text-color: rgb(28, 110, 164);
-      --calcite-meter-unit-text-color: pink;
       --calcite-meter-value-text-color: purple;"
   ></calcite-meter>
 `;
