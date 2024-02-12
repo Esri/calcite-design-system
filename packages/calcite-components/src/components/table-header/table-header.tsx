@@ -16,7 +16,7 @@ import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../..
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { TableHeaderMessages } from "./assets/table-header/t9n";
 import { CSS } from "./resources";
-import { RowType } from "../table/interfaces";
+import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getIconScale } from "../../utils/component";
 
 @Component({
@@ -46,6 +46,9 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
 
   /** Specifies the number of rows the component should span. */
   @Prop({ reflect: true }) rowSpan: number;
+
+  /** @internal */
+  @Prop() interactionMode: TableInteractionMode = "interactive";
 
   /** @internal */
   @Prop() lastCell: boolean;
@@ -205,7 +208,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
 
     const allSelected = this.selectedRowCount === this.bodyRowCount;
     const selectionIcon = allSelected ? "check-square-f" : "check-square";
-
+    const staticCell = this.interactionMode === "static" && !this.selectionCell;
     return (
       <Host>
         <th
@@ -217,13 +220,14 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
             [CSS.selectionCell]: this.selectionCell,
             [CSS.selectedCell]: this.parentRowIsSelected,
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
+            [CSS.staticCell]: staticCell,
             [CSS.lastCell]: this.lastCell,
           }}
           colSpan={this.colSpan}
           role="columnheader"
           rowSpan={this.rowSpan}
           scope={scope}
-          tabIndex={0}
+          tabIndex={this.selectionCell ? 0 : staticCell ? -1 : 0}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.containerEl = el)}
         >
