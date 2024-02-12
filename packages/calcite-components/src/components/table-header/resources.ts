@@ -10,5 +10,5 @@ export const CSS = {
   active: "active",
   selectedCell: "selected-cell",
   lastCell: "last-cell",
-  nonInteractive: "non-interactive",
+  staticCell: "static-cell",
 };

@@ -215,7 +215,7 @@ export class TableCell
 
   render(): VNode {
     const dir = getElementDir(this.el);
-    const nonFocusable =
+    const staticCell =
       this.disabled ||
       (this.interactionMode === "static" &&
         (!this.selectionCell || (this.selectionCell && this.parentRowType === "foot")));
@@ -232,14 +232,14 @@ export class TableCell
               [CSS.selectedCell]: this.parentRowIsSelected,
               [CSS.lastCell]: this.lastCell,
               [CSS_UTILITY.rtl]: dir === "rtl",
-              [CSS.nonInteractive]: nonFocusable,
+              [CSS.staticCell]: staticCell,
             }}
             colSpan={this.colSpan}
             onBlur={this.onContainerBlur}
             onFocus={this.onContainerFocus}
             role="gridcell"
             rowSpan={this.rowSpan}
-            tabIndex={nonFocusable ? -1 : 0}
+            tabIndex={staticCell ? -1 : 0}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.containerEl = el)}
           >

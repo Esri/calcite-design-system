@@ -34,9 +34,9 @@ th {
   padding-inline: var(--calcite-internal-table-cell-padding);
   background-color: var(--calcite-internal-table-header-background);
 
-  &:not(.non-interactive) {
+  &:not(.static-cell) {
     @apply focus-base;
-    &:not(.non-interactive):focus-within {
+    &:not(.static-cell):focus-within {
       @apply focus-inset;
     }
   }

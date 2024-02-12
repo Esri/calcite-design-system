@@ -30,7 +30,7 @@ td {
   border-inline-end: 1px solid var(--calcite-color-border-3);
   padding: var(--calcite-internal-table-cell-padding);
 
-  &:not(.non-interactive) {
+  &:not(.static-cell) {
     @apply focus-base;
     &:focus {
       @apply focus-inset;
