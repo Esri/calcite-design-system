@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0-next.1...@esri/calcite-components@2.5.0-next.2) (2024-02-12)
+
+### Features
+
+- **table:** Add `interactionMode` property to control focus behavior ([#8686](https://github.com/Esri/calcite-design-system/issues/8686)) ([0cb78c0](https://github.com/Esri/calcite-design-system/commit/0cb78c0e25b262ab23ad1833556bd36379fa4e8a)), closes [#8659](https://github.com/Esri/calcite-design-system/issues/8659)
+
 ## [2.5.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0-next.0...@esri/calcite-components@2.5.0-next.1) (2024-02-10)
 
 ### Bug Fixes
