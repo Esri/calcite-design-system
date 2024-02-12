@@ -4863,6 +4863,11 @@ export namespace Components {
          */
         "messages": TextAreaMessages;
         /**
+          * Specifies the minimum number of characters allowed.
+          * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
+         */
+        "minLength": number;
+        /**
           * Specifies the name of the component.
           * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
          */
@@ -4935,6 +4940,10 @@ export namespace Components {
           * When `true`, the component is active.
          */
         "active": boolean;
+        /**
+          * Specifies the alignment of the Tile's content.
+         */
+        "alignment": Exclude<Alignment, "end">;
         /**
           * A description for the component, which displays below the heading.
          */
@@ -12355,6 +12364,11 @@ declare namespace LocalJSX {
          */
         "messages"?: TextAreaMessages;
         /**
+          * Specifies the minimum number of characters allowed.
+          * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
+         */
+        "minLength"?: number;
+        /**
           * Specifies the name of the component.
           * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
          */
@@ -12427,6 +12441,10 @@ declare namespace LocalJSX {
           * When `true`, the component is active.
          */
         "active"?: boolean;
+        /**
+          * Specifies the alignment of the Tile's content.
+         */
+        "alignment"?: Exclude<Alignment, "end">;
         /**
           * A description for the component, which displays below the heading.
          */
