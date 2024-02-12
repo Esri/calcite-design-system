@@ -105,6 +105,7 @@
   font-inherit
   text-color-1
   text-ellipsis
+  overflow-hidden
   p-0;
   font-size: inherit;
   block-size: var(--calcite-combobox-input-height);
@@ -155,7 +156,6 @@
 
 .label {
   @apply pointer-events-none
-    flex
     max-w-full
     flex-auto
     truncate

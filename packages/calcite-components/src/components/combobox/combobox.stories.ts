@@ -333,21 +333,64 @@ export const nestedItems = (): string => html`
   </div>
 `;
 
-export const longItems_TestOnly = (): string =>
-  html`<style>
-      calcite-combobox {
-        width: 260px;
-      }
-      calcite-combobox-item {
-        width: 260px;
-      }
-    </style>
-    <calcite-combobox open>
-      <calcite-combobox-item text-label="Layers">
-        <calcite-combobox-item text-label="Enriched USA Census Tract Areas Aug29"></calcite-combobox-item>
+const style = html`
+  <style>
+    calcite-combobox {
+      width: 260px;
+    }
+    calcite-combobox-item {
+      width: 260px;
+    }
+  </style>
+`;
+
+export const longItemsSingle = (): string => html`
+  ${style}
+  <calcite-combobox open selection-mode="single">
+    <calcite-combobox-item text-label="Layers">
+      <calcite-combobox-item text-label="Enriched USA Census Tract Areas Aug29"></calcite-combobox-item>
+      <calcite-combobox-item text-label="Viewer_Reservable_Equipments_Capacity_V2_WFL1"></calcite-combobox-item>
+    </calcite-combobox-item>
+  </calcite-combobox>
+`;
+
+export const longItemsSinglePersist = (): string => html`
+  ${style}
+  <calcite-combobox open selection-mode="single-persist">
+    <calcite-combobox-item text-label="Layers">
+      <calcite-combobox-item text-label="Enriched USA Census Tract Areas Aug29"></calcite-combobox-item>
+      <calcite-combobox-item text-label="Viewer_Reservable_Equipments_Capacity_V2_WFL1"></calcite-combobox-item>
+    </calcite-combobox-item>
+  </calcite-combobox>
+`;
+
+export const longItemsMultiple = (): string => html`
+  ${style}
+  <calcite-combobox open selection-mode="multiple">
+    <calcite-combobox-item-group label="First item group">
+      <calcite-combobox-item text-label="Enriched USA Census Tract Areas Aug29"></calcite-combobox-item>
+    </calcite-combobox-item-group>
+
+    <calcite-combobox-item-group label="Last item group">
         <calcite-combobox-item text-label="Viewer_Reservable_Equipments_Capacity_V2_WFL1"></calcite-combobox-item>
       </calcite-combobox-item>
-    </calcite-combobox>`;
+    </calcite-combobox-item-group>
+  </calcite-combobox>
+`;
+
+export const longItemsAncestors = (): string => html`
+  ${style}
+  <calcite-combobox open selection-mode="ancestors">
+    <calcite-combobox-item-group label="First item group">
+      <calcite-combobox-item text-label="Enriched USA Census Tract Areas Aug29"></calcite-combobox-item>
+    </calcite-combobox-item-group>
+
+    <calcite-combobox-item-group label="Last item group">
+        <calcite-combobox-item text-label="Viewer_Reservable_Equipments_Capacity_V2_WFL1"></calcite-combobox-item>
+      </calcite-combobox-item>
+    </calcite-combobox-item-group>
+  </calcite-combobox>
+`;
 
 export const disabled_TestOnly = (): string =>
   html`<calcite-combobox disabled>
