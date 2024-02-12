@@ -2,6 +2,7 @@
   @apply flex flex-col;
   --calcite-list-item-icon-color: theme("colors.brand");
   --calcite-list-item-spacing-indent: theme("spacing.4");
+  padding-block: 10px;
 }
 
 :host([filter-hidden]) {
