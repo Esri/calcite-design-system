@@ -1,4 +1,5 @@
 {
+  "deselect": "deselect",
   "select": "Fiche sélectionnable",
   "loading": "Chargement"
 }

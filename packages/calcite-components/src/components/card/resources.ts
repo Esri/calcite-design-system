@@ -1,17 +1,29 @@
 export const CSS = {
   container: "container",
+  contentWrapper: "content-wrapper",
   header: "header",
   footer: "footer",
-  title: "title",
-  subtitle: "subtitle",
+  heading: "heading",
+  description: "description",
   checkboxWrapper: "checkbox-wrapper",
+  checkboxWrapperDeprecated: "checkbox-wrapper-deprecated",
   thumbnailWrapper: "thumbnail-wrapper",
+  headerTextContainer: "header-text-container",
 };
 
 export const SLOTS = {
   thumbnail: "thumbnail",
-  title: "title",
-  subtitle: "subtitle",
+  heading: "heading",
+  description: "description",
   footerStart: "footer-start",
   footerEnd: "footer-end",
+  title: "title",
+  subtitle: "subtitle",
+};
+
+export const ICONS = {
+  selected: "check-square-f",
+  unselected: "square",
+  selectedSingle: "circle-f",
+  unselectedSingle: "circle",
 };

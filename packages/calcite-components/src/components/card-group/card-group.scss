@@ -1,0 +1,19 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-card-group-gap: Specifies the gap between slotted Card components.
+ */
+
+:host {
+  --calcite-card-group-gap: theme("spacing.3");
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--calcite-card-group-gap);
+}
+
+@include disabled();

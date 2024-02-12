@@ -1,4 +1,5 @@
 {
+  "deselect": "deselect",
   "select": "可选卡片",
   "loading": "正在加载"
 }

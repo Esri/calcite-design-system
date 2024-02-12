@@ -1,4 +1,5 @@
 {
+  "deselect": "deselect",
   "select": "Card selectabil",
   "loading": "Se încarcă"
 }

@@ -1,8 +1,10 @@
 :host {
-  @apply block max-w-full;
-  & .calcite-card-container {
-    @apply bg-foreground-1
-    border-color-2
+  @apply block max-w-full h-full;
+}
+
+.content-wrapper {
+  @apply bg-foreground-1
+    border-color-2  
     text-color-3
     relative
     flex
@@ -12,10 +14,18 @@
     border
     border-solid
     shadow-none
-    duration-150
-    ease-in-out
     overflow-hidden;
-    border-radius: var(--calcite-border-radius-base);
+  border-radius: var(--calcite-border-radius-base);
+}
+
+:host(:not([selectable])) {
+  .content-wrapper {
+    &:not(.non-interactive) {
+      @apply focus-base;
+    }
+    &:not(.non-interactive):focus {
+      @apply focus-outset;
+    }
   }
 }
 
@@ -23,7 +33,7 @@
   @apply relative flex flex-auto flex-col;
 }
 
-:host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
+:host([loading]) .content-wrapper *:not(calcite-loader):not(.calcite-card-loader-container) {
   @apply pointer-events-none opacity-0;
 }
 
@@ -34,13 +44,19 @@
     items-center;
 }
 
-.header,
 .footer {
-  @apply flex px-3 pt-3 pb-1;
+  @apply flex px-3 pt-3 pb-1 mt-auto;
 }
 
 .header {
-  @apply flex-col;
+  @apply flex flex-row items-start;
+}
+
+.header-text-container {
+  @apply flex flex-col px-3 py-2 w-full justify-center;
+  &:not(:only-child) {
+    @apply pr-0.5;
+  }
 }
 
 .footer {
@@ -52,35 +68,30 @@
 }
 
 .card-content {
-  @apply text-color-3
-    text-n2-wrap
-    p-3;
+  @apply h-auto p-3 text-n2-wrap;
 }
 
-:host([selected]) .calcite-card-container {
-  @apply border-color-brand;
+:host([selected]) .content-wrapper {
+  box-shadow: inset 0 -4px 0 0 var(--calcite-ui-brand);
+}
+
+// to be removed in future release
+:host([selectable]) .header {
+  padding-inline-end: var(--calcite-spacing-xxxl);
 }
 
 // slotted content
-@include slotted("title", "*") {
+@include slotted("heading", "*") {
   @apply text-color-1
     text-n1-wrap
     m-0
     font-medium;
 }
 
-:host([selectable]) {
-  .header {
-    // prevents overlap with checkbox (default header padding + no-overlap spacing)
-    padding-inline-end: theme("spacing.8");
-  }
-}
-
-@include slotted("subtitle", "*") {
+@include slotted("description", "*") {
   @apply text-color-2
     text-n2-wrap
-    m-0
-    mt-2
+    m-0 mt-0.5
     font-normal;
 }
 
@@ -92,21 +103,32 @@
   @apply text-n2-wrap self-center;
   margin-inline-end: auto;
 }
+
 @include slotted("footer-end", "*") {
   @apply text-n2-wrap self-center;
 }
 
-.checkbox-wrapper {
+// to be removed in future release
+.checkbox-wrapper-deprecated {
   @apply absolute m-0 p-0;
   inset-block-start: theme("spacing.2");
   inset-inline-end: theme("spacing.2");
+}
+
+.checkbox-wrapper {
+  @apply m-2;
+}
+
+:host([selected]) .checkbox-wrapper {
+  --calcite-ui-icon-color: var(--calcite-ui-brand);
+  --calcite-ui-border-3: var(--calcite-ui-brand);
 }
 
 .thumbnail-wrapper {
   @apply flex;
 }
 
-.calcite-card-container.inline {
+.content-wrapper.inline {
   @apply flex-row;
 
   & > .container {

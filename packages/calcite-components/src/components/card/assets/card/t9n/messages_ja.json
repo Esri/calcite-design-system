@@ -1,4 +1,5 @@
 {
+  "deselect": "deselect",
   "select": "選択可能なカード",
   "loading": "読み込んでいます"
 }

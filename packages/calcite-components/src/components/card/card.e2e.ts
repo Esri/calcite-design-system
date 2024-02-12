@@ -22,7 +22,7 @@ describe("calcite-card", () => {
     accessible("calcite-card");
   });
 
-  describe("accessible when selectable", () => {
+  describe("accessible when selectable (deprecated)", () => {
     accessible(
       html`<calcite-card selectable>
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
@@ -44,22 +44,31 @@ describe("calcite-card", () => {
     const element = await page.find("calcite-card");
     expect(element).not.toHaveAttribute("disabled");
     expect(element).not.toHaveAttribute("loading");
-    expect(element).not.toHaveAttribute("selectable");
     expect(element).not.toHaveAttribute("selected");
   });
 
   it("renders with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-card loading selectable selected disabled>
+      <calcite-card loading selected disabled>
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`);
 
     const element = await page.find("calcite-card");
     expect(element).toHaveAttribute("disabled");
     expect(element).toHaveAttribute("loading");
-    expect(element).toHaveAttribute("selectable");
     expect(element).toHaveAttribute("selected");
+  });
+
+  it("renders with selectable (deprecated)", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+      <calcite-card loading selectable>
+        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
+      </calcite-card>`);
+
+    const element = await page.find("calcite-card");
+    expect(element).toHaveAttribute("selectable");
   });
 
   it("should have a thumbnail container", async () => {
@@ -75,7 +84,7 @@ describe("calcite-card", () => {
     expect(thumbContainer).not.toBeNull();
   });
 
-  it("should render a checkbox if selectable", async () => {
+  it("should render a checkbox if selectable (deprecated)", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-card selectable>
@@ -88,7 +97,7 @@ describe("calcite-card", () => {
     expect(thumbContainer).not.toBeNull();
   });
 
-  describe("when a card is selectable", () => {
+  describe("when a card is selectable (deprecated)", () => {
     it("should update the card's selected state when its checkbox is clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(`
