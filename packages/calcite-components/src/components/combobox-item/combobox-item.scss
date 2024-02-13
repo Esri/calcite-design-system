@@ -88,7 +88,7 @@
 
 .scale--l {
   @apply text-0h;
-  calcite-internal-combobox-item-spacing-inline: theme("spacing.4");
+  --calcite-internal-combobox-item-spacing-inline: theme("spacing.4");
   --calcite-internal-combobox-item-spacing-block: theme("spacing[2.5]");
   --calcite-internal-combobox-item-dot-size: theme("spacing.6");
 }
@@ -115,9 +115,7 @@ ul:focus {
   items-center
   no-underline
   relative;
-
   @include word-break();
-
   inline-size: var(--calcite-container-size-content-fluid);
   color: var(--calcite-combobox-item-text-color);
   padding-block: var(--calcite-internal-combobox-item-spacing-block);
@@ -145,15 +143,6 @@ ul:focus {
   padding-inline: var(--calcite-internal-combobox-item-spacing-inline);
 }
 
-// dot, selected icon, and custom icon styles
-.icon--dot {
-  @apply flex justify-center;
-  min-inline-size: var(--calcite-internal-combobox-item-dot-size);
-}
-.icon--dot:before {
-  text-align: start;
-  content: "\2022";
-}
 .icon {
   @apply inline-flex
     duration-150
@@ -162,8 +151,23 @@ ul:focus {
   opacity: var(--calcite-internal-combobox-item-select-icon-opacity);
   padding-inline-start: var(--calcite-internal-combobox-item-icon-inline-start);
 }
+
 .icon--custom {
   color: var(--calcite-combobox-item-icon-color);
   margin-block-start: -1px;
   padding-inline-start: var(--calcite-internal-combobox-item-spacing-inline);
+}
+
+.icon--active {
+  @apply text-color-1;
+}
+
+.icon--dot {
+  @apply flex justify-center;
+  min-inline-size: var(--calcite-internal-combobox-item-dot-size);
+}
+
+.icon--dot:before {
+  text-align: start;
+  content: "\2022";
 }
