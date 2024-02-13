@@ -515,7 +515,7 @@ export const responsiveTabs = (): string =>
     
     <calcite-tabs bordered scale="{scale}">
         <calcite-tab-nav slot="title-group">
-          <calcite-tab-titleicon-start="tabbed-view" icon-end="pen" closable>Tab 1 Title</calcite-tab-title>
+          <calcite-tab-title icon-start="tabbed-view" icon-end="pen" closable>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
           <calcite-tab-title>An Ultramarathon of a Tab Title, why not.</calcite-tab-title>
           <calcite-tab-title closable selected>Tab 4 Title</calcite-tab-title>
