@@ -1,17 +1,34 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-fab-shadow: Specifies the shadow of the component.
+ * @prop --calcite-fab-shadow-hover: Specifies the shadow of the component when in hover state.
+ * @prop --calcite-fab-shadow-active: Specifies the shadow of the component when in active state.
+ * @prop --calcite-fab-offset-shadow: Specifies the offset shadow of the component.
+ */
+
 :host {
-  @apply flex bg-transparent;
+  @apply flex;
+  --calcite-fab-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  --calcite-fab-shadow-active: 0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16);
+  --calcite-fab-shadow-hover: var(--calcite-shadow-md);
+  --calcite-fab-offset-shadow: 0 0 #0000;
+  background-color: var(--calcite-color-transparent);
+}
+
+calcite-button {
+  box-shadow: var(--calcite-fab-offset-shadow), var(--calcite-fab-offset-shadow), var(--calcite-fab-shadow);
+
+  &:hover {
+    box-shadow: var(--calcite-fab-offset-shadow), var(--calcite-fab-offset-shadow), var(--calcite-fab-shadow-hover);
+  }
+  &:active {
+    box-shadow: var(--calcite-fab-offset-shadow), var(--calcite-fab-offset-shadow), var(--calcite-fab-shadow-active);
+  }
 }
 
 @include disabled();
-
-calcite-button {
-  @apply shadow-2;
-  &:hover {
-    @apply shadow-2-lg;
-  }
-  &:active {
-    @apply shadow-2-sm;
-  }
-}
 
 @include base-component();
