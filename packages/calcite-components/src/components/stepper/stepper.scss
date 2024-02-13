@@ -38,7 +38,7 @@
 }
 
 :host([layout="horizontal"]),
-:host([layout="single-horizontal"]) {
+:host([layout="horizontal-single"]) {
   .container {
     display: grid;
     // grid-templates-columns are dynamically generated
@@ -51,14 +51,14 @@
 }
 
 :host([layout="horizontal"][scale="s"]),
-:host([layout="single-horizontal"][scale="s"]) {
+:host([layout="horizontal-single"][scale="s"]) {
   .container {
     gap: theme("spacing.1") var(--calcite-internal-stepper-item-spacing-unit-s);
   }
 }
 
 :host([layout="horizontal"][scale="l"]),
-:host([layout="single-horizontal"][scale="l"]) {
+:host([layout="horizontal-single"][scale="l"]) {
   .container {
     gap: theme("spacing.3") var(--calcite-internal-stepper-item-spacing-unit-s);
   }

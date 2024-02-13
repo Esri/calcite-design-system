@@ -179,7 +179,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
           class={{ container: true, [CSS.singleView]: !this.multipleViewMode }}
           ref={this.setContainerEl}
         >
-          {this.layout === "single-horizontal" && (
+          {this.layout === "horizontal-single" && (
             <div class={{ [CSS.stepBarContainer]: true }}>
               {this.items.map((item, index) => (
                 <StepBar
@@ -470,7 +470,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     const totalItems = this.items.length;
     const id = `${this.guid}-${isPositionStart ? "start" : "end"}`;
 
-    return layout === "single-horizontal" && !multipleViewMode ? (
+    return layout === "horizontal-single" && !multipleViewMode ? (
       <calcite-action
         alignment="center"
         appearance="transparent"

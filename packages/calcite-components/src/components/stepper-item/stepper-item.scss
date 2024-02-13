@@ -248,7 +248,7 @@
 }
 
 :host([layout="horizontal"]),
-:host([layout="single-horizontal"]) {
+:host([layout="horizontal-single"]) {
   display: contents;
 
   .container {
@@ -277,63 +277,63 @@
 }
 
 :host([layout="horizontal"][disabled]),
-:host([layout="single-horizontal"][disabled]) {
+:host([layout="horizontal-single"][disabled]) {
   .stepper-item-header {
     @extend %disabled-host-only;
   }
 }
 
-:host([layout="single-horizontal"][selected]) {
+:host([layout="horizontal-single"][selected]) {
   .stepper-item-header {
     grid-area: 1 / 1 / 1 / -1;
   }
 }
 
 :host([layout="horizontal"][selected]),
-:host([layout="single-horizontal"][selected]) {
+:host([layout="horizontal-single"][selected]) {
   .stepper-item-content {
     grid-area: 2 / 1 / 2 / -1;
   }
 }
 
 :host([layout="horizontal"][complete]),
-:host([layout="single-horizontal"][complete]) {
+:host([layout="horizontal-single"][complete]) {
   .stepper-item-header {
     border-color: rgba($h-bb-060, 0.5);
   }
 }
 :host([layout="horizontal"][complete]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal"][complete]:focus:not([disabled]):not([selected])),
-:host([layout="single-horizontal"][complete]:hover:not([disabled]):not([selected])),
-:host([layout="single-horizontal"][complete]:focus:not([disabled]):not([selected])) {
+:host([layout="horizontal-single"][complete]:hover:not([disabled]):not([selected])),
+:host([layout="horizontal-single"][complete]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
     @apply border-color-brand;
   }
 }
 :host([layout="horizontal"][error]),
-:host([layout="single-horizontal"][error]) {
+:host([layout="horizontal-single"][error]) {
   .stepper-item-header {
     @apply border-color-danger;
   }
 }
 :host([layout="horizontal"][selected][multiple-view-mode]),
-:host([layout="single-horizontal"][selected][multiple-view-mode]) {
+:host([layout="horizontal-single"][selected][multiple-view-mode]) {
   .stepper-item-header {
     @apply border-color-brand;
   }
 }
 :host([layout="horizontal"]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal"]:focus:not([disabled]):not([selected])),
-:host([layout="single-horizontal"]:hover:not([disabled]):not([selected])),
-:host([layout="single-horizontal"]:focus:not([disabled]):not([selected])) {
+:host([layout="horizontal-single"]:hover:not([disabled]):not([selected])),
+:host([layout="horizontal-single"]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
     border-color: rgba($h-bb-060, 0.5);
   }
 }
 :host([layout="horizontal"][error]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal"][error]:focus:not([disabled]):not([selected])),
-:host([layout="single-horizontal"][error]:hover:not([disabled]):not([selected])),
-:host([layout="single-horizontal"][error]:focus:not([disabled]):not([selected])) {
+:host([layout="horizontal-single"][error]:hover:not([disabled]):not([selected])),
+:host([layout="horizontal-single"][error]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
     @apply border-color-danger-hover;
   }
@@ -365,14 +365,14 @@
   }
 }
 
-:host([layout="single-horizontal"]) .stepper-item-header {
+:host([layout="horizontal-single"]) .stepper-item-header {
   @apply border-none box-border
   me-0;
   inline-size: 100%;
   padding-inline: calc(var(--calcite-internal-stepper-action-inline-size) + 0.5rem);
 }
 
-:host([layout="single-horizontal"][error]) .container {
+:host([layout="horizontal-single"][error]) .container {
   & .stepper-item-number {
     color: theme("backgroundColor.danger");
   }
@@ -382,15 +382,15 @@
   }
 }
 
-:host([layout="single-horizontal"][error][selected]),
-:host([layout="single-horizontal"][complete][selected]) .container {
+:host([layout="horizontal-single"][error][selected]),
+:host([layout="horizontal-single"][complete][selected]) .container {
   @apply text-color-3;
   & .stepper-item-heading {
     @apply text-color-2;
   }
 }
 
-:host([layout="single-horizontal"][complete][selected]) .container {
+:host([layout="horizontal-single"][complete][selected]) .container {
   & .stepper-item-icon {
     @apply opacity-disabled;
   }
