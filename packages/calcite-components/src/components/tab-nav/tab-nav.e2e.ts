@@ -4,8 +4,6 @@ import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 import { getElementRect } from "../../tests/utils";
 
-const SCROLL_TO_DELAY = 100;
-
 describe("calcite-tab-nav", () => {
   describe("defaults", () => {
     defaults("calcite-tab-nav", [{ propertyName: "scale", defaultValue: "m" }]);
@@ -192,29 +190,34 @@ describe("calcite-tab-nav", () => {
     });
 
     it("scrolling tabs via buttons", async () => {
+      const scrollContainer = await page.find(`calcite-tab-nav >>> .${CSS.tabTitleSlotWrapper}`);
       await assertScrollButtonVisibility(false, true);
 
+      let scrollEnd = scrollContainer.waitForEvent("scrollend");
       await scrollForwardButton.click();
       await page.waitForChanges();
-      await page.waitForTimeout(SCROLL_TO_DELAY);
+      await scrollEnd;
 
       await assertScrollButtonVisibility(true, true);
 
+      scrollEnd = scrollContainer.waitForEvent("scrollend");
       await scrollForwardButton.click();
       await page.waitForChanges();
-      await page.waitForTimeout(SCROLL_TO_DELAY);
+      await scrollEnd;
 
       await assertScrollButtonVisibility(true, false);
 
+      scrollEnd = scrollContainer.waitForEvent("scrollend");
       await scrollBackButton.click();
       await page.waitForChanges();
-      await page.waitForTimeout(SCROLL_TO_DELAY);
+      await scrollEnd;
 
       await assertScrollButtonVisibility(true, true);
 
+      scrollEnd = scrollContainer.waitForEvent("scrollend");
       await scrollBackButton.click();
       await page.waitForChanges();
-      await page.waitForTimeout(SCROLL_TO_DELAY);
+      await scrollEnd;
 
       await assertScrollButtonVisibility(false, true);
     });
