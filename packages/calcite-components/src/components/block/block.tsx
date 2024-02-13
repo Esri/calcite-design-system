@@ -18,8 +18,6 @@ import {
 } from "../../utils/conditionalSlot";
 import { focusFirstTabbable, getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -212,13 +210,11 @@ export class Block
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectConditionalSlotComponent(this);

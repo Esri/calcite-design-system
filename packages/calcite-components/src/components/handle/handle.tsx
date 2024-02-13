@@ -28,12 +28,7 @@ import {
 import { HandleMessages } from "./assets/handle/t9n";
 import { HandleChange, HandleNudge } from "./interfaces";
 import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
-import {
-  connectInteractive,
-  disconnectInteractive,
-  InteractiveComponent,
-  updateHostInteraction,
-} from "../../utils/interactive";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
   tag: "calcite-handle",
@@ -130,7 +125,6 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectMessages(this);
     connectLocalized(this);
   }
@@ -149,7 +143,6 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectMessages(this);
     disconnectLocalized(this);
   }

@@ -17,8 +17,6 @@ import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
 import { isActivationKey } from "../../utils/key";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -121,16 +119,8 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
     }
   }
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   //--------------------------------------------------------------------------

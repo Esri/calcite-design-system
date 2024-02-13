@@ -22,8 +22,6 @@ import {
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -464,7 +462,6 @@ export class RadioButton
     if (this.name) {
       this.checkLastRadioButton();
     }
-    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
@@ -483,7 +480,6 @@ export class RadioButton
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();

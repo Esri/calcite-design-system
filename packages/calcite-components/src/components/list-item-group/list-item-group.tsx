@@ -10,8 +10,6 @@ import {
   VNode,
 } from "@stencil/core";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -73,15 +71,10 @@ export class ListItemGroup implements InteractiveComponent {
   connectedCallback(): void {
     const { el } = this;
     this.visualLevel = getDepth(el, true);
-    connectInteractive(this);
   }
 
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   // --------------------------------------------------------------------------

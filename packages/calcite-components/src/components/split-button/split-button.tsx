@@ -11,8 +11,6 @@ import {
 } from "@stencil/core";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -159,10 +157,6 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
@@ -173,10 +167,6 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
 
   componentDidRender(): void {
     updateHostInteraction(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
   }
 
   render(): VNode {

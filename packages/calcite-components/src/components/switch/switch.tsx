@@ -17,8 +17,6 @@ import {
   HiddenFormInputSlot,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -168,7 +166,6 @@ export class Switch
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
   }
@@ -182,7 +179,6 @@ export class Switch
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
   }

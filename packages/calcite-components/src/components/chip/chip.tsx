@@ -36,8 +36,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -197,7 +195,6 @@ export class Chip
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -213,7 +210,6 @@ export class Chip
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.mutationObserver?.disconnect();

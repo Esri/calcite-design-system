@@ -12,8 +12,6 @@ import {
 } from "@stencil/core";
 import { focusElementInGroup, toAriaBoolean } from "../../utils/dom";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -107,12 +105,10 @@ export class ChipGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   componentDidRender(): void {
-    disconnectInteractive(this);
     updateHostInteraction(this);
   }
 

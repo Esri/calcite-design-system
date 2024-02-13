@@ -18,8 +18,6 @@ import {
 import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -136,12 +134,10 @@ export class ValueListItem
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
-    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
-    disconnectInteractive(this);
   }
 
   componentWillLoad(): void {

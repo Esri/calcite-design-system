@@ -14,8 +14,6 @@ import {
 } from "@stencil/core";
 import { Layout, Scale } from "../interfaces";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -220,7 +218,6 @@ export class StepperItem
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -246,7 +243,6 @@ export class StepperItem
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
