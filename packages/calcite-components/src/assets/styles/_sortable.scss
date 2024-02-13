@@ -3,7 +3,8 @@
   .calcite-sortable--ghost,
   .calcite-sortable--drag,
   .calcite-sortable--fallback {
-    @apply relative overflow-hidden;
+    position: relative;
+    overflow: hidden;
   }
 
   .calcite-sortable--ghost::before {
