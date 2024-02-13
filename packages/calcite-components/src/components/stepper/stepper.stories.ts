@@ -19,7 +19,6 @@ export default {
 export const simple = (): string => html`
   <h1>Default</h1>
   <calcite-stepper
-    scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["horizontal", "vertical", "horizontal-single"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("numbered", true)}
@@ -57,7 +56,6 @@ export const simple = (): string => html`
   </calcite-stepper>
   <h1>No Content</h1>
   <calcite-stepper
-    scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["horizontal", "vertical", "horizontal-single"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("numbered", true)}
@@ -95,7 +93,6 @@ export const darkModeRTL_TestOnly = (): string => html`
 <div dir="rtl">
   <calcite-stepper
   class="calcite-mode-dark"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["horizontal", "vertical", "horizontal-single"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("numbered", true)}
