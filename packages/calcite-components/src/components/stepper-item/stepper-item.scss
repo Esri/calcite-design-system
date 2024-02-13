@@ -247,7 +247,8 @@
   @apply border-color-danger-hover;
 }
 
-:host([layout="horizontal"]) {
+:host([layout="horizontal"]),
+:host([layout="single-horizontal"]) {
   display: contents;
 
   .container {
@@ -275,38 +276,67 @@
   }
 }
 
-:host([layout="horizontal"][disabled]) {
+:host([layout="horizontal"][disabled]),
+:host([layout="single-horizontal"][disabled]) {
   .stepper-item-header {
     @extend %disabled-host-only;
   }
 }
 
-:host([layout="horizontal"][selected]) {
+:host([layout="single-horizontal"][selected]) {
+  .stepper-item-header {
+    grid-area: 1 / 1 / 1 / -1;
+  }
+}
+
+:host([layout="horizontal"][selected]),
+:host([layout="single-horizontal"][selected]) {
   .stepper-item-content {
     grid-area: 2 / 1 / 2 / -1;
   }
 }
 
-:host([layout="horizontal"][complete]) .stepper-item-header {
-  border-color: rgba($h-bb-060, 0.5);
+:host([layout="horizontal"][complete]),
+:host([layout="single-horizontal"][complete]) {
+  .stepper-item-header {
+    border-color: rgba($h-bb-060, 0.5);
+  }
 }
-:host([layout="horizontal"][complete]:hover:not([disabled]):not([selected])) .stepper-item-header,
-:host([layout="horizontal"][complete]:focus:not([disabled]):not([selected])) .stepper-item-header {
-  @apply border-color-brand;
+:host([layout="horizontal"][complete]:hover:not([disabled]):not([selected])),
+:host([layout="horizontal"][complete]:focus:not([disabled]):not([selected])),
+:host([layout="single-horizontal"][complete]:hover:not([disabled]):not([selected])),
+:host([layout="single-horizontal"][complete]:focus:not([disabled]):not([selected])) {
+  .stepper-item-header {
+    @apply border-color-brand;
+  }
 }
-:host([layout="horizontal"][error]) .stepper-item-header {
-  @apply border-color-danger;
+:host([layout="horizontal"][error]),
+:host([layout="single-horizontal"][error]) {
+  .stepper-item-header {
+    @apply border-color-danger;
+  }
 }
-:host([layout="horizontal"][selected][multiple-view-mode]) .stepper-item-header {
-  @apply border-color-brand;
+:host([layout="horizontal"][selected][multiple-view-mode]),
+:host([layout="single-horizontal"][selected][multiple-view-mode]) {
+  .stepper-item-header {
+    @apply border-color-brand;
+  }
 }
-:host([layout="horizontal"]:hover:not([disabled]):not([selected])) .stepper-item-header,
-:host([layout="horizontal"]:focus:not([disabled]):not([selected])) .stepper-item-header {
-  border-color: rgba($h-bb-060, 0.5);
+:host([layout="horizontal"]:hover:not([disabled]):not([selected])),
+:host([layout="horizontal"]:focus:not([disabled]):not([selected])),
+:host([layout="single-horizontal"]:hover:not([disabled]):not([selected])),
+:host([layout="single-horizontal"]:focus:not([disabled]):not([selected])) {
+  .stepper-item-header {
+    border-color: rgba($h-bb-060, 0.5);
+  }
 }
-:host([layout="horizontal"][error]:hover:not([disabled]):not([selected])) .stepper-item-header,
-:host([layout="horizontal"][error]:focus:not([disabled]):not([selected])) .stepper-item-header {
-  @apply border-color-danger-hover;
+:host([layout="horizontal"][error]:hover:not([disabled]):not([selected])),
+:host([layout="horizontal"][error]:focus:not([disabled]):not([selected])),
+:host([layout="single-horizontal"][error]:hover:not([disabled]):not([selected])),
+:host([layout="single-horizontal"][error]:focus:not([disabled]):not([selected])) {
+  .stepper-item-header {
+    @apply border-color-danger-hover;
+  }
 }
 
 @media (forced-colors: active) {
@@ -335,14 +365,14 @@
   }
 }
 
-:host([layout="horizontal"]:not([multiple-view-mode])) .stepper-item-header {
-  @apply border-none 
+:host([layout="single-horizontal"]) .stepper-item-header {
+  @apply border-none box-border
   me-0;
   inline-size: 100%;
   padding-inline: calc(var(--calcite-internal-stepper-action-inline-size) + 0.5rem);
 }
 
-:host([layout="horizontal"][error]:not([multiple-view-mode])) .container {
+:host([layout="single-horizontal"][error]) .container {
   & .stepper-item-number {
     color: theme("backgroundColor.danger");
   }
@@ -352,15 +382,15 @@
   }
 }
 
-:host([layout="horizontal"][error][selected]:not([multiple-view-mode])),
-:host([layout="horizontal"][complete][selected]:not([multiple-view-mode])) .container {
+:host([layout="single-horizontal"][error][selected]),
+:host([layout="single-horizontal"][complete][selected]) .container {
   @apply text-color-3;
   & .stepper-item-heading {
     @apply text-color-2;
   }
 }
 
-:host([layout="horizontal"][complete][selected]:not([multiple-view-mode])) .container {
+:host([layout="single-horizontal"][complete][selected]) .container {
   & .stepper-item-icon {
     @apply opacity-disabled;
   }
