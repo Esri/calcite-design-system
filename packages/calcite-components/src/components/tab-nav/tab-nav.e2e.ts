@@ -1,8 +1,10 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS, SCROLL_TO_DELAY } from "./resources";
+import { CSS } from "./resources";
 import { getElementRect } from "../../tests/utils";
+
+const SCROLL_TO_DELAY = 100;
 
 describe("calcite-tab-nav", () => {
   describe("defaults", () => {
