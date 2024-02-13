@@ -76,7 +76,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   @Prop({ reflect: true }) selectable = false;
 
   /** When `true`, the component is selected.  */
-  @Prop({ reflect: true }) selected = false;
+  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
    * When true, enables the card to be focused, and allows the `calciteCardSelect` to emit.
@@ -124,7 +124,8 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
-    if (event.composedPath()[0] === this.containerEl) {
+    // remove selectable condition in future release
+    if (event.composedPath()[0] === this.containerEl && !this.selectable) {
       switch (event.key) {
         case " ":
         case "Enter":
@@ -218,31 +219,33 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   // to be removed in future release
   private renderCheckbox(): VNode {
     return (
-      <calcite-label
-        class={CSS.checkboxWrapperDeprecated}
-        onClick={this.cardSelectClick}
-        onKeyDown={this.cardSelectKeyDown}
-      >
-        <calcite-checkbox checked={this.selected} label={this.messages.select} />
+      <calcite-label class={CSS.checkboxWrapperDeprecated}>
+        <calcite-checkbox
+          checked={this.selected}
+          label={this.messages.select}
+          onClick={this.selectCardDeprecated}
+          onKeyDown={this.cardSelectKeyDownDeprecated}
+        />
       </calcite-label>
     );
   }
 
   // to be removed in future release
-  private cardSelectKeyDown = (event: KeyboardEvent): void => {
+  private cardSelectKeyDownDeprecated = (event: KeyboardEvent): void => {
     switch (event.key) {
       case " ":
       case "Enter":
-        this.selectCard();
+        this.selectCardDeprecated();
         event.preventDefault();
         break;
     }
   };
 
-  private selectCard() {
+  // to be removed in future release
+  private selectCardDeprecated = (): void => {
     this.selected = !this.selected;
     this.calciteCardSelect.emit();
-  }
+  };
 
   private cardSelectClick = (): void => {
     this.calciteCardSelect.emit();
@@ -277,6 +280,18 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
 
     return (
       <calcite-action
+        aria-checked={
+          this.selectionMode !== "none" && role !== "button" && this.interactive
+            ? toAriaBoolean(this.selected)
+            : undefined
+        }
+        aria-label={
+          role
+            ? `card container ${this.selected ? this.messages.deselect : this.messages.select} ${
+                this.label
+              }`
+            : `card action` + this.label
+        }
         class={CSS.checkboxWrapper}
         icon={icon}
         onClick={this.cardSelectClick}
@@ -328,15 +343,32 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
     const thumbnailInline = this.thumbnailPosition.startsWith("inline");
     const thumbnailStart = this.thumbnailPosition.endsWith("start");
 
+    const role =
+      this.selectionMode === "multiple" && this.interactive
+        ? "checkbox"
+        : this.selectionMode !== "none" && this.interactive
+          ? "radio"
+          : this.interactive
+            ? "button"
+            : undefined;
+
     return (
       <Host>
         <div
+          aria-checked={
+            this.selectionMode !== "none" && role !== "button" && this.interactive
+              ? toAriaBoolean(this.selected)
+              : undefined
+          }
           aria-label={
-            this.label +
-            ` ${this.selected ? this.messages.deselect : this.messages.select} ${this.label}`
+            role
+              ? `card action ${this.selected ? this.messages.deselect : this.messages.select} ${
+                  this.label
+                }`
+              : `card action` + this.label
           }
           class={{ [CSS.contentWrapper]: true, inline: thumbnailInline }}
-          tabIndex={!this.selectable ? 0 : -1}
+          tabIndex={!this.selectable || this.disabled ? 0 : -1}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.containerEl = el)}
         >

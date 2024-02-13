@@ -15,6 +15,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
@@ -88,7 +89,7 @@ export class CardGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Emits when the component's selection changes. */
+  /** Emits when the component's selection changes and the selectionMode is not `none`. */
   @Event({ cancelable: false }) calciteCardGroupSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
@@ -147,7 +148,10 @@ export class CardGroup implements InteractiveComponent {
 
   @Listen("calciteCardSelect")
   calciteCardSelectListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
+    if (
+      event.composedPath().includes(this.el) &&
+      !(event.target as HTMLCalciteCardElement).selectable
+    ) {
       this.setSelectedItems(true, event.target as HTMLCalciteCardElement);
     }
   }
@@ -213,7 +217,7 @@ export class CardGroup implements InteractiveComponent {
 
     this.selectedItems = this.items.filter((el) => el.selected);
 
-    if (emit) {
+    if (emit && this.selectionMode !== "none") {
       this.calciteCardGroupSelect.emit();
     }
   };
@@ -229,17 +233,19 @@ export class CardGroup implements InteractiveComponent {
       this.selectionMode === "none" || this.selectionMode === "multiple" ? "group" : "radiogroup";
 
     return (
-      <div
-        aria-disabled={toAriaBoolean(this.disabled)}
-        aria-label={this.label}
-        class="container"
-        role={role}
-      >
-        <slot
-          onSlotchange={this.updateItems}
-          ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}
-        />
-      </div>
+      <InteractiveContainer disabled={this.disabled}>
+        <div
+          aria-disabled={toAriaBoolean(this.disabled)}
+          aria-label={this.label}
+          class="container"
+          role={role}
+        >
+          <slot
+            onSlotchange={this.updateItems}
+            ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}
+          />
+        </div>
+      </InteractiveContainer>
     );
   }
 }

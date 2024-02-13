@@ -8167,7 +8167,7 @@ declare namespace LocalJSX {
          */
         "label": string;
         /**
-          * Emits when the component's selection changes.
+          * Emits when the component's selection changes and the selectionMode is not `none`.
          */
         "onCalciteCardGroupSelect"?: (event: CalciteCardGroupCustomEvent<void>) => void;
         /**

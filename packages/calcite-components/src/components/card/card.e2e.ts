@@ -88,13 +88,14 @@ describe("calcite-card", () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-card selectable>
-      <img slot="thumbnail" src="${placeholder}" alt="Test image" />
+        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
+        <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
       </calcite-card>
     `);
 
-    const thumbContainer = await page.find(`calcite-card >>> .${CSS.checkboxWrapper}`);
-
-    expect(thumbContainer).not.toBeNull();
+    await page.waitForChanges();
+    const checkboxContainer = await page.find(`calcite-card >>> .${CSS.checkboxWrapperDeprecated}`);
+    expect(checkboxContainer).not.toBeNull();
   });
 
   describe("when a card is selectable (deprecated)", () => {
@@ -111,9 +112,10 @@ describe("calcite-card", () => {
       </div>
       `);
       const card = await page.find("calcite-card");
-      const checkbox = await page.find(`calcite-card >>> .${CSS.checkboxWrapper} calcite-checkbox`);
+      const checkbox = await page.find(`calcite-card >>> .${CSS.checkboxWrapperDeprecated} calcite-checkbox`);
       const cardSelectSpy = await card.spyOnEvent("calciteCardSelect");
       const clickSpy = await card.spyOnEvent("calciteCardSelect");
+
       await checkbox.click();
       await page.waitForChanges();
 

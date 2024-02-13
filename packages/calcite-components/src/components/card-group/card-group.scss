@@ -8,6 +8,7 @@
 
 :host {
   --calcite-card-group-gap: theme("spacing.3");
+  display: block;
 }
 
 .container {
@@ -17,3 +18,4 @@
 }
 
 @include disabled();
+@include base-component();
