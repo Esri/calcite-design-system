@@ -123,7 +123,13 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("valueAsDate")
   valueAsDateWatcher(newValueAsDate: Date | Date[]): void {
-    if (newValueAsDate && newValueAsDate !== this.activeDate && !this.range) {
+    if (this.range && Array.isArray(newValueAsDate) && !this.mostRecentRangeValue) {
+      const { activeStartDate, activeEndDate } = this;
+      const newActiveStartDate = newValueAsDate[0];
+      const newActiveEndDate = newValueAsDate[1];
+      this.activeStartDate = activeStartDate !== newActiveStartDate && newActiveStartDate;
+      this.activeEndDate = activeEndDate !== newActiveEndDate && newActiveEndDate;
+    } else if (newValueAsDate && newValueAsDate !== this.activeDate) {
       this.activeDate = newValueAsDate as Date;
     }
   }
