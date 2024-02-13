@@ -202,6 +202,8 @@ export class InputNumber
    * Specifies the maximum length of text for the component's value.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+   *
+   * @deprecated
    */
   @Prop({ reflect: true }) maxLength: number;
 
@@ -209,6 +211,8 @@ export class InputNumber
    * Specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   *
+   * @deprecated
    */
   @Prop({ reflect: true }) minLength: number;
 
