@@ -3,7 +3,31 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-combobox-input-height: Specifies the height of the component's input.
+ * @prop --calcite-combobox-border: defines the border around the combobox input and dropdown. References the --calcite-combobox-border-color by default.
+ * @prop --calcite-combobox-border-color: defines the border color around the combobox input and dropdown;
+ * @prop --calcite-combobox-text-color: defines the text color of the combobox.
+ *
+ * Input
+ * @prop --calcite-combobox-input-background-color: defines the background color of the combobox input.
+ * @prop --calcite-combobox-input-height: defines the height of the component's input.
+ *
+ * Dropdown
+ * @prop --calcite-combobox-dropdown-background-color: defines the background color of the combobox dropdown.
+ * @prop --calcite-combobox-dropdown-z-index: defines the z-index of the combobox dropdown.
+ 
+ * Calcite-Chip
+ * @prop --calcite-combobox-chip-background-color-active: defines the background color of a combobox chip.
+ * @prop --calcite-combobox-chip-background-color: defines the background color of the chip component in a combobox.
+ * @prop --calcite-combobox-chip-border-color: defines the border color in a chip component in a combobox.
+ * @prop --calcite-combobox-chip-box-shadow: defines the box shadow of a chip component in a combobox.
+ * @prop --calcite-combobox-chip-corner-radius: defines the corner radius of a chip component in a combobox.
+ * @prop --calcite-combobox-chip-icon-color: defines the icon color of a chip component in a combobox.
+ * @prop --calcite-combobox-chip-text-color: defines the text color of a chip component in a combobox.
+ * @prop --calcite-combobox-chip-close-icon-color: defines the close icon of a chip component in a combobox.
+ * @prop --calcite-combobox-chip-close-background-color: defines the close background color of a chip component in a combobox.
+ 
+ * Calcite-Icon
+ * @prop --calcite-combobox-icon-color: defines the color of icons in the combobox.
  */
 
 :host {
