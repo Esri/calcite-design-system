@@ -68,14 +68,24 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Prop({ mutable: true }) activeDate: Date;
 
   @Watch("activeDate")
-  activeDateWatcher(newValue: Date): void {
+  activeDateWatcher(newValue: Date | Date[]): void {
     //updates activeValue when user is typing in input and avoid updating activeDates when value is set programmatically
-    if (this.range && Array.isArray(newValue) && !this.mostRecentRangeValue) {
-      if (newValue[0] || newValue[1]) {
-        this.activeStartDate = newValue[0];
-        this.activeEndDate = newValue[1] || nextMonth(this.activeStartDate);
-      } else {
-        this.resetActiveDates();
+    if (this.range && !this.mostRecentRangeValue) {
+      if (Array.isArray(newValue)) {
+        if (newValue[0] || newValue[1]) {
+          this.activeStartDate = newValue[0];
+          this.activeEndDate = newValue[1] || nextMonth(this.activeStartDate);
+        } else {
+          this.resetActiveDates();
+        }
+      } else if (newValue) {
+        if (this.activeRange === "end") {
+          this.activeStartDate = prevMonth(newValue);
+          this.activeEndDate = newValue;
+        } else {
+          this.activeStartDate = newValue;
+          this.activeEndDate = nextMonth(newValue);
+        }
       }
     }
   }
@@ -671,9 +681,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   }
 
   private hasSameMonthAndYear(startDate: Date, endDate: Date): boolean {
-    if (!Array.isArray(this.valueAsDate) || !this.valueAsDate[1]) {
-      return false;
-    }
+    // if (!Array.isArray(this.valueAsDate) || !this.valueAsDate[1]) {
+    //   return false;
+    // }
     if (!startDate || !endDate) {
       return false;
     }

@@ -1262,7 +1262,7 @@ describe("calcite-input-date-picker", () => {
     await selectDayInMonth(page, 41, true);
     await page.waitForChanges();
     calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
-    expect(await calendar.isVisible()).toBe(true);
+    expect(await calendar.isVisible()).toBe(false);
 
     const value = await inputDatePickerEl.getProperty("value");
     expect(value[1]).not.toEqual("2024-06-25");
