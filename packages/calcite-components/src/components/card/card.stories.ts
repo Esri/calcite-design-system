@@ -62,7 +62,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 };
 
 const titleHtml = html`
-  <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+  <span slot="title">ArcGIS Online: Gallery and Organization pages</span>
   <span slot="subtitle">
     A great example of a study description that might wrap to a line or two, but isn't overly verbose.
   </span>
@@ -129,7 +129,7 @@ export const thumbnail = (): string => html`
       createAttributes(),
       html`
         ${thumbnailHtml}
-        <h3 slot="title">Portland Businesses</h3>
+        <span slot="title">Portland Businesses</span>
         <span slot="subtitle"
           >by
           <calcite-link href="">example_user</calcite-link>
@@ -181,12 +181,12 @@ export const thumbnailRounded = (): string => html`
   <div id="card-container" style="width:260px;">
     <style>
       calcite-card {
-        --calcite-border-radius-base: 12px;
+        --calcite-card-corner-radius: 12px;
       }
     </style>
     <calcite-card>
       ${thumbnailHtml}
-      <h3 slot="title">Portland Businesses</h3>
+      <span slot="title">Portland Businesses</span>
       <span slot="subtitle"
         >by
         <calcite-link href="">example_user</calcite-link>
@@ -211,7 +211,7 @@ export const thumbnailRounded = (): string => html`
 
 export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
   <calcite-card selectable style="width:260px">
-    <h3 slot="title">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
+    <span slot="title">Pokem ipsum dolor sit amet Skitty Hoothoot</span>
     <span slot="subtitle"
       >Pika-pi Soul Badge Zoroark Starly Spoink Diglett Rotom. Water Kyogre Hitmontop Rampardos</span
     >
@@ -231,3 +231,25 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const selected_TestOnly = (): string =>
+  html` <calcite-card selected>
+    <span slot="title">ArcGIS Online: Gallery and Organization pages</span>
+    <span slot="subtitle"
+      >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
+    >
+  </calcite-card>`;
+
+export const theming_TestOnly = (): string => html`
+  <calcite-card
+    style="--calcite-card-corner-radius: var(--calcite-corner-radius-round);
+      --calcite-card-background-color: var(--calcite-color-foreground-3);
+      --calcite-card-border-color: var(--calcite-color-status-success);
+      --calcite-card-box-shadow: var(--calcite-shadow-md);"
+  >
+    <span slot="title">ArcGIS Online: Gallery and Organization pages</span>
+    <span slot="subtitle"
+      >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
+    >
+  </calcite-card>
+`;
