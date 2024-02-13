@@ -1,3 +1,31 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * --calcite-combobox-item-text-color: defines the text color of a combobox item.
+ * --calcite-combobox-item-selection-icon-color: defines the icon color of the dot or custom icon shown at the start of a combobox item.
+ * --calcite-combobox-item-icon-color: defines the color of a custom combobox-item icon
+ * --calcite-combobox-item-box-shadow: defines the box shadow of a combobox item.
+ * --calcite-combobox-item-background-color: defines the background color of a combobox-item.
+ */
+
+/*
+ * Internal
+ *
+ * --calcite-combobox-item-spacing-unit-l: *deprecated* in favor of --calcite-internal-combobox-item-spacing-inline which is more descriptive.
+ * --calcite-internal-combobox-item-spacing-inline: defines the inline spacing of the combobox-item. Set via the [scale] prop on a combobox-item.
+ * --calcite-combobox-item-spacing-unit-s: *deprecated* in favor of --calcite-internal-combobox-item-spacing-block which is more descriptive.
+ * --calcite-internal-combobox-item-spacing-block: defines the block spacing of the combobox-item. Set via the [scale] prop on a combobox-item.
+ * --calcite-combobox-item-spacing-indent: *deprecated* in favor of the simplified `--calcite-internal-combobox-item-spacing-inline` which is always an equal value based on the scale of the combobox-item.
+ * --calcite-combobox-item-spacing-indent-multiplier, var(--calcite-internal-combobox-item-depth: *deprecated* in favor of --calcite-internal-combobox-item-depth which is more descriptive.
+ * --calcite-internal-combobox-item-depth: defines the depth of the combobox-item in a combobox dropdown list. This is used as a multiplier to determine the inline-start padding of a combobox item.
+ * --calcite-combobox-item-indent-value: *deprecated* in favor of --calcite-internal-combobox-item-icon-inline-start which is more descriptive.
+ * --calcite-internal-combobox-item-icon-inline-start: defines the calculated starting indentation of a combobox-item icon in a combobox list. This value is calculated from --calcite-internal-combobox-item-spacing-inline multiplied by --calcite-internal-combobox-item-depth which is set in the JSX.
+ * --calcite-combobox-item-selector-icon-size: *deprecated* in favor of --calcite-internal-combobox-item-dot-size which is more descriptive.
+ * --calcite-internal-combobox-item-dot-size: defines the minimum size of the "dot" of a selected combobox-item. Set via the [scale] prop on a combobox-item.
+ */
+
 @include base-component();
 
 :host {
