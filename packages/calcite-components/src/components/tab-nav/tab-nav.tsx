@@ -172,6 +172,10 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     await setUpMessages(this);
   }
 
+  componentDidLoad(): void {
+    this.scrollTabTitleIntoView(this.selectedTitle, "instant");
+  }
+
   componentWillRender(): void {
     const { parentTabsEl } = this;
 
@@ -297,6 +301,13 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       : this.getIndexOfTabTitle(activatedTabTitle);
     event.stopPropagation();
 
+    this.scrollTabTitleIntoView(activatedTabTitle);
+  }
+
+  private scrollTabTitleIntoView(
+    activatedTabTitle: HTMLCalciteTabTitleElement,
+    behavior: ScrollBehavior = "smooth",
+  ): void {
     readTask(() => {
       const isLTR = this.dir === "ltr";
       const tabTitleContainer = this.tabTitleContainerEl;
@@ -316,7 +327,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       ) {
         const left =
           scrollPosition + (tabTitleBounds.left - containerBounds.left) - this.scrollerButtonWidth;
-        tabTitleContainer.scrollTo({ left, behavior: "smooth" });
+        tabTitleContainer.scrollTo({ left, behavior });
       } else if (
         tabTitleBounds.right >
         containerBounds.right - (overflowingEndTabTitle ? this.scrollerButtonWidth : 0)
@@ -325,7 +336,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
           scrollPosition +
           (tabTitleBounds.right - containerBounds.right) +
           this.scrollerButtonWidth;
-        tabTitleContainer.scrollTo({ left, behavior: "smooth" });
+        tabTitleContainer.scrollTo({ left, behavior });
       }
     });
   }
