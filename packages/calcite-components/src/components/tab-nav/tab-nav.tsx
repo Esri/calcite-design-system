@@ -308,6 +308,10 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     activatedTabTitle: HTMLCalciteTabTitleElement,
     behavior: ScrollBehavior = "smooth",
   ): void {
+    if (!activatedTabTitle) {
+      return;
+    }
+
     readTask(() => {
       const isLTR = this.dir === "ltr";
       const tabTitleContainer = this.tabTitleContainerEl;
