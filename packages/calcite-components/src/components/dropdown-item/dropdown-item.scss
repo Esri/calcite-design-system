@@ -1,46 +1,23 @@
-.container--s {
-  @apply text-n2h py-1;
-  padding-inline-end: theme("padding.2");
-  padding-inline-start: theme("padding.6");
-}
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-dropdown-item-text-color: defines the text color of a dropdown item.
+ * @prop --calcite-dropdown-item-icon-color: defines the color of start and end icons in a dropdown item.
+ * @prop --calcite-dropdown-item-select-icon-color: defines the color of the selection indicator icon in a dropdown item.
+ * @prop --calcite-dropdown-item-background-color: defines the background color of a dropdown item.
+ */
 
-.container--m {
-  @apply text-n1h py-2;
-  padding-inline-end: theme("padding.3");
-  padding-inline-start: theme("padding.8");
-}
-
-.container--l {
-  @apply text-0h py-2.5;
-  padding-inline-end: theme("padding.4");
-  padding-inline-start: theme("padding.10");
-}
-
-// none-selection mode
-.container--s.container--none-selection {
-  padding-inline-start: theme("padding.1");
-  & .dropdown-link {
-    padding-inline-start: theme("padding.0");
-  }
-}
-
-.container--m.container--none-selection {
-  padding-inline-start: theme("padding.2");
-  & .dropdown-link {
-    padding-inline-start: theme("padding.0");
-  }
-}
-
-.container--l.container--none-selection {
-  padding-inline-start: theme("padding.3");
-  & .dropdown-link {
-    padding-inline-start: theme("padding.0");
-  }
-}
+/*
+ * Internal
+ *
+ * --calcite-internal-dropdown-item-padding-inline: defines the internal inline padding of a dropdown item.
+ * --calcite-internal-dropdown-item-font-weight: defines the internal font-weight of a dropdown item
+ */
 
 @mixin itemStyling {
-  @apply text-color-3
-    relative
+  @apply relative
     flex
     flex-grow
     cursor-pointer
@@ -48,121 +25,94 @@
     no-underline
     duration-150
     ease-in-out;
+  color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-3));
 }
 
+@include base-component();
+@include disabled();
+
 :host {
+  --calcite-dropdown-item-icon-color: var(--calcite-color-text-3);
+  --calcite-dropdown-item-text-color: var(--calcite-color-text-3);
+
   @apply relative
     flex
     flex-grow
-    items-center;
+    items-center
+    focus-base;
+}
+
+:host(:hover) {
+  --calcite-dropdown-item-select-icon-color: var(--calcite-color-border-1);
+  --calcite-dropdown-item-text-color: var(--calcite-color-text-1);
+  --calcite-dropdown-item-background-color: var(--calcite-color-foreground-2);
+
+  .dropdown-item-icon {
+    @apply opacity-100;
+  }
+}
+:host([disabled]:hover) {
+  .dropdown-item-icon {
+    @apply opacity-0;
+  }
+}
+:host(:active) {
+  --calcite-dropdown-item-text-color: var(--calcite-color-foreground-3);
+}
+:host(:focus) {
+  --calcite-dropdown-item-text-color: var(--calcite-color-text-1);
+  @apply focus-inset outline-none;
+}
+:host([selected]) {
+  --calcite-dropdown-item-text-color: var(--calcite-color-text-1);
+  --calcite-dropdown-item-icon-color: var(--calcite-color-brand);
+  --calcite-dropdown-item-select-icon-color: var(--calcite-color-brand);
+  --calcite-internal-dropdown-item-font-weight: var(--calcite-font-weight-medium);
+
+  .dropdown-item-icon {
+    @apply opacity-100;
+  }
+}
+
+.container,
+a {
+  @include itemStyling;
+  color: var(--calcite-dropdown-item-text-color);
+  font-weight: var(--calcite-internal-dropdown-item-font-weight, inherit);
+  padding-inline: var(--calcite-internal-dropdown-item-padding-inline-inline);
+}
+
+a {
+  @apply focus-base;
 }
 
 .container {
-  @include itemStyling;
+  @apply no-underline;
   text-align: start;
+  background-color: var(--calcite-dropdown-item-background-color, none);
 }
 
-.dropdown-item-content {
-  @apply flex-auto py-0.5;
-  padding-inline-end: theme("margin.auto");
-  padding-inline-start: theme("margin.1");
-}
-
-//focus
-:host,
-.container--link a {
-  @apply focus-base;
-}
-:host(:focus) {
-  @apply focus-inset outline-none;
-}
-
-// when used as link move styling anchor
-.container--link {
-  @apply p-0;
-  & a {
-    @include itemStyling;
-  }
-}
-
-.container--s .dropdown-link {
-  @apply text-n2h py-1;
-  padding-inline-end: theme("padding.2");
-  padding-inline-start: theme("padding.6");
-}
-
-.container--m .dropdown-link {
-  @apply text-n1h py-2;
-  padding-inline-end: theme("padding.3");
-  padding-inline-start: theme("padding.8");
-}
-
-.container--l .dropdown-link {
-  @apply text-0h py-3;
-  padding-inline-end: theme("padding.4");
-  padding-inline-start: theme("padding.10");
-}
-
-:host(:hover:not([disabled])),
-:host(:active:not([disabled])) {
-  .container {
-    @apply bg-foreground-2 text-color-1 no-underline;
-  }
-
-  .container--link .dropdown-link {
-    @apply text-color-1;
-  }
-}
-
-:host(:active:not([disabled])) .container {
-  @apply bg-foreground-3;
-}
-
-:host(:focus) .container {
-  @apply text-color-1 no-underline;
-}
-
-:host([selected]) .container:not(.container--none-selection),
-:host([selected]) .container--link .dropdown-link {
-  @apply text-color-1 font-medium;
-  & calcite-icon {
-    color: theme("backgroundColor.brand");
-  }
-}
-
-// item icon
-.dropdown-item-icon {
-  @apply absolute
-    opacity-0
-    duration-150
-    ease-in-out;
-  transform: scale(0.9);
-}
-
-.container--s .dropdown-item-icon {
-  inset-inline-start: theme("spacing.1");
-}
-
-.container--m .dropdown-item-icon {
-  inset-inline-start: theme("spacing.2");
-}
-
-.container--l .dropdown-item-icon {
-  inset-inline-start: theme("spacing.3");
-}
-
-:host(:hover:not([disabled])) .dropdown-item-icon {
-  color: theme("borderColor.color.1");
-  @apply opacity-100;
-}
-
-:host([selected]) .dropdown-item-icon {
-  color: theme("backgroundColor.brand");
-  @apply opacity-100;
-}
-
-// icon start & end
 .container--s {
+  --calcite-internal-dropdown-item-padding-inline: theme("padding.6") theme("padding.2");
+
+  @apply text-n2h py-1;
+
+  // none-selection mode
+  &.container--none-selection {
+    padding-inline-start: theme("padding.1");
+    .dropdown-link {
+      padding-inline-start: theme("padding.0");
+    }
+  }
+
+  a {
+    @apply text-n2h py-1;
+  }
+
+  .dropdown-item-icon {
+    inset-inline-start: theme("spacing.1");
+  }
+  // icon start & end
   .dropdown-item-icon-start {
     margin-inline-end: theme("margin.2");
     margin-inline-start: theme("margin.1");
@@ -173,6 +123,26 @@
 }
 
 .container--m {
+  --calcite-internal-dropdown-item-padding-inline: theme("padding.8") theme("padding.3");
+
+  @apply text-n1h py-2;
+
+  // none-selection mode
+  &.container--none-selection {
+    padding-inline-start: theme("padding.2");
+    .dropdown-link {
+      padding-inline-start: theme("padding.0");
+    }
+  }
+
+  a {
+    @apply text-n1h py-2;
+  }
+
+  .dropdown-item-icon {
+    inset-inline-start: theme("spacing.2");
+  }
+  // icon start & end
   .dropdown-item-icon-start {
     margin-inline-end: theme("margin.3");
     margin-inline-start: theme("margin.1");
@@ -183,6 +153,26 @@
 }
 
 .container--l {
+  --calcite-internal-dropdown-item-padding-inline: theme("padding.10") theme("padding.4");
+
+  @apply text-0h py-2.5;
+
+  // none-selection mode
+  &.container--none-selection {
+    padding-inline-start: theme("padding.3");
+    .dropdown-link {
+      padding-inline-start: theme("padding.0");
+    }
+  }
+
+  a {
+    @apply text-0h py-3;
+  }
+
+  .dropdown-item-icon {
+    inset-inline-start: theme("spacing.3");
+  }
+  // icon start & end
   .dropdown-item-icon-start {
     margin-inline-end: theme("margin.4");
     margin-inline-start: theme("margin.1");
@@ -192,5 +182,28 @@
   }
 }
 
-@include base-component();
-@include disabled();
+.dropdown-item-content {
+  @apply flex-auto py-0.5;
+  padding-inline-end: theme("margin.auto");
+  padding-inline-start: theme("margin.1");
+}
+
+// when used as link move styling anchor
+.container--link {
+  @apply p-0;
+}
+
+// item icon
+.dropdown-item-icon {
+  @apply absolute
+    opacity-0
+    duration-150
+    ease-in-out;
+  transform: scale(0.9);
+  color: var(--calcite-dropdown-item-select-icon-color);
+}
+
+calcite-icon {
+  --calcite-icon-color: var(--calcite-dropdown-item-icon-color);
+  color: var(--calcite-dropdown-item-icon-color);
+}
