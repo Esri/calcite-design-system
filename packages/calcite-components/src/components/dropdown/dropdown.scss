@@ -4,6 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-dropdown-width: Specifies the width of the component's wrapper.
+ * @prop --calcite-dropdown-z-index: defines the z-index of a dropdown component.
  */
 
 :host {
@@ -13,7 +14,7 @@
 @include disabled();
 
 :host .calcite-dropdown-wrapper {
-  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
+  --calcite-floating-ui-z-index: var(--calcite-dropdown-z-index, theme("zIndex.dropdown"));
   @include floatingUIContainer();
   @include floatingUIWrapper();
 }
