@@ -5,47 +5,52 @@
 *
 * These properties can be overridden using the component's tag as selector.
 *
-* @prop --calcite-progress-background-color: The background color of the component.
-* @prop --calcite-progress-color: The font color of the component.
-* @prop --calcite-progress-font-size: The font size of the component.
-*
-* @prop —-calcite-progress-label-inline-padding: Component label inline padding
-* @prop —-calcite-progress-label-block-end-padding: Component label block-end padding.
-* @prop —-calcite-progress-label-block-start-padding: Component label block-start padding.
+* @prop --calcite-progress-background-color: defines the background color of the component.
+* @prop --calcite-progress-bar-background-color: defines the background color of the progress bar.
+* @prop --calcite-progress-text-color: defines the text color of the component.
+* @prop --calcite-progress-z-index: defines the z-index of the component.
 */
 
 :host {
+  --calcite-progress-background-color: var(--calcite-color-border-3);
+  --calcite-progress-bar-background-color: var(--calcite-color-brand);
+  --calcite-progress-text-color: var(--calcite-color-text-2);
+  --calcite-progress-z-index: var(--calcite-z-index);
+
   @apply relative block;
   inline-size: var(--calcite-container-size-content-fluid);
-  --calcite-progress-background-color: var(--calcite-color-brand);
 }
 
 .track,
 .bar {
   @apply absolute top-0;
 
-  block-size: --calcite-size-xxxs;
-  z-index: var(--calcite-z-index);
+  block-size: var(--calcite-size-xxxs);
+  z-index: var(--calcite-progress-z-index);
 }
 
 .track {
   @apply overflow-hidden;
-
   inline-size: var(--calcite-container-size-content-fluid);
-  --calcite-progress-background-color: var(--calcite-color-border-3);
+  background-color: var(--calcite-progress-background-color);
+}
+
+.bar {
+  background-color: var(--calcite-progress-bar-background-color);
 }
 
 @media (forced-colors: active) {
   .track {
-    --calcite-progress-background-color: highlightText;
+    background-color: highlightText;
   }
   .bar {
-    --calcite-progress-background-color: linkText;
+    background-color: linkText;
   }
 }
 
 .indeterminate {
-  --calcite-container-size-content-fluid: 20%;
+  @apply w-1/5;
+
   animation: looping-progress-bar-ani scaleDuration(--calcite-internal-animation-timing-medium, 11) linear infinite;
   &.calcite--rtl {
     animation-name: looping-progress-bar-ani-rtl;
@@ -57,12 +62,10 @@
 }
 
 .text {
-  @apply text-center font-medium;
-  --calcite-progress-font-size: theme("fontSize.n2h");
-  --calcite-progress-color: var(--calcite-color-text-2);
-  --calcite-progress-label-inline-padding: 0;
-  --calcite-progress-label-block-start-padding: 4;
-  --calcite-progress-label-block-end-padding: 0;
+  @apply text-n2h px-0 pt-4 pb-0 text-center font-medium;
+
+  font-size: theme("fontSize.n2h");
+  color: var(--calcite-progress-text-color);
 }
 
 @keyframes looping-progress-bar-ani {
