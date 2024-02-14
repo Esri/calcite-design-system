@@ -13,3 +13,18 @@ index 4582752..14fad4b 100644
            if (target === parent) break;
            parent = target;
          }
+diff --git a/node_modules/sortablejs/modular/sortable.esm.js b/node_modules/sortablejs/modular/sortable.esm.js
+index 61f460e..e49b7c2 100644
+--- a/node_modules/sortablejs/modular/sortable.esm.js
++++ b/node_modules/sortablejs/modular/sortable.esm.js
+@@ -1444,6 +1444,10 @@ Sortable.prototype = /** @lends Sortable.prototype */{
+       var parent = target;
+       while (target && target.shadowRoot) {
+         target = target.shadowRoot.elementFromPoint(touchEvt.clientX, touchEvt.clientY);
++        const host = target.getRootNode().host;
++        if (host) {
++          target = host;
++        }
+         if (target === parent) break;
+         parent = target;
+       }
