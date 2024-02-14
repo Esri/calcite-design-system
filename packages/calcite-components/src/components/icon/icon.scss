@@ -5,7 +5,12 @@
  *
  * @prop --calcite-ui-icon-color: *deprecated* in favor of `--calcite-icon-color`. The component's color. Defaults to `currentColor`.
  * @props --calcite-icon-color: defines the color of the component. Defaults to `currentColor`.
- * @props --calcite-icon-size: defines the size of the component.
+ */
+
+/*
+ * Internal
+ *
+ * --calcite-internal-icon-size: defines the size of the component.
  */
 
 :host {
@@ -13,22 +18,22 @@
 
   @apply inline-flex;
   color: var(--calcite-icon-color);
-  inline-size: var(--calcite-icon-size);
-  block-size: var(--calcite-icon-size);
-  min-inline-size: var(--calcite-icon-size);
-  min-block-size: var(--calcite-icon-size);
+  inline-size: var(--calcite-internal-icon-size);
+  block-size: var(--calcite-internal-icon-size);
+  min-inline-size: var(--calcite-internal-icon-size);
+  min-block-size: var(--calcite-internal-icon-size);
 }
 
 :host([scale="s"]) {
-  --calcite-icon-size: var(--calcite-size-lg);
+  --calcite-internal-icon-size: var(--calcite-size-lg);
 }
 
 :host([scale="m"]) {
-  --calcite-icon-size: var(--calcite-size-xxl);
+  --calcite-internal-icon-size: var(--calcite-size-xxl);
 }
 
 :host([scale="l"]) {
-  --calcite-icon-size: var(--calcite-size-xxxl);
+  --calcite-internal-icon-size: var(--calcite-size-xxxl);
 }
 
 .flip-rtl {
