@@ -3,11 +3,12 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-combobox-border: defines the border around the combobox input and dropdown. References the --calcite-combobox-border-color by default.
  * @prop --calcite-combobox-border-color: defines the border color around the combobox input and dropdown.
  * @prop --calcite-combobox-background-color: defines the background color of the combobox.
  * @prop --calcite-combobox-text-color: defines the text color of the combobox.
  * @prop --calcite-combobox-z-index: defines the z-index of the combobox list
+ * @prop --calcite-combobox-shadow: defines the box shadow of the combobox list
+ * @prop --calcite-combobox-corner-radius: defines the corner radius of the combobox list.
  *
  * Input
  * @prop --calcite-combobox-input-height: defines the height of the component's input.
@@ -39,10 +40,17 @@
  */
 
 :host {
+  --calcite-combobox-input-height: theme("spacing.4");
   --calcite-combobox-background-color: var(--calcite-color-foreground-1);
-  --calcite-combobox-border: var(--calcite-border-width-sm, 1px) solid
-    var(--calcite-combobox-border-color, var(--calcite-color-border-input));
+  --calcite-combobox-text-color: var(--calcite-color-text-1);
+  --calcite-combobox-border-color: var(--calcite-color-border-input);
+  --calcite-combobox-corner-radius: var(--calcite-corner-radius-sharp);
+  --calcite-combobox-shadow: var(--calcite-shadow-none);
+
   --calcite-internal-combobox-dropdown-width: var(--calcite-dropdown-width);
+  --calcite-internal-combobox-wrapper-corner-radius: var(--calcite-combobox-corner-radius);
+  --calcite-internal-combobox-dropdown-corner-radius: var(--calcite-corner-radius-sharp)
+    var(--calcite-corner-radius-sharp) var(--calcite-combobox-corner-radius) var(--calcite-combobox-corner-radius);
   @apply relative block;
 }
 
@@ -86,6 +94,14 @@
   }
 }
 
+:host([open]) {
+  --calcite-internal-combobox-wrapper-corner-radius: var(--calcite-combobox-corner-radius)
+    var(--calcite-combobox-corner-radius) var(--calcite-corner-radius-sharp) var(--calcite-corner-radius-sharp);
+}
+:host([close]) {
+  --calcite-internal-combobox-wrapper-corner-radius: var(--calcite-combobox-corner-radius);
+}
+
 .wrapper {
   @apply focus-base
     flex;
@@ -93,11 +109,14 @@
   color: var(--calcite-combobox-text-color, var(--calcite-color-text-1));
   padding-block: calc(var(--calcite-internal-combobox-spacing-block) / 4);
   padding-inline: var(--calcite-internal-combobox-spacing-inline);
+  border-radius: var(--calcite-internal-combobox-wrapper-corner-radius);
 }
 
 .wrapper,
 .floating-ui-container {
-  border: var(--calcite-combobox-border);
+  border: var(--calcite-border-width-sm, 1px) solid
+    var(--calcite-combobox-border-color, var(--calcite-color-border-input));
+  box-shadow: var(--calcite-combobox-shadow);
 }
 
 :host(:focus-within) .wrapper,
@@ -234,6 +253,12 @@
   @include floatingUIWrapperActive();
 }
 
+.floating-ui-container,
+.list-container,
+.floating-ui-container .calcite-floating-ui-anim {
+  border-radius: var(--calcite-internal-combobox-dropdown-corner-radius);
+}
+
 @media (forced-colors: active) {
   :host {
     --calcite-combobox-border-color: canvasText;
@@ -265,14 +290,15 @@ calcite-icon {
 
 calcite-chip {
   --calcite-animation-timing: 0;
-  --calcite-chip-border-color: var(--calcite-combobox-chip-border-color) --calcite-chip-background-color:
-    var(--calcite-combobox-chip-background-color);
-  --calcite-chip-box-shadow: var(--calcite-combobox-chip-box-shadow) --calcite-chip-corner-radius:
-    var(--calcite-combobox-chip-corner-radius) --calcite-chip-icon-color: var(--calcite-combobox-chip-icon-color)
-    --calcite-chip-text-color: var(--calcite-combobox-chip-text-color) --calcite-chip-close-icon:
-    var(--calcite-combobox-chip-close-icon) --calcite-chip-close-background-color:
-    var(--calcite-combobox-chip-close-background-color) margin-block:
-    calc(var(--calcite-internal-combobox-spacing-block) / 4);
+  --calcite-chip-border-color: var(--calcite-combobox-chip-border-color);
+  --calcite-chip-background-color: var(--calcite-combobox-chip-background-color);
+  --calcite-chip-box-shadow: var(--calcite-combobox-chip-box-shadow);
+  --calcite-chip-corner-radius: var(--calcite-combobox-chip-corner-radius);
+  --calcite-chip-icon-color: var(--calcite-combobox-chip-icon-color);
+  --calcite-chip-text-color: var(--calcite-combobox-chip-text-color);
+  --calcite-chip-close-icon: var(--calcite-combobox-chip-close-icon);
+  --calcite-chip-close-background-color: var(--calcite-combobox-chip-close-background-color);
+  margin-block: calc(var(--calcite-internal-combobox-spacing-block) / 4);
   max-inline-size: var(--calcite-container-size-content-fluid);
 }
 
