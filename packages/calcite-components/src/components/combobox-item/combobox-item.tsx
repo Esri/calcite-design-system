@@ -17,8 +17,6 @@ import {
 import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -125,12 +123,10 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
     connectConditionalSlotComponent(this);
-    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
-    disconnectInteractive(this);
   }
 
   componentDidRender(): void {

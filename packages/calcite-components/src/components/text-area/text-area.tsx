@@ -40,8 +40,6 @@ import {
 import { TextAreaMessages } from "./assets/text-area/t9n";
 import { throttle } from "lodash-es";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -240,7 +238,6 @@ export class TextArea
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
     connectLocalized(this);
@@ -262,7 +259,6 @@ export class TextArea
   }
 
   disconnectedCallback(): void {
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);

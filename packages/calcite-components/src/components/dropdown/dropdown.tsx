@@ -33,8 +33,6 @@ import {
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -210,7 +208,6 @@ export class Dropdown
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
-    connectInteractive(this);
     this.updateItems();
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
@@ -231,7 +228,6 @@ export class Dropdown
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectInteractive(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 

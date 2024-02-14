@@ -14,8 +14,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -157,7 +155,6 @@ export class TableCell
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
-    connectInteractive(this);
   }
 
   componentDidRender(): void {
@@ -167,7 +164,6 @@ export class TableCell
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
-    disconnectInteractive(this);
   }
 
   //--------------------------------------------------------------------------

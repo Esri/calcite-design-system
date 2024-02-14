@@ -1,7 +1,5 @@
 import { Component, Element, h, Prop, State, VNode } from "@stencil/core";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -109,14 +107,6 @@ export class Tile implements InteractiveComponent {
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    connectInteractive(this);
-  }
-
-  disconnectedCallback(): void {
-    disconnectInteractive(this);
-  }
 
   componentDidRender(): void {
     updateHostInteraction(this);

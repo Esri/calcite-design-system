@@ -43,8 +43,6 @@ import {
   submitForm,
 } from "../../utils/form";
 import {
-  connectInteractive,
-  disconnectInteractive,
   InteractiveComponent,
   InteractiveContainer,
   updateHostInteraction,
@@ -438,7 +436,6 @@ export class InputDatePicker
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectInteractive(this);
     connectLocalized(this);
 
     const { open } = this;
@@ -502,7 +499,6 @@ export class InputDatePicker
 
   disconnectedCallback(): void {
     deactivateFocusTrap(this);
-    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
