@@ -19,6 +19,7 @@ import {
   dateToISO,
   getDaysDiff,
   HoverRange,
+  inRange,
   nextMonth,
   prevMonth,
   setEndOfDay,
@@ -679,6 +680,17 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
       this.activeStartDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
       this.activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
+
+      // when min and max are defined and the current date is beyond the range.
+      if (this.activeStartDate === this.activeEndDate) {
+        const previousMonthActiveDate = prevMonth(this.activeEndDate);
+        const nextMonthActiveDate = nextMonth(this.activeEndDate);
+        if (inRange(previousMonthActiveDate, this.minAsDate, this.maxAsDate)) {
+          this.activeStartDate = previousMonthActiveDate;
+        } else if (inRange(nextMonthActiveDate, this.minAsDate, this.maxAsDate)) {
+          this.activeEndDate = nextMonthActiveDate;
+        }
+      }
     }
   }
 
