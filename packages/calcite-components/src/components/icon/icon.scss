@@ -3,36 +3,32 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-ui-icon-color: The component's color. Defaults to `currentColor`.
+ * @prop --calcite-ui-icon-color: *deprecated* in favor of `--calcite-icon-color`. The component's color. Defaults to `currentColor`.
+ * @props --calcite-icon-color: defines the color of the component. Defaults to `currentColor`.
+ * @props --calcite-icon-size: defines the size of the component.
  */
 
 :host {
-  @apply text-color-icon inline-flex;
+  --calcite-icon-color: var(--calcite-ui-icon-color, currentcolor);
+
+  @apply inline-flex;
+  color: var(--calcite-icon-color);
+  inline-size: var(--calcite-icon-size);
+  block-size: var(--calcite-icon-size);
+  min-inline-size: var(--calcite-icon-size);
+  min-block-size: var(--calcite-icon-size);
 }
 
-$icon-size-s: 16px;
-$icon-size-m: 24px;
-$icon-size-l: 32px;
-
 :host([scale="s"]) {
-  inline-size: $icon-size-s;
-  block-size: $icon-size-s;
-  min-inline-size: $icon-size-s;
-  min-block-size: $icon-size-s;
+  --calcite-icon-size: var(--calcite-size-lg);
 }
 
 :host([scale="m"]) {
-  inline-size: $icon-size-m;
-  block-size: $icon-size-m;
-  min-inline-size: $icon-size-m;
-  min-block-size: $icon-size-m;
+  --calcite-icon-size: var(--calcite-size-xxl);
 }
 
 :host([scale="l"]) {
-  inline-size: $icon-size-l;
-  block-size: $icon-size-l;
-  min-inline-size: $icon-size-l;
-  min-block-size: $icon-size-l;
+  --calcite-icon-size: var(--calcite-size-xxxl);
 }
 
 .flip-rtl {
