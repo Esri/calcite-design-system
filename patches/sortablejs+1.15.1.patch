@@ -1,0 +1,15 @@
+diff --git a/node_modules/sortablejs/Sortable.js b/node_modules/sortablejs/Sortable.js
+index 4582752..14fad4b 100644
+--- a/node_modules/sortablejs/Sortable.js
++++ b/node_modules/sortablejs/Sortable.js
+@@ -1450,6 +1450,10 @@
+         var parent = target;
+         while (target && target.shadowRoot) {
+           target = target.shadowRoot.elementFromPoint(touchEvt.clientX, touchEvt.clientY);
++          const host = target.getRootNode().host;
++          if (host) {
++            target = host;
++          }
+           if (target === parent) break;
+           parent = target;
+         }
