@@ -80,7 +80,21 @@
   padding-inline-end: var(--calcite-spacing-xxxl);
 }
 
-// slotted content
+// to be removed in future release
+@include slotted("title", "*") {
+  @apply text-color-1
+    text-n1-wrap
+    m-0
+    font-medium;
+}
+
+@include slotted("subtitle", "*") {
+  @apply text-color-2
+    text-n2-wrap
+    m-0 mt-0.5
+    font-normal;
+}
+
 @include slotted("heading", "*") {
   @apply text-color-1
     text-n1-wrap
