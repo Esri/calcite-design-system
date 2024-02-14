@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0-next.3...@esri/calcite-components@2.5.0-next.4) (2024-02-14)
+
+### Bug Fixes
+
+- fix styling when dragging items on a mobile device ([#8750](https://github.com/Esri/calcite-design-system/issues/8750)) ([7c01e6e](https://github.com/Esri/calcite-design-system/commit/7c01e6eb56d203d8811072141f9399fd844b64b2)), closes [#8728](https://github.com/Esri/calcite-design-system/issues/8728)
+- prevent interaction when component is disabled after initialization (Firefox) ([#8746](https://github.com/Esri/calcite-design-system/issues/8746)) ([aa84182](https://github.com/Esri/calcite-design-system/commit/aa841828ffae393d76549239b0a7b2d279b0494d)), closes [#8729](https://github.com/Esri/calcite-design-system/issues/8729)
+
 ## [2.5.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0-next.2...@esri/calcite-components@2.5.0-next.3) (2024-02-14)
 
 ### Features
