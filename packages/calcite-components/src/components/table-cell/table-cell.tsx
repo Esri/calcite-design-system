@@ -259,7 +259,7 @@ export class TableCell
               aria-live={this.focused ? "polite" : "off"}
               class={CSS.assistiveText}
             >
-              {(this.selectionCell || this.readCellContentsToAT) && this.focused && (
+              {(this.selectionCell || this.readCellContentsToAT) && (
                 <Fragment>
                   {this.selectionCell && this.selectionText}
                   {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
