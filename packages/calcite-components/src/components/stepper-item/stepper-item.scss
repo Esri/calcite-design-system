@@ -283,14 +283,14 @@
   }
 }
 
-:host([layout="horizontal-single"][selected]) {
+:host([layout="horizontal-single"]) {
   .stepper-item-header {
     grid-area: 1 / 1 / 1 / -1;
   }
 }
 
-:host([layout="horizontal"][selected]),
-:host([layout="horizontal-single"][selected]) {
+:host([layout="horizontal"]),
+:host([layout="horizontal-single"]) {
   .stepper-item-content {
     grid-area: 2 / 1 / 2 / -1;
   }
