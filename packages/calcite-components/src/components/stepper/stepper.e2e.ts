@@ -743,35 +743,35 @@ describe("calcite-stepper", () => {
     expect(await stepperItem2.getProperty("selected")).toBe(true);
   });
 
+  it("should display action buttons when layout is horizontal-single", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-stepper layout="horizontal-single">
+        <calcite-stepper-item heading="Step 1" id="step-1">
+          <div>Step 1 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item heading="Step 2" id="step-2">
+          <div>Step 2 content</div>
+        </calcite-stepper-item>
+      </calcite-stepper>`,
+    );
+
+    const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
+    const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
+
+    expect(await actionStart.isVisible()).toBe(true);
+    expect(await actionStart.getProperty("disabled")).toEqual(true);
+    expect(await actionEnd.isVisible()).toBe(true);
+    expect(await stepperItem1.isVisible()).toBe(true);
+    expect(await stepperItem2.isVisible()).toBe(false);
+
+    await actionEnd.click();
+    await page.waitForChanges();
+    expect(await stepperItem1.isVisible()).toBe(false);
+    expect(await stepperItem2.isVisible()).toBe(true);
+  });
+
   describe("responsive layout", () => {
-    it("should display action buttons when width is smaller", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-stepper style="width: 100px">
-          <calcite-stepper-item heading="Step 1" id="step-1">
-            <div>Step 1 content</div>
-          </calcite-stepper-item>
-          <calcite-stepper-item heading="Step 2" id="step-2">
-            <div>Step 2 content</div>
-          </calcite-stepper-item>
-        </calcite-stepper>`,
-      );
-
-      const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
-      const [stepperItem1, stepperItem2] = await page.findAll("calcite-stepper-item");
-
-      expect(await actionStart.isVisible()).toBe(true);
-      expect(await actionStart.getProperty("disabled")).toEqual(true);
-      expect(await actionEnd.isVisible()).toBe(true);
-      expect(await stepperItem1.isVisible()).toBe(true);
-      expect(await stepperItem2.isVisible()).toBe(false);
-
-      await actionEnd.click();
-      await page.waitForChanges();
-      expect(await stepperItem1.isVisible()).toBe(false);
-      expect(await stepperItem2.isVisible()).toBe(true);
-    });
-
     it("focus order", async () => {
       const page = await newE2EPage();
       await page.setContent(
