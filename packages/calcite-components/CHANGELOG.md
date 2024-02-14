@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0-next.2...@esri/calcite-components@2.5.0-next.3) (2024-02-14)
+
+### Features
+
+- **stepper:** add horizontal-single layout ([#8742](https://github.com/Esri/calcite-design-system/issues/8742)) ([c34bc4f](https://github.com/Esri/calcite-design-system/commit/c34bc4fff02f3709bcd502e5a2e33545a864507e)), closes [#8461](https://github.com/Esri/calcite-design-system/issues/8461)
+
+### Reverts
+
+- fix(panel, flow-item): remove overflow rule ([#8711](https://github.com/Esri/calcite-design-system/issues/8711)) ([21226ce](https://github.com/Esri/calcite-design-system/commit/21226cefb26b0f271851dfb6f4a6b2f333536775)), closes [#8028](https://github.com/Esri/calcite-design-system/issues/8028) [#8611](https://github.com/Esri/calcite-design-system/issues/8611)
+
 ## [2.5.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0-next.1...@esri/calcite-components@2.5.0-next.2) (2024-02-12)
 
 ### Features

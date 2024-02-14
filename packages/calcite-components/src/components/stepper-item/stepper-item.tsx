@@ -12,7 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { Layout, Scale } from "../interfaces";
+import { Scale } from "../interfaces";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -24,6 +24,7 @@ import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
   StepperItemKeyEventDetail,
+  StepperLayout,
 } from "../stepper/interfaces";
 import {
   numberStringFormatter,
@@ -119,7 +120,7 @@ export class StepperItem
    *
    * @internal
    */
-  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout>;
+  @Prop({ reflect: true }) layout: StepperLayout;
 
   /**
    * Made into a prop for testing purposes only
