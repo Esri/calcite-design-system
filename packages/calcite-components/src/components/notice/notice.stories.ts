@@ -102,7 +102,7 @@ export const theming_TestOnly = (): string => html`
     icon="layer"
     style="--calcite-notice-background-color: rgb(182, 101, 101);
       --calcite-notice-border-color: rgb(183, 61, 61);
-      --calcite-notice-box-shadow: var(--calcite-shadow-sm);
+      --calcite-notice-shadow: var(--calcite-shadow-sm);
       --calcite-notice-corner-radius: 4px;
       --calcite-notice-icon-color: rgb(244, 229, 229);
       --calcite-notice-close-icon-color: orange;

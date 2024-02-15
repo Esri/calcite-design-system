@@ -5,15 +5,15 @@
  *
  * @prop --calcite-notice-background-color: Specifies the background color of the component.
  * @prop --calcite-notice-border-color: Specifies the border color of the component.
- * @prop --calcite-notice-box-shadow: Specifies the box shadow of the component.
+ * @prop --calcite-notice-shadow: Specifies the box shadow of the component.
  * @prop --calcite-notice-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-notice-icon-color: Specifies the color of the component's icon property.
  * @prop --calcite-notice-close-icon-color: Specifies the color of the component's `closable` icon color.
- * @prop --calcite-notice-close-background-color: Specifies the color of the component's `closable` background color.
- * @prop --calcite-notice-close-background-color-hover: Specifies the hover color of the component's `closable` background color.
- * @prop --calcite-notice-close-background-color-active: Specifies the active color of the component's `closable` background color.
- * @prop --calcite-notice-close-background-color-focus: Specifies the focus color of the component's `closable` background color.
- * @prop --calcite-notice-close-focus-color: Specifies the focus color of the component's `closable` background color.
+ * @prop --calcite-notice-close-background-color: Specifies the background color of the component's `closable`element.
+ * @prop --calcite-notice-close-background-color-hover: Specifies the background color of the component's `closable` element when hovered.
+ * @prop --calcite-notice-close-background-color-active: Specifies the background color of the component's `closable` element when active.
+ * @prop --calcite-notice-close-background-color-focus: Specifies the background color of the component's `closable` element when focused.
+ * @prop --calcite-notice-close-focus-color: Specifies the focus color of the component's `closable` element.
  *
  */
 
@@ -109,13 +109,11 @@
 }
 
 :host([open]) .container {
-  @apply pointer-events-auto
-    flex
-    max-h-full
-    items-center
-    border-2
-    opacity-100;
-  box-shadow: var(--calcite-notice-box-shadow, var(--calcite-shadow-sm));
+  @apply pointer-events-auto flex items-center;
+  opacity: var(--calcite-opacity-full);
+  border-width: var(--calcite-border-width-md);
+  max-block-size: var(--calcite-container-size-content-fluid);
+  box-shadow: var(--calcite-notice-shadow, var(--calcite-shadow-sm));
 }
 
 @include slotted("title", "*", ".container") {
