@@ -743,11 +743,11 @@ describe("calcite-stepper", () => {
     expect(await stepperItem2.getProperty("selected")).toBe(true);
   });
 
-  describe("responsive layout", () => {
-    it("should display action buttons when width is smaller", async () => {
+  describe("horizontal-single layout", () => {
+    it("should display action buttons when layout is horizontal-single.", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        html`<calcite-stepper style="width: 100px">
+        html`<calcite-stepper layout="horizontal-single">
           <calcite-stepper-item heading="Step 1" id="step-1">
             <div>Step 1 content</div>
           </calcite-stepper-item>
@@ -775,7 +775,7 @@ describe("calcite-stepper", () => {
     it("focus order", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        html`<calcite-stepper style="width: 100px">
+        html`<calcite-stepper layout="horizontal-single">
           <calcite-stepper-item heading="Step 1" id="step-1">
             <calcite-button id="button1">Click</calcite-button>
           </calcite-stepper-item>
@@ -822,7 +822,7 @@ describe("calcite-stepper", () => {
     it("should emit calciteStepperItemChange on user interaction", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        html`<calcite-stepper style="width: 100px">
+        html`<calcite-stepper layout="horizontal-single">
           <calcite-stepper-item heading="Step 1" id="step-1">
             <div>Step 1 content</div>
           </calcite-stepper-item>
