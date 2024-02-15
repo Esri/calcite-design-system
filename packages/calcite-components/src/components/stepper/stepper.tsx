@@ -14,8 +14,12 @@ import {
   readTask,
 } from "@stencil/core";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
-import { Layout, Position, Scale } from "../interfaces";
-import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
+import { Position, Scale } from "../interfaces";
+import {
+  StepperItemChangeEventDetail,
+  StepperItemKeyEventDetail,
+  StepperLayout,
+} from "./interfaces";
 import { createObserver } from "../../utils/observers";
 import { StepBar } from "./functional/step-bar";
 import { ITEM_MIN_WIDTH, CSS } from "./resources";
@@ -56,7 +60,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   @Prop({ reflect: true }) icon = false;
 
   /** Defines the layout of the component. */
-  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
+  @Prop({ reflect: true }) layout: StepperLayout = "horizontal";
 
   /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) numbered = false;
@@ -175,7 +179,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
           class={{ container: true, [CSS.singleView]: !this.multipleViewMode }}
           ref={this.setContainerEl}
         >
-          {!this.multipleViewMode && this.layout === "horizontal" && (
+          {this.layout === "horizontal-single" && (
             <div class={{ [CSS.stepBarContainer]: true }}>
               {this.items.map((item, index) => (
                 <StepBar
@@ -396,18 +400,24 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   private determineActiveStepper(currentActivePositionChanged = false): void {
     const totalItems = this.items.length;
-    if (!this.elWidth || !totalItems || this.layout !== "horizontal" || totalItems === 1) {
+    if (!this.elWidth || !totalItems || this.layout === "vertical" || totalItems === 1) {
       return;
     }
 
     const activePosition = this.currentActivePosition || 0;
-    const totalMinWidthOfItems = totalItems * this.getMinWidthOfStepperItem();
-    const totalRowGap =
-      (totalItems - 1) * (parseInt(window.getComputedStyle(this.containerEl).rowGap) || 0);
 
-    if (this.elWidth <= totalMinWidthOfItems + totalRowGap) {
+    if (this.layout === "horizontal") {
+      if (this.multipleViewMode && !currentActivePositionChanged) {
+        return;
+      }
+      this.multipleViewMode = true;
+      this.setGridTemplateColumns(this.items);
+      this.items.forEach((item: HTMLCalciteStepperItemElement) => {
+        item.hidden = false;
+        item.multipleViewMode = true;
+      });
+    } else {
       this.multipleViewMode = false;
-
       this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
         if (index !== activePosition) {
           item.hidden = true;
@@ -415,17 +425,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
           item.hidden = false;
           item.multipleViewMode = false;
         }
-      });
-    } else if (this.elWidth > totalMinWidthOfItems + totalRowGap) {
-      if (this.multipleViewMode && !currentActivePositionChanged) {
-        return;
-      }
-
-      this.multipleViewMode = true;
-      this.setGridTemplateColumns(this.items);
-      this.items.forEach((item: HTMLCalciteStepperItemElement) => {
-        item.hidden = false;
-        item.multipleViewMode = true;
       });
     }
   }
@@ -471,7 +470,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     const totalItems = this.items.length;
     const id = `${this.guid}-${isPositionStart ? "start" : "end"}`;
 
-    return layout === "horizontal" && !multipleViewMode ? (
+    return layout === "horizontal-single" && !multipleViewMode ? (
       <calcite-action
         alignment="center"
         appearance="transparent"
