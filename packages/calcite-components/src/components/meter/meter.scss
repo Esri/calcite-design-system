@@ -31,22 +31,6 @@
   --calcite-meter-fill-color: var(--calcite-meter-fill-color, var(--calcite-color-brand));
 }
 
-.fill {
-  --calcite-internal-meter-fill-color: var(--calcite-meter-fill-color, var(--calcite-color-brand));
-}
-
-.fill-danger {
-  --calcite-internal-meter-fill-color: var(--calcite-meter-fill-color, var(--calcite-color-status-danger));
-}
-
-.fill-success {
-  --calcite-internal-meter-fill-color: var(--calcite-meter-fill-color, var(--calcite-color-status-success));
-}
-
-.fill-warning {
-  --calcite-internal-meter-fill-color: var(--calcite-meter-fill-color, var(--calcite-color-status-warning));
-}
-
 :host([scale="s"]) {
   --calcite-internal-meter-height: var(--calcite-size-xxl);
   --calcite-internal-meter-font-size: var(--calcite-font-size--2);
@@ -55,6 +39,10 @@
 :host([scale="l"]) {
   --calcite-internal-meter-height: var(--calcite-size-xxxl);
   --calcite-internal-meter-font-size: var(--calcite-font-size-0);
+}
+
+.fill {
+  --calcite-internal-meter-fill-color: var(--calcite-meter-fill-color, var(--calcite-color-brand));
 }
 
 .fill-danger {
@@ -119,7 +107,6 @@
 }
 
 .label-range {
-  @apply text-color-3;
   color: var(--calcite-meter-range-text-color, var(--calcite-color-text-3));
   inset-block-start: calc(100% + 0.5em);
 }
