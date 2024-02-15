@@ -11,7 +11,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-angular:** Synchronize undefined versions
+- **@esri/calcite-components-angular:** Synchronize components versions
 
 ### Dependencies
 
@@ -23,7 +23,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-angular:** Synchronize undefined versions
+- **@esri/calcite-components-angular:** Synchronize components versions
 
 ### Dependencies
 
@@ -35,7 +35,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-angular:** Synchronize undefined versions
+- **@esri/calcite-components-angular:** Synchronize components versions
 
 ### Dependencies
 
@@ -47,7 +47,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-angular:** Synchronize undefined versions
+- **@esri/calcite-components-angular:** Synchronize components versions
 
 ### Dependencies
 
@@ -59,7 +59,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-angular:** Synchronize undefined versions
+- **@esri/calcite-components-angular:** Synchronize components versions
 
 ### Dependencies
 
