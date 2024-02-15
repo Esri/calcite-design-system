@@ -12,7 +12,6 @@
  * @prop --calcite-panel-footer-space: Specifies the spacing of the component's footer.
  * @prop --calcite-panel-header-background-color: Specifies the component header's background color.
  * @prop --calcite-panel-header-border-block-end: [Deprecated] No longer necessary. Specifies the component header's block end border.
- * @prop --calcite-panel-header-color: [Deprecated] Use `--calcite-panel-heading-text-color` instead. Specifies the component header's  color.
  * @prop --calcite-panel-heading-text-color: Specifies the component's heading text color.
  * @prop --calcite-panel-header-z-index: Specifies the component header's z-index.
  */
@@ -33,7 +32,7 @@
   --calcite-panel-fab-z-index: var(--calcite-z-index-sticky);
   --calcite-panel-footer-background-color: var(--calcite-color-foreground-1);
   --calcite-panel-footer-space: var(--calcite-panel-footer-padding, var(--calcite-spacing-xxs));
-  --calcite-panel-heading-text-color: var(--calcite-panel-header-color, var(--calcite-color-text-2));
+  --calcite-panel-heading-text-color: var(--calcite-color-text-2);
   --calcite-panel-header-background-color: var(--calcite-color-foreground-1);
   --calcite-panel-header-z-index: var(--calcite-z-index-header);
   --calcite-panel-header-border-width: var(--calcite-border-width-sm);
