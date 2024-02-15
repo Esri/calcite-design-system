@@ -5,8 +5,7 @@
 *
 * @prop --calcite-popover-background-color: Specifies the background color of the component.
 * @prop --calcite-popover-border-color: The border color of the component.
-* @prop --calcite-popover-border-radius: The start end border radius of the component.
-* @prop --calcite-popover-font-size: The font size of the component.
+* @prop --calcite-popover-corner-radius: The start end border radius of the component.
 * @prop --calcite-popover-text-color: The text color of the component.
 * @prop --calcite-popover-z-index: Sets the z-index value for the component.
 */
@@ -15,6 +14,8 @@
   --calcite-floating-ui-z-index: var(--calcite-popover-z-index, theme("zIndex.popover"));
   --calcite-popover-background-color: var(--calcite-color-foreground-1);
   --calcite-popover-border-color: var(--calcite-color-border-3);
+  --calcite-popover-text-color: var(--calcite-color-text-1);
+  --calcite-popover-corner-radius: var(--calcite-border-radius-round);
 }
 
 @include floatingUIHost();
@@ -22,28 +23,25 @@
 
 :host([scale="s"]) {
   .heading {
-    @apply px-3
+    @apply text-n1-wrap
+    px-3
     py-2;
-
-    --calcite-popover-font-size: var(--calcite-font-size-sm);
   }
 }
 
 :host([scale="m"]) {
   .heading {
-    @apply px-4
+    @apply text-0-wrap
+    px-4
     py-3;
-
-    --calcite-popover-font-size: var(--calcite-font-size-md);
   }
 }
 
 :host([scale="l"]) {
   .heading {
-    @apply px-5
+    @apply text-1-wrap
+    px-5
     py-4;
-
-    --calcite-popover-font-size: var(--calcite-font-size-lg);
   }
 }
 
@@ -84,8 +82,6 @@
   self-center
   whitespace-normal
   font-medium;
-
-  --calcite-popover-text-color: var(--calcite-color-text-1);
 }
 
 .container {
@@ -96,7 +92,6 @@
     flex-nowrap
     rounded;
 
-  --calcite-popover-text-color: var(--calcite-color-text-1);
   &.has-header {
     @apply flex-col;
   }
@@ -115,7 +110,6 @@
 .close-button-container {
   @apply flex overflow-hidden;
   flex: 0 0 auto;
-  --calcite-popover-border-radius: : theme("borderRadius.DEFAULT");
 }
 
 ::slotted(calcite-panel),
