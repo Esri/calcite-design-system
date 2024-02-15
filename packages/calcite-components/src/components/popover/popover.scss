@@ -57,11 +57,13 @@
   @apply border
     border-solid;
 
-  border-radius: var(--calcite-corner-radius-round);
+  background-color: var(--calcite-popover-background-color);
+  border-color: var(--calcite-popover-border-color);
+  border-radius: var(--calcite-popover-corner-radius);
 }
 
 .arrow::before {
-  outline: 1px solid var(--calcite-color-border-3);
+  outline: 1px solid var(--calcite-popover-border-color);
 }
 
 .header {
@@ -72,6 +74,8 @@
     border-0
     border-b
     border-solid;
+
+  border-block-end-color: var(--calcite-popover-border-color);
 }
 
 .heading {
@@ -82,6 +86,8 @@
   self-center
   whitespace-normal
   font-medium;
+
+  color: var(--calcite-popover-text-color);
 }
 
 .container {
@@ -91,6 +97,8 @@
     flex-row
     flex-nowrap
     rounded;
+
+  color: var(--calcite-popover-text-color);
 
   &.has-header {
     @apply flex-col;
@@ -110,6 +118,8 @@
 .close-button-container {
   @apply flex overflow-hidden;
   flex: 0 0 auto;
+  border-start-end-radius: var(--calcite-popover-corner-radius);
+  border-end-end-radius: var(--calcite-popover-corner-radius);
 }
 
 ::slotted(calcite-panel),
