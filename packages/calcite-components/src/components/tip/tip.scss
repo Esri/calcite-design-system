@@ -7,7 +7,8 @@
 *
 * @prop --calcite-tip-border-color: The border color of the component.
 * @prop --calcite-tip-background-color: The background color of the component.
-
+* @prop --calcite-tip-text-color: The text color of the component.
+* @prop --calcite-tip-heading-text-color: The heading text color of the component.
 */
 
 :host {
@@ -23,6 +24,7 @@
   --calcite-tip-border-color: var(--calcite-color-border-2);
   --calcite-tip-background-color: var(--calcite-color-foreground-1);
   --calcite-tip-text-color: var(--calcite-color-text-2);
+  --calcite-tip-heading-text-color: var(--calcite-color-text-1);
 
   color: var(--calcite-tip-text-color);
 
