@@ -84,7 +84,7 @@
 ::slotted(a) {
   @apply focus-base;
 
-  --calcite-tip-background-color: var(--calcite-color-brand);
+  color: var(--calcite-color-brand);
 }
 
 ::slotted(a:focus) {
