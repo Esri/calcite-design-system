@@ -3,10 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-scrim-background: Specifies the background color of the scrim.
+ * @prop --calcite-scrim-background: [Deprecated] Use the `--calcite-scrim-background-color` property instead. Specifies the background color of the component.
+ * @prop --calcite-scrim-background-color: Specifies the background color of the component.
  */
 :host {
-  --calcite-scrim-background: var(--calcite-color-transparent-scrim);
+  --calcite-scrim-background-color: var(--calcite-scrim-background, var(--calcite-color-transparent-scrim));
 }
 
 :host {
@@ -39,7 +40,7 @@
   justify-center
   overflow-hidden;
   animation: calcite-scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
-  background-color: var(--calcite-scrim-background, var(--calcite-color-transparent-scrim));
+  background-color: var(--calcite-scrim-background-color);
 }
 
 .content {
