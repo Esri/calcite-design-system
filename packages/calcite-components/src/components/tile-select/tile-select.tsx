@@ -275,9 +275,11 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   private renderInput(): void {
-    this.input = document.createElement(
-      this.type === "radio" ? "calcite-radio-button" : "calcite-checkbox",
-    );
+    this.input =
+      this.type === "radio"
+        ? /* we need to call createElement(x) separately to ensure supporting components are properly bundled */
+          document.createElement("calcite-radio-button")
+        : document.createElement("calcite-checkbox");
     this.input.checked = this.checked;
     this.input.disabled = this.disabled;
     this.input.hidden = this.el.hidden;
