@@ -60,9 +60,6 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Prop() parentRowIsSelected: boolean;
 
   /** @internal */
-  @Prop() parentRowPosition: number;
-
-  /** @internal */
   @Prop() parentRowType: RowType;
 
   /** @internal */
@@ -146,6 +143,8 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
 
   @State() defaultMessages: TableHeaderMessages;
 
+  @State() focused = false;
+
   @State() screenReaderText = "";
 
   @State() effectiveLocale = "";
@@ -191,6 +190,14 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
     this.screenReaderText = text;
   }
 
+  private onContainerBlur = (): void => {
+    this.focused = false;
+  };
+
+  private onContainerFocus = (): void => {
+    this.focused = true;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -212,7 +219,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
     return (
       <Host>
         <th
-          aria-colindex={this.parentRowType !== "body" ? this.positionInRow : ""}
+          aria-colindex={this.parentRowType === "head" ? this.positionInRow : undefined}
           class={{
             [CSS.bodyRow]: this.parentRowType === "body",
             [CSS.footerRow]: this.parentRowType === "foot",
@@ -224,7 +231,9 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
             [CSS.lastCell]: this.lastCell,
           }}
           colSpan={this.colSpan}
-          role="columnheader"
+          onBlur={this.onContainerBlur}
+          onFocus={this.onContainerFocus}
+          role={this.parentRowType === "head" ? "columnheader" : "rowheader"}
           rowSpan={this.rowSpan}
           scope={scope}
           tabIndex={this.selectionCell ? 0 : staticCell ? -1 : 0}
@@ -240,11 +249,13 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
               scale={getIconScale(this.scale)}
             />
           )}
-          {(this.selectionCell || this.numberCell) && (
-            <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
-              {this.screenReaderText}
-            </span>
-          )}
+          <span
+            aria-hidden={true}
+            aria-live={this.focused ? "polite" : "off"}
+            class={CSS.assistiveText}
+          >
+            {(this.selectionCell || this.numberCell) && this.screenReaderText}
+          </span>
         </th>
       </Host>
     );
