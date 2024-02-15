@@ -44,7 +44,7 @@
     "util:build-docs": "npm run util:prep-build-reqs && stencil build --docs --config stencil.storybook.config.ts && npm run lint:md",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-assets": "npm run util:copy-icons",
-    "util:copy-icons": "cpy \"../../node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
+    "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:generate-t9n-docs-json": "tsx support/generateT9nDocsJSON.ts",
     "util:generate-t9n-types": "tsx support/generateT9nTypes.ts",
     "util:hydration-styles": "tsx support/hydrationStyles.ts",
