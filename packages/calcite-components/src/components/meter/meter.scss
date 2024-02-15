@@ -5,7 +5,7 @@
  *
  * @prop --calcite-meter-background-color: Specifies the background color of the component.
  * @prop --calcite-meter-border-color: Specifies the border color of the component and displayed step lines.
- * @prop --calcite-meter-box-shadow: Specifies the box shadow of the component.
+ * @prop --calcite-meter-shadow: Specifies the box shadow of the component.
  * @prop --calcite-meter-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-meter-fill-color: Specifies the color of the component's fill.
  * @prop --calcite-meter-range-text-color: Specifies the color of the component's range labels.
@@ -18,6 +18,7 @@
   * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
   *
   * --calcite-internal-meter-fill-color
+  * --calcite-internal-meter-background-color
 */
 
 @include base-component();
@@ -29,6 +30,13 @@
   --calcite-internal-meter-height: var(--calcite-size-lg);
   --calcite-internal-meter-font-size: var(--calcite-font-size--1);
   --calcite-meter-fill-color: var(--calcite-meter-fill-color, var(--calcite-color-brand));
+  --calcite-meter-background-color: var(--calcite-color-foreground-2);
+  --calcite-meter-border-color: var(--calcite-color-border-3);
+  --calcite-meter-shadow: var(--calcite-shadow-none);
+  --calcite-meter-range-text-color: var(--calcite-color-text-3);
+  --calcite-meter-value-text-color: var(--calcite-color-text-1);
+  --calcite-meter-shadow: var(--calcite-shadow-none);
+  --calcite-meter-corner-radius: 9999px;
 }
 
 :host([scale="s"]) {
@@ -39,6 +47,15 @@
 :host([scale="l"]) {
   --calcite-internal-meter-height: var(--calcite-size-xxxl);
   --calcite-internal-meter-font-size: var(--calcite-font-size-0);
+}
+
+:host([appearance="solid"]) {
+  --calcite-meter-border-color: var(--calcite-color-foreground-3);
+  --calcite-meter-background-color: var(--calcite-color-foreground-3);
+}
+
+:host([appearance="outline"]) {
+  --calcite-meter-background-color: transparent;
 }
 
 .fill {
@@ -62,19 +79,10 @@
   margin: 0;
   inline-size: var(--calcite-container-size-content-fluid);
   block-size: var(--calcite-internal-meter-height);
-  background-color: var(--calcite-meter-background-color, var(--calcite-color-foreground-2));
-  border: var(--calcite-border-width-sm) solid var(--calcite-meter-border-color, var(--calcite-color-border-3));
-  border-radius: var(--calcite-meter-corner-radius, 9999px);
-  box-shadow: var(--calcite-meter-box-shadow, var(--calcite-shadow-none));
-}
-
-.solid {
-  border-color: var(--calcite-meter-border-color, var(--calcite-color-foreground-3));
-  background-color: var(--calcite-meter-background-color, var(--calcite-color-foreground-3));
-}
-
-.outline {
-  background-color: var(--calcite-meter-background-color, transparent);
+  background-color: var(--calcite-meter-background-color);
+  border: var(--calcite-border-width-sm) solid var(--calcite-meter-border-color);
+  border-radius: var(--calcite-meter-corner-radius);
+  box-shadow: var(--calcite-meter-shadow);
 }
 
 .value-visible {
@@ -88,7 +96,7 @@
 .step-line {
   @apply block absolute inset-y-0;
   inline-size: var(--calcite-internal-meter-space);
-  background-color: var(--calcite-meter-border-color, var(--calcite-color-border-3));
+  background-color: var(--calcite-meter-border-color);
 }
 
 .label {
@@ -103,11 +111,11 @@
 .label-value {
   inset-block-end: calc(100% + 0.5em);
   font-weight: var(--calcite-font-weight-bold);
-  color: var(--calcite-meter-value-text-color, var(--calcite-color-text-1));
+  color: var(--calcite-meter-value-text-color);
 }
 
 .label-range {
-  color: var(--calcite-meter-range-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-meter-range-text-color);
   inset-block-start: calc(100% + 0.5em);
 }
 
@@ -119,7 +127,7 @@
   @apply block absolute duration-150 ease-in-out z-default;
   inset-inline-start: var(--calcite-internal-meter-space);
   inset-block: var(--calcite-internal-meter-space);
-  border-radius: var(--calcite-meter-corner-radius, 9999px);
+  border-radius: var(--calcite-meter-corner-radius);
   max-inline-size: calc(100% - (var(--calcite-internal-meter-space) * 2));
   min-inline-size: calc(var(--calcite-internal-meter-height) - (var(--calcite-internal-meter-space) * 2));
   background-color: var(--calcite-internal-meter-fill-color);
