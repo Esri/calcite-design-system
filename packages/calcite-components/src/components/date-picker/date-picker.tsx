@@ -22,7 +22,6 @@ import {
   inRange,
   nextMonth,
   prevMonth,
-  setEndOfDay,
 } from "../../utils/date";
 import {
   componentFocusable,
@@ -71,7 +70,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Watch("activeDate")
   activeDateWatcher(newValue: Date | Date[]): void {
     //updates activeValue when user is typing in input and avoid updating activeDates when value is set programmatically
-    if (this.range && !this.mostRecentRangeValue) {
+    if (this.range && !this.userChangeRangeValue) {
       if (Array.isArray(newValue)) {
         if (newValue[0] || newValue[1]) {
           this.activeStartDate = newValue[0];
@@ -106,7 +105,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     if (Array.isArray(value)) {
       this.valueAsDate = getValueAsDateRange(value);
       // avoids updating activeDates after every selection. Update of activeDate's happen when user parses value programmatically
-      if (!this.mostRecentRangeValue) {
+      if (!this.userChangeRangeValue) {
         this.resetActiveDates();
       }
     } else if (value) {
@@ -124,7 +123,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("valueAsDate")
   valueAsDateWatcher(newValueAsDate: Date | Date[]): void {
-    if (this.range && Array.isArray(newValueAsDate) && !this.mostRecentRangeValue) {
+    if (this.range && Array.isArray(newValueAsDate) && !this.userChangeRangeValue) {
       this.setActiveDates();
     } else if (newValueAsDate && newValueAsDate !== this.activeDate) {
       this.activeDate = newValueAsDate as Date;
@@ -227,7 +226,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Method()
   async reset(): Promise<void> {
     this.resetActiveDates();
-    this.mostRecentRangeValue = undefined;
+    this.userChangeRangeValue = false;
   }
 
   // --------------------------------------------------------------------------
@@ -275,7 +274,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     const date = dateFromRange(
       this.range && Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,
       this.minAsDate,
-      this.maxAsDate
+      this.maxAsDate,
     );
     const activeDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
 
@@ -348,11 +347,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @State() private localeData: DateLocaleData;
 
-  @State() mostRecentRangeValue?: Date;
-
-  //@State() private mostRecentActiveDateValue?: Date;
-
   @State() startAsDate: Date;
+
+  private userChangeRangeValue = false;
 
   //--------------------------------------------------------------------------
   //
@@ -391,15 +388,10 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     } else {
       if (position === "end") {
         this.activeEndDate = date;
-        //preserves the state of the calendar while user switch between input.
-        if (!this.valueAsDate || !this.valueAsDate[0]) {
-          this.activeStartDate = prevMonth(date);
-        }
+        this.activeStartDate = prevMonth(date);
       } else {
         this.activeStartDate = date;
-        if (!this.valueAsDate || !this.valueAsDate[1]) {
-          this.activeEndDate = nextMonth(date);
-        }
+        this.activeEndDate = nextMonth(date);
       }
     }
   };
@@ -508,7 +500,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     maxDate: Date,
     minDate: Date,
     date: Date,
-    endDate: Date
+    endDate: Date,
   ): VNode {
     return (
       this.localeData && (
@@ -559,8 +551,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   private setEndDate(date: Date): void {
     const startDate = this.getStartDate();
-    const newEndDate = date ? setEndOfDay(date) : date;
-    this.mostRecentRangeValue = newEndDate;
+    this.userChangeRangeValue = true;
     this.value = [dateToISO(startDate), dateToISO(date)];
     this.valueAsDate = [startDate, date];
     this.calciteDatePickerRangeChange.emit();
@@ -572,7 +563,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   private setStartDate(date: Date): void {
     const endDate = this.getEndDate();
-    this.mostRecentRangeValue = date;
+    this.userChangeRangeValue = true;
     this.value = [dateToISO(date), dateToISO(endDate)];
     this.valueAsDate = [date, endDate];
     this.calciteDatePickerRangeChange.emit();
@@ -669,13 +660,13 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       const date = dateFromRange(
         Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,
         this.minAsDate,
-        this.maxAsDate
+        this.maxAsDate,
       );
 
       const endDate = dateFromRange(
         Array.isArray(this.valueAsDate) ? this.valueAsDate[1] : null,
         this.minAsDate,
-        this.maxAsDate
+        this.maxAsDate,
       );
 
       this.activeStartDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
