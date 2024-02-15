@@ -503,7 +503,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     if (enabledStepIndex > -1) {
       return enabledStepIndex;
     }
-
     return 0;
   }
 
