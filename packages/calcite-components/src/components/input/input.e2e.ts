@@ -15,7 +15,7 @@ import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementRect, getElementXY, selectText } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
-import { testPostValidationFocusing } from "./common/tests";
+import { testHiddenInputSyncing, testPostValidationFocusing } from "./common/tests";
 
 describe("calcite-input", () => {
   const delayFor2UpdatesInMs = 200;
@@ -2053,10 +2053,13 @@ describe("calcite-input", () => {
         testValue: value,
         submitsOnEnter: true,
         inputType: type,
+        validation: true,
       });
     }
 
     testPostValidationFocusing("calcite-input");
+
+    testHiddenInputSyncing("calcite-input");
   });
 
   describe("translation support", () => {
