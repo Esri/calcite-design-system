@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0-next.5...@esri/calcite-components@2.5.0-next.6) (2024-02-15)
+
+### Features
+
+- **table:** Improve accessibility of interaction-mode: static Table ([#8754](https://github.com/Esri/calcite-design-system/issues/8754)) ([eead1b5](https://github.com/Esri/calcite-design-system/commit/eead1b519b0cfe7430fc625415c0baabe5dabde5)), closes [#8659](https://github.com/Esri/calcite-design-system/issues/8659)
+
 ## [2.5.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0-next.4...@esri/calcite-components@2.5.0-next.5) (2024-02-15)
 
 ### Bug Fixes
