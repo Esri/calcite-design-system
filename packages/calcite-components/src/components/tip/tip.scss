@@ -11,8 +11,7 @@
 */
 
 :host {
-  @apply text-color-2
-    text-n1h
+  @apply text-n1h
     relative
     box-border
     flex
@@ -23,6 +22,9 @@
 
   --calcite-tip-border-color: var(--calcite-color-border-2);
   --calcite-tip-background-color: var(--calcite-color-foreground-1);
+  --calcite-tip-text-color: var(--calcite-color-text-2);
+
+  color: var(--calcite-tip-text-color);
 
   * {
     @apply box-border;
@@ -49,7 +51,9 @@
 }
 
 .header .heading {
-  @apply text-0h text-color-1 p-0;
+  @apply text-0h p-0;
+
+  color: var(--calcite-tip-heading-text-color);
 }
 
 .container[hidden] {
