@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0-next.4...@esri/calcite-components@2.5.0-next.5) (2024-02-15)
+
+### Bug Fixes
+
+- fix dragging items on a mobile device ([#8751](https://github.com/Esri/calcite-design-system/issues/8751)) ([dc11612](https://github.com/Esri/calcite-design-system/commit/dc11612e36c042fcb4638c1c68401e5b88bb8e14)), closes [#8728](https://github.com/Esri/calcite-design-system/issues/8728)
+
 ## [2.5.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0-next.3...@esri/calcite-components@2.5.0-next.4) (2024-02-14)
 
 ### Bug Fixes
