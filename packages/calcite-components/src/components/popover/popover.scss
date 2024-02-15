@@ -95,10 +95,10 @@
     flex
     h-full
     flex-row
-    flex-nowrap
-    rounded;
+    flex-nowrap;
 
   color: var(--calcite-popover-text-color);
+  border-radius: var(--calcite-popover-corner-radius);
 
   &.has-header {
     @apply flex-col;
