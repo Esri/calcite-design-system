@@ -528,10 +528,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
             <table
               aria-colcount={this.colCount}
               aria-multiselectable={this.selectionMode === "multiple"}
-              aria-readonly={true}
               aria-rowcount={this.allRows?.length}
               class={{ [CSS.tableFixed]: this.layout === "fixed" }}
-              role="grid"
+              role={this.interactionMode === "interactive" ? "grid" : "table"}
             >
               <caption class={CSS.assistiveText}>{this.caption}</caption>
               {this.renderTHead()}

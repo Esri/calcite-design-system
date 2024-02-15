@@ -146,7 +146,7 @@ export const filterComponentAttributes = (
 /**
  * This helper creates a story that captures all breakpoints across all scales for testing.
  *
- * @param singleStoryHtml – HTML story template with placeholders for `scale` attributes (e.g., `{scale}`).
+ * @param singleStoryHtml – HTML story template with placeholders for `scale` attributes (e.g., `{scale}`). You can additionally use `.breakpoint-stories-container` and `.breakpoint-story-container` to style breakpoint story containers.
  * @param [focused] – when specified, creates a single story for the provided breakpoint and scale.
  *   This should only be used if multiple stories cannot be displayed side-by-side.
  */
