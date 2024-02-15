@@ -1,4 +1,15 @@
-import { Component, Element, h, Host, Method, Prop, State, VNode, Watch } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Fragment,
+  h,
+  Host,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch,
+} from "@stencil/core";
 import { Alignment, Scale } from "../interfaces";
 import {
   componentFocusable,
@@ -237,18 +248,24 @@ export class TableCell
             colSpan={this.colSpan}
             onBlur={this.onContainerBlur}
             onFocus={this.onContainerFocus}
-            role="gridcell"
+            role={this.interactionMode === "interactive" ? "gridcell" : "cell"}
             rowSpan={this.rowSpan}
             tabIndex={staticCell ? -1 : 0}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.containerEl = el)}
           >
-            {(this.selectionCell || this.readCellContentsToAT) && this.focused && (
-              <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
-                {this.selectionCell && this.selectionText}
-                {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
-              </span>
-            )}
+            <span
+              aria-hidden={true}
+              aria-live={this.focused ? "polite" : "off"}
+              class={CSS.assistiveText}
+            >
+              {(this.selectionCell || this.readCellContentsToAT) && (
+                <Fragment>
+                  {this.selectionCell && this.selectionText}
+                  {this.readCellContentsToAT && !this.selectionCell && this.contentsText}
+                </Fragment>
+              )}
+            </span>
             <slot onSlotchange={this.updateScreenReaderContentsText} />
           </td>
         </InteractiveContainer>
