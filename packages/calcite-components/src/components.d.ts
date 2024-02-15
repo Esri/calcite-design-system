@@ -4463,10 +4463,6 @@ export namespace Components {
          */
         "messages": StepperItemMessages;
         /**
-          * Specifies if the user is viewing one `stepper-item` at a time. Helps in determining if header region is tabbable.
-         */
-        "multipleViewMode": boolean;
-        /**
           * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
          */
         "numbered": boolean;
@@ -11957,10 +11953,6 @@ declare namespace LocalJSX {
           * Made into a prop for testing purposes only
          */
         "messages"?: StepperItemMessages;
-        /**
-          * Specifies if the user is viewing one `stepper-item` at a time. Helps in determining if header region is tabbable.
-         */
-        "multipleViewMode"?: boolean;
         /**
           * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
          */
