@@ -423,7 +423,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
     let newIndex = startIndex;
 
-    while (items[newIndex]?.disabled && this.multipleViewMode) {
+    while (items[newIndex]?.disabled && this.layout !== "horizontal-single") {
       newIndex = newIndex + (direction === "previous" ? -1 : 1);
     }
 
