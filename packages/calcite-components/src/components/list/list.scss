@@ -1,5 +1,18 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-list-background-color: Specifies the background color of the component.
+ * @prop --calcite-list-border-color: Specifies the border color of the component.
+ * @prop --calcite-list-header-z-index: Specifies the component header's z-index.
+ */
+
 :host {
-  @apply block;
+  display: block;
+  --calcite-list-background-color: var(--calcite-color-foreground-1);
+  --calcite-list-border-color: var(--calcite-list-border-color);
+  --calcite-list-header-z-index: var(--calcite-z-index-sticky);
 }
 
 @include disabled();
@@ -9,18 +22,19 @@
 }
 
 .table-container {
-  @apply box-border
-  flex
-  w-full
-  flex-col
-  bg-transparent;
+  box-sizing: border-box;
+  display: flex;
+  inline-size: var(--calcite-container-size-content-fluid);
+  flex-direction: column;
+  background-color: var(--calcite-list-background-color);
   * {
-    @apply box-border;
+    box-sizing: border-box;
   }
 }
 
 .table {
-  @apply w-full border-collapse;
+  inline-size: var(--calcite-container-size-content-fluid);
+  border-collapse: collapse;
 }
 
 .stack {
@@ -29,32 +43,31 @@
 }
 
 ::slotted(calcite-list-item) {
-  @apply shadow-border-top;
-  margin-block-start: 1px;
+  border-block-start: var(--calcite-border-width-sm) solid var(--calcite-list-border-color);
 }
 
 ::slotted(calcite-list-item:first-of-type) {
-  @apply shadow-none;
+  border: none;
 }
 
 // removes shadow for the first item in filteredItems of the list.
 ::slotted(calcite-list-item[data-filter]) {
-  @apply shadow-none;
-  margin-block-start: 0px;
+  border: none;
 }
 
 .sticky-pos {
-  @apply sticky
-  top-0
-  z-sticky
-  bg-foreground-1;
-  & th {
-    @apply p-0;
-  }
+  position: sticky;
+  inset-block-start: 0px;
+  z-index: var(--calcite-list-header-z-index);
+  background-color: var(--calcite-list-background-color);
+}
+
+.table-header {
+  padding: 0;
 }
 
 .assistive-text {
-  @apply sr-only;
+  @include srOnly();
 }
 
 @include base-component();

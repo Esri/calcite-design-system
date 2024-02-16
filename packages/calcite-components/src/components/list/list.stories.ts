@@ -954,3 +954,106 @@ export const nestingLists_TestOnly = (): string => html`<h4>Nesting List Items</
       </calcite-list>
     </calcite-list-item>
   </calcite-list>`;
+
+const themingStyle = `<style>
+    .custom-list {
+      --calcite-list-background-color: lightblue;
+      --calcite-list-border-color: red;
+      --calcite-list-header-z-index: 998;
+    }
+    .custom-list calcite-list-item-group {
+      --calcite-list-item-group-background-color: orange;
+      --calcite-list-item-group-border-color: violet;
+      --calcite-list-item-group-heading-text-color: green;
+    }
+    .custom-list calcite-list-item {
+      --calcite-list-item-background-color: gold;
+      --calcite-list-item-border-color: navy;
+      --calcite-list-item-content-text-color: green;
+      --calcite-list-item-description-text-color: purple;
+      --calcite-list-item-hover-background-color: purple;
+      --calcite-list-item-label-text-color: saddlebrown;
+      --calcite-list-item-open-icon-color: seagreen;
+      --calcite-list-item-open-icon-hover-color: seagreen;
+      --calcite-list-item-selected-border-color: violet;
+      --calcite-list-item-selected-description-text-color: aqua;
+      --calcite-list-item-selected-icon-color: teal;
+      --calcite-list-item-selected-label-text-color: magenta;
+      --calcite-list-item-unselected-icon-color: firebrick;
+      --calcite-list-item-unselected-icon-hover-color: firebrick;
+    }
+  </style>`;
+
+const themingListHTML = html`<calcite-list-item label="Apples" value="apples"></calcite-list-item>
+  <calcite-list-item selected label="Oranges" value="oranges"></calcite-list-item>
+  <calcite-list-item selected label="Pears" value="pears"></calcite-list-item>
+  <calcite-list-item-group heading="Group Name">
+    <calcite-list drag-enabled class="custom-list">
+      <calcite-list-item label="Apples" value="apples"></calcite-list-item>
+      <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
+      <calcite-list-item label="Pears" value="pears"></calcite-list-item>
+    </calcite-list>
+  </calcite-list-item-group>
+  <calcite-list-item label="List Item" open>
+    <calcite-list drag-enabled>
+      <calcite-list-item label="List Item"></calcite-list-item>
+      <calcite-list-item label="List Item"></calcite-list-item>
+      <calcite-list-item label="List Item"></calcite-list-item>
+    </calcite-list>
+  </calcite-list-item>`;
+
+export const themingSingleIcon_TestOnly = (): string => html`
+  ${themingStyle}
+  <calcite-list
+    drag-enabled
+    filter-enabled
+    filter-text=""
+    selection-mode="single"
+    selection-appearance="icon"
+    class="custom-list"
+  >
+    ${themingListHTML}
+  </calcite-list>
+`;
+
+export const themingMultipleIcon_TestOnly = (): string => html`
+  ${themingStyle}
+  <calcite-list
+    drag-enabled
+    filter-enabled
+    filter-text=""
+    selection-mode="multiple"
+    selection-appearance="icon"
+    class="custom-list"
+  >
+    ${themingListHTML}
+  </calcite-list>
+`;
+
+export const themingSingleBorder_TestOnly = (): string => html`
+  ${themingStyle}
+  <calcite-list
+    drag-enabled
+    filter-enabled
+    filter-text=""
+    selection-mode="single"
+    selection-appearance="border"
+    class="custom-list"
+  >
+    ${themingListHTML}
+  </calcite-list>
+`;
+
+export const themingMultipleBorder_TestOnly = (): string => html`
+  ${themingStyle}
+  <calcite-list
+    drag-enabled
+    filter-enabled
+    filter-text=""
+    selection-mode="multiple"
+    selection-appearance="border"
+    class="custom-list"
+  >
+    ${themingListHTML}
+  </calcite-list>
+`;

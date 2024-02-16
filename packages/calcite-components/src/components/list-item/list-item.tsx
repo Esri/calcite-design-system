@@ -567,7 +567,7 @@ export class ListItem
       <div
         class={CSS.contentBottom}
         hidden={!hasContentBottom}
-        style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
+        style={{ "--calcite-internal-list-item-spacing-indent-multiplier": `${visualLevel}` }}
       >
         <slot name={SLOTS.contentBottom} onSlotchange={this.handleContentBottomSlotChange} />
       </div>
@@ -681,7 +681,7 @@ export class ListItem
             onFocusin={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
             role="row"
-            style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
+            style={{ "--calcite-internal-list-item-spacing-indent-multiplier": `${visualLevel}` }}
             tabIndex={active ? 0 : -1}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.containerEl = el)}
