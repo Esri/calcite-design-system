@@ -13,6 +13,10 @@
   --calcite-input-icon-color: var(--calcite-color-text-3);
   --calcite-input-icon-color-hover: var(--calcite-color-text-1);
 
+  // Prefix/Suffix
+  --calcite-input-prefixsuffix-text-color: var(--calcite-color-text-2);
+  --calcite-input-prefixsuffix-background-color: var(--calcite-color-background);
+
   // For props that should follow the initial border-color but not change on statechange.
   --calcite-internal-input-border-color-base: var(--calcite-input-border-color);
 
@@ -304,9 +308,7 @@ input[type="time"]::-webkit-clear-button {
 // prefix and suffix
 .prefix,
 .suffix {
-  @apply bg-background
-    text-color-2
-    box-border
+  @apply box-border
     flex
     h-auto
     min-h-full
@@ -319,6 +321,8 @@ input[type="time"]::-webkit-clear-button {
     font-medium
     leading-none;
 
+  color: var(--calcite-input-prefixsuffix-text-color);
+  background-color: var(--calcite-input-prefixsuffix-background-color);
   border-color: var(--calcite-internal-input-border-color-base);
 }
 
