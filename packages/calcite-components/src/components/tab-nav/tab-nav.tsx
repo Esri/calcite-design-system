@@ -35,9 +35,9 @@ import {
 } from "../../utils/t9n";
 import { TabNavMessages } from "./assets/tab-nav/t9n";
 import {
+  calciteSize24,
   calciteSize32,
-  calciteSize48,
-  calciteSize64,
+  calciteSize44,
 } from "@esri/calcite-design-tokens/dist/es6/core";
 import { CSS_UTILITY } from "../../utils/resources";
 
@@ -453,7 +453,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   private get scrollerButtonWidth(): number {
     const { scale } = this;
-    return parseInt(scale === "s" ? calciteSize32 : scale === "m" ? calciteSize48 : calciteSize64);
+    return parseInt(scale === "s" ? calciteSize24 : scale === "m" ? calciteSize32 : calciteSize44);
   }
 
   //--------------------------------------------------------------------------

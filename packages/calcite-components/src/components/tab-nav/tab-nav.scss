@@ -6,17 +6,17 @@
 }
 
 .scale-s {
-  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-32};
+  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-24};
   min-block-size: theme("spacing.6");
 }
 
 .scale-m {
-  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-48};
+  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-32};
   min-block-size: theme("spacing.8");
 }
 
 .scale-l {
-  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-64};
+  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-44};
   min-block-size: theme("spacing.11");
 }
 
@@ -75,21 +75,21 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   }
 }
 
-:host([bordered]) .scroll-button {
+:host([bordered]) .scroll-button-container {
   box-shadow: inset 0 1px 0 var(--calcite-ui-border-1);
 }
 
-:host([bordered]:not([position="bottom"])) .scroll-button {
+:host([bordered]:not([position="bottom"])) .scroll-button-container {
   margin-block-end: -1px;
 }
 
-:host([bordered][position="bottom"]) .scroll-button {
+:host([bordered][position="bottom"]) .scroll-button-container {
   box-shadow:
     inset 0 1px 0 var(--calcite-ui-border-1),
     inset 0 -1px 0 var(--calcite-ui-border-1);
 }
 
-:host([bordered]) .scroll-button {
+:host([bordered]) .scroll-button-container {
   @apply border-color-1 border border-solid;
   border-block-end: none;
 }
@@ -170,7 +170,11 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
 }
 
 .scroll-button-container:not([hidden]) {
-  @apply flex h-full overflow-hidden;
+  inline-size: 32px;
+  block-size: 32px;
+  justify-content: center;
+  align-content: center;
+  @apply flex overflow-hidden;
 }
 
 .scroll-button-container--forward {
