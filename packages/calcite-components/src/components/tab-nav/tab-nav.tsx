@@ -234,6 +234,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.storeContainerRef}
         >
+          {this.renderScrollButton("start")}
           <div
             class={{
               [CSS.tabTitleSlotWrapper]: true,
@@ -259,7 +260,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
-          {this.renderScrollButton("start")}
           {this.renderScrollButton("end")}
         </div>
       </Host>
