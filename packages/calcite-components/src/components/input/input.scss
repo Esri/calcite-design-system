@@ -1,6 +1,10 @@
 :host {
   --calcite-input-corner-radius: var(--calcite-border-radius-sharp);
   --calcite-input-text-color: var(--calcite-color-text-1);
+  --calcite-input-border-color: var(--calcite-color-border-input);
+
+  // For props that should follow the initial border-color but not change on statechange.
+  --calcite-internal-input-border-color-base: var(--calcite-input-border-color);
 
   @apply block;
 }
@@ -102,7 +106,7 @@
 
 textarea,
 input {
-  @apply font-inherit bg-foreground-1 relative m-0
+  @apply border font-inherit bg-foreground-1 relative m-0
     box-border flex max-h-full w-full max-w-full flex-1 font-normal;
 
   transition:
@@ -112,6 +116,7 @@ input {
   -webkit-appearance: none;
   border-radius: var(--calcite-input-corner-radius);
   color: var(--calcite-input-text-color);
+  border-color: var(--calcite-input-border-color);
 }
 
 input[type="search"]::-webkit-search-decoration {
@@ -121,8 +126,7 @@ input[type="search"]::-webkit-search-decoration {
 // states
 input,
 textarea {
-  @apply border
-    border-color-input
+  @apply border-spacing-1
     border-solid
     text-ellipsis;
   &::placeholder,
@@ -133,10 +137,6 @@ textarea {
   &:placeholder-shown {
     @apply text-ellipsis;
   }
-}
-input:focus,
-textarea:focus {
-  @apply border-color-brand;
 }
 input[readonly],
 textarea[readonly] {
@@ -157,10 +157,8 @@ input:focus {
 }
 
 :host([status="invalid"]) {
-  & input,
-  & textarea {
-    @apply border-color-danger;
-  }
+  --calcite-input-border-color: var(--calcite-color-status-danger);
+
   & input:focus,
   & textarea:focus {
     @apply focus-inset-danger;
@@ -292,8 +290,7 @@ input[type="time"]::-webkit-clear-button {
 // prefix and suffix
 .prefix,
 .suffix {
-  @apply border-color-input
-    bg-background
+  @apply bg-background
     text-color-2
     box-border
     flex
@@ -307,6 +304,8 @@ input[type="time"]::-webkit-clear-button {
     border-solid
     font-medium
     leading-none;
+
+  border-color: var(--calcite-internal-input-border-color-base);
 }
 
 .prefix {
@@ -389,9 +388,9 @@ input[type="number"] {
 }
 
 .number-button-item.number-button-item--horizontal[data-adjustment="down"] {
-  @apply border-color-input
-    border
+  @apply border
     border-solid;
+  border-color: var(--calcite-internal-input-border-color-base);
   border-inline-end-width: theme("borderWidth.0");
   &:hover {
     @apply bg-foreground-2;
@@ -433,8 +432,7 @@ input[type="number"] {
   max-block-size: 50%;
   min-block-size: 50%;
   pointer-events: initial;
-  @apply border-color-input
-    bg-foreground-1
+  @apply bg-foreground-1
     transition-default
     m-0
     box-border
@@ -446,6 +444,7 @@ input[type="number"] {
     border-solid
     py-0
     px-2;
+  border-color: var(--calcite-internal-input-border-color-base);
   border-inline-start-width: theme("borderWidth.0");
   & calcite-icon {
     @apply transition-default pointer-events-none;
@@ -523,7 +522,6 @@ textarea::-webkit-resizer {
 // file input
 :host([type="file"]) input {
   @apply bg-foreground-1
-    border-color-input
     cursor-pointer
     border
     border-dashed
@@ -570,6 +568,10 @@ input {
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();
+
+:host(:focus) {
+  --calcite-input-border-color: var(--calcite-color-brand);
+}
 
 :host([number-button-type="horizontal"]) {
   .wrapper {
