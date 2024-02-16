@@ -14,41 +14,10 @@
 :host([layout="center"]) .scale-s,
 :host([layout="center"]) .scale-m,
 :host([layout="center"]) .scale-l {
-  @apply my-0 text-center;
-  flex-basis: auto;
+  @apply justify-center my-0 text-center;
+
   .content {
-    @apply m-auto;
-  }
-}
-
-// center the text visually and not affected by the x button so as to avoid moving when on or off
-:host([layout="center"][closable]) {
-  .content {
-    padding-inline-start: 32px; //28px button width + 0.25rem padding
-  }
-
-  .scale-l {
-    .content {
-      padding-inline-start: 40px; //36px button width + .25 padding
-    }
-  }
-}
-
-:host([layout="center"][bordered][closable]) {
-  .content {
-    padding-inline-start: 40px; //28px button width + 0.75rem padding
-  }
-
-  .scale-s {
-    .content {
-      padding-inline-start: 36px; //28px button width + 0.5rem padding
-    }
-  }
-
-  .scale-l {
-    .content {
-      padding-inline-start: 52px; //36px button width + 1rem padding
-    }
+    @apply flex-auto flex-grow;
   }
 }
 
@@ -121,12 +90,20 @@
     h-full
     justify-between
     px-0
+    relative
     text-color-3
     text-n1h
     transition-default
     w-full;
 
   border-block-end-style: solid;
+}
+
+// TODO: center center content and drop left/right margins
+
+.container,
+.content {
+  gap: theme("spacing.2");
 }
 
 .content {
@@ -165,11 +142,11 @@
   focus-base
   items-center
   justify-center
+  p-1
   self-center
   text-color-3
   transition-default;
 
-  block-size: calc(100% - 2px); // fit within top/bottom borders
   background-color: var(--calcite-button-transparent-1);
   margin-inline-start: auto;
 
@@ -216,14 +193,6 @@
   box-shadow: inset 0 2px 0 var(--calcite-color-foreground-1);
 }
 
-:host([bordered]:hover),
-:host([bordered]:focus),
-:host([bordered]:active) {
-  .container {
-    @apply relative;
-  }
-}
-
 :host([bordered]:hover) {
   .container {
     background-color: var(--calcite-color-transparent-hover);
@@ -253,21 +222,45 @@
   border-inline-end-color: var(--calcite-color-border-1);
 }
 
-:host([bordered]) {
+:host([layout="inline"]),
+:host([layout="center"]) {
   .content {
-    @apply px-3;
+    @apply px-1;
   }
 }
 
-:host([bordered]) .scale-s {
-  .content {
-    @apply px-2;
+:host([layout="inline"][bordered]),
+:host([layout="center"][bordered]) {
+  .scale-m {
+    .content {
+      @apply px-3;
+    }
+  }
+
+  .scale-s {
+    .content {
+      @apply px-2;
+    }
+  }
+
+  .scale-l {
+    .content {
+      @apply px-4;
+    }
   }
 }
 
-:host([bordered]) .scale-l {
+:host([layout="inline"][closable]) {
   .content {
-    @apply px-4;
+    padding-inline-end: 0;
+  }
+}
+
+:host([layout="center"][closable]) {
+  .close-button {
+    position: absolute;
+    inset-inline-end: 0;
+    inset-block: 0;
   }
 }
 
