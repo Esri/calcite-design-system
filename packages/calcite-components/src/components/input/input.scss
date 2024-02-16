@@ -2,6 +2,7 @@
   --calcite-input-corner-radius: var(--calcite-border-radius-sharp);
   --calcite-input-text-color: var(--calcite-color-text-1);
   --calcite-input-border-color: var(--calcite-color-border-input);
+  --calcite-input-background-color: var(--calcite-color-foreground-1);
 
   // For props that should follow the initial border-color but not change on statechange.
   --calcite-internal-input-border-color-base: var(--calcite-input-border-color);
@@ -106,7 +107,7 @@
 
 textarea,
 input {
-  @apply border font-inherit bg-foreground-1 relative m-0
+  @apply border font-inherit relative m-0
     box-border flex max-h-full w-full max-w-full flex-1 font-normal;
 
   transition:
@@ -117,6 +118,7 @@ input {
   border-radius: var(--calcite-input-corner-radius);
   color: var(--calcite-input-text-color);
   border-color: var(--calcite-input-border-color);
+  background-color: var(--calcite-input-background-color);
 }
 
 input[type="search"]::-webkit-search-decoration {
@@ -140,7 +142,7 @@ textarea {
 }
 input[readonly],
 textarea[readonly] {
-  @apply bg-background font-medium;
+  @apply font-medium;
 }
 calcite-icon {
   @apply text-color-3;
@@ -521,8 +523,7 @@ textarea::-webkit-resizer {
 
 // file input
 :host([type="file"]) input {
-  @apply bg-foreground-1
-    cursor-pointer
+  @apply cursor-pointer
     border
     border-dashed
     text-center;
@@ -571,6 +572,10 @@ input {
 
 :host(:focus) {
   --calcite-input-border-color: var(--calcite-color-brand);
+}
+
+:host([read-only]) {
+  --calcite-input-background-color: var(--calcite-color-background);
 }
 
 :host([number-button-type="horizontal"]) {
