@@ -1,3 +1,23 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-input-corner-radius: defines the border radius of the component.
+ * @prop --calcite-input-text-color: defines the text color of the component.
+ * @prop --calcite-input-border-color: defines the border color of the component.
+ * @prop --calcite-input-background-color: defines the background color of the component.
+ * @prop --calcite-input-button-background-color: defines the background color of a button element in the component.
+ * @prop --calcite-input-button-background-color-hover: defines the background color of a :hover-ed button element in the component.
+ * @prop --calcite-input-button-background-color-active: defines the background color of an :active button element in the component.
+ * @prop --calcite-input-icon-color: defines the color of an icon element in the component.
+ * @prop --calcite-input-icon-color-hover: defines the color of an icon element when it's parent is hovered in the component.
+ * @prop --calcite-input-prefixsuffix-text-color: defines the text color of a prefix/suffix element in the component.
+ * @prop --calcite-input-prefixsuffix-background-color: defines the background color of a prefix/suffix element in the component.
+ * @prop --calcite-input-placeholder-text-color: defines the color of placeholder text in the component.
+ *
+ */
+
 :host {
   --calcite-input-corner-radius: var(--calcite-border-radius-sharp);
   --calcite-input-text-color: var(--calcite-color-text-1);
