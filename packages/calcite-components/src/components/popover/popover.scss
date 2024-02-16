@@ -5,12 +5,12 @@
 *
 * @prop --calcite-popover-background-color: Specifies the background color of the component.
 * @prop --calcite-popover-border-color: The border color of the component.
-* @prop --calcite-popover-corner-radius: The start end border radius of the component.
+* @prop --calcite-popover-corner-radius: The corner radius of the component.
 * @prop --calcite-popover-text-color: The text color of the component.
 */
 
 :host {
-  --calcite-floating-ui-z-index: var(--calcite-z-index-popup);
+  --calcite-floating-ui-z-index: var(--calcite-popover-z-index, var(--calcite-z-index-popup));
   --calcite-popover-background-color: var(--calcite-color-foreground-1);
   --calcite-popover-border-color: var(--calcite-color-border-3);
   --calcite-popover-text-color: var(--calcite-color-text-1);
