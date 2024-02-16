@@ -37,22 +37,31 @@
   @apply flex-auto flex-col;
 }
 
-:host([layout="horizontal"]) .container {
-  display: grid;
-  // grid-templates-columns are dynamically generated
-  // grid-templates-rows are dynamically generated
-  grid-template-areas:
-    "items"
-    "content";
-  gap: theme("spacing.2") var(--calcite-internal-stepper-item-spacing-unit-s);
+:host([layout="horizontal"]),
+:host([layout="horizontal-single"]) {
+  .container {
+    display: grid;
+    // grid-templates-columns are dynamically generated
+    // grid-templates-rows are dynamically generated
+    grid-template-areas:
+      "items"
+      "content";
+    gap: theme("spacing.2") var(--calcite-internal-stepper-item-spacing-unit-s);
+  }
 }
 
-:host([layout="horizontal"][scale="s"]) .container {
-  gap: theme("spacing.1") var(--calcite-internal-stepper-item-spacing-unit-s);
+:host([layout="horizontal"][scale="s"]),
+:host([layout="horizontal-single"][scale="s"]) {
+  .container {
+    gap: theme("spacing.1") var(--calcite-internal-stepper-item-spacing-unit-s);
+  }
 }
 
-:host([layout="horizontal"][scale="l"]) .container {
-  gap: theme("spacing.3") var(--calcite-internal-stepper-item-spacing-unit-s);
+:host([layout="horizontal"][scale="l"]),
+:host([layout="horizontal-single"][scale="l"]) {
+  .container {
+    gap: theme("spacing.3") var(--calcite-internal-stepper-item-spacing-unit-s);
+  }
 }
 
 :host([layout="horizontal"]) .container.single-view {
