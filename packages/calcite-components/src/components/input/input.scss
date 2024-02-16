@@ -252,7 +252,6 @@ input[type="time"]::-webkit-clear-button {
 .clear-button {
   pointer-events: initial;
   @apply focus-base
-    border-color-input
     order-4
     m-0
     box-border
@@ -266,6 +265,7 @@ input[type="time"]::-webkit-clear-button {
     border-solid;
 
   background-color: var(--calcite-input-button-background-color);
+  border-color: var(--calcite-internal-input-border-color-base);
   border-inline-start-width: theme("borderWidth.0");
 
   &:hover {
@@ -404,7 +404,6 @@ input[type="number"] {
 .number-button-item.number-button-item--horizontal[data-adjustment="down"] {
   @apply border
     border-solid;
-  border-color: var(--calcite-internal-input-border-color-base);
   border-inline-end-width: theme("borderWidth.0");
 }
 
