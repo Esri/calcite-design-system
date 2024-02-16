@@ -9,6 +9,10 @@
   --calcite-input-button-background-color-hover: var(--calcite-color-foreground-2);
   --calcite-input-button-background-color-active: var(--calcite-color-foreground-3);
 
+  // Icon
+  --calcite-input-icon-color: var(--calcite-color-text-3);
+  --calcite-input-icon-color-hover: var(--calcite-color-text-1);
+
   // For props that should follow the initial border-color but not change on statechange.
   --calcite-internal-input-border-color-base: var(--calcite-input-border-color);
 
@@ -150,7 +154,11 @@ textarea[readonly] {
   @apply font-medium;
 }
 calcite-icon {
-  @apply text-color-3;
+  color: var(--calcite-input-icon-color);
+}
+button:hover,
+button:active {
+  --calcite-input-icon-color: var(--calcite-input-icon-color-hover);
 }
 
 //focus
@@ -265,14 +273,11 @@ input[type="time"]::-webkit-clear-button {
     --calcite-input-button-background-color: var(--calcite-input-button-background-color-hover);
 
     calcite-icon {
-      @apply text-color-1 transition-default;
+      @apply transition-default;
     }
   }
   &:active {
     --calcite-input-button-background-color: var(--calcite-input-button-background-color-active);
-    calcite-icon {
-      @apply text-color-1;
-    }
   }
   &:focus {
     @apply focus-inset;
@@ -401,32 +406,10 @@ input[type="number"] {
     border-solid;
   border-color: var(--calcite-internal-input-border-color-base);
   border-inline-end-width: theme("borderWidth.0");
-  &:hover {
-    calcite-icon {
-      @apply text-color-1;
-    }
-  }
 }
 
 .number-button-item.number-button-item--horizontal[data-adjustment="up"] {
   @apply order-5;
-  &:hover {
-    calcite-icon {
-      @apply text-color-1;
-    }
-  }
-}
-
-:host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"]:hover {
-  calcite-icon {
-    @apply text-color-1;
-  }
-}
-
-:host([number-button-type="vertical"]) .number-button-item[data-adjustment="up"]:hover {
-  calcite-icon {
-    @apply text-color-1;
-  }
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"] {
@@ -457,9 +440,6 @@ input[type="number"] {
   &:focus,
   &:hover {
     --calcite-input-button-background-color: var(--calcite-input-button-background-color-hover);
-    calcite-icon {
-      @apply text-color-1;
-    }
   }
   &:active {
     --calcite-input-button-background-color: var(--calcite-input-button-background-color-active);
@@ -500,8 +480,7 @@ textarea::-webkit-resizer {
   inset-inline-end: 2px;
   background-color: var(--calcite-input-button-background-color);
 
-  @apply text-color-3
-    pointer-events-none
+  @apply pointer-events-none
     absolute
     h-3
     w-3;
