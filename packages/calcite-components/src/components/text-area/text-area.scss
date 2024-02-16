@@ -9,7 +9,7 @@
  * @prop --calcite--text-area-border-block-end-color: Specifies the border block end color of the component.
  * @prop --calcite-text-area-border-color: Specifies the border color of the component.
  * @prop --calcite-text-area-footer-min-block-size : Specifies minimum `block-size` of the footer in the component.
-  * @prop --calcite-text-area-min-inline-size: Specifies the mininmum `inline-size` of the component. Defaults to `192px` and increases to `288px` when `footer` is added.
+ * @prop --calcite-text-area-min-inline-size: Specifies the mininmum `inline-size` of the component. Defaults to `192px` and increases to `288px` when `footer` is added.
  * @prop --calcite-text-area-character-limit-text-color: Specifies the color of the character limit text displayed in footer of the component.
  * @prop --calcite-text-area-text-color: Specifies the color of text in the component.
  *
@@ -23,8 +23,8 @@
   --calcite-text-area-text-color: var(--calcite-color-text-1);
   --calcite-text-area-background-color: var(--calcite-color-foreground-1);
   --calcite-text-area-border-color: var(--calcite-color-border-input);
-  --calcite--text-area-border-block-end-color: var(--calcite-color-border-3) --calcite-text-min-inline-size:
-    var(--calcite-size-192);
+  --calcite--text-area-border-block-end-color: var(--calcite-color-border-3);
+  --calcite-text-min-inline-size: var(--calcite-size-192);
   --calcite-text-area-footer-min-block-size: var(--calcite-size-36);
   --calcite-text-area-character-limit-text-color: var(--calcite-color-text-2);
 }
