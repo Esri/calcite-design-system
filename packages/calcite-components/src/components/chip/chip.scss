@@ -36,6 +36,7 @@
   --calcite-chip-shadow: var(--calcite-shadow-none);
   --calcite-chip-corner-radius: 9999px;
   --calcite-chip-close-icon-color: var(--calcite-color-text-3);
+  --calcite-chip-icon-color: var(--calcite-color-text-1);
   --calcite-chip-close-background-color: var(--calcite-color-transparent);
   --calcite-chip-close-background-color-hover: var(--calcite-color-transparent-hover);
   --calcite-chip-close-background-color-focus: var(--calcite-color-transparent-hover);
@@ -108,6 +109,7 @@
 :host([kind="inverse"][appearance="outline"]) {
   --calcite-chip-border-color: var(--calcite-color-inverse);
   --calcite-chip-text-color: var(--calcite-color-text-1);
+  --calcite-chip-icon-color: var(--calcite-color-inverse);
 }
 
 :host([kind="brand"]) {
@@ -125,6 +127,7 @@
 :host([kind="brand"][appearance="outline"]) {
   --calcite-chip-border-color: var(--calcite-color-brand);
   --calcite-chip-text-color: var(--calcite-color-text-1);
+  --calcite-chip-icon-color: var(--calcite-color-inverse);
 }
 
 :host([kind="brand"][appearance="solid"]),
@@ -227,6 +230,7 @@
 .chip-icon {
   @apply relative my-0 inline-flex duration-150 ease-in-out;
   margin-inline: var(--calcite-internal-chip-spacing-s);
+  color: var(--calcite-chip-icon-color);
 }
 
 .image-container {
