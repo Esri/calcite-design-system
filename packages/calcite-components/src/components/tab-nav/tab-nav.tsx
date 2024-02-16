@@ -608,7 +608,12 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     el: HTMLCalciteTabTitleElement,
     destination: FocusElementInGroupDestination,
   ): void => {
-    focusElementInGroup(this.enabledTabTitles, el, destination);
+    const focused = focusElementInGroup<HTMLCalciteTabTitleElement>(
+      this.enabledTabTitles,
+      el,
+      destination,
+    );
+    this.scrollTabTitleIntoView(focused, "instant");
 
     event.stopPropagation();
   };
