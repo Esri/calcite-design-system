@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "2.5.1-next.1",
+  "version": "2.5.1",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
