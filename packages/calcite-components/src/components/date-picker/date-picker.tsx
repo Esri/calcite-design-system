@@ -95,6 +95,14 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
    */
   @Prop({ reflect: true }) activeRange: "start" | "end";
 
+  @Watch("activeRange")
+  handleActiveRangeChange(newValue: string): void {
+    //preserve activeEndDate when user selects startDate and focus shifts on to endDate
+    if (newValue && Array.isArray(this.valueAsDate) && this.valueAsDate[0] && this.valueAsDate[1]) {
+      this.resetActiveDates();
+    }
+  }
+
   /**
    * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`).
    */

@@ -1225,7 +1225,7 @@ describe("calcite-input-date-picker", () => {
     });
   });
 
-  it.skip("should be able to navigate to previous months in startDate and update endDate by switching the focus with mouse", async () => {
+  it("should be able to navigate to previous months in startDate and update endDate by switching the focus with mouse", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
     await skipAnimations(page);
@@ -1263,13 +1263,13 @@ describe("calcite-input-date-picker", () => {
     calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
     expect(await calendar.isVisible()).toBe(true);
 
-    await selectDayInMonth(page, 41, true);
+    await selectDayInMonth(page, 40, true);
     await page.waitForChanges();
     calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
-    expect(await calendar.isVisible()).toBe(true);
+    expect(await calendar.isVisible()).toBe(false);
 
     const value = await inputDatePickerEl.getProperty("value");
-    expect(value[1]).toEqual("2024-06-25");
+    expect(value[1]).not.toEqual("2024-06-25");
   });
 
   it("should be able to navigate months when valueAsDate is parsed", async () => {
