@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.1-next.0...@esri/calcite-components@2.5.1-next.1) (2024-02-16)
+
+### Bug Fixes
+
+- prevent package patching on install ([#8766](https://github.com/Esri/calcite-design-system/issues/8766)) ([fe18b1b](https://github.com/Esri/calcite-design-system/commit/fe18b1b14ee191499c79d3843addf45270851b96))
+
 ## [2.5.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0...@esri/calcite-components@2.5.1-next.0) (2024-02-15)
 
 ### Bug Fixes
