@@ -42,7 +42,7 @@ export const playground = (): string => html`
   </calcite-tile-group>
 `;
 
-export const allVariants_TestOnly = (): string => html`
+export const allVariants_NoTest = (): string => html`
   <style>
     .parent {
       display: flex;
