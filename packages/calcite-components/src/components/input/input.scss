@@ -17,6 +17,9 @@
   --calcite-input-prefixsuffix-text-color: var(--calcite-color-text-2);
   --calcite-input-prefixsuffix-background-color: var(--calcite-color-background);
 
+  // Placeholder
+  --calcite-input-placeholder-text-color: var(--calcite-color-text-3);
+
   // For props that should follow the initial border-color but not change on statechange.
   --calcite-internal-input-border-color-base: var(--calcite-input-border-color);
 
@@ -147,7 +150,8 @@ textarea {
   &::placeholder,
   &:-ms-input-placeholder,
   &::-ms-input-placeholder {
-    @apply text-color-3 font-normal;
+    @apply font-normal;
+    color: var(--calcite-input-placeholder-text-color);
   }
   &:placeholder-shown {
     @apply text-ellipsis;
