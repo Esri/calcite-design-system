@@ -197,7 +197,7 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
     html`<calcite-input-date-picker scale="{scale}" value="2020-12-12"></calcite-input-date-picker>`,
   );
 
-export const rangeWithValueAsDate = (): string => html`
+export const rangeWithValueAsDate_TestOnly = (): string => html`
   <calcite-input-date-picker range open></calcite-input-date-picker>
   <script>
     const datePicker = document.querySelector("calcite-input-date-picker");
@@ -205,7 +205,11 @@ export const rangeWithValueAsDate = (): string => html`
   </script>
 `;
 
-export const rangeWithValue = (): string => html`
+rangeWithValueAsDate_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
+export const rangeWithValue_TestOnly = (): string => html`
   <calcite-input-date-picker range open></calcite-input-date-picker>
   <script>
     const datePicker = document.querySelector("calcite-input-date-picker");
@@ -213,15 +217,27 @@ export const rangeWithValue = (): string => html`
   </script>
 `;
 
-export const rangeWithMinBeforeCurrentDate = (): string => html`
+rangeWithValue_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
+export const rangeWithMinBeforeCurrentDate_TestOnly = (): string => html`
   <calcite-input-date-picker range open min="2016-08-09"></calcite-input-date-picker>
 `;
 
-export const rangeWithMaxBeforeCurrentDate = (): string => html`
+rangeWithMinBeforeCurrentDate_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
+export const rangeWithMaxBeforeCurrentDate_TestOnly = (): string => html`
   <calcite-input-date-picker range open max="2016-08-09"></calcite-input-date-picker>
 `;
 
-export const rangeWithMinAsDateAfterCurrentDate = (): string => html`
+rangeWithMaxBeforeCurrentDate_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
+
+export const rangeWithMinAsDateAfterCurrentDate_TestOnly = (): string => html`
   <calcite-input-date-picker range open></calcite-input-date-picker>
   <script>
     const datePicker = document.querySelector("calcite-input-date-picker");
@@ -230,3 +246,7 @@ export const rangeWithMinAsDateAfterCurrentDate = (): string => html`
     datePicker.minAsDate = currentDate;
   </script>
 `;
+
+rangeWithMinAsDateAfterCurrentDate_TestOnly.parameters = {
+  chromatic: { delay: 1000 },
+};
