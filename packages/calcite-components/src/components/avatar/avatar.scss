@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-avatar-border-radius: defines the border radius of the avatar component.
+ * @prop --calcite-avatar-corner-radius: defines the border radius of the avatar component.
  * @prop --calcite-avatar-text-color: defines the text color of the avatar component.
  *
  */
@@ -16,11 +16,11 @@
  */
 
 :host {
-  --calcite-avatar-border-radius: 50%;
+  --calcite-avatar-corner-radius: 50%;
   --calcite-avatar-text-color: var(--calcite-color-text-2);
 
   @apply inline-block overflow-hidden;
-  border-radius: var(--calcite-avatar-border-radius);
+  border-radius: var(--calcite-avatar-corner-radius);
   block-size: var(--calcite-internal-avatar-block-size);
   inline-size: var(--calcite-internal-avatar-inline-size);
   font-size: var(--calcite-internal-font-size);
@@ -50,7 +50,7 @@
 
 .background {
   @apply flex items-center justify-center;
-  border-radius: var(--calcite-avatar-border-radius);
+  border-radius: var(--calcite-avatar-corner-radius);
   block-size: var(--calcite-container-size-content-fluid);
   inline-size: var(--calcite-container-size-content-fluid);
 }
@@ -62,7 +62,7 @@
 }
 
 .thumbnail {
-  border-radius: var(--calcite-avatar-border-radius);
+  border-radius: var(--calcite-avatar-corner-radius);
   block-size: var(--calcite-container-size-content-fluid);
   inline-size: var(--calcite-container-size-content-fluid);
 }
