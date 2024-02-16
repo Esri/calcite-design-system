@@ -94,6 +94,7 @@ export const theming_TestOnly = (): string => html`
       style="
       --calcite-tooltip-background-color: lightblue;
       --calcite-tooltip-border-color: green;
+      --calcite-tooltip-shadow: 10px 5px 5px red;
       --calcite-tooltip-text-color: purple;
       --calcite-tooltip-corner-radius: 20px;
       --calcite-floating-ui-z-index: 100;

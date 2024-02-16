@@ -14,7 +14,7 @@ $floating-ui-transform-right: translateX(-5px);
     transition: var(--calcite-floating-ui-transition);
     transition-property: transform, visibility, opacity;
     opacity: 0;
-    box-shadow: $shadow-2;
+    box-shadow: var(--calcite-shadow-2);
     border-radius: var(--calcite-border-radius-round);
     z-index: var(--calcite-z-index);
   }

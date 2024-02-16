@@ -203,6 +203,7 @@ export const theming_TestOnly = (): string => html`
       style="
       --calcite-popover-background-color: lightblue;
       --calcite-popover-border-color: green;
+      --calcite-popover-shadow: 10px 5px 5px red;
       --calcite-popover-text-color: purple;
       --calcite-popover-corner-radius: 20px;
       --calcite-floating-ui-z-index: 100;

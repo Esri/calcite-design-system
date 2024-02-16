@@ -7,6 +7,7 @@
  * @prop --calcite-tooltip-background-color: Specifies the background color of the component.
  * @prop --calcite-tooltip-border-color: The border color of the component.
  * @prop --calcite-tooltip-corner-radius: The corner radius of the component.
+ * @prop --calcite-tooltip-shadow: The shadow of the component.
  * @prop --calcite-tooltip-text-color: The text color of the component.
  * @prop --calcite-tooltip-z-index: Sets the z-index value for the component.
  */
@@ -14,6 +15,7 @@
 :host {
   --calcite-tooltip-background-color: var(--calcite-color-foreground-1);
   --calcite-tooltip-border-color: var(--calcite-color-border-3);
+  --calcite-tooltip-shadow: var(--calcite-shadow-2);
   --calcite-tooltip-text-color: var(--calcite-color-text-1);
   --calcite-tooltip-corner-radius: var(--calcite-border-radius-round);
   --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, var(--calcite-z-index-tooltip));
@@ -43,6 +45,7 @@
   background-color: var(--calcite-tooltip-background-color);
   border-color: var(--calcite-tooltip-border-color);
   border-radius: var(--calcite-tooltip-corner-radius);
+  box-shadow: var(--calcite-tooltip-shadow);
 }
 
 .arrow::before {

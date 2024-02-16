@@ -5,6 +5,7 @@
 *
 * @prop --calcite-popover-background-color: Specifies the background color of the component.
 * @prop --calcite-popover-border-color: The border color of the component.
+* @prop --calcite-popover-shadow: The shadow of the component.
 * @prop --calcite-popover-corner-radius: The corner radius of the component.
 * @prop --calcite-popover-text-color: The text color of the component.
 */
@@ -14,6 +15,7 @@
   --calcite-floating-ui-z-index: var(--calcite-popover-z-index, var(--calcite-z-index-popup));
   --calcite-popover-background-color: var(--calcite-color-foreground-1);
   --calcite-popover-border-color: var(--calcite-color-border-3);
+  --calcite-popover-shadow: var(--calcite-shadow-2);
   --calcite-popover-text-color: var(--calcite-color-text-1);
   --calcite-popover-corner-radius: var(--calcite-border-radius-round);
 }
@@ -68,6 +70,7 @@
   background-color: var(--calcite-popover-background-color);
   border-color: var(--calcite-popover-border-color);
   border-radius: var(--calcite-popover-corner-radius);
+  box-shadow: var(--calcite-popover-shadow);
 }
 
 .arrow::before {
