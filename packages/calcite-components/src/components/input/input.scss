@@ -4,6 +4,11 @@
   --calcite-input-border-color: var(--calcite-color-border-input);
   --calcite-input-background-color: var(--calcite-color-foreground-1);
 
+  // Button
+  --calcite-input-button-background-color: var(--calcite-color-foreground-1);
+  --calcite-input-button-background-color-hover: var(--calcite-color-foreground-2);
+  --calcite-input-button-background-color-active: var(--calcite-color-foreground-3);
+
   // For props that should follow the initial border-color but not change on statechange.
   --calcite-internal-input-border-color-base: var(--calcite-input-border-color);
 
@@ -240,7 +245,6 @@ input[type="time"]::-webkit-clear-button {
   pointer-events: initial;
   @apply focus-base
     border-color-input
-    bg-foreground-1
     order-4
     m-0
     box-border
@@ -253,16 +257,19 @@ input[type="time"]::-webkit-clear-button {
     border
     border-solid;
 
+  background-color: var(--calcite-input-button-background-color);
   border-inline-start-width: theme("borderWidth.0");
 
   &:hover {
-    @apply bg-foreground-2 transition-default;
+    @apply transition-default;
+    --calcite-input-button-background-color: var(--calcite-input-button-background-color-hover);
+
     calcite-icon {
       @apply text-color-1 transition-default;
     }
   }
   &:active {
-    @apply bg-foreground-3;
+    --calcite-input-button-background-color: var(--calcite-input-button-background-color-active);
     calcite-icon {
       @apply text-color-1;
     }
@@ -395,7 +402,6 @@ input[type="number"] {
   border-color: var(--calcite-internal-input-border-color-base);
   border-inline-end-width: theme("borderWidth.0");
   &:hover {
-    @apply bg-foreground-2;
     calcite-icon {
       @apply text-color-1;
     }
@@ -405,7 +411,6 @@ input[type="number"] {
 .number-button-item.number-button-item--horizontal[data-adjustment="up"] {
   @apply order-5;
   &:hover {
-    @apply bg-foreground-2;
     calcite-icon {
       @apply text-color-1;
     }
@@ -413,14 +418,12 @@ input[type="number"] {
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"]:hover {
-  @apply bg-foreground-2;
   calcite-icon {
     @apply text-color-1;
   }
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="up"]:hover {
-  @apply bg-foreground-2;
   calcite-icon {
     @apply text-color-1;
   }
@@ -434,8 +437,7 @@ input[type="number"] {
   max-block-size: 50%;
   min-block-size: 50%;
   pointer-events: initial;
-  @apply bg-foreground-1
-    transition-default
+  @apply transition-default
     m-0
     box-border
     flex
@@ -448,17 +450,19 @@ input[type="number"] {
     px-2;
   border-color: var(--calcite-internal-input-border-color-base);
   border-inline-start-width: theme("borderWidth.0");
+  background-color: var(--calcite-input-button-background-color);
   & calcite-icon {
     @apply transition-default pointer-events-none;
   }
-  &:focus {
-    @apply bg-foreground-2;
+  &:focus,
+  &:hover {
+    --calcite-input-button-background-color: var(--calcite-input-button-background-color-hover);
     calcite-icon {
       @apply text-color-1;
     }
   }
   &:active {
-    @apply bg-foreground-3;
+    --calcite-input-button-background-color: var(--calcite-input-button-background-color-active);
   }
   &:disabled {
     @apply pointer-events-none;
@@ -494,9 +498,9 @@ textarea::-webkit-resizer {
 .resize-icon-wrapper {
   inset-block-end: 2px;
   inset-inline-end: 2px;
+  background-color: var(--calcite-input-button-background-color);
 
-  @apply bg-foreground-1
-    text-color-3
+  @apply text-color-3
     pointer-events-none
     absolute
     h-3
