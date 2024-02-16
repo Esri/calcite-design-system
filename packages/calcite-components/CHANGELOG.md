@@ -3,17 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.5.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.1-next.0...@esri/calcite-components@2.5.1-next.1) (2024-02-16)
+## [2.5.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0...@esri/calcite-components@2.5.1) (2024-02-16)
 
 ### Bug Fixes
 
-- prevent package patching on install ([#8766](https://github.com/Esri/calcite-design-system/issues/8766)) ([fe18b1b](https://github.com/Esri/calcite-design-system/commit/fe18b1b14ee191499c79d3843addf45270851b96))
-
-## [2.5.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0...@esri/calcite-components@2.5.1-next.0) (2024-02-15)
-
-### Bug Fixes
-
-- ensure ui-icons are copied from correct path ([#8761](https://github.com/Esri/calcite-design-system/issues/8761)) ([3015a46](https://github.com/Esri/calcite-design-system/commit/3015a4631e0a677b897c18b926c1034f16eb6f39)), closes [/github.com/nrwl/nx/issues/15452#issuecomment-1485839378](https://github.com/Esri//github.com/nrwl/nx/issues/15452/issues/issuecomment-1485839378) [/github.com/npm/cli/issues/4828#issuecomment-1913543338](https://github.com/Esri//github.com/npm/cli/issues/4828/issues/issuecomment-1913543338) [/github.com/vercel/turbo/issues/3328#issuecomment-1413206817](https://github.com/Esri//github.com/vercel/turbo/issues/3328/issues/issuecomment-1413206817)
+- Ensure ui-icons are copied from correct path ([#8761](https://github.com/Esri/calcite-design-system/issues/8761)) ([3015a46](https://github.com/Esri/calcite-design-system/commit/3015a4631e0a677b897c18b926c1034f16eb6f39))
+- Prevent package patching on install ([#8766](https://github.com/Esri/calcite-design-system/issues/8766)) ([fe18b1b](https://github.com/Esri/calcite-design-system/commit/fe18b1b14ee191499c79d3843addf45270851b96))
 
 ## [2.5.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.4.0...@esri/calcite-components@2.5.0) (2024-02-15)
 
