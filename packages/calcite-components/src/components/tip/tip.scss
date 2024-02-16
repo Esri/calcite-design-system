@@ -9,6 +9,7 @@
 * @prop --calcite-tip-background-color: The background color of the component.
 * @prop --calcite-tip-text-color: The text color of the component.
 * @prop --calcite-tip-heading-text-color: The heading text color of the component.
+* @prop --calcite-tip-slotted-link-text-color: The text color of the slotted link.
 */
 
 :host {
@@ -25,8 +26,11 @@
   --calcite-tip-background-color: var(--calcite-color-foreground-1);
   --calcite-tip-text-color: var(--calcite-color-text-2);
   --calcite-tip-heading-text-color: var(--calcite-color-text-1);
+  --calcite-tip-slotted-link-text-color: var(--calcite-color-brand);
 
   color: var(--calcite-tip-text-color);
+  border-color: var(--calite-tip-border-color);
+  background-color: var(--calcite-tip-background-color);
 
   * {
     @apply box-border;
@@ -84,7 +88,7 @@
 ::slotted(a) {
   @apply focus-base;
 
-  color: var(--calcite-color-brand);
+  color: var(--calcite-tip-slotted-link-text-color);
 }
 
 ::slotted(a:focus) {
