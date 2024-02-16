@@ -161,7 +161,7 @@ export const theming_TestOnly = (): string => html`
     icon="layer"
     style="--calcite-chip-background-color: rgb(182, 101, 101);
       --calcite-chip-border-color: rgb(183, 61, 61);
-      --calcite-chip-box-shadow: var(--calcite-shadow-sm);
+      --calcite-chip-shadow: var(--calcite-shadow-sm);
       --calcite-chip-corner-radius: 4px;
       --calcite-chip-icon-color: rgb(244, 229, 229);
       --calcite-chip-close-icon-color: orange;
