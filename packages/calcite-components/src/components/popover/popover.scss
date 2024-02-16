@@ -10,6 +10,7 @@
 */
 
 :host {
+  @apply pointer-events-none;
   --calcite-floating-ui-z-index: var(--calcite-popover-z-index, var(--calcite-z-index-popup));
   --calcite-popover-background-color: var(--calcite-color-foreground-1);
   --calcite-popover-border-color: var(--calcite-color-border-3);
@@ -19,6 +20,18 @@
 
 @include floatingUIHost();
 @include floatingUIArrow();
+
+.heading {
+  @apply word-break
+  m-0
+  block
+  flex-auto
+  self-center
+  whitespace-normal
+  font-medium;
+
+  color: var(--calcite-popover-text-color);
+}
 
 :host([scale="s"]) {
   .heading {
@@ -42,10 +55,6 @@
     px-5
     py-4;
   }
-}
-
-:host {
-  @apply pointer-events-none;
 }
 
 :host([open]) {
@@ -75,18 +84,6 @@
     border-solid;
 
   border-block-end-color: var(--calcite-popover-border-color);
-}
-
-.heading {
-  @apply word-break
-  m-0
-  block
-  flex-auto
-  self-center
-  whitespace-normal
-  font-medium;
-
-  color: var(--calcite-popover-text-color);
 }
 
 .container {
@@ -124,6 +121,14 @@
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply h-full;
+}
+
+.calcite-floating-ui-arrow {
+  fill: var(--calcite-popover-background-color);
+}
+
+.calcite-floating-ui-arrow__stroke {
+  stroke: var(--calcite-popover-border-color);
 }
 
 @include base-component();
