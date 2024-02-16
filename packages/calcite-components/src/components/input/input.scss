@@ -1,4 +1,5 @@
 :host {
+  --calcite-input-corner-radius: var(--calcite-border-radius-sharp);
   @apply block;
 }
 
@@ -104,19 +105,9 @@ input {
     block-size 0,
     outline-offset 0s;
   -webkit-appearance: none;
-  @apply font-inherit
-    text-color-1
-    bg-foreground-1
-    relative
-    m-0
-    box-border
-    flex
-    max-h-full
-    w-full
-    max-w-full
-    flex-1
-    rounded-none
-    font-normal;
+  border-radius: var(--calcite-input-corner-radius);
+  @apply font-inherit text-color-1 bg-foreground-1 relative m-0
+    box-border flex max-h-full w-full max-w-full flex-1 font-normal;
 }
 
 input[type="search"]::-webkit-search-decoration {
@@ -580,3 +571,91 @@ input {
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();
+
+:host([number-button-type="horizontal"]) {
+  .wrapper {
+    // grid-template-columns: min-content min-content 1fr min-content min-content min-content;
+    // grid-template-areas: "numberDesc prefix input suffix numberAsc action";
+
+    > button:first-child {
+      border-start-start-radius: var(--calcite-input-corner-radius);
+      border-end-start-radius: var(--calcite-input-corner-radius);
+    }
+
+    > button:last-of-type {
+      border-start-end-radius: var(--calcite-input-corner-radius);
+      border-end-end-radius: var(--calcite-input-corner-radius);
+    }
+  }
+
+  button + button,
+  button + div,
+  button + div input {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+}
+:host([number-button-type="vertical"][type="number"]) {
+  input,
+  textarea {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+  .number-button-item {
+    &:first-child {
+      border-start-end-radius: var(--calcite-input-corner-radius);
+    }
+    &:last-child {
+      border-end-end-radius: var(--calcite-input-corner-radius);
+    }
+  }
+}
+:host([prefix-text]) {
+  input,
+  textarea {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+}
+:host([suffix-text]) {
+  input,
+  textarea {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+}
+:host([suffix-text][type="number"]:not([read-only])) {
+  .suffix {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+}
+:host(:not(:empty)) {
+  input {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+}
+:host([scale="l"]) {
+  .resize-icon-wrapper {
+    block-size: 18px;
+    inline-size: 18px;
+  }
+}
+:host(:not([suffix-text], [type="number"]:not([read-only]))) {
+  .wrapper:has(+ .validation-container) {
+    input {
+      border-start-end-radius: var(--calcite-input-corner-radius);
+      border-end-end-radius: var(--calcite-input-corner-radius);
+    }
+  }
+}
+
+.prefix {
+  border-start-start-radius: var(--calcite-input-corner-radius);
+  border-end-start-radius: var(--calcite-input-corner-radius);
+}
+.suffix {
+  border-start-end-radius: var(--calcite-input-corner-radius);
+  border-end-end-radius: var(--calcite-input-corner-radius);
+}
