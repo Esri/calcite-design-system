@@ -1,6 +1,6 @@
 {
-  "dragHandle": "Reposition: {itemLabel}",
-  "dragHandleUntitled": "Reposition",
+  "dragHandle": "Змінити положення: {itemLabel}",
+  "dragHandleUntitled": "Змінити положення",
   "dragHandleActive": "Перевпорядкування {itemLabel}, поточне положення {position} з {total}.",
   "dragHandleChange": "{itemLabel}, нове положення {position} з {total}. Натисніть пробіл для підтвердження.",
   "dragHandleCommit": "{itemLabel}, поточне положення {position} з {total}.",

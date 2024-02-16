@@ -1,6 +1,6 @@
 {
-  "dragHandle": "Reposition: {itemLabel}",
-  "dragHandleUntitled": "Reposition",
+  "dragHandle": "Reposicionar: {itemLabel}",
+  "dragHandleUntitled": "Reposicionar",
   "dragHandleActive": "Reordenamiento de {itemLabel} , posición actual {position} de {total}.",
   "dragHandleChange": "{itemLabel}, nueva posición {position} de {total}. Presione la barra espaciadora para confirmar.",
   "dragHandleCommit": "{itemLabel}, posición actual {position} de {total}.",

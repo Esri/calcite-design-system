@@ -1,6 +1,6 @@
 {
-  "dragHandle": "Reposition: {itemLabel}",
-  "dragHandleUntitled": "Reposition",
+  "dragHandle": "Áthelyezés: {itemLabel}",
+  "dragHandleUntitled": "Áthelyezés",
   "dragHandleActive": "{itemLabel} újrarendezése, aktuális helyzet: {position} / {total}.",
   "dragHandleChange": "{itemLabel}, új helyzet: {position} / {total}. A megerősítéshez nyomja le a szóközbillentyűt.",
   "dragHandleCommit": "{itemLabel}, aktuális helyzet: {position} / {total}",

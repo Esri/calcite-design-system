@@ -1,6 +1,6 @@
 {
-  "dragHandle": "Reposition: {itemLabel}",
-  "dragHandleUntitled": "Reposition",
+  "dragHandle": "Neu positionieren: {itemLabel}",
+  "dragHandleUntitled": "Neu positionieren",
   "dragHandleActive": "{itemLabel} wird neu angeordnet, aktuelle Position {position} von {total}.",
   "dragHandleChange": "{itemLabel}, neue Position {position} von {total}. Drücken Sie zur Bestätigung die Leertaste.",
   "dragHandleCommit": "{itemLabel}, aktuelle Position {position} von {total}.",

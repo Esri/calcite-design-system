@@ -1,6 +1,6 @@
 {
-  "dragHandle": "Reposition: {itemLabel}",
-  "dragHandleUntitled": "Reposition",
+  "dragHandle": "Репозициониране: {itemLabel}",
+  "dragHandleUntitled": "Репозициониране",
   "dragHandleActive": "Пренареждане {itemLabel}, текущата позиция е {position} от {total}.",
   "dragHandleChange": "{itemLabel}, новата позиция е{position} от {total}. Натиснете интервала за потвърждаване.",
   "dragHandleCommit": "{itemLabel}, текущата позиция е {position} от {total}.",

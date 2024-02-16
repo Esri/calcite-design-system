@@ -1,6 +1,6 @@
 {
-  "dragHandle": "Reposition: {itemLabel}",
-  "dragHandleUntitled": "Reposition",
+  "dragHandle": "Keisti padėtį: {itemLabel}",
+  "dragHandleUntitled": "Keisti padėtį",
   "dragHandleActive": "Keičiama tvarka {itemLabel}, dabartinė pozicija {position} iš {total}.",
   "dragHandleChange": "{itemLabel}, nauja pozicija {position} iš {total}. Norėdami patvirtinti, paspauskite tarpo klavišą.",
   "dragHandleCommit": "{itemLabel}, dabartinė pozicija {position} iš {total}.",

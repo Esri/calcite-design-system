@@ -1,6 +1,6 @@
 {
-  "dragHandle": "Reposition: {itemLabel}",
-  "dragHandleUntitled": "Reposition",
+  "dragHandle": "Prestavljanje: {itemLabel}",
+  "dragHandleUntitled": "Prestavi",
   "dragHandleActive": "Preurejanje {itemLabel}, trenutni položaj {position} od {total}.",
   "dragHandleChange": "{itemLabel}, nov položaj {position} od {total}. Za potrditev pritisnite presledek.",
   "dragHandleCommit": "{itemLabel}, trenutni položaj {position} od {total}.",

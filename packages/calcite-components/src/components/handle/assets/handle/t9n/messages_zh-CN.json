@@ -1,6 +1,6 @@
 {
-  "dragHandle": "Reposition: {itemLabel}",
-  "dragHandleUntitled": "Reposition",
+  "dragHandle": "重新定位：{itemLabel}",
+  "dragHandleUntitled": "重新定位",
   "dragHandleActive": "重新排序 {itemLabel}，当前位置 {position}，共 {total} 个。",
   "dragHandleChange": "{itemLabel}，新位置 {position}，共 {total} 个。 按空格键确认。",
   "dragHandleCommit": "{itemLabel}，当前位置 {position}，共 {total} 个。",
