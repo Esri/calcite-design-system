@@ -1,3 +1,24 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-list-item-background-color: Specifies the background color of the component.
+ * @prop --calcite-list-item-border-color: Specifies the border color of the component.
+ * @prop --calcite-list-item-content-text-color: Specifies the text color of the component's content.
+ * @prop --calcite-list-item-description-text-color: Specifies the text color of the component's description.
+ * @prop --calcite-list-item-hover-background-color: Specifies the hover background color of the component.
+ * @prop --calcite-list-item-label-text-color: Specifies the text color of the component's label.
+ * @prop --calcite-list-item-open-icon-color: Specifies the icon color of the component's open icon.
+ * @prop --calcite-list-item-open-icon-hover-color: Specifies the icon color of the component's open icon when hovered.
+ * @prop --calcite-list-item-selected-border-color: Specifies the border color of the component when selected.
+ * @prop --calcite-list-item-selected-description-text-color: Specifies the text color of the component's description when selected.
+ * @prop --calcite-list-item-selected-icon-color: Specifies the color of the component's selected icon when selected.
+ * @prop --calcite-list-item-selected-label-text-color: Specifies the color of the component's label text when selected.
+ * @prop --calcite-list-item-unselected-icon-color: Specifies the color of the component's selected icon when unselected.
+ * @prop --calcite-list-item-unselected-icon-hover-color: Specifies the color of the component's selected icon when unselected and hovered.
+ */
+
 :host {
   display: flex;
   flex-direction: column;
