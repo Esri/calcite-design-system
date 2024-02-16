@@ -142,12 +142,7 @@
 
 .input--icon {
   padding-block: 0;
-  padding-inline: var(--calcite-combobox-item-spacing-unit-s);
-}
-
-:host([scale="m"]) .input--icon,
-:host([scale="l"]) .input--icon {
-  padding-inline: 0.25rem;
+  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 }
 
 .input-wrap {
