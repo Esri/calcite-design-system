@@ -23,6 +23,7 @@
   inline-size: var(--calcite-container-size-content-fluid);
   block-size: var(--calcite-container-size-content-fluid);
   flex: 1 1 auto;
+  overflow: hidden;
   --calcite-internal-panel-transition: max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
 

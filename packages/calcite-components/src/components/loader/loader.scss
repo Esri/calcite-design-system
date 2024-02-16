@@ -32,6 +32,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   animation: loader-color-shift scaleDuration(--calcite-internal-animation-timing-slow, 2) alternate-reverse infinite
     linear;
   padding-block: var(--calcite-loader-padding, theme("spacing.16"));
+  will-change: contents;
 }
 
 :host([scale="s"]) {
