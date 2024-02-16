@@ -31,11 +31,11 @@
 
 :host {
   @apply inline-flex;
-  --calcite-chip-background-color: var(--calcite-color-foreground-1);
+  --calcite-chip-background-color: var(--calcite-color-foreground-2);
   --calcite-chip-border-color: var(--calcite-color-border-3);
   --calcite-chip-shadow: var(--calcite-shadow-none);
   --calcite-chip-corner-radius: 9999px;
-  --calcite-chip-close-icon-color: var(--calcite-color-text-1);
+  --calcite-chip-close-icon-color: var(--calcite-color-text-3);
   --calcite-chip-close-background-color: var(--calcite-color-transparent);
   --calcite-chip-close-background-color-hover: var(--calcite-color-transparent-hover);
   --calcite-chip-close-background-color-focus: var(--calcite-color-transparent-hover);
@@ -106,9 +106,8 @@
 
 :host([kind="inverse"][appearance="outline-fill"]),
 :host([kind="inverse"][appearance="outline"]) {
-  --calcite-chip-border-color: var(--calcite-color-border-1);
+  --calcite-chip-border-color: var(--calcite-color-inverse);
   --calcite-chip-text-color: var(--calcite-color-text-1);
-  --calcite-chip-close-icon-color: var(--calcite-color-text-1);
 }
 
 :host([kind="brand"]) {
@@ -126,7 +125,6 @@
 :host([kind="brand"][appearance="outline"]) {
   --calcite-chip-border-color: var(--calcite-color-brand);
   --calcite-chip-text-color: var(--calcite-color-text-1);
-  --calcite-chip-close-icon-color: var(--calcite-color-text-1);
 }
 
 :host([kind="brand"][appearance="solid"]),
