@@ -196,3 +196,37 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(
     html`<calcite-input-date-picker scale="{scale}" value="2020-12-12"></calcite-input-date-picker>`,
   );
+
+export const rangeWithValueAsDate = (): string => html`
+  <calcite-input-date-picker range open></calcite-input-date-picker>
+  <script>
+    const datePicker = document.querySelector("calcite-input-date-picker");
+    datePicker.valueAsDate = [new Date("2025-09-08"), new Date("2025-12-10")];
+  </script>
+`;
+
+export const rangeWithValue = (): string => html`
+  <calcite-input-date-picker range open></calcite-input-date-picker>
+  <script>
+    const datePicker = document.querySelector("calcite-input-date-picker");
+    datePicker.value = ["2025-09-08", "2026-12-10"];
+  </script>
+`;
+
+export const rangeWithMinBeforeCurrentDate = (): string => html`
+  <calcite-input-date-picker range open min="2016-08-09"></calcite-input-date-picker>
+`;
+
+export const rangeWithMaxBeforeCurrentDate = (): string => html`
+  <calcite-input-date-picker range open max="2016-08-09"></calcite-input-date-picker>
+`;
+
+export const rangeWithMinAsDateAfterCurrentDate = (): string => html`
+  <calcite-input-date-picker range open></calcite-input-date-picker>
+  <script>
+    const datePicker = document.querySelector("calcite-input-date-picker");
+    const currentDate = new Date();
+    currentDate.setMonth(currentDate.getMonth() + 10);
+    datePicker.minAsDate = currentDate;
+  </script>
+`;
