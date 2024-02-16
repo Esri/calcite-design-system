@@ -6,7 +6,6 @@
  * @prop --calcite-combobox-item-text-color: defines the text color of a combobox item.
  * @prop --calcite-combobox-item-selection-icon-color: defines the icon color of the dot or custom icon shown at the start of a combobox item.
  * @prop --calcite-combobox-item-icon-color: defines the color of a custom combobox-item icon
- * @prop --calcite-combobox-item-box-shadow: defines the box shadow of a combobox item.
  * @prop --calcite-combobox-item-background-color: defines the background color of a combobox-item.
  */
 
@@ -36,7 +35,6 @@
   --calcite-combobox-item-background-color: none;
   --calcite-internal-combobox-item-select-icon-opacity: 0;
 
-  box-shadow: var(--calcite-combobox-item-box-shadow);
   inline-size: var(--calcite-container-size-content-fluid);
 }
 
