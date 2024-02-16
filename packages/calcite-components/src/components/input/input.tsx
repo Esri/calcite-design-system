@@ -71,6 +71,7 @@ import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfac
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
@@ -88,7 +89,9 @@ export class Input
     InteractiveComponent,
     T9nComponent,
     LocalizedComponent,
-    LoadableComponent
+    LoadableComponent,
+    NumericInputComponent,
+    TextualInputComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -134,13 +137,6 @@ export class Input
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
-
-  /**
-   * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) hidden = false;
 
   /**
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
@@ -890,30 +886,8 @@ export class Input
     }
   };
 
-  onFormReset(): void {
-    this.setValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
-
   syncHiddenFormInput(input: HTMLInputElement): void {
-    const { type } = this;
-
-    input.type = type;
-
-    if (type === "number") {
-      input.min = this.min?.toString(10) ?? "";
-      input.max = this.max?.toString(10) ?? "";
-    } else if (type === "text") {
-      if (this.minLength != null) {
-        input.minLength = this.minLength;
-      }
-
-      if (this.maxLength != null) {
-        input.maxLength = this.maxLength;
-      }
-    }
+    syncHiddenFormInput(this.type, this, input);
   }
 
   private onHiddenFormInputInput = (event: Event): void => {

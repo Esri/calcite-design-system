@@ -70,6 +70,11 @@ import { InputNumberMessages } from "./assets/input-number/t9n";
 import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import {
+  NumericInputComponent,
+  syncHiddenFormInput,
+  TextualInputComponent,
+} from "../input/common/input";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -86,7 +91,9 @@ export class InputNumber
     FormComponent,
     InteractiveComponent,
     LocalizedComponent,
+    NumericInputComponent,
     T9nComponent,
+    TextualInputComponent,
     LoadableComponent
 {
   //--------------------------------------------------------------------------
@@ -133,13 +140,6 @@ export class InputNumber
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
-
-  /**
-   * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) hidden = false;
 
   /**
    * Specifies an icon to display.
@@ -804,17 +804,8 @@ export class InputNumber
     }
   };
 
-  onFormReset(): void {
-    this.setNumberValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
-
   syncHiddenFormInput(input: HTMLInputElement): void {
-    input.type = "number";
-    input.min = this.min?.toString(10) ?? "";
-    input.max = this.max?.toString(10) ?? "";
+    syncHiddenFormInput("number", this, input);
   }
 
   private onHiddenFormInputInput = (event: Event): void => {

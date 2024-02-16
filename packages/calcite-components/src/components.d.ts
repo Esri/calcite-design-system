@@ -9,8 +9,8 @@ import { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowP
 import { RequestedItem } from "./components/accordion/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 import { ActionMessages } from "./components/action/assets/action/t9n";
-import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 import { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 import { AlertDuration, Sync } from "./components/alert/interfaces";
@@ -73,13 +73,13 @@ import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 import { DragDetail } from "./utils/sortableComponent";
+import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
-import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail } from "./components/stepper/interfaces";
 import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
-import { RowType, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
+import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
 import { TableMessages } from "./components/table/assets/table/t9n";
 import { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
 import { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
@@ -95,8 +95,8 @@ export { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowP
 export { RequestedItem } from "./components/accordion/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 export { ActionMessages } from "./components/action/assets/action/t9n";
-export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 export { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 export { AlertDuration, Sync } from "./components/alert/interfaces";
@@ -159,13 +159,13 @@ export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 export { DragDetail } from "./utils/sortableComponent";
+export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
-export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail } from "./components/stepper/interfaces";
 export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
-export { RowType, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
+export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
 export { TableMessages } from "./components/table/assets/table/t9n";
 export { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
 export { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
@@ -345,6 +345,10 @@ export namespace Components {
          */
         "overflowActionsDisabled": boolean;
         /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning;
+        /**
           * Arranges the component depending on the element's `dir` property.
          */
         "position": Position;
@@ -463,6 +467,10 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": ActionPadMessages;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning;
         /**
           * Arranges the component depending on the element's `dir` property.
          */
@@ -604,6 +612,10 @@ export namespace Components {
           * When `true`, expands the component and its contents.
          */
         "open": boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning;
         /**
           * Sets focus on the component's first tabbable element.
          */
@@ -1725,6 +1737,10 @@ export namespace Components {
          */
         "messages": FlowItemMessages;
         /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning;
+        /**
           * Scrolls the component's content to a specified set of coordinates.
           * @example myCalciteFlowItem.scrollContentTo({   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value). });
           * @param options - allows specific coordinates to be defined.
@@ -1905,11 +1921,6 @@ export namespace Components {
           * When `true`, number values are displayed with a group separator corresponding to the language and country format.
          */
         "groupSeparator": boolean;
-        /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden": boolean;
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
@@ -2239,11 +2250,6 @@ export namespace Components {
          */
         "groupSeparator": boolean;
         /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden": boolean;
-        /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
@@ -2404,11 +2410,6 @@ export namespace Components {
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
-        /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden": boolean;
         /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
@@ -3449,6 +3450,10 @@ export namespace Components {
          */
         "messages": PanelMessages;
         /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning": OverlayPositioning;
+        /**
           * Scrolls the component's content to a specified set of coordinates.
           * @example myCalciteFlowItem.scrollContentTo({   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value). });
           * @param options - allows specific coordinates to be defined.
@@ -3730,10 +3735,6 @@ export namespace Components {
          */
         "guid": string;
         /**
-          * When `true`, the component is not displayed and is not focusable or checkable.
-         */
-        "hidden": boolean;
-        /**
           * The hovered state of the component.
          */
         "hovered": boolean;
@@ -3768,10 +3769,6 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable.
-         */
-        "hidden": boolean;
-        /**
           * Defines the layout of the component.
          */
         "layout": Layout;
@@ -3796,6 +3793,18 @@ export namespace Components {
           * Sets focus on the fist focusable `calcite-radio-button` element in the component.
          */
         "setFocus": () => Promise<void>;
+        /**
+          * Specifies the status of the validation message.
+         */
+        "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
     }
     interface CalciteRating {
         /**
@@ -3903,6 +3912,18 @@ export namespace Components {
           * Sets focus on the component.
          */
         "setFocus": () => Promise<void>;
+        /**
+          * Specifies the status of the validation message.
+         */
+        "status": Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon": string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage": string;
         /**
           * The component's `selectedItem` value.
          */
@@ -4361,7 +4382,7 @@ export namespace Components {
         /**
           * Defines the layout of the component.
          */
-        "layout": Extract<"horizontal" | "vertical", Layout>;
+        "layout": StepperLayout;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -4432,7 +4453,7 @@ export namespace Components {
         /**
           * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
          */
-        "layout": Extract<"horizontal" | "vertical", Layout>;
+        "layout": StepperLayout;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -4441,10 +4462,6 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": StepperItemMessages;
-        /**
-          * Specifies if the user is viewing one `stepper-item` at a time. Helps in determining if header region is tabbable.
-         */
-        "multipleViewMode": boolean;
         /**
           * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
          */
@@ -4628,6 +4645,10 @@ export namespace Components {
          */
         "groupSeparator": boolean;
         /**
+          * When `"interactive"`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `"static"`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable.
+         */
+        "interactionMode": TableInteractionMode;
+        /**
           * Specifies the layout of the component.
          */
         "layout": TableLayout;
@@ -4687,6 +4708,7 @@ export namespace Components {
           * When true, prevents user interaction.  Notes:  This prop should use the
          */
         "disabled": boolean;
+        "interactionMode": TableInteractionMode;
         "lastCell": boolean;
         /**
           * Use this property to override individual strings used by the component.
@@ -4731,6 +4753,7 @@ export namespace Components {
           * A heading to display above description content.
          */
         "heading": string;
+        "interactionMode": TableInteractionMode;
         "lastCell": boolean;
         /**
           * Use this property to override individual strings used by the component.
@@ -4742,7 +4765,6 @@ export namespace Components {
         "messages": TableHeaderMessages;
         "numberCell": boolean;
         "parentRowIsSelected": boolean;
-        "parentRowPosition": number;
         "parentRowType": RowType;
         "positionInRow": number;
         /**
@@ -4766,6 +4788,7 @@ export namespace Components {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
+        "interactionMode": TableInteractionMode;
         "lastVisibleRow": boolean;
         "numbered": boolean;
         "positionAll": number;
@@ -4842,6 +4865,11 @@ export namespace Components {
          */
         "messages": TextAreaMessages;
         /**
+          * Specifies the minimum number of characters allowed.
+          * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
+         */
+        "minLength": number;
+        /**
           * Specifies the name of the component.
           * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
          */
@@ -4915,6 +4943,10 @@ export namespace Components {
          */
         "active": boolean;
         /**
+          * Specifies the alignment of the Tile's content.
+         */
+        "alignment": Exclude<Alignment, "end">;
+        /**
           * A description for the component, which displays below the heading.
          */
         "description": string;
@@ -4934,10 +4966,6 @@ export namespace Components {
           * The component header text, which displays between the icon and description.
          */
         "heading": string;
-        /**
-          * When `true`, the component is not displayed and is not focusable.
-         */
-        "hidden": boolean;
         /**
           * When embed is `"false"`, the URL for the component.
          */
@@ -4972,10 +5000,6 @@ export namespace Components {
           * The component header text, which displays between the icon and description.
          */
         "heading": string;
-        /**
-          * When `true`, the component is not displayed and is not focusable or checkable.
-         */
-        "hidden": boolean;
         /**
           * Specifies an icon to display.
          */
@@ -7575,6 +7599,10 @@ declare namespace LocalJSX {
          */
         "overflowActionsDisabled"?: boolean;
         /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning;
+        /**
           * Arranges the component depending on the element's `dir` property.
          */
         "position"?: Position;
@@ -7689,6 +7717,10 @@ declare namespace LocalJSX {
           * Fires when the `expanded` property is toggled.
          */
         "onCalciteActionPadToggle"?: (event: CalciteActionPadCustomEvent<void>) => void;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning;
         /**
           * Arranges the component depending on the element's `dir` property.
          */
@@ -7867,6 +7899,10 @@ declare namespace LocalJSX {
           * When `true`, expands the component and its contents.
          */
         "open"?: boolean;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning;
         /**
           * Displays a status-related indicator icon.
          */
@@ -9061,6 +9097,10 @@ declare namespace LocalJSX {
          */
         "onCalciteFlowItemToggle"?: (event: CalciteFlowItemCustomEvent<void>) => void;
         /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning;
+        /**
           * When `true`, displays a back button in the component's header.
          */
         "showBackButton"?: boolean;
@@ -9242,11 +9282,6 @@ declare namespace LocalJSX {
           * When `true`, number values are displayed with a group separator corresponding to the language and country format.
          */
         "groupSeparator"?: boolean;
-        /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden"?: boolean;
         /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
@@ -9589,11 +9624,6 @@ declare namespace LocalJSX {
          */
         "groupSeparator"?: boolean;
         /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden"?: boolean;
-        /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
          */
@@ -9756,11 +9786,6 @@ declare namespace LocalJSX {
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
-        /**
-          * When `true`, the component will not be visible.
-          * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-         */
-        "hidden"?: boolean;
         /**
           * Specifies an icon to display.
           * @futureBreaking Remove boolean type as it is not supported.
@@ -10885,6 +10910,10 @@ declare namespace LocalJSX {
           * Fires when the collapse button is clicked.
          */
         "onCalcitePanelToggle"?: (event: CalcitePanelCustomEvent<void>) => void;
+        /**
+          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+         */
+        "overlayPositioning"?: OverlayPositioning;
     }
     /**
      * @deprecated Use the `list` component instead.
@@ -11172,10 +11201,6 @@ declare namespace LocalJSX {
          */
         "guid"?: string;
         /**
-          * When `true`, the component is not displayed and is not focusable or checkable.
-         */
-        "hidden"?: boolean;
-        /**
           * The hovered state of the component.
          */
         "hovered"?: boolean;
@@ -11222,10 +11247,6 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable.
-         */
-        "hidden"?: boolean;
-        /**
           * Defines the layout of the component.
          */
         "layout"?: Layout;
@@ -11250,6 +11271,18 @@ declare namespace LocalJSX {
           * @readonly
          */
         "selectedItem"?: HTMLCalciteRadioButtonElement;
+        /**
+          * Specifies the status of the validation message.
+         */
+        "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
     }
     interface CalciteRating {
         /**
@@ -11357,6 +11390,18 @@ declare namespace LocalJSX {
           * @readonly
          */
         "selectedItem"?: HTMLCalciteSegmentedControlItemElement;
+        /**
+          * Specifies the status of the validation message.
+         */
+        "status"?: Status;
+        /**
+          * Specifies the validation icon to display under the component.
+         */
+        "validationIcon"?: string | boolean;
+        /**
+          * Specifies the validation message to display under the component.
+         */
+        "validationMessage"?: string;
         /**
           * The component's `selectedItem` value.
          */
@@ -11832,7 +11877,7 @@ declare namespace LocalJSX {
         /**
           * Defines the layout of the component.
          */
-        "layout"?: Extract<"horizontal" | "vertical", Layout>;
+        "layout"?: StepperLayout;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -11899,7 +11944,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
          */
-        "layout"?: Extract<"horizontal" | "vertical", Layout>;
+        "layout"?: StepperLayout;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -11908,10 +11953,6 @@ declare namespace LocalJSX {
           * Made into a prop for testing purposes only
          */
         "messages"?: StepperItemMessages;
-        /**
-          * Specifies if the user is viewing one `stepper-item` at a time. Helps in determining if header region is tabbable.
-         */
-        "multipleViewMode"?: boolean;
         /**
           * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
          */
@@ -12101,6 +12142,10 @@ declare namespace LocalJSX {
          */
         "groupSeparator"?: boolean;
         /**
+          * When `"interactive"`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `"static"`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable.
+         */
+        "interactionMode"?: TableInteractionMode;
+        /**
           * Specifies the layout of the component.
          */
         "layout"?: TableLayout;
@@ -12169,6 +12214,7 @@ declare namespace LocalJSX {
           * When true, prevents user interaction.  Notes:  This prop should use the
          */
         "disabled"?: boolean;
+        "interactionMode"?: TableInteractionMode;
         "lastCell"?: boolean;
         /**
           * Use this property to override individual strings used by the component.
@@ -12209,6 +12255,7 @@ declare namespace LocalJSX {
           * A heading to display above description content.
          */
         "heading"?: string;
+        "interactionMode"?: TableInteractionMode;
         "lastCell"?: boolean;
         /**
           * Use this property to override individual strings used by the component.
@@ -12220,7 +12267,6 @@ declare namespace LocalJSX {
         "messages"?: TableHeaderMessages;
         "numberCell"?: boolean;
         "parentRowIsSelected"?: boolean;
-        "parentRowPosition"?: number;
         "parentRowType"?: RowType;
         "positionInRow"?: number;
         /**
@@ -12240,6 +12286,7 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        "interactionMode"?: TableInteractionMode;
         "lastVisibleRow"?: boolean;
         "numbered"?: boolean;
         "onCalciteInternalTableRowFocusRequest"?: (event: CalciteTableRowCustomEvent<TableRowFocusEvent>) => void;
@@ -12321,6 +12368,11 @@ declare namespace LocalJSX {
          */
         "messages"?: TextAreaMessages;
         /**
+          * Specifies the minimum number of characters allowed.
+          * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
+         */
+        "minLength"?: number;
+        /**
           * Specifies the name of the component.
           * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
          */
@@ -12394,6 +12446,10 @@ declare namespace LocalJSX {
          */
         "active"?: boolean;
         /**
+          * Specifies the alignment of the Tile's content.
+         */
+        "alignment"?: Exclude<Alignment, "end">;
+        /**
           * A description for the component, which displays below the heading.
          */
         "description"?: string;
@@ -12413,10 +12469,6 @@ declare namespace LocalJSX {
           * The component header text, which displays between the icon and description.
          */
         "heading"?: string;
-        /**
-          * When `true`, the component is not displayed and is not focusable.
-         */
-        "hidden"?: boolean;
         /**
           * When embed is `"false"`, the URL for the component.
          */
@@ -12451,10 +12503,6 @@ declare namespace LocalJSX {
           * The component header text, which displays between the icon and description.
          */
         "heading"?: string;
-        /**
-          * When `true`, the component is not displayed and is not focusable or checkable.
-         */
-        "hidden"?: boolean;
         /**
           * Specifies an icon to display.
          */

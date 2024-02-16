@@ -13,6 +13,7 @@ export const CSS = {
   ghostClass: "calcite-sortable--ghost",
   chosenClass: "calcite-sortable--chosen",
   dragClass: "calcite-sortable--drag",
+  fallbackClass: "calcite-sortable--fallback",
 };
 
 /**

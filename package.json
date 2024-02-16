@@ -7,6 +7,7 @@
     "packages/calcite-components-angular/projects/component-library"
   ],
   "scripts": {
+    "postinstall": "patch-package",
     "build": "turbo run build --log-order=stream",
     "clean": "turbo run clean --log-order=stream && rimraf node_modules",
     "lint": "concurrently \"npm:lint:*\" \"turbo run lint --log-order=stream\"",
@@ -19,6 +20,7 @@
     "version:next": "npm run util:is-in-sync-with-origin-main && npm run util:is-working-tree-clean && lerna version --conventional-prerelease --preid next --no-git-tag-version --no-push --yes && npm run util:sync-linked-package-versions -- next",
     "version:rc": "npm run util:is-in-sync-with-origin-rc && npm run util:is-working-tree-clean && lerna version --conventional-prerelease --preid rc --no-git-tag-version --no-push --yes && npm run util:sync-linked-package-versions -- rc",
     "version:latest": "npm run util:is-in-sync-with-origin-main && npm run util:is-working-tree-clean && lerna version --conventional-commits --create-release github --no-git-tag-version --no-push --yes && npm run util:sync-linked-package-versions -- latest",
+    "util:patch:calcite-components": "patch-package",
     "prepare": "husky install",
     "start": "turbo run start --log-order=stream",
     "test": "turbo run test --log-order=stream",
@@ -32,7 +34,7 @@
   },
   "devDependencies": {
     "@babel/preset-react": "7.23.3",
-    "@cspell/eslint-plugin": "8.2.3",
+    "@cspell/eslint-plugin": "8.3.2",
     "@esri/calcite-base": "1.2.0",
     "@esri/calcite-colors": "6.1.0",
     "@prettier/sync": "0.3.0",
@@ -68,12 +70,12 @@
     "change-case": "4.1.2",
     "cheerio": "1.0.0-rc.10",
     "chokidar": "3.5.3",
-    "chromatic": "6.24.1",
+    "chromatic": "10.3.1",
     "concurrently": "7.6.0",
     "conventional-changelog-conventionalcommits": "5.0.0",
-    "cpy": "10.1.0",
+    "cpy": "11.0.0",
     "cpy-cli": "5.0.0",
-    "dedent": "0.7.0",
+    "dedent": "1.5.1",
     "eslint": "8.56.0",
     "eslint-config-prettier": "8.10.0",
     "eslint-plugin-import": "2.29.1",
@@ -123,5 +125,8 @@
   "packageManager": "npm@10.2.3",
   "volta": {
     "node": "20.10.0"
+  },
+  "dependencies": {
+    "patch-package": "8.0.0"
   }
 }

@@ -742,6 +742,12 @@ export class Combobox
         break;
       case "Delete":
       case "Backspace":
+        const notDeletable =
+          this.selectionDisplay === "single" ||
+          (this.selectionDisplay === "fit" && this.selectedHiddenChipsCount > 0);
+        if (notDeletable) {
+          return;
+        }
         if (this.activeChipIndex > -1) {
           event.preventDefault();
           this.removeActiveChip();
@@ -1215,7 +1221,7 @@ export class Combobox
       if (!this.isMulti()) {
         this.toggleSelection(this.selectedItems[this.selectedItems.length - 1], false);
       }
-      const item = document.createElement(ComboboxItem) as HTMLCalciteComboboxItemElement;
+      const item = document.createElement("calcite-combobox-item");
       item.value = value;
       item.textLabel = value;
       item.selected = true;
@@ -1514,7 +1520,18 @@ export class Combobox
     );
   }
 
-  renderInput(): VNode {
+  private get showingInlineIcon(): boolean {
+    const { placeholderIcon, selectionMode, selectedItems, open } = this;
+    const selectedItem = selectedItems[0];
+    const selectedIcon = selectedItem?.icon;
+    const singleSelectionMode = isSingleLike(selectionMode);
+
+    return !open && selectedItem
+      ? !!selectedIcon && singleSelectionMode
+      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
+  }
+
+  private renderInput(): VNode {
     const { guid, disabled, placeholder, selectionMode, selectedItems, open } = this;
     const single = isSingleLike(selectionMode);
     const selectedItem = selectedItems[0];
@@ -1548,7 +1565,7 @@ export class Combobox
             "input--single": true,
             "input--transparent": this.activeChipIndex > -1,
             "input--hidden": showLabel,
-            "input--icon": !!this.placeholderIcon,
+            "input--icon": this.showingInlineIcon && !!this.placeholderIcon,
           }}
           disabled={disabled}
           id={`${inputUidPrefix}${guid}`}
@@ -1608,20 +1625,14 @@ export class Combobox
     );
   }
 
-  renderIconStart(): VNode {
-    const { selectedItems, placeholderIcon, selectionMode, placeholderIconFlipRtl } = this;
+  renderSelectedOrPlaceholderIcon(): VNode {
+    const { selectedItems, placeholderIcon, placeholderIconFlipRtl } = this;
     const selectedItem = selectedItems[0];
     const selectedIcon = selectedItem?.icon;
-    const singleSelectionMode = isSingleLike(selectionMode);
-
-    const iconAtStart =
-      !this.open && selectedItem
-        ? !!selectedIcon && singleSelectionMode
-        : !!this.placeholderIcon && (!selectedItem || singleSelectionMode);
 
     return (
-      iconAtStart && (
-        <span class="icon-start">
+      this.showingInlineIcon && (
+        <span class="icon-start" key="selected-placeholder-icon">
           <calcite-icon
             class="selected-icon"
             flipRtl={this.open && selectedItem ? selectedItem.iconFlipRtl : placeholderIconFlipRtl}
@@ -1633,10 +1644,10 @@ export class Combobox
     );
   }
 
-  renderIconEnd(): VNode {
+  renderChevronIcon(): VNode {
     const { open } = this;
     return (
-      <span class="icon-end">
+      <span class="icon-end" key="chevron">
         <calcite-icon
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
@@ -1674,15 +1685,16 @@ export class Combobox
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setReferenceEl}
           >
+            {this.renderSelectedOrPlaceholderIcon()}
             <div
               class={{
                 "grid-input": true,
                 [CSS.selectionDisplayFit]: fitSelectionDisplay,
                 [CSS.selectionDisplaySingle]: singleSelectionDisplay,
               }}
+              key="grid"
               ref={this.setChipContainerEl}
             >
-              {this.renderIconStart()}
               {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
               {!singleSelectionMode &&
                 !allSelectionDisplay && [
@@ -1708,7 +1720,7 @@ export class Combobox
                 scale={this.scale}
               />
             ) : null}
-            {this.renderIconEnd()}
+            {this.renderChevronIcon()}
           </div>
           <ul
             aria-labelledby={`${labelUidPrefix}${guid}`}
