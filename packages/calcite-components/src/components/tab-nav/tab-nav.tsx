@@ -496,11 +496,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   private storeTabTitleWrapperRef = (el: HTMLDivElement) => {
     this.tabTitleContainerEl = el;
-
-    if (!el) {
-      return;
-    }
-
     this.intersectionObserver = createObserver("intersection", () => this.updateScrollingState(), {
       root: el,
       threshold: [0, 0.5, 1],
