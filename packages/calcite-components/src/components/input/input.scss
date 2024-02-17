@@ -12,18 +12,21 @@
  * @prop --calcite-input-button-background-color-active: defines the background color of an :active button element in the component.
  * @prop --calcite-input-icon-color: defines the color of an icon element in the component.
  * @prop --calcite-input-icon-color-hover: defines the color of an icon element when it's parent is hovered in the component.
- * @prop --calcite-input-prefixsuffix-text-color: defines the text color of a prefix/suffix element in the component.
- * @prop --calcite-input-prefixsuffix-background-color: defines the background color of a prefix/suffix element in the component.
+ * @prop --calcite-input-prefix-text-color: defines the prefix text color in the component.
+ * @prop --calcite-input-prefix-background-color: defines the prefix background color in the component.
+ * @prop --calcite-input-suffix-text-color: defines the suffix text color in the component.
+ * @prop --calcite-input-suffix-background-color: defines the suffix background color in the component.
  * @prop --calcite-input-placeholder-text-color: defines the color of placeholder text in the component.
+ * @prop --calcite-input-shadow: defines the box-shadow of the component.
  *
  */
 
 :host {
-  --calcite-input-corner-radius: var(--calcite-border-radius-sharp);
+  --calcite-input-corner-radius: var(--calcite-corner-radius);
   --calcite-input-text-color: var(--calcite-color-text-1);
   --calcite-input-border-color: var(--calcite-color-border-input);
   --calcite-input-background-color: var(--calcite-color-foreground-1);
-
+  --calcite-input-shadow: none;
   // Button
   --calcite-input-button-background-color: var(--calcite-color-foreground-1);
   --calcite-input-button-background-color-hover: var(--calcite-color-foreground-2);
@@ -34,8 +37,10 @@
   --calcite-input-icon-color-hover: var(--calcite-color-text-1);
 
   // Prefix/Suffix
-  --calcite-input-prefixsuffix-text-color: var(--calcite-color-text-2);
-  --calcite-input-prefixsuffix-background-color: var(--calcite-color-background);
+  --calcite-input-prefix-text-color: var(--calcite-color-text-2);
+  --calcite-input-prefix-background-color: var(--calcite-color-background);
+  --calcite-input-suffix-text-color: var(--calcite-color-text-2);
+  --calcite-input-suffix-background-color: var(--calcite-color-background);
 
   // Placeholder
   --calcite-input-placeholder-text-color: var(--calcite-color-text-3);
@@ -44,6 +49,7 @@
   --calcite-internal-input-border-color-base: var(--calcite-input-border-color);
 
   @apply block;
+  box-shadow: var(--calcite-input-shadow);
 }
 
 // scales
@@ -344,10 +350,15 @@ input[type="time"]::-webkit-clear-button {
     border-solid
     font-medium
     leading-none;
-
-  color: var(--calcite-input-prefixsuffix-text-color);
-  background-color: var(--calcite-input-prefixsuffix-background-color);
   border-color: var(--calcite-internal-input-border-color-base);
+}
+.prefix {
+  color: var(--calcite-input-prefix-text-color);
+  background-color: var(--calcite-input-prefix-background-color);
+}
+.suffix {
+  color: var(--calcite-input-suffix-text-color);
+  background-color: var(--calcite-input-suffix-background-color);
 }
 
 .prefix {
@@ -672,6 +683,12 @@ input {
   border-end-start-radius: var(--calcite-input-corner-radius);
 }
 .suffix {
+  border-start-end-radius: var(--calcite-input-corner-radius);
+  border-end-end-radius: var(--calcite-input-corner-radius);
+}
+::slotted(*) {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
   border-start-end-radius: var(--calcite-input-corner-radius);
   border-end-end-radius: var(--calcite-input-corner-radius);
 }
