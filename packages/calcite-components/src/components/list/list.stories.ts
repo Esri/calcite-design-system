@@ -971,6 +971,7 @@ const themingStyle = `<style>
       --calcite-list-item-border-color: navy;
       --calcite-list-item-content-text-color: green;
       --calcite-list-item-description-text-color: purple;
+      --calcite-list-item-focus-color: red;
       --calcite-list-item-hover-background-color: purple;
       --calcite-list-item-label-text-color: saddlebrown;
       --calcite-list-item-open-icon-color: seagreen;
