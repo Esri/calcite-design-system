@@ -3,12 +3,39 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-rating-spacing-unit: The amount of left and right margin spacing between each rating star.
+ * @prop --calcite-rating-spacing-unit: The amount of left and right margin spacing between each rating item.
+ * @prop --calcite-rating-outline-color: Specifies the outline color for a rating item.
+ * @prop --calcite-rating-outline-color-hover: Specifies the outline color for a rating item while hovered.
+ * @prop --calcite-rating-value-fill-color: Specifies the fill color for for value of the component.
+ * @prop --calcite-rating-average-fill-color: Specifies the fill color for average of the component.
+ * @prop --calcite-rating-chip-background-color: Specifies the background color of the component.
+ * @prop --calcite-rating-chip-border-color: Specifies the border color of the component.
+ * @prop --calcite-rating-chip-shadow: Specifies the box shadow of the component.
+ * @prop --calcite-rating-chip-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-rating-chip-text-color: Specifies the color of the component's `"default"` slot.
+ *
  */
+
+/**
+  * Local props
+  * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
+  *
+  * --calcite-internal-meter-fill-color
+  * --calcite-internal-meter-background-color
+*/
 
 :host {
   @apply relative flex items-center;
   inline-size: fit-content;
+  --calcite-rating-outline-color: var(--calcite-color-border-input);
+  --calcite-rating-outline-color-hover: var(--calcite-color-brand);
+  --calcite-rating-value-fill-color: var(--calcite-color-brand);
+  --calcite-rating-average-fill-color: var(--calcite-color-status-warning);
+  --calcite-rating-chip-background-color: var(--calcite-color-foreground-2);
+  --calcite-rating-chip-border-color: var(--calcite-color-foreground-2);
+  --calcite-rating-chip-shadow: var(--calcite-shadow-none);
+  --calcite-rating-chip-corner-radius: 9999px;
+  --calcite-rating-chip-text-color: var(--calcite-color-text-1);
 }
 
 @include disabled();
@@ -37,7 +64,7 @@
   display: flex;
   border-width: 0;
   padding: 0;
-  align-items: center;
+  aligns: center;
   gap: var(--calcite-rating-spacing-unit);
 }
 
@@ -50,8 +77,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  align-self: center;
   cursor: pointer;
-  color: theme("borderColor.color.input");
+  box-shadow: var(--calcite-rating-shadow);
+  color: var(--calcite-rating-outline-color);
   &:focus {
     @apply focus-outset;
   }
@@ -59,12 +88,12 @@
 
 .average,
 .fraction {
-  color: theme("colors.warning");
+  color: var(--calcite-rating-average-fill-color);
 }
 
 .hovered,
 .selected {
-  color: theme("colors.brand");
+  color: var(--calcite-rating-value-fill-color);
 }
 
 .fraction {
@@ -80,14 +109,19 @@
 calcite-chip {
   pointer-events: none;
   cursor: default;
+  --calcite-chip-background-color: var(--calcite-rating-chip-background-color);
+  --calcite-chip-border-color: var(--calcite-rating-chip-border-color);
+  --calcite-chip-shadow: var(--calcite-rating-chip-shadow);
+  --calcite-chip-corner-radius: var(--calcite-rating-chip-corner-radius);
+  --calcite-chip-text-color: var(--calcite-rating-chip-text-color);
 }
 
 .number--average {
   font-weight: bold;
+  color: var(--calcite-rating-chip-text-color, var(--calcite-color-text-1));
 }
 
 .number--count {
-  color: var(--calcite-color-text-2);
   font-style: italic;
   &:not(:first-child) {
     margin-inline-start: var(--calcite-rating-spacing-unit);
