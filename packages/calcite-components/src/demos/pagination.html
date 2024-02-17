@@ -27,6 +27,21 @@
         padding: 15px;
         flex: 1;
       }
+
+      .themed-example {
+        --calcite-pagination-text-color: green;
+        --calcite-pagination-text-color-hover: darkgreen;
+        --calcite-pagination-text-color-selected: teal;
+        --calcite-pagination-background-color: lightyellow;
+        --calcite-pagination-background-color-hover: yellow;
+        --calcite-pagination-border-color-selected: green;
+        --calcite-pagination-border-color-hover: orange;
+        --calcite-pagination-arrow-text-color: blue;
+        --calcite-pagination-arrow-text-color-hover: pink;
+        --calcite-pagination-arrow-background-color: lightyellow;
+        --calcite-pagination-arrow-background-color-hover: orange;
+        --calcite-pagination-arrow-background-color-active: gold;
+      }
     </style>
   </head>
 
@@ -43,11 +58,42 @@
             <calcite-pagination total-items="300" page-size="100" start-item="1" scale="s"></calcite-pagination>
           </div>
           <div class="child">
-            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="s">Hello</calcite-pagination>
+            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="s"></calcite-pagination>
           </div>
 
           <div class="child">
             <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="s"></calcite-pagination>
+          </div>
+        </div>
+
+        <!-- Medium -->
+        <div class="parent">
+          <div class="child">themed</div>
+
+          <div class="child">
+            <calcite-pagination
+              class="themed-example"
+              total-items="300"
+              page-size="100"
+              start-item="1"
+            ></calcite-pagination>
+          </div>
+          <div class="child">
+            <calcite-pagination
+              class="themed-example"
+              total-items="1200"
+              page-size="100"
+              start-item="1"
+            ></calcite-pagination>
+          </div>
+
+          <div class="child">
+            <calcite-pagination
+              class="themed-example"
+              total-items="150000"
+              page-size="100"
+              start-item="5400"
+            ></calcite-pagination>
           </div>
         </div>
 
@@ -59,7 +105,7 @@
             <calcite-pagination total-items="300" page-size="100" start-item="1" scale="m"></calcite-pagination>
           </div>
           <div class="child">
-            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="m">Hello</calcite-pagination>
+            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="m"></calcite-pagination>
           </div>
 
           <div class="child">
@@ -75,7 +121,7 @@
             <calcite-pagination total-items="300" page-size="100" start-item="1" scale="l"></calcite-pagination>
           </div>
           <div class="child">
-            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="l">Hello</calcite-pagination>
+            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="l"></calcite-pagination>
           </div>
 
           <div class="child">
@@ -98,8 +144,7 @@
             ></calcite-pagination>
           </div>
           <div class="child">
-            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="s"
-              >Hello
+            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="s">
             </calcite-pagination>
           </div>
 
@@ -131,8 +176,7 @@
             ></calcite-pagination>
           </div>
           <div class="child">
-            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="m"
-              >Hello
+            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="m">
             </calcite-pagination>
           </div>
 
@@ -164,8 +208,7 @@
             ></calcite-pagination>
           </div>
           <div class="child">
-            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="l"
-              >Hello
+            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="l">
             </calcite-pagination>
           </div>
 
@@ -204,7 +247,7 @@
               page-size="100"
               start-item="1"
               scale="s"
-              >Hello
+            >
             </calcite-pagination>
           </div>
 
@@ -243,7 +286,7 @@
               page-size="100"
               start-item="1"
               scale="m"
-              >Hello
+            >
             </calcite-pagination>
           </div>
 
@@ -282,7 +325,7 @@
               page-size="100"
               start-item="1"
               scale="l"
-              >Hello
+            >
             </calcite-pagination>
           </div>
 
