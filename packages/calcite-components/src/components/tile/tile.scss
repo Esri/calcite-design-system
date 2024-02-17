@@ -150,7 +150,8 @@
     padding: var(--calcite-spacing-xl);
   }
 }
-:host(:not([embed])[href]:hover) {
+:host(:not([embed])[href]:hover),
+:host(:not([embed])[href]:focus) {
   --calcite-tile-border-color: var(--calcite-color-brand);
   .container {
     box-shadow: 0 0 0 2px var(--calcite-tile-border-color);
