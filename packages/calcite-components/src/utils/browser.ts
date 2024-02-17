@@ -21,3 +21,13 @@ export function getUserAgentString(): string {
     ? uaData.brands.map(({ brand, version }) => `${brand}/${version}`).join(" ")
     : navigator.userAgent;
 }
+
+const mobileUserAgentPattern = /Mobi|Android|iP(hone|ad)/i;
+
+export function isMobile(): boolean {
+  if (!Build.isBrowser) {
+    return false;
+  }
+
+  return getUserAgentData()?.mobile || mobileUserAgentPattern.test(navigator.userAgent);
+}

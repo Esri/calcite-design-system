@@ -40,6 +40,7 @@ import {
   calciteSize44,
 } from "@esri/calcite-design-tokens/dist/es6/core";
 import { CSS_UTILITY } from "../../utils/resources";
+import { isMobile } from "../../utils/browser";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -478,7 +479,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   private onTabTitleWheel = (event: WheelEvent): void => {
     event.preventDefault();
-    const scrollByX = (this.dir === "rtl" ? -1 : 1) * event.deltaY;
+    const scrollByX = (this.dir === "rtl" ? -1 : 1) * (isMobile() ? event.deltaX : event.deltaY);
     (event.currentTarget as HTMLDivElement).scrollBy(scrollByX, 0);
     requestAnimationFrame(() => this.updateActiveIndicator());
   };
