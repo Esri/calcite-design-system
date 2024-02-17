@@ -1,0 +1,58 @@
+@mixin xButton() {
+  .x-button {
+    appearance: none;
+    align-content: center;
+    cursor: pointer;
+    display: flex;
+    outline-color: transparent;
+    align-items: center;
+    justify-content: center;
+    margin: 0px;
+    align-self: center;
+    color: var(--calcite-color-text-3);
+    transition:
+      all var(--calcite-animation-timing) ease-in-out 0s,
+      outline 0s,
+      outline-offset 0s;
+    border-width: var(--calcite-border-width-md);
+    border-radius: 50%;
+    border-color: transparent;
+    background-color: var(--calcite-color-foreground-2);
+
+    &:active,
+    &:hover {
+      color: var(--calcite-color-text-1);
+      background-color: var(--calcite-color-foreground-3);
+    }
+
+    &:active {
+      border-style: solid;
+      border-color: var(--calcite-color-brand);
+    }
+
+    & calcite-icon {
+      color: inherit;
+    }
+  }
+
+  :host([scale="s"]) {
+    .x-button {
+      inline-size: var(--calcite-spacing-sm);
+      block-size: var(--calcite-spacing-sm);
+    }
+  }
+
+  :host([scale="m"]) {
+    .x-button {
+      inline-size: var(--calcite-spacing-lg);
+      block-size: var(--calcite-spacing-lg);
+    }
+  }
+
+  :host([scale="l"]) {
+    .x-button {
+      inline-size: var(--calcite-spacing-xxl);
+      block-size: var(--calcite-spacing-xxl);
+    }
+  }
+}
