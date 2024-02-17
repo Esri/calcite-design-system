@@ -75,25 +75,6 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
   }
 }
 
-:host([bordered]) .scroll-button-container {
-  box-shadow: inset 0 1px 0 var(--calcite-ui-border-1);
-}
-
-:host([bordered]:not([position="bottom"])) .scroll-button-container {
-  margin-block-end: -1px;
-}
-
-:host([bordered][position="bottom"]) .scroll-button-container {
-  box-shadow:
-    inset 0 1px 0 var(--calcite-ui-border-1),
-    inset 0 -1px 0 var(--calcite-ui-border-1);
-}
-
-:host([bordered]) .scroll-button-container {
-  @apply border-color-1 border border-solid;
-  border-block-end: none;
-}
-
 .tab-nav::-webkit-scrollbar {
   display: none;
   -ms-overflow-style: none;
@@ -148,41 +129,49 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
 // prevent indicator overflow in horizontal scrolling situations
 .tab-nav-active-indicator-container {
   @apply absolute
-    inset-x-0
     bottom-0
     h-0.5
-    w-full
-    overflow-hidden;
+    inset-x-0
+    overflow-hidden
+    top-0
+    w-full;
 }
 
 .tab-nav-active-indicator {
-  @apply bg-brand
-    absolute
+  @apply absolute
+    bg-brand
     bottom-0
     block
     h-0.5
-    transition-all
-    ease-out;
+    ease-out
+    transition-all;
 }
 
 .scroll-button-container {
-  @apply absolute;
-}
+  @apply absolute bottom-0 top-0;
 
-.scroll-button-container:not([hidden]) {
-  inline-size: 32px;
-  block-size: 32px;
-  justify-content: center;
-  align-content: center;
-  @apply flex overflow-hidden;
+  calcite-button {
+    --calcite-offset-invert-focus: 1;
+    --calcite-color-text-1: var(--calcite-color-text-3);
+
+    block-size: 100%;
+
+    &:hover {
+      --calcite-color-text-1: unset;
+      --calcite-color-foreground-1: var(--calcite-color-transparent-hover);
+      --calcite-color-foreground-3: var(--calcite-color-transparent);
+    }
+  }
 }
 
 .scroll-button-container--forward {
   inset-inline-end: 0;
+  z-index: var(--calcite-z-index);
 }
 
 .scroll-button-container--backward {
   inset-inline-start: 0;
+  z-index: var(--calcite-z-index);
 }
 
 :host(:not([bordered])) {
