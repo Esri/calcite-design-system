@@ -8,8 +8,6 @@
  * @prop --calcite-text-area-background-color: Specifies the background color of the component.
  * @prop --calcite--text-area-border-block-end-color: Specifies the border block end color of the component.
  * @prop --calcite-text-area-border-color: Specifies the border color of the component.
- * @prop --calcite-text-area-footer-min-block-size : Specifies minimum `block-size` of the footer in the component.
- * @prop --calcite-text-area-min-inline-size: Specifies the mininmum `inline-size` of the component. Defaults to `192px` and increases to `288px` when `footer` is added.
  * @prop --calcite-text-area-character-limit-text-color: Specifies the color of the character limit text displayed in footer of the component.
  * @prop --calcite-text-area-text-color: Specifies the color of text in the component.
  *
@@ -24,8 +22,8 @@
   --calcite-text-area-background-color: var(--calcite-color-foreground-1);
   --calcite-text-area-border-color: var(--calcite-color-border-input);
   --calcite-text-area-border-block-end-color: var(--calcite-color-border-3);
-  --calcite-text-min-inline-size: var(--calcite-size-192);
-  --calcite-text-area-footer-min-block-size: var(--calcite-size-36);
+  --calcite-text-area-internal-min-inline-size: var(--calcite-size-192);
+  --calcite-text-area-internal-footer-min-block-size: var(--calcite-size-36);
   --calcite-text-area-character-limit-text-color: var(--calcite-color-text-2);
 }
 
@@ -42,7 +40,7 @@ textarea {
   border-block-end-color: var(--calcite-text-area-border-block-end-color);
   color: var(--calcite-text-area-text-color);
   font-family: var(--calcite-sans-family);
-  min-inline-size: var(--calcite-text-min-inline-size);
+  min-inline-size: var(--calcite-text-area-internal-min-inline-size);
   @media screen and (max-width: 480px) {
     @apply resize-none;
   }
@@ -57,7 +55,7 @@ textarea {
     }
   }
   &.footer--slotted {
-    --calcite-text-min-inline-size: var(--calcite-size-288);
+    --calcite-text-area-internal-min-inline-size: var(--calcite-size-288);
   }
 }
 
@@ -68,7 +66,7 @@ textarea {
   background-color: var(--calcite-text-area-background-color);
   border: var(--calcite-border-width-sm) solid var(--calcite-text-area-border-color);
   border-block-start: var(--calcite-border-width-none);
-  min-block-size: var(--calcite-text-area-footer-min-block-size);
+  min-block-size: var(--calcite-text-area-internal-footer-min-block-size);
 }
 
 .character-limit {
@@ -104,7 +102,7 @@ textarea {
     padding-inline: var(--calcite-spacing-sm);
   }
   .footer {
-    --calcite-text-area-footer-min-block-size: var(--calcite-size-28);
+    --calcite-text-area-internal-footer-min-block-size: var(--calcite-size-28);
   }
   .character-limit {
     @apply text-n2;
@@ -131,7 +129,7 @@ textarea {
     padding-inline: var(--calcite-spacing-xl);
   }
   .footer {
-    --calcite-text-area-footer-min-block-size: var(--calcite-size-44);
+    --calcite-text-area-internal-footer-min-block-size: var(--calcite-size-44);
   }
   .character-limit {
     @apply text-0;
