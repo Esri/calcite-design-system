@@ -717,19 +717,19 @@ export class ListItem
   };
 
   private focusCellHandle = (): void => {
-    this.focusCell(this.handleGridEl);
+    this.handleCellFocusIn(this.handleGridEl);
   };
 
   private focusCellActionsStart = (): void => {
-    this.focusCell(this.actionsStartEl);
+    this.handleCellFocusIn(this.actionsStartEl);
   };
 
   private focusCellContent = (): void => {
-    this.focusCell(this.contentEl);
+    this.handleCellFocusIn(this.contentEl);
   };
 
   private focusCellActionsEnd = (): void => {
-    this.focusCell(this.actionsEndEl);
+    this.handleCellFocusIn(this.actionsEndEl);
   };
 
   private emitCalciteInternalListItemChange(): void {
@@ -894,7 +894,16 @@ export class ListItem
     this.focusCell(null);
   };
 
-  private focusCell = (focusEl: HTMLTableCellElement, saveFocusIndex = true): void => {
+  private handleCellFocusIn = (focusEl: HTMLTableCellElement): void => {
+    this.setFocusCell(focusEl, getFirstTabbable(focusEl), true);
+  };
+
+  // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
+  private setFocusCell = (
+    focusEl: HTMLTableCellElement | null,
+    focusedEl: HTMLElement,
+    saveFocusIndex: boolean,
+  ): void => {
     const { parentListEl } = this;
 
     if (saveFocusIndex) {
@@ -908,15 +917,21 @@ export class ListItem
       tableCell.removeAttribute(activeCellTestAttribute);
     });
 
-    const focusedEl = getFirstTabbable(focusEl);
-
-    // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
-    if (focusEl) {
-      focusEl.tabIndex = focusEl === focusedEl ? 0 : -1;
-      saveFocusIndex && focusMap.set(parentListEl, gridCells.indexOf(focusEl));
-      focusEl.setAttribute(activeCellTestAttribute, "");
+    if (!focusEl) {
+      return;
     }
 
+    focusEl.tabIndex = focusEl === focusedEl ? 0 : -1;
+    focusEl.setAttribute(activeCellTestAttribute, "");
+
+    if (saveFocusIndex) {
+      focusMap.set(parentListEl, gridCells.indexOf(focusEl));
+    }
+  };
+
+  private focusCell = (focusEl: HTMLTableCellElement | null, saveFocusIndex = true): void => {
+    const focusedEl = getFirstTabbable(focusEl);
+    this.setFocusCell(focusEl, focusedEl, saveFocusIndex);
     focusedEl?.focus();
   };
 }
