@@ -957,6 +957,7 @@ export const nestingLists_TestOnly = (): string => html`<h4>Nesting List Items</
 
 const themingStyle = `<style>
     .custom-list {
+      --calcite-ui-focus-color: red;
       --calcite-list-background-color: lightblue;
       --calcite-list-border-color: red;
       --calcite-list-header-z-index: 998;
