@@ -155,6 +155,8 @@
   .container {
     box-shadow: 0 0 0 2px var(--calcite-tile-border-color);
     cursor: pointer;
+    position: relative;
+    z-index: var(--calcite-z-index);
   }
 }
 :host(:not([embed])[href]:active) {
