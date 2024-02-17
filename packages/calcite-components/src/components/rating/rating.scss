@@ -3,16 +3,16 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-rating-spacing-unit: The amount of left and right margin spacing between each rating item.
+ * @prop --calcite-rating-spacing-unit: The amount spacing between rating items.
  * @prop --calcite-rating-outline-color: Specifies the outline color for a rating item.
  * @prop --calcite-rating-outline-color-hover: Specifies the outline color for a rating item while hovered.
- * @prop --calcite-rating-value-fill-color: Specifies the fill color for for value of the component.
- * @prop --calcite-rating-average-fill-color: Specifies the fill color for average of the component.
- * @prop --calcite-rating-chip-background-color: Specifies the background color of the component.
- * @prop --calcite-rating-chip-border-color: Specifies the border color of the component.
- * @prop --calcite-rating-chip-shadow: Specifies the box shadow of the component.
- * @prop --calcite-rating-chip-corner-radius: Specifies the corner radius of the component.
- * @prop --calcite-rating-chip-text-color: Specifies the color of the component's `"default"` slot.
+ * @prop --calcite-rating-value-fill-color: Specifies the fill color for a rating item with value.
+ * @prop --calcite-rating-average-fill-color: Specifies the fill color for a rating item with average.
+ * @prop --calcite-rating-chip-background-color: Specifies the background color of the component's `show-chip` display.
+ * @prop --calcite-rating-chip-border-color: Specifies the border color of the component's `show-chip` display.
+ * @prop --calcite-rating-chip-shadow: Specifies the box shadow of the component's `show-chip` display.
+ * @prop --calcite-rating-chip-corner-radius: Specifies the corner radius of the component's `show-chip` display.
+ * @prop --calcite-rating-chip-text-color: Specifies the color of the component's `show-chip` display.
  *
  */
 
