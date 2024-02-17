@@ -1,3 +1,5 @@
+@import "../../assets/styles/animation";
+
 /**
  * CSS Custom Properties
  *
@@ -15,9 +17,7 @@
 }
 
 @include disabled();
-
-@import "../../assets/styles/animation";
-@import "../../assets/styles/header";
+@include header();
 
 .header {
   @apply justify-start p-0;

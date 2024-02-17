@@ -1,20 +1,22 @@
-/* Shared styles for header elements */
-.header {
-  color: var(--calcite-color-text-2);
-  fill: var(--calcite-color-text-2);
-  margin: 0px;
-  display: flex;
-  align-content: space-between;
-  align-items: center;
-}
+@mixin header() {
+  /* Shared styles for header elements */
+  .header {
+    color: var(--calcite-color-text-2);
+    fill: var(--calcite-color-text-2);
+    margin: 0px;
+    display: flex;
+    align-content: space-between;
+    align-items: center;
+  }
 
-.heading {
-  margin: 0px;
-  padding: 0px;
-  font-weight: var(--calcite-font-weight-medium);
-}
+  .heading {
+    margin: 0px;
+    padding: 0px;
+    font-weight: var(--calcite-font-weight-medium);
+  }
 
-.header .heading {
-  flex: 1 1 auto;
-  padding: var(--calcite-spacing-xxs);
+  .header .heading {
+    flex: 1 1 auto;
+    padding: var(--calcite-spacing-xxs);
+  }
 }
