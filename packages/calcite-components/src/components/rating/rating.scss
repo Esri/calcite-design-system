@@ -16,14 +16,6 @@
  *
  */
 
-/**
-  * Local props
-  * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
-  *
-  * --calcite-internal-meter-fill-color
-  * --calcite-internal-meter-background-color
-*/
-
 :host {
   @apply relative flex items-center;
   inline-size: fit-content;
