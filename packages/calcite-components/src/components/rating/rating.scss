@@ -29,21 +29,16 @@
   --calcite-rating-chip-corner-radius: 9999px;
 }
 
-@include disabled();
-
 :host([scale="s"]) {
-  @apply h-6;
-  --calcite-rating-spacing-unit: theme("spacing.1");
+  --calcite-rating-spacing-unit: var(--calcite-size-xxs);
 }
 
 :host([scale="m"]) {
-  @apply h-8;
-  --calcite-rating-spacing-unit: theme("spacing.2");
+  --calcite-rating-spacing-unit: var(--calcite-size-xs);
 }
 
 :host([scale="l"]) {
-  @apply h-11;
-  --calcite-rating-spacing-unit: theme("spacing.3");
+  --calcite-rating-spacing-unit: var(--calcite-size-sm);
 }
 
 :host([read-only]) {
@@ -55,7 +50,6 @@
   display: flex;
   border-width: 0;
   padding: 0;
-  aligns: center;
   gap: var(--calcite-rating-spacing-unit);
 }
 
@@ -125,3 +119,4 @@ calcite-chip {
 
 @include hidden-form-input();
 @include base-component();
+@include disabled();
