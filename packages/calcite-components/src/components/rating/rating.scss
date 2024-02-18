@@ -23,6 +23,8 @@
   *
   * --calcite-internal-rating-chip-text-spacing
   * --calcite-internal-rating-spacing
+  * --calcite-internal-rating-block-size
+
 
 */
 
@@ -45,6 +47,7 @@
     var(--calcite-rating-spacing, var(--calcite-size-xxs))
   );
   --calcite-internal-rating-chip-text-spacing: var(--calcite-size-sm);
+  --calcite-internal-rating-block-size: var(--calcite-size-xxl);
 }
 
 :host([scale="m"]) {
@@ -53,6 +56,7 @@
     var(--calcite-rating-spacing, var(--calcite-size-sm))
   );
   --calcite-internal-rating-chip-text-spacing: var(--calcite-size-sm);
+  --calcite-internal-rating-block-size: var(--calcite-size-xxxl);
 }
 
 :host([scale="l"]) {
@@ -61,6 +65,7 @@
     var(--calcite-rating-spacing, var(--calcite-size-md))
   );
   --calcite-internal-rating-chip-text-spacing: var(--calcite-size-sm);
+  --calcite-internal-rating-block-size: 44px;
 }
 
 :host([read-only]) {
@@ -74,6 +79,7 @@
   padding: 0;
   align-items: center;
   gap: var(--calcite-internal-rating-spacing);
+  block-size: var(--calcite-internal-rating-block-size);
 }
 
 .wrapper {
