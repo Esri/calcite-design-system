@@ -5,17 +5,15 @@
 *
 * These properties can be overridden using the component's tag as selector.
 *
-* @prop --calcite-progress-background-color: defines the background color of the component.
-* @prop --calcite-progress-bar-background-color: defines the background color of the progress bar.
-* @prop --calcite-progress-text-color: defines the text color of the component.
-* @prop --calcite-progress-z-index: defines the z-index of the component.
+* @prop --calcite-progress-background-color: Defines the background color of the component.
+* @prop --calcite-progress-fill-color: Defines the background color of the progress bar.
+* @prop --calcite-progress-color: Defines the text color of the component.
 */
 
 :host {
   --calcite-progress-background-color: var(--calcite-color-border-3);
-  --calcite-progress-bar-background-color: var(--calcite-color-brand);
-  --calcite-progress-text-color: var(--calcite-color-text-2);
-  --calcite-progress-z-index: var(--calcite-z-index);
+  --calcite-progress-fill-color: var(--calcite-color-brand);
+  --calcite-progress-color: var(--calcite-color-text-2);
 
   @apply relative block;
   inline-size: var(--calcite-container-size-content-fluid);
@@ -23,20 +21,20 @@
 
 .track,
 .bar {
-  @apply absolute top-0;
+  @apply absolute top-0 z-default;
 
   block-size: var(--calcite-size-xxxs);
-  z-index: var(--calcite-progress-z-index);
 }
 
 .track {
   @apply overflow-hidden;
+
   inline-size: var(--calcite-container-size-content-fluid);
   background-color: var(--calcite-progress-background-color);
 }
 
 .bar {
-  background-color: var(--calcite-progress-bar-background-color);
+  background-color: var(--calcite-progress-fill-color);
 }
 
 @media (forced-colors: active) {
@@ -65,7 +63,7 @@
   @apply text-n2h px-0 pt-4 pb-0 text-center font-medium;
 
   font-size: theme("fontSize.n2h");
-  color: var(--calcite-progress-text-color);
+  color: var(--calcite-progress-color);
 }
 
 @keyframes looping-progress-bar-ani {
