@@ -90,6 +90,7 @@
     p-0;
 
   gap: var(--calcite-combobox-item-spacing-unit-s);
+  margin-inline-end: var(--calcite-combobox-item-spacing-unit-s);
 
   &.selection-display-fit,
   &.selection-display-single {
@@ -116,6 +117,7 @@
   &:focus {
     @apply outline-none;
   }
+
   &:placeholder-shown {
     @apply text-ellipsis;
   }
