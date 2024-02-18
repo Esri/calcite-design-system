@@ -24,8 +24,8 @@
   * Local props
   * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
   *
-  * --calcite-internal-pagination-min-inline-size
-  * --calcite-internal-pagination-block-size
+  * --calcite-internal-pagination-item-size
+  * --calcite-internal-pagination-item-space
 */
 
 :host {
@@ -47,29 +47,30 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-pagination-min-inline-size: theme("width.6");
-  --calcite-internal-pagination-block-size: theme("height.6");
+  --calcite-internal-pagination-item-size: theme("width.6");
+  --calcite-internal-pagination-item-space: theme("width.1");
+
   & .chevron,
   & .page,
   & .ellipsis {
-    @apply text-n2h  px-1;
+    @apply text-n2h;
   }
 }
 
 :host([scale="m"]) {
-  --calcite-internal-pagination-min-inline-size: theme("width.8");
-  --calcite-internal-pagination-block-size: theme("height.8");
+  --calcite-internal-pagination-item-size: theme("width.8");
+  --calcite-internal-pagination-item-space: theme("width.2");
 
   & .chevron,
   & .page,
   & .ellipsis {
-    @apply text-n1h px-2;
+    @apply text-n1h;
   }
 }
 
 :host([scale="l"]) {
-  --calcite-internal-pagination-min-inline-size: theme("width.11");
-  --calcite-internal-pagination-block-size: theme("height.11");
+  --calcite-internal-pagination-item-size: theme("width.11");
+  --calcite-internal-pagination-item-space: theme("width.3");
 
   & .chevron,
   & .page,
@@ -80,17 +81,12 @@
   & .chevron {
     @apply px-2.5;
   }
-
-  & .page,
-  & .ellipsis {
-    @apply px-3;
-  }
 }
 .chevron,
 .page,
 .ellipsis {
-  min-inline-size: var(--calcite-internal-pagination-min-inline-size);
-  block-size: var(--calcite-internal-pagination-block-size);
+  inline-size: var(--calcite-internal-pagination-item-size);
+  block-size: var(--calcite-internal-pagination-item-size);
 }
 
 // focus styles
@@ -115,6 +111,7 @@
     align-baseline;
   padding: 0;
   margin: 0;
+  padding-inline: var(--calcite-internal-pagination-item-space);
   color: var(--calcite-pagination-text-color);
   background-color: var(--calcite-pagination-background-color);
 }
