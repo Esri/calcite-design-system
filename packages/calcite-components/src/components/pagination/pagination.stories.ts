@@ -130,8 +130,8 @@ export const theming_TestOnly = (): string => html`
     --calcite-pagination-background-color-hover: yellow;
     --calcite-pagination-border-color-selected: green;
     --calcite-pagination-border-color-hover:orange;
-    --calcite-pagination-arrow-text-color: blue;
-    --calcite-pagination-arrow-text-color-hover: pink;
+    --calcite-pagination-arrow-icon-color: blue;
+    --calcite-pagination-arrow-icon-color-hover: pink;
     --calcite-pagination-arrow-background-color: lightyellow;
     --calcite-pagination-arrow-background-color-hover: orange;
     --calcite-pagination-arrow-background-color-active: gold;"
