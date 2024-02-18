@@ -73,8 +73,8 @@ import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 import { DragDetail } from "./utils/sortableComponent";
+import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
-import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail } from "./components/stepper/interfaces";
 import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
@@ -159,8 +159,8 @@ export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 export { DragDetail } from "./utils/sortableComponent";
+export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
-export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail } from "./components/stepper/interfaces";
 export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
@@ -4382,7 +4382,7 @@ export namespace Components {
         /**
           * Defines the layout of the component.
          */
-        "layout": Extract<"horizontal" | "vertical", Layout>;
+        "layout": StepperLayout;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -4453,7 +4453,7 @@ export namespace Components {
         /**
           * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
          */
-        "layout": Extract<"horizontal" | "vertical", Layout>;
+        "layout": StepperLayout;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -4462,10 +4462,6 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": StepperItemMessages;
-        /**
-          * Specifies if the user is viewing one `stepper-item` at a time. Helps in determining if header region is tabbable.
-         */
-        "multipleViewMode": boolean;
         /**
           * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
          */
@@ -4769,7 +4765,6 @@ export namespace Components {
         "messages": TableHeaderMessages;
         "numberCell": boolean;
         "parentRowIsSelected": boolean;
-        "parentRowPosition": number;
         "parentRowType": RowType;
         "positionInRow": number;
         /**
@@ -11882,7 +11877,7 @@ declare namespace LocalJSX {
         /**
           * Defines the layout of the component.
          */
-        "layout"?: Extract<"horizontal" | "vertical", Layout>;
+        "layout"?: StepperLayout;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -11949,7 +11944,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
          */
-        "layout"?: Extract<"horizontal" | "vertical", Layout>;
+        "layout"?: StepperLayout;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -11958,10 +11953,6 @@ declare namespace LocalJSX {
           * Made into a prop for testing purposes only
          */
         "messages"?: StepperItemMessages;
-        /**
-          * Specifies if the user is viewing one `stepper-item` at a time. Helps in determining if header region is tabbable.
-         */
-        "multipleViewMode"?: boolean;
         /**
           * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
          */
@@ -12276,7 +12267,6 @@ declare namespace LocalJSX {
         "messages"?: TableHeaderMessages;
         "numberCell"?: boolean;
         "parentRowIsSelected"?: boolean;
-        "parentRowPosition"?: number;
         "parentRowType"?: RowType;
         "positionInRow"?: number;
         /**
