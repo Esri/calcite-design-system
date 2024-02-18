@@ -34,11 +34,11 @@
 }
 
 :host([scale="m"]) {
-  --calcite-rating-spacing-unit: var(--calcite-size-xs);
+  --calcite-rating-spacing-unit: var(--calcite-size-sm);
 }
 
 :host([scale="l"]) {
-  --calcite-rating-spacing-unit: var(--calcite-size-sm);
+  --calcite-rating-spacing-unit: var(--calcite-size-md);
 }
 
 :host([read-only]) {
@@ -50,6 +50,7 @@
   display: flex;
   border-width: 0;
   padding: 0;
+  align-items: center;
   gap: var(--calcite-rating-spacing-unit);
 }
 
@@ -103,12 +104,12 @@ calcite-chip {
 }
 
 .number--average {
-  font-weight: bold;
+  font-weight: var(--calcite-font-weight-bold);
   color: var(--calcite-rating-chip-text-color, var(--calcite-color-text-1));
 }
 
 .number--count {
-  font-style: italic;
+  font-style: var(--calcite-font-style-emphasis);
   &:not(:first-child) {
     margin-inline-start: var(--calcite-rating-spacing-unit);
   }
