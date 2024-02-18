@@ -47,8 +47,8 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-pagination-item-size: theme("width.6");
-  --calcite-internal-pagination-item-space: theme("width.1");
+  --calcite-internal-pagination-item-size: var(--calcite-size-xxl);
+  --calcite-internal-pagination-item-space: var(--calcite-size-xxs);
 
   & .chevron,
   & .page,
@@ -58,8 +58,8 @@
 }
 
 :host([scale="m"]) {
-  --calcite-internal-pagination-item-size: theme("width.8");
-  --calcite-internal-pagination-item-space: theme("width.2");
+  --calcite-internal-pagination-item-size: var(--calcite-size-xxxl);
+  --calcite-internal-pagination-item-space: var(--calcite-size-sm);
 
   & .chevron,
   & .page,
@@ -69,8 +69,8 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-pagination-item-size: theme("width.11");
-  --calcite-internal-pagination-item-space: theme("width.3");
+  --calcite-internal-pagination-item-size: 44px;
+  --calcite-internal-pagination-item-space: var(--calcite-size-md);
 
   & .chevron,
   & .page,
@@ -81,12 +81,6 @@
   & .chevron {
     @apply px-2.5;
   }
-}
-.chevron,
-.page,
-.ellipsis {
-  inline-size: var(--calcite-internal-pagination-item-size);
-  block-size: var(--calcite-internal-pagination-item-size);
 }
 
 // focus styles
@@ -111,6 +105,8 @@
     align-baseline;
   padding: 0;
   margin: 0;
+  min-inline-size: var(--calcite-internal-pagination-item-size);
+  block-size: var(--calcite-internal-pagination-item-size);
   padding-inline: var(--calcite-internal-pagination-item-space);
   color: var(--calcite-pagination-text-color);
   background-color: var(--calcite-pagination-background-color);
