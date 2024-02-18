@@ -123,17 +123,20 @@ export const theming_TestOnly = (): string => html`
     page-size="100"
     start-item="1"
     style="
-    --calcite-pagination-text-color: green;
-    --calcite-pagination-text-color-hover: darkgreen;
-    --calcite-pagination-text-color-selected:teal;
-    --calcite-pagination-background-color: lightyellow;
-    --calcite-pagination-background-color-hover: yellow;
-    --calcite-pagination-border-color-selected: green;
-    --calcite-pagination-border-color-hover:orange;
-    --calcite-pagination-arrow-icon-color: blue;
-    --calcite-pagination-arrow-icon-color-hover: pink;
-    --calcite-pagination-arrow-background-color: lightyellow;
-    --calcite-pagination-arrow-background-color-hover: orange;
-    --calcite-pagination-arrow-background-color-active: gold;"
+      --calcite-pagination-text-color: green;
+      --calcite-pagination-text-color-hover: darkgreen;
+      --calcite-pagination-text-color-selected: teal;
+      --calcite-pagination-background-color: lightyellow;
+      --calcite-pagination-background-color-hover: yellow;
+      --calcite-pagination-background-color-active: gold;
+      --calcite-pagination-border-color-selected: green;
+      --calcite-pagination-border-color-hover: orange;
+      --calcite-pagination-arrow-icon-color: blue;
+      --calcite-pagination-arrow-icon-color-hover: pink;
+      --calcite-pagination-arrow-icon-color-active: red;
+      --calcite-pagination-arrow-background-color: lightyellow;
+      --calcite-pagination-arrow-background-color-hover: orange;
+      --calcite-pagination-arrow-background-color-active: gold;
+    "
   ></calcite-pagination>
 `;

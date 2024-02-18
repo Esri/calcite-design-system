@@ -15,6 +15,7 @@
  * @prop --calcite-pagination-arrow-background-color-active: Specifies the background color of the arrow items while active.
  * @prop --calcite-pagination-arrow-background-color-hover: Specifies the background color of the arrow items while hovered.
  * @prop --calcite-pagination-arrow-background-color: Specifies the background color of the arrow items.
+ * @prop --calcite-pagination-arrow-icon-color-active: Specifies the icon color of the arrow items while active.
  * @prop --calcite-pagination-arrow-icon-color-hover: Specifies the icon color of the arrow items while hovered.
  * @prop --calcite-pagination-arrow-icon-color: Specifies the icon color of the arrow items.
  *
@@ -42,6 +43,7 @@
   --calcite-pagination-arrow-background-color-active: var(--calcite-color-foreground-3);
   --calcite-pagination-arrow-background-color-hover: var(--calcite-color-foreground-2);
   --calcite-pagination-arrow-background-color: var(--calcite-pagination-background-color);
+  --calcite-pagination-arrow-icon-color-active: var(--calcite-color-brand);
   --calcite-pagination-arrow-icon-color-hover: var(--calcite-color-brand);
   --calcite-pagination-arrow-icon-color: var(--calcite-pagination-text-color);
 }
@@ -123,7 +125,7 @@
     background-color: var(--calcite-pagination-background-color-hover);
   }
   &:active {
-    background-color: var(--calcite-pagination-border-color-active);
+    background-color: var(--calcite-pagination-background-color-active);
   }
 }
 
@@ -131,6 +133,7 @@
   &:hover {
     border-block-end-color: var(--calcite-pagination-border-color-hover);
   }
+
   &.selected {
     font-weight: var(--calcite-font-weight-medium);
     color: var(--calcite-pagination-text-color-selected);
@@ -146,7 +149,7 @@
   }
   &:active {
     background-color: var(--calcite-pagination-arrow-background-color-active);
-    color: var(--calcite-pagination-arrow-icon-color-hover);
+    color: var(--calcite-pagination-arrow-icon-color-active);
   }
   &.disabled {
     @apply pointer-events-none;
