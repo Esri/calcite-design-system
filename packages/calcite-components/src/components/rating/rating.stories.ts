@@ -59,6 +59,24 @@ export const theming_TestOnly = (): string => html`
   <calcite-rating
     average="2.4"
     count="10"
+    style="--calcite-rating-spacing: 16px;
+        --calcite-rating-outline-color: lightgreen;
+        --calcite-rating-outline-color-hover: darkgreen;
+        --calcite-rating-value-fill-color: green;
+        --calcite-rating-average-fill-color: purple;
+        --calcite-rating-chip-background-color: green;
+        --calcite-rating-chip-border-color: darkgreen;
+        --calcite-rating-chip-shadow: var(--calcite-shadow-md);
+        --calcite-rating-chip-corner-radius: 12px;
+        --calcite-rating-chip-text-color: lightgreen;
+        --calcite-ui-focus-color: red;"
+  ></calcite-rating>
+`;
+
+export const themingDeprecatedCssProp_TestOnly = (): string => html`
+  <calcite-rating
+    average="2.4"
+    count="10"
     style="--calcite-rating-spacing-unit: 16px;
         --calcite-rating-outline-color: lightgreen;
         --calcite-rating-outline-color-hover: darkgreen;
@@ -79,7 +97,7 @@ export const themingTwo_TestOnly = (): string => html`
     show-chip
     average="2.4"
     count="10"
-    style="--calcite-rating-spacing-unit: 16px;
+    style="--calcite-rating-spacing: 16px;
         --calcite-rating-outline-color: lightgreen;
         --calcite-rating-outline-color-hover: darkgreen;
         --calcite-rating-value-fill-color: green;

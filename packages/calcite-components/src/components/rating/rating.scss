@@ -3,7 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-rating-spacing-unit: The amount spacing between rating items.
+ * @prop --calcite-rating-spacing-unit: [Deprecated] Use the `--calcite-rating-spacing` property instead.  The amount of spacing between rating items.
+ * @prop --calcite-rating-spacing: Specifies the amount of spacing between rating items.
  * @prop --calcite-rating-outline-color: Specifies the outline color for a rating item.
  * @prop --calcite-rating-outline-color-hover: Specifies the outline color for a rating item while hovered.
  * @prop --calcite-rating-value-fill-color: Specifies the fill color for a rating item with value.
@@ -15,6 +16,15 @@
  * @prop --calcite-rating-chip-text-color: Specifies the color of the component's `show-chip` display.
  *
  */
+
+/**
+  * Local props
+  * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
+  *
+  * --calcite-internal-rating-chip-text-spacing
+  * --calcite-internal-rating-spacing
+
+*/
 
 :host {
   @apply relative flex items-center;
@@ -30,15 +40,27 @@
 }
 
 :host([scale="s"]) {
-  --calcite-rating-spacing-unit: var(--calcite-size-xxs);
+  --calcite-internal-rating-spacing: var(
+    --calcite-rating-spacing-unit,
+    var(--calcite-rating-spacing, var(--calcite-size-xxs))
+  );
+  --calcite-internal-rating-chip-text-spacing: var(--calcite-size-sm);
 }
 
 :host([scale="m"]) {
-  --calcite-rating-spacing-unit: var(--calcite-size-sm);
+  --calcite-internal-rating-spacing: var(
+    --calcite-rating-spacing-unit,
+    var(--calcite-rating-spacing, var(--calcite-size-sm))
+  );
+  --calcite-internal-rating-chip-text-spacing: var(--calcite-size-sm);
 }
 
 :host([scale="l"]) {
-  --calcite-rating-spacing-unit: var(--calcite-size-md);
+  --calcite-internal-rating-spacing: var(
+    --calcite-rating-spacing-unit,
+    var(--calcite-rating-spacing, var(--calcite-size-md))
+  );
+  --calcite-internal-rating-chip-text-spacing: var(--calcite-size-sm);
 }
 
 :host([read-only]) {
@@ -51,7 +73,7 @@
   border-width: 0;
   padding: 0;
   align-items: center;
-  gap: var(--calcite-rating-spacing-unit);
+  gap: var(--calcite-internal-rating-spacing);
 }
 
 .wrapper {
@@ -111,7 +133,7 @@ calcite-chip {
 .number--count {
   font-style: var(--calcite-font-style-emphasis);
   &:not(:first-child) {
-    margin-inline-start: var(--calcite-rating-spacing-unit);
+    margin-inline-start: var(--calcite-internal-rating-chip-text-spacing);
   }
 }
 
