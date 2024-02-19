@@ -1,5 +1,17 @@
+/**
+* CSS Custom Properties  
+*
+* These properties can be overridden using the component's tag as selector.
+*
+* @prop --calcite-handle-text-color: The text color of the component.
+* @prop --calcite-handle-background-color: The background color of the component.
+*/
+
 :host {
   @apply flex;
+
+  --calcite-handle-text-color: var(--calcite-color-text-1);
+  --calcite-handle-background-color: var(--calcite-color-foreground-2);
 }
 
 .handle {
@@ -10,7 +22,7 @@
     self-stretch
     border-none
     bg-transparent;
-  color: theme("borderColor.color.input");
+  color: var(--calcite-color-border-input);
   padding-block: theme("spacing.3");
   padding-inline: theme("spacing.1");
   line-height: 0;
@@ -23,13 +35,17 @@
 :host(:not([disabled])) .handle {
   @apply cursor-move;
   &:hover {
-    @apply bg-foreground-2 text-color-1;
+    background-color: var(--calcite-handle-background-color);
+    color: var(--calcite-handle-text-color);
   }
   &:focus {
-    @apply text-color-1 focus-inset;
+    @apply focus-inset;
+
+    color: var(--calcite-handle-text-color);
   }
   &--selected {
-    @apply bg-foreground-3 text-color-1;
+    background-color: var(--calcite-color-foreground-3);
+    color: var(--calcite-handle-text-color);
   }
 }
 
