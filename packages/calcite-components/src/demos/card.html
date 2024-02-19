@@ -29,8 +29,19 @@
         width: 280px;
       }
 
-      .rounded {
-        --calcite-border-radius-base: 5px;
+      .themed-example calcite-card {
+        --calcite-card-corner-radius: var(--calcite-corner-radius-round);
+        --calcite-card-background-color: var(--calcite-color-foreground-2);
+        --calcite-card-border-color: var(--calcite-color-status-success);
+        --calcite-card-box-shadow: var(--calcite-shadow-md);
+        --calcite-card-accent-color-selected: purple;
+        --calcite-card-selection-background-color: lightgrey;
+        --calcite-card-selection-background-color-hover: grey;
+        --calcite-card-selection-background-color-active: red;
+        --calcite-card-selection-background-color-selected: pink;
+        --calcite-card-selection-icon-color: white;
+        --calcite-card-selection-icon-color-hover: yellow;
+        --calcite-card-selection-icon-color-selected: purple;
       }
     </style>
     <script src="_assets/head.js"></script>
@@ -178,9 +189,9 @@
           </calcite-card-group>
         </div>
 
-        <div class="child">Not a lot of content and round</div>
-        <div class="child rounded">
-          <calcite-card-group label="label">
+        <div class="child">Not a lot of content and themed</div>
+        <div class="child">
+          <calcite-card-group label="label" class="themed-example">
             <calcite-card label="test card">
               <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
               <span slot="description"

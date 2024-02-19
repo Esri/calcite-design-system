@@ -1,21 +1,52 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-card-background-color: Specifies the background color of the component.
+ * @prop --calcite-card-border-color: Specifies the border color of the component.
+ * @prop --calcite-card-box-shadow: Specifies the box shadow of the component.
+ * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-card-accent-color-selected: Specifies the accent color of the component when `selected`.
+ * @prop --calcite-card-selection-background-color: Specifies the background color of the component's selection element.
+ * @prop --calcite-card-selection-background-color-hover: Specifies the background color of the component's selection element when hovered.
+ * @prop --calcite-card-selection-background-color-active: Specifies the background color of the component's selection element when active.
+ * @prop --calcite-card-selection-background-color-selected: Specifies the icon color of the component's selection element when `selected`.
+ * @prop --calcite-card-selection-icon-color: Specifies the icon color of the component's selection element.
+ * @prop --calcite-card-selection-icon-color-hover: Specifies the icon color of the component's selection element when hovered.
+ * @prop --calcite-card-selection-icon-color-selected: Specifies the icon color of the component's selection element when `selected`.
+ *
+ */
+
 :host {
-  @apply block max-w-full h-full;
+  @apply block max-w-full;
+  --calcite-card-corner-radius: var(--calcite-corner-radius-sharp);
+  --calcite-card-background-color: var(--calcite-color-foreground-1);
+  --calcite-card-border-color: var(--calcite-color-border-3);
+  --calcite-card-box-shadow: var(--calcite-shadow-none);
+  --calcite-card-accent-color-selected: var(--calcite-color-brand);
+  --calcite-card-selection-background-color: transparent;
+  --calcite-card-selection-background-color-hover: var(--calcite-color-transparent-hover);
+  --calcite-card-selection-background-color-active: var(--calcite-color-transparent-press);
+  --calcite-card-selection-background-color-selected: transparent;
+  --calcite-card-selection-icon-color: var(--calcite-color-text-3);
+  --calcite-card-selection-icon-color-hover: var(--calcite-color-text-2);
+  --calcite-card-selection-icon-color-selected: var(--calcite-color-brand);
 }
 
 .content-wrapper {
-  @apply bg-foreground-1
-    border-color-2  
-    text-color-3
-    relative
+  @apply relative
     flex
     h-full
     flex-col
     justify-between
-    border
-    border-solid
-    shadow-none
+    duration-150
+    ease-in-out
     overflow-hidden;
-  border-radius: var(--calcite-border-radius-base);
+  border: var(--calcite-border-width-sm) solid var(--calcite-card-border-color);
+  border-radius: var(--calcite-card-corner-radius);
+  background-color: var(--calcite-card-background-color);
+  box-shadow: var(--calcite-card-box-shadow);
   pointer-events: none;
 }
 
@@ -39,22 +70,23 @@
 }
 
 :host([loading]) .content-wrapper *:not(calcite-loader):not(.calcite-card-loader-container) {
-  @apply pointer-events-none opacity-0;
+  @apply pointer-events-none;
+  opacity: $calcite-opacity-0;
 }
 
 :host([loading]) .calcite-card-loader-container {
-  @apply absolute
-    inset-0
-    flex
-    items-center;
-}
-
-.footer {
-  @apply flex px-3 pt-3 pb-1 mt-auto;
+  @apply absolute inset-0 flex items-center;
 }
 
 .header {
   @apply flex flex-row items-start;
+}
+
+.footer {
+  @apply flex mt-auto flex-row content-between justify-between;
+  padding-inline: var(--calcite-spacing-md);
+  padding-block-start: var(--calcite-spacing-xxs);
+  padding-block-end: var(--calcite-spacing-md);
 }
 
 .header-text-container {
@@ -81,7 +113,7 @@
 }
 
 :host([selected]) .content-wrapper {
-  box-shadow: inset 0 -4px 0 0 var(--calcite-ui-brand);
+  box-shadow: inset 0 -4px 0 0 var(--calcite-card-accent-color-selected);
 }
 
 // to be removed in future release
@@ -97,15 +129,12 @@
     font-medium;
 }
 
+// to be removed in future release
 @include slotted("subtitle", "*") {
   @apply text-color-2
     text-n2-wrap
     m-0 mt-0.5
     font-normal;
-}
-
-@include slotted("", "*") {
-  @apply pointer-events-auto;
 }
 
 @include slotted("heading", "*") {
@@ -129,33 +158,36 @@
 @include slotted("footer-start", "*") {
   @apply text-n2-wrap self-center;
   margin-inline-end: auto;
+  color: var(--calcite-color-text-3);
 }
 
 @include slotted("footer-end", "*") {
   @apply text-n2-wrap self-center;
+  color: var(--calcite-color-text-3);
 }
 
 // to be removed in future release
 .checkbox-wrapper-deprecated {
-  @apply absolute m-0 p-0 pointer-events-auto;
-  inset-block-start: theme("spacing.2");
-  inset-inline-end: theme("spacing.2");
+  @apply absolute pointer-events-auto;
+  inset-block-start: var(--calcite-spacing-sm);
+  inset-inline-end: var(--calcite-spacing-sm);
+  margin: 0;
+  padding: 0;
 }
 
 .checkbox-wrapper {
   @apply m-2 p-2 focus-base cursor-pointer pointer-events-auto;
-  background-color: transparent;
+  background-color: var(--calcite-card-selection-background-color);
   display: flex;
   align-items: center;
   justify-items: center;
-  color: var(--calcite-color-text-2);
-  &:focus,
+  --calcite-ui-icon-color: var(--calcite-card-selection-icon-color);
   &:hover {
-    background-color: var(--calcite-color-transparent-hover);
-    color: var(--calcite-color-brand);
+    background-color: var(--calcite-card-selection-background-color-hover);
+    --calcite-ui-icon-color: var(--calcite-card-selection-icon-color-hover);
   }
   &:active {
-    background-color: var(--calcite-color-transparent-press);
+    background-color: var(--calcite-card-selection-background-color-active);
   }
   & calcite-icon {
     pointer-events: none;
@@ -163,8 +195,14 @@
 }
 
 :host([selected]) .checkbox-wrapper {
-  --calcite-ui-icon-color: var(--calcite-ui-brand);
-  --calcite-ui-border-3: var(--calcite-ui-brand);
+  --calcite-ui-icon-color: var(--calcite-card-selection-icon-color-selected);
+  background-color: var(--calcite-card-selection-background-color-selected);
+  &:hover {
+    background-color: var(--calcite-card-selection-background-color-hover);
+  }
+  &:active {
+    background-color: var(--calcite-card-selection-background-color-active);
+  }
 }
 
 .thumbnail-wrapper {
