@@ -316,8 +316,8 @@
     @apply border-color-danger;
   }
 }
-:host([layout="horizontal"][selected][multiple-view-mode]),
-:host([layout="horizontal-single"][selected][multiple-view-mode]) {
+:host([layout="horizontal"][selected]),
+:host([layout="horizontal-single"][selected]) {
   .stepper-item-header {
     @apply border-color-brand;
   }
