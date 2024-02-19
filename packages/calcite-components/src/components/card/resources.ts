@@ -9,6 +9,8 @@ export const CSS = {
   checkboxWrapperDeprecated: "checkbox-wrapper-deprecated",
   thumbnailWrapper: "thumbnail-wrapper",
   headerTextContainer: "header-text-container",
+  cardContent: "card-content",
+  hasSlottedContent: "has-slotted-content",
 };
 
 export const SLOTS = {

@@ -41,14 +41,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
       {
-        name: "selectable",
-        commit(): Attribute {
-          this.value = boolean("selectable", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
         name: "thumbnail-position",
         commit(): Attribute {
           this.value = select("thumbnail-position", logicalFlowPosition.values, logicalFlowPosition.defaultValue);
@@ -209,7 +201,7 @@ export const thumbnailRounded = (): string => html`
   </div>
 `;
 
-export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
+export const headerDoesNotOverlapWithCheckboxDeprecated_TestOnly = (): string => html`
   <calcite-card selectable style="width:260px">
     <h3 slot="heading">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
     <span slot="description"
@@ -224,7 +216,7 @@ export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
   </calcite-card>
 `;
 
-export const deprecatedSlots_TestOnly = (): string => html`
+export const deprecatedSlotsSelectable_TestOnly = (): string => html`
   <calcite-card selectable style="width:260px">
     <h3 slot="title">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
     <span slot="subtitle"

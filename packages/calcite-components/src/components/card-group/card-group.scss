@@ -7,7 +7,7 @@
  */
 
 :host {
-  --calcite-card-group-gap: theme("spacing.3");
+  --calcite-card-group-gap: var(--calcite-size-sm);
   display: block;
 }
 

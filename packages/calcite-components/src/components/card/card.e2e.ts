@@ -24,7 +24,7 @@ describe("calcite-card", () => {
 
   describe("accessible when selectable (deprecated)", () => {
     accessible(
-      html`<calcite-card selectable>
+      html`<calcite-card label="example-label" selectable>
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`,
     );
@@ -37,7 +37,7 @@ describe("calcite-card", () => {
   it("renders with default props if none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-card>
+      <calcite-card label="example-label">
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`);
 
@@ -50,7 +50,7 @@ describe("calcite-card", () => {
   it("renders with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-card loading selected disabled>
+      <calcite-card label="example-label" loading selected disabled>
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`);
 
@@ -63,7 +63,7 @@ describe("calcite-card", () => {
   it("renders with selectable (deprecated)", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-card loading selectable>
+      <calcite-card label="example-label" loading selectable>
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`);
 
@@ -74,7 +74,7 @@ describe("calcite-card", () => {
   it("should have a thumbnail container", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-card>
+      <calcite-card label="example-label">
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>
     `);
@@ -87,7 +87,7 @@ describe("calcite-card", () => {
   it("should render a checkbox if selectable (deprecated)", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-card selectable>
+      <calcite-card label="example-label" selectable>
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
         <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
       </calcite-card>
@@ -103,7 +103,7 @@ describe("calcite-card", () => {
       const page = await newE2EPage();
       await page.setContent(`
       <div style="width:260px">
-        <calcite-card selectable>
+        <calcite-card label="example-label" selectable>
           <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
           <span slot="subtitle">
             A great example of a study description that might wrap to a line or two, but isn't overly verbose.
@@ -133,7 +133,7 @@ describe("calcite-card", () => {
   it("should have aria-live attribute set to polite on loader container when loading", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <calcite-card selectable loading>
+      <calcite-card label="example-label" selectable loading>
       <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>
     `);

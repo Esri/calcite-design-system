@@ -17,7 +17,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
+import { getSlotted, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -31,6 +31,8 @@ import { LogicalFlowPosition } from "../interfaces";
 import { CardMessages } from "./assets/card/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { SelectionMode } from "../interfaces";
+import { InteractiveContainer } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding content.
@@ -125,20 +127,20 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
     // remove selectable condition in future release
-    if (event.composedPath()[0] === this.containerEl && !this.selectable) {
-      switch (event.key) {
-        case " ":
-        case "Enter":
-          event.preventDefault();
-          this.calciteCardSelect.emit();
-          break;
-        case "ArrowRight":
-        case "ArrowLeft":
-        case "Home":
-        case "End":
-          this.calciteInternalCardKeyEvent.emit(event);
-          event.preventDefault();
-          break;
+    if (event.composedPath()[0] === this.containerEl && !this.selectable && !this.disabled) {
+      if (isActivationKey(event.key)) {
+        event.preventDefault();
+        this.calciteCardSelect.emit();
+      } else {
+        switch (event.key) {
+          case "ArrowRight":
+          case "ArrowLeft":
+          case "Home":
+          case "End":
+            this.calciteInternalCardKeyEvent.emit(event);
+            event.preventDefault();
+            break;
+        }
       }
     }
   }
@@ -210,14 +212,20 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
 
   @State() defaultMessages: CardMessages;
 
+  @State() private hasContent = false;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
 
+  private handleDefaultSlotChange = (event: Event): void => {
+    this.hasContent = slotChangeHasAssignedElement(event);
+  };
+
   // to be removed in future release
-  private renderCheckbox(): VNode {
+  private renderCheckboxDeprecated(): VNode {
     return (
       <calcite-label class={CSS.checkboxWrapperDeprecated}>
         <calcite-checkbox
@@ -247,8 +255,12 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
     this.calciteCardSelect.emit();
   };
 
-  private cardSelectClick = (): void => {
-    this.calciteCardSelect.emit();
+  private cardSelectClick = (event): void => {
+    if (!this.disabled) {
+      event.preventDefault();
+      this.calciteCardSelect.emit();
+      this.setFocus();
+    }
   };
 
   private renderThumbnail(): VNode {
@@ -269,37 +281,10 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
             ? ICONS.selectedSingle
             : ICONS.unselectedSingle;
 
-    const role =
-      this.selectionMode === "multiple" && this.interactive
-        ? "checkbox"
-        : this.selectionMode !== "none" && this.interactive
-          ? "radio"
-          : this.interactive
-            ? "button"
-            : undefined;
-
     return (
-      <calcite-action
-        aria-checked={
-          this.selectionMode !== "none" && role !== "button" && this.interactive
-            ? toAriaBoolean(this.selected)
-            : undefined
-        }
-        aria-label={
-          role
-            ? `card container ${this.selected ? this.messages.deselect : this.messages.select} ${
-                this.label
-              }`
-            : `card action` + this.label
-        }
-        class={CSS.checkboxWrapper}
-        icon={icon}
-        onClick={this.cardSelectClick}
-        role={role}
-        scale="s"
-        tabIndex={-1}
-        text={` ${this.selected ? this.messages.deselect : this.messages.select} ${this.label}`}
-      />
+      <div class={CSS.checkboxWrapper} onPointerDown={this.cardSelectClick} tabIndex={-1}>
+        <calcite-icon icon={icon} scale="s" />
+      </div>
     );
   }
 
@@ -313,7 +298,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
     const hasDeprecatedHeader = subtitle || title;
     return hasHeader || hasDeprecatedHeader ? (
       <header class={CSS.header}>
-        {this.selectable ? this.renderCheckbox() : null}
+        {this.selectable ? this.renderCheckboxDeprecated() : null}
         <div class={CSS.headerTextContainer}>
           <slot key="heading-slot" name={SLOTS.heading} />
           <slot key="description-slot" name={SLOTS.description} />
@@ -342,7 +327,6 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   render(): VNode {
     const thumbnailInline = this.thumbnailPosition.startsWith("inline");
     const thumbnailStart = this.thumbnailPosition.endsWith("start");
-
     const role =
       this.selectionMode === "multiple" && this.interactive
         ? "checkbox"
@@ -352,41 +336,48 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
             ? "button"
             : undefined;
 
+    const actionTextSelection = `${this.selected ? this.messages.deselect : this.messages.select} ${
+      this.label
+    }`;
+
     return (
       <Host>
-        <div
-          aria-checked={
-            this.selectionMode !== "none" && role !== "button" && this.interactive
-              ? toAriaBoolean(this.selected)
-              : undefined
-          }
-          aria-label={
-            role
-              ? `card action ${this.selected ? this.messages.deselect : this.messages.select} ${
-                  this.label
-                }`
-              : `card action` + this.label
-          }
-          class={{ [CSS.contentWrapper]: true, inline: thumbnailInline }}
-          tabIndex={!this.selectable || this.disabled ? 0 : -1}
-          // eslint-disable-next-line react/jsx-sort-props
-          ref={(el) => (this.containerEl = el)}
-        >
-          {this.loading ? (
-            <div aria-live="polite" class="calcite-card-loader-container">
-              <calcite-loader label={this.messages.loading} />
-            </div>
-          ) : null}
-          {thumbnailStart && this.renderThumbnail()}
-          <section aria-busy={toAriaBoolean(this.loading)} class={{ [CSS.container]: true }}>
-            {this.renderHeader()}
-            <div class="card-content">
-              <slot />
-            </div>
-            {this.renderFooter()}
-          </section>
-          {!thumbnailStart && this.renderThumbnail()}
-        </div>
+        <InteractiveContainer disabled={this.disabled}>
+          <div
+            aria-checked={
+              this.selectionMode !== "none" && role !== "button" && this.interactive
+                ? toAriaBoolean(this.selected)
+                : undefined
+            }
+            aria-disabled={this.disabled}
+            aria-label={role ? actionTextSelection : this.label}
+            class={{ [CSS.contentWrapper]: true, inline: thumbnailInline }}
+            role={role}
+            tabIndex={!this.selectable || this.disabled ? 0 : -1}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={(el) => (this.containerEl = el)}
+          >
+            {this.loading ? (
+              <div aria-live="polite" class="calcite-card-loader-container">
+                <calcite-loader label={this.messages.loading} />
+              </div>
+            ) : null}
+            {thumbnailStart && this.renderThumbnail()}
+            <section aria-busy={toAriaBoolean(this.loading)} class={{ [CSS.container]: true }}>
+              {this.renderHeader()}
+              <div
+                class={{
+                  [CSS.cardContent]: true,
+                  [CSS.hasSlottedContent]: this.hasContent,
+                }}
+              >
+                <slot onSlotchange={this.handleDefaultSlotChange} />
+              </div>
+              {this.renderFooter()}
+            </section>
+            {!thumbnailStart && this.renderThumbnail()}
+          </div>
+        </InteractiveContainer>
       </Host>
     );
   }

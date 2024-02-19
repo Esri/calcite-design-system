@@ -6,7 +6,7 @@ import { CSS } from "../card/resources";
 
 describe("calcite-card-group", () => {
   describe("renders", () => {
-    renders("<calcite-card-group><calcite-card></calcite-card></calcite-card-group>", {
+    renders("<calcite-card-group label='test-label'><calcite-card></calcite-card></calcite-card-group>", {
       display: "block",
     });
   });
@@ -16,43 +16,41 @@ describe("calcite-card-group", () => {
   });
 
   describe("disabled", () => {
-    disabled("<calcite-card-group><calcite-card></calcite-card></calcite-card-group>", {
-      focusTarget: "child",
-    });
+    disabled("<calcite-card-group><calcite-card></calcite-card></calcite-card-group>", { focusTarget: "none" });
   });
 
   describe("is accessible in selection mode none (default)", () => {
     accessible(
-      html`<calcite-card-group label="test-label">
+      html`<calcite-card-group label="test-label-group">
         <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
-        <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
+        <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
       </calcite-card-group>`,
     );
   });
 
   describe("is accessible in selection mode single", () => {
     accessible(
-      html` <calcite-card-group label="test-label" selection-mode="single">
+      html` <calcite-card-group label="test-label-group" selection-mode="single">
         <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
-        <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
+        <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
       </calcite-card-group>`,
     );
   });
 
   describe("is accessible in selection mode single-persist", () => {
     accessible(
-      html`<calcite-card-group label="test-label" selection-mode="single-persist">
+      html`<calcite-card-group label="test-label-group" selection-mode="single-persist">
         <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
-        <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
+        <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
       </calcite-card-group>`,
     );
   });
 
   describe("is accessible in selection mode multiple", () => {
     accessible(
-      html`<calcite-card-group label="test-label" selection-mode="multiple">
+      html`<calcite-card-group label="test-label-group" selection-mode="multiple">
         <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
-        <calcite-card label="test-label"><span slot="heading">Heading</span></calcite-card>
+        <calcite-card label="test-label-2"><span slot="heading">Heading</span></calcite-card>
       </calcite-card-group>`,
     );
   });
@@ -344,7 +342,7 @@ describe("calcite-card-group", () => {
       const card4 = await page.find("#card-4");
       const card5 = await page.find("#card-5");
 
-      card1.click();
+      await page.keyboard.press("Tab");
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toEqual(card1.id);
       expect(await element.getProperty("selectedItems")).toHaveLength(0);

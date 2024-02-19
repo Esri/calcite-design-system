@@ -16,6 +16,11 @@
     shadow-none
     overflow-hidden;
   border-radius: var(--calcite-border-radius-base);
+  pointer-events: none;
+}
+
+::slotted(*) {
+  @apply pointer-events-auto;
 }
 
 :host(:not([selectable])) {
@@ -68,7 +73,11 @@
 }
 
 .card-content {
-  @apply h-auto p-3 text-n2-wrap;
+  @apply h-auto text-n2-wrap;
+}
+
+.has-slotted-content {
+  @apply p-3;
 }
 
 :host([selected]) .content-wrapper {
@@ -93,6 +102,10 @@
     text-n2-wrap
     m-0 mt-0.5
     font-normal;
+}
+
+@include slotted("", "*") {
+  @apply pointer-events-auto;
 }
 
 @include slotted("heading", "*") {
@@ -124,13 +137,29 @@
 
 // to be removed in future release
 .checkbox-wrapper-deprecated {
-  @apply absolute m-0 p-0;
+  @apply absolute m-0 p-0 pointer-events-auto;
   inset-block-start: theme("spacing.2");
   inset-inline-end: theme("spacing.2");
 }
 
 .checkbox-wrapper {
-  @apply m-2;
+  @apply m-2 p-2 focus-base cursor-pointer pointer-events-auto;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  color: var(--calcite-color-text-2);
+  &:focus,
+  &:hover {
+    background-color: var(--calcite-color-transparent-hover);
+    color: var(--calcite-color-brand);
+  }
+  &:active {
+    background-color: var(--calcite-color-transparent-press);
+  }
+  & calcite-icon {
+    pointer-events: none;
+  }
 }
 
 :host([selected]) .checkbox-wrapper {
@@ -163,3 +192,4 @@ slot[name="footer-end"]::slotted(*) {
 }
 
 @include base-component();
+@include disabled();
