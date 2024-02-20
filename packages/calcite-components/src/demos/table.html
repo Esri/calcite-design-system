@@ -239,7 +239,7 @@
     <demo-dom-swapper>
       <calcite-modal id="modal" open>
         <div slot="content" class="table-wrapper">
-          <calcite-table caption="Simple table">
+          <calcite-table caption="Simple">
             <calcite-table-row slot="table-header">
               <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
               <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -390,12 +390,7 @@
           heading="Table"
           style="display: block; width: 300px; margin: 0 auto; border: 1px solid var(--calcite-ui-border-3)"
         >
-          <calcite-table
-            caption="Simple table"
-            open="true"
-            page-size="3"
-            style="width: calc(100% - 1rem); margin: 0.5rem"
-          >
+          <calcite-table caption="Simple" open="true" page-size="3" style="width: calc(100% - 1rem); margin: 0.5rem">
             <calcite-table-row slot="table-header">
               <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
               <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -502,11 +497,7 @@
           heading="Table"
           style="width: 300px; margin: 0 auto; border: 1px solid var(--calcite-ui-border-3)"
         >
-          <calcite-table
-            caption="Simple table"
-            open="true"
-            style="width: calc(100% - 1rem); height: 140px; margin: 0.5rem"
-          >
+          <calcite-table caption="Simple" open="true" style="width: calc(100% - 1rem); height: 140px; margin: 0.5rem">
             <calcite-table-row slot="table-header">
               <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
               <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -609,7 +600,7 @@
             </calcite-table-row>
           </calcite-table>
         </calcite-panel>
-        <calcite-table caption="Simple table" open="true" style="width: 30vw; height: 200px">
+        <calcite-table caption="Simple" open="true" style="width: 30vw; height: 200px">
           <calcite-table-row slot="table-header">
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
             <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -714,19 +705,19 @@
       </div>
       <h3>A11y testing</h3>
 
-      <calcite-table selection-mode="multiple" numbered caption="Accessibility testing table" page-size="10">
+      <calcite-table selection-mode="multiple" numbered caption="Accessibility testing" page-size="10">
         <calcite-action slot="selection-actions" icon="trash"></calcite-action>
         <calcite-action slot="selection-actions" icon="send"></calcite-action>
         <calcite-action slot="selection-actions" icon="copy"></calcite-action>
         <calcite-action slot="selection-actions" icon="plus"></calcite-action>
         <calcite-table-row slot="table-header">
-          <calcite-table-header heading="Column 1"></calcite-table-header>
-          <calcite-table-header heading="Column 2"></calcite-table-header>
-          <calcite-table-header heading="Column 3">
+          <calcite-table-header heading="Example column heading"></calcite-table-header>
+          <calcite-table-header heading="Example heading"></calcite-table-header>
+          <calcite-table-header heading="Heading example">
             <calcite-chip scale="s" appearance="outline-fill" slot="actions-end">slot</calcite-chip>
           </calcite-table-header>
-          <calcite-table-header heading="Column 4"></calcite-table-header>
-          <calcite-table-header heading="Column 5" description="With a description"> </calcite-table-header>
+          <calcite-table-header heading="Example"></calcite-table-header>
+          <calcite-table-header heading="Testing" description="With a description"> </calcite-table-header>
           <calcite-table-header heading="Site visits" alignment="end"></calcite-table-header>
           <calcite-table-header heading="Status"></calcite-table-header>
           <calcite-table-header alignment="center" heading="More"></calcite-table-header>
@@ -1912,7 +1903,7 @@
         </calcite-table-row>
       </calcite-table>
 
-      <h3>Interactive</h3>
+      <h3>Kitchen Sink</h3>
 
       <div style="display: flex; gap: 2em; width: 80vw; margin: 0 auto">
         <div>
@@ -1946,6 +1937,15 @@
             <calcite-chip appearance="outline-fill" value="fixed">Fixed</calcite-chip>
           </calcite-chip-group>
         </div>
+
+        <div>
+          <span>Interaction Mode</span>
+          <calcite-chip-group selection-mode="single-persist" id="interaction-chips">
+            <calcite-chip appearance="outline-fill" selected value="interactive">Interactive</calcite-chip>
+            <calcite-chip appearance="outline-fill" value="static">Static</calcite-chip>
+          </calcite-chip-group>
+        </div>
+
         <div>
           <span>pageSize</span>
           <calcite-label>
@@ -1972,19 +1972,19 @@
         </div>
       </div>
 
-      <calcite-table id="demo-table" caption="Example table" page-size="10">
+      <calcite-table id="demo-table" caption="Example" page-size="10">
         <calcite-action slot="selection-actions" icon="trash"></calcite-action>
         <calcite-action slot="selection-actions" icon="send"></calcite-action>
         <calcite-action slot="selection-actions" icon="copy"></calcite-action>
         <calcite-action slot="selection-actions" icon="plus"></calcite-action>
         <calcite-table-row slot="table-header">
-          <calcite-table-header heading="Column 1"></calcite-table-header>
-          <calcite-table-header heading="Column 2"></calcite-table-header>
-          <calcite-table-header heading="Column 3">
+          <calcite-table-header heading="Example column heading"></calcite-table-header>
+          <calcite-table-header heading="Example heading"></calcite-table-header>
+          <calcite-table-header heading="Heading example">
             <calcite-chip scale="s" appearance="outline-fill" slot="actions-end">slot</calcite-chip>
           </calcite-table-header>
-          <calcite-table-header heading="Column 4"></calcite-table-header>
-          <calcite-table-header heading="Column 5" description="With a description"> </calcite-table-header>
+          <calcite-table-header heading="Example"></calcite-table-header>
+          <calcite-table-header heading="Testing" description="With a description"> </calcite-table-header>
           <calcite-table-header heading="Site visits" alignment="end"></calcite-table-header>
           <calcite-table-header heading="Status"></calcite-table-header>
           <calcite-table-header alignment="center" heading="More"></calcite-table-header>
@@ -3209,13 +3209,13 @@
         <calcite-action slot="selection-actions" icon="copy"></calcite-action>
         <calcite-action slot="selection-actions" icon="plus"></calcite-action>
         <calcite-table-row slot="table-header">
-          <calcite-table-header heading="Column 1"></calcite-table-header>
-          <calcite-table-header heading="Column 2"></calcite-table-header>
-          <calcite-table-header heading="Column 3">
+          <calcite-table-header heading="Example column heading"></calcite-table-header>
+          <calcite-table-header heading="Example heading"></calcite-table-header>
+          <calcite-table-header heading="Heading example">
             <calcite-chip scale="s" appearance="outline-fill" slot="actions-end">slot</calcite-chip>
           </calcite-table-header>
-          <calcite-table-header heading="Column 4"></calcite-table-header>
-          <calcite-table-header heading="Column 5" description="With a description"> </calcite-table-header>
+          <calcite-table-header heading="Example"></calcite-table-header>
+          <calcite-table-header heading="Testing" description="With a description"> </calcite-table-header>
           <calcite-table-header heading="Site visits" alignment="end"></calcite-table-header>
           <calcite-table-header heading="Status"></calcite-table-header>
           <calcite-table-header alignment="center" heading="More"></calcite-table-header>
@@ -3362,7 +3362,35 @@
         </calcite-table-row>
       </calcite-table>
       <h3>Simple</h3>
-      <calcite-table caption="Simple table">
+      <calcite-table caption="Simple">
+        <calcite-table-row slot="table-header">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>
+
+      <h3>Simple interaction-mode="static"</h3>
+      <calcite-table interaction-mode="static" caption="Simple">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -3418,7 +3446,7 @@
       </calcite-table>
 
       <h3>Bordered</h3>
-      <calcite-table bordered caption="Bordered table">
+      <calcite-table bordered caption="Bordered">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -3446,7 +3474,7 @@
       </calcite-table>
 
       <h3>Bordered-striped</h3>
-      <calcite-table bordered striped caption="Bordered-striped table">
+      <calcite-table bordered striped caption="Bordered-striped">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -3475,7 +3503,7 @@
 
       <h3>Various alignments</h3>
       <calcite-table numbered>
-        <calcite-table-row slot="table-header" caption="Various alignments table">
+        <calcite-table-row slot="table-header" caption="Various alignments">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" alignment="end" description="End"></calcite-table-header>
           <calcite-table-header heading="Heading" alignment="center" description="Center"></calcite-table-header>
@@ -3502,7 +3530,7 @@
       </calcite-table>
 
       <h3>Disabled rows</h3>
-      <calcite-table caption="Bordered-striped table">
+      <calcite-table caption="Bordered-striped">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -3560,7 +3588,7 @@
       </calcite-table>
 
       <h3>Numbered</h3>
-      <calcite-table numbered caption="Numbered table">
+      <calcite-table numbered caption="Numbered">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -3588,7 +3616,7 @@
       </calcite-table>
 
       <h3>Numbered</h3>
-      <calcite-table numbered caption="Numbered table">
+      <calcite-table numbered caption="Numbered">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -3622,7 +3650,48 @@
       </calcite-table>
 
       <h3>With rich cell content</h3>
-      <calcite-table numbered caption="With rich cell content table">
+      <calcite-table numbered caption="With rich cell content">
+        <calcite-table-row slot="table-header">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell><calcite-icon icon="layer"></calcite-icon></calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s">Chip</calcite-chip></calcite-table-cell>
+          <calcite-table-cell><calcite-input placeholder="input"></calcite-input></calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell><calcite-input placeholder="input"></calcite-input></calcite-table-cell>
+          <calcite-table-cell
+            ><calcite-chip scale="s">Chip</calcite-chip
+            ><calcite-button kind="neutral">button</calcite-button></calcite-table-cell
+          >
+          <calcite-table-cell><calcite-chip>chip</calcite-chip></calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell><calcite-chip>chip</calcite-chip></calcite-table-cell>
+          <calcite-table-cell><calcite-icon icon="layer"></calcite-icon></calcite-table-cell>
+          <calcite-table-cell
+            ><calcite-chip-group
+              ><calcite-chip>chip</calcite-chip><calcite-chip icon="smile">chip</calcite-chip></calcite-chip-group
+            ></calcite-table-cell
+          >
+        </calcite-table-row>
+        <calcite-table-row slot="table-footer">
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>
+
+      <h3>With rich cell content interaction-mode="static"</h3>
+      <calcite-table interaction-mode="static" numbered caption="With rich cell content">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -3691,7 +3760,7 @@
       </calcite-table>
 
       <h3>Using row-span and col-span</h3>
-      <calcite-table bordered striped caption="Using row-span and col-span table">
+      <calcite-table bordered striped caption="Using row-span and col-span">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description" col-span="7"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -3728,7 +3797,7 @@
       </calcite-table>
 
       <h3>Using row-span and col-span and numbered</h3>
-      <calcite-table bordered striped numbered caption="Using row-span and col-span table">
+      <calcite-table bordered striped numbered caption="Using row-span and col-span">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description" col-span="7"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -3765,7 +3834,7 @@
       </calcite-table>
 
       <h3>Using row-span and col-span</h3>
-      <calcite-table bordered striped caption="Using row-span and col-span table">
+      <calcite-table bordered striped caption="Using row-span and col-span">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header col-span="3" heading="Heading" description="Description"></calcite-table-header>
@@ -3807,7 +3876,7 @@
       </calcite-table>
 
       <h3>Multiple headers using col-span</h3>
-      <calcite-table caption="Multiple headers using col-span table">
+      <calcite-table caption="Multiple headers using col-span">
         <calcite-table-row slot="table-header">
           <calcite-table-header col-span="2" heading="Name"></calcite-table-header>
           <calcite-table-header col-span="2" heading="Information"></calcite-table-header>
@@ -3833,7 +3902,7 @@
       </calcite-table>
 
       <h3>Complex keyboard test with multiple headers, selection, pagination using col-span</h3>
-      <calcite-table caption="Multiple headers using col-span table" bordered>
+      <calcite-table caption="Multiple headers using col-span" bordered>
         <calcite-table-row slot="table-header">
           <calcite-table-header col-span="2" heading="Name"></calcite-table-header>
           <calcite-table-header col-span="2" heading="Information"></calcite-table-header>
@@ -3891,7 +3960,7 @@
       </calcite-table>
 
       <h3>Headers in rows</h3>
-      <calcite-table caption="Headers in rows table">
+      <calcite-table caption="Headers in rows">
         <calcite-table-row>
           <calcite-table-header heading="Heading"></calcite-table-header>
           <calcite-table-cell>cell</calcite-table-cell>
@@ -3919,7 +3988,7 @@
       </calcite-table>
 
       <h3>Headers in rows and table-head</h3>
-      <calcite-table caption="Headers in rows and table-head table">
+      <calcite-table caption="Headers in rows and table-head">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading"></calcite-table-header>
           <calcite-table-header heading="Heading"></calcite-table-header>
@@ -3971,7 +4040,7 @@
       </calcite-table>
 
       <h3>Headers in rows and table-head with selection-mode</h3>
-      <calcite-table selection-mode="multiple" caption="Headers in rows and table-head table">
+      <calcite-table selection-mode="multiple" caption="Headers in rows and table-head">
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading"></calcite-table-header>
           <calcite-table-header heading="Heading"></calcite-table-header>
@@ -4017,7 +4086,7 @@
         </calcite-table-row>
       </calcite-table>
       <h3>selection-mode single</h3>
-      <calcite-table selection-mode="single" caption="selection-mode single table">
+      <calcite-table selection-mode="single" caption="selection-mode single">
         <calcite-action slot="selection-actions" icon="layer"></calcite-action>
         <calcite-action slot="selection-actions" icon="send"></calcite-action>
         <calcite-action slot="selection-actions" icon="copy"></calcite-action>
@@ -4049,7 +4118,7 @@
       </calcite-table>
 
       <h3>selection-mode multiple with selected at load</h3>
-      <calcite-table bordered selection-mode="multiple" numbered caption="selection-mode multiple and numbered table">
+      <calcite-table bordered selection-mode="multiple" numbered caption="selection-mode multiple and numbered">
         <calcite-action slot="selection-actions" icon="layer"></calcite-action>
         <calcite-action slot="selection-actions" icon="send"></calcite-action>
         <calcite-action slot="selection-actions" icon="copy"></calcite-action>
@@ -4088,7 +4157,7 @@
 
       <h3>selection-mode multiple with multiple headers, footers, pageSize</h3>
 
-      <calcite-table numbered caption="Multiple headers using col-span table" bordered page-size="2">
+      <calcite-table numbered caption="Multiple headers using col-span" bordered page-size="2">
         <calcite-table-row slot="table-header">
           <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
           <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>
@@ -4280,6 +4349,7 @@
           <calcite-table-cell> </calcite-table-cell>
         </calcite-table-row>
       </calcite-table>
+
       <h3>selection-mode multiple and numbered including out of view and multiple header and footer</h3>
 
       <calcite-table
@@ -4361,8 +4431,135 @@
           <calcite-table-cell> </calcite-table-cell>
         </calcite-table-row>
       </calcite-table>
+
+      <h3>
+        selection-mode multiple and numbered including out of view and multiple header and footer -
+        interaction-mode="static"
+      </h3>
+
+      <calcite-table
+        page-size="4"
+        selection-mode="multiple"
+        numbered
+        caption="selection-mode multiple with selected at load"
+        interaction-mode="static"
+      >
+        <calcite-action slot="selection-actions" icon="layer"></calcite-action>
+        <calcite-action slot="selection-actions" icon="send"></calcite-action>
+        <calcite-action slot="selection-actions" icon="copy"></calcite-action>
+        <calcite-action slot="selection-actions" icon="plus"></calcite-action>
+        <calcite-table-row slot="table-header">
+          <calcite-table-header col-span="2" heading="Heading"></calcite-table-header>
+          <calcite-table-header col-span="2" heading="Heading"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row slot="table-header">
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-footer">
+          <calcite-table-cell col-span="3"></calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">58% happiness</calcite-chip></calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-footer">
+          <calcite-table-cell></calcite-table-cell>
+          <calcite-table-cell alignment="end">24,212</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">58% happiness</calcite-chip></calcite-table-cell>
+          <calcite-table-cell> </calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>
+
       <h3>With selection-mode multiple and rich cell content</h3>
-      <calcite-table numbered selection-mode="multiple" caption="With selection-mode and rich cell content table">
+      <calcite-table numbered selection-mode="multiple" caption="With selection-mode and rich cell content">
+        <calcite-table-row slot="table-header">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell><calcite-icon icon="layer"></calcite-icon></calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s">Chip</calcite-chip></calcite-table-cell>
+          <calcite-table-cell><calcite-input placeholder="input"></calcite-input></calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell><calcite-input placeholder="input"></calcite-input></calcite-table-cell>
+          <calcite-table-cell
+            ><calcite-chip scale="s">Chip</calcite-chip
+            ><calcite-button kind="neutral">button</calcite-button></calcite-table-cell
+          >
+          <calcite-table-cell><calcite-chip>chip</calcite-chip></calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell><calcite-chip>chip</calcite-chip></calcite-table-cell>
+          <calcite-table-cell><calcite-icon icon="layer"></calcite-icon></calcite-table-cell>
+          <calcite-table-cell
+            ><calcite-chip-group
+              ><calcite-chip>chip</calcite-chip><calcite-chip icon="smile">chip</calcite-chip></calcite-chip-group
+            ></calcite-table-cell
+          >
+        </calcite-table-row>
+      </calcite-table>
+
+      <h3>With selection-mode multiple interaction-mode="static" and rich cell content</h3>
+      <calcite-table
+        interaction-mode="static"
+        numbered
+        selection-mode="multiple"
+        caption="With selection-mode and rich cell content"
+      >
         <calcite-table-row slot="table-header">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -4402,7 +4599,7 @@
         available non-disabled
       </h3>
 
-      <calcite-table page-countselection-mode="multiple" numbered caption="selection-mode multiple and numbered table">
+      <calcite-table page-countselection-mode="multiple" numbered caption="selection-mode multiple and numbered">
         <calcite-action slot="selection-actions" icon="layer"></calcite-action>
         <calcite-action slot="selection-actions" icon="send"></calcite-action>
         <calcite-action slot="selection-actions" icon="copy"></calcite-action>
@@ -4468,6 +4665,7 @@
     const chipGroupScale = document.getElementById("scale-chips");
     const chipGroupSelectionMode = document.getElementById("selection-mode-chips");
     const chipGroupLayout = document.getElementById("layout-chips");
+    const chipGroupInteraction = document.getElementById("interaction-chips");
     const pageSizeInput = document.getElementById("page-size-input");
 
     const calciteChips = document.querySelectorAll("#preview-chips calcite-chip");
@@ -4475,6 +4673,7 @@
     const calciteChipsScale = document.querySelectorAll("#scale-chips calcite-chip");
     const calciteChipsSelectionMode = document.querySelectorAll("#selection-mode-chips calcite-chip");
     const calciteChipsLayout = document.querySelectorAll("#layout-chips calcite-chip");
+    const calciteChipsInteraction = document.querySelectorAll("#interaction-chips calcite-chip");
 
     table.addEventListener("calciteTableSelect", (event) => {
       console.log(event.target.selectedItems);
@@ -4502,6 +4701,16 @@
       calciteChipsLayout.forEach((chip) => {
         if (event.target.selectedItems.includes(chip)) {
           table.layout = chip.value;
+        } else {
+          return;
+        }
+      });
+    });
+
+    chipGroupInteraction.addEventListener("calciteChipGroupSelect", (event) => {
+      calciteChipsInteraction.forEach((chip) => {
+        if (event.target.selectedItems.includes(chip)) {
+          table.interactionMode = chip.value;
         } else {
           return;
         }

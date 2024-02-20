@@ -50,6 +50,7 @@ import { InputTextMessages } from "./assets/input-text/t9n";
 import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -67,6 +68,7 @@ export class InputText
     InteractiveComponent,
     LoadableComponent,
     LocalizedComponent,
+    TextualInputComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -109,13 +111,6 @@ export class InputText
    */
   @Prop({ reflect: true })
   form: string;
-
-  /**
-   * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) hidden = false;
 
   /**
    * Specifies an icon to display.
@@ -500,21 +495,8 @@ export class InputText
     }
   };
 
-  onFormReset(): void {
-    this.setValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
-
   syncHiddenFormInput(input: HTMLInputElement): void {
-    if (this.minLength != null) {
-      input.minLength = this.minLength;
-    }
-
-    if (this.maxLength != null) {
-      input.maxLength = this.maxLength;
-    }
+    syncHiddenFormInput("text", this, input);
   }
 
   private onHiddenFormInputInput = (event: Event): void => {

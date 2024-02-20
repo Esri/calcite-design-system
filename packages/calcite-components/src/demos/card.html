@@ -28,8 +28,11 @@
         padding: 0 18px;
       }
 
-      .rounded {
-        --calcite-border-radius-base: 5px;
+      .themed {
+        --calcite-card-corner-radius: var(--calcite-corner-radius-round);
+        --calcite-card-background-color: var(--calcite-color-foreground-3);
+        --calcite-card-border-color: var(--calcite-color-status-success);
+        --calcite-card-box-shadow: var(--calcite-shadow-md);
       }
     </style>
     <script src="_assets/head.js"></script>
@@ -45,10 +48,9 @@
         **************************************************
       -->
       <div class="parent">
-        <!-- text only -->
         <div class="child">
-          <p>No buttons, not selectable</p>
-          <calcite-card>
+          <p>Themed</p>
+          <calcite-card class="themed">
             <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
             <span slot="subtitle"
               >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
@@ -56,10 +58,10 @@
           </calcite-card>
         </div>
 
-        <!-- text only, selectable, and border-radius -->
-        <div class="child rounded">
-          <p>No buttons, selectable, border-radius</p>
-          <calcite-card selectable>
+        <!-- text only -->
+        <div class="child">
+          <p>No buttons, not selectable</p>
+          <calcite-card>
             <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
             <span slot="subtitle"
               >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
@@ -79,7 +81,7 @@
           <p>Card with several buttons</p>
 
           <calcite-card>
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
+            <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/280/180" />
             <h3 slot="title">Portland Businesses</h3>
             <span slot="subtitle"
               >by
@@ -136,7 +138,7 @@
         <div class="child">
           <p>Card with two buttons</p>
           <calcite-card selectable>
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
+            <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/280/80" />
             <h3 slot="title">My great Workforce project that might wrap two lines</h3>
             <span slot="subtitle">Johnathan Smith</span>
             <span slot="footer-start">Nov 25, 2018</span>
@@ -165,7 +167,7 @@
         <div class="child">
           <p>Selectable and selected card</p>
           <calcite-card selected selectable>
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
+            <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/280/80" />
 
             <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
             <span slot="subtitle"
@@ -180,7 +182,7 @@
         <div class="child">
           <p>Deselect example</p>
           <calcite-card selectable>
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
+            <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/280/80" />
 
             <h3 slot="title">Translated select and deselect example</h3>
             <span slot="subtitle"
@@ -201,7 +203,7 @@
         <div class="child">
           <p>Loading</p>
           <calcite-card loading>
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
+            <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/280/80" />
 
             <h3 slot="title">Loading example</h3>
             <span slot="subtitle"
@@ -215,7 +217,7 @@
         <div class="child">
           <p>Submit button</p>
           <calcite-card selectable>
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
+            <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/280/80" />
             <h3 slot="title">Untitled experience</h3>
             <span slot="subtitle">Subtext</span>
             <calcite-button slot="footer-start" width="full">Go</calcite-button>
@@ -232,7 +234,7 @@
         <div class="child">
           <p>thumbnail-position="block-start"</p>
           <calcite-card thumbnail-position="block-start">
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
+            <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/280/80" />
             <h3 slot="title">Portland Businesses</h3>
             <span slot="subtitle"
               >by
@@ -274,7 +276,7 @@
         <div class="child">
           <p>thumbnail-position="block-end"</p>
           <calcite-card thumbnail-position="block-end">
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
+            <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/280/80" />
             <h3 slot="title">Portland Businesses</h3>
             <span slot="subtitle"
               >by
@@ -318,7 +320,7 @@
         <div class="child">
           <p>thumbnail-position="inline-start"</p>
           <calcite-card thumbnail-position="inline-start">
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
+            <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/280/80" />
             <h3 slot="title">Portland Businesses</h3>
             <span slot="subtitle"
               >by
@@ -360,7 +362,7 @@
         <div class="child">
           <p>thumbnail-position="inline-end"</p>
           <calcite-card thumbnail-position="inline-end">
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
+            <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/280/80" />
             <h3 slot="title">Portland Businesses</h3>
             <span slot="subtitle"
               >by

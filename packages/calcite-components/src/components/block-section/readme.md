@@ -6,13 +6,13 @@ The `calcite-block-section` component is a child element of `calcite-block`. Sec
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                                                        | Type                             | Default     |
-| ------------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------ | -------------------------------- | ----------- |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                            | `BlockSectionMessages`           | `undefined` |
-| `open`             | `open`              | When `true`, expands the component and its contents.                                                               | `boolean`                        | `false`     |
-| `status`           | `status`            | Displays a status-related indicator icon.                                                                          | `"idle" \| "invalid" \| "valid"` | `undefined` |
-| `text`             | `text`              | The component header text.                                                                                         | `string`                         | `undefined` |
-| `toggleDisplay`    | `toggle-display`    | Specifies how the component's toggle is displayed - `"button"` (selectable header), or `"switch"` (toggle switch). | `"button" \| "switch"`           | `"button"`  |
+| Property           | Attribute           | Description                                                                                                                                              | Type                             | Default     |
+| ------------------ | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                                                                  | `BlockSectionMessages`           | `undefined` |
+| `open`             | `open`              | When `true`, expands the component and its contents.                                                                                                     | `boolean`                        | `false`     |
+| `status`           | `status`            | Displays a status-related indicator icon.                                                                                                                | `"idle" \| "invalid" \| "valid"` | `undefined` |
+| `text`             | `text`              | The component header text.                                                                                                                               | `string`                         | `undefined` |
+| `toggleDisplay`    | `toggle-display`    | Specifies how the component's toggle is displayed, where: `"button"` sets the toggle to a selectable header, and `"switch"` sets the toggle to a switch. | `"button" \| "switch"`           | `"button"`  |
 
 ## Events
 
