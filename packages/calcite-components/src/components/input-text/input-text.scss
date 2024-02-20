@@ -7,19 +7,26 @@
  * @prop --calcite-input-text-text-color: defines the text color of the component.
  * @prop --calcite-input-text-border-color: defines the border color of the component.
  * @prop --calcite-input-text-background-color: defines the background color of the component.
+ * @prop --calcite-input-text-button-background-color: defines the background color of a button element in the component.
+ * @prop --calcite-input-text-button-background-color-hover: defines the background color of a :hover-ed button element in the component.
+ * @prop --calcite-input-text-button-background-color-active: defines the background color of an :active button element in the component.
  * @prop --calcite-input-text-icon-color: defines the color of an icon element in the component.
- * @prop --calcite-input-text-icon-color-hover: defines the color of an icon element when it's parent is hovered in the component.
- * @prop --calcite-input-text-prefixsuffix-text-color: defines the text color of a prefix/suffix element in the component.
- * @prop --calcite-input-text-prefixsuffix-background-color: defines the background color of a prefix/suffix element in the component.
+ * @prop --calcite-input-text-button-icon-color-hover: defines the color of an icon element when it's parent is hovered in the component.
+ * @prop --calcite-input-text-prefix-text-color: defines the prefix text color in the component.
+ * @prop --calcite-input-text-prefix-background-color: defines the prefix background color in the component.
+ * @prop --calcite-input-text-suffix-text-color: defines the suffix text color in the component.
+ * @prop --calcite-input-text-suffix-background-color: defines the suffix background color in the component.
  * @prop --calcite-input-text-placeholder-text-color: defines the color of placeholder text in the component.
+ * @prop --calcite-input-text-shadow: defines the box-shadow of the component.
  *
  */
+
 :host {
-  --calcite-input-text-corner-radius: var(--calcite-border-radius-sharp);
+  --calcite-input-text-corner-radius: var(--calcite-corner-radius);
   --calcite-input-text-text-color: var(--calcite-color-text-1);
   --calcite-input-text-border-color: var(--calcite-color-border-input);
   --calcite-input-text-background-color: var(--calcite-color-foreground-1);
-
+  --calcite-input-text-shadow: none;
   // Button
   --calcite-input-text-button-background-color: var(--calcite-color-foreground-1);
   --calcite-input-text-button-background-color-hover: var(--calcite-color-foreground-2);
@@ -27,43 +34,39 @@
 
   // Icon
   --calcite-input-text-icon-color: var(--calcite-color-text-3);
-  --calcite-input-text-icon-color-hover: var(--calcite-color-text-1);
+  --calcite-input-text-button-icon-color-hover: var(--calcite-color-text-1);
 
   // Prefix/Suffix
-  --calcite-input-text-prefixsuffix-text-color: var(--calcite-color-text-2);
-  --calcite-input-text-prefixsuffix-background-color: var(--calcite-color-background);
+  --calcite-input-text-prefix-text-color: var(--calcite-color-text-2);
+  --calcite-input-text-prefix-background-color: var(--calcite-color-background);
+  --calcite-input-text-suffix-text-color: var(--calcite-color-text-2);
+  --calcite-input-text-suffix-background-color: var(--calcite-color-background);
 
   // Placeholder
   --calcite-input-text-placeholder-text-color: var(--calcite-color-text-3);
 
   // For props that should follow the initial border-color but not change on statechange.
-  --calcite-internal-input-text-border-color-base: var(--calcite-input-text-border-color);
+  --calcite-internal-input-text-border-color-base: var(--calcite-color-border-input);
+
   @apply block;
+  box-shadow: var(--calcite-input-text-shadow);
 }
 
 // scales
 :host([scale="s"]) {
-  & input {
-    padding-inline-start: theme("spacing.2");
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, theme("spacing.2"));
-  }
-
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n2h h-6;
+    @apply text-n2h h-6 px-2;
   }
-
-  & .prefix,
-  & .suffix {
-    @apply px-2;
-  }
-
+  & .number-button-wrapper,
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
     @apply h-6;
   }
-
+  & input[type="file"] {
+    @apply h-6;
+  }
   & .clear-button {
     min-block-size: theme("spacing.6");
     min-inline-size: theme("spacing.6");
@@ -71,27 +74,16 @@
 }
 
 :host([scale="m"]) {
-  & input {
-    padding-inline-start: theme("spacing.3");
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, theme("spacing.3"));
-  }
-
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n1h h-8;
-  }
-
-  & .prefix,
-  & .suffix {
-    @apply px-3;
+    @apply text-n1h h-8 px-3;
   }
 
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
     @apply h-8;
   }
-
   & .clear-button {
     min-block-size: theme("spacing.8");
     min-inline-size: theme("spacing.8");
@@ -99,93 +91,63 @@
 }
 
 :host([scale="l"]) {
-  & input {
-    padding-inline-start: theme("spacing.4");
-    padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, theme("spacing.4"));
-  }
-
   & input,
   & .prefix,
   & .suffix {
-    @apply text-0h h-11;
+    @apply text-0h h-11 px-4;
   }
-
-  & .prefix,
-  & .suffix {
-    @apply px-4;
-  }
-
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
     @apply h-11;
   }
-
   & .clear-button {
     min-block-size: theme("spacing.11");
     min-inline-size: theme("spacing.11");
   }
 }
 
-@include disabled();
-
 input {
+  @apply border font-inherit relative m-0
+    box-border flex max-h-full w-full max-w-full flex-1 font-normal;
+
   transition:
     var(--calcite-animation-timing),
     block-size 0,
     outline-offset 0s;
   -webkit-appearance: none;
-  background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-input-text-text-color, var(--calcite-color-text-1));
-  border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
-  inline-size: var(--calcite-container-size-content-fluid);
-  max-inline-size: var(--calcite-container-size-content-fluid);
-  max-block-size: var(--calcite-container-size-content-fluid);
-  border-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
-
-  @apply box-border
-    flex
-    flex-1
-    font-inherit
-    font-normal
-    m-0
-    relative
-    text-ellipsis;
-
-  &:placeholder-shown {
-    @apply text-ellipsis;
-  }
+  border-radius: var(--calcite-input-text-corner-radius);
+  color: var(--calcite-input-text-text-color);
+  border-color: var(--calcite-input-text-border-color);
+  background-color: var(--calcite-input-text-background-color);
 }
 
 // states
-:host(:focus:not([read-only])) {
-  --calcite-input-text-border-color: var(--calcite-color-brand);
-}
-:host(:focus) {
-  --calcite-input-text-text-color: var(--calcite-color-text-1);
-}
-:host([read-only]) {
-  --calcite-input-text-background-color: var(--calcite-color-background);
-}
 input {
-  @apply border
-    border-solid;
+  @apply border-spacing-1
+    border-solid
+    text-ellipsis;
   &::placeholder,
-  &:-ms-input-placeholder,
-  &::-ms-input-placeholder {
-    color: var(--calcite-input-text-placeholder-text-color, var(--calcite-color-text-3));
+  &:-ms-input-text-placeholder,
+  &::-ms-input-text-placeholder {
     @apply font-normal;
+    color: var(--calcite-input-text-placeholder-text-color);
+  }
+  &:placeholder-shown {
+    @apply text-ellipsis;
   }
 }
 input[readonly] {
   @apply font-medium;
 }
-
 calcite-icon {
-  color: var(--calcite-input-text-icon-color, var(--calcite-color-text-3));
+  color: var(--calcite-input-text-icon-color);
+}
+button:hover,
+button:active {
+  --calcite-input-text-icon-color: var(--calcite-input-text-button-icon-color-hover);
 }
 
 //focus
-
 input {
   @apply focus-base;
 }
@@ -245,9 +207,12 @@ input:focus {
   @apply transition-default
     pointer-events-none
     absolute
-    block
+    block;
+}
 
-    z-default; // needed for firefox to display the icon properly
+.icon,
+.resize-icon-wrapper {
+  @apply z-default; // needed for firefox to display the icon properly
 }
 
 // hide browser default clear
@@ -279,8 +244,9 @@ input[type="text"]::-ms-reveal {
   border-inline-start-width: theme("borderWidth.0");
 
   &:hover {
-    --calcite-input-text-button-background-color: var(--calcite-input-text-button-background-color-hover);
     @apply transition-default;
+    --calcite-input-text-button-background-color: var(--calcite-input-text-button-background-color-hover);
+
     calcite-icon {
       @apply transition-default;
     }
@@ -310,14 +276,6 @@ input[type="text"]::-ms-reveal {
   @apply order-7 flex;
 }
 
-.prefix {
-  @apply order-2;
-  border-inline-end-width: theme("borderWidth.0");
-}
-.suffix {
-  @apply order-5;
-  border-inline-start-width: theme("borderWidth.0");
-}
 // prefix and suffix
 .prefix,
 .suffix {
@@ -333,10 +291,24 @@ input[type="text"]::-ms-reveal {
     border-solid
     font-medium
     leading-none;
-
-  color: var(--calcite-input-text-prefixsuffix-text-color);
-  background-color: var(--calcite-input-text-prefixsuffix-background-color);
   border-color: var(--calcite-internal-input-text-border-color-base);
+}
+.prefix {
+  color: var(--calcite-input-text-prefix-text-color);
+  background-color: var(--calcite-input-text-prefix-background-color);
+}
+.suffix {
+  color: var(--calcite-input-text-suffix-text-color);
+  background-color: var(--calcite-input-text-suffix-background-color);
+}
+
+.prefix {
+  @apply order-2;
+  border-inline-end-width: theme("borderWidth.0");
+}
+.suffix {
+  @apply order-5;
+  border-inline-start-width: theme("borderWidth.0");
 }
 
 // alignment type
@@ -378,11 +350,24 @@ input {
 
   &.inline-child:not(.editing-enabled) {
     @apply border-color-transparent
-    flex
-    cursor-pointer text-ellipsis;
+      flex
+      cursor-pointer text-ellipsis;
     padding-inline-start: 0;
   }
 }
+
+@include form-validation-message();
+@include hidden-form-input();
+@include base-component();
+
+:host(:focus) {
+  --calcite-input-text-border-color: var(--calcite-color-brand);
+}
+
+:host([read-only]) {
+  --calcite-input-text-background-color: var(--calcite-color-background);
+}
+
 :host([prefix-text]) {
   input,
   textarea {
@@ -397,13 +382,20 @@ input {
     border-end-end-radius: 0;
   }
 }
-:host(:not(:empty)) {
-  input {
+:host([suffix-text]) {
+  .suffix {
     border-start-end-radius: 0;
     border-end-end-radius: 0;
   }
 }
-:host(:not([suffix-text])) {
+
+:host([scale="l"]) {
+  .resize-icon-wrapper {
+    block-size: 18px;
+    inline-size: 18px;
+  }
+}
+:host(:not([clearable], [suffix-text])) {
   .wrapper:has(+ .validation-container) {
     input {
       border-start-end-radius: var(--calcite-input-text-corner-radius);
@@ -411,6 +403,17 @@ input {
     }
   }
 }
+:host(:not([suffix-text])) {
+  input:has(+ .clear-button) {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+  .clear-button {
+    border-start-end-radius: var(--calcite-input-text-corner-radius);
+    border-end-end-radius: var(--calcite-input-text-corner-radius);
+  }
+}
+
 .prefix {
   border-start-start-radius: var(--calcite-input-text-corner-radius);
   border-end-start-radius: var(--calcite-input-text-corner-radius);
@@ -419,7 +422,16 @@ input {
   border-start-end-radius: var(--calcite-input-text-corner-radius);
   border-end-end-radius: var(--calcite-input-text-corner-radius);
 }
-
-@include form-validation-message();
-@include hidden-form-input();
-@include base-component();
+:host(:not(:empty)) {
+  input,
+  .clear-button {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+}
+::slotted(*) {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: var(--calcite-input-text-corner-radius);
+  border-end-end-radius: var(--calcite-input-text-corner-radius);
+}

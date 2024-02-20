@@ -73,13 +73,13 @@ import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 import { DragDetail } from "./utils/sortableComponent";
-import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
+import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail } from "./components/stepper/interfaces";
 import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
-import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
+import { RowType, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
 import { TableMessages } from "./components/table/assets/table/t9n";
 import { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
 import { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
@@ -159,13 +159,13 @@ export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 export { DragDetail } from "./utils/sortableComponent";
-export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
+export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail } from "./components/stepper/interfaces";
 export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
-export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
+export { RowType, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
 export { TableMessages } from "./components/table/assets/table/t9n";
 export { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
 export { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
@@ -4382,7 +4382,7 @@ export namespace Components {
         /**
           * Defines the layout of the component.
          */
-        "layout": StepperLayout;
+        "layout": Extract<"horizontal" | "vertical", Layout>;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -4453,7 +4453,7 @@ export namespace Components {
         /**
           * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
          */
-        "layout": StepperLayout;
+        "layout": Extract<"horizontal" | "vertical", Layout>;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -4462,6 +4462,10 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": StepperItemMessages;
+        /**
+          * Specifies if the user is viewing one `stepper-item` at a time. Helps in determining if header region is tabbable.
+         */
+        "multipleViewMode": boolean;
         /**
           * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
          */
@@ -4645,10 +4649,6 @@ export namespace Components {
          */
         "groupSeparator": boolean;
         /**
-          * When `"interactive"`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `"static"`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable.
-         */
-        "interactionMode": TableInteractionMode;
-        /**
           * Specifies the layout of the component.
          */
         "layout": TableLayout;
@@ -4708,7 +4708,6 @@ export namespace Components {
           * When true, prevents user interaction.  Notes:  This prop should use the
          */
         "disabled": boolean;
-        "interactionMode": TableInteractionMode;
         "lastCell": boolean;
         /**
           * Use this property to override individual strings used by the component.
@@ -4753,7 +4752,6 @@ export namespace Components {
           * A heading to display above description content.
          */
         "heading": string;
-        "interactionMode": TableInteractionMode;
         "lastCell": boolean;
         /**
           * Use this property to override individual strings used by the component.
@@ -4765,6 +4763,7 @@ export namespace Components {
         "messages": TableHeaderMessages;
         "numberCell": boolean;
         "parentRowIsSelected": boolean;
+        "parentRowPosition": number;
         "parentRowType": RowType;
         "positionInRow": number;
         /**
@@ -4788,7 +4787,6 @@ export namespace Components {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
-        "interactionMode": TableInteractionMode;
         "lastVisibleRow": boolean;
         "numbered": boolean;
         "positionAll": number;
@@ -4865,11 +4863,6 @@ export namespace Components {
          */
         "messages": TextAreaMessages;
         /**
-          * Specifies the minimum number of characters allowed.
-          * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
-         */
-        "minLength": number;
-        /**
           * Specifies the name of the component.
           * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
          */
@@ -4942,10 +4935,6 @@ export namespace Components {
           * When `true`, the component is active.
          */
         "active": boolean;
-        /**
-          * Specifies the alignment of the Tile's content.
-         */
-        "alignment": Exclude<Alignment, "end">;
         /**
           * A description for the component, which displays below the heading.
          */
@@ -11877,7 +11866,7 @@ declare namespace LocalJSX {
         /**
           * Defines the layout of the component.
          */
-        "layout"?: StepperLayout;
+        "layout"?: Extract<"horizontal" | "vertical", Layout>;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -11944,7 +11933,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
          */
-        "layout"?: StepperLayout;
+        "layout"?: Extract<"horizontal" | "vertical", Layout>;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -11953,6 +11942,10 @@ declare namespace LocalJSX {
           * Made into a prop for testing purposes only
          */
         "messages"?: StepperItemMessages;
+        /**
+          * Specifies if the user is viewing one `stepper-item` at a time. Helps in determining if header region is tabbable.
+         */
+        "multipleViewMode"?: boolean;
         /**
           * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
          */
@@ -12142,10 +12135,6 @@ declare namespace LocalJSX {
          */
         "groupSeparator"?: boolean;
         /**
-          * When `"interactive"`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `"static"`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable.
-         */
-        "interactionMode"?: TableInteractionMode;
-        /**
           * Specifies the layout of the component.
          */
         "layout"?: TableLayout;
@@ -12214,7 +12203,6 @@ declare namespace LocalJSX {
           * When true, prevents user interaction.  Notes:  This prop should use the
          */
         "disabled"?: boolean;
-        "interactionMode"?: TableInteractionMode;
         "lastCell"?: boolean;
         /**
           * Use this property to override individual strings used by the component.
@@ -12255,7 +12243,6 @@ declare namespace LocalJSX {
           * A heading to display above description content.
          */
         "heading"?: string;
-        "interactionMode"?: TableInteractionMode;
         "lastCell"?: boolean;
         /**
           * Use this property to override individual strings used by the component.
@@ -12267,6 +12254,7 @@ declare namespace LocalJSX {
         "messages"?: TableHeaderMessages;
         "numberCell"?: boolean;
         "parentRowIsSelected"?: boolean;
+        "parentRowPosition"?: number;
         "parentRowType"?: RowType;
         "positionInRow"?: number;
         /**
@@ -12286,7 +12274,6 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
-        "interactionMode"?: TableInteractionMode;
         "lastVisibleRow"?: boolean;
         "numbered"?: boolean;
         "onCalciteInternalTableRowFocusRequest"?: (event: CalciteTableRowCustomEvent<TableRowFocusEvent>) => void;
@@ -12368,11 +12355,6 @@ declare namespace LocalJSX {
          */
         "messages"?: TextAreaMessages;
         /**
-          * Specifies the minimum number of characters allowed.
-          * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
-         */
-        "minLength"?: number;
-        /**
           * Specifies the name of the component.
           * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
          */
@@ -12445,10 +12427,6 @@ declare namespace LocalJSX {
           * When `true`, the component is active.
          */
         "active"?: boolean;
-        /**
-          * Specifies the alignment of the Tile's content.
-         */
-        "alignment"?: Exclude<Alignment, "end">;
         /**
           * A description for the component, which displays below the heading.
          */
