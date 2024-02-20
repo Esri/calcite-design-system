@@ -1,9 +1,22 @@
+/**
+* CSS Custom Properties  
+*
+* These properties can be overridden using the component's tag as selector.
+*
+* @prop --calcite-tip-group-background-color: The background color of the component.
+* @prop --calcite-tip-group-text-color: The text color of the component.
+*/
+
 :host {
-  @apply bg-foreground-1
-    text-color-2
-    text-n1h
+  @apply text-n1h
     box-border
     block;
+
+  --calcite-tip-group-background-color: var(--calcite-color-foreground-1);
+  --calcite-tip-group-text-color: var(--calcite-color-text-2);
+
+  background-color: var(--calcite-tip-group-background-color);
+  color: var(--calcite-tip-group-text-color);
 }
 
 ::slotted(calcite-tip) {
