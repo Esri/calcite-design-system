@@ -22,8 +22,6 @@
   --calcite-text-area-background-color: var(--calcite-color-foreground-1);
   --calcite-text-area-border-color: var(--calcite-color-border-input);
   --calcite-text-area-border-block-end-color: var(--calcite-color-border-3);
-  --calcite-text-area-internal-min-inline-space: $calcite-size-192;
-  --calcite-text-area-internal-footer-min-block-space: $calcite-size-36;
   --calcite-text-area-character-limit-text-color: var(--calcite-color-text-2);
 }
 
@@ -40,7 +38,7 @@ textarea {
   border-block-end-color: var(--calcite-text-area-border-block-end-color);
   color: var(--calcite-text-area-text-color);
   font-family: var(--calcite-sans-family);
-  min-inline-size: var(--calcite-text-area-internal-min-inline-space);
+  min-inline-size: theme("spacing.48");
   @media screen and (max-width: 480px) {
     @apply resize-none;
   }
@@ -55,7 +53,7 @@ textarea {
     }
   }
   &.footer--slotted {
-    --calcite-text-area-internal-min-inline-space: $calcite-size-288;
+    min-inline-size: theme("spacing.72");
   }
 }
 
@@ -66,7 +64,7 @@ textarea {
   background-color: var(--calcite-text-area-background-color);
   border: var(--calcite-border-width-sm) solid var(--calcite-text-area-border-color);
   border-block-start: var(--calcite-border-width-none);
-  min-block-size: var(--calcite-text-area-internal-footer-min-block-space);
+  min-block-size: 2.25rem;
 }
 
 .character-limit {
@@ -102,7 +100,7 @@ textarea {
     padding-inline: var(--calcite-spacing-sm);
   }
   .footer {
-    --calcite-text-area-internal-footer-min-block-space: $calcite-size-28;
+    min-block-size: 1.75rem;
   }
   .character-limit {
     @apply text-n2;
@@ -129,7 +127,7 @@ textarea {
     padding-inline: var(--calcite-spacing-xl);
   }
   .footer {
-    --calcite-text-area-internal-footer-min-block-space: $calcite-size-44;
+    min-block-size: 2.75rem;
   }
   .character-limit {
     @apply text-0;
