@@ -3,19 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.4.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.3.1-next.0...@esri/calcite-components-angular@2.4.0-next.0) (2024-01-26)
+## [2.5.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.5.0...@esri/calcite-components-angular@2.5.1) (2024-02-16)
 
-**Note:** Version bump only for package @esri/calcite-components-angular
+### Miscellaneous Chores
 
-## [2.3.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.3.0...@esri/calcite-components-angular@2.3.1-next.0) (2024-01-26)
+- **@esri/calcite-components-angular:** Synchronize components versions
 
-**Note:** Version bump only for package @esri/calcite-components-angular
+### Dependencies
+
+- The following workspace dependencies were updated
+  - dependencies
+    - @esri/calcite-components bumped from ^2.5.1-next.1 to ^2.5.1
+
+## [2.5.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.4.0...@esri/calcite-components-angular@2.5.0) (2024-02-15)
+
+### Miscellaneous Chores
+
+- **@esri/calcite-components-angular:** Synchronize components versions
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - dependencies
+    - @esri/calcite-components bumped from ^2.5.0-next.6 to ^2.5.0
+
+## [2.4.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.3.0...@esri/calcite-components-angular@2.4.0) (2024-01-30)
+
+### Miscellaneous Chores
+
+- **@esri/calcite-components-angular:** Synchronize components versions
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - dependencies
+    - @esri/calcite-components bumped from ^2.4.0-next.1 to ^2.4.0
 
 ## [2.3.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.2.0...@esri/calcite-components-angular@2.3.0) (2024-01-24)
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-angular:** Synchronize undefined versions
+- **@esri/calcite-components-angular:** Synchronize components versions
 
 ### Dependencies
 
@@ -27,7 +55,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-angular:** Synchronize undefined versions
+- **@esri/calcite-components-angular:** Synchronize components versions
 
 ### Dependencies
 
@@ -39,7 +67,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-angular:** Synchronize undefined versions
+- **@esri/calcite-components-angular:** Synchronize components versions
 
 ### Dependencies
 
