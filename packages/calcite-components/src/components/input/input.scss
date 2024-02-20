@@ -46,7 +46,7 @@
   --calcite-input-placeholder-text-color: var(--calcite-color-text-3);
 
   // For props that should follow the initial border-color but not change on statechange.
-  --calcite-internal-input-border-color-base: var(--calcite-input-border-color);
+  --calcite-internal-input-border-color-base: var(--calcite-color-border-input);
 
   @apply block;
   box-shadow: var(--calcite-input-shadow);
