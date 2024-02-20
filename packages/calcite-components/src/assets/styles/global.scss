@@ -13,13 +13,11 @@
 
 :root {
   @extend %type-vars;
-  @include floating-ui-base();
   @include animation-base();
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --calcite-popover-z-index: var(--calcite-z-index-popup);
   --calcite-border-radius: var(--calcite-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
   --calcite-offset-invert-focus: 0; // should be 0 or 1
