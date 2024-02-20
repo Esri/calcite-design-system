@@ -25,6 +25,58 @@
           }
         }
       },
+      "xxs": {
+        "value": ["{core.shadow.-1}", "{core.shadow.-1}", "{core.shadow.7}", "{core.shadow.8}"],
+        "type": "boxShadow",
+        "description": "A replacement for Tailwind shadow-2",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "semantic",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "shadow",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "xxs",
+            "context": "",
+            "mode": ""
+          }
+        }
+      },
+      "xs": {
+        "xs": {
+          "value": ["{core.shadow.-1}", "{core.shadow.-1}", "{core.shadow.6}", "{core.shadow.5}"],
+          "type": "boxShadow",
+          "description": "A replacement for Tailwind shadow-0 and shadow-1",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "shadow",
+              "group": "",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "sm",
+              "context": "",
+              "mode": ""
+            }
+          }
+        }
+      },
       "sm": {
         "value": ["{core.shadow.1}", "{core.shadow.2}"],
         "type": "boxShadow",
