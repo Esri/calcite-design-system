@@ -96,12 +96,14 @@ textarea {
 :host([scale="s"]) {
   .footer,
   textarea {
+    @apply text-n2;
     padding-block: var(--calcite-spacing-xxs);
     padding-inline: var(--calcite-spacing-sm);
   }
   .footer {
     min-block-size: 1.75rem;
   }
+
   .character-limit {
     @apply text-n2;
     padding-inline-start: var(--calcite-spacing-sm);
@@ -111,9 +113,11 @@ textarea {
 :host([scale="m"]) {
   textarea,
   .footer {
+    @apply text-n1;
     padding-block: var(--calcite-spacing-sm);
     padding-inline: var(--calcite-spacing-md);
   }
+
   .character-limit {
     @apply text-n1;
     padding-inline-start: var(--calcite-spacing-md);
@@ -123,6 +127,7 @@ textarea {
 :host([scale="l"]) {
   textarea,
   .footer {
+    @apply text-0;
     padding-block: var(--calcite-spacing-md);
     padding-inline: var(--calcite-spacing-xl);
   }
