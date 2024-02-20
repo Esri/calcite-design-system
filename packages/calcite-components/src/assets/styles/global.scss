@@ -21,9 +21,7 @@
   -moz-osx-font-smoothing: grayscale;
   --calcite-popover-z-index: var(--calcite-z-index-popup);
   --calcite-border-radius: var(--calcite-border-radius-round, 4px);
-  --calcite-border-radius-base: 0;
   --calcite-offset-invert-focus: 0; // should be 0 or 1
-  --calcite-panel-width-multiplier: 1;
   --calcite-ui-icon-color: currentColor;
 
   font-family: var(--calcite-sans-family);
