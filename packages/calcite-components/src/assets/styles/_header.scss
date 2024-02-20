@@ -1,8 +1,12 @@
-@mixin header() {
+@mixin header(
+  $textColor: "--calcite-color-text-2",
+  $fontWeight: "--calcite-font-weight-medium",
+  $spacing: "--calcite-spacing-xxs"
+) {
   /* Shared styles for header elements */
   .header {
-    color: var(--calcite-color-text-2);
-    fill: var(--calcite-color-text-2);
+    color: var(#{$textColor});
+    fill: var(#{$textColor});
     margin: 0px;
     display: flex;
     align-content: space-between;
@@ -12,11 +16,11 @@
   .heading {
     margin: 0px;
     padding: 0px;
-    font-weight: var(--calcite-font-weight-medium);
+    font-weight: var(#{$fontWeight});
   }
 
   .header .heading {
     flex: 1 1 auto;
-    padding: var(--calcite-spacing-xxs);
+    padding: var(#{$spacing});
   }
 }
