@@ -5,8 +5,8 @@
  *
  * @prop --calcite-select-background-color: The background color of the component.
  * @prop --calcite-select-border-color: The border color of the component.
- * @prop --calcite-select-font-size: The font size of `calcite-option`s in the component.
- * @prop --calcite-select-space-inline: The padding around the selected option text.
+ * @prop --calcite-select-font-size: **deprecated** The font size of `calcite-option`s in the component.
+ * @prop --calcite-select-spacing: **deprecated** The padding around the selected option text.
  * @prop --calcite-select-text-color: The text color of the component.
  */
 
@@ -14,9 +14,6 @@
   --calcite-select-background-color: var(--calcite-color-foreground-1);
   --calcite-select-border-color: var(--calcite-color-border-input);
   --calcite-select-text-color: var(--calcite-color-text-2);
-
-  --calcite-internal-select-icon-space-inline: var(--calcite-color-foreground-1);
-  --calcite-internal-select-border-color: var(--calcite-select-border-color);
 
   @extend %component-spacing;
   @apply flex flex-col;
@@ -29,30 +26,27 @@
 }
 
 :host([scale="s"]) {
-  --calcite-select-font-size: var(--calcite-font-size-sm);
-  --calcite-select-line-height: 1rem;
-  --calcite-select-spacing-inline: 0.5rem 2rem;
-
-  --calcite-internal-select-wrapper-size: 1.5rem;
+  --calcite-internal-select-font-size: var(--calcite-select-font-size, --calcite-font-size-sm);
   --calcite-internal-select-icon-space-inline: 0.5rem;
+  --calcite-internal-select-line-height: 1rem;
+  --calcite-internal-select-spacing-inline: var(--calcite-select-spacing, 0.5rem 2rem);
+  --calcite-internal-select-wrapper-size: 1.5rem;
 }
 
 :host([scale="m"]) {
-  --calcite-select-font-size: var(--calcite-font-size-md);
-  --calcite-select-line-height: 1rem;
-  --calcite-select-spacing-inline: 0.75rem 2.5rem;
-
-  --calcite-internal-select-wrapper-size: 2rem;
+  --calcite-internal-select-font-size: var(--calcite-select-font-size, --calcite-font-size-md);
   --calcite-internal-select-icon-space-inline: 0.75rem;
+  --calcite-internal-select-line-height: 1rem;
+  --calcite-internal-select-spacing-inline: var(--calcite-select-spacing, 0.75rem 2.5rem);
+  --calcite-internal-select-wrapper-size: 2rem;
 }
 
 :host([scale="l"]) {
-  --calcite-select-font-size: var(--calcite-font-size-lg);
-  --calcite-select-line-height: 1.25rem;
-  --calcite-select-spacing-inline: 1rem 3rem;
-
-  --calcite-internal-select-wrapper-size: 2.75rem;
+  --calcite-internal-select-font-size: var(--calcite-select-font-size, --calcite-font-size-lg);
   --calcite-internal-select-icon-space-inline: 1rem;
+  --calcite-internal-select-line-height: 1.25rem;
+  --calcite-internal-select-spacing-inline: var(--calcite-select-spacing, 1rem 3rem);
+  --calcite-internal-select-wrapper-size: 2.75rem;
 }
 
 :host([width="auto"]) {
@@ -76,8 +70,8 @@
   @apply font-inherit focus-base box-border cursor-pointer appearance-none truncate border-solid;
   background-color: var(--calcite-select-background-color);
   border-width: var(--calcite-border-width-sm);
-  font-size: var(--calcite-select-font-size);
-  padding-inline: var(--calcite-select-spacing-inline);
+  font-size: var(--calcite-internal-select-font-size);
+  padding-inline: var(--calcite-internal-select-spacing-inline);
   border-inline-end-width: var(--calcite-border-width-none);
   inline-size: var(--calcite-container-size-content-fluid);
 
@@ -94,7 +88,7 @@
 .select,
 .icon-container {
   color: var(--calcite-select-text-color);
-  border-color: var(--calcite-internal-select-border-color);
+  border-color: var(--calcite-select-border-color);
 }
 
 .icon-container {
@@ -108,7 +102,7 @@
 }
 
 :host([status="invalid"]) {
-  --calcite-internal-select-border-color: var(--calcite-color-status-danger);
+  --calcite-select-border-color: var(--calcite-color-status-danger);
 
   select:focus,
   .icon-container:focus {
@@ -117,7 +111,7 @@
 }
 
 .select:focus ~ .icon-container {
-  --calcite-internal-select-border-color: var(--calcite-color-background-none);
+  --calcite-select-border-color: var(--calcite-color-background-none);
 }
 
 @include base-component();
