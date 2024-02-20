@@ -11,17 +11,22 @@
  * @prop --calcite-input-number-button-background-color-hover: defines the background color of a :hover-ed button element in the component.
  * @prop --calcite-input-number-button-background-color-active: defines the background color of an :active button element in the component.
  * @prop --calcite-input-number-icon-color: defines the color of an icon element in the component.
- * @prop --calcite-input-number-icon-color-hover: defines the color of an icon element when it's parent is hovered in the component.
-* @prop --calcite-input-number-placeholder-text-color: defines the color of placeholder text in the component.
+ * @prop --calcite-input-number-button-icon-color-hover: defines the color of an icon element when it's parent is hovered in the component.
+ * @prop --calcite-input-number-prefix-text-color: defines the prefix text color in the component.
+ * @prop --calcite-input-number-prefix-background-color: defines the prefix background color in the component.
+ * @prop --calcite-input-number-suffix-text-color: defines the suffix text color in the component.
+ * @prop --calcite-input-number-suffix-background-color: defines the suffix background color in the component.
+ * @prop --calcite-input-number-placeholder-text-color: defines the color of placeholder text in the component.
+ * @prop --calcite-input-number-shadow: defines the box-shadow of the component.
  *
  */
 
 :host {
-  --calcite-input-number-corner-radius: var(--calcite-border-radius-sharp);
+  --calcite-input-number-corner-radius: var(--calcite-corner-radius);
   --calcite-input-number-text-color: var(--calcite-color-text-1);
   --calcite-input-number-border-color: var(--calcite-color-border-input);
   --calcite-input-number-background-color: var(--calcite-color-foreground-1);
-
+  --calcite-input-number-shadow: none;
   // Button
   --calcite-input-number-button-background-color: var(--calcite-color-foreground-1);
   --calcite-input-number-button-background-color-hover: var(--calcite-color-foreground-2);
@@ -29,30 +34,36 @@
 
   // Icon
   --calcite-input-number-icon-color: var(--calcite-color-text-3);
-  --calcite-input-number-icon-color-hover: var(--calcite-color-text-1);
+  --calcite-input-number-button-icon-color-hover: var(--calcite-color-text-1);
 
   // Prefix/Suffix
+  --calcite-input-number-prefix-text-color: var(--calcite-color-text-2);
+  --calcite-input-number-prefix-background-color: var(--calcite-color-background);
+  --calcite-input-number-suffix-text-color: var(--calcite-color-text-2);
+  --calcite-input-number-suffix-background-color: var(--calcite-color-background);
+
   // Placeholder
   --calcite-input-number-placeholder-text-color: var(--calcite-color-text-3);
 
   // For props that should follow the initial border-color but not change on statechange.
-  --calcite-internal-input-number-border-color-base: var(--calcite-input-number-border-color);
+  --calcite-internal-input-number-border-color-base: var(--calcite-color-border-input);
 
   @apply block;
+  box-shadow: var(--calcite-input-number-shadow);
 }
 :host([readonly]) {
-  --calcite-input-number-background-color: var(--calcite-color-background);
+  --calcite-input-number-number-background-color: var(--calcite-color-background);
 }
 :host(:focus) {
-  --calcite-input-number-border-color: var(--calcite-color-brand);
-  --calcite-input-number-text-color: var(--calcite-color-text-1);
+  --calcite-input-number-number-border-color: var(--calcite-color-brand);
+  --calcite-input-number-number-text-color: var(--calcite-color-text-1);
 }
 calcite-icon {
-  color: var(--calcite-input-number-icon-color);
+  color: var(--calcite-input-number-number-icon-color);
 }
 button:hover,
 button:active {
-  --calcite-input-number-icon-color: var(--calcite-input-number-icon-color-hover);
+  --calcite-input-number-number-icon-color: var(--calcite-input-number-number-icon-color-hover);
 }
 
 // scales
@@ -62,14 +73,27 @@ button:active {
   & .suffix {
     @apply text-n2h h-6 px-2;
   }
+  & textarea {
+    @apply h-6;
+    min-block-size: theme("spacing.6");
+  }
   & .number-button-wrapper,
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
     @apply h-6;
   }
+  & input[type="file"] {
+    @apply h-6;
+  }
   & .clear-button {
     min-block-size: theme("spacing.6");
     min-inline-size: theme("spacing.6");
+  }
+  & textarea {
+    @apply text-n2h
+    h-auto
+    py-1
+    px-2;
   }
 }
 
@@ -79,14 +103,26 @@ button:active {
   & .suffix {
     @apply text-n1h h-8 px-3;
   }
+  & textarea {
+    min-block-size: theme("spacing.8");
+  }
   & .number-button-wrapper,
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
     @apply h-8;
   }
+  & input[type="file"] {
+    @apply h-8;
+  }
   & .clear-button {
     min-block-size: theme("spacing.8");
     min-inline-size: theme("spacing.8");
+  }
+  & textarea {
+    @apply text-n1h
+      h-auto
+      py-2
+      px-3;
   }
 }
 
@@ -96,76 +132,92 @@ button:active {
   & .suffix {
     @apply text-0h h-11 px-4;
   }
+  & textarea {
+    min-block-size: theme("spacing.11");
+  }
   & .number-button-wrapper,
   & .action-wrapper calcite-button,
   & .action-wrapper calcite-button button {
+    @apply h-11;
+  }
+  & input[type="file"] {
     @apply h-11;
   }
   & .clear-button {
     min-block-size: theme("spacing.11");
     min-inline-size: theme("spacing.11");
   }
+  & textarea {
+    @apply text-0h
+      h-auto
+      py-3
+      px-4;
+  }
 }
 
-@include disabled();
+@include disabled() {
+  & textarea {
+    resize: none;
+  }
+}
 
+textarea,
 input {
+  @apply border font-inherit relative m-0
+    box-border flex max-h-full w-full max-w-full flex-1 font-normal;
+
   transition:
     var(--calcite-animation-timing),
     block-size 0,
     outline-offset 0s;
   -webkit-appearance: none;
-  @apply box-border
-    flex
-    flex-1
-    font-inherit
-    font-normal
-    m-0
-    relative
-    text-ellipsis;
-
-  max-inline-size: var(--calcite-container-size-content-fluid);
-  max-block-size: var(--calcite-container-size-content-fluid);
-  inline-size: var(--calcite-container-size-content-fluid);
-  background-color: var(--calcite-input-number-background-color);
-  color: var(--calcite-input-number-text-color);
   border-radius: var(--calcite-input-number-corner-radius);
+  color: var(--calcite-input-number-text-color);
   border-color: var(--calcite-input-number-border-color);
-
-  &:placeholder-shown {
-    @apply text-ellipsis;
-  }
+  background-color: var(--calcite-input-number-background-color);
 }
 
 // states
 input {
-  @apply border
-    border-solid;
+  @apply border-spacing-1
+    border-solid
+    text-ellipsis;
   &::placeholder,
-  &:-ms-input-placeholder,
-  &::-ms-input-placeholder {
+  &:-ms-input-number-placeholder,
+  &::-ms-input-number-placeholder {
     @apply font-normal;
     color: var(--calcite-input-number-placeholder-text-color);
+  }
+  &:placeholder-shown {
+    @apply text-ellipsis;
   }
 }
 input[readonly] {
   @apply font-medium;
 }
+calcite-icon {
+  color: var(--calcite-input-number-icon-color);
+}
+button:hover,
+button:active {
+  --calcite-input-number-icon-color: var(--calcite-input-number-button-icon-color-hover);
+}
 
 //focus
+textarea,
 input {
   @apply focus-base;
 }
-
+textarea:focus,
 input:focus {
   @apply focus-inset;
 }
 
 :host([status="invalid"]) {
-  & input {
-    @apply border-color-danger;
-  }
-  & input:focus {
+  --calcite-input-number-border-color: var(--calcite-color-status-danger);
+
+  & input:focus,
+  & textarea:focus {
     @apply focus-inset-danger;
   }
 }
@@ -214,9 +266,11 @@ input:focus {
   @apply transition-default
     pointer-events-none
     absolute
-    block
+    block;
+}
 
-    z-default; // needed for firefox to display the icon properly
+.icon {
+  @apply z-default; // needed for firefox to display the icon properly
 }
 
 .clear-button {
@@ -235,7 +289,7 @@ input:focus {
     border-solid;
 
   background-color: var(--calcite-input-number-button-background-color);
-  border-color: var(--calcite-internal-input-border-color-base);
+  border-color: var(--calcite-internal-input-number-border-color-base);
   border-inline-start-width: theme("borderWidth.0");
 
   &:hover {
@@ -286,10 +340,15 @@ input:focus {
     border-solid
     font-medium
     leading-none;
-
-  color: var(--calcite-input-prefixsuffix-text-color);
-  background-color: var(--calcite-input-prefixsuffix-background-color);
-  border-color: var(--calcite-internal-input-border-color-base);
+  border-color: var(--calcite-internal-input-number-border-color-base);
+}
+.prefix {
+  color: var(--calcite-input-number-prefix-text-color);
+  background-color: var(--calcite-input-number-prefix-background-color);
+}
+.suffix {
+  color: var(--calcite-input-number-suffix-text-color);
+  background-color: var(--calcite-input-number-suffix-background-color);
 }
 
 .prefix {
@@ -303,14 +362,28 @@ input:focus {
 
 // alignment type
 :host([alignment="start"]) {
+  & textarea,
   & input {
     text-align: start;
   }
 }
 
 :host([alignment="end"]) {
+  & textarea,
   & input {
     text-align: end;
+  }
+}
+
+// number buttons
+input {
+  -moz-appearance: textfield;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    @apply m-0;
   }
 }
 
@@ -329,7 +402,8 @@ input:focus {
 }
 
 :host([number-button-type="vertical"]) {
-  & input {
+  & input,
+  textarea {
     @apply order-2;
   }
 }
@@ -357,7 +431,8 @@ input:focus {
 }
 
 .number-button-item.number-button-item--horizontal[data-adjustment="down"] {
-  @apply border-solid;
+  @apply border
+    border-solid;
   border-inline-end-width: theme("borderWidth.0");
 }
 
@@ -384,20 +459,18 @@ input:focus {
     border-solid
     py-0
     px-2;
-  // border-inline-start-width: theme("borderWidth.0");
-  border-color: var(--calcite-internal-input-border-color-base);
+  border-color: var(--calcite-internal-input-number-border-color-base);
   border-inline-start-width: theme("borderWidth.0");
-  background-color: var(--calcite-input-button-background-color);
-
+  background-color: var(--calcite-input-number-button-background-color);
   & calcite-icon {
     @apply transition-default pointer-events-none;
   }
   &:focus,
   &:hover {
-    --calcite-input-button-background-color: var(--calcite-input-button-background-color-hover);
+    --calcite-input-number-button-background-color: var(--calcite-input-number-button-background-color-hover);
   }
   &:active {
-    --calcite-input-button-background-color: var(--calcite-input-button-background-color-active);
+    --calcite-input-number-button-background-color: var(--calcite-input-number-button-background-color-active);
   }
   &:disabled {
     @apply pointer-events-none;
@@ -430,21 +503,21 @@ input {
 
   &.inline-child:not(.editing-enabled) {
     @apply border-color-transparent
-    flex
-    cursor-pointer text-ellipsis;
+      flex
+      cursor-pointer text-ellipsis;
     padding-inline-start: 0;
   }
 }
 :host([number-button-type="horizontal"]) {
   .wrapper {
     > button:first-child {
-      border-start-start-radius: var(--calcite-input-corner-radius);
-      border-end-start-radius: var(--calcite-input-corner-radius);
+      border-start-start-radius: var(--calcite-input-number-corner-radius);
+      border-end-start-radius: var(--calcite-input-number-corner-radius);
     }
 
     > button:last-of-type {
-      border-start-end-radius: var(--calcite-input-corner-radius);
-      border-end-end-radius: var(--calcite-input-corner-radius);
+      border-start-end-radius: var(--calcite-input-number-corner-radius);
+      border-end-end-radius: var(--calcite-input-number-corner-radius);
     }
   }
 
@@ -462,10 +535,10 @@ input {
   }
   .number-button-item {
     &:first-child {
-      border-start-end-radius: var(--calcite-input-corner-radius);
+      border-start-end-radius: var(--calcite-input-number-corner-radius);
     }
     &:last-child {
-      border-end-end-radius: var(--calcite-input-corner-radius);
+      border-end-end-radius: var(--calcite-input-number-corner-radius);
     }
   }
 }
@@ -498,20 +571,124 @@ input {
 :host(:not([suffix-text], [type="number"]:not([readonly]))) {
   .wrapper:has(+ .validation-container) {
     input {
-      border-start-end-radius: var(--calcite-input-corner-radius);
-      border-end-end-radius: var(--calcite-input-corner-radius);
+      border-start-end-radius: var(--calcite-input-number-corner-radius);
+      border-end-end-radius: var(--calcite-input-number-corner-radius);
     }
   }
 }
 .prefix {
-  border-start-start-radius: var(--calcite-input-corner-radius);
-  border-end-start-radius: var(--calcite-input-corner-radius);
+  border-start-start-radius: var(--calcite-input-number-corner-radius);
+  border-end-start-radius: var(--calcite-input-number-corner-radius);
 }
 .suffix {
-  border-start-end-radius: var(--calcite-input-corner-radius);
-  border-end-end-radius: var(--calcite-input-corner-radius);
+  border-start-end-radius: var(--calcite-input-number-corner-radius);
+  border-end-end-radius: var(--calcite-input-number-corner-radius);
 }
 
 @include form-validation-message();
 @include hidden-form-input();
 @include base-component();
+
+:host(:focus) {
+  --calcite-input-number-border-color: var(--calcite-color-brand);
+}
+
+:host([read-only]) {
+  --calcite-input-number-background-color: var(--calcite-color-background);
+}
+
+:host([number-button-type="horizontal"]) {
+  .wrapper {
+    // grid-template-columns: min-content min-content 1fr min-content min-content min-content;
+    // grid-template-areas: "numberDesc prefix input suffix numberAsc action";
+
+    > button:first-child {
+      border-start-start-radius: var(--calcite-input-number-corner-radius);
+      border-end-start-radius: var(--calcite-input-number-corner-radius);
+    }
+
+    > button:last-of-type {
+      border-start-end-radius: var(--calcite-input-number-corner-radius);
+      border-end-end-radius: var(--calcite-input-number-corner-radius);
+    }
+  }
+
+  button + button,
+  button + div,
+  button + div input {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+}
+:host([number-button-type="vertical"]) {
+  input,
+  textarea {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+  .number-button-item {
+    &:first-child {
+      border-start-end-radius: var(--calcite-input-number-corner-radius);
+    }
+    &:last-child {
+      border-end-end-radius: var(--calcite-input-number-corner-radius);
+    }
+  }
+}
+:host([prefix-text]) {
+  input,
+  textarea {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+}
+:host([suffix-text]) {
+  input,
+  textarea {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+}
+:host([suffix-text]:not([read-only])) {
+  .suffix {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+}
+
+:host([scale="l"]) {
+  .resize-icon-wrapper {
+    block-size: 18px;
+    inline-size: 18px;
+  }
+}
+:host(:not([clearable], [suffix-text], [read-only])) {
+  .wrapper:has(+ .validation-container) {
+    input {
+      border-start-end-radius: var(--calcite-input-number-corner-radius);
+      border-end-end-radius: var(--calcite-input-number-corner-radius);
+    }
+  }
+}
+
+.prefix {
+  border-start-start-radius: var(--calcite-input-number-corner-radius);
+  border-end-start-radius: var(--calcite-input-number-corner-radius);
+}
+.suffix {
+  border-start-end-radius: var(--calcite-input-number-corner-radius);
+  border-end-end-radius: var(--calcite-input-number-corner-radius);
+}
+:host(:not(:empty)) {
+  input,
+  .clear-button {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+}
+::slotted(*) {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: var(--calcite-input-number-corner-radius);
+  border-end-end-radius: var(--calcite-input-number-corner-radius);
+}
