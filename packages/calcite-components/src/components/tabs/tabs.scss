@@ -1,10 +1,22 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tabs-background-color: The background color of the component.
+ * @prop --calcite-tabs-border-color: The border color of the component.
+ */
+
 :host {
   @apply flex flex-col;
 }
 
 :host([bordered]) {
+  --calcite-tabs-background-color: var(--calcite-color-foreground-1);
+  --calcite-tabs-border-color: var(--calcite-color-border-1);
+
   box-shadow: inset 0 1px 0 var(--calcite-color-border-1);
-  background-color: var(--calcite-color-foreground-1);
+  background-color: var(--calcite-tabs-background-color);
 }
 
 :host([bordered]:not([position="bottom"])) ::slotted(calcite-tab-nav) {
@@ -18,7 +30,9 @@
 }
 
 :host([bordered]) section {
-  @apply border-color-1 border border-solid;
+  @apply border border-solid;
+
+  border-color: var(--calcite-tabs-border-color);
 }
 
 :host([bordered][scale="s"]) section {
@@ -38,19 +52,21 @@
 }
 
 section {
-  @apply border-t-color-1
-    flex
+  @apply flex
     flex-grow
     overflow-hidden
     border-t;
+
   border-block-start-style: solid;
+  border-block-start-color: var(--calcite-tabs-border-color);
 }
 
 :host([position="bottom"]) section {
-  @apply border-b-color-1
-    flex-col-reverse
+  @apply flex-col-reverse
     border-t-0
     border-b;
+
+  border-block-end-color: var(--calcite-tabs-border-color);
 }
 
 :host([position="bottom"]:not([bordered])) section {
