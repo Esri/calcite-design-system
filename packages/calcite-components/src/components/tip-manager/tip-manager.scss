@@ -1,16 +1,19 @@
+@import "../../assets/styles/header";
+
 /**
  * CSS Custom Properties
  *
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-tip-manager-height: The maximum height of the component.
- * @prop --calcite-tip-max-width: The maximum width of a slotted `calcite-tip` within the component.
+ * @prop --calcite-tip-manager-max-width: The maximum width of a slotted `calcite-tip` within the component.
+ * @prop --calcite-tip-manager-background-color: The background color of the component.
+ * @prop --calcite-tip-manager-text-color: The text color of the component.
+ * @prop --calcite-tip-manager-border-color: The border color of the component.
  */
 
 :host {
-  @apply bg-foreground-1
-  text-color-2
-  text-n1h
+  @apply text-n1h
   box-border
   block;
 
@@ -19,29 +22,34 @@
   }
 
   --calcite-tip-manager-height: 19vh;
+  --calcite-tip-background-color: var(--calcite-color-foreground-1);
+  --calcite-tip-manager-text-color: var(--calcite-color-text-2);
+  --calcite-tip-manager-border-color: var(--calcite-color-border-3);
+
+  background-color: var(--calcite-tip-background-color);
+  color: var(--calcite-tip-manager-text-color);
 }
 
 :host([closed]) {
   @apply hidden;
 }
 
-@import "../../assets/styles/header";
-
 .header {
-  @apply border-color-3
-    border-0
+  @apply border-0
     border-b
     border-solid
     py-0;
 
   padding-inline-end: theme("padding.0");
   padding-inline-start: theme("padding.4");
+  border-color: var(--calcite-tip-manager-border-color);
 
   .heading {
-    @apply text-color-1
-      text-1h
+    @apply text-1h
       p-0
       font-bold;
+
+    --calcite-tip-manager-text-color: var(--calcite-color-text-1);
   }
 }
 
@@ -73,7 +81,7 @@
 
 ::slotted(calcite-tip) {
   @apply m-0 border-none;
-  max-inline-size: var(--calcite-tip-max-width);
+  max-inline-size: var(--calcite-tip-manager-max-width);
 }
 
 .tip-container--advancing {
