@@ -657,24 +657,29 @@ input {
     border-end-end-radius: 0;
   }
 }
-:host(:not(:empty)) {
-  input {
-    border-start-end-radius: 0;
-    border-end-end-radius: 0;
-  }
-}
+
 :host([scale="l"]) {
   .resize-icon-wrapper {
     block-size: 18px;
     inline-size: 18px;
   }
 }
-:host(:not([suffix-text], [type="number"]:not([read-only]))) {
+:host(:not([clearable], [suffix-text], [type="number"]:not([read-only]))) {
   .wrapper:has(+ .validation-container) {
     input {
       border-start-end-radius: var(--calcite-input-corner-radius);
       border-end-end-radius: var(--calcite-input-corner-radius);
     }
+  }
+}
+:host(:not([type="number"], [suffix-text])) {
+  input:has(+ .clear-button) {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+  .clear-button {
+    border-start-end-radius: var(--calcite-input-corner-radius);
+    border-end-end-radius: var(--calcite-input-corner-radius);
   }
 }
 
@@ -685,6 +690,13 @@ input {
 .suffix {
   border-start-end-radius: var(--calcite-input-corner-radius);
   border-end-end-radius: var(--calcite-input-corner-radius);
+}
+:host(:not(:empty)) {
+  input,
+  .clear-button {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
 }
 ::slotted(*) {
   border-start-start-radius: 0;
