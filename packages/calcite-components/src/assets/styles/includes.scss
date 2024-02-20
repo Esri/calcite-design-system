@@ -68,7 +68,7 @@
     ::slotted([calcite-hydrated][disabled]),
     [calcite-hydrated][disabled] {
       /* prevent opacity stacking */
-      opacity: 1;
+      opacity: var(--calcite-opacity-full);
     }
   }
 

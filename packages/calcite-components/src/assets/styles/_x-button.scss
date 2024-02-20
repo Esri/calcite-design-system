@@ -18,6 +18,8 @@
     border-radius: 50%;
     border-color: transparent;
     background-color: var(--calcite-color-foreground-2);
+    inline-size: var(--calcite-internal-x-button-size);
+    block-size: var(--calcite-internal-x-button-size);
 
     &:active,
     &:hover {
@@ -36,23 +38,14 @@
   }
 
   :host([scale="s"]) {
-    .x-button {
-      inline-size: var(--calcite-spacing-sm);
-      block-size: var(--calcite-spacing-sm);
-    }
+    --calcite-internal-x-button-size: var(--calcite-spacing-sm);
   }
 
   :host([scale="m"]) {
-    .x-button {
-      inline-size: var(--calcite-spacing-lg);
-      block-size: var(--calcite-spacing-lg);
-    }
+    --calcite-internal-x-button-size: var(--calcite-spacing-lg);
   }
 
   :host([scale="l"]) {
-    .x-button {
-      inline-size: var(--calcite-spacing-xxl);
-      block-size: var(--calcite-spacing-xxl);
-    }
+    --calcite-internal-x-button-size: var(--calcite-spacing-xxl);
   }
 }
