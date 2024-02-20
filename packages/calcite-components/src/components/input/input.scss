@@ -11,7 +11,7 @@
  * @prop --calcite-input-button-background-color-hover: defines the background color of a :hover-ed button element in the component.
  * @prop --calcite-input-button-background-color-active: defines the background color of an :active button element in the component.
  * @prop --calcite-input-icon-color: defines the color of an icon element in the component.
- * @prop --calcite-input-icon-color-hover: defines the color of an icon element when it's parent is hovered in the component.
+ * @prop --calcite-input-button-icon-color-hover: defines the color of an icon element when it's parent is hovered in the component.
  * @prop --calcite-input-prefix-text-color: defines the prefix text color in the component.
  * @prop --calcite-input-prefix-background-color: defines the prefix background color in the component.
  * @prop --calcite-input-suffix-text-color: defines the suffix text color in the component.
@@ -34,7 +34,7 @@
 
   // Icon
   --calcite-input-icon-color: var(--calcite-color-text-3);
-  --calcite-input-icon-color-hover: var(--calcite-color-text-1);
+  --calcite-input-button-icon-color-hover: var(--calcite-color-text-1);
 
   // Prefix/Suffix
   --calcite-input-prefix-text-color: var(--calcite-color-text-2);
@@ -192,7 +192,7 @@ calcite-icon {
 }
 button:hover,
 button:active {
-  --calcite-input-icon-color: var(--calcite-input-icon-color-hover);
+  --calcite-input-icon-color: var(--calcite-input-button-icon-color-hover);
 }
 
 //focus
