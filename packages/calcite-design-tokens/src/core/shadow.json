@@ -1,6 +1,36 @@
 {
   "core": {
     "shadow": {
+      "-1": {
+        "value": {
+          "x": "0",
+          "y": "0",
+          "blur": "0",
+          "spread": "0",
+          "color": "{core.color.neutral.blk-240}"
+        },
+        "type": "boxShadow",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "shadow",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "-1",
+            "context": "",
+            "mode": ""
+          }
+        }
+      },
       "0": {
         "value": {
           "x": "0",
@@ -146,6 +176,126 @@
             "variant": "",
             "state": "",
             "scale": "4",
+            "context": "",
+            "mode": ""
+          }
+        }
+      },
+      "5": {
+        "value": {
+          "x": "0",
+          "y": "2",
+          "blur": "4",
+          "spread": "-1",
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.4})"
+        },
+        "type": "boxShadow",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "shadow",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "5",
+            "context": "",
+            "mode": ""
+          }
+        }
+      },
+      "6": {
+        "value": {
+          "x": "0",
+          "y": "4",
+          "blur": "8",
+          "spread": "-1",
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.8})"
+        },
+        "type": "boxShadow",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "shadow",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "6",
+            "context": "",
+            "mode": ""
+          }
+        }
+      },
+      "7": {
+        "value": {
+          "x": "0",
+          "y": "6",
+          "blur": "20",
+          "spread": "-4",
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.1})"
+        },
+        "type": "boxShadow",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "shadow",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "7",
+            "context": "",
+            "mode": ""
+          }
+        }
+      },
+      "8": {
+        "value": {
+          "x": "0",
+          "y": "4",
+          "blur": "12",
+          "spread": "-2",
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.8})"
+        },
+        "type": "boxShadow",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "core",
+            "domain": "",
+            "component": "",
+            "pattern": "",
+            "element": "",
+            "category": "shadow",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "",
+            "variant": "",
+            "state": "",
+            "scale": "8",
             "context": "",
             "mode": ""
           }
