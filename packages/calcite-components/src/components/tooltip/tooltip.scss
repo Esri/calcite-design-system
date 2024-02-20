@@ -15,14 +15,20 @@
 :host {
   --calcite-tooltip-background-color: var(--calcite-color-foreground-1);
   --calcite-tooltip-border-color: var(--calcite-color-border-3);
-  --calcite-tooltip-shadow: var(--calcite-shadow-2);
+  --calcite-tooltip-shadow: var(--calcite-shadow-md);
   --calcite-tooltip-text-color: var(--calcite-color-text-1);
-  --calcite-tooltip-corner-radius: var(--calcite-border-radius-round);
-  --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, var(--calcite-z-index-tooltip));
+  --calcite-tooltip-corner-radius: var(--calcite-corner-radius-round);
+  --calcite-tooltip-z-index: var(--calcite-z-index-tooltip);
 }
 
-@include floatingUIHost();
-@include floatingUIArrow();
+@include floatingUIHost(
+  "--calcite-tooltip-z-index",
+  "--calcite-tooltip-shadow",
+  "--calcite-tooltip-corner-radius",
+  "--calcite-border-width-sm",
+  "--calcite-tooltip-border-color",
+  "--calcite-tooltip-background-color"
+);
 
 .container {
   position: relative;
@@ -37,27 +43,6 @@
   text-align: start;
   color: var(--calcite-tooltip-text-color);
   border-radius: var(--calcite-tooltip-corner-radius);
-}
-
-.calcite-floating-ui-anim {
-  border-style: solid;
-  border-width: var(--calcite-border-width-sm);
-  background-color: var(--calcite-tooltip-background-color);
-  border-color: var(--calcite-tooltip-border-color);
-  border-radius: var(--calcite-tooltip-corner-radius);
-  box-shadow: var(--calcite-tooltip-shadow);
-}
-
-.arrow::before {
-  outline: var(--calcite-border-width-sm) solid var(--calcite-tooltip-border-color);
-}
-
-.calcite-floating-ui-arrow {
-  fill: var(--calcite-tooltip-background-color);
-}
-
-.calcite-floating-ui-arrow__stroke {
-  stroke: var(--calcite-tooltip-border-color);
 }
 
 @include base-component();

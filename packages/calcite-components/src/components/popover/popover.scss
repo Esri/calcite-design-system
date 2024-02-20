@@ -12,16 +12,22 @@
 
 :host {
   @apply pointer-events-none;
-  --calcite-floating-ui-z-index: var(--calcite-popover-z-index, var(--calcite-z-index-popup));
   --calcite-popover-background-color: var(--calcite-color-foreground-1);
   --calcite-popover-border-color: var(--calcite-color-border-3);
-  --calcite-popover-shadow: var(--calcite-shadow-2);
+  --calcite-popover-shadow: var(--calcite-shadow-md);
   --calcite-popover-text-color: var(--calcite-color-text-1);
-  --calcite-popover-corner-radius: var(--calcite-border-radius-round);
+  --calcite-popover-corner-radius: var(--calcite-corner-radius-round);
+  --calcite-popover-z-index: var(--calcite-z-index-popup);
 }
 
-@include floatingUIHost();
-@include floatingUIArrow();
+@include floatingUIHost(
+  "--calcite-popover-z-index",
+  "--calcite-popover-shadow",
+  "--calcite-popover-corner-radius",
+  "--calcite-border-width-sm",
+  "--calcite-popover-border-color",
+  "--calcite-popover-background-color"
+);
 
 .heading {
   @apply word-break
@@ -61,20 +67,6 @@
 
 :host([open]) {
   pointer-events: initial;
-}
-
-.calcite-floating-ui-anim {
-  @apply border
-    border-solid;
-
-  background-color: var(--calcite-popover-background-color);
-  border-color: var(--calcite-popover-border-color);
-  border-radius: var(--calcite-popover-corner-radius);
-  box-shadow: var(--calcite-popover-shadow);
-}
-
-.arrow::before {
-  outline: 1px solid var(--calcite-popover-border-color);
 }
 
 .header {
@@ -124,14 +116,6 @@
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply h-full;
-}
-
-.calcite-floating-ui-arrow {
-  fill: var(--calcite-popover-background-color);
-}
-
-.calcite-floating-ui-arrow__stroke {
-  stroke: var(--calcite-popover-border-color);
 }
 
 @include base-component();
