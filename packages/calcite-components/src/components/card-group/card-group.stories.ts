@@ -18,10 +18,14 @@ export const simple = (): string => html`
     selection-mode="${select("selection-mode", ["single", "single-persist", "multiple", "none"], "multiple")}"
   >
     <calcite-card label="test card">
-      <img slot="thumbnail" alt="Sample image alt" src=<img src="${placeholderImage({
-        width: 280,
-        height: 150,
-      })}"> />
+      <img
+        slot="thumbnail"
+        alt="Sample image alt"
+        src="${placeholderImage({
+          width: 280,
+          height: 150,
+        })}"
+      />
       <h3 slot="heading">Portland Businesses</h3>
       <span slot="description"
         >by
@@ -59,10 +63,14 @@ export const simple = (): string => html`
       </div>
     </calcite-card>
     <calcite-card label="test card">
-      <img slot="thumbnail" alt="Sample image alt" src=<img src="${placeholderImage({
-        width: 280,
-        height: 150,
-      })}"> />
+      <img
+        slot="thumbnail"
+        alt="Sample image alt"
+        src="${placeholderImage({
+          width: 280,
+          height: 150,
+        })}"
+      />
       <h3 slot="heading">Portland Businesses</h3>
       <span slot="description"
         >by
@@ -90,10 +98,14 @@ export const simple = (): string => html`
       </div>
     </calcite-card>
     <calcite-card label="test card">
-      <img slot="thumbnail" alt="Sample image alt" src=<img src="${placeholderImage({
-        width: 280,
-        height: 150,
-      })}"> />
+      <img
+        slot="thumbnail"
+        alt="Sample image alt"
+        src="${placeholderImage({
+          width: 280,
+          height: 150,
+        })}"
+      />
       <span slot="description"
         >by
         <calcite-link href="">example_user</calcite-link>
@@ -194,10 +206,14 @@ export const multipleCardHeightsMatchPerRow_TestOnly = (): string => html`
     </style>
     <calcite-card-group label="label">
       <calcite-card label="test card">
-        <img slot="thumbnail" alt="Sample image alt" src=<img src="${placeholderImage({
-          width: 280,
-          height: 150,
-        })}"> />
+        <img
+          slot="thumbnail"
+          alt="Sample image alt"
+          src="${placeholderImage({
+            width: 280,
+            height: 150,
+          })}"
+        />
         <h3 slot="heading">Portland Businesses</h3>
         <div>
           Created: Apr 22, 2019
@@ -258,10 +274,14 @@ export const multipleCardHeightsMatchPerRow_TestOnly = (): string => html`
         </div>
       </calcite-card>
       <calcite-card label="test card">
-        <img slot="thumbnail" alt="Sample image alt" src=<img src="${placeholderImage({
-          width: 280,
-          height: 150,
-        })}"> />
+        <img
+          slot="thumbnail"
+          alt="Sample image alt"
+          src="${placeholderImage({
+            width: 280,
+            height: 150,
+          })}"
+        />
         <h3 slot="heading">Portland Businesses</h3>
         <span slot="description"
           >by
@@ -289,10 +309,14 @@ export const multipleCardHeightsMatchPerRow_TestOnly = (): string => html`
         </div>
       </calcite-card>
       <calcite-card label="test card">
-        <img slot="thumbnail" alt="Sample image alt" src=<img src="${placeholderImage({
-          width: 280,
-          height: 150,
-        })}"> />
+        <img
+          slot="thumbnail"
+          alt="Sample image alt"
+          src="${placeholderImage({
+            width: 280,
+            height: 150,
+          })}"
+        />
         <h3 slot="heading">Portland Businesses</h3>
         <calcite-button type="button" slot="footer-start" kind="neutral" scale="s" icon-start="check"></calcite-button>
         <div slot="footer-end">

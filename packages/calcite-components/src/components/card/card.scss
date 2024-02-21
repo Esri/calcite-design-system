@@ -203,6 +203,16 @@
   }
 }
 
+:host(:not([selectable])) .content-wrapper:not(.non-interactive):focus .checkbox-wrapper {
+  background-color: var(--calcite-card-selection-background-color-hover);
+  --calcite-ui-icon-color: var(--calcite-card-selection-icon-color-hover);
+}
+
+:host([selected]:not([selectable])) .content-wrapper:not(.non-interactive):focus .checkbox-wrapper {
+  background-color: var(--calcite-card-selection-background-color-active);
+  --calcite-ui-icon-color: var(--calcite-card-selection-icon-color-selected);
+}
+
 .thumbnail-wrapper {
   @apply flex;
 }
