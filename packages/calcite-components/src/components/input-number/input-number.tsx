@@ -203,7 +203,7 @@ export class InputNumber
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    *
-   * @deprecated
+   * @deprecated This property has no effect on the component.
    */
   @Prop({ reflect: true }) maxLength: number;
 
@@ -212,7 +212,7 @@ export class InputNumber
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    *
-   * @deprecated
+   * @deprecated This property has no effect on the component.
    */
   @Prop({ reflect: true }) minLength: number;
 
