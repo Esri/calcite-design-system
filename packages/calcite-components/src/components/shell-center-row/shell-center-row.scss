@@ -1,6 +1,17 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-shell-center-row-background-color: Specifies the background color of the component.
+ * @prop --calcite-shell-center-row-border-color: Specifies the border color of the component.
+ * @prop --calcite-shell-center-row-border-radius: Specifies the border radius of the component.
+ */
+
 :host {
   --calcite-shell-center-row-background-color: var(--calcite-color-foreground-1);
   --calcite-shell-center-row-border-color: var(--calcite-color-border-3);
+  --calcite-shell-center-row-border-radius: var(--calcite-corner-radius-round);
 
   @include base-host();
   display: flex;
@@ -31,7 +42,7 @@
   margin-inline: var(--calcite-size-sm);
   margin-block-start: var(--calcite-size-sm);
   margin-block-end: var(--calcite-size-lg);
-  border-radius: var(--calcite-corner-radius-round);
+  border-radius: var(--calcite-shell-center-row-border-radius);
   border-width: 0px;
   box-shadow: var(--calcite-shadow-md);
 }
