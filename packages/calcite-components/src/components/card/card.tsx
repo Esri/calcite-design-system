@@ -265,9 +265,9 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
 
   private renderThumbnail(): VNode {
     return getSlotted(this.el, SLOTS.thumbnail) ? (
-      <section class={CSS.thumbnailWrapper}>
+      <div class={CSS.thumbnailWrapper}>
         <slot name={SLOTS.thumbnail} />
-      </section>
+      </div>
     ) : null;
   }
 
@@ -345,7 +345,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
         <InteractiveContainer disabled={this.disabled}>
           <div
             aria-checked={
-              this.selectionMode !== "none" && role !== "button" && this.interactive
+              this.selectionMode !== "none" && this.interactive
                 ? toAriaBoolean(this.selected)
                 : undefined
             }
@@ -362,8 +362,8 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
                 <calcite-loader label={this.messages.loading} />
               </div>
             ) : null}
-            {thumbnailStart && this.renderThumbnail()}
-            <section aria-busy={toAriaBoolean(this.loading)} class={{ [CSS.container]: true }}>
+            <div aria-busy={toAriaBoolean(this.loading)} class={{ [CSS.container]: true }}>
+              {thumbnailStart && this.renderThumbnail()}
               {this.renderHeader()}
               <div
                 class={{
@@ -374,7 +374,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
                 <slot onSlotchange={this.handleDefaultSlotChange} />
               </div>
               {this.renderFooter()}
-            </section>
+            </div>
             {!thumbnailStart && this.renderThumbnail()}
           </div>
         </InteractiveContainer>
