@@ -38,6 +38,24 @@
     w-full;
 }
 
+.status-icon {
+  color: var(--calcite-internal-block-section-icon-color);
+}
+
+.status-icon.valid {
+  --calcite-internal-block-section-icon-color: var(--calcite-color-status-success);
+}
+
+.status-icon.invalid {
+  --calcite-internal-block-section-icon-color: var(--calcite-color-status-danger);
+}
+
+.toggle--switch {
+  .status-icon {
+    margin-inline-start: theme("margin.2");
+  }
+}
+
 .toggle--switch,
 .section-header {
   @apply cursor-pointer
@@ -84,22 +102,8 @@
   }
 }
 
-.toggle--switch {
-  .status-icon {
-    margin-inline-start: theme("margin.2");
-  }
-}
-
 .toggle--switch__content {
   @apply flex flex-auto items-center;
-}
-
-.status-icon.valid {
-  color: var(--calcite-color-status-success);
-}
-
-.status-icon.invalid {
-  color: var(--calcite-color-status-danger);
 }
 
 :host([toggle-display="switch"]) .toggle {
