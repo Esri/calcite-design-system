@@ -5,15 +5,14 @@
  *
  * @prop --calcite-block-background-color: Specifies the background color of the component.
  * @prop --calcite-block-border-color: Specifies the border color of the component.
+ * @prop --calcite-block-content-space: Specifies the space of the component's `default` slot.
  * @prop --calcite-block-description-text-color: Specifies the text color of the component's description.
  * @prop --calcite-block-header-background-color: Specifies the background color of the component's header.
  * @prop --calcite-block-heading-text-color: Specifies the text color of the component's heading.
- * @prop --calcite-block-padding: **deprecated** use `--calcite-block-space` instead - Specifies the padding of the component's `default` slot.
- * @prop --calcite-block-space: Specifies the space of the component's `default` slot.
+ * @prop --calcite-block-padding: [Deprecated] use `--calcite-block-content-space` instead - Specifies the padding of the component's `default` slot.
  * @prop --calcite-block-toggle-icon-color: Specifies the color of the component's toggle icon.
  */
 
-@import "../../assets/styles/animation";
 @import "../../assets/styles/header";
 
 :host {
@@ -26,12 +25,14 @@
 
   --calcite-internal-block-padding-inline: var(
     --calcite-block-padding,
-    var(--calcite-block-space, theme("spacing[2.5]"))
+    var(--calcite-block-content-space, theme("spacing[2.5]"))
   );
-  --calcite-internal-block-padding-block: var(--calcite-block-padding, var(--calcite-block-space, theme("spacing.2")));
+  --calcite-internal-block-padding-block: var(
+    --calcite-block-padding,
+    var(--calcite-block-content-space, theme("spacing.2"))
+  );
 
   @include base-host();
-  @extend %component-spacing;
   @apply border-0 border-b border-solid duration-150 ease-cubic
     flex flex-col flex-grow-0 flex-shrink-0 p-0 transition-margin;
   flex-basis: auto;
@@ -119,15 +120,16 @@ calcite-handle {
 .icon {
   display: flex;
   margin-inline-start: theme("spacing.3");
-  margin-inline-end: 0px;
+  margin-inline-end: 0;
+  color: var(--calcite-internal-block-icon-color);
 }
 
 .status-icon.valid {
-  color: var(--calcite-color-status-success);
+  --calcite-internal-block-icon-color: var(--calcite-color-status-success);
 }
 
 .status-icon.invalid {
-  color: var(--calcite-color-status-danger);
+  --calcite-internal-block-icon-color: var(--calcite-color-status-danger);
 }
 
 .toggle-icon {
@@ -168,4 +170,3 @@ calcite-action-menu {
 }
 
 @include disabled();
-@include base-component();
