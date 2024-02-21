@@ -10,7 +10,7 @@
 :host {
   @apply flex;
 
-  --calcite-handle-text-color: var(--calcite-color-text-1);
+  --calcite-handle-text-color: var(--calcite-color-border-input);
   --calcite-handle-background-color: var(--calcite-color-foreground-2);
 }
 
@@ -22,31 +22,32 @@
     self-stretch
     border-none
     bg-transparent;
-  color: var(--calcite-color-border-input);
+
   padding-block: theme("spacing.3");
   padding-inline: theme("spacing.1");
   line-height: 0;
+  cursor: move;
+
+  background-color: var(--calcite-handle-background-color);
+  color: var(--calcite-handle-text-color);
 
   calcite-icon {
     color: inherit;
   }
 }
-
-:host(:not([disabled])) .handle {
-  @apply cursor-move;
-  &:hover {
-    background-color: var(--calcite-handle-background-color);
-    color: var(--calcite-handle-text-color);
-  }
-  &:focus {
-    @apply focus-inset;
-
-    color: var(--calcite-handle-text-color);
-  }
-  &--selected {
-    background-color: var(--calcite-color-foreground-3);
-    color: var(--calcite-handle-text-color);
-  }
+:host(:not([disabled]):hover) {
+  --calcite-handle-text-color: var(--calcite-color-text-1);
+  --calcite-handle-background-color: var(--calcite-color-foreground-2);
+}
+:host(:not([disabled]):focus) {
+  --calcite-handle-text-color: var(--calcite-color-text-1);
+}
+:host(:not([disabled])[selected]) {
+  --calcite-handle-background-color: var(--calcite-color-foreground-3);
+  --calcite-handle-text-color: var(--calcite-color-text-1);
+}
+:host([disabled]) {
+  cursor: pointer;
 }
 
 @include disabled();
