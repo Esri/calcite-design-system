@@ -4,19 +4,50 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-alert-width: Specifies the width of the component.
+ * @prop --calcite-alert-background-color: Specifies the background color of the component.
+ * @prop --calcite-alert-border-color: Specifies the border color of the component.
+ * @prop --calcite-alert-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-alert-shadow: Specifies the shadow of the component.
+ * @prop --calcite-alert-text-color: Specifies the text color of the component.
+ * @prop --calcite-alert-close-icon-color: Specifies the icon color of the component's `closable` element.
+ * @prop --calcite-alert-close-background-color: Specifies the background color of the component's `closable` element.
+ * @prop --calcite-alert-close-background-color-hover: Specifies the hover background color of the component's `closable` element when hovered.
+ * @prop --calcite-alert-close-background-color-active: Specifies the active background color of the component's `closable` element when active.
+ * @prop --calcite-alert-close-background-color-focus: Specifies the focus background color of the component's `closable` element when focused.
+ * @prop --calcite-alert-close-focus-outline-color Specifies the focus outline color of the component's `closable` element.
  */
-
-$border-style: 1px solid var(--calcite-color-border-3);
 
 :host {
   --calcite-alert-edge-distance: theme("spacing.8");
-  --calcite-alert-dismiss-progress-background: var(--calcite-color-transparent-tint);
+
+  --calcite-alert-background-color: var(--calcite-color-foreground-1);
+  --calcite-alert-border-color: var(--calcite-color-border-3);
+  --calcite-alert-corner-radius: var(--calcite-border-radius);
+  --calcite-alert-icon-color: var(--calcite-border-radius);
+  --calcite-alert-shadow: var(--calcite-shadow-md);
+  --calcite-alert-title-text-color: var(--calcite-color-text-1);
+  --calcite-alert-message-text-color: var(--calcite-color-text-2);
+  --calcite-alert-link-text-color: var(--calcite-color-text-link);
+  --calcite-alert-close-icon-color: var(--calcite-color-text-3);
+  --calcite-alert-close-icon-color-hover: var(--calcite-color-text-1);
+  --calcite-alert-close-icon-color-active: var(--calcite-color-text-1);
+  --calcite-alert-close-icon-color-focus: var(--calcite-color-text-1);
+  --calcite-alert-close-background-color: var(--calcite-color-transparent);
+  --calcite-alert-close-background-color-hover: var(--calcite-color-foreground-2);
+  --calcite-alert-close-background-color-active: var(--calcite-color-foreground-3);
+  --calcite-alert-close-background-color-focus: var(--calcite-color-foreground-2);
+  --calcite-alert-queue-count-background-color: var(--calcite-color-foreground-1);
+  --calcite-alert-queue-count-text-color: var(--calcite-color-text-2);
+  --calcite-alert-dismiss-progress-background-color: var(
+    --calcite-alert-dismiss-progress-background,
+    var(--calcite-color-transparent-tint)
+  );
+
   @apply block;
 }
 
 .container {
-  @apply bg-foreground-1
-  box-border
+  @apply box-border
   fixed
   flex
   items-center
@@ -26,15 +57,15 @@ $border-style: 1px solid var(--calcite-color-border-3);
   my-0
   opacity-0
   pointer-events-none
-  shadow-2
   text-start
   w-full
   z-toast;
 
-  border-radius: var(--calcite-border-radius);
+  border-radius: var(--calcite-alert-corner-radius);
   border-block-start: 0 solid transparent;
-  border-inline: $border-style;
-  border-block-end: $border-style;
+  border-inline: 1px solid var(--calcite-alert-border-color);
+  border-block-start-color: var(--calcite-alert-icon-color);
+  border-block-end: 1px solid var(--calcite-alert-border-color);
   inline-size: var(--calcite-alert-width);
   max-inline-size: calc(100% - (var(--calcite-alert-edge-distance) * 2));
   transition:
@@ -70,31 +101,38 @@ $border-style: 1px solid var(--calcite-color-border-3);
   margin-block: auto;
   margin-inline-end: auto;
   padding-inline-start: var(--calcite-alert-spacing-token-large);
+  color: var(--calcite-alert-icon-color);
 }
 
 .close {
-  @apply bg-transparent border-none cursor-pointer flex items-center justify-end outline-none self-stretch text-color-3;
+  @apply border-none cursor-pointer flex items-center justify-end outline-none self-stretch;
   -webkit-appearance: none;
   padding: var(--calcite-alert-spacing-token-large);
+
+  background-color: var(--calcite-alert-close-background-color);
+  color: var(--calcite-alert-close-icon-color);
 
   @apply focus-base;
   &:focus {
     @apply focus-inset;
   }
 
-  &:hover,
-  &:focus {
-    @apply bg-foreground-2 text-color-1;
+  &:hover {
+    background-color: var(--calcite-alert-close-background-color-hover);
+    color: var(--calcite-alert-close-icon-color-hover);
   }
-
+  &:focus {
+    background-color: var(--calcite-alert-close-background-color-focus);
+    color: var(--calcite-alert-close-icon-color-focus);
+  }
   &:active {
-    @apply bg-foreground-3;
+    background-color: var(--calcite-alert-close-background-color-active);
+    color: var(--calcite-alert-close-icon-color-active);
   }
 }
 
 .queue-count {
-  @apply bg-foreground-1
-  cursor-default
+  @apply cursor-default
   flex
   font-medium
   invisible
@@ -105,10 +143,11 @@ $border-style: 1px solid var(--calcite-color-border-3);
   overflow-hidden
   self-stretch
   text-center
-  text-color-2
   transition-default;
+  background-color: var(--calcite-alert-queue-count-background-color);
   border-inline: 0 solid transparent;
   border-start-end-radius: 0;
+  color: var(--calcite-alert-queue-count-text-color);
 
   &--active {
     @apply visible opacity-100;
@@ -123,14 +162,15 @@ $border-style: 1px solid var(--calcite-color-border-3);
   inset-inline: 0;
   inset-block-start: -2px;
   block-size: 2px;
-  border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
+  border-radius: var(--calcite-alert-corner-radius) var(--calcite-alert-corner-radius) 0 0;
+
   &:after {
     @apply absolute
     top-0
     block;
     block-size: 2px;
     content: "";
-    background-color: var(--calcite-alert-dismiss-progress-background);
+    background-color: var(--calcite-alert-dismiss-progress-background-color);
     inset-inline-end: 0;
   }
 }
@@ -241,22 +281,26 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 @include slotted("title", "*") {
-  @apply text-0-wrap
-    text-color-1
-    font-medium;
+  color: var(--calcite-alert-title-text-color);
+
+  @apply font-medium
+    text-0-wrap;
 }
 
 @include slotted("message", "*") {
-  @apply text-n1-wrap
-    text-color-2
-    m-0
+  color: var(--calcite-alert-message-text-color);
+
+  @apply font-normal
     inline
-    font-normal;
+    m-0
+    text-n1-wrap;
   margin-inline-end: theme("margin.2");
 }
 
 @include slotted("link", "*") {
-  @apply text-color-link inline-flex;
+  color: var(--calcite-alert-link-text-color);
+
+  @apply inline-flex;
 }
 
 $alertKinds:
@@ -271,13 +315,7 @@ $alertKinds:
   $kind: nth($alertKind, 2);
 
   :host([kind="#{$name}"]) {
-    .container {
-      border-block-start-color: $kind;
-
-      & .icon {
-        color: $kind;
-      }
-    }
+    --calcite-alert-icon-color: #{$kind};
   }
 }
 
