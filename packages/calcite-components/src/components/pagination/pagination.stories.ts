@@ -88,31 +88,62 @@ export const responsiveTinyNumberLastPage_TestOnly = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "last" }));
 
 export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
-  <calcite-pagination
-    class="calcite-mode-dark"
-    start-item="1"
-    lang="fr"
-    group-separator
-    total-items="123456789"
-    page-size="10"
-    scale="l"
-  >
-  </calcite-pagination>
+  <div style="width:480px;">
+    <calcite-pagination
+      class="calcite-mode-dark"
+      start-item="1"
+      lang="fr"
+      group-separator
+      total-items="123456789"
+      page-size="10"
+      scale="l"
+    >
+    </calcite-pagination>
+  </div>
 `;
 
 darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const arabicNumberingSystemAndRTL_TestOnly = (): string =>
-  html`<calcite-pagination
-    dir="rtl"
-    numbering-system="arab"
-    start-item="1"
-    lang="fr"
-    total-items="123456789"
-    page-size="10"
-  >
-  </calcite-pagination>`;
+export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`
+  <div style="width:480px;">
+    <calcite-pagination
+      dir="rtl"
+      numbering-system="arab"
+      start-item="1"
+      lang="fr"
+      total-items="123456789"
+      page-size="10"
+    >
+    </calcite-pagination>
+  </div>
+`;
 
 arabicNumberingSystemAndRTL_TestOnly.parameters = {
   chromatic: { diffThreshold: 1 },
 };
+
+export const theming_TestOnly = (): string => html`
+  <div style="width:480px;">
+    <calcite-pagination
+      total-items="1200"
+      page-size="100"
+      start-item="1"
+      style="
+      --calcite-pagination-text-color: green;
+      --calcite-pagination-text-color-hover: darkgreen;
+      --calcite-pagination-text-color-selected: teal;
+      --calcite-pagination-background-color: lightyellow;
+      --calcite-pagination-background-color-hover: yellow;
+      --calcite-pagination-background-color-active: gold;
+      --calcite-pagination-border-color-selected: green;
+      --calcite-pagination-border-color-hover: orange;
+      --calcite-pagination-arrow-icon-color: blue;
+      --calcite-pagination-arrow-icon-color-hover: pink;
+      --calcite-pagination-arrow-icon-color-active: red;
+      --calcite-pagination-arrow-background-color: lightyellow;
+      --calcite-pagination-arrow-background-color-hover: orange;
+      --calcite-pagination-arrow-background-color-active: gold;
+    "
+    ></calcite-pagination>
+  </div>
+`;
