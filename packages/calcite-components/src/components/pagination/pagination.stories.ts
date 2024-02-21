@@ -88,7 +88,7 @@ export const responsiveTinyNumberLastPage_TestOnly = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "last" }));
 
 export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
-  <div style="width:100%">
+  <div style="width:480px;">
     <calcite-pagination
       class="calcite-mode-dark"
       start-item="1"
@@ -105,7 +105,7 @@ export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): s
 darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`
-  <div style="width:100%">
+  <div style="width:480px;">
     <calcite-pagination
       dir="rtl"
       numbering-system="arab"
@@ -123,7 +123,7 @@ arabicNumberingSystemAndRTL_TestOnly.parameters = {
 };
 
 export const theming_TestOnly = (): string => html`
-  <div style="width:100%">
+  <div style="width:480px;">
     <calcite-pagination
       total-items="1200"
       page-size="100"
