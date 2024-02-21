@@ -6,7 +6,9 @@
   display: flex;
   flex: 1 1 auto;
   overflow: hidden;
-  z-index: var(--calcite-z-index); // todo: not sure why this is needed? Maybe can remove??
+  z-index: var(
+    --calcite-z-index
+  ); // todo: not sure why this is needed? Maybe can remove?? There's no positioning of this component by default.
   background-color: var(--calcite-shell-center-row-background-color);
   font-size: var(--calcite-font-size--1);
 }
@@ -26,10 +28,10 @@
 
 :host([detached]) {
   animation: in-up var(--calcite-internal-animation-timing-slow) ease-in-out;
-  margin-inline: var(--calcite-size-xs); // todo: var?
-  margin-block-start: var(--calcite-size-xs); // todo: var?
-  margin-block-end: var(--calcite-size-md-plus); // todo: var?
-  border-radius: var(--calcite-corner-radius-round); // todo: var?
+  margin-inline: var(--calcite-size-sm);
+  margin-block-start: var(--calcite-size-sm);
+  margin-block-end: var(--calcite-size-lg);
+  border-radius: var(--calcite-corner-radius-round);
   border-width: 0px;
   box-shadow: var(--calcite-shadow-md);
 }
