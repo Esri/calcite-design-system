@@ -5,20 +5,41 @@
 *
 * @prop --calcite-popover-background-color: Specifies the background color of the component.
 * @prop --calcite-popover-border-color: The border color of the component.
+* @prop --calcite-popover-shadow: The shadow of the component.
 * @prop --calcite-popover-corner-radius: The corner radius of the component.
 * @prop --calcite-popover-text-color: The text color of the component.
 */
 
 :host {
-  --calcite-floating-ui-z-index: var(--calcite-popover-z-index, var(--calcite-z-index-popup));
+  @apply pointer-events-none;
   --calcite-popover-background-color: var(--calcite-color-foreground-1);
   --calcite-popover-border-color: var(--calcite-color-border-3);
+  --calcite-popover-shadow: var(--calcite-shadow-md);
   --calcite-popover-text-color: var(--calcite-color-text-1);
-  --calcite-popover-corner-radius: var(--calcite-border-radius-round);
+  --calcite-popover-corner-radius: var(--calcite-corner-radius-round);
+  --calcite-popover-z-index: var(--calcite-z-index-popup);
 }
 
-@include floatingUIHost();
-@include floatingUIArrow();
+@include floatingUIHost(
+  "--calcite-popover-z-index",
+  "--calcite-popover-shadow",
+  "--calcite-popover-corner-radius",
+  "--calcite-border-width-sm",
+  "--calcite-popover-border-color",
+  "--calcite-popover-background-color"
+);
+
+.heading {
+  @apply word-break
+  m-0
+  block
+  flex-auto
+  self-center
+  whitespace-normal
+  font-medium;
+
+  color: var(--calcite-popover-text-color);
+}
 
 :host([scale="s"]) {
   .heading {
@@ -44,25 +65,8 @@
   }
 }
 
-:host {
-  @apply pointer-events-none;
-}
-
 :host([open]) {
   pointer-events: initial;
-}
-
-.calcite-floating-ui-anim {
-  @apply border
-    border-solid;
-
-  background-color: var(--calcite-popover-background-color);
-  border-color: var(--calcite-popover-border-color);
-  border-radius: var(--calcite-popover-corner-radius);
-}
-
-.arrow::before {
-  outline: 1px solid var(--calcite-popover-border-color);
 }
 
 .header {
@@ -75,18 +79,6 @@
     border-solid;
 
   border-block-end-color: var(--calcite-popover-border-color);
-}
-
-.heading {
-  @apply word-break
-  m-0
-  block
-  flex-auto
-  self-center
-  whitespace-normal
-  font-medium;
-
-  color: var(--calcite-popover-text-color);
 }
 
 .container {

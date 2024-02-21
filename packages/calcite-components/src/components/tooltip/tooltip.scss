@@ -3,40 +3,46 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+
+ * @prop --calcite-tooltip-background-color: Specifies the background color of the component.
+ * @prop --calcite-tooltip-border-color: The border color of the component.
+ * @prop --calcite-tooltip-corner-radius: The corner radius of the component.
+ * @prop --calcite-tooltip-shadow: The shadow of the component.
+ * @prop --calcite-tooltip-text-color: The text color of the component.
  * @prop --calcite-tooltip-z-index: Sets the z-index value for the component.
  */
 
 :host {
-  --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, theme("zIndex.tooltip"));
+  --calcite-tooltip-background-color: var(--calcite-color-foreground-1);
+  --calcite-tooltip-border-color: var(--calcite-color-border-3);
+  --calcite-tooltip-shadow: var(--calcite-shadow-md);
+  --calcite-tooltip-text-color: var(--calcite-color-text-1);
+  --calcite-tooltip-corner-radius: var(--calcite-corner-radius-round);
+  --calcite-tooltip-z-index: var(--calcite-z-index-tooltip);
 }
 
-@include floatingUIHost();
-@include floatingUIArrow();
+@include floatingUIHost(
+  "--calcite-tooltip-z-index",
+  "--calcite-tooltip-shadow",
+  "--calcite-tooltip-corner-radius",
+  "--calcite-border-width-sm",
+  "--calcite-tooltip-border-color",
+  "--calcite-tooltip-background-color"
+);
 
 .container {
-  @apply text-color-1
-    text-n2-wrap
-    relative
-    overflow-hidden
-    rounded
-    py-3
-    px-4
-    font-medium;
+  position: relative;
+  overflow: hidden;
+  font-weight: var(--calcite-font-weight-medium);
+  font-size: var(--calcite-font-size--2);
+  line-height: 1.375;
+  padding-block: var(--calcite-spacing-md);
+  padding-inline: var(--calcite-spacing-sm);
   max-inline-size: 20rem;
   max-block-size: 20rem;
   text-align: start;
-}
-
-.calcite-floating-ui-anim {
-  @apply bg-foreground-1
-    border-color-3
-    rounded
-    border
-    border-solid;
-}
-
-.arrow::before {
-  outline: 1px solid var(--calcite-color-border-3);
+  color: var(--calcite-tooltip-text-color);
+  border-radius: var(--calcite-tooltip-corner-radius);
 }
 
 @include base-component();
