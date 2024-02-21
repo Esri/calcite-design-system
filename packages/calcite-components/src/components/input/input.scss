@@ -330,6 +330,17 @@ input[type="time"]::-webkit-clear-button {
     block;
 }
 
+:host(:not([suffix-text], [type="number"]):empty) {
+  .loader {
+    inset-inline-end: calc(var(--calcite-input-corner-radius, 0px) / 2);
+  }
+}
+:host(:not([prefix-text], [number-button-type="horizontal"][type="number"])) {
+  .loader {
+    inset-inline-start: calc(var(--calcite-input-corner-radius, 0px) / 2);
+  }
+}
+
 // slotted action
 .action-wrapper {
   @apply order-7 flex;
@@ -599,11 +610,8 @@ input {
   --calcite-input-background-color: var(--calcite-color-background);
 }
 
-:host([number-button-type="horizontal"]) {
+:host([number-button-type="horizontal"][type="number"]) {
   .wrapper {
-    // grid-template-columns: min-content min-content 1fr min-content min-content min-content;
-    // grid-template-areas: "numberDesc prefix input suffix numberAsc action";
-
     > button:first-child {
       border-start-start-radius: var(--calcite-input-corner-radius);
       border-end-start-radius: var(--calcite-input-corner-radius);
@@ -616,10 +624,14 @@ input {
   }
 
   button + button,
+  input + button,
   button + div,
-  button + div input {
+  input + div {
     border-start-start-radius: 0;
     border-end-start-radius: 0;
+  }
+  input {
+    border-radius: 0;
   }
 }
 :host([number-button-type="vertical"][type="number"]) {
