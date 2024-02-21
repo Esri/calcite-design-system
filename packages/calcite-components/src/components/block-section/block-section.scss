@@ -1,14 +1,28 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-block-section-background-color: Specifies the background color of the component.
+ * @prop --calcite-block-section-border-color: Specifies the border color of the component.
+ * @prop --calcite-block-section-heading-text-color: Specifies the component's heading text color.
+ */
+
 :host {
-  @apply bg-foreground-1
-    text-color-2
-    text-n1
+  --calcite-block-section-background-color: var(--calcite-color-foreground-1);
+  --calcite-block-section-heading-text-color: var(--calcite-color-text-2);
+
+  @apply block
     box-border
-    block;
+    text-n1;
+
+  border-color: var(--calcite-block-section-border-color);
 }
 
 :host([open]) {
-  @apply border-b-color-3
-    border-0
+  --calcite-block-section-border-color: var(--calcite-color-border-3);
+
+  @apply border-0
     border-b
     border-solid;
 }
@@ -18,32 +32,30 @@
 }
 
 .toggle {
-  @apply text-color-2
-    w-full
-    border-0
-    bg-transparent
+  @apply border-0
+    font-medium
     font-sans
-    font-medium;
+    w-full;
 }
 
 .toggle--switch,
 .section-header {
-  @apply text-n1
+  @apply cursor-pointer
+    flex
     focus-base
+    items-center
     mx-0
     my-1
-    flex
-    cursor-pointer
-    select-none
-    items-center
     px-0
-    py-2;
+    py-2
+    select-none
+    text-n1;
 
   &:focus {
     @apply focus-outset;
   }
   &:hover {
-    @apply text-color-1;
+    --calcite-block-section-heading-text-color: var(--calcite-color-text-1);
   }
 }
 
@@ -61,7 +73,7 @@
 }
 
 .toggle--switch-container {
-  @apply flex items-center relative bg-transparent w-full;
+  @apply flex items-center relative w-full;
   word-break: break-word;
 
   .focus-guard {
@@ -83,11 +95,11 @@
 }
 
 .status-icon.valid {
-  color: theme("colors.success");
+  color: var(--calcite-color-status-success);
 }
 
 .status-icon.invalid {
-  color: theme("colors.danger");
+  color: var(--calcite-color-status-danger);
 }
 
 :host([toggle-display="switch"]) .toggle {
