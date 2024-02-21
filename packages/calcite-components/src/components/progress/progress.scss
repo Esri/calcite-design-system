@@ -7,13 +7,13 @@
 *
 * @prop --calcite-progress-background-color: Defines the background color of the component.
 * @prop --calcite-progress-fill-color: Defines the background color of the progress bar.
-* @prop --calcite-progress-color: Defines the text color of the component.
+* @prop --calcite-progress-text-color: Defines the text color of the component.
 */
 
 :host {
   --calcite-progress-background-color: var(--calcite-color-border-3);
   --calcite-progress-fill-color: var(--calcite-color-brand);
-  --calcite-progress-color: var(--calcite-color-text-2);
+  --calcite-progress-text-color: var(--calcite-color-text-2);
 
   @apply relative block;
   inline-size: var(--calcite-container-size-content-fluid);
@@ -63,7 +63,7 @@
   @apply text-n2h px-0 pt-4 pb-0 text-center font-medium;
 
   font-size: theme("fontSize.n2h");
-  color: var(--calcite-progress-color);
+  color: var(--calcite-progress-text-color);
 }
 
 @keyframes looping-progress-bar-ani {
