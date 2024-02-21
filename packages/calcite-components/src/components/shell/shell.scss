@@ -115,12 +115,9 @@ slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   position: absolute;
   box-sizing: border-box;
   animation: in-up var(--calcite-internal-animation-timing-slow) ease-in-out;
-  // todo: should this be a var? This also needs to be a token on the tip manager. Can't complete until tip manager is done.
   border-radius: var(--calcite-corner-radius-round);
-  // todo: should this be a var?
   z-index: var(--calcite-z-index-toast);
   box-shadow: var(--calcite-shadow-md);
-  // todo: should this be a var?
   inset-block-end: var(--calcite-spacing-xs);
   inset-inline: var(--calcite-shell-tip-spacing);
 }
