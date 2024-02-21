@@ -89,7 +89,7 @@ export class CardGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Emits when the component's selection changes and the selectionMode is not `none`. */
+  /** Emits when the component's selection changes and the `selectionMode` is not `none`. */
   @Event({ cancelable: false }) calciteCardGroupSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------

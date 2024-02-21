@@ -36,7 +36,7 @@ import { isActivationKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding content.
- * @slot title - [Deprecated] use `heading` instead. A slot for adding a heading
+ * @slot title - [Deprecated] use `heading` instead. A slot for adding a heading.
  * @slot subtitle - [Deprecated] use `description` instead. A slot for adding a description.
  * @slot thumbnail - A slot for adding a thumbnail.
  * @slot heading - A slot for adding a heading.
@@ -73,7 +73,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   /**
    * When `true`, the component is selectable.
    *
-   * @deprecated use `selectionMode` property on a parent `Card Group` instead.
+   * @deprecated use `selectionMode` property on a parent `calcite-card-group` instead.
    */
   @Prop({ reflect: true }) selectable = false;
 
@@ -151,7 +151,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   //
   //--------------------------------------------------------------------------
 
-  /** Fires when the deprecated `selectable` is true, or `selectionMode` set on parent Card Group is not `none` and the component is selected. */
+  /** Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected. */
   @Event({ cancelable: false }) calciteCardSelect: EventEmitter<void>;
 
   /**

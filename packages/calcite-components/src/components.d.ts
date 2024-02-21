@@ -780,7 +780,7 @@ export namespace Components {
         "messages": CardMessages;
         /**
           * When `true`, the component is selectable.
-          * @deprecated use `selectionMode` property on a parent `Card Group` instead.
+          * @deprecated use `selectionMode` property on a parent `calcite-card-group` instead.
          */
         "selectable": boolean;
         /**
@@ -8153,13 +8153,13 @@ declare namespace LocalJSX {
          */
         "messages"?: CardMessages;
         /**
-          * Fires when the deprecated `selectable` is true, or `selectionMode` set on parent Card Group is not `none` and the component is selected.
+          * Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected.
          */
         "onCalciteCardSelect"?: (event: CalciteCardCustomEvent<void>) => void;
         "onCalciteInternalCardKeyEvent"?: (event: CalciteCardCustomEvent<KeyboardEvent>) => void;
         /**
           * When `true`, the component is selectable.
-          * @deprecated use `selectionMode` property on a parent `Card Group` instead.
+          * @deprecated use `selectionMode` property on a parent `calcite-card-group` instead.
          */
         "selectable"?: boolean;
         /**
@@ -8185,7 +8185,7 @@ declare namespace LocalJSX {
          */
         "label": string;
         /**
-          * Emits when the component's selection changes and the selectionMode is not `none`.
+          * Emits when the component's selection changes and the `selectionMode` is not `none`.
          */
         "onCalciteCardGroupSelect"?: (event: CalciteCardGroupCustomEvent<void>) => void;
         /**
