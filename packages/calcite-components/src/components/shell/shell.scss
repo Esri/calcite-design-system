@@ -3,70 +3,85 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-shell-background-color: The background color of the component.
+ * @prop --calcite-shell-border-color: The border color of the component.
+ * @prop --calcite-shell-text-color: The text color of the component.
  * @prop --calcite-shell-tip-spacing: The left and right spacing of the `calcite-tip-manager` when slotted in the component.
  */
 
 :host {
-  @extend %component-host;
-  @apply absolute
-    inset-0
-    flex
-    h-full
-    w-full
-    flex-col
-    overflow-hidden;
+  --calcite-shell-background-color: var(--calcite-color-foreground-1);
+  --calcite-shell-border-color: var(--calcite-color-border-3);
+  --calcite-shell-text-color: var(--calcite-color-text-2);
   --calcite-shell-tip-spacing: 26vw;
+
+  @include base-host();
+  background-color: var(--calcite-shell-background-color);
+  color: var(--calcite-shell-text-color);
+  font-size: var(--calcite-font-size--1);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  block-size: var(--calcite-container-size-content-fluid);
+  inline-size: var(--calcite-container-size-content-fluid);
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .main {
-  @apply relative
-    flex
-    h-full
-    w-full
-    flex-auto
-    flex-row
-    justify-between
-    overflow-hidden;
+  position: relative;
+  display: flex;
+  block-size: var(--calcite-container-size-content-fluid);
+  inline-size: var(--calcite-container-size-content-fluid);
+  flex: 1 1 auto;
+  flex-direction: row;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
 .content,
 .content--non-interactive {
-  @apply flex
-    h-full
-    w-full
-    flex-col
-    flex-nowrap;
+  display: flex;
+  block-size: var(--calcite-container-size-content-fluid);
+  inline-size: var(--calcite-container-size-content-fluid);
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
 
 .content {
-  @apply overflow-auto;
+  overflow: auto;
 }
 
 .content ::slotted(calcite-shell-center-row),
 .content ::slotted(calcite-panel),
 .content ::slotted(calcite-flow) {
-  @apply flex-auto self-stretch;
+  flex: 1 1 auto;
+  align-self: stretch;
   max-block-size: unset;
 }
 
 .content--behind {
-  @apply absolute
-    inset-0
-    border-0;
-  z-index: calc(theme("zIndex.default") - 1);
+  position: absolute;
+  inset: 0px;
+  border-width: 0px;
+  z-index: calc(var(--calcite-z-index) - 1);
   display: initial;
 }
 
 .content--non-interactive {
-  @apply pointer-events-none;
+  pointer-events: none;
 }
 
 ::slotted(calcite-shell-center-row) {
   inline-size: unset;
+  flex: none;
+  align-self: stretch;
 }
 
 ::slotted(.header .heading) {
-  @apply text-n2-wrap font-normal;
+  font-size: var(--calcite-font-size--2);
+  line-height: 1.375;
+  font-weight: var(--calcite-font-weight-normal);
 }
 
 slot[name="panel-end"]::slotted(calcite-shell-panel) {
@@ -75,41 +90,41 @@ slot[name="panel-end"]::slotted(calcite-shell-panel) {
 
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
-  @apply border-color-3
-  border
-  border-l-0
-  border-r-0
-  border-solid;
+  border-color: var(--calcite-shell-border-color);
+  border-width: var(--calcite-border-width-sm);
+  border-inline-start-width: 0px;
+  border-inline-end-width: 0px;
+  border-style: solid;
 }
 
 slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])),
 slot[name="panel-top"]::slotted(calcite-shell-center-row:not([detached])),
 slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
-  @apply border-color-3 border-l border-r;
+  border-color: var(--calcite-shell-border-color);
+  border-inline-start-width: var(--calcite-border-width-sm);
+  border-inline-end-width: var(--calcite-border-width-sm);
 }
 
 .center-content {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  block-size: 100%;
-  inline-size: 100%;
+  block-size: var(--calcite-container-size-content-fluid);
+  inline-size: var(--calcite-container-size-content-fluid);
   min-inline-size: 0;
 }
 
-::slotted(calcite-shell-center-row) {
-  flex: none;
-  align-self: stretch;
-}
-
 ::slotted(calcite-tip-manager) {
-  @apply shadow-2
-  animate-in-up
-  absolute
-  box-border
-  rounded
-  z-toast;
-  inset-block-end: theme("spacing.2");
+  position: absolute;
+  box-sizing: border-box;
+  animation: in-up var(--calcite-internal-animation-timing-slow) ease-in-out;
+  // todo: should this be a var? This also needs to be a token on the tip manager. Can't complete until tip manager is done.
+  border-radius: var(--calcite-corner-radius-round);
+  // todo: should this be a var?
+  z-index: var(--calcite-z-index-toast);
+  box-shadow: var(--calcite-shadow-md);
+  // todo: should this be a var?
+  inset-block-end: var(--calcite-spacing-xs);
   inset-inline: var(--calcite-shell-tip-spacing);
 }
 
