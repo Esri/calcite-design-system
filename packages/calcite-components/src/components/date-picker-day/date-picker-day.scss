@@ -4,6 +4,7 @@
   position: relative;
   --calcite-internal-day-text-color: var(--calcite-color-text-3);
   --calcite-internal-day-font-size: var(--calcite-font-size--2);
+  --calcite-internal-day-background-color: var(--calcite-color-background-none);
   color: var(--calcite-internal-day-text-color);
 }
 
@@ -85,6 +86,7 @@
   z-index: var(--calcite-z-index);
   border-radius: 9999px;
   background: none;
+  background-color: var(--calcite-internal-day-background-color);
   box-shadow: 0 0 0 2px transparent;
   block-size: var(--calcite-internal-day-size);
   inline-size: var(--calcite-internal-day-size);
@@ -144,7 +146,7 @@
 :host(:hover:not([disabled]):not([selected])),
 :host([active]:not([range]):not([selected])) {
   & .day {
-    background-color: var(--calcite-color-foreground-2);
+    --calcite-internal-day-background-color: var(--calcite-color-foreground-2);
     --calcite-internal-day-text-color: var(--calcite-color-text-1);
   }
 }
@@ -159,9 +161,9 @@
 }
 
 :host([selected]) .day {
-  @apply font-medium;
-  background-color: var(--calcite-color-brand);
-  color: var(--calcite-color-foreground-1);
+  font-weight: var(--calcite-font-weight-medium);
+  --calcite-internal-day-background-color: var(--calcite-color-brand);
+  --calcite-internal-day-text-color: var(--calcite-color-foreground-1);
 }
 
 :host(:focus:not([disabled])),
@@ -179,7 +181,7 @@
   }
 
   .day {
-    @apply text-color-1;
+    --calcite-internal-day-text-color: var(--calcite-color-text-1);
   }
 }
 
@@ -197,7 +199,7 @@
   .day-wrapper {
     &:before,
     &:after {
-      @apply bg-foreground-2;
+      background-color: var(--calcite-color-foreground-2);
     }
   }
 }
@@ -246,7 +248,7 @@
 
 @media (forced-colors: active) {
   .day {
-    @apply rounded-none;
+    border-radius: 0;
   }
 
   :host([selected]) {
