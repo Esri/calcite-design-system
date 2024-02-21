@@ -1,3 +1,5 @@
+@import "~@esri/calcite-design-tokens/dist/scss/core";
+
 /**
  * CSS Custom Properties
  *
@@ -20,7 +22,6 @@
  * @prop --calcite-pagination-arrow-icon-color: Specifies the icon color of the arrow items.
  *
  */
-
 /**
   * Local props
   * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
@@ -28,7 +29,6 @@
   * --calcite-internal-pagination-item-size
   * --calcite-internal-pagination-item-space
 */
-
 :host {
   @apply flex;
   writing-mode: horizontal-tb;
@@ -71,7 +71,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-pagination-item-size: 44px;
+  --calcite-internal-pagination-item-size: #{$calcite-size-44};
   --calcite-internal-pagination-item-space: var(--calcite-size-md);
 
   & .chevron,
