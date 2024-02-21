@@ -12,11 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
+
 import { getSlotted, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -26,12 +22,23 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-
+import {
+  componentFocusable,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent,
+} from "../../utils/loadable";
 import { LogicalFlowPosition } from "../interfaces";
 import { CardMessages } from "./assets/card/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { SelectionMode } from "../interfaces";
-import { InteractiveContainer } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  InteractiveContainer,
+  updateHostInteraction,
+} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 
 /**
@@ -51,7 +58,9 @@ import { isActivationKey } from "../../utils/key";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
+export class Card
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -168,7 +177,8 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    if (this.interactive) {
+    await componentFocusable(this);
+    if (!this.disabled && this.interactive) {
       this.containerEl?.focus();
     }
   }
@@ -180,18 +190,27 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
 
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     await setUpMessages(this);
   }
 
