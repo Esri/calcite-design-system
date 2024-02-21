@@ -5,19 +5,16 @@
  *
  * @prop --calcite-shell-background-color: The background color of the component.
  * @prop --calcite-shell-border-color: The border color of the component.
- * @prop --calcite-shell-text-color: The text color of the component.
  * @prop --calcite-shell-tip-spacing: The left and right spacing of the `calcite-tip-manager` when slotted in the component.
  */
 
 :host {
   --calcite-shell-background-color: var(--calcite-color-foreground-1);
   --calcite-shell-border-color: var(--calcite-color-border-3);
-  --calcite-shell-text-color: var(--calcite-color-text-2);
   --calcite-shell-tip-spacing: 26vw;
 
   @include base-host();
   background-color: var(--calcite-shell-background-color);
-  color: var(--calcite-shell-text-color);
   font-size: var(--calcite-font-size--1);
   position: absolute;
   inset: 0;
