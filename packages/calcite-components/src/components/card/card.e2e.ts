@@ -31,7 +31,7 @@ describe("calcite-card", () => {
   });
 
   describe("slots", () => {
-    slots("calcite-card", SLOTS);
+    slots("calcite-card", SLOTS, true);
   });
 
   it("renders with default props if none are provided", async () => {

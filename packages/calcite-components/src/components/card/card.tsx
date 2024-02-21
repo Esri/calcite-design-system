@@ -284,9 +284,9 @@ export class Card
 
   private renderThumbnail(): VNode {
     return getSlotted(this.el, SLOTS.thumbnail) ? (
-      <div class={CSS.thumbnailWrapper}>
+      <section class={CSS.thumbnailWrapper}>
         <slot name={SLOTS.thumbnail} />
-      </div>
+      </section>
     ) : null;
   }
 
@@ -381,8 +381,8 @@ export class Card
                 <calcite-loader label={this.messages.loading} />
               </div>
             ) : null}
-            <div aria-busy={toAriaBoolean(this.loading)} class={{ [CSS.container]: true }}>
-              {thumbnailStart && this.renderThumbnail()}
+            {thumbnailStart && this.renderThumbnail()}
+            <section aria-busy={toAriaBoolean(this.loading)} class={{ [CSS.container]: true }}>
               {this.renderHeader()}
               <div
                 class={{
@@ -393,7 +393,7 @@ export class Card
                 <slot onSlotchange={this.handleDefaultSlotChange} />
               </div>
               {this.renderFooter()}
-            </div>
+            </section>
             {!thumbnailStart && this.renderThumbnail()}
           </div>
         </InteractiveContainer>
