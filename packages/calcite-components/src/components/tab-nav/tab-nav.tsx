@@ -705,6 +705,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
           kind="neutral"
           onClick={isEnd ? this.scrollToNextTabTitles : this.scrollToPreviousTabTitles}
           scale={scale}
+          tabIndex={-1}
         />
       </div>
     );
