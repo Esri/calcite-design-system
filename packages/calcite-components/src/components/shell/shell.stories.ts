@@ -1369,9 +1369,9 @@ export const centerRowTheming_TestOnly = (): string =>
   <calcite-shell-center-row style="
     --calcite-panel-background-color: lightblue;
     --calcite-shell-center-row-background-color: red;
-    --calcite-shell-center-row-border-color: purple;
+    --calcite-shell-center-row-border-color: cyan;
     --calcite-shell-center-row-border-radius: 20px;
-  " detached slot="center-row">${centerRowHTML}</calcite-shell-center-row>
+  " detached slot="center-row">${actionBarStartHTML}<p>Hello World!</p></calcite-shell-center-row>
   <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
   ${footerHTML}
 </calcite-shell>`);
