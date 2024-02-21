@@ -13,11 +13,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import {
-  toAriaBoolean,
-  slotChangeHasAssignedElement,
-  slotChangeHasTextContent,
-} from "../../utils/dom";
+import { toAriaBoolean, slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
 
@@ -270,8 +266,8 @@ export class Chip
   //
   // --------------------------------------------------------------------------
 
-  private handleDefaultSlotChange = (event: Event): void => {
-    this.hasText = slotChangeHasTextContent(event);
+  private handleDefaultSlotChange = (): void => {
+    this.updateHasText();
   };
 
   private close = (): void => {
