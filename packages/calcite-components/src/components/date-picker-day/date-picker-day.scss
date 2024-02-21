@@ -1,5 +1,10 @@
 :host {
-  @apply cursor-pointer flex relative text-color-3;
+  cursor: pointer;
+  display: flex;
+  position: relative;
+  --calcite-internal-day-text-color: var(--calcite-color-text-3);
+  --calcite-internal-day-font-size: var(--calcite-font-size--2);
+  color: var(--calcite-internal-day-text-color);
 }
 
 @include disabled();
@@ -7,7 +12,8 @@
 @mixin range-part-base() {
   &:before,
   &:after {
-    @apply absolute pointer-events-none;
+    position: absolute;
+    pointer-events: none;
     inset-block: 0;
     content: "";
     block-size: var(--calcite-internal-day-size);
@@ -42,23 +48,23 @@
 @mixin range-part-middle() {
   &:before {
     inset-inline-end: 50%;
-    border-radius: 0;
+    border-radius: var(--calcite-corner-radius-0);
   }
   &:after {
     inset-inline-start: 50%;
-    border-radius: 0;
+    border-radius: var(--calcite-corner-radius-0);
   }
 }
 
 .day-v-wrapper {
-  @apply flex-auto;
+  flex: 1 1 auto;
 }
 
 .day-wrapper {
-  @apply flex
-    flex-col
-    items-center
-    relative;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
 }
 
 :host([range]),
@@ -69,16 +75,15 @@
 }
 
 .day {
-  @apply text-n2h
-    text-color-3
-    flex
-    focus-base
-    items-center
-    justify-center
-    rounded-full
-    leading-none
-    transition-default
-    z-default;
+  @apply transition-default;
+  font-size: var(--calcite-internal-day-font-size);
+  display: flex;
+  outline-color: transparent;
+  align-items: center;
+  justify-content: center;
+  line-height: normal;
+  z-index: var(--calcite-z-index);
+  border-radius: 9999px;
   background: none;
   box-shadow: 0 0 0 2px transparent;
   block-size: var(--calcite-internal-day-size);
@@ -86,21 +91,21 @@
 }
 
 .text {
-  @apply mt-px mb-0;
-  margin-inline-start: theme("spacing.0");
+  margin-block: var(--calcite-spacing-px) 0;
+  margin-inline-start: 0;
 }
 
 :host([scale="s"]) {
   --calcite-internal-day-size: 27px;
 
   .day-v-wrapper {
-    @apply py-0.5;
+    padding-block: var(--calcite-spacing-base);
   }
   .day-wrapper {
-    @apply p-0;
+    padding: 0;
   }
   .day {
-    @apply text-n2;
+    --calcite-internal-day-font-size: var(--calcite-font-size--2);
   }
 }
 
@@ -108,13 +113,13 @@
   --calcite-internal-day-size: 33px;
 
   .day-v-wrapper {
-    @apply py-1;
+    padding-block: var(--calcite-spacing-px);
   }
   .day-wrapper {
-    @apply p-0;
+    padding: 0;
   }
   .day {
-    @apply text-n1;
+    --calcite-internal-day-font-size: var(--calcite-font-size--1);
   }
 }
 
@@ -122,24 +127,25 @@
   --calcite-internal-day-size: 43px;
 
   .day-v-wrapper {
-    @apply py-1;
+    padding-block: var(--calcite-spacing-px);
   }
   .day-wrapper {
-    @apply px-1;
+    padding-inline: var(--calcite-spacing-px);
   }
   .day {
-    @apply text-0;
+    --calcite-internal-day-font-size: var(--calcite-font-size--0);
   }
 }
 
 :host(:not([current-month])) .day {
-  @apply opacity-disabled;
+  opacity: var(--calcite-opacity-disabled);
 }
 
 :host(:hover:not([disabled]):not([selected])),
 :host([active]:not([range]):not([selected])) {
   & .day {
-    @apply bg-foreground-2 text-color-1;
+    background-color: var(--calcite-color-foreground-2);
+    --calcite-internal-day-text-color: var(--calcite-color-text-1);
   }
 }
 
