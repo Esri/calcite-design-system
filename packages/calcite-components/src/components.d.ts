@@ -84,6 +84,7 @@ import { TableMessages } from "./components/table/assets/table/t9n";
 import { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
 import { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
 import { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
+import { TileGroupLayout } from "./components/tile-group/interfaces";
 import { TileSelectType } from "./components/tile-select/interfaces";
 import { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
 import { TipMessages } from "./components/tip/assets/tip/t9n";
@@ -170,6 +171,7 @@ export { TableMessages } from "./components/table/assets/table/t9n";
 export { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
 export { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
 export { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
+export { TileGroupLayout } from "./components/tile-group/interfaces";
 export { TileSelectType } from "./components/tile-select/interfaces";
 export { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
 export { TipMessages } from "./components/tip/assets/tip/t9n";
@@ -5034,6 +5036,20 @@ export namespace Components {
          */
         "scale": Scale;
     }
+    interface CalciteTileGroup {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
+         */
+        "layout": TileGroupLayout;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
+    }
     interface CalciteTileSelect {
         /**
           * When `true`, the component is checked.
@@ -7211,6 +7227,12 @@ declare global {
         prototype: HTMLCalciteTileElement;
         new (): HTMLCalciteTileElement;
     };
+    interface HTMLCalciteTileGroupElement extends Components.CalciteTileGroup, HTMLStencilElement {
+    }
+    var HTMLCalciteTileGroupElement: {
+        prototype: HTMLCalciteTileGroupElement;
+        new (): HTMLCalciteTileGroupElement;
+    };
     interface HTMLCalciteTileSelectElementEventMap {
         "calciteTileSelectChange": void;
     }
@@ -7493,6 +7515,7 @@ declare global {
         "calcite-tabs": HTMLCalciteTabsElement;
         "calcite-text-area": HTMLCalciteTextAreaElement;
         "calcite-tile": HTMLCalciteTileElement;
+        "calcite-tile-group": HTMLCalciteTileGroupElement;
         "calcite-tile-select": HTMLCalciteTileSelectElement;
         "calcite-tile-select-group": HTMLCalciteTileSelectGroupElement;
         "calcite-time-picker": HTMLCalciteTimePickerElement;
@@ -12608,6 +12631,20 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
     }
+    interface CalciteTileGroup {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled"?: boolean;
+        /**
+          * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
+         */
+        "layout"?: TileGroupLayout;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
+    }
     interface CalciteTileSelect {
         /**
           * When `true`, the component is checked.
@@ -13111,6 +13148,7 @@ declare namespace LocalJSX {
         "calcite-tabs": CalciteTabs;
         "calcite-text-area": CalciteTextArea;
         "calcite-tile": CalciteTile;
+        "calcite-tile-group": CalciteTileGroup;
         "calcite-tile-select": CalciteTileSelect;
         "calcite-tile-select-group": CalciteTileSelectGroup;
         "calcite-time-picker": CalciteTimePicker;
@@ -13236,6 +13274,7 @@ declare module "@stencil/core" {
             "calcite-tabs": LocalJSX.CalciteTabs & JSXBase.HTMLAttributes<HTMLCalciteTabsElement>;
             "calcite-text-area": LocalJSX.CalciteTextArea & JSXBase.HTMLAttributes<HTMLCalciteTextAreaElement>;
             "calcite-tile": LocalJSX.CalciteTile & JSXBase.HTMLAttributes<HTMLCalciteTileElement>;
+            "calcite-tile-group": LocalJSX.CalciteTileGroup & JSXBase.HTMLAttributes<HTMLCalciteTileGroupElement>;
             "calcite-tile-select": LocalJSX.CalciteTileSelect & JSXBase.HTMLAttributes<HTMLCalciteTileSelectElement>;
             "calcite-tile-select-group": LocalJSX.CalciteTileSelectGroup & JSXBase.HTMLAttributes<HTMLCalciteTileSelectGroupElement>;
             "calcite-time-picker": LocalJSX.CalciteTimePicker & JSXBase.HTMLAttributes<HTMLCalciteTimePickerElement>;
