@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.2-next.0...@esri/calcite-components@2.5.2-next.1) (2024-02-21)
+
+### Bug Fixes
+
+- **combobox:** long text truncates on single and single-persist modes ([#8731](https://github.com/Esri/calcite-design-system/issues/8731)) ([8fc42b1](https://github.com/Esri/calcite-design-system/commit/8fc42b164ceacad97ac9153673280ae63638b03c)), closes [#7020](https://github.com/Esri/calcite-design-system/issues/7020)
+
 ## [2.5.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.1...@esri/calcite-components@2.5.2-next.0) (2024-02-20)
 
 ### Bug Fixes
