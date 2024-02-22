@@ -1140,6 +1140,135 @@ export const tableBorderedWithMultipleFooter_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
+export const tableBorderedWithComplexFooterHeaderRowColSpan_TestOnly = (): string =>
+  html`<calcite-table
+    numbered
+    caption="Multiple headers using col-span"
+    selection-mode="multiple"
+    bordered
+    page-size="2"
+  >
+    <calcite-table-row slot="table-header">
+      <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
+      <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row slot="table-header">
+      <calcite-table-header id="head-2a" heading="First"></calcite-table-header>
+      <calcite-table-header id="head-2b" heading="Last"></calcite-table-header>
+      <calcite-table-header id="head-2c" heading="Education level"></calcite-table-header>
+      <calcite-table-header id="head-2d" heading="Age"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell id="cell-1a">cell</calcite-table-cell>
+      <calcite-table-cell id="cell-1b" col-span="3">cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell id="cell-2a">cell</calcite-table-cell>
+      <calcite-table-cell id="cell-2b" col-span="3">cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell id="cell-3a">cell</calcite-table-cell>
+      <calcite-table-cell id="cell-3b" col-span="3">cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell id="cell-4a">cell</calcite-table-cell>
+      <calcite-table-cell id="cell-4b" col-span="3">cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer">
+      <calcite-table-cell id="foot-1a">foot</calcite-table-cell>
+      <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
+      <calcite-table-cell id="foot-1c">foot</calcite-table-cell>
+      <calcite-table-cell id="foot-1d">foot</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer">
+      <calcite-table-cell id="foot-2a" col-span="2">foot</calcite-table-cell>
+      <calcite-table-cell id="foot-2b" col-span="2">foot</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer">
+      <calcite-table-header id="foot-1a" heading="foot"></calcite-table-header>
+      <calcite-table-cell id="foot-1b">foot</calcite-table-cell>
+      <calcite-table-cell id="foot-1c">foot</calcite-table-cell>
+      <calcite-table-cell id="foot-1d">foot</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer">
+      <calcite-table-header id="foot-2a" heading="foot"></calcite-table-header>
+      <calcite-table-cell id="foot-2b" col-span="3">foot</calcite-table-cell>
+    </calcite-table-row>
+  </calcite-table> `;
+
+export const tableBorderedWithComplexRowColSpan_TestOnly = (): string =>
+  html`<calcite-table bordered caption="Table with complex col-span and row-span" layout="fixed">
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description" col-span="2"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>1A</calcite-table-cell>
+      <calcite-table-cell col-span="2">1B</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>2A</calcite-table-cell>
+      <calcite-table-cell col-span="2">2B</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell row-span="6">3A</calcite-table-cell>
+      <calcite-table-cell>3B-1</calcite-table-cell>
+      <calcite-table-cell>3C-1</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell row-span="5">3B-2</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>3C-2</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>3C-2</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>3C-2</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>3C-2</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell row-span="5">4A</calcite-table-cell>
+      <calcite-table-cell col-span="2">4B</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell col-span="2">4B</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell col-span="2">4B</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell col-span="2">4B</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell col-span="2">4B</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>5A</calcite-table-cell>
+      <calcite-table-cell col-span="2">5B</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell row-span="3">6A</calcite-table-cell>
+      <calcite-table-cell>6B-1</calcite-table-cell>
+      <calcite-table-cell>6C-1</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell row-span="2">6B-2</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>6C-2</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell col-span="3">7A</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell row-span="3" col-span="3">8A</calcite-table-cell>
+    </calcite-table-row>
+  </calcite-table>`;
+
 export const darkModeRTL_TestOnly = (): string =>
   html`<calcite-table striped caption="Simple-striped table" dir="rtl">
     <calcite-table-row slot="table-header">
