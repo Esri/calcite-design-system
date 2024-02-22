@@ -80,24 +80,20 @@ a {
 }
 
 calcite-icon {
+  @apply transition-default align-middle;
+
   inline-size: 1em;
   block-size: 1em;
   min-inline-size: unset;
   min-block-size: unset;
-}
-
-.calcite-link--icon {
-  @apply transition-default align-middle;
   margin-block-start: -0.25em;
-}
 
-// icon positioning and styles
-:host {
-  .calcite-link--icon.icon-start {
+  // icon positioning and styles
+  &.icon-start {
     margin-inline-end: theme("margin.2");
     color: var(--calcite-link-icon-start-color);
   }
-  .calcite-link--icon.icon-end {
+  &.icon-end {
     margin-inline-start: theme("margin.2");
     color: var(--calcite-link-icon-end-color);
   }
