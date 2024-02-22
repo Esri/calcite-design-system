@@ -118,7 +118,7 @@ slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   border-radius: var(--calcite-corner-radius-round);
   z-index: var(--calcite-z-index-toast);
   box-shadow: var(--calcite-shadow-md);
-  inset-block-end: var(--calcite-spacing-xs);
+  inset-block-end: var(--calcite-spacing-sm);
   inset-inline: var(--calcite-shell-tip-spacing);
 }
 
