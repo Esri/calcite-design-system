@@ -241,7 +241,7 @@ export class TableCell
               [CSS.numberCell]: this.numberCell,
               [CSS.selectionCell]: this.selectionCell,
               [CSS.selectedCell]: this.parentRowIsSelected,
-              [CSS.lastCell]: this.lastCell,
+              [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
               [CSS_UTILITY.rtl]: dir === "rtl",
               [CSS.staticCell]: staticCell,
             }}

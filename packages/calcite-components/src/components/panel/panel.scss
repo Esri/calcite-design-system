@@ -32,7 +32,7 @@
   --calcite-panel-description-text-color: var(--calcite-color-text-2);
   --calcite-panel-fab-z-index: var(--calcite-z-index-sticky);
   --calcite-panel-footer-background-color: var(--calcite-color-foreground-1);
-  --calcite-panel-footer-space: var(--calcite-panel-footer-padding, var(--calcite-spacing-xxs));
+  --calcite-panel-footer-space: var(--calcite-panel-footer-padding, var(--calcite-spacing-sm));
   --calcite-panel-heading-text-color: var(--calcite-color-text-2);
   --calcite-panel-header-background-color: var(--calcite-color-foreground-1);
   --calcite-panel-header-z-index: var(--calcite-z-index-header);
@@ -110,8 +110,8 @@
   flex-direction: column;
   display: flex;
   overflow: hidden;
-  padding-inline: var(--calcite-spacing-sm);
-  padding-block: var(--calcite-spacing-md);
+  padding-inline: var(--calcite-spacing-md);
+  padding-block: var(--calcite-spacing-lg);
   margin-inline-end: auto;
   .heading,
   .description {
