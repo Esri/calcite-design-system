@@ -271,6 +271,7 @@ export class Filter
       <InteractiveContainer disabled={disabled}>
         <div class={CSS.container}>
           <calcite-input
+            class={CSS.input}
             clearable={true}
             disabled={disabled}
             icon={ICONS.search}
