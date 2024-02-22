@@ -2287,6 +2287,7 @@ export namespace Components {
         /**
           * Specifies the maximum length of text for the component's value.
           * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+          * @deprecated This property has no effect on the component.
          */
         "maxLength": number;
         /**
@@ -2305,6 +2306,7 @@ export namespace Components {
         /**
           * Specifies the minimum length of text for the component's value.
           * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+          * @deprecated This property has no effect on the component.
          */
         "minLength": number;
         /**
@@ -9661,6 +9663,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the maximum length of text for the component's value.
           * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+          * @deprecated This property has no effect on the component.
          */
         "maxLength"?: number;
         /**
@@ -9679,6 +9682,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the minimum length of text for the component's value.
           * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+          * @deprecated This property has no effect on the component.
          */
         "minLength"?: number;
         /**
