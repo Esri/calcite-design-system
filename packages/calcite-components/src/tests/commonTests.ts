@@ -14,6 +14,7 @@ import {
   isElementFocused,
   newProgrammaticE2EPage,
   skipAnimations,
+  waitForTimeout,
 } from "./utils";
 import { KeyInput } from "puppeteer";
 
@@ -1629,7 +1630,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
 
     component.setAttribute("lang", "es");
     await page.waitForChanges();
-    await page.waitForTimeout(3000);
+    waitForTimeout(3000);
     const esMessages = await getCurrentMessages();
 
     expect(esMessages).toHaveProperty(fakeBundleIdentifier);

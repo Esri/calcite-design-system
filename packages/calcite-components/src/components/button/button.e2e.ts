@@ -1,7 +1,7 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden, t9n } from "../../tests/commonTests";
 import { CSS } from "./resources";
-import { GlobalTestProps } from "../../tests/utils";
+import { GlobalTestProps, waitForTimeout } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 
 describe("calcite-button", () => {
@@ -603,7 +603,7 @@ describe("calcite-button", () => {
       const element = await page.find("calcite-button");
       await element.setProperty("loading", false);
       await page.waitForChanges();
-      await page.waitForTimeout(animationDurationInMs);
+      waitForTimeout(animationDurationInMs);
       const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
       expect(loader).toBeNull();
     });
@@ -648,8 +648,7 @@ describe("calcite-button", () => {
     t9n("calcite-button");
   });
 
-  describe('automatic tooltip', ()=>{
-
+  describe("automatic tooltip", () => {
     it("shows tooltip for buttons with truncated long text", async () => {
       const shortText = "Hi!";
       const longText =
@@ -685,7 +684,6 @@ describe("calcite-button", () => {
 
       expect(button).not.toHaveAttribute("title");
     });
-
   });
 
   it("should set aria-expanded attribute on shadowDOM element when used as trigger", async () => {

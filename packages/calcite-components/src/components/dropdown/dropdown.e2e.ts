@@ -12,7 +12,13 @@ import {
   reflects,
   renders,
 } from "../../tests/commonTests";
-import { GlobalTestProps, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils";
+import {
+  GlobalTestProps,
+  getFocusedElementProp,
+  isElementFocused,
+  skipAnimations,
+  waitForTimeout,
+} from "../../tests/utils";
 
 describe("calcite-dropdown", () => {
   const simpleDropdownHTML = html`
@@ -96,7 +102,7 @@ describe("calcite-dropdown", () => {
    * @param root0.expectedItemIds
    */
   async function assertSelectedItems(page: E2EPage, { expectedItemIds }: SelectedItemsAssertionOptions): Promise<void> {
-    await page.waitForTimeout(100);
+    waitForTimeout(100);
     const selectedItemIds = await page.evaluate(() => {
       const dropdown = document.querySelector<HTMLCalciteDropdownElement>("calcite-dropdown");
       return dropdown.selectedItems.map((item) => item.id);

@@ -294,6 +294,16 @@ export async function waitForAnimationFrame(): Promise<void> {
 }
 
 /**
+ * Waits for the given number of milliseconds.
+ *
+ * @param ms
+ * @deprecated Waiting for arbitrary time is discouraged, please refer to https://github.com/puppeteer/puppeteer/pull/11780#issue-2106207539 for alternatives.
+ */
+export async function waitForTimeout(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
  * Creates an E2E page for tests that need to create and set up elements programmatically.
  *
  * @returns {Promise<E2EPage>} an e2e page

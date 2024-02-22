@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, renders, hidden, defaults, reflects } from "../../tests/commonTests";
-import { GlobalTestProps, getFocusedElementProp } from "../../tests/utils";
+import { GlobalTestProps, getFocusedElementProp, waitForTimeout } from "../../tests/utils";
 import { CSS } from "../table-header/resources";
 import { CSS as CELL_CSS } from "../table-cell/resources";
 import { SLOTS } from "../table/resources";
@@ -2612,7 +2612,7 @@ interface SelectedItemsAssertionOptions {
  * @param root0.expectedItemIds
  */
 async function assertSelectedItems(page: E2EPage, { expectedItemIds }: SelectedItemsAssertionOptions): Promise<void> {
-  await page.waitForTimeout(100);
+  waitForTimeout(100);
   const selectedItemIds = await page.evaluate(() => {
     const table = document.querySelector<HTMLCalciteTableElement>("calcite-table");
     return table.selectedItems.map((item) => item.id);

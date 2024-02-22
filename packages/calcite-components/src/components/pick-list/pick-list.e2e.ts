@@ -11,6 +11,7 @@ import {
   keyboardNavigation,
   selectionAndDeselection,
 } from "./shared-list-tests";
+import { waitForTimeout } from "../../tests/utils";
 
 describe("calcite-pick-list", () => {
   describe("defaults", () => {
@@ -179,7 +180,7 @@ describe("calcite-pick-list", () => {
           filterInput.value = "numbers";
           filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
         });
-        await page.waitForTimeout(500);
+        waitForTimeout(500);
 
         const item1Visible = await item1.isVisible();
         const item2Visible = await item2.isVisible();
