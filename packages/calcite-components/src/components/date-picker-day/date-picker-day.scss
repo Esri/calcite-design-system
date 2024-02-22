@@ -96,7 +96,8 @@
 }
 
 .text {
-  margin-block: var(--calcite-spacing-px) 0;
+  margin-block-start: var(--calcite-spacing-px);
+  margin-block-end: 0;
   margin-inline-start: 0;
 }
 
