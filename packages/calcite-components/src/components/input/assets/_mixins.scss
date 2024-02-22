@@ -94,13 +94,15 @@
     }
   } @else {
     calcite-#{$subcomponent}[status="invalid"] {
-      --calcite-#{$subcomponent}-border-color: var(--calcite-#{$component}-#{$subcomponent}-border-color);
+      --calcite-#{$subcomponent}-border-color: var(--calcite-#{$component}-#{$subcomponent}-border-color-invalid);
     }
     calcite-#{$subcomponent}:focus {
-      --calcite-#{$subcomponent}-border-color: var(--calcite-#{$component}-#{$subcomponent}-border-color);
+      --calcite-#{$subcomponent}-border-color: var(--calcite-#{$component}-#{$subcomponent}-border-color-focus);
     }
     calcite-#{$subcomponent}[read-only] {
-      --calcite-#{$subcomponent}-background-color: var(--calcite-#{$component}-#{$subcomponent}-background-color);
+      --calcite-#{$subcomponent}-background-color: var(
+        --calcite-#{$component}-#{$subcomponent}-background-color-read-only
+      );
     }
   }
 }
