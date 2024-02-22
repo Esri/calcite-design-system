@@ -15,8 +15,7 @@
 @mixin range-part-base() {
   &:before,
   &:after {
-    position: absolute;
-    pointer-events: none;
+    @apply absolute pointer-events-none;
     inset-block: 0;
     content: "";
     block-size: var(--calcite-internal-day-size);
@@ -60,14 +59,14 @@
 }
 
 .day-v-wrapper {
-  flex: 1 1 auto;
+  @apply flex-auto;
 }
 
 .day-wrapper {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  align-items: center;
+  @apply flex
+  flex-col
+  items-center
+  relative;
 }
 
 :host([range]),
@@ -78,16 +77,17 @@
 }
 
 .day {
-  @apply transition-default;
+  @apply flex
+  transition-default
+    focus-base
+    items-center
+    justify-center
+    rounded-full
+    leading-none
+    transition-default;
   color: var(--calcite-internal-day-text-color);
   font-size: var(--calcite-internal-day-font-size);
-  display: flex;
-  outline-color: transparent;
-  align-items: center;
-  justify-content: center;
-  line-height: normal;
   z-index: var(--calcite-z-index);
-  border-radius: 9999px;
   background: none;
   background-color: var(--calcite-internal-day-background-color);
   box-shadow: 0 0 0 2px transparent;
