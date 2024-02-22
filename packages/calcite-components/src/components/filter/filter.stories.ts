@@ -28,7 +28,22 @@ darkMode_TestOnly.parameters = { modes: modesDarkDefault };
 
 const themeStyles = `
   --calcite-filter-background-color: red;
-  --calcite-filter-width: 50%;
+  --calcite-filter-width: 75%;
+  --calcite-filter-input-corner-radius: 20px;
+  --calcite-filter-input-text-color: blue;
+  --calcite-filter-input-border-color: cyan;
+  --calcite-filter-input-background-color: lightgray;
+  --calcite-filter-input-button-background-color: purple;
+  --calcite-filter-input-button-background-color-hover: pink;
+  --calcite-filter-input-button-background-color-active: magenta;
+  --calcite-filter-input-icon-color: green;
+  --calcite-filter-input-button-icon-color-hover: yellow;
+  --calcite-filter-input-prefix-text-color: blue;
+  --calcite-filter-input-prefix-background-color: lightgray;
+  --calcite-filter-input-suffix-text-color: blue;
+  --calcite-filter-input-suffix-background-color: lightgray;
+  --calcite-filter-input-placeholder-text-color: orange;
+  --calcite-filter-input-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
 `;
 
 export const theming_TestOnly = (): string =>
