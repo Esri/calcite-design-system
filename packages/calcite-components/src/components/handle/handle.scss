@@ -3,8 +3,13 @@
 *
 * These properties can be overridden using the component's tag as selector.
 *
-* @prop --calcite-handle-text-color: The text color of the component.
-* @prop --calcite-handle-background-color: The background color of the component.
+* @prop --calcite-handle-text-color: Specifies the text color of the component.
+* @prop --calcite-handle-text-color-hover: Specifies the text color of the component when in hover state.
+* @prop --calcite-handle-text-color-focus: Specifies the text color of the component when in focus state.
+* @prop --calcite-handle-text-color-selected: Specifies the text color of the component when selected.
+* @prop --calcite-handle-background-color: Specifies the background color of the component.
+* @prop --calcite-handle-background-color-hover: Specifies the background color of the component when in hover state.
+* @prop --calcite-handle-background-color-selected: Specifies the background color of the component when selected.
 */
 
 :host {
@@ -36,15 +41,15 @@
   }
 }
 :host(:not([disabled]):hover) {
-  --calcite-handle-text-color: var(--calcite-color-text-1);
-  --calcite-handle-background-color: var(--calcite-color-foreground-2);
+  --calcite-handle-text-color-hover: var(--calcite-color-text-1);
+  --calcite-handle-background-color-hover: var(--calcite-color-foreground-2);
 }
 :host(:not([disabled]):focus) {
-  --calcite-handle-text-color: var(--calcite-color-text-1);
+  --calcite-handle-text-color-focus: var(--calcite-color-text-1);
 }
 :host(:not([disabled])[selected]) {
-  --calcite-handle-background-color: var(--calcite-color-foreground-3);
-  --calcite-handle-text-color: var(--calcite-color-text-1);
+  --calcite-handle-background-color-selected: var(--calcite-color-foreground-3);
+  --calcite-handle-text-color-selected: var(--calcite-color-text-1);
 }
 :host([disabled]) {
   cursor: pointer;
