@@ -40,7 +40,6 @@ import {
   calciteSize44,
 } from "@esri/calcite-design-tokens/dist/es6/core";
 import { CSS_UTILITY } from "../../utils/resources";
-import { isMobile } from "../../utils/browser";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -436,6 +435,8 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   private containerEl: HTMLDivElement;
 
+  private lastScrollWheelAxis: "x" | "y" = "x";
+
   private parentTabsEl: HTMLCalciteTabsElement;
 
   private tabTitleContainerEl: HTMLDivElement;
@@ -479,7 +480,24 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   private onTabTitleWheel = (event: WheelEvent): void => {
     event.preventDefault();
-    const scrollByX = (this.dir === "rtl" ? -1 : 1) * (isMobile() ? event.deltaX : event.deltaY);
+
+    const { deltaX, deltaY } = event;
+    const x = Math.abs(deltaX);
+    const y = Math.abs(deltaY);
+
+    let scrollBy: number;
+
+    if (x === y) {
+      scrollBy = this.lastScrollWheelAxis === "x" ? deltaX : deltaY;
+    } else if (x > y) {
+      scrollBy = deltaX;
+      this.lastScrollWheelAxis = "x";
+    } else {
+      scrollBy = deltaY;
+      this.lastScrollWheelAxis = "y";
+    }
+
+    const scrollByX = (this.dir === "rtl" ? -1 : 1) * scrollBy;
     (event.currentTarget as HTMLDivElement).scrollBy(scrollByX, 0);
     requestAnimationFrame(() => this.updateActiveIndicator());
   };

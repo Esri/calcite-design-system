@@ -227,24 +227,23 @@ describe("calcite-tab-nav", () => {
       await assertScrollButtonVisibility(false, true);
 
       const tabNavBounds = await getElementRect(page, "calcite-tab-nav");
-      const delta = 100;
       await page.mouse.move(tabNavBounds.x + tabNavBounds.width / 2, tabNavBounds.y + tabNavBounds.height / 2);
-      await page.mouse.wheel({ deltaX: delta, deltaY: delta });
+      await page.mouse.wheel({ deltaY: 100 });
       await page.waitForChanges();
 
       await assertScrollButtonVisibility(true, true);
 
-      await page.mouse.wheel({ deltaX: delta, deltaY: delta });
+      await page.mouse.wheel({ deltaY: 100 });
       await page.waitForChanges();
 
       await assertScrollButtonVisibility(true, false);
 
-      await page.mouse.wheel({ deltaX: -delta, deltaY: -delta });
+      await page.mouse.wheel({ deltaY: -100 });
       await page.waitForChanges();
 
       await assertScrollButtonVisibility(true, true);
 
-      await page.mouse.wheel({ deltaX: -delta, deltaY: -delta });
+      await page.mouse.wheel({ deltaY: -100 });
       await page.waitForChanges();
 
       await assertScrollButtonVisibility(false, true);
@@ -255,7 +254,7 @@ describe("calcite-tab-nav", () => {
       await page.mouse.move(tabNavBounds.x + tabNavBounds.width / 2, tabNavBounds.y + tabNavBounds.height / 2);
       await page.waitForChanges();
 
-      await page.mouse.wheel({ deltaX: 1, deltaY: 1 });
+      await page.mouse.wheel({ deltaY: 1 });
       await page.waitForChanges();
 
       await assertScrollButtonVisibility(true, true);
@@ -268,7 +267,7 @@ describe("calcite-tab-nav", () => {
 
       await assertScrollButtonVisibility(false, true);
 
-      await page.mouse.wheel({ deltaX: 180, deltaY: 180 });
+      await page.mouse.wheel({ deltaY: 180 });
       await page.waitForChanges();
 
       await assertScrollButtonVisibility(true, true);
