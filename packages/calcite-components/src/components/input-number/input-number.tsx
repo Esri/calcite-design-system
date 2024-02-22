@@ -70,6 +70,11 @@ import { InputNumberMessages } from "./assets/input-number/t9n";
 import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import {
+  NumericInputComponent,
+  syncHiddenFormInput,
+  TextualInputComponent,
+} from "../input/common/input";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -86,7 +91,9 @@ export class InputNumber
     FormComponent,
     InteractiveComponent,
     LocalizedComponent,
+    NumericInputComponent,
     T9nComponent,
+    TextualInputComponent,
     LoadableComponent
 {
   //--------------------------------------------------------------------------
@@ -195,6 +202,8 @@ export class InputNumber
    * Specifies the maximum length of text for the component's value.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+   *
+   * @deprecated This property has no effect on the component.
    */
   @Prop({ reflect: true }) maxLength: number;
 
@@ -202,6 +211,8 @@ export class InputNumber
    * Specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   *
+   * @deprecated This property has no effect on the component.
    */
   @Prop({ reflect: true }) minLength: number;
 
@@ -798,9 +809,7 @@ export class InputNumber
   };
 
   syncHiddenFormInput(input: HTMLInputElement): void {
-    input.type = "number";
-    input.min = this.min?.toString(10) ?? "";
-    input.max = this.max?.toString(10) ?? "";
+    syncHiddenFormInput("number", this, input);
   }
 
   private onHiddenFormInputInput = (event: Event): void => {
