@@ -1,13 +1,12 @@
 :host {
+  --calcite-internal-day-text-color: var(--calcite-color-text-3);
+  --calcite-internal-day-text-color-active: var(--calcite-color-text-1);
+  --calcite-internal-day-text-color-selected: var(--calcite-color-text-inverse);
+  --calcite-internal-day-font-size: var(--calcite-font-size);
+  --calcite-internal-day-background-color: var(--calcite-color-background-none);
   cursor: pointer;
   display: flex;
   position: relative;
-  --calcite-internal-day-text-color: var(--calcite-color-text-3);
-  --calcite-internal-day-font-size: var(--calcite-font-size);
-  --calcite-internal-day-background-color: var(--calcite-color-background-none);
-  --calcite-internal-day-shadow: var(--calcite-shadow-none);
-  --calcite-internal-day-shadow-hover: var(--calcite-shadow-none);
-  --calcite-internal-day-shadow-focus: var(--calcite-shadow-none);
   color: var(--calcite-internal-day-text-color);
 }
 
@@ -52,11 +51,11 @@
 @mixin range-part-middle() {
   &:before {
     inset-inline-end: 50%;
-    border-radius: var(--calcite-corner-radius-0);
+    border-radius: var(--calcite-corner-radius);
   }
   &:after {
     inset-inline-start: 50%;
-    border-radius: var(--calcite-corner-radius-0);
+    border-radius: var(--calcite-corner-radius);
   }
 }
 
@@ -152,7 +151,7 @@
 :host([active]:not([range]):not([selected])) {
   & .day {
     --calcite-internal-day-background-color: var(--calcite-color-foreground-2);
-    --calcite-internal-day-text-color: var(--calcite-color-text-1);
+    color: var(--calcite-internal-day-text-color-active);
   }
 }
 
@@ -167,8 +166,8 @@
 
 :host([selected]) .day {
   font-weight: var(--calcite-font-weight-medium);
+  color: var(--calcite-internal-day-text-color-selected);
   --calcite-internal-day-background-color: var(--calcite-color-brand);
-  --calcite-internal-day-text-color: var(--calcite-color-text-inverse);
 }
 
 :host(:focus:not([disabled])),
@@ -185,7 +184,7 @@
     @include range-part-middle();
   }
   .day {
-    --calcite-internal-day-text-color: var(--calcite-color-text-1);
+    color: var(--calcite-internal-day-text-color-active);
   }
 }
 
@@ -252,7 +251,7 @@
 
 @media (forced-colors: active) {
   .day {
-    border-radius: var(--calcite-corner-radius-0);
+    border-radius: var(--calcite-corner-radius);
   }
 
   :host([selected]) {
