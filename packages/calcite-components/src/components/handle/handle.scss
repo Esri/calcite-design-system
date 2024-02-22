@@ -21,7 +21,7 @@
   --calcite-handle-text-color-focus: var(--calcite-color-text-1);
   --calcite-handle-text-color-selected: var(--calcite-color-text-1);
 
-  --calcite-handle-background-color: var(--calcite-color-foreground-2);
+  --calcite-handle-background-color: transparent;
   --calcite-handle-background-color-hover: var(--calcite-color-foreground-2);
   --calcite-handle-background-color-selected: var(--calcite-color-foreground-3);
 }
@@ -32,8 +32,7 @@
     items-center
     justify-center
     self-stretch
-    border-none
-    bg-transparent;
+    border-none;
 
   padding-block: theme("spacing.3");
   padding-inline: theme("spacing.1");
@@ -48,18 +47,20 @@
   }
 }
 
-:host(:not([disabled]):hover) {
-  color: var(--calcite-handle-text-color-hover);
-  background-color: var(--calcite-handle-background-color-hover);
-}
-
-:host(:not([disabled]):focus) {
-  color: var(--calcite-handle-text-color-focus);
-}
-
-:host(:not([disabled])[selected]) {
-  color: var(--calcite-handle-text-color-selected);
-  background-color: var(--calcite-handle-background-color-selected);
+:host(:not([disabled])) .handle {
+  @apply cursor-move;
+  &:hover {
+    color: var(--calcite-handle-text-color-hover);
+    background-color: var(--calcite-handle-background-color-hover);
+  }
+  &:focus {
+    @apply focus-inset;
+    color: var(--calcite-handle-text-color-focus);
+  }
+  &--selected {
+    color: var(--calcite-handle-text-color-selected);
+    background-color: var(--calcite-handle-background-color-selected);
+  }
 }
 
 :host([disabled]) {
