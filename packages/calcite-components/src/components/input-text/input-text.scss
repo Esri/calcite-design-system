@@ -1,3 +1,5 @@
+@import "assets/mixins";
+
 /**
  * CSS Custom Properties
  *
@@ -21,4 +23,4 @@
  *
  */
 
-@include input("input-text-text", "text");
+@include input("input-text", "text");
