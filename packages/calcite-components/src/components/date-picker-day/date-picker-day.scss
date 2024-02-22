@@ -80,6 +80,7 @@
 
 .day {
   @apply transition-default;
+  color: var(--calcite-internal-day-text-color);
   font-size: var(--calcite-internal-day-font-size);
   display: flex;
   outline-color: transparent;
@@ -90,7 +91,7 @@
   border-radius: 9999px;
   background: none;
   background-color: var(--calcite-internal-day-background-color);
-  box-shadow: var(--calcite-internal-day-shadow);
+  box-shadow: 0 0 0 2px transparent;
   block-size: var(--calcite-internal-day-size);
   inline-size: var(--calcite-internal-day-size);
 }
@@ -119,10 +120,13 @@
   --calcite-internal-day-size: 33px;
 
   .day-v-wrapper {
-    padding-block: var(--calcite-spacing-px);
+    padding-block: var(--calcite-spacing-xxs);
   }
   .day-wrapper {
     padding: 0;
+  }
+  .day {
+    --calcite-internal-day-font-size: var(--calcite-font-size);
   }
 }
 
@@ -130,10 +134,10 @@
   --calcite-internal-day-size: 43px;
 
   .day-v-wrapper {
-    padding-block: var(--calcite-spacing-px);
+    padding-block: var(--calcite-spacing-xxs);
   }
   .day-wrapper {
-    padding-inline: var(--calcite-spacing-px);
+    padding-inline: var(--calcite-spacing-xxs);
   }
   .day {
     --calcite-internal-day-font-size: var(--calcite-font-size-md);
@@ -164,14 +168,14 @@
 :host([selected]) .day {
   font-weight: var(--calcite-font-weight-medium);
   --calcite-internal-day-background-color: var(--calcite-color-brand);
-  --calcite-internal-day-text-color: var(--calcite-color-foreground-1);
+  --calcite-internal-day-text-color: var(--calcite-color-text-inverse);
 }
 
 :host(:focus:not([disabled])),
 :host([start-of-range]:not(:focus)),
 :host([end-of-range]:not(:focus)) {
   .day {
-    box-shadow: var(--calcite-internal-day-shadow-focus);
+    box-shadow: 0 0 0 2px var(--calcite-color-foreground-1);
   }
 }
 
@@ -180,7 +184,6 @@
   .day-wrapper {
     @include range-part-middle();
   }
-
   .day {
     --calcite-internal-day-text-color: var(--calcite-color-text-1);
   }
@@ -243,13 +246,13 @@
 :host(:hover[range-hover]:not([selected]).focused--start.hover--outside-range),
 :host(:hover[range-hover]:not([selected]).focused--end.hover--outside-range) {
   .day {
-    box-shadow: var(--calcite-internal-day-shadow-hover);
+    box-shadow: 0 0 0 2px var(--calcite-color-foreground-1);
   }
 }
 
 @media (forced-colors: active) {
   .day {
-    border-radius: 0;
+    border-radius: var(--calcite-corner-radius-0);
   }
 
   :host([selected]) {
