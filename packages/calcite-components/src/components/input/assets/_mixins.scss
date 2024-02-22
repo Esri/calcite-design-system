@@ -1,0 +1,764 @@
+@mixin setOnInputEl($type) {
+  @if ($type == "*") {
+    textarea,
+    input {
+      @content;
+    }
+  } @else if ($type == "textarea") {
+    textarea {
+      @content;
+    }
+  } @else {
+    input {
+      @content;
+    }
+  }
+}
+
+@mixin input($componentName: 'input', $type) {
+  :host {
+    --calcite-{$componentName}-corner-radius: var(--calcite-corner-radius);
+    --calcite-{$componentName}-text-color: var(--calcite-color-text-1);
+    --calcite-{$componentName}-border-color: var(--calcite-color-border-input);
+    --calcite-{$componentName}-background-color: var(--calcite-color-foreground-1);
+    --calcite-{$componentName}-shadow: none;
+    // Button
+    --calcite-{$componentName}-button-background-color: var(--calcite-color-foreground-1);
+    --calcite-{$componentName}-button-background-color-hover: var(--calcite-color-foreground-2);
+    --calcite-{$componentName}-button-background-color-active: var(--calcite-color-foreground-3);
+
+    // Icon
+    --calcite-{$componentName}-icon-color: var(--calcite-color-text-3);
+    --calcite-{$componentName}-button-icon-color-hover: var(--calcite-color-text-1);
+
+    // Prefix/Suffix
+    --calcite-{$componentName}-prefix-text-color: var(--calcite-color-text-2);
+    --calcite-{$componentName}-prefix-background-color: var(--calcite-color-background);
+    --calcite-{$componentName}-suffix-text-color: var(--calcite-color-text-2);
+    --calcite-{$componentName}-suffix-background-color: var(--calcite-color-background);
+
+    // Placeholder
+    --calcite-{$componentName}-placeholder-text-color: var(--calcite-color-text-3);
+
+    // For props that should follow the initial border-color but not change on statechange.
+    --calcite-internal-input-border-color-base: var(--calcite-color-border-input);
+    --calcite-internal-input-outline-color: var(--calcite-color-brand);
+
+    @apply block;
+    box-shadow: var(--calcite-{$componentName}-shadow);
+  }
+
+  @include disabled() {
+    @if ($type == "textarea") or ($type == "*") {
+      textarea {
+        resize: none;
+      }
+    }
+  }
+
+  // Scale
+  :host([scale="s"]) {
+    @if ($type == "textarea") {
+      .prefix,
+      .suffix {
+        @apply text-n2h h-6 px-2;
+      }
+    } @else {
+      input,
+      .prefix,
+      .suffix {
+        @apply text-n2h h-6 px-2;
+      }
+    }
+    @if ($type == "number") or ($type == "*") {
+      .number-button-wrapper,
+      .action-wrapper calcite-button,
+      .action-wrapper calcite-button button {
+        @apply h-6;
+      }
+    } @else {
+      .action-wrapper calcite-button,
+      .action-wrapper calcite-button button {
+        @apply h-6;
+      }
+    }
+    @if ($type == "file") or ($type == "*") {
+      input[type="file"] {
+        @apply h-6;
+      }
+    }
+    @if ($type == "textarea") or ($type == "*") {
+      textarea {
+        @apply @apply text-n2h
+          py-1
+          px-2
+          h-6;
+        min-block-size: theme("spacing.6");
+      }
+      textarea {
+      }
+    }
+    @if ($type == "*") or not ($type == "textarea") {
+      input {
+        padding-inline-start: theme("padding.8");
+      }
+    }
+
+    .clear-button {
+      min-block-size: theme("spacing.6");
+      min-inline-size: theme("spacing.6");
+    }
+    .icon {
+      inset-inline-start: theme("spacing.2");
+    }
+  }
+  :host([scale="m"]) {
+    @if ($type == "textarea") {
+      .prefix,
+      .suffix {
+        @apply text-n1h h-8 px-3;
+      }
+    } @else {
+      input,
+      .prefix,
+      .suffix {
+        @apply text-n1h h-8 px-3;
+      }
+    }
+    @if ($type == "textarea") or ($type == "*") {
+      textarea {
+        @apply text-n1h
+          h-auto
+          py-2
+          px-3;
+        min-block-size: theme("spacing.8");
+      }
+    }
+    @if ($type == "number") or ($type == "*") {
+      .number-button-wrapper,
+      .action-wrapper calcite-button,
+      .action-wrapper calcite-button button {
+        @apply h-8;
+      }
+    } @else {
+      .action-wrapper calcite-button,
+      .action-wrapper calcite-button button {
+        @apply h-8;
+      }
+    }
+    @if ($type == "file") or ($type == "*") {
+      input[type="file"] {
+        @apply h-8;
+      }
+    }
+    @if ($type == "*") or not ($type == "textarea") {
+      input {
+        padding-inline-start: theme("padding.10");
+      }
+    }
+
+    .clear-button {
+      min-block-size: theme("spacing.8");
+      min-inline-size: theme("spacing.8");
+    }
+    .icon {
+      inset-inline-start: theme("spacing.3");
+    }
+  }
+  :host([scale="l"]) {
+    @if ($type == "textarea") {
+      .prefix,
+      .suffix {
+        @apply text-0h h-11 px-4;
+      }
+    } @else {
+      input,
+      .prefix,
+      .suffix {
+        @apply text-0h h-11 px-4;
+      }
+    }
+    @if ($type == "textarea") or ($type == "*") {
+      textarea {
+        @apply text-0h
+          h-auto
+          py-3
+          px-4;
+        min-block-size: theme("spacing.11");
+      }
+      .resize-icon-wrapper {
+        block-size: 18px;
+        inline-size: 18px;
+      }
+    }
+    @if ($type == "number") or ($type == "*") {
+      .number-button-wrapper,
+      .action-wrapper calcite-button,
+      .action-wrapper calcite-button button {
+        @apply h-11;
+      }
+    } @else {
+      .action-wrapper calcite-button,
+      .action-wrapper calcite-button button {
+        @apply h-11;
+      }
+    }
+    @if ($type == "file") or ($type == "*") {
+      input[type="file"] {
+        @apply h-11;
+      }
+    }
+    @if ($type == "*") or not ($type == "textarea") {
+      input {
+        padding-inline-start: theme("padding.14");
+      }
+    }
+
+    .clear-button {
+      min-block-size: theme("spacing.11");
+      min-inline-size: theme("spacing.11");
+    }
+    .icon {
+      inset-inline-start: theme("spacing.4");
+    }
+  }
+
+  // Status
+  :host([status="invalid"]) {
+    --calcite-{$componentName}-border-color: var(--calcite-color-status-danger);
+    --calcite-internal-input-outline-color: var(--calcite-color-status-danger);
+  }
+  :host(:focus) {
+    --calcite-{$componentName}-border-color: var(--calcite-color-brand);
+  }
+  :host([read-only]) {
+    --calcite-{$componentName}-background-color: var(--calcite-color-background);
+  }
+
+  // Alignment
+  :host([alignment="start"]) {
+    --calcite-internal-input-text-align: start;
+  }
+  :host([alignment="end"]) {
+    --calcite-internal-input-text-align: end;
+  }
+
+  // Border Radius (depending on ShadowDOM composition)
+  :host([number-button-type="horizontal"][type="number"]) {
+    .wrapper {
+      > button:first-child {
+        border-start-start-radius: var(--calcite-{$componentName}-corner-radius);
+        border-end-start-radius: var(--calcite-{$componentName}-corner-radius);
+      }
+
+      > button:last-of-type {
+        border-start-end-radius: var(--calcite-{$componentName}-corner-radius);
+        border-end-end-radius: var(--calcite-{$componentName}-corner-radius);
+      }
+    }
+
+    button + button,
+    input + button,
+    button + div,
+    input + div {
+      border-start-start-radius: 0;
+      border-end-start-radius: 0;
+    }
+    input {
+      border-radius: 0;
+    }
+  }
+  :host([number-button-type="vertical"][type="number"]) {
+    input,
+    textarea {
+      border-start-end-radius: 0;
+      border-end-end-radius: 0;
+    }
+    .number-button-item {
+      &:first-child {
+        border-start-end-radius: var(--calcite-{$componentName}-corner-radius);
+      }
+      &:last-child {
+        border-end-end-radius: var(--calcite-{$componentName}-corner-radius);
+      }
+    }
+  }
+  :host([prefix-text]) {
+    input,
+    textarea {
+      border-start-start-radius: 0;
+      border-end-start-radius: 0;
+    }
+  }
+  :host([suffix-text]) {
+    input,
+    textarea {
+      border-start-end-radius: 0;
+      border-end-end-radius: 0;
+    }
+  }
+  :host([suffix-text][type="number"]:not([read-only])) {
+    .suffix {
+      border-start-end-radius: 0;
+      border-end-end-radius: 0;
+    }
+  }
+  :host(:not([clearable], [suffix-text], [type="number"]:not([read-only]))) {
+    .wrapper:has(+ .validation-container) {
+      @include setOnInputEl($type) {
+        border-start-end-radius: var(--calcite-{$componentName}-corner-radius);
+        border-end-end-radius: var(--calcite-{$componentName}-corner-radius);
+      }
+    }
+  }
+  :host(:not([type="number"], [suffix-text])) {
+    @include setOnInputEl($type) {
+      &:has(+ .clear-button) {
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+      }
+    }
+    .clear-button {
+      border-start-end-radius: var(--calcite-{$componentName}-corner-radius);
+      border-end-end-radius: var(--calcite-{$componentName}-corner-radius);
+    }
+  }
+  .prefix {
+    border-start-start-radius: var(--calcite-{$componentName}-corner-radius);
+    border-end-start-radius: var(--calcite-{$componentName}-corner-radius);
+  }
+  .suffix {
+    border-start-end-radius: var(--calcite-{$componentName}-corner-radius);
+    border-end-end-radius: var(--calcite-{$componentName}-corner-radius);
+  }
+  :host(:not(:empty)) {
+    .clear-button {
+      border-start-end-radius: 0;
+      border-end-end-radius: 0;
+    }
+    @include setOnInputEl($type) {
+      border-start-end-radius: 0;
+      border-end-end-radius: 0;
+    }
+  }
+  ::slotted(*) {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+    border-start-end-radius: var(--calcite-{$componentName}-corner-radius);
+    border-end-end-radius: var(--calcite-{$componentName}-corner-radius);
+  }
+
+  // input, textarea
+  @include setOnInputEl($type) {
+    @apply border font-inherit relative m-0
+        box-border flex max-h-full w-full max-w-full flex-1 font-normal border-spacing-1
+        border-solid
+        text-ellipsis
+        focus-base;
+
+    transition:
+      var(--calcite-animation-timing),
+      block-size 0,
+      outline-offset 0s;
+    -webkit-appearance: none;
+    border-radius: var(--calcite-{$componentName}-corner-radius);
+    color: var(--calcite-{$componentName}-text-color);
+    border-color: var(--calcite-{$componentName}-border-color);
+    background-color: var(--calcite-{$componentName}-background-color);
+    text-align: var(--calcite-internal-input-text-align);
+
+    &::placeholder,
+    &:-ms-input-placeholder,
+    &::-ms-input-placeholder {
+      @apply font-normal;
+      color: var(--calcite-{$componentName}-placeholder-text-color);
+    }
+    &:placeholder-shown {
+      @apply text-ellipsis;
+    }
+
+    // States
+    &:focus {
+      outline: 2px solid var(--calcite-internal-input-outline-color);
+      outline-offset: calc(-2px * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
+    }
+    &[readonly] {
+      @apply font-medium;
+    }
+    &[type="search"]::-webkit-search-decoration {
+      -webkit-appearance: none;
+    }
+
+    @if ($type == "text") or ($type == "*") {
+      // hide browser default clear
+      &[type="text"]::-ms-clear,
+      &[type="text"]::-ms-reveal {
+        @apply hidden
+          h-0
+          w-0;
+      }
+    }
+    @if ($type == "date") or ($type == "*") {
+      &[type="date"]::-webkit-input-placeholder {
+        visibility: hidden !important;
+      }
+    }
+    @if not($type == "textarea") {
+      @if ($type == "*") or ($type == "search") {
+        &[type="search"] {
+          &::-webkit-search-decoration,
+          &::-webkit-search-cancel-button,
+          &::-webkit-search-results-button,
+          &::-webkit-search-results-decoration {
+            @apply hidden;
+          }
+        }
+      }
+      @if ($type == "*") or ($type == "date") {
+        &[type="date"]::-webkit-clear-button {
+          @apply hidden;
+        }
+      }
+      @if ($type == "*") or ($type == "time") {
+        &[type="time"]::-webkit-clear-button {
+          @apply hidden;
+        }
+      }
+      @if ($type == "*") or ($type == "number") {
+        &[type="number"] {
+          -moz-appearance: textfield;
+
+          &::-webkit-inner-spin-button,
+          &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+            @apply m-0;
+          }
+        }
+      }
+    }
+  }
+
+  calcite-icon {
+    color: var(--calcite-{$componentName}-icon-color);
+  }
+
+  button {
+    &:hover,
+    &:active {
+      --calcite-{$componentName}-icon-color: var(--calcite-{$componentName}-button-icon-color-hover);
+    }
+  }
+
+  .wrapper {
+    @apply relative
+      flex
+      flex-row
+      items-center;
+  }
+
+  .element-wrapper {
+    @apply relative
+      order-3
+      inline-flex
+      flex-1
+      items-center;
+  }
+
+  .icon {
+    @apply transition-default
+      pointer-events-none
+      absolute
+      block;
+  }
+  @if ($type == "textarea") or ($type == "*") {
+    .icon,
+    .resize-icon-wrapper {
+      @apply z-default; // needed for firefox to display the icon properly
+    }
+  } @else {
+    .icon {
+      @apply z-default; // needed for firefox to display the icon properly
+    }
+  }
+
+  .clear-button {
+    pointer-events: initial;
+    @apply focus-base
+      order-4
+      m-0
+      box-border
+      flex
+      min-h-full
+      cursor-pointer
+      items-center
+      justify-center
+      self-stretch
+      border
+      border-solid;
+
+    background-color: var(--calcite-{$componentName}-button-background-color);
+    border-color: var(--calcite-internal-input-border-color-base);
+    border-inline-start-width: theme("borderWidth.0");
+
+    &:hover {
+      @apply transition-default;
+      --calcite-{$componentName}-button-background-color: var(--calcite-{$componentName}-button-background-color-hover);
+
+      calcite-icon {
+        @apply transition-default;
+      }
+    }
+    &:active {
+      --calcite-{$componentName}-button-background-color: var(--calcite-{$componentName}-button-background-color-active);
+    }
+    &:focus {
+      @apply focus-inset;
+    }
+    &:disabled {
+      @apply opacity-disabled;
+    }
+  }
+
+  // loading
+  .loader {
+    @apply pointer-events-none
+      absolute
+      block;
+
+    inset-block-start: 1px;
+    inset-inline: 1px;
+  }
+  :host(:not([suffix-text], [type="number"]):empty) {
+    .loader {
+      inset-inline-end: calc(var(--calcite-{$componentName}-corner-radius, 0px) / 2);
+    }
+  }
+  :host(:not([prefix-text], [number-button-type="horizontal"][type="number"])) {
+    .loader {
+      inset-inline-start: calc(var(--calcite-{$componentName}-corner-radius, 0px) / 2);
+    }
+  }
+
+  // slotted action
+  .action-wrapper {
+    @apply order-7 flex;
+  }
+
+  // prefix and suffix
+  .prefix,
+  .suffix {
+    @apply box-border
+      flex
+      h-auto
+      min-h-full
+      select-none
+      content-center
+      items-center
+      break-words
+      border
+      border-solid
+      font-medium
+      leading-none;
+    border-color: var(--calcite-internal-input-border-color-base);
+  }
+  .prefix {
+    @apply order-2;
+    border-inline-end-width: theme("borderWidth.0");
+    color: var(--calcite-{$componentName}-prefix-text-color);
+    background-color: var(--calcite-{$componentName}-prefix-background-color);
+  }
+  .suffix {
+    @apply order-5;
+    border-inline-start-width: theme("borderWidth.0");
+    color: var(--calcite-{$componentName}-suffix-text-color);
+    background-color: var(--calcite-{$componentName}-suffix-background-color);
+  }
+
+  @if ($type == "*") or ($type == "number") {
+    .number-button-wrapper {
+      @apply transition-default
+        pointer-events-none
+        order-6
+        box-border
+        flex
+        flex-col;
+    }
+    .number-button-item {
+      max-block-size: 50%;
+      min-block-size: 50%;
+      pointer-events: initial;
+      @apply transition-default
+        m-0
+        box-border
+        flex
+        cursor-pointer
+        items-center
+        self-center
+        border
+        border-solid
+        py-0
+        px-2;
+      border-color: var(--calcite-internal-input-border-color-base);
+      border-inline-start-width: theme("borderWidth.0");
+      background-color: var(--calcite-{$componentName}-button-background-color);
+
+      &:focus,
+      &:hover {
+        --calcite-{$componentName}-button-background-color: var(--calcite-{$componentName}-button-background-color-hover);
+      }
+      &:active {
+        --calcite-{$componentName}-button-background-color: var(--calcite-{$componentName}-button-background-color-active);
+      }
+      &:disabled {
+        @apply pointer-events-none;
+      }
+
+      &.number-button-item--horizontal {
+        &[data-adjustment="down"],
+        &[data-adjustment="up"] {
+          @apply order-1
+            max-h-full
+            min-h-full
+            self-stretch;
+          & calcite-icon {
+            transform: rotate(90deg);
+          }
+        }
+      }
+      &.number-button-item--horizontal {
+        &[data-adjustment="up"] {
+          @apply order-5;
+        }
+        &[data-adjustment="down"] {
+          @apply border
+            border-solid;
+          border-inline-end-width: theme("borderWidth.0");
+        }
+      }
+
+      calcite-icon {
+        @apply transition-default pointer-events-none;
+      }
+    }
+
+    :host([number-button-type="vertical"]) {
+      input {
+        @apply order-2;
+      }
+      .wrapper {
+        flex-direction: row;
+        display: flex;
+      }
+      .number-button-item[data-adjustment="down"] {
+        @apply border-t-0;
+      }
+    }
+
+    :host([number-button-type="horizontal"]) {
+      .calcite--rtl {
+        & .number-button-item[data-adjustment="down"] calcite-icon {
+          transform: rotate(-90deg);
+        }
+        & .number-button-item[data-adjustment="up"] calcite-icon {
+          transform: rotate(-90deg);
+        }
+      }
+    }
+  }
+  @if ($type == "*") or ($type == "date") {
+    // hide the default date picker
+    :input::-webkit-calendar-picker-indicator {
+      @apply hidden;
+    }
+  }
+  @if ($type == "*") or ($type == "textarea") {
+    // textarea resize icon
+    textarea::-webkit-resizer {
+      @apply absolute
+        bottom-0
+        box-border
+        py-0
+        px-1;
+      inset-inline-end: 0;
+    }
+
+    .resize-icon-wrapper {
+      inset-block-end: 2px;
+      inset-inline-end: 2px;
+      background-color: var(--calcite-{$componentName}-button-background-color);
+
+      @apply pointer-events-none
+        absolute
+        h-3
+        w-3;
+
+      & calcite-icon {
+        inset-block-end: theme("spacing.1");
+        inset-inline-end: theme("spacing.1");
+        transform: rotate(-45deg);
+      }
+    }
+
+    .calcite--rtl {
+      .resize-icon-wrapper {
+        & calcite-icon {
+          transform: rotate(45deg);
+        }
+      }
+    }
+  }
+  @if ($type == "*") or ($type == "color") {
+    :host([type="color"]) input {
+      @apply p-1;
+    }
+  }
+  @if ($type == "*") or ($type == "file") {
+    // file input
+    :host([type="file"]) input {
+      @apply cursor-pointer
+        border
+        border-dashed
+        text-center;
+    }
+    :host([type="file"][scale="s"]) input {
+      @apply py-px px-2;
+    }
+    :host([type="file"][scale="m"]) input {
+      @apply py-1 px-3;
+    }
+    :host([type="file"][scale="l"]) input {
+      @apply py-2 px-4;
+    }
+  }
+  @if not($type == "textarea") {
+    :host(.no-bottom-border) input {
+      @apply border-b-0;
+    }
+
+    :host(.border-top-color-one) input {
+      @apply border-t-color-1;
+    }
+
+    // input needed for higher specificity of these overrides
+    input {
+      &.inline-child {
+        @apply transition-default bg-transparent;
+        .editing-enabled {
+          background-color: inherit;
+        }
+      }
+
+      &.inline-child:not(.editing-enabled) {
+        @apply border-color-transparent
+          flex
+          cursor-pointer text-ellipsis;
+        padding-inline-start: 0;
+      }
+    }
+  }
+
+  @include form-validation-message();
+  @include hidden-form-input();
+  @include base-component();
+}
