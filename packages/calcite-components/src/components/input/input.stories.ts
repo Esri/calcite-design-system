@@ -26,17 +26,18 @@ export const simple = (): string => html`
       min="${number("min", 0)}"
       max="${number("max", 100)}"
       step="${number("step", 1)}"
-      prefix-text="${text("prefix-text", "")}"
-      suffix-text="${text("suffix-text", "")}"
+      ${text("prefix-text", "") && `prefix-text="${text("prefix-text", "")}"`}
+      ${text("suffix-text", "") && `suffix-text="${text("suffix-text", "")}"`}
       ${boolean("loading", false)}
       ${boolean("clearable", false)}
       ${boolean("disabled", false)}
-      value="${text("value", "")}"
+      ${text("value", "") && `value="${text("value", "")}"`}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       placeholder="${text("placeholder", "Placeholder text")}"
-      validation-message="${text("validation-message", "")}"
-      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+      ${text("validation-message", "") && `validation-message="${text("validation-message", "")}"`}
+      ${select("validation-icon", ["", ...iconNames], "") &&
+      `validation-icon="${select("validation-icon", ["", ...iconNames], "")}"`}
     ></calcite-input>
   </div>
 `;
@@ -80,14 +81,16 @@ export const textarea_TestOnly = (): string => html`
       ${boolean("loading", false)}
       ${boolean("clearable", false)}
       ${boolean("disabled", false)}
-      prefix-text="${text("prefix-text", "")}"
-      suffix-text="${text("suffix-text", "")}"
-      value="${text("value", "")}"
+      ${text("prefix-text", "") && `prefix-text="${text("prefix-text", "")}"`}
+      ${text("suffix-text", "") && `suffix-text="${text("suffix-text", "")}"`}
+      ${text("value", "") && `value="${text("value", "")}"`}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       placeholder="${text("placeholder", "Placeholder text")}"
-      validation-message="${text("validation-message", "My great input message")}"
-      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+      ${text("validation-message", "My great input message") &&
+      `validation-message="${text("validation-message", "My great input message")}"`}
+      ${select("validation-icon", ["", ...iconNames], "") &&
+      `validation-icon="${select("validation-icon", ["", ...iconNames], "")}"`}
     >
     </calcite-input>
   </div>
@@ -116,8 +119,8 @@ export const darkModeRTL_TestOnly = (): string => html`
         min="${number("min", 0)}"
         max="${number("max", 100)}"
         step="${number("step", 1)}"
-        prefix-text="${text("prefix-text", "")}"
-        suffix-text="${text("suffix-text", "")}"
+        ${text("prefix-text", "") && `prefix-text="${text("prefix-text", "")}"`}
+        ${text("suffix-text", "") && `suffix-text="${text("suffix-text", "")}"`}
         ${boolean("loading", false)}
         ${boolean("clearable", false)}
         ${boolean("disabled", false)}

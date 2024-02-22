@@ -1,125 +1,132 @@
-// sizes
-:host([scale="s"]) {
-  .container {
-    @apply h-3;
-  }
-  .track {
-    @apply h-3 w-6;
-  }
-  .handle {
-    @apply h-2 w-2;
-  }
-}
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-switch-handle-background-color: Specifies the background color of the component handle.
+ * @prop --calcite-switch-handle-border-color: Specifies the border color of the component handle.
+ * @prop --calcite-switch-track-background-color: Specifies the background color of the component track.
+ * @prop --calcite-switch-track-border-color: Specifies the border color of the component track.
+ * @prop --calcite-switch-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-switch-shadow: Specifies the shadow of the component.
+ */
 
-:host([scale="m"]) {
-  .container {
-    @apply h-4;
-  }
-  .track {
-    @apply h-4 w-8;
-  }
-  .handle {
-    @apply h-3 w-3;
-  }
-}
-
-:host([scale="l"]) {
-  .container {
-    @apply h-6;
-  }
-  .track {
-    @apply h-6 w-12;
-  }
-  .handle {
-    @apply h-5 w-5;
-  }
-}
+@import "~@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
+  --calcite-switch-handle-background-color: var(--calcite-color-foreground-1);
+  --calcite-switch-handle-border-color: var(--calcite-color-border-input);
+  --calcite-switch-track-background-color: var(--calcite-color-foreground-2);
+  --calcite-switch-track-border-color: var(--calcite-color-border-2);
+  --calcite-switch-corner-radius: var(--calcite-internal-switch-border-radius, --calcite-corner-radius-pill);
+  --calcite-switch-shadow: none;
+
+  --calcite-internal-switch-border-radius: 9999px; // TODO: drop once --calcite-corner-radius is updated
+
   @apply relative
-    inline-block
-    w-auto
-    cursor-pointer
-    select-none
-    align-middle;
+  inline-block
+  w-auto
+  cursor-pointer
+  select-none
+  align-middle;
   tap-highlight-color: transparent;
 }
 
-@include disabled();
-
 .container {
   @apply outline-0;
+  display: flex;
 }
 
 .track {
-  @apply bg-foreground-2
-    border-color-2
-    pointer-events-none
-    relative
-    box-border
-    inline-block
-    rounded-full
+  @apply align-top
     border
     border-solid
-    align-top
-    focus-base;
+    box-border
+    focus-base
+    inline-block
+    pointer-events-none
+    relative;
+
+  border-color: var(--calcite-switch-track-border-color);
+  background-color: var(--calcite-switch-track-background-color);
+  border-radius: var(--calcite-switch-corner-radius);
+  block-size: var(--calcite-internal-switch-track-height);
+  inline-size: var(--calcite-internal-switch-track-width);
+}
+
+.handle {
+  @apply absolute
+    block
+    border-2
+    border-solid
+    duration-150
+    ease-in-out
+    pointer-events-none
+    transition-all;
+  inset-block-start: -1px;
+  inset-inline: -1px theme("inset.auto");
+
+  border-color: var(--calcite-switch-handle-border-color);
+  background-color: var(--calcite-switch-handle-background-color);
+  border-radius: var(--calcite-switch-corner-radius);
+  box-shadow: inset 0 0 0 1px var(--calcite-switch-shadow);
+  block-size: var(--calcite-internal-switch-handle-height);
+  inline-size: var(--calcite-internal-switch-handle-width);
+}
+
+// sizes
+:host([scale="s"]) {
+  --calcite-internal-switch-handle-height: var(--calcite-size-sm);
+  --calcite-internal-switch-handle-width: var(--calcite-size-sm);
+  --calcite-internal-switch-track-height: var(--calcite-size-md);
+  --calcite-internal-switch-track-width: var(--calcite-size-xxl);
+}
+
+:host([scale="m"]) {
+  --calcite-internal-switch-handle-height: var(--calcite-size-md);
+  --calcite-internal-switch-handle-width: var(--calcite-size-md);
+  --calcite-internal-switch-track-height: var(--calcite-size-lg);
+  --calcite-internal-switch-track-width: var(--calcite-size-xxxl);
+}
+
+:host([scale="l"]) {
+  --calcite-internal-switch-handle-height: var(--calcite-size-xl);
+  --calcite-internal-switch-handle-width: var(--calcite-size-xl);
+  --calcite-internal-switch-track-height: var(--calcite-size-xxl);
+  --calcite-internal-switch-track-width: #{$calcite-size-48}; // TODO: need new size token for this size
 }
 
 :host(:focus) .track {
   @apply focus-outset;
 }
 
-.handle {
-  @apply bg-foreground-1
-    border-color-input
-    pointer-events-none
-    absolute
-    block
-    rounded-full
-    border-2
-    border-solid
-    transition-all
-    duration-150
-    ease-in-out;
-  inset-block-start: -1px;
-  inset-inline: -1px theme("inset.auto");
-}
-
 :host(:hover),
 :host(:focus) {
-  .handle {
-    @apply border-color-brand;
-    box-shadow: inset 0 0 0 1px var(--calcite-color-brand);
-  }
+  --calcite-switch-handle-border-color: var(--calcite-color-brand);
+  --calcite-switch-shadow: var(--calcite-color-brand);
 }
 
 :host([checked]) {
-  .track {
-    @apply bg-brand border-color-brand-hover;
-  }
+  --calcite-switch-handle-border-color: var(--calcite-color-brand);
+  --calcite-switch-track-background-color: var(--calcite-color-brand);
+  --calcite-switch-track-border-color: var(--calcite-color-brand-hover);
+
   .handle {
-    @apply border-color-brand;
     inset-inline: theme("inset.auto") -1px;
   }
 }
 
 :host([checked]:hover) {
-  .track {
-    @apply bg-brand border-color-brand-hover;
-  }
-  .handle {
-    @apply border-color-brand-hover;
-    box-shadow: inset 0 0 0 1px var(--calcite-color-brand-hover);
-  }
+  --calcite-switch-handle-border-color: var(--calcite-color-brand-hover);
+  --calcite-switch-shadow: var(--calcite-color-brand-hover);
 }
 
 @media (forced-colors: active) {
   :host([checked]) {
-    .track {
-      background-color: canvasText;
-    }
+    --calcite-switch-track-background-color: canvasText;
   }
 }
 
+@include disabled();
 @include hidden-form-input();
 @include base-component();
