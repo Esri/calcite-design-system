@@ -1,24 +1,28 @@
 @include base-component();
 
+:host {
+  --calcite-internal-date-picker-month-week-headers-border-color: var(--calcite-color-border-3);
+  --calcite-internal-date-picker-month-week-headers-color: var(--calcite-color-text-3);
+}
+
 .calendar {
-  @apply mb-1;
+  margin-block-end: var(--calcite-spacing-xxs);
 }
 
 .week-headers {
-  @apply border-color-3
-    flex
-    border-0
-    border-t
-    border-solid
-    py-0
-    px-1;
+  @apply flex border-solid py-0;
+  border-block-start-width: var(--calcite-border-width-sm);
+  border-color: var(--calcite-internal-date-picker-month-week-headers-border-color);
+  border-width: var(--calcite-border-width-none);
+  padding-inline: var(--calcite-spacing-xxs);
 }
 
 .week-header {
-  @apply text-color-3
-    text-center
-    font-bold;
+  @apply tex-center px-0;
+  color: var(--calcite-internal-date-picker-month-week-headers-color);
+  font-weight: var(calcite-font-weight-semibold);
   inline-size: calc(100% / 7);
+  line-height: var(--calcite-font-line-height-fixed-base);
 }
 
 .day {
@@ -33,22 +37,28 @@
 }
 
 :host([scale="s"]) .week-header {
-  @apply text-n2h px-0 pt-2 pb-3;
+  font-size: var(--calcite-font-size-sm);
+  padding-block-start: var(--calcite-spacing-sm);
+  padding-block-end: var(--calcite-spacing-md);
 }
 
 :host([scale="m"]) .week-header {
-  @apply text-n2h px-0 pt-3 pb-4;
+  font-size: var(--calcite-font-spacing-sm);
+  padding-block-start: var(--calcite-spacing-md);
+  padding-block-end: var(--calcite-spacing-xl);
 }
 
 :host([scale="l"]) .week-header {
-  @apply text-n1h px-0 pt-4 pb-5;
+  font-size: var(--calcite-font-size);
+  padding-block-start: var(--calcite-spacing-xl);
+  padding-block-end: var(--calcite-spacing-xxl);
 }
 
 .week-days {
   @apply flex
     flex-row
     py-0;
-  padding-inline: 6px;
+  padding-inline: var(--calcite-spacing-xs);
   &:focus {
     @apply outline-none;
   }
