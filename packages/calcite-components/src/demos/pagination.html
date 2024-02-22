@@ -27,15 +27,251 @@
         padding: 15px;
         flex: 1;
       }
+
+      .themed-example {
+        --calcite-pagination-text-color: green;
+        --calcite-pagination-text-color-hover: darkgreen;
+        --calcite-pagination-text-color-selected: teal;
+        --calcite-pagination-background-color: lightyellow;
+        --calcite-pagination-background-color-hover: yellow;
+        --calcite-pagination-background-color-active: gold;
+        --calcite-pagination-border-color-selected: green;
+        --calcite-pagination-border-color-hover: orange;
+        --calcite-pagination-arrow-icon-color: blue;
+        --calcite-pagination-arrow-icon-color-hover: pink;
+        --calcite-pagination-arrow-icon-color-active: red;
+        --calcite-pagination-arrow-background-color: lightyellow;
+        --calcite-pagination-arrow-background-color-hover: orange;
+        --calcite-pagination-arrow-background-color-active: gold;
+      }
     </style>
   </head>
 
   <body>
     <demo-dom-swapper>
       <h1 style="margin: 0 auto; text-align: center">Pagination</h1>
+      <!-- responsive testing from storybook-->
 
       <!-- Small -->
-      <div class="flex">
+      <div class="parent">
+        <div class="child">
+          <div class="breakpoint-stories-container">
+            <style>
+              .breakpoint-stories-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                justify-content: flex-start;
+              }
+
+              .breakpoint-story-container {
+                display: flex;
+              }
+
+              .breakpoint-story-container > * {
+                flex: 1;
+              }
+            </style>
+            <calcite-pagination
+              total-items="1200"
+              page-size="100"
+              start-item="1"
+              style="
+                --calcite-pagination-text-color: green;
+                --calcite-pagination-text-color-hover: darkgreen;
+                --calcite-pagination-text-color-selected: teal;
+                --calcite-pagination-background-color: lightyellow;
+                --calcite-pagination-background-color-hover: yellow;
+                --calcite-pagination-background-color-active: gold;
+                --calcite-pagination-border-color-selected: green;
+                --calcite-pagination-border-color-hover: orange;
+                --calcite-pagination-arrow-icon-color: blue;
+                --calcite-pagination-arrow-icon-color-hover: pink;
+                --calcite-pagination-arrow-icon-color-active: red;
+                --calcite-pagination-arrow-background-color: lightyellow;
+                --calcite-pagination-arrow-background-color-hover: orange;
+                --calcite-pagination-arrow-background-color-active: gold;
+              "
+            ></calcite-pagination>
+
+            <calcite-pagination
+              scale="m"
+              start-item="1"
+              lang="en"
+              numbering-system="latn"
+              total-items="123456789"
+              page-size="10"
+            ></calcite-pagination>
+            <strong>scale = s</strong>
+            <strong>breakpoint = xxsmall</strong>
+            <div class="breakpoint-story-container" style="width: 319px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="s"
+              ></calcite-pagination>
+            </div>
+            <strong>breakpoint = xsmall</strong>
+            <div class="breakpoint-story-container" style="width: 475px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="s"
+              ></calcite-pagination>
+            </div>
+            <strong>breakpoint = small</strong>
+            <div class="breakpoint-story-container" style="width: 767px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="s"
+              ></calcite-pagination>
+            </div>
+            <strong>breakpoint = medium</strong>
+            <div class="breakpoint-story-container" style="width: 1151px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="s"
+              ></calcite-pagination>
+            </div>
+            <strong>breakpoint = large</strong>
+            <div class="breakpoint-story-container" style="width: 1439px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="s"
+              ></calcite-pagination>
+            </div>
+            <strong>scale = m</strong>
+            <strong>breakpoint = xxsmall</strong>
+            <div class="breakpoint-story-container" style="width: 319px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="m"
+              ></calcite-pagination>
+            </div>
+            <strong>breakpoint = xsmall</strong>
+            <div class="breakpoint-story-container" style="width: 475px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="m"
+              ></calcite-pagination>
+            </div>
+            <strong>breakpoint = small</strong>
+            <div class="breakpoint-story-container" style="width: 767px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="m"
+              ></calcite-pagination>
+            </div>
+            <strong>breakpoint = medium</strong>
+            <div class="breakpoint-story-container" style="width: 1151px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="m"
+              ></calcite-pagination>
+            </div>
+            <strong>breakpoint = large</strong>
+            <div class="breakpoint-story-container" style="width: 1439px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="m"
+              ></calcite-pagination>
+            </div>
+            <strong>scale = l</strong>
+            <strong>breakpoint = xxsmall</strong>
+            <div class="breakpoint-story-container" style="width: 319px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="l"
+              ></calcite-pagination>
+            </div>
+            <strong>breakpoint = xsmall</strong>
+            <div class="breakpoint-story-container" style="width: 475px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="l"
+              ></calcite-pagination>
+            </div>
+            <strong>breakpoint = small</strong>
+            <div class="breakpoint-story-container" style="width: 767px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="l"
+              ></calcite-pagination>
+            </div>
+            <strong>breakpoint = medium</strong>
+            <div class="breakpoint-story-container" style="width: 1151px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="l"
+              ></calcite-pagination>
+            </div>
+            <strong>breakpoint = large</strong>
+            <div class="breakpoint-story-container" style="width: 1439px">
+              <calcite-pagination
+                lang="en"
+                numbering-system="latn"
+                total-items="150000"
+                page-size="100"
+                start-item="149901"
+                scale="l"
+              ></calcite-pagination>
+            </div>
+          </div>
+        </div>
         <div class="parent">
           <div class="child">small</div>
 
@@ -43,11 +279,42 @@
             <calcite-pagination total-items="300" page-size="100" start-item="1" scale="s"></calcite-pagination>
           </div>
           <div class="child">
-            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="s">Hello</calcite-pagination>
+            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="s"></calcite-pagination>
           </div>
 
           <div class="child">
             <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="s"></calcite-pagination>
+          </div>
+        </div>
+
+        <!-- Medium -->
+        <div class="parent">
+          <div class="child">themed</div>
+
+          <div class="child">
+            <calcite-pagination
+              class="themed-example"
+              total-items="300"
+              page-size="100"
+              start-item="1"
+            ></calcite-pagination>
+          </div>
+          <div class="child">
+            <calcite-pagination
+              class="themed-example"
+              total-items="1200"
+              page-size="100"
+              start-item="1"
+            ></calcite-pagination>
+          </div>
+
+          <div class="child">
+            <calcite-pagination
+              class="themed-example"
+              total-items="150000"
+              page-size="100"
+              start-item="5400"
+            ></calcite-pagination>
           </div>
         </div>
 
@@ -59,7 +326,7 @@
             <calcite-pagination total-items="300" page-size="100" start-item="1" scale="m"></calcite-pagination>
           </div>
           <div class="child">
-            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="m">Hello</calcite-pagination>
+            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="m"></calcite-pagination>
           </div>
 
           <div class="child">
@@ -75,7 +342,7 @@
             <calcite-pagination total-items="300" page-size="100" start-item="1" scale="l"></calcite-pagination>
           </div>
           <div class="child">
-            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="l">Hello</calcite-pagination>
+            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="l"></calcite-pagination>
           </div>
 
           <div class="child">
@@ -98,8 +365,7 @@
             ></calcite-pagination>
           </div>
           <div class="child">
-            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="s"
-              >Hello
+            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="s">
             </calcite-pagination>
           </div>
 
@@ -131,8 +397,7 @@
             ></calcite-pagination>
           </div>
           <div class="child">
-            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="m"
-              >Hello
+            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="m">
             </calcite-pagination>
           </div>
 
@@ -164,8 +429,7 @@
             ></calcite-pagination>
           </div>
           <div class="child">
-            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="l"
-              >Hello
+            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="l">
             </calcite-pagination>
           </div>
 
@@ -204,7 +468,7 @@
               page-size="100"
               start-item="1"
               scale="s"
-              >Hello
+            >
             </calcite-pagination>
           </div>
 
@@ -243,7 +507,7 @@
               page-size="100"
               start-item="1"
               scale="m"
-              >Hello
+            >
             </calcite-pagination>
           </div>
 
@@ -282,7 +546,7 @@
               page-size="100"
               start-item="1"
               scale="l"
-              >Hello
+            >
             </calcite-pagination>
           </div>
 
