@@ -15,37 +15,102 @@
   }
 }
 
-@mixin input($componentName: 'input', $type) {
+@mixin setInputTokens($component: "input", $subcomponent: "") {
+  // Set Defaults
+  @if ($subcomponent == "") {
+    :host {
+      --calcite-#{$component}-corner-radius: var(--calcite-corner-radius);
+      --calcite-#{$component}-text-color: var(--calcite-color-text-1);
+      --calcite-#{$component}-border-color: var(--calcite-color-border-input);
+      --calcite-#{$component}-background-color: var(--calcite-color-foreground-1);
+      --calcite-#{$component}-shadow: none;
+      // Button
+      --calcite-#{$component}-button-background-color: var(--calcite-color-foreground-1);
+      --calcite-#{$component}-button-background-color-hover: var(--calcite-color-foreground-2);
+      --calcite-#{$component}-button-background-color-active: var(--calcite-color-foreground-3);
+
+      // Icon
+      --calcite-#{$component}-icon-color: var(--calcite-color-text-3);
+      --calcite-#{$component}-button-icon-color-hover: var(--calcite-color-text-1);
+
+      // Prefix/Suffix
+      --calcite-#{$component}-prefix-text-color: var(--calcite-color-text-2);
+      --calcite-#{$component}-prefix-background-color: var(--calcite-color-background);
+      --calcite-#{$component}-suffix-text-color: var(--calcite-color-text-2);
+      --calcite-#{$component}-suffix-background-color: var(--calcite-color-background);
+
+      // Placeholder
+      --calcite-#{$component}-placeholder-text-color: var(--calcite-color-text-3);
+
+      // For props that should follow the initial border-color but not change on statechange.
+      --calcite-internal-#{$component}-border-color-base: var(--calcite-color-border-input);
+      --calcite-internal-#{$component}-outline-color: var(--calcite-color-brand);
+    }
+  } @else {
+    calcite-#{$subcomponent} {
+      --calcite-#{$subcomponent}-corner-radius: var(--calcite-#{$component}-#{$subcomponent}-corner-radius);
+      --calcite-#{$subcomponent}-text-color: var(--calcite-#{$component}-#{$subcomponent}-text-color);
+      --calcite-#{$subcomponent}-border-color: var(--calcite-#{$component}-#{$subcomponent}-border-color);
+      --calcite-#{$subcomponent}-background-color: var(--calcite-#{$component}-#{$subcomponent}-background-color);
+      --calcite-#{$subcomponent}-button-background-color: var(
+        --calcite-#{$component}-#{$subcomponent}-button-background-color
+      );
+      --calcite-#{$subcomponent}-button-background-color-hover: var(
+        --calcite-#{$component}-#{$subcomponent}-button-background-color-hover
+      );
+      --calcite-#{$subcomponent}-button-background-color-active: var(
+        --calcite-#{$component}-#{$subcomponent}-button-background-color-active
+      );
+      --calcite-#{$subcomponent}-icon-color: var(--calcite-#{$component}-#{$subcomponent}-icon-color);
+      --calcite-#{$subcomponent}-button-icon-color-hover: var(
+        --calcite-#{$component}-#{$subcomponent}-button-icon-color-hover
+      );
+      --calcite-#{$subcomponent}-prefix-text-color: var(--calcite-#{$component}-#{$subcomponent}-prefix-text-color);
+      --calcite-#{$subcomponent}-prefix-background-color: var(
+        --calcite-#{$component}-#{$subcomponent}-prefix-background-color
+      );
+      --calcite-#{$subcomponent}-suffix-text-color: var(--calcite-#{$component}-#{$subcomponent}-suffix-text-color);
+      --calcite-#{$subcomponent}-suffix-background-color: var(
+        --calcite-#{$component}-#{$subcomponent}-suffix-background-color
+      );
+      --calcite-#{$subcomponent}-placeholder-text-color: var(
+        --calcite-#{$component}-#{$subcomponent}-placeholder-text-color
+      );
+    }
+  }
+
+  // Set on state change
+  @if ($subcomponent == "") {
+    // Status
+    :host([status="invalid"]) {
+      --calcite-#{$component}-border-color: var(--calcite-color-status-danger);
+      --calcite-internal-#{$component}-outline-color: var(--calcite-color-status-danger);
+    }
+    :host(:focus) {
+      --calcite-#{$component}-border-color: var(--calcite-color-brand);
+    }
+    :host([read-only]) {
+      --calcite-#{$component}-background-color: var(--calcite-color-background);
+    }
+  } @else {
+    calcite-#{$subcomponent}[status="invalid"] {
+      --calcite-#{$subcomponent}-border-color: var(--calcite-#{$component}-#{$subcomponent}-border-color);
+    }
+    calcite-#{$subcomponent}:focus {
+      --calcite-#{$subcomponent}-border-color: var(--calcite-#{$component}-#{$subcomponent}-border-color);
+    }
+    calcite-#{$subcomponent}[read-only] {
+      --calcite-#{$subcomponent}-background-color: var(--calcite-#{$component}-#{$subcomponent}-background-color);
+    }
+  }
+}
+
+@mixin input($component: "input", $type: "*") {
+  @include setInputTokens($component);
+
   :host {
-    --calcite-{$componentName}-corner-radius: var(--calcite-corner-radius);
-    --calcite-{$componentName}-text-color: var(--calcite-color-text-1);
-    --calcite-{$componentName}-border-color: var(--calcite-color-border-input);
-    --calcite-{$componentName}-background-color: var(--calcite-color-foreground-1);
-    --calcite-{$componentName}-shadow: none;
-    // Button
-    --calcite-{$componentName}-button-background-color: var(--calcite-color-foreground-1);
-    --calcite-{$componentName}-button-background-color-hover: var(--calcite-color-foreground-2);
-    --calcite-{$componentName}-button-background-color-active: var(--calcite-color-foreground-3);
-
-    // Icon
-    --calcite-{$componentName}-icon-color: var(--calcite-color-text-3);
-    --calcite-{$componentName}-button-icon-color-hover: var(--calcite-color-text-1);
-
-    // Prefix/Suffix
-    --calcite-{$componentName}-prefix-text-color: var(--calcite-color-text-2);
-    --calcite-{$componentName}-prefix-background-color: var(--calcite-color-background);
-    --calcite-{$componentName}-suffix-text-color: var(--calcite-color-text-2);
-    --calcite-{$componentName}-suffix-background-color: var(--calcite-color-background);
-
-    // Placeholder
-    --calcite-{$componentName}-placeholder-text-color: var(--calcite-color-text-3);
-
-    // For props that should follow the initial border-color but not change on statechange.
-    --calcite-internal-input-border-color-base: var(--calcite-color-border-input);
-    --calcite-internal-input-outline-color: var(--calcite-color-brand);
-
     @apply block;
-    box-shadow: var(--calcite-{$componentName}-shadow);
+    box-shadow: var(--calcite-#{$component}-shadow);
   }
 
   @include disabled() {
@@ -223,37 +288,25 @@
     }
   }
 
-  // Status
-  :host([status="invalid"]) {
-    --calcite-{$componentName}-border-color: var(--calcite-color-status-danger);
-    --calcite-internal-input-outline-color: var(--calcite-color-status-danger);
-  }
-  :host(:focus) {
-    --calcite-{$componentName}-border-color: var(--calcite-color-brand);
-  }
-  :host([read-only]) {
-    --calcite-{$componentName}-background-color: var(--calcite-color-background);
-  }
-
   // Alignment
   :host([alignment="start"]) {
-    --calcite-internal-input-text-align: start;
+    --calcite-internal-#{$component}-text-align: start;
   }
   :host([alignment="end"]) {
-    --calcite-internal-input-text-align: end;
+    --calcite-internal-#{$component}-text-align: end;
   }
 
   // Border Radius (depending on ShadowDOM composition)
   :host([number-button-type="horizontal"][type="number"]) {
     .wrapper {
       > button:first-child {
-        border-start-start-radius: var(--calcite-{$componentName}-corner-radius);
-        border-end-start-radius: var(--calcite-{$componentName}-corner-radius);
+        border-start-start-radius: var(--calcite-#{$component}-corner-radius);
+        border-end-start-radius: var(--calcite-#{$component}-corner-radius);
       }
 
       > button:last-of-type {
-        border-start-end-radius: var(--calcite-{$componentName}-corner-radius);
-        border-end-end-radius: var(--calcite-{$componentName}-corner-radius);
+        border-start-end-radius: var(--calcite-#{$component}-corner-radius);
+        border-end-end-radius: var(--calcite-#{$component}-corner-radius);
       }
     }
 
@@ -276,10 +329,10 @@
     }
     .number-button-item {
       &:first-child {
-        border-start-end-radius: var(--calcite-{$componentName}-corner-radius);
+        border-start-end-radius: var(--calcite-#{$component}-corner-radius);
       }
       &:last-child {
-        border-end-end-radius: var(--calcite-{$componentName}-corner-radius);
+        border-end-end-radius: var(--calcite-#{$component}-corner-radius);
       }
     }
   }
@@ -306,8 +359,8 @@
   :host(:not([clearable], [suffix-text], [type="number"]:not([read-only]))) {
     .wrapper:has(+ .validation-container) {
       @include setOnInputEl($type) {
-        border-start-end-radius: var(--calcite-{$componentName}-corner-radius);
-        border-end-end-radius: var(--calcite-{$componentName}-corner-radius);
+        border-start-end-radius: var(--calcite-#{$component}-corner-radius);
+        border-end-end-radius: var(--calcite-#{$component}-corner-radius);
       }
     }
   }
@@ -319,17 +372,17 @@
       }
     }
     .clear-button {
-      border-start-end-radius: var(--calcite-{$componentName}-corner-radius);
-      border-end-end-radius: var(--calcite-{$componentName}-corner-radius);
+      border-start-end-radius: var(--calcite-#{$component}-corner-radius);
+      border-end-end-radius: var(--calcite-#{$component}-corner-radius);
     }
   }
   .prefix {
-    border-start-start-radius: var(--calcite-{$componentName}-corner-radius);
-    border-end-start-radius: var(--calcite-{$componentName}-corner-radius);
+    border-start-start-radius: var(--calcite-#{$component}-corner-radius);
+    border-end-start-radius: var(--calcite-#{$component}-corner-radius);
   }
   .suffix {
-    border-start-end-radius: var(--calcite-{$componentName}-corner-radius);
-    border-end-end-radius: var(--calcite-{$componentName}-corner-radius);
+    border-start-end-radius: var(--calcite-#{$component}-corner-radius);
+    border-end-end-radius: var(--calcite-#{$component}-corner-radius);
   }
   :host(:not(:empty)) {
     .clear-button {
@@ -344,8 +397,8 @@
   ::slotted(*) {
     border-start-start-radius: 0;
     border-end-start-radius: 0;
-    border-start-end-radius: var(--calcite-{$componentName}-corner-radius);
-    border-end-end-radius: var(--calcite-{$componentName}-corner-radius);
+    border-start-end-radius: var(--calcite-#{$component}-corner-radius);
+    border-end-end-radius: var(--calcite-#{$component}-corner-radius);
   }
 
   // input, textarea
@@ -361,17 +414,17 @@
       block-size 0,
       outline-offset 0s;
     -webkit-appearance: none;
-    border-radius: var(--calcite-{$componentName}-corner-radius);
-    color: var(--calcite-{$componentName}-text-color);
-    border-color: var(--calcite-{$componentName}-border-color);
-    background-color: var(--calcite-{$componentName}-background-color);
-    text-align: var(--calcite-internal-input-text-align);
+    border-radius: var(--calcite-#{$component}-corner-radius);
+    color: var(--calcite-#{$component}-text-color);
+    border-color: var(--calcite-#{$component}-border-color);
+    background-color: var(--calcite-#{$component}-background-color);
+    text-align: var(--calcite-internal-#{$component}-text-align);
 
     &::placeholder,
     &:-ms-input-placeholder,
     &::-ms-input-placeholder {
       @apply font-normal;
-      color: var(--calcite-{$componentName}-placeholder-text-color);
+      color: var(--calcite-#{$component}-placeholder-text-color);
     }
     &:placeholder-shown {
       @apply text-ellipsis;
@@ -379,7 +432,7 @@
 
     // States
     &:focus {
-      outline: 2px solid var(--calcite-internal-input-outline-color);
+      outline: 2px solid var(--calcite-internal-#{$component}-outline-color);
       outline-offset: calc(-2px * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
     }
     &[readonly] {
@@ -440,13 +493,13 @@
   }
 
   calcite-icon {
-    color: var(--calcite-{$componentName}-icon-color);
+    color: var(--calcite-#{$component}-icon-color);
   }
 
   button {
     &:hover,
     &:active {
-      --calcite-{$componentName}-icon-color: var(--calcite-{$componentName}-button-icon-color-hover);
+      --calcite-#{$component}-icon-color: var(--calcite-#{$component}-button-icon-color-hover);
     }
   }
 
@@ -497,20 +550,20 @@
       border
       border-solid;
 
-    background-color: var(--calcite-{$componentName}-button-background-color);
-    border-color: var(--calcite-internal-input-border-color-base);
+    background-color: var(--calcite-#{$component}-button-background-color);
+    border-color: var(--calcite-internal-#{$component}-border-color-base);
     border-inline-start-width: theme("borderWidth.0");
 
     &:hover {
       @apply transition-default;
-      --calcite-{$componentName}-button-background-color: var(--calcite-{$componentName}-button-background-color-hover);
+      --calcite-#{$component}-button-background-color: var(--calcite-#{$component}-button-background-color-hover);
 
       calcite-icon {
         @apply transition-default;
       }
     }
     &:active {
-      --calcite-{$componentName}-button-background-color: var(--calcite-{$componentName}-button-background-color-active);
+      --calcite-#{$component}-button-background-color: var(--calcite-#{$component}-button-background-color-active);
     }
     &:focus {
       @apply focus-inset;
@@ -531,12 +584,12 @@
   }
   :host(:not([suffix-text], [type="number"]):empty) {
     .loader {
-      inset-inline-end: calc(var(--calcite-{$componentName}-corner-radius, 0px) / 2);
+      inset-inline-end: calc(var(--calcite-#{$component}-corner-radius, 0px) / 2);
     }
   }
   :host(:not([prefix-text], [number-button-type="horizontal"][type="number"])) {
     .loader {
-      inset-inline-start: calc(var(--calcite-{$componentName}-corner-radius, 0px) / 2);
+      inset-inline-start: calc(var(--calcite-#{$component}-corner-radius, 0px) / 2);
     }
   }
 
@@ -560,19 +613,19 @@
       border-solid
       font-medium
       leading-none;
-    border-color: var(--calcite-internal-input-border-color-base);
+    border-color: var(--calcite-internal-#{$component}-border-color-base);
   }
   .prefix {
     @apply order-2;
     border-inline-end-width: theme("borderWidth.0");
-    color: var(--calcite-{$componentName}-prefix-text-color);
-    background-color: var(--calcite-{$componentName}-prefix-background-color);
+    color: var(--calcite-#{$component}-prefix-text-color);
+    background-color: var(--calcite-#{$component}-prefix-background-color);
   }
   .suffix {
     @apply order-5;
     border-inline-start-width: theme("borderWidth.0");
-    color: var(--calcite-{$componentName}-suffix-text-color);
-    background-color: var(--calcite-{$componentName}-suffix-background-color);
+    color: var(--calcite-#{$component}-suffix-text-color);
+    background-color: var(--calcite-#{$component}-suffix-background-color);
   }
 
   @if ($type == "*") or ($type == "number") {
@@ -599,16 +652,16 @@
         border-solid
         py-0
         px-2;
-      border-color: var(--calcite-internal-input-border-color-base);
+      border-color: var(--calcite-internal-#{$component}-border-color-base);
       border-inline-start-width: theme("borderWidth.0");
-      background-color: var(--calcite-{$componentName}-button-background-color);
+      background-color: var(--calcite-#{$component}-button-background-color);
 
       &:focus,
       &:hover {
-        --calcite-{$componentName}-button-background-color: var(--calcite-{$componentName}-button-background-color-hover);
+        --calcite-#{$component}-button-background-color: var(--calcite-#{$component}-button-background-color-hover);
       }
       &:active {
-        --calcite-{$componentName}-button-background-color: var(--calcite-{$componentName}-button-background-color-active);
+        --calcite-#{$component}-button-background-color: var(--calcite-#{$component}-button-background-color-active);
       }
       &:disabled {
         @apply pointer-events-none;
@@ -686,7 +739,7 @@
     .resize-icon-wrapper {
       inset-block-end: 2px;
       inset-inline-end: 2px;
-      background-color: var(--calcite-{$componentName}-button-background-color);
+      background-color: var(--calcite-#{$component}-button-background-color);
 
       @apply pointer-events-none
         absolute
