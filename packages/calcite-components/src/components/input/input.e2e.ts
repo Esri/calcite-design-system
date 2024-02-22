@@ -1376,7 +1376,7 @@ describe("calcite-input", () => {
           expect(await input.getProperty("value")).toBe(localizedValue);
         });
 
-        it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
+        it(`displays correct formatted value when using exponential numbers for locale`, async () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
