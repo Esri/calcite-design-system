@@ -202,6 +202,8 @@ export class InputNumber
    * Specifies the maximum length of text for the component's value.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+   *
+   * @deprecated This property has no effect on the component.
    */
   @Prop({ reflect: true }) maxLength: number;
 
@@ -209,6 +211,8 @@ export class InputNumber
    * Specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   *
+   * @deprecated This property has no effect on the component.
    */
   @Prop({ reflect: true }) minLength: number;
 
@@ -1085,7 +1089,7 @@ export class InputNumber
               : null}
             <HiddenFormInputSlot component={this} />
           </div>
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}

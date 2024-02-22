@@ -388,7 +388,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   private resizeObserver = createObserver(
     "resize",
-    (entries) => (this.elWidth = entries[0].contentRect.width)
+    (entries) => (this.elWidth = entries[0].contentRect.width),
   );
 
   private updateItems(): void {
@@ -417,7 +417,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   private getEnabledStepIndex(
     startIndex: number,
-    direction: "next" | "previous" = "next"
+    direction: "next" | "previous" = "next",
   ): number | null {
     const { items, currentActivePosition } = this;
 
@@ -512,7 +512,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   handleDefaultSlotChange = (event: Event): void => {
     const items = slotChangeGetAssignedElements(event).filter(
-      (el) => el?.tagName === "CALCITE-STEPPER-ITEM"
+      (el) => el?.tagName === "CALCITE-STEPPER-ITEM",
     );
     this.items = items as HTMLCalciteStepperItemElement[];
     const spacing = Array(items.length).fill("1fr").join(" ");
