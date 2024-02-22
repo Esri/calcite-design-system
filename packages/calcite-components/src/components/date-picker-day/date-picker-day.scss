@@ -1,12 +1,10 @@
 :host {
+  @apply cursor-pointer flex relative;
   --calcite-internal-day-text-color: var(--calcite-color-text-3);
   --calcite-internal-day-text-color-active: var(--calcite-color-text-1);
   --calcite-internal-day-text-color-selected: var(--calcite-color-text-inverse);
   --calcite-internal-day-font-size: var(--calcite-font-size);
   --calcite-internal-day-background-color: var(--calcite-color-background-none);
-  cursor: pointer;
-  display: flex;
-  position: relative;
   color: var(--calcite-internal-day-text-color);
 }
 
