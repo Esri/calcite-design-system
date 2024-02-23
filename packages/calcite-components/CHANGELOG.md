@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.6.0-next.0...@esri/calcite-components@2.6.0-next.1) (2024-02-23)
+
+### Bug Fixes
+
+- **navigation-logo:** no longer changes icon color when `href` is parsed ([#8830](https://github.com/Esri/calcite-design-system/issues/8830)) ([16d456f](https://github.com/Esri/calcite-design-system/commit/16d456fa113da09daf16d73e819ddf2910cb73d5)), closes [#8482](https://github.com/Esri/calcite-design-system/issues/8482)
+
 ## [2.6.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.2-next.2...@esri/calcite-components@2.6.0-next.0) (2024-02-22)
 
 ### Features
