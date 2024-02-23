@@ -90,7 +90,7 @@
 :host([indeterminate]) {
   .check-svg {
     background-color: var(--calcite-checkbox-background-color-checked, var(--calcite-color-brand));
-    box-shadow: var(--calcite-checkbox-shadow-checked, inset 0 0 0 1px var(--calcite-color-brand) ;);
+    box-shadow: var(--calcite-checkbox-shadow-checked, inset 0 0 0 1px var(--calcite-color-brand));
   }
 }
 :host([hovered]) .toggle,
