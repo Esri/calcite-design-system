@@ -6,14 +6,43 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-inline-editable-background-color: Specifies the background color of the component.
+ * @prop --calcite-inline-editable-background-color-hover: Specifies the background color of the component on hover, when not disabled or actively edited.
  * @prop --calcite-inline-editable-border-color: Specifies the border color of the component.
+ * @prop --calcite-inline-editable-button-background-color: Specifies the background color of the button in the component.
+ * @prop --calcite-inline-editable-button-background-color-hover: Specifies the background color of the button in the component when in hover state.
+ * @prop --calcite-inline-editable-button-background-color-focus: Specifies the background color of the button in the component when in focus state.
+ * @prop --calcite-inline-editable-button-background-color-active: Specifies the background color of the button in the component when in active state.
+ * @prop --calcite-inline-editable-button-text-color: Specifies the text color of the button in the component.
+ * @prop --calcite-inline-editable-button-text-color-hover: Specifies the text color of the button in the component when in hover state.
+ * @prop --calcite-inline-editable-button-text-color-focus: Specifies the text color of the button in the component when in focus state.
+ * @prop --calcite-inline-editable-button-text-color-active: Specifies the text color of the button in the component when in active state.
+ * @prop --calcite-inline-editable-button-icon-start-color: Specifies the color of the button in the component's start position icon.
+ * @prop --calcite-inline-editable-button-icon-start-color-hover: Specifies the color of the button in the component's start position icon when in hover state.
+ * @prop --calcite-inline-editable-button-icon-start-color-focus: Specifies the color of the button in the component's start position icon when in focus state.
+ * @prop --calcite-inline-editable-button-icon-start-color-active: Specifies the color of the button in the component's start position icon when in active state.
+ * @prop --calcite-inline-editable-button-icon-end-color: Specifies the color of the button in the component's end position icon.
+ * @prop --calcite-inline-editable-button-icon-end-color-hover: Specifies the color of the button in the component's end position icon when in hover state.
+ * @prop --calcite-inline-editable-button-icon-end-color-focus: Specifies the color of the button in the component's end position icon when in focus state.
+ * @prop --calcite-inline-editable-button-icon-end-color-active: Specifies the color of the button in the component's end position icon when in active state.
+ * @prop --calcite-inline-editable-button-box-shadow: Specifies the box shadow of the button in the component.
+ * @prop --calcite-inline-editable-button-box-shadow-hover: Specifies the box shadow of the button in the component when in hover state.
+ * @prop --calcite-inline-editable-button-box-shadow-focus: Specifies the box shadow of the button in the component when in focus state.
+ * @prop --calcite-inline-editable-button-box-shadow-active: Specifies the box shadow of the button in the component when in active state.
+ * @prop --calcite-inline-editable-button-border-color: Specifies border colors of the button in the component.
+ * @prop --calcite-inline-editable-button-border-color-hover: Specifies border colors of the button in the component when in hover state.
+ * @prop --calcite-inline-editable-button-border-color-focus: Specifies border colors of the button in the component when in focus state.
+ * @prop --calcite-inline-editable-button-border-color-active: Specifies border colors of the button in the component when in active state.
  */
 
 :host {
-  --calcite-inline-editable-background-color: var(--calcite-color-foreground-1);
-  --calcite-inline-editable-border-color: var(--calcite-color-border-2);
+  @apply box-border
+    flex
+    justify-between
+    transition-default;
 
-  @apply block;
+  block-size: var(--calcite-internal-inline-editable-height);
+  background-color: var(--calcite-inline-editable-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-inline-editable-border-color, var(--calcite-color-border-2));
 }
 
 :host([scale="s"]) {
@@ -29,25 +58,42 @@
 }
 
 :host(:not([editing-enabled]):not([disabled]):hover) {
-  --calcite-inline-editable-background-color: var(--calcite-color-foreground-2);
+  background-color: var(--calcite-inline-editable-background-color-hover, var(--calcite-color-foreground-2));
 }
 
-.wrapper {
-  @apply box-border
-    flex
-    justify-between
-    transition-default;
-
-  block-size: var(--calcite-internal-inline-editable-height);
-  background-color: var(--calcite-inline-editable-background-color);
-
-  .input-wrapper {
-    @apply flex-1;
-  }
+::slotted(*) {
+  @apply flex-1;
 }
 
 .controls-wrapper {
   @apply flex;
+}
+
+calcite-button {
+  --calcite-button-background-color: var(--calcite-inline-editable-button-background-color);
+  --calcite-button-background-color-hover: var(--calcite-inline-editable-button-background-color-hover);
+  --calcite-button-background-color-focus: var(--calcite-inline-editable-button-background-color-focus);
+  --calcite-button-background-color-active: var(--calcite-inline-editable-button-background-color-active);
+  --calcite-button-text-color: var(--calcite-inline-editable-button-text-color);
+  --calcite-button-text-color-hover: var(--calcite-inline-editable-button-text-color-hover);
+  --calcite-button-text-color-focus: var(--calcite-inline-editable-button-text-color-focus);
+  --calcite-button-text-color-active: var(--calcite-inline-editable-button-text-color-active);
+  --calcite-button-icon-start-color: var(--calcite-inline-editable-button-icon-start-color);
+  --calcite-button-icon-start-color-hover: var(--calcite-inline-editable-button-icon-start-color-hover);
+  --calcite-button-icon-start-color-focus: var(--calcite-inline-editable-button-icon-start-color-focus);
+  --calcite-button-icon-start-color-active: var(--calcite-inline-editable-button-icon-start-color-active);
+  --calcite-button-icon-end-color: var(--calcite-inline-editable-button-icon-end-color);
+  --calcite-button-icon-end-color-hover: var(--calcite-inline-editable-button-icon-end-color-hover);
+  --calcite-button-icon-end-color-focus: var(--calcite-inline-editable-button-icon-end-color-focus);
+  --calcite-button-icon-end-color-active: var(--calcite-inline-editable-button-icon-end-color-active);
+  --calcite-button-box-shadow: var(--calcite-inline-editable-button-box-shadow);
+  --calcite-button-box-shadow-hover: var(--calcite-inline-editable-button-box-shadow-hover);
+  --calcite-button-box-shadow-focus: var(--calcite-inline-editable-button-box-shadow-focus);
+  --calcite-button-box-shadow-active: var(--calcite-inline-editable-button-box-shadow-active);
+  --calcite-button-border-color: var(--calcite-inline-editable-button-border-color);
+  --calcite-button-border-color-hover: var(--calcite-inline-editable-button-border-color-hover);
+  --calcite-button-border-color-focus: var(--calcite-inline-editable-button-border-color-focus);
+  --calcite-button-border-color-active: var(--calcite-inline-editable-button-border-color-active);
 }
 
 @include disabled();

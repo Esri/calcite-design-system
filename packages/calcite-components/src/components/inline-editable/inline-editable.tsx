@@ -172,7 +172,6 @@ export class InlineEditable
           <div class={CSS.controlsWrapper}>
             <calcite-button
               appearance="transparent"
-              class={CSS.enableEditingButton}
               disabled={this.disabled}
               iconStart="pencil"
               kind="neutral"
@@ -191,7 +190,6 @@ export class InlineEditable
               <div class={CSS.cancelEditingButtonWrapper}>
                 <calcite-button
                   appearance="transparent"
-                  class={CSS.cancelEditingButton}
                   disabled={this.disabled}
                   iconStart="x"
                   kind="neutral"
@@ -205,7 +203,6 @@ export class InlineEditable
               </div>,
               <calcite-button
                 appearance="solid"
-                class={CSS.confirmChangesButton}
                 disabled={this.disabled}
                 iconStart="check"
                 kind="brand"
