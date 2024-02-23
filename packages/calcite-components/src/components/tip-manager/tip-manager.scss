@@ -22,11 +22,11 @@
   }
 
   --calcite-tip-manager-height: 19vh;
-  --calcite-tip-background-color: var(--calcite-color-foreground-1);
+  --calcite-tip-manager-background-color: var(--calcite-color-foreground-1);
   --calcite-tip-manager-text-color: var(--calcite-color-text-2);
   --calcite-tip-manager-border-color: var(--calcite-color-border-3);
 
-  background-color: var(--calcite-tip-background-color);
+  background-color: var(--calcite-tip-manager-background-color);
   color: var(--calcite-tip-manager-text-color);
 }
 
