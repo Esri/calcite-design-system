@@ -7,6 +7,20 @@
  * @prop --calcite-card-border-color: Specifies the border color of the component.
  * @prop --calcite-card-box-shadow: Specifies the box shadow of the component.
  * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-card-label-text-color: defines the label text colorin the component.
+ * @prop --calcite-card-checkbox-background-color-checked: defines the checkbox background color when checked in the component.
+ * @prop --calcite-card-checkbox-background-color: defines the checkbox background color in the component.
+ * @prop --calcite-card-checkbox-icon-color: defines the checkbox icon color in the component.
+ * @prop --calcite-card-checkbox-shadow-checked: defines the checkbox shadow when checked in the component.
+ * @prop --calcite-card-checkbox-shadow-hover: defines the checkbox shadow when hovered in the component.
+ * @prop --calcite-card-checkbox-shadow-invalid: defines the checkbox shadow when invalid in the component.
+ * @prop --calcite-card-checkbox-shadow: defines the checkbox shadow in the component.
+ * @prop --calcite-card-checkbox-size: defines the checkbox size in the component.
+ * @prop --calcite-card-loader-text-color: defines the loader text color in the component.
+ * @prop --calcite-card-loader-bar-color: defines the loader bar color in the component.
+ * @prop --calcite-card-loader-bar-color-0: defines the loader bar color when animating between 0% - 33% in the component.
+ * @prop --calcite-card-loader-bar-color-33: defines the loader bar color when animating between 33% - 66%  in the component.
+ * @prop --calcite-card-loader-bar-color-66: defines the loader bar color when animating between 66% - 99%  in the component.
  *
  */
 
@@ -133,6 +147,29 @@
 slot[name="footer-start"]::slotted(*),
 slot[name="footer-end"]::slotted(*) {
   @apply flex gap-1;
+}
+
+calcite-label {
+  --calcite-label-text-color: var(--calcite-card-label-text-color);
+}
+
+calcite-checkbox {
+  --calcite-checkbox-background-color-checked: var(--calcite-card-checkbox-background-color-checked);
+  --calcite-checkbox-background-color: var(--calcite-card-checkbox-background-color);
+  --calcite-checkbox-icon-color: var(--calcite-card-checkbox-icon-color);
+  --calcite-checkbox-shadow-checked: var(--calcite-card-checkbox-shadow-checked);
+  --calcite-checkbox-shadow-hover: var(--calcite-card-checkbox-shadow-hover);
+  --calcite-checkbox-shadow-invalid: var(--calcite-card-checkbox-shadow-invalid);
+  --calcite-checkbox-shadow: var(--calcite-card-checkbox-shadow);
+  --calcite-checkbox-size: var(--calcite-card-checkbox-size);
+}
+
+calcite-loader {
+  --calcite-loader-text-color: var(--calcite-card-loader-text-color);
+  --calcite-loader-bar-color: var(--calcite-card-loader-bar-color);
+  --calcite-loader-bar-color-0: var(--calcite-card-loader-bar-color-0);
+  --calcite-loader-bar-color-33: var(--calcite-card-loader-bar-color-33);
+  --calcite-loader-bar-color-66: var(--calcite-card-loader-bar-color-66);
 }
 
 @include base-component();
