@@ -3,68 +3,51 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-avatar-corner-radius: defines the border radius of the avatar component.
- * @prop --calcite-avatar-text-color: defines the text color of the avatar component.
+ * @prop --calcite-avatar-corner-radius: defines the corner radius of the component.
+ * @prop --calcite-avatar-text-color: defines the text color of the component.
  *
- */
-
-/* Internal
- *
- * --calcite-internal-avatar-inline-size: defines the horizontal size of an avatar component.
- * --calcite-internal-avatar-block-size: defines the vertical size of an avatar component.
- * --calcite-internal-font-size: defines the font size of the avatar component.
  */
 
 :host {
-  --calcite-avatar-corner-radius: 50%;
-  --calcite-avatar-text-color: var(--calcite-color-text-2);
-
   @apply inline-block overflow-hidden;
-  border-radius: var(--calcite-avatar-corner-radius);
-  block-size: var(--calcite-internal-avatar-block-size);
-  inline-size: var(--calcite-internal-avatar-inline-size);
-  font-size: var(--calcite-internal-font-size);
 }
 
-:host([scale="s"]) {
-  --calcite-internal-font-size: var(--calcite-font-size--3);
-  --calcite-internal-avatar-block-size: 1.5rem /* 24px */;
-  --calcite-internal-avatar-inline-size: 1.5rem /* 24px */;
+:host,
+.background,
+.thumbnail {
+  border-radius: var(--calcite-avatar-corner-radius, 50%);
 }
 
-:host([scale="m"]) {
-  --calcite-internal-font-size: var(--calcite-font-size--2);
-  --calcite-internal-avatar-block-size: 2rem /* 32px */;
-  --calcite-internal-avatar-inline-size: 2rem /* 32px */;
+.background,
+.thumbnail {
+  block-size: var(--calcite-container-size-content-fluid);
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
-:host([scale="l"]) {
-  --calcite-internal-font-size: var(--calcite-font-size-0);
-  --calcite-internal-avatar-block-size: 2.75rem /* 44px */;
-  --calcite-internal-avatar-inline-size: 2.75rem /* 44px */;
-}
-
-.icon {
+.icon,
+.background {
   @apply flex;
 }
 
 .background {
-  @apply flex items-center justify-center;
-  border-radius: var(--calcite-avatar-corner-radius);
-  block-size: var(--calcite-container-size-content-fluid);
-  inline-size: var(--calcite-container-size-content-fluid);
+  @apply items-center justify-center;
 }
 
 .initials {
-  @apply uppercase;
-  color: var(--calcite-avatar-text-color);
-  font-weight: var(--calcite-font-weight-bold);
+  @apply font-bold uppercase;
+  color: var(--calcite-avatar-text-color, var(--calcite-color-text-2));
 }
 
-.thumbnail {
-  border-radius: var(--calcite-avatar-corner-radius);
-  block-size: var(--calcite-container-size-content-fluid);
-  inline-size: var(--calcite-container-size-content-fluid);
+:host([scale="s"]) {
+  @apply text-n3 h-6 w-6;
+}
+
+:host([scale="m"]) {
+  @apply text-n2 h-8 w-8;
+}
+
+:host([scale="l"]) {
+  @apply text-0 h-11 w-11;
 }
 
 @include base-component();
