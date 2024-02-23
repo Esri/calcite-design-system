@@ -8,20 +8,17 @@
  */
 
 :host {
-  --calcite-graph-background-color: currentColor;
-  --calcite-graph-highlight-color: var(--calcite-color-brand);
-
   @apply block;
   block-size: 100%;
 }
 
 .svg {
-  fill: var(--calcite-graph-background-color);
   @apply m-0 block h-full w-full p-0;
+  fill: var(--calcite-graph-background-color, currentColor);
 
   .graph-path--highlight {
-    fill: var(--calcite-graph-highlight-color);
     @apply opacity-50;
+    fill: var(--calcite-graph-highlight-color, var(--calcite-color-brand));
   }
 }
 
