@@ -4,6 +4,9 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-action-indicator-color: Specifies the color of the component's indicator.
+ * @prop --calcite-action-background-color: Specifies the background color of the component.
+ * @prop --calcite-action-text-color: Specifies the text color of the component.
+ *
  */
 @include base-component();
 @include disabled();
@@ -43,8 +46,7 @@ button {
     font-sans
     font-medium;
   background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
-  fill: var(--calcite-color-text-3);
-  color: var(--calcite-color-text-3);
+  color: var(--calcite-action-text-color, var(--calcite-color-text-3));
   text-align: unset;
   flex: 1 0 auto;
 
