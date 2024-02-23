@@ -126,7 +126,7 @@ export const darkModeRTL_TestOnly = (): string => html`
         ${boolean("disabled", false)}
         value="${text("value", "")}"
         placeholder="${text("placeholder", "Placeholder text")}"
-        validation-message="My great input message"
+        validation-message="This should not appear because the status is not 'invalid'"
       >
       </calcite-input>
     </calcite-label>
