@@ -9,31 +9,33 @@
 
 /*
  * Internal
- *
  * --calcite-internal-icon-size: defines the size of the component.
  */
 
 :host {
-  --calcite-icon-color: var(--calcite-ui-icon-color, currentcolor);
-
   @apply inline-flex;
-  color: var(--calcite-icon-color);
-  inline-size: var(--calcite-internal-icon-size);
-  block-size: var(--calcite-internal-icon-size);
-  min-inline-size: var(--calcite-internal-icon-size);
-  min-block-size: var(--calcite-internal-icon-size);
+  color: var(--calcite-icon-color, var(--calcite-ui-icon-color, currentcolor));
 }
 
 :host([scale="s"]) {
-  --calcite-internal-icon-size: var(--calcite-size-lg);
+  inline-size: var(--calcite-internal-icon-size, var(--calcite-size-lg));
+  block-size: var(--calcite-internal-icon-size, var(--calcite-size-lg));
+  min-inline-size: var(--calcite-internal-icon-size, var(--calcite-size-lg));
+  min-block-size: var(--calcite-internal-icon-size, var(--calcite-size-lg));
 }
 
 :host([scale="m"]) {
-  --calcite-internal-icon-size: var(--calcite-size-xxl);
+  inline-size: var(--calcite-internal-icon-size, var(--calcite-size-xxl));
+  block-size: var(--calcite-internal-icon-size, var(--calcite-size-xxl));
+  min-inline-size: var(--calcite-internal-icon-size, var(--calcite-size-xxl));
+  min-block-size: var(--calcite-internal-icon-size, var(--calcite-size-xxl));
 }
 
 :host([scale="l"]) {
-  --calcite-internal-icon-size: var(--calcite-size-xxxl);
+  inline-size: var(--calcite-internal-icon-size, var(--calcite-size-xxxl));
+  block-size: var(--calcite-internal-icon-size, var(--calcite-size-xxxl));
+  min-inline-size: var(--calcite-internal-icon-size, var(--calcite-size-xxxl));
+  min-block-size: var(--calcite-internal-icon-size, var(--calcite-size-xxxl));
 }
 
 .flip-rtl {
