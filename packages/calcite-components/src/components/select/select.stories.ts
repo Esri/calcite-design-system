@@ -168,6 +168,10 @@ export const darkModeRTL_TestOnly = (): string =>
         name: "class",
         value: "calcite-mode-dark",
       },
+      {
+        name: "validation-message",
+        value: "This should not appear because the status is not 'invalid'",
+      },
     ],
     html`
       ${create(
