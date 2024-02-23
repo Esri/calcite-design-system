@@ -1,11 +1,6 @@
 :host {
   @apply cursor-pointer flex relative;
-  --calcite-internal-day-text-color: var(--calcite-color-text-3);
-  --calcite-internal-day-text-color-active: var(--calcite-color-text-1);
-  --calcite-internal-day-text-color-selected: var(--calcite-color-text-inverse);
-  --calcite-internal-day-font-size: var(--calcite-font-size);
-  --calcite-internal-day-background-color: var(--calcite-color-background-none);
-  color: var(--calcite-internal-day-text-color);
+  color: var(--calcite-internal-day-text-color, var(--calcite-color-text-3) ;);
 }
 
 @include disabled();
@@ -84,10 +79,10 @@
     leading-none
     transition-default;
   color: var(--calcite-internal-day-text-color);
-  font-size: var(--calcite-internal-day-font-size);
+  font-size: var(--calcite-internal-day-font-size, var(--calcite-font-size));
   z-index: var(--calcite-z-index);
   background: none;
-  background-color: var(--calcite-internal-day-background-color);
+  background-color: var(--calcite-internal-day-background-color, var(--calcite-color-background-none) ;);
   box-shadow: 0 0 0 2px transparent;
   block-size: var(--calcite-internal-day-size);
   inline-size: var(--calcite-internal-day-size);
@@ -149,7 +144,7 @@
 :host([active]:not([range]):not([selected])) {
   & .day {
     --calcite-internal-day-background-color: var(--calcite-color-foreground-2);
-    color: var(--calcite-internal-day-text-color-active);
+    color: var(--calcite-internal-day-text-color-active, var(--calcite-color-text-1) ;);
   }
 }
 
@@ -164,7 +159,7 @@
 
 :host([selected]) .day {
   font-weight: var(--calcite-font-weight-medium);
-  color: var(--calcite-internal-day-text-color-selected);
+  color: var(--calcite-internal-day-text-color-selected, var(--calcite-color-text-inverse) ;);
   --calcite-internal-day-background-color: var(--calcite-color-brand);
 }
 
@@ -182,7 +177,7 @@
     @include range-part-middle();
   }
   .day {
-    color: var(--calcite-internal-day-text-color-active);
+    color: var(--calcite-internal-day-text-color-active, var(--calcite-color-text-1) ;);
   }
 }
 
