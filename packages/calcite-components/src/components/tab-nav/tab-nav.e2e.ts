@@ -224,6 +224,7 @@ describe("calcite-tab-nav", () => {
     });
 
     it("scrolling tabs via mouse wheel", async () => {
+      console.log("initial");
       await assertScrollButtonVisibility(false, true);
 
       const tabNavBounds = await getElementRect(page, "calcite-tab-nav");
@@ -231,21 +232,25 @@ describe("calcite-tab-nav", () => {
       await page.mouse.wheel({ deltaY: 100 });
       await page.waitForChanges();
 
+      console.log("2nd scroll");
       await assertScrollButtonVisibility(true, true);
 
       await page.mouse.wheel({ deltaY: 100 });
       await page.waitForChanges();
 
+      console.log("3rd scroll");
       await assertScrollButtonVisibility(true, false);
 
       await page.mouse.wheel({ deltaY: -100 });
       await page.waitForChanges();
 
+      console.log("4th scroll");
       await assertScrollButtonVisibility(true, true);
 
       await page.mouse.wheel({ deltaY: -100 });
       await page.waitForChanges();
 
+      console.log("5th scroll");
       await assertScrollButtonVisibility(false, true);
     });
 
