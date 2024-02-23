@@ -5,8 +5,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-tip-max-width: The maximum width of a slotted `calcite-tip` within the component.
  * @prop --calcite-tip-manager-height: The maximum height of the component.
- * @prop --calcite-tip-manager-max-width: The maximum width of a slotted `calcite-tip` within the component.
  * @prop --calcite-tip-manager-background-color: The background color of the component.
  * @prop --calcite-tip-manager-text-color: The text color of the component.
  * @prop --calcite-tip-manager-border-color: The border color of the component.
@@ -81,7 +81,7 @@
 
 ::slotted(calcite-tip) {
   @apply m-0 border-none;
-  max-inline-size: var(--calcite-tip-manager-max-width);
+  max-inline-size: var(--calcite-tip-max-width);
 }
 
 .tip-container--advancing {
