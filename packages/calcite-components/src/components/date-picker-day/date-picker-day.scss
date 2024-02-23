@@ -1,6 +1,6 @@
 :host {
   @apply cursor-pointer flex relative;
-  color: var(--calcite-internal-day-text-color, var(--calcite-color-text-3) ;);
+  color: var(--calcite-internal-day-text-color, var(--calcite-color-text-3));
 }
 
 @include disabled();
@@ -82,7 +82,7 @@
   font-size: var(--calcite-internal-day-font-size, var(--calcite-font-size));
   z-index: var(--calcite-z-index);
   background: none;
-  background-color: var(--calcite-internal-day-background-color, var(--calcite-color-background-none) ;);
+  background-color: var(--calcite-internal-day-background-color, var(--calcite-color-background-none));
   box-shadow: 0 0 0 2px transparent;
   block-size: var(--calcite-internal-day-size);
   inline-size: var(--calcite-internal-day-size);
@@ -144,7 +144,7 @@
 :host([active]:not([range]):not([selected])) {
   & .day {
     --calcite-internal-day-background-color: var(--calcite-color-foreground-2);
-    color: var(--calcite-internal-day-text-color-active, var(--calcite-color-text-1) ;);
+    color: var(--calcite-internal-day-text-color-active, var(--calcite-color-text-1));
   }
 }
 
@@ -159,7 +159,7 @@
 
 :host([selected]) .day {
   font-weight: var(--calcite-font-weight-medium);
-  color: var(--calcite-internal-day-text-color-selected, var(--calcite-color-text-inverse) ;);
+  color: var(--calcite-internal-day-text-color-selected, var(--calcite-color-text-inverse));
   --calcite-internal-day-background-color: var(--calcite-color-brand);
 }
 
@@ -177,7 +177,7 @@
     @include range-part-middle();
   }
   .day {
-    color: var(--calcite-internal-day-text-color-active, var(--calcite-color-text-1) ;);
+    color: var(--calcite-internal-day-text-color-active, var(--calcite-color-text-1));
   }
 }
 
