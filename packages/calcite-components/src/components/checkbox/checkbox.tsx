@@ -59,8 +59,7 @@ export class Checkbox
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
