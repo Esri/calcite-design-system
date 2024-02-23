@@ -8,6 +8,29 @@
 * @prop --calcite-popover-shadow: The shadow of the component.
 * @prop --calcite-popover-corner-radius: The corner radius of the component.
 * @prop --calcite-popover-text-color: The text color of the component.
+*
+* Mapped Action tokens (some may not be necessary)
+* @prop --calcite-popover-action-indicator-background-color: The background color of the action button indicator of the component.
+* @prop --calcite-popover-action-transparent-background-color-hover: The 
+* @prop --calcite-popover-action-transparent-background-color-press: The 
+* @prop --calcite-popover-action-fill-color: The 
+* @prop --calcite-popover-action-text-color: The 
+* @prop --calcite-popover-action-corner-radius: The 
+* @prop --calcite-popover-action-fill-color-hover: The 
+* @prop --calcite-popover-action-text-color-hover: The 
+* @prop --calcite-popover-action-background-color-focus: The 
+* @prop --calcite-popover-action-fill-color-focus: The 
+* @prop --calcite-popover-action-text-color-focus: The 
+* @prop --calcite-popover-action-background-color-active: The 
+* @prop --calcite-popover-action-fill-color-active: The 
+* @prop --calcite-popover-action-text-color-active: The 
+* @prop --calcite-popover-action-active-background-color: The 
+* @prop --calcite-popover-action-active-fill-color: The 
+* @prop --calcite-popover-action-active-text-color: The 
+* @prop --calcite-popover-action-loading-background-color: The 
+* @prop --calcite-popover-action-loading-text-color: The 
+* @prop --calcite-popover-action-disabled-background-color: The 
+* @prop --calcite-popover-action-disabled-background-color-active: The 
 */
 
 :host {
@@ -110,6 +133,10 @@
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply h-full;
+}
+
+calcite-action {
+  //  TODO
 }
 
 @include base-component();
