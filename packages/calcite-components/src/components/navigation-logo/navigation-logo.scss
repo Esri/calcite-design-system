@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-navigation-logo-text-color: Specifies the text color of the component. Defaults to `var(--calcite-color-text-1)`
+ */
+
 :host {
   @apply inline-flex outline-none;
 }
@@ -12,7 +20,7 @@
     focus-base
     no-underline
     text-0h;
-  color: inherit;
+  color: var(--calcite-navigation-logo-text-color, var(--calcite-color-text-1));
   border-block-end: 2px solid transparent;
 }
 
