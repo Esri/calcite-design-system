@@ -1,10 +1,5 @@
 @include base-component();
 
-:host {
-  --calcite-internal-date-picker-month-week-headers-border-color: var(--calcite-color-border-3);
-  --calcite-internal-date-picker-month-week-headers-color: var(--calcite-color-text-3);
-}
-
 .calendar {
   margin-block-end: var(--calcite-spacing-xxs);
 }
@@ -18,9 +13,9 @@
 }
 
 .week-header {
-  @apply tex-center px-0;
-  color: var(--calcite-internal-date-picker-month-week-headers-color);
-  font-weight: var(calcite-font-weight-semibold);
+  @apply text-center px-0;
+  color: var(--calcite-internal-date-picker-month-week-headers-text-color);
+  font-weight: var(--calcite-font-weight-semibold);
   inline-size: calc(100% / 7);
   line-height: var(--calcite-font-line-height-fixed-base);
 }

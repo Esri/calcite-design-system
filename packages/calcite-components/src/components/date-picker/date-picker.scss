@@ -1,13 +1,17 @@
 :host {
   @extend %component-host;
   @apply align-top
-    border
-    border-color-1
     border-solid
     inline-block
     overflow-visible
-    rounded-none
     w-auto;
+  --calcite-date-picker-border-color: var(--calcite-color-border-1);
+  --calcite-date-picker-border-radius: var(--calcite-corner-radius);
+  --calcite-internal-date-picker-week-headers-border-color: var(--calcite-color-border-3);
+  --calcite-internal-date-picker-week-headers-text-color: var(--calcite-color-text-3);
+  border-radius: var(---calcite-date-picker-border-radius);
+  border-color: var(--calcite-date-picker-border-color);
+  border-width: var(--calcite-border-width-sm);
 }
 
 :host([scale="s"]) {
@@ -26,6 +30,15 @@
   inline-size: 370px;
   min-inline-size: 320px;
   max-inline-size: 600px;
+}
+
+calcite-date-picker-month {
+  --calcite-internal-date-picker-month-week-headers-border-color: var(
+    --calcite-internal-date-picker-week-headers-border-color
+  );
+  --calcite-internal-date-picker-month-week-headers-text-color: var(
+    --calcite-internal-date-picker-week-headers-text-color
+  );
 }
 
 @include base-component();
