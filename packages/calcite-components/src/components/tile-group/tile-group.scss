@@ -2,17 +2,15 @@
   box-sizing: border-box;
   display: inline-block;
 
-  .container {
-    display: grid;
-    grid-auto-rows: minmax(auto, 1fr);
-  }
-
   ::slotted(calcite-tile) {
     margin-block-end: var(--calcite-spacing-px);
     margin-inline-end: var(--calcite-spacing-px);
   }
 }
-
+.container {
+  display: grid;
+  grid-auto-rows: minmax(auto, 1fr);
+}
 :host([scale="s"]) {
   .container {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -28,7 +26,6 @@
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   }
 }
-
 :host([layout="vertical"]) {
   .container {
     display: flex;
