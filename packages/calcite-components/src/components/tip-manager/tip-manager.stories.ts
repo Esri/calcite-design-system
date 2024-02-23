@@ -147,3 +147,18 @@ export const bosnianLocale_TestOnly = (): string =>
   html`<calcite-tip-manager heading-level="1" lang="bs">
     <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
   </calcite-tip-manager>`;
+
+export const themedGroup_TestOnly = (): string => html`
+<calcite-tip-manager>
+  <calcite-tip-group 
+    group-title="Tip Manager heading" 
+    style="
+      --calcite-tip-group-background-color: red;
+      --calcite-tip-group-text-color: green;
+    "
+  >
+    <calcite-tip heading="Example tip title">
+    <calcite-tip><p>basic render</p></calcite-tip>
+  </calcite-tip-group>
+</calcite-tip-manager>
+`;
