@@ -7,14 +7,14 @@
 .week-headers {
   @apply flex border-solid py-0;
   border-block-start-width: var(--calcite-border-width-sm);
-  border-color: var(--calcite-internal-date-picker-month-week-headers-border-color);
+  border-color: var(--calcite-internal-date-picker-month-week-headers-border-color, var(--calcite-color-border-3));
   border-width: var(--calcite-border-width-none);
   padding-inline: var(--calcite-spacing-xxs);
 }
 
 .week-header {
   @apply text-center px-0;
-  color: var(--calcite-internal-date-picker-month-week-headers-text-color);
+  color: var(--calcite-internal-date-picker-month-week-headers-text-color, var(--calcite-color-text-3));
   font-weight: var(--calcite-font-weight-semibold);
   inline-size: calc(100% / 7);
   line-height: var(--calcite-font-line-height-fixed-base);
