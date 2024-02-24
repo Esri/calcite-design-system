@@ -9,12 +9,8 @@
  */
 
 :host {
-  --calcite-shell-background-color: var(--calcite-color-foreground-1);
-  --calcite-shell-border-color: var(--calcite-color-border-3);
-  --calcite-shell-tip-spacing: 26vw;
-
   @include base-host();
-  background-color: var(--calcite-shell-background-color);
+  background-color: var(--calcite-shell-background-color, var(--calcite-color-foreground-1));
   font-size: var(--calcite-font-size--1);
   position: absolute;
   inset: 0;
@@ -88,7 +84,7 @@ slot[name="panel-end"]::slotted(calcite-shell-panel) {
 
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
-  border-color: var(--calcite-shell-border-color);
+  border-color: var(--calcite-shell-border-color, var(--calcite-color-border-3));
   border-width: var(--calcite-border-width-sm);
   border-inline-start-width: 0px;
   border-inline-end-width: 0px;
@@ -98,7 +94,7 @@ slot[name="panel-end"]::slotted(calcite-shell-panel) {
 slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])),
 slot[name="panel-top"]::slotted(calcite-shell-center-row:not([detached])),
 slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
-  border-color: var(--calcite-shell-border-color);
+  border-color: var(--calcite-shell-border-color, var(--calcite-color-border-3));
   border-inline-start-width: var(--calcite-border-width-sm);
   border-inline-end-width: var(--calcite-border-width-sm);
 }
@@ -120,7 +116,7 @@ slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   z-index: var(--calcite-z-index-toast);
   box-shadow: var(--calcite-shadow-md);
   inset-block-end: var(--calcite-spacing-sm);
-  inset-inline: var(--calcite-shell-tip-spacing);
+  inset-inline: var(--calcite-shell-tip-spacing, 26vw);
 }
 
 slot[name="center-row"]::slotted(calcite-shell-center-row),
