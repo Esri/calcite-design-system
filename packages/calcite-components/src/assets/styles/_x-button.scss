@@ -1,11 +1,4 @@
-@mixin xButton(
-  $textColor: "--calcite-color-text-3",
-  $backgroundColor: "--calcite-color-foreground-2",
-  $hoverTextColor: "--calcite-color-text-1",
-  $hoverBackgroundColor: "--calcite-color-foreground-3",
-  $activeBorderColor: "--calcite-color-brand",
-  $borderWidth: "--calcite-border-width-md"
-) {
+@mixin xButton($textColor, $backgroundColor, $hoverTextColor, $hoverBackgroundColor, $activeBorderColor, $borderWidth) {
   .x-button {
     appearance: none;
     align-content: center;
@@ -16,25 +9,25 @@
     justify-content: center;
     margin: 0px;
     align-self: center;
-    color: var(#{$textColor});
+    color: var(#{$textColor}, var(--calcite-color-text-3));
     transition:
       all var(--calcite-animation-timing) ease-in-out 0s,
       outline 0s,
       outline-offset 0s;
-    border-width: var(#{$borderWidth});
+    border-width: var(#{$borderWidth}, var(--calcite-border-width-md));
     border-radius: 50%;
     border-color: transparent;
-    background-color: var(#{$backgroundColor});
+    background-color: var(#{$backgroundColor}, var(--calcite-color-foreground-2));
 
     &:active,
     &:hover {
       color: var(#{$hoverTextColor});
-      background-color: var(#{$hoverBackgroundColor});
+      background-color: var(#{$hoverBackgroundColor}, var(--calcite-color-foreground-3));
     }
 
     &:active {
       border-style: solid;
-      border-color: var(#{$activeBorderColor});
+      border-color: var(#{$activeBorderColor}, var(--calcite-color-brand));
     }
 
     & calcite-icon {
