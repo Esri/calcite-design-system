@@ -228,7 +228,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
             [CSS.selectedCell]: this.parentRowIsSelected,
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
             [CSS.staticCell]: staticCell,
-            [CSS.lastCell]: this.lastCell,
+            [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
           }}
           colSpan={this.colSpan}
           onBlur={this.onContainerBlur}
