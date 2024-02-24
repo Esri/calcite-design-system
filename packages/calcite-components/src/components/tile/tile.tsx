@@ -7,7 +7,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { CSS, SLOTS } from "./resources";
-import { Alignment, Scale } from "../interfaces";
+import { Alignment, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 
 /**
@@ -72,6 +72,25 @@ export class Tile implements InteractiveComponent {
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
 
   @Prop({ reflect: true }) iconFlipRtl = false;
+
+  /**
+   * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
+   */
+  @Prop({ reflect: true, mutable: true }) selected = false;
+
+  /**
+   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) selectionAppearance: SelectionAppearance = null;
+
+  /**
+   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) selectionMode: Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode> = null;
 
   /**
    * Specifies the size of the component.

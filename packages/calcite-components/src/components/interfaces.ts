@@ -9,6 +9,7 @@ export type LogicalFlowPosition = "inline-start" | "inline-end" | "block-start" 
 export type ModeClass = "calcite-mode-light" | "calcite-mode-dark" | "calcite-mode-auto";
 export type ModeName = "light" | "dark" | "auto";
 export type Position = "start" | "end";
+export type SelectionAppearance = "border" | "icon";
 export type SelectionMode =
   | "single"
   | "none"
