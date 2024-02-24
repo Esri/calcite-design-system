@@ -24,12 +24,9 @@
 
 :host {
   @include base-host();
-  --calcite-filter-background-color: var(--calcite-color-foreground-1);
-  --calcite-filter-width: var(--calcite-container-size-content-fluid);
-
   display: flex;
-  background-color: var(--calcite-filter-background-color);
-  inline-size: var(--calcite-filter-width);
+  background-color: var(--calcite-filter-background-color, var(--calcite-color-foreground-1));
+  inline-size: var(--calcite-filter-width, var(--calcite-container-size-content-fluid));
 }
 
 @include disabled();
