@@ -8,6 +8,8 @@
  * @prop --calcite-list-item-content-text-color: Specifies the text color of the component's content.
  * @prop --calcite-list-item-description-text-color: Specifies the text color of the component's description.
  * @prop --calcite-list-item-focus-color: Specifies the focus color of the component.
+ * @prop --calcite-list-item-handle-background-color: Specifies the background color of the component's handle.
+ * @prop --calcite-list-item-handle-text-color: Specifies the text color of the component's handle.
  * @prop --calcite-list-item-hover-background-color: Specifies the hover background color of the component.
  * @prop --calcite-list-item-label-text-color: Specifies the text color of the component's label.
  * @prop --calcite-list-item-open-icon-color: Specifies the icon color of the component's open icon.
@@ -23,26 +25,6 @@
 :host {
   display: flex;
   flex-direction: column;
-  --calcite-list-item-background-color: var(-calcite-color-foreground-1);
-  --calcite-list-item-border-color: var(--calcite-color-border-3);
-  --calcite-list-item-content-text-color: var(--calcite-color-text-2);
-  --calcite-list-item-description-text-color: var(--calcite-color-text-3);
-  --calcite-list-item-focus-color: var(
-    --calcite-ui-focus-color,
-    var(--calcite-color-brand-hover, var(--calcite--color-brand))
-  );
-  --calcite-list-item-hover-background-color: var(--calcite-color-foreground-2);
-  --calcite-list-item-label-text-color: var(--calcite-color-text-1);
-  --calcite-list-item-open-icon-color: var(--calcite-color-text-3);
-  --calcite-list-item-open-icon-hover-color: var(--calcite-color-text-1);
-  --calcite-list-item-selected-border-color: var(--calcite-color-brand);
-  --calcite-list-item-selected-description-text-color: var(--calcite-color-text-2);
-  --calcite-list-item-selected-icon-color: var(--calcite-color-brand);
-  --calcite-list-item-selected-label-text-color: var(--calcite-color-text-1);
-  --calcite-list-item-unselected-icon-color: var(--calcite-color-border-input);
-  --calcite-list-item-unselected-icon-hover-color: var(--calcite-color-border-1);
-
-  --calcite-internal-list-item-spacing-indent: var(--calcite-spacing-md);
 }
 
 :host([filter-hidden]) {
@@ -52,7 +34,7 @@
 @include disabled();
 
 .container {
-  background-color: var(--calcite-list-item-background-color);
+  background-color: var(--calcite-list-item-background-color, var(-calcite-color-foreground-1));
   box-sizing: border-box;
   display: flex;
   flex: 1 1 0%;
@@ -63,17 +45,18 @@
   }
 
   padding-inline-start: calc(
-    var(--calcite-internal-list-item-spacing-indent) * var(--calcite-internal-list-item-spacing-indent-multiplier)
+    var(--calcite-internal-list-item-spacing-indent, var(--calcite-spacing-md)) *
+      var(--calcite-internal-list-item-spacing-indent-multiplier)
   );
 }
 
 .container--hover:hover {
-  background-color: var(--calcite-list-item-hover-background-color);
+  background-color: var(--calcite-list-item-hover-background-color, var(--calcite-color-foreground-2));
   cursor: pointer;
 }
 
 .container:active {
-  background-color: var(--calcite-list-item-background-color);
+  background-color: var(--calcite-list-item-background-color, var(-calcite-color-foreground-1));
 }
 
 .container--border {
@@ -82,7 +65,7 @@
 }
 
 .container--border-selected {
-  border-inline-start-color: var(--calcite-list-item-selected-border-color);
+  border-inline-start-color: var(--calcite-list-item-selected-border-color, var(--calcite-color-brand));
 }
 
 .container--border-unselected {
@@ -96,7 +79,7 @@
 }
 
 .nested-container {
-  background-color: var(--calcite-list-item-background-color);
+  background-color: var(--calcite-list-item-background-color, var(-calcite-color-foreground-1));
   display: flex;
   flex-direction: column;
 }
@@ -106,7 +89,7 @@
 }
 
 .content-container {
-  color: var(--calcite-list-item-content-text-color);
+  color: var(--calcite-list-item-content-text-color, var(--calcite-color-text-2));
   user-select: none;
   display: flex;
   flex: 1 1 auto;
@@ -129,20 +112,21 @@
 }
 
 .label {
-  color: var(--calcite-list-item-label-text-color);
+  color: var(--calcite-list-item-label-text-color, var(--calcite-color-text-1));
 }
 
 .description {
-  color: var(--calcite-list-item-description-text-color);
+  color: var(--calcite-list-item-description-text-color, var(--calcite-color-text-3));
   margin-block-start: var(--calcite-spacing-base);
 }
 
 .content-bottom {
-  background-color: var(--calcite-list-item-background-color);
+  background-color: var(--calcite-list-item-background-color, var(-calcite-color-foreground-1));
   display: flex;
   flex-direction: column;
   padding-inline-start: calc(
-    var(--calcite-internal-list-item-spacing-indent) * var(--calcite-internal-list-item-spacing-indent-multiplier)
+    var(--calcite-internal-list-item-spacing-indent, var(--calcite-spacing-md)) *
+      var(--calcite-internal-list-item-spacing-indent-multiplier)
   );
 }
 
@@ -162,11 +146,11 @@
 
 :host([selected]) .label {
   font-weight: var(--calcite-font-weight-medium);
-  color: var(--calcite-list-item-selected-label-text-color);
+  color: var(--calcite-list-item-selected-label-text-color, var(--calcite-color-text-1));
 }
 
 :host([selected]) .description {
-  color: var(--calcite-list-item-selected-description-text-color);
+  color: var(--calcite-list-item-selected-description-text-color, var(--calcite-color-text-2));
 }
 
 .content-start {
@@ -194,7 +178,7 @@
 .selection-container {
   display: flex;
   padding-inline: var(--calcite-spacing-sm);
-  color: var(--calcite-list-item-unselected-icon-color);
+  color: var(--calcite-list-item-unselected-icon-color, var(--calcite-color-border-input));
 }
 
 .selection-container--single {
@@ -202,17 +186,17 @@
 }
 
 :host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
-  color: var(--calcite-list-item-unselected-icon-hover-color);
+  color: var(--calcite-list-item-unselected-icon-hover-color, var(--calcite-color-border-1));
 }
 
 :host([selected]:hover) .selection-container,
 :host([selected]:hover) .selection-container--single,
 :host([selected]) .selection-container {
-  color: var(--calcite-list-item-selected-icon-color);
+  color: var(--calcite-list-item-selected-icon-color, var(--calcite-color-brand));
 }
 
 .open-container {
-  color: var(--calcite-list-item-open-icon-color);
+  color: var(--calcite-list-item-open-icon-color, var(--calcite-color-text-3));
 }
 
 .container,
@@ -223,7 +207,11 @@
   outline-color: transparent;
 
   &:focus {
-    outline: 2px solid var(--calcite-list-item-focus-color);
+    outline: 2px solid
+      var(
+        --calcite-list-item-focus-color,
+        var(--calcite-ui-focus-color, var(--calcite-color-brand-hover, var(--calcite--color-brand)))
+      );
     outline-offset: calc(-2px * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
   }
 }
@@ -240,7 +228,7 @@
 }
 
 :host(:not([disabled])) .container:hover .open-container {
-  color: var(--calcite-list-item-open-icon-hover-color);
+  color: var(--calcite-list-item-open-icon-hover-color, var(--calcite-color-text-1));
 }
 
 .open-container,
@@ -264,11 +252,16 @@
   border-style: solid;
   border-width: 0px;
   border-block-start-width: var(--calcite-border-width-sm);
-  border-color: var(--calcite-list-item-border-color);
+  border-color: var(--calcite-list-item-border-color, var(--calcite-color-border-3));
 }
 
 ::slotted(calcite-list:empty) {
   padding-block: var(--calcite-spacing-sm);
+}
+
+calcite-handle {
+  --calcite-handle-text-color: var(--calcite-list-item-handle-text-color);
+  --calcite-handle-background-color: var(--calcite-list-item-handle-background-color);
 }
 
 @include base-component();

@@ -11,11 +11,6 @@
 :host {
   display: flex;
   flex-direction: column;
-  --calcite-list-item-group-background-color: var(--calcite-color-foreground-1);
-  --calcite-list-item-group-border-color: var(--calcite-list-border-color);
-  --calcite-list-item-group-heading-text-color: var(--calcite-color-text-2);
-
-  --calcite-internal-list-item-spacing-indent: var(--calcite-size-sm-plus);
 }
 
 :host([filter-hidden]) {
@@ -25,9 +20,9 @@
 @include disabled();
 
 .container {
-  background-color: var(--calcite-list-item-group-background-color);
+  background-color: var(--calcite-list-item-group-background-color, var(--calcite-color-foreground-1));
   font-size: var(--calcite-font-size--1);
-  color: var(--calcite-list-item-group-heading-text-color);
+  color: var(--calcite-list-item-group-heading-text-color, var(--calcite-color-text-2));
   margin: 0;
   display: flex;
   flex: 1 1 0%;
@@ -38,12 +33,14 @@
 
 .heading {
   padding-inline-start: calc(
-    var(--calcite-internal-list-item-spacing-indent) * var(--calcite-internal-list-item-spacing-indent-multiplier)
+    var(--calcite-internal-list-item-spacing-indent, var(--calcite-size-sm-plus)) *
+      var(--calcite-internal-list-item-spacing-indent-multiplier)
   );
 }
 
 ::slotted(calcite-list-item) {
-  border-block-start: var(--calcite-border-width-sm) solid var(--calcite-list-item-group-border-color);
+  border-block-start: var(--calcite-border-width-sm) solid
+    var(--calcite-list-item-group-border-color, var(--calcite-list-border-color));
 }
 
 // removes shadow for the first item of the group for both filtered and unfiltered items.

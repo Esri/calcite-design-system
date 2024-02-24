@@ -961,6 +961,23 @@ const themingStyle = `<style>
       --calcite-list-background-color: lightblue;
       --calcite-list-border-color: red;
       --calcite-list-header-z-index: 998;
+      --calcite-list-filter-background-color: red;
+      --calcite-list-filter-width: 75%;
+      --calcite-list-filter-input-corner-radius: 20px;
+      --calcite-list-filter-input-text-color: blue;
+      --calcite-list-filter-input-border-color: cyan;
+      --calcite-list-filter-input-background-color: lightgray;
+      --calcite-list-filter-input-button-background-color: purple;
+      --calcite-list-filter-input-button-background-color-hover: pink;
+      --calcite-list-filter-input-button-background-color-active: magenta;
+      --calcite-list-filter-input-icon-color: green;
+      --calcite-list-filter-input-button-icon-color-hover: yellow;
+      --calcite-list-filter-input-prefix-text-color: blue;
+      --calcite-list-filter-input-prefix-background-color: lightgray;
+      --calcite-list-filter-input-suffix-text-color: blue;
+      --calcite-list-filter-input-suffix-background-color: lightgray;
+      --calcite-list-filter-input-placeholder-text-color: orange;
+      --calcite-list-filter-input-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
     }
     .custom-list calcite-list-item-group {
       --calcite-list-item-group-background-color: orange;
@@ -983,6 +1000,8 @@ const themingStyle = `<style>
       --calcite-list-item-selected-label-text-color: magenta;
       --calcite-list-item-unselected-icon-color: firebrick;
       --calcite-list-item-unselected-icon-hover-color: firebrick;
+      --calcite-list-item-handle-text-color: blue;
+      --calcite-list-item-handle-background-color: lightgray;
     }
   </style>`;
 
