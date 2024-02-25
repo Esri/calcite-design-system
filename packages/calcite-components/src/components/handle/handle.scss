@@ -17,12 +17,17 @@
   @apply flex;
 
   --calcite-handle-text-color: var(--calcite-color-border-input);
-  --calcite-handle-text-color-hover: var(--calcite-color-text-1);
-  --calcite-handle-text-color-focus: var(--calcite-color-text-1);
-  --calcite-handle-text-color-selected: var(--calcite-color-text-1);
-
   --calcite-handle-background-color: transparent;
+
+  /* hover */
+  --calcite-handle-text-color-hover: var(--calcite-color-text-1);
   --calcite-handle-background-color-hover: var(--calcite-color-foreground-2);
+
+  /* focus */
+  --calcite-handle-text-color-focus: var(--calcite-color-text-1);
+
+  /* selected */
+  --calcite-handle-text-color-selected: var(--calcite-color-text-1);
   --calcite-handle-background-color-selected: var(--calcite-color-foreground-3);
 }
 
