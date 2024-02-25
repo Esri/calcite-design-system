@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.2-next.2...@esri/calcite-components@2.6.0-next.0) (2024-02-22)
+
+### Features
+
+- **tile-group:** add Tile Group component ([#8806](https://github.com/Esri/calcite-design-system/issues/8806)) ([4f65bdd](https://github.com/Esri/calcite-design-system/commit/4f65bddb521af32047f9f5e6659c1b644291a83d)), closes [#8615](https://github.com/Esri/calcite-design-system/issues/8615) [#6691](https://github.com/Esri/calcite-design-system/issues/6691) [#6662](https://github.com/Esri/calcite-design-system/issues/6662) [#6691](https://github.com/Esri/calcite-design-system/issues/6691) [#8681](https://github.com/Esri/calcite-design-system/issues/8681)
+
 ## [2.5.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.2-next.1...@esri/calcite-components@2.5.2-next.2) (2024-02-21)
 
 ### Bug Fixes
