@@ -9,12 +9,12 @@
 
 :host {
   @apply flex flex-col;
+
+  --calcite-tabs-background-color: var(--calcite-color-foreground-1);
+  --calcite-tabs-border-color: var(--calcite-color-border-1);
 }
 
 :host([bordered]) {
-  --calcite-tabs-background-color: var(--calcite-color-foreground-1);
-  --calcite-tabs-border-color: var(--calcite-color-border-1);
-
   box-shadow: inset 0 1px 0 var(--calcite-color-border-1);
   background-color: var(--calcite-tabs-background-color);
 }
