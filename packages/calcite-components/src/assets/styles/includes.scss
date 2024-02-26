@@ -107,6 +107,12 @@
   }
 }
 
+@mixin focusOutset($focusColor) {
+  outline: 2px solid
+    var(#{$focusColor}, var(--calcite-ui-focus-color, var(--calcite-color-brand-hover, var(--calcite--color-brand))));
+  outline-offset: calc(2px * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
+}
+
 @mixin xButton() {
   :host([scale="s"]) {
     .x-button {

@@ -195,7 +195,15 @@ export const theming_TestOnly = (): string => html`
       gap: 20px;
     }
 
-    .themed {
+    calcite-radio-button {
+      --calcite-radio-button-background-color: orange;
+      --calcite-radio-button-border-radius: 50%;
+      --calcite-radio-focus-outline-color: red;
+      --calcite-radio-button-shadow: 0 0 0 2px blue;
+      --calcite-radio-button-size: 20px;
+    }
+
+    calcite-radio-button-group {
       --calcite-radio-button-group-input-message-spacing-value: 100px;
     }
   </style>
@@ -206,7 +214,6 @@ export const theming_TestOnly = (): string => html`
       required
       scale="s"
       status="invalid"
-      class="themed"
       validation-icon
       validation-message="Please select an option."
     >
@@ -228,7 +235,6 @@ export const theming_TestOnly = (): string => html`
       layout="horizontal"
       name="validation"
       required
-      class="themed"
       scale="m"
       status="invalid"
       validation-icon
@@ -251,7 +257,6 @@ export const theming_TestOnly = (): string => html`
     <calcite-radio-button-group
       layout="horizontal"
       name="validation"
-      class="themed"
       required
       scale="l"
       status="invalid"
