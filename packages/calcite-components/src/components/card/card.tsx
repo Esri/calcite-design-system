@@ -348,9 +348,7 @@ export class Card
         ? "checkbox"
         : this.selectionMode !== "none" && this.interactive
           ? "radio"
-          : this.interactive
-            ? "button"
-            : undefined;
+          : undefined;
 
     const actionTextSelection = `${this.selected ? this.messages.deselect : this.messages.select} ${
       this.label
