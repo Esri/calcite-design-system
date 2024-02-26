@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-radio-button-group-input-message-spacing-value: Specifies the spacing of the input message.
+ * @prop --calcite-radio-button-group-input-message-space: Specifies the spacing of the input message.
  */
 
 :host {
@@ -39,19 +39,19 @@
 
 :host([scale="s"]) calcite-input-message {
   --calcite-input-message-spacing-value: calc(
-    var(--calcite-radio-button-group-input-message-spacing-value, var(--calcite-spacing-xxs)) * -1
+    var(--calcite-radio-button-group-input-message-space, var(--calcite-spacing-xxs)) * -1
   );
 }
 
 :host([scale="m"]) calcite-input-message {
   --calcite-input-message-spacing-value: calc(
-    var(--calcite-radio-button-group-input-message-spacing-value, var(--calcite-spacing-sm)) * -1
+    var(--calcite-radio-button-group-input-message-space, var(--calcite-spacing-sm)) * -1
   );
 }
 
 :host([scale="l"]) calcite-input-message {
   --calcite-input-message-spacing-value: calc(
-    var(--calcite-radio-button-group-input-message-spacing-value, var(--calcite-spacing-md)) * -1
+    var(--calcite-radio-button-group-input-message-space, var(--calcite-spacing-md)) * -1
   );
 }
 
