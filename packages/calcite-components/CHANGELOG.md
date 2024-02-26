@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.6.0-next.1...@esri/calcite-components@2.6.0-next.2) (2024-02-26)
+
+### Bug Fixes
+
+- **preset:** calcite—color-brand to calcite-color-brand ([#8809](https://github.com/Esri/calcite-design-system/issues/8809)) ([ee2cf4e](https://github.com/Esri/calcite-design-system/commit/ee2cf4e62229753224fd3e54ed7caebe9b097040)), closes [#8807](https://github.com/Esri/calcite-design-system/issues/8807)
+
 ## [2.6.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.6.0-next.0...@esri/calcite-components@2.6.0-next.1) (2024-02-23)
 
 ### Bug Fixes
