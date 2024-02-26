@@ -6,9 +6,9 @@
 
 .week-headers {
   @apply flex border-solid py-0;
+  border-width: var(--calcite-border-width-none);
   border-block-start-width: var(--calcite-border-width-sm);
   border-color: var(--calcite-internal-date-picker-month-week-headers-border-color, var(--calcite-color-border-3));
-  border-width: var(--calcite-border-width-none);
   padding-inline: var(--calcite-spacing-xxs);
 }
 
