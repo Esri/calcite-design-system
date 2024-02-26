@@ -204,7 +204,7 @@ export const theming_TestOnly = (): string => html`
     }
 
     calcite-radio-button-group {
-      --calcite-radio-button-group-input-message-spacing-value: 100px;
+      --calcite-radio-button-group-input-message-spacing-value: 5px;
     }
   </style>
   <div class="container">

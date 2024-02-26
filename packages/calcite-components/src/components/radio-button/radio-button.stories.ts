@@ -57,15 +57,19 @@ export const theming_TestOnly = (): string =>
         --calcite-radio-button-size: 20px;
       }
     </style>
-    <div>
+    <calcite-label>
+      Radio:
       <calcite-radio-button></calcite-radio-button>
-    </div>
-    <div>
+    </calcite-label>
+    <calcite-label>
+      Checked radio:
       <calcite-radio-button checked></calcite-radio-button>
-    </div>
-    <div>
+    </calcite-label>
+    <calcite-label>
+      Checked disabled radio:
       <calcite-radio-button checked disabled></calcite-radio-button>
-    </div>
-    <div>
+    </calcite-label>
+    <calcite-label>
+      Checked focused radio:
       <calcite-radio-button checked focused></calcite-radio-button>
-    </div> `;
+    </calcite-label> `;
