@@ -57,9 +57,9 @@
 
 .day-wrapper {
   @apply flex
-  flex-col
-  items-center
-  relative;
+    flex-col
+    items-center
+    relative;
 }
 
 :host([range]),
@@ -89,9 +89,8 @@
 }
 
 .text {
+  @apply mb-0;
   margin-block-start: var(--calcite-spacing-px);
-  margin-block-end: 0;
-  margin-inline-start: 0;
 }
 
 :host([scale="s"]) {
@@ -101,7 +100,7 @@
     padding-block: var(--calcite-spacing-base);
   }
   .day-wrapper {
-    padding: 0;
+    @apply p-0;
   }
   .day {
     --calcite-internal-day-font-size: var(--calcite-font-size-sm);
@@ -115,7 +114,7 @@
     padding-block: var(--calcite-spacing-xxs);
   }
   .day-wrapper {
-    padding: 0;
+    @apply p-0;
   }
   .day {
     --calcite-internal-day-font-size: var(--calcite-font-size);
