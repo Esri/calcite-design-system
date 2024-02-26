@@ -46,9 +46,9 @@
 }
 
 :host([scale="l"]) .radio {
-  block-size: var(--calcite-radio-button-size, var(--calcite-font-size--0));
-  max-inline-size: var(--calcite-radio-button-size, var(--calcite-font-size--0));
-  min-inline-size: var(--calcite-radio-button-size, var(--calcite-font-size--0));
+  block-size: var(--calcite-radio-button-size, var(--calcite-font-size-0));
+  max-inline-size: var(--calcite-radio-button-size, var(--calcite-font-size-0));
+  min-inline-size: var(--calcite-radio-button-size, var(--calcite-font-size-0));
 }
 
 :host([focused]) {
@@ -149,8 +149,8 @@
   }
 
   :host([checked][scale="l"]) .radio::after {
-    inline-size: var(--calcite-radio-button-size, var(--calcite-font-size--0));
-    block-size: var(--calcite-radio-button-size, var(--calcite-font-size--0));
+    inline-size: var(--calcite-radio-button-size, var(--calcite-font-size-0));
+    block-size: var(--calcite-radio-button-size, var(--calcite-font-size-0));
   }
 }
 
