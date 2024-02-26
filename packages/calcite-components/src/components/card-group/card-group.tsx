@@ -10,7 +10,7 @@ import {
   Method,
   Watch,
 } from "@stencil/core";
-import { focusElementInGroup, toAriaBoolean } from "../../utils/dom";
+import { focusElement, focusElementInGroup, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -18,9 +18,13 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { createObserver } from "../../utils/observers";
 import { Scale, SelectionMode } from "../interfaces";
-import { componentLoaded, setComponentLoaded, setUpLoadableComponent } from "../../utils/loadable";
+import {
+  LoadableComponent,
+  componentLoaded,
+  setComponentLoaded,
+  setUpLoadableComponent,
+} from "../../utils/loadable";
 /**
  * @slot - A slot for adding one or more `calcite-card`s.
  */
@@ -29,7 +33,7 @@ import { componentLoaded, setComponentLoaded, setUpLoadableComponent } from "../
   styleUrl: "card-group.scss",
   shadow: true,
 })
-export class CardGroup implements InteractiveComponent {
+export class CardGroup implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -77,8 +81,6 @@ export class CardGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  mutationObserver = createObserver("mutation", () => this.updateItems());
-
   private items: HTMLCalciteCardElement[] = [];
 
   private slotRefEl: HTMLSlotElement;
@@ -100,11 +102,9 @@ export class CardGroup implements InteractiveComponent {
 
   connectedCallback(): void {
     connectInteractive(this);
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   componentDidRender(): void {
-    disconnectInteractive(this);
     updateHostInteraction(this);
   }
 
@@ -113,7 +113,7 @@ export class CardGroup implements InteractiveComponent {
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
+    disconnectInteractive(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -169,7 +169,7 @@ export class CardGroup implements InteractiveComponent {
   async setFocus(): Promise<void> {
     await componentLoaded(this);
     if (!this.disabled) {
-      (this.selectedItems[0] || this.items[0])?.setFocus();
+      focusElement(this.items[0]);
     }
   }
 

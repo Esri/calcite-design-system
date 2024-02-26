@@ -5,7 +5,7 @@
  *
  * @prop --calcite-card-background-color: Specifies the background color of the component.
  * @prop --calcite-card-border-color: Specifies the border color of the component.
- * @prop --calcite-card-box-shadow: Specifies the box shadow of the component.
+ * @prop --calcite-card-shadow: Specifies the shadow of the component.
  * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-card-accent-color-selected: Specifies the accent color of the component when `selected`.
  * @prop --calcite-card-selection-background-color: Specifies the background color of the component's selection element.
@@ -23,7 +23,7 @@
   --calcite-card-corner-radius: var(--calcite-corner-radius-sharp);
   --calcite-card-background-color: var(--calcite-color-foreground-1);
   --calcite-card-border-color: var(--calcite-color-border-3);
-  --calcite-card-box-shadow: var(--calcite-shadow-none);
+  --calcite-card-shadow: var(--calcite-shadow-none);
   --calcite-card-accent-color-selected: var(--calcite-color-brand);
   --calcite-card-selection-background-color: transparent;
   --calcite-card-selection-background-color-hover: var(--calcite-color-transparent-hover);
@@ -44,7 +44,7 @@
   border: var(--calcite-border-width-sm) solid var(--calcite-card-border-color);
   border-radius: var(--calcite-card-corner-radius);
   background-color: var(--calcite-card-background-color);
-  box-shadow: var(--calcite-card-box-shadow);
+  box-shadow: var(--calcite-card-shadow);
   pointer-events: none;
 }
 
