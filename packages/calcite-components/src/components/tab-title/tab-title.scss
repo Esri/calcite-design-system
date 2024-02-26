@@ -65,7 +65,6 @@
   h-full
   justify-between
   px-0
-  relative
   text-color-3
   text-n1h
   transition-default
@@ -109,11 +108,6 @@
   .container {
     @apply pointer-events-none opacity-50;
   }
-}
-
-.container,
-.content {
-  gap: theme("spacing.2");
 }
 
 .calcite-tab-title--icon {
@@ -252,14 +246,6 @@
     .content {
       padding-inline-end: 0;
     }
-  }
-}
-
-:host([layout="center"][closable]) {
-  .close-button {
-    position: absolute;
-    inset-inline-end: 0;
-    inset-block: 0;
   }
 }
 
