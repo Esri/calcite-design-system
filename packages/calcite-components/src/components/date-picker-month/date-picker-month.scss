@@ -38,7 +38,7 @@
 }
 
 :host([scale="m"]) .week-header {
-  font-size: var(--calcite-font-spacing-sm);
+  font-size: var(--calcite-font-size-sm);
   padding-block-start: var(--calcite-spacing-md);
   padding-block-end: var(--calcite-spacing-xl);
 }
