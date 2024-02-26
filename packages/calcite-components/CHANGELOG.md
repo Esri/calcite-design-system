@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.6.0-next.0...@esri/calcite-components@2.6.0-next.1) (2024-02-23)
+
+### Bug Fixes
+
+- **navigation-logo:** no longer changes icon color when `href` is parsed ([#8830](https://github.com/Esri/calcite-design-system/issues/8830)) ([16d456f](https://github.com/Esri/calcite-design-system/commit/16d456fa113da09daf16d73e819ddf2910cb73d5)), closes [#8482](https://github.com/Esri/calcite-design-system/issues/8482)
+
+## [2.6.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.2-next.2...@esri/calcite-components@2.6.0-next.0) (2024-02-22)
+
+### Features
+
+- **tile-group:** add Tile Group component ([#8806](https://github.com/Esri/calcite-design-system/issues/8806)) ([4f65bdd](https://github.com/Esri/calcite-design-system/commit/4f65bddb521af32047f9f5e6659c1b644291a83d)), closes [#8615](https://github.com/Esri/calcite-design-system/issues/8615) [#6691](https://github.com/Esri/calcite-design-system/issues/6691) [#6662](https://github.com/Esri/calcite-design-system/issues/6662) [#6691](https://github.com/Esri/calcite-design-system/issues/6691) [#8681](https://github.com/Esri/calcite-design-system/issues/8681)
+
+## [2.5.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.2-next.1...@esri/calcite-components@2.5.2-next.2) (2024-02-21)
+
+### Bug Fixes
+
+- only show validation message when status='invalid' ([#8649](https://github.com/Esri/calcite-design-system/issues/8649)) ([7eac8d7](https://github.com/Esri/calcite-design-system/commit/7eac8d7c1e24ab89a3bff67ce9b4f38555023a47))
+
+## [2.5.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.2-next.0...@esri/calcite-components@2.5.2-next.1) (2024-02-21)
+
+### Bug Fixes
+
+- **combobox:** long text truncates on single and single-persist modes ([#8731](https://github.com/Esri/calcite-design-system/issues/8731)) ([8fc42b1](https://github.com/Esri/calcite-design-system/commit/8fc42b164ceacad97ac9153673280ae63638b03c)), closes [#7020](https://github.com/Esri/calcite-design-system/issues/7020)
+
 ## [2.5.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.1...@esri/calcite-components@2.5.2-next.0) (2024-02-20)
 
 ### Bug Fixes
