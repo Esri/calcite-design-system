@@ -2287,6 +2287,7 @@ export namespace Components {
         /**
           * Specifies the maximum length of text for the component's value.
           * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+          * @deprecated This property has no effect on the component.
          */
         "maxLength": number;
         /**
@@ -2305,6 +2306,7 @@ export namespace Components {
         /**
           * Specifies the minimum length of text for the component's value.
           * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+          * @deprecated This property has no effect on the component.
          */
         "minLength": number;
         /**
@@ -4983,6 +4985,20 @@ export namespace Components {
          */
         "scale": Scale;
     }
+    interface CalciteTileGroup {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
+         */
+        "layout": Exclude<Layout, "grid">;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
+    }
     interface CalciteTileSelect {
         /**
           * When `true`, the component is checked.
@@ -7138,6 +7154,12 @@ declare global {
         prototype: HTMLCalciteTileElement;
         new (): HTMLCalciteTileElement;
     };
+    interface HTMLCalciteTileGroupElement extends Components.CalciteTileGroup, HTMLStencilElement {
+    }
+    var HTMLCalciteTileGroupElement: {
+        prototype: HTMLCalciteTileGroupElement;
+        new (): HTMLCalciteTileGroupElement;
+    };
     interface HTMLCalciteTileSelectElementEventMap {
         "calciteTileSelectChange": void;
     }
@@ -7419,6 +7441,7 @@ declare global {
         "calcite-tabs": HTMLCalciteTabsElement;
         "calcite-text-area": HTMLCalciteTextAreaElement;
         "calcite-tile": HTMLCalciteTileElement;
+        "calcite-tile-group": HTMLCalciteTileGroupElement;
         "calcite-tile-select": HTMLCalciteTileSelectElement;
         "calcite-tile-select-group": HTMLCalciteTileSelectGroupElement;
         "calcite-time-picker": HTMLCalciteTimePickerElement;
@@ -9661,6 +9684,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the maximum length of text for the component's value.
           * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+          * @deprecated This property has no effect on the component.
          */
         "maxLength"?: number;
         /**
@@ -9679,6 +9703,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the minimum length of text for the component's value.
           * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+          * @deprecated This property has no effect on the component.
          */
         "minLength"?: number;
         /**
@@ -12486,6 +12511,20 @@ declare namespace LocalJSX {
          */
         "scale"?: Scale;
     }
+    interface CalciteTileGroup {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled"?: boolean;
+        /**
+          * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
+         */
+        "layout"?: Exclude<Layout, "grid">;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
+    }
     interface CalciteTileSelect {
         /**
           * When `true`, the component is checked.
@@ -12988,6 +13027,7 @@ declare namespace LocalJSX {
         "calcite-tabs": CalciteTabs;
         "calcite-text-area": CalciteTextArea;
         "calcite-tile": CalciteTile;
+        "calcite-tile-group": CalciteTileGroup;
         "calcite-tile-select": CalciteTileSelect;
         "calcite-tile-select-group": CalciteTileSelectGroup;
         "calcite-time-picker": CalciteTimePicker;
@@ -13112,6 +13152,7 @@ declare module "@stencil/core" {
             "calcite-tabs": LocalJSX.CalciteTabs & JSXBase.HTMLAttributes<HTMLCalciteTabsElement>;
             "calcite-text-area": LocalJSX.CalciteTextArea & JSXBase.HTMLAttributes<HTMLCalciteTextAreaElement>;
             "calcite-tile": LocalJSX.CalciteTile & JSXBase.HTMLAttributes<HTMLCalciteTileElement>;
+            "calcite-tile-group": LocalJSX.CalciteTileGroup & JSXBase.HTMLAttributes<HTMLCalciteTileGroupElement>;
             "calcite-tile-select": LocalJSX.CalciteTileSelect & JSXBase.HTMLAttributes<HTMLCalciteTileSelectElement>;
             "calcite-tile-select-group": LocalJSX.CalciteTileSelectGroup & JSXBase.HTMLAttributes<HTMLCalciteTileSelectGroupElement>;
             "calcite-time-picker": LocalJSX.CalciteTimePicker & JSXBase.HTMLAttributes<HTMLCalciteTimePickerElement>;
