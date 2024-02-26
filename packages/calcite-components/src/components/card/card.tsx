@@ -243,7 +243,6 @@ export class Card
     this.hasContent = slotChangeHasAssignedElement(event);
   };
 
-  // to be removed in future release
   private renderCheckboxDeprecated(): VNode {
     return (
       <calcite-label class={CSS.checkboxWrapperDeprecated}>
@@ -257,7 +256,6 @@ export class Card
     );
   }
 
-  // to be removed in future release
   private cardSelectKeyDownDeprecated = (event: KeyboardEvent): void => {
     switch (event.key) {
       case " ":
@@ -268,7 +266,6 @@ export class Card
     }
   };
 
-  // to be removed in future release
   private selectCardDeprecated = (): void => {
     this.selected = !this.selected;
     this.calciteCardSelect.emit();

@@ -60,17 +60,6 @@ describe("calcite-card", () => {
     expect(element).toHaveAttribute("selected");
   });
 
-  it("renders with selectable (deprecated)", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-card label="example-label" loading selectable>
-        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
-      </calcite-card>`);
-
-    const element = await page.find("calcite-card");
-    expect(element).toHaveAttribute("selectable");
-  });
-
   it("should have a thumbnail container", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -82,20 +71,6 @@ describe("calcite-card", () => {
     const thumbContainer = await page.find(`calcite-card >>> .${CSS.thumbnailWrapper}`);
 
     expect(thumbContainer).not.toBeNull();
-  });
-
-  it("should render a checkbox if selectable (deprecated)", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-card label="example-label" selectable>
-        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
-        <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
-      </calcite-card>
-    `);
-
-    await page.waitForChanges();
-    const checkboxContainer = await page.find(`calcite-card >>> .${CSS.checkboxWrapperDeprecated}`);
-    expect(checkboxContainer).not.toBeNull();
   });
 
   describe("when a card is selectable (deprecated)", () => {

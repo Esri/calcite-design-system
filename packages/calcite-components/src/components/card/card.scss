@@ -114,12 +114,10 @@
   box-shadow: inset 0 -4px 0 0 var(--calcite-card-accent-color-selected);
 }
 
-// to be removed in future release
 :host([selectable]) .header {
   padding-inline-end: var(--calcite-spacing-xxxl);
 }
 
-// to be removed in future release
 @include slotted("title", "*") {
   @apply text-color-1
     text-n1-wrap
@@ -127,7 +125,6 @@
     font-medium;
 }
 
-// to be removed in future release
 @include slotted("subtitle", "*") {
   @apply text-color-2
     text-n2-wrap
@@ -164,7 +161,6 @@
   color: var(--calcite-color-text-3);
 }
 
-// to be removed in future release
 .checkbox-wrapper-deprecated {
   @apply absolute pointer-events-auto;
   inset-block-start: var(--calcite-spacing-sm);

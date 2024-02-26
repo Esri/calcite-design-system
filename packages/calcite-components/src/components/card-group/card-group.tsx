@@ -65,7 +65,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
 
   @Watch("selectionMode")
   onSelectionModeChange(): void {
-    this.updateItems();
+    this.udpateItemsOnSelectionModeChange();
   }
 
   /**
@@ -179,12 +179,23 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  private updateItems = (event?: Event): void => {
-    const target = event ? (event.target as HTMLSlotElement) : this.slotRefEl;
+  private udpateItemsOnSelectionModeChange = (): void => {
+    this.updateSlottedItems(this.slotRefEl);
+    this.updateSelectedItems();
+  };
+
+  private updateItemsOnSlotChange = (event: Event): void => {
+    this.updateSlottedItems(event.target as HTMLSlotElement);
+    this.updateSelectedItems();
+  };
+
+  private updateSlottedItems = (target: HTMLSlotElement): void => {
     this.items = target
       .assignedElements({ flatten: true })
       .filter((el) => el?.matches("calcite-card")) as HTMLCalciteCardElement[];
+  };
 
+  private updateSelectedItems = (): void => {
     this.items.forEach((el) => {
       el.interactive = true;
       el.selectionMode = this.selectionMode;
@@ -241,7 +252,7 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
           role={role}
         >
           <slot
-            onSlotchange={this.updateItems}
+            onSlotchange={this.updateItemsOnSlotChange}
             ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}
           />
         </div>
