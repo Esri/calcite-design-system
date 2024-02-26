@@ -90,7 +90,7 @@ export class Tile implements InteractiveComponent {
    *
    * @internal
    */
-  @Prop({ mutable: true }) selectionMode: Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode> = null;
+  @Prop({ mutable: true }) selectionMode: Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode> = "none";
 
   /**
    * Specifies the size of the component.
