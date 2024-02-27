@@ -3,15 +3,20 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-switch-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-switch-handle-background-color: Specifies the background color of the component handle.
  * @prop --calcite-switch-handle-border-color: Specifies the border color of the component handle.
  * @prop --calcite-switch-track-background-color: Specifies the background color of the component track.
  * @prop --calcite-switch-track-border-color: Specifies the border color of the component track.
- * @prop --calcite-switch-corner-radius: Specifies the corner radius of the component.
- * @prop --calcite-switch-shadow: Specifies the shadow of the component.
+ * @prop --calcite-switch-handle-shadow: Specifies the shadow of the component handle.
+ * @prop --calcite-switch-handle-border-color-hover: Specifies the border color of the component handle when hovered.
+ * @prop --calcite-switch-shadow-hover: Specifies the shadow of the component handle when hovered.
+ * @prop --calcite-switch-handle-border-color-selected: Specifies the border color of the component handle when selected.
+ * @prop --calcite-switch-track-background-color-selected: Specifies the background color of the component track when selected.
+ * @prop --calcite-switch-track-border-color-selected: Specifies the border color of the component track when selected.
+ * @prop --calcite-switch-handle-border-color-selected-hover: Specifies the border color of the component handle when selected and hovered.
+ * @prop --calcite-switch-shadow-selected-hover: Specifies the shadow of the component handle when selected and hovered.
  */
-
-@import "~@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
   --calcite-switch-handle-background-color: var(--calcite-color-foreground-1);
@@ -19,7 +24,17 @@
   --calcite-switch-track-background-color: var(--calcite-color-foreground-2);
   --calcite-switch-track-border-color: var(--calcite-color-border-2);
   --calcite-switch-corner-radius: var(--calcite-internal-switch-border-radius, --calcite-corner-radius-pill);
-  --calcite-switch-shadow: none;
+  --calcite-switch-handle-shadow: none;
+
+  --calcite-switch-handle-border-color-hover: var(--calcite-color-brand);
+  --calcite-switch-handle-shadow-hover: inset 0 0 0 1px var(--calcite-color-brand);
+
+  --calcite-switch-handle-border-color-selected: var(--calcite-color-brand);
+  --calcite-switch-track-background-color-selected: var(--calcite-color-brand);
+  --calcite-switch-track-border-color-selected: var(--calcite-color-brand);
+
+  --calcite-switch-handle-border-color-selected-hover: var(--calcite-color-brand-hover);
+  --calcite-switch-handle-shadow-selected-hover: inset 0 0 0 1px var(--calcite-color-brand-hover);
 
   --calcite-internal-switch-border-radius: 9999px; // TODO: drop once --calcite-corner-radius is updated
 
@@ -69,7 +84,7 @@
   border-color: var(--calcite-switch-handle-border-color);
   background-color: var(--calcite-switch-handle-background-color);
   border-radius: var(--calcite-switch-corner-radius);
-  box-shadow: inset 0 0 0 1px var(--calcite-switch-shadow);
+  box-shadow: var(--calcite-switch-handle-shadow);
   block-size: var(--calcite-internal-switch-handle-height);
   inline-size: var(--calcite-internal-switch-handle-width);
 }
@@ -102,23 +117,30 @@
 
 :host(:hover),
 :host(:focus) {
-  --calcite-switch-handle-border-color: var(--calcite-color-brand);
-  --calcite-switch-shadow: var(--calcite-color-brand);
+  .handle {
+    border-color: var(--calcite-switch-handle-border-color-hover);
+    box-shadow: var(--calcite-switch-handle-shadow-hover);
+  }
 }
 
 :host([checked]) {
-  --calcite-switch-handle-border-color: var(--calcite-color-brand);
-  --calcite-switch-track-background-color: var(--calcite-color-brand);
-  --calcite-switch-track-border-color: var(--calcite-color-brand-hover);
+  .track {
+    background-color: var(--calcite-switch-track-background-color-selected);
+    border-color: var(--calcite-switch-track-border-color-selected);
+  }
 
   .handle {
+    border-color: var(--calcite-switch-handle-border-color-selected);
+
     inset-inline: theme("inset.auto") -1px;
   }
 }
 
 :host([checked]:hover) {
-  --calcite-switch-handle-border-color: var(--calcite-color-brand-hover);
-  --calcite-switch-shadow: var(--calcite-color-brand-hover);
+  .handle {
+    border-color: var(--calcite-switch-handle-border-color-selected-hover);
+    box-shadow: var(--calcite-switch-handle-shadow-selected-hover);
+  }
 }
 
 @media (forced-colors: active) {
