@@ -49,11 +49,11 @@
 
   :host([scale="m"]) .validation-container,
   :host([scale="l"]) .validation-container {
-    padding-block-start: 0.5rem;
+    padding-block-start: var(--calcite-spacing-sm);
   }
 
   :host([scale="s"]) .validation-container {
-    padding-block-start: 0.25rem;
+    padding-block-start: var(--calcite-spacing-xxs);
   }
 }
 
@@ -105,6 +105,12 @@
   [hidden] {
     @apply hidden;
   }
+}
+
+@mixin focusInset($focusColor) {
+  outline: 2px solid
+    var(#{$focusColor}, var(--calcite-ui-focus-color, var(--calcite-color-brand-hover, var(--calcite--color-brand))));
+  outline-offset: calc(-2px * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
 }
 
 @mixin xButton() {
