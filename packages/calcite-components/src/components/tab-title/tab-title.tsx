@@ -37,6 +37,7 @@ import {
 } from "../../utils/t9n";
 import { TabTitleMessages } from "./assets/tab-title/t9n";
 import { getIconScale } from "../../utils/component";
+import { SortableComponentItem } from "../../utils/sortableComponent";
 
 /**
  * Tab-titles are optionally individually closable.
@@ -51,12 +52,25 @@ import { getIconScale } from "../../utils/component";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nComponent {
+export class TabTitle
+  implements InteractiveComponent, LocalizedComponent, SortableComponentItem, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Properties
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * When `true`, the item is not draggable.
+   *
+   *
+   * Notes:
+   *
+   * This property should use the @Prop decorator and reflect.
+   * This property should be used to set the `calcite-handle` disabled property.
+   */
+  @Prop({ reflect: true }) dragDisabled = false;
 
   /**
    * When `true`, the component and its respective `calcite-tab` contents are selected.

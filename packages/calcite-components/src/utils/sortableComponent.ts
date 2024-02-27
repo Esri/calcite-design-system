@@ -52,12 +52,12 @@ export interface SortableComponent {
   /**
    * Whether the element can move from the list.
    */
-  canPull: (detail: DragDetail) => boolean;
+  canPull?: (detail: DragDetail) => boolean;
 
   /**
    * Whether the element can be added from another list.
    */
-  canPut: (detail: DragDetail) => boolean;
+  canPut?: (detail: DragDetail) => boolean;
 
   /**
    * Called when any sortable component drag starts. For internal use only. Any public drag events should emit within `onDragStart()`.

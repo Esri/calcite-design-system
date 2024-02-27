@@ -40,6 +40,13 @@ import {
   calciteSize44,
 } from "@esri/calcite-design-tokens/dist/es6/core";
 import { CSS_UTILITY } from "../../utils/resources";
+import {
+  connectSortableComponent,
+  disconnectSortableComponent,
+  DragDetail,
+  SortableComponent,
+} from "../../utils/sortableComponent";
+import Sortable from "sortablejs";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -50,12 +57,22 @@ import { CSS_UTILITY } from "../../utils/resources";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class TabNav implements LocalizedComponent, T9nComponent {
+export class TabNav implements LocalizedComponent, SortableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * When `true`, dragging is enabled.
+   */
+  @Prop({ reflect: true }) dragEnabled: boolean;
+
+  /**
+   * When `true`, dragging is enabled.
+   */
+  @Prop({ reflect: true }) handleSelector = "calcite-tab-title";
 
   /**
    * Specifies the name when saving selected `calcite-tab` data to `localStorage`.
@@ -161,6 +178,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     this.resizeObserver?.observe(this.el);
     connectLocalized(this);
     connectMessages(this);
+    connectSortableComponent(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -207,6 +225,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     this.resizeObserver?.disconnect();
     disconnectLocalized(this);
     disconnectMessages(this);
+    disconnectSortableComponent(this);
   }
 
   //--------------------------------------------------------------------------
@@ -404,6 +423,21 @@ export class TabNav implements LocalizedComponent, T9nComponent {
    */
   @Event({ cancelable: false }) calciteInternalTabChange: EventEmitter<TabChangeEventDetail>;
 
+  /**
+   * @todo doc
+   */
+  @Event() calciteTabNavDragEnd: EventEmitter<DragDetail>;
+
+  /**
+   * @todo doc
+   */
+  @Event() calciteTabNavDragSort: EventEmitter<DragDetail>;
+
+  /**
+   * @todo doc
+   */
+  @Event() calciteTabNavDragStart: EventEmitter<DragDetail>;
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -458,11 +492,34 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     return parseInt(scale === "s" ? calciteSize24 : scale === "m" ? calciteSize32 : calciteSize44);
   }
 
+  sortable: Sortable;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  onGlobalDragStart(): void {
+    // TODO: implement
+  }
+
+  onGlobalDragEnd(): void {
+    // TODO: implement
+  }
+
+  onDragEnd(detail: DragDetail): void {
+    this.calciteTabNavDragEnd.emit(detail);
+  }
+
+  onDragStart(detail: DragDetail): void {
+    this.calciteTabNavDragStart.emit(detail);
+  }
+
+  onDragSort(detail: DragDetail): void {
+    // TODO: update syncing of tab-titles to tabs
+    this.calciteTabNavDragSort.emit(detail);
+  }
 
   private updateActiveIndicator(): void {
     const tabTitleScrollLeft = this.tabTitleContainerEl?.scrollLeft;

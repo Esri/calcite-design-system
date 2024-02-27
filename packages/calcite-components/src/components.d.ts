@@ -4545,6 +4545,14 @@ export namespace Components {
     }
     interface CalciteTabNav {
         "bordered": boolean;
+        /**
+          * When `true`, dragging is enabled.
+         */
+        "dragEnabled": boolean;
+        /**
+          * When `true`, dragging is enabled.
+         */
+        "handleSelector": string;
         "indicatorOffset": number;
         "indicatorWidth": number;
         "layout": TabLayout;
@@ -4597,6 +4605,11 @@ export namespace Components {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
+        /**
+          * When `true`, the item is not draggable.   Notes:  This property should use the
+          * @Prop decorator and reflect. This property should be used to set the `calcite-handle` disabled property.
+         */
+        "dragDisabled": boolean;
         "getTabIdentifier": () => Promise<TabID>;
         /**
           * Returns the index of the title within the `calcite-tab-nav`.
@@ -7017,6 +7030,9 @@ declare global {
     interface HTMLCalciteTabNavElementEventMap {
         "calciteTabChange": void;
         "calciteInternalTabChange": TabChangeEventDetail;
+        "calciteTabNavDragEnd": DragDetail;
+        "calciteTabNavDragSort": DragDetail;
+        "calciteTabNavDragStart": DragDetail;
     }
     interface HTMLCalciteTabNavElement extends Components.CalciteTabNav, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTabNavElementEventMap>(type: K, listener: (this: HTMLCalciteTabNavElement, ev: CalciteTabNavCustomEvent<HTMLCalciteTabNavElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -12025,6 +12041,14 @@ declare namespace LocalJSX {
     }
     interface CalciteTabNav {
         "bordered"?: boolean;
+        /**
+          * When `true`, dragging is enabled.
+         */
+        "dragEnabled"?: boolean;
+        /**
+          * When `true`, dragging is enabled.
+         */
+        "handleSelector"?: string;
         "indicatorOffset"?: number;
         "indicatorWidth"?: number;
         "layout"?: TabLayout;
@@ -12041,6 +12065,18 @@ declare namespace LocalJSX {
           * Emits when the selected `calcite-tab` changes.
          */
         "onCalciteTabChange"?: (event: CalciteTabNavCustomEvent<void>) => void;
+        /**
+          * @todo doc
+         */
+        "onCalciteTabNavDragEnd"?: (event: CalciteTabNavCustomEvent<DragDetail>) => void;
+        /**
+          * @todo doc
+         */
+        "onCalciteTabNavDragSort"?: (event: CalciteTabNavCustomEvent<DragDetail>) => void;
+        /**
+          * @todo doc
+         */
+        "onCalciteTabNavDragStart"?: (event: CalciteTabNavCustomEvent<DragDetail>) => void;
         /**
           * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
          */
@@ -12077,6 +12113,11 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        /**
+          * When `true`, the item is not draggable.   Notes:  This property should use the
+          * @Prop decorator and reflect. This property should be used to set the `calcite-handle` disabled property.
+         */
+        "dragDisabled"?: boolean;
         /**
           * Specifies an icon to display at the end of the component.
          */
