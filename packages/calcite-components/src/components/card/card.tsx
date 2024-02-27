@@ -208,7 +208,7 @@ export class Card
   };
 
   private keyDownHandler = (event: KeyboardEvent): void => {
-    if (!this.selectable && !this.disabled) {
+    if (event.target === this.containerEl && !this.selectable && !this.disabled) {
       if (isActivationKey(event.key) && this.selectionMode !== "none") {
         this.calciteCardSelect.emit();
         event.preventDefault();
