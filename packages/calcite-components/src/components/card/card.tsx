@@ -89,14 +89,6 @@ export class Card
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
-   * When true, enables the card to be focused, and allows the `calciteCardSelect` to emit.
-   * This is set to `true` by a parent Card Group component.
-   *
-   * @internal
-   */
-  @Prop() interactive = false;
-
-  /**
    * Made into a prop for testing purposes only
    *
    * @internal
@@ -148,7 +140,7 @@ export class Card
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    if (!this.disabled && this.interactive) {
+    if (!this.disabled) {
       this.containerEl?.focus();
     }
   }
@@ -217,7 +209,7 @@ export class Card
 
   private keyDownHandler = (event: KeyboardEvent): void => {
     if (!this.selectable && !this.disabled) {
-      if (isActivationKey(event.key) && this.interactive) {
+      if (isActivationKey(event.key) && this.selectionMode !== "none") {
         this.calciteCardSelect.emit();
         event.preventDefault();
       } else {
@@ -236,7 +228,7 @@ export class Card
 
   private cardBodyClickHandler = (event: MouseEvent): void => {
     const isFromScreenReader = event.target === this.containerEl;
-    if (isFromScreenReader && !this.selectable && !this.disabled && this.interactive) {
+    if (isFromScreenReader && !this.selectable && !this.disabled && this.selectionMode !== "none") {
       this.calciteCardSelect.emit();
     }
   };
@@ -342,20 +334,16 @@ export class Card
     const thumbnailInline = this.thumbnailPosition.startsWith("inline");
     const thumbnailStart = this.thumbnailPosition.endsWith("start");
     const role =
-      this.selectionMode === "multiple" && this.interactive
+      this.selectionMode === "multiple"
         ? "checkbox"
-        : this.selectionMode !== "none" && this.interactive
+        : this.selectionMode !== "none"
           ? "radio"
           : undefined;
     return (
       <Host>
         <InteractiveContainer disabled={this.disabled}>
           <div
-            aria-checked={
-              this.selectionMode !== "none" && this.interactive
-                ? toAriaBoolean(this.selected)
-                : undefined
-            }
+            aria-checked={this.selectionMode !== "none" ? toAriaBoolean(this.selected) : undefined}
             aria-disabled={this.disabled}
             aria-label={this.label}
             class={{ [CSS.contentWrapper]: true, inline: thumbnailInline }}

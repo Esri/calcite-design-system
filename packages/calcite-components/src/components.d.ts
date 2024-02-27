@@ -757,10 +757,6 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * When true, enables the card to be focused, and allows the `calciteCardSelect` to emit. This is set to `true` by a parent Card Group component.
-         */
-        "interactive": boolean;
-        /**
           * Accessible name for the component.
          */
         "label": string;
@@ -8133,10 +8129,6 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
-        /**
-          * When true, enables the card to be focused, and allows the `calciteCardSelect` to emit. This is set to `true` by a parent Card Group component.
-         */
-        "interactive"?: boolean;
         /**
           * Accessible name for the component.
          */

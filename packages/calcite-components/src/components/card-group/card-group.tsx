@@ -200,7 +200,6 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
 
   private updateSelectedItems = (): void => {
     this.items.forEach((el) => {
-      el.interactive = true;
       el.selectionMode = this.selectionMode;
     });
 
