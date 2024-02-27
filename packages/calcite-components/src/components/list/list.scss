@@ -58,7 +58,7 @@
 
 ::slotted(calcite-list-item) {
   border-block-start: var(--calcite-border-width-sm) solid
-    var(--calcite-list-border-color, var(--calcite-list-border-color));
+    var(--calcite-list-border-color, var(--calcite-color-border-3));
 }
 
 ::slotted(calcite-list-item:first-of-type) {

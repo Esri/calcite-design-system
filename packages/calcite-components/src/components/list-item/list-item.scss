@@ -99,8 +99,8 @@
   flex: 1 1 auto;
   flex-direction: column;
   justify-content: center;
-  padding-inline: var(--calcite-spacing-sm);
-  padding-block: var(--calcite-spacing-xs);
+  padding-inline: var(--calcite-spacing-md);
+  padding-block: var(--calcite-spacing-sm);
 }
 
 .label {
@@ -158,7 +158,7 @@
   flex: 1 1 auto;
   ::slotted(calcite-icon) {
     align-self: center;
-    margin-inline: var(--calcite-spacing-sm);
+    margin-inline: var(--calcite-spacing-md);
   }
 }
 
@@ -169,7 +169,7 @@
 
 .selection-container {
   display: flex;
-  padding-inline: var(--calcite-spacing-sm);
+  padding-inline: var(--calcite-spacing-md);
   color: var(--calcite-list-item-icon-color, var(--calcite-color-border-input));
 }
 
@@ -243,7 +243,7 @@
 }
 
 ::slotted(calcite-list:empty) {
-  padding-block: var(--calcite-spacing-sm);
+  padding-block: var(--calcite-spacing-md);
 }
 
 calcite-handle {
