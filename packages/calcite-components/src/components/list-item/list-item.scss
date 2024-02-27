@@ -37,7 +37,7 @@
   }
 
   padding-inline-start: calc(
-    var(--calcite-internal-list-item-spacing-indent, var(--calcite-spacing-md)) *
+    var(--calcite-internal-list-item-spacing-indent, var(--calcite-spacing-xl)) *
       var(--calcite-internal-list-item-spacing-indent-multiplier)
   );
 }
@@ -117,7 +117,7 @@
   display: flex;
   flex-direction: column;
   padding-inline-start: calc(
-    var(--calcite-internal-list-item-spacing-indent, var(--calcite-spacing-md)) *
+    var(--calcite-internal-list-item-spacing-indent, var(--calcite-spacing-xl)) *
       var(--calcite-internal-list-item-spacing-indent-multiplier)
   );
 }
