@@ -8,7 +8,7 @@
  * @prop --calcite-list-item-border-color: Specifies the border color of the component.
  * @prop --calcite-list-item-content-text-color: Specifies the text color of the component's content.
  * @prop --calcite-list-item-description-text-color: Specifies the text color of the component's description.
- * @prop --calcite-list-item-focus-color: Specifies the focus color of the component.
+ * @prop --calcite-list-item-focus: Specifies the focus of the component.
  * @prop --calcite-list-item-handle-background-color: Specifies the background color of the component's handle.
  * @prop --calcite-list-item-handle-text-color: Specifies the text color of the component's handle.
  * @prop --calcite-list-item-label-text-color: Specifies the text color of the component's label.
@@ -207,12 +207,7 @@
   outline-color: transparent;
 
   &:focus {
-    outline: 2px solid
-      var(
-        --calcite-list-item-focus-color,
-        var(--calcite-ui-focus-color, var(--calcite-color-brand-hover, var(--calcite--color-brand)))
-      );
-    outline-offset: calc(-2px * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
+    @include focusInset("--calcite-list-item-focus", "--calcite-internal-list-item-focus-offset");
   }
 }
 
