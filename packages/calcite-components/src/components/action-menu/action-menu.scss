@@ -3,22 +3,21 @@
 *
 * These properties can be overridden using the component's tag as selector.
 *
-* @prop --calcite-action-menu-border-color: The border color of the component.
-* @prop --calcite-action-menu-text-color: The text color of the component.
+* @prop --calcite-action-menu-group-separator-border-color: The border color of the component.
+*
 */
 
 :host {
-  @apply text-color-2
-  text-1
+  @apply text-1
   box-border
   flex
   flex-col;
-
-  color: var(--calcite-action-menu-text-color, --calcite-color-text-2);
 }
 
 ::slotted(calcite-action-group) {
-  border-block-end: 1px solid var(--calcite-action-menu-border-color, --calcite-color-border-3);
+  border-block-end-style: solid;
+  border-block-end-width: var(--calcite-border-width-sm);
+  border-block-end-color: var(--calcite-action-menu-group-separator-border-color, --calcite-color-border-3);
 }
 
 ::slotted(calcite-action-group:last-child) {
