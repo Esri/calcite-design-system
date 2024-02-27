@@ -20,13 +20,13 @@
 @include disabled();
 
 .container {
-  background-color: var(--calcite-list-item-group-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-list-item-group-background-color, var(--calcite-color-foreground-2));
   font-size: var(--calcite-font-size--1);
   color: var(--calcite-list-item-group-heading-text-color, var(--calcite-color-text-2));
   margin: 0;
   display: flex;
   flex: 1 1 0%;
-  padding: var(--calcite-spacing-sm);
+  padding: var(--calcite-spacing-md);
   font-family: var(--calcite-sans-family);
   font-weight: var(--calcite-font-weight-bold);
 }
@@ -40,10 +40,10 @@
 
 ::slotted(calcite-list-item) {
   border-block-start: var(--calcite-border-width-sm) solid
-    var(--calcite-list-item-group-border-color, var(--calcite-list-border-color));
+    var(--calcite-list-item-group-border-color, var(--calcite-color-border-3));
 }
 
-// removes shadow for the first item of the group for both filtered and unfiltered items.
+// removes border for the first item of the group for both filtered and unfiltered items.
 ::slotted(calcite-list-item:nth-child(1 of :not([hidden]))) {
   border: none;
 }
