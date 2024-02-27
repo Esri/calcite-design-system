@@ -220,7 +220,7 @@ describe("calcite-action", () => {
         icon="configure-popup"
       ></calcite-action>`);
       await page.waitForChanges();
-      debugger;
+
       const action = await page.find("calcite-action");
       const defaultStyle = await action.getComputedStyle();
 
