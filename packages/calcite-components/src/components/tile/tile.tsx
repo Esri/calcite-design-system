@@ -51,7 +51,7 @@ export class Tile implements InteractiveComponent {
    *
    * When `true`, renders without a border and padding for use by other components.
    *
-   * @deprecated
+   * @deprecated No longer necessary.
    */
   @Prop({ reflect: true }) embed = false;
 
