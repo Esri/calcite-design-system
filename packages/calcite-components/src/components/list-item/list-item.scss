@@ -46,7 +46,7 @@
   background-color: var(--calcite-list-item-background-color, var(-calcite-color-foreground-1));
 }
 
-:host(:hover) .container {
+.container:hover {
   background-color: var(--calcite-list-item-background-color, var(--calcite-color-foreground-2));
   cursor: pointer;
 }
@@ -64,8 +64,8 @@
   border-inline-start-color: transparent;
 }
 
-:host(:hover) {
-  .container--border-unselected {
+.container:hover {
+  &.container--border-unselected {
     border-color: var(--calcite-color-border-1);
   }
 }
@@ -177,12 +177,12 @@
   color: transparent;
 }
 
-:host(:not([disabled]):not([selected]):hover) .selection-container--single {
+:host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
   color: var(--calcite-list-item-icon-color, var(--calcite-color-border-1));
 }
 
-:host([selected]:hover) .selection-container,
-:host([selected]:hover) .selection-container--single,
+:host([selected]) .container:hover .selection-container,
+:host([selected]) .container:hover .selection-container--single,
 :host([selected]) .selection-container {
   color: var(--calcite-list-item-icon-color, var(--calcite-color-brand));
 }
@@ -214,7 +214,7 @@
   align-items: center;
 }
 
-:host(:not([disabled]):hover) .open-container {
+:host(:not([disabled])) .container:hover .open-container {
   color: var(--calcite-list-item-icon-color, var(--calcite-color-text-1));
 }
 
