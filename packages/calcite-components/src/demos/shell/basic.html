@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+
+    <title>Calcite Components: calcite-shell</title>
+
+    <script src="../_assets/head.js"></script>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.12/"></script>
+    <style>
+      @media (min-width: 1025px) {
+        .example-container {
+          width: 1100px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <main>
+        <div class="example-container">
+          <h1>calcite-shell</h1>
+
+          <h2>Basic Shell</h2>
+          <div class="shell-container">
+            <calcite-shell>
+              <div slot="header">
+                <header class="header">
+                  <h2 class="heading">Shell Header: My App</h2>
+                </header>
+              </div>
+              <p>Shell Content</p>
+              <img src="https://via.placeholder.com/700x400" alt="placeholder" />
+            </calcite-shell>
+          </div>
+          <h2>Shell with Footer</h2>
+          <div class="shell-container">
+            <calcite-shell>
+              <div slot="header">
+                <header class="header">
+                  <h2 class="heading">Shell Header: My App</h2>
+                </header>
+              </div>
+              <p>Shell Content</p>
+              <img src="https://via.placeholder.com/700x400" alt="placeholder" />
+
+              <footer slot="footer">Footer</footer>
+            </calcite-shell>
+          </div>
+          <h2>Shell with Panels</h2>
+          <div class="shell-container">
+            <calcite-shell>
+              <calcite-shell-panel slot="panel-start" position="start"> leading panel </calcite-shell-panel>
+
+              <calcite-shell-panel slot="panel-end" position="end"> trailing panel </calcite-shell-panel>
+              <div slot="header">
+                <header class="header">
+                  <h2 class="heading">Shell Header: My App</h2>
+                </header>
+              </div>
+              <p>Shell Content</p>
+              <img src="https://via.placeholder.com/700x400" alt="placeholder" />
+            </calcite-shell>
+          </div>
+        </div>
+      </main>
+    </demo-dom-swapper>
+  </body>
+</html>

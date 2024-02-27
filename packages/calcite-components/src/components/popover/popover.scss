@@ -1,0 +1,117 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-popover-z-index: Sets the z-index value for the component.
+ */
+
+:host {
+  --calcite-floating-ui-z-index: var(--calcite-popover-z-index, theme("zIndex.popover"));
+}
+
+@include floatingUIHost();
+@include floatingUIArrow();
+
+:host([scale="s"]) {
+  .heading {
+    @apply text-n1-wrap
+    px-3
+    py-2;
+  }
+}
+
+:host([scale="m"]) {
+  .heading {
+    @apply text-0-wrap
+    px-4
+    py-3;
+  }
+}
+
+:host([scale="l"]) {
+  .heading {
+    @apply text-1-wrap
+    px-5
+    py-4;
+  }
+}
+
+:host {
+  @apply pointer-events-none;
+}
+
+:host([open]) {
+  pointer-events: initial;
+}
+
+.calcite-floating-ui-anim {
+  @apply bg-foreground-1
+    border-color-3
+    rounded
+    border
+    border-solid;
+}
+
+.arrow::before {
+  outline: 1px solid var(--calcite-color-border-3);
+}
+
+.header {
+  @apply border-b-color-3
+    flex
+    flex-auto
+    items-stretch
+    justify-start
+    border-0
+    border-b
+    border-solid;
+}
+
+.heading {
+  @apply text-color-1
+  word-break
+  m-0
+  block
+  flex-auto
+  self-center
+  whitespace-normal
+  font-medium;
+}
+
+.container {
+  @apply text-color-1
+    relative
+    flex
+    h-full
+    flex-row
+    flex-nowrap
+    rounded;
+  &.has-header {
+    @apply flex-col;
+  }
+}
+
+.content {
+  @apply word-break
+  flex
+  h-full
+  w-full
+  flex-col
+  flex-nowrap
+  self-center;
+}
+
+.close-button-container {
+  @apply flex overflow-hidden;
+  flex: 0 0 auto;
+  border-start-end-radius: theme("borderRadius.DEFAULT");
+  border-end-end-radius: theme("borderRadius.DEFAULT");
+}
+
+::slotted(calcite-panel),
+::slotted(calcite-flow) {
+  @apply h-full;
+}
+
+@include base-component();

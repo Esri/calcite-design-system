@@ -1,0 +1,450 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Menu / Calcite Menu Item</title>
+    <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+    <link rel="stylesheet" href="../build/calcite.css" />
+    <script type="module" src="../build/calcite.esm.js"></script>
+    <script src="_assets/head.js"></script>
+
+    <script src="https://js.arcgis.com/4.19/"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/light/main.css" />
+
+    <link rel="stylesheet" href="/demos/_assets/navigation-demos.css" />
+  </head>
+
+  <body>
+    <div id="calcite-navigation-logo" class="text-box">
+      <h2><code>calcite-menu</code></h2>
+      <h3>
+        A generic menu component, the <code>calcite-menu</code> component is often placed in
+        <code>calcite-navigation</code> slots:
+      </h3>
+    </div>
+
+    <calcite-shell>
+      <calcite-navigation slot="header">
+        <calcite-navigation-logo slot="logo" thumbnail="./_assets/images/esri-logo.svg">logo</calcite-navigation-logo>
+        <calcite-navigation-user slot="user" username="Jhon Doe">user</calcite-navigation-user>
+        <calcite-chip kind="brand" slot="content-start" scale="s">primary-content-start</calcite-chip>
+        <calcite-chip kind="brand" slot="content-center" scale="s">primary-content-center</calcite-chip>
+        <calcite-chip kind="brand" slot="content-end" scale="s">primary-content-end </calcite-chip>
+        <calcite-navigation slot="navigation-secondary">
+          <calcite-chip kind="brand" slot="content-start" scale="s">secondary-content-start </calcite-chip>
+          <calcite-chip kind="brand" slot="content-end" scale="s">secondary-content-end </calcite-chip>
+        </calcite-navigation>
+        <calcite-navigation slot="navigation-tertiary">
+          <calcite-chip kind="brand" slot="content-start" scale="s">tertiary-content-start </calcite-chip>
+          <calcite-chip kind="brand" slot="content-end" scale="s">tertiary-content-end </calcite-chip>
+        </calcite-navigation>
+      </calcite-navigation>
+    </calcite-shell>
+
+    <calcite-shell>
+      <calcite-navigation slot="header">
+        <calcite-menu slot="content-center">
+          <calcite-menu-item breadcrumb icon-start="home" text="Files"></calcite-menu-item>
+          <calcite-menu-item breadcrumb text="Proposals"> </calcite-menu-item>
+          <calcite-menu-item active text="Nav"></calcite-menu-item>
+        </calcite-menu>
+
+        <calcite-navigation slot="navigation-secondary">
+          <calcite-menu slot="content-start">
+            <calcite-menu-item href="#intro" text="Introduction"></calcite-menu-item>
+            <calcite-menu-item text="calcite-navigation">
+              <calcite-menu-item
+                href="#calcite-navigation-slots"
+                icon-start="add-in"
+                slot="submenu-item"
+                text="Slots"
+              ></calcite-menu-item>
+              <calcite-menu-item
+                href="#calcite-navigation-css-vars"
+                icon-start="multiple-variables"
+                slot="submenu-item"
+                text="Css vars"
+              ></calcite-menu-item>
+            </calcite-menu-item>
+            <calcite-menu-item href="#calcite-navigation-logo" text="calcite-navigation-logo"> </calcite-menu-item>
+            <calcite-menu-item href="#calcite-navigation-user" text="calcite-navigation-user"> </calcite-menu-item>
+            <calcite-menu-item href="#calcite-menu" text="calcite-menu">
+              <calcite-menu-item
+                href="#calcite-menu-props"
+                slot="submenu-item"
+                icon-start="sliders"
+                text="Props"
+              ></calcite-menu-item>
+            </calcite-menu-item>
+            <calcite-menu-item href="#calcite-menu-item" text="calcite-menu-item">
+              <calcite-menu-item
+                href="#calcite-menu-item-slots"
+                icon-start="add-in"
+                slot="submenu-item"
+                text="Slots"
+              ></calcite-menu-item>
+              <calcite-menu-item
+                href="#calcite-menu-item-props"
+                icon-start="sliders"
+                slot="submenu-item"
+                text="Props"
+              ></calcite-menu-item>
+              <calcite-menu-item
+                href="#calcite-menu-item-events"
+                icon-start="activity-monitor"
+                slot="submenu-item"
+                text="Events"
+              ></calcite-menu-item>
+            </calcite-menu-item>
+          </calcite-menu>
+        </calcite-navigation>
+      </calcite-navigation>
+    </calcite-shell>
+
+    <calcite-shell>
+      <calcite-navigation slot="header">
+        <calcite-menu slot="content-start">
+          <calcite-menu-item active text="Products"></calcite-menu-item>
+          <calcite-menu-item text="Industries"> </calcite-menu-item>
+          <calcite-menu-item text="Support & Service"> </calcite-menu-item>
+          <calcite-menu-item text="Stories"></calcite-menu-item>
+          <calcite-menu-item text="About"></calcite-menu-item>
+        </calcite-menu>
+
+        <calcite-menu slot="primary-content-end">
+          <calcite-menu-item title text="Support"> </calcite-menu-item>
+          <calcite-menu-item title text="Documentation"> </calcite-menu-item>
+          <calcite-menu-item title text="Support"> </calcite-menu-item>
+          <calcite-menu-item title text="Something else"> </calcite-menu-item>
+        </calcite-menu>
+        <calcite-navigation slot="navigation-secondary">
+          <calcite-menu slot="content-start">
+            <calcite-menu-item title active text="ArcGIS Online"> </calcite-menu-item>
+          </calcite-menu>
+          <calcite-menu slot="content-end">
+            <calcite-menu-item text="Overview"></calcite-menu-item>
+            <calcite-menu-item text="Capabilities" active> </calcite-menu-item>
+            <calcite-menu-item text="Resources"></calcite-menu-item>
+            <calcite-menu-item text="Trial"></calcite-menu-item>
+            <calcite-menu-item text="Sales"></calcite-menu-item>
+            <calcite-menu-item text="Pricing"></calcite-menu-item>
+          </calcite-menu>
+        </calcite-navigation>
+        <calcite-navigation slot="navigation-tertiary">
+          <calcite-menu slot="content-start">
+            <calcite-menu-item text="Home"></calcite-menu-item>
+            <calcite-menu-item text="Get Started"></calcite-menu-item>
+            <calcite-menu-item text="Create"></calcite-menu-item>
+            <calcite-menu-item text="Analyze"></calcite-menu-item>
+            <calcite-menu-item text="Share"></calcite-menu-item>
+            <calcite-menu-item text="Manage Data"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-menu slot="content-end">
+            <calcite-menu-item text="Reference" active></calcite-menu-item>
+          </calcite-menu>
+        </calcite-navigation>
+      </calcite-navigation>
+    </calcite-shell>
+
+    <calcite-shell>
+      <calcite-navigation slot="header">
+        <calcite-menu slot="content-start">
+          <calcite-menu-item text="Products"></calcite-menu-item>
+          <calcite-menu-item active text="Industries"> </calcite-menu-item>
+        </calcite-menu>
+      </calcite-navigation>
+    </calcite-shell>
+
+    <calcite-shell>
+      <calcite-navigation slot="header">
+        <calcite-menu slot="content-start">
+          <calcite-menu-item breadcrumb text="Home"> </calcite-menu-item>
+          <calcite-menu-item breadcrumb text="Products"> </calcite-menu-item>
+          <calcite-menu-item breadcrumb title text="ArcGIS Online"></calcite-menu-item>
+          <calcite-menu-item breadcrumb text="Capabilities"> </calcite-menu-item>
+          <calcite-menu-item text="Reference" active> </calcite-menu-item>
+        </calcite-menu>
+      </calcite-navigation>
+    </calcite-shell>
+
+    <calcite-shell>
+      <calcite-navigation slot="header">
+        <calcite-menu slot="content-start">
+          <calcite-menu-item text="Capabilities" breadcrumb> </calcite-menu-item>
+          <calcite-menu-item text="Reference" active> </calcite-menu-item>
+        </calcite-menu>
+      </calcite-navigation>
+    </calcite-shell>
+
+    <calcite-shell>
+      <calcite-navigation slot="header">
+        <div slot="content-end">
+          <calcite-chip scale="s" color="blue">Slotted Action</calcite-chip>
+        </div>
+        <calcite-navigation slot="navigation-secondary">
+          <calcite-menu slot="content-start">
+            <calcite-menu-item text="Capabilities" breadcrumb> </calcite-menu-item>
+            <calcite-menu-item text="Reference" active> </calcite-menu-item>
+          </calcite-menu>
+        </calcite-navigation>
+      </calcite-navigation>
+    </calcite-shell>
+
+    <calcite-shell>
+      <calcite-navigation slot="header">
+        <div slot="content-end">
+          <calcite-chip scale="s" color="blue">Slotted Action</calcite-chip>
+        </div>
+        <calcite-menu slot="content-start">
+          <calcite-menu-item text="Home"> </calcite-menu-item>
+          <calcite-menu-item slot="submenu-item"> </calcite-menu-item>
+          <calcite-menu-item text="Example nested" icon-start="layer">
+            <calcite-menu-item slot="submenu-item" title text="ArcGIS Online">
+              <calcite-menu-item slot="submenu-item" text="Capabilities">
+                <calcite-menu-item slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+              </calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="Something else"> </calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="Another thing">
+                <calcite-menu-item slot="submenu-item" text="Great examples">
+                  <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+                  <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+                  <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+                </calcite-menu-item>
+              </calcite-menu-item>
+            </calcite-menu-item>
+            <calcite-menu-item href="#" slot="submenu-item" text="It's stupendous">
+              <calcite-menu-item slot="submenu-item" text="Very nice example" active> </calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="Short one" open>
+                <calcite-menu-item slot="submenu-item" text="Another thing" open>
+                  <calcite-menu-item slot="submenu-item" text="Great examples">
+                    <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+                    <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+                    <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+                  </calcite-menu-item>
+                </calcite-menu-item>
+              </calcite-menu-item>
+            </calcite-menu-item>
+            <calcite-menu-item slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+          </calcite-menu-item>
+          <calcite-menu-item slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+          <calcite-menu-item text="Reference" active> </calcite-menu-item>
+        </calcite-menu>
+      </calcite-navigation>
+    </calcite-shell>
+
+    <div class="text-box">
+      <h2><code>horizontal mode, not slotted in calcite-navigation</code></h2>
+      <h3>But is a generic component useful outside of that context as well.</h3>
+    </div>
+
+    <calcite-menu>
+      <calcite-menu-item id="Nature" text="Nature" href="#arcgisonline" open>
+        <calcite-menu-item id="Mountains" text="Mountains" slot="submenu-item" active open>
+          <calcite-menu-item text="Rocky Mountains" id="Rocky Mountains" slot="submenu-item"></calcite-menu-item>
+          <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="submenu-item"
+            ><calcite-menu-item text="Rocky Mountains" id="Rocky Mountains" slot="submenu-item"></calcite-menu-item>
+            <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="submenu-item"> </calcite-menu-item>
+          </calcite-menu-item>
+        </calcite-menu-item>
+        <calcite-menu-item text="Rivers" id="Rivers" slot="submenu-item"> </calcite-menu-item>
+      </calcite-menu-item>
+      <calcite-menu-item id="Planets" text="Planets"> </calcite-menu-item>
+    </calcite-menu>
+
+    <div class="text-box">
+      <h2><code>vertical mode, not slotted in calcite-navigation</code></h2>
+      <h3>
+        But is a generic component useful outside of that context as well. For instance, in `vertical` layout mode, or
+        within a Panel to provide contextual breadcrumb or navigationigation.
+      </h3>
+    </div>
+
+    <calcite-shell>
+      <calcite-shell-panel slot="panel-start">
+        <calcite-panel heading="Example simple vertical menu">
+          <calcite-menu layout="vertical">
+            <calcite-menu-item text="Home"> </calcite-menu-item>
+            <calcite-menu-item text="Reference">
+              <calcite-menu-item slot="submenu-item" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="an item"> </calcite-menu-item>
+            </calcite-menu-item>
+            <calcite-menu-item text="Items of reference"> </calcite-menu-item>
+            <calcite-menu-item text="Reference item" active> </calcite-menu-item>
+            <calcite-menu-item text="Longer item"> </calcite-menu-item>
+          </calcite-menu>
+        </calcite-panel>
+      </calcite-shell-panel>
+      <calcite-panel heading="Example"><calcite-block heading="Content" open></calcite-block></calcite-panel>
+    </calcite-shell>
+
+    <calcite-shell>
+      <calcite-shell-panel slot="panel-start">
+        <calcite-panel heading="Example simple vertical menu  active in nested">
+          <calcite-menu layout="vertical">
+            <calcite-menu-item text="Home"> </calcite-menu-item>
+            <calcite-menu-item text="Reference" active>
+              <calcite-menu-item slot="submenu-item" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" active text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="an item"> </calcite-menu-item>
+            </calcite-menu-item>
+            <calcite-menu-item text="Items of reference"> </calcite-menu-item>
+            <calcite-menu-item text="Reference item"> </calcite-menu-item>
+            <calcite-menu-item text="Longer item"> </calcite-menu-item>
+          </calcite-menu>
+        </calcite-panel>
+      </calcite-shell-panel>
+      <calcite-panel heading="Example"><calcite-block heading="Content" open></calcite-block></calcite-panel>
+    </calcite-shell>
+
+    <calcite-shell>
+      <calcite-shell-panel slot="panel-start">
+        <calcite-panel heading="Reasonable example of some more nesting">
+          <calcite-menu layout="vertical">
+            <calcite-menu-item text="Home"> </calcite-menu-item>
+            <calcite-menu-item text="Reference">
+              <calcite-menu-item slot="submenu-item" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="an item">
+                <calcite-menu-item slot="submenu-item" text="an item"> </calcite-menu-item>
+                <calcite-menu-item slot="submenu-item" text="an item"> </calcite-menu-item>
+                <calcite-menu-item slot="submenu-item" text="an item"> </calcite-menu-item>
+              </calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="an item"> </calcite-menu-item>
+            </calcite-menu-item>
+            <calcite-menu-item text="Items of reference"> </calcite-menu-item>
+            <calcite-menu-item text="Reference item"> </calcite-menu-item>
+            <calcite-menu-item text="Reference item">
+              <calcite-menu-item slot="submenu-item" text="an item"> </calcite-menu-item>
+            </calcite-menu-item>
+            <calcite-menu-item text="Longer item"> </calcite-menu-item>
+          </calcite-menu>
+        </calcite-panel>
+      </calcite-shell-panel>
+      <calcite-panel heading="Example"><calcite-block heading="Content" open></calcite-block></calcite-panel>
+    </calcite-shell>
+
+    <calcite-shell>
+      <calcite-shell-panel slot="panel-start">
+        <calcite-panel heading="Extreme nested vertical menu">
+          <calcite-menu layout="vertical">
+            <calcite-menu-item icon-start="layer" icon-end="layer" text="Home"> </calcite-menu-item>
+            <calcite-menu-item
+              icon-start="layer"
+              icon-end="layer"
+              href="#"
+              text="Example nested"
+              icon-start="layer"
+              breadcrumb
+            >
+              <calcite-menu-item icon-end="layer" icon-start="layer" slot="submenu-item" text="Capabilities">
+              </calcite-menu-item>
+              <calcite-menu-item icon-start="layer" slot="submenu-item" title text="ArcGIS Online" breadcrumb open>
+                <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities">
+                  <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+                  <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+                  <calcite-menu-item icon-start="layer" slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+                </calcite-menu-item>
+              </calcite-menu-item>
+            </calcite-menu-item>
+            <calcite-menu-item text="Example nested" icon-start="layer" icon-end="layer" breadcrumb open>
+              <calcite-menu-item slot="submenu-item" title text="ArcGIS Online" breadcrumb open>
+                <calcite-menu-item icon-start="layer" slot="submenu-item" text="Great examples" breadcrumb>
+                </calcite-menu-item>
+                <calcite-menu-item slot="submenu-item" text="Capabilities" open>
+                  <calcite-menu-item slot="submenu-item" text="Capabilities" icon-end="layer"> </calcite-menu-item>
+                  <calcite-menu-item slot="submenu-item" text="Great examples" icon-end="layer"> </calcite-menu-item>
+                </calcite-menu-item>
+                <calcite-menu-item slot="submenu-item" text="Something else"> </calcite-menu-item>
+                <calcite-menu-item slot="submenu-item" text="Another thing">
+                  <calcite-menu-item slot="submenu-item" text="Great examples">
+                    <calcite-menu-item slot="submenu-item" text="Great examples" breadcrumb> </calcite-menu-item>
+                    <calcite-menu-item slot="submenu-item" text="Great examples" icon-end="layer"> </calcite-menu-item>
+                    <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+                  </calcite-menu-item>
+                </calcite-menu-item>
+              </calcite-menu-item>
+              <calcite-menu-item href="#" slot="submenu-item" text="It's stupendous">
+                <calcite-menu-item slot="submenu-item" text="Very nice example"> </calcite-menu-item>
+                <calcite-menu-item slot="submenu-item" text="Short one">
+                  <calcite-menu-item slot="submenu-item" text="Another thing">
+                    <calcite-menu-item slot="submenu-item" text="Great examples">
+                      <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+                      <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+                      <calcite-menu-item slot="submenu-item" text="Great examples"> </calcite-menu-item>
+                    </calcite-menu-item>
+                  </calcite-menu-item>
+                </calcite-menu-item>
+              </calcite-menu-item>
+              <calcite-menu-item slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+            </calcite-menu-item>
+            <calcite-menu-item slot="submenu-item" text="Capabilities"> </calcite-menu-item>
+            <calcite-menu-item text="Reference" active> </calcite-menu-item>
+            <calcite-menu-item text="Reference"> </calcite-menu-item>
+            <calcite-menu-item text="Reference"> </calcite-menu-item>
+          </calcite-menu>
+        </calcite-panel>
+      </calcite-shell-panel>
+      <calcite-panel heading="Example"><calcite-block heading="Content" open></calcite-block></calcite-panel>
+    </calcite-shell>
+
+    <calcite-shell>
+      <calcite-shell-panel slot="panel-start">
+        <calcite-flow>
+          <calcite-flow-item>
+            <calcite-menu
+              heading="My great menu"
+              description="drill in pattern with flow / flow item"
+              layout="vertical"
+            >
+              <calcite-menu-item text="Home"> </calcite-menu-item>
+              <calcite-menu-item text="Reference">
+                <calcite-menu-item breadcrumb slot="submenu-item" text="an item"> </calcite-menu-item>
+                <calcite-menu-item breadcrumb slot="submenu-item" text="an item"> </calcite-menu-item>
+                <calcite-menu-item breadcrumb slot="submenu-item" text="an item"> </calcite-menu-item>
+              </calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Items of reference"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Reference item" active> </calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Longer item"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Items of reference"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Reference item"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Longer item"> </calcite-menu-item>
+            </calcite-menu>
+          </calcite-flow-item>
+          <calcite-flow-item heading="Whatever user clicked on">
+            <calcite-menu layout="vertical">
+              <calcite-menu-item breadcrumb icon-end="layer" text="Home"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb icon-end="layer" text="Items of reference"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb icon-end="layer" text="Reference item" active> </calcite-menu-item>
+              <calcite-menu-item breadcrumb icon-end="layer" text="Longer item"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb icon-end="layer" text="Items of reference"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb icon-end="layer" text="Reference item"> </calcite-menu-item>
+              <calcite-menu-item breadcrumb icon-end="layer" text="Longer item"> </calcite-menu-item>
+            </calcite-menu>
+          </calcite-flow-item>
+          <calcite-flow-item heading="three levels" description="maybe another parent if that far deep">
+            <calcite-menu layout="vertical">
+              <calcite-menu-item text="Home"> </calcite-menu-item>
+              <calcite-menu-item text="Items of reference"> </calcite-menu-item>
+              <calcite-menu-item text="Reference item" active> </calcite-menu-item>
+              <calcite-menu-item text="Longer item"> </calcite-menu-item>
+              <calcite-menu-item text="Items of reference"> </calcite-menu-item>
+              <calcite-menu-item text="Reference item"> </calcite-menu-item>
+              <calcite-menu-item text="Longer item"> </calcite-menu-item>
+            </calcite-menu>
+          </calcite-flow-item>
+        </calcite-flow>
+      </calcite-shell-panel>
+      <calcite-panel heading="Example"><calcite-block heading="Content" open></calcite-block></calcite-panel>
+    </calcite-shell>
+  </body>
+  <script>
+    document.querySelectorAll("calcite-menu-item").forEach((item) => {
+      item.addEventListener("calciteMenuItemSelect", (event) => {
+        console.log(event);
+      });
+    });
+  </script>
+</html>

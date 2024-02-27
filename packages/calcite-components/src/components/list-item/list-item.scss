@@ -1,0 +1,213 @@
+:host {
+  @apply flex flex-col;
+  --calcite-list-item-icon-color: theme("colors.brand");
+  --calcite-list-item-spacing-indent: theme("spacing.4");
+}
+
+:host([filter-hidden]) {
+  @apply hidden;
+}
+
+@include disabled();
+
+.container {
+  @apply bg-foreground-1
+  box-border
+  flex
+  flex-1 font-sans;
+  * {
+    @apply box-border;
+  }
+  padding-inline-start: calc(
+    var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
+  );
+}
+
+.container--hover:hover {
+  @apply bg-foreground-2 cursor-pointer;
+}
+
+.container:active {
+  @apply bg-foreground-1;
+}
+
+.container--border {
+  border-inline-start-width: theme("borderWidth.4");
+  border-inline-start-style: solid;
+}
+
+.container--border-selected {
+  border-inline-start-color: theme("colors.brand");
+}
+
+.container--border-unselected {
+  border-inline-start-color: transparent;
+}
+
+.container:hover {
+  &.container--border-unselected {
+    @apply border-color-1;
+  }
+}
+
+.nested-container {
+  @apply bg-foreground-1 flex flex-col;
+}
+
+.nested-container--hidden {
+  @apply hidden;
+}
+
+.content-container {
+  @apply text-color-2
+    select-none
+    flex
+    flex-auto
+    font-sans
+    font-normal
+    items-stretch
+    p-0;
+}
+
+tr,
+td {
+  @apply focus-base;
+}
+
+tr:focus,
+td:focus {
+  @apply focus-inset;
+}
+
+.content,
+.custom-content {
+  @apply text-n2-wrap
+    flex
+    flex-auto
+    flex-col
+    justify-center
+    px-3
+    py-2;
+}
+
+.label,
+.description,
+.content-bottom {
+  @apply text-n2 word-break font-sans font-normal;
+  &:only-child {
+    @apply m-0 py-1;
+  }
+}
+
+.label {
+  @apply text-color-1;
+}
+
+:host([selected]) .label {
+  @apply font-medium;
+}
+
+.description {
+  @apply text-color-3 mt-0.5;
+}
+
+:host([selected]) .description {
+  @apply text-color-2;
+}
+
+.content-start {
+  @apply justify-start;
+}
+
+.content-end {
+  @apply justify-end;
+}
+
+.content-start,
+.content-end {
+  @apply flex-auto;
+}
+
+.content-bottom {
+  @apply bg-foreground-1 flex flex-col;
+  padding-inline-start: calc(
+    var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
+  );
+}
+
+.content-container--has-center-content .content-start,
+.content-container--has-center-content .content-end {
+  @apply flex-initial;
+}
+
+.selection-container {
+  @apply flex px-3;
+  color: theme("borderColor.color.input");
+}
+
+.selection-container--single {
+  color: transparent;
+}
+
+:host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
+  color: theme("borderColor.color.1");
+}
+
+:host([selected]:hover) .selection-container,
+:host([selected]:hover) .selection-container--single,
+:host([selected]) .selection-container {
+  color: var(--calcite-list-item-icon-color);
+}
+
+.open-container {
+  color: theme("textColor.color.3");
+}
+
+:host(:not([disabled])) .container:hover .open-container {
+  color: theme("textColor.color.1");
+}
+
+.actions-start,
+.actions-end,
+.content-start,
+.content-end,
+.selection-container,
+.drag-container,
+.open-container {
+  @apply flex items-center;
+}
+
+.open-container,
+.selection-container {
+  @apply cursor-pointer;
+}
+
+.content-start,
+.content-end {
+  ::slotted(calcite-icon) {
+    @apply self-center mx-3;
+  }
+}
+
+.actions-start,
+.actions-end {
+  ::slotted(calcite-action),
+  ::slotted(calcite-action-menu),
+  ::slotted(calcite-handle),
+  ::slotted(calcite-dropdown) {
+    @apply self-stretch;
+
+    color: inherit;
+  }
+}
+
+::slotted(calcite-list-item),
+::slotted(calcite-list) {
+  @apply border-solid border-0 border-t border-color-3;
+}
+
+::slotted(calcite-list:empty) {
+  @apply py-3;
+}
+
+@include base-component();

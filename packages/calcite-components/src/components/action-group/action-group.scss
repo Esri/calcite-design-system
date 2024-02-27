@@ -1,0 +1,68 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-group-columns: Sets number of grid-template-columns when the `layout` property is `"grid"`.
+ * @prop --calcite-action-group-gap: Sets the gap (gutters) between rows and columns when the `layout` property is `"grid"`.
+ * @prop --calcite-action-group-padding: Sets the padding when the `layout` property is `"grid"`.
+ */
+
+:host {
+  @extend %component-host;
+
+  @apply flex
+  flex-col
+  p-0;
+
+  --calcite-action-group-columns: 3;
+  --calcite-action-group-gap: theme("gap.px");
+  --calcite-action-group-padding: theme("padding.px");
+}
+
+.container {
+  @apply flex flex-col flex-grow;
+}
+
+:host([columns="1"]) {
+  --calcite-action-group-columns: 1;
+}
+:host([columns="2"]) {
+  --calcite-action-group-columns: 2;
+}
+:host([columns="3"]) {
+  --calcite-action-group-columns: 3;
+}
+:host([columns="4"]) {
+  --calcite-action-group-columns: 4;
+}
+:host([columns="5"]) {
+  --calcite-action-group-columns: 5;
+}
+:host([columns="6"]) {
+  --calcite-action-group-columns: 6;
+}
+
+:host(:first-child) {
+  @apply pt-0;
+}
+
+:host([layout="horizontal"]),
+:host([layout="horizontal"]) .container {
+  @apply flex-row;
+}
+
+:host([layout="grid"]) {
+  @apply grid;
+}
+
+:host([layout="grid"]) .container {
+  @apply bg-background
+  grid
+  place-content-stretch;
+  gap: var(--calcite-action-group-gap);
+  padding: var(--calcite-action-group-gap);
+  grid-template-columns: repeat(var(--calcite-action-group-columns), auto);
+}
+
+@include base-component();

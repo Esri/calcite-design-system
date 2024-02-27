@@ -1,0 +1,251 @@
+:host {
+  @apply text-color-3
+    block
+    max-w-full
+    cursor-pointer;
+}
+
+.node-actions-container {
+  @apply flex;
+}
+
+@include calciteHydratedHidden();
+@include disabled();
+
+:host([scale="s"]) {
+  @apply text-n2h;
+
+  .node-actions-container {
+    @apply min-h-[1.5rem];
+    .node-container {
+      .checkbox,
+      .chevron,
+      .checkmark,
+      .bullet-point {
+        margin-inline: theme("margin.1");
+      }
+      .icon-start {
+        margin-inline: theme("margin.3");
+      }
+    }
+  }
+}
+
+:host([scale="m"]) {
+  @apply text-n1h;
+
+  .node-actions-container {
+    @apply min-h-[2rem];
+    .node-container {
+      .checkbox,
+      .chevron,
+      .checkmark,
+      .bullet-point {
+        margin-inline: theme("margin.2");
+      }
+      .icon-start {
+        margin-inline: theme("margin.3");
+      }
+    }
+  }
+}
+
+:host([scale="l"]) {
+  @apply text-0h;
+
+  .node-actions-container {
+    @apply min-h-[2.75rem];
+    .node-container {
+      .checkbox,
+      .chevron,
+      .checkmark,
+      .bullet-point {
+        margin-inline: theme("margin.3");
+      }
+      .icon-start {
+        margin-inline: theme("margin.3");
+      }
+    }
+  }
+}
+
+:host([lines]) {
+  .children-container:after {
+    @apply transition-default
+        absolute
+        top-0
+        w-px
+        transition-colors
+        z-default;
+    // ensure lines don't overlap focus outline
+    block-size: 96%;
+    content: "";
+    background-color: var(--calcite-color-border-2);
+  }
+}
+
+:host(:not([lines])) .node-container:after {
+  @apply hidden;
+}
+
+::slotted(*) {
+  @apply min-w-0 max-w-full break-words;
+  color: inherit;
+  text-decoration: none !important;
+
+  &:hover {
+    text-decoration: none !important;
+  }
+}
+
+::slotted(a) {
+  @apply w-full no-underline;
+}
+
+// focus styles
+:host {
+  @apply outline-none;
+
+  .node-container {
+    @apply focus-base;
+  }
+  &:focus,
+  &:active {
+    .node-container {
+      @apply focus-inset;
+    }
+  }
+}
+
+:host(:focus:not([disabled])) {
+  .node-container {
+    @apply focus-inset outline-none;
+  }
+}
+
+.actions-end {
+  @apply flex self-stretch flex-row items-center;
+}
+
+.checkbox {
+  line-height: 0;
+}
+
+.checkbox-label {
+  @apply pointer-events-none flex items-center;
+}
+
+.checkbox:focus {
+  @apply outline-none;
+}
+
+.children-container {
+  @apply relative h-0 overflow-hidden opacity-0 origin-top;
+  margin-inline-start: theme("margin.5");
+  transform: scaleY(0);
+  transition:
+    var(--calcite-animation-timing) $easing-function,
+    opacity var(--calcite-animation-timing) $easing-function,
+    all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
+
+  .item--expanded > & {
+    @apply overflow-visible opacity-100;
+    transform: none;
+    block-size: auto;
+  }
+}
+
+.node-container {
+  @apply relative flex grow items-center min-w-0;
+
+  .checkmark,
+  .bullet-point {
+    @apply transition-default opacity-0;
+    color: var(--calcite-color-border-1);
+  }
+}
+
+.node-container:hover,
+:host([selected]) .node-container:hover,
+:host(:focus:not([disabled])) .node-container {
+  .checkmark,
+  .bullet-point {
+    @apply opacity-100;
+  }
+}
+
+:host([selected]) .node-container,
+:host([selected]) .node-container:hover {
+  @apply font-medium text-color-1;
+
+  .bullet-point,
+  .checkmark {
+    @apply opacity-100;
+    color: theme("colors.brand");
+  }
+}
+
+:host([selection-mode="none"]:not([has-children])) {
+  &:host([scale="s"]) .node-container {
+    padding-inline-start: theme("padding.2");
+  }
+  &:host([scale="m"]) .node-container {
+    padding-inline-start: theme("padding.4");
+  }
+  &:host([scale="l"]) .node-container {
+    padding-inline-start: theme("padding.6");
+  }
+}
+
+// ancestors selection-mode, dropdown without children
+:host(:not([has-children])) {
+  &:host([scale="s"]) .node-container[data-selection-mode="ancestors"] .checkbox {
+    padding-inline-start: theme("padding.5");
+  }
+  &:host([scale="m"]) .node-container[data-selection-mode="ancestors"] .checkbox {
+    padding-inline-start: theme("padding.6");
+  }
+  &:host([scale="l"]) .node-container[data-selection-mode="ancestors"] .checkbox {
+    padding-inline-start: 1.75rem;
+  }
+}
+// ancestors selection-mode, dropdown with children
+:host([has-children]) .node-container[data-selection-mode="ancestors"] {
+  .checkbox {
+    margin-inline-start: 0;
+  }
+}
+
+// dropdown with children
+:host([has-children]) .node-container {
+  .bullet-point,
+  .checkmark {
+    @apply hidden;
+  }
+}
+
+.chevron {
+  @apply transition-default
+    text-color-3
+    relative
+    self-center;
+  flex: 0 0 auto;
+  transform: rotate(0deg);
+
+  .calcite--rtl & {
+    transform: rotate(180deg);
+  }
+
+  .item--expanded .node-container > & {
+    transform: rotate(90deg);
+  }
+}
+
+:host([selected]) {
+  .checkmark,
+  .bullet-point {
+    color: var(--calcite-color-brand);
+  }
+}
+
+@include base-component();

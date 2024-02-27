@@ -12,19 +12,17 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: lts/*
+          node-version-file: package.json
           cache: npm
       - name: Run update-browserslist-db
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          npm install --save-dev caniuse-lite --legacy-peer-deps
           npx update-browserslist-db@latest
-          npm uninstall --legacy-peer-deps caniuse-lite
       - name: create pull request
         uses: peter-evans/create-pull-request@v4
         with:
-          base: master
+          base: main
           branch: update-browserslist-db
           commit-message: "build: update browserslist db"
           title: "build: update browserslist db"

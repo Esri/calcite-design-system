@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Tabs</title>
+    <style>
+      .parent,
+      .flex-wrap {
+        display: flex;
+        align-items: center;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 0 25px;
+      }
+
+      .flex-wrap {
+        flex-wrap: wrap;
+      }
+
+      .child {
+        display: inline-flex;
+        flex: 0 0 20%;
+        flex-direction: column;
+        padding: 15px;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 15%;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <!-- headers -->
+      <div class="parent">
+        <div class="child right-aligned-text"></div>
+        <div class="child">small</div>
+        <div class="child">medium</div>
+        <div class="child">large</div>
+      </div>
+
+      <!-- simple tab-nav -->
+      <div class="flex-wrap">
+        <div class="child right-aligned-text">simple</div>
+
+        <div class="child">
+          <calcite-tab-nav scale="s">
+            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          </calcite-tab-nav>
+        </div>
+
+        <div class="child">
+          <calcite-tab-nav scale="m">
+            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          </calcite-tab-nav>
+        </div>
+
+        <div class="child">
+          <calcite-tab-nav scale="l">
+            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+          </calcite-tab-nav>
+        </div>
+      </div>
+
+      <!-- tab position: top (default)-->
+      <div class="flex-wrap">
+        <div class="child right-aligned-text">tab position: top (default)</div>
+
+        <div class="child">
+          <calcite-tabs scale="s">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs scale="m">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs scale="l">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+      </div>
+
+      <!-- tab position: bottom -->
+      <div class="flex-wrap">
+        <div class="child right-aligned-text">tab position: bottom</div>
+
+        <div class="child">
+          <calcite-tabs scale="s" position="bottom">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs scale="m" position="bottom">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs scale="l" position="bottom">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+      </div>
+
+      <!-- icon only with no text -->
+      <div class="flex-wrap">
+        <div class="child right-aligned-text">icon only with no text</div>
+
+        <div class="child">
+          <calcite-tabs scale="s">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title selected icon-start="browser"></calcite-tab-title>
+              <calcite-tab-title icon-start="browser"></calcite-tab-title>
+              <calcite-tab-title icon-start="browser"></calcite-tab-title>
+            </calcite-tab-nav>
+
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs scale="m">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title selected icon-start="browser"></calcite-tab-title>
+              <calcite-tab-title icon-start="browser"></calcite-tab-title>
+              <calcite-tab-title icon-start="browser"></calcite-tab-title>
+            </calcite-tab-nav>
+
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs scale="l">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title selected icon-start="browser"></calcite-tab-title>
+              <calcite-tab-title icon-start="browser"></calcite-tab-title>
+              <calcite-tab-title icon-start="browser"></calcite-tab-title>
+            </calcite-tab-nav>
+
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+            <calcite-tab>Tab 3 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+      </div>
+
+      <!-- icon start -->
+      <div class="flex-wrap">
+        <div class="child right-aligned-text">icon start</div>
+
+        <div class="child">
+          <calcite-tabs scale="s">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title selected icon-start="tabbed-view">Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs scale="m">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title selected icon-start="tabbed-view">Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs scale="l">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title selected icon-start="tabbed-view">Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title icon-start="tabbed-view">Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+      </div>
+
+      <!-- icon end -->
+      <div class="flex-wrap">
+        <div class="child right-aligned-text">icon end</div>
+
+        <div class="child">
+          <calcite-tabs scale="s">
+            <calcite-tab-nav slot="title-group" scale="s">
+              <calcite-tab-title selected icon-end="tabbed-view">Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title icon-end="tabbed-view">Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs scale="m">
+            <calcite-tab-nav slot="title-group" scale="m">
+              <calcite-tab-title selected icon-end="tabbed-view">Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title icon-end="tabbed-view">Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs scale="l">
+            <calcite-tab-nav slot="title-group" scale="l">
+              <calcite-tab-title selected icon-end="tabbed-view">Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title icon-end="tabbed-view">Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+
+            <calcite-tab selected>Tab 1 Content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+      </div>
+
+      <!-- with border + icon-start + icon end -->
+      <div class="flex-wrap">
+        <div class="child right-aligned-text">with border + icon-start + icon end</div>
+
+        <div class="child">
+          <calcite-tabs bordered scale="s">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" selected>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab selected>Tab 1 content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs bordered scale="m">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" selected>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab selected>Tab 1 content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs bordered scale="l">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" selected>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab selected>Tab 1 content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+      </div>
+
+      <!-- tab position: bottom with border + icon-start + icon end:  -->
+      <div class="flex-wrap">
+        <div class="child right-aligned-text">tab position: bottom with border + icon-start + icon end</div>
+
+        <div class="child">
+          <calcite-tabs bordered scale="s" position="bottom">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" selected>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab selected>Tab 1 content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs bordered scale="m" position="bottom">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" selected>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab selected>Tab 1 content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+
+        <div class="child">
+          <calcite-tabs bordered scale="l" position="bottom">
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" selected>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab selected>Tab 1 content</calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>

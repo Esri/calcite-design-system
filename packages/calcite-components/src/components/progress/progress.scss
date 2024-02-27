@@ -1,0 +1,72 @@
+@import "../../assets/styles/animation";
+
+:host {
+  @apply relative block w-full;
+}
+
+.track,
+.bar {
+  @apply absolute top-0;
+  block-size: 2px;
+}
+
+.track {
+  @apply z-default w-full overflow-hidden;
+  background: theme("borderColor.color.3");
+}
+
+.bar {
+  @apply bg-brand z-default;
+}
+
+@media (forced-colors: active) {
+  .track {
+    background-color: highlightText;
+  }
+  .bar {
+    background-color: linkText;
+  }
+}
+
+.indeterminate {
+  @apply w-1/5;
+  animation: looping-progress-bar-ani scaleDuration(--calcite-internal-animation-timing-medium, 11) linear infinite;
+  &.calcite--rtl {
+    animation-name: looping-progress-bar-ani-rtl;
+  }
+}
+
+.reversed {
+  animation-direction: reverse;
+}
+
+.text {
+  @apply text-n2h px-0 pt-4 pb-0 text-center font-medium;
+  color: var(--calcite-color-text-2);
+}
+
+@keyframes looping-progress-bar-ani {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+  50% {
+    inline-size: 40%;
+  }
+  100% {
+    transform: translate3d(600%, 0, 0);
+  }
+}
+
+@keyframes looping-progress-bar-ani-rtl {
+  0% {
+    transform: translate3d(100%, 0, 0);
+  }
+  50% {
+    inline-size: 40%;
+  }
+  100% {
+    transform: translate3d(-600%, 0, 0);
+  }
+}
+
+@include base-component();

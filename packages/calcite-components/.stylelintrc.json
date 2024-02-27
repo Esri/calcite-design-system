@@ -1,0 +1,33 @@
+{
+  "defaultSeverity": "warning",
+  "extends": "stylelint-config-recommended-scss",
+  "plugins": ["stylelint-use-logical-spec"],
+  "rules": {
+    "liberty/use-logical-spec": "always",
+    "no-descending-specificity": [
+      true,
+      {
+        "ignore": ["selectors-within-list"]
+      }
+    ],
+    "selector-disallowed-list": [
+      ["/:host-context/"],
+      {
+        "message": ":host-context is not supported in all browsers, so it should be avoided",
+        "severity": "error"
+      }
+    ],
+    "selector-max-specificity": [
+      "0,5,5",
+      {
+        "message": "selector is too complex, consider applying multiple classes dynamically during rendering"
+      }
+    ],
+    "selector-type-no-unknown": [
+      true,
+      {
+        "ignoreTypes": ["/^calcite-/"]
+      }
+    ]
+  }
+}

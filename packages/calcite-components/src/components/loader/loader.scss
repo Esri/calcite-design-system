@@ -1,0 +1,237 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-loader-font-size: Specifies the font size of the loading percentage when type is `"determinate"`.
+ * @prop --calcite-loader-size: The width and height of a non-inline loader.
+ * @prop --calcite-loader-size-inline: The width and height of an inline loader
+ * @prop --calcite-loader-padding : Specifies the padding of the loader.
+ */
+
+@import "../../assets/styles/animation";
+
+$stroke-width: 3;
+$loader-scale: 54;
+$loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --calcite-internal-duration-factor: 0;
+  }
+}
+
+:host {
+  @apply relative mx-auto hidden items-center justify-center opacity-100;
+  min-block-size: var(--calcite-loader-size);
+  font-size: var(--calcite-loader-font-size);
+  stroke: var(--calcite-color-brand);
+  stroke-width: $stroke-width;
+  fill: none;
+  transform: scale(1, 1);
+  animation: loader-color-shift scaleDuration(--calcite-internal-animation-timing-slow, 2) alternate-reverse infinite
+    linear;
+  padding-block: var(--calcite-loader-padding, theme("spacing.16"));
+  will-change: contents;
+}
+
+:host([scale="s"]) {
+  --calcite-loader-font-size: theme("fontSize.n2");
+  --calcite-loader-size: theme("spacing.8");
+  --calcite-loader-size-inline: theme("spacing.3");
+}
+
+:host([scale="m"]) {
+  --calcite-loader-font-size: theme("fontSize.0");
+  --calcite-loader-size: theme("spacing.16");
+  --calcite-loader-size-inline: theme("spacing.4");
+}
+
+:host([scale="l"]) {
+  --calcite-loader-font-size: theme("fontSize.2");
+  --calcite-loader-size: theme("spacing.24");
+  --calcite-loader-size-inline: theme("spacing.6");
+}
+
+:host([no-padding]) {
+  @apply py-0;
+}
+
+:host {
+  @apply flex;
+}
+
+.loader__text {
+  @apply text-n2h
+  text-color-1
+  block
+  text-center;
+  margin-block-start: calc(var(--calcite-loader-size) + theme("spacing.6"));
+}
+
+.loader__percentage {
+  @apply text-color-1 absolute block text-center;
+  font-size: var(--calcite-loader-font-size);
+  inline-size: var(--calcite-loader-size);
+  inset-inline-start: 50%;
+  margin-inline-start: calc(var(--calcite-loader-size) / 2 * -1);
+  line-height: 0.25;
+  transform: scale(1, 1);
+}
+
+.loader__svgs {
+  @apply absolute overflow-visible opacity-100;
+  inline-size: var(--calcite-loader-size);
+  block-size: var(--calcite-loader-size);
+  inset-inline-start: 50%;
+  margin-inline-start: calc(var(--calcite-loader-size) / 2 * -1);
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-duration: scaleDuration(--calcite-internal-animation-timing-slow, 6.66);
+  animation-name: loader-clockwise;
+}
+
+.loader__svg {
+  @apply absolute top-0 origin-center overflow-visible;
+  inset-inline-start: 0;
+  inline-size: var(--calcite-loader-size);
+  block-size: var(--calcite-loader-size);
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+// in newer browsers use the stroke-dash-offset animation as it looks better
+@supports (display: grid) {
+  .loader__svg--1 {
+    animation-name: loader-offset-1;
+  }
+  .loader__svg--2 {
+    animation-name: loader-offset-2;
+  }
+  .loader__svg--3 {
+    animation-name: loader-offset-3;
+  }
+}
+
+:host([type="determinate"]) {
+  @apply animate-none;
+  stroke: var(--calcite-color-border-3);
+  .loader__svgs {
+    @apply animate-none;
+  }
+  .loader__svg--3 {
+    @apply animate-none;
+    stroke: var(--calcite-color-brand);
+    stroke-dasharray: $loader-circumference;
+    transform: rotate(-90deg);
+    transition: all var(--calcite-internal-animation-timing-fast) linear;
+  }
+}
+
+:host([inline]) {
+  @apply relative m-0 animate-none stroke-current stroke-2 py-0;
+  block-size: var(--calcite-loader-size-inline);
+  min-block-size: var(--calcite-loader-size-inline);
+  inline-size: var(--calcite-loader-size-inline);
+  margin-inline-end: calc(var(--calcite-loader-size-inline) * 0.5);
+  vertical-align: calc(var(--calcite-loader-size-inline) * -1 * 0.2);
+}
+
+:host([inline]) .loader__svgs {
+  @apply top-0 m-0;
+  inset-inline-start: 0;
+  inline-size: var(--calcite-loader-size-inline);
+  block-size: var(--calcite-loader-size-inline);
+}
+
+:host([inline]) .loader__svg {
+  inline-size: var(--calcite-loader-size-inline);
+  block-size: var(--calcite-loader-size-inline);
+}
+
+:host([complete]) {
+  @apply opacity-0;
+  transform: scale(0.75, 0.75);
+  transform-origin: center;
+  transition:
+    opacity var(--calcite-internal-animation-timing-medium) linear 1000ms,
+    transform var(--calcite-internal-animation-timing-medium) linear 1000ms;
+}
+
+:host([complete]) .loader__svgs {
+  @apply opacity-0;
+  transform: scale(0.75, 0.75);
+  transform-origin: center;
+  transition:
+    opacity calc(180ms * var(--calcite-internal-duration-factor)) linear 800ms,
+    transform calc(180ms * var(--calcite-internal-duration-factor)) linear 800ms;
+}
+
+:host([complete]) .loader__percentage {
+  color: theme("colors.brand");
+  transform: scale(1.05, 1.05);
+  transform-origin: center;
+  transition:
+    color var(--calcite-internal-animation-timing-medium) linear,
+    transform var(--calcite-internal-animation-timing-medium) linear;
+}
+
+/**
+  Segment variables
+  - i         index (1-3)
+  - size      length of the segment (0 - 100)
+  - growth    how much the segment grows during the animation
+              (size + growth should not exceed 100)
+  - duration  how long the segment takes to rotate 360° (seconds)
+*/
+@mixin generateSegment($i, $size, $growth, $duration) {
+  $circumference: calc($loader-circumference / $loader-scale) * 100;
+  $length: ($size * 0.01) * $circumference;
+  $end: $length + ($growth * 0.01) * $circumference;
+
+  .loader__svg--#{$i} {
+    stroke-dasharray: $length $circumference - $end;
+    animation-duration: $duration;
+  }
+  @keyframes loader-offset-#{$i} {
+    0% {
+      stroke-dasharray: $length $circumference - $length;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: $end $circumference - $end;
+      stroke-dashoffset: -$circumference * 0.5 - ($length - $end) * 0.5;
+    }
+    100% {
+      stroke-dasharray: $length $circumference - $length;
+      stroke-dashoffset: -$circumference;
+    }
+  }
+}
+
+@include generateSegment(1, 10, 40, scaleDuration(--calcite-internal-animation-timing-slow, 4.8));
+@include generateSegment(2, 20, 30, scaleDuration(--calcite-internal-animation-timing-slow, 6.4));
+@include generateSegment(3, 05, 45, scaleDuration(--calcite-internal-animation-timing-slow, 7.734));
+
+@keyframes loader-color-shift {
+  0% {
+    stroke: var(--calcite-color-brand);
+  }
+  33% {
+    stroke: var(--calcite-color-brand-press);
+  }
+  66% {
+    stroke: var(--calcite-color-brand-hover);
+  }
+  100% {
+    stroke: var(--calcite-color-brand);
+  }
+}
+
+@keyframes loader-clockwise {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@include base-component();

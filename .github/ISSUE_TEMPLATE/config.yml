@@ -1,0 +1,7 @@
+contact_links:
+  - name: Esri Support
+    url: https://support.esri.com/en/contact-tech-support
+    about: Report bugs in released versions of Calcite Design System, and request enhancements.
+  - name: Esri Community
+    url: https://community.esri.com/t5/calcite-design-system/ct-p/calcite-design-system
+    about: Ask questions, share ideas, and collaborate with others on Calcite Design System.

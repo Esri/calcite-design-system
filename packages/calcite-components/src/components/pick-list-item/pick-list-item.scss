@@ -1,0 +1,102 @@
+:host {
+  @apply bg-foreground-1
+    text-n1
+    text-color-1
+    shadow-border-bottom
+    bg-foreground-1
+    text-n1h
+    m-0
+    mb-px
+    box-border
+    flex
+    items-stretch;
+  transition: background-color var(--calcite-animation-timing);
+  animation: calcite-fade-in var(--calcite-animation-timing);
+
+  * {
+    @apply box-border;
+  }
+}
+
+.label {
+  @apply focus-base
+    flex
+    flex-auto
+    cursor-pointer
+    items-center
+    bg-transparent;
+  &:focus {
+    @apply focus-inset;
+  }
+  &:hover {
+    @apply bg-foreground-2;
+  }
+}
+
+:host([non-interactive]:hover) {
+  @apply bg-foreground-1;
+}
+
+:host([non-interactive]) .label,
+:host([non-interactive]) .icon {
+  @apply pointer-events-none;
+}
+
+.icon {
+  @apply my-0 flex cursor-pointer items-center p-1;
+  color: theme("colors.brand");
+  flex: 0 0 auto;
+  line-height: 0;
+  &:hover {
+    @apply bg-foreground-2;
+  }
+}
+
+.icon-dot {
+  @apply flex w-6 items-center p-2;
+  &:before {
+    @apply opacity-0;
+    content: "\2022";
+  }
+}
+
+.icon calcite-icon {
+  @apply opacity-0;
+}
+
+:host([selected]) .icon-dot:before,
+:host([selected]) .icon calcite-icon {
+  transition: opacity var(--calcite-animation-timing);
+  @apply opacity-100;
+}
+
+.text-container {
+  @apply text-n2-wrap
+    word-break
+    pointer-events-none
+    flex
+    flex-col
+    flex-nowrap
+    overflow-hidden
+    py-2
+    px-3;
+}
+
+.title {
+  @apply text-color-1 font-normal;
+}
+
+.description {
+  @apply text-color-3 mt-0.5 font-normal;
+}
+
+.actions {
+  @apply m-0 flex flex-initial items-stretch justify-end;
+}
+
+.actions--start ~ .label {
+  padding-inline-start: theme("padding.1");
+}
+
+@include disabled();
+@include base-component();

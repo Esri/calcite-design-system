@@ -2,11 +2,15 @@ name: Bug
 description: Report a bug in a component
 labels: ["bug", "0 - new", "needs triage"]
 body:
-  - type: markdown
+  - type: checkboxes
+    id: existing-issues
     attributes:
-      value: |
-        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
-        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+      label: Check existing issues
+      description: If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one. For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+      options:
+        - label: I have [checked for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates
+    validations:
+      required: true
   - type: textarea
     id: actual
     attributes:
@@ -26,7 +30,7 @@ body:
     attributes:
       label: Reproduction Sample
       description: |
-        We provide the following templates to help get started: [codepen](https://codepen.io/pen?template=RwgrjEx) (just Calcite), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js) (Calcite with React wrapper), or [jsbin](https://jsbin.com/wiguxohisa/edit?html,output) (Calcite with ArcGIS JSAPI). You can also make your own sample using one of the those websites. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample.
+        We provide the following templates to help get started: [codepen](https://codepen.io/pen?template=RwgrjEx) (just Calcite), [React Codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js) (Calcite with React wrapper), [Angular Codesandbox](https://codesandbox.io/p/sandbox/little-fire-2hx4qh?file=%2Fsrc%2Fapp%2Fapp.component.html%3A16%2C51), or [jsbin](https://jsbin.com/qecewik/edit?html,output) (Calcite with ArcGIS JSAPI). You can also make your own sample using one of the those websites. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample.
     validations:
       required: true
   - type: textarea
@@ -74,7 +78,8 @@ body:
       multiple: false
       description: What is the impact to you, your team, or organization? Use discretion and only select "need" or "emergency" priorities for high user impact and quality issues. For instance, would someone notice, in a bad way, if this issue were present in the release?
       options:
-        - p3 - not time sensitive
+        - p4 - not time sensitive
+        - p3 - want for upcoming milestone
         - p2 - want for current milestone
         - p1 - need for current milestone
         - p0 - emergency
@@ -83,6 +88,19 @@ body:
     attributes:
       label: Impact
       description: How does the issue effect your team, or your work? Can range from minor to blocking or prohibiting workflows. Helps Calcite Design System team members with prioritization.
+    validations:
+      required: false
+  - type: checkboxes
+    id: packages
+    attributes:
+      label: Calcite package
+      description: Select the relevant [package(s)](https://github.com/Esri/calcite-design-system/tree/main/packages) related to the request.
+      options:
+        - label: "@esri/calcite-components"
+        - label: "@esri/calcite-components-angular"
+        - label: "@esri/calcite-components-react"
+        - label: "@esri/calcite-design-tokens"
+        - label: "@esri/eslint-plugin-calcite-components"
     validations:
       required: false
   - type: dropdown
@@ -112,6 +130,7 @@ body:
         - ArcGIS Indoors
         - ArcGIS Insights
         - ArcGIS Instant Apps
+        - ArcGIS Knowledge
         - ArcGIS Living Atlas
         - ArcGIS Map Viewer
         - ArcGIS Marketplace

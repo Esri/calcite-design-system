@@ -1,4 +1,13 @@
-#!/bin/sh
+#!/usr/bin/env sh
 . "$(dirname "$0")/_/husky.sh"
 
 npx lint-staged
+
+
+types_path="packages/calcite-components/src/components.d.ts"
+
+# make sure the types are always up to date
+if [ -n "$(git diff --name-only -- "$types_path")" ]; then
+    echo "Automatically staging changes to \"$types_path\""
+    git add "$types_path"
+fi

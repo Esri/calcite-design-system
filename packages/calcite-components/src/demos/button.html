@@ -1,0 +1,2526 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Button</title>
+
+    <style>
+      .main-container {
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        max-width: 1680px;
+      }
+
+      .main-container > div,
+      #width,
+      #alignment,
+      #alignment-rtl,
+      .loader,
+      .set-focus,
+      .form-button,
+      .custom-defined-onsubmit,
+      .icon-slot,
+      span {
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .main-container {
+        margin-top: 20px;
+      }
+
+      .right-align {
+        text-align: right;
+        padding: 0 40px;
+      }
+
+      #width,
+      #alignment,
+      #alignment-rtl,
+      .loader,
+      .set-focus,
+      .form-button,
+      .custom-defined-onsubmit,
+      .icon-slot {
+        margin-left: 20%;
+        padding-top: 60px;
+      }
+
+      .set-focus-item,
+      .set-focus-item-button,
+      .form-button-item,
+      .custom-defined-onsubmit-item,
+      .icon-slot-item {
+        margin-left: 20%;
+      }
+
+      .set-focus-item-button {
+        margin-top: 35px;
+      }
+
+      .set-focus,
+      .set-focus-item,
+      .set-focus-item-button,
+      .custom-defined-onsubmit,
+      .form-button,
+      .icon-slot {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .icon-slot-item {
+        margin-bottom: 25px;
+      }
+
+      .child {
+        display: inline-flex;
+        flex-direction: column;
+        padding-right: 25px;
+      }
+
+      .loader-padding {
+        padding-bottom: 15px;
+      }
+
+      hr {
+        border-top: 1px solid var(--calcite-color-border-2);
+      }
+    </style>
+
+    <!-- scripts -->
+    <script src="_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <!--
+      ***************************************************************
+      * SOLID BRAND
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p>&nbsp;</p>
+          <p class="right-align">Solid Brand</p>
+        </div>
+
+        <!-- Solid Brand -->
+        <div>
+          <p>Default</p>
+          <p>
+            <calcite-button kind="brand" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="brand" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="brand" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>With icons</p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="brand" scale="s">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="brand" scale="m">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="brand" scale="l">
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>Icon only</p>
+          <p>
+            <calcite-button icon-start="save" kind="brand" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="brand" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="brand" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>Rounded</p>
+          <p>
+            <calcite-button kind="brand" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="brand" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="brand" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>Rounded with icons</p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="brand" scale="s" round>
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="brand" scale="m" round>
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="brand" scale="l" round>
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>Rounded icon only</p>
+          <p>
+            <calcite-button icon-start="save" kind="brand" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="brand" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="brand" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * SOLID NEUTRAL
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Solid Neutral</p>
+        </div>
+
+        <!-- Solid Neutral -->
+        <div>
+          <p>
+            <calcite-button kind="neutral" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="neutral" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="neutral" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="neutral" scale="s">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="neutral" scale="m">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="neutral" scale="l">
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button icon-start="save" kind="neutral" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="neutral" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="neutral" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button kind="neutral" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="neutral" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="neutral" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="neutral" scale="s" round>
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="neutral" scale="m" round>
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="neutral" scale="l" round>
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button icon-start="save" kind="neutral" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="neutral" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="neutral" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * SOLID INVERSE
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Solid Inverse</p>
+        </div>
+
+        <!-- Solid Inverse -->
+        <div>
+          <p>
+            <calcite-button kind="inverse" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="inverse" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="inverse" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="inverse" scale="s">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="inverse" scale="m">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="inverse" scale="l">
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button icon-start="save" kind="inverse" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="inverse" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="inverse" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button kind="inverse" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="inverse" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="inverse" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="inverse" scale="s" round>
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="inverse" scale="m" round>
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="inverse" scale="l" round>
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button icon-start="save" kind="inverse" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="inverse" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="inverse" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * SOLID DANGER
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Solid Danger</p>
+        </div>
+
+        <!-- Solid Danger -->
+        <div>
+          <p>
+            <calcite-button kind="danger" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="danger" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="danger" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="s">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="m">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="l">
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button icon-start="save" kind="danger" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="danger" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="danger" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button kind="danger" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="danger" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button kind="danger" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="s" round>
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="m" round>
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="l" round>
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button icon-start="save" kind="danger" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="danger" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button icon-start="save" kind="danger" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <hr />
+      <!-- Beautiful horizontal line -->
+
+      <!--
+      ***************************************************************
+      * OUTLINE BRAND
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p>&nbsp;</p>
+          <p class="right-align">Outline Brand</p>
+        </div>
+
+        <!-- Outline Brand -->
+        <div>
+          <p>Default</p>
+          <p>
+            <calcite-button appearance="outline" kind="brand" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="brand" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="brand" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>With icons</p>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" kind="brand" scale="s">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" kind="brand" scale="m">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" kind="brand" scale="l">
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>Icon only</p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="brand" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="brand" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="brand" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>Rounded</p>
+          <p>
+            <calcite-button appearance="outline" kind="brand" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="brand" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="brand" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>Rounded with icons</p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="brand"
+              scale="s"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="brand"
+              scale="m"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="brand"
+              scale="l"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>Rounded icon only</p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="brand" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="brand" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="brand" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * OUTLINE NETURAL
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Outline Neutral</p>
+        </div>
+
+        <!-- Outline Neutral -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" kind="neutral" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="neutral" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="neutral" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="s"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="m"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="l"
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="neutral" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="neutral" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="neutral" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" kind="neutral" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="neutral" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="neutral" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="s"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="m"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="l"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="neutral" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="neutral" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="neutral" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * OUTLINE INVERSE
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Outline Inverse</p>
+        </div>
+
+        <!-- Outline Inverse -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" kind="inverse" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="inverse" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="inverse" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="s"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="m"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="l"
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="inverse" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="inverse" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="inverse" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" kind="inverse" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="inverse" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="inverse" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="s"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="m"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="l"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="inverse" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="inverse" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="inverse" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * OUTLINE DANGER
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Outline Danger</p>
+        </div>
+
+        <!-- Outline Danger -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" kind="danger" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="danger" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="danger" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="s">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="m">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="l">
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="danger" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="danger" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="danger" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" kind="danger" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="danger" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="danger" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="s"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="m"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="l"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="danger" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="danger" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="danger" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <hr />
+      <!-- Beautiful horizontal line -->
+
+      <!--
+      ***************************************************************
+      * OUTLINE-FILL BRAND
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Outline-fill Brand</p>
+        </div>
+
+        <!-- Outline-fill Brand -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" scale="s">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" scale="m">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" scale="l">
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" scale="s" round>
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" scale="m" round>
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" scale="l" round>
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * OUTLINE-FILL NETURAL
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Outline-fill Neutral</p>
+        </div>
+
+        <!-- Outline-fill Neutral -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" kind="neutral" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="neutral" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="neutral" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="s"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="m"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="l"
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="neutral" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="neutral" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="neutral" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" kind="neutral" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="neutral" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="neutral" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="s"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="m"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="l"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="neutral" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="neutral" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="neutral" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * OUTLINE-FILL INVERSE
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Outline-fill Inverse</p>
+        </div>
+
+        <!-- Outline-fill Inverse -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" kind="inverse" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="inverse" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="inverse" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="s"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="m"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="l"
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="inverse" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="inverse" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="inverse" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" kind="inverse" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="inverse" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="inverse" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="s"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="m"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="l"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="inverse" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="inverse" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="inverse" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * OUTLINE-FILL DANGER
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Outline-fill Danger</p>
+        </div>
+
+        <!-- Outline-fill Danger -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" kind="danger" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="danger" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="danger" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="s">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="m">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="arrow-left" icon-end="arrow-right" kind="danger" scale="l">
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="danger" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="danger" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="danger" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" kind="danger" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="danger" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" kind="danger" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="s"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="m"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="outline"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="l"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="danger" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="danger" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="outline" icon-start="save" kind="danger" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <hr />
+      <!-- Beautiful horizontal line -->
+
+      <!--
+      ***************************************************************
+      * TRANSPARENT BRAND
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Transparent Brand</p>
+        </div>
+
+        <!-- Transparent Brand -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" icon-start="arrow-left" icon-end="arrow-right" scale="s">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="arrow-left" icon-end="arrow-right" scale="m">
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="arrow-left" icon-end="arrow-right" scale="l">
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" icon-start="arrow-left" icon-end="arrow-right" scale="s" round>
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="arrow-left" icon-end="arrow-right" scale="m" round>
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="arrow-left" icon-end="arrow-right" scale="l" round>
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * TRANSPARENT NETURAL
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Transparent Neutral</p>
+        </div>
+
+        <!-- Transparent Neutral -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" kind="neutral" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" kind="neutral" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" kind="neutral" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="s"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="m"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="l"
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="neutral" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="neutral" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="neutral" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" kind="neutral" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" kind="neutral" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" kind="neutral" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="s"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="m"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="neutral"
+              scale="l"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="neutral" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="neutral" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="neutral" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * TRANSPARENT INVERSE
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Transparent Inverse</p>
+        </div>
+
+        <!-- Transparent Inverse -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" kind="inverse" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" kind="inverse" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" kind="inverse" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="s"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="m"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="l"
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="inverse" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="inverse" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="inverse" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" kind="inverse" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" kind="inverse" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" kind="inverse" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="s"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="m"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="inverse"
+              scale="l"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="inverse" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="inverse" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="inverse" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * TRANSPARENT DANGER
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">Transparent Danger</p>
+        </div>
+
+        <!-- Transparent Danger -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" kind="danger" scale="s"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" kind="danger" scale="m"> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" kind="danger" scale="l"> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- With Icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="s"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="m"
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="l"
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="danger" scale="s"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="danger" scale="m"> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="danger" scale="l"> </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" kind="danger" scale="s" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" kind="danger" scale="m" round> Button </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" kind="danger" scale="l" round> Button </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded with icons -->
+        <div>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="s"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="m"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+          <p>
+            <calcite-button
+              appearance="transparent"
+              icon-start="arrow-left"
+              icon-end="arrow-right"
+              kind="danger"
+              scale="l"
+              round
+            >
+              Button
+            </calcite-button>
+          </p>
+        </div>
+
+        <!-- Rounded icon only -->
+        <div>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="danger" scale="s" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="danger" scale="m" round> </calcite-button>
+          </p>
+          <p>
+            <calcite-button appearance="transparent" icon-start="save" kind="danger" scale="l" round> </calcite-button>
+          </p>
+        </div>
+      </div>
+
+      <hr />
+      <!-- Beautiful horizontal line -->
+
+      <!--
+      ***************************************************************
+      * LOADER"
+      ***************************************************************"
+    -->
+      <div class="loader">
+        <p class="loader-padding">Loader</p>
+
+        <section>
+          <calcite-label layout="inline">
+            <span> Toggle loading animation: </span>
+            <calcite-switch id="loading-switch"></calcite-switch>
+          </calcite-label>
+          <calcite-label layout="inline">
+            <span> Change scale: </span>
+            <calcite-segmented-control id="scale-group">
+              <calcite-segmented-control-item value="s">s</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="m" checked>m</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="l">l</calcite-segmented-control-item>
+            </calcite-segmented-control>
+          </calcite-label>
+          <calcite-label layout="inline">
+            <span> Change appearance: </span>
+            <calcite-segmented-control id="appearance-group">
+              <calcite-segmented-control-item value="solid" checked>solid</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="outline">outline</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="outline-fill">outline-fill</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="transparent">transparent</calcite-segmented-control-item>
+            </calcite-segmented-control>
+          </calcite-label>
+          <calcite-label layout="inline">
+            <span> Change kind: </span>
+            <calcite-segmented-control id="kind-group">
+              <calcite-segmented-control-item value="brand">brand</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="neutral">neutral</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="inverse">inverse</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="danger" checked>danger</calcite-segmented-control-item>
+            </calcite-segmented-control>
+          </calcite-label>
+          <script>
+            const loadingSwitch = document.querySelector("#loading-switch");
+            const scaleRadios = document.querySelector("#scale-group");
+            const appearanceRadios = document.querySelector("#appearance-group");
+            const kindRadios = document.querySelector("#kind-group");
+            window.onload = () => {
+              loadingSwitch.addEventListener("calciteSwitchChange", () => {
+                document.querySelectorAll(".loading-transition").forEach((button) => {
+                  button.toggleAttribute("loading");
+                });
+              });
+              scaleRadios.addEventListener("calciteSegmentedControlChange", (e) => {
+                document.querySelectorAll(".loading-transition").forEach((button) => {
+                  button.setAttribute("scale", e.target.selectedItem.value);
+                });
+              });
+              appearanceRadios.addEventListener("calciteSegmentedControlChange", (e) => {
+                document.querySelectorAll(".loading-transition").forEach((button) => {
+                  button.setAttribute("appearance", e.target.selectedItem.value);
+                });
+              });
+              kindRadios.addEventListener("calciteSegmentedControlChange", (e) => {
+                document.querySelectorAll(".loading-transition").forEach((button) => {
+                  button.setAttribute("kind", e.target.selectedItem.value);
+                });
+              });
+            };
+          </script>
+
+          <calcite-button
+            class="loading-transition"
+            kind="danger"
+            appearance="solid"
+            icon-start="attachment"
+          ></calcite-button>
+          <calcite-button
+            class="loading-transition"
+            kind="danger"
+            appearance="solid"
+            icon-end="download"
+            round
+          ></calcite-button>
+          <calcite-button
+            class="loading-transition"
+            kind="danger"
+            appearance="solid"
+            icon-start="attachment"
+            icon-end="download"
+          ></calcite-button>
+          <calcite-button
+            class="loading-transition"
+            kind="danger"
+            appearance="solid"
+            icon-start="attachment"
+            round
+            icon-end="download"
+          ></calcite-button>
+          <calcite-button class="loading-transition" kind="danger" appearance="solid">Attachments</calcite-button>
+          <calcite-button class="loading-transition" kind="danger" appearance="solid" round>Attachments</calcite-button>
+          <calcite-button class="loading-transition" kind="danger" appearance="solid" icon-end="download"
+            >Attachments</calcite-button
+          >
+          <calcite-button class="loading-transition" round kind="danger" appearance="solid" icon-end="download"
+            >Attachments</calcite-button
+          >
+          <calcite-button
+            class="loading-transition"
+            kind="danger"
+            appearance="solid"
+            icon-start="attachment"
+            icon-end="download"
+            >Attachments</calcite-button
+          >
+          <calcite-button
+            class="loading-transition"
+            round
+            kind="danger"
+            appearance="solid"
+            icon-start="attachment"
+            icon-end="download"
+            >Attachments</calcite-button
+          >
+        </section>
+      </div>
+
+      <!--
+      ***************************************************************
+      * WIDTHS
+      ***************************************************************
+    -->
+      <div id="width">
+        <p>Widths</p>
+
+        <p>
+          <calcite-button title="Auto width (default)"> Auto width (default) </calcite-button>
+        </p>
+
+        <p>
+          <calcite-button title="Half width" width="half"> Half width </calcite-button>
+        </p>
+
+        <p>
+          <calcite-button title="Full width" width="full"> Full width </calcite-button>
+        </p>
+
+        <p>
+          <calcite-button title="Full width with icon" icon-start="layers" width="full">
+            Full width with icon
+          </calcite-button>
+        </p>
+      </div>
+
+      <!--
+      ***************************************************************
+      * ALIGNMENT
+      ***************************************************************
+    -->
+      <div id="alignment">
+        <p>Alignment</p>
+
+        <p>
+          <calcite-button title="Alignment center (default))" icon-start="layers" icon-end="chevron-down" width="half">
+            Alignment center (default)
+          </calcite-button>
+        </p>
+
+        <p>
+          <calcite-button
+            title="Alignment start"
+            alignment="start"
+            icon-start="layers"
+            icon-end="chevron-down"
+            width="half"
+          >
+            Alignment start
+          </calcite-button>
+        </p>
+
+        <p>
+          <calcite-button
+            title="Alignment end"
+            alignment="end"
+            icon-start="layers"
+            icon-end="chevron-down"
+            width="half"
+          >
+            Alignment end
+          </calcite-button>
+        </p>
+
+        <p>
+          <calcite-button
+            title="Alignment space-between"
+            alignment="space-between"
+            icon-start="layers"
+            icon-end="chevron-down"
+            width="half"
+          >
+            Alignment space-between
+          </calcite-button>
+        </p>
+
+        <p>
+          <calcite-button
+            title="Alignment icon-start space-between"
+            alignment="icon-start-space-between"
+            icon-start="layers"
+            icon-end="chevron-down"
+            width="half"
+          >
+            Alignment icon-start space-between
+          </calcite-button>
+        </p>
+
+        <p>
+          <calcite-button
+            title="Alignment icon-end space-between"
+            alignment="icon-end-space-between"
+            icon-start="layers"
+            icon-end="chevron-down"
+            width="half"
+          >
+            Alignment icon-end space-between
+          </calcite-button>
+        </p>
+      </div>
+
+      <!--
+      ***************************************************************
+      * ALIGNMENT RTL
+      ***************************************************************
+    -->
+      <div id="alignment-rtl">
+        <p>Alignment RTL</p>
+
+        <p>
+          <calcite-button
+            dir="rtl"
+            title="Alignment center (default))"
+            icon-start="layers"
+            icon-end="chevron-down"
+            width="half"
+            icon-flip-rtl="both"
+          >
+            Alignment center (default)
+          </calcite-button>
+        </p>
+
+        <p>
+          <calcite-button
+            dir="rtl"
+            title="Alignment start"
+            alignment="start"
+            icon-start="layers"
+            icon-end="chevron-down"
+            width="half"
+          >
+            Alignment start
+          </calcite-button>
+        </p>
+
+        <p>
+          <calcite-button
+            dir="rtl"
+            title="Alignment end"
+            alignment="end"
+            icon-start="layers"
+            icon-end="chevron-down"
+            width="half"
+          >
+            Alignment end
+          </calcite-button>
+        </p>
+
+        <p>
+          <calcite-button
+            dir="rtl"
+            title="Alignment space-between"
+            alignment="space-between"
+            icon-start="layers"
+            icon-end="chevron-down"
+            width="half"
+          >
+            Alignment space-between
+          </calcite-button>
+        </p>
+
+        <p>
+          <calcite-button
+            dir="rtl"
+            title="Alignment icon-start space-between"
+            alignment="icon-start-space-between"
+            icon-start="layers"
+            icon-end="chevron-down"
+            width="half"
+          >
+            Alignment icon-start space-between
+          </calcite-button>
+        </p>
+
+        <p>
+          <calcite-button
+            dir="rtl"
+            title="Alignment icon-end space-between"
+            alignment="icon-end-space-between"
+            icon-start="layers"
+            icon-end="chevron-down"
+            width="half"
+          >
+            Alignment icon-end space-between
+          </calcite-button>
+        </p>
+      </div>
+
+      <!--
+      ***************************************************************
+      * SET FOCUS
+      ***************************************************************
+    -->
+      <div class="set-focus">
+        <p>Set focus</p>
+      </div>
+
+      <div class="set-focus-item">
+        <div class="child">
+          <calcite-button appearance="outline" onclick="document.querySelector('#button-focus-example-1').setFocus()">
+            Focus Button 1
+          </calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" onclick="document.querySelector('#button-focus-example-2').setFocus()">
+            Focus Button 2
+          </calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" onclick="document.querySelector('#button-focus-input').setFocus()">
+            Focus Input
+          </calcite-button>
+        </div>
+      </div>
+
+      <!-- Buttons that focus when clicked -->
+      <div class="set-focus-item-button">
+        <div class="child">
+          <calcite-button id="button-focus-example-1"> Button 1 </calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button id="button-focus-example-2"> Button 2 </calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-input value="" id="button-focus-input" placeholder="Input placeholder" min="10" max="30">
+          </calcite-input>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * CALCITE BUTTON INSIDE FORM WITH NO CUSTOM ONSUBMIT
+      ***************************************************************
+    -->
+      <div class="form-button">
+        <p>calcite button inside form with no custom onsubmit</p>
+      </div>
+
+      <div class="form-button-item">
+        <div class="child">
+          <form name="sign-up">
+            <calcite-label>
+              First name
+              <calcite-input name="first-name" required></calcite-input>
+            </calcite-label>
+            <calcite-button type="reset">I should reset the form (type reset)</calcite-button>
+            <calcite-button type="button">I should not submit the form (type button)</calcite-button>
+            <calcite-button>Submit</calcite-button>
+          </form>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * WITH A CUSTOM DEFINED ONSUBMIT ON FORM
+      ***************************************************************
+    -->
+      <div class="custom-defined-onsubmit">
+        <p>with a custom defined onsubmit on form</p>
+      </div>
+
+      <div class="custom-defined-onsubmit-item">
+        <div class="child">
+          <form name="sign-up-2" onsubmit="alert('form submitted!');">
+            <calcite-label>
+              First name
+              <calcite-input name="first-name" required></calcite-input>
+            </calcite-label>
+            <calcite-button type="reset">I should reset the form (type reset)</calcite-button>
+            <calcite-button type="button">I should not submit the form (type button)</calcite-button>
+            <calcite-button>Submit</calcite-button>
+          </form>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * ICONS PLACED INSIDE SLOT: PLAIN SVG(HEIGHT CONSTRAINED),
+      * CALCITE ICONS (HEIGHT-CONSTRAINED), USING ICON-START
+      ***************************************************************
+    -->
+      <div class="icon-slot">
+        <p>
+          icons placed inside slot: plain svg (height constrained), calcite-icons (height-constrained), using icon-start
+        </p>
+      </div>
+
+      <div class="icon-slot-item">
+        <div class="child">
+          <calcite-button aria-label="Share layer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 30 30">
+              <path
+                fill="#fff"
+                d="M22.117 7H7.883A.883.883 0 0 0 7 7.883v14.234c0 .487.396.883.883.883H15v-7h-3v-2h3v-.992c0-2.066 1.277-3.192 3.121-3.192.883 0 1.879.066 1.879.096V12h-1.764c-1.002 0-1.236.148-1.236.848V14h2.73l-.911 2H17v7h5.117a.884.884 0 0 0 .883-.883V7.883A.883.883 0 0 0 22.117 7z"
+              />
+            </svg>
+          </calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button kind="inverse" aria-label="Add layer">
+            <calcite-icon scale="m" icon="layer"></calcite-icon>
+          </calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button aria-label="Add layer">
+            <calcite-icon scale="l" icon="layer"></calcite-icon>
+          </calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button aria-label="Add layer">
+            <calcite-icon scale="s" icon="layer"></calcite-icon>
+          </calcite-button>
+        </div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>

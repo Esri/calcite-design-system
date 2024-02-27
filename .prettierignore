@@ -1,4 +1,3 @@
-docs/
-www/
-dist/
-hydrate/
+**/*.d.ts
+**/dist
+**/.turbo

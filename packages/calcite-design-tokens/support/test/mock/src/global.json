@@ -1,0 +1,11 @@
+{
+  "core": {
+    "pattern": {
+      "property": {
+        "value": "token",
+        "type": "other",
+        "description": "A mock token used for testing"
+      }
+    }
+  }
+}

@@ -1,0 +1,103 @@
+:host {
+  @apply flex;
+  writing-mode: horizontal-tb;
+}
+
+:host([scale="s"]) {
+  & .chevron,
+  & .page,
+  & .ellipsis {
+    @apply text-n2h h-6 px-1;
+    min-inline-size: theme("width.6");
+  }
+}
+
+:host([scale="m"]) {
+  & .chevron,
+  & .page,
+  & .ellipsis {
+    @apply text-n1h h-8 px-2;
+    min-inline-size: theme("width.8");
+  }
+}
+
+:host([scale="l"]) {
+  & .chevron,
+  & .page,
+  & .ellipsis {
+    @apply text-0h h-11;
+    min-inline-size: theme("width.11");
+  }
+
+  & .chevron {
+    @apply px-2.5;
+  }
+
+  & .page,
+  & .ellipsis {
+    @apply px-3;
+  }
+}
+
+// focus styles
+:host button {
+  @apply focus-base;
+  &:focus {
+    @apply focus-inset;
+  }
+}
+
+.chevron,
+.page,
+.ellipsis {
+  @apply p-0
+    m-0
+    text-0h
+    text-color-3
+    font-inherit
+    box-border
+    flex
+    items-center
+    border-none
+    border-opacity-0
+    justify-center
+    align-baseline
+    bg-transparent;
+}
+
+.chevron,
+.page {
+  @apply cursor-pointer;
+  border-block: 2px solid transparent;
+
+  &:hover {
+    @apply text-color-1 transition-default;
+  }
+}
+
+.page {
+  &:hover {
+    @apply border-b-color-2;
+  }
+  &.selected {
+    @apply text-color-1 border-b-color-brand font-medium;
+  }
+}
+
+.chevron {
+  &:hover {
+    @apply bg-foreground-2;
+    color: theme("backgroundColor.brand");
+  }
+  &:active {
+    @apply bg-foreground-3;
+  }
+  &.disabled {
+    @apply pointer-events-none bg-transparent;
+    & > calcite-icon {
+      @apply opacity-disabled;
+    }
+  }
+}
+
+@include base-component();

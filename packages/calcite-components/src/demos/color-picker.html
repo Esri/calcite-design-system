@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Color-picker</title>
+    <style>
+      .parent {
+        display: flex;
+        width: 60%;
+        padding: 25px 0;
+      }
+
+      .child {
+        flex: 1 0 25%;
+        margin: 0 25px;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .right-aligned-text {
+        text-align: right;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-color-border-2);
+      }
+    </style>
+    <script src="_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Color picker</h1>
+
+      <!-- Headers -->
+      <div class="parent">
+        <div class="child"></div>
+        <div class="child">Small</div>
+        <div class="child">Medium</div>
+        <div class="child">Large</div>
+      </div>
+
+      <!-- Default -->
+      <div class="parent">
+        <div class="child right-aligned-text">Default</div>
+        <div class="child">
+          <calcite-color-picker scale="s"></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker scale="m"></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker scale="l"></calcite-color-picker>
+        </div>
+      </div>
+
+      <!-- Default (no color) -->
+      <div class="parent">
+        <div class="child right-aligned-text">Default (no color)</div>
+        <div class="child">
+          <calcite-color-picker scale="s" allow-empty value=""></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker scale="m" allow-empty value=""></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker scale="l" allow-empty value=""></calcite-color-picker>
+        </div>
+      </div>
+
+      <!-- With opacity -->
+      <div class="parent">
+        <div class="child right-aligned-text">With opacity</div>
+        <div class="child">
+          <calcite-color-picker alpha-channel allow-empty scale="s" value="#beefeeff"></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker alpha-channel scale="m" allow-empty value="#beefeeff"></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker alpha-channel scale="l" allow-empty value="#beefeeff"></calcite-color-picker>
+        </div>
+      </div>
+
+      <!-- Hidden sections (all) -->
+      <div class="parent">
+        <div class="child right-aligned-text">Hidden sections (all)</div>
+        <div class="child">
+          <calcite-color-picker scale="s" hide-hex hide-channels hide-saved></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker scale="m" hide-hex hide-channels hide-saved></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker scale="l" hide-hex hide-channels hide-saved></calcite-color-picker>
+        </div>
+      </div>
+
+      <!-- Hidden sections (hex) -->
+      <div class="parent">
+        <div class="child right-aligned-text">Hidden sections (hex)</div>
+        <div class="child">
+          <calcite-color-picker scale="s" hide-hex></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker scale="m" hide-hex></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker scale="l" hide-hex></calcite-color-picker>
+        </div>
+      </div>
+
+      <!-- Hidden sections (channels) -->
+      <div class="parent">
+        <div class="child right-aligned-text">Hidden sections (channels)</div>
+        <div class="child">
+          <calcite-color-picker scale="s" hide-channels></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker scale="m" hide-channels></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker scale="l" hide-channels></calcite-color-picker>
+        </div>
+      </div>
+
+      <!-- Hidden sections (saved) -->
+      <div class="parent">
+        <div class="child right-aligned-text">Hidden sections (saved)</div>
+        <div class="child">
+          <calcite-color-picker scale="s" hide-saved></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker scale="m" hide-saved></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker scale="l" hide-saved></calcite-color-picker>
+        </div>
+      </div>
+
+      <!-- Default (no color) -->
+      <div class="parent">
+        <div class="child right-aligned-text">Color-picker in Popover</div>
+        <div class="child">
+          <calcite-popover pointer-disabled placement="bottom-start" reference-element="popover-button-1">
+            <calcite-color-picker scale="s"></calcite-color-picker>
+          </calcite-popover>
+          <calcite-button id="popover-button-1">Activate Popover</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-popover pointer-disabled placement="bottom-start" reference-element="popover-button-2">
+            <calcite-color-picker scale="m"></calcite-color-picker>
+          </calcite-popover>
+          <calcite-button id="popover-button-2">Activate Popover</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-popover pointer-disabled placement="bottom-start" reference-element="popover-button-3">
+            <calcite-color-picker scale="l"></calcite-color-picker>
+          </calcite-popover>
+          <calcite-button id="popover-button-3">Activate Popover</calcite-button>
+        </div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>

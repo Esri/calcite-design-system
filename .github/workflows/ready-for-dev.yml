@@ -1,0 +1,21 @@
+name: "Ready for dev"
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  ready-for-dev:
+    if: github.event.label.name == 'ready for dev'
+    permissions:
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        env:
+          managers: ${{secrets.CALCITE_MANAGERS}}
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/notifyWhenReadyForDev.js')
+            await action({github, context, core})

@@ -1,0 +1,122 @@
+:host([scale="s"]) {
+  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
+  --calcite-internal-stepper-action-block-size: theme("spacing.11");
+  --calcite-internal-stepper-action-inline-size: theme("spacing.8");
+  --calcite-internal-step-bar-gap: theme("spacing.1");
+}
+
+:host([scale="m"]) {
+  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.2");
+  --calcite-internal-stepper-action-block-size: theme("spacing.13");
+  --calcite-internal-stepper-action-inline-size: theme("spacing.10");
+}
+
+:host([scale="l"]) {
+  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.3");
+  --calcite-internal-stepper-action-block-size: theme("spacing.16");
+  --calcite-internal-stepper-action-inline-size: theme("spacing.12");
+  --calcite-internal-step-bar-gap: theme("spacing.3");
+}
+
+:host {
+  @apply flex;
+}
+
+.container {
+  @apply relative
+    flex
+    w-full
+    min-w-fit
+    flex-row
+    flex-wrap
+    items-stretch
+    justify-between;
+}
+
+:host([layout="vertical"]) .container {
+  @apply flex-auto flex-col;
+}
+
+:host([layout="horizontal"]),
+:host([layout="horizontal-single"]) {
+  .container {
+    display: grid;
+    // grid-templates-columns are dynamically generated
+    // grid-templates-rows are dynamically generated
+    grid-template-areas:
+      "items"
+      "content";
+    gap: theme("spacing.2") var(--calcite-internal-stepper-item-spacing-unit-s);
+  }
+}
+
+:host([layout="horizontal"][scale="s"]),
+:host([layout="horizontal-single"][scale="s"]) {
+  .container {
+    gap: theme("spacing.1") var(--calcite-internal-stepper-item-spacing-unit-s);
+  }
+}
+
+:host([layout="horizontal"][scale="l"]),
+:host([layout="horizontal-single"][scale="l"]) {
+  .container {
+    gap: theme("spacing.3") var(--calcite-internal-stepper-item-spacing-unit-s);
+  }
+}
+
+:host([layout="horizontal"]) .container.single-view {
+  @apply flex  grid-cols-none;
+}
+
+.action-icon {
+  @apply flex relative grow-0;
+  block-size: var(--calcite-internal-stepper-action-block-size);
+  inline-size: var(--calcite-internal-stepper-action-inline-size);
+}
+
+.action-container {
+  @apply absolute flex justify-between;
+  padding-block: 0.25rem;
+  inline-size: 100%;
+}
+
+@mixin stepBar {
+  .step-bar {
+    @apply flex;
+    block-size: 100%;
+    inline-size: 100%;
+  }
+
+  .step-bar-container {
+    @apply flex absolute justify-between items-start;
+    block-size: 0.125rem;
+    inline-size: 100%;
+    gap: var(--calcite-internal-step-bar-gap, 0.5rem);
+  }
+
+  .step-bar--inactive {
+    fill: var(--calcite-color-border-3, #dfdfdf);
+    fill-opacity: 1;
+    block-size: 100%;
+  }
+
+  .step-bar--active {
+    fill: var(--calcite-color-brand);
+  }
+
+  .step-bar--complete {
+    fill: var(--calcite-color-brand);
+    fill-opacity: 0.5;
+  }
+
+  .step-bar--error {
+    fill: var(--calcite-color-status-danger);
+  }
+
+  .step-bar--disabled {
+    opacity: 0.5;
+  }
+}
+
+@include stepBar();
+@include base-component();

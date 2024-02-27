@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Popover</title>
+    <style>
+      .parent {
+        display: flex;
+        flex-direction: column;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        margin-left: 10%;
+        padding: 15px 0;
+      }
+
+      .child {
+        display: inline-flex;
+        flex-direction: column;
+        width: 25%;
+        padding: 10px;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Popover</h1>
+
+      <!-- clickable popover -->
+      <div class="parent">
+        <div class="child">Clickable popover</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="popover-button-right" icon-start="popup">
+            Clickable popover</calcite-button
+          >
+        </div>
+      </div>
+
+      <!-- with close button -->
+      <div class="parent">
+        <div class="child">With close button</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="popover-button-close" icon-start="popup">
+            With close button</calcite-button
+          >
+        </div>
+      </div>
+
+      <!-- title, content & CTA -->
+      <div class="parent">
+        <div class="child">Title, content & CTA</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="title-content-cta" icon-start="popup">
+            Title, content & CTA</calcite-button
+          >
+        </div>
+      </div>
+
+      <!-- heading (in prop), content & CTA -->
+      <div class="parent">
+        <div class="child">Heading (in prop), content & CTA</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="heading-title-content-cta" icon-start="popup">
+            Heading (in prop), content & CTA</calcite-button
+          >
+        </div>
+      </div>
+
+      <!-- tooltip and popover test -->
+      <div class="parent">
+        <div class="child">Tooltip and popover test</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-and-popover" icon-start="popup">
+            Tooltip and popover test</calcite-button
+          >
+        </div>
+      </div>
+      <calcite-tooltip label="bottom placed tooltip" reference-element="tooltip-and-popover" placement="bottom">
+        Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+        printer of type and scrambled it to make a type specimen book.
+      </calcite-tooltip>
+
+      <!-- clickable popover -->
+      <calcite-popover
+        label="right start popover"
+        reference-element="popover-button-right"
+        placement="right-start"
+        id="popover-right"
+      >
+        <div style="padding: 12px 16px">Hello! I am some popover content!</div>
+      </calcite-popover>
+
+      <!-- with close button -->
+      <calcite-popover
+        style="max-width: 320px"
+        label="auto placement popover"
+        reference-element="popover-button-close"
+        placement="auto"
+        id="popover-close"
+        closable
+      >
+        <style>
+          .info {
+            padding: 10px;
+          }
+
+          .header {
+            font-weight: bold;
+          }
+        </style>
+        <div class="info">
+          <div class="header">Verwendung von A mit B vergleichen</div>
+          <div class="text">
+            <calcite-popover closable label="nested popover" reference-element="nested-popover" placement="right">
+              <div style="padding: 12px 16px">
+                Das erste Attribut wird mit dem zweiten Attribut verglichen und als einfaches Verhältnis, als "A als
+                Prozentsatz von B " oder als "A als Prozentsatz von A + B " dargestellt. Beispiele: Umsatz/Umsatzkosten,
+                Maisanbaufläche/Gesamtanbaufläche oder Maisanbaufläche/(Mais- + Weizenanbaufläche).
+              </div>
+            </calcite-popover>
+            Das erste Attribut wird mit dem zweiten Attribut verglichen und als einfaches Verhältnis, als "A als
+            Prozentsatz von B " oder als "A als Prozentsatz von A + B " dargestellt. Beispiele: Umsatz/Umsatzkosten,
+            Maisanbaufläche/Gesamtanbaufläche oder Maisanbaufläche/(Mais- + Weizenanbaufläche).
+            <calcite-button id="nested-popover">Nested popover</calcite-button>
+          </div>
+        </div>
+      </calcite-popover>
+
+      <!-- title, content & CTA -->
+      <calcite-popover
+        label="right end popover"
+        reference-element="title-content-cta"
+        placement="right-end"
+        id="popover-title"
+        closable
+      >
+        <div style="padding: 12px 16px; width: 33vw">
+          <b>I am a title!</b> <br />
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book.
+          </p>
+          <calcite-link title="Inline link">I am an inline link</calcite-link>
+        </div>
+      </calcite-popover>
+
+      <!-- heading (in prop), title, content & CTA -->
+      <calcite-popover
+        heading="I'm a heading in the header using the 'heading' prop!"
+        label="right end popover"
+        reference-element="heading-title-content-cta"
+        placement="right-end"
+        id="popover-heading"
+        closable
+        style="width: 25vw"
+      >
+        <img src="https://www.fillmurray.com/640/360" style="width: 100%" />
+        <div style="padding: 0.5rem 1rem 0.75rem">
+          <p style="margin-top: 0">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book.
+          </p>
+          <calcite-link title="Inline link">I am an inline link</calcite-link>
+        </div>
+      </calcite-popover>
+
+      <!-- tooltip and popover -->
+      <calcite-popover
+        label="top placement dark mode popover"
+        reference-element="tooltip-and-popover"
+        placement="top"
+        class="calcite-mode-dark"
+      >
+        <div style="padding: 12px 16px">Hello! I am some popover content!</div>
+      </calcite-popover>
+
+      <div class="parent">
+        Wrapped in Tabs
+        <div class="child">
+          <calcite-tabs>
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab active>
+              <calcite-button appearance="outline" id="popover-button-tabs" icon-start="popup">
+                Clickable popover
+              </calcite-button>
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                scrambled it to make a type specimen book.
+              </p>
+              <calcite-popover label="tabs popover" reference-element="popover-button-tabs" placement="top-start" open>
+                <div style="padding: 1rem">Hello! I am some popover content!</div>
+              </calcite-popover>
+            </calcite-tab>
+            <calcite-tab>Tab 2 Content</calcite-tab>
+          </calcite-tabs>
+        </div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+name: Deploy Latest
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  release-please:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: google-github-actions/release-please-action@v3.7.9
+        id: release
+        with:
+          command: manifest
+          token: ${{ secrets.ADMIN_TOKEN }}
+          default-branch: main
+          extra-files: |
+            packages/calcite-components/readme.md
+      - name: Checkout Repository
+        if: ${{ steps.release.outputs.releases_created }}
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ADMIN_TOKEN }}
+          ref: main
+      - name: Setup Node
+        if: ${{ steps.release.outputs.releases_created }}
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: package.json
+          registry-url: "https://registry.npmjs.org"
+      - name: Build Packages and Publish to NPM
+        if: ${{ steps.release.outputs.releases_created }}
+        run: |
+          npm install
+          npm run build
+          npm run publish:latest
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

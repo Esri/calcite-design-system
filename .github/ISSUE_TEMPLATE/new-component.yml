@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
+        - Please [check for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
         - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
   - type: textarea
     id: description
@@ -43,6 +43,19 @@ body:
     validations:
       required: false
   - type: dropdown
+    id: priority-impact
+    validations:
+      required: true
+    attributes:
+      label: Priority impact
+      multiple: false
+      description: How important is the new component request to you, your team, or organization? Use discretion and only select the "need" priority for high user impact.
+      options:
+        - p4 - not time sensitive
+        - p3 - want for upcoming milestone
+        - p2 - want for current milestone
+        - p1 - need for current milestone
+  - type: dropdown
     id: esri-team
     validations:
       required: true
@@ -69,6 +82,7 @@ body:
         - ArcGIS Indoors
         - ArcGIS Insights
         - ArcGIS Instant Apps
+        - ArcGIS Knowledge
         - ArcGIS Living Atlas
         - ArcGIS Map Viewer
         - ArcGIS Marketplace

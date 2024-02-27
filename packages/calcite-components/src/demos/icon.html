@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Icon</title>
+    <style>
+      .parent {
+        display: flex;
+        width: 60%;
+        justify-content: space-between;
+        align-items: center;
+        padding: 25px 0;
+      }
+
+      .child {
+        flex: 0 1 21%;
+        margin: 0 25px;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .right-aligned-text {
+        text-align: right;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-color-border-2);
+      }
+
+      .my-icon-color-class {
+        --calcite-ui-icon-color: #007ac2;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Icon</h1>
+
+      <!-- Header -->
+      <div class="parent">
+        <div class="child"></div>
+        <div class="child">Small</div>
+        <div class="child">Medium</div>
+        <div class="child">Large</div>
+      </div>
+
+      <!-- Default -->
+      <div class="parent">
+        <div class="child right-aligned-text">Default</div>
+
+        <div class="child">
+          <calcite-icon icon="aZ" scale="s"></calcite-icon>
+        </div>
+
+        <div class="child">
+          <calcite-icon icon="aZ" scale="m"></calcite-icon>
+        </div>
+
+        <div class="child">
+          <calcite-icon icon="aZ" scale="l"></calcite-icon>
+        </div>
+      </div>
+
+      <!-- Default (semantic) -->
+      <div class="parent">
+        <div class="child right-aligned-text">Default (semantic)</div>
+
+        <div class="child">
+          <calcite-icon icon="basemap" text-label="sort options" scale="s"></calcite-icon>
+        </div>
+
+        <div class="child">
+          <calcite-icon icon="basemap" text-label="select a basemap" scale="m"></calcite-icon>
+        </div>
+
+        <div class="child">
+          <calcite-icon icon="basemap" text-label="upload an image" scale="l"></calcite-icon>
+        </div>
+      </div>
+
+      <!-- custom icon-color -->
+      <div class="parent">
+        <div class="child right-aligned-text">Custom icon-color</div>
+
+        <div class="child">
+          <calcite-icon class="my-icon-color-class" icon="arrowBoldLeft" scale="s"></calcite-icon>
+        </div>
+
+        <div class="child">
+          <calcite-icon class="my-icon-color-class" icon="arrowBoldLeft" scale="m"></calcite-icon>
+        </div>
+
+        <div class="child">
+          <calcite-icon class="my-icon-color-class" icon="arrowBoldLeft" scale="l"></calcite-icon>
+        </div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>

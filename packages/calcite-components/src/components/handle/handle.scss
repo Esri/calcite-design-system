@@ -1,0 +1,38 @@
+:host {
+  @apply flex;
+}
+
+.handle {
+  @apply focus-base
+    flex
+    items-center
+    justify-center
+    self-stretch
+    border-none
+    bg-transparent;
+  color: theme("borderColor.color.input");
+  padding-block: theme("spacing.3");
+  padding-inline: theme("spacing.1");
+  line-height: 0;
+
+  calcite-icon {
+    color: inherit;
+  }
+}
+
+:host(:not([disabled])) .handle {
+  @apply cursor-move;
+  &:hover {
+    @apply bg-foreground-2 text-color-1;
+  }
+  &:focus {
+    @apply text-color-1 focus-inset;
+  }
+  &--selected {
+    @apply bg-foreground-3 text-color-1;
+  }
+}
+
+@include disabled();
+
+@include base-component();

@@ -1,0 +1,306 @@
+:host {
+  @apply block outline-none;
+  margin-inline-start: theme("margin.0");
+}
+
+:host([layout="inline"]) {
+  @apply flex-initial;
+}
+
+:host([layout="center"]) {
+  @apply flex-auto;
+}
+
+:host([layout="center"]) .scale-s,
+:host([layout="center"]) .scale-m,
+:host([layout="center"]) .scale-l {
+  @apply my-0 text-center;
+  flex-basis: theme("spacing.48");
+  .content {
+    @apply m-auto;
+  }
+}
+
+// center the text visually and not affected by the x button so as to avoid moving when on or off
+:host([layout="center"][closable]) {
+  .content {
+    padding-inline-start: 32px; //28px button width + 0.25rem padding
+  }
+}
+
+:host([layout="center"][bordered][closable]) .scale-s {
+  .content {
+    padding-inline-start: 36px; //28px button width + 0.5rem padding
+  }
+}
+
+:host([layout="center"][bordered][closable]) .scale-m {
+  .content {
+    padding-inline-start: 40px; //28px button width + 0.75rem padding
+  }
+}
+
+:host([layout="center"][closable]) .scale-l {
+  .content {
+    padding-inline-start: 40px; //36px button width + .25 padding
+  }
+}
+
+:host([layout="center"][closable][bordered]) .scale-s {
+  .content {
+    padding-inline-start: 52px; //36px button width + 1rem padding
+  }
+}
+
+:host([position="bottom"]) .container {
+  @apply border-t-color-transparent
+    border-b-0
+    border-t-2;
+  border-block-start-style: solid;
+}
+
+:host([closed]) {
+  @apply hidden;
+}
+
+.container {
+  @apply focus-base;
+}
+
+:host(:focus) .container {
+  @apply focus-inset;
+
+  &:focus-within {
+    @apply focus-base;
+  }
+}
+
+:host(:active),
+:host(:focus),
+:host(:hover) {
+  a {
+    @apply text-color-1 border-color-2 no-underline;
+  }
+}
+
+:host([selected]) .container {
+  @apply text-color-1 border-color-transparent;
+}
+
+@include disabled() {
+  .container {
+    @apply pointer-events-none opacity-50;
+  }
+}
+
+.scale-s {
+  .content {
+    @apply text-n2h py-1;
+  }
+}
+
+.scale-m {
+  .content {
+    @apply text-n1h py-2;
+  }
+}
+
+.scale-l {
+  .content {
+    @apply text-0h py-2.5;
+  }
+}
+
+.container {
+  @apply border-b-2
+    border-b-color-transparent
+    box-border
+    content-center
+    cursor-pointer
+    flex
+    h-full
+    justify-between
+    px-0
+    text-color-3
+    text-n1h
+    transition-default
+    w-full;
+
+  border-block-end-style: solid;
+}
+
+.content {
+  @apply flex items-center justify-center;
+}
+
+.calcite-tab-title--icon {
+  @apply relative
+    m-0
+    inline-flex
+    self-center;
+  & svg {
+    @apply transition-default;
+  }
+}
+
+.content--has-text {
+  @apply p-1;
+}
+
+.content--has-text .calcite-tab-title--icon.icon-start {
+  margin-inline-end: theme("margin.2");
+}
+
+.content--has-text .calcite-tab-title--icon.icon-end {
+  margin-inline-start: theme("margin.2");
+}
+
+.close-button {
+  @apply appearance-none
+  bg-foreground-1
+  border-none
+  content-center
+  cursor-pointer
+  flex
+  focus-base
+  items-center
+  justify-center
+  self-center
+  text-color-3
+  transition-default;
+
+  block-size: calc(100% - 2px); // fit within top/bottom borders
+  background-color: var(--calcite-button-transparent-1);
+  margin-inline-start: auto;
+
+  &:focus {
+    @apply focus-inset;
+
+    // ⚠️overriding outline-offset should be avoided as it won't honor --calcite-color-focus-offset-invert
+    outline-offset: -1px;
+  }
+
+  &:focus,
+  &:hover {
+    @apply text-color-1;
+    background-color: var(--calcite-color-foreground-2);
+  }
+
+  &:active {
+    @apply text-color-1;
+    background-color: var(--calcite-color-foreground-3);
+  }
+
+  & calcite-icon {
+    color: inherit;
+  }
+}
+
+// compensate for spacing when no hastext and two icons
+:host([icon-start][icon-end]) {
+  .calcite-tab-title--icon:first-child {
+    margin-inline-end: theme("margin.2");
+  }
+}
+
+// bordered styles
+:host([bordered]) {
+  margin-inline-end: 0;
+}
+
+:host([bordered][selected]) {
+  box-shadow: inset 0px -2px var(--calcite-color-foreground-1);
+}
+
+:host([bordered][selected][position="bottom"]) {
+  box-shadow: inset 0 2px 0 var(--calcite-color-foreground-1);
+}
+
+:host([bordered]:hover),
+:host([bordered]:focus),
+:host([bordered]:active) {
+  .container {
+    @apply relative;
+  }
+}
+
+:host([bordered]:hover) {
+  .container {
+    background-color: var(--calcite-color-transparent-hover);
+  }
+}
+
+:host([closable]) .container,
+:host([bordered]) .container {
+  border-inline-start: 1px solid transparent;
+  border-inline-end: 1px solid transparent;
+  .close-button {
+    margin-inline: 0;
+  }
+}
+
+:host([closable]) .content {
+  @apply h-full box-border border-b-color-transparent;
+}
+
+:host([closable][position="bottom"]) .container,
+:host([bordered][position="bottom"]) .container {
+  border-block-start-style: unset;
+}
+
+:host([selected][bordered]) .container {
+  border-inline-start-color: var(--calcite-color-border-1);
+  border-inline-end-color: var(--calcite-color-border-1);
+}
+
+:host([bordered]) {
+  .content {
+    @apply px-3;
+  }
+}
+
+:host([bordered]) .scale-s {
+  .content {
+    @apply px-2;
+  }
+}
+
+:host([bordered]) .scale-l {
+  .content {
+    @apply px-4;
+  }
+}
+
+@media (forced-colors: active) {
+  :host {
+    outline-width: 0;
+    outline-offset: 0;
+  }
+
+  :host(:focus) .container {
+    outline-color: highlight;
+  }
+
+  :host([bordered]) .container {
+    border-block-end-style: solid;
+  }
+
+  :host([bordered][position="bottom"]) .container {
+    border-block-start-style: solid;
+  }
+
+  :host([bordered][selected]) .container {
+    border-block-end-style: none;
+  }
+
+  :host([bordered][position="bottom"][selected]) .container {
+    border-block-start-style: none;
+  }
+
+  .close-button {
+    /* in high contrast the tab title outline covers the close button outline without a z-index */
+    @apply z-default;
+  }
+}
+
+@include base-component();

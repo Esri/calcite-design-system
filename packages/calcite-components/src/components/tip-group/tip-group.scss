@@ -1,0 +1,14 @@
+:host {
+  @apply bg-foreground-1
+    text-color-2
+    text-n1h
+    box-border
+    block;
+}
+
+::slotted(calcite-tip) {
+  @apply m-0 border-none;
+  max-inline-size: var(--calcite-tip-max-width);
+}
+
+@include base-component();

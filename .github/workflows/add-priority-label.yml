@@ -1,0 +1,14 @@
+name: Add Priority Label
+on:
+  issues:
+    types: [opened, edited]
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addPriorityLabel.js')
+            await action({github, context, core})

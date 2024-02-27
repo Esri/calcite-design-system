@@ -1,0 +1,103 @@
+:host {
+  @apply relative flex;
+}
+
+.scale-s {
+  min-block-size: theme("spacing.6");
+}
+
+.scale-m {
+  min-block-size: theme("spacing.8");
+}
+
+.scale-l {
+  min-block-size: theme("spacing.11");
+}
+
+:host([layout="center"]:not([bordered])) {
+  // `tab-nav` in all scales in layout="center" has a padding of 20px on both ends
+  padding-inline: theme("margin.5");
+
+  //override margin-inline-end for the last child for tab-nav to implement the 20px padding on both ends instead
+  .tab-nav {
+    ::slotted(calcite-tab-title:last-child) {
+      margin-inline-end: theme("margin.0");
+    }
+  }
+}
+
+:host(:not([bordered])) {
+  .scale-l {
+    ::slotted(calcite-tab-title) {
+      margin-inline-end: theme("margin.6");
+    }
+  }
+  .scale-m {
+    ::slotted(calcite-tab-title) {
+      margin-inline-end: theme("margin.5");
+    }
+  }
+  .scale-s {
+    ::slotted(calcite-tab-title) {
+      margin-inline-end: theme("margin.4");
+    }
+  }
+}
+
+.tab-nav {
+  @apply flex
+    w-full
+    justify-start
+    overflow-auto;
+}
+
+// prevent indicator overflow in horizontal scrolling situations
+.tab-nav-active-indicator-container {
+  @apply absolute
+    inset-x-0
+    bottom-0
+    h-0.5
+    w-full
+    overflow-hidden;
+}
+
+.tab-nav-active-indicator {
+  @apply bg-brand
+    absolute
+    bottom-0
+    block
+    h-0.5
+    transition-all
+    ease-out;
+}
+
+:host([layout="center"]) .tab-nav {
+  @apply justify-evenly;
+}
+
+:host .position-bottom .tab-nav-active-indicator {
+  inset-block-end: unset;
+  @apply top-0;
+}
+
+:host .position-bottom .tab-nav-active-indicator-container {
+  inset-block-end: unset;
+  @apply top-0;
+}
+
+:host([bordered]) .tab-nav-active-indicator-container {
+  inset-block-end: unset; // display active blue line above instead of below
+}
+
+:host([bordered]) .position-bottom .tab-nav-active-indicator-container {
+  inset-block-end: 0; // display active blue line below instead of above
+  inset-block-start: unset;
+}
+
+@media (forced-colors: active) {
+  .tab-nav-active-indicator {
+    background-color: highlight;
+  }
+}
+
+@include base-component();

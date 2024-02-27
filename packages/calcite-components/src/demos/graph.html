@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Graph</title>
+    <style>
+      .parent {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+      }
+
+      .child {
+        flex: 0 0 40%;
+        margin: 0 25px;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 10px 0;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 15%;
+      }
+    </style>
+    <script src="_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <!-- Default -->
+      <div class="parent">
+        <div class="child right-aligned-text">Default</div>
+        <div class="child">
+          <calcite-graph></calcite-graph>
+        </div>
+      </div>
+
+      <!-- Custom Size -->
+      <div class="parent">
+        <div class="child right-aligned-text">Custom Size</div>
+        <div class="child">
+          <calcite-graph width="100" height="40"></calcite-graph>
+        </div>
+      </div>
+
+      <!-- Inherit Color -->
+      <div class="parent">
+        <div class="child right-aligned-text">Inherit Color</div>
+        <div class="child" style="color: var(--calcite-color-brand)">
+          <calcite-graph></calcite-graph>
+        </div>
+      </div>
+
+      <!-- Highlight Range -->
+      <div class="parent">
+        <div class="child right-aligned-text">Highlight Range</div>
+        <div class="child">
+          <calcite-graph class="highlight-range"></calcite-graph>
+        </div>
+      </div>
+
+      <!-- Color Stops -->
+      <div class="parent">
+        <div class="child right-aligned-text">Color Stops</div>
+        <div class="child">
+          <calcite-graph class="color-stops"></calcite-graph>
+        </div>
+      </div>
+
+      <!-- Highlight Range and Color Stops -->
+      <div class="parent">
+        <div class="child right-aligned-text">Highlight Range and Color Stops</div>
+        <div class="child">
+          <calcite-graph class="highlight-range color-stops"></calcite-graph>
+        </div>
+      </div>
+
+      <script>
+        // Fill all graphs with the same data.
+        const data = [
+          [0, 0],
+          [10, 80],
+          [20, 20],
+          [30, 30],
+          [40, 42],
+          [50, 50],
+          [60, 55],
+          [70, 48],
+          [80, 30],
+          [90, 10],
+          [100, 0],
+        ];
+        document.querySelectorAll("calcite-graph").forEach(function (graphElement) {
+          graphElement.data = data;
+          graphElement.style.width = "300px";
+          graphElement.style.height = "100px";
+        });
+
+        // Add highlight ranges
+        document.querySelectorAll(".highlight-range").forEach(function (graphElement) {
+          graphElement.highlightMin = 25;
+          graphElement.highlightMax = 75;
+        });
+
+        // Add color stops
+        const rainbow = ["red", "orange", "yellow", "green", "cyan", "blue", "violet"];
+        const colorStops = rainbow.map((color, i) => ({ offset: (1 / (rainbow.length - 1)) * i, color }));
+        document.querySelectorAll(".color-stops").forEach(function (graphElement) {
+          graphElement.colorStops = colorStops;
+        });
+      </script>
+    </demo-dom-swapper>
+  </body>
+</html>

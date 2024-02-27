@@ -1,7 +1,8 @@
 name: E2E
 on:
+  workflow_dispatch:
   pull_request:
-    branches: [master]
+    branches: [main, rc]
 jobs:
   e2e:
     runs-on: ubuntu-20.04
@@ -12,9 +13,9 @@ jobs:
       - name: skip for markdown only prs
         id: markdown-check
         run: |
-          current_branch=$(git rev-parse --abbrev-ref HEAD)
+          current_branch="$(git rev-parse --abbrev-ref HEAD)"
           # diff of branch excluding md
-          testable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/master) -- . ':(exclude)*.md*')
+          testable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/main) -- . ':(exclude)*.md*')
           echo "changed files: $testable_changes"
           # skip if there are only md changes
           if [ -z "$testable_changes" ]; then
@@ -24,9 +25,17 @@ jobs:
             echo "run e2e"
             echo "SKIP=false" >> $GITHUB_OUTPUT
           fi
-      - uses: actions/setup-node@v3
+      - if: steps.markdown-check.outputs.SKIP == 'false'
+        uses: actions/setup-node@v3
         with:
           node-version-file: package.json
-      - run: npm ci --legacy-peer-deps
       - if: steps.markdown-check.outputs.SKIP == 'false'
-        run: npm test
+        uses: browser-actions/setup-chrome@v1
+        id: setup-chrome
+        with:
+          chrome-version: stable
+      - if: steps.markdown-check.outputs.SKIP == 'false'
+        run: npm install && npm run build && npm run test
+        env:
+          PUPPETEER_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+          PUPPETEER_SKIP_DOWNLOAD: true

@@ -1,0 +1,40 @@
+{
+  "name": "@esri/calcite-design-tokens",
+  "version": "2.1.2-next.0",
+  "description": "Esri's Calcite Design System Tokens",
+  "keywords": [
+    "Calcite",
+    "Calcite Design System",
+    "design tokens",
+    "tokens"
+  ],
+  "type": "module",
+  "main": "./dist/es6/global.js",
+  "types": "./dist/es6/global.d.ts",
+  "files": [
+    "./dist/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Esri/calcite-design-system.git"
+  },
+  "author": {
+    "name": "Esri"
+  },
+  "bugs": {
+    "url": "https://github.com/Esri/calcite-design-system/issues"
+  },
+  "scripts": {
+    "build": "tsx support/run.ts",
+    "clean": "rimraf dist",
+    "lint:json": "prettier --write \"**/*.json\" >/dev/null",
+    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path ../../.gitignore",
+    "lint:ts": "eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
+    "lint": "concurrently npm:lint:*",
+    "test": "NODE_OPTIONS=\"--experimental-vm-modules\" jest"
+  },
+  "devDependencies": {
+    "ts-jest-resolver": "2.0.1",
+    "ts-node": "10.9.2"
+  }
+}
