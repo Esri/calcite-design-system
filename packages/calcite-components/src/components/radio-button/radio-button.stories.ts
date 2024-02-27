@@ -52,7 +52,7 @@ export const theming_TestOnly = (): string =>
       calcite-radio-button {
         --calcite-radio-button-background-color: orange;
         --calcite-radio-button-border-radius: 50%;
-        --calcite-radio-focus-outline-color: red;
+        --calcite-radio-focus: 2px solid red;
         --calcite-radio-button-shadow: 0 0 0 2px blue;
         --calcite-radio-button-size: 20px;
       }
