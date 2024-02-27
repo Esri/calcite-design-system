@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+
+    <title>Boomer v Millennial - California</title>
+
+    <script src="../_assets/head.js"></script>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.15/"></script>
+    <style>
+      html,
+      body,
+      main,
+      .shell-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <style>
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <script>
+      require(["esri/WebMap", "esri/views/MapView", "esri/widgets/LayerList", "esri/widgets/Zoom"], function (
+        WebMap,
+        MapView,
+        LayerList,
+        Zoom,
+      ) {
+        const webmap = new WebMap({
+          portalItem: {
+            id: "cc316ca9e0824970ad29ac558161d42d",
+          },
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: webmap,
+        });
+        view.when(function () {
+          view.ui.move("zoom", "bottom-right");
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <main>
+        <div class="shell-container">
+          <calcite-shell content-behind>
+            <calcite-shell-panel id="primary-panel" slot="panel-start" position="start" display-mode="float">
+              <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
+                <calcite-action-group>
+                  <calcite-action text="Save" icon="save" indicator> </calcite-action>
+                  <calcite-action icon="map" text="New"> </calcite-action>
+                  <calcite-action icon="collection" text="Open"> </calcite-action>
+                </calcite-action-group>
+                <calcite-action-group>
+                  <calcite-action icon="layers" text="Layers" active> </calcite-action>
+                  <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+                  <calcite-action icon="legend" text="Legend"> </calcite-action>
+                  <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+                </calcite-action-group>
+                <calcite-action-group>
+                  <calcite-action text="Share" icon="share"></calcite-action>
+                  <calcite-action text="Print" icon="print"></calcite-action>
+                </calcite-action-group>
+                <calcite-action-group slot="actions-end">
+                  <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
+                  <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+                </calcite-action-group>
+              </calcite-action-bar>
+              <calcite-panel heading="Sketch">
+                <div style="padding: var(--calcite-spacing-half)">
+                  <calcite-label scale="s">Draw features</calcite-label>
+                  <calcite-action-group layout="grid" style="margin-bottom: var(--calcite-spacing)">
+                    <calcite-action alignment="center" icon="pin" text="Stamp"></calcite-action>
+                    <calcite-action alignment="center" icon="line" text="Line"></calcite-action>
+                    <calcite-action alignment="center" icon="polygon" text="Polygon"></calcite-action>
+                    <calcite-action alignment="center" icon="rectangle" text="Rectangle"></calcite-action>
+                    <calcite-action alignment="center" icon="circle" text="Circle"></calcite-action>
+                    <calcite-action alignment="center" icon="text" text="Text"></calcite-action>
+                  </calcite-action-group>
+                  <calcite-label scale="s">Select features</calcite-label>
+                  <calcite-action-group layout="grid">
+                    <calcite-action alignment="center" icon="cursor" text="Select"></calcite-action>
+                    <calcite-action
+                      alignment="center"
+                      icon="cursor-marquee"
+                      text="Select by rectangle"
+                    ></calcite-action>
+                    <calcite-action alignment="center" icon="lasso" text="Select by lasso"></calcite-action>
+                  </calcite-action-group>
+                </div>
+              </calcite-panel>
+            </calcite-shell-panel>
+
+            <calcite-shell-panel slot="panel-end" position="end">
+              <calcite-action-bar slot="action-bar">
+                <calcite-action-group>
+                  <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+                  <calcite-action text="Styles" icon="shapes"> </calcite-action>
+                  <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
+                  <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
+                  <calcite-action text="Configure attributes" icon="feature-details"> </calcite-action>
+                  <calcite-action text="Labels" icon="label"> </calcite-action>
+                  <calcite-action text="Tablew" icon="table"> </calcite-action>
+                </calcite-action-group>
+                <calcite-action-group>
+                  <calcite-action icon="search" text="Search"></calcite-action>
+                  <calcite-action icon="measure" text="Measure"></calcite-action>
+                  <calcite-action icon="road-sign" text="Directions"></calcite-action>
+                  <calcite-action icon="point" text="Location"></calcite-action>
+                  <calcite-action icon="pencil-square" text="Edit" disabled></calcite-action>
+                  <calcite-action icon="clock" text="Time" disabled></calcite-action>
+                </calcite-action-group>
+                <calcite-action-group slot="actions-end">
+                  <calcite-action text="Tips" id="tip-manager-button">
+                    <calcite-icon icon="lightbulb" scale="s"></calcite-icon>
+                  </calcite-action>
+                </calcite-action-group>
+              </calcite-action-bar>
+              <calcite-button
+                slot="header"
+                kind="inverse"
+                alignment="icon-end-space-between"
+                icon-end="caret-down"
+                width="full"
+              >
+                It's a header button with really long text that should wrap, you know?
+              </calcite-button>
+              <calcite-flow id="flow">
+                <calcite-flow-item
+                  heading="cool"
+                  description="Popular Demographics in the United States (Beta) - County"
+                >
+                  I'm this panel's content.
+                </calcite-flow-item>
+                <calcite-flow-item heading="Configure popup" closable>
+                  <calcite-block heading="Basic" summary="Collapsible with section" collapsible open>
+                    <calcite-list id="one" multiple style="margin-bottom: var(--calcite-spacing-double)">
+                      <calcite-list-item label="Population 2018" description="{ POP_2018 }" value="dogs">
+                        <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="x">
+                        </calcite-action>
+                      </calcite-list-item>
+                      <calcite-list-item label="Population 2020" description="{ POP_2020 }" value="cats">
+                        <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="x">
+                        </calcite-action>
+                      </calcite-list-item>
+                      <calcite-list-item label="Average Income" description="{ INCOM_AVG }" value="fish">
+                        <calcite-action slot="actions-end" text="click-me" onClick="console.log('clicked');" icon="x">
+                        </calcite-action>
+                      </calcite-list-item>
+                    </calcite-list>
+
+                    <!-- Using Button -->
+                    <calcite-label scale="s">
+                      It's a label (btn).
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-button
+                          slot="action"
+                          appearance="transparent"
+                          kind="neutral"
+                          icon-start="brackets-curly"
+                          scale="s"
+                        ></calcite-button>
+                      </calcite-input>
+                    </calcite-label>
+                    <!-- Using Action -->
+                    <calcite-label scale="s">
+                      It's a label (action).
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action text="cool action" icon="pencil" slot="action" scale="s"></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-block-section text="Section is cool">
+                      <calcite-label scale="s">
+                        It's a label.
+                        <calcite-input type="text" placeholder="This is stuff." scale="s"> </calcite-input>
+                      </calcite-label>
+                    </calcite-block-section>
+                    <calcite-block-section text="This is switch section" toggle-display="switch">
+                      <calcite-label scale="s">
+                        It's a label.
+                        <calcite-input type="text" placeholder="This is stuff." scale="s"> </calcite-input>
+                      </calcite-label>
+                    </calcite-block-section>
+                    <calcite-label layout="inline-space-between" scale="m">
+                      This is a label
+                      <calcite-switch scale="s"></calcite-switch>
+                    </calcite-label>
+                  </calcite-block>
+
+                  <calcite-block heading="With control" summary="Collapsible" collapsible>
+                    <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+                  <calcite-block heading="Basic" summary="Not collapsible">
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+                  <calcite-block heading="With control" summary="Not collapsible">
+                    <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+
+                  <!-- VALID -->
+                  <calcite-block
+                    heading="With status"
+                    summary="Status icon replaces any icon."
+                    collapsible
+                    status="valid"
+                  >
+                    <calcite-block-section text="Section is cool" status="valid">
+                      <calcite-label scale="s">
+                        It's a label.
+                        <calcite-input type="text" placeholder="This is stuff." scale="s"> </calcite-input>
+                      </calcite-label>
+                    </calcite-block-section>
+                    <calcite-block-section text="Switch section" toggle-display="switch" status="valid">
+                      <calcite-label scale="s">
+                        It's a label.
+                        <calcite-input type="text" placeholder="This is stuff." scale="s"> </calcite-input>
+                      </calcite-label>
+                    </calcite-block-section>
+                  </calcite-block>
+
+                  <!-- INVALID -->
+                  <calcite-block
+                    heading="With status"
+                    summary="Status icon replaces any icon."
+                    collapsible
+                    status="invalid"
+                  >
+                    <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+                    <calcite-block-section text="Section is cool" status="invalid">
+                      <calcite-label scale="s">
+                        It's a label.
+                        <calcite-input type="text" placeholder="This is stuff." scale="s"> </calcite-input>
+                      </calcite-label>
+                    </calcite-block-section>
+                    <calcite-block-section text="Switch section" toggle-display="switch" status="invalid">
+                      <calcite-label scale="s">
+                        It's a label.
+                        <calcite-input type="text" placeholder="This is stuff." scale="s"> </calcite-input>
+                      </calcite-label>
+                    </calcite-block-section>
+                  </calcite-block>
+
+                  <calcite-block heading="With icon" summary="Collapsible" collapsible>
+                    <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+                  <calcite-block heading="With icon" summary="Not collapsible">
+                    <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+                  <calcite-block heading="With icon and control and long stuff" summary="Collapsible" collapsible>
+                    <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
+                    <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+                  <calcite-block heading="With icon and control" summary="Not collapsible">
+                    <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
+                    <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+
+                  <calcite-block drag-handle heading="Drag + Basic" summary="Collapsible" collapsible>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+                  <calcite-block drag-handle heading="Drag + Basic" summary="Not collapsible">
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+                  <calcite-block
+                    drag-handle
+                    heading="Drag + Basic with control and some extra text"
+                    summary="Collapsible"
+                    collapsible
+                  >
+                    <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+                  <calcite-block
+                    drag-handle
+                    heading="Drag + Basicwithcontrolandsomeextratext"
+                    summary="Not collapsible"
+                  >
+                    <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+                  <calcite-block drag-handle heading="Drag + Basic with icon" summary="Collapsible" collapsible>
+                    <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+                  <calcite-block drag-handle heading="Drag + Basic with icon" summary="Not collapsible">
+                    <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+
+                  <calcite-block drag-handle heading="Basic with icon and control" summary="Collapsible" collapsible>
+                    <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
+                    <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+                  <calcite-block drag-handle heading="Basic with icon and control" summary="Not collapsible">
+                    <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
+                    <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                    <calcite-label scale="s">
+                      It's a label.
+                      <calcite-input type="text" placeholder="This is stuff." scale="s">
+                        <calcite-action
+                          text="cool action"
+                          icon="brackets-curly"
+                          slot="action"
+                          scale="s"
+                        ></calcite-action>
+                      </calcite-input>
+                    </calcite-label>
+                  </calcite-block>
+
+                  <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
+                  <calcite-tooltip label="tooltip" reference-element="label-fab" pointer-disabled>
+                    Add label class
+                  </calcite-tooltip>
+                  <calcite-button slot="footer" appearance="outline" width="half">Cancel</calcite-button>
+                  <calcite-button slot="footer" width="half">Done</calcite-button>
+                </calcite-flow-item>
+              </calcite-flow>
+              <!-- </div> -->
+            </calcite-shell-panel>
+            <div class="gnav" slot="header">
+              <h2>Cool app</h2>
+            </div>
+            <calcite-tip-manager slot="center-row" id="tip-manager" hidden>
+              <calcite-tip-group group-title="Astronomy">
+                <calcite-tip heading="The Red Rocks and Blue Water">
+                  <img slot="thumbnail" src="https://placeimg.com/1000/600/city" alt="This is an image." />
+                  <p>
+                    This tip is how a tip should really look. It has a landscape or square image and a small amount of
+                    text content. This paragraph is in an "info" slot.
+                  </p>
+                  <p>
+                    This is another paragraph in a subsequent "info" slot. In publishing and graphic design, Lorem ipsum
+                    is a placeholder text commonly used to demonstrate the visual form of a document without relying on
+                    meaningful content (also called greeking). Replacing the actual content with placeholder text allows
+                    designers to design the form of the content before the content itself has been produced.
+                  </p>
+                  <a href="http://www.esri.com">This is the "link" slot.</a>
+                </calcite-tip>
+                <calcite-tip heading="The Long Trees">
+                  <img slot="thumbnail" src="https://placeimg.com/1000/600/nature" alt="This is an image." />
+                  <p>
+                    This tip has an image that is a pretty tall. And the text will run out before the end of the image.
+                  </p>
+                  <p>In astronomy, the terms object and body are often used interchangeably.</p>
+                  <a href="http://www.esri.com">View Esri</a>
+                </calcite-tip>
+              </calcite-tip-group>
+              <calcite-tip heading="Square Nature">
+                <img slot="thumbnail" src="https://placeimg.com/1000/1000/nature" alt="This is an image." />
+                <p>This tip has an image that is square. And the text will run out before the end of the image.</p>
+                <p>In astronomy, the terms object and body are often used interchangeably.</p>
+                <p>
+                  In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the
+                  visual form of a document without relying on meaningful content (also called greeking). Replacing the
+                  actual content with placeholder text allows designers to design the form of the content before the
+                  content itself has been produced.
+                </p>
+                <a href="http://www.esri.com">View Esri</a>
+              </calcite-tip>
+              <calcite-tip heading="The lack of imagery">
+                <p>This tip has no image. As such, the content area will take up the entire width of the tip.</p>
+                <p>
+                  This is the next paragraph and should show how wide the content area is now. Of course, the width of
+                  the overall tip will affect things. In astronomy, the terms object and body are often used
+                  interchangeably.
+                </p>
+                <a href="http://www.esri.com">View Esri</a>
+              </calcite-tip>
+            </calcite-tip-manager>
+            <div id="viewDiv"></div>
+
+            <footer slot="footer">Footer</footer>
+          </calcite-shell>
+        </div>
+        <calcite-popover label="right start popover" placement="right" reference-element="popover-trigger">
+          <calcite-panel heading="Cool cool" height-scale="m">
+            <calcite-pick-list filter-enabled filter-sticky>
+              <calcite-action slot="menu-actions" text="options">
+                <calcite-icon icon="ellipsis" scale="s"></calcite-icon>
+              </calcite-action>
+              <calcite-pick-list-item label="about disasters, fires, floods and killer bees" value="1">
+              </calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="about the NASA shuttle falling in the sea"
+                value="2"
+              ></calcite-pick-list-item>
+              <calcite-pick-list-item label="about starvation and the food that Live Aid bought" value="3">
+              </calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="about disease, baby rock, Hudson, rock,"
+                value="4"
+              ></calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="about disease, baby rock, Hudson, rock,"
+                value="4"
+              ></calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="about disease, baby rock, Hudson, rock,"
+                value="4"
+              ></calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="about disease, baby rock, Hudson, rock,"
+                value="4"
+              ></calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="about disease, baby rock, Hudson, rock,"
+                value="4"
+              ></calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="about disease, baby rock, Hudson, rock,"
+                value="4"
+              ></calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="about disease, baby rock, Hudson, rock,"
+                value="4"
+              ></calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="about disease, baby rock, Hudson, rock,"
+                value="4"
+              ></calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="about disease, baby rock, Hudson, rock,"
+                value="4"
+              ></calcite-pick-list-item>
+              <calcite-pick-list-item
+                label="about disease, baby rock, Hudson, rock,"
+                value="4"
+              ></calcite-pick-list-item>
+              <calcite-pick-list-item label="END" value="4"></calcite-pick-list-item>
+            </calcite-pick-list>
+            <calcite-button slot="footer" width="half">Yeah!</calcite-button>
+            <calcite-button slot="footer" width="half" appearance="outline">Naw.</calcite-button>
+          </calcite-panel>
+        </calcite-popover>
+        <script>
+          const tipManagerButton = document.getElementById("tip-manager-button");
+          const tipManager = document.getElementById("tip-manager");
+          tipManagerButton.addEventListener("click", function () {
+            tipManager.hasAttribute("hidden")
+              ? tipManager.removeAttribute("hidden")
+              : tipManager.setAttribute("hidden", "");
+          });
+          const flowNode = document.getElementById("flow");
+        </script>
+      </main>
+    </demo-dom-swapper>
+  </body>
+</html>

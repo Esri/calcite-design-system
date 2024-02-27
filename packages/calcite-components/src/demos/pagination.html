@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Pagination</title>
+    <script src="./_assets/head.js"></script>
+    <style>
+      .flex {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .parent {
+        display: flex;
+        flex-direction: column;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        margin-left: 5%;
+        padding: 30px;
+      }
+
+      .child {
+        padding: 15px;
+        flex: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Pagination</h1>
+
+      <!-- Small -->
+      <div class="flex">
+        <div class="parent">
+          <div class="child">small</div>
+
+          <div class="child">
+            <calcite-pagination total-items="300" page-size="100" start-item="1" scale="s"></calcite-pagination>
+          </div>
+          <div class="child">
+            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="s">Hello</calcite-pagination>
+          </div>
+
+          <div class="child">
+            <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="s"></calcite-pagination>
+          </div>
+        </div>
+
+        <!-- Medium -->
+        <div class="parent">
+          <div class="child">medium</div>
+
+          <div class="child">
+            <calcite-pagination total-items="300" page-size="100" start-item="1" scale="m"></calcite-pagination>
+          </div>
+          <div class="child">
+            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="m">Hello</calcite-pagination>
+          </div>
+
+          <div class="child">
+            <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="m"></calcite-pagination>
+          </div>
+        </div>
+
+        <!-- Large -->
+        <div class="parent">
+          <div class="child">large</div>
+
+          <div class="child">
+            <calcite-pagination total-items="300" page-size="100" start-item="1" scale="l"></calcite-pagination>
+          </div>
+          <div class="child">
+            <calcite-pagination total-items="1200" page-size="100" start-item="1" scale="l">Hello</calcite-pagination>
+          </div>
+
+          <div class="child">
+            <calcite-pagination total-items="150000" page-size="100" start-item="5400" scale="l"></calcite-pagination>
+          </div>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="parent">
+          <div class="child">small french</div>
+
+          <div class="child">
+            <calcite-pagination
+              lang="fr"
+              group-separator
+              total-items="300"
+              page-size="100"
+              start-item="1"
+              scale="s"
+            ></calcite-pagination>
+          </div>
+          <div class="child">
+            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="s"
+              >Hello
+            </calcite-pagination>
+          </div>
+
+          <div class="child">
+            <calcite-pagination
+              lang="fr"
+              group-separator
+              total-items="150000"
+              page-size="100"
+              start-item="5400"
+              scale="s"
+            >
+            </calcite-pagination>
+          </div>
+        </div>
+
+        <!-- Medium -->
+        <div class="parent">
+          <div class="child">medium french</div>
+
+          <div class="child">
+            <calcite-pagination
+              lang="fr"
+              group-separator
+              total-items="300"
+              page-size="100"
+              start-item="1"
+              scale="m"
+            ></calcite-pagination>
+          </div>
+          <div class="child">
+            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="m"
+              >Hello
+            </calcite-pagination>
+          </div>
+
+          <div class="child">
+            <calcite-pagination
+              lang="fr"
+              group-separator
+              total-items="150000"
+              page-size="100"
+              start-item="5400"
+              scale="m"
+            >
+            </calcite-pagination>
+          </div>
+        </div>
+
+        <!-- Large -->
+        <div class="parent">
+          <div class="child">large french</div>
+
+          <div class="child">
+            <calcite-pagination
+              lang="fr"
+              group-separator
+              total-items="300"
+              page-size="100"
+              start-item="1"
+              scale="l"
+            ></calcite-pagination>
+          </div>
+          <div class="child">
+            <calcite-pagination lang="fr" group-separator total-items="1200" page-size="100" start-item="1" scale="l"
+              >Hello
+            </calcite-pagination>
+          </div>
+
+          <div class="child">
+            <calcite-pagination
+              lang="fr"
+              group-separator
+              total-items="150000"
+              page-size="100"
+              start-item="5400"
+              scale="l"
+            >
+            </calcite-pagination>
+          </div>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="parent">
+          <div class="child">small arab numbering system</div>
+
+          <div class="child">
+            <calcite-pagination
+              lang="ar"
+              numbering-system="arab"
+              total-items="300"
+              page-size="100"
+              start-item="1"
+              scale="s"
+            ></calcite-pagination>
+          </div>
+          <div class="child">
+            <calcite-pagination
+              lang="ar"
+              numbering-system="arab"
+              total-items="1200"
+              page-size="100"
+              start-item="1"
+              scale="s"
+              >Hello
+            </calcite-pagination>
+          </div>
+
+          <div class="child">
+            <calcite-pagination
+              lang="ar"
+              numbering-system="arab"
+              total-items="150000"
+              page-size="100"
+              start-item="5400"
+              scale="s"
+            >
+            </calcite-pagination>
+          </div>
+        </div>
+
+        <!-- Medium -->
+        <div class="parent">
+          <div class="child">medium arab numbering system</div>
+
+          <div class="child">
+            <calcite-pagination
+              lang="ar"
+              numbering-system="arab"
+              total-items="300"
+              page-size="100"
+              start-item="1"
+              scale="m"
+            ></calcite-pagination>
+          </div>
+          <div class="child">
+            <calcite-pagination
+              lang="ar"
+              numbering-system="arab"
+              total-items="1200"
+              page-size="100"
+              start-item="1"
+              scale="m"
+              >Hello
+            </calcite-pagination>
+          </div>
+
+          <div class="child">
+            <calcite-pagination
+              lang="ar"
+              numbering-system="arab"
+              total-items="150000"
+              page-size="100"
+              start-item="5400"
+              scale="m"
+            >
+            </calcite-pagination>
+          </div>
+        </div>
+
+        <!-- Large -->
+        <div class="parent">
+          <div class="child">large arab numbering system</div>
+
+          <div class="child">
+            <calcite-pagination
+              lang="ar"
+              numbering-system="arab"
+              total-items="300"
+              page-size="100"
+              start-item="1"
+              scale="l"
+            ></calcite-pagination>
+          </div>
+          <div class="child">
+            <calcite-pagination
+              lang="ar"
+              numbering-system="arab"
+              total-items="1200"
+              page-size="100"
+              start-item="1"
+              scale="l"
+              >Hello
+            </calcite-pagination>
+          </div>
+
+          <div class="child">
+            <calcite-pagination
+              lang="ar"
+              numbering-system="arab"
+              total-items="150000"
+              page-size="100"
+              start-item="5400"
+              scale="l"
+            >
+            </calcite-pagination>
+          </div>
+        </div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+<link rel="stylesheet" href="./build/calcite.css" />
+<script type="module" src="./build/calcite.esm.js"></script>
+
+<!-- docs fixes for displaying components -->
+<style>
+  body {
+    font-family: var(--calcite-sans-family);
+    color: var(--calcite-color-text-1);
+    background-color: var(--calcite-color-background);
+  }
+
+  calcite-slider {
+    width: 250px;
+    max-width: 100%;
+  }
+
+  calcite-meter {
+    width: 450px;
+    max-width: 100%;
+  }
+
+  calcite-tabs,
+  calcite-progress {
+    width: 900px;
+    max-width: 100%;
+  }
+
+  calcite-accordion {
+    min-width: 250px;
+    max-width: 100%;
+  }
+
+  #root > calcite-flow,
+  #root > calcite-panel {
+    height: 400px;
+  }
+
+  #properties {
+    margin-top: 1rem;
+  }
+</style>
+
+<script>
+  window.addEventListener(
+    "load",
+    () => {
+      document.addEventListener("keydown", (event) => {
+        const bubbledFromComponentStory = event
+          .composedPath()
+          .some((element) => element.tagName?.toLowerCase().startsWith("calcite-"));
+
+        if (bubbledFromComponentStory) {
+          event.stopPropagation();
+        }
+      });
+    },
+    { once: true },
+  );
+</script>

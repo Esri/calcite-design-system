@@ -2,11 +2,15 @@ name: Enhancement
 description: Request for a feature to be added to an existing component
 labels: ["enhancement", "0 - new", "needs triage"]
 body:
-  - type: markdown
+  - type: checkboxes
+    id: existing-issues
     attributes:
-      value: |
-        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
-        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+      label: Check existing issues
+      description: If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one. For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+      options:
+        - label: I have [checked for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates
+    validations:
+      required: true
   - type: textarea
     id: description
     attributes:
@@ -41,3 +45,77 @@ body:
       description: Code snippet, link to a similar product, etc.
     validations:
       required: false
+  - type: dropdown
+    id: priority-impact
+    validations:
+      required: true
+    attributes:
+      label: Priority impact
+      multiple: false
+      description: What is the impact of the enhancement to you, your team, or organization? Use discretion and only select the "need" priority for high user impact and quality issues in the component(s).
+      options:
+        - p4 - not time sensitive
+        - p3 - want for upcoming milestone
+        - p2 - want for current milestone
+        - p1 - need for current milestone
+  - type: checkboxes
+    id: packages
+    attributes:
+      label: Calcite package
+      description: Select the relevant [package(s)](https://github.com/Esri/calcite-design-system/tree/main/packages) related to the request.
+      options:
+        - label: "@esri/calcite-components"
+        - label: "@esri/calcite-components-angular"
+        - label: "@esri/calcite-components-react"
+        - label: "@esri/calcite-design-tokens"
+        - label: "@esri/eslint-plugin-calcite-components"
+    validations:
+      required: false
+  - type: dropdown
+    id: esri-team
+    validations:
+      required: true
+    attributes:
+      label: Esri team
+      multiple: false
+      description: If you work at Esri, please select your product team. Otherwise choose "N/A". If your team is not listed, choose "N/A", and then edit the line after submitting the issue.
+      options:
+        - N/A
+        - ArcGIS Solutions
+        - ArcGIS AppStudio
+        - ArcGIS Business/Community Analyst
+        - ArcGIS Charts
+        - ArcGIS Dashboards
+        - ArcGIS Developer Experience
+        - ArcGIS Enterprise
+        - ArcGIS Excalibur
+        - ArcGIS Experience Builder
+        - ArcGIS Field Apps
+        - ArcGIS GeoAnalytics
+        - ArcGIS GeoBIM
+        - ArcGIS GeoPlanner
+        - ArcGIS Hub
+        - ArcGIS Indoors
+        - ArcGIS Insights
+        - ArcGIS Instant Apps
+        - ArcGIS Knowledge
+        - ArcGIS Living Atlas
+        - ArcGIS Map Viewer
+        - ArcGIS Marketplace
+        - ArcGIS Mission
+        - ArcGIS Monitor
+        - ArcGIS Network Analyst
+        - ArcGIS Online
+        - ArcGIS Pro
+        - ArcGIS Maps SDK for JavaScript
+        - ArcGIS Scene Viewer
+        - ArcGIS Site Scan
+        - ArcGIS StoryMaps
+        - ArcGIS Survey123
+        - ArcGIS Web Analysis
+        - ArcGIS Urban
+        - Esri Marketing
+        - Professional Services - Midwest Delivery Center
+        - Professional Services - Services Delivery
+        - Calcite (design)
+        - Calcite (dev)

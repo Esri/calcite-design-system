@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Nav / Calcite Nav Logo / Calcite Nav User</title>
+    <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+    <link rel="stylesheet" href="../build/calcite.css" />
+    <script type="module" src="../build/calcite.esm.js"></script>
+    <script src="_assets/head.js"></script>
+
+    <script src="https://js.arcgis.com/4.19/"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/light/main.css" />
+
+    <link rel="stylesheet" href="/demos/_assets/navigation-demos.css" />
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <div class="text-box">
+        <h2><code>calcite-navigation</code></h2>
+        <h3>
+          Calcite Nav is a positioning and layout component that supports consistent application and product
+          igationigation. It contains slots that position <code>calcite-navigation-logo</code> and
+          <code>calcite-navigation-logo</code>. It has slots for positioning <code>calcite-menu</code> as well as other
+          interactive content. The primary level is larger and more emphasized as it should be the first item populated
+          and consistent across products. The secondary and tertiary level is slightly shorter to provide visual
+          hierarchy.
+        </h3>
+      </div>
+      <calcite-shell>
+        <calcite-navigation slot="header">
+          <calcite-chip slot="logo" scale="s">logo</calcite-chip>
+          <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
+          <calcite-chip slot="content-start" scale="s">content-start</calcite-chip>
+          <calcite-chip slot="content-center" scale="s">content-center</calcite-chip>
+          <calcite-chip slot="content-end" scale="s">content-end </calcite-chip>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header">
+          <calcite-chip slot="logo" scale="s">logo</calcite-chip>
+          <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
+          <calcite-chip slot="content-start" scale="s">content-start</calcite-chip>
+          <calcite-chip slot="content-center" scale="s">content-center</calcite-chip>
+          <calcite-chip slot="content-end" scale="s">content-end </calcite-chip>
+          <calcite-navigation slot="navigation-secondary">
+            <calcite-chip slot="content-start" scale="s">content-start</calcite-chip>
+            <calcite-chip slot="content-end" scale="s">content-end</calcite-chip>
+          </calcite-navigation>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header">
+          <calcite-chip slot="logo" scale="s">logo</calcite-chip>
+          <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
+          <calcite-chip slot="content-start" scale="s">content-start</calcite-chip>
+          <calcite-chip slot="content-center" scale="s">content-center</calcite-chip>
+          <calcite-navigation slot="navigation-secondary">
+            <calcite-chip slot="content-start" scale="s">content-start</calcite-chip>
+            <calcite-chip slot="content-center" scale="s">content-center</calcite-chip>
+          </calcite-navigation>
+          <calcite-navigation slot="navigation-tertiary">
+            <calcite-chip slot="content-start" scale="s">content-start</calcite-chip>
+            <calcite-chip slot="content-end" scale="s">content-end</calcite-chip>
+          </calcite-navigation>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation slot="header" toggle-enabled>
+          <calcite-chip slot="logo" scale="s">logo</calcite-chip>
+          <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
+          <calcite-chip slot="content-start" scale="s">content-start</calcite-chip>
+          <calcite-chip slot="content-center" scale="s">content-center</calcite-chip>
+          <calcite-chip slot="content-end" scale="s">content-end</calcite-chip>
+          <calcite-navigation slot="navigation-secondary">
+            <calcite-chip slot="content-start" scale="s">content-start</calcite-chip>
+            <calcite-chip slot="content-center" scale="s">content-center</calcite-chip>
+          </calcite-navigation>
+          <calcite-navigation slot="navigation-tertiary">
+            <calcite-chip slot="content-start" scale="s">content-start</calcite-chip>
+            <calcite-chip slot="content-end" scale="s">content-end</calcite-chip>
+          </calcite-navigation>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f" toggle-enabled>
+          <calcite-navigation-logo
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            thumbnail="./_assets/images/acme-logo.svg"
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item text="Potatoes"></calcite-menu-item>
+            <calcite-menu-item active text="Chips"></calcite-menu-item>
+            <calcite-menu-item text="Employees"></calcite-menu-item>
+            <calcite-menu-item text="Suppliers"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-navigation-user slot="user" full-name="Walt McChipson"> </calcite-navigation-user>
+          <calcite-menu slot="content-end">
+            <calcite-menu-item text="Support"></calcite-menu-item>
+          </calcite-menu>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f" toggle-enabled>
+          <calcite-navigation-logo
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            thumbnail="./_assets/images/acme-logo.svg"
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item text="Potatoes"></calcite-menu-item>
+            <calcite-menu-item active text="Chips"></calcite-menu-item>
+            <calcite-menu-item text="Employees"></calcite-menu-item>
+            <calcite-menu-item text="Suppliers"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-navigation-user slot="user" full-name="Walt McChipson"> </calcite-navigation-user>
+          <calcite-menu slot="content-end">
+            <calcite-menu-item text="Support"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-navigation slot="navigation-secondary">
+            <calcite-chip slot="content-end" scale="s">Slotted Action</calcite-chip>
+            <calcite-chip slot="content-start" scale="s">Slotted Action</calcite-chip>
+            <calcite-menu slot="content-start">
+              <calcite-menu-item icon-start="dashboard" text="Dashboard"> </calcite-menu-item>
+              <calcite-menu-item icon-start="utility-network-trace" text="Distributors"> </calcite-menu-item>
+              <calcite-menu-item icon-start="legend" text="Stockists"> </calcite-menu-item>
+              <calcite-menu-item active icon-start="credit-card" text="Sales"> </calcite-menu-item>
+            </calcite-menu>
+            <calcite-chip slot="content-start" scale="s">Slotted Action</calcite-chip>
+            <calcite-menu slot="content-end">
+              <calcite-menu-item text="US Sales"></calcite-menu-item>
+              <calcite-menu-item active text-enabled text="International Sales"></calcite-menu-item>
+            </calcite-menu>
+          </calcite-navigation>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            thumbnail="./_assets/images/acme-logo.svg"
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item text="Potatoes"></calcite-menu-item>
+            <calcite-menu-item active text="Chips"></calcite-menu-item>
+            <calcite-menu-item text="Employees"></calcite-menu-item>
+            <calcite-menu-item text="Suppliers"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-navigation-user slot="user" full-name="Walt McChipson"> </calcite-navigation-user>
+          <calcite-menu slot="content-end">
+            <calcite-menu-item text="Support"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-navigation slot="navigation-secondary">
+            <calcite-menu slot="content-start">
+              <calcite-menu-item icon-start="app-launcher" text="All" breadcrumb> </calcite-menu-item>
+              <calcite-menu-item icon-start="apps" text="Testing Flavors" breadcrumb> </calcite-menu-item>
+              <calcite-menu-item active text="Sorel Pesto"> </calcite-menu-item>
+            </calcite-menu>
+            <calcite-menu slot="content-end">
+              <calcite-menu-item icon-start="book" text="Tasting Notes"> </calcite-menu-item>
+              <calcite-menu-item icon-start="legend" text="Ingredients"> </calcite-menu-item>
+              <calcite-menu-item active icon-start="activity-monitor" text="Health Benefits"> </calcite-menu-item>
+            </calcite-menu>
+          </calcite-navigation>
+          <calcite-navigation slot="navigation-tertiary">
+            <calcite-chip slot="content-start" scale="s">Slotted Action</calcite-chip>
+            <calcite-chip slot="content-end" scale="s">Slotted Action</calcite-chip>
+            <calcite-menu slot="content-start">
+              <calcite-menu-item text="Vitamins"></calcite-menu-item>
+              <calcite-menu-item active text-enabled text="Minerals"></calcite-menu-item>
+            </calcite-menu>
+            <calcite-menu slot="content-end">
+              <calcite-menu-item text="Vitamins"></calcite-menu-item>
+              <calcite-menu-item active text-enabled text="Minerals"></calcite-menu-item>
+            </calcite-menu>
+          </calcite-navigation>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-progress type="indeterminate" slot="progress"></calcite-progress>
+          <calcite-navigation-logo
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            thumbnail="./_assets/images/acme-logo.svg"
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item text="Potatoes"></calcite-menu-item>
+            <calcite-menu-item active text="Chips"></calcite-menu-item>
+            <calcite-menu-item text="Employees"></calcite-menu-item>
+            <calcite-menu-item text="Suppliers"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-menu slot="content-end">
+            <calcite-menu-item text="Support"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-navigation slot="navigation-secondary">
+            <calcite-menu slot="content-start">
+              <calcite-menu-item icon-start="app-launcher" text="All" breadcrumb> </calcite-menu-item>
+              <calcite-menu-item icon-start="apps" text="Testing Flavors" breadcrumb> </calcite-menu-item>
+              <calcite-menu-item active text="Sorel Pesto"> </calcite-menu-item>
+            </calcite-menu>
+          </calcite-navigation>
+          <calcite-navigation slot="navigation-tertiary">
+            <calcite-chip slot="content-end" scale="s">Slotted Action</calcite-chip>
+            <calcite-chip slot="content-start" scale="s">Slotted Action</calcite-chip>
+          </calcite-navigation>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            thumbnail="./_assets/images/acme-logo.svg"
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item active text="Potatoes"></calcite-menu-item>
+            <calcite-menu-item text="Chips"></calcite-menu-item>
+            <calcite-menu-item text="Employees"></calcite-menu-item>
+            <calcite-menu-item text="Suppliers"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-menu slot="content-end">
+            <calcite-menu-item text="Support"></calcite-menu-item>
+          </calcite-menu>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f; --calcite-navigation-width: 70vw">
+          <calcite-navigation-logo
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            thumbnail="./_assets/images/acme-logo.svg"
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item text="Potatoes"></calcite-menu-item>
+            <calcite-menu-item text="Chips"></calcite-menu-item>
+            <calcite-menu-item text="Employees"></calcite-menu-item>
+            <calcite-menu-item active text="Suppliers"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-menu slot="content-end">
+            <calcite-menu-item text="Support"></calcite-menu-item>
+          </calcite-menu>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f; --calcite-navigation-width: 1440px">
+          <calcite-navigation-logo
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            thumbnail="./_assets/images/acme-logo.svg"
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item text="Potatoes"></calcite-menu-item>
+            <calcite-menu-item active text="Chips"></calcite-menu-item>
+            <calcite-menu-item text="Employees"></calcite-menu-item>
+            <calcite-menu-item text="Suppliers"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-menu slot="content-end">
+            <calcite-menu-item text="Support"></calcite-menu-item>
+          </calcite-menu>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation
+          toggle-enabled
+          slot="header"
+          style="--calcite-color-brand: #bf390f; --calcite-navigation-width: 1440px"
+        >
+          <calcite-navigation-logo
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            thumbnail="./_assets/images/acme-logo.svg"
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item text="Potatoes"></calcite-menu-item>
+            <calcite-menu-item active text="Chips"></calcite-menu-item>
+            <calcite-menu-item text="Employees"></calcite-menu-item>
+            <calcite-menu-item text="Suppliers"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-menu slot="content-end">
+            <calcite-menu-item text="Support"></calcite-menu-item>
+          </calcite-menu>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation toggle-enabled slot="header"> </calcite-navigation>
+      </calcite-shell>
+      <div id="calcite-navigation-logo" class="text-box">
+        <h2><code>calcite-navigation-logo</code></h2>
+        <h3>
+          The <code>calcite-navigation-logo</code> component is placed in the <code>logo</code> slot, and is designed
+          only for the primary navigation level.
+        </h3>
+      </div>
+      <calcite-shell>
+        <calcite-navigation slot="header">
+          <calcite-chip kind="brand" slot="logo" scale="s">logo</calcite-chip>
+          <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
+          <calcite-chip slot="content-start" scale="s">content-start</calcite-chip>
+          <calcite-chip slot="content-center" scale="s">content-center</calcite-chip>
+          <calcite-chip slot="content-end" scale="s">content-end</calcite-chip>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo heading="Walt's Chips" slot="logo"> </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo slot="logo" icon="link-chart"> </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo heading="Walt's Chips" slot="logo" icon="link-chart"> </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo heading="Walt's Chips" description="Eastern Potato Chip Company" slot="logo">
+          </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            thumbnail="./_assets/images/acme-logo.svg"
+          >
+          </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            icon="link-chart"
+          >
+          </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            thumbnail="./_assets/images/acme-logo.svg"
+          >
+          </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo
+            href="#"
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            thumbnail="./_assets/images/acme-logo.svg"
+          >
+          </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo active heading="Walt's Chips" slot="logo"> </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo active heading="Walt's Chips" description="Eastern Potato Chip Company" slot="logo">
+          </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo
+            icon="layer"
+            active
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+          >
+          </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo icon="pin-plus" active heading="Walt's Chips" slot="logo"> </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo active icon="layer" description="Eastern Potato Chip Company" slot="logo">
+          </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo
+            active
+            heading="Walt's Chips"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            thumbnail="./_assets/images/acme-logo.svg"
+          >
+          </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #bf390f">
+          <calcite-navigation-logo
+            active
+            heading="Walt's Chips"
+            icon="address-book"
+            description="Eastern Potato Chip Company"
+            slot="logo"
+            thumbnail="./_assets/images/acme-logo.svg"
+          >
+          </calcite-navigation-logo>
+        </calcite-navigation>
+      </calcite-shell>
+      <div id="calcite-navigation-user" class="text-box">
+        <h2><code>calcite-navigation-user</code></h2>
+        <h3>
+          The <code>calcite-navigation-user</code> component is placed in the <code>user</code> slot, and is designed
+          only for the primary navigation level.
+        </h3>
+      </div>
+      <calcite-shell>
+        <calcite-navigation slot="header">
+          <calcite-chip slot="logo" scale="s">logo</calcite-chip>
+          <calcite-chip kind="brand" slot="user" text-enabled scale="s">user</calcite-chip>
+          <calcite-chip slot="content-center" scale="s">content-center</calcite-chip>
+          <calcite-chip slot="content-end" scale="s">content-end</calcite-chip>
+          <calcite-chip slot="content-start" scale="s">content-start </calcite-chip>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation slot="header">
+          <calcite-navigation-user slot="user" text-disabled> </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header">
+          <calcite-navigation-user slot="user" full-name="Wendell Berry" text-disabled> </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header">
+          <calcite-navigation-user slot="user" username="wBerry_arcgis"> </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header">
+          <calcite-navigation-user slot="user" full-name="Wendell Berry"> </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header">
+          <calcite-navigation-user slot="user" full-name="Wendell Berry" username="wBerry_arcgis">
+          </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header">
+          <calcite-navigation-user
+            slot="user"
+            full-name="Wendell Berry"
+            username="wBerry_arcgis"
+            thumbnail="https://placebear.com/50/50"
+          >
+          </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+      <calcite-shell>
+        <calcite-navigation slot="header">
+          <calcite-navigation-user slot="user" full-name="Wendell Berry" thumbnail="https://placebear.com/50/50">
+          </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <div class="text-box" id="examples-platform">
+        <h2>Platform configurations</h2>
+        <h3>Examples of various platform app navigation patterns (not all accurate representations).</h3>
+      </div>
+      <calcite-shell>
+        <calcite-navigation slot="header">
+          <calcite-navigation-logo
+            heading="Kitchen Sink Example"
+            slot="logo"
+            thumbnail="./_assets/images/esri-logo.svg"
+            href
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-end">
+            <calcite-menu-item text="Support"></calcite-menu-item>
+            <calcite-menu-item icon-start="services" text="Sales"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item text="Groups"></calcite-menu-item>
+            <calcite-menu-item active icon-start="gallery" text="Gallery" text-enabled> </calcite-menu-item>
+            <calcite-menu-item icon-end="map" text="Map"></calcite-menu-item>
+            <calcite-menu-item icon-start="superimpose" text="Sample Name"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-chip slot="content-start" style="margin-left: 12px" scale="s">Something else</calcite-chip>
+          <calcite-action icon="save" scale="l" slot="content-end">
+            <calcite-chip style="margin-left: 12px" scale="s" color="green">Saved</calcite-chip>
+          </calcite-action>
+          <calcite-navigation-user slot="user" full-name="Allen Iverson"> </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #974dff">
+          <calcite-navigation-logo
+            heading="ArcGIS Developer"
+            slot="logo"
+            thumbnail="./_assets/images/dev-docs.svg"
+            href
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item active text="Documentation"></calcite-menu-item>
+            <calcite-menu-item text="Features"></calcite-menu-item>
+            <calcite-menu-item text="Pricing"></calcite-menu-item>
+            <calcite-menu-item text="Support"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-action slot="content-end" icon="search" scale="l" text="Search"></calcite-action>
+          <calcite-action slot="content-end" icon="bell" indicator scale="l" text="Notifications"></calcite-action>
+          <calcite-action slot="content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
+          <calcite-navigation-user slot="user" full-name="Peter Berg" username="pberg_021"> </calcite-navigation-user>
+          <calcite-navigation slot="navigation-secondary">
+            <calcite-menu slot="content-start">
+              <calcite-menu-item breadcrumb text="Documentation"></calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Calcite Design System"></calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Components"></calcite-menu-item>
+              <calcite-menu-item active text="Notice"></calcite-menu-item>
+            </calcite-menu>
+          </calcite-navigation>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #3db8ff">
+          <calcite-navigation-logo
+            heading="Scene Viewer"
+            description="City of Acmeside"
+            slot="logo"
+            thumbnail="./_assets/images/scene-viewer.svg"
+            href
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item active text="New development shadow projection" text-enabled> </calcite-menu-item>
+          </calcite-menu>
+          <div slot="content-end">
+            <calcite-split-button color="neutral" primary-text="New Scene">
+              <calcite-dropdown-group selection-mode="none">
+                <calcite-dropdown-item>Action 1</calcite-dropdown-item>
+                <calcite-dropdown-item>Action 2</calcite-dropdown-item>
+                <calcite-dropdown-item>Action 3</calcite-dropdown-item>
+              </calcite-dropdown-group>
+            </calcite-split-button>
+          </div>
+          <calcite-action slot="content-end" icon="search" scale="l" text="Search"></calcite-action>
+          <calcite-action slot="content-end" icon="bell" indicator scale="l" text="Notifications"></calcite-action>
+          <calcite-action slot="content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
+          <calcite-navigation-user slot="user" full-name="Wendell Berry" username="wBerry_arcgis">
+          </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #5763f8" navigation-action>
+          <calcite-navigation-logo
+            slot="logo"
+            heading="ArcGIS Online"
+            description="City of Acmeside"
+            thumbnail="./_assets/images/online-logo.svg"
+            href
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item text="Home"></calcite-menu-item>
+            <calcite-menu-item text="Gallery"></calcite-menu-item>
+            <calcite-menu-item active text="Groups"></calcite-menu-item>
+            <calcite-menu-item text="Organization"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-action slot="content-end" icon="search" scale="l" text="Search"></calcite-action>
+          <calcite-action slot="content-end" icon="bell" indicator scale="l" text="Notifications"></calcite-action>
+          <calcite-action slot="content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
+          <calcite-navigation-user slot="user" full-name="Urbano Monti" username="planisphere_admin">
+          </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #e66701">
+          <calcite-navigation-logo
+            slot="logo"
+            heading="Quick Capture"
+            thumbnail="./_assets/images/quickcapture-logo.svg"
+            href
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item breadcrumb text="All Content" icon="book" text-enabled> </calcite-menu-item>
+            <calcite-menu-item breadcrumb text="Applications" icon="apps" text-enabled> </calcite-menu-item>
+            <calcite-menu-item active text-enabled text="My Excellent Application"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-action slot="content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
+          <calcite-navigation-user slot="user" full-name="Alice Waters" username="awaters_admin">
+          </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #68a407">
+          <calcite-navigation-logo
+            heading="ArcGIS Survey123"
+            slot="logo"
+            thumbnail="./_assets/images/survey123-logo.svg"
+            href
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item active icon="book" text="My Surveys"></calcite-menu-item>
+          </calcite-menu>
+          <div slot="content-end">
+            <calcite-button icon-start="plus">Create</calcite-button>
+          </div>
+          <calcite-action slot="content-end" icon="search" scale="l" text="Search"></calcite-action>
+          <calcite-action slot="content-end" icon="bell" indicator scale="l" text="Notifications"></calcite-action>
+          <calcite-action slot="content-end" icon="app-launcher" scale="l" text="App Launcher"> </calcite-action>
+          <calcite-navigation-user slot="user" full-name="Wendell Berry" username="wBerry_arcgis">
+          </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #f7ae01">
+          <calcite-navigation-logo
+            heading="ArcGIS Dashboards"
+            slot="logo"
+            thumbnail="./_assets/images/dashboard-logo.svg"
+          >
+          </calcite-navigation-logo>
+          <calcite-action slot="content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
+          <calcite-navigation-user slot="user" full-name="Alice Waters" username="awaters_admin">
+          </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #3db8ff">
+          <calcite-navigation-logo
+            heading="Map Viewer"
+            description="City of Acmeside"
+            slot="logo"
+            thumbnail="./_assets/images/mapviewer-logo.svg"
+            href
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item active text="Location analysis: Site 2" text-enabled> </calcite-menu-item>
+          </calcite-menu>
+          <div slot="content-end">
+            <calcite-action icon="undo" scale="l"></calcite-action>
+            <calcite-action icon="redo" scale="l"></calcite-action>
+            <calcite-action icon="save" scale="l">
+              <calcite-chip style="margin-left: 12px" scale="s" color="yellow">Unsaved Changes</calcite-chip>
+            </calcite-action>
+          </div>
+          <calcite-action slot="content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
+          <calcite-navigation-user slot="user" full-name="Wendell Berry" username="wBerry_arcgis">
+          </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <calcite-shell>
+        <calcite-navigation slot="header" style="--calcite-color-brand: #4fbaa9" navigation-action>
+          <calcite-navigation-logo slot="logo" heading="StoryMaps" thumbnail="./_assets/images/storymaps-logo.svg" href>
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start">
+            <calcite-menu-item breadcrumb icon-start="home" text="Home" text-enabled> </calcite-menu-item>
+            <calcite-menu-item active icon-start="open-book" text="A Great StoryMap" text-enabled> </calcite-menu-item>
+          </calcite-menu>
+          <calcite-action icon="save" scale="l" slot="content-end">
+            <calcite-chip style="margin-left: 12px" scale="s" color="green">Up to date</calcite-chip>
+          </calcite-action>
+          <calcite-action slot="content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
+          <calcite-navigation-user slot="user" full-name="Dennis Smith"> </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+
+      <div class="text-box" id="examples-theming">
+        <h2>Theming</h2>
+      </div>
+      <style>
+        .example-theming-tier-primary {
+          --calcite-navigation-background: #130d4e;
+          --calcite-navigation-border-color: #130d4e;
+        }
+
+        .example-theming-tier-secondary {
+          --calcite-navigation-background: #2d2670;
+          --calcite-navigation-border-color: #241e59;
+        }
+
+        .example-theming-tier-tertiary {
+          --calcite-navigation-background: #f6faff;
+          --calcite-navigation-border-color: #ecf0ff;
+        }
+
+        .example-theming-tier-primary calcite-action {
+          --calcite-color-foreground-1: #130d4e;
+          --calcite-color-foreground-2: #1b1270;
+          --calcite-color-foreground-3: #1b1270;
+          --calcite-color-text-1: white;
+          --calcite-color-text-2: white;
+          --calcite-color-text-3: white;
+          --calcite-ui-icon-color: white;
+        }
+
+        .example-theming-tier-primary calcite-navigation-logo {
+          --calcite-color-foreground-1: #130d4e;
+          --calcite-color-foreground-2: #1b1270;
+          --calcite-color-foreground-3: #1b1270;
+          --calcite-color-text-1: white;
+          --calcite-color-text-2: white;
+          --calcite-color-text-3: white;
+          --calcite-ui-icon-color: white;
+        }
+
+        .example-theming-tier-primary calcite-navigation-user {
+          --calcite-color-foreground-1: #130d4e;
+          --calcite-color-foreground-2: #1b1270;
+          --calcite-color-foreground-3: #1b1270;
+          --calcite-color-text-1: white;
+          --calcite-color-text-2: white;
+          --calcite-color-text-3: white;
+          --calcite-ui-icon-color: white;
+        }
+
+        calcite-menu.example-primary-theming {
+          --calcite-color-foreground-1: #130d4e;
+          --calcite-color-foreground-2: #1b1270;
+          --calcite-color-foreground-3: #1b1270;
+          --calcite-color-text-1: white;
+          --calcite-color-text-2: white;
+          --calcite-color-text-3: white;
+          --calcite-ui-icon-color: white;
+        }
+
+        calcite-menu.example-secondary-theming {
+          --calcite-color-foreground-1: #2d2670;
+          --calcite-color-foreground-2: #47338c;
+          --calcite-color-foreground-3: #2a208c;
+          --calcite-color-text-1: white;
+          --calcite-color-text-2: white;
+          --calcite-color-text-3: white;
+          --calcite-ui-icon-color: white;
+        }
+
+        calcite-menu.example-tertiary-theming {
+          --calcite-color-foreground-1: #f6faff;
+          --calcite-color-foreground-2: #ecf0ff;
+          --calcite-color-foreground-3: #a0a8c6;
+          --calcite-color-text-1: #555;
+          --calcite-color-text-2: #333;
+          --calcite-color-text-3: #222;
+        }
+      </style>
+      <calcite-shell class="calcite-mode-dark">
+        <calcite-navigation class="example-theming-tier-primary" slot="header" style="--calcite-color-brand: #974dff">
+          <calcite-navigation-logo
+            heading="ArcGIS Developer"
+            slot="logo"
+            thumbnail="./_assets/images/dev-docs.svg"
+            href
+          >
+          </calcite-navigation-logo>
+          <calcite-menu slot="content-start" class="example-primary-theming">
+            <calcite-menu-item active text="Documentation"></calcite-menu-item>
+            <calcite-menu-item text="Features"></calcite-menu-item>
+            <calcite-menu-item text="Pricing"></calcite-menu-item>
+            <calcite-menu-item text="Support"></calcite-menu-item>
+          </calcite-menu>
+          <calcite-action slot="content-end" icon="search" scale="l" text="Search"></calcite-action>
+          <calcite-action slot="content-end" icon="bell" indicator scale="l" text="Notifications"></calcite-action>
+          <calcite-action slot="content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
+          <calcite-navigation slot="navigation-secondary" class="example-theming-tier-secondary">
+            <calcite-menu slot="content-start" class="example-secondary-theming">
+              <calcite-menu-item breadcrumb text="Documentation"></calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Calcite Design System"></calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Components"></calcite-menu-item>
+              <calcite-menu-item active text="Notice"></calcite-menu-item>
+            </calcite-menu>
+          </calcite-navigation>
+          <calcite-navigation slot="navigation-tertiary" class="example-theming-tier-tertiary">
+            <calcite-menu slot="content-start" class="example-tertiary-theming">
+              <calcite-menu-item text="Something"></calcite-menu-item>
+            </calcite-menu>
+            <calcite-menu slot="content-end" class="example-tertiary-theming">
+              <calcite-menu-item breadcrumb text="Documentation"></calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Calcite Design System"></calcite-menu-item>
+              <calcite-menu-item breadcrumb text="Something"></calcite-menu-item>
+              <calcite-menu-item active text="Another item"></calcite-menu-item>
+            </calcite-menu>
+          </calcite-navigation>
+          <calcite-navigation-user slot="user" full-name="Peter Berg" username="Planet_drum_user">
+          </calcite-navigation-user>
+        </calcite-navigation>
+      </calcite-shell>
+    </demo-dom-swapper>
+  </body>
+</html>

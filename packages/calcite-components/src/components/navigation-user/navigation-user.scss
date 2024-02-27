@@ -1,0 +1,65 @@
+:host {
+  @apply inline-flex outline-none;
+  & .button {
+    background-color: transparent;
+    border: none;
+    @apply flex
+      m-0
+      items-center
+      justify-center
+      cursor-pointer
+      transition-default
+      focus-base
+      font-sans
+      text-0h;
+    border-block-end: 2px solid transparent;
+  }
+}
+
+:host(:hover) .button,
+:host(:focus) .button {
+  @apply bg-foreground-2;
+}
+
+:host(:focus) .button {
+  @apply focus-inset;
+}
+
+:host(:active) .button {
+  @apply bg-foreground-3 text-color-1;
+}
+
+calcite-avatar {
+  @apply px-4;
+}
+
+calcite-avatar ~ .text-container {
+  @apply ps-0;
+}
+
+:host([active]) .button {
+  @apply text-color-1 border-color-brand;
+  --calcite-ui-icon-color: var(--calcite-color-brand);
+}
+
+.text-container {
+  @apply flex
+  flex-col
+  text-start
+  px-4
+  mt-0.5;
+}
+
+.full-name {
+  @apply text-0
+  ms-0
+  text-color-1
+  font-medium;
+}
+
+.username {
+  @apply text-color-2;
+  font-size: var(--calcite-font-size--1);
+}
+
+@include base-component();

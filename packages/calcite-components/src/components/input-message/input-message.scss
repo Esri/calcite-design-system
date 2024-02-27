@@ -1,0 +1,48 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-input-message-spacing-value: The top margin spacing above the component.
+ */
+
+:host {
+  @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;
+  --calcite-input-message-spacing-value: theme("spacing.1");
+  margin-block-start: var(--calcite-input-message-spacing-value);
+}
+
+.calcite-input-message-icon {
+  @apply transition-default pointer-events-none inline-flex flex-shrink-0;
+  margin-inline-end: theme("margin.2");
+}
+
+:host([status="invalid"]) .calcite-input-message-icon {
+  color: var(--calcite-color-status-danger);
+}
+
+:host([status="warning"]) .calcite-input-message-icon {
+  color: var(--calcite-color-status-warning);
+}
+
+:host([status="valid"]) .calcite-input-message-icon {
+  color: var(--calcite-color-status-success);
+}
+
+:host([status="idle"]) .calcite-input-message-icon {
+  color: var(--calcite-color-brand);
+}
+
+:host([scale="s"]) {
+  @apply text-n3h;
+}
+
+:host([scale="m"]) {
+  @apply text-n2h;
+}
+
+:host([scale="l"]) {
+  @apply text-n1h;
+}
+
+@include base-component();

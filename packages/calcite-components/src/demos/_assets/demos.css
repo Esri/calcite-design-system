@@ -1,0 +1,86 @@
+body {
+  margin: 0;
+  background-color: var(--calcite-color-background);
+}
+
+main {
+  margin: 0;
+  padding: 0;
+  font-size: var(--calcite-font-size-0);
+}
+
+.example-container {
+  color: var(--calcite-color-text-1);
+  max-width: 1024px;
+  min-width: 280px;
+  width: 70vw;
+  padding: 0 var(--calcite-spacing-double);
+  margin: 0 auto;
+  background-color: transparent;
+}
+
+.example-container h1,
+.example-container h2,
+.example-container h3,
+.example-container h4,
+.example-container h5 {
+  font-weight: var(--calcite-font-weight-semibold);
+  /* margin: var(--calcite-app-cap-spacing) 0 0; */
+}
+.example-container h1 {
+  font-size: var(--calcite-font-size);
+}
+.example-container h2 {
+  font-size: var(--calcite-font-size-sm);
+}
+.example-container h3 {
+  font-weight: var(--calcite-app-font-weight);
+  font-size: var(--calcite-font-size-sm);
+}
+
+/*
+  **************************************************
+  * calcite-demo homepage
+  **************************************************
+*/
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3vh 0;
+  box-sizing: border-box;
+}
+
+#calcite-demo {
+  color: var(--calcite-color-brand-press);
+}
+
+.examples-github-storybook {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.body-margin,
+.calcite-comp,
+.calcite-components {
+  margin: 0 12%;
+}
+
+.calcite-components {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.calcite-components div {
+  flex: 0 0 25%;
+  padding: 4px 0;
+}
+
+.calcite-comp {
+  color: var(--calcite-color-text-3);
+  font-family: var(--calcite-sans-family);
+  font-size: var(--calcite-font-size-0);
+  font-weight: var(--calcite-font-weight-medium);
+}

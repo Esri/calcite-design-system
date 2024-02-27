@@ -1,0 +1,49 @@
+:host {
+  // we make the host relative, so items can consistently compute their offsetTop based on the group
+  @apply block relative;
+}
+
+.container {
+  text-align: start;
+}
+
+.container--s {
+  @apply text-n2h;
+  .dropdown-title {
+    @apply p-2;
+  }
+}
+
+.container--m {
+  @apply text-n1h;
+  .dropdown-title {
+    @apply p-3;
+  }
+}
+
+.container--l {
+  @apply text-0h;
+  .dropdown-title {
+    @apply p-4;
+  }
+}
+
+.dropdown-title {
+  @apply border-color-3
+  text-color-2
+  -mb-px
+  block
+  cursor-default
+  break-words
+  border-0
+  border-b
+  border-solid
+  font-bold;
+}
+
+.dropdown-separator {
+  @apply block h-px;
+  background-color: theme("borderColor.color.3");
+}
+
+@include base-component();

@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig-base",
+  "include": ["src"],
+  "exclude": ["src/demos/**/*", "src/tests/**/*", "src/**/shared-list-tests.ts", "src/**/*.stories.ts"]
+}

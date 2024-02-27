@@ -1,0 +1,65 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-bar-expanded-max-width: When `layout` is `"vertical"`, specifies the expanded max width of the component.
+ */
+
+:host {
+  @extend %component-host;
+  @apply pointer-events-auto
+    inline-flex
+    self-stretch;
+  --calcite-action-bar-expanded-max-width: auto;
+}
+
+:host([layout="vertical"]) {
+  @apply flex-col;
+  .action-group--end {
+    margin-block-start: auto;
+  }
+}
+
+:host([layout="horizontal"]) {
+  @apply flex-row;
+  .action-group--end {
+    @apply ms-auto;
+  }
+}
+
+:host([layout="vertical"][overflow-actions-disabled]) {
+  overflow-y: auto;
+}
+
+:host([layout="horizontal"][overflow-actions-disabled]) {
+  overflow-x: auto;
+}
+
+:host([layout="vertical"][expanded]) {
+  max-inline-size: var(--calcite-action-bar-expanded-max-width);
+}
+
+::slotted(calcite-action-group) {
+  border-block-end: 1px solid var(--calcite-color-border-3);
+}
+
+:host([layout="horizontal"]) ::slotted(calcite-action-group) {
+  border-block-end: 0;
+  border-inline-end: 1px solid var(--calcite-color-border-3);
+}
+
+:host([layout="horizontal"][expand-disabled]) ::slotted(calcite-action-group:last-of-type) {
+  border-inline-end: 0;
+}
+
+::slotted(calcite-action-group:last-child) {
+  border-block-end: 0;
+  border-inline-end: 0;
+}
+
+.action-group--end {
+  @apply justify-end;
+}
+
+@include base-component();

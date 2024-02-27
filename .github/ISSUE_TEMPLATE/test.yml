@@ -1,18 +1,18 @@
 name: Test
-description: Associate issue for a test (e.g., a new test, an unstable test that was skipped, Screener, etc.)
-labels: ["testing", "0 - new", "p - high"]
+description: Associate issue for a test (e.g., a new test, an unstable test that was skipped, Chromatic, etc.)
+labels: ["testing", "0 - new", "p - high", "needs milestone"]
 body:
   - type: markdown
     attributes:
       value: |
-        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
+        - Please [check for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
         - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
   - type: input
     id: type
     attributes:
       label: Test type
       description: What type of test is being requested?
-      placeholder: "e.g., new test, unstable test, Screener, etc."
+      placeholder: "e.g., new test, unstable test, Chromatic, etc."
     validations:
       required: true
   - type: input

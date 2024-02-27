@@ -1,0 +1,27 @@
+name: Run eslint-plugin-calcite-components tests
+
+on:
+  pull_request:
+    paths: ["packages/eslint-plugin-calcite-components/**"]
+    branches: [main, rc]
+  push:
+    paths: ["packages/eslint-plugin-calcite-components/**"]
+    branches: [main, rc]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: package.json
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --workspace=packages/eslint-plugin-calcite-components
+          npm test --workspace=packages/eslint-plugin-calcite-components
+        env:
+          CI: true

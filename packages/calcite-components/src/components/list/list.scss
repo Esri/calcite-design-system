@@ -1,0 +1,60 @@
+:host {
+  @apply block;
+}
+
+@include disabled();
+
+.container {
+  position: relative;
+}
+
+.table-container {
+  @apply box-border
+  flex
+  w-full
+  flex-col
+  bg-transparent;
+  * {
+    @apply box-border;
+  }
+}
+
+.table {
+  @apply w-full border-collapse;
+}
+
+.stack {
+  --calcite-stack-padding-inline: 0;
+  --calcite-stack-padding-block: 0;
+}
+
+::slotted(calcite-list-item) {
+  @apply shadow-border-top;
+  margin-block-start: 1px;
+}
+
+::slotted(calcite-list-item:first-of-type) {
+  @apply shadow-none;
+}
+
+// removes shadow for the first item in filteredItems of the list.
+::slotted(calcite-list-item[data-filter]) {
+  @apply shadow-none;
+  margin-block-start: 0px;
+}
+
+.sticky-pos {
+  @apply sticky
+  top-0
+  z-sticky
+  bg-foreground-1;
+  & th {
+    @apply p-0;
+  }
+}
+
+.assistive-text {
+  @apply sr-only;
+}
+
+@include base-component();

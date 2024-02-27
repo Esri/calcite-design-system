@@ -1,11 +1,11 @@
 name: PR Merged
 on:
   pull_request:
-    branches: [master]
+    branches: [main, rc]
     types: [closed]
 jobs:
   milestone:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: benelan/milestone-action@v1.3.1
+      - uses: benelan/milestone-action@v2.0.0

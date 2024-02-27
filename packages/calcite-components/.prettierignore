@@ -1,0 +1,6 @@
+docs/
+www/
+dist/
+hydrate/
+.stencil/
+**/*.d.ts

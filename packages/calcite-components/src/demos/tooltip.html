@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Tooltip</title>
+    <style>
+      .parent {
+        display: flex;
+        align-items: center;
+        margin-left: 9%;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .child {
+        display: inline-flex;
+        flex-direction: column;
+        width: 10rem;
+        padding: 25px;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Tooltip</h1>
+
+      <div class="parent">
+        <div class="child"></div>
+        <div class="child">default</div>
+        <div class="child">start</div>
+        <div class="child">end</div>
+      </div>
+
+      <!-- auto, auto-start, auto-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">auto</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-auto-ref">auto</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-auto-start-ref">auto-start</calcite-button>
+        </div>
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-auto-end-ref">auto-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- top, top-start, top-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">top</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-top-ref">top</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-top-start-ref">top-start</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-top-end-ref">top-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- bottom, bottom-start, bottom-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">bottom</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-bottom-ref">bottom</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-bottom-start-ref">bottom-start</calcite-button>
+        </div>
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-bottom-end-ref">bottom-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- right, right-start, right-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">right</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-right-ref">right</calcite-button>
+        </div>
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-right-start-ref">right-start</calcite-button>
+        </div>
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-right-end-ref">right-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- left, left-start, left-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">left</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-left-ref">left</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-left-start-ref">left-start</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-left-end-ref">left-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- leading, leading-start, leading-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">leading</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-leading-ref">leading</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-leading-start-ref">leading-start</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-leading-end-ref">leading-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- trailing, trailing-start, trailing-end -->
+      <div class="parent">
+        <div class="child right-aligned-text">trailing</div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-trailing-ref">trailing</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-trailing-start-ref">trailing-start</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button appearance="outline" id="tooltip-trailing-end-ref">trailing-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- disabled -->
+      <div class="parent">
+        <div class="child right-aligned-text">disabled</div>
+
+        <div class="child">
+          <calcite-button disabled appearance="outline" id="tooltip-auto-disabled-ref">auto</calcite-button>
+        </div>
+
+        <div class="child">
+          <calcite-button disabled appearance="outline" id="tooltip-auto-start-disabled-ref">auto-start</calcite-button>
+        </div>
+        <div class="child">
+          <calcite-button disabled appearance="outline" id="tooltip-auto-end-disabled-ref">auto-end</calcite-button>
+        </div>
+      </div>
+
+      <!-- disabled native -->
+      <div class="parent">
+        <div class="child right-aligned-text">disabled</div>
+
+        <div class="child">
+          <button disabled id="tooltip-auto-disabled-native-ref">auto</button>
+        </div>
+
+        <div class="child">
+          <button disabled id="tooltip-auto-start-disabled-native-ref">auto</button>
+        </div>
+        <div class="child">
+          <button disabled id="tooltip-auto-end-disabled-native-ref">auto</button>
+        </div>
+      </div>
+
+      <!-- containers to hold the tooltip -->
+      <div>
+        <calcite-tooltip placement="auto" reference-element="tooltip-auto-ref">
+          <p>placement: auto</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="auto-start" reference-element="tooltip-auto-start-ref">
+          <p>placement: auto-start</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="auto-end" reference-element="tooltip-auto-end-ref">
+          <p>placement: auto-end</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="top" reference-element="tooltip-top-ref">
+          <p>placement: top</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="bottom" reference-element="tooltip-bottom-ref">
+          <p>placement: bottom</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="right" reference-element="tooltip-right-ref">
+          <p>placement: right</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="left" reference-element="tooltip-left-ref">
+          <p>placement: left</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="top-start" reference-element="tooltip-top-start-ref">
+          <p>placement: top-start</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="top-end" reference-element="tooltip-top-end-ref">
+          <p>placement: top-end</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="bottom-start" reference-element="tooltip-bottom-start-ref">
+          <p>placement: bottom-start</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="bottom-end" reference-element="tooltip-bottom-end-ref">
+          <p>placement: bottom-end</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="right-start" reference-element="tooltip-right-start-ref">
+          <p>placement: right-start</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="right-end" reference-element="tooltip-right-end-ref">
+          <p>placement: right-end</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="left-start" reference-element="tooltip-left-start-ref">
+          <p>placement: left-start</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="left-end" reference-element="tooltip-left-end-ref">
+          <p>placement: left-end</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="leading-start" reference-element="tooltip-leading-start-ref">
+          <p>placement: leading-start</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="leading" reference-element="tooltip-leading-ref">
+          <p>placement: leading</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="leading-end" reference-element="tooltip-leading-end-ref">
+          <p>placement: leading-end</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="trailing-end" reference-element="tooltip-trailing-end-ref">
+          <p>placement: trailing-end</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="trailing" reference-element="tooltip-trailing-ref">
+          <p>placement: trailing</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="trailing-start" reference-element="tooltip-trailing-start-ref">
+          <p>placement: trailing-start</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+
+        <calcite-tooltip placement="auto" reference-element="tooltip-auto-disabled-ref">
+          <p>placement: auto</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="auto-start" reference-element="tooltip-auto-start-disabled-ref">
+          <p>placement: auto-start</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="auto-end" reference-element="tooltip-auto-end-disabled-ref">
+          <p>placement: auto-end</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+
+        <calcite-tooltip placement="auto" reference-element="tooltip-auto-disabled-native-ref">
+          <p>placement: auto</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="auto-start" reference-element="tooltip-auto-start-disabled-native-ref">
+          <p>placement: auto-start</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+        <calcite-tooltip placement="auto-end" reference-element="tooltip-auto-end-disabled-native-ref">
+          <p>placement: auto-end</p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+        </calcite-tooltip>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>

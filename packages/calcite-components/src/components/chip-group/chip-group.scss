@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+}
+
+.container {
+  display: flex;
+  inline-size: 100%;
+  flex-wrap: wrap;
+  gap: theme("spacing.2");
+}
+
+::slotted(calcite-chip) {
+  flex: none;
+}
+
+:host([scale="s"]) .container {
+  gap: theme("spacing.1");
+}
+
+:host([scale="l"]) .container {
+  gap: theme("spacing.3");
+}
+
+@include disabled();
+@include base-component();

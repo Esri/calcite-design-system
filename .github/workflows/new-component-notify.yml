@@ -1,30 +1,16 @@
-# If the "new component" label is added to an issue, generates a notification to the Calcite designer lead(s)
-# The secret is formatted like so: designer1, designer2, designer3
-# Note the script automatically adds the "@" character in to notify the designer lead(s)
 name: "Notify CC Designer Leads of New Component Issue"
-
 on:
   issues:
     types: [labeled]
-
 jobs:
   notify-designer-new-component:
     if: github.event.label.name == 'new component'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v4
+      - uses: actions/github-script@v6
         env:
           designers: ${{secrets.CALCITE_DESIGNERS}}
         with:
           script: |
-            const { designers } = process.env;
-            // Add a "@" character to notify the user
-            const calcite_designers = designers.split(",").map(v => " @" + v.trim());
-
-            // Add a comment to issues with the 'new component' label to notify the designer(s)
-            await github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `cc ${calcite_designers}`,
-            });
+            const action = require('${{ github.workspace }}/.github/scripts/notifyAboutNewComponent.js')
+            await action({github, context, core})

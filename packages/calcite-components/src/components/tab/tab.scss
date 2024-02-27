@@ -1,0 +1,49 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tab-content-block-padding: Specifies the block padding of the component's content in the `default` slot.
+ */
+
+:host([selected]) {
+  section,
+  .container {
+    @apply block;
+  }
+}
+
+:host {
+  @apply hidden h-full w-full;
+}
+
+:host([selected]) {
+  @apply block h-full w-full overflow-auto;
+}
+
+.content {
+  @apply box-border;
+  padding-block: var(--calcite-internal-tab-content-block-padding);
+}
+
+.scale-s {
+  --calcite-internal-tab-content-block-padding: var(--calcite-tab-content-block-padding, theme("spacing.1"));
+  @apply text-n2h;
+}
+
+.scale-m {
+  --calcite-internal-tab-content-block-padding: var(--calcite-tab-content-block-padding, theme("spacing.2"));
+  @apply text-n1h;
+}
+
+.scale-l {
+  --calcite-internal-tab-content-block-padding: var(--calcite-tab-content-block-padding, theme("spacing.[2.5]"));
+  @apply text-0h;
+}
+
+section,
+.container {
+  @apply hidden h-full w-full;
+}
+
+@include base-component();

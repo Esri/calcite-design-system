@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig-base",
+  "include": [".storybook/declarations.d.ts", "src/**/*.stories.ts", "src/components.d.ts"]
+}

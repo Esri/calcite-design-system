@@ -1,0 +1,147 @@
+:host {
+  @extend %component-spacing;
+  @include floatingUIElemAnim(".menu-container");
+  @apply relative
+    inline-block
+    w-full
+    overflow-visible
+    align-top
+    shadow-none;
+}
+
+@function get-trailing-text-input-padding($chevron-spacing) {
+  @return calc(var(--calcite-toggle-spacing) + $chevron-spacing);
+}
+
+:host([scale="s"]) {
+  --calcite-toggle-spacing: theme("spacing.2");
+  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.4"))};
+}
+
+:host([scale="m"]) {
+  --calcite-toggle-spacing: theme("spacing.3");
+  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.6"))};
+}
+
+:host([scale="l"]) {
+  --calcite-toggle-spacing: theme("spacing.4");
+  --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(theme("spacing.8"))};
+}
+
+@include disabled();
+
+.calendar-wrapper {
+  @apply shadow-none;
+  transform: translate3d(0, 0, 0);
+}
+
+.input-wrapper {
+  @apply relative;
+}
+
+.toggle-icon {
+  @apply absolute flex cursor-pointer items-center;
+  inset-inline-end: 0;
+  inset-block: 0;
+  padding-inline: var(--calcite-toggle-spacing);
+}
+
+:host([range]) {
+  .input-container {
+    @apply flex;
+  }
+
+  .input-wrapper {
+    @apply flex-auto;
+  }
+
+  .horizontal-arrow-container {
+    @apply bg-background
+      border-color-input
+      flex
+      items-center
+      border
+      border-l-0
+      border-r-0
+      border-solid
+      py-0
+      px-1;
+  }
+}
+
+:host([range][layout="vertical"]) {
+  .input-wrapper {
+    @apply w-full;
+  }
+
+  .input-container {
+    @apply flex-col
+      items-start;
+  }
+
+  .calendar-wrapper--end {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .vertical-arrow-container {
+    inset-block-start: theme("spacing.6");
+    @apply bg-foreground-1
+      absolute
+      z-default
+      mx-px
+      px-2.5;
+    inset-inline-start: 0;
+  }
+}
+
+.menu-container {
+  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
+  @include floatingUIContainer();
+  @include floatingUIWrapper();
+  @apply invisible;
+}
+
+@include floatingUIElemAnim(".menu-container");
+
+:host([open]) .menu-container {
+  @include floatingUIWrapperActive();
+}
+
+.menu-container--active {
+  @include floatingUIWrapperActive();
+}
+
+.input .calcite-input__wrapper {
+  @apply mt-0;
+}
+
+:host([range][layout="vertical"][scale="m"]) .vertical-arrow-container {
+  inset-block-start: theme("spacing.6");
+  padding-inline-start: theme("spacing.3");
+
+  calcite-icon {
+    @apply h-3
+      w-3
+      min-w-0;
+  }
+}
+
+:host([range][layout="vertical"][scale="l"]) .vertical-arrow-container {
+  inset-block-start: theme("spacing.9");
+  @apply px-3.5;
+}
+
+:host([range][layout="vertical"][open]) {
+  .vertical-arrow-container {
+    @apply hidden;
+  }
+}
+
+@include form-validation-message();
+@include hidden-form-input();
+
+.assistive-text {
+  @apply sr-only;
+}
+
+@include base-component();

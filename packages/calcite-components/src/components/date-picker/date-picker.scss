@@ -1,0 +1,31 @@
+:host {
+  @extend %component-host;
+  @apply align-top
+    border
+    border-color-1
+    border-solid
+    inline-block
+    overflow-visible
+    rounded-none
+    w-auto;
+}
+
+:host([scale="s"]) {
+  inline-size: 234px;
+  min-inline-size: 216px;
+  max-inline-size: 380px;
+}
+
+:host([scale="m"]) {
+  inline-size: 304px;
+  min-inline-size: 272px;
+  max-inline-size: 480px;
+}
+
+:host([scale="l"]) {
+  inline-size: 370px;
+  min-inline-size: 320px;
+  max-inline-size: 600px;
+}
+
+@include base-component();

@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Avatar</title>
+    <style>
+      .parent {
+        display: flex;
+        width: 60%;
+        justify-content: space-between;
+        align-items: center;
+        padding: 25px 0;
+      }
+
+      .child {
+        flex: 1 0 21%;
+        margin: 0 15px;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .right-aligned-text {
+        text-align: right;
+      }
+
+      .demo-background-dark {
+        background: #202020;
+        color: white;
+        padding: 1rem;
+      }
+    </style>
+    <script src="_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Avatar</h1>
+
+      <div class="parent">
+        <div class="child"></div>
+        <div class="child">Small</div>
+        <div class="child">Medium</div>
+        <div class="child">Large</div>
+      </div>
+
+      <!-- Image -->
+      <div class="parent">
+        <div class="child right-aligned-text">Image With Label</div>
+
+        <div class="child">
+          <calcite-avatar thumbnail="http://placekitten.com/105/105" scale="s" label="kitten"> </calcite-avatar>
+        </div>
+
+        <div class="child">
+          <calcite-avatar thumbnail="http://placekitten.com/40/40" scale="m" label="kitten"></calcite-avatar>
+        </div>
+
+        <div class="child">
+          <calcite-avatar thumbnail="http://placekitten.com/120/120" scale="l" label="kitten"></calcite-avatar>
+        </div>
+      </div>
+
+      <!-- Missing thumbnail -->
+      <div class="parent">
+        <div class="child right-aligned-text">Missing thumbnail</div>
+
+        <div class="child">
+          <calcite-avatar thumbnail="total_nonsense.png" scale="s" full-name="total nonsense"> </calcite-avatar>
+        </div>
+
+        <div class="child">
+          <calcite-avatar thumbnail="another_nonsense.png" scale="m" full-name="total nonsense"> </calcite-avatar>
+        </div>
+
+        <div class="child">
+          <calcite-avatar thumbnail="another_one_more_nonsense.png" scale="l" full-name="total nonsense">
+          </calcite-avatar>
+        </div>
+      </div>
+
+      <!-- Initials from first and last name -->
+      <div class="parent">
+        <div class="child right-aligned-text">Initials from first and last name</div>
+
+        <div class="child">
+          <calcite-avatar full-name="Ron Swanson" scale="s" user-id="25684463a00c449585dbb32a065f6b74"></calcite-avatar>
+        </div>
+
+        <div class="child">
+          <calcite-avatar full-name="Ron Swanson" scale="m" user-id="25684463a00c449585dbb32a065f6b74"></calcite-avatar>
+        </div>
+
+        <div class="child">
+          <calcite-avatar full-name="Ron Swanson" scale="l" user-id="25684463a00c449585dbb32a065f6b74"></calcite-avatar>
+        </div>
+      </div>
+
+      <!-- Initials from first name -->
+      <div class="parent">
+        <div class="child right-aligned-text">Initials from first name</div>
+
+        <div class="child">
+          <calcite-avatar full-name="Ron" scale="s" user-id="25684463a00c449585dbb32a065f6b74"></calcite-avatar>
+        </div>
+
+        <div class="child">
+          <calcite-avatar full-name="Ron" scale="m" user-id="25684463a00c449585dbb32a065f6b74"></calcite-avatar>
+        </div>
+
+        <div class="child">
+          <calcite-avatar full-name="Ron" scale="l" user-id="25684463a00c449585dbb32a065f6b74"></calcite-avatar>
+        </div>
+      </div>
+
+      <!-- color test (light) -->
+      <div class="parent">
+        <div class="child right-aligned-text">ID Color test</div>
+        <div class="child">
+          <calcite-avatar user-id="52e44e112b1f429182515dba79b71eb8" username="au"></calcite-avatar>
+          <calcite-avatar user-id="1c863a764d6de370e220e7d3aeddd8a9" username="bv"></calcite-avatar>
+          <calcite-avatar user-id="a81470986eaeee1833b74b7d8abcd5b2" username="cw"></calcite-avatar>
+          <calcite-avatar user-id="9a7c50e6b3ce4b859f7b31e302437164" username="dx"></calcite-avatar>
+          <calcite-avatar user-id="7938de70b5d04956b098eedce1e3ba47" username="exy"></calcite-avatar>
+          <calcite-avatar user-id="98f64d6d4e124c6290d092a7998e96cb" username="fz"></calcite-avatar>
+          <calcite-avatar user-id="c977c075f3ad4dc2a840f3d2fff3d978" username="ga"></calcite-avatar>
+          <calcite-avatar user-id="25684463a00c449585dbb32a065f6b74" username="hb"></calcite-avatar>
+          <calcite-avatar user-id="770b011f40ba22321f686b04b803d325" username="ic"></calcite-avatar>
+          <calcite-avatar user-id="eea642e2a6f5a0b6c2e302cc664905c3" username="jd"></calcite-avatar>
+          <calcite-avatar user-id="19813ce4b4704b6e9fe2e79c34909ae4" username="ke"></calcite-avatar>
+          <calcite-avatar user-id="ad61de73b6d79446416bde1a18da87a7" username="lf"></calcite-avatar>
+          <calcite-avatar user-id="8a6fda51f21d40d588d07f1cf52b4890" username="mg"></calcite-avatar>
+          <calcite-avatar user-id="bd353ce54a5b40e7b3544d0cb454d465" username="nh"></calcite-avatar>
+          <calcite-avatar user-id="dfb1d98e54a244dca345dd85062e227c" username="oi"></calcite-avatar>
+          <calcite-avatar user-id="bcce092ebb474a369c9730f52106700c" username="pj"></calcite-avatar>
+          <calcite-avatar user-id="8542b186e5a64a90910486de32bced72" username="qk"></calcite-avatar>
+          <calcite-avatar user-id="8587853c1f544de6ae4133224db29736" username="rl"></calcite-avatar>
+          <calcite-avatar user-id="9de33a713bd84690bbc618e98ecf7567" username="sm"></calcite-avatar>
+          <calcite-avatar user-id="e85f7f72aa51b34f81660a0f4c6a4d80" username="tn"></calcite-avatar>
+        </div>
+        <div class="child"></div>
+        <div class="child"></div>
+      </div>
+
+      <!-- color test (dark) -->
+      <div class="parent">
+        <div class="child right-aligned-text">ID Color test (dark)</div>
+        <div class="child demo-background-dark">
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="52e44e112b1f429182515dba79b71eb8"
+            username="au"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="1c863a764d6de370e220e7d3aeddd8a9"
+            username="bv"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="a81470986eaeee1833b74b7d8abcd5b2"
+            username="cw"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="9a7c50e6b3ce4b859f7b31e302437164"
+            username="dx"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="7938de70b5d04956b098eedce1e3ba47"
+            username="exy"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="98f64d6d4e124c6290d092a7998e96cb"
+            username="fz"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="c977c075f3ad4dc2a840f3d2fff3d978"
+            username="ga"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="25684463a00c449585dbb32a065f6b74"
+            username="hb"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="770b011f40ba22321f686b04b803d325"
+            username="ic"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="eea642e2a6f5a0b6c2e302cc664905c3"
+            username="jd"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="19813ce4b4704b6e9fe2e79c34909ae4"
+            username="ke"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="ad61de73b6d79446416bde1a18da87a7"
+            username="lf"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="8a6fda51f21d40d588d07f1cf52b4890"
+            username="mg"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="bd353ce54a5b40e7b3544d0cb454d465"
+            username="nh"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="dfb1d98e54a244dca345dd85062e227c"
+            username="oi"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="bcce092ebb474a369c9730f52106700c"
+            username="pj"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="8542b186e5a64a90910486de32bced72"
+            username="qk"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="8587853c1f544de6ae4133224db29736"
+            username="rl"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="9de33a713bd84690bbc618e98ecf7567"
+            username="sm"
+          ></calcite-avatar>
+          <calcite-avatar
+            class="calcite-mode-dark"
+            user-id="e85f7f72aa51b34f81660a0f4c6a4d80"
+            username="tn"
+          ></calcite-avatar>
+        </div>
+        <div class="child"></div>
+        <div class="child"></div>
+      </div>
+
+      <!-- text vs icon vs image-->
+      <div class="parent" style="width: 62%">
+        <div class="child right-aligned-text">Text vs Icon vs Image</div>
+
+        <div class="child">
+          <calcite-avatar scale="s" user-id="9de33a713bd84690bbc618e98ecf7567" username="sm"></calcite-avatar>
+          <calcite-avatar scale="s" user-id="9de33a713bd84690bbc618e98ecf7567"></calcite-avatar>
+          <calcite-avatar scale="s" thumbnail="http://placekitten.com/40/40"></calcite-avatar>
+          <calcite-avatar scale="s" user-id="9de33a713bd84690bbc618e98ecf7567" username="sm"></calcite-avatar>
+        </div>
+
+        <div class="child">
+          <calcite-avatar scale="m" user-id="9de33a713bd84690bbc618e98ecf7567" username="sm"></calcite-avatar>
+          <calcite-avatar scale="m" user-id="9de33a713bd84690bbc618e98ecf7567"></calcite-avatar>
+          <calcite-avatar scale="m" thumbnail="http://placekitten.com/40/40"></calcite-avatar>
+          <calcite-avatar scale="m" user-id="9de33a713bd84690bbc618e98ecf7567" username="sm"></calcite-avatar>
+        </div>
+
+        <div class="child">
+          <calcite-avatar scale="l" user-id="9de33a713bd84690bbc618e98ecf7567" username="sm"></calcite-avatar>
+          <calcite-avatar scale="l" user-id="9de33a713bd84690bbc618e98ecf7567"></calcite-avatar>
+          <calcite-avatar scale="l" thumbnail="http://placekitten.com/40/40"></calcite-avatar>
+          <calcite-avatar scale="l" user-id="9de33a713bd84690bbc618e98ecf7567" username="sm"></calcite-avatar>
+        </div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+
+    <title>Flow</title>
+
+    <style>
+      .parent {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+      }
+
+      .child {
+        flex: 0 0 40%;
+        margin: 0 25px;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 10px 0;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 15%;
+      }
+    </style>
+
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <div class="parent">
+        <div class="child right-aligned-text">custom flow-item support</div>
+
+        <div class="child">
+          <calcite-flow custom-item-selectors="custom-flow-item">
+            <calcite-flow-item heading="flow-item-1">
+              <img src="https://via.placeholder.com/250x250.png?text=calcite-flow-item" />
+            </calcite-flow-item>
+            <custom-flow-item heading="custom-flow-item">
+              <img src="https://via.placeholder.com/250x250.png?text=custom-flow-item" />
+            </custom-flow-item>
+            <calcite-flow-item heading="flow-item-2">
+              <img src="https://via.placeholder.com/250x250.png?text=calcite-panel" />
+            </calcite-flow-item>
+          </calcite-flow>
+          <script>
+            class CustomFlowItem extends HTMLElement {
+              constructor() {
+                super();
+                const shadow = this.attachShadow({ mode: "open" });
+
+                shadow.innerHTML = `
+                <style>
+                  :host {
+                    display: flex;
+                    background: #bdf2c4;
+                  }
+                </style>
+                <calcite-flow-item id="internalFlowItem">
+                  <slot></slot>
+                </calcite-flow-item>
+              `;
+
+                this.flowItemEl = shadow.getElementById("internalFlowItem");
+              }
+
+              connectedCallback() {
+                this.flowItemEl.setAttribute("heading", this.getAttribute("heading"));
+                this.flowItemEl.setAttribute("show-back-button", this.getAttribute("show-back-button"));
+                this.flowItemEl.setAttribute("menu-open", this.getAttribute("menu-open"));
+              }
+
+              get heading() {
+                return this.getAttribute("heading");
+              }
+
+              set heading(value) {
+                this.flowItemEl.heading = value;
+              }
+
+              get hidden() {
+                return this.hasAttribute("hidden");
+              }
+
+              set hidden(value) {
+                this.toggleAttribute("hidden", value);
+                this.flowItemEl.toggleAttribute("hidden", value);
+              }
+
+              get menuOpen() {
+                return this.hasAttribute("menu-open");
+              }
+
+              set menuOpen(value) {
+                this.toggleAttribute("menu-open", value);
+                this.flowItemEl.menuOpen = value;
+              }
+
+              get showBackButton() {
+                return this.hasAttribute("show-back-button");
+              }
+
+              set showBackButton(value) {
+                this.toggleAttribute("show-back-button", value);
+                this.flowItemEl.showBackButton = value;
+              }
+
+              async beforeBack() {
+                // no op
+              }
+
+              async setFocus() {
+                await this.flowItemEl.setFocus();
+              }
+            }
+
+            customElements.define("custom-flow-item", CustomFlowItem);
+          </script>
+        </div>
+      </div>
+    </demo-dom-swapper>
+  </body>
+</html>

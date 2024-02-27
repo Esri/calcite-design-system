@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+      - release-please--branches--main
+permissions:
+  contents: write
+  pull-requests: write
+name: clean-changelog
+jobs:
+  clean-changelog:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.ADMIN_TOKEN }}
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: package.json
+      - name: Remove Next Changelog Entries
+        run: |
+          git pull
+          npm install
+          npm run util:remove-next-changelog-entries
+      - name: Push Changes
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git commit -am "docs: remove prerelease changelog entries" || true
+          git push origin ${{ github.ref_name }}

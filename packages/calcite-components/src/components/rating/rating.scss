@@ -1,0 +1,102 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-rating-spacing-unit: The amount of left and right margin spacing between each rating star.
+ */
+
+:host {
+  @apply relative flex items-center;
+  inline-size: fit-content;
+}
+
+@include disabled();
+
+:host([scale="s"]) {
+  @apply h-6;
+  --calcite-rating-spacing-unit: theme("spacing.1");
+}
+
+:host([scale="m"]) {
+  @apply h-8;
+  --calcite-rating-spacing-unit: theme("spacing.2");
+}
+
+:host([scale="l"]) {
+  @apply h-11;
+  --calcite-rating-spacing-unit: theme("spacing.3");
+}
+
+:host([read-only]) {
+  @extend %non-interactive-host-contents;
+}
+
+.fieldset {
+  margin: 0;
+  display: flex;
+  border-width: 0;
+  padding: 0;
+  align-items: center;
+  gap: var(--calcite-rating-spacing-unit);
+}
+
+.wrapper {
+  display: inline-block;
+}
+
+.star {
+  @apply transition-default;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  color: theme("borderColor.color.input");
+  &:focus {
+    @apply focus-outset;
+  }
+}
+
+.average,
+.fraction {
+  color: theme("colors.warning");
+}
+
+.hovered,
+.selected {
+  color: theme("colors.brand");
+}
+
+.fraction {
+  @apply transition-default;
+  position: absolute;
+  pointer-events: none;
+  inset-block-start: 0;
+  overflow: hidden;
+  inset-inline-start: 0;
+}
+
+// rating count
+calcite-chip {
+  pointer-events: none;
+  cursor: default;
+}
+
+.number--average {
+  font-weight: bold;
+}
+
+.number--count {
+  color: var(--calcite-color-text-2);
+  font-style: italic;
+  &:not(:first-child) {
+    margin-inline-start: var(--calcite-rating-spacing-unit);
+  }
+}
+
+.visually-hidden {
+  @apply sr-only;
+}
+
+@include hidden-form-input();
+@include base-component();

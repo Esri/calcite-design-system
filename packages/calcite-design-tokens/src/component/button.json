@@ -1,0 +1,30 @@
+{
+  "component": {
+    "button": {
+      "background": {
+        "type": "color",
+        "value": "{semantic.color.background.default}",
+        "attributes": {
+          "calcite-schema": {
+            "system": "calcite",
+            "tier": "component",
+            "domain": "",
+            "component": "button",
+            "pattern": "",
+            "element": "",
+            "category": "color",
+            "group": "",
+            "kind": "",
+            "appearance": "",
+            "property": "background",
+            "variant": "",
+            "state": "",
+            "scale": "",
+            "context": "",
+            "mode": ""
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,11 +1,16 @@
+# Adopted from an action that is no longer maintained
+# https://github.com/deepakputhraya/action-pr-title
 name: PR title is not truncated (...)
-on: pull_request
+on:
+  pull_request:
+    types: [opened, synchronize, edited, reopened]
 jobs:
-  semantic:
+  truncation-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: deepakputhraya/action-pr-title@v1.0.2
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
         with:
-          regex: "^[^…]+$"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/validatePullRequestTitle.js')
+            await action({github, context, core})

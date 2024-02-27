@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Date-picker</title>
+    <style>
+      .parent {
+        display: flex;
+        width: 70%;
+        padding: 25px 0;
+      }
+
+      .child {
+        flex: 1 0 25%;
+        margin: 0 25px;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .right-aligned-text {
+        text-align: right;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-color-border-2);
+      }
+
+      calcite-button,
+      calcite-dropdown {
+        margin-bottom: 0.5rem;
+        width: 100%;
+      }
+    </style>
+    <script src="_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Date-picker</h1>
+
+      <!-- Headings -->
+      <div class="parent">
+        <div class="child right-aligned-text"></div>
+        <div class="child">Small</div>
+        <div class="child">Medium</div>
+        <div class="child">Large</div>
+      </div>
+
+      <!-- Standard -->
+      <div class="parent">
+        <div class="child right-aligned-text">Standard</div>
+
+        <div class="child">
+          <calcite-date-picker id="simple-picker" scale="s" value="2000-11-27" active></calcite-date-picker>
+
+          <!-- manual test -->
+          <script>
+            const simplePicker = document.getElementById("simple-picker");
+            simplePicker.addEventListener("calciteDatePickerChange", console.log);
+            simplePicker.valueAsDate = new Date();
+            simplePicker.maxAsDate = new Date();
+            simplePicker.min = "2021-01-01";
+          </script>
+        </div>
+
+        <div class="child">
+          <calcite-date-picker scale="m" value="2000-11-27" active></calcite-date-picker>
+        </div>
+
+        <div class="child">
+          <calcite-date-picker scale="l" value="2000-11-27" active></calcite-date-picker>
+        </div>
+      </div>
+
+      <!-- Initial Value (from ISO 8601 String) -->
+      <div class="parent">
+        <div class="child right-aligned-text">Initial Value (from ISO 8601 String)</div>
+
+        <div class="child">
+          <calcite-date-picker scale="s" value="2020-03-07"></calcite-date-picker>
+        </div>
+
+        <div class="child">
+          <calcite-date-picker scale="m" value="2020-03-07"></calcite-date-picker>
+        </div>
+
+        <div class="child">
+          <calcite-date-picker scale="l" value="2020-03-07"></calcite-date-picker>
+        </div>
+      </div>
+
+      <!-- Min & Max -->
+      <div class="parent">
+        <div class="child right-aligned-text">Min & Max</div>
+
+        <div class="child">
+          <calcite-date-picker scale="s" min="2020-03-07" max="2020-03-15" value="2020-04-01"></calcite-date-picker>
+        </div>
+
+        <div class="child">
+          <calcite-date-picker scale="m" min="2020-03-07" max="2020-03-15" value="2020-04-01"></calcite-date-picker>
+        </div>
+
+        <div class="child">
+          <calcite-date-picker scale="l" min="2020-03-07" max="2020-03-15" value="2020-04-01"></calcite-date-picker>
+        </div>
+      </div>
+
+      <!-- Events -->
+      <div class="parent">
+        <div class="child right-aligned-text">Events</div>
+
+        <div class="child">
+          <calcite-date-picker scale="s" id="dateSample"></calcite-date-picker>
+          <div>
+            Date selected:
+            <pre><code id="dateDisplay">n/a</code></pre>
+          </div>
+          <script>
+            const dateSample = document.getElementById("dateSample");
+            const dateDisplay = document.getElementById("dateDisplay");
+            dateSample.addEventListener("calciteDatePickerChange", function (e) {
+              dateDisplay.innerHTML = e.target.valueAsDate;
+            });
+          </script>
+        </div>
+
+        <div class="child">
+          <calcite-date-picker scale="m" id="dateSample_m"></calcite-date-picker>
+          <div>
+            Date selected:
+            <pre><code id="dateDisplay_m">n/a</code></pre>
+          </div>
+          <script>
+            const dateSample_m = document.getElementById("dateSample_m");
+            const dateDisplay_m = document.getElementById("dateDisplay_m");
+            dateSample_m.addEventListener("calciteDatePickerChange", function (e) {
+              dateDisplay_m.innerHTML = e.target.valueAsDate;
+            });
+          </script>
+        </div>
+
+        <div class="child">
+          <calcite-date-picker scale="l" id="dateSample_l"></calcite-date-picker>
+          <div>
+            Date selected:
+            <pre><code id="dateDisplay_l">n/a</code></pre>
+          </div>
+          <script>
+            const dateSample_l = document.getElementById("dateSample_l");
+            const dateDisplay_l = document.getElementById("dateDisplay_l");
+            dateSample_l.addEventListener("calciteDatePickerChange", function (e) {
+              dateDisplay_l.innerHTML = e.target.valueAsDate;
+            });
+          </script>
+        </div>
+      </div>
+
+      <!-- Date Range -->
+      <div class="parent">
+        <div class="child right-aligned-text">Date Range</div>
+
+        <div class="child">
+          <calcite-date-picker scale="s" range min="2020-01-03" max="2020-12-29"></calcite-date-picker>
+        </div>
+
+        <div class="child">
+          <calcite-date-picker scale="m" range min="2020-01-03" max="2020-12-29"></calcite-date-picker>
+        </div>
+
+        <div class="child">
+          <calcite-date-picker scale="l" range min="2020-01-03" max="2020-12-29"></calcite-date-picker>
+        </div>
+      </div>
+
+      <!-- Date Range always open -->
+      <div class="parent">
+        <div class="child right-aligned-text">Date Range always open</div>
+
+        <div class="child">
+          <calcite-date-picker scale="s" range active></calcite-date-picker>
+        </div>
+
+        <div class="child">
+          <calcite-date-picker scale="m" range active></calcite-date-picker>
+        </div>
+
+        <div class="child">
+          <calcite-date-picker scale="l" range active></calcite-date-picker>
+        </div>
+      </div>
+
+      <hr />
+      <!-- A horizontal line -->
+
+      <div class="parent">
+        <div class="child right-aligned-text">Lang & Numbering System</div>
+        <div class="child">
+          <calcite-dropdown id="langDropdown">
+            <calcite-button appearance="outline" slot="trigger">Select Lang</calcite-button>
+            <calcite-dropdown-group id="localeGroup">
+              <!-- locales added dynamically -->
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+
+          <calcite-dropdown id="numberingSystemDropdown">
+            <calcite-button appearance="outline" slot="trigger">Select Numbering System</calcite-button>
+          </calcite-dropdown>
+        </div>
+        <div class="child" id="localeDatePickerContainerS"></div>
+        <div class="child" id="localeDatePickerContainerL"></div>
+      </div>
+      <script type="module">
+        import { locales } from "./_assets/locales.js";
+
+        const numberingSystems = ["arab", "arabext", "latn"];
+
+        let selectedLang = "ar";
+        let selectedNumberingSystem = "arab";
+
+        let localeDatePickerS;
+        let localeDatePickerL;
+        const localeDatePickerContainerS = document.getElementById("localeDatePickerContainerS");
+        const localeDatePickerContainerL = document.getElementById("localeDatePickerContainerL");
+
+        const localeGroup = document.getElementById("localeGroup");
+
+        localeGroup.append(
+          ...locales.map(({ locale, name }) => {
+            const dropdownItem = document.createElement("calcite-dropdown-item");
+            dropdownItem.setAttribute("data-lang", locale);
+            dropdownItem.innerText = `${name} (${locale})`;
+            return dropdownItem;
+          }),
+        );
+
+        // creates the date picker with the selected lang/numberingSystem
+        const createLocaleDatePicker = ({ lang, numberingSystem }) => {
+          // (re)create small date picker
+          !!localeDatePickerS && localeDatePickerS.remove();
+          localeDatePickerS = document.createElement("calcite-date-picker");
+          localeDatePickerS.scale = "m";
+          localeDatePickerS.lang = lang;
+          localeDatePickerS.numberingSystem = numberingSystem;
+          selectedLang = lang;
+          selectedNumberingSystem = numberingSystem;
+          localeDatePickerContainerS.append(localeDatePickerS);
+
+          // (re)create large date picker
+          !!localeDatePickerL && localeDatePickerL.remove();
+          localeDatePickerL = document.createElement("calcite-date-picker");
+          localeDatePickerL.scale = "l";
+          localeDatePickerL.lang = lang;
+          localeDatePickerL.numberingSystem = numberingSystem;
+          selectedLang = lang;
+          selectedNumberingSystem = numberingSystem;
+
+          localeDatePickerContainerL.append(localeDatePickerL);
+        };
+
+        // create numbering system dropdown
+        const numberingSystemDropdown = document.getElementById("numberingSystemDropdown");
+        const numberingSystemDropdownGroup = document.createElement("calcite-dropdown-group");
+        numberingSystemDropdown.append(numberingSystemDropdownGroup);
+        numberingSystems.forEach((system) => {
+          const item = document.createElement("calcite-dropdown-item");
+          item.textContent = system;
+          item.dataset.numberingSystem = system;
+          numberingSystemDropdownGroup.append(item);
+        });
+
+        // recreate date pickers when a new lang/numberingSystem is selected
+        // numberingSystem property cannot be set dynamically
+        document.addEventListener("calciteDropdownSelect", ({ target: { selectedItems } }) =>
+          createLocaleDatePicker({
+            numberingSystem: selectedItems[0].getAttribute("data-numbering-system") || selectedNumberingSystem,
+            lang: selectedItems[0].getAttribute("data-lang") || selectedLang,
+          }),
+        );
+
+        createLocaleDatePicker({ lang: selectedLang, numberingSystem: selectedNumberingSystem });
+      </script>
+    </demo-dom-swapper>
+  </body>
+</html>

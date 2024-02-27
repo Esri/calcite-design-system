@@ -1,0 +1,82 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Chrome against localhost",
+      "url": "http://localhost:3333",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "*": "${webRoot}/*"
+      },
+      "webRoot": "${workspaceFolder}/packages/calcite-components"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Stencil Prerender",
+      "args": [
+        "${workspaceFolder}/node_modules/@stencil/core/bin/stencil",
+        "prerender",
+        "${workspaceFolder}/dist/hydrate/index.js",
+        "--max-workers=0",
+        "--config=${workspaceFolder}/stencil.config.ts"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Stencil --e2e {currentFile}",
+      "cwd": "${workspaceFolder}/packages/calcite-components",
+      "sourceMaps": true,
+      "args": [
+        "${workspaceFolder}/node_modules/@stencil/core/bin/stencil",
+        "test",
+        "--no-docs",
+        "--no-build",
+        "--no-cache",
+        "--e2e",
+        "--devtools",
+        "--",
+        "--max-workers=0",
+        "${file}"
+      ],
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Stencil --spec {currentFile}",
+      "cwd": "${workspaceFolder}/packages/calcite-components",
+      "sourceMaps": true,
+      "args": [
+        "${workspaceFolder}/node_modules/@stencil/core/bin/stencil",
+        "test",
+        "--no-docs",
+        "--no-build",
+        "--no-cache",
+        "--spec",
+        "--devtools",
+        "--",
+        "--max-workers=0",
+        "${file}"
+      ],
+      "skipFiles": ["<node_internals>/**"],
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Tokens --spec {currentFile}",
+      "cwd": "${workspaceFolder}/packages/calcite-design-tokens",
+      "sourceMaps": true,
+      "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/jest/bin/jest.js", "--runInBand", "${file}"],
+      "skipFiles": ["<node_internals>/**"],
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal"
+    }
+  ]
+}

@@ -1,5 +1,3 @@
-import pify from "pify";
-
 /*
  * This script is meant to be run by a CI environment during the deploy phase.
  * It throws an error if there are not release-worthy (deployable) changes.
@@ -8,7 +6,8 @@ import pify from "pify";
  */
 (async function runner(): Promise<void> {
   const childProcess = await import("child_process");
-  const exec = pify(childProcess.exec);
+  const { promisify } = await import("util");
+  const exec = promisify(childProcess.exec);
 
   async function isNextDeployable(): Promise<void> {
     console.log("Determining @next deployability 🔍");
@@ -17,12 +16,12 @@ import pify from "pify";
       throw new Error("No deployable changes since the previous release, skipping ⛔");
     }
 
-    await runGit("checkout", "master", "--quiet");
+    await runGit("checkout", "main", "--quiet");
     await runGit("fetch", "--tags", "--quiet");
 
     if (
-      (await latestCommit("master")) != (await latestCommit("origin/master")) &&
-      (await deployable("master", "origin/master"))
+      (await latestCommit("main")) != (await latestCommit("origin/main")) &&
+      (await deployable("main", "origin/main"))
     ) {
       throw new Error("There is a more recent deployable install, aborting ⛔️");
     }
@@ -63,7 +62,7 @@ import pify from "pify";
   }
 
   async function runGit(command: string, ...args: string[]): Promise<string> {
-    return (await exec(`git ${command} ${args.join(" ")}`, { encoding: "utf-8" })).trim();
+    return (await exec(`git ${command} ${args.join(" ")}`, { encoding: "utf-8" })).stdout.trim();
   }
 
   try {

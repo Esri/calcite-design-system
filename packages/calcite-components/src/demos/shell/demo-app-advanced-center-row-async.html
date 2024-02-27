@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+
+    <title>Boomer v Millennial - California</title>
+
+    <script src="../_assets/head.js"></script>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.15/"></script>
+    <style>
+      html,
+      body,
+      main,
+      .shell-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <style>
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <script>
+      require(["esri/WebMap", "esri/views/MapView", "esri/widgets/LayerList", "esri/widgets/Zoom"], function (
+        WebMap,
+        MapView,
+        LayerList,
+        Zoom,
+      ) {
+        const webmap = new WebMap({
+          portalItem: {
+            id: "cc316ca9e0824970ad29ac558161d42d",
+          },
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: webmap,
+          padding: { left: 49, right: 49 },
+        });
+        view.when(function () {
+          view.ui.move("zoom", "bottom-right");
+          addCenterRow();
+        });
+      });
+      function addCenterRow() {
+        const centerRow = document.createElement("calcite-shell-center-row");
+        centerRow.setAttribute("slot", "center-row");
+        centerRow.setAttribute("detached", "");
+        centerRow.setAttribute("hidden", "");
+
+        const shell = document.getElementById("shell");
+        shell.appendChild(centerRow);
+
+        const contentTrigger = document.getElementById("center-row-trigger");
+        contentTrigger.addEventListener("click", function () {
+          centerRow.removeAttribute("hidden");
+
+          const panel = document.createElement("calcite-panel");
+          panel.setAttribute("heading", "This is it.");
+          panel.innerHTML = "<p>This is cool stuff.</p>";
+          centerRow.appendChild(panel);
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <main>
+        <div class="shell-container">
+          <calcite-shell content-behind id="shell">
+            <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
+              <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
+                <calcite-action-group>
+                  <calcite-action text="Save" icon="save" indicator> </calcite-action>
+                  <calcite-action icon="map" text="New"> </calcite-action>
+                  <calcite-action icon="collection" text="Open"> </calcite-action>
+                </calcite-action-group>
+                <calcite-action-group>
+                  <calcite-action icon="layers" text="Layers" active> </calcite-action>
+                  <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+                  <calcite-action icon="legend" text="Legend"> </calcite-action>
+                  <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+                  <calcite-action icon="table" text="Table" id="center-row-trigger"> </calcite-action>
+                </calcite-action-group>
+                <calcite-action-group>
+                  <calcite-action text="Share" icon="share"></calcite-action>
+                  <calcite-action text="Print" icon="print"></calcite-action>
+                </calcite-action-group>
+                <calcite-action-group slot="actions-end">
+                  <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
+                  <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+                </calcite-action-group>
+              </calcite-action-bar>
+              <calcite-flow>
+                <calcite-flow-item heading="First flow item" width-scale="l">
+                  Default slot of the first panel
+                </calcite-flow-item>
+                <calcite-flow-item heading="Second flow item 02" width-scale="m">
+                  Default slot of the second panel
+                </calcite-flow-item>
+              </calcite-flow>
+            </calcite-shell-panel>
+
+            <calcite-shell-panel slot="panel-end" position="end">
+              <calcite-action-bar slot="action-bar">
+                <calcite-action-group>
+                  <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+                  <calcite-action text="Styles" icon="shapes"> </calcite-action>
+                  <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
+                  <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
+                  <calcite-action text="Configure attributes" icon="feature-details"> </calcite-action>
+                  <calcite-action text="Labels" icon="label"> </calcite-action>
+                  <calcite-action text="Table" icon="table" id="center-row-trigger"> </calcite-action>
+                </calcite-action-group>
+                <calcite-action-group>
+                  <calcite-action icon="search" text="Search"></calcite-action>
+                  <calcite-action icon="measure" text="Measure"></calcite-action>
+                  <calcite-action icon="road-sign" text="Directions"></calcite-action>
+                  <calcite-action icon="point" text="Location"></calcite-action>
+                  <calcite-action icon="pencil-square" text="Edit" disabled></calcite-action>
+                  <calcite-action icon="clock" text="Time" disabled></calcite-action>
+                </calcite-action-group>
+                <calcite-action-group slot="actions-end">
+                  <calcite-action text="Tips" id="tip-manager-button">
+                    <calcite-icon icon="lightbulb" scale="s"></calcite-icon>
+                  </calcite-action>
+                </calcite-action-group>
+              </calcite-action-bar>
+              <calcite-panel heading="Single panel" description="I'm in the contextual-panel" width-scale="m">
+                Default slot of panel
+                <calcite-button width="half" slot="footer" appearance="outline">Cancel</calcite-button>
+                <calcite-button width="half" slot="footer">Done</calcite-button>
+              </calcite-panel>
+            </calcite-shell-panel>
+            <div class="gnav" slot="header">
+              <h2>Boomer v Millennial - California</h2>
+            </div>
+            <div id="viewDiv"></div>
+            <!-- <calcite-shell-center-row slot="center-row" height-scale="s" detached id="center-row" hidden position="end">
+              <calcite-action-bar slot="action-bar" hidden></calcite-action-bar>
+
+          </calcite-shell-center-row> -->
+
+            <footer slot="footer">Footer</footer>
+          </calcite-shell>
+        </div>
+      </main>
+    </demo-dom-swapper>
+  </body>
+</html>

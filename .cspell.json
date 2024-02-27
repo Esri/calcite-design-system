@@ -1,0 +1,24 @@
+{
+  "dictionaries": [
+    "calcite-dev",
+    "css",
+    "en-common-misspellings",
+    "fonts",
+    "fullstack",
+    "html",
+    "html-symbol-entities",
+    "lorem-ipsum",
+    "markdown",
+    "node",
+    "npm",
+    "shell",
+    "software-terms",
+    "typescript"
+  ],
+  "dictionaryDefinitions": [
+    {
+      "name": "calcite-dev",
+      "path": "./support/dictionaries/dict-calcite-design-system.txt"
+    }
+  ]
+}

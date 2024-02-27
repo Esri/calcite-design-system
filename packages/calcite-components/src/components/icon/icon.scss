@@ -1,0 +1,46 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-ui-icon-color: The component's color. Defaults to `currentColor`.
+ */
+
+:host {
+  @apply text-color-icon inline-flex;
+}
+
+$icon-size-s: 16px;
+$icon-size-m: 24px;
+$icon-size-l: 32px;
+
+:host([scale="s"]) {
+  inline-size: $icon-size-s;
+  block-size: $icon-size-s;
+  min-inline-size: $icon-size-s;
+  min-block-size: $icon-size-s;
+}
+
+:host([scale="m"]) {
+  inline-size: $icon-size-m;
+  block-size: $icon-size-m;
+  min-inline-size: $icon-size-m;
+  min-block-size: $icon-size-m;
+}
+
+:host([scale="l"]) {
+  inline-size: $icon-size-l;
+  block-size: $icon-size-l;
+  min-inline-size: $icon-size-l;
+  min-block-size: $icon-size-l;
+}
+
+.flip-rtl {
+  transform: scaleX(-1);
+}
+
+.svg {
+  @apply block;
+}
+
+@include base-component();

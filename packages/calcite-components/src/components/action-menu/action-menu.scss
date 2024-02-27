@@ -1,0 +1,40 @@
+:host {
+  @apply text-color-2
+  text-1
+  box-border
+  flex
+  flex-col;
+}
+
+::slotted(calcite-action-group) {
+  border-block-end: 1px solid var(--calcite-color-border-3);
+}
+
+::slotted(calcite-action-group:last-child) {
+  border-block-end: 0;
+}
+
+.default-trigger {
+  @apply relative
+  h-full
+  flex-initial
+  self-stretch;
+}
+
+@include slotted("trigger", "calcite-action") {
+  @apply relative
+  h-full
+  flex-initial
+  self-stretch;
+}
+
+.menu {
+  @apply flex-col
+  flex-nowrap
+  outline-none
+  overflow-y-auto
+  overflow-x-hidden
+  max-h-menu;
+}
+
+@include base-component();

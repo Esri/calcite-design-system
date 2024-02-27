@@ -1,0 +1,8 @@
+{
+  "all": "ทั้งหมด",
+  "keyboardDeselectAll": "กด Enter หรือ Space เพื่อยกเลิกการเลือกแถวทั้งหมด",
+  "keyboardSelectAll": "กด Enter หรือ Space เพื่อเลือกแถวทั้งหมด",
+  "rowNumber": "หมายเลขแถว",
+  "selected": "แถวที่เลือก",
+  "selectionColumn": "คอลัมน์การเลือก"
+}

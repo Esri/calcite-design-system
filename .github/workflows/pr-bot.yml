@@ -1,16 +1,28 @@
 name: PR Bot
 on:
   pull_request:
-    types: [opened]
-    branches: [master]
+    branches: [main, rc]
+permissions:
+  pull-requests: write
+  issues: write
 jobs:
-  assign:
+  assign-author:
+    if: github.event.pull_request.user.login != 'dependabot[bot]' && github.event.pull_request.user.login != 'renovate[bot]'
     runs-on: ubuntu-latest
     steps:
-      - uses: technote-space/assign-author@v1
-  label:
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/assignPullRequestAuthor.js')
+            await action({github, context, core})
+  label-type:
+    if: github.event.pull_request.user.login != 'dependabot[bot]' && github.event.pull_request.user.login != 'renovate[bot]'
     runs-on: ubuntu-latest
     steps:
-      - uses: srvaroa/labeler@v0.8
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/labelPullRequestWithCommitType.js')
+            await action({github, context, core})

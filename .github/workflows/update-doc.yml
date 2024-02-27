@@ -1,25 +1,27 @@
 name: "Update component doc"
 on:
+  workflow_dispatch:
   schedule:
     - cron: "45 0 * * *"
 jobs:
   update-component-doc:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: lts/*
-          cache: npm
+          node-version-file: package.json
       - name: generate doc
         run: |
-          npm ci --legacy-peer-deps
-          npx stencil build --docs
-          npm run lint:md
+          npm install
+          npm --workspace=@esri/calcite-design-tokens run build
+          npm --workspace=@esri/eslint-plugin-calcite-components run build
+          npx --workspace=@esri/calcite-components stencil build --docs
+          npm run --workspace=@esri/calcite-components lint:md
       - name: commit readme files/create pull request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
-          base: master
+          base: main
           branch: doc-update
           commit-message: "docs: update component READMEs"
           token: ${{ secrets.ADMIN_TOKEN }}

@@ -1,0 +1,730 @@
+:host {
+  @apply inline-block w-auto align-middle;
+}
+
+// fab variants
+:host([round]) {
+  border-radius: 50px;
+  & a,
+  & button {
+    border-radius: 50px;
+  }
+}
+
+// focus styles
+:host button,
+:host a {
+  @apply focus-base;
+  &:focus {
+    @apply focus-outset;
+  }
+}
+// button base
+:host button,
+:host a {
+  --calcite-button-content-margin-internal: theme("margin.2");
+  --calcite-button-padding-x-internal: 7px;
+  --calcite-button-padding-y-internal: 3px;
+  padding-block: var(--calcite-button-padding-y-internal);
+  padding-inline: var(--calcite-button-padding-x-internal);
+  @apply font-inherit
+    relative
+    box-border
+    flex
+    h-full
+    w-full
+    cursor-pointer
+    select-none
+    appearance-none
+    items-center
+    justify-center
+    rounded-none
+    border-none
+    text-center
+    font-normal
+    no-underline;
+  // include transition from focus
+  transition:
+    color var(--calcite-animation-timing) ease-in-out,
+    background-color var(--calcite-animation-timing) ease-in-out,
+    box-shadow var(--calcite-animation-timing) ease-in-out,
+    outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
+  &:hover {
+    @apply no-underline;
+  }
+  & span {
+    @apply truncate;
+  }
+}
+
+.content {
+  margin-inline: var(--calcite-button-content-margin-internal);
+}
+
+.icon-start-empty {
+  .content {
+    margin-inline-start: unset;
+  }
+}
+.icon-end-empty {
+  .content {
+    margin-inline-end: unset;
+  }
+}
+
+:host([scale="m"]) {
+  button,
+  a {
+    --calcite-button-content-margin-internal: theme("margin.3");
+  }
+}
+:host([scale="l"]) {
+  button,
+  a {
+    --calcite-button-content-margin-internal: theme("margin.4");
+  }
+}
+
+// button width
+:host([width="auto"]) {
+  @apply w-auto;
+}
+
+:host([width="half"]) {
+  @apply w-2/4;
+}
+
+:host([width="full"]) {
+  @apply w-full;
+}
+
+// alignment
+:host([alignment="center"]:not([width="auto"])) {
+  a,
+  button {
+    @apply justify-center;
+  }
+}
+:host([alignment="start"]:not([width="auto"])) {
+  a,
+  button {
+    @apply justify-start;
+  }
+}
+:host([alignment="end"]:not([width="auto"])) {
+  a,
+  button {
+    @apply justify-end;
+  }
+}
+:host([alignment*="space-between"]:not([width="auto"])) {
+  a,
+  button {
+    @apply justify-between;
+  }
+}
+:host([alignment="icon-start-space-between"]:not([width="auto"])) {
+  .icon--start {
+    margin-inline-end: auto;
+  }
+  a,
+  button {
+    text-align: unset;
+  }
+}
+:host([alignment="icon-end-space-between"]:not([width="auto"])) {
+  .icon--end {
+    margin-inline-start: auto;
+  }
+  a,
+  button {
+    text-align: unset;
+  }
+}
+
+// only two icons
+:host([alignment="center"]) {
+  a:not(.content--slotted),
+  button:not(.content--slotted) {
+    .icon--start + .icon--end {
+      margin-inline-start: var(--calcite-button-content-margin-internal);
+    }
+  }
+}
+
+.icon {
+  @apply relative
+    m-0
+    inline-flex
+    font-normal;
+  line-height: inherit;
+}
+
+@include disabled();
+
+@keyframes loader-in {
+  0% {
+    inline-size: 0;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    inline-size: 1em;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes loader-out {
+  0% {
+    inline-size: 1em;
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    inline-size: 0;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.calcite-button--loader {
+  @apply flex;
+  calcite-loader {
+    @apply m-0;
+    transition:
+      inline-size var(--calcite-internal-animation-timing-slow) ease-in-out,
+      opacity var(--calcite-internal-animation-timing-slow) ease-in-out,
+      transform var(--calcite-internal-animation-timing-slow) ease-in-out;
+    &.loading-in {
+      animation-name: loader-in;
+      animation-duration: var(--calcite-internal-animation-timing-slow);
+    }
+    &.loading-out {
+      animation-name: loader-out;
+      animation-duration: var(--calcite-internal-animation-timing-slow);
+    }
+  }
+}
+
+:host([loading]) {
+  // center loading spinner when button has text
+  button.content--slotted,
+  a.content--slotted {
+    .calcite-button--loader calcite-loader {
+      margin-inline-end: var(--calcite-button-content-margin-internal);
+    }
+  }
+  // hide icons when loading with no text
+  button:not(.content--slotted),
+  a:not(.content--slotted) {
+    .icon--start,
+    .icon--end {
+      @apply hidden;
+    }
+  }
+}
+
+// button styles
+:host([appearance]) {
+  button,
+  a {
+    @apply border-color-transparent
+      border
+      border-solid;
+  }
+}
+
+:host([kind="brand"]) {
+  button,
+  a {
+    @apply text-color-inverse bg-brand;
+    &:hover,
+    &:focus {
+      @apply bg-brand-hover;
+    }
+    &:active {
+      @apply bg-brand-press;
+    }
+    calcite-loader {
+      @apply text-color-inverse;
+    }
+  }
+}
+:host([kind="danger"]) {
+  button,
+  a {
+    @apply text-color-inverse bg-danger;
+    &:hover,
+    &:focus {
+      @apply bg-danger-hover;
+    }
+    &:active {
+      @apply bg-danger-press;
+    }
+    calcite-loader {
+      @apply text-color-inverse;
+    }
+  }
+}
+:host([kind="neutral"]) {
+  button,
+  a {
+    @apply text-color-1 bg-foreground-3;
+    &:hover,
+    &:focus {
+      @apply bg-foreground-2;
+    }
+    &:active {
+      @apply bg-foreground-1;
+    }
+    calcite-loader {
+      @apply text-color-1;
+    }
+  }
+}
+:host([kind="inverse"]) {
+  button,
+  a {
+    @apply text-color-inverse;
+    background-color: var(--calcite-color-inverse);
+    &:hover,
+    &:focus {
+      background-color: var(--calcite-color-inverse-hover);
+    }
+    &:active {
+      background-color: var(--calcite-color-inverse-press);
+    }
+    calcite-loader {
+      @apply text-color-inverse;
+    }
+  }
+}
+// outline
+:host([appearance="outline-fill"]) {
+  button,
+  a {
+    @apply bg-foreground-1 border border-solid;
+    box-shadow: inset 0 0 0 1px transparent;
+  }
+}
+:host([appearance="outline-fill"][kind="brand"]) {
+  button,
+  a {
+    @apply border-color-brand bg-foreground-1;
+    color: theme("colors.brand");
+    &:hover {
+      @apply border-color-brand-hover;
+      color: theme("colors.brand-hover");
+      box-shadow: inset 0 0 0 1px var(--calcite-color-brand-hover);
+    }
+    &:focus {
+      @apply border-color-brand;
+      color: theme("colors.brand");
+      box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
+    }
+    &:active {
+      @apply border-color-brand-press;
+      color: theme("colors.brand-press");
+      box-shadow: inset 0 0 0 2px var(--calcite-color-brand-press);
+    }
+    calcite-loader {
+      color: theme("colors.brand");
+    }
+  }
+}
+:host([appearance="outline-fill"][kind="danger"]) {
+  button,
+  a {
+    @apply border-color-danger bg-foreground-1;
+    color: theme("colors.danger");
+    &:hover {
+      @apply border-color-danger-hover;
+      color: theme("colors.danger-hover");
+      box-shadow: inset 0 0 0 1px var(--calcite-color-status-danger-hover);
+    }
+    &:focus {
+      @apply border-color-danger;
+      color: theme("colors.danger");
+      box-shadow: inset 0 0 0 2px var(--calcite-color-status-danger);
+    }
+    &:active {
+      @apply border-color-danger-press;
+      color: theme("colors.danger-press");
+      box-shadow: inset 0 0 0 2px var(--calcite-color-status-danger-press);
+    }
+    calcite-loader {
+      color: theme("colors.danger");
+    }
+  }
+}
+:host([appearance="outline-fill"][kind="neutral"]) {
+  button,
+  a {
+    @apply text-color-1 bg-foreground-1;
+    border-color: theme("borderColor.color.1");
+    &:hover {
+      box-shadow: inset 0 0 0 1px var(--calcite-color-foreground-3);
+    }
+    &:focus {
+      box-shadow: inset 0 0 0 2px var(--calcite-color-foreground-3);
+    }
+    &:active {
+      box-shadow: inset 0 0 0 2px var(--calcite-color-foreground-3);
+    }
+    calcite-loader {
+      @apply text-color-1;
+    }
+  }
+}
+:host([appearance="outline-fill"][kind="inverse"]) {
+  button,
+  a {
+    @apply text-color-1 bg-foreground-1;
+    border-color: var(--calcite-color-inverse);
+    &:hover {
+      border-color: var(--calcite-color-inverse-hover);
+      box-shadow: inset 0 0 0 1px var(--calcite-color-inverse-hover);
+    }
+    &:focus {
+      border-color: var(--calcite-color-inverse);
+      box-shadow: inset 0 0 0 2px var(--calcite-color-inverse);
+    }
+    &:active {
+      border-color: var(--calcite-color-inverse-press);
+      box-shadow: inset 0 0 0 2px var(--calcite-color-inverse-press);
+    }
+    calcite-loader {
+      @apply text-color-1;
+    }
+  }
+}
+:host([appearance="outline"]) {
+  button,
+  a {
+    @apply border border-solid bg-transparent;
+    box-shadow: inset 0 0 0 1px transparent;
+  }
+}
+:host([appearance="outline"][kind="brand"]) {
+  button,
+  a {
+    @apply border-color-brand bg-transparent;
+    color: theme("colors.brand");
+    &:hover {
+      @apply border-color-brand-hover;
+      color: theme("colors.brand-hover");
+      box-shadow: inset 0 0 0 1px var(--calcite-color-brand-hover);
+    }
+    &:focus {
+      @apply border-color-brand;
+      color: theme("colors.brand");
+      box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
+    }
+    &:active {
+      @apply border-color-brand-press;
+      color: theme("colors.brand-press");
+      box-shadow: inset 0 0 0 2px var(--calcite-color-brand-press);
+    }
+    calcite-loader {
+      color: theme("colors.brand");
+    }
+  }
+}
+:host([appearance="outline"][kind="danger"]) {
+  button,
+  a {
+    @apply border-color-danger bg-transparent;
+    color: theme("colors.danger");
+    &:hover {
+      @apply border-color-danger-hover;
+      color: theme("colors.danger-hover");
+      box-shadow: inset 0 0 0 1px var(--calcite-color-status-danger-hover);
+    }
+    &:focus {
+      @apply border-color-danger;
+      color: theme("colors.danger");
+      box-shadow: inset 0 0 0 2px var(--calcite-color-status-danger);
+    }
+    &:active {
+      @apply border-color-danger-press;
+      color: theme("colors.danger-press");
+      box-shadow: inset 0 0 0 2px var(--calcite-color-status-danger-press);
+    }
+    calcite-loader {
+      color: theme("colors.danger");
+    }
+  }
+}
+:host([appearance="outline"][kind="neutral"]) {
+  button,
+  a {
+    @apply text-color-1  bg-transparent;
+    border-color: theme("borderColor.color.1");
+    &:hover {
+      box-shadow: inset 0 0 0 1px var(--calcite-color-foreground-3);
+    }
+    &:focus {
+      box-shadow: inset 0 0 0 2px var(--calcite-color-foreground-3);
+    }
+    &:active {
+      box-shadow: inset 0 0 0 2px var(--calcite-color-foreground-3);
+    }
+    calcite-loader {
+      @apply text-color-1;
+    }
+  }
+}
+:host([appearance="outline"][kind="inverse"]) {
+  button,
+  a {
+    @apply text-color-1  bg-transparent;
+    border-color: var(--calcite-color-inverse);
+    &:hover {
+      border-color: var(--calcite-color-inverse-hover);
+      box-shadow: inset 0 0 0 1px var(--calcite-color-inverse-hover);
+    }
+    &:focus {
+      border-color: var(--calcite-color-inverse);
+      box-shadow: inset 0 0 0 2px var(--calcite-color-inverse);
+    }
+    &:active {
+      border-color: var(--calcite-color-inverse-press);
+      box-shadow: inset 0 0 0 2px var(--calcite-color-inverse-press);
+    }
+    calcite-loader {
+      @apply text-color-1;
+    }
+  }
+}
+
+:host([appearance="outline-fill"][split-child="primary"]) button,
+:host([appearance="outline"][split-child="primary"]) button {
+  border-inline-end-width: 0;
+  border-inline-start-width: theme("borderWidth.DEFAULT");
+}
+
+:host([appearance="outline-fill"][split-child="secondary"]) button,
+:host([appearance="outline"][split-child="secondary"]) button {
+  border-inline-start-width: 0;
+  border-inline-end-width: theme("borderWidth.DEFAULT");
+}
+
+// transparent
+:host([appearance="transparent"]:not(.enable-editing-button)) {
+  button,
+  a {
+    @apply bg-transparent;
+    &:hover,
+    &:focus {
+      background-color: var(--calcite-color-transparent-hover);
+    }
+    &:active {
+      background-color: var(--calcite-color-transparent-press);
+    }
+  }
+}
+:host([appearance="transparent"][kind="brand"]) {
+  button,
+  a {
+    color: theme("colors.brand");
+    &:hover {
+      color: theme("colors.brand-hover");
+    }
+    &:focus {
+      color: theme("colors.brand");
+    }
+    &:active {
+      color: theme("colors.brand-press");
+    }
+    calcite-loader {
+      color: theme("colors.brand");
+    }
+  }
+}
+
+:host([appearance="transparent"][kind="danger"]) {
+  button,
+  a {
+    color: theme("colors.danger");
+    &:hover {
+      color: theme("colors.danger-hover");
+    }
+    &:focus {
+      color: theme("colors.danger");
+    }
+    &:active {
+      color: theme("colors.danger-press");
+    }
+    calcite-loader {
+      color: theme("colors.danger");
+    }
+  }
+}
+
+:host([appearance="transparent"][kind="neutral"]:not(.cancel-editing-button)) {
+  button,
+  a,
+  calcite-loader {
+    @apply text-color-1;
+  }
+}
+
+:host([appearance="transparent"][kind="neutral"].cancel-editing-button) {
+  button {
+    @apply text-color-3
+      border-t-color-input
+      border-b-color-input
+      border-t
+      border-b;
+    border-block-style: solid;
+
+    &:not(.content--slotted) {
+      --calcite-button-padding-y-internal: 0;
+    }
+
+    &:hover {
+      @apply text-color-1;
+    }
+  }
+}
+
+:host([appearance="transparent"][kind="neutral"].enable-editing-button) {
+  button {
+    @apply bg-transparent;
+  }
+}
+
+:host(.confirm-changes-button),
+:host(.cancel-editing-button),
+:host(.enable-editing-button) {
+  button {
+    &:focus {
+      outline-offset: -2px; // ensure focus outlines work in Safari
+    }
+  }
+}
+
+:host([appearance="transparent"][kind="inverse"]) {
+  button,
+  a,
+  calcite-loader {
+    @apply text-color-inverse;
+  }
+}
+
+// generate button scales (scenario: text exists)
+:host([scale="s"]) button.content--slotted,
+:host([scale="s"]) a.content--slotted {
+  @apply text-n2h;
+}
+
+// accommodate for transparent buttons not having borders
+:host([scale="s"][appearance="transparent"]) button.content--slotted,
+:host([scale="s"][appearance="transparent"]) a.content--slotted {
+  --calcite-button-padding-x-internal: theme("padding.2");
+}
+
+:host([scale="s"]) button,
+:host([scale="s"]) a {
+  --calcite-button-padding-y-internal: 3px;
+}
+
+:host([scale="m"]) button.content--slotted,
+:host([scale="m"]) a.content--slotted {
+  --calcite-button-padding-x-internal: 11px;
+  @apply text-n1h;
+}
+
+:host([scale="m"]) button,
+:host([scale="m"]) a {
+  --calcite-button-padding-y-internal: 7px;
+}
+// accommodate for transparent buttons not having borders
+:host([scale="m"][appearance="transparent"]) button.content--slotted,
+:host([scale="m"][appearance="transparent"]) a.content--slotted {
+  --calcite-button-padding-x-internal: theme("padding.3");
+}
+
+:host([scale="l"]) button.content--slotted,
+:host([scale="l"]) a.content--slotted {
+  --calcite-button-padding-x-internal: 15px;
+  @apply text-0h;
+}
+
+:host([scale="l"]) {
+  .button-padding {
+    --calcite-button-padding-x-internal: theme("padding.4");
+    --calcite-button-padding-y-internal: 11px;
+  }
+  //shrink the padding if an icon is present to preserve the height
+  .button-padding--shrunk {
+    --calcite-button-padding-y-internal: 9px;
+  }
+}
+
+// generate fab scales (scenario: 1 icon, ie., should be square)
+:host([scale="s"]) button:not(.content--slotted),
+:host([scale="s"]) a:not(.content--slotted) {
+  --calcite-button-padding-x-internal: theme("padding[0.5]");
+  --calcite-button-padding-y-internal: 3px;
+  @apply text-0h w-6;
+  min-block-size: theme("height.6");
+}
+
+:host([scale="m"]) button:not(.content--slotted),
+:host([scale="m"]) a:not(.content--slotted) {
+  --calcite-button-padding-x-internal: theme("padding[0.5]");
+  --calcite-button-padding-y-internal: 7px;
+  @apply text-0h w-8;
+  min-block-size: theme("height.8");
+}
+:host([scale="l"]) button:not(.content--slotted),
+:host([scale="l"]) a:not(.content--slotted) {
+  --calcite-button-padding-x-internal: theme("padding[0.5]");
+  --calcite-button-padding-y-internal: 9px;
+  @apply text-0h w-11;
+  min-block-size: theme("height.11");
+}
+// accommodate for transparent buttons not having borders
+:host([scale="l"][appearance="transparent"]) button:not(.content--slotted),
+:host([scale="l"][appearance="transparent"]) a:not(.content--slotted) {
+  --calcite-button-padding-y-internal: theme("padding[2.5]");
+}
+
+// generate fab scales (scenario: 2 icons, ie., should not be square)
+:host([scale="s"][icon-start][icon-end]) button:not(.content--slotted),
+:host([scale="s"][icon-start][icon-end]) a:not(.content--slotted) {
+  --calcite-button-padding-x-internal: 23px;
+  @apply text-0h h-6;
+}
+// accommodate for transparent buttons not having borders
+:host([scale="s"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
+:host([scale="s"][icon-start][icon-end][appearance="transparent"]) a:not(.content--slotted) {
+  --calcite-button-padding-x-internal: theme("padding.6");
+}
+:host([scale="m"][icon-start][icon-end]) button:not(.content--slotted),
+:host([scale="m"][icon-start][icon-end]) a:not(.content--slotted) {
+  --calcite-button-padding-x-internal: theme("padding.8");
+  @apply text-0h h-8;
+}
+// accommodate for transparent buttons not having borders
+:host([scale="m"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
+:host([scale="m"][icon-start][icon-end][appearance="transparent"]) a:not(.content--slotted) {
+  --calcite-button-padding-x-internal: 33px;
+}
+:host([scale="l"][icon-start][icon-end]) button:not(.content--slotted),
+:host([scale="l"][icon-start][icon-end]) a:not(.content--slotted) {
+  --calcite-button-padding-x-internal: 43px;
+  @apply text-0h h-11;
+  // add space between when only 2 icons
+  .icon--start + .icon--end {
+    margin-inline-start: theme("margin.4");
+  }
+}
+// accommodate for transparent buttons not having borders
+:host([scale="l"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
+:host([scale="l"][icon-start][icon-end][appearance="transparent"]) a:not(.content--slotted) {
+  --calcite-button-padding-x-internal: theme("padding.11");
+}
+
+@include base-component();

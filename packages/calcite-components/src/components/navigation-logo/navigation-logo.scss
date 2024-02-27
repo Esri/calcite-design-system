@@ -1,0 +1,81 @@
+:host {
+  @apply inline-flex outline-none;
+}
+
+.anchor {
+  @apply flex
+    m-0
+    items-center
+    justify-center
+    cursor-pointer
+    transition-default
+    focus-base
+    no-underline
+    text-0h;
+  color: inherit;
+  border-block-end: 2px solid transparent;
+}
+
+.anchor:hover,
+.anchor:focus {
+  @apply bg-foreground-2;
+}
+.anchor:focus {
+  @apply focus-inset;
+}
+
+.anchor:active {
+  @apply bg-foreground-3;
+}
+
+.image,
+.icon {
+  @apply flex h-7 m-0 px-4;
+}
+
+.image ~ .icon {
+  @apply ps-0;
+}
+
+.image ~ .container,
+.icon ~ .container {
+  @apply ps-0;
+}
+
+:host(:active) .anchor {
+  @apply text-color-1;
+}
+
+:host([active]) .anchor {
+  @apply text-color-1;
+  border-color: var(--calcite-color-brand);
+  --calcite-ui-icon-color: var(--calcite-color-brand);
+}
+
+.container {
+  @apply flex
+  flex-col
+  truncate
+  text-start
+  px-4
+  mt-0.5;
+}
+
+.heading {
+  @apply text-0
+  ms-0
+  truncate
+  text-color-1
+  font-medium;
+}
+
+.standalone {
+  @apply text-1;
+}
+
+.description {
+  @apply text-color-2 truncate;
+  font-size: var(--calcite-font-size--1);
+}
+
+@include base-component();

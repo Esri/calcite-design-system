@@ -1,0 +1,17 @@
+{
+  "fractionalSecond": "Secundă fracțională",
+  "fractionalSecondDown": "Micșorare secundă fracțională",
+  "fractionalSecondUp": "Creștere secundă fracțională",
+  "hour": "Oră",
+  "hourDown": "Micșorare oră",
+  "hourUp": "Creștere oră",
+  "meridiem": "AM/PM",
+  "meridiemDown": "Scădere AP/PM",
+  "meridiemUp": "Creștere AM/PM",
+  "minute": "Minut",
+  "minuteDown": "Micșorare minut",
+  "minuteUp": "Creștere minut",
+  "second": "Secundă",
+  "secondDown": "Micșorare secundă",
+  "secondUp": "Creștere secundă"
+}

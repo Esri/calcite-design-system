@@ -1,0 +1,89 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-table-header-background: Specifies the background color of the component.
+ * @prop --calcite-table-header-border-color: Specifies the border color of the component.
+ */
+
+:host {
+  --calcite-internal-table-header-background: var(--calcite-table-header-background, var(--calcite-color-foreground-2));
+  --calcite-internal-table-header-border-color: var(--calcite-table-border-color, var(--calcite-color-border-3));
+  @apply contents;
+}
+
+:host([alignment="center"]) th {
+  @apply text-center;
+}
+
+:host([alignment="end"]) th {
+  @apply text-end;
+}
+
+.assistive-text {
+  @apply sr-only;
+}
+
+th {
+  @apply text-color-1 text-start font-medium align-top whitespace-normal;
+  font-size: var(--calcite-internal-table-cell-font-size);
+  border-inline-end: 1px solid var(--calcite-internal-table-header-border-color);
+  border-block-end: 1px solid var(--calcite-internal-table-header-border-color);
+  padding-block: calc(var(--calcite-internal-table-cell-padding) * 1.5);
+  padding-inline: var(--calcite-internal-table-cell-padding);
+  background-color: var(--calcite-internal-table-header-background);
+
+  &:not(.static-cell) {
+    @apply focus-base;
+    &:not(.static-cell):focus-within {
+      @apply focus-inset;
+    }
+  }
+}
+
+th.last-cell {
+  border-inline-end: 0;
+}
+
+th.body-row,
+th.footer-row {
+  @apply align-middle;
+  border-block-end: 0;
+}
+
+th.footer-row {
+  border-block-start: 1px solid var(--calcite-internal-table-header-border-color);
+}
+
+.cell--multiple-selection {
+  @apply cursor-pointer align-middle text-color-3;
+}
+
+.selected-cell:not(.number-cell):not(.footer-cell) {
+  --calcite-internal-table-header-background: var(--calcite-color-foreground-current);
+}
+
+.number-cell,
+.selection-cell {
+  @apply text-color-2;
+  inline-size: 2rem;
+  min-inline-size: 2rem;
+}
+
+.selection-cell calcite-icon.active {
+  color: var(--calcite-color-brand);
+}
+.number-cell calcite-icon,
+.selection-cell calcite-icon {
+  @apply ms-auto me-auto align-middle;
+}
+
+.heading {
+  @apply text-color-1;
+}
+
+.description {
+  @apply text-color-3;
+  font-size: var(--calcite-internal-table-cell-font-size-secondary);
+}
