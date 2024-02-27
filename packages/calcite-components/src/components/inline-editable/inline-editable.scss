@@ -1,39 +1,45 @@
+@import "~@esri/calcite-design-tokens/dist/scss/core";
+
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-inline-editable-background-color: Specifies the background color of the component.
+ * @prop --calcite-inline-editable-border-color: Specifies the border color of the component.
+ */
+
 :host {
+  --calcite-inline-editable-background-color: var(--calcite-color-foreground-1);
+  --calcite-inline-editable-border-color: var(--calcite-color-border-2);
+
   @apply block;
 }
 
 :host([scale="s"]) {
-  .controls-wrapper {
-    @apply h-6;
-  }
+  --calcite-internal-inline-editable-height: var(--calcite-size-xxl);
 }
 
 :host([scale="m"]) {
-  .controls-wrapper {
-    @apply h-8;
-  }
+  --calcite-internal-inline-editable-height: var(--calcite-size-xxxl);
 }
 
 :host([scale="l"]) {
-  .controls-wrapper {
-    @apply h-11;
-  }
+  --calcite-internal-inline-editable-height: #{$calcite-size-44}; // TODO: need semantic token for this size
 }
 
-:host(:not([editing-enabled]):not([disabled])) {
-  .wrapper {
-    &:hover {
-      @apply bg-foreground-2;
-    }
-  }
+:host(:not([editing-enabled]):not([disabled]):hover) {
+  --calcite-inline-editable-background-color: var(--calcite-color-foreground-2);
 }
 
 .wrapper {
-  @apply bg-foreground-1
-    transition-default
-    box-border
+  @apply box-border
     flex
-    justify-between;
+    justify-between
+    transition-default;
+
+  block-size: var(--calcite-internal-inline-editable-height);
+  background-color: var(--calcite-inline-editable-background-color);
 
   .input-wrapper {
     @apply flex-1;
@@ -44,10 +50,5 @@
   @apply flex;
 }
 
-@include disabled() {
-  .cancel-editing-button-wrapper {
-    @apply border-color-2;
-  }
-}
-
+@include disabled();
 @include base-component();

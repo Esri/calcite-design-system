@@ -51,7 +51,13 @@ export const scales_TestOnly = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-input-time-picker class="calcite-mode-dark" value="22:37" step="1"> </calcite-input-time-picker>
+  <calcite-input-time-picker
+    class="calcite-mode-dark"
+    value="22:37"
+    step="1"
+    validation-message="This should not appear because the status is not 'invalid'"
+  >
+  </calcite-input-time-picker>
 `;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

@@ -15,7 +15,7 @@ import {
 import { getElementRect, getElementXY, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
-import { testPostValidationFocusing } from "../input/common/tests";
+import { testHiddenInputSyncing, testPostValidationFocusing } from "../input/common/tests";
 
 describe("calcite-input-number", () => {
   const delayFor2UpdatesInMs = 200;
@@ -1746,12 +1746,15 @@ describe("calcite-input-number", () => {
 
   describe("is form-associated", () => {
     formAssociated("calcite-input-number", {
-      testValue: 5,
+      testValue: "5",
       submitsOnEnter: true,
       inputType: "number",
+      validation: true,
     });
 
     testPostValidationFocusing("calcite-input-number");
+
+    testHiddenInputSyncing("calcite-input-number");
   });
 
   describe("translation support", () => {
