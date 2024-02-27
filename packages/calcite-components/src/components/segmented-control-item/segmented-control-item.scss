@@ -67,7 +67,7 @@
   font-size: var(--calcite-font-size-0);
   line-height: 1.25rem;
   padding-inline: var(--calcite-spacing-xl);
-  padding-block: var(--calcite-spacing-sm); // todo: 10px??
+  padding-block: #{$calcite-size-10}; // TODO: need new size token for this size
 }
 
 :host(:hover) label {
