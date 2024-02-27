@@ -61,7 +61,8 @@
     var(--calcite-list-border-color, var(--calcite-color-border-3));
 }
 
-::slotted(calcite-list-item:first-of-type) {
+// removes border for the first item of the group for both filtered and unfiltered items.
+::slotted(calcite-list-item:nth-child(1 of :not([hidden]))) {
   border: none;
 }
 
