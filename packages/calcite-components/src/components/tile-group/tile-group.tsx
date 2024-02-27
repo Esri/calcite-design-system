@@ -6,8 +6,9 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { Layout, Scale } from "../interfaces";
+import { Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { CSS } from "./resources";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-tile` elements.
@@ -44,6 +45,30 @@ export class TileGroup implements InteractiveComponent {
     this.updateTiles();
   }
 
+  /**
+   * Specifies the selection appearance, where:
+   *
+   * - `"icon"` (displays a checkmark or dot), or
+   * - `"border"` (displays a border).
+   */
+  @Prop({ mutable: true }) selectionAppearance: SelectionAppearance = "icon";
+
+  /**
+   * Specifies the selection mode, where:
+   *
+   * - `"multiple"` (allows any number of selected items),
+   * - `"single"` (allows only one selected item),
+   * - `"single-persist"` (allows only one selected item and prevents de-selection),
+   * - `"none"` (allows no selected items).
+   */
+  @Prop({ mutable: true }) selectionMode: Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode> = "none";
+
+  @Watch("selectionMode")
+  @Watch("selectionAppearance")
+  handleListItemChange(): void {
+    this.updateTiles();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private Properties
@@ -58,8 +83,14 @@ export class TileGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
+  private mutationObserver = createObserver("mutation", () => this.updateTiles());
+
   private updateTiles = (): void => {
-    this.el.querySelectorAll("calcite-tile").forEach((item) => (item.scale = this.scale));
+    this.el.querySelectorAll("calcite-tile").forEach((item) => {
+      item.scale = this.scale;
+      item.selectionAppearance = this.selectionAppearance;
+      item.selectionMode = this.selectionMode;
+    });
   };
 
   //--------------------------------------------------------------------------
@@ -70,6 +101,7 @@ export class TileGroup implements InteractiveComponent {
 
   connectedCallback(): void {
     connectInteractive(this);
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateTiles();
   }
 
@@ -79,6 +111,7 @@ export class TileGroup implements InteractiveComponent {
 
   disconnectedCallback(): void {
     disconnectInteractive(this);
+    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {

@@ -6,7 +6,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { CSS, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { Alignment, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 
@@ -79,14 +79,22 @@ export class Tile implements InteractiveComponent {
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
-   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
+   * Specifies the selection appearance, where:
+   *
+   * - `"icon"` (displays a checkmark or dot), or
+   * - `"border"` (displays a border).
    *
    * @internal
    */
   @Prop({ mutable: true }) selectionAppearance: SelectionAppearance = null;
 
   /**
-   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
+   * Specifies the selection mode, where:
+   *
+   * - `"multiple"` (allows any number of selected items),
+   * - `"single"` (allows only one selected item),
+   * - `"single-persist"` (allows only one selected item and prevents de-selection),
+   * - `"none"` (allows no selected items).
    *
    * @internal
    */
@@ -147,23 +155,47 @@ export class Tile implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
+  renderSelected(): VNode {
+    const { selected, selectionAppearance, selectionMode } = this;
+    if (selectionMode === "none") {
+      return;
+    }
+    return (
+      <calcite-icon
+        icon={
+          selected
+            ? selectionMode === "multiple"
+              ? ICONS.selectedMultiple
+              : ICONS.selectedSingle
+            : selectionMode === "multiple"
+              ? ICONS.unselectedMultiple
+              : ICONS.unselectedSingle
+        }
+        scale="s"
+      />
+    );
+  }
+
   renderTile(): VNode {
     const { icon, hasContentStart, hasContentEnd, heading, description, iconFlipRtl } = this;
     const isLargeVisual = heading && icon && !description;
 
     return (
       <div class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual }}>
-        {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
-        <div class={CSS.contentContainer}>
-          <div class={{ [CSS.contentSlotContainer]: hasContentStart }}>
-            <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
-          </div>
-          <div class={CSS.content}>
-            {heading && <div class={CSS.heading}>{heading}</div>}
-            {description && <div class={CSS.description}>{description}</div>}
-          </div>
-          <div class={{ [CSS.contentSlotContainer]: hasContentEnd }}>
-            <slot name={SLOTS.contentEnd} onSlotchange={this.handleContentEndSlotChange} />
+        {this.renderSelected()}
+        <div>
+          {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
+          <div class={CSS.contentContainer}>
+            <div class={{ [CSS.contentSlotContainer]: hasContentStart }}>
+              <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
+            </div>
+            <div class={CSS.content}>
+              {heading && <div class={CSS.heading}>{heading}</div>}
+              {description && <div class={CSS.description}>{description}</div>}
+            </div>
+            <div class={{ [CSS.contentSlotContainer]: hasContentEnd }}>
+              <slot name={SLOTS.contentEnd} onSlotchange={this.handleContentEndSlotChange} />
+            </div>
           </div>
         </div>
       </div>

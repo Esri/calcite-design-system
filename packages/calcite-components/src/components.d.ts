@@ -4989,11 +4989,11 @@ export namespace Components {
          */
         "selected": boolean;
         /**
-          * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
+          * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).
          */
         "selectionAppearance": SelectionAppearance1;
         /**
-          * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
+          * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).
          */
         "selectionMode": Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode>;
     }
@@ -5010,6 +5010,14 @@ export namespace Components {
           * Specifies the size of the component.
          */
         "scale": Scale;
+        /**
+          * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).
+         */
+        "selectionAppearance": SelectionAppearance1;
+        /**
+          * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).
+         */
+        "selectionMode": Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode>;
     }
     interface CalciteTileSelect {
         /**
@@ -12527,11 +12535,11 @@ declare namespace LocalJSX {
          */
         "selected"?: boolean;
         /**
-          * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
+          * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).
          */
         "selectionAppearance"?: SelectionAppearance1;
         /**
-          * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
+          * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).
          */
         "selectionMode"?: Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode>;
     }
@@ -12548,6 +12556,14 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        /**
+          * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).
+         */
+        "selectionAppearance"?: SelectionAppearance1;
+        /**
+          * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).
+         */
+        "selectionMode"?: Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode>;
     }
     interface CalciteTileSelect {
         /**

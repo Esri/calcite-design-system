@@ -17,71 +17,63 @@
 
   box-sizing: border-box;
   display: inline-block;
-  max-inline-size: 460px;
-  min-inline-size: 140px;
+}
 
-  .container {
-    background-color: var(--calcite-tile-background-color);
-    block-size: var(--calcite-container-size-content-fluid);
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: var(--calcite-spacing-md);
-    inline-size: var(--calcite-container-size-content-fluid);
-    pointer-events: none;
-    transition-duration: 150ms;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    user-select: none;
+.container {
+  background-color: var(--calcite-tile-background-color);
+  block-size: var(--calcite-container-size-content-fluid);
+  box-sizing: border-box;
+  display: flex;
+  inline-size: var(--calcite-container-size-content-fluid);
+  pointer-events: none;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.content-container {
+  display: flex;
+  outline-color: transparent;
+  padding: 0;
+  inline-size: 100%;
+}
+
+.content-slot-container {
+  align-items: center;
+  display: flex;
+
+  &:first-child {
+    padding-inline: 0 0.75rem;
   }
 
+  &:last-child {
+    padding-inline: 0.75rem 0;
+  }
+}
+
+.heading {
+  color: var(--calcite-tile-heading-text-color);
+  font-weight: var(--calcite-font-weight-medium);
+  overflow-wrap: break-word;
+}
+.large-visual {
+  align-items: center;
+  justify-content: center;
+  min-block-size: 12rem;
+  text-align: center;
+
+  calcite-icon {
+    block-size: 64px;
+    inline-size: 64px;
+  }
   .content-container {
-    display: flex;
-    outline-color: transparent;
-    padding: 0;
-    inline-size: 100%;
-  }
-
-  .content-slot-container {
-    align-items: center;
-    display: flex;
-
-    &:first-child {
-      padding-inline: 0 0.75rem;
-    }
-
-    &:last-child {
-      padding-inline: 0.75rem 0;
-    }
-  }
-
-  .heading {
-    color: var(--calcite-tile-heading-text-color);
-    font-size: var(--calcite-font-size--1);
-    font-weight: var(--calcite-font-weight-medium);
-    line-height: 1.20313rem;
-    overflow-wrap: break-word;
-  }
-  .large-visual {
-    align-items: center;
     justify-content: center;
-    min-block-size: 12rem;
-    text-align: center;
-
-    calcite-icon {
-      block-size: 64px;
-      inline-size: 64px;
-    }
-    .content-container {
-      justify-content: center;
-    }
   }
-  .description {
-    color: var(--calcite-tile-description-text-color);
-    font-size: var(--calcite-font-size--2);
-    font-weight: var(--calcite-font-weight-regular);
-    line-height: 1.03125rem;
-    overflow-wrap: break-word;
-  }
+}
+.description {
+  color: var(--calcite-tile-description-text-color);
+  font-weight: var(--calcite-font-weight-regular);
+  overflow-wrap: break-word;
 }
 
 :host([alignment="center"]) {
@@ -104,6 +96,22 @@
   .description {
     font-size: var(--calcite-font-size--3);
     line-height: 0.85938rem;
+  }
+}
+
+:host([scale="m"]) {
+  max-inline-size: 460px;
+  min-inline-size: 140px;
+  .container {
+    gap: var(--calcite-spacing-md);
+  }
+  .heading {
+    font-size: var(--calcite-font-size--1);
+    line-height: 1.20313rem;
+  }
+  .description {
+    font-size: var(--calcite-font-size--2);
+    line-height: 1.03125rem;
   }
 }
 
