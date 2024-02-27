@@ -14,6 +14,10 @@
  * @prop --calcite-flow-item-header-border-block-end: [Deprecated] No longer necessary. Specifies the component header's block end border.
  * @prop --calcite-flow-item-heading-text-color: Specifies the component's heading text color.
  * @prop --calcite-flow-item-header-z-index: Specifies the component header's z-index.
+ * @prop --calcite-flow-item-action-indicator-color: defines the indicator color of an action sub-component inside the component.
+ * @prop --calcite-flow-item-action-background-color: defines the background color of an action sub-component inside the component.
+ * @prop --calcite-flow-item-action-text-color: defines the text color of an action sub-component inside the component.
+ * 
  */
 
 :host {
@@ -63,6 +67,12 @@ calcite-panel {
   --calcite-panel-header-z-index: var(--calcite-flow-item-header-z-index);
   --calcite-panel-header-border-width: var(--calcite-flow-item-header-border-width);
   --calcite-panel-header-border-block-end: var(--calcite-flow-item-header-border-block-end);
+}
+
+calcite-action {
+  --calcite-action-indicator-color: var(--calcite-flow-item-action-indicator-color);
+  --calcite-action-background-color: var(--calcite-flow-item-action-background-color);
+  --calcite-action-text-color: var(--calcite-flow-item-action-text-color);
 }
 
 @include base-component();

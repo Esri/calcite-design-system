@@ -1,3 +1,15 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ *
+ * @prop --calcite-action-menu-action-indicator-color: defines the indicator color of an action sub-component inside the component.
+ * @prop --calcite-action-menu-action-background-color: defines the background color of an action sub-component inside the component.
+ * @prop --calcite-action-menu-action-text-color: defines the text color of an action sub-component inside the component.
+ *
+ */
+
 :host {
   @apply text-color-2
   text-1
@@ -35,6 +47,12 @@
   overflow-y-auto
   overflow-x-hidden
   max-h-menu;
+}
+
+calcite-action {
+  --calcite-action-indicator-color: var(--calcite-action-menu-action-indicator-color);
+  --calcite-action-background-color: var(--calcite-action-menu-action-background-color);
+  --calcite-action-text-color: var(--calcite-action-menu-action-text-color);
 }
 
 @include base-component();

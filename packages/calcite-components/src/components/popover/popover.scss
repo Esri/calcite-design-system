@@ -8,6 +8,10 @@
 * @prop --calcite-popover-shadow: The shadow of the component.
 * @prop --calcite-popover-corner-radius: The corner radius of the component.
 * @prop --calcite-popover-text-color: The text color of the component.
+* @prop --calcite-popover-action-indicator-color: defines the indicator color of an action sub-component inside the component.
+* @prop --calcite-popover-action-background-color: defines the background color of an action sub-component inside the component.
+* @prop --calcite-popover-action-text-color: defines the text color of an action sub-component inside the component.
+*
 */
 
 :host {
@@ -116,6 +120,12 @@
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply h-full;
+}
+
+calcite-action {
+  --calcite-action-indicator-color: var(--calcite-popover-action-indicator-color);
+  --calcite-action-background-color: var(--calcite-popover-action-background-color);
+  --calcite-action-text-color: var(--calcite-popover-action-text-color);
 }
 
 @include base-component();

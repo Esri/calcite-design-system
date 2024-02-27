@@ -10,6 +10,10 @@
 * @prop --calcite-tip-text-color: The text color of the component.
 * @prop --calcite-tip-heading-text-color: The heading text color of the component.
 * @prop --calcite-tip-slotted-link-text-color: The text color of the slotted link.
+* @prop --calcite-tip-action-indicator-color: defines the indicator color of an action sub-component inside the component.
+* @prop --calcite-tip-action-background-color: defines the background color of an action sub-component inside the component.
+* @prop --calcite-tip-action-text-color: defines the text color of an action sub-component inside the component.
+* 
 */
 
 :host {
@@ -104,6 +108,12 @@
 
 ::slotted(img) {
   @apply max-w-full;
+}
+
+calcite-action {
+  --calcite-action-indicator-color: var(--calcite-tip-action-indicator-color);
+  --calcite-action-background-color: var(--calcite-tip-action-background-color);
+  --calcite-action-text-color: var(--calcite-tip-action-text-color);
 }
 
 @include base-component();

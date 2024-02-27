@@ -14,6 +14,10 @@
  * @prop --calcite-panel-header-border-block-end: [Deprecated] No longer necessary. Specifies the component header's block end border.
  * @prop --calcite-panel-heading-text-color: Specifies the component's heading text color.
  * @prop --calcite-panel-header-z-index: Specifies the component header's z-index.
+ * @prop --calcite-panel-action-indicator-color: defines the indicator color of an action sub-component inside the component.
+ * @prop --calcite-panel-action-background-color: defines the background color of an action sub-component inside the component.
+ * @prop --calcite-panel-action-text-color: defines the text color of an action sub-component inside the component.
+ *
  */
 
 :host {
@@ -185,6 +189,12 @@
   padding: var(--calcite-spacing-xxs);
   inset-inline: 0;
   inline-size: fit-content;
+}
+
+calcite-action {
+  --calcite-action-indicator-color: var(--calcite-panel-action-indicator-color);
+  --calcite-action-background-color: var(--calcite-panel-action-background-color);
+  --calcite-action-text-color: var(--calcite-panel-action-text-color);
 }
 
 @include base-component();
