@@ -9,6 +9,7 @@ import {
   Event,
   Method,
   Watch,
+  Host,
 } from "@stencil/core";
 import { focusElement, focusElementInGroup, toAriaBoolean } from "../../utils/dom";
 import {
@@ -25,9 +26,11 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+
 /**
  * @slot - A slot for adding one or more `calcite-card`s.
  */
+
 @Component({
   tag: "calcite-card-group",
   styleUrl: "card-group.scss",
@@ -126,21 +129,21 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
 
   @Listen("calciteInternalCardKeyEvent")
-  calciteInternalCardKeyEventListener(event: CustomEvent): void {
+  calciteInternalCardKeyEventListener(event: KeyboardEvent): void {
     if (event.composedPath().includes(this.el)) {
       const interactiveItems = this.items.filter((el) => !el.disabled);
-      switch (event.detail.key) {
+      switch (event.detail["key"]) {
         case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.detail.target, "next");
+          focusElementInGroup(interactiveItems, event.target as HTMLCalciteCardElement, "next");
           break;
         case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.detail.target, "previous");
+          focusElementInGroup(interactiveItems, event.target as HTMLCalciteCardElement, "previous");
           break;
         case "Home":
-          focusElementInGroup(interactiveItems, event.detail.target, "first");
+          focusElementInGroup(interactiveItems, event.target as HTMLCalciteCardElement, "first");
           break;
         case "End":
-          focusElementInGroup(interactiveItems, event.detail.target, "last");
+          focusElementInGroup(interactiveItems, event.target as HTMLCalciteCardElement, "last");
           break;
       }
     }
@@ -244,19 +247,21 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
       this.selectionMode === "none" || this.selectionMode === "multiple" ? "group" : "radiogroup";
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
-        <div
-          aria-disabled={toAriaBoolean(this.disabled)}
-          aria-label={this.label}
-          class="container"
-          role={role}
-        >
-          <slot
-            onSlotchange={this.updateItemsOnSlotChange}
-            ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}
-          />
-        </div>
-      </InteractiveContainer>
+      <Host>
+        <InteractiveContainer disabled={this.disabled}>
+          <div
+            aria-disabled={toAriaBoolean(this.disabled)}
+            aria-label={this.label}
+            class="container"
+            role={role}
+          >
+            <slot
+              onSlotchange={this.updateItemsOnSlotChange}
+              ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}
+            />
+          </div>
+        </InteractiveContainer>
+      </Host>
     );
   }
 }

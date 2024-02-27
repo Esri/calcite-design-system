@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -125,35 +124,6 @@ export class Card
     /* wired up by t9n util */
   }
 
-  private containerEl: HTMLDivElement;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
-    // remove selectable condition in future release
-    if (event.composedPath()[0] === this.containerEl && !this.selectable && !this.disabled) {
-      if (isActivationKey(event.key)) {
-        event.preventDefault();
-        this.calciteCardSelect.emit();
-      } else {
-        switch (event.key) {
-          case "ArrowRight":
-          case "ArrowLeft":
-          case "Home":
-          case "End":
-            this.calciteInternalCardKeyEvent.emit(event);
-            event.preventDefault();
-            break;
-        }
-      }
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -233,6 +203,8 @@ export class Card
 
   @State() private hasContent = false;
 
+  private containerEl: HTMLDivElement;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -241,6 +213,32 @@ export class Card
 
   private handleDefaultSlotChange = (event: Event): void => {
     this.hasContent = slotChangeHasAssignedElement(event);
+  };
+
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    if (!this.selectable && !this.disabled) {
+      if (isActivationKey(event.key) && this.interactive) {
+        this.calciteCardSelect.emit();
+        event.preventDefault();
+      } else {
+        switch (event.key) {
+          case "ArrowRight":
+          case "ArrowLeft":
+          case "Home":
+          case "End":
+            this.calciteInternalCardKeyEvent.emit(event);
+            event.preventDefault();
+            break;
+        }
+      }
+    }
+  };
+
+  private cardBodyClickHandler = (event: MouseEvent): void => {
+    const isFromScreenReader = event.target === this.containerEl;
+    if (isFromScreenReader && !this.selectable && !this.disabled && this.interactive) {
+      this.calciteCardSelect.emit();
+    }
   };
 
   private renderCheckboxDeprecated(): VNode {
@@ -349,11 +347,6 @@ export class Card
         : this.selectionMode !== "none" && this.interactive
           ? "radio"
           : undefined;
-
-    const actionTextSelection = `${this.selected ? this.messages.deselect : this.messages.select} ${
-      this.label
-    }`;
-
     return (
       <Host>
         <InteractiveContainer disabled={this.disabled}>
@@ -364,8 +357,10 @@ export class Card
                 : undefined
             }
             aria-disabled={this.disabled}
-            aria-label={role ? actionTextSelection : this.label}
+            aria-label={this.label}
             class={{ [CSS.contentWrapper]: true, inline: thumbnailInline }}
+            onClick={this.cardBodyClickHandler}
+            onKeyDown={this.keyDownHandler}
             role={role}
             tabIndex={!this.selectable || this.disabled ? 0 : -1}
             // eslint-disable-next-line react/jsx-sort-props
