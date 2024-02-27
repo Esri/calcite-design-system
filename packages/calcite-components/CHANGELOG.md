@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.6.0-next.2...@esri/calcite-components@2.6.0-next.3) (2024-02-27)
+
+### Features
+
+- **card-group:** Add Card Group component ([#8749](https://github.com/Esri/calcite-design-system/issues/8749)) ([b012324](https://github.com/Esri/calcite-design-system/commit/b012324fdbf125662f1fb0ca1defc348b08a340d)), closes [#7223](https://github.com/Esri/calcite-design-system/issues/7223)
+
 ## [2.6.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.6.0-next.1...@esri/calcite-components@2.6.0-next.2) (2024-02-26)
 
 ### Bug Fixes
