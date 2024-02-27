@@ -5,7 +5,7 @@
  *
  * @prop --calcite-radio-button-background-color: Specifies the background color of the component.
  * @prop --calcite-radio-button-border-radius: Specifies the border radius of the component.
- * @prop --calcite-radio-focus-outline-color: Specifies the color of the focus outline.
+ * @prop --calcite-radio-focus: Specifies the focus of the component.
  * @prop --calcite-radio-button-shadow: Specifies the shadow of the component.
  * @prop --calcite-radio-button-size: Specifies the size of the component.
  */
@@ -17,8 +17,7 @@
 
 .container {
   position: relative;
-  outline: 2px solid transparent; // question: would outline:none be better? This is from @apply outline-none.
-  outline-offset: 2px;
+  @include outlineNone();
 }
 
 .radio {
@@ -53,7 +52,7 @@
 
 :host([focused]) {
   .radio {
-    @include focusOutset("--calcite-radio-focus-outline-color");
+    @include focusOutset("--calcite-radio-focus", "--calcite-internal-radio-focus-offset");
   }
 }
 

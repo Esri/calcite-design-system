@@ -107,10 +107,17 @@
   }
 }
 
-@mixin focusOutset($focusColor) {
-  outline: 2px solid
-    var(#{$focusColor}, var(--calcite-ui-focus-color, var(--calcite-color-brand-hover, var(--calcite--color-brand))));
-  outline-offset: calc(2px * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1)));
+@mixin outlineNone() {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+@mixin focusOutset($outline, $outlineOffset) {
+  outline: var(
+    #{$outline},
+    2px solid var(--calcite-ui-focus-color, var(--calcite-color-brand-hover, var(--calcite--color-brand)))
+  );
+  outline-offset: var(#{$outlineOffset}, calc(2px * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))));
 }
 
 @mixin xButton() {
