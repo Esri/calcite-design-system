@@ -7,9 +7,13 @@
     "packages/calcite-components-angular/projects/component-library"
   ],
   "scripts": {
+    "postinstall": "patch-package",
     "build": "turbo run build --log-order=stream",
     "clean": "turbo run clean --log-order=stream && rimraf node_modules",
-    "lint": "turbo run lint --log-order=stream",
+    "lint": "concurrently \"npm:lint:*\" \"turbo run lint --log-order=stream\"",
+    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"{,documentation}/*.md\" --fix --dot --ignore-path .gitignore",
+    "lint:yml": "prettier --write \".github/**/*.yml\" >/dev/null",
+    "lint:json": "prettier --write \"*.json\" >/dev/null",
     "publish:next": "lerna publish from-package --dist-tag next --yes",
     "publish:rc": "lerna publish from-package --dist-tag rc --yes",
     "publish:latest": "lerna publish from-package --yes",
@@ -29,7 +33,7 @@
   },
   "devDependencies": {
     "@babel/preset-react": "7.23.3",
-    "@cspell/eslint-plugin": "8.2.3",
+    "@cspell/eslint-plugin": "8.3.2",
     "@esri/calcite-base": "1.2.0",
     "@esri/calcite-colors": "6.1.0",
     "@prettier/sync": "0.3.0",
@@ -56,8 +60,8 @@
     "@types/semver": "7.5.6",
     "@types/shell-quote": "1.7.5",
     "@types/sortablejs": "1.15.7",
-    "@typescript-eslint/eslint-plugin": "6.10.0",
-    "@typescript-eslint/parser": "6.10.0",
+    "@typescript-eslint/eslint-plugin": "6.16.0",
+    "@typescript-eslint/parser": "6.16.0",
     "@whitespace/storybook-addon-html": "5.0.0",
     "autoprefixer": "10.4.16",
     "axe-core": "4.8.3",
@@ -65,12 +69,12 @@
     "change-case": "4.1.2",
     "cheerio": "1.0.0-rc.10",
     "chokidar": "3.5.3",
-    "chromatic": "6.24.1",
+    "chromatic": "10.3.1",
     "concurrently": "7.6.0",
     "conventional-changelog-conventionalcommits": "5.0.0",
-    "cpy": "10.1.0",
+    "cpy": "11.0.0",
     "cpy-cli": "5.0.0",
-    "dedent": "0.7.0",
+    "dedent": "1.5.1",
     "eslint": "8.56.0",
     "eslint-config-prettier": "8.10.0",
     "eslint-plugin-import": "2.29.1",
@@ -104,7 +108,7 @@
     "stylelint": "15.11.0",
     "stylelint-config-recommended-scss": "12.0.0",
     "stylelint-use-logical-spec": "5.0.1",
-    "tailwindcss": "3.3.6",
+    "tailwindcss": "3.4.0",
     "ts-jest": "29.1.1",
     "tsx": "4.7.0",
     "turbo": "1.11.2",
@@ -120,5 +124,8 @@
   "packageManager": "npm@10.2.3",
   "volta": {
     "node": "20.10.0"
+  },
+  "dependencies": {
+    "patch-package": "8.0.0"
   }
 }

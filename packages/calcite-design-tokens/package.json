@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-design-tokens",
-  "version": "2.1.1-next.3",
+  "version": "2.1.2-next.0",
   "description": "Esri's Calcite Design System Tokens",
   "keywords": [
     "Calcite",
@@ -28,7 +28,7 @@
     "build": "tsx support/run.ts",
     "clean": "rimraf dist",
     "lint:json": "prettier --write \"**/*.json\" >/dev/null",
-    "lint:md": "markdownlint \"**/*.md\" --fix --dot --ignore-path ../../.gitignore && prettier --write \"**/*.md\" >/dev/null",
+    "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path ../../.gitignore",
     "lint:ts": "eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
     "lint": "concurrently npm:lint:*",
     "test": "NODE_OPTIONS=\"--experimental-vm-modules\" jest"

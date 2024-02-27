@@ -45,6 +45,18 @@ describe("calcite-input-date-picker", () => {
         propertyName: "flipPlacements",
         defaultValue: undefined,
       },
+      {
+        propertyName: "status",
+        defaultValue: "idle",
+      },
+      {
+        propertyName: "validationIcon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "validationMessage",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -387,6 +399,10 @@ describe("calcite-input-date-picker", () => {
         return (await calendar.isVisible()) && calendarPosition === type;
       }
 
+      async function resetFocus(page: E2EPage): Promise<void> {
+        await page.mouse.click(0, 0);
+      }
+
       it("toggles the date picker when clicked", async () => {
         const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
 
@@ -409,6 +425,7 @@ describe("calcite-input-date-picker", () => {
 
         // toggling via start date input
 
+        await resetFocus(page);
         await startInput.click();
         await page.waitForChanges();
 
@@ -421,6 +438,7 @@ describe("calcite-input-date-picker", () => {
 
         // toggling via start date toggle icon
 
+        await resetFocus(page);
         await startInputToggle.click();
         await page.waitForChanges();
 
@@ -433,6 +451,7 @@ describe("calcite-input-date-picker", () => {
 
         // toggling via end date input
 
+        await resetFocus(page);
         await endInput.click();
         await page.waitForChanges();
 
@@ -445,6 +464,7 @@ describe("calcite-input-date-picker", () => {
 
         // toggling via end date toggle icon
 
+        await resetFocus(page);
         await endInputToggle.click();
         await page.waitForChanges();
 
@@ -457,6 +477,7 @@ describe("calcite-input-date-picker", () => {
 
         // toggling via start date input and toggle icon
 
+        await resetFocus(page);
         await startInput.click();
         await page.waitForChanges();
 
@@ -469,6 +490,7 @@ describe("calcite-input-date-picker", () => {
 
         // toggling via start toggle icon and date input
 
+        await resetFocus(page);
         await startInputToggle.click();
         await page.waitForChanges();
 
@@ -481,6 +503,7 @@ describe("calcite-input-date-picker", () => {
 
         // toggling via end date input and toggle icon
 
+        await resetFocus(page);
         await endInput.click();
         await page.waitForChanges();
 
@@ -493,6 +516,7 @@ describe("calcite-input-date-picker", () => {
 
         // toggling via end toggle icon and date input
 
+        await resetFocus(page);
         await endInputToggle.click();
         await page.waitForChanges();
 
@@ -505,6 +529,7 @@ describe("calcite-input-date-picker", () => {
 
         // toggling via start date input and end toggle icon
 
+        await resetFocus(page);
         await startInput.click();
         await page.waitForChanges();
 
@@ -517,6 +542,7 @@ describe("calcite-input-date-picker", () => {
 
         // toggling via start toggle icon and date input
 
+        await resetFocus(page);
         await startInputToggle.click();
         await page.waitForChanges();
 
@@ -533,6 +559,7 @@ describe("calcite-input-date-picker", () => {
 
         // toggling via end date input and start toggle icon
 
+        await resetFocus(page);
         await endInput.click();
         await page.waitForChanges();
 
@@ -545,11 +572,13 @@ describe("calcite-input-date-picker", () => {
 
         // toggling via end toggle icon and start date input
 
+        await resetFocus(page);
         await endInputToggle.click();
         await page.waitForChanges();
 
         expect(await isCalendarVisible(calendar, "end")).toBe(true);
 
+        await resetFocus(page);
         await startInput.click();
         await page.waitForChanges();
 
@@ -686,7 +715,7 @@ describe("calcite-input-date-picker", () => {
 
   describe("is form-associated", () => {
     describe("supports single value", () => {
-      formAssociated("calcite-input-date-picker", { testValue: "1985-03-23", submitsOnEnter: true });
+      formAssociated("calcite-input-date-picker", { testValue: "1985-03-23", submitsOnEnter: true, validation: true });
     });
 
     describe("supports range", () => {

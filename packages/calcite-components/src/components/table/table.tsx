@@ -31,7 +31,7 @@ import {
   numberStringFormatter,
   NumberingSystem,
 } from "../../utils/locale";
-import { TableLayout, TableRowFocusEvent } from "./interfaces";
+import { TableInteractionMode, TableLayout, TableRowFocusEvent } from "./interfaces";
 import { CSS, SLOTS } from "./resources";
 import { TableMessages } from "./assets/table/t9n";
 import { getUserAgentString } from "../../utils/browser";
@@ -65,6 +65,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @Prop({ reflect: true }) groupSeparator = false;
 
+  /** When `"interactive"`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `"static"`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable. */
+  @Prop({ reflect: true }) interactionMode: TableInteractionMode = "interactive";
+
   /** Specifies the layout of the component. */
   @Prop({ reflect: true }) layout: TableLayout = "auto";
 
@@ -74,13 +77,21 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   /** Specifies the Unicode numeral system used by the component for localization. */
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** Specifies the page size of the component. When `true`, renders `calcite-pagination` */
+  /** Specifies the page size of the component. When `true`, renders `calcite-pagination`. */
   @Prop({ reflect: true }) pageSize = 0;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the selection mode of the component. */
+  /**
+   * Specifies the selection mode of the component, where:
+   *
+   * `"multiple"` allows any number of selections,
+   *
+   * `"single"` allows only one selection, and
+   *
+   * `"none"` does not allow any selections.
+   */
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
     "none";
 
@@ -95,6 +106,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) striped = false;
 
   @Watch("groupSeparator")
+  @Watch("interactionMode")
   @Watch("numbered")
   @Watch("numberingSystem")
   @Watch("pageSize")
@@ -320,12 +332,14 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     });
 
     allRows?.forEach((row) => {
+      row.interactionMode = this.interactionMode;
       row.selectionMode = this.selectionMode;
       row.bodyRowCount = bodyRows?.length;
       row.positionAll = allRows?.indexOf(row);
       row.numbered = this.numbered;
       row.scale = this.scale;
       row.readCellContentsToAT = this.readCellContentsToAT;
+      row.lastVisibleRow = allRows?.indexOf(row) === allRows.length - 1;
     });
 
     const colCount =
@@ -514,10 +528,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
             <table
               aria-colcount={this.colCount}
               aria-multiselectable={this.selectionMode === "multiple"}
-              aria-readonly={true}
               aria-rowcount={this.allRows?.length}
               class={{ [CSS.tableFixed]: this.layout === "fixed" }}
-              role="grid"
+              role={this.interactionMode === "interactive" ? "grid" : "table"}
             >
               <caption class={CSS.assistiveText}>{this.caption}</caption>
               {this.renderTHead()}

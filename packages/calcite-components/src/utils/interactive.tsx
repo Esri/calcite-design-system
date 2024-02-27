@@ -6,7 +6,7 @@ export interface InteractiveComponent {
   /**
    * The host element.
    */
-  readonly el: HTMLElement;
+  readonly el: InteractiveHTMLElement;
 
   /**
    * When true, prevents user interaction.
@@ -31,7 +31,7 @@ const isFirefox = /firefox/i.test(getUserAgentString());
 
 type ParentElement<T extends HTMLElement = HTMLElement> = T | null;
 
-const interactiveElementToParent: WeakMap<InteractiveHTMLElement, ParentElement> | null = isFirefox
+const disabledElementToParent: WeakMap<InteractiveHTMLElement, ParentElement> | null = isFirefox
   ? new WeakMap()
   : null;
 
@@ -46,7 +46,7 @@ function interceptedClick(): void {
 function onPointerDown(event: PointerEvent): void {
   const interactiveElement = event.target as InteractiveHTMLElement;
 
-  if (isFirefox && !interactiveElementToParent.get(interactiveElement)) {
+  if (isFirefox && !disabledElementToParent.get(interactiveElement)) {
     return;
   }
 
@@ -61,15 +61,15 @@ function onPointerDown(event: PointerEvent): void {
 const nonBubblingWhenDisabledMouseEvents = ["mousedown", "mouseup", "click"];
 
 function onNonBubblingWhenDisabledMouseEvent(event: MouseEvent): void {
-  if (isFirefox && !interactiveElementToParent.get(event.target as InteractiveHTMLElement)) {
+  const interactiveElement = event.target as InteractiveHTMLElement;
+
+  if (isFirefox && !disabledElementToParent.get(interactiveElement)) {
     return;
   }
 
-  const { disabled } = event.target as InteractiveHTMLElement;
-
   // prevent disallowed mouse events from being emitted on the disabled host (per https://github.com/whatwg/html/issues/5886)
-  //⚠ we generally avoid stopping propagation of events, but this is needed to adhere to the intended spec changes above ⚠
-  if (disabled) {
+  // ⚠ we generally avoid stopping propagation of events, but this is needed to adhere to the intended spec changes above ⚠
+  if (interactiveElement.disabled) {
     event.stopImmediatePropagation();
     event.preventDefault();
   }
@@ -109,12 +109,26 @@ export function updateHostInteraction(component: InteractiveComponent): void {
 
 function blockInteraction(component: InteractiveComponent): void {
   component.el.click = interceptedClick;
-  addInteractionListeners(isFirefox ? getParentElement(component) : component.el);
+
+  if (isFirefox) {
+    const currentParent = getParentElement(component);
+    const trackedParent = disabledElementToParent.get(component.el);
+
+    if (trackedParent !== currentParent) {
+      removeInteractionListeners(trackedParent);
+      disabledElementToParent.set(component.el, currentParent);
+    }
+
+    addInteractionListeners(disabledElementToParent.get(component.el));
+    return;
+  }
+
+  addInteractionListeners(component.el);
 }
 
 function addInteractionListeners(element: HTMLElement): void {
   if (!element) {
-    // this path is only applicable to Firefox
+    // this early return path is only applicable to Firefox
     return;
   }
 
@@ -125,17 +139,26 @@ function addInteractionListeners(element: HTMLElement): void {
 }
 
 function getParentElement(component: InteractiveComponent): ParentElement {
-  return interactiveElementToParent.get(component.el as InteractiveHTMLElement);
+  return (
+    component.el.parentElement || component.el
+  ); /* assume element is host if it has no parent when connected */
 }
 
 function restoreInteraction(component: InteractiveComponent): void {
   delete component.el.click; // fallback on HTMLElement.prototype.click
-  removeInteractionListeners(isFirefox ? getParentElement(component) : component.el);
+
+  if (isFirefox) {
+    removeInteractionListeners(disabledElementToParent.get(component.el));
+    disabledElementToParent.delete(component.el);
+    return;
+  }
+
+  removeInteractionListeners(component.el);
 }
 
 function removeInteractionListeners(element: HTMLElement): void {
   if (!element) {
-    // this path is only applicable to Firefox
+    // this early return path is only applicable to Firefox
     return;
   }
 
@@ -157,10 +180,6 @@ export function connectInteractive(component: InteractiveComponent): void {
     return;
   }
 
-  const parent =
-    component.el.parentElement ||
-    component.el; /* assume element is host if it has no parent when connected */
-  interactiveElementToParent.set(component.el as InteractiveHTMLElement, parent);
   blockInteraction(component);
 }
 
@@ -176,8 +195,6 @@ export function disconnectInteractive(component: InteractiveComponent): void {
     return;
   }
 
-  // always remove on disconnect as render or connect will restore it
-  interactiveElementToParent.delete(component.el as InteractiveHTMLElement);
   restoreInteraction(component);
 }
 
@@ -194,8 +211,6 @@ export function InteractiveContainer(
   children: VNode[],
 ): FunctionalComponent {
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore-error - `inert` is missing from Stencil's types (see https://github.com/ionic-team/stencil/issues/5071)
     <div class={CSS.container} inert={disabled}>
       {...children}
     </div>

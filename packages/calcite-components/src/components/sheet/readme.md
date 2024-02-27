@@ -77,7 +77,7 @@ sheet.beforeClose = beforeClose;
 | `escapeDisabled`       | `escape-disabled`        | When `true`, disables the default close on escape behavior.                                                                 | `boolean`                                                        | `false`          |
 | `focusTrapDisabled`    | `focus-trap-disabled`    | When `true`, prevents focus trapping.                                                                                       | `boolean`                                                        | `false`          |
 | `heightScale`          | `height-scale`           | When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.                                 | `"l" \| "m" \| "s"`                                              | `"m"`            |
-| `label` _(required)_   | `label`                  | Specifies the label of the component.                                                                                       | `string`                                                         | `undefined`      |
+| `label` *(required)*   | `label`                  | Specifies the label of the component.                                                                                       | `string`                                                         | `undefined`      |
 | `open`                 | `open`                   | When `true`, displays and positions the component.                                                                          | `boolean`                                                        | `false`          |
 | `outsideCloseDisabled` | `outside-close-disabled` | When `true`, disables the closing of the component when clicked outside.                                                    | `boolean`                                                        | `false`          |
 | `position`             | `position`               | Determines where the component will be positioned.                                                                          | `"block-end" \| "block-start" \| "inline-end" \| "inline-start"` | `"inline-start"` |
@@ -96,7 +96,7 @@ sheet.beforeClose = beforeClose;
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component's "close" button (the first focusable item).
+Sets focus on the component's "close" button - the first focusable item.
 
 #### Returns
 
@@ -139,4 +139,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

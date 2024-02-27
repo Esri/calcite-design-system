@@ -67,6 +67,9 @@ describe("calcite-input-time-picker", () => {
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 },
       { propertyName: "overlayPositioning", defaultValue: "absolute" },
+      { propertyName: "status", defaultValue: "idle" },
+      { propertyName: "validationIcon", defaultValue: undefined },
+      { propertyName: "validationMessage", defaultValue: undefined },
     ]);
   });
 
@@ -75,6 +78,8 @@ describe("calcite-input-time-picker", () => {
       { propertyName: "open", value: true },
       { propertyName: "disabled", value: true },
       { propertyName: "scale", value: "m" },
+      { propertyName: "status", value: "invalid" },
+      { propertyName: "validationIcon", value: true },
     ]);
   });
 
@@ -588,7 +593,12 @@ describe("calcite-input-time-picker", () => {
   });
 
   describe("is form-associated", () => {
-    formAssociated("calcite-input-time-picker", { testValue: "03:23", submitsOnEnter: true });
+    formAssociated("calcite-input-time-picker", {
+      testValue: "03:23",
+      submitsOnEnter: true,
+      validation: true,
+      validUserInputTestValue: "03:23 AM",
+    });
   });
 
   it("updates value appropriately as step changes", async () => {

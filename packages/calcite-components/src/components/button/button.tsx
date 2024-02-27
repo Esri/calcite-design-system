@@ -89,7 +89,7 @@ export class Button
   /** Accessible name for the component. */
   @Prop() label: string;
 
-  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  /** Specifies the kind of the component, which will apply to the border and background if applicable. */
   @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
@@ -97,7 +97,7 @@ export class Button
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -150,7 +150,7 @@ export class Button
   @Prop({ reflect: true }) target: string;
 
   /**
-   * Specifies the default behavior of the button.
+   * Specifies the default behavior of the component.
    *
    * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
@@ -404,7 +404,8 @@ export class Button
   private setTooltipText = (): void => {
     const { contentEl } = this;
     if (contentEl) {
-      this.tooltipText = contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText : null;
+      this.tooltipText =
+        contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText || null : null;
     }
   };
 

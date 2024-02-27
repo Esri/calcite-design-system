@@ -61,9 +61,6 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   /** The component header text, which displays between the icon and description. */
   @Prop({ reflect: true }) heading: string;
 
-  /** When `true`, the component is not displayed and is not focusable or checkable. */
-  @Prop({ reflect: true }) hidden = false;
-
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: string;
 
@@ -85,9 +82,11 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
 
   /**
-   * The selection mode of the component.
+   * Specifies the selection mode of the component, where:
    *
-   * Use radio for single selection, and checkbox for multiple selections.
+   * `"radio"` is for single selection, and
+   *
+   * `"checkbox"` is for multiple selections.
    */
   @Prop({ reflect: true }) type: TileSelectType = "radio";
 
@@ -276,12 +275,14 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   private renderInput(): void {
-    this.input = document.createElement(
-      this.type === "radio" ? "calcite-radio-button" : "calcite-checkbox",
-    );
+    this.input =
+      this.type === "radio"
+        ? /* we need to call createElement(x) separately to ensure supporting components are properly bundled */
+          document.createElement("calcite-radio-button")
+        : document.createElement("calcite-checkbox");
     this.input.checked = this.checked;
     this.input.disabled = this.disabled;
-    this.input.hidden = this.hidden;
+    this.input.hidden = this.el.hidden;
     this.input.id = this.guid;
     this.input.label = this.heading || this.name || "";
 

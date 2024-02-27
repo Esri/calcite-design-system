@@ -18,26 +18,26 @@ export class Graph {
 
   /**
    * Array of tuples describing a single data point ([x, y])
-   * These data points should be sorted by x-axis value
+   * These data points should be sorted by x-axis value.
    */
   @Prop() data: DataSeries = [];
 
   /**
    * Array of values describing a single color stop ([offset, color, opacity])
-   * These color stops should be sorted by offset value
+   * These color stops should be sorted by offset value.
    */
   @Prop() colorStops: ColorStop[];
 
-  /** Start of highlight color if highlighting range */
+  /** Start of highlight color if highlighting range. */
   @Prop() highlightMin: number;
 
-  /** End of highlight color if highlighting range */
+  /** End of highlight color if highlighting range. */
   @Prop() highlightMax: number;
 
-  /** Lowest point of the range */
+  /** Lowest point of the range. */
   @Prop({ reflect: true }) min!: number;
 
-  /** Highest point of the range */
+  /** Highest point of the range. */
   @Prop({ reflect: true }) max!: number;
 
   //--------------------------------------------------------------------------

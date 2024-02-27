@@ -36,6 +36,7 @@ import { Layout, Position, Scale } from "../interfaces";
 import { ActionPadMessages } from "./assets/action-pad/t9n";
 import { CSS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
+import { OverlayPositioning } from "../../utils/floating-ui";
 
 /**
  * @slot - A slot for adding `calcite-action`s to the component.
@@ -59,7 +60,7 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   /**
-   * Specifies the accessible label for the last action-group.
+   * Specifies the accessible label for the last `calcite-action-group`.
    */
   @Prop() actionsEndGroupLabel: string;
 
@@ -117,6 +118,16 @@ export class ActionPad
     /* wired up by t9n util */
   }
 
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   *
+   */
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -124,7 +135,7 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the `expanded` property is toggled.
+   * Fires when the `expanded` property is toggled.
    */
   @Event({ cancelable: false }) calciteActionPadToggle: EventEmitter<void>;
 
@@ -265,6 +276,7 @@ export class ActionPad
       scale,
       layout,
       actionsEndGroupLabel,
+      overlayPositioning,
     } = this;
 
     const expandToggleNode = !expandDisabled ? (
@@ -287,6 +299,7 @@ export class ActionPad
         class={CSS.actionGroupEnd}
         label={actionsEndGroupLabel}
         layout={layout}
+        overlayPositioning={overlayPositioning}
         scale={scale}
       >
         <slot name={SLOTS.expandTooltip} onSlotchange={this.handleTooltipSlotChange} />

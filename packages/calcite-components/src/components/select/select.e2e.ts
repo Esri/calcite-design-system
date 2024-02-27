@@ -2,6 +2,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import {
   accessible,
   disabled,
+  defaults,
   focusable,
   formAssociated,
   labelable,
@@ -37,6 +38,15 @@ describe("calcite-select", () => {
     focusable(simpleTestMarkup);
   });
 
+  describe("defaults", () => {
+    defaults("calcite-select", [
+      { propertyName: "scale", defaultValue: "m" },
+      { propertyName: "status", defaultValue: "idle" },
+      { propertyName: "validationIcon", defaultValue: undefined },
+      { propertyName: "validationMessage", defaultValue: undefined },
+    ]);
+  });
+
   describe("reflects", () => {
     reflects(simpleTestMarkup, [
       {
@@ -46,6 +56,14 @@ describe("calcite-select", () => {
       {
         propertyName: "scale",
         value: "m",
+      },
+      {
+        propertyName: "status",
+        value: "invalid",
+      },
+      {
+        propertyName: "validationIcon",
+        value: true,
       },
     ]);
   });
@@ -388,12 +406,13 @@ describe("calcite-select", () => {
     formAssociated(
       html`
         <calcite-select>
+          <calcite-option id="0"></calcite-option>
           <calcite-option id="1">uno</calcite-option>
           <calcite-option id="2">dos</calcite-option>
           <calcite-option id="3">tres</calcite-option>
         </calcite-select>
       `,
-      { testValue: "dos" },
+      { testValue: "dos", validation: true, changeValueKeys: ["ArrowDown"] },
     );
   });
 });

@@ -65,11 +65,11 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   @Prop() text: string;
 
   /**
-   * Specifies the component's toggle display -
+   * Specifies how the component's toggle is displayed, where:
    *
-   * `"button"` (selectable header), or
+   * `"button"` sets the toggle to a selectable header, and
    *
-   * `"switch"` (toggle switch).
+   * `"switch"` sets the toggle to a switch.
    */
   @Prop({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 
@@ -132,7 +132,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the header has been clicked.
+   * Fires when the header has been clicked.
    */
   @Event({ cancelable: false }) calciteBlockSectionToggle: EventEmitter<void>;
 

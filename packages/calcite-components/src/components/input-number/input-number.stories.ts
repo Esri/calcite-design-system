@@ -84,13 +84,15 @@ export const darkModeRTL_TestOnly = (): string => html`
         ${boolean("disabled", false)}
         value="${text("value", "")}"
         placeholder="${text("placeholder", "Placeholder text")}"
-        validation-message="My great input message"
+        validation-message="This should not appear because the status is not 'invalid'"
       >
       </calcite-input-number>
     </calcite-label>
   </div>
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const Infinity_TestOnly = (): string => html`<calcite-input-number value="Infinity"></calcite-input-number>`;
 
 export const mediumIconForLargeInputStyling_TestOnly = (): string => html`
   <calcite-input-number number-button-type="vertical" lang="ar-EG" value="123456" scale="l"></calcite-input-number

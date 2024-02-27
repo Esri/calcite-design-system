@@ -18,19 +18,19 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ## Properties
 
-| Property             | Attribute             | Description                                                                                                           | Type                                                                                                                                                                                                                                    | Default     |
-| -------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| `autoClose`          | `auto-close`          | When `true`, the component closes automatically (recommended for passive, non-blocking alerts).                       | `boolean`                                                                                                                                                                                                                               | `false`     |
-| `autoCloseDuration`  | `auto-close-duration` | Specifies the duration before the component automatically closes (only use with `autoClose`).                         | `"fast" \| "medium" \| "slow"`                                                                                                                                                                                                          | `"medium"`  |
-| `icon`               | `icon`                | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                                                                                                                                                                                                     | `undefined` |
-| `iconFlipRtl`        | `icon-flip-rtl`       | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                                                                                                                                                                                               | `false`     |
-| `kind`               | `kind`                | Specifies the kind of the component (will apply to top border and icon).                                              | `"brand" \| "danger" \| "info" \| "success" \| "warning"`                                                                                                                                                                               | `"brand"`   |
-| `label` _(required)_ | `label`               | Specifies an accessible name for the component.                                                                       | `string`                                                                                                                                                                                                                                | `undefined` |
-| `messageOverrides`   | --                    | Use this property to override individual strings used by the component.                                               | `{ close?: string; }`                                                                                                                                                                                                                   | `undefined` |
-| `numberingSystem`    | `numbering-system`    | Specifies the Unicode numeral system used by the component for localization.                                          | `"arab" \| "arabext" \| "bali" \| "beng" \| "deva" \| "fullwide" \| "gujr" \| "guru" \| "hanidec" \| "khmr" \| "knda" \| "laoo" \| "latn" \| "limb" \| "mlym" \| "mong" \| "mymr" \| "orya" \| "tamldec" \| "telu" \| "thai" \| "tibt"` | `undefined` |
-| `open`               | `open`                | When `true`, displays and positions the component.                                                                    | `boolean`                                                                                                                                                                                                                               | `false`     |
-| `placement`          | `placement`           | Specifies the placement of the component                                                                              | `"bottom" \| "bottom-end" \| "bottom-start" \| "top" \| "top-end" \| "top-start"`                                                                                                                                                       | `"bottom"`  |
-| `scale`              | `scale`               | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                                                                                                                                                                                                     | `"m"`       |
+| Property             | Attribute             | Description                                                                                                           | Type                                                                              | Default     |
+| -------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ----------- |
+| `autoClose`          | `auto-close`          | When `true`, the component closes automatically. Recommended for passive, non-blocking alerts.                        | `boolean`                                                                         | `false`     |
+| `autoCloseDuration`  | `auto-close-duration` | Specifies the duration before the component automatically closes - only use with `autoClose`.                         | `"fast" \| "medium" \| "slow"`                                                    | `"medium"`  |
+| `icon`               | `icon`                | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                                               | `undefined` |
+| `iconFlipRtl`        | `icon-flip-rtl`       | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                                         | `false`     |
+| `kind`               | `kind`                | Specifies the kind of the component, which will apply to top border and icon.                                         | `"brand" \| "danger" \| "info" \| "success" \| "warning"`                         | `"brand"`   |
+| `label` *(required)* | `label`               | Specifies an accessible name for the component.                                                                       | `string`                                                                          | `undefined` |
+| `messageOverrides`   | `message-overrides`   | Use this property to override individual strings used by the component.                                               | `AlertMessages`                                                                   | `undefined` |
+| `numberingSystem`    | `numbering-system`    | Specifies the Unicode numeral system used by the component for localization.                                          | `"arab" \| "arabext" \| "latn"`                                                   | `undefined` |
+| `open`               | `open`                | When `true`, displays and positions the component.                                                                    | `boolean`                                                                         | `false`     |
+| `placement`          | `placement`           | Specifies the placement of the component.                                                                             | `"bottom" \| "bottom-end" \| "bottom-start" \| "top" \| "top-end" \| "top-start"` | `"bottom"`  |
+| `scale`              | `scale`               | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                                               | `"m"`       |
 
 ## Events
 
@@ -45,7 +45,7 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component's "close" button (the first focusable item).
+Sets focus on the component's "close" button, the first focusable item.
 
 #### Returns
 
@@ -85,4 +85,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

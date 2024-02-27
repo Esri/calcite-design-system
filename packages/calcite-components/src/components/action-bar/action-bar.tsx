@@ -48,6 +48,7 @@ import {
   overflowActionsDebounceInMs,
   queryActions,
 } from "./utils";
+import { OverlayPositioning } from "../../utils/floating-ui";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
@@ -71,7 +72,7 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   /**
-   * Specifies the accessible label for the last action-group.
+   * Specifies the accessible label for the last `calcite-action-group`.
    */
   @Prop() actionsEndGroupLabel: string;
 
@@ -98,7 +99,7 @@ export class ActionBar
   }
 
   /**
-   *  The layout direction of the actions.
+   *  Specifies the layout direction of the actions.
    */
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
@@ -122,6 +123,16 @@ export class ActionBar
     this.resizeObserver?.observe(this.el);
     this.overflowActions();
   }
+
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   *
+   */
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Arranges the component depending on the element's `dir` property.
@@ -159,7 +170,7 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the `expanded` property is toggled.
+   * Fires when the `expanded` property is toggled.
    */
   @Event({ cancelable: false }) calciteActionBarToggle: EventEmitter<void>;
 
@@ -391,6 +402,7 @@ export class ActionBar
       layout,
       messages,
       actionsEndGroupLabel,
+      overlayPositioning,
     } = this;
 
     const expandToggleNode = !expandDisabled ? (
@@ -414,6 +426,7 @@ export class ActionBar
         hidden={this.expandDisabled && !(this.hasActionsEnd || this.hasBottomActions)}
         label={actionsEndGroupLabel}
         layout={layout}
+        overlayPositioning={overlayPositioning}
         scale={scale}
       >
         <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />

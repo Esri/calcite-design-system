@@ -50,6 +50,7 @@ import { CharacterLengthObj } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
+import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
 
 /**
  * @slot - A slot for adding text.
@@ -70,7 +71,8 @@ export class TextArea
     LocalizedComponent,
     LoadableComponent,
     T9nComponent,
-    InteractiveComponent
+    InteractiveComponent,
+    Omit<TextualInputComponent, "pattern">
 {
   //--------------------------------------------------------------------------
   //
@@ -100,7 +102,7 @@ export class TextArea
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -116,6 +118,13 @@ export class TextArea
    * Accessible name for the component.
    */
   @Prop() label: string;
+
+  /**
+   * Specifies the minimum number of characters allowed.
+   *
+   * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
+   */
+  @Prop({ reflect: true }) minLength: number;
 
   /**
    * Specifies the maximum number of characters allowed.
@@ -136,7 +145,7 @@ export class TextArea
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop() validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -189,7 +198,7 @@ export class TextArea
   @Prop({ reflect: true }) status: Status = "idle";
 
   /** The component's value. */
-  @Prop({ mutable: true }) value: string;
+  @Prop({ mutable: true }) value = "";
 
   /**
    * Specifies the wrapping mechanism for the text.
@@ -330,7 +339,7 @@ export class TextArea
               {this.replacePlaceHoldersInMessages()}
             </span>
           )}
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}
@@ -388,8 +397,6 @@ export class TextArea
 
   @State() effectiveLocale = "";
 
-  @State() localizedCharacterLengthObj: CharacterLengthObj;
-
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
@@ -397,15 +404,13 @@ export class TextArea
 
   private guid = guid();
 
+  private localizedCharacterLengthObj: CharacterLengthObj;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  onFormReset(): void {
-    this.value = this.defaultValue;
-  }
 
   onLabelClick(): void {
     this.setFocus();
@@ -483,6 +488,8 @@ export class TextArea
     if (this.isCharacterLimitExceeded()) {
       input.setCustomValidity(this.replacePlaceHoldersInMessages());
     }
+
+    syncHiddenFormInput("textarea", this, input);
   }
 
   setTextAreaEl = (el: HTMLTextAreaElement): void => {

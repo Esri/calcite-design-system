@@ -21,7 +21,7 @@ export default {
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
 
 const knobsHTML = (): string =>
-  html`selection-mode="${select("selection-mode", ["single", "multiple", "none"], "none")}"
+  html`selection-mode="${select("selection-mode", ["single", "single-persist", "multiple", "none"], "none")}"
   selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}" ${boolean("loading", false)}
   ${boolean("closable", false)} ${boolean("closed", false)} ${boolean("filter-enabled", false)}
   ${boolean("drag-enabled", false)} ${boolean("disabled", false)} ${text("label", "My List")}`;
@@ -29,7 +29,6 @@ const knobsHTML = (): string =>
 export const simple = (): string => html`
   <calcite-list ${knobsHTML()}>
     <calcite-list-item
-      selected
       label="Cras iaculis ultricies nulla."
       description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     ></calcite-list-item>
@@ -347,6 +346,18 @@ export const richContentFilterEnabled = (): string => html`
   </calcite-list>
 `;
 
+export const filterEnabledWithHiddenItems = (): string => html`
+  <calcite-list filter-enabled>
+    <calcite-list-item-group hidden heading="Layers">
+      <calcite-list-item hidden label="Hidden item" description="I should not be displayed."> </calcite-list-item>
+    </calcite-list-item-group>
+    <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom"> </calcite-list-item>
+    <calcite-list-item hidden label="Hidden item" description="I should not be displayed."> </calcite-list-item>
+    <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom"> </calcite-list-item>
+    <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom"> </calcite-list-item>
+  </calcite-list>
+`;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-list class="calcite-mode-dark" dir="rtl" ${knobsHTML()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
@@ -434,9 +445,41 @@ export const customContent_TestOnly = (): string =>
     >
   </calcite-list>`;
 
+export const singlePersist_TestOnly = (): string =>
+  html`<calcite-list selection-mode="single-persist" label="test">
+    <calcite-list-item selected label="basic" value="basic" description="hello world">
+      <calcite-icon
+        icon="banana"
+        slot="content-start"
+        style="color: var(--calcite-color-status-success)"
+      ></calcite-icon>
+      <calcite-action
+        appearance="transparent"
+        icon="ellipsis"
+        text="menu"
+        label="menu"
+        slot="actions-end"
+      ></calcite-action>
+    </calcite-list-item>
+    <calcite-list-item disabled label="disabled" value="disabled" description="hello world">
+      <calcite-icon
+        icon="compass"
+        slot="content-start"
+        style="color: var(--calcite-color-status-success)"
+      ></calcite-icon>
+    </calcite-list-item>
+    <calcite-list-item label="basic2" value="basic2" description="hello world">
+      <calcite-icon
+        icon="compass"
+        slot="content-start"
+        style="color: var(--calcite-color-status-success)"
+      ></calcite-icon>
+    </calcite-list-item>
+  </calcite-list>`;
+
 export const closableListItems_TestOnly = (): string =>
   html`<calcite-list selection-mode="single" label="test" filter-enabled>
-    <calcite-list-item closable label="basic" value="basic" description="hello world">
+    <calcite-list-item selected closable label="basic" value="basic" description="hello world">
       <calcite-icon
         icon="banana"
         slot="content-start"
@@ -474,8 +517,9 @@ export const filteredChildListItems_TestOnly = (): string =>
       selection-appearance="border"
       selection-mode="single"
     >
+      <calcite-list-item label="Estuaries" value="estuaries" hidden></calcite-list-item>
       <calcite-list-item-group heading="Layers">
-        <calcite-list-item label="Hiking trails" value="hiking-trails">
+        <calcite-list-item selected label="Hiking trails" value="hiking-trails">
           <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
             <calcite-action
               slot="trigger"
@@ -565,7 +609,7 @@ export const filteredChildListItems_TestOnly = (): string =>
       selection-mode="single"
     >
       <calcite-list-item-group heading="Layers">
-        <calcite-list-item label="Hiking trails" value="hiking-trails">
+        <calcite-list-item selected label="Hiking trails" value="hiking-trails">
           <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
             <calcite-action
               slot="trigger"
@@ -690,7 +734,7 @@ export const filterActions_TestOnly = (): string =>
         style="color: var(--calcite-color-status-success)"
       ></calcite-icon>
     </calcite-list-item>
-    <calcite-list-item label="test2" value="test2" description="hello world 2">
+    <calcite-list-item selected label="test2" value="test2" description="hello world 2">
       <calcite-icon
         icon="compass"
         slot="content-start"
@@ -750,7 +794,7 @@ export const sortableList_TestOnly = (): string =>
         style="color: var(--calcite-color-status-success)"
       ></calcite-icon>
     </calcite-list-item>
-    <calcite-list-item label="test2" value="test2" description="hello world 2">
+    <calcite-list-item selected label="test2" value="test2" description="hello world 2">
       <calcite-icon
         icon="compass"
         slot="content-start"
@@ -878,4 +922,35 @@ export const listWithGroupedAndSlottedItems_TestOnly = (): string =>
         <calcite-action slot="actions-end" icon="layer" text="Yurts layer"></calcite-action>
       </calcite-list-item>
     </calcite-list-item-group>
+  </calcite-list>`;
+
+export const filteredListItemsNoResults_TestOnly = (): string =>
+  html`<calcite-list filter-enabled filter-text="Bananas" selection-appearance="border" selection-mode="single">
+    <calcite-list-item label="Apples" value="apples"></calcite-list-item>
+    <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
+    <calcite-list-item label="Pears" value="pears"></calcite-list-item>
+    <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
+      <div slot="title">No fruits found</div>
+      <div slot="message">Try a different fruit?</div>
+    </calcite-notice>
+  </calcite-list>`;
+
+export const nestingLists_TestOnly = (): string => html`<h4>Nesting List Items</h4>
+  <calcite-list>
+    <calcite-list-item label="List Item" open>
+      <calcite-list-item label="List Item"></calcite-list-item>
+      <calcite-list-item label="List Item"></calcite-list-item>
+      <calcite-list-item label="List Item"></calcite-list-item>
+    </calcite-list-item>
+  </calcite-list>
+  </br>
+  <h4>Nesting Lists</h4>
+  <calcite-list>
+    <calcite-list-item label="List Item" open>
+      <calcite-list>
+        <calcite-list-item label="List Item"></calcite-list-item>
+        <calcite-list-item label="List Item"></calcite-list-item>
+        <calcite-list-item label="List Item"></calcite-list-item>
+      </calcite-list>
+    </calcite-list-item>
   </calcite-list>`;

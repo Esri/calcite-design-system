@@ -123,13 +123,17 @@ export const darkModeRTL_TestOnly = (): string => html`
         ${boolean("disabled", false)}
         value="${text("value", "")}"
         placeholder="${text("placeholder", "Placeholder text")}"
-        validation-message="My great input message"
+        validation-message="This should not appear because the status is not 'invalid'"
       >
       </calcite-input>
     </calcite-label>
   </div>
 `;
+
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const negativeInfinity_TestOnly = (): string =>
+  html` <calcite-input type="number" value="-Infinity"></calcite-input>`;
 
 export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
   html` <calcite-input type="number" lang="ar-EG" value="123456"></calcite-input>`;

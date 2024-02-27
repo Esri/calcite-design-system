@@ -17,6 +17,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  internalHiddenInputInputEvent,
   submitForm,
 } from "../../utils/form";
 import {
@@ -49,6 +50,7 @@ import { InputTextMessages } from "./assets/input-text/t9n";
 import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -66,6 +68,7 @@ export class InputText
     InteractiveComponent,
     LoadableComponent,
     LocalizedComponent,
+    TextualInputComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -102,19 +105,12 @@ export class InputText
   }
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
   @Prop({ reflect: true })
   form: string;
-
-  /**
-   * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) hidden = false;
 
   /**
    * Specifies an icon to display.
@@ -150,7 +146,7 @@ export class InputText
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop() validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -335,7 +331,7 @@ export class InputText
     connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
-    this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   disconnectedCallback(): void {
@@ -346,7 +342,7 @@ export class InputText
     disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
-    this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -499,30 +495,18 @@ export class InputText
     }
   };
 
-  onFormReset(): void {
-    this.setValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
-
   syncHiddenFormInput(input: HTMLInputElement): void {
-    if (this.minLength != null) {
-      input.minLength = this.minLength;
-    }
-
-    if (this.maxLength != null) {
-      input.maxLength = this.maxLength;
-    }
+    syncHiddenFormInput("text", this, input);
   }
 
-  hiddenInputChangeHandler = (event: Event): void => {
+  private onHiddenFormInputInput = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
       this.setValue({
         value: (event.target as HTMLInputElement).value,
         origin: "direct",
       });
     }
+    this.setFocus();
     event.stopPropagation();
   };
 
@@ -684,7 +668,7 @@ export class InputText
             {this.suffixText ? suffixText : null}
             <HiddenFormInputSlot component={this} />
           </div>
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}

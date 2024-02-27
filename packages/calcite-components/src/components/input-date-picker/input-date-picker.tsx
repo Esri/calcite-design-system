@@ -131,7 +131,7 @@ export class InputDatePicker
   }
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -152,7 +152,7 @@ export class InputDatePicker
     }
   }
 
-  /** Selected date as a string in ISO format (YYYY-MM-DD) */
+  /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
   @Prop({ mutable: true }) value: string | string[] = "";
 
   @Watch("value")
@@ -274,7 +274,7 @@ export class InputDatePicker
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop() validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -305,11 +305,7 @@ export class InputDatePicker
   /** When `true`, activates a range for the component. */
   @Prop({ reflect: true }) range = false;
 
-  /**
-   * When `true`, the component must have a value in order for the form to submit.
-   *
-   * @internal
-   */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /**
@@ -383,7 +379,7 @@ export class InputDatePicker
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the component's value changes.
+   * Fires when the component's `value` changes.
    */
   @Event({ cancelable: false }) calciteInputDatePickerChange: EventEmitter<void>;
 
@@ -667,7 +663,7 @@ export class InputDatePicker
             </div>
           )}
           <HiddenFormInputSlot component={this} />
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}
@@ -682,7 +678,8 @@ export class InputDatePicker
 
   renderToggleIcon(open: boolean): VNode {
     return (
-      <span class={CSS.toggleIcon}>
+      // we set tab index to -1 to prevent delegatesFocus from stealing focus before we can set it
+      <span class={CSS.toggleIcon} tabIndex={-1}>
         <calcite-icon
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
@@ -774,24 +771,17 @@ export class InputDatePicker
 
   private onInputWrapperClick = (event: MouseEvent) => {
     const { range, endInput, startInput, currentOpenInput } = this;
-    if (!range || !this.open) {
-      this.open = !this.open;
-      return;
-    }
-
     const currentTarget = event.currentTarget as HTMLDivElement;
     const position = currentTarget.getAttribute("data-position") as "start" | "end";
     const path = event.composedPath();
-    const wasToggleClicked = path.find((el: HTMLElement) => {
-      return el.classList?.contains(CSS.toggleIcon);
-    });
+    const wasToggleClicked = path.find((el: HTMLElement) => el.classList?.contains(CSS.toggleIcon));
 
     if (wasToggleClicked) {
       const targetInput = position === "start" ? startInput : endInput;
       targetInput.setFocus();
     }
 
-    if (currentOpenInput === position) {
+    if (!range || !this.open || currentOpenInput === position) {
       this.open = !this.open;
     }
   };

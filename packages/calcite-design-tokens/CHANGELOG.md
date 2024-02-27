@@ -3,37 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.1.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.1-next.2...@esri/calcite-design-tokens@2.1.1-next.3) (2023-12-21)
-
-### Reverts
-
-- chore(modal): remove e2e tests that are covered by dedicated openClose commonTests helper ([#8392](https://github.com/Esri/calcite-design-system/issues/8392)) ([#8471](https://github.com/Esri/calcite-design-system/issues/8471)) ([4bedf99](https://github.com/Esri/calcite-design-system/commit/4bedf99445e5eaeaa48596bee0c95f650db56260))
-
-## [2.1.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.1-next.1...@esri/calcite-design-tokens@2.1.1-next.2) (2023-12-20)
+## [2.1.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.1...@esri/calcite-design-tokens@2.1.2-next.0) (2024-01-18)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens
 
-## [2.1.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.1-next.0...@esri/calcite-design-tokens@2.1.1-next.1) (2023-12-20)
+## [2.1.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.0...@esri/calcite-design-tokens@2.1.1) (2024-01-17)
 
 ### Bug Fixes
 
-- allow users to control tabindex on interactive components ([#8166](https://github.com/Esri/calcite-design-system/issues/8166)) ([b15c052](https://github.com/Esri/calcite-design-system/commit/b15c052335b3c3bcba01cd3a0ec2dfe03588959c)), closes [#4970](https://github.com/Esri/calcite-design-system/issues/4970)
+- Allow users to control tabindex on interactive components ([#8166](https://github.com/Esri/calcite-design-system/issues/8166)) ([b15c052](https://github.com/Esri/calcite-design-system/commit/b15c052335b3c3bcba01cd3a0ec2dfe03588959c))
 
-## [2.1.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.0...@esri/calcite-design-tokens@2.1.1-next.0) (2023-12-19)
+### Reverts
 
-**Note:** Version bump only for package @esri/calcite-design-tokens
+- Chore(modal): remove e2e tests that are covered by dedicated openClose commonTests helper ([#8392](https://github.com/Esri/calcite-design-system/issues/8392)) ([#8471](https://github.com/Esri/calcite-design-system/issues/8471)) ([4bedf99](https://github.com/Esri/calcite-design-system/commit/4bedf99445e5eaeaa48596bee0c95f650db56260))
 
 ## [2.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.0.0...@esri/calcite-design-tokens@2.1.0) (2023-12-19)
 
 ### Features
 
-- __font tokens:__ Add font family fallbacks ([#8389](https://github.com/Esri/calcite-design-system/issues/8389)) ([b2fd255](https://github.com/Esri/calcite-design-system/commit/b2fd25508b6b33c5c05101593a1ae6d248dc8236))
+- **font tokens:** Add font family fallbacks ([#8389](https://github.com/Esri/calcite-design-system/issues/8389)) ([b2fd255](https://github.com/Esri/calcite-design-system/commit/b2fd25508b6b33c5c05101593a1ae6d248dc8236))
 - Update tokens for better documentation ([#8395](https://github.com/Esri/calcite-design-system/issues/8395)) ([ff19630](https://github.com/Esri/calcite-design-system/commit/ff1963078a05a7795182265f03b9439454df3772))
 
 ### Bug Fixes
 
-- __color tokens:__ Fix errors in schema ([#8446](https://github.com/Esri/calcite-design-system/issues/8446)) ([f36a90e](https://github.com/Esri/calcite-design-system/commit/f36a90e76067ac2124f01802f129f913fbed749d))
-- __color-context tokens:__ Only apply when `.calcite-mode-auto` is applied ([#8344](https://github.com/Esri/calcite-design-system/issues/8344)) ([19de817](https://github.com/Esri/calcite-design-system/commit/19de8178a97ee6933d5b1f03bfb2f98afc846149))
+- **color tokens:** Fix errors in schema ([#8446](https://github.com/Esri/calcite-design-system/issues/8446)) ([f36a90e](https://github.com/Esri/calcite-design-system/commit/f36a90e76067ac2124f01802f129f913fbed749d))
+- **color-context tokens:** Only apply when `.calcite-mode-auto` is applied ([#8344](https://github.com/Esri/calcite-design-system/issues/8344)) ([19de817](https://github.com/Esri/calcite-design-system/commit/19de8178a97ee6933d5b1f03bfb2f98afc846149))
 - Replace "\n" to support Windows for tokens output ([#8352](https://github.com/Esri/calcite-design-system/issues/8352)) ([02cf5d5](https://github.com/Esri/calcite-design-system/commit/02cf5d5abaad73a7159bdc7c00b0e33636f64314))
 
 ## [2.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@1.1.0...@esri/calcite-design-tokens@2.0.0) (2023-12-02)

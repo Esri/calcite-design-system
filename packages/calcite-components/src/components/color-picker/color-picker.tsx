@@ -95,12 +95,14 @@ export class ColorPicker
   //--------------------------------------------------------------------------
 
   /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`. When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   *
+   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @Prop({ reflect: true }) allowEmpty = false;
 
   /**
-   * When true, the component will allow updates to the color's alpha value.
+   * When `true`, the component will allow updates to the color's alpha value.
    */
   @Prop() alphaChannel = false;
 
@@ -116,7 +118,7 @@ export class ColorPicker
     }
   }
 
-  /** When true, hides the RGB/HSV channel inputs */
+  /** When `true`, hides the RGB/HSV channel inputs. */
   @Prop() channelsDisabled = false;
 
   /**
@@ -161,7 +163,7 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) hideChannels = false;
 
-  /** When true, hides the hex input */
+  /** When `true`, hides the hex input. */
   @Prop() hexDisabled = false;
 
   /**
@@ -178,7 +180,7 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) hideSaved = false;
 
-  /** When true, hides the saved colors section */
+  /** When `true`, hides the saved colors section. */
   @Prop({ reflect: true }) savedDisabled = false;
 
   /** Specifies the size of the component. */
@@ -460,6 +462,11 @@ export class ColorPicker
     }
 
     input.value = inputValue;
+
+    if (inputValue !== "" && this.shiftKeyChannelAdjustment !== 0) {
+      // we treat nudging as a change event since the input won't emit when modifying the value directly
+      this.handleChannelChange(event);
+    }
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -1375,7 +1382,7 @@ export class ColorPicker
       this.colorFieldScopeTop = y;
     });
 
-    this.drawThumb(this.colorFieldRenderingContext, radius, x, y, hsvColor);
+    this.drawThumb(this.colorFieldRenderingContext, radius, x, y, hsvColor, false);
   }
 
   private drawThumb(
@@ -1384,6 +1391,7 @@ export class ColorPicker
     x: number,
     y: number,
     color: Color,
+    applyAlpha: boolean,
   ): void {
     const startAngle = 0;
     const endAngle = 2 * Math.PI;
@@ -1393,14 +1401,28 @@ export class ColorPicker
     context.arc(x, y, radius, startAngle, endAngle);
     context.fillStyle = "#fff";
     context.fill();
+
     context.strokeStyle = "rgba(0,0,0,0.3)";
     context.lineWidth = outlineWidth;
     context.stroke();
 
+    if (applyAlpha && color.alpha() < 1) {
+      const pattern = context.createPattern(this.getCheckeredBackgroundPattern(), "repeat");
+      context.beginPath();
+      context.arc(x, y, radius - 3, startAngle, endAngle);
+      context.fillStyle = pattern;
+      context.fill();
+    }
+
+    context.globalCompositeOperation = "source-atop";
+
     context.beginPath();
     context.arc(x, y, radius - 3, startAngle, endAngle);
-    context.fillStyle = color.rgb().alpha(1).string();
+    const alpha = applyAlpha ? color.alpha() : 1;
+    context.fillStyle = color.rgb().alpha(alpha).string();
     context.fill();
+
+    context.globalCompositeOperation = "source-over";
   }
 
   private drawActiveHueSliderColor(): void {
@@ -1427,7 +1449,7 @@ export class ColorPicker
       this.hueScopeLeft = sliderBoundX;
     });
 
-    this.drawThumb(this.hueSliderRenderingContext, radius, sliderBoundX, y, hsvColor);
+    this.drawThumb(this.hueSliderRenderingContext, radius, sliderBoundX, y, hsvColor, false);
   }
 
   private drawHueSlider(): void {
@@ -1582,7 +1604,7 @@ export class ColorPicker
       this.opacityScopeLeft = sliderBoundX;
     });
 
-    this.drawThumb(this.opacitySliderRenderingContext, radius, sliderBoundX, y, hsvColor);
+    this.drawThumb(this.opacitySliderRenderingContext, radius, sliderBoundX, y, hsvColor, true);
   }
 
   private getSliderBoundX(x: number, width: number, radius: number): number {

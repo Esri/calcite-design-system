@@ -75,7 +75,7 @@ export class Select
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -91,7 +91,7 @@ export class Select
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop() validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -100,11 +100,7 @@ export class Select
    */
   @Prop({ reflect: true }) name: string;
 
-  /**
-   * When `true`, the component must have a value in order for the form to submit.
-   *
-   * @internal
-   */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /**
@@ -405,7 +401,7 @@ export class Select
             {this.renderChevron()}
             <HiddenFormInputSlot component={this} />
           </div>
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}

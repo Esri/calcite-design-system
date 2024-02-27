@@ -1,5 +1,6 @@
 name: E2E
 on:
+  workflow_dispatch:
   pull_request:
     branches: [main, rc]
 jobs:
@@ -24,9 +25,17 @@ jobs:
             echo "run e2e"
             echo "SKIP=false" >> $GITHUB_OUTPUT
           fi
-      - uses: actions/setup-node@v3
+      - if: steps.markdown-check.outputs.SKIP == 'false'
+        uses: actions/setup-node@v3
         with:
           node-version-file: package.json
-      - run: npm install
       - if: steps.markdown-check.outputs.SKIP == 'false'
-        run: npm run build && npm run test
+        uses: browser-actions/setup-chrome@v1
+        id: setup-chrome
+        with:
+          chrome-version: stable
+      - if: steps.markdown-check.outputs.SKIP == 'false'
+        run: npm install && npm run build && npm run test
+        env:
+          PUPPETEER_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+          PUPPETEER_SKIP_DOWNLOAD: true

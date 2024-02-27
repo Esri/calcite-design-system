@@ -165,10 +165,10 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
   - Renamed the property `autoDismissDuration`, use `autoCloseDuration`
     instead.
   - Removed the property `active`, use `open` instead.
-  - Removed the `*-leading` and `*-trailing` values for
+  - Removed the `-leading` and `-trailing` values for
     component `placement` properties.
-  - There is no need for "_-leading" and "_-trailing" values anymore since
-    `*-start` and `*-end` are already flipped in right-to-left direction.
+  - There is no need for "-leading" and "-trailing" values anymore since
+    `-start` and `-end` are already flipped in right-to-left direction.
 
 - **block**:
 
@@ -226,7 +226,7 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
     set to `hex` by default.
   - Removed ,`intlNoColor` property.
 
-  _note: color-picker-hex-input is `internal` component._
+  *note: color-picker-hex-input is `internal` component.*
 
 - **color-picker:**
 

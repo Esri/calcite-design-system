@@ -52,7 +52,7 @@ import {
 } from "../../utils/t9n";
 import { ModalMessages } from "./assets/modal/t9n";
 
-import { getIconScale } from "../../utils/component";
+import { componentOnReady, getIconScale } from "../../utils/component";
 
 let totalOpenModals: number = 0;
 let initialDocumentOverflowStyle: string = "";
@@ -133,10 +133,10 @@ export class Modal
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
-  /** Sets the component to always be fullscreen (overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`). */
+  /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
   @Prop({ reflect: true }) fullscreen: boolean;
 
-  /** Specifies the kind of the component (will apply to top border). */
+  /** Specifies the kind of the component, which will apply to top border. */
   @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
 
   /**
@@ -177,7 +177,7 @@ export class Modal
     setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
-      requestAnimationFrame(() => this.openModal());
+      this.openModal();
     }
   }
 
@@ -515,12 +515,9 @@ export class Modal
 
   @Watch("opened")
   handleOpenedChange(value: boolean): void {
+    const idleClass = value ? CSS.openingIdle : CSS.closingIdle;
+    this.transitionEl.classList.add(idleClass);
     onToggleOpenCloseComponent(this);
-    if (value) {
-      this.transitionEl?.classList.add(CSS.openingIdle);
-    } else {
-      this.transitionEl?.classList.add(CSS.closingIdle);
-    }
   }
 
   private openEnd = (): void => {
@@ -532,7 +529,8 @@ export class Modal
     this.open = false;
   };
 
-  private openModal() {
+  private async openModal(): Promise<void> {
+    await componentOnReady(this.el);
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.opened = true;
     const titleEl = getSlotted(this.el, SLOTS.header);
