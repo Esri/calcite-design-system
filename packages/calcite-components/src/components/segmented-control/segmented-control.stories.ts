@@ -153,7 +153,7 @@ const themingStyle = html`<style>
   calcite-segmented-control-item {
     --calcite-segmented-control-item-background-color: yellow;
     --calcite-segmented-control-item-border-color: red;
-    --calcite-segmented-control-item-focus-color: purple;
+    --calcite-segmented-control-item-focus: 2x solid red;
     --calcite-segmented-control-item-icon-color: orange;
     --calcite-segmented-control-item-shadow: 0 0 0 2px blue;
     --calcite-segmented-control-item-text-color: green;
