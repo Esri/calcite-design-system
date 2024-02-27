@@ -6,6 +6,8 @@
  * @prop --calcite-action-group-columns: Sets number of grid-template-columns when the `layout` property is `"grid"`.
  * @prop --calcite-action-group-gap: Sets the gap (gutters) between rows and columns when the `layout` property is `"grid"`.
  * @prop --calcite-action-group-padding: Sets the padding when the `layout` property is `"grid"`.
+ * @prop --calcite-action-group-action-menu-border-color: The border color of the sub-component.
+ * @prop --calcite-action-group-action-menu-text-color: The text color of the sub-component.
  */
 
 :host {
@@ -63,6 +65,11 @@
   gap: var(--calcite-action-group-gap);
   padding: var(--calcite-action-group-gap);
   grid-template-columns: repeat(var(--calcite-action-group-columns), auto);
+}
+
+calcite-action-menu {
+  --calcite-action-menu-border-color: var(--calcite-action-group-action-menu-border-color);
+  --calcite-action-menu-text-color: var(--calcite-action-group-action-menu-text-color);
 }
 
 @include base-component();

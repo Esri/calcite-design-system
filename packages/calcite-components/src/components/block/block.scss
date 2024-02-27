@@ -4,6 +4,8 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-block-padding: Specifies the padding of the block `default` slot.
+ * @prop --calcite-block-action-menu-border-color: The border color of the sub-component.
+ * @prop --calcite-block-action-menu-text-color: The text color of the sub-component.
  */
 
 :host {
@@ -159,6 +161,11 @@ calcite-action-menu {
   .header .title .heading {
     @apply text-color-1;
   }
+}
+
+calcite-action-menu {
+  --calcite-action-menu-border-color: var(--calcite-block-action-menu-border-color);
+  --calcite-action-menu-text-color: var(--calcite-block-action-menu-text-color);
 }
 
 @include base-component();
