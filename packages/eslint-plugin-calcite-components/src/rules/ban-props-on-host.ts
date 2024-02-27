@@ -43,7 +43,7 @@ const rule: Rule.RuleModule = {
             context.report({
               node: node,
               message: `Avoid setting unnecessary attributes/properties on <Host>: ${unauthorizedAttributes.join(
-                ", ",
+                ", "
               )}`,
             });
           }

@@ -648,7 +648,8 @@ describe("calcite-button", () => {
     t9n("calcite-button");
   });
 
-  describe("automatic tooltip", () => {
+  describe('automatic tooltip', ()=>{
+
     it("shows tooltip for buttons with truncated long text", async () => {
       const shortText = "Hi!";
       const longText =
@@ -684,6 +685,7 @@ describe("calcite-button", () => {
 
       expect(button).not.toHaveAttribute("title");
     });
+
   });
 
   it("should set aria-expanded attribute on shadowDOM element when used as trigger", async () => {

@@ -60,7 +60,7 @@ const rule: Rule.RuleModule = {
         }
       },
       "CallExpression:matches([callee.property.name=addEventListener], [callee.property.name=removeEventListener])": (
-        node: CallExpression,
+        node: CallExpression
       ) => {
         if (stencil.isComponent()) {
           const eventName = (node.arguments[0] as Literal).value as string;

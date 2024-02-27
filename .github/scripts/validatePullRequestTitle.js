@@ -28,7 +28,7 @@ module.exports = async ({ context, core }) => {
   core.info(`Allowed Prefixes: ${ALLOWED_PREFIXES}`);
   if (ALLOWED_PREFIXES.length && !ALLOWED_PREFIXES.some((prefix) => validateTitlePrefix(title, prefix))) {
     core.setFailed(
-      `Pull Request title "${title}" did not start with any of the required prefixes - ${ALLOWED_PREFIXES}`,
+      `Pull Request title "${title}" did not start with any of the required prefixes - ${ALLOWED_PREFIXES}`
     );
     return;
   }
@@ -36,7 +36,7 @@ module.exports = async ({ context, core }) => {
   core.info(`Disallowed Prefixes: ${DISALLOWED_PREFIXES}`);
   if (DISALLOWED_PREFIXES.length && DISALLOWED_PREFIXES.some((prefix) => validateTitlePrefix(title, prefix))) {
     core.setFailed(
-      `Pull Request title "${title}" started with one of the disallowed prefixes - ${DISALLOWED_PREFIXES}`,
+      `Pull Request title "${title}" started with one of the disallowed prefixes - ${DISALLOWED_PREFIXES}`
     );
     return;
   }

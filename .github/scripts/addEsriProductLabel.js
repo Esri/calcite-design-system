@@ -19,7 +19,7 @@ module.exports = async ({ github, context }) => {
         "(?<=### Esri team\r\n\r\n).+"
       : // otherwise it depends on the submitter's OS
         "(?<=### Esri team[\r\n|\r|\n]{2}).+$",
-    "m",
+    "m"
   );
 
   const productRegexMatch = body.match(productRegex);

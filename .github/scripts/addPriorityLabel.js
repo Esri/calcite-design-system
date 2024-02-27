@@ -19,7 +19,7 @@ module.exports = async ({ github, context }) => {
         "(?<=### Priority impact\r\n\r\n).+"
       : // otherwise it depends on the submitter's OS
         "(?<=### Priority impact[\r\n|\r|\n]{2}).+$",
-    "m",
+    "m"
   );
 
   const addPriorityRegexMatch = body.match(addPriorityRegex);
