@@ -4,6 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-list-item-background-color: Specifies the background color of the component.
+ * @prop --calcite-list-item-background-color-hover: Specifies the background color of the component when hovered.
  * @prop --calcite-list-item-border-color: Specifies the border color of the component.
  * @prop --calcite-list-item-content-text-color: Specifies the text color of the component's content.
  * @prop --calcite-list-item-description-text-color: Specifies the text color of the component's description.
@@ -12,6 +13,10 @@
  * @prop --calcite-list-item-handle-text-color: Specifies the text color of the component's handle.
  * @prop --calcite-list-item-icon-color: Specifies the color of the component's icon.
  * @prop --calcite-list-item-label-text-color: Specifies the text color of the component's label.
+ * @prop --calcite-list-item-open-icon-color-hover: Specifies the color of the component's open icon when hovered.
+ * @prop --calcite-list-item-selection-border-color: Specifies the border color of the component's selection.
+ * @prop --calcite-list-item-selection-icon-color-hover: Specifies the color of the component's selection icon when hovered.
+ * @prop --calcite-list-item-selection-icon-color-selected: Specifies the color of the component's selection icon when selected.
  */
 
 :host {
@@ -42,12 +47,8 @@
   );
 }
 
-.container:active {
-  background-color: var(--calcite-list-item-background-color, var(-calcite-color-foreground-1));
-}
-
 .container:hover {
-  background-color: var(--calcite-list-item-background-color, var(--calcite-color-foreground-2));
+  background-color: var(--calcite-list-item-background-color-hover, var(--calcite-color-foreground-2));
   cursor: pointer;
 }
 
@@ -57,7 +58,7 @@
 }
 
 .container--border-selected {
-  border-inline-start-color: var(--calcite-list-item-border-color, var(--calcite-color-brand));
+  border-inline-start-color: var(--calcite-list-item-selection-border-color, var(--calcite-color-brand));
 }
 
 .container--border-unselected {
@@ -178,13 +179,13 @@
 }
 
 :host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
-  color: var(--calcite-list-item-icon-color, var(--calcite-color-border-1));
+  color: var(--calcite-list-item-selection-icon-color-hover, var(--calcite-color-border-1));
 }
 
 :host([selected]) .container:hover .selection-container,
 :host([selected]) .container:hover .selection-container--single,
 :host([selected]) .selection-container {
-  color: var(--calcite-list-item-icon-color, var(--calcite-color-brand));
+  color: var(--calcite-list-item-selection-icon-color-selected, var(--calcite-color-brand));
 }
 
 .open-container {
@@ -215,7 +216,7 @@
 }
 
 :host(:not([disabled])) .container:hover .open-container {
-  color: var(--calcite-list-item-icon-color, var(--calcite-color-text-1));
+  color: var(--calcite-list-item-open-icon-color-hover, var(--calcite-color-text-1));
 }
 
 .open-container,

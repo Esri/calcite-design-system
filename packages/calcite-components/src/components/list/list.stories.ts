@@ -993,6 +993,11 @@ const themingStyle = `<style>
       --calcite-list-item-handle-background-color: lightgray;
       --calcite-list-item-icon-color: seagreen;
       --calcite-list-item-label-text-color: saddlebrown;
+      --calcite-list-item-background-color-hover: brown;
+      --calcite-list-item-selection-border-color: pink;
+      --calcite-list-item-open-icon-color-hover: turquoise;
+      --calcite-list-item-selection-icon-color-hover: yellow;
+      --calcite-list-item-selection-icon-color-selected: magenta;
     }
   </style>`;
 
