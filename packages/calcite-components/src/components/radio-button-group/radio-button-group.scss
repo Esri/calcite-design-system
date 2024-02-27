@@ -1,11 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-radio-button-group-input-message-space: Specifies the spacing of the input message.
- */
-
 :host {
   display: flex;
   flex-direction: column;
@@ -38,21 +30,15 @@
 }
 
 :host([scale="s"]) calcite-input-message {
-  --calcite-input-message-spacing-value: calc(
-    var(--calcite-radio-button-group-input-message-space, var(--calcite-spacing-xxs)) * -1
-  );
+  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-xxs) * -1);
 }
 
 :host([scale="m"]) calcite-input-message {
-  --calcite-input-message-spacing-value: calc(
-    var(--calcite-radio-button-group-input-message-space, var(--calcite-spacing-sm)) * -1
-  );
+  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-sm) * -1);
 }
 
 :host([scale="l"]) calcite-input-message {
-  --calcite-input-message-spacing-value: calc(
-    var(--calcite-radio-button-group-input-message-space, var(--calcite-spacing-md)) * -1
-  );
+  --calcite-input-message-spacing-value: calc(var(--calcite-spacing-md) * -1);
 }
 
 @include form-validation-message();
