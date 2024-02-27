@@ -4,12 +4,12 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-graph-background-color: Specifies the background color of the component.
- * @prop --calcite-graph-highlight-color: Specifies the highlight color of the component.
+ * @prop --calcite-graph-accent-color: Specifies the accent color of the component.
  */
 
 :host {
   --calcite-graph-background-color: currentColor;
-  --calcite-graph-highlight-color: var(--calcite-color-brand);
+  --calcite-graph-accent-color: var(--calcite-color-brand);
 
   @apply block;
   block-size: 100%;
@@ -20,7 +20,7 @@
   @apply m-0 block h-full w-full p-0;
 
   .graph-path--highlight {
-    fill: var(--calcite-graph-highlight-color);
+    fill: var(--calcite-graph-accent-color);
     @apply opacity-50;
   }
 }
