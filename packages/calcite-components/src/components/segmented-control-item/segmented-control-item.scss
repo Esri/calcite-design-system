@@ -5,7 +5,7 @@
  *
  * @prop --calcite-segmented-control-item-background-color: Specifies the background color of the component.
  * @prop --calcite-segmented-control-item-border-color: Specifies the border color of the component.
- * @prop --calcite-segmented-control-item-focus-color: Specifies the focus color of the component.
+ * @prop --calcite-segmented-control-item-focus: Specifies the focus color of the component.
  * @prop --calcite-segmented-control-item-icon-color: Specifies the icon color of the component.
  * @prop --calcite-segmented-control-item-shadow: Specifies the shadow of the component.
  * @prop --calcite-segmented-control-item-text-color: Specifies the text color of the component.
@@ -42,8 +42,11 @@
 }
 
 :host(:focus) {
-  @include focusInset("--calcite-segmented-control-item-focus-color");
-  outline-offset: -1px;
+  --calcite-internal-segmented-control-item-focus-offset: -1px;
+  @include focusInset(
+    "--calcite-segmented-control-item-focus",
+    "--calcite-internal-segmented-control-item-focus-offset"
+  );
 }
 
 .label--scale-s {
@@ -105,8 +108,7 @@
   }
   :host([checked]) .label--outline,
   :host([checked]) .label--outline-fill {
-    outline: 2px solid transparent; // todo: outline:none?
-    outline-offset: 2px;
+    @include outlineNone();
   }
   :host([checked]) label:not([class~="label--outline"]) .segmented-control-item-icon {
     color: highlightText;
