@@ -205,4 +205,33 @@ describe("calcite-action", () => {
     expect(liveRegion.getAttribute("role")).toBe("region");
     expect(liveRegion.textContent).toBe("Indicator present");
   });
+
+  describe("theme-ing", () => {
+    it("should theme the background color", async () => {
+      const page = await newE2EPage();
+      const color = ["--calcite-action-background-color", "rgb(186, 218, 85)"];
+      await page.setContent(`<calcite-action
+        scale="s"
+        indicator
+        active
+        text="click-me"
+        label="hello world"
+        text-enabled
+        icon="configure-popup"
+      ></calcite-action>`);
+      await page.waitForChanges();
+      debugger;
+      const action = await page.find("calcite-action");
+      const defaultStyle = await action.getComputedStyle();
+
+      await action.setAttribute("style", `${color[0]}: ${color[1]}`);
+      await page.waitForChanges();
+
+      // action = await page.find(`calcite-action >>> .${CSS.action}`);
+      const styles = await action.getComputedStyle();
+
+      expect(defaultStyle.backgroundColor).not.toBe(color[1]);
+      expect(styles.backgroundColor).toBe(color[1]);
+    });
+  });
 });
