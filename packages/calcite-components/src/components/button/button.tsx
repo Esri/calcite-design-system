@@ -105,6 +105,11 @@ export class Button
   form: string;
 
   /**
+   * Specifies the optional new name of the file after it is downloaded.
+   */
+  @Prop({ reflect: true }) download: string | boolean = false;
+
+  /**
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
    */
   @Prop({ reflect: true }) href: string;
@@ -287,6 +292,9 @@ export class Button
             [CSS.iconEndEmpty]: !this.iconEnd,
           }}
           disabled={childElType === "button" ? this.disabled || this.loading : null}
+          download={
+            childElType === "a" && (this.download === "" || this.download) ? this.download : null
+          }
           href={childElType === "a" && this.href}
           name={childElType === "button" && this.name}
           onClick={this.handleClick}
