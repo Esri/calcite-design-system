@@ -202,10 +202,6 @@ export const theming_TestOnly = (): string => html`
       --calcite-radio-button-shadow: 0 0 0 2px blue;
       --calcite-radio-button-size: 20px;
     }
-
-    calcite-radio-button-group {
-      --calcite-radio-button-group-input-message-spacing-value: 5px;
-    }
   </style>
   <div class="container">
     <calcite-radio-button-group
