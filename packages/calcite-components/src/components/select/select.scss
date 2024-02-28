@@ -8,6 +8,7 @@
  * @prop --calcite-select-font-size: **[Deprecated]** The font size of `calcite-option`s in the component.
  * @prop --calcite-select-spacing: **[Deprecated]** The padding around the selected option text.
  * @prop --calcite-select-text-color: The text color of the component.
+ * @prop --calcite-select-border-color-hover: The border color of the component.
  */
 
 :host {
@@ -15,14 +16,12 @@
   --calcite-select-border-color: var(--calcite-color-border-input);
   --calcite-select-text-color: var(--calcite-color-text-2);
 
+  --calcite-select-background-color-hover: var(--calcite-color-foreground-2);
+
   @extend %component-spacing;
   @apply flex flex-col;
 
   inline-size: var(--calcite-internal-select-size);
-}
-
-:host(:hover) {
-  --calcite-select-background-color: var(--calcite-color-foreground-2);
 }
 
 :host([scale="s"]) {
@@ -82,6 +81,12 @@
   // override user agent stylesheet disabled styling
   &:disabled {
     background-color: var(--calcite-opacity-100);
+  }
+}
+
+:host(:hover) {
+  .select {
+    background-color: var(--calcite-select-background-color-hover);
   }
 }
 
