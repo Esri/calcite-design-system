@@ -32,7 +32,7 @@
   padding: var(--calcite-spacing-sm);
   margin-inline: var(--calcite-spacing-xxs);
   display: flex;
-  inline-size: var(--calcite-filter-width);
+  inline-size: var(--calcite-filter-width, var(--calcite-container-size-content-fluid));
   position: relative;
   overflow: hidden;
   align-items: center;
