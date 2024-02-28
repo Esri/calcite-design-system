@@ -5,9 +5,8 @@
  *
  * @prop --calcite-filter-background-color: Specifies the background color of the filter.
  * @prop --calcite-filter-input-background-color: defines the background color of the input sub-component.
- * @prop --calcite-filter-input-border-color: defines the border color of the input sub-component
+ * @prop --calcite-filter-input-border-color: defines the border color of the input sub-component.
  * @prop --calcite-filter-input-button-background-color: defines the background color of the button in the input sub-component.
- * @prop --calcite-filter-input-button-background-color-active: defines the background color of an :active button element in the input.
  * @prop --calcite-filter-input-button-background-color-hover: defines the background color of the button when hovered in the input sub-component.
  * @prop --calcite-filter-input-button-border-color: defines the border color of the button in the input sub-component.
  * @prop --calcite-filter-input-button-icon-color: defines the icon color of the button in the input sub-component.
@@ -47,7 +46,6 @@
   --calcite-input-background-color: var(--calcite-filter-input-background-color);
   --calcite-input-button-background-color: var(--calcite-filter-input-button-background-color);
   --calcite-input-button-background-color-hover: var(--calcite-filter-input-button-background-color-hover);
-  --calcite-input-button-background-color-active: var(--calcite-filter-input-button-background-color-active);
   --calcite-input-button-border-color: var(--calcite-filter-input-button-border-color);
   --calcite-input-icon-color: var(--calcite-filter-input-icon-color);
   --calcite-input-button-icon-color: var(--calcite-filter-input-button-icon-color);

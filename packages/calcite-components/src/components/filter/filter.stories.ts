@@ -35,7 +35,6 @@ const themeStyles = `
   --calcite-filter-input-background-color: lightgray;
   --calcite-filter-input-button-background-color: purple;
   --calcite-filter-input-button-background-color-hover: pink;
-  --calcite-filter-input-button-background-color-active: magenta;
   --calcite-filter-input-button-border-color: yellow;
   --calcite-filter-input-icon-color: green;
   --calcite-filter-input-button-icon-color: orange;
