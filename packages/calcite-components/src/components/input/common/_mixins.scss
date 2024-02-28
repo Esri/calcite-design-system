@@ -7,6 +7,7 @@
  * @prop --calcite-input-background-color: defines the background color of the component.
  * @prop --calcite-input-border-color: defines the border color of the component.
  * @prop --calcite-input-corner-radius: defines the corner radius of the component.
+ * @prop --calcite-input-shadow: defines the shadow of the component.
  *
  * @prop --calcite-input-placeholder-text-color: defines the color of placeholder text in the component.
  *
@@ -92,6 +93,7 @@
 
   :host {
     @apply block;
+    box-shadow: var(--calcite-input-shadow, var(--calcite-shadow-none));
   }
 
   @if not($type == "textarea") {
