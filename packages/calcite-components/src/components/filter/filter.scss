@@ -4,21 +4,19 @@
  * These properties can be overridden
  *
  * @prop --calcite-filter-background-color: Specifies the background color of the filter.
- * @prop --calcite-filter-input-corner-radius: defines the border radius of the input.
- * @prop --calcite-filter-input-text-color: defines the text color of the input.
- * @prop --calcite-filter-input-border-color: defines the border color of the input.
- * @prop --calcite-filter-input-background-color: defines the background color of the input.
- * @prop --calcite-filter-input-button-background-color: defines the background color of a button element in the input.
- * @prop --calcite-filter-input-button-background-color-hover: defines the background color of a :hover-ed button element in the input.
+ * @prop --calcite-filter-input-background-color: defines the background color of the input sub-component.
+ * @prop --calcite-filter-input-border-color: defines the border color of the input sub-component
+ * @prop --calcite-filter-input-button-background-color: defines the background color of the button in the input sub-component.
  * @prop --calcite-filter-input-button-background-color-active: defines the background color of an :active button element in the input.
- * @prop --calcite-filter-input-icon-color: defines the color of an icon element in the input.
- * @prop --calcite-filter-input-button-icon-color-hover:  defines the color of an icon element when it's parent is hovered in the input.
- * @prop --calcite-filter-input-prefix-text-color: defines the prefix text color in the input.
- * @prop --calcite-filter-input-prefix-background-color: defines the prefix background color in the input.
- * @prop --calcite-filter-input-suffix-text-color: defines the suffix text color in the input.
- * @prop --calcite-filter-input-suffix-background-color: defines the suffix background color in the input.
- * @prop --calcite-filter-input-placeholder-text-color: defines the color of placeholder text in the input.
- * @prop --calcite-filter-input-shadow: defines the box-shadow of the input.
+ * @prop --calcite-filter-input-button-background-color-hover: defines the background color of the button when hovered in the input sub-component.
+ * @prop --calcite-filter-input-button-border-color: defines the border color of the button in the input sub-component.
+ * @prop --calcite-filter-input-button-icon-color: defines the icon color of the button in the input sub-component.
+ * @prop --calcite-filter-input-button-icon-color-active: defines the icon color of the button when active in the input sub-component.
+ * @prop --calcite-filter-input-button-icon-color-hover: defines the icon color of the button when hovered in the input sub-component.
+ * @prop --calcite-filter-input-corner-radius: defines the corner radius of the input sub-component.
+ * @prop --calcite-filter-input-icon-color: defines the icon color of the input sub-component.
+ * @prop --calcite-filter-input-placeholder-text-color: defines the placeholder text color of the input sub-component.
+ * @prop --calcite-filter-input-text-color: defines the text color of the input sub-component.
  * @prop --calcite-filter-width: Specifies a width used for the filter.
  */
 
@@ -50,14 +48,12 @@
   --calcite-input-button-background-color: var(--calcite-filter-input-button-background-color);
   --calcite-input-button-background-color-hover: var(--calcite-filter-input-button-background-color-hover);
   --calcite-input-button-background-color-active: var(--calcite-filter-input-button-background-color-active);
+  --calcite-input-button-border-color: var(--calcite-filter-input-button-border-color);
   --calcite-input-icon-color: var(--calcite-filter-input-icon-color);
+  --calcite-input-button-icon-color: var(--calcite-filter-input-button-icon-color);
+  --calcite-input-button-icon-color-active: var(--calcite-filter-input-button-icon-color-active);
   --calcite-input-button-icon-color-hover: var(--calcite-filter-input-button-icon-color-hover);
-  --calcite-input-prefix-text-color: var(--calcite-filter-input-prefix-text-color);
-  --calcite-input-prefix-background-color: var(--calcite-filter-input-prefix-background-color);
-  --calcite-input-suffix-text-color: var(--calcite-filter-input-suffix-text-color);
-  --calcite-input-suffix-background-color: var(--calcite-filter-input-suffix-background-color);
   --calcite-input-placeholder-text-color: var(--calcite-filter-input-placeholder-text-color);
-  --calcite-input-shadow: var(--calcite-filter-input-shadow);
 }
 
 @include base-component();
