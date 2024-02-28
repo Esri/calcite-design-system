@@ -18,7 +18,9 @@
     align-self: center;
     color: var(#{$textColor}, var(--calcite-color-text-3));
     transition:
-      all var(--calcite-animation-timing) ease-in-out 0s,
+      color,
+      background-color,
+      border-color var(--calcite-animation-timing) ease-in-out 0s,
       outline 0s,
       outline-offset 0s;
     border-width: var(#{$borderWidth}, var(--calcite-border-width-md));
