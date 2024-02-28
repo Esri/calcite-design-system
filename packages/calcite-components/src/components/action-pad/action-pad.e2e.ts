@@ -1,5 +1,15 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  delegatesToFloatingUiOwningComponent,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+} from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
@@ -27,6 +37,10 @@ describe("calcite-action-pad", () => {
         defaultValue: "vertical",
       },
       {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
+      {
         propertyName: "scale",
         defaultValue: undefined,
       },
@@ -47,7 +61,20 @@ describe("calcite-action-pad", () => {
         propertyName: "layout",
         value: "horizontal",
       },
+      {
+        propertyName: "overlayPositioning",
+        value: "fixed",
+      },
     ]);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      html`<calcite-action-pad>
+        <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
+      </calcite-action-pad>`,
+      "calcite-action-group",
+    );
   });
 
   describe("expand functionality", () => {
@@ -152,11 +179,13 @@ describe("calcite-action-pad", () => {
   it("should modify textEnabled on actions when expanded and expandDisabled", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(html`<calcite-action-pad expand-disabled expanded>
-      <calcite-action-group>
-        <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-pad>`);
+    await page.setContent(
+      html`<calcite-action-pad expand-disabled expanded>
+        <calcite-action-group>
+          <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-pad>`,
+    );
 
     const expandAction = await page.find("calcite-action-pad >>> calcite-action");
     const action = await page.find("calcite-action");
@@ -201,7 +230,7 @@ describe("calcite-action-pad", () => {
       `,
       {
         focusTargetSelector: "calcite-action",
-      }
+      },
     );
   });
 
@@ -269,9 +298,11 @@ describe("calcite-action-pad", () => {
   it("should set layout on child action-groups", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(html`<calcite-action-pad layout="horizontal">
-      <calcite-action-group></calcite-action-group>
-    </calcite-action-pad>`);
+    await page.setContent(
+      html`<calcite-action-pad layout="horizontal">
+        <calcite-action-group></calcite-action-group>
+      </calcite-action-pad>`,
+    );
     await page.waitForChanges();
 
     const group = await page.find("calcite-action-group");

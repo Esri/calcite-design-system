@@ -183,6 +183,7 @@ textarea.block-size--full {
   @apply sr-only;
 }
 
+@include form-validation-message();
 @include hidden-form-input();
 @include disabled();
 @include base-component();

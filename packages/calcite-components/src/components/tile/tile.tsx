@@ -1,17 +1,14 @@
-import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
-import { getSlotted } from "../../utils/dom";
+import { Component, Element, h, Prop, State, VNode } from "@stencil/core";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
+import { Alignment, Scale } from "../interfaces";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 
 /**
  * @slot content-start - A slot for adding non-actionable elements before the component's content.
@@ -22,7 +19,7 @@ import { SLOTS } from "./resources";
   styleUrl: "tile.scss",
   shadow: true,
 })
-export class Tile implements ConditionalSlotComponent, InteractiveComponent {
+export class Tile implements InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -33,6 +30,11 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
    * When `true`, the component is active.
    */
   @Prop({ reflect: true }) active = false;
+
+  /**
+   * Specifies the alignment of the Tile's content.
+   */
+  @Prop({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
   /**
    * A description for the component, which displays below the heading.
@@ -48,6 +50,8 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
    * The component's embed mode.
    *
    * When `true`, renders without a border and padding for use by other components.
+   *
+   * @deprecated No longer necessary.
    */
   @Prop({ reflect: true }) embed = false;
 
@@ -61,9 +65,6 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   /** The component header text, which displays between the icon and description. */
   @Prop({ reflect: true }) heading: string;
 
-  /** When `true`, the component is not displayed and is not focusable.  */
-  @Prop({ reflect: true }) hidden = false;
-
   /** When embed is `"false"`, the URL for the component. */
   @Prop({ reflect: true }) href: string;
 
@@ -74,6 +75,11 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
 
   @Prop({ reflect: true }) iconFlipRtl = false;
 
+  /**
+   * Specifies the size of the component.
+   */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -82,6 +88,24 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
 
   @Element() el: HTMLCalciteTileElement;
 
+  @State() hasContentStart = false;
+
+  @State() hasContentEnd = false;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  private handleContentStartSlotChange = (event: Event): void => {
+    this.hasContentStart = slotChangeHasAssignedElement(event);
+  };
+
+  private handleContentEndSlotChange = (event: Event): void => {
+    this.hasContentEnd = slotChangeHasAssignedElement(event);
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -89,12 +113,10 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     connectInteractive(this);
   }
 
   disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
     disconnectInteractive(this);
   }
 
@@ -109,53 +131,41 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   renderTile(): VNode {
-    const { icon, el, heading, description, iconFlipRtl } = this;
+    const { icon, hasContentStart, hasContentEnd, heading, description, iconFlipRtl } = this;
     const isLargeVisual = heading && icon && !description;
-    const iconStyle = isLargeVisual
-      ? {
-          height: "64px",
-          width: "64px",
-        }
-      : undefined;
 
     return (
-      <div class={{ container: true, "large-visual": isLargeVisual }}>
-        {icon && (
-          <div class="icon">
-            <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" style={iconStyle} />
+      <div class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual }}>
+        {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
+        <div class={CSS.contentContainer}>
+          <div class={{ [CSS.contentSlotContainer]: hasContentStart }}>
+            <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
           </div>
-        )}
-        <div class="content-container">
-          {getSlotted(el, SLOTS.contentStart) ? (
-            <div class="content-slot-container">
-              <slot name={SLOTS.contentStart} />
-            </div>
-          ) : null}
-          <div class="content">
-            {heading && <div class="heading">{heading}</div>}
-            {description && <div class="description">{description}</div>}
+          <div class={CSS.content}>
+            {heading && <div class={CSS.heading}>{heading}</div>}
+            {description && <div class={CSS.description}>{description}</div>}
           </div>
-          {getSlotted(el, SLOTS.contentEnd) ? (
-            <div class="content-slot-container">
-              <slot name={SLOTS.contentEnd} />
-            </div>
-          ) : null}
+          <div class={{ [CSS.contentSlotContainer]: hasContentEnd }}>
+            <slot name={SLOTS.contentEnd} onSlotchange={this.handleContentEndSlotChange} />
+          </div>
         </div>
       </div>
     );
   }
 
   render(): VNode {
+    const { disabled } = this;
+
     return (
-      <Fragment>
+      <InteractiveContainer disabled={disabled}>
         {this.href ? (
-          <calcite-link disabled={this.disabled} href={this.href}>
+          <calcite-link disabled={disabled} href={this.href}>
             {this.renderTile()}
           </calcite-link>
         ) : (
           this.renderTile()
         )}
-      </Fragment>
+      </InteractiveContainer>
     );
   }
 }

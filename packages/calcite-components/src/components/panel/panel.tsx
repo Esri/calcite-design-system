@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
   Method,
   Prop,
@@ -21,6 +20,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -43,6 +43,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { PanelMessages } from "./assets/panel/t9n";
+import { OverlayPositioning } from "../../utils/floating-ui";
 
 /**
  * @slot - A slot for adding custom content.
@@ -139,6 +140,16 @@ export class Panel
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
+
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   *
+   */
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   //--------------------------------------------------------------------------
   //
@@ -292,8 +303,8 @@ export class Panel
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-bar")
+    const actionBars = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.matches("calcite-action-bar"),
     ) as HTMLCalciteActionBarElement[];
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
@@ -477,6 +488,7 @@ export class Panel
         key="menu"
         label={messages.options}
         open={menuOpen}
+        overlayPositioning={this.overlayPositioning}
         placement="bottom-end"
       >
         <calcite-action
@@ -583,7 +595,7 @@ export class Panel
   }
 
   render(): VNode {
-    const { loading, panelKeyDownHandler, closed, closable } = this;
+    const { disabled, loading, panelKeyDownHandler, closed, closable } = this;
 
     const panelNode = (
       <article
@@ -602,10 +614,10 @@ export class Panel
     );
 
     return (
-      <Fragment>
+      <InteractiveContainer disabled={disabled}>
         {loading ? <calcite-scrim loading={loading} /> : null}
         {panelNode}
-      </Fragment>
+      </InteractiveContainer>
     );
   }
 }

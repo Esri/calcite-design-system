@@ -1,7 +1,7 @@
 import { select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import * as icons from "../../../../../node_modules/@esri/calcite-ui-icons";
+import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
@@ -23,7 +23,7 @@ export const simple = (): string => html`
     style="font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],
-      "16"
+      "16",
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
   >
     Some wrapping text
@@ -39,7 +39,7 @@ export const iconStart = (): string => html`
     style="font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],
-      "16"
+      "16",
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
   >
     Some wrapping text
@@ -59,7 +59,7 @@ export const iconEnd = (): string => html`
     style="font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],
-      "16"
+      "16",
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
   >
     Some wrapping text
@@ -79,7 +79,7 @@ export const iconStartAndIconEnd = (): string => html`
     style="font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],
-      "16"
+      "16",
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
   >
     Some wrapping text
@@ -102,7 +102,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     style="color: white; font-size: ${select(
       "containing font size",
       ["12", "14", "16", "18", "20", "24", "32"],
-      "16"
+      "16",
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
   >
     Some wrapping text

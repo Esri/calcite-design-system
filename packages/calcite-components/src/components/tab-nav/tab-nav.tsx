@@ -7,11 +7,14 @@ import {
   Host,
   Listen,
   Prop,
+  readTask,
   State,
   VNode,
   Watch,
 } from "@stencil/core";
+
 import {
+  Direction,
   filterDirectChildren,
   focusElementInGroup,
   FocusElementInGroupDestination,
@@ -21,7 +24,22 @@ import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
-import { CSS } from "./resources";
+import { CSS, ICON } from "./resources";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
+import { TabNavMessages } from "./assets/tab-nav/t9n";
+import {
+  calciteSize24,
+  calciteSize32,
+  calciteSize44,
+} from "@esri/calcite-design-tokens/dist/es6/core";
+import { CSS_UTILITY } from "../../utils/resources";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -30,8 +48,9 @@ import { CSS } from "./resources";
   tag: "calcite-tab-nav",
   styleUrl: "tab-nav.scss",
   shadow: true,
+  assetsDirs: ["assets"],
 })
-export class TabNav {
+export class TabNav implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -49,7 +68,7 @@ export class TabNav {
   @Prop({ reflect: true }) syncId: string;
 
   /**
-   * Specifies the component's selected tab-title.
+   * Specifies the component's selected `calcite-tab-title`.
    *
    * @readonly
    */
@@ -89,6 +108,25 @@ export class TabNav {
    */
   @Prop({ mutable: true }) indicatorWidth: number;
 
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: TabNavMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<TabNavMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   @Watch("selectedTabId")
   async selectedTabIdChanged(): Promise<void> {
     if (
@@ -109,10 +147,7 @@ export class TabNav {
 
   @Watch("selectedTitle")
   selectedTitleChanged(): void {
-    this.updateOffsetPosition();
-    this.updateActiveWidth();
-    // reset the animation time on tab selection
-    this.activeIndicatorEl.style.transitionDuration = `${this.animationActiveDuration}s`;
+    this.updateActiveIndicator();
   }
 
   //--------------------------------------------------------------------------
@@ -124,14 +159,21 @@ export class TabNav {
   connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
     this.resizeObserver?.observe(this.el);
+    connectLocalized(this);
+    connectMessages(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     const storageKey = `calcite-tab-nav-${this.storageId}`;
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
       const storedTab = JSON.parse(localStorage.getItem(storageKey));
       this.selectedTabId = storedTab;
     }
+    await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    this.scrollTabTitleIntoView(this.selectedTitle, "instant");
   }
 
   componentWillRender(): void {
@@ -139,9 +181,10 @@ export class TabNav {
 
     this.layout = parentTabsEl?.layout;
     this.bordered = parentTabsEl?.bordered;
-    // fix issue with active tab-title not lining up with blue indicator
+    this.dir = getElementDir(this.el);
+
     if (this.selectedTitle) {
-      this.updateOffsetPosition();
+      this.updateActiveIndicator();
     }
   }
 
@@ -162,28 +205,51 @@ export class TabNav {
 
   disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  //--------------------------------------------------------------------------
+
   render(): VNode {
-    const dir = getElementDir(this.el);
     const width = `${this.indicatorWidth}px`;
     const offset = `${this.indicatorOffset}px`;
-    const indicatorStyle = dir !== "rtl" ? { width, left: offset } : { width, right: offset };
+    const indicatorStyle = this.dir !== "rtl" ? { width, left: offset } : { width, right: offset };
+
     return (
       <Host role="tablist">
         <div
           class={{
             [CSS.container]: true,
+            [CSS.containerHasStartTabTitleOverflow]: !!this.hasOverflowingStartTabTitle,
+            [CSS.containerHasEndTabTitleOverflow]: !!this.hasOverflowingEndTabTitle,
             [`scale-${this.scale}`]: true,
             [`position-${this.position}`]: true,
+            [CSS_UTILITY.rtl]: this.dir === "rtl",
           }}
-          onScroll={this.handleContainerScroll}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el: HTMLDivElement) => (this.tabNavEl = el)}
+          ref={this.storeContainerRef}
         >
-          <slot />
+          {this.renderScrollButton("start")}
           <div
-            class="tab-nav-active-indicator-container"
+            class={{
+              [CSS.tabTitleSlotWrapper]: true,
+            }}
+            onScroll={this.onTabTitleScroll}
+            onWheel={this.onTabTitleWheel}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.storeTabTitleWrapperRef}
+          >
+            <slot onSlotchange={this.onSlotChange} />
+          </div>
+          <div
+            class={{
+              [CSS.activeIndicatorContainer]: true,
+            }}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.activeIndicatorContainerEl = el)}
           >
@@ -194,6 +260,7 @@ export class TabNav {
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
+          {this.renderScrollButton("end")}
         </div>
       </Host>
     );
@@ -227,10 +294,55 @@ export class TabNav {
 
   @Listen("calciteInternalTabsActivate")
   internalActivateTabHandler(event: CustomEvent<TabChangeEventDetail>): void {
+    const activatedTabTitle = event.target as HTMLCalciteTabTitleElement;
+
     this.selectedTabId = event.detail.tab
       ? event.detail.tab
-      : this.getIndexOfTabTitle(event.target as HTMLCalciteTabTitleElement);
+      : this.getIndexOfTabTitle(activatedTabTitle);
     event.stopPropagation();
+
+    this.scrollTabTitleIntoView(activatedTabTitle);
+  }
+
+  private scrollTabTitleIntoView(
+    activatedTabTitle: HTMLCalciteTabTitleElement,
+    behavior: ScrollBehavior = "smooth",
+  ): void {
+    if (!activatedTabTitle) {
+      return;
+    }
+
+    readTask(() => {
+      const isLTR = this.dir === "ltr";
+      const tabTitleContainer = this.tabTitleContainerEl;
+      const containerBounds = tabTitleContainer.getBoundingClientRect();
+      const tabTitleBounds = activatedTabTitle.getBoundingClientRect();
+      const scrollPosition = tabTitleContainer.scrollLeft;
+      const overflowingStartTabTitle = isLTR
+        ? this.hasOverflowingStartTabTitle
+        : this.hasOverflowingEndTabTitle;
+      const overflowingEndTabTitle = isLTR
+        ? this.hasOverflowingEndTabTitle
+        : this.hasOverflowingStartTabTitle;
+
+      if (
+        tabTitleBounds.left <
+        containerBounds.left + (overflowingStartTabTitle ? this.scrollerButtonWidth : 0)
+      ) {
+        const left =
+          scrollPosition + (tabTitleBounds.left - containerBounds.left) - this.scrollerButtonWidth;
+        tabTitleContainer.scrollTo({ left, behavior });
+      } else if (
+        tabTitleBounds.right >
+        containerBounds.right - (overflowingEndTabTitle ? this.scrollerButtonWidth : 0)
+      ) {
+        const left =
+          scrollPosition +
+          (tabTitleBounds.right - containerBounds.right) +
+          this.scrollerButtonWidth;
+        tabTitleContainer.scrollTo({ left, behavior });
+      }
+    });
   }
 
   @Listen("calciteTabsActivate")
@@ -273,8 +385,7 @@ export class TabNav {
 
   @Listen("calciteInternalTabIconChanged")
   iconStartChangeHandler(): void {
-    this.updateActiveWidth();
-    this.updateOffsetPosition();
+    this.updateActiveIndicator();
   }
 
   //--------------------------------------------------------------------------
@@ -301,28 +412,51 @@ export class TabNav {
 
   @Element() el: HTMLCalciteTabNavElement;
 
-  @State() selectedTabId: TabID;
+  @State() defaultMessages: TabNavMessages;
 
-  parentTabsEl: HTMLCalciteTabsElement;
+  @State() effectiveLocale = "";
 
-  tabNavEl: HTMLDivElement;
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
-  activeIndicatorEl: HTMLElement;
+  @State() private hasOverflowingStartTabTitle = false;
 
-  activeIndicatorContainerEl: HTMLDivElement;
+  @State() private hasOverflowingEndTabTitle = false;
 
-  animationActiveDuration = 0.3;
+  @State() private selectedTabId: TabID;
 
-  resizeObserver = createObserver("resize", () => {
+  private activeIndicatorEl: HTMLElement;
+
+  private activeIndicatorContainerEl: HTMLDivElement;
+
+  private dir: Direction = "ltr";
+
+  private containerEl: HTMLDivElement;
+
+  private lastScrollWheelAxis: "x" | "y" = "x";
+
+  private parentTabsEl: HTMLCalciteTabsElement;
+
+  private tabTitleContainerEl: HTMLDivElement;
+
+  private intersectionObserver: IntersectionObserver;
+
+  private resizeObserver = createObserver("resize", () => {
+    this.updateScrollingState();
+
     if (!this.activeIndicatorEl) {
       return;
     }
 
-    // remove active indicator transition duration during resize to prevent wobble
-    this.activeIndicatorEl.style.transitionDuration = "0s";
-    this.updateActiveWidth();
-    this.updateOffsetPosition();
+    this.updateActiveIndicator();
   });
+
+  private get scrollerButtonWidth(): number {
+    const { scale } = this;
+    return parseInt(scale === "s" ? calciteSize24 : scale === "m" ? calciteSize32 : calciteSize44);
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -330,41 +464,184 @@ export class TabNav {
   //
   //--------------------------------------------------------------------------
 
-  handleTabFocus = (
-    event: CustomEvent,
-    el: HTMLCalciteTabTitleElement,
-    destination: FocusElementInGroupDestination
-  ): void => {
-    focusElementInGroup(this.enabledTabTitles, el, destination);
-
-    event.stopPropagation();
-  };
-
-  handleContainerScroll = (): void => {
-    // remove active indicator transition duration while container is scrolling to prevent wobble
-    this.activeIndicatorEl.style.transitionDuration = "0s";
-    this.updateOffsetPosition();
-  };
-
-  updateOffsetPosition(): void {
-    const dir = getElementDir(this.el);
+  private updateActiveIndicator(): void {
+    const tabTitleScrollLeft = this.tabTitleContainerEl?.scrollLeft;
+    const containerScrollLeft = this.containerEl?.scrollLeft;
     const navWidth = this.activeIndicatorContainerEl?.offsetWidth;
     const tabLeft = this.selectedTitle?.offsetLeft;
     const tabWidth = this.selectedTitle?.offsetWidth;
-    const offsetRight = navWidth - (tabLeft + tabWidth);
-    this.indicatorOffset =
-      dir !== "rtl" ? tabLeft - this.tabNavEl?.scrollLeft : offsetRight + this.tabNavEl?.scrollLeft;
-  }
+    const offsetRight = navWidth - tabLeft - tabWidth;
+    const offsetBase = this.dir === "ltr" ? tabLeft : offsetRight;
+    const multiplier = this.dir === "ltr" ? -1 : 1;
 
-  updateActiveWidth(): void {
+    this.indicatorOffset = offsetBase + multiplier * (containerScrollLeft + tabTitleScrollLeft);
     this.indicatorWidth = this.selectedTitle?.offsetWidth;
   }
+
+  private onTabTitleWheel = (event: WheelEvent): void => {
+    event.preventDefault();
+
+    const { deltaX, deltaY } = event;
+    const x = Math.abs(deltaX);
+    const y = Math.abs(deltaY);
+
+    let scrollBy: number;
+
+    if (x === y) {
+      scrollBy = this.lastScrollWheelAxis === "x" ? deltaX : deltaY;
+    } else if (x > y) {
+      scrollBy = deltaX;
+      this.lastScrollWheelAxis = "x";
+    } else {
+      scrollBy = deltaY;
+      this.lastScrollWheelAxis = "y";
+    }
+
+    const scrollByX = (this.dir === "rtl" ? -1 : 1) * scrollBy;
+    (event.currentTarget as HTMLDivElement).scrollBy(scrollByX, 0);
+    requestAnimationFrame(() => this.updateActiveIndicator());
+  };
+
+  private onSlotChange = (event: Event): void => {
+    this.intersectionObserver?.disconnect();
+
+    const slottedChildren = (event.target as HTMLSlotElement).assignedElements();
+    slottedChildren.forEach((child) => {
+      this.intersectionObserver?.observe(child);
+    });
+  };
+
+  private storeContainerRef = (el: HTMLDivElement) => (this.containerEl = el);
+
+  private storeTabTitleWrapperRef = (el: HTMLDivElement) => {
+    this.tabTitleContainerEl = el;
+    this.intersectionObserver = createObserver("intersection", () => this.updateScrollingState(), {
+      root: el,
+      threshold: [0, 0.5, 1],
+    });
+  };
+
+  private updateScrollingState(): void {
+    const tabTitleContainer = this.tabTitleContainerEl;
+
+    if (!tabTitleContainer) {
+      return;
+    }
+
+    let isOverflowStart: boolean;
+    let isOverflowEnd: boolean;
+
+    const scrollPosition = tabTitleContainer.scrollLeft;
+    const visibleWidth = tabTitleContainer.clientWidth;
+    const totalContentWidth = tabTitleContainer.scrollWidth;
+
+    if (this.dir === "ltr") {
+      isOverflowStart = scrollPosition > 0;
+      isOverflowEnd = scrollPosition + visibleWidth < totalContentWidth;
+    } else {
+      isOverflowStart = scrollPosition < 0;
+      isOverflowEnd = scrollPosition !== -(totalContentWidth - visibleWidth);
+    }
+
+    this.hasOverflowingStartTabTitle = isOverflowStart;
+    this.hasOverflowingEndTabTitle = isOverflowEnd;
+  }
+
+  private scrollToTabTitles = (direction: "forward" | "backward"): void => {
+    readTask(() => {
+      const tabTitleContainer = this.tabTitleContainerEl;
+      const containerBounds = tabTitleContainer.getBoundingClientRect();
+      const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
+      const { dir } = this;
+
+      if (direction === "forward") {
+        tabTitles.reverse();
+      }
+
+      let closestToEdge: HTMLCalciteTabTitleElement = null;
+
+      tabTitles.forEach((tabTitle) => {
+        const tabTitleBounds = tabTitle.getBoundingClientRect();
+        const containerEndX = containerBounds.x + containerBounds.width;
+        const tabTitleEndX = tabTitleBounds.x + tabTitleBounds.width;
+
+        if (
+          (direction === "forward" && dir === "ltr") ||
+          (direction === "backward" && dir === "rtl")
+        ) {
+          const afterContainerEnd = tabTitleBounds.x > containerEndX;
+
+          if (afterContainerEnd) {
+            closestToEdge = tabTitle;
+          } else {
+            const crossingContainerEnd =
+              tabTitleEndX > containerEndX && tabTitleBounds.x > containerBounds.x;
+
+            if (crossingContainerEnd) {
+              closestToEdge = tabTitle;
+            }
+          }
+        } else {
+          const beforeContainerStart = tabTitleEndX < containerBounds.x;
+
+          if (beforeContainerStart) {
+            closestToEdge = tabTitle;
+          } else {
+            const crossingContainerStart =
+              tabTitleEndX < containerEndX && tabTitleBounds.x < containerBounds.x;
+
+            if (crossingContainerStart) {
+              closestToEdge = tabTitle;
+            }
+          }
+        }
+      });
+
+      if (closestToEdge) {
+        const { scrollerButtonWidth } = this;
+        const offsetAdjustment =
+          (direction === "forward" && dir === "ltr") || (direction === "backward" && dir === "rtl")
+            ? -scrollerButtonWidth
+            : closestToEdge.offsetWidth - tabTitleContainer.clientWidth + scrollerButtonWidth;
+        const scrollTo = closestToEdge.offsetLeft + offsetAdjustment;
+
+        tabTitleContainer.scrollTo({
+          left: scrollTo,
+          behavior: "smooth",
+        });
+      }
+    });
+  };
+
+  private scrollToNextTabTitles = (): void => this.scrollToTabTitles("forward");
+
+  private scrollToPreviousTabTitles = (): void => this.scrollToTabTitles("backward");
+
+  handleTabFocus = (
+    event: CustomEvent,
+    el: HTMLCalciteTabTitleElement,
+    destination: FocusElementInGroupDestination,
+  ): void => {
+    const focused = focusElementInGroup<HTMLCalciteTabTitleElement>(
+      this.enabledTabTitles,
+      el,
+      destination,
+    );
+    this.scrollTabTitleIntoView(focused, "instant");
+
+    event.stopPropagation();
+  };
 
   getIndexOfTabTitle(el: HTMLCalciteTabTitleElement, tabTitles = this.tabTitles): number {
     // In most cases, since these indexes correlate with tab contents, we want to consider all tab titles.
     // However, when doing relative index operations, it makes sense to pass in this.enabledTabTitles as the 2nd arg.
     return tabTitles.indexOf(el);
   }
+
+  private onTabTitleScroll = (): void => {
+    this.updateActiveIndicator();
+    this.updateScrollingState();
+  };
 
   async getTabTitleById(id: TabID): Promise<HTMLCalciteTabTitleElement | null> {
     return Promise.all(this.tabTitles.map((el) => el.getTabIdentifier())).then((ids) => {
@@ -379,38 +656,76 @@ export class TabNav {
   get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
     return filterDirectChildren<HTMLCalciteTabTitleElement>(
       this.el,
-      "calcite-tab-title:not([disabled])"
+      "calcite-tab-title:not([disabled])",
     ).filter((tabTitle) => !tabTitle.closed);
   }
 
   private handleTabTitleClose(closedTabTitleEl: HTMLCalciteTabTitleElement): void {
     const { tabTitles } = this;
+    const selectionModified = closedTabTitleEl.selected;
 
     const visibleTabTitlesIndices = tabTitles.reduce(
-      (tabTitleIndices, tabTitle, index) =>
+      (tabTitleIndices: number[], tabTitle, index) =>
         !tabTitle.closed ? [...tabTitleIndices, index] : tabTitleIndices,
-      []
+      [],
     );
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
 
     if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
       tabTitles[visibleTabTitlesIndices[0]].closable = false;
       this.selectedTabId = visibleTabTitlesIndices[0];
+
+      if (selectionModified) {
+        tabTitles[visibleTabTitlesIndices[0]].activateTab();
+      }
     } else if (totalVisibleTabTitles > 1) {
       const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
+
       const nextTabTitleIndex = visibleTabTitlesIndices.find(
-        (value) => value > closedTabTitleIndex
+        (value) => value > closedTabTitleIndex,
       );
 
       if (this.selectedTabId === closedTabTitleIndex) {
         this.selectedTabId = nextTabTitleIndex ? nextTabTitleIndex : totalVisibleTabTitles - 1;
+        tabTitles[this.selectedTabId].activateTab();
       }
     }
 
     requestAnimationFrame(() => {
-      this.updateOffsetPosition();
-      this.updateActiveWidth();
+      this.updateActiveIndicator();
       tabTitles[this.selectedTabId].focus();
     });
   }
+
+  private renderScrollButton = (overflowDirection: "start" | "end"): VNode => {
+    const { bordered, messages, hasOverflowingStartTabTitle, hasOverflowingEndTabTitle, scale } =
+      this;
+    const isEnd = overflowDirection === "end";
+
+    return (
+      <div
+        class={{
+          [CSS.scrollButtonContainer]: true,
+          [CSS.scrollBackwardContainerButton]: !isEnd,
+          [CSS.scrollForwardContainerButton]: isEnd,
+        }}
+        hidden={(isEnd && !hasOverflowingEndTabTitle) || (!isEnd && !hasOverflowingStartTabTitle)}
+        key={overflowDirection}
+      >
+        <calcite-button
+          appearance={bordered ? "outline-fill" : "transparent"}
+          aria-label={isEnd ? messages.nextTabTitles : messages.previousTabTitles}
+          class={{
+            [CSS.scrollButton]: true,
+          }}
+          iconFlipRtl="both"
+          iconStart={isEnd ? ICON.chevronRight : ICON.chevronLeft}
+          kind="neutral"
+          onClick={isEnd ? this.scrollToNextTabTitles : this.scrollToPreviousTabTitles}
+          scale={scale}
+          tabIndex={-1}
+        />
+      </div>
+    );
+  };
 }

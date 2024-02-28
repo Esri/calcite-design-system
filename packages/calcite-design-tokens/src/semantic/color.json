@@ -7,11 +7,51 @@
             "light": "{core.color.neutral.blk-005}",
             "dark": "{core.color.neutral.blk-190}"
           },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "background",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "default",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "none": {
           "value": "rgba({core.color.neutral.blk-000}, {core.opacity.0})",
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "background",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "none",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "foreground": {
@@ -20,92 +60,354 @@
             "light": "{core.color.neutral.blk-000}",
             "dark": "{core.color.neutral.blk-200}"
           },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "element": "",
+              "category": "color",
+              "group": "foreground",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "1",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "2": {
           "value": {
             "light": "{core.color.neutral.blk-010}",
             "dark": "{core.color.neutral.blk-210}"
           },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "foreground",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "2",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "3": {
           "value": { "light": "{core.color.neutral.blk-020}", "dark": "{core.color.neutral.blk-220}" },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "foreground",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "3",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
-
         "current": {
           "value": {
             "light": "{core.color.high-saturation.blue.h-bb-010}",
             "dark": "#214155"
           },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "foreground",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "current",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "transparent": {
         "default": {
-          "value": {
-            "light": "rgba({core.color.neutral.blk-240}, {core.opacity.0})",
-            "dark": "rgba({core.color.neutral.blk-000}, {core.opacity.0})"
+          "default": {
+            "value": {
+              "light": "rgba({core.color.neutral.blk-240}, {core.opacity.0})",
+              "dark": "rgba({core.color.neutral.blk-000}, {core.opacity.0})"
+            },
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "transparent",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "default",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "color"
-        },
-        "hover": {
-          "value": {
-            "light": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
-            "dark": "rgba({core.color.neutral.blk-000}, {core.opacity.4})"
+          "hover": {
+            "value": {
+              "light": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
+              "dark": "rgba({core.color.neutral.blk-000}, {core.opacity.4})"
+            },
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "transparent",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "hover",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "color"
-        },
-        "press": {
-          "value": {
-            "light": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
-            "dark": "rgba({core.color.neutral.blk-000}, {core.opacity.8})"
-          },
-          "type": "color"
+          "press": {
+            "value": {
+              "light": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+              "dark": "rgba({core.color.neutral.blk-000}, {core.opacity.8})"
+            },
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "transparent",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "press",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
         },
         "scrim": {
           "value": {
             "light": "rgba({core.color.neutral.blk-000}, {core.opacity.85})",
             "dark": "rgba({core.color.neutral.blk-240}, {core.opacity.85})"
           },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "transparent",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "scrim",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "tint": {
           "value": {
             "light": "rgba({core.color.neutral.blk-000}, {core.opacity.80})",
             "dark": "rgba({core.color.neutral.blk-200}, {core.opacity.80})"
           },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "transparent",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "tint",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "brand": {
         "default": {
-          "value": {
-            "light": "{core.color.high-saturation.blue.h-bb-060}",
-            "dark": "{core.color.vibrant.blue.v-bb-160}"
+          "default": {
+            "value": {
+              "light": "{core.color.high-saturation.blue.h-bb-060}",
+              "dark": "{core.color.vibrant.blue.v-bb-160}"
+            },
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "brand",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "color"
-        },
-        "hover": {
-          "value": {
-            "light": "{core.color.high-saturation.blue.h-bb-070}",
-            "dark": "{core.color.high-saturation.blue.h-bb-060}"
+          "hover": {
+            "value": {
+              "light": "{core.color.high-saturation.blue.h-bb-070}",
+              "dark": "{core.color.high-saturation.blue.h-bb-060}"
+            },
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "brand",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "hover",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
-          "type": "color"
-        },
-        "press": {
-          "value": {
-            "light": "{core.color.high-saturation.blue.h-bb-080}",
-            "dark": "{core.color.high-saturation.blue.h-bb-070}"
-          },
-          "type": "color"
+          "press": {
+            "value": {
+              "light": "{core.color.high-saturation.blue.h-bb-080}",
+              "dark": "{core.color.high-saturation.blue.h-bb-070}"
+            },
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "brand",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "press",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
+          }
         },
         "underline": {
           "type": "color",
           "value": {
             "light": "rgba({core.color.high-saturation.blue.h-bb-070}, {core.opacity.40})",
             "dark": "rgba({core.color.dark.blue.d-bb-420}, {core.opacity.40})"
+          },
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "brand",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "underline",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
           }
         }
       },
@@ -116,21 +418,81 @@
               "light": "{core.color.high-saturation.blue.h-bb-070}",
               "dark": "{core.color.dark.blue.d-bb-420}"
             },
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "info",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "hover": {
             "value": {
               "light": "{core.color.high-saturation.blue.h-bb-080}",
               "dark": "{core.color.vibrant.blue.v-bb-140}"
             },
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "info",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "hover",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "press": {
             "value": {
               "light": "{core.color.high-saturation.blue.h-bb-090}",
               "dark": "{core.color.vibrant.blue.v-bb-160}"
             },
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "info",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "press",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "success": {
@@ -139,21 +501,81 @@
               "light": "{core.color.high-saturation.green.h-gg-060}",
               "dark": "{core.color.dark.green.d-gg-420}"
             },
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "success",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "default",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "hover": {
             "value": {
               "light": "{core.color.high-saturation.green.h-gg-070}",
               "dark": "{core.color.vibrant.green.v-gg-140}"
             },
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "success",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "hover",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "press": {
             "value": {
               "light": "{core.color.high-saturation.green.h-gg-080}",
               "dark": "{core.color.vibrant.green.v-gg-160}"
             },
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "success",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "press",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "warning": {
@@ -162,21 +584,81 @@
               "light": "{core.color.high-saturation.yellow.h-yy-060}",
               "dark": "{core.color.dark.yellow.d-yy-420}"
             },
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "warning",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "default",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "hover": {
             "value": {
               "light": "{core.color.high-saturation.yellow.h-yy-070}",
               "dark": "{core.color.vibrant.yellow.v-yy-140}"
             },
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "warning",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "hover",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "press": {
             "value": {
               "light": "{core.color.high-saturation.yellow.h-yy-080}",
               "dark": "{core.color.vibrant.yellow.v-yy-160}"
             },
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "warning",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "press",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "danger": {
@@ -185,21 +667,81 @@
               "light": "{core.color.high-saturation.red.h-rr-060}",
               "dark": "{core.color.dark.red.d-rr-420}"
             },
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "danger",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "default",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "hover": {
             "value": {
               "light": "{core.color.high-saturation.red.h-rr-070}",
               "dark": "{core.color.vibrant.red.v-rr-140}"
             },
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "danger",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "hover",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "press": {
             "value": {
               "light": "{core.color.high-saturation.red.h-rr-080}",
               "dark": "{core.color.vibrant.red.v-rr-160}"
             },
-            "type": "color"
+            "type": "color",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "color",
+                "group": "status",
+                "kind": "danger",
+                "appearance": "",
+                "property": "",
+                "variant": "",
+                "state": "press",
+                "scale": "",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         }
       },
@@ -209,78 +751,358 @@
             "light": "{core.color.neutral.blk-190}",
             "dark": "{core.color.neutral.blk-005}"
           },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "inverse",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "default",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "hover": {
           "value": {
             "light": "{core.color.neutral.blk-200}",
             "dark": "{core.color.neutral.blk-000}"
           },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "inverse",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "hover",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "press": {
           "value": {
             "light": "{core.color.neutral.blk-210}",
             "dark": "{core.color.neutral.blk-010}"
           },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "inverse",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "press",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "text": {
         "1": {
           "value": { "light": "{core.color.neutral.blk-220}", "dark": "{core.color.neutral.blk-000}" },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "text",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "1",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "2": {
           "value": { "light": "{core.color.neutral.blk-170}", "dark": "{core.color.neutral.blk-060}" },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "text",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "2",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "3": {
           "value": { "light": "{core.color.neutral.blk-140}", "dark": "{core.color.neutral.blk-090}" },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "text",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "3",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "inverse": {
           "value": { "light": "{core.color.neutral.blk-000}", "dark": "{core.color.neutral.blk-220}" },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "link": {
           "value": {
             "light": "{core.color.high-saturation.blue.h-bb-070}",
             "dark": "{core.color.dark.blue.d-bb-420}"
           },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "border": {
         "1": {
           "value": { "light": "{core.color.neutral.blk-050}", "dark": "{core.color.neutral.blk-160}" },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "border",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "1",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "2": {
           "value": { "light": "{core.color.neutral.blk-040}", "dark": "{core.color.neutral.blk-170}" },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "border",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "2",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "3": {
           "value": { "light": "{core.color.neutral.blk-030}", "dark": "{core.color.neutral.blk-180}" },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "border",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "3",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "input": {
           "value": { "light": "{core.color.neutral.blk-100}", "dark": "{core.color.neutral.blk-130}" },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "border",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "input",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "ghost": {
           "value": {
             "light": "rgba({core.color.neutral.blk-240}, {core.opacity.30})",
             "dark": "rgba({core.color.neutral.blk-130}, {core.opacity.30})"
           },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "border",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "ghost",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "white": {
           "value": {
             "light": "{core.color.neutral.blk-000}",
             "dark": "{core.color.neutral.blk-005}"
           },
-          "type": "color"
+          "type": "color",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "color",
+              "group": "border",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "white",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       }
     }

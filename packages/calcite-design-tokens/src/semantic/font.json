@@ -3,19 +3,93 @@
     "font": {
       "family": {
         "default": {
-          "value": "{core.font.family.avenirNextPro}",
-          "type": "fontFamilies"
+          "value": [
+            "{core.font.family.avenirNextWorld}",
+            "{core.font.family.avenirNextPro}",
+            "{core.font.family.avenir}",
+            "{core.font.family.helveticaNeue}",
+            "{core.font.family.sansSerif}"
+          ],
+          "type": "fontFamilies",
+          "description": "Primary font with fallbacks",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "family",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "code": {
-          "value": "{core.font.family.monaco}",
-          "type": "fontFamilies"
+          "value": [
+            "{core.font.family.monaco}",
+            "{core.font.family.consolas}",
+            "{core.font.family.andaleMono}",
+            "{core.font.family.lucidaConsole}",
+            "{core.font.family.monospace}"
+          ],
+          "type": "fontFamilies",
+          "description": "Font family for code with fallbacks",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "family",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "code",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "weight": {
         "light": {
           "value": "{core.font.weight.light}",
           "type": "fontWeights",
-          "description": "For Avenir Next World (secondary font family)"
+          "description": "For Avenir Next World (secondary font family)",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "weight",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "light",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "normal": {
           "value": "{core.font.weight.regular}",
@@ -23,160 +97,820 @@
           "description": "For backwards compatibility only. This token will be removed from the published tokens in the next major in favor of the more descriptive word \"regular\"",
           "extensions": {
             "calcite.deprecated": true
+          },
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "weight",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "normal",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
           }
         },
         "regular": {
           "value": "{core.font.weight.regular}",
-          "type": "fontWeights"
+          "type": "fontWeights",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "weight",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "regular",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "medium": {
           "value": "{core.font.weight.medium}",
-          "type": "fontWeights"
+          "type": "fontWeights",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "weight",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "medium",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "semibold": {
           "value": "{core.font.weight.demi}",
-          "type": "fontWeights"
+          "type": "fontWeights",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "weight",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "semibold",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "bold": {
           "value": "{core.font.weight.bold}",
-          "type": "fontWeights"
+          "type": "fontWeights",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "weight",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "bold",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "size": {
         "xs": {
           "value": "{core.size.default.10}",
-          "type": "fontSizes"
+          "type": "fontSizes",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "xs",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "sm": {
           "value": "{core.size.default.12}",
-          "type": "fontSizes"
+          "type": "fontSizes",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "sm",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "default": {
           "value": "{core.size.default.14}",
-          "type": "fontSizes"
+          "type": "fontSizes",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "default",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "md": {
           "value": "{core.size.default.16}",
-          "type": "fontSizes"
+          "type": "fontSizes",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "md",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "lg": {
           "value": "{core.size.default.2} * 9",
-          "type": "fontSizes"
+          "type": "fontSizes",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "lg",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "xl": {
           "value": "{core.size.default.20}",
-          "type": "fontSizes"
+          "type": "fontSizes",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "xl",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "xxl": {
           "value": "{core.size.default.24}",
-          "type": "fontSizes"
+          "type": "fontSizes",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "size",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "xxl",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "style": {
         "emphasis": {
           "value": "{core.font.style.italic}",
           "type": "fontStyle",
-          "description": "used in ratings"
+          "description": "used in ratings",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "style",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "emphasis",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "line-height": {
         "fixed": {
           "sm": {
             "value": "{core.size.default.12}",
-            "type": "lineHeights"
+            "type": "lineHeights",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "fixed",
+                "state": "",
+                "scale": "sm",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "base": {
             "value": "{core.size.default.16}",
-            "type": "lineHeights"
+            "type": "lineHeights",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "fixed",
+                "state": "",
+                "scale": "base",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "lg": {
             "value": "{core.size.default.20}",
-            "type": "lineHeights"
+            "type": "lineHeights",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "fixed",
+                "state": "",
+                "scale": "lg",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "xl": {
             "value": "{core.size.default.24}",
-            "type": "lineHeights"
+            "type": "lineHeights",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "fixed",
+                "state": "",
+                "scale": "xl",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         },
         "relative": {
           "default": {
             "value": "{core.size.relative.auto}",
             "type": "lineHeights",
-            "description": "1"
+            "description": "1",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "relative",
+                "state": "",
+                "scale": "default",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "tight": {
             "value": "{core.size.relative.125}",
             "type": "lineHeights",
-            "description": "1.25"
+            "description": "1.25",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "relative",
+                "state": "",
+                "scale": "tight",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "snug": {
             "value": "{core.size.relative.137}",
             "type": "lineHeights",
-            "description": "1.375"
+            "description": "1.375",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "relative",
+                "state": "",
+                "scale": "snug",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "normal": {
             "value": "{core.size.relative.150}",
             "type": "lineHeights",
-            "description": "1.5"
+            "description": "1.5",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "relative",
+                "state": "",
+                "scale": "normal",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "relaxed": {
             "value": "{core.size.relative.162}",
             "type": "lineHeights",
-            "description": "1.625"
+            "description": "1.625",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "relative",
+                "state": "",
+                "scale": "relaxed",
+                "context": "",
+                "mode": ""
+              }
+            }
           },
           "loose": {
             "value": "{core.size.relative.200}",
             "type": "lineHeights",
-            "description": "2"
+            "description": "2",
+            "attributes": {
+              "calcite-schema": {
+                "system": "calcite",
+                "tier": "semantic",
+                "domain": "",
+                "component": "",
+                "pattern": "",
+                "element": "",
+                "category": "font",
+                "group": "line-height",
+                "kind": "",
+                "appearance": "",
+                "property": "",
+                "variant": "relative",
+                "state": "",
+                "scale": "loose",
+                "context": "",
+                "mode": ""
+              }
+            }
           }
         }
       },
       "letter-spacing": {
         "tight": {
           "value": "{core.size.default.none} - .4 ",
-          "type": "letterSpacing"
+          "type": "letterSpacing",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "letter-spacing",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "tight",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "normal": {
           "value": "{core.size.default.none}",
-          "type": "letterSpacing"
+          "type": "letterSpacing",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "letter-spacing",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "normal",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "wide": {
           "value": "{core.size.default.none} + .4 ",
-          "type": "letterSpacing"
+          "type": "letterSpacing",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "letter-spacing",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "",
+              "state": "",
+              "scale": "wide",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "paragraph-spacing": {
         "normal": {
           "value": "{core.size.default.4}",
-          "type": "paragraphSpacing"
+          "type": "paragraphSpacing",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "paragraph-spacing",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "normal",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "text-decoration": {
         "none": {
           "value": "{core.font.text-decoration.none}",
-          "type": "textDecoration"
+          "type": "textDecoration",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "text-decoration",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "none",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "underline": {
           "value": "{core.font.text-decoration.underline}",
-          "type": "textDecoration"
+          "type": "textDecoration",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "text-decoration",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "underline",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       },
       "text-case": {
         "none": {
           "value": "{core.font.text-case.none}",
-          "type": "textCase"
+          "type": "textCase",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "text-case",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "none",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "uppercase": {
           "value": "{core.font.text-case.uppercase}",
-          "type": "textCase"
+          "type": "textCase",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "text-case",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "uppercase",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "lowercase": {
           "value": "{core.font.text-case.lowercase}",
-          "type": "textCase"
+          "type": "textCase",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "text-case",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "lowercase",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         },
         "capitalize": {
           "value": "{core.font.text-case.capitalize}",
-          "type": "textCase"
+          "type": "textCase",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "semantic",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "text-case",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "capitalize",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
         }
       }
     }

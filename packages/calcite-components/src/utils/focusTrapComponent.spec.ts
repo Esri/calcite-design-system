@@ -91,7 +91,7 @@ describe("focusTrapComponent", () => {
         expect.anything(),
         expect.objectContaining({
           trapStack: customFocusTrapStack,
-        })
+        }),
       );
       expect(customFocusTrapStack).toHaveLength(0);
 

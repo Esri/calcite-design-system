@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -74,6 +74,36 @@
 
         <div class="child">
           <calcite-input-time-zone scale="l" reference-date="2023-11-28T06:31:19.129Z"></calcite-input-time-zone>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Basic (offset mode) + validation message</div>
+        <div class="child">
+          <calcite-input-time-zone
+            scale="s"
+            status="invalid"
+            validation-icon
+            validation-message="This field is required."
+          ></calcite-input-time-zone>
+        </div>
+
+        <div class="child">
+          <calcite-input-time-zone
+            scale="m"
+            status="invalid"
+            validation-icon
+            validation-message="This field is required."
+          ></calcite-input-time-zone>
+        </div>
+
+        <div class="child">
+          <calcite-input-time-zone
+            scale="l"
+            status="invalid"
+            validation-icon
+            validation-message="This field is required."
+          ></calcite-input-time-zone>
         </div>
       </div>
 

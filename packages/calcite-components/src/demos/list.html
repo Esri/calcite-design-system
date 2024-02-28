@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -80,8 +80,8 @@
                 slot="content-start"
                 style="color: var(--calcite-color-status-success)"
                 --calcite-color-status-success
-              ></calcite-icon> </calcite-list-item
-            >--calcite-color-status-success
+              ></calcite-icon>
+            </calcite-list-item>
             <calcite-list-item label="test3" value="test3" description="hello world 3">
               <calcite-icon
                 icon="compass"
@@ -97,6 +97,10 @@
                 style="color: var(--calcite-color-status-success)"
               ></calcite-icon>
             </calcite-list-item>
+            <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
+              <div slot="title">No Results</div>
+              <div slot="message">Try a different filter</div>
+            </calcite-notice>
           </calcite-list>
         </div>
       </div>
@@ -120,15 +124,15 @@
                 label="menu"
                 slot="actions-end"
                 --calcite-color-status-success
-              ></calcite-action> </calcite-list-item
-            >--calcite-color-status-success
+              ></calcite-action>
+            </calcite-list-item>
             <calcite-list-item closable label="test2" value="test2" description="hello world 2">
               <calcite-icon
                 icon="compass"
                 slot="content-start"
                 style="color: var(--calcite-color-status-success)"
-              ></calcite-icon> </calcite-list-item
-            >--calcite-color-status-success
+              ></calcite-icon>
+            </calcite-list-item>
             <calcite-list-item closable label="test3" value="test3" description="hello world 3">
               <calcite-icon
                 icon="compass"

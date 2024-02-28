@@ -10,6 +10,8 @@
   @extend %component-host;
   @apply flex bg-transparent;
   --calcite-action-indicator-color: theme("colors.brand");
+  --calcite-action-color-transparent-hover: var(--calcite-color-transparent-hover);
+  --calcite-action-color-transparent-press: var(--calcite-color-transparent-press);
 }
 
 @mixin action-indicator() {
@@ -172,11 +174,11 @@
 :host([appearance="transparent"][active]) .button,
 :host([appearance="transparent"]) .button:hover,
 :host([appearance="transparent"]) .button:focus {
-  background-color: var(--calcite-button-transparent-hover);
+  background-color: var(--calcite-action-color-transparent-hover);
 }
 
 :host([appearance="transparent"]) .button:active {
-  background-color: var(--calcite-button-transparent-press);
+  background-color: var(--calcite-action-color-transparent-press);
 }
 
 :host([appearance="transparent"][disabled]) .button {

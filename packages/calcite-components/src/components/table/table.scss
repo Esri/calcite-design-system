@@ -15,20 +15,19 @@
 }
 
 :host {
-  @apply table;
+  @apply flex;
 }
 
 .container {
-  max-inline-size: 100vw;
-  inline-size: 100%;
+  @apply flex flex-col w-full h-full;
 }
 
 .table-container {
-  @apply overflow-x-auto whitespace-nowrap;
+  @apply overflow-auto whitespace-nowrap;
 }
 
-.table-container:not(.bordered) {
-  border-block-end: 1px solid var(--calcite-color-border-3);
+.table-container {
+  border: 1px solid var(--calcite-color-border-3);
 }
 
 .assistive-text {
@@ -38,13 +37,6 @@
 table {
   @apply w-full border-collapse;
   overflow-x: scroll;
-  border-block-start: 1px solid var(--calcite-color-border-3);
-  border-inline-start: 1px solid var(--calcite-color-border-3);
-  border-block-end: 1px solid var(--calcite-color-border-3);
-}
-
-tbody {
-  border-block-end: 1px solid var(--calcite-color-border-3);
 }
 
 .table--fixed {
@@ -57,11 +49,12 @@ tbody {
   }
 }
 
-.zebra {
+.striped {
   ::slotted(calcite-table-row:nth-child(2n + 1)) {
     --calcite-table-row-background: var(--calcite-color-foreground-2);
   }
 }
+
 .selection-actions {
   @apply flex flex-row;
   margin-inline-start: auto;

@@ -87,7 +87,7 @@ describe("calcite-pick-list", () => {
       page: E2EPage,
       groupOrParentItem: E2EElement,
       item1: E2EElement,
-      item2: E2EElement
+      item2: E2EElement,
     ): Promise<void> {
       const item1ValueLowercased = (await item1.getProperty("label")).toLowerCase();
 
@@ -97,7 +97,7 @@ describe("calcite-pick-list", () => {
           filterInput.value = filterText;
           filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
         },
-        [item1ValueLowercased]
+        [item1ValueLowercased],
       );
 
       await item2.waitForNotVisible();

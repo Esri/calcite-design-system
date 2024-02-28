@@ -41,14 +41,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
       {
-        name: "selectable",
-        commit(): Attribute {
-          this.value = boolean("selectable", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
         name: "thumbnail-position",
         commit(): Attribute {
           this.value = select("thumbnail-position", logicalFlowPosition.values, logicalFlowPosition.defaultValue);
@@ -57,13 +49,13 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
 const titleHtml = html`
-  <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
-  <span slot="subtitle">
+  <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+  <span slot="description">
     A great example of a study description that might wrap to a line or two, but isn't overly verbose.
   </span>
 `;
@@ -101,9 +93,8 @@ const tooltipHtml = html`
   <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-7">Delete</calcite-tooltip>
 `;
 
-export const simple = (): string => html` <div style="width: 260px">
-  ${create("calcite-card", createAttributes(), titleHtml)}
-</div>`;
+export const simple = (): string =>
+  html` <div style="width: 260px">${create("calcite-card", createAttributes(), titleHtml)}</div>`;
 
 export const simpleWithFooterLinks = (): string => html`
   <div style="width:260px">${create("calcite-card", createAttributes(), html`${titleHtml}${footerLinksHtml}`)}</div>
@@ -130,8 +121,8 @@ export const thumbnail = (): string => html`
       createAttributes(),
       html`
         ${thumbnailHtml}
-        <h3 slot="title">Portland Businesses</h3>
-        <span slot="subtitle"
+        <h3 slot="heading">Portland Businesses</h3>
+        <span slot="description"
           >by
           <calcite-link href="">example_user</calcite-link>
         </span>
@@ -167,7 +158,7 @@ export const thumbnail = (): string => html`
             </calcite-dropdown-group>
           </calcite-dropdown>
         </div>
-      `
+      `,
     )}
     <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-1"
       >My great tooltip example
@@ -187,8 +178,8 @@ export const thumbnailRounded = (): string => html`
     </style>
     <calcite-card>
       ${thumbnailHtml}
-      <h3 slot="title">Portland Businesses</h3>
-      <span slot="subtitle"
+      <h3 slot="heading">Portland Businesses</h3>
+      <span slot="description"
         >by
         <calcite-link href="">example_user</calcite-link>
       </span>
@@ -210,7 +201,22 @@ export const thumbnailRounded = (): string => html`
   </div>
 `;
 
-export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
+export const headerDoesNotOverlapWithCheckboxDeprecated_TestOnly = (): string => html`
+  <calcite-card selectable style="width:260px">
+    <h3 slot="heading">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
+    <span slot="description"
+      >Pika-pi Soul Badge Zoroark Starly Spoink Diglett Rotom. Water Kyogre Hitmontop Rampardos</span
+    >
+    <p>
+      Team Rocket Whimsicott Snover Duskull Servine Kakuna Bellsprout. Scratch Shelgon Oddish Hitmonchan Quagsire Earth
+      Badge Leaf Green. Pika-pi Bonsly Rare Candy Seadra blast off at the speed of light Shellos Kirlia. Celadon City
+      Seviper Omanyte Espeon Body Slam Victini Darumaka. Normal Krookodile Junichi Masuda Machoke Body Slam Zigzagoon to
+      protect the world from devastation.
+    </p>
+  </calcite-card>
+`;
+
+export const deprecatedSlotsSelectable_TestOnly = (): string => html`
   <calcite-card selectable style="width:260px">
     <h3 slot="title">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
     <span slot="subtitle"

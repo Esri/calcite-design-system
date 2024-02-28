@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -15,21 +15,33 @@
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
         padding: 15px;
-        margin: 0 7% 0 7%;
+        margin: 0 10vw;
       }
 
       .child {
-        display: inline-flex;
-        width: 260px;
-        flex-basis: 300px;
-        flex-direction: column;
-        flex-flow: column;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
         margin: 15px;
-        padding: 0 18px;
       }
 
-      .rounded {
-        --calcite-border-radius-base: 5px;
+      calcite-card {
+        width: 280px;
+      }
+
+      .themed-example calcite-card {
+        --calcite-card-corner-radius: var(--calcite-corner-radius-round);
+        --calcite-card-background-color: var(--calcite-color-foreground-2);
+        --calcite-card-border-color: var(--calcite-color-status-success);
+        --calcite-card-shadow: var(--calcite-shadow-md);
+        --calcite-card-accent-color-selected: purple;
+        --calcite-card-selection-background-color: lightgrey;
+        --calcite-card-selection-background-color-hover: grey;
+        --calcite-card-selection-background-color-active: red;
+        --calcite-card-selection-background-color-selected: pink;
+        --calcite-card-selection-icon-color: white;
+        --calcite-card-selection-icon-color-hover: yellow;
+        --calcite-card-selection-icon-color-selected: purple;
       }
     </style>
     <script src="_assets/head.js"></script>
@@ -38,203 +50,641 @@
   <body>
     <demo-dom-swapper>
       <h1 style="margin: 0 auto; text-align: center">Card</h1>
-
-      <!--
-        **************************************************
-        * CARD WITH TEXT ONLY
-        **************************************************
-      -->
       <div class="parent">
-        <!-- text only -->
+        <div class="child">Adjust selection mode of demo Chip Groups</div>
         <div class="child">
-          <p>No buttons, not selectable</p>
-          <calcite-card>
-            <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
-            <span slot="subtitle"
+          <calcite-segmented-control id="control-selection-mode">
+            <calcite-segmented-control-item value="none" checked>none</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="multiple">multiple</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="single">single</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="single-persist">single-persist</calcite-segmented-control-item>
+          </calcite-segmented-control>
+          <calcite-label>
+            --calcite-card-group-gap
+            <calcite-input id="gap-input" placeholder="--calcite-card-group-gap"></calcite-input>
+          </calcite-label>
+        </div>
+      </div>
+      <div class="parent">
+        <div class="child">Group disabled within group</div>
+        <div class="child">
+          <calcite-card-group disabled>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+          </calcite-card-group>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child">Disabled within group</div>
+        <div class="child">
+          <calcite-card-group label="label">
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card disabled label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+          </calcite-card-group>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child">Preserving deprecated `selectable` property on individual Card</div>
+        <div class="child">
+          <calcite-card selectable>
+            <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+            <span slot="description"
               >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
             >
           </calcite-card>
-        </div>
-
-        <!-- text only, selectable, and border-radius -->
-        <div class="child rounded">
-          <p>No buttons, selectable, border-radius</p>
           <calcite-card selectable>
-            <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
-            <span slot="subtitle"
+            <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+            <span slot="description"
               >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
             >
           </calcite-card>
         </div>
       </div>
-
-      <!--
-        **************************************************
-        * CARD WITH BUTTONS
-        **************************************************
-      -->
       <div class="parent">
-        <!-- Normal card -->
+        <div class="child">Not a lot of content</div>
         <div class="child">
-          <p>Card with several buttons</p>
+          <calcite-card-group label="label">
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+          </calcite-card-group>
+        </div>
 
-          <calcite-card>
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
-            <h3 slot="title">Portland Businesses</h3>
-            <span slot="subtitle"
-              >by
-              <calcite-link href="">example_user</calcite-link>
-            </span>
-            <div>
-              Created: Apr 22, 2019
-              <br />
-              Updated: Dec 9, 2019
-              <br />
-              View Count: 0
-            </div>
-            <calcite-button
-              type="button"
-              slot="footer-start"
-              kind="brand"
-              scale="s"
-              id="card-icon-test-1"
-              icon-start="check"
-            ></calcite-button>
-            <div slot="footer-end">
-              <calcite-button type="button" scale="s" kind="brand" id="card-icon-test-2" icon-start="stairs">
-              </calcite-button>
-              <calcite-button type="button" scale="s" kind="brand" id="card-icon-test-3" icon-start="ellipsis">
-              </calcite-button>
-              <calcite-dropdown type="hover">
-                <calcite-button id="card-icon-test-4" slot="trigger" scale="s" kind="brand" icon-start="caret-down">
+        <div class="child">Not a lot of content and themed</div>
+        <div class="child">
+          <calcite-card-group label="label" class="themed-example">
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+            </calcite-card>
+          </calcite-card-group>
+        </div>
+
+        <div class="child">Cards with several buttons</div>
+        <div class="child">
+          <calcite-card-group label="label">
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <h3 slot="heading">Portland Businesses</h3>
+              <span slot="description"
+                >by
+                <calcite-link href="">example_user</calcite-link>
+              </span>
+              <div>
+                Created: Apr 22, 2019
+                <br />
+                Updated: Dec 9, 2019
+                <br />
+                View Count: 0
+              </div>
+              <calcite-button
+                type="button"
+                slot="footer-start"
+                kind="neutral"
+                scale="s"
+                id="card-icon-test-1"
+                icon-start="check"
+              ></calcite-button>
+              <div slot="footer-end">
+                <calcite-button type="button" scale="s" kind="neutral" id="card-icon-test-2" icon-start="stairs">
                 </calcite-button>
-                <calcite-dropdown-group selection-mode="none">
-                  <calcite-dropdown-item>View details</calcite-dropdown-item>
-                  <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
-                  <calcite-dropdown-item>Delete</calcite-dropdown-item>
-                </calcite-dropdown-group>
-              </calcite-dropdown>
-            </div>
-          </calcite-card>
-
-          <!-- button labels -->
-          <calcite-tooltip label="bottom placed tooltip" placement="bottom-start" reference-element="card-icon-test-1"
-            >My great tooltip example
-          </calcite-tooltip>
-          <calcite-tooltip label="bottom placed tooltip" placement="bottom-start" reference-element="card-icon-test-2">
-            Sharing level: 2
-          </calcite-tooltip>
-          <calcite-tooltip label="top end placed tooltip" placement="top-end" reference-element="card-icon-test-3"
-            >More...
-          </calcite-tooltip>
-          <calcite-tooltip label="top placed tooltip" placement="top-start" reference-element="card-icon-test-4"
-            >More options
-          </calcite-tooltip>
-        </div>
-
-        <!-- selectable card -->
-        <div class="child">
-          <p>Card with two buttons</p>
-          <calcite-card selectable>
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
-            <h3 slot="title">My great Workforce project that might wrap two lines</h3>
-            <span slot="subtitle">Johnathan Smith</span>
-            <span slot="footer-start">Nov 25, 2018</span>
-            <div slot="footer-end">
+                <calcite-button type="button" scale="s" kind="neutral" id="card-icon-test-3" icon-start="ellipsis">
+                </calcite-button>
+                <calcite-dropdown type="hover">
+                  <calcite-button id="card-icon-test-4" slot="trigger" scale="s" kind="neutral" icon-start="caret-down">
+                  </calcite-button>
+                  <calcite-dropdown-group selection-mode="none">
+                    <calcite-dropdown-item>View details</calcite-dropdown-item>
+                    <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                    <calcite-dropdown-item>Delete</calcite-dropdown-item>
+                  </calcite-dropdown-group>
+                </calcite-dropdown>
+              </div>
+            </calcite-card>
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <h3 slot="heading">Portland Businesses</h3>
+              <span slot="description"
+                >by
+                <calcite-link href="">example_user</calcite-link>
+              </span>
+              <div>
+                Created: Apr 22, 2019
+                <br />
+                Updated: Dec 9, 2019
+                <br />
+                View Count: 0
+              </div>
               <calcite-button
-                id="card-icon-test-6"
+                type="button"
+                slot="footer-start"
+                kind="neutral"
                 scale="s"
-                appearance="transparent"
-                kind="brand"
-                icon-start="check-circle-f"
-              >
-              </calcite-button>
+                icon-start="check"
+              ></calcite-button>
+              <div slot="footer-end">
+                <calcite-button type="button" scale="s" kind="neutral" icon-start="stairs"> </calcite-button>
+                <calcite-button type="button" scale="s" kind="neutral" icon-start="ellipsis"> </calcite-button>
+                <calcite-dropdown type="hover">
+                  <calcite-button slot="trigger" scale="s" kind="neutral" icon-start="caret-down"> </calcite-button>
+                  <calcite-dropdown-group selection-mode="none">
+                    <calcite-dropdown-item>View details</calcite-dropdown-item>
+                    <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                    <calcite-dropdown-item>Delete</calcite-dropdown-item>
+                  </calcite-dropdown-group>
+                </calcite-dropdown>
+              </div>
+            </calcite-card>
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <span slot="description"
+                >by
+                <calcite-link href="">example_user</calcite-link>
+              </span>
+              <div>
+                Created: Apr 22, 2019
+                <br />
+                Updated: Dec 9, 2019
+                <br />
+                View Count: 0
+              </div>
               <calcite-button
-                id="card-icon-test-7"
+                type="button"
+                slot="footer-start"
+                kind="neutral"
                 scale="s"
-                appearance="transparent"
-                kind="brand"
-                icon-start="x-circle-f"
+                icon-start="check"
+              ></calcite-button>
+              <div slot="footer-end">
+                <calcite-button type="button" scale="s" kind="neutral" icon-start="stairs"> </calcite-button>
+                <calcite-button type="button" scale="s" kind="neutral" icon-start="ellipsis"> </calcite-button>
+                <calcite-dropdown type="hover">
+                  <calcite-button slot="trigger" scale="s" kind="neutral" icon-start="caret-down"> </calcite-button>
+                  <calcite-dropdown-group selection-mode="none">
+                    <calcite-dropdown-item>View details</calcite-dropdown-item>
+                    <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                    <calcite-dropdown-item>Delete</calcite-dropdown-item>
+                  </calcite-dropdown-group>
+                </calcite-dropdown>
+              </div>
+            </calcite-card>
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <h3 slot="heading">Portland Businesses</h3>
+              <div>
+                Created: Apr 22, 2019
+                <br />
+                Updated: Dec 9, 2019
+                <br />
+                View Count: 0
+              </div>
+              <calcite-button
+                type="button"
+                slot="footer-start"
+                kind="neutral"
+                scale="s"
+                icon-start="check"
+              ></calcite-button>
+              <div slot="footer-end">
+                <calcite-button type="button" scale="s" kind="neutral" icon-start="stairs"> </calcite-button>
+                <calcite-button type="button" scale="s" kind="neutral" icon-start="ellipsis"> </calcite-button>
+                <calcite-dropdown type="hover">
+                  <calcite-button slot="trigger" scale="s" kind="neutral" icon-start="caret-down"> </calcite-button>
+                  <calcite-dropdown-group selection-mode="none">
+                    <calcite-dropdown-item>View details</calcite-dropdown-item>
+                    <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                    <calcite-dropdown-item>Delete</calcite-dropdown-item>
+                  </calcite-dropdown-group>
+                </calcite-dropdown>
+              </div>
+            </calcite-card>
+          </calcite-card-group>
+        </div>
+        <div class="child">Cards with uneven height</div>
+        <div class="child">
+          <calcite-card-group label="label">
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <h3 slot="heading">Portland Businesses</h3>
+
+              <div>
+                Created: Apr 22, 2019
+                <br />
+                Updated: Dec 9, 2019
+                <br />
+                View Count: 0
+              </div>
+              <calcite-button
+                type="button"
+                slot="footer-start"
+                kind="neutral"
+                scale="s"
+                id="card-icon-test-1"
+                icon-start="check"
+              ></calcite-button>
+              <div slot="footer-end">
+                <calcite-button type="button" scale="s" kind="neutral" id="card-icon-test-2" icon-start="stairs">
+                </calcite-button>
+                <calcite-button type="button" scale="s" kind="neutral" id="card-icon-test-3" icon-start="ellipsis">
+                </calcite-button>
+                <calcite-dropdown type="hover">
+                  <calcite-button id="card-icon-test-4" slot="trigger" scale="s" kind="neutral" icon-start="caret-down">
+                  </calcite-button>
+                  <calcite-dropdown-group selection-mode="none">
+                    <calcite-dropdown-item>View details</calcite-dropdown-item>
+                    <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                    <calcite-dropdown-item>Delete</calcite-dropdown-item>
+                  </calcite-dropdown-group>
+                </calcite-dropdown>
+              </div>
+            </calcite-card>
+            <calcite-card label="test card">
+              <h3 slot="heading">Portland Businesses</h3>
+              <span slot="description"
+                >by
+                <calcite-link href="">example_user</calcite-link>
+              </span>
+              <div>
+                Created: Apr 22, 2019
+                <br />
+                Updated: Dec 9, 2019
+                <br />
+                View Count: 0
+              </div>
+              <calcite-button
+                type="button"
+                slot="footer-start"
+                kind="neutral"
+                scale="s"
+                icon-start="check"
+              ></calcite-button>
+              <div slot="footer-end">
+                <calcite-button type="button" scale="s" kind="neutral" icon-start="stairs"> </calcite-button>
+                <calcite-button type="button" scale="s" kind="neutral" icon-start="ellipsis"> </calcite-button>
+                <calcite-dropdown type="hover">
+                  <calcite-button slot="trigger" scale="s" kind="neutral" icon-start="caret-down"> </calcite-button>
+                  <calcite-dropdown-group selection-mode="none">
+                    <calcite-dropdown-item>View details</calcite-dropdown-item>
+                    <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                    <calcite-dropdown-item>Delete</calcite-dropdown-item>
+                  </calcite-dropdown-group>
+                </calcite-dropdown>
+              </div>
+            </calcite-card>
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <span slot="description"
+                >by
+                <calcite-link href="">example_user</calcite-link>
+              </span>
+              <div>
+                Created: Apr 22, 2019
+                <br />
+                Updated: Dec 9, 2019
+                <br />
+                View Count: 0
+              </div>
+              <calcite-button
+                type="button"
+                slot="footer-start"
+                kind="neutral"
+                scale="s"
+                icon-start="check"
+              ></calcite-button>
+              <div slot="footer-end">
+                <calcite-button type="button" scale="s" kind="neutral" icon-start="stairs"> </calcite-button>
+                <calcite-button type="button" scale="s" kind="neutral" icon-start="ellipsis"> </calcite-button>
+                <calcite-dropdown type="hover">
+                  <calcite-button slot="trigger" scale="s" kind="neutral" icon-start="caret-down"> </calcite-button>
+                  <calcite-dropdown-group selection-mode="none">
+                    <calcite-dropdown-item>View details</calcite-dropdown-item>
+                    <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                    <calcite-dropdown-item>Delete</calcite-dropdown-item>
+                  </calcite-dropdown-group>
+                </calcite-dropdown>
+              </div>
+            </calcite-card>
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <h3 slot="heading">Portland Businesses</h3>
+              <calcite-button
+                type="button"
+                slot="footer-start"
+                kind="neutral"
+                scale="s"
+                icon-start="check"
+              ></calcite-button>
+              <div slot="footer-end">
+                <calcite-button type="button" scale="s" kind="neutral" icon-start="stairs"> </calcite-button>
+                <calcite-button type="button" scale="s" kind="neutral" icon-start="ellipsis"> </calcite-button>
+                <calcite-dropdown type="hover">
+                  <calcite-button slot="trigger" scale="s" kind="neutral" icon-start="caret-down"> </calcite-button>
+                  <calcite-dropdown-group selection-mode="none">
+                    <calcite-dropdown-item>View details</calcite-dropdown-item>
+                    <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                    <calcite-dropdown-item>Delete</calcite-dropdown-item>
+                  </calcite-dropdown-group>
+                </calcite-dropdown>
+              </div>
+            </calcite-card>
+          </calcite-card-group>
+        </div>
+        <div class="child">Card with two buttons</div>
+        <div class="child">
+          <calcite-card-group label="label">
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <h3 slot="heading">My great Workforce project that might wrap two lines</h3>
+              <span slot="description">Johnathan Smith</span>
+              <span slot="footer-start">Nov 25, 2018</span>
+              <div slot="footer-end">
+                <calcite-button
+                  id="card-icon-test-6"
+                  scale="s"
+                  appearance="transparent"
+                  kind="brand"
+                  icon-start="check-circle-f"
+                >
+                </calcite-button>
+                <calcite-button
+                  id="card-icon-test-7"
+                  scale="s"
+                  appearance="transparent"
+                  kind="brand"
+                  icon-start="x-circle-f"
+                >
+                </calcite-button>
+              </div>
+            </calcite-card>
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <h3 slot="heading">My great Workforce project that might wrap two lines</h3>
+              <span slot="description">Johnathan Smith</span>
+              <span slot="footer-start">Nov 25, 2018</span>
+              <div slot="footer-end">
+                <calcite-button
+                  id="card-icon-test-6"
+                  scale="s"
+                  appearance="transparent"
+                  kind="brand"
+                  icon-start="check-circle-f"
+                >
+                </calcite-button>
+                <calcite-button
+                  id="card-icon-test-7"
+                  scale="s"
+                  appearance="transparent"
+                  kind="brand"
+                  icon-start="x-circle-f"
+                >
+                </calcite-button>
+              </div>
+            </calcite-card>
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <h3 slot="heading">My great Workforce project that might wrap two lines</h3>
+              <span slot="description">Johnathan Smith</span>
+              <span slot="footer-start">Nov 25, 2018</span>
+              <div slot="footer-end">
+                <calcite-button
+                  id="card-icon-test-6"
+                  scale="s"
+                  appearance="transparent"
+                  kind="brand"
+                  icon-start="check-circle-f"
+                >
+                </calcite-button>
+                <calcite-button
+                  id="card-icon-test-7"
+                  scale="s"
+                  appearance="transparent"
+                  kind="brand"
+                  icon-start="x-circle-f"
+                >
+                </calcite-button>
+              </div>
+            </calcite-card>
+          </calcite-card-group>
+        </div>
+
+        <div class="child">Simple footer</div>
+        <div class="child">
+          <calcite-card-group label="label">
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <h3 slot="heading">ArcGIS Online Sign In and Sign Up</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
               >
-              </calcite-button>
-            </div>
-          </calcite-card>
+              <calcite-link slot="footer-start">Lead füt</calcite-link>
+              <calcite-link slot="footer-end">Trail füt</calcite-link>
+            </calcite-card>
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+
+              <h3 slot="heading">ArcGIS Online Sign In and Sign Up</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+              <calcite-link slot="footer-start">Lead füt</calcite-link>
+              <calcite-link slot="footer-end">Trail füt</calcite-link>
+            </calcite-card>
+          </calcite-card-group>
         </div>
 
-        <!-- selectable and already selected card -->
+        <div class="child">Loading</div>
         <div class="child">
-          <p>Selectable and selected card</p>
-          <calcite-card selected selectable>
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
+          <calcite-card-group label="label">
+            <calcite-card loading>
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
 
-            <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
-            <span slot="subtitle"
-              >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
-            >
-            <calcite-link slot="footer-start">Lead füt</calcite-link>
-            <calcite-link slot="footer-end">Trail füt</calcite-link>
-          </calcite-card>
+              <h3 slot="heading">Loading example</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+              <calcite-link slot="footer-start">Lead füt</calcite-link>
+              <calcite-link slot="footer-end">Trail füt</calcite-link>
+            </calcite-card>
+            <calcite-card loading>
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+
+              <h3 slot="heading">Loading example</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+              <calcite-link slot="footer-start">Lead füt</calcite-link>
+              <calcite-link slot="footer-end">Trail füt</calcite-link>
+            </calcite-card>
+            <calcite-card loading>
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+
+              <h3 slot="heading">Loading example</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+              <calcite-link slot="footer-start">Lead füt</calcite-link>
+              <calcite-link slot="footer-end">Trail füt</calcite-link>
+            </calcite-card>
+            <calcite-card loading>
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+
+              <h3 slot="heading">Loading example</h3>
+              <span slot="description"
+                >A great example of a study description that might wrap to a line or two, but isn't overly
+                verbose.</span
+              >
+              <calcite-link slot="footer-start">Lead füt</calcite-link>
+              <calcite-link slot="footer-end">Trail füt</calcite-link>
+            </calcite-card>
+          </calcite-card-group>
         </div>
 
-        <!-- deselect example -->
+        <div class="child">Footer configuration</div>
         <div class="child">
-          <p>Deselect example</p>
-          <calcite-card selectable>
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
-
-            <h3 slot="title">Translated select and deselect example</h3>
-            <span slot="subtitle"
-              >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
-            >
-            <calcite-link slot="footer-start">Lead füt</calcite-link>
-            <calcite-link slot="footer-end">Trail füt</calcite-link>
-          </calcite-card>
-        </div>
-      </div>
-
-      <!--
-      **************************************************
-      * LOADING AND A CARD WITH A BUTTON
-      **************************************************
-    -->
-      <div class="parent">
-        <div class="child">
-          <p>Loading</p>
-          <calcite-card loading>
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
-
-            <h3 slot="title">Loading example</h3>
-            <span slot="subtitle"
-              >A great example of a study description that might wrap to a line or two, but isn't overly verbose.</span
-            >
-            <calcite-link slot="footer-start">Lead füt</calcite-link>
-            <calcite-link slot="footer-end">Trail füt</calcite-link>
-          </calcite-card>
+          <calcite-card-group label="label">
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <h3 slot="heading">Untitled experience</h3>
+              <span slot="description">Subtext</span>
+              <calcite-button slot="footer-start" width="full">Go</calcite-button>
+            </calcite-card>
+            <calcite-card label="test card">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <h3 slot="heading">Untitled experience</h3>
+              <span slot="description">Subtext</span>
+              <calcite-button slot="footer-start" width="full">Go</calcite-button>
+            </calcite-card>
+          </calcite-card-group>
         </div>
 
+        <div class="child">thumbnail-position="block-start"</div>
         <div class="child">
-          <p>Submit button</p>
-          <calcite-card selectable>
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
-            <h3 slot="title">Untitled experience</h3>
-            <span slot="subtitle">Subtext</span>
-            <calcite-button slot="footer-start" width="full">Go</calcite-button>
-          </calcite-card>
-        </div>
-      </div>
-
-      <!--
-      **************************************************
-      * THUMBNAIL POSITIONS
-      **************************************************
-    -->
-      <div class="parent">
-        <div class="child">
-          <p>thumbnail-position="block-start"</p>
           <calcite-card thumbnail-position="block-start">
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
-            <h3 slot="title">Portland Businesses</h3>
-            <span slot="subtitle"
+            <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+            <h3 slot="heading">Portland Businesses</h3>
+            <span slot="description"
               >by
               <calcite-link href="">example_user</calcite-link>
             </span>
@@ -271,56 +721,12 @@
           </calcite-card>
         </div>
 
+        <div class="child">thumbnail-position="block-end"</div>
         <div class="child">
-          <p>thumbnail-position="block-end"</p>
           <calcite-card thumbnail-position="block-end">
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
-            <h3 slot="title">Portland Businesses</h3>
-            <span slot="subtitle"
-              >by
-              <calcite-link href="">example_user</calcite-link>
-            </span>
-            <div>
-              Created: Apr 22, 2019
-              <br />
-              Updated: Dec 9, 2019
-              <br />
-              View Count: 0
-            </div>
-            <calcite-button
-              type="button"
-              slot="footer-start"
-              kind="brand"
-              scale="s"
-              id="card-icon-test-1"
-              icon-start="check"
-            ></calcite-button>
-            <div slot="footer-end">
-              <calcite-button type="button" scale="s" kind="brand" id="card-icon-test-2" icon-start="stairs">
-              </calcite-button>
-              <calcite-button type="button" scale="s" kind="brand" id="card-icon-test-3" icon-start="ellipsis">
-              </calcite-button>
-              <calcite-dropdown type="hover">
-                <calcite-button id="card-icon-test-4" slot="trigger" scale="s" kind="brand" icon-start="caret-down">
-                </calcite-button>
-                <calcite-dropdown-group selection-mode="none">
-                  <calcite-dropdown-item>View details</calcite-dropdown-item>
-                  <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
-                  <calcite-dropdown-item>Delete</calcite-dropdown-item>
-                </calcite-dropdown-group>
-              </calcite-dropdown>
-            </div>
-          </calcite-card>
-        </div>
-      </div>
-
-      <div class="parent">
-        <div class="child">
-          <p>thumbnail-position="inline-start"</p>
-          <calcite-card thumbnail-position="inline-start">
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
-            <h3 slot="title">Portland Businesses</h3>
-            <span slot="subtitle"
+            <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+            <h3 slot="heading">Portland Businesses</h3>
+            <span slot="description"
               >by
               <calcite-link href="">example_user</calcite-link>
             </span>
@@ -357,12 +763,94 @@
           </calcite-card>
         </div>
 
+        <div class="child">thumbnail-position="inline-start"</div>
         <div class="child">
-          <p>thumbnail-position="inline-end"</p>
+          <calcite-card-group label="label">
+            <calcite-card thumbnail-position="inline-start">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <h3 slot="heading">Portland Businesses</h3>
+              <span slot="description"
+                >by
+                <calcite-link href="">example_user</calcite-link>
+              </span>
+              <div>
+                Created: Apr 22, 2019
+                <br />
+                Updated: Dec 9, 2019
+                <br />
+                View Count: 0
+              </div>
+              <calcite-button
+                type="button"
+                slot="footer-start"
+                kind="brand"
+                scale="s"
+                id="card-icon-test-1"
+                icon-start="check"
+              ></calcite-button>
+              <div slot="footer-end">
+                <calcite-button type="button" scale="s" kind="brand" id="card-icon-test-2" icon-start="stairs">
+                </calcite-button>
+                <calcite-button type="button" scale="s" kind="brand" id="card-icon-test-3" icon-start="ellipsis">
+                </calcite-button>
+                <calcite-dropdown type="hover">
+                  <calcite-button id="card-icon-test-4" slot="trigger" scale="s" kind="brand" icon-start="caret-down">
+                  </calcite-button>
+                  <calcite-dropdown-group selection-mode="none">
+                    <calcite-dropdown-item>View details</calcite-dropdown-item>
+                    <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                    <calcite-dropdown-item>Delete</calcite-dropdown-item>
+                  </calcite-dropdown-group>
+                </calcite-dropdown>
+              </div>
+            </calcite-card>
+            <calcite-card thumbnail-position="inline-start">
+              <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+              <h3 slot="heading">Portland Businesses</h3>
+              <span slot="description"
+                >by
+                <calcite-link href="">example_user</calcite-link>
+              </span>
+              <div>
+                Created: Apr 22, 2019
+                <br />
+                Updated: Dec 9, 2019
+                <br />
+                View Count: 0
+              </div>
+              <calcite-button
+                type="button"
+                slot="footer-start"
+                kind="brand"
+                scale="s"
+                id="card-icon-test-1"
+                icon-start="check"
+              ></calcite-button>
+              <div slot="footer-end">
+                <calcite-button type="button" scale="s" kind="brand" id="card-icon-test-2" icon-start="stairs">
+                </calcite-button>
+                <calcite-button type="button" scale="s" kind="brand" id="card-icon-test-3" icon-start="ellipsis">
+                </calcite-button>
+                <calcite-dropdown type="hover">
+                  <calcite-button id="card-icon-test-4" slot="trigger" scale="s" kind="brand" icon-start="caret-down">
+                  </calcite-button>
+                  <calcite-dropdown-group selection-mode="none">
+                    <calcite-dropdown-item>View details</calcite-dropdown-item>
+                    <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+                    <calcite-dropdown-item>Delete</calcite-dropdown-item>
+                  </calcite-dropdown-group>
+                </calcite-dropdown>
+              </div>
+            </calcite-card>
+          </calcite-card-group>
+        </div>
+
+        <div class="child">thumbnail-position="inline-end"</div>
+        <div class="child">
           <calcite-card thumbnail-position="inline-end">
-            <img slot="thumbnail" alt="Sample image alt" src="https://placem.at/places?w=260&h=160&txt=0" />
-            <h3 slot="title">Portland Businesses</h3>
-            <span slot="subtitle"
+            <img slot="thumbnail" alt="Sample image alt" src="https://placebear.com/250/150" />
+            <h3 slot="heading">Portland Businesses</h3>
+            <span slot="description"
               >by
               <calcite-link href="">example_user</calcite-link>
             </span>
@@ -399,6 +887,37 @@
           </calcite-card>
         </div>
       </div>
+      <script>
+        const cardGroups = document.querySelectorAll("calcite-card-group");
+        const gapInput = document.getElementById("gap-input");
+
+        const controlSelectionMode = document.getElementById("control-selection-mode");
+
+        gapInput.addEventListener("calciteInputInput", function () {
+          cardGroups.forEach((card) => {
+            card.style.setProperty("--calcite-card-group-gap", event.target.value);
+          });
+        });
+
+        controlSelectionMode.addEventListener("calciteSegmentedControlChange", function () {
+          cardGroups.forEach((card) => {
+            card.selectionMode = event.target.value;
+          });
+        });
+
+        document.querySelectorAll("calcite-card-group").forEach((item) => {
+          item.addEventListener("calciteCardGroupSelect", (event) => {
+            console.log(event.target.selectedItems);
+          });
+        });
+
+        document.querySelectorAll("calcite-card[selectable]").forEach((item) => {
+          item.addEventListener("calciteCardSelect", (event) => {
+            console.log("deprecated `selectable` event behavior fired");
+            console.log(event.target);
+          });
+        });
+      </script>
     </demo-dom-swapper>
   </body>
 </html>

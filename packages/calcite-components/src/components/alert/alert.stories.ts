@@ -42,7 +42,7 @@ export const titleMessage = (): string => html`
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-      "bottom"
+      "bottom",
     )}"
     ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -63,7 +63,7 @@ export const messageLink = (): string => html`
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-      "bottom"
+      "bottom",
     )}"
     ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -84,7 +84,7 @@ export const message = (): string => html`
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-      "bottom"
+      "bottom",
     )}"
     ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -102,7 +102,7 @@ export const customIcon = (): string => html`
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-      "bottom"
+      "bottom",
     )}"
     ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -168,7 +168,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-      "bottom"
+      "bottom",
     )}"
     ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"

@@ -58,16 +58,19 @@ export const run = async ({
   // We generate the tiered token files via the normal StyleDictionary output. Any additional compiled files are handled by the expandFiles.
   const expandFiles = output.expandFiles || undefined;
 
-  const platforms = output.platforms.reduce((acc, platform) => {
-    const platformConfig: PlatformOptions = {
-      options: { ...options, expandFiles, platforms: output.platforms },
-      transforms: transformations[platform],
-      buildPath: `${output.dir}/${platform}/`,
-      files: files(platform, name),
-    };
-    acc[platform] = platformConfig;
-    return acc;
-  }, {} as Partial<Record<PlatformUnion, PlatformOptions>>);
+  const platforms = output.platforms.reduce(
+    (acc, platform) => {
+      const platformConfig: PlatformOptions = {
+        options: { ...options, expandFiles, platforms: output.platforms },
+        transforms: transformations[platform],
+        buildPath: `${output.dir}/${platform}/`,
+        files: files(platform, name),
+      };
+      acc[platform] = platformConfig;
+      return acc;
+    },
+    {} as Partial<Record<PlatformUnion, PlatformOptions>>,
+  );
 
   const config = {
     source,

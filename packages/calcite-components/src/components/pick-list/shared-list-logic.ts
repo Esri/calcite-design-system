@@ -117,7 +117,7 @@ export function calciteListFocusOutHandler<T extends Lists>(this: List<T>, event
   filterOutDisabled(items).forEach((item) => {
     toggleSingleSelectItemTabbing(
       item,
-      selectedValues.size === 0 ? item.contains(event.target as HTMLElement) || event.target === item : item.selected
+      selectedValues.size === 0 ? item.contains(event.target as HTMLElement) || event.target === item : item.selected,
     );
   });
 }
@@ -143,7 +143,7 @@ export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEv
   const item = items[index];
 
   items.forEach((i: HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement) =>
-    toggleSingleSelectItemTabbing(i, i === item)
+    toggleSingleSelectItemTabbing(i, i === item),
   );
 
   if (!multiple && selectionFollowsFocus) {
@@ -156,7 +156,7 @@ export function keyDownHandler<T extends Lists>(this: List<T>, event: KeyboardEv
 export function moveItemIndex<T extends Lists>(
   list: List<T>,
   item: ListItemElement<T>,
-  direction: "up" | "down"
+  direction: "up" | "down",
 ): number {
   const { items } = list;
   const { length: totalItems } = items;
@@ -254,7 +254,7 @@ export async function setFocus<T extends Lists>(this: List<T>, focusId: ListFocu
 
 export function setUpItems<T extends Lists>(
   this: List<T>,
-  tagName: T extends PickList ? "calcite-pick-list-item" : "calcite-value-list-item"
+  tagName: T extends PickList ? "calcite-pick-list-item" : "calcite-value-list-item",
 ): void {
   (this.items as ListItemElement<T>[]) = Array.from(this.el.querySelectorAll<ListItemElement<T>>(tagName));
   let hasSelected = false;
@@ -377,7 +377,7 @@ export function handleFilter<T extends Lists>(this: List<T>, emit = false): void
 
       if (matchedItems.includes(parentItem)) {
         Array.from(group.children as HTMLCollectionOf<HTMLCalcitePickListElement>).forEach(
-          (child) => (child.hidden = false)
+          (child) => (child.hidden = false),
         );
       }
     }

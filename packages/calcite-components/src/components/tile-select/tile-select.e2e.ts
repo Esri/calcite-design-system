@@ -45,7 +45,7 @@ describe("calcite-tile-select", () => {
       "calcite-tile-select",
 
       /* focusing on child since tile appends to light DOM */
-      { focusTarget: "child" }
+      { focusTarget: "child" },
     );
   });
 
@@ -70,7 +70,7 @@ describe("calcite-tile-select", () => {
   it("renders a calcite-checkbox when in checkbox mode", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      "<calcite-tile-select name='checkbox-tile-select' heading='test' value='one' type='checkbox'></calcite-tile-select>"
+      "<calcite-tile-select name='checkbox-tile-select' heading='test' value='one' type='checkbox'></calcite-tile-select>",
     );
 
     const calciteRadio = await page.find("calcite-radio-button");

@@ -96,7 +96,7 @@ export const positionFloatingUI =
       offsetSkidding?: number;
       arrowEl?: SVGElement;
       type: UIType;
-    }
+    },
   ): Promise<void> => {
     if (!referenceEl || !floatingEl) {
       return null;
@@ -157,8 +157,8 @@ export const positionFloatingUI =
       pointerEvents,
       position,
       transform: open ? `translate(${roundByDPR(x)}px,${roundByDPR(y)}px)` : "",
-      left: open ? "0" : "",
-      top: open ? "0" : "",
+      top: 0,
+      left: 0,
     });
   };
 
@@ -354,7 +354,7 @@ function getMiddleware({
 
     if (placement === "auto" || placement === "auto-start" || placement === "auto-end") {
       middleware.push(
-        autoPlacement({ alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null })
+        autoPlacement({ alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null }),
       );
     } else if (!flipDisabled) {
       middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements } : {}));
@@ -364,7 +364,7 @@ function getMiddleware({
       middleware.push(
         arrow({
           element: arrowEl,
-        })
+        }),
       );
     }
 
@@ -376,7 +376,7 @@ function getMiddleware({
 
 export function filterComputedPlacements(placements: string[], el: HTMLElement): EffectivePlacement[] {
   const filteredPlacements = placements.filter((placement: EffectivePlacement) =>
-    effectivePlacements.includes(placement)
+    effectivePlacements.includes(placement),
   ) as EffectivePlacement[];
 
   if (filteredPlacements.length !== placements.length) {
@@ -385,7 +385,7 @@ export function filterComputedPlacements(placements: string[], el: HTMLElement):
         .map((placement) => `"${placement}"`)
         .join(", ")
         .trim()}`,
-      { el }
+      { el },
     );
   }
 
@@ -425,8 +425,12 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
 export async function reposition(
   component: FloatingUIComponent,
   options: Parameters<typeof positionFloatingUI>[1],
-  delayed = false
+  delayed = false,
 ): Promise<void> {
+  if (!component.open) {
+    return;
+  }
+
   const positionFunction = delayed ? getDebouncedReposition(component) : positionFloatingUI;
 
   return positionFunction(component, options);
@@ -475,7 +479,7 @@ const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, Debou
 export function connectFloatingUI(
   component: FloatingUIComponent,
   referenceEl: ReferenceElement,
-  floatingEl: HTMLElement
+  floatingEl: HTMLElement,
 ): void {
   if (!floatingEl || !referenceEl) {
     return;
@@ -489,8 +493,6 @@ export function connectFloatingUI(
 
     // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
     position: component.overlayPositioning,
-    top: "0",
-    left: "0",
   });
 
   const runAutoUpdate = Build.isBrowser
@@ -504,7 +506,7 @@ export function connectFloatingUI(
 
   cleanupMap.set(
     component,
-    runAutoUpdate(referenceEl, floatingEl, () => component.reposition())
+    runAutoUpdate(referenceEl, floatingEl, () => component.reposition()),
   );
 }
 
@@ -518,7 +520,7 @@ export function connectFloatingUI(
 export function disconnectFloatingUI(
   component: FloatingUIComponent,
   referenceEl: ReferenceElement,
-  floatingEl: HTMLElement
+  floatingEl: HTMLElement,
 ): void {
   if (!floatingEl || !referenceEl) {
     return;

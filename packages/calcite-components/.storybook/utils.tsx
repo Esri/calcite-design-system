@@ -112,7 +112,7 @@ interface DeferredAttribute {
 export const createComponentHTML = (
   tagName: string,
   attributes: Attributes,
-  contentHTML: string = ""
+  contentHTML: string = "",
 ): string =>
   `<${tagName} ${attributes
     .map(({ name, value }) => {
@@ -133,7 +133,7 @@ export const globalDocsPage: typeof DocsPage = () => (
 
 export const filterComponentAttributes = (
   attributesList: DeferredAttribute[],
-  exceptions: string[]
+  exceptions: string[],
 ): Attributes => {
   if (!exceptions.length) {
     return attributesList.map((attr) => attr.commit());
@@ -146,13 +146,13 @@ export const filterComponentAttributes = (
 /**
  * This helper creates a story that captures all breakpoints across all scales for testing.
  *
- * @param singleStoryHtml – HTML story template with placeholders for `scale` attributes (e.g., `{scale}`).
+ * @param singleStoryHtml – HTML story template with placeholders for `scale` attributes (e.g., `{scale}`). You can additionally use `.breakpoint-stories-container` and `.breakpoint-story-container` to style breakpoint story containers.
  * @param [focused] – when specified, creates a single story for the provided breakpoint and scale.
  *   This should only be used if multiple stories cannot be displayed side-by-side.
  */
 export function createBreakpointStories(
   singleStoryHtml: string,
-  focused?: { breakpoint: keyof Breakpoints["width"]; scale: Scale }
+  focused?: { breakpoint: keyof Breakpoints["width"]; scale: Scale },
 ): string {
   // we hard-code breakpoint values because we can't read them directly from the page when setting up a story
   // based on https://github.com/Esri/calcite-design-tokens/blob/2e8fc1b8f410b5443fa53ca1c12ceef71e651b9a/tokens/core.json#L1533-L1553
@@ -183,7 +183,7 @@ export function createBreakpointStories(
           storyHTML += html`<strong>breakpoint = ${name}</strong>`;
           storyHTML += html`<div class="${css.storyContainer}" style="width:${maxWidth - 1}px">
             ${singleStoryHtml.replace(placeholderPattern, (_match, placeholder: string) =>
-              placeholder === "scale" ? scale : placeholder
+              placeholder === "scale" ? scale : placeholder,
             )}
           </div>`;
         });

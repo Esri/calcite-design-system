@@ -43,6 +43,10 @@ export class ActionMenu implements LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.connectMenuButtonEl();
+  }
+
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
@@ -127,7 +131,7 @@ export class ActionMenu implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the `open` property is toggled.
+   * Fires when the `open` property is toggled.
    *
    */
   @Event({ cancelable: false }) calciteActionMenuOpen: EventEmitter<void>;
@@ -294,6 +298,7 @@ export class ActionMenu implements LoadableComponent {
         label={label}
         offsetDistance={0}
         onCalcitePopoverClose={this.handlePopoverClose}
+        onCalcitePopoverOpen={this.handlePopoverOpen}
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
@@ -396,13 +401,13 @@ export class ActionMenu implements LoadableComponent {
 
           if (currentValue?.matches("calcite-action-group")) {
             return previousValue.concat(
-              Array.from(currentValue.querySelectorAll("calcite-action"))
+              Array.from(currentValue.querySelectorAll("calcite-action")),
             );
           }
 
           return previousValue;
         },
-        []
+        [],
       );
 
     this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
@@ -449,7 +454,7 @@ export class ActionMenu implements LoadableComponent {
   handleActionNavigation = (
     event: KeyboardEvent,
     key: string,
-    actions: HTMLCalciteActionElement[]
+    actions: HTMLCalciteActionElement[],
   ): void => {
     if (!this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
       return;
@@ -498,6 +503,10 @@ export class ActionMenu implements LoadableComponent {
   toggleOpen = (value = !this.open): void => {
     this.el.addEventListener("calcitePopoverOpen", this.toggleOpenEnd);
     this.open = value;
+  };
+
+  private handlePopoverOpen = (): void => {
+    this.open = true;
   };
 
   private handlePopoverClose = (): void => {

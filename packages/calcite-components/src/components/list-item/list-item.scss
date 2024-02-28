@@ -4,6 +4,10 @@
   --calcite-list-item-spacing-indent: theme("spacing.4");
 }
 
+:host([filter-hidden]) {
+  @apply hidden;
+}
+
 @include disabled();
 
 .container {
@@ -19,7 +23,7 @@
   );
 }
 
-.container:hover {
+.container--hover:hover {
   @apply bg-foreground-2 cursor-pointer;
 }
 
@@ -27,12 +31,23 @@
   @apply bg-foreground-1;
 }
 
+.container--border {
+  border-inline-start-width: theme("borderWidth.4");
+  border-inline-start-style: solid;
+}
+
 .container--border-selected {
-  border-inline-start: theme("borderWidth.4") solid theme("colors.brand");
+  border-inline-start-color: theme("colors.brand");
 }
 
 .container--border-unselected {
-  border-inline-start: theme("borderWidth.4") solid transparent;
+  border-inline-start-color: transparent;
+}
+
+.container:hover {
+  &.container--border-unselected {
+    @apply border-color-1;
+  }
 }
 
 .nested-container {
@@ -78,24 +93,16 @@ td:focus {
   @apply text-color-1;
 }
 
+:host([selected]) .label {
+  @apply font-medium;
+}
+
 .description {
   @apply text-color-3 mt-0.5;
 }
 
-.content-bottom {
-  @apply bg-foreground-1 flex flex-col;
-  padding-inline-start: calc(
-    var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
-  );
-}
-
-.label,
-.description,
-.content-bottom {
-  @apply text-n2 word-break font-normal;
-  &:only-child {
-    @apply m-0 py-1;
-  }
+:host([selected]) .description {
+  @apply text-color-2;
 }
 
 .content-start {
@@ -122,7 +129,29 @@ td:focus {
 
 .selection-container {
   @apply flex px-3;
+  color: theme("borderColor.color.input");
+}
+
+.selection-container--single {
+  color: transparent;
+}
+
+:host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
+  color: theme("borderColor.color.1");
+}
+
+:host([selected]:hover) .selection-container,
+:host([selected]:hover) .selection-container--single,
+:host([selected]) .selection-container {
   color: var(--calcite-list-item-icon-color);
+}
+
+.open-container {
+  color: theme("textColor.color.3");
+}
+
+:host(:not([disabled])) .container:hover .open-container {
+  color: theme("textColor.color.1");
 }
 
 .actions-start,
@@ -152,7 +181,8 @@ td:focus {
   }
 }
 
-::slotted(calcite-list-item) {
+::slotted(calcite-list-item),
+::slotted(calcite-list) {
   @apply border-solid border-0 border-t border-color-3;
 }
 

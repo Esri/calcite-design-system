@@ -29,7 +29,7 @@ describe("calcite-tile-select-group", () => {
         <calcite-tile-select heading="Dos" type="radio" value="two"></calcite-tile-select>
         <calcite-tile-select heading="Tres" type="radio" value="three"></calcite-tile-select>
       </calcite-tile-select-group>`,
-      { focusTarget: "child" }
+      { focusTarget: "child" },
     );
   });
 });

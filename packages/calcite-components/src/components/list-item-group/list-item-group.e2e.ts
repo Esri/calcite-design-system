@@ -27,6 +27,10 @@ describe("calcite-list-item-group", () => {
         propertyName: "disabled",
         defaultValue: false,
       },
+      {
+        propertyName: "filterHidden",
+        defaultValue: false,
+      },
     ]);
   });
 });

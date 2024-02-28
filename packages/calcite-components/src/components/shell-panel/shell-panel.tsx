@@ -61,7 +61,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   /**
    * When `true`, the content area displays like a floating panel.
    *
-   * @deprecated use `displayMode` instead.
+   * @deprecated Use `displayMode` instead.
    */
   @Prop({ reflect: true }) detached = false;
 
@@ -75,8 +75,13 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   }
 
   /**
-   * Specifies the display mode - `"dock"` (full height, displays adjacent to center content), `"float"` (not full height, content is separated detached from `calcite-action-bar`, displays on top of center content),
-   * or `"overlay"` (full height, displays on top of center content).
+   * Specifies the display mode of the component, where:
+   *
+   * `"dock"` displays at full height adjacent to center content,
+   *
+   * `"overlay"` displays at full height on top of center content, and
+   *
+   * `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
    */
   @Prop({ reflect: true }) displayMode: DisplayMode = "dock";
 
@@ -88,7 +93,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   /**
    * When `displayMode` is `float`, specifies the maximum height of the component.
    *
-   * @deprecated use `heightScale` instead.
+   * @deprecated Use `heightScale` instead.
    */
   @Prop({ reflect: true }) detachedHeightScale: Scale;
 
@@ -283,8 +288,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           ? { height: `${contentHeight}px` }
           : null
         : contentWidth
-        ? { width: `${contentWidth}px` }
-        : null
+          ? { width: `${contentWidth}px` }
+          : null
       : null;
 
     const separatorNode =
@@ -591,8 +596,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           ? -adjustmentDirection * offset
           : adjustmentDirection * offset
         : position === "end"
-        ? -adjustmentDirection * offset
-        : adjustmentDirection * offset;
+          ? -adjustmentDirection * offset
+          : adjustmentDirection * offset;
 
     layout === "horizontal"
       ? this.setContentHeight(initialContentHeight + adjustedOffset)
@@ -658,8 +663,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-bar")
+    const actionBars = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.matches("calcite-action-bar"),
     ) as HTMLCalciteActionBarElement[];
 
     this.actionBars = actionBars;

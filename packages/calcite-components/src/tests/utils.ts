@@ -48,7 +48,7 @@ type MouseInitEvent = Pick<
 export async function dragAndDrop(
   page: E2EPage,
   dragStartSelector: DragAndDropSelector,
-  dragEndSelector: DragAndDropSelector
+  dragEndSelector: DragAndDropSelector,
 ): Promise<void> {
   async function getBounds(selector: DragAndDropSelector): Promise<BoundingBox> {
     const elementHandle =
@@ -93,7 +93,7 @@ export async function dragAndDrop(
     dragStartSelector: DragAndDropSelector,
     dragEndSelector: DragAndDropSelector,
     dragStartInitializer: MouseInitEvent,
-    dragEndInitializer: MouseInitEvent
+    dragEndInitializer: MouseInitEvent,
   ): Promise<void> {
     function getElement(selector: DragAndDropSelector): Element {
       if (typeof selector === "string") {
@@ -125,7 +125,7 @@ export async function dragAndDrop(
     dragStartSelector,
     dragEndSelector,
     await createEventInitializer(dragStartSelector),
-    await createEventInitializer(dragEndSelector)
+    await createEventInitializer(dragEndSelector),
   );
 }
 
@@ -150,7 +150,7 @@ export function selectText(input: E2EElement): Promise<void> {
 export async function getElementXY(
   page: E2EPage,
   elementSelector: string,
-  shadowSelector?: string
+  shadowSelector?: string,
 ): Promise<[number, number]> {
   return page.evaluate(
     ([elementSelector, shadowSelector]): [number, number] => {
@@ -160,7 +160,7 @@ export async function getElementXY(
 
       return [x, y];
     },
-    [elementSelector, shadowSelector]
+    [elementSelector, shadowSelector],
   );
 }
 
@@ -175,7 +175,7 @@ export async function getElementXY(
 export async function getElementRect(
   page: E2EPage,
   elementSelector: string,
-  shadowSelector?: string
+  shadowSelector?: string,
 ): Promise<DOMRect> {
   return page.evaluate(
     ([elementSelector, shadowSelector]): DOMRect => {
@@ -183,7 +183,7 @@ export async function getElementRect(
       const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
       return measureTarget.getBoundingClientRect().toJSON();
     },
-    [elementSelector, shadowSelector]
+    [elementSelector, shadowSelector],
   );
 }
 
@@ -254,7 +254,7 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
         box.style.top = event.pageY + "px";
         updateButtons(event.buttons);
       },
-      true
+      true,
     );
 
     document.addEventListener(
@@ -263,7 +263,7 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
         updateButtons(event.buttons);
         box.classList.add("button-" + event.which);
       },
-      true
+      true,
     );
 
     document.addEventListener(
@@ -272,7 +272,7 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
         updateButtons(event.buttons);
         box.classList.remove("button-" + event.which);
       },
-      true
+      true,
     );
 
     function updateButtons(buttons: number): void {
@@ -346,7 +346,7 @@ interface MatchesFocusedElementOptions {
 export async function isElementFocused(
   page: E2EPage,
   selector: string,
-  options?: MatchesFocusedElementOptions
+  options?: MatchesFocusedElementOptions,
 ): Promise<boolean> {
   const shadowed = options?.shadowed;
 
@@ -357,7 +357,7 @@ export async function isElementFocused(
       return !!targetDoc?.activeElement?.matches(selector);
     },
     selector,
-    shadowed
+    shadowed,
   );
 }
 
@@ -378,7 +378,7 @@ type GetFocusedElementProp = {
 export async function getFocusedElementProp(
   page: E2EPage,
   prop: keyof HTMLElement,
-  options?: GetFocusedElementProp
+  options?: GetFocusedElementProp,
 ): Promise<ReturnType<E2EPage["evaluate"]>> {
   return await page.evaluate(
     (by: string, shadow: boolean) => {
@@ -388,7 +388,7 @@ export async function getFocusedElementProp(
       return target?.[by];
     },
     prop,
-    options?.shadow
+    options?.shadow,
   );
 }
 

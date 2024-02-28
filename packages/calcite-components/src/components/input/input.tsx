@@ -24,12 +24,14 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  internalHiddenInputInputEvent,
   submitForm,
 } from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
@@ -68,6 +70,8 @@ import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
+import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
@@ -85,7 +89,9 @@ export class Input
     InteractiveComponent,
     T9nComponent,
     LocalizedComponent,
-    LoadableComponent
+    LoadableComponent,
+    NumericInputComponent,
+    TextualInputComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -121,24 +127,16 @@ export class Input
   }
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
-
-  /**
-   * When `true`, the component will not be visible.
-   *
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) hidden = false;
 
   /**
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
@@ -206,6 +204,12 @@ export class Input
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
   @Prop({ reflect: true }) minLength: number;
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -365,6 +369,12 @@ export class Input
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
+      if (this.type === "number" && (newValue === "Infinity" || newValue === "-Infinity")) {
+        this.displayedValue = newValue;
+        this.previousEmittedValue = newValue;
+        return;
+      }
+
       this.setValue({
         origin: "direct",
         previousValue,
@@ -372,10 +382,10 @@ export class Input
           newValue == null || newValue == ""
             ? ""
             : this.type === "number"
-            ? isValidNumber(newValue)
-              ? newValue
-              : this.previousValue || ""
-            : newValue,
+              ? isValidNumber(newValue)
+                ? newValue
+                : this.previousValue || ""
+              : newValue,
       });
       this.warnAboutInvalidNumberValue(newValue);
     }
@@ -455,7 +465,7 @@ export class Input
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() localizedValue: string;
+  @State() displayedValue: string;
 
   @State() slottedActionElDisabledInternally = false;
 
@@ -481,17 +491,22 @@ export class Input
     this.setPreviousValue(this.value);
 
     if (this.type === "number") {
-      this.warnAboutInvalidNumberValue(this.value);
-      this.setValue({
-        origin: "connected",
-        value: isValidNumber(this.value) ? this.value : "",
-      });
+      if (this.value === "Infinity" || this.value === "-Infinity") {
+        this.displayedValue = this.value;
+        this.previousEmittedValue = this.value;
+      } else {
+        this.warnAboutInvalidNumberValue(this.value);
+        this.setValue({
+          origin: "connected",
+          value: isValidNumber(this.value) ? this.value : "",
+        });
+      }
     }
 
     this.mutationObserver?.observe(this.el, { childList: true });
 
     this.setDisabledAction();
-    this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   disconnectedCallback(): void {
@@ -502,7 +517,7 @@ export class Input
     disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
-    this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
+    this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -616,9 +631,14 @@ export class Input
     direction: NumberNudgeDirection,
     inputMax: number | null,
     inputMin: number | null,
-    nativeEvent: KeyboardEvent | MouseEvent
+    nativeEvent: KeyboardEvent | MouseEvent,
   ): void {
     const { value } = this;
+
+    if (value === "Infinity" || value === "-Infinity") {
+      return;
+    }
+
     const adjustment = direction === "up" ? 1 : -1;
     const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
     const inputVal = new BigDecimal(value !== "" ? value : "0");
@@ -637,8 +657,8 @@ export class Input
     const finalValue = nudgedValueBelowInputMin()
       ? `${inputMin}`
       : nudgedValueAboveInputMax()
-      ? `${inputMax}`
-      : nudgedValue.toString();
+        ? `${inputMax}`
+        : nudgedValue.toString();
 
     this.setValue({
       committing: true,
@@ -715,6 +735,11 @@ export class Input
     if (this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      return;
+    }
+
     const value = (nativeEvent.target as HTMLInputElement).value;
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
@@ -731,7 +756,7 @@ export class Input
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberEl.value = this.localizedValue;
+      this.childNumberEl.value = this.displayedValue;
     } else {
       this.setValue({
         nativeEvent,
@@ -745,6 +770,15 @@ export class Input
     if (this.type !== "number" || this.disabled || this.readOnly) {
       return;
     }
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      event.preventDefault();
+      if (event.key === "Backspace" || event.key === "Delete") {
+        this.clearInputValue(event);
+      }
+      return;
+    }
+
     if (event.key === "ArrowUp") {
       /* prevent default behavior of moving cursor to the beginning of the input when holding down ArrowUp */
       event.preventDefault();
@@ -810,7 +844,7 @@ export class Input
 
   private nudgeNumberValue = (
     direction: NumberNudgeDirection,
-    nativeEvent: KeyboardEvent | MouseEvent
+    nativeEvent: KeyboardEvent | MouseEvent,
   ): void => {
     if ((nativeEvent instanceof KeyboardEvent && nativeEvent.repeat) || this.type !== "number") {
       return;
@@ -852,39 +886,18 @@ export class Input
     }
   };
 
-  onFormReset(): void {
-    this.setValue({
-      origin: "reset",
-      value: this.defaultValue,
-    });
-  }
-
   syncHiddenFormInput(input: HTMLInputElement): void {
-    const { type } = this;
-
-    input.type = type;
-
-    if (type === "number") {
-      input.min = this.min?.toString(10) ?? "";
-      input.max = this.max?.toString(10) ?? "";
-    } else if (type === "text") {
-      if (this.minLength != null) {
-        input.minLength = this.minLength;
-      }
-
-      if (this.maxLength != null) {
-        input.maxLength = this.maxLength;
-      }
-    }
+    syncHiddenFormInput(this.type, this, input);
   }
 
-  hiddenInputChangeHandler = (event: Event): void => {
+  private onHiddenFormInputInput = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
       this.setValue({
         value: (event.target as HTMLInputElement).value,
         origin: "direct",
       });
     }
+    this.setFocus();
     event.stopPropagation();
   };
 
@@ -979,12 +992,12 @@ export class Input
         newLocalizedValue = addLocalizedTrailingDecimalZeros(
           newLocalizedValue,
           newValue,
-          numberStringFormatter
+          numberStringFormatter,
         );
       }
 
       // adds localized trailing decimal separator
-      this.localizedValue =
+      this.displayedValue =
         hasTrailingDecimalSeparator && isValueDeleted
           ? `${newLocalizedValue}${numberStringFormatter.decimal}`
           : newLocalizedValue;
@@ -1007,7 +1020,7 @@ export class Input
       const calciteInputInputEvent = this.calciteInputInput.emit();
       if (calciteInputInputEvent.defaultPrevented) {
         this.value = this.previousValue;
-        this.localizedValue =
+        this.displayedValue =
           this.type === "number"
             ? numberStringFormatter.localize(this.previousValue)
             : this.previousValue;
@@ -1138,7 +1151,7 @@ export class Input
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
           type="text"
-          value={this.localizedValue}
+          value={this.displayedValue}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setChildNumberElRef}
         />
@@ -1195,30 +1208,40 @@ export class Input
 
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
-        <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
-          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalDown
-            : null}
-          {this.prefixText ? prefixText : null}
-          <div class={CSS.wrapper}>
-            {localeNumberInput}
-            {childEl}
-            {this.isClearable ? inputClearButton : null}
-            {this.requestedIcon ? iconEl : null}
-            {this.loading ? loader : null}
+        <InteractiveContainer disabled={this.disabled}>
+          <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+            {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalDown
+              : null}
+            {this.prefixText ? prefixText : null}
+            <div class={CSS.wrapper}>
+              {localeNumberInput}
+              {childEl}
+              {this.isClearable ? inputClearButton : null}
+              {this.requestedIcon ? iconEl : null}
+              {this.loading ? loader : null}
+            </div>
+            <div class={CSS.actionWrapper}>
+              <slot name={SLOTS.action} />
+            </div>
+            {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly
+              ? numberButtonsVertical
+              : null}
+            {this.suffixText ? suffixText : null}
+            {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalUp
+              : null}
+            <HiddenFormInputSlot component={this} />
           </div>
-          <div class={CSS.actionWrapper}>
-            <slot name={SLOTS.action} />
-          </div>
-          {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly
-            ? numberButtonsVertical
-            : null}
-          {this.suffixText ? suffixText : null}
-          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalUp
-            : null}
-          <HiddenFormInputSlot component={this} />
-        </div>
+          {this.validationMessage && this.status === "invalid" ? (
+            <Validation
+              icon={this.validationIcon}
+              message={this.validationMessage}
+              scale={this.scale}
+              status={this.status}
+            />
+          ) : null}
+        </InteractiveContainer>
       </Host>
     );
   }

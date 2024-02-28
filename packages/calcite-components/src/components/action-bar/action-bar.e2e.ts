@@ -1,6 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, focusable, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  delegatesToFloatingUiOwningComponent,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+} from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
 import { getFocusedElementProp } from "../../tests/utils";
@@ -32,6 +42,10 @@ describe("calcite-action-bar", () => {
         propertyName: "layout",
         defaultValue: "vertical",
       },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
     ]);
   });
 
@@ -45,7 +59,20 @@ describe("calcite-action-bar", () => {
         propertyName: "expanded",
         value: true,
       },
+      {
+        propertyName: "overlayPositioning",
+        value: "fixed",
+      },
     ]);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      html`<calcite-action-bar>
+        <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
+      </calcite-action-bar>`,
+      "calcite-action-group",
+    );
   });
 
   describe("expand functionality", () => {
@@ -176,11 +203,13 @@ describe("calcite-action-bar", () => {
     it("should modify textEnabled on actions when expanded and expandDisabled", async () => {
       const page = await newE2EPage();
 
-      await page.setContent(html`<calcite-action-bar expand-disabled expanded>
-        <calcite-action-group>
-          <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
-        </calcite-action-group>
-      </calcite-action-bar>`);
+      await page.setContent(
+        html`<calcite-action-bar expand-disabled expanded>
+          <calcite-action-group>
+            <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>`,
+      );
 
       const expandAction = await page.find("calcite-action-bar >>> calcite-action");
       const action = await page.find("calcite-action");
@@ -198,7 +227,7 @@ describe("calcite-action-bar", () => {
       const page = await newE2EPage();
 
       await page.setContent(
-        `<calcite-action-bar expanded><calcite-action text="hello"></calcite-action></calcite-action-bar>`
+        `<calcite-action-bar expanded><calcite-action text="hello"></calcite-action></calcite-action-bar>`,
       );
 
       await page.evaluate(() => {
@@ -248,14 +277,16 @@ describe("calcite-action-bar", () => {
       `,
       {
         focusTargetSelector: "calcite-action",
-      }
+      },
     );
 
     it("should not focus any action element when clicked on non-focusable region", async () => {
       const page = await newE2EPage();
-      await page.setContent(html` <calcite-action-bar layout="horizontal" style="width: 100%">
-        <calcite-action-group> <calcite-action text="Add" icon="plus"> </calcite-action> </calcite-action-group
-      ></calcite-action-bar>`);
+      await page.setContent(
+        html` <calcite-action-bar layout="horizontal" style="width: 100%">
+          <calcite-action-group> <calcite-action text="Add" icon="plus"> </calcite-action> </calcite-action-group
+        ></calcite-action-bar>`,
+      );
 
       const actionBarElRect = await page.evaluate(() => {
         const actionBarEl = document.querySelector("calcite-action-bar");
@@ -273,23 +304,25 @@ describe("calcite-action-bar", () => {
 
   it("should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-action-bar>
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-      </calcite-action-group>
-      <calcite-action-group menu-open>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-bar>`);
+    await page.setContent(
+      html`<calcite-action-bar>
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+          <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group menu-open>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+          <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>`,
+    );
 
     const groups = await page.findAll("calcite-action-group");
 
@@ -358,7 +391,7 @@ describe("calcite-action-bar", () => {
           <calcite-action text="Configure pop-ups" icon="popup"></calcite-action>
           <calcite-action text="Configure attributes" icon="feature-details"></calcite-action>
           <calcite-action text="Labels" icon="label" active></calcite-action>
-          <calcite-action text="Table" icon="table"></calcite-action>`
+          <calcite-action text="Table" icon="table"></calcite-action>`,
         );
       });
       await page.waitForTimeout(overflowActionsDebounceInMs + 10);
@@ -370,25 +403,27 @@ describe("calcite-action-bar", () => {
 
     it("should slot 'menu-actions' on sublist changes after being enabled", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<div style="width:500px; height:500px;">
-        <calcite-action-bar style="height: 290px" overflow-actions-disabled>
-          <calcite-action-group id="dynamic-group"
-            ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
-            <calcite-action text="Styles" icon="shapes"></calcite-action>
-            <calcite-action text="Styles" icon="shapes"></calcite-action>
-            <calcite-action text="Filter" icon="layer-filter"></calcite-action>
-            <calcite-action text="Configure pop-ups" icon="popup"></calcite-action>
-            <calcite-action text="Configure attributes" icon="feature-details"></calcite-action>
-            <calcite-action text="Labels" icon="label" active></calcite-action>
-            <calcite-action text="Table" icon="table"></calcite-action
-          ></calcite-action-group>
-          <calcite-action-group>
-            <calcite-action text="Save" icon="save" disabled></calcite-action>
-            <calcite-action icon="layers" text="Layers"></calcite-action>
-          </calcite-action-group>
-          <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
-        </calcite-action-bar>
-      </div>`);
+      await page.setContent(
+        html`<div style="width:500px; height:500px;">
+          <calcite-action-bar style="height: 290px" overflow-actions-disabled>
+            <calcite-action-group id="dynamic-group"
+              ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
+              <calcite-action text="Styles" icon="shapes"></calcite-action>
+              <calcite-action text="Styles" icon="shapes"></calcite-action>
+              <calcite-action text="Filter" icon="layer-filter"></calcite-action>
+              <calcite-action text="Configure pop-ups" icon="popup"></calcite-action>
+              <calcite-action text="Configure attributes" icon="feature-details"></calcite-action>
+              <calcite-action text="Labels" icon="label" active></calcite-action>
+              <calcite-action text="Table" icon="table"></calcite-action
+            ></calcite-action-group>
+            <calcite-action-group>
+              <calcite-action text="Save" icon="save" disabled></calcite-action>
+              <calcite-action icon="layers" text="Layers"></calcite-action>
+            </calcite-action-group>
+            <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
+          </calcite-action-bar>
+        </div>`,
+      );
       await page.waitForChanges();
       await page.waitForTimeout(overflowActionsDebounceInMs + 10);
 
@@ -450,9 +485,11 @@ describe("calcite-action-bar", () => {
   it("should set layout on child action-groups", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(html`<calcite-action-bar layout="horizontal">
-      <calcite-action-group></calcite-action-group>
-    </calcite-action-bar>`);
+    await page.setContent(
+      html`<calcite-action-bar layout="horizontal">
+        <calcite-action-group></calcite-action-group>
+      </calcite-action-bar>`,
+    );
     await page.waitForChanges();
 
     const group = await page.find("calcite-action-group");

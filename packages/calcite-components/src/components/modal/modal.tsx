@@ -52,7 +52,10 @@ import {
 } from "../../utils/t9n";
 import { ModalMessages } from "./assets/modal/t9n";
 
-import { getIconScale } from "../../utils/component";
+import { componentOnReady, getIconScale } from "../../utils/component";
+
+let totalOpenModals: number = 0;
+let initialDocumentOverflowStyle: string = "";
 
 /**
  * @slot header - A slot for adding header text.
@@ -130,10 +133,10 @@ export class Modal
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
-  /** Sets the component to always be fullscreen (overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`). */
+  /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
   @Prop({ reflect: true }) fullscreen: boolean;
 
-  /** Specifies the kind of the component (will apply to top border). */
+  /** Specifies the kind of the component, which will apply to top border. */
   @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
 
   /**
@@ -174,7 +177,7 @@ export class Modal
     setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
-      requestAnimationFrame(() => this.openModal());
+      this.openModal();
     }
   }
 
@@ -354,7 +357,7 @@ export class Modal
   initialOverflowCSS: string;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver()
+    this.handleMutationObserver(),
   );
 
   private cssVarObserver: MutationObserver = createObserver("mutation", () => {
@@ -512,12 +515,9 @@ export class Modal
 
   @Watch("opened")
   handleOpenedChange(value: boolean): void {
+    const idleClass = value ? CSS.openingIdle : CSS.closingIdle;
+    this.transitionEl.classList.add(idleClass);
     onToggleOpenCloseComponent(this);
-    if (value) {
-      this.transitionEl?.classList.add(CSS.openingIdle);
-    } else {
-      this.transitionEl?.classList.add(CSS.closingIdle);
-    }
   }
 
   private openEnd = (): void => {
@@ -529,7 +529,8 @@ export class Modal
     this.open = false;
   };
 
-  private openModal() {
+  private async openModal(): Promise<void> {
+    await componentOnReady(this.el);
     this.el.addEventListener("calciteModalOpen", this.openEnd);
     this.opened = true;
     const titleEl = getSlotted(this.el, SLOTS.header);
@@ -539,7 +540,11 @@ export class Modal
     this.contentId = ensureId(contentEl);
 
     if (!this.slottedInShell) {
-      this.initialOverflowCSS = document.documentElement.style.overflow;
+      if (totalOpenModals === 0) {
+        initialDocumentOverflowStyle = document.documentElement.style.overflow;
+      }
+
+      totalOpenModals++;
       // use an inline style instead of a utility class to avoid global class declarations.
       document.documentElement.style.setProperty("overflow", "hidden");
     }
@@ -568,12 +573,13 @@ export class Modal
       }
     }
 
+    totalOpenModals--;
     this.opened = false;
     this.removeOverflowHiddenClass();
   };
 
   private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", this.initialOverflowCSS);
+    document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
   }
 
   private handleMutationObserver = (): void => {

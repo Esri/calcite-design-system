@@ -9,6 +9,6 @@ export interface TableRowFocusEvent {
 
 export type RowType = "head" | "body" | "foot";
 
-export type TableAppearance = "bordered" | "simple" | "bordered-zebra" | "simple-zebra";
-
 export type TableLayout = "auto" | "fixed";
+
+export type TableInteractionMode = "interactive" | "static";
