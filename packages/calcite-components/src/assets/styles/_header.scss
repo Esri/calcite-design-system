@@ -1,4 +1,8 @@
-@mixin header($textColor, $fontWeight, $spacing) {
+@mixin header(
+  $textColor: "--calcite-color-text-2",
+  $fontWeight: "--calcite-font-weight-medium",
+  $spacing: "--calcite-spacing-xxs"
+) {
   /* Shared styles for header elements */
   .header {
     color: var(#{$textColor}, var(--calcite-color-text-2));

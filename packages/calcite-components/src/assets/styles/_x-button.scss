@@ -1,4 +1,11 @@
-@mixin xButton($textColor, $backgroundColor, $hoverTextColor, $hoverBackgroundColor, $activeBorderColor, $borderWidth) {
+@mixin xButton(
+  $textColor: "--calcite-color-text-3",
+  $backgroundColor: "--calcite-color-foreground-2",
+  $hoverTextColor: "--calcite-color-text-3",
+  $hoverBackgroundColor: "--calcite-color-foreground-3",
+  $activeBorderColor: "--calcite-color-brand",
+  $borderWidth: "--calcite-border-width-md"
+) {
   .x-button {
     appearance: none;
     align-content: center;
