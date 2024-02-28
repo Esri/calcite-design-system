@@ -135,36 +135,39 @@
       }
     }
   }
-  .prefix,
-  .suffix {
-    @apply box-border
-    flex
-    select-none
-    content-center
-    items-center
-    break-words
-    border-solid
-    font-medium
-    leading-none;
 
-    @include inputTextSpacing;
-    align-self: stretch;
-    block-size: auto;
-    min-block-size: var(--calcite-container-size-content-fluid);
-    border-width: var(--calcite-border-width-sm);
-    border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
-  }
-  .prefix {
-    @apply order-2;
-    color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
-    background-color: var(--calcite-input-prefix-background-color, var(--calcite-color-background));
-    border-inline-end-width: var(--calcite-border-width-none);
-  }
-  .suffix {
-    @apply order-5;
-    color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
-    background-color: var(--calcite-input-suffix-background-color, var(--calcite-color-background));
-    border-inline-start-width: var(--calcite-border-width-none);
+  @if not(type == "text") {
+    .prefix,
+    .suffix {
+      @apply box-border
+      flex
+      select-none
+      content-center
+      items-center
+      break-words
+      border-solid
+      font-medium
+      leading-none;
+
+      @include inputTextSpacing;
+      align-self: stretch;
+      block-size: auto;
+      min-block-size: var(--calcite-container-size-content-fluid);
+      border-width: var(--calcite-border-width-sm);
+      border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
+    }
+    .prefix {
+      @apply order-2;
+      color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
+      background-color: var(--calcite-input-prefix-background-color, var(--calcite-color-background));
+      border-inline-end-width: var(--calcite-border-width-none);
+    }
+    .suffix {
+      @apply order-5;
+      color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
+      background-color: var(--calcite-input-suffix-background-color, var(--calcite-color-background));
+      border-inline-start-width: var(--calcite-border-width-none);
+    }
   }
 
   @if ($type == "*") or ($type == "textarea") {
