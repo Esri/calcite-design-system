@@ -3,6 +3,9 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-panel-action-background-color: defines the background color of an action sub-component inside the component.
+ * @prop --calcite-panel-action-indicator-color: defines the indicator color of an action sub-component inside the component.
+ * @prop --calcite-panel-action-text-color: defines the text color of an action sub-component inside the component.
  * @prop --calcite-panel-background-color: Specifies the background color of the component.
  * @prop --calcite-panel-border-color: Specifies the border color of the component.
  * @prop --calcite-panel-description-text-color: Specifies the text color of the component's description.
@@ -12,11 +15,8 @@
  * @prop --calcite-panel-footer-space: Specifies the spacing of the component's footer.
  * @prop --calcite-panel-header-background-color: Specifies the component header's background color.
  * @prop --calcite-panel-header-border-block-end: [Deprecated] No longer necessary. Specifies the component header's block end border.
- * @prop --calcite-panel-heading-text-color: Specifies the component's heading text color.
  * @prop --calcite-panel-header-z-index: Specifies the component header's z-index.
- * @prop --calcite-panel-action-indicator-color: defines the indicator color of an action sub-component inside the component.
- * @prop --calcite-panel-action-background-color: defines the background color of an action sub-component inside the component.
- * @prop --calcite-panel-action-text-color: defines the text color of an action sub-component inside the component.
+ * @prop --calcite-panel-heading-text-color: Specifies the component's heading text color.
  *
  */
 

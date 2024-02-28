@@ -3,21 +3,21 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-input-corner-radius: defines the border radius of the component.
- * @prop --calcite-input-text-color: defines the text color of the component.
- * @prop --calcite-input-border-color: defines the border color of the component.
  * @prop --calcite-input-background-color: defines the background color of the component.
- * @prop --calcite-input-button-background-color: defines the background color of a button element in the component.
- * @prop --calcite-input-button-background-color-hover: defines the background color of a :hover-ed button element in the component.
+ * @prop --calcite-input-border-color: defines the border color of the component.
  * @prop --calcite-input-button-background-color-active: defines the background color of an :active button element in the component.
- * @prop --calcite-input-icon-color: defines the color of an icon element in the component.
+ * @prop --calcite-input-button-background-color-hover: defines the background color of a :hover-ed button element in the component.
+ * @prop --calcite-input-button-background-color: defines the background color of a button element in the component.
  * @prop --calcite-input-button-icon-color-hover: defines the color of an icon element when it's parent is hovered in the component.
- * @prop --calcite-input-prefix-text-color: defines the prefix text color in the component.
- * @prop --calcite-input-prefix-background-color: defines the prefix background color in the component.
- * @prop --calcite-input-suffix-text-color: defines the suffix text color in the component.
- * @prop --calcite-input-suffix-background-color: defines the suffix background color in the component.
+ * @prop --calcite-input-corner-radius: defines the border radius of the component.
+ * @prop --calcite-input-icon-color: defines the color of an icon element in the component.
  * @prop --calcite-input-placeholder-text-color: defines the color of placeholder text in the component.
+ * @prop --calcite-input-prefix-background-color: defines the prefix background color in the component.
+ * @prop --calcite-input-prefix-text-color: defines the prefix text color in the component.
  * @prop --calcite-input-shadow: defines the box-shadow of the component.
+ * @prop --calcite-input-suffix-background-color: defines the suffix background color in the component.
+ * @prop --calcite-input-suffix-text-color: defines the suffix text color in the component.
+ * @prop --calcite-input-text-color: defines the text color of the component.
  *
  */
 
@@ -27,6 +27,7 @@
   --calcite-input-border-color: var(--calcite-color-border-input);
   --calcite-input-background-color: var(--calcite-color-foreground-1);
   --calcite-input-shadow: none;
+
   // Button
   --calcite-input-button-background-color: var(--calcite-color-foreground-1);
   --calcite-input-button-background-color-hover: var(--calcite-color-foreground-2);
