@@ -21,21 +21,21 @@
 }
 
 ::slotted(calcite-action-group:last-child) {
-  border-block-end: 0;
+  border-block-end: var(--calcite-border-width-none);
 }
 
 .default-trigger {
   @apply relative
-  h-full
   flex-initial
   self-stretch;
+  block-size: var(--calcite-container-size-content-fluid);
 }
 
 @include slotted("trigger", "calcite-action") {
   @apply relative
-  h-full
   flex-initial
   self-stretch;
+  block-size: var(--calcite-container-size-content-fluid);
 }
 
 .menu {
