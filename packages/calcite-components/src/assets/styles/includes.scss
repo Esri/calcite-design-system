@@ -1,15 +1,16 @@
 @import "~@esri/calcite-colors/dist/colors";
-@import "~@esri/calcite-base/dist/_index";
+@import "~@esri/calcite-base/dist/index";
 @import "~@esri/calcite-design-tokens/dist/scss/index";
 @import "~@esri/calcite-design-tokens/dist/scss/core";
 
 /* mixins & extensions */
 @import "animation";
 @import "focus";
+@import "header";
 @import "host";
-@import "spacing";
 @import "floating-ui";
 @import "sortable";
+@import "x-button";
 
 @mixin slotted($selector, $tag, $scope: "") {
   #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
@@ -67,7 +68,7 @@
     ::slotted([calcite-hydrated][disabled]),
     [calcite-hydrated][disabled] {
       /* prevent opacity stacking */
-      @apply opacity-100;
+      opacity: var(--calcite-opacity-full);
     }
   }
 
@@ -78,14 +79,16 @@
 
 // used for host-specific styling when the `disabled` mixin cannot be applied on the host (e.g., `display: contents`)
 %disabled-host-only {
-  @apply opacity-disabled cursor-default select-none;
+  opacity: var(--calcite-opacity-disabled);
+  cursor: default;
+  user-select: none;
   @extend %non-interactive-host-contents;
 }
 
 %non-interactive-host-contents {
   *,
   ::slotted(*) {
-    @apply pointer-events-none;
+    pointer-events: none;
   }
 }
 
@@ -99,56 +102,10 @@
 
 @mixin base-component() {
   :host([hidden]) {
-    @apply hidden;
+    display: none;
   }
 
   [hidden] {
-    @apply hidden;
-  }
-}
-
-@mixin xButton() {
-  :host([scale="s"]) {
-    .x-button {
-      inline-size: theme("spacing.4");
-      block-size: theme("spacing.4");
-    }
-  }
-
-  :host([scale="m"]) {
-    .x-button {
-      inline-size: theme("spacing.6");
-      block-size: theme("spacing.6");
-    }
-  }
-
-  :host([scale="l"]) {
-    .x-button {
-      inline-size: theme("spacing.8");
-      block-size: theme("spacing.8");
-    }
-  }
-
-  .x-button {
-    @apply appearance-none bg-transparent border-2 content-center cursor-pointer flex focus-base items-center justify-center m-0 self-center text-color-3 transition-default;
-
-    border-radius: 50%;
-    border-color: transparent;
-    background-color: var(--calcite-color-foreground-2);
-
-    &:active,
-    &:hover {
-      @apply text-color-1;
-      background-color: var(--calcite-color-foreground-3);
-    }
-
-    &:active {
-      @apply border-solid;
-      border-color: theme("borderColor.color-brand");
-    }
-
-    & calcite-icon {
-      color: inherit;
-    }
+    display: none;
   }
 }

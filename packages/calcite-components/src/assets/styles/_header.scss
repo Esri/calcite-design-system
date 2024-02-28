@@ -1,17 +1,26 @@
-/* Shared styles for header elements */
-.header {
-  @apply text-color-2
-    fill-color-2
-    m-0
-    flex
-    content-between
-    items-center;
-}
+@mixin header(
+  $textColor: "--calcite-color-text-2",
+  $fontWeight: "--calcite-font-weight-medium",
+  $spacing: "--calcite-spacing-xxs"
+) {
+  /* Shared styles for header elements */
+  .header {
+    color: var(#{$textColor}, var(--calcite-color-text-2));
+    fill: var(#{$textColor}, var(--calcite-color-text-2));
+    margin: 0px;
+    display: flex;
+    align-content: space-between;
+    align-items: center;
+  }
 
-.heading {
-  @apply m-0 p-0 font-medium;
-}
+  .heading {
+    margin: 0px;
+    padding: 0px;
+    font-weight: var(#{$fontWeight}, var(--calcite-font-weight-medium));
+  }
 
-.header .heading {
-  @apply flex-auto p-2;
+  .header .heading {
+    flex: 1 1 auto;
+    padding: var(#{$spacing}, var(--calcite-spacing-xxs));
+  }
 }
