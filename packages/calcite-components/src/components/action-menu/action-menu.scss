@@ -17,7 +17,7 @@
 ::slotted(calcite-action-group) {
   border-block-end-style: solid;
   border-block-end-width: var(--calcite-border-width-sm);
-  border-block-end-color: var(--calcite-action-menu-group-separator-border-color, --calcite-color-border-3);
+  border-block-end-color: var(--calcite-action-menu-group-separator-border-color, var(--calcite-color-border-3));
 }
 
 ::slotted(calcite-action-group:last-child) {
