@@ -1,5 +1,4 @@
 :host {
-  @extend %component-spacing;
   @include floatingUIElemAnim(".menu-container");
   @apply relative
     inline-block

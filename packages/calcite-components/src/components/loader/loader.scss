@@ -9,8 +9,6 @@
  * @prop --calcite-loader-padding : Specifies the padding of the loader.
  */
 
-@import "../../assets/styles/animation";
-
 $stroke-width: 3;
 $loader-scale: 54;
 $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;

@@ -8,16 +8,13 @@
 
 :host {
   @extend %component-host;
-  @extend %component-spacing;
   @apply transition-margin ease-cubic border-color-3 flex flex-shrink-0 flex-grow-0
     flex-col border-0 border-b border-solid p-0 duration-150;
   flex-basis: auto;
 }
 
 @include disabled();
-
-@import "../../assets/styles/animation";
-@import "../../assets/styles/header";
+@include header();
 
 .header {
   @apply justify-start p-0;

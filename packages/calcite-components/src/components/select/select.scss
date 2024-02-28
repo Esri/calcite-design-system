@@ -18,7 +18,6 @@
 
   --calcite-select-background-color-hover: var(--calcite-color-foreground-2);
 
-  @extend %component-spacing;
   @apply flex flex-col;
 
   inline-size: var(--calcite-internal-select-size);
