@@ -19,8 +19,8 @@
   background-color: var(--calcite-tabs-background-color);
 }
 
-:host([bordered]:not([position="bottom"])) ::slotted(calcite-tab-nav) {
-  margin-block-end: -1px;
+section {
+  @apply border-color-1 border border-solid;
 }
 
 :host([bordered][position="bottom"]) {
@@ -29,10 +29,8 @@
     inset 0 -1px 0 var(--calcite-color-border-1);
 }
 
-:host([bordered]) section {
-  @apply border border-solid;
-
-  border-color: var(--calcite-tabs-border-color);
+:host([bordered]:not([position="bottom"])) ::slotted(calcite-tab-nav) {
+  margin-block-end: -1px;
 }
 
 :host([bordered][scale="s"]) section {
