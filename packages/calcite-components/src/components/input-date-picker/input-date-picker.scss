@@ -1,12 +1,40 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-input-text-color: defines the text color of the component.
+ * @prop --calcite-input-background-color: defines the background color of the component.
+ * @prop --calcite-input-border-color: defines the border color of the component.
+ * @prop --calcite-input-corner-radius: defines the corner radius of the component.
+ *
+ * @prop --calcite-input-placeholder-text-color: defines the color of placeholder text in the component.
+ *
+ * @prop --calcite-input-prefix-background-color: defines the background color of the prefix sub-component.
+ * @prop --calcite-input-prefix-text-color:  defines the text color of the prefix sub-component.
+ *
+ * @prop --calcite-input-suffix-background-color:  defines the background color of the suffix sub-component.
+ * @prop --calcite-input-suffix-text-color:  defines the text color of the suffix sub-component.
+ *
+ * @prop --calcite-input-icon-color:  defines the icon color of the component.
+ *
+ * @prop --calcite-input-button-border-color: defines the border color of a button in the component.
+ * @prop --calcite-input-button-background-color: defines the background color of a button in the component.
+ * @prop --calcite-input-button-background-color-hover: defines the background color of a button in the component when it's hovered.
+ * @prop --calcite-input-button-icon-color: defines the icon color of a button in the component.
+ * @prop --calcite-input-button-icon-color-hover: defines the icon color of a button in the component when it's hovered.
+ * @prop --calcite-input-button-icon-color-active: defines the icon color of a button in the component when it's active.
+ */
+
 :host {
   @extend %component-spacing;
   @include floatingUIElemAnim(".menu-container");
   @apply relative
     inline-block
-    w-full
     overflow-visible
     align-top
     shadow-none;
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 @function get-trailing-text-input-padding($chevron-spacing) {
@@ -56,9 +84,7 @@
   }
 
   .horizontal-arrow-container {
-    @apply bg-background
-      border-color-input
-      flex
+    @apply flex
       items-center
       border
       border-l-0
@@ -66,12 +92,15 @@
       border-solid
       py-0
       px-1;
+
+    background-color: var(--calcite-input-button-background-color, var(--calcite-color-background));
+    border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
   }
 }
 
 :host([range][layout="vertical"]) {
   .input-wrapper {
-    @apply w-full;
+    inline-size: var(--calcite-container-size-content-fluid);
   }
 
   .input-container {
@@ -85,11 +114,11 @@
 
   .vertical-arrow-container {
     inset-block-start: theme("spacing.6");
-    @apply bg-foreground-1
-      absolute
+    @apply absolute
       z-default
       mx-px
       px-2.5;
+    background-color: var(--calcite-input-button-background-color, var(--calcite-color-foreground-1));
     inset-inline-start: 0;
   }
 }
