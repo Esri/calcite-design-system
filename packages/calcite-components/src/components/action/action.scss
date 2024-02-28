@@ -12,7 +12,6 @@
 @include disabled();
 
 :host {
-  // TODO: could this have button classes?
   @extend %component-host;
   @apply flex;
   background-color: var(--calcite-action-background-color, transparent);
