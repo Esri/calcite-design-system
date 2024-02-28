@@ -1,31 +1,41 @@
+/**
+* CSS Custom Properties
+*
+* These properties can be overridden using the component's tag as selector.
+*
+* @prop --calcite-action-menu-group-separator-border-color: The border color of the component.
+*
+*/
+
 :host {
-  @apply text-color-2
-  text-1
+  @apply text-1
   box-border
   flex
   flex-col;
 }
 
 ::slotted(calcite-action-group) {
-  border-block-end: 1px solid var(--calcite-color-border-3);
+  border-block-end-style: solid;
+  border-block-end-width: var(--calcite-border-width-sm);
+  border-block-end-color: var(--calcite-action-menu-group-separator-border-color, var(--calcite-color-border-3));
 }
 
 ::slotted(calcite-action-group:last-child) {
-  border-block-end: 0;
+  border-block-end: var(--calcite-border-width-none);
 }
 
 .default-trigger {
   @apply relative
-  h-full
   flex-initial
   self-stretch;
+  block-size: var(--calcite-container-size-content-fluid);
 }
 
 @include slotted("trigger", "calcite-action") {
   @apply relative
-  h-full
   flex-initial
   self-stretch;
+  block-size: var(--calcite-container-size-content-fluid);
 }
 
 .menu {
@@ -35,6 +45,10 @@
   overflow-y-auto
   overflow-x-hidden
   max-h-menu;
+}
+
+calcite-popover {
+  // TODO: add sub-component tokens
 }
 
 @include base-component();
