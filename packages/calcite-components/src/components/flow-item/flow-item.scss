@@ -42,7 +42,7 @@ calcite-panel {
   --calcite-panel-description-text-color: var(--calcite-flow-item-description-text-color);
   --calcite-panel-fab-z-index: var(--calcite-flow-item-fab-z-index);
   --calcite-panel-footer-background-color: var(--calcite-flow-item-footer-background-color);
-  --calcite-panel-footer-space: var(--calcite-flow-item-footer-space);
+  --calcite-panel-footer-space: var(--calcite-flow-item-footer-space, var(--calcite-flow-item-footer-padding));
   --calcite-panel-heading-text-color: var(--calcite-flow-item-heading-text-color);
   --calcite-panel-header-background-color: var(--calcite-flow-item-header-background-color);
   --calcite-panel-header-z-index: var(--calcite-flow-item-header-z-index);
