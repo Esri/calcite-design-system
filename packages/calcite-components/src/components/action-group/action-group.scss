@@ -3,11 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-action-group-action-menu-border-color: The border color of the sub-component.
+ * @prop --calcite-action-group-action-menu-text-color: The text color of the sub-component.
  * @prop --calcite-action-group-columns: Sets number of grid-template-columns when the `layout` property is `"grid"`.
  * @prop --calcite-action-group-gap: Sets the gap (gutters) between rows and columns when the `layout` property is `"grid"`.
  * @prop --calcite-action-group-padding: Sets the padding when the `layout` property is `"grid"`.
- * @prop --calcite-action-group-action-menu-border-color: The border color of the sub-component.
- * @prop --calcite-action-group-action-menu-text-color: The text color of the sub-component.
  */
 
 :host {
