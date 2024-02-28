@@ -1734,7 +1734,7 @@ export class Combobox
           </ul>
           {this.renderFloatingUIContainer()}
           <HiddenFormInputSlot component={this} />
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}

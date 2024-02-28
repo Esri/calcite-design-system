@@ -5,20 +5,35 @@
 *
 * @prop --calcite-popover-background-color: Specifies the background color of the component.
 * @prop --calcite-popover-border-color: The border color of the component.
+* @prop --calcite-popover-shadow: The shadow of the component.
 * @prop --calcite-popover-corner-radius: The corner radius of the component.
 * @prop --calcite-popover-text-color: The text color of the component.
 */
 
 :host {
-  --calcite-floating-ui-z-index: var(--calcite-popover-z-index, var(--calcite-z-index-popup));
-  --calcite-popover-background-color: var(--calcite-color-foreground-1);
-  --calcite-popover-border-color: var(--calcite-color-border-3);
-  --calcite-popover-text-color: var(--calcite-color-text-1);
-  --calcite-popover-corner-radius: var(--calcite-border-radius-round);
+  @apply pointer-events-none;
 }
 
-@include floatingUIHost();
-@include floatingUIArrow();
+@include floatingUIHost(
+  "var(--calcite-popover-z-index, var(--calcite-z-index-popup))",
+  "var(--calcite-popover-shadow, var(--calcite-shadow-md))",
+  "var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round))",
+  "var(--calcite-border-width-sm)",
+  "var(--calcite-popover-border-color, var(--calcite-color-border-3))",
+  "var(--calcite-popover-background-color, var(--calcite-color-foreground-1))"
+);
+
+.heading {
+  @apply word-break
+  m-0
+  block
+  flex-auto
+  self-center
+  whitespace-normal
+  font-medium;
+
+  color: var(--calcite-popover-text-color, var(--calcite-color-text-1));
+}
 
 :host([scale="s"]) {
   .heading {
@@ -44,25 +59,8 @@
   }
 }
 
-:host {
-  @apply pointer-events-none;
-}
-
 :host([open]) {
   pointer-events: initial;
-}
-
-.calcite-floating-ui-anim {
-  @apply border
-    border-solid;
-
-  background-color: var(--calcite-popover-background-color);
-  border-color: var(--calcite-popover-border-color);
-  border-radius: var(--calcite-popover-corner-radius);
-}
-
-.arrow::before {
-  outline: 1px solid var(--calcite-popover-border-color);
 }
 
 .header {
@@ -74,19 +72,7 @@
     border-b
     border-solid;
 
-  border-block-end-color: var(--calcite-popover-border-color);
-}
-
-.heading {
-  @apply word-break
-  m-0
-  block
-  flex-auto
-  self-center
-  whitespace-normal
-  font-medium;
-
-  color: var(--calcite-popover-text-color);
+  border-block-end-color: var(--calcite-popover-border-color, var(--calcite-color-border-3));
 }
 
 .container {
@@ -96,8 +82,8 @@
     flex-row
     flex-nowrap;
 
-  color: var(--calcite-popover-text-color);
-  border-radius: var(--calcite-popover-corner-radius);
+  color: var(--calcite-popover-text-color, var(--calcite-color-text-1));
+  border-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
 
   &.has-header {
     @apply flex-col;
@@ -117,8 +103,8 @@
 .close-button-container {
   @apply flex overflow-hidden;
   flex: 0 0 auto;
-  border-start-end-radius: var(--calcite-popover-corner-radius);
-  border-end-end-radius: var(--calcite-popover-corner-radius);
+  border-start-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
+  border-end-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
 }
 
 ::slotted(calcite-panel),
