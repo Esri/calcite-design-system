@@ -39,7 +39,7 @@
 }
 
 .input {
-  inline-size: var(--calcite-filter-width);
+  inline-size: var(--calcite-filter-width, var(--calcite-container-size-content-fluid));
   --calcite-input-corner-radius: var(--calcite-filter-input-corner-radius);
   --calcite-input-text-color: var(--calcite-filter-input-text-color);
   --calcite-input-border-color: var(--calcite-filter-input-border-color);
