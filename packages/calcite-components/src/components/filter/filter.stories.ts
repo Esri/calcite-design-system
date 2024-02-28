@@ -36,12 +36,11 @@ const themeStyles = `
   --calcite-filter-input-button-background-color: purple;
   --calcite-filter-input-button-background-color-hover: pink;
   --calcite-filter-input-button-background-color-active: magenta;
+  --calcite-filter-input-button-border-color: yellow;
   --calcite-filter-input-icon-color: green;
+  --calcite-filter-input-button-icon-color: orange;
+  --calcite-filter-input-button-icon-color-active: red;
   --calcite-filter-input-button-icon-color-hover: yellow;
-  --calcite-filter-input-prefix-text-color: blue;
-  --calcite-filter-input-prefix-background-color: lightgray;
-  --calcite-filter-input-suffix-text-color: blue;
-  --calcite-filter-input-suffix-background-color: lightgray;
   --calcite-filter-input-placeholder-text-color: orange;
   --calcite-filter-input-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
 `;
