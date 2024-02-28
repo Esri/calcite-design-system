@@ -256,7 +256,7 @@ export class Action
     ) : null;
     const calciteIconNode = icon ? (
       <calcite-icon
-        class={{ [CSS.actionIndicator]: indicator }}
+        class={{ [CSS.indicatorWithIcon]: indicator }}
         flipRtl={iconFlipRtl}
         icon={icon}
         scale={getIconScale(this.scale)}
@@ -265,10 +265,21 @@ export class Action
     const iconNode = calciteLoaderNode || calciteIconNode;
     const hasIconToDisplay = iconNode || el.children?.length;
 
+    const slotContainerNode = (
+      <div
+        class={{
+          [CSS.slotContainer]: true,
+          [CSS.slotContainerHidden]: loading,
+        }}
+      >
+        <slot />
+      </div>
+    );
+
     return hasIconToDisplay ? (
       <div aria-hidden="true" class={CSS.iconContainer} key="icon-container">
         {iconNode}
-        <slot />
+        {slotContainerNode}
       </div>
     ) : null;
   }
@@ -291,6 +302,7 @@ export class Action
     const ariaLabel = `${label || text}${indicator ? ` (${messages.indicator})` : ""}`;
 
     const buttonClasses = {
+      [CSS.button]: true,
       [CSS.buttonTextVisible]: textEnabled,
       [CSS.buttonCompact]: compact,
     };
@@ -312,7 +324,7 @@ export class Action
           >
             {this.renderIconContainer()}
             {this.renderTextContainer()}
-            {!icon && indicator && <div class={CSS.actionIndicator} key="indicator-no-icon" />}
+            {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
           </button>
           <slot name={SLOTS.tooltip} onSlotchange={this.handleTooltipSlotChange} />
           {this.renderIndicatorText()}
