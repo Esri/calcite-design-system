@@ -3,11 +3,10 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ *
  * @prop --calcite-card-background-color: Specifies the background color of the component.
  * @prop --calcite-card-border-color: Specifies the border color of the component.
  * @prop --calcite-card-box-shadow: Specifies the box shadow of the component.
- * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
- *
  * @prop --calcite-card-checkbox-background-color: *deprecated* defines the background-color of the sub-component.
  * @prop --calcite-card-checkbox-background-color-checked: *deprecated* defines the background-color of the sub-component when checked.
  * @prop --calcite-card-checkbox-icon-color: *deprecated* defines the checkmark color of the sub-component.
@@ -16,6 +15,8 @@
  * @prop --calcite-card-checkbox-shadow-hover: *deprecated* defines the shadow of the sub-component when hovered.
  * @prop --calcite-card-checkbox-shadow-invalid: *deprecated* defines the shadow of the sub-component when invalid.
  * @prop --calcite-card-checkbox-size: *deprecated* defines the size of the sub-component.
+ * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
+ *
  */
 
 :host {
