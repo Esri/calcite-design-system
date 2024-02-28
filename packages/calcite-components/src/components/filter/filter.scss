@@ -1,3 +1,17 @@
+/**
+ * @prop --calcite-filter-input-text-color: defines the text color of the input sub-component.
+ * @prop --calcite-filter-input-background-color: defines the background color of the input sub-component.
+ * @prop --calcite-filter-input-border-color: defines the border color of the input sub-component.
+ * @prop --calcite-filter-input-corner-radius: defines the corner radius of the input sub-component.
+ * @prop --calcite-filter-input-placeholder-text-color: defines the placeholder text color of the input sub-component.
+ * @prop --calcite-filter-input-icon-color: defines the icon color of the input sub-component.
+ * @prop --calcite-filter-input-button-border-color: defines the border color of the button in the input sub-component.
+ * @prop --calcite-filter-input-button-background-color: defines the background color of the button in the input sub-component.
+ * @prop --calcite-filter-input-button-background-color-hover: defines the background color of the button when hovered in the input sub-component.
+ * @prop --calcite-filter-input-button-icon-color: defines the icon color of the button in the input sub-component.
+ * @prop --calcite-filter-input-button-icon-color-hover: defines the icon color of the button when hovered in the input sub-component.
+ * @prop --calcite-filter-input-button-icon-color-active: defines the icon color of the button when active in the input sub-component.
+*/
 :host {
   @extend %component-host;
   @apply flex w-full;
@@ -38,7 +52,19 @@ input[type="text"] {
 }
 
 calcite-input {
-  @apply w-full;
+  --calcite-input-text-color: var(--calcite-filter-input-text-color);
+  --calcite-input-background-color: var(--calcite-filter-input-background-color);
+  --calcite-input-border-color: var(--calcite-filter-input-border-color);
+  --calcite-input-corner-radius: var(--calcite-filter-input-corner-radius);
+  --calcite-input-placeholder-text-color: var(--calcite-filter-input-placeholder-text-color);
+  --calcite-input-icon-color: var(--calcite-filter-input-icon-color);
+  --calcite-input-button-border-color: var(--calcite-filter-input-button-border-color);
+  --calcite-input-button-background-color: var(--calcite-filter-input-button-background-color);
+  --calcite-input-button-background-color-hover: var(--calcite-filter-input-button-background-color-hover);
+  --calcite-input-button-icon-color: var(--calcite-filter-input-button-icon-color);
+  --calcite-input-button-icon-color-hover: var(--calcite-filter-input-button-icon-color-hover);
+  --calcite-input-button-icon-color-active: var(--calcite-filter-input-button-icon-color-active);
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 .search-icon {
