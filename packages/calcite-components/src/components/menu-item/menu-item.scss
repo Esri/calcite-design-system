@@ -5,18 +5,18 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-menu-item-text-color: Specifies the border radius of the component.
- * @prop --calcite-menu-item-text-color-hover: Specifies the border color of the component.
- * @prop --calcite-menu-item-text-color-selected: Specifies the border color of week headers.
- * @prop --calcite-menu-item-text-color-active: Specifies the border color of week headers.
- * @prop --calcite-menu-item-background-color: Specifies the text color of week headers.
- * @prop --calcite-menu-item-background-color-hover: Specifies the text color of day.
- * @prop --calcite-menu-item-background-color-focused: Specifies the text color of day when active.
- * @prop --calcite-menu-item-background-color-active: Specifies the text color of day when selected.
- * @prop --calcite-menu-item-active-text-color: Specifies the font size of the day.
- * @prop --calcite-menu-item-active-border-color: Specifies the background color of the day.
- * @prop --calcite-menu-item-dropdown-icon-color: Specifies the background color of the day.
- * @prop --calcite-menu-item-breadcrumb-icon-color: Specifies the background color of the day.
+ * @prop --calcite-menu-item-text-color: Specifies the text color of the component.
+ * @prop --calcite-menu-item-text-color-hover: Specifies the text color of the component when hover.
+ * @prop --calcite-menu-item-text-color-selected: Specifies the text color of the component when selected.
+ * @prop --calcite-menu-item-text-color-active: Specifies the text color of the component when active.
+ * @prop --calcite-menu-item-background-color: Specifies the background color of the component.
+ * @prop --calcite-menu-item-background-color-hover: Specifies the background color of the component when hover.
+ * @prop --calcite-menu-item-background-color-focused: Specifies the background color of the component when focused.
+ * @prop --calcite-menu-item-background-color-active: Specifies the background color of the component when active.
+ * @prop --calcite-menu-item-active-text-color: Specifies the text color of the component when `active` property is true.
+ * @prop --calcite-menu-item-active-border-color: Specifies the border color of the component when `active` property is true.
+ * @prop --calcite-menu-item-dropdown-icon-color: Specifies the color of the dropdown icon when sub-menu items are slotted.
+ * @prop --calcite-menu-item-breadcrumb-icon-color: Specifies the color of the breadcrumb icon when sub-menu items are slotted.
  */
 
 :host {
