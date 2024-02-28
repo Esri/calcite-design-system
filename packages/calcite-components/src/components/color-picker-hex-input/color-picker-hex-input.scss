@@ -1,19 +1,24 @@
 /**
- * @prop --calcite-hex-input-text-color: defines the text color of the input sub-component.
- * @prop --calcite-hex-input-background-color: defines the background color of the input sub-component.
- * @prop --calcite-hex-input-border-color: defines the border color of the input sub-component.
- * @prop --calcite-hex-input-corner-radius: defines the corner radius of the input sub-component.
- * @prop --calcite-hex-input-icon-color: defines the icon color of the input sub-component.
- * @prop --calcite-hex-input-button-border-color: defines the border color of the button in the input sub-component.
- * @prop --calcite-hex-input-button-background-color: defines the background color of the button in the input sub-component.
- * @prop --calcite-hex-input-button-background-color-hover: defines the background color of the button when hovered in the input sub-component.
- * @prop --calcite-hex-input-button-icon-color: defines the icon color of the button in the input sub-component.
- * @prop --calcite-hex-input-button-icon-color-hover: defines the icon color of the button when hovered in the input sub-component.
- * @prop --calcite-hex-input-button-icon-color-active: defines the icon color of the button when active in the input sub-component.
- * @prop --calcite-filter-input-suffix-background-color: defines the background color of the suffix in the input sub-component.
- * @prop --calcite-filter-input-suffix-text-color: defines the text color of the suffix in the input sub-component.
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
  * @prop --calcite-filter-input-prefix-background-color: defines the background color of the prefix in the input sub-component.
  * @prop --calcite-filter-input-prefix-text-color: defines the text color of the prefix in the input sub-component.
+ * @prop --calcite-filter-input-suffix-background-color: defines the background color of the suffix in the input sub-component.
+ * @prop --calcite-filter-input-suffix-text-color: defines the text color of the suffix in the input sub-component.
+ * @prop --calcite-hex-input-background-color: defines the background color of the input sub-component.
+ * @prop --calcite-hex-input-border-color: defines the border color of the input sub-component.
+ * @prop --calcite-hex-input-button-background-color: defines the background color of the button in the input sub-component.
+ * @prop --calcite-hex-input-button-background-color-hover: defines the background color of the button when hovered in the input sub-component.
+ * @prop --calcite-hex-input-button-border-color: defines the border color of the button in the input sub-component.
+ * @prop --calcite-hex-input-button-icon-color: defines the icon color of the button in the input sub-component.
+ * @prop --calcite-hex-input-button-icon-color-active: defines the icon color of the button when active in the input sub-component.
+ * @prop --calcite-hex-input-button-icon-color-hover: defines the icon color of the button when hovered in the input sub-component.
+ * @prop --calcite-hex-input-corner-radius: defines the corner radius of the input sub-component.
+ * @prop --calcite-hex-input-icon-color: defines the icon color of the input sub-component.
+ * @prop --calcite-hex-input-text-color: defines the text color of the input sub-component.
+ *
 */
 
 :host {
