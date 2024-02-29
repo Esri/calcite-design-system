@@ -1,7 +1,7 @@
 /**
  * CSS Custom Properties
  *
- * These properties can be overridden
+ * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-filter-background-color: Specifies the background color of the filter.
  * @prop --calcite-filter-input-background-color: defines the background color of the input sub-component.
@@ -16,7 +16,7 @@
  * @prop --calcite-filter-input-icon-color: defines the icon color of the input sub-component.
  * @prop --calcite-filter-input-placeholder-text-color: defines the placeholder text color of the input sub-component.
  * @prop --calcite-filter-input-text-color: defines the text color of the input sub-component.
- */
+*/
 
 :host {
   @include base-host();
