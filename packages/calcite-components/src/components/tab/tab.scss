@@ -3,7 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tab-content-block-padding: Specifies the block padding of the component's content in the `default` slot.
+ * @prop --calcite-tab-content-block-padding: [Deprecated] Use `--calcite-tab-content-space` instead. Specifies the block padding of the component's content in the `default` slot.
+ * @prop --calcite-tab-content-space: Specifies the space of the component's content in the `default` slot.
  */
 
 :host([selected]) {
@@ -23,22 +24,33 @@
 
 .content {
   @apply box-border;
-  padding-block: var(--calcite-internal-tab-content-block-padding);
 }
 
 .scale-s {
-  --calcite-internal-tab-content-block-padding: var(--calcite-tab-content-block-padding, theme("spacing.1"));
-  @apply text-n2h;
+  font-size: var(--calcite-font-size-sm);
+  line-height: 1rem; //TODO: replace with token
+
+  .content {
+    padding-block: var(--calcite-tab-content-space, var(--calcite-tab-content-block-padding, theme("spacing.1")));
+  }
 }
 
 .scale-m {
-  --calcite-internal-tab-content-block-padding: var(--calcite-tab-content-block-padding, theme("spacing.2"));
-  @apply text-n1h;
+  font-size: var(--calcite-font-size);
+  line-height: 1rem; //TODO: replace with token
+
+  .content {
+    padding-block: var(--calcite-tab-content-space, var(--calcite-tab-content-block-padding, theme("spacing.2")));
+  }
 }
 
 .scale-l {
-  --calcite-internal-tab-content-block-padding: var(--calcite-tab-content-block-padding, theme("spacing.[2.5]"));
-  @apply text-0h;
+  font-size: var(--calcite-font-size-md);
+  line-height: 1.25rem; //TODO: replace with token
+
+  .content {
+    padding-block: var(--calcite-tab-content-space, var(--calcite-tab-content-block-padding, theme("spacing.[2.5]")));
+  }
 }
 
 section,
