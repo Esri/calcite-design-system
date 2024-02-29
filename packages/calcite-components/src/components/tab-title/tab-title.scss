@@ -188,7 +188,7 @@
 
   &:active {
     background-color: var(--calcite-tab-title-close-button-background-color-active, var(--calcite-color-foreground-3));
-    color: var(--calcite-tab-title-close-button-icon-color-hover, var(--calcite-text-color-1));
+    color: var(--calcite-tab-title-close-button-icon-color-active, var(--calcite-text-color-1));
   }
 }
 
