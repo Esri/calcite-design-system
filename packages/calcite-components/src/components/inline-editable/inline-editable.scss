@@ -4,13 +4,13 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-inline-editable-background-color: Specifies the background color of the component.
- * @prop --calcite-inline-editable-border-color: Specifies the border color of the component.
+ * @prop --calcite-inline-editable-background-color-hover: Specifies the background color of the component when hovered.
+ * @prop --calcite-inline-editable-edit-icon-color: Specifies the color of the edit icon.
+ * @prop --calcite-inline-editable-confirm-button-background-color: Specifies the background color of the confirm button.
+ * @prop --calcite-inline-editable-cancel-button-background-color: Specifies the background color of the cancel button.
  */
 
 :host {
-  --calcite-inline-editable-background-color: var(--calcite-color-foreground-1);
-  --calcite-inline-editable-border-color: var(--calcite-color-border-2);
-
   @apply block;
 }
 
@@ -23,11 +23,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-inline-editable-height: #{$calcite-size-44}; // TODO: need semantic token for this size
-}
-
-:host(:not([editing-enabled]):not([disabled]):hover) {
-  --calcite-inline-editable-background-color: var(--calcite-color-foreground-2);
+  --calcite-internal-inline-editable-height: #{$calcite-size-44};
 }
 
 .wrapper {
@@ -37,15 +33,33 @@
     transition-default;
 
   block-size: var(--calcite-internal-inline-editable-height);
-  background-color: var(--calcite-inline-editable-background-color);
+  background-color: var(--calcite-inline-editable-background-color, var(--calcite-color-foreground-1));
 
   .input-wrapper {
     @apply flex-1;
   }
 }
 
+:host(:not([editing-enabled]):not([disabled]):hover) {
+  .wrapper {
+    background-color: var(--calcite-inline-editable-background-color-hover, var(--calcite-color-foreground-2));
+  }
+}
+
 .controls-wrapper {
   @apply flex;
+}
+
+.enable-editing-button {
+  --calcite-button-icon-start-color: var(--calcite-inline-editable-edit-icon-color);
+}
+
+.cancel-editing-button {
+  // TODO: add sub-component tokens
+}
+
+.confirm-editing-button {
+  // TODO: add sub-component tokens
 }
 
 @include disabled();
