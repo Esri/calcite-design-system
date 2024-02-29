@@ -40,7 +40,6 @@ const themeStyles = `
   --calcite-filter-input-button-icon-color-active: red;
   --calcite-filter-input-button-icon-color-hover: yellow;
   --calcite-filter-input-placeholder-text-color: orange;
-  --calcite-filter-input-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
 `;
 
 export const theming_TestOnly = (): string =>
