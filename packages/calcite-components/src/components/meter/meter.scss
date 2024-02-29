@@ -19,9 +19,9 @@
   *
   * --calcite-internal-meter-fill-color
   * --calcite-internal-meter-background-color
-  * --calcite-internal-meter-space: var(--calcite-spacing-base);
-  * --calcite-internal-meter-height: var(--calcite-size-lg);
-  * --calcite-internal-meter-font-size: var(--calcite-font-size--1);
+  * --calcite-internal-meter-space
+  * --calcite-internal-meter-height
+  * --calcite-internal-meter-font-size
 */
 
 @include base-component();

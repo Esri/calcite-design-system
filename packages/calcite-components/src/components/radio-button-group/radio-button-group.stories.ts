@@ -79,9 +79,8 @@ export const darkModeRTL_TestOnly = (): string => html`
     dir="rtl"
     name="dark"
     layout="vertical"
-    status="valid"
     validation-icon
-    validation-message="Thanks for not selecting Ember"
+    validation-message="This should not appear because the status is not 'invalid'"
   >
     <calcite-label layout="inline">
       <calcite-radio-button value="react" checked></calcite-radio-button>
