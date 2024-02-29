@@ -2,6 +2,14 @@
   display: block;
 }
 
+calcite-combobox {
+  // TODO: sub-component tokens goes here
+}
+
+calcite-combobox-item {
+  // TODO: sub-component tokens goes here
+}
+
 @include base-component();
 @include disabled();
 @include hidden-form-input();
