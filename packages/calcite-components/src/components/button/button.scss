@@ -27,6 +27,11 @@
  * @prop --calcite-button-border-color-hover: Specifies border colors of the component when in hover state.
  * @prop --calcite-button-border-color-focus: Specifies border colors of the component when in focus state.
  * @prop --calcite-button-border-color-active: Specifies border colors of the component when in active state.
+ *
+ * @prop --calcite-button-loader-color-oneThird: defines the color of the loader when 1/3 complete.
+ * @prop --calcite-button-loader-color-start: defines the color of the loader at start and end.
+ * @prop --calcite-button-loader-color-twoThirds: defines the color of the loader when 2/3 complete.
+ *
  */
 
 :host {
@@ -837,6 +842,12 @@
 :host([scale="l"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
 :host([scale="l"][icon-start][icon-end][appearance="transparent"]) a:not(.content--slotted) {
   --calcite-button-padding-x-internal: theme("padding.11");
+}
+
+calcite-loader {
+  --calcite-loader-bar-color-oneThird: var(--calcite-button-loader-bar-color-oneThird);
+  --calcite-loader-bar-color-start: var(--calcite-button-loader-bar-color-start);
+  --calcite-loader-bar-color-twoThirds: var(--calcite-button-loader-bar-color-twoThirds);
 }
 
 @include base-component();

@@ -15,6 +15,10 @@
  * @prop --calcite-card-selection-icon-color: Specifies the icon color of the component's selection element.
  * @prop --calcite-card-selection-icon-color-hover: Specifies the icon color of the component's selection element when hovered.
  * @prop --calcite-card-selection-icon-color-selected: Specifies the icon color of the component's selection element when `selected`.
+ 
+ * @prop --calcite-card-loader-color-oneThird: Specifies the starting color of the loader
+ * @prop --calcite-card-loader-color-start: Specifies the starting color of the loader
+ * @prop --calcite-card-loader-color-twoThirds: Specifies the starting color of the loader
  *
  */
 
@@ -230,6 +234,12 @@
 slot[name="footer-start"]::slotted(*),
 slot[name="footer-end"]::slotted(*) {
   @apply flex gap-1;
+}
+
+calcite-loader {
+  --calcite-loader-color-oneThird: var(--calcite-action-loader-color-oneThird);
+  --calcite-loader-color-start: var(--calcite-action-loader-color-start);
+  --calcite-loader-color-twoThirds: var(--calcite-action-loader-color-twoThirds);
 }
 
 @include base-component();
