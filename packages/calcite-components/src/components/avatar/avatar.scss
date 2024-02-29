@@ -1,5 +1,41 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-avatar-corner-radius: defines the corner radius of the component.
+ * @prop --calcite-avatar-text-color: defines the text color of the component.
+ *
+ */
+
 :host {
-  @apply rounded-half inline-block overflow-hidden;
+  @apply inline-block overflow-hidden;
+}
+
+:host,
+.background,
+.thumbnail {
+  border-radius: var(--calcite-avatar-corner-radius, 50%);
+}
+
+.background,
+.thumbnail {
+  block-size: var(--calcite-container-size-content-fluid);
+  inline-size: var(--calcite-container-size-content-fluid);
+}
+
+.icon,
+.background {
+  @apply flex;
+}
+
+.background {
+  @apply items-center justify-center;
+}
+
+.initials {
+  @apply font-bold uppercase;
+  color: var(--calcite-avatar-text-color, var(--calcite-color-text-2));
 }
 
 :host([scale="s"]) {
@@ -14,20 +50,8 @@
   @apply text-0 h-11 w-11;
 }
 
-.icon {
-  @apply flex;
-}
-
-.background {
-  @apply rounded-half flex h-full w-full items-center justify-center;
-}
-
-.initials {
-  @apply text-color-2 font-bold uppercase;
-}
-
-.thumbnail {
-  @apply rounded-half h-full w-full;
+calcite-icon {
+  // TODO: component tokens
 }
 
 @include base-component();
