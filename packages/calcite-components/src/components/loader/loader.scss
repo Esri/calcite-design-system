@@ -3,9 +3,9 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-loader-font-size: Specifies the font size of the loading percentage when type is `"determinate"`.
- * @prop --calcite-loader-size: The width and height of a non-inline loader.
- * @prop --calcite-loader-size-inline: *deprecated* use --calcite-loader-size instead. The width and height of an inline loader.
+ * @prop --calcite-loader-font-size: *deprecated* Specifies the font size of the loading percentage when type is `"determinate"`.
+ * @prop --calcite-loader-size: *deprecated* The width and height of a non-inline loader.
+ * @prop --calcite-loader-size-inline: *deprecated* The width and height of an inline loader.
  * @prop --calcite-loader-padding: *deprecated* Specifies the padding of the loader.
  * @prop --calcite-loader-track-color-determinate: var(--calcite-color-border-3); defines the track color of a "determinate" loader
  * @prop --calcite-loader-text-color: var(--calcite-color-text-1); defines the text color of a loader.
@@ -13,7 +13,7 @@
  * @prop --calcite-loader-bar-color-start:  defines the starting color of a loader. Applies to --calcite-loader-bar-color between 0% - 33% of the animation.
  * @prop --calcite-loader-bar-color-oneThird: defines the color of a loader. Applies to --calcite-loader-bar-color between 33% - 66% of the animation.
  * @prop --calcite-loader-bar-color-twoThirds: defines the color of a loader. Applies to --calcite-loader-bar-color between 66% - 99% of the animation.
- * @prop --calcite-loader-bar-width:  defines the width of the loader animation. 
+ * @prop --calcite-loader-bar-width:  *deprecated* defines the width of the loader animation. 
  */
 
 $stroke-width: 3;
@@ -27,52 +27,46 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host {
-  --calcite-loader-track-color-determinate: var(--calcite-color-border-3);
-  --calcite-loader-text-color: var(--calcite-color-text-1);
-  --calcite-loader-bar-color: var(--calcite-loader-bar-color-start);
-  --calcite-loader-bar-color-start: var(--calcite-color-brand);
-  --calcite-loader-bar-color-oneThird: var(--calcite-color-brand-press);
-  --calcite-loader-bar-color-twoThirds: var(--calcite-color-brand-hover);
-  --calcite-loader-bar-width: 3;
+  --calcite-internal-loader-bar-width: 3;
   --calcite-internal-loader-spacing-vertical: theme("spacing.16");
 
   @apply relative mx-auto hidden items-center justify-center opacity-100;
-  font-size: var(--calcite-loader-font-size);
-  stroke: var(--calcite-loader-bar-color);
-  stroke-width: var(--calcite-loader-bar-width);
+  font-size: var(--calcite-loader-font-size, var(--calcite-internal-loader-font-size));
+  stroke: var(--calcite-internal-loader-bar-color, var(--calcite-color-brand));
+  stroke-width: var(--calcite-internal-loader-bar-width);
   fill: none;
   transform: scale(1, 1);
   animation: loader-color-shift scaleDuration(--calcite-internal-animation-timing-slow, 2) alternate-reverse infinite
     linear;
-  padding-block: var(--calcite-loader-padding, var(--calcite-loader-spacing-vertical));
+  padding-block: var(--calcite-loader-padding);
   will-change: contents;
-  block-size: var(--calcite-loader-size);
-  min-block-size: var(--calcite-loader-size);
-  inline-size: var(--calcite-loader-size);
+  block-size: var(--calcite-loader-size, var(--calcite-internal-loader-font-size));
+  min-block-size: var(--calcite-loader-size, var(--calcite-internal-loader-font-size));
+  inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-font-size));
 }
 
 :host([scale="s"]) {
-  --calcite-loader-font-size: theme("fontSize.n2");
-  --calcite-loader-size: theme("spacing.8");
+  --calcite-internal-loader-font-size: theme("fontSize.n2");
+  --calcite-internal-loader-size: theme("spacing.8");
 }
 :host([scale="s"][inline]) {
-  --calcite-loader-size: theme("spacing.3");
+  --calcite-internal-loader-size: theme("spacing.3");
 }
 
 :host([scale="m"]) {
-  --calcite-loader-font-size: theme("fontSize.0");
-  --calcite-loader-size: theme("spacing.16");
+  --calcite-internal-loader-font-size: theme("fontSize.0");
+  --calcite-internal-loader-size: theme("spacing.16");
 }
 :host([scale="m"][inline]) {
-  --calcite-loader-size: theme("spacing.4");
+  --calcite-internal-loader-size: theme("spacing.4");
 }
 
 :host([scale="l"]) {
-  --calcite-loader-font-size: theme("fontSize.2");
-  --calcite-loader-size: theme("spacing.24");
+  --calcite-internal-loader-font-size: theme("fontSize.2");
+  --calcite-internal-loader-size: theme("spacing.24");
 }
 :host([scale="l"][inline]) {
-  --calcite-loader-size: theme("spacing.6");
+  --calcite-internal-loader-size: theme("spacing.6");
 }
 
 :host([no-padding]) {
@@ -87,27 +81,27 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   @apply text-n2h
   block
   text-center;
-  color: var(--calcite-loader-text-color);
-  margin-block-start: calc(var(--calcite-loader-size) + theme("spacing.6"));
+  color: var(--calcite-loader-text-color, var(--calcite-color-text-1));
+  margin-block-start: calc(var(--calcite-loader-size, var(--calcite-internal-loader-font-size)) + theme("spacing.6"));
 }
 
 .loader__percentage {
   @apply absolute block text-center;
-  color: var(--calcite-loader-text-color);
-  font-size: var(--calcite-loader-font-size);
-  inline-size: var(--calcite-loader-size);
+  color: var(--calcite-loader-text-color, var(--calcite-color-text-1));
+  font-size: var(--calcite-loader-font-size, var(--calcite-internal-loader-font-size));
+  inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-font-size));
   inset-inline-start: 50%;
-  margin-inline-start: calc(var(--calcite-loader-size) / 2 * -1);
+  margin-inline-start: calc(var(--calcite-loader-size, var(--calcite-internal-loader-font-size)) / 2 * -1);
   line-height: 0.25;
   transform: scale(1, 1);
 }
 
 .loader__svgs {
   @apply absolute overflow-visible opacity-100;
-  inline-size: var(--calcite-loader-size);
-  block-size: var(--calcite-loader-size);
+  inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-font-size));
+  block-size: var(--calcite-loader-size, var(--calcite-internal-loader-font-size));
   inset-inline-start: 50%;
-  margin-inline-start: calc(var(--calcite-loader-size) / 2 * -1);
+  margin-inline-start: calc(var(--calcite-loader-size, var(--calcite-internal-loader-font-size)) / 2 * -1);
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   animation-duration: scaleDuration(--calcite-internal-animation-timing-slow, 6.66);
@@ -117,8 +111,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 .loader__svg {
   @apply absolute top-0 origin-center overflow-visible;
   inset-inline-start: 0;
-  inline-size: var(--calcite-loader-size);
-  block-size: var(--calcite-loader-size);
+  inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-font-size));
+  block-size: var(--calcite-loader-size, var(--calcite-internal-loader-font-size));
   animation-iteration-count: infinite;
   animation-timing-function: linear;
 }
@@ -138,13 +132,13 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 :host([type="determinate"]) {
   @apply animate-none;
-  stroke: var(--calcite-loader-track-color-determinate);
+  stroke: var(--calcite-loader-track-color-determinate, var(--calcite-color-border-3));
   .loader__svgs {
     @apply animate-none;
   }
   .loader__svg--3 {
     @apply animate-none;
-    stroke: var(--calcite-loader-bar-color);
+    stroke: var(--calcite-internal-loader-bar-color, var(--calcite-color-brand));
     stroke-dasharray: $loader-circumference;
     transform: rotate(-90deg);
     transition: all var(--calcite-internal-animation-timing-fast) linear;
@@ -153,8 +147,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 :host([inline]) {
   @apply relative m-0 animate-none stroke-current stroke-2 py-0;
-  margin-inline-end: calc(var(--calcite-loader-size) * 0.5);
-  vertical-align: calc(var(--calcite-loader-size) * -1 * 0.2);
+  margin-inline-end: calc(var(--calcite-loader-size, var(--calcite-internal-loader-font-size)) * 0.5);
+  vertical-align: calc(var(--calcite-loader-size, var(--calcite-internal-loader-font-size)) * -1 * 0.2);
 }
 
 :host([inline]) .loader__svgs {
@@ -228,16 +222,16 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 @keyframes loader-color-shift {
   0% {
-    --calcite-loader-bar-color: var(--calcite-loader-bar-color-start);
+    --calcite-internal-loader-bar-color: var(--calcite-loader-bar-color-start, var(--calcite-color-brand));
   }
   33% {
-    --calcite-loader-bar-color: var(--calcite-loader-bar-color-oneThird);
+    --calcite-internal-loader-bar-color: var(--calcite-loader-bar-color-oneThird, var(--calcite-color-brand-press));
   }
   66% {
-    --calcite-loader-bar-color: var(--calcite-loader-bar-color-oneThird);
+    --calcite-internal-loader-bar-color: var(--calcite-loader-bar-color-twoThirds, var(--calcite-color-brand-hover));
   }
   100% {
-    --calcite-loader-bar-color: var(--calcite-loader-bar-color-start);
+    --calcite-internal-loader-bar-color: var(--calcite-loader-bar-color-start, var(--calcite-color-brand));
   }
 }
 
