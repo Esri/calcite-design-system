@@ -138,6 +138,15 @@ There are a few ways to add event listeners within our components:
 
 1 and 2 should be used whenever possible (which one you use will depend on convenience). 3 should only be used whenever 1 and 2 are not possible or ideal.
 
+### Event handling guidelines
+
+#### Programmatic vs User-initiated actions event story
+
+Emitting associated events for user-initiated actions:
+• Emit only when the user initiated the action that would emit the event.
+• Before open/close events are an exception because these are asynchronous and users would not be able to reliably know when the event-related action is done when triggered programmatically.
+• If a user triggers an event, any sequence of associated events would need to emit.
+
 ## Properties
 
 Private/internal properties should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
