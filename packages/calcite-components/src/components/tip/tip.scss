@@ -1,7 +1,5 @@
-@import "../../assets/styles/header";
-
 /**
-* CSS Custom Properties  
+* CSS Custom Properties
 *
 * These properties can be overridden using the component's tag as selector.
 *
@@ -15,6 +13,8 @@
 * @prop --calcite-tip-text-color: The text color of the component.
 * 
 */
+
+@include header();
 
 :host {
   @apply text-n1h

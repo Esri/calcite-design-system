@@ -5,8 +5,12 @@
  *
  * @prop --calcite-menu-item-action-background-color: defines the background color of an action sub-component inside a menu-item.
  * @prop --calcite-menu-item-action-indicator-color: defines the indicator color of an action sub-component inside a menu-item.
+ * @prop --calcite-menu-item-action-menu-border-color: The border color of the sub-component.
+ * @prop --calcite-menu-item-action-menu-text-color: The text color of the sub-component.
  * @prop --calcite-menu-item-action-text-color: defines the text color of an action sub-component inside a menu-item.
+ *
  */
+
 :host {
   @apply flex
   items-center
@@ -217,6 +221,11 @@ calcite-action {
 .content:focus .hover-href-icon,
 .content:hover .hover-href-icon {
   @apply opacity-100 -end-1;
+}
+
+calcite-action-menu {
+  --calcite-action-menu-border-color: var(--calcite-menu-item-action-menu-border-color);
+  --calcite-action-menu-text-color: var(--calcite-menu-item-action-menu-text-color);
 }
 
 @include base-component();

@@ -1,5 +1,4 @@
 :host {
-  @extend %component-spacing;
   @include floatingUIElemAnim(".menu-container");
   @apply relative
     inline-block
@@ -95,7 +94,7 @@
 }
 
 .menu-container {
-  @include floatingUIContainer("--calcite-z-index-dropdown");
+  @include floatingUIContainer("var(--calcite-z-index-dropdown)");
   @include floatingUIWrapper();
   @apply invisible;
 }

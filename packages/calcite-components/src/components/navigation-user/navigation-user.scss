@@ -1,3 +1,13 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-navigation-user-avatar-corner-radius: defines the corner radius of the component.
+ * @prop --calcite-navigation-user-avatar-text-color: defines the text color of the component.
+ *
+ */
+
 :host {
   @apply inline-flex outline-none;
   & .button {
@@ -60,6 +70,11 @@ calcite-avatar ~ .text-container {
 .username {
   @apply text-color-2;
   font-size: var(--calcite-font-size--1);
+}
+
+calcite-avatar {
+  --calcite-avatar-corner-radius: var(--calcite-navigation-user-avatar-corner-radius);
+  --calcite-avatar-text-color: var(--calcite-navigation-user-avatar-text-color);
 }
 
 @include base-component();

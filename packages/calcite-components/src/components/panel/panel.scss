@@ -5,6 +5,8 @@
  *
  * @prop --calcite-panel-action-background-color: defines the background color of an action sub-component inside the component.
  * @prop --calcite-panel-action-indicator-color: defines the indicator color of an action sub-component inside the component.
+ * @prop --calcite-panel-action-menu-border-color: The border color of the sub-component.
+ * @prop --calcite-panel-action-menu-text-color: The text color of the sub-component.
  * @prop --calcite-panel-action-text-color: defines the text color of an action sub-component inside the component.
  * @prop --calcite-panel-background-color: Specifies the background color of the component.
  * @prop --calcite-panel-border-color: Specifies the border color of the component.
@@ -15,6 +17,7 @@
  * @prop --calcite-panel-footer-space: Specifies the spacing of the component's footer.
  * @prop --calcite-panel-header-background-color: Specifies the component header's background color.
  * @prop --calcite-panel-header-border-block-end: [Deprecated] No longer necessary. Specifies the component header's block end border.
+ * @prop --calcite-panel-header-z-index: Specifies the component header's z-index.
  * @prop --calcite-panel-header-z-index: Specifies the component header's z-index.
  * @prop --calcite-panel-heading-text-color: Specifies the component's heading text color.
  *
@@ -28,37 +31,24 @@
   block-size: var(--calcite-container-size-content-fluid);
   flex: 1 1 auto;
   overflow: hidden;
-  --calcite-internal-panel-transition: max-block-size var(--calcite-animation-timing),
-    inline-size var(--calcite-animation-timing);
-
-  --calcite-panel-background-color: var(--calcite-color-background);
-  --calcite-panel-border-color: var(--calcite-color-border-3);
-  --calcite-panel-description-text-color: var(--calcite-color-text-2);
-  --calcite-panel-fab-z-index: var(--calcite-z-index-sticky);
-  --calcite-panel-footer-background-color: var(--calcite-color-foreground-1);
-  --calcite-panel-footer-space: var(--calcite-panel-footer-padding, var(--calcite-spacing-sm));
-  --calcite-panel-heading-text-color: var(--calcite-color-text-2);
-  --calcite-panel-header-background-color: var(--calcite-color-foreground-1);
-  --calcite-panel-header-z-index: var(--calcite-z-index-header);
-  --calcite-panel-header-border-width: var(--calcite-border-width-sm);
-  --calcite-panel-header-border-block-end: var(--calcite-border-width-sm) solid var(--calcite-panel-border-color);
 }
 
 @include disabled();
 
 .header {
-  color: var(--calcite-panel-heading-text-color);
+  color: var(--calcite-panel-heading-text-color, var(--calcite-color-text-2));
   margin: 0;
   align-content: space-between;
   align-items: center;
   display: flex;
   flex: 1;
   flex-direction: column;
-  z-index: var(--calcite-panel-header-z-index);
-  background-color: var(--calcite-panel-header-background-color);
+  z-index: var(--calcite-panel-header-z-index, var(--calcite-z-index-header));
+  background-color: var(--calcite-panel-header-background-color, var(--calcite-color-foreground-1));
   border-block-end: var(
     --calcite-panel-header-border-block-end,
-    var(--calcite-panel-header-border-width) solid var(--calcite-panel-border-color)
+    var(--calcite-panel-header-border-width, var(--calcite-border-width-sm)) solid
+      var(--calcite-panel-border-color, var(--calcite-color-border-3))
   );
 }
 
@@ -74,7 +64,7 @@
 }
 
 .container {
-  background-color: var(--calcite-panel-background-color);
+  background-color: var(--calcite-panel-background-color, var(--calcite-color-background));
   margin: 0;
   display: flex;
   inline-size: var(--calcite-container-size-content-fluid);
@@ -82,7 +72,9 @@
   flex-direction: column;
   align-items: stretch;
   padding: 0;
-  transition: var(--calcite-internal-panel-transition);
+  transition:
+    max-block-size var(--calcite-animation-timing),
+    inline-size var(--calcite-animation-timing);
 }
 
 .container[hidden] {
@@ -99,7 +91,8 @@
 }
 
 .header-container--border-end {
-  border-block-end: var(--calcite-border-width-sm) solid var(--calcite-panel-border-color);
+  border-block-end: var(--calcite-border-width-sm) solid
+    var(--calcite-panel-border-color, var(--calcite-color-border-3));
 }
 
 .action-bar-container {
@@ -134,14 +127,14 @@
     }
   }
   .description {
-    color: var(--calcite-panel-description-text-color);
+    color: var(--calcite-panel-description-text-color, var(--calcite-color-text-2));
     font-size: var(--calcite-font-size--1);
     line-height: var(--calcite-font-line-height-relative);
   }
 }
 
 .back-button {
-  border-color: var(--calcite-panel-border-color);
+  border-color: var(--calcite-panel-border-color, var(--calcite-color-border-3));
   border-style: solid;
   border-width: 0px;
   border-inline-end-width: var(--calcite-border-width-sm);
@@ -164,19 +157,20 @@
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: stretch;
-  background-color: var(--calcite-panel-background-color);
+  background-color: var(--calcite-panel-background-color, var(--calcite-color-background));
   overflow: auto;
   block-size: var(--calcite-container-size-content-fluid);
 }
 
 .footer {
-  background-color: var(--calcite-panel-footer-background-color);
+  background-color: var(--calcite-panel-footer-background-color, var(--calcite-color-foreground-1));
   inline-size: var(--calcite-container-size-content-fluid);
   display: flex;
   justify-content: space-evenly;
   flex: 0 0 auto;
-  padding: var(--calcite-panel-footer-space);
-  border-block-start: var(--calcite-border-width-sm) solid var(--calcite-panel-border-color);
+  padding: var(--calcite-panel-footer-space, var(--calcite-panel-footer-padding, var(--calcite-spacing-sm)));
+  border-block-start: var(--calcite-border-width-sm) solid
+    var(--calcite-panel-border-color, var(--calcite-color-border-3));
 }
 
 .fab-container {
@@ -185,7 +179,7 @@
   margin-inline: auto;
   margin-block: 0;
   display: block;
-  z-index: var(--calcite-panel-fab-z-index);
+  z-index: var(--calcite-panel-fab-z-index, var(--calcite-z-index-sticky));
   padding: var(--calcite-spacing-xxs);
   inset-inline: 0;
   inline-size: fit-content;
@@ -195,6 +189,11 @@ calcite-action {
   --calcite-action-indicator-color: var(--calcite-panel-action-indicator-color);
   --calcite-action-background-color: var(--calcite-panel-action-background-color);
   --calcite-action-text-color: var(--calcite-panel-action-text-color);
+}
+
+calcite-action-menu {
+  --calcite-action-menu-border-color: var(--calcite-panel-action-menu-border-color);
+  --calcite-action-menu-text-color: var(--calcite-panel-action-menu-text-color);
 }
 
 @include base-component();

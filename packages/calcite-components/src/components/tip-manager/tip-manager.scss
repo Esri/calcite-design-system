@@ -29,7 +29,7 @@
   @apply hidden;
 }
 
-@import "../../assets/styles/header";
+@include header();
 
 .header {
   @apply border-color-3

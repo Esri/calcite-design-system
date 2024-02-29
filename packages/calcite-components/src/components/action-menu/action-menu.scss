@@ -3,41 +3,42 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- *
- * @prop --calcite-action-menu-action-indicator-color: defines the indicator color of an action sub-component inside the component.
  * @prop --calcite-action-menu-action-background-color: defines the background color of an action sub-component inside the component.
+ * @prop --calcite-action-menu-action-indicator-color: defines the indicator color of an action sub-component inside the component.
  * @prop --calcite-action-menu-action-text-color: defines the text color of an action sub-component inside the component.
+ * @prop --calcite-action-menu-group-separator-border-color: The border color of the component.
  *
  */
 
 :host {
-  @apply text-color-2
-  text-1
+  @apply text-1
   box-border
   flex
   flex-col;
 }
 
 ::slotted(calcite-action-group) {
-  border-block-end: 1px solid var(--calcite-color-border-3);
+  border-block-end-style: solid;
+  border-block-end-width: var(--calcite-border-width-sm);
+  border-block-end-color: var(--calcite-action-menu-group-separator-border-color, var(--calcite-color-border-3));
 }
 
 ::slotted(calcite-action-group:last-child) {
-  border-block-end: 0;
+  border-block-end: var(--calcite-border-width-none);
 }
 
 .default-trigger {
   @apply relative
-  h-full
   flex-initial
   self-stretch;
+  block-size: var(--calcite-container-size-content-fluid);
 }
 
 @include slotted("trigger", "calcite-action") {
   @apply relative
-  h-full
   flex-initial
   self-stretch;
+  block-size: var(--calcite-container-size-content-fluid);
 }
 
 .menu {
@@ -53,6 +54,10 @@ calcite-action {
   --calcite-action-indicator-color: var(--calcite-action-menu-action-indicator-color);
   --calcite-action-background-color: var(--calcite-action-menu-action-background-color);
   --calcite-action-text-color: var(--calcite-action-menu-action-text-color);
+}
+
+calcite-popover {
+  // TODO: add sub-component tokens
 }
 
 @include base-component();

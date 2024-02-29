@@ -5,10 +5,15 @@
  *
  * @prop --calcite-action-group-action-background-color: defines the background color of an action sub-component inside the component.
  * @prop --calcite-action-group-action-indicator-color: defines the indicator color of an action sub-component inside the component.
+ * @prop --calcite-action-group-action-menu-border-color: The border color of the sub-component.
+ * @prop --calcite-action-group-action-menu-text-color: The text color of the sub-component.
  * @prop --calcite-action-group-action-text-color: defines the text color of an action sub-component inside the component.
- * @prop --calcite-action-group-columns: Sets number of grid-template-columns when the `layout` property is `"grid"`.
- * @prop --calcite-action-group-gap: Sets the gap (gutters) between rows and columns when the `layout` property is `"grid"`.
- * @prop --calcite-action-group-padding: Sets the padding when the `layout` property is `"grid"`.
+ * @prop --calcite-action-group-background-color: defines the background color of the component.
+ * @prop --calcite-action-group-columns: *deprecated* Sets number of grid-template-columns when the `layout` property is `"grid"`.
+ * @prop --calcite-action-group-gap: *deprecated* Sets the gap (gutters) between rows and columns when the `layout` property is `"grid"`.
+ * @prop --calcite-action-group-padding: *deprecated* Sets the padding when the `layout` property is `"grid"`.
+ * @prop --calcite-internal-action-group-columns: Sets number of grid-template-columns when the `layout` property is `"grid"`.
+ * @prop --calcite-internal-action-group-gap, var(te-internal-action-group-gap: Sets the gap (gutters) between rows and columns when the `layout` property is `"grid"`).
  *
  */
 
@@ -19,9 +24,8 @@
   flex-col
   p-0;
 
-  --calcite-action-group-columns: 3;
-  --calcite-action-group-gap: theme("gap.px");
-  --calcite-action-group-padding: theme("padding.px");
+  --calcite-internal-action-group-columns: 3;
+  --calcite-internal-action-group-gap: theme("gap.px");
 }
 
 .container {
@@ -29,22 +33,22 @@
 }
 
 :host([columns="1"]) {
-  --calcite-action-group-columns: 1;
+  --calcite-internal-action-group-columns: 1;
 }
 :host([columns="2"]) {
-  --calcite-action-group-columns: 2;
+  --calcite-internal-action-group-columns: 2;
 }
 :host([columns="3"]) {
-  --calcite-action-group-columns: 3;
+  --calcite-internal-action-group-columns: 3;
 }
 :host([columns="4"]) {
-  --calcite-action-group-columns: 4;
+  --calcite-internal-action-group-columns: 4;
 }
 :host([columns="5"]) {
-  --calcite-action-group-columns: 5;
+  --calcite-internal-action-group-columns: 5;
 }
 :host([columns="6"]) {
-  --calcite-action-group-columns: 6;
+  --calcite-internal-action-group-columns: 6;
 }
 
 :host(:first-child) {
@@ -61,12 +65,20 @@
 }
 
 :host([layout="grid"]) .container {
-  @apply bg-background
-  grid
+  @apply grid
   place-content-stretch;
-  gap: var(--calcite-action-group-gap);
-  padding: var(--calcite-action-group-gap);
-  grid-template-columns: repeat(var(--calcite-action-group-columns), auto);
+  gap: var(--calcite-action-group-gap, var(--calcite-internal-action-group-gap));
+  padding: var(--calcite-action-group-gap, var(--calcite-internal-action-group-gap));
+  grid-template-columns: repeat(
+    var(--calcite-action-group-columns, var(--calcite-internal-action-group-columns)),
+    auto
+  );
+  background-color: var(--calcite-action-group-background-color, var(--calcite-color-background));
+}
+
+calcite-action-menu {
+  --calcite-action-menu-border-color: var(--calcite-action-group-action-menu-border-color);
+  --calcite-action-menu-text-color: var(--calcite-action-group-action-menu-text-color);
 }
 
 calcite-action {

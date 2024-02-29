@@ -3,21 +3,20 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-block-action-menu-border-color: The border color of the sub-component.
+ * @prop --calcite-block-action-menu-text-color: The text color of the sub-component.
  * @prop --calcite-block-padding: Specifies the padding of the block `default` slot.
  */
 
 :host {
   @extend %component-host;
-  @extend %component-spacing;
   @apply transition-margin ease-cubic border-color-3 flex flex-shrink-0 flex-grow-0
     flex-col border-0 border-b border-solid p-0 duration-150;
   flex-basis: auto;
 }
 
 @include disabled();
-
-@import "../../assets/styles/animation";
-@import "../../assets/styles/header";
+@include header();
 
 .header {
   @apply justify-start p-0;
@@ -159,6 +158,11 @@ calcite-action-menu {
   .header .title .heading {
     @apply text-color-1;
   }
+}
+
+calcite-action-menu {
+  --calcite-action-menu-border-color: var(--calcite-block-action-menu-border-color);
+  --calcite-action-menu-text-color: var(--calcite-block-action-menu-text-color);
 }
 
 @include base-component();
