@@ -3,31 +3,30 @@
 *
 * These properties can be overridden using the component's tag as selector.
 *
-* @prop --calcite-handle-text-color: Specifies the text color of the component.
-* @prop --calcite-handle-text-color-hover: Specifies the text color of the component when in hover state.
-* @prop --calcite-handle-text-color-focus: Specifies the text color of the component when in focus state.
-* @prop --calcite-handle-text-color-selected: Specifies the text color of the component when selected.
+* @prop --calcite-handle-icon-color: Specifies the icon color of the component.
+* @prop --calcite-handle-icon-color-hover: Specifies the icon color of the component when in hover state.
+* @prop --calcite-handle-icon-color-focus: Specifies the icon color of the component when in focus state.
+* @prop --calcite-handle-icon-color-selected: Specifies the icon color of the component when selected.
 
 * @prop --calcite-handle-background-color: Specifies the background color of the component.
 * @prop --calcite-handle-background-color-hover: Specifies the background color of the component when in hover state.
+* @prop --calcite-handle-background-color-focus: Specifies the background color of the component when in focus state.
 * @prop --calcite-handle-background-color-selected: Specifies the background color of the component when selected.
 */
 
 :host {
   @apply flex;
 
-  --calcite-handle-text-color: var(--calcite-color-border-input);
+  --calcite-handle-icon-color: var(--calcite-color-border-input);
   --calcite-handle-background-color: transparent;
 
-  /* hover */
-  --calcite-handle-text-color-hover: var(--calcite-color-text-1);
+  --calcite-handle-icon-color-hover: var(--calcite-color-text-1);
   --calcite-handle-background-color-hover: var(--calcite-color-foreground-2);
 
-  /* focus */
-  --calcite-handle-text-color-focus: var(--calcite-color-text-1);
+  --calcite-handle-icon-color-focus: var(--calcite-color-text-1);
+  --calcite-handle-background-color-focus: transparent;
 
-  /* selected */
-  --calcite-handle-text-color-selected: var(--calcite-color-text-1);
+  --calcite-handle-icon-color-selected: var(--calcite-color-text-1);
   --calcite-handle-background-color-selected: var(--calcite-color-foreground-3);
 }
 
@@ -45,7 +44,7 @@
   cursor: move;
 
   background-color: var(--calcite-handle-background-color);
-  color: var(--calcite-handle-text-color);
+  color: var(--calcite-handle-icon-color);
 
   calcite-icon {
     color: inherit;
@@ -55,15 +54,15 @@
 :host(:not([disabled])) .handle {
   @apply cursor-move;
   &:hover {
-    color: var(--calcite-handle-text-color-hover);
+    color: var(--calcite-handle-icon-color-hover);
     background-color: var(--calcite-handle-background-color-hover);
   }
   &:focus {
     @apply focus-inset;
-    color: var(--calcite-handle-text-color-focus);
+    color: var(--calcite-handle-icon-color-focus);
   }
   &--selected {
-    color: var(--calcite-handle-text-color-selected);
+    color: var(--calcite-handle-icon-color-selected);
     background-color: var(--calcite-handle-background-color-selected);
   }
 }
