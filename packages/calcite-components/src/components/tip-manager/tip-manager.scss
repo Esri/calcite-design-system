@@ -4,8 +4,11 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-tip-manager-action-background-color: defines the background color of an action sub-component inside the component.
- * @prop --calcite-tip-manager-action-indicator-color: defines the indicator color of an action sub-component inside the component.
  * @prop --calcite-tip-manager-action-text-color: defines the text color of an action sub-component inside the component.
+ * @prop --calcite-tip-manager-action-background-color-hover: defines the background color of an action sub-component when hovered or focused inside the component.
+ * @prop --calcite-tip-manager-action-text-color-hover: defines the text color of an action sub-component when hovered or focused inside the component.
+ * @prop --calcite-tip-manager-action-background-color-active: defines the background color of an action sub-component when active inside the component.
+ * @prop --calcite-tip-manager-action-text-color-active: defines the text color of an action sub-component when active inside the component.
  * @prop --calcite-tip-manager-height: The maximum height of the component.
  * @prop --calcite-tip-max-width: The maximum width of a slotted `calcite-tip` within the component.
  *
@@ -125,9 +128,19 @@
 }
 
 calcite-action {
-  --calcite-action-indicator-color: var(--calcite-tip-manager-action-indicator-color);
   --calcite-action-background-color: var(--calcite-tip-manager-action-background-color);
   --calcite-action-text-color: var(--calcite-tip-manager-action-text-color);
+
+  &:hover,
+  &:focus {
+    --calcite-action-background-color: var(--calcite-tip-manager-action-background-color-hover);
+    --calcite-action-text-color: var(--calcite-tip-manager-action-text-color-hover);
+  }
+
+  &:active {
+    --calcite-action-background-color: var(--calcite-tip-manager-action-background-color-active);
+    --calcite-action-text-color: var(--calcite-tip-manager-action-text-color-active);
+  }
 }
 
 @include base-component();

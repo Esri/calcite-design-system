@@ -4,8 +4,8 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-flow-item-action-background-color: defines the background color of an action sub-component inside the component.
- * @prop --calcite-flow-item-action-indicator-color: defines the indicator color of an action sub-component inside the component.
- * @prop --calcite-flow-item-action-text-color: defines the text color of an action sub-component inside the component.
+ * @prop --calcite-flow-item-action-background-color-hover: defines the background color of an action sub-component is hovered or focused inside the component.
+ * @prop --calcite-flow-item-action-background-color-active: defines the background color of an action sub-component is active inside the component.
  * @prop --calcite-flow-item-background-color: Specifies the background color of the component.
  * @prop --calcite-flow-item-border-color: Specifies the border color of the component.
  * @prop --calcite-flow-item-description-text-color: Specifies the text color of the component's description.
@@ -55,9 +55,16 @@ calcite-panel {
 }
 
 calcite-action {
-  --calcite-action-indicator-color: var(--calcite-flow-item-action-indicator-color);
   --calcite-action-background-color: var(--calcite-flow-item-action-background-color);
-  --calcite-action-text-color: var(--calcite-flow-item-action-text-color);
+
+  &:hover,
+  &:focus {
+    --calcite-action-background-color: var(--calcite-flow-item-action-background-color-hover);
+  }
+
+  &:active {
+    --calcite-action-background-color: var(--calcite-flow-item-action-background-color-active);
+  }
 }
 
 @include base-component();
