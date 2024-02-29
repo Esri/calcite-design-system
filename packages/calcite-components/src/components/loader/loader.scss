@@ -16,8 +16,6 @@
  * @prop --calcite-loader-bar-width:  defines the width of the loader animation. 
  */
 
-@import "../../assets/styles/animation";
-
 $stroke-width: 3;
 $loader-scale: 54;
 $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
