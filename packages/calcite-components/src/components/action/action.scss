@@ -17,6 +17,20 @@
   background-color: var(--calcite-action-background-color, transparent);
 }
 
+@mixin action-indicator() {
+  position: relative;
+  &::after {
+    content: "";
+    @apply absolute
+      h-2
+      w-2
+      rounded-full;
+    inset-block-end: calc(-0.275rem);
+    inset-inline-end: calc(-0.275rem);
+    background-color: var(--calcite-action-indicator-color);
+  }
+}
+
 .action-indicator {
   position: relative;
   &::after {
@@ -94,6 +108,15 @@ button {
   .action-indicator {
     @apply w-4 mx-1;
   }
+}
+
+.indicator-with-icon {
+  @include action-indicator();
+}
+
+.indicator-without-icon {
+  @apply w-4 mx-1;
+  @include action-indicator();
 }
 
 // Slotted Icon
