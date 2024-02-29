@@ -11,8 +11,6 @@
  * @prop --calcite-switch-shadow: Specifies the shadow of the component.
  */
 
-@import "~@esri/calcite-design-tokens/dist/scss/core";
-
 :host {
   --calcite-switch-handle-background-color: var(--calcite-color-foreground-1);
   --calcite-switch-handle-border-color: var(--calcite-color-border-input);
