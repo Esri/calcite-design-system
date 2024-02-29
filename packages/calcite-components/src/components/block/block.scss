@@ -10,29 +10,14 @@
  * @prop --calcite-block-content-space: Specifies the space of the component's `default` slot.
  * @prop --calcite-block-description-text-color: Specifies the text color of the component's description.
  * @prop --calcite-block-header-background-color: Specifies the background color of the component's header.
+ * @prop --calcite-block-header-background-color-hover: Specifies the background color of the component's header when hovered.
  * @prop --calcite-block-heading-text-color: Specifies the text color of the component's heading.
+ * @prop --calcite-block-heading-text-color-open: Specifies the text color of the component's heading when open.
  * @prop --calcite-block-padding: [Deprecated] use `--calcite-block-content-space` instead - Specifies the padding of the component's `default` slot.
  * @prop --calcite-block-toggle-icon-color: Specifies the color of the component's toggle icon.
  */
 
 :host {
-  @extend %component-host;
-  @apply transition-margin ease-cubic border-color-3 flex flex-shrink-0 flex-grow-0
-    flex-col border-0 border-b border-solid p-0 duration-150;
-  flex-basis: auto;
-}
-
-@include disabled();
-@include header();
-
-:host {
-  --calcite-block-background-color: var(--calcite-color-foreground-1);
-  --calcite-block-border-color: var(--calcite-color-border-3);
-  --calcite-block-description-text-color: var(--calcite-color-text-3);
-  --calcite-block-header-background-color: transparent;
-  --calcite-block-heading-text-color: var(--calcite-color-text-2);
-  --calcite-block-toggle-icon-color: var(--calcite-color-text-3);
-
   --calcite-internal-block-padding-inline: var(
     --calcite-block-padding,
     var(--calcite-block-content-space, theme("spacing[2.5]"))
@@ -47,8 +32,8 @@
     flex flex-col flex-grow-0 flex-shrink-0 p-0 transition-margin;
   flex-basis: auto;
 
-  border-color: var(--calcite-block-border-color);
-  background-color: var(--calcite-block-background-color);
+  border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
+  background-color: var(--calcite-block-background-color, var(--calcite-color-foreground-1));
 }
 
 .header {
@@ -80,11 +65,18 @@
     border-none
     p-0;
   text-align: initial;
-  background-color: var(--calcite-block-header-background-color);
+  background-color: var(--calcite-block-header-background-color, transparent);
+
+  .toggle-icon {
+    color: var(--calcite-block-toggle-icon-color, var(--calcite-color-text-3));
+  }
 
   &:hover {
-    --calcite-block-header-background-color: var(--calcite-color-foreground-2);
-    --calcite-block-toggle-icon-color: var(--calcite-color-text-1);
+    background-color: var(--calcite-block-header-background-color-hover, var(--calcite-color-foreground-2));
+
+    .toggle-icon {
+      color: var(--calcite-block-toggle-icon-color, var(--calcite-color-text-1));
+    }
   }
   &:focus {
     @apply focus-inset;
@@ -115,7 +107,7 @@ calcite-handle {
     duration-150
     ease-in-out;
 
-  color: var(--calcite-block-heading-text-color);
+  color: var(--calcite-block-heading-text-color, var(--calcite-color-text-2));
 }
 
 .description {
@@ -124,7 +116,7 @@ calcite-handle {
     mt-0.5
     p-0;
 
-  color: var(--calcite-block-description-text-color);
+  color: var(--calcite-block-description-text-color, var(--calcite-color-text-3));
 }
 
 .icon {
@@ -151,7 +143,6 @@ calcite-handle {
   transition-color;
   margin-inline-end: theme("spacing.3");
   margin-inline-start: auto;
-  color: var(--calcite-block-toggle-icon-color);
 }
 
 .container {
@@ -169,12 +160,10 @@ calcite-handle {
   grid-area: control;
 }
 
-calcite-action-menu {
-  grid-area: menu;
-}
-
 :host([open]) {
-  --calcite-block-heading-text-color: var(--calcite-color-text-1);
+  .heading {
+    color: var(--calcite-block-heading-text-color-open, var(--calcite-color-text-1));
+  }
 
   @apply my-2;
 }
@@ -182,6 +171,10 @@ calcite-action-menu {
 calcite-action-menu {
   --calcite-action-menu-border-color: var(--calcite-block-action-menu-border-color);
   --calcite-action-menu-text-color: var(--calcite-block-action-menu-text-color);
+
+  grid-area: menu;
 }
 
 @include base-component();
+@include disabled();
+@include header();
