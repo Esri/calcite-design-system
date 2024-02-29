@@ -3,17 +3,17 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-loader-font-size: *deprecated* Specifies the font size of the loading percentage when type is `"determinate"`.
- * @prop --calcite-loader-size: *deprecated* The width and height of a non-inline loader.
- * @prop --calcite-loader-size-inline: *deprecated* The width and height of an inline loader.
- * @prop --calcite-loader-padding: *deprecated* Specifies the padding of the loader.
- * @prop --calcite-loader-track-color-determinate: var(--calcite-color-border-3); defines the track color of a "determinate" loader
- * @prop --calcite-loader-text-color: var(--calcite-color-text-1); defines the text color of a loader.
- * @prop --calcite-loader-bar-color: defines the progress bar color of a loader.
- * @prop --calcite-loader-bar-color-start:  defines the starting color of a loader. Applies to --calcite-loader-bar-color between 0% - 33% of the animation.
- * @prop --calcite-loader-bar-color-oneThird: defines the color of a loader. Applies to --calcite-loader-bar-color between 33% - 66% of the animation.
- * @prop --calcite-loader-bar-color-twoThirds: defines the color of a loader. Applies to --calcite-loader-bar-color between 66% - 99% of the animation.
+ * @prop --calcite-loader-color-oneThird: defines the color of a loader. Applies to --calcite-loader-color between 33% - 66% of the animation.
+ * @prop --calcite-loader-color-start:  defines the starting color of a loader. Applies to --calcite-loader-color between 0% - 33% of the animation.
+ * @prop --calcite-loader-color-twoThirds: defines the color of a loader. Applies to --calcite-loader-color between 66% - 99% of the animation.
  * @prop --calcite-loader-bar-width:  *deprecated* defines the width of the loader animation. 
+ * @prop --calcite-loader-font-size: *deprecated* Specifies the font size of the loading percentage when type is `"determinate"`.
+ * @prop --calcite-loader-padding: *deprecated* Specifies the padding of the loader.
+ * @prop --calcite-loader-size-inline: *deprecated* The width and height of an inline loader.
+ * @prop --calcite-loader-size: *deprecated* The width and height of a non-inline loader.
+ * @prop --calcite-loader-text-color: var(--calcite-color-text-1); defines the text color of a loader.
+ * @prop --calcite-loader-track-color-determinate: var(--calcite-color-border-3); defines the track color of a "determinate" loader
+ *
  */
 
 $stroke-width: 3;
@@ -222,16 +222,16 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 
 @keyframes loader-color-shift {
   0% {
-    --calcite-internal-loader-bar-color: var(--calcite-loader-bar-color-start, var(--calcite-color-brand));
+    --calcite-internal-loader-bar-color: var(--calcite-loader-color-start, var(--calcite-color-brand));
   }
   33% {
-    --calcite-internal-loader-bar-color: var(--calcite-loader-bar-color-oneThird, var(--calcite-color-brand-press));
+    --calcite-internal-loader-bar-color: var(--calcite-loader-color-oneThird, var(--calcite-color-brand-press));
   }
   66% {
-    --calcite-internal-loader-bar-color: var(--calcite-loader-bar-color-twoThirds, var(--calcite-color-brand-hover));
+    --calcite-internal-loader-bar-color: var(--calcite-loader-color-twoThirds, var(--calcite-color-brand-hover));
   }
   100% {
-    --calcite-internal-loader-bar-color: var(--calcite-loader-bar-color-start, var(--calcite-color-brand));
+    --calcite-internal-loader-bar-color: var(--calcite-loader-color-start, var(--calcite-color-brand));
   }
 }
 
