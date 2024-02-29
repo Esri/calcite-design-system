@@ -6,9 +6,9 @@
  * @prop --calcite-scrim-background: [Deprecated] Use the `--calcite-scrim-background-color` property instead. Specifies the background color of the component.
  * @prop --calcite-scrim-background-color: Specifies the background color of the component.
  
- * @prop --calcite-action-loader-color-oneThird: Specifies the starting color of the loader
- * @prop --calcite-action-loader-color-start: Specifies the starting color of the loader
- * @prop --calcite-action-loader-color-twoThirds: Specifies the starting color of the loader
+ * @prop --calcite-scrim-loader-color-oneThird: Specifies the starting color of the loader
+ * @prop --calcite-scrim-loader-color-start: Specifies the starting color of the loader
+ * @prop --calcite-scrim-loader-color-twoThirds: Specifies the starting color of the loader
  */
 :host {
   --calcite-scrim-background-color: var(--calcite-scrim-background, var(--calcite-color-transparent-scrim));
@@ -52,9 +52,9 @@
 }
 
 calcite-loader {
-  --calcite-loader-color-oneThird: var(--calcite-action-loader-color-oneThird);
-  --calcite-loader-color-start: var(--calcite-action-loader-color-start);
-  --calcite-loader-color-twoThirds: var(--calcite-action-loader-color-twoThirds);
+  --calcite-loader-color-oneThird: var(--calcite-scrim-loader-color-oneThird);
+  --calcite-loader-color-start: var(--calcite-scrim-loader-color-start);
+  --calcite-loader-color-twoThirds: var(--calcite-scrim-loader-color-twoThirds);
 }
 
 @include base-component();

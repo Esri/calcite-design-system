@@ -237,9 +237,9 @@ slot[name="footer-end"]::slotted(*) {
 }
 
 calcite-loader {
-  --calcite-loader-color-oneThird: var(--calcite-action-loader-color-oneThird);
-  --calcite-loader-color-start: var(--calcite-action-loader-color-start);
-  --calcite-loader-color-twoThirds: var(--calcite-action-loader-color-twoThirds);
+  --calcite-loader-color-oneThird: var(--calcite-card-loader-color-oneThird);
+  --calcite-loader-color-start: var(--calcite-card-loader-color-start);
+  --calcite-loader-color-twoThirds: var(--calcite-card-loader-color-twoThirds);
 }
 
 @include base-component();
