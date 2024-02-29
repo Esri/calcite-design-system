@@ -165,4 +165,18 @@ calcite-action-menu {
   --calcite-action-menu-text-color: var(--calcite-block-action-menu-text-color);
 }
 
+calcite-handle {
+  --calcite-handle-icon-color: var(--calcite-color-border-input);
+  --calcite-handle-background-color: transparent;
+
+  --calcite-handle-icon-color-hover: var(--calcite-color-text-1);
+  --calcite-handle-background-color-hover: var(--calcite-color-foreground-2);
+
+  --calcite-handle-icon-color-focus: var(--calcite-color-text-1);
+  --calcite-handle-background-color-focus: transparent;
+
+  --calcite-handle-icon-color-selected: var(--calcite-color-text-1);
+  --calcite-handle-background-color-selected: var(--calcite-color-foreground-3);
+}
+
 @include base-component();
