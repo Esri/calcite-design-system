@@ -31,20 +31,6 @@
   }
 }
 
-.action-indicator {
-  position: relative;
-  &::after {
-    content: "";
-    @apply absolute
-      h-2
-      w-2
-      rounded-full;
-    inset-block-end: calc(-0.275rem);
-    inset-inline-end: calc(-0.275rem);
-    background-color: var(--calcite-action-indicator-color, var(--calcite-color-brand));
-  }
-}
-
 button {
   @apply focus-base
     text-n2h
@@ -104,10 +90,6 @@ button {
   .text-container--visible {
     @apply w-auto flex-auto opacity-100;
   }
-
-  .action-indicator {
-    @apply w-4 mx-1;
-  }
 }
 
 .indicator-with-icon {
@@ -117,16 +99,6 @@ button {
 .indicator-without-icon {
   @apply w-4 mx-1;
   @include action-indicator();
-}
-
-// Slotted Icon
-::slotted(*:not([name="tooltip"])) {
-  @apply flex;
-}
-:host([loading]) {
-  ::slotted(:not([name="tooltip"])) {
-    @apply hidden;
-  }
 }
 
 :host([data-active]) button {
