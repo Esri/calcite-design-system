@@ -1,3 +1,12 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-menu-item-action-menu-border-color: The border color of the sub-component.
+ * @prop --calcite-menu-item-action-menu-text-color: The text color of the sub-component.
+ */
+
 :host {
   @apply flex
   items-center
@@ -204,6 +213,11 @@ calcite-action {
 .content:focus .hover-href-icon,
 .content:hover .hover-href-icon {
   @apply opacity-100 -end-1;
+}
+
+calcite-action-menu {
+  --calcite-action-menu-border-color: var(--calcite-menu-item-action-menu-border-color);
+  --calcite-action-menu-text-color: var(--calcite-menu-item-action-menu-text-color);
 }
 
 @include base-component();
