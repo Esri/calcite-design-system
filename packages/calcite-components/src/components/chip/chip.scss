@@ -153,13 +153,14 @@
 
 .close {
   @apply focus-base
-    transition-default
+
     text-color-1
     m-0
     cursor-pointer
     items-center
     border-none
     bg-transparent;
+  @include transition-default();
   -webkit-appearance: none;
   display: flex;
   border-radius: 50%;

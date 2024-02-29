@@ -85,7 +85,8 @@
 }
 
 .divider-container {
-  @apply transition-default flex w-px items-stretch;
+  @apply flex w-px items-stretch;
+  @include transition-default();
   background-color: var(--calcite-split-button-background);
 }
 

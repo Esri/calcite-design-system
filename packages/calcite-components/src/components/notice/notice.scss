@@ -77,8 +77,8 @@
     box-border
     hidden
     w-full
-    opacity-0
-    transition-default;
+    opacity-0;
+  @include transition-default();
   max-block-size: 0;
   text-align: start;
   border-inline-start: 0px solid;
@@ -117,7 +117,8 @@
 }
 
 @mixin notice-element-base() {
-  @apply transition-default box-border;
+  @apply box-border;
+  @include transition-default();
   padding-block: var(--calcite-notice-spacing-token-small);
   padding-inline: var(--calcite-notice-spacing-token-large);
   flex: 0 0 auto;

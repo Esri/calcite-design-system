@@ -7,13 +7,15 @@
  */
 
 :host {
-  @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;
+  @apply text-color-1  box-border flex h-auto w-full items-center font-medium opacity-100;
+  @include transition-default();
   --calcite-input-message-spacing-value: theme("spacing.1");
   margin-block-start: var(--calcite-input-message-spacing-value);
 }
 
 .calcite-input-message-icon {
-  @apply transition-default pointer-events-none inline-flex flex-shrink-0;
+  @apply pointer-events-none inline-flex flex-shrink-0;
+  @include transition-default();
   margin-inline-end: theme("margin.2");
 }
 

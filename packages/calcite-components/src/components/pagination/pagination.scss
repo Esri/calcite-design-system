@@ -71,7 +71,8 @@
   border-block: 2px solid transparent;
 
   &:hover {
-    @apply text-color-1 transition-default;
+    @apply text-color-1;
+    @include transition-default();
   }
 }
 

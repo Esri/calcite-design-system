@@ -236,9 +236,11 @@ input[type="text"]::-ms-reveal {
   border-inline-start-width: theme("borderWidth.0");
 
   &:hover {
-    @apply bg-foreground-2 transition-default;
+    @apply bg-foreground-2;
+    @include transition-default();
     calcite-icon {
-      @apply text-color-1 transition-default;
+      @apply text-color-1;
+      @include transition-default();
     }
   }
   &:active {
@@ -329,7 +331,8 @@ input[type="text"]::-ms-reveal {
 // input needed for higher specificity of these overrides
 input {
   &.inline-child {
-    @apply transition-default bg-transparent;
+    @apply bg-transparent;
+    @include transition-default();
     .editing-enabled {
       background-color: inherit;
     }

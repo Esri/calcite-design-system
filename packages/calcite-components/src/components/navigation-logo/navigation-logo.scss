@@ -8,10 +8,11 @@
     items-center
     justify-center
     cursor-pointer
-    transition-default
+
     focus-base
     no-underline
     text-0h;
+  @include transition-default();
   color: inherit;
   border-block-end: 2px solid transparent;
 }

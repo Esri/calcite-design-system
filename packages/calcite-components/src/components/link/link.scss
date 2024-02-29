@@ -6,7 +6,7 @@
 :host a,
 :host span {
   @apply font-inherit
-    transition-default
+
     relative
     flex
     cursor-pointer
@@ -14,6 +14,7 @@
     justify-center
     rounded-none
     border-none;
+  @include transition-default();
   text-decoration: none;
   line-height: inherit;
   font-size: inherit;
@@ -40,7 +41,8 @@ calcite-icon {
 }
 
 .calcite-link--icon {
-  @apply transition-default align-middle;
+  @apply align-middle;
+  @include transition-default();
   margin-block-start: -0.25em;
 }
 
@@ -57,12 +59,13 @@ calcite-icon {
   span,
   a {
     @apply text-color-link
-      transition-default
+
       relative
       inline
       border-none
       bg-transparent
       p-0;
+    @include transition-default();
     line-height: inherit;
     white-space: initial;
     background-image: linear-gradient(currentColor, currentColor),
