@@ -144,7 +144,7 @@ describe("calcite-action", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-action indicator text="hello world"></calcite-action>`);
 
-    const button = await page.find(`calcite-action >>> button`);
+    const button = await page.find(`calcite-action >>> .${CSS.button}`);
     expect(button.getAttribute("aria-label")).toBe(`hello world (Indicator present)`);
   });
 
@@ -152,7 +152,7 @@ describe("calcite-action", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-action text="hello world" label="hi"></calcite-action>`);
 
-    const button = await page.find(`calcite-action >>> button`);
+    const button = await page.find(`calcite-action >>> .${CSS.button}`);
     expect(button.getAttribute("aria-label")).toBe("hi");
   });
 
