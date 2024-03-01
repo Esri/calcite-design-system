@@ -9,10 +9,14 @@
  * @prop --calcite-list-item-content-text-color: Specifies the text color of the component's content.
  * @prop --calcite-list-item-description-text-color: Specifies the text color of the component's description.
  * @prop --calcite-list-item-focus: Specifies the focus of the component.
- * @prop --calcite-list-item-handle-background-color: Specifies the background color of the component's handle.
- * @prop --calcite-list-item-handle-text-color: Specifies the text color of the component's handle.
- * @prop --calcite-list-item-icon-color: Specifies the color of the component's icon.
- * @prop --calcite-list-item-label-text-color: Specifies the text color of the component's label.
+* @prop --calcite-list-item-handle-icon-color: Specifies the icon color of the sub-component.
+* @prop --calcite-list-item-handle-icon-color-hover: Specifies the icon color of the sub-component when in hover state.
+* @prop --calcite-list-item-handle-icon-color-focus: Specifies the icon color of the sub-component when in focus state.
+* @prop --calcite-list-item-handle-icon-color-selected: Specifies the icon color of the sub-component when selected.
+* @prop --calcite-list-item-handle-background-color: Specifies the background color of the sub-component.
+* @prop --calcite-list-item-handle-background-color-hover: Specifies the background color of the sub-component when in hover state.
+* @prop --calcite-list-item-handle-background-color-focus: Specifies the background color of the sub-component when in focus state.
+* @prop --calcite-list-item-handle-background-color-selected: Specifies the background color of the sub-component when selected.
  * @prop --calcite-list-item-open-icon-color-hover: Specifies the color of the component's open icon when hovered.
  * @prop --calcite-list-item-selection-border-color: Specifies the border color of the component's selection.
  * @prop --calcite-list-item-selection-icon-color-hover: Specifies the color of the component's selection icon when hovered.
@@ -248,8 +252,17 @@
 }
 
 calcite-handle {
-  --calcite-handle-text-color: var(--calcite-list-item-handle-text-color);
+  --calcite-handle-icon-color: var(--calcite-list-item-handle-icon-color);
   --calcite-handle-background-color: var(--calcite-list-item-handle-background-color);
+
+  --calcite-handle-icon-color-hover: var(--calcite-list-item-handle-icon-color-hover);
+  --calcite-handle-background-color-hover: var(--calcite-list-item-handle-background-color-hover);
+
+  --calcite-handle-icon-color-focus: var(--calcite-list-item-handle-icon-color-focus);
+  --calcite-handle-background-color-focus: var(--calcite-list-item-handle-background-color-focus);
+
+  --calcite-handle-icon-color-selected: var(--calcite-list-item-handle-icon-color-selected);
+  --calcite-handle-background-color-selected: var(--calcite-list-item-handle-background-color-selected);
 }
 
 @include base-component();

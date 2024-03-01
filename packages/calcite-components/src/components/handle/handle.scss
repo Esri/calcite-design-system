@@ -1,3 +1,19 @@
+/**
+* CSS Custom Properties  
+*
+* These properties can be overridden using the component's tag as selector.
+*
+* @prop --calcite-handle-icon-color: Specifies the component's icon color.
+* @prop --calcite-handle-icon-color-hover: Specifies the component's icon color on hover.
+* @prop --calcite-handle-icon-color-focus: Specifies the component's icon color on focus.
+* @prop --calcite-handle-icon-color-selected: Specifies the component's icon color when selected.
+
+* @prop --calcite-handle-background-color: Specifies the component's background color.
+* @prop --calcite-handle-background-color-hover: Specifies the component's background color on hover.
+* @prop --calcite-handle-background-color-focus: Specifies the component's background color on focus.
+* @prop --calcite-handle-background-color-selected: Specifies the component's background color when selected.
+*/
+
 :host {
   @apply flex;
 }
@@ -8,12 +24,15 @@
     items-center
     justify-center
     self-stretch
-    border-none
-    bg-transparent;
-  color: theme("borderColor.color.input");
+    border-none;
+
   padding-block: theme("spacing.3");
   padding-inline: theme("spacing.1");
   line-height: 0;
+  cursor: move;
+
+  background-color: var(--calcite-handle-background-color, transparent);
+  color: var(--calcite-handle-icon-color, var(--calcite-color-border-input));
 
   calcite-icon {
     color: inherit;
@@ -23,14 +42,21 @@
 :host(:not([disabled])) .handle {
   @apply cursor-move;
   &:hover {
-    @apply bg-foreground-2 text-color-1;
+    color: var(--calcite-handle-icon-color-hover, var(--calcite-color-text-1));
+    background-color: var(--calcite-handle-background-color-hover, var(--calcite-color-foreground-2));
   }
   &:focus {
-    @apply text-color-1 focus-inset;
+    @apply focus-inset;
+    color: var(--calcite-handle-icon-color-focus, var(--calcite-color-text-1));
   }
   &--selected {
-    @apply bg-foreground-3 text-color-1;
+    color: var(--calcite-handle-icon-color-selected, var(--calcite-color-text-1));
+    background-color: var(--calcite-handle-background-color-selected, var(--calcite-color-foreground-3));
   }
+}
+
+:host([disabled]) {
+  cursor: pointer;
 }
 
 @include disabled();
