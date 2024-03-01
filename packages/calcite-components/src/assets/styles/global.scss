@@ -1,4 +1,4 @@
-@import "~@esri/calcite-base/dist/_index";
+@import "~@esri/calcite-base/dist/index";
 @import "~@esri/calcite-design-tokens/dist/scss/index";
 @import "~@esri/calcite-design-tokens/dist/scss/core";
 
@@ -19,12 +19,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --calcite-border-radius: var(--calcite-border-radius-round, 4px);
-  --calcite-border-radius-base: 0;
   --calcite-offset-invert-focus: 0; // should be 0 or 1
-  --calcite-panel-width-multiplier: 1;
   --calcite-ui-icon-color: currentColor;
 
-  @apply font-sans;
+  font-family: var(--calcite-sans-family);
 }
 
 .calcite-mode-auto {

@@ -1,5 +1,3 @@
-@import "~@esri/calcite-design-tokens/dist/scss/core";
-
 /**
  * CSS Custom Properties
  *
@@ -16,6 +14,11 @@
  * @prop --calcite-menu-item-breadcrumb-icon-color: Specifies the color of the breadcrumb icon when sub-menu items are slotted.
  * @prop --calcite-menu-item-sub-menu-border-color: Specifies the border color of sub-menu.
  * @prop --calcite-menu-item-sub-menu-border-radius: Specifies the border radius of sub-menu.
+ * @prop --calcite-menu-item-action-background-color: defines the background color of an action sub-component inside a menu-item.
+ * @prop --calcite-menu-item-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
+ * @prop --calcite-menu-item-action-background-color-active: defines the background color of an action sub-component when active.
+ * @prop --calcite-menu-item-action-menu-border-color: The border color of the sub-component.
+ * @prop --calcite-menu-item-action-menu-text-color: The text color of the sub-component.
  */
 
 :host {
@@ -157,6 +160,8 @@
 
 //TODO
 calcite-action {
+  --calcite-action-background-color: var(--calcite-menu-item-action-background-color);
+
   @apply relative h-auto;
   border-inline-start: 1px solid var(--calcite-color-foreground-1);
   &:after {
@@ -170,6 +175,15 @@ calcite-action {
   &:hover:after {
     @apply h-full;
     inset-block: 0;
+  }
+
+  &:hover,
+  &:focus {
+    --calcite-action-background-color: var(--calcite-menu-item-action-background-color-hover);
+  }
+
+  &:active {
+    --calcite-action-background-color: var(--calcite-menu-item-action-background-color-active);
   }
 }
 
@@ -245,6 +259,11 @@ calcite-action {
 .content:hover .hover-href-icon {
   opacity: var(--calcite-opacity-full);
   inset-inline-end: calc(-1 * var(--calcite-spacing-xxs));
+}
+
+calcite-action-menu {
+  --calcite-action-menu-border-color: var(--calcite-menu-item-action-menu-border-color);
+  --calcite-action-menu-text-color: var(--calcite-menu-item-action-menu-text-color);
 }
 
 @include base-component();

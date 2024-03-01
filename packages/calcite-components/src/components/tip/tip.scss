@@ -1,16 +1,22 @@
-@import "../../assets/styles/header";
-
 /**
-* CSS Custom Properties  
-*
-* These properties can be overridden using the component's tag as selector.
-*
-* @prop --calcite-tip-border-color: The border color of the component.
-* @prop --calcite-tip-background-color: The background color of the component.
-* @prop --calcite-tip-text-color: The text color of the component.
-* @prop --calcite-tip-heading-text-color: The heading text color of the component.
-* @prop --calcite-tip-slotted-link-text-color: The text color of the slotted link.
-*/
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tip-action-background-color: defines the background color of an action sub-component inside the component.
+ * @prop --calcite-tip-action-text-color: defines the text color of an action sub-component inside the component.
+ * @prop --calcite-tip-action-background-color-hover: defines the background color of an action sub-component when hovered or focused inside the component.
+ * @prop --calcite-tip-action-text-color-hover: defines the text color of an action sub-component when hovered or focused inside the component.
+ * @prop --calcite-tip-action-background-color-active: defines the background color of an action sub-component when active inside the component.
+ * @prop --calcite-tip-background-color: The background color of the component.
+ * @prop --calcite-tip-border-color: The border color of the component.
+ * @prop --calcite-tip-heading-text-color: The heading text color of the component.
+ * @prop --calcite-tip-slotted-link-text-color: The text color of the slotted link.
+ * @prop --calcite-tip-text-color: The text color of the component.
+ * 
+ */
+
+@include header();
 
 :host {
   @apply text-n1h
@@ -104,6 +110,22 @@
 
 ::slotted(img) {
   @apply max-w-full;
+}
+
+calcite-action {
+  --calcite-action-background-color: var(--calcite-tip-action-background-color);
+  --calcite-action-text-color: var(--calcite-tip-action-text-color);
+
+  &:hover,
+  &:focus {
+    --calcite-action-background-color: var(--calcite-tip-action-background-color-hover);
+    --calcite-action-text-color: var(--calcite-tip-action-text-color-hover);
+  }
+
+  &:active {
+    --calcite-action-background-color: var(--calcite-tip-action-background-color-active);
+    --calcite-action-text-color: var(--calcite-tip-action-text-color-active);
+  }
 }
 
 @include base-component();
