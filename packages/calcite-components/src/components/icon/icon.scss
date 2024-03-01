@@ -14,10 +14,8 @@
  */
 
 :host {
-  --calcite-icon-color: var(--calcite-ui-icon-color, currentcolor);
-
   @apply inline-flex;
-  color: var(--calcite-icon-color);
+  color: var(--calcite-icon-color, var(--calcite-ui-icon-color, currentcolor));
   inline-size: var(--calcite-internal-icon-size);
   block-size: var(--calcite-internal-icon-size);
   min-inline-size: var(--calcite-internal-icon-size);
