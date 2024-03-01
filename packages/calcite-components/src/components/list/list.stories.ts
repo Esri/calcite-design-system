@@ -964,7 +964,7 @@ const themingStyle = `<style>
       --calcite-list-filter-input-corner-radius: 20px;
       --calcite-list-filter-input-text-color: blue;
       --calcite-list-filter-input-border-color: cyan;
-      --calcite-list-filter-input-background-color:
+      --calcite-list-filter-input-background-color: gold;
       --calcite-list-filter-input-button-background-color: lightgray;
       --calcite-list-filter-input-button-background-color-hover: lightgray;
       --calcite-list-filter-input-icon-color: green;
