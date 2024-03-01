@@ -3,22 +3,22 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-menu-item-text-color: Specifies the text color of the component.
- * @prop --calcite-menu-item-text-color-hover: Specifies the text color of the component when hover.
- * @prop --calcite-menu-item-text-color-active: Specifies the text color of the component when active.
- * @prop --calcite-menu-item-background-color: Specifies the background color of the component.
- * @prop --calcite-menu-item-background-color-hover: Specifies the background color of the component when hover.
- * @prop --calcite-menu-item-background-color-active: Specifies the background color of the component when active.
- * @prop --calcite-menu-item-chevron-icon-color: Specifies the color of the dropdown icon when sub-menu items are slotted.
- * @prop --calcite-menu-item-chevron-icon-color-active: Specifies the color of the dropdown icon when active.
- * @prop --calcite-menu-item-breadcrumb-icon-color: Specifies the color of the breadcrumb icon when sub-menu items are slotted.
- * @prop --calcite-menu-item-sub-menu-border-color: Specifies the border color of sub-menu.
- * @prop --calcite-menu-item-sub-menu-border-radius: Specifies the border radius of sub-menu.
- * @prop --calcite-menu-item-action-background-color: defines the background color of an action sub-component inside a menu-item.
- * @prop --calcite-menu-item-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
  * @prop --calcite-menu-item-action-background-color-active: defines the background color of an action sub-component when active.
+ * @prop --calcite-menu-item-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
+ * @prop --calcite-menu-item-action-background-color: defines the background color of an action sub-component inside a menu-item.
  * @prop --calcite-menu-item-action-menu-border-color: The border color of the sub-component.
  * @prop --calcite-menu-item-action-menu-text-color: The text color of the sub-component.
+ * @prop --calcite-menu-item-background-color-active: Specifies the background color of the component when active.
+ * @prop --calcite-menu-item-background-color-hover: Specifies the background color of the component when hover.
+ * @prop --calcite-menu-item-background-color: Specifies the background color of the component.
+ * @prop --calcite-menu-item-breadcrumb-icon-color: Specifies the color of the breadcrumb icon when sub-menu items are slotted.
+ * @prop --calcite-menu-item-chevron-icon-color-active: Specifies the color of the dropdown icon when active.
+ * @prop --calcite-menu-item-chevron-icon-color: Specifies the color of the dropdown icon when sub-menu items are slotted.
+ * @prop --calcite-menu-item-sub-menu-border-color: Specifies the border color of sub-menu.
+ * @prop --calcite-menu-item-sub-menu-border-radius: Specifies the border radius of sub-menu.
+ * @prop --calcite-menu-item-text-color-active: Specifies the text color of the component when active.
+ * @prop --calcite-menu-item-text-color-hover: Specifies the text color of the component when hover.
+ * @prop --calcite-menu-item-text-color: Specifies the text color of the component.
  */
 
 :host {
@@ -194,11 +194,6 @@ calcite-action {
   @apply text-color-1;
   border-inline-start: 1px solid var(--calcite-color-border-3);
 }
-
-//do we need this?
-// .container:hover .dropdown-action {
-//   background-color: var(--calcite-color-foreground-2);
-// }
 
 .dropdown-menu-items {
   @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
