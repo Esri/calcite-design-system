@@ -3,15 +3,15 @@
 *
 * These properties can be overridden using the component's tag as selector.
 *
-* @prop --calcite-handle-icon-color: Specifies the icon color of the component.
-* @prop --calcite-handle-icon-color-hover: Specifies the icon color of the component when in hover state.
-* @prop --calcite-handle-icon-color-focus: Specifies the icon color of the component when in focus state.
-* @prop --calcite-handle-icon-color-selected: Specifies the icon color of the component when selected.
+* @prop --calcite-handle-icon-color: Specifies the component's icon color.
+* @prop --calcite-handle-icon-color-hover: Specifies the component's icon color on hover.
+* @prop --calcite-handle-icon-color-focus: Specifies the component's icon color on focus.
+* @prop --calcite-handle-icon-color-selected: Specifies the component's icon color when selected.
 
-* @prop --calcite-handle-background-color: Specifies the background color of the component.
-* @prop --calcite-handle-background-color-hover: Specifies the background color of the component when in hover state.
-* @prop --calcite-handle-background-color-focus: Specifies the background color of the component when in focus state.
-* @prop --calcite-handle-background-color-selected: Specifies the background color of the component when selected.
+* @prop --calcite-handle-background-color: Specifies the component's background color.
+* @prop --calcite-handle-background-color-hover: Specifies the component's background color on hover.
+* @prop --calcite-handle-background-color-focus: Specifies the component's background color on focus.
+* @prop --calcite-handle-background-color-selected: Specifies the component's background color when selected.
 */
 
 :host {
