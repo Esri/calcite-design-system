@@ -10,5 +10,4 @@ export const CSS = {
   selected: "label--selected",
   title: "title",
   textContainer: "text-container",
-  overLabel: "label--hovered",
 };

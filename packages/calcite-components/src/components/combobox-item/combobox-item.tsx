@@ -169,18 +169,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     this.toggleSelected();
   };
 
-  private itemMouseOverHandler = (): void => {
-    if (!this.el.classList.contains(CSS.overLabel)) {
-      this.el.classList.add(CSS.overLabel);
-    }
-  };
-
-  private itemMouseOutHandler = (): void => {
-    if (this.el.classList.contains(CSS.overLabel)) {
-      this.el.classList.remove(CSS.overLabel);
-    }
-  };
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -261,13 +249,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
             class={`container scale--${this.scale}`}
             style={{ "--calcite-internal-combobox-item-depth": `${depth}` }}
           >
-            <li
-              class={classes}
-              id={this.guid}
-              onClick={this.itemClickHandler}
-              onMouseOut={this.itemMouseOutHandler}
-              onMouseOver={this.itemMouseOverHandler}
-            >
+            <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
               {this.renderSelectIndicator(showDot, iconPath)}
               {this.renderIcon(iconPath)}
               <span class="title">{this.textLabel}</span>
