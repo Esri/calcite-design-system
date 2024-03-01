@@ -14,6 +14,8 @@
  * @prop --calcite-menu-item-chevron-icon-color: Specifies the color of the dropdown icon when sub-menu items are slotted.
  * @prop --calcite-menu-item-chevron-icon-color-active: Specifies the color of the dropdown icon when active.
  * @prop --calcite-menu-item-breadcrumb-icon-color: Specifies the color of the breadcrumb icon when sub-menu items are slotted.
+ * @prop --calcite-menu-item-sub-menu-border-color: Specifies the border color of sub-menu.
+ * @prop --calcite-menu-item-sub-menu-border-radius: Specifies the border radius of sub-menu.
  */
 
 :host {
@@ -188,7 +190,7 @@ calcite-action {
   @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
   border-width: var(calcite-spacing-px);
   border-style: solid;
-  border-color: var(--calcite-color-border-3);
+  border-color: var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
   background: var(--calcite-menu-item-background-color);
   inset-block-start: 100%;
   z-index: theme("zIndex.dropdown");
@@ -208,7 +210,7 @@ calcite-action {
 
 .dropdown--vertical.dropdown-menu-items {
   @apply relative;
-  border-radius: var(--calcite-corner-radius);
+  border-radius: var(--calcite-menu-item-sub-menu-border-radius, var(--calcite-corner-radius));
   box-shadow: none;
   inset-block-start: 0;
   transform: none;
