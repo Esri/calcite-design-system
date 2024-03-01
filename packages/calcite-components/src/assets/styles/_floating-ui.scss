@@ -10,12 +10,12 @@ $floating-ui-transform-right: translateX(-5px);
     transition-property: transform, visibility, opacity;
     opacity: 0;
     border-style: solid;
-    border-width: var(#{$borderWidth});
-    box-shadow: var(#{$boxShadow});
-    border-radius: var(#{$borderRadius});
+    border-width: #{$borderWidth};
+    box-shadow: #{$boxShadow};
+    border-radius: #{$borderRadius};
     z-index: var(--calcite-z-index);
-    background-color: var(#{$backgroundColor});
-    border-color: var(#{$borderColor});
+    background-color: #{$backgroundColor};
+    border-color: #{$borderColor};
   }
 }
 
@@ -26,11 +26,11 @@ $floating-ui-transform-right: translateX(-5px);
 
 @mixin floatingUIElemAnim(
   $selector,
-  $boxShadow: "--calcite-shadow-md",
-  $borderRadius: "--calcite-corner-radius-0",
-  $borderWidth: "--calcite-border-width-none",
-  $borderColor: "--calcite-color-border-3",
-  $backgroundColor: "--calcite-color-foreground-1"
+  $boxShadow: "var(--calcite-shadow-md)",
+  $borderRadius: "var(--calcite-corner-radius-0)",
+  $borderWidth: "var(--calcite-border-width-none)",
+  $borderColor: "var(--calcite-color-border-3)",
+  $backgroundColor: "var(--calcite-color-foreground-1)"
 ) {
   #{$selector} {
     @include floatingUIAnim($boxShadow, $borderRadius, $borderWidth, $borderColor, $backgroundColor);
@@ -81,10 +81,10 @@ $floating-ui-transform-right: translateX(-5px);
   }
 }
 
-@mixin floatingUIContainer($zIndex: "--calcite-z-index-dropdown") {
+@mixin floatingUIContainer($zIndex) {
   display: block;
   position: absolute;
-  z-index: var(#{$zIndex});
+  z-index: #{$zIndex};
 }
 
 @mixin floatingUIWrapper {
@@ -96,12 +96,12 @@ $floating-ui-transform-right: translateX(-5px);
 }
 
 @mixin floatingUIHost(
-  $zIndex: "--calcite-z-index-dropdown",
-  $boxShadow: "--calcite-shadow-md",
-  $borderRadius: "--calcite-corner-radius-0",
-  $borderWidth: "--calcite-border-width-none",
-  $borderColor: "--calcite-color-border-3",
-  $backgroundColor: "--calcite-color-foreground-1"
+  $zIndex: "var(--calcite-z-index-dropdown)",
+  $boxShadow: "var(--calcite-shadow-md)",
+  $borderRadius: "var(--calcite-corner-radius-0)",
+  $borderWidth: "var(--calcite-border-width-none)",
+  $borderColor: "var(--calcite-color-border-3)",
+  $backgroundColor: "var(--calcite-color-foreground-1)"
 ) {
   :host {
     @include floatingUIContainer($zIndex);
@@ -114,15 +114,15 @@ $floating-ui-transform-right: translateX(-5px);
   @include floatingUIArrow($backgroundColor, $borderColor);
 }
 
-@mixin floatingUIArrow($backgroundColor: "--calcite-color-foreground-1", $borderColor: "--calcite-color-border-3") {
+@mixin floatingUIArrow($backgroundColor, $borderColor) {
   .calcite-floating-ui-arrow {
     z-index: var(--calcite-z-index-default);
     position: absolute;
     pointer-events: none;
-    fill: var(#{$backgroundColor});
+    fill: #{$backgroundColor};
   }
 
   .calcite-floating-ui-arrow__stroke {
-    stroke: var(#{$borderColor});
+    stroke: #{$borderColor};
   }
 }
