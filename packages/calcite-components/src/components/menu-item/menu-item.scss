@@ -19,6 +19,7 @@
  * @prop --calcite-menu-item-text-color-active: Specifies the text color of the component when active.
  * @prop --calcite-menu-item-text-color-hover: Specifies the text color of the component when hover.
  * @prop --calcite-menu-item-text-color: Specifies the text color of the component.
+ *
  */
 
 :host {
@@ -188,7 +189,7 @@ calcite-action {
 }
 
 // TODO
-// extends the broder inline of calcite action when hovered on content
+// extends the broder block of calcite action when hovered on content
 .content:focus ~ calcite-action,
 .content:hover ~ calcite-action {
   @apply text-color-1;
