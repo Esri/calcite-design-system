@@ -10,32 +10,27 @@
 /*
  * Internal
  *
- * --calcite-combobox-item-spacing-unit-l: *deprecated* in favor of --calcite-internal-combobox-item-group-spacing-block which is more descriptive.
- * --calcite-internal-combobox-item-group-spacing-block: defines the block spacing of the combobox-item. Set via the [scale] prop on a combobox-item.
- * --calcite-combobox-item-spacing-unit-s: *deprecated* in favor of --calcite-internal-combobox-item-group-spacing-inline which is more descriptive.
- * --calcite-internal-combobox-item-group-spacing-inline: defines the inline spacing of the combobox-item. Set via the [scale] prop on a combobox-item.
- * --calcite-combobox-item-spacing-indent: *deprecated* in favor of the simplified `--calcite-internal-combobox-item-group-spacing-block` which is always an equal value based on the scale of the combobox-item.
- * --calcite-combobox-item-spacing-indent-multiplier: *deprecated* in favor of --calcite-internal-combobox-item-group-depth which is more descriptive.
+ * --calcite-internal-combobox-item-group-space-large: defines the block spacing of the combobox-item. Set via the [scale] prop on a combobox-item.
+ * --calcite-internal-combobox-item-group-space-small: defines the inline spacing of the combobox-item. Set via the [scale] prop on a combobox-item.
  * --calcite-internal-combobox-item-group-depth: defines the depth of the combobox-item in a combobox dropdown list. This is used as a multiplier to determine the inline-start padding of a combobox item.
  */
 
 .scale--s {
   @apply text-n2h;
-  --calcite-internal-combobox-item-group-spacing-block: theme("spacing.2");
-  --calcite-internal-combobox-item-group-spacing-inline: theme("spacing.1");
+  --calcite-internal-combobox-item-group-space-large: theme("spacing.2");
+  --calcite-internal-combobox-item-group-space-small: theme("spacing.1");
 }
 
 .scale--m {
   @apply text-n1h;
-  --calcite-internal-combobox-item-group-spacing-block: theme("spacing.3");
-  --calcite-internal-combobox-item-group-spacing-inline: theme("spacing.2");
-  --calcite-combobox-item-spacing-indent: theme("spacing.3");
+  --calcite-internal-combobox-item-group-space-large: theme("spacing.3");
+  --calcite-internal-combobox-item-group-space-small: theme("spacing.2");
 }
 
 .scale--l {
   @apply text-0h;
-  --calcite-internal-combobox-item-group-spacing-block: theme("spacing.4");
-  --calcite-internal-combobox-item-group-spacing-inline: theme("spacing.3");
+  --calcite-internal-combobox-item-group-space-large: theme("spacing.4");
+  --calcite-internal-combobox-item-group-space-small: theme("spacing.3");
 }
 
 :host,
@@ -49,30 +44,28 @@
 }
 
 .label {
-  @apply text-color-3 box-border flex w-full min-w-0 max-w-full;
+  @apply box-border flex w-full min-w-0 max-w-full;
 }
 
 .title {
-  --calcite-internal-combobox-item-group-inline-start: calc(
-    var(--calcite-internal-combobox-item-group-spacing-block) * var(--calcite-internal-combobox-item-group-depth)
+  --calcite-internal-combobox-item-group-space-x: calc(
+    var(--calcite-internal-combobox-item-group-space-large) * var(--calcite-internal-combobox-item-group-depth)
   );
   border: 0 solid;
-  @apply border-b-color-3
-    text-color-2
-    word-break
+  @apply word-break
     block
     flex-1
-    border-b
     font-bold;
+  border-block-end-width: var(--calcite-border-width-sm);
   border-block-end-color: var(--calcite-combobox-item-group-border-color, var(--calcite-color-border-3));
   color: var(--calcite-combobox-item-group-text-color, var(--calcite-color-text-2));
-  padding-block: var(--calcite-internal-combobox-item-group-spacing-block);
-  padding-inline: var(--calcite-internal-combobox-item-group-spacing-inline);
-  margin-inline-start: var(--calcite-internal-combobox-item-group-inline-start);
+  padding-block: var(--calcite-internal-combobox-item-group-space-large);
+  padding-inline: var(--calcite-internal-combobox-item-group-space-small);
+  margin-inline-start: var(--calcite-internal-combobox-item-group-space-x);
 }
 
 ::slotted(calcite-combobox-item-group:not([after-empty-group])) {
-  padding-block-start: var(--calcite-internal-combobox-item-group-spacing-block);
+  padding-block-start: var(--calcite-internal-combobox-item-group-space-large);
 }
 
 @include base-component();
