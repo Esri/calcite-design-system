@@ -17,12 +17,12 @@ The most common approach for loading Calcite Components is to use the version ho
 ```html
 <script
   type="module"
-  src="https://cdn.jsdelivr.net/npm/@esri/calcite-components@2.5.1/dist/calcite/calcite.esm.js"
+  src="https://cdn.jsdelivr.net/npm/@esri/calcite-components@2.6.0/dist/calcite/calcite.esm.js"
 ></script>
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://cdn.jsdelivr.net/npm/@esri/calcite-components@2.5.1/dist/calcite/calcite.css"
+  href="https://cdn.jsdelivr.net/npm/@esri/calcite-components@2.6.0/dist/calcite/calcite.css"
 />
 ```
 
