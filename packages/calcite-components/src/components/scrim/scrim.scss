@@ -6,9 +6,6 @@
  * @prop --calcite-scrim-background: [Deprecated] Use the `--calcite-scrim-background-color` property instead. Specifies the background color of the component.
  * @prop --calcite-scrim-background-color: Specifies the background color of the component.
  */
-:host {
-  --calcite-scrim-background-color: var(--calcite-scrim-background, var(--calcite-color-transparent-scrim));
-}
 
 :host {
   @apply absolute
@@ -40,7 +37,10 @@
   justify-center
   overflow-hidden;
   animation: calcite-scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
-  background-color: var(--calcite-scrim-background-color);
+  background-color: var(
+    --calcite-scrim-background-color,
+    var(--calcite-scrim-background, var(--calcite-color-transparent-scrim))
+  );
 }
 
 .content {
