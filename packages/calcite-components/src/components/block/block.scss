@@ -6,9 +6,9 @@
  * @prop --calcite-block-action-menu-border-color: The border color of the sub-component.
  * @prop --calcite-block-action-menu-text-color: The text color of the sub-component.
  * @prop --calcite-block-padding: Specifies the padding of the block `default` slot.
- * @prop --calcite-block-loader-color-oneThird: Specifies the starting color of the loader
+ * @prop --calcite-block-loader-color-one-third: Specifies the starting color of the loader
  * @prop --calcite-block-loader-color-start: Specifies the starting color of the loader
- * @prop --calcite-block-loader-color-twoThirds: Specifies the starting color of the loader
+ * @prop --calcite-block-loader-color-two-thirds: Specifies the starting color of the loader
  */
 
 :host {
@@ -169,9 +169,9 @@ calcite-action-menu {
 }
 
 calcite-loader {
-  --calcite-loader-color-oneThird: var(--calcite-block-loader-color-oneThird);
+  --calcite-loader-color-one-third: var(--calcite-block-loader-color-one-third);
   --calcite-loader-color-start: var(--calcite-block-loader-color-start);
-  --calcite-loader-color-twoThirds: var(--calcite-block-loader-color-twoThirds);
+  --calcite-loader-color-two-thirds: var(--calcite-block-loader-color-two-thirds);
 }
 
 @include base-component();

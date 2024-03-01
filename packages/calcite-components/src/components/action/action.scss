@@ -4,9 +4,9 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-action-indicator-color: Specifies the color of the component's indicator.
- * @prop --calcite-action-loader-color-oneThird: Specifies the starting color of the loader
+ * @prop --calcite-action-loader-color-one-third: Specifies the starting color of the loader
  * @prop --calcite-action-loader-color-start: Specifies the starting color of the loader
- * @prop --calcite-action-loader-color-twoThirds: Specifies the starting color of the loader
+ * @prop --calcite-action-loader-color-two-thirds: Specifies the starting color of the loader
  */
 
 :host {
@@ -233,9 +233,9 @@
 }
 
 calcite-loader {
-  --calcite-loader-color-oneThird: var(--calcite-action-loader-color-oneThird);
+  --calcite-loader-color-one-third: var(--calcite-action-loader-color-one-third);
   --calcite-loader-color-start: var(--calcite-action-loader-color-start);
-  --calcite-loader-color-twoThirds: var(--calcite-action-loader-color-twoThirds);
+  --calcite-loader-color-two-thirds: var(--calcite-action-loader-color-two-thirds);
 }
 
 @include base-component();
