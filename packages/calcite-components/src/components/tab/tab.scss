@@ -28,7 +28,7 @@
 
 .scale-s {
   font-size: var(--calcite-font-size-sm);
-  line-height: 1rem; //TODO: replace with token
+  line-height: 1rem;
 
   .content {
     padding-block: var(--calcite-tab-content-space, var(--calcite-tab-content-block-padding, theme("spacing.1")));
@@ -37,7 +37,7 @@
 
 .scale-m {
   font-size: var(--calcite-font-size);
-  line-height: 1rem; //TODO: replace with token
+  line-height: 1rem;
 
   .content {
     padding-block: var(--calcite-tab-content-space, var(--calcite-tab-content-block-padding, theme("spacing.2")));
@@ -46,7 +46,7 @@
 
 .scale-l {
   font-size: var(--calcite-font-size-md);
-  line-height: 1.25rem; //TODO: replace with token
+  line-height: 1.25rem;
 
   .content {
     padding-block: var(--calcite-tab-content-space, var(--calcite-tab-content-block-padding, theme("spacing.[2.5]")));
