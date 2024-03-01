@@ -985,8 +985,14 @@ const themingStyle = `<style>
       --calcite-list-item-content-text-color: green;
       --calcite-list-item-description-text-color: purple;
       --calcite-list-item-focus: 2px solid red;
-      --calcite-list-item-handle-text-color: blue;
+      --calcite-list-item-handle-icon-color: blue;
       --calcite-list-item-handle-background-color: lightgray;
+      --calcite-list-item-handle-icon-color-hover: lightgray;
+      --calcite-list-item-handle-background-color-hover: lightgray;
+      --calcite-list-item-handle-icon-color-focus: lightgray;
+      --calcite-list-item-handle-background-color-focus:  blue;
+      --calcite-list-item-handle-icon-color-selected: pink;
+      --calcite-list-item-handle-background-color-selected: red;
       --calcite-list-item-icon-color: seagreen;
       --calcite-list-item-label-text-color: saddlebrown;
       --calcite-list-item-background-color-hover: brown;
