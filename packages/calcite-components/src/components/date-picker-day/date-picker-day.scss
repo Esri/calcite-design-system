@@ -74,9 +74,9 @@
     focus-base
     items-center
     justify-center
-    rounded-full
     leading-none
     transition-default;
+  border-radius: var(--calcite-internal-day-corner-radius, 9999px);
   color: var(--calcite-internal-day-text-color);
   font-size: var(--calcite-internal-day-font-size, var(--calcite-font-size));
   z-index: var(--calcite-z-index);
@@ -141,8 +141,8 @@
 :host(:hover:not([disabled]):not([selected])),
 :host([active]:not([range]):not([selected])) {
   & .day {
-    --calcite-internal-day-background-color: var(--calcite-color-foreground-2);
-    color: var(--calcite-internal-day-text-color-active, var(--calcite-color-text-1));
+    background-color: var(--calcite-internal-day-background-color-hover, var(--calcite-color-foreground-2));
+    color: var(--calcite-internal-day-text-color-hover, var(--calcite-color-text-1));
   }
 }
 
@@ -158,7 +158,7 @@
 :host([selected]) .day {
   font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-internal-day-text-color-selected, var(--calcite-color-text-inverse));
-  --calcite-internal-day-background-color: var(--calcite-color-brand);
+  background-color: var(--calcite-internal-day-background-color-selected, var(--calcite-color-brand));
 }
 
 :host(:focus:not([disabled])),
@@ -175,7 +175,7 @@
     @include range-part-middle();
   }
   .day {
-    color: var(--calcite-internal-day-text-color-active, var(--calcite-color-text-1));
+    color: var(--calcite-internal-day-text-color-hover, var(--calcite-color-text-1));
   }
 }
 
@@ -184,7 +184,10 @@
   .day-wrapper {
     &:before,
     &:after {
-      background-color: var(--calcite-color-foreground-current);
+      background-color: var(
+        --calcite-internal-day-range-background-color-selected,
+        var(--calcite-color-foreground-current)
+      );
     }
   }
 }
@@ -193,7 +196,7 @@
   .day-wrapper {
     &:before,
     &:after {
-      background-color: var(--calcite-color-foreground-2);
+      background-color: var(--calcite-internal-day-range-background-color-hovered, var(--calcite-color-foreground-2));
     }
   }
 }

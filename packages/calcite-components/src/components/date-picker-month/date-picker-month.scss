@@ -61,8 +61,19 @@
 
 calcite-date-picker-day {
   --calcite-internal-day-text-color: var(--calcite-internal-date-picker-month-day-text-color);
-  --calcite-internal-day-text-color-active: var(--calcite-internal-date-picker-month-day-text-color-active);
+  --calcite-internal-day-text-color-hover: var(--calcite-internal-date-picker-month-day-text-color-hover);
   --calcite-internal-day-text-color-selected: var(--calcite-internal-date-picker-month-day-text-selected);
   --calcite-internal-day-font-size: var(--calcite-internal-date-picker-month-day-font-size);
   --calcite-internal-day-background-color: var(--calcite-internal-date-picker-month-day-background-color);
+  --calcite-internal-day-background-color-hover: var(--calcite-internal-date-picker-month-day-background-color-hover);
+  --calcite-internal-day-background-color-selected: var(
+    --calcite-internal-date-picker-month-day-background-color-selected
+  );
+  --calcite-internal-day-corner-radius: var(--calcite-internal-date-picker-month-day-corner-radius);
+  --calcite-internal-day-range-background-color-selected: var(
+    --calcite-internal-date-picker-month-day-range-background-color-selected
+  );
+  --calcite-internal-day-range-background-color-hovered: var(
+    --calcite-internal-date-picker-month-day-range-background-color-hovered
+  );
 }

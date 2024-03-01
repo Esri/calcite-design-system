@@ -8,10 +8,15 @@
  * @prop --calcite-date-picker-week-headers-border-color: Specifies the border color of week headers.
  * @prop --calcite-date-picker-week-headers-text-color: Specifies the text color of week headers.
  * @prop --calcite-date-picker-day-text-color: Specifies the text color of day.
- * @prop --calcite-date-picker-day-text-color-active: Specifies the text color of day when active.
+ * @prop --calcite-date-picker-day-text-color-hover: Specifies the text color of day when hovered.
  * @prop --calcite-date-picker-day-text-selected: Specifies the text color of day when selected.
  * @prop --calcite-date-picker-day-font-size: Specifies the font size of the day.
  * @prop --calcite-date-picker-day-background-color: Specifies the background color of the day.
+ * @prop --calcite-date-picker-day-background-color-hover: Specifies the background color of the day when hovered.
+ * @prop --calcite-date-picker-day-background-color-selected: Specifies the background color of the day when selected.
+ * @prop --calcite-date-picker-day-corner-radius: Specifies the corner radius of day.
+ * @prop --calcite-date-picker-day-range-background-color-selected: Specifies the background color of day range when selected.
+ * @prop --calcite-date-picker-day-range-background-color-hover: Specifies the background color of day range when hovered.
  */
 
 :host {
@@ -48,10 +53,23 @@ calcite-date-picker-month {
   --calcite-internal-date-picker-month-week-headers-border-color: var(--calcite-date-picker-week-headers-border-color);
   --calcite-internal-date-picker-month-week-headers-text-color: var(--calcite-date-picker-week-headers-text-color);
   --calcite-internal-date-picker-month-day-text-color: var(--calcite-date-picker-day-text-color);
-  --calcite-internal-date-picker-month-day-text-color-active: var(--calcite-date-picker-day-text-color-active);
+  --calcite-internal-date-picker-month-day-text-color-hover: var(--calcite-date-picker-day-text-color-hover);
   --calcite-internal-date-picker-month-day-text-selected: var(--calcite-date-picker-day-text-selected);
   --calcite-internal-date-picker-month-day-font-size: var(--calcite-date-picker-day-font-size);
   --calcite-internal-date-picker-month-day-background-color: var(--calcite-date-picker-day-background-color);
+  --calcite-internal-date-picker-month-day-background-color-hover: var(
+    --calcite-date-picker-day-background-color-hover
+  );
+  --calcite-internal-date-picker-month-day-background-color-selected: var(
+    --calcite-date-picker-day-background-color-selected
+  );
+  --calcite-internal-date-picker-month-day-corner-radius: var(--calcite-date-picker-day-corner-radius);
+  --calcite-internal-date-picker-month-day-range-background-color-selected: var(
+    --calcite-date-picker-day-range-background-color-selected
+  );
+  --calcite-internal-date-picker-month-day-range-background-color-hovered: var(
+    --calcite-date-picker-day-range-background-color-hover
+  );
 }
 
 @include base-component();
