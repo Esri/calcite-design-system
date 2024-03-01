@@ -3,11 +3,19 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-combobox-input-height: *deprecated* Specifies the height of the component's input.
+ * @prop --calcite-combobox-input-height: [Deprecated] Specifies the height of the component's input.
  * @prop --calcite-combobox-border-color: defines the border color of the component
  * @prop --calcite-combobox-background-color: defines the background color of the component
  * @prop --calcite-combobox-text-color: defines the text color of the component
  * @prop --calcite-combobox-chip-background-color-active: defines the background color of a chip sub-component when active
+ */
+
+/*
+ * Internal
+  --calcite-internal-combobox-space-large
+  --calcite-internal-combobox-space-small
+  --calcite-internal-combobox-height
+  --calcite-internal-combobox-space-y
  */
 
 :host {
