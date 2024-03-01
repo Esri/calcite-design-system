@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -524,6 +524,52 @@ describe("calcite-action-menu", () => {
 
       expect(await actionMenu.getProperty("open")).toBe(false);
       expect(clickSpy).toHaveReceivedEventTimes(1);
+    });
+  });
+
+  describe("Theme-ing", () => {
+    let page: E2EPage;
+    const customTheme = {
+      "--calcite-action-menu-group-separator-border-color": "rgb(192, 255, 238)",
+    };
+
+    beforeEach(async () => {
+      page = await newE2EPage({
+        html: `
+        <calcite-action-menu open>
+          <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
+          <calcite-action-group>
+            <calcite-action text="Plus" icon="plus" text-enabled></calcite-action
+            ><calcite-action text="Minus" icon="minus" text-enabled></calcite-action>
+          </calcite-action-group>
+          <calcite-action-group>
+            <calcite-action text="Table" icon="table" text-enabled></calcite-action
+          ></calcite-action-group>
+          <calcite-action-group>
+            <calcite-action text="Save" icon="save" text-enabled></calcite-action>
+          </calcite-action-group>
+        </calcite-action-menu>
+      `,
+      });
+      await page.waitForChanges();
+    });
+
+    it("should allow theme-ing of the border-color", async () => {
+      const actionMenu = await page.find("calcite-action-menu");
+      const slottedActionGroup = await page.find("calcite-action-group");
+      const defaultStyle = await slottedActionGroup.getComputedStyle();
+
+      await actionMenu.setAttribute(
+        "style",
+        `--calcite-action-menu-group-separator-border-color: ${customTheme["--calcite-action-menu-group-separator-border-color"]}`,
+      );
+      await page.waitForChanges();
+
+      const styles = await slottedActionGroup.getComputedStyle();
+      expect(defaultStyle.borderBlockEndColor).not.toBe(
+        customTheme["--calcite-action-menu-group-separator-border-color"],
+      );
+      expect(styles.borderBlockEndColor).toBe(customTheme["--calcite-action-menu-group-separator-border-color"]);
     });
   });
 });
