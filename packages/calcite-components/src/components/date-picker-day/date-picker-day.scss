@@ -1,6 +1,23 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-day-text-color: Specifies the text color of component.
+ * @prop --calcite-day-text-color-hover: Specifies the text color of component when hovered.
+ * @prop --calcite-day-text-color-selected: Specifies the text color of component when selected.
+ * @prop --calcite-day-font-size: Specifies the font size of component.
+ * @prop --calcite-day-background-color: Specifies the background color of component.
+ * @prop --calcite-day-background-color-hover: Specifies the background color of component when hovered.
+ * @prop --calcite-day-background-color-selected: Specifies the background color of component when selected.
+ * @prop --calcite-day-corner-radius: Specifies the border radius of component.
+ * @prop --calcite-day-range-background-color-selected: Specifies the background color of day range when selected.
+ * @prop --calcite-day-range-background-color-hovered: Specifies the background color of day range when hovered.
+*/
+
 :host {
   @apply cursor-pointer flex relative;
-  color: var(--calcite-internal-day-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-day-text-color, var(--calcite-color-text-3));
 }
 
 @include disabled();
@@ -76,12 +93,12 @@
     justify-center
     leading-none
     transition-default;
-  border-radius: var(--calcite-internal-day-corner-radius, 9999px);
-  color: var(--calcite-internal-day-text-color);
-  font-size: var(--calcite-internal-day-font-size, var(--calcite-font-size));
+  border-radius: var(--calcite-day-corner-radius, 9999px);
+  color: var(--calcite-day-text-color);
+  font-size: var(--calcite-day-font-size, var(--calcite-font-size));
   z-index: var(--calcite-z-index);
   background: none;
-  background-color: var(--calcite-internal-day-background-color, var(--calcite-color-background-none));
+  background-color: var(--calcite-day-background-color, var(--calcite-color-background-none));
   box-shadow: 0 0 0 2px transparent;
   block-size: var(--calcite-internal-day-size);
   inline-size: var(--calcite-internal-day-size);
@@ -102,7 +119,7 @@
     @apply p-0;
   }
   .day {
-    --calcite-internal-day-font-size: var(--calcite-font-size-sm);
+    --calcite-day-font-size: var(--calcite-font-size-sm);
   }
 }
 
@@ -116,7 +133,7 @@
     @apply p-0;
   }
   .day {
-    --calcite-internal-day-font-size: var(--calcite-font-size);
+    --calcite-day-font-size: var(--calcite-font-size);
   }
 }
 
@@ -130,7 +147,7 @@
     padding-inline: var(--calcite-spacing-xxs);
   }
   .day {
-    --calcite-internal-day-font-size: var(--calcite-font-size-md);
+    --calcite-day-font-size: var(--calcite-font-size-md);
   }
 }
 
@@ -141,8 +158,8 @@
 :host(:hover:not([disabled]):not([selected])),
 :host([active]:not([range]):not([selected])) {
   & .day {
-    background-color: var(--calcite-internal-day-background-color-hover, var(--calcite-color-foreground-2));
-    color: var(--calcite-internal-day-text-color-hover, var(--calcite-color-text-1));
+    background-color: var(--calcite-day-background-color-hover, var(--calcite-color-foreground-2));
+    color: var(--calcite-day-text-color-hover, var(--calcite-color-text-1));
   }
 }
 
@@ -157,8 +174,8 @@
 
 :host([selected]) .day {
   font-weight: var(--calcite-font-weight-medium);
-  color: var(--calcite-internal-day-text-color-selected, var(--calcite-color-text-inverse));
-  background-color: var(--calcite-internal-day-background-color-selected, var(--calcite-color-brand));
+  color: var(--calcite-day-text-color-selected, var(--calcite-color-text-inverse));
+  background-color: var(--calcite-day-background-color-selected, var(--calcite-color-brand));
 }
 
 :host(:focus:not([disabled])),
@@ -175,7 +192,7 @@
     @include range-part-middle();
   }
   .day {
-    color: var(--calcite-internal-day-text-color-hover, var(--calcite-color-text-1));
+    color: var(--calcite-day-text-color-hover, var(--calcite-color-text-1));
   }
 }
 
@@ -184,10 +201,7 @@
   .day-wrapper {
     &:before,
     &:after {
-      background-color: var(
-        --calcite-internal-day-range-background-color-selected,
-        var(--calcite-color-foreground-current)
-      );
+      background-color: var(--calcite-day-range-background-color-selected, var(--calcite-color-foreground-current));
     }
   }
 }
@@ -196,7 +210,7 @@
   .day-wrapper {
     &:before,
     &:after {
-      background-color: var(--calcite-internal-day-range-background-color-hovered, var(--calcite-color-foreground-2));
+      background-color: var(--calcite-day-range-background-color-hovered, var(--calcite-color-foreground-2));
     }
   }
 }
