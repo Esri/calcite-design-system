@@ -11,11 +11,9 @@
  * @prop --calcite-menu-item-background-color: Specifies the background color of the component.
  * @prop --calcite-menu-item-background-color-hover: Specifies the background color of the component when hover.
  * @prop --calcite-menu-item-background-color-active: Specifies the background color of the component when active.
- * @prop --calcite-menu-item-dropdown-icon-color: Specifies the color of the dropdown icon when sub-menu items are slotted.
- * @prop --calcite-menu-item-dropdown-icon-color-active: Specifies the color of the dropdown icon when active.
+ * @prop --calcite-menu-item-chevron-icon-color: Specifies the color of the dropdown icon when sub-menu items are slotted.
+ * @prop --calcite-menu-item-chevron-icon-color-active: Specifies the color of the dropdown icon when active.
  * @prop --calcite-menu-item-breadcrumb-icon-color: Specifies the color of the breadcrumb icon when sub-menu items are slotted.
- * @prop --calcite-menu-item-sub-menu-border-color: Specifies the border color of sub-menu.
- * @porp --calcite-menu-item-sub-menu-background-color: Specifies the background color of sub-menu.
  */
 
 :host {
@@ -89,7 +87,7 @@
   color: var(--calcite-menu-item-text-color-active, var(--calcite-color-text-1));
   border-color: var(--calcite-menu-item-border-color-active, var(--calcite-color-brand));
   .icon {
-    --calcite-icon-color: var(--calcite-menu-item-dropdown-icon-color-active, var(--calcite-color-brand));
+    --calcite-icon-color: var(--calcite-menu-item-chevron-icon-color-active, var(--calcite-color-brand));
   }
 }
 
@@ -113,7 +111,7 @@
 .icon--dropdown {
   @apply ms-auto me-0 relative;
   --calcite-ui-icon-color: var(--calcite-color-text-3);
-  --calcite-icon-color: var(--calcite-menu-item-dropdown-icon-color, var(--calcite-color-text-3));
+  --calcite-icon-color: var(--calcite-menu-item-chevron-icon-color, var(--calcite-color-text-3));
 }
 
 :host([layout="vertical"]) .icon--end ~ .icon--dropdown {
@@ -190,8 +188,8 @@ calcite-action {
   @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
   border-width: var(calcite-spacing-px);
   border-style: solid;
-  border-color: var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
-  background: var(--calcite-menu-item-sub-menu-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-color-border-3);
+  background: var(--calcite-menu-item-background-color);
   inset-block-start: 100%;
   z-index: theme("zIndex.dropdown");
   &.open {
@@ -209,8 +207,8 @@ calcite-action {
 }
 
 .dropdown--vertical.dropdown-menu-items {
-  @apply relative rounded-none;
-  border-radius: var(--calcite-menu-item-sub-menu-border-radius, var(--calcite-corner-radius));
+  @apply relative;
+  border-radius: var(--calcite-corner-radius);
   box-shadow: none;
   inset-block-start: 0;
   transform: none;
