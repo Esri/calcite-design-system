@@ -120,7 +120,7 @@ calcite-chip {
   --calcite-chip-border-color: var(--calcite-rating-chip-border-color, var(--calcite-color-foreground-2));
   --calcite-chip-shadow: var(--calcite-rating-chip-shadow, var(--calcite-shadow-none));
   --calcite-chip-corner-radius: var(--calcite-rating-chip-corner-radius, 9999px);
-  --calcite-chip-text-color: var(--calcite-rating-chip-text-color);
+  --calcite-chip-text-color: var(--calcite-rating-chip-text-color, var(--calcite-color-text-3));
 }
 
 .number--average {
