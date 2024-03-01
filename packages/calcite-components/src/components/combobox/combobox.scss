@@ -3,7 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-combobox-input-height: Specifies the height of the component's input.
+ * @prop --calcite-combobox-input-height: *deprecated* Specifies the height of the component's input.
+ * @prop --calcite-combobox-border-color: defines the border color of the component
+ * @prop --calcite-combobox-background-color: defines the background color of the component
+ * @prop --calcite-combobox-text-color: defines the text color of the component
+ * @prop --calcite-combobox-chip-background-color-active: defines the background color of a chip sub-component when active
  */
 
 :host {
@@ -15,50 +19,38 @@
 
 :host([scale="s"]) {
   @apply text-n2;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
-  --calcite-combobox-input-height: theme("spacing.4");
-  --calcite-internal-combobox-input-margin-block: calc(theme("spacing.1") - theme("borderWidth.DEFAULT"));
-
-  .x-button {
-    margin-inline: theme("spacing.2");
-  }
+  --calcite-internal-combobox-space-large: theme("spacing.2");
+  --calcite-internal-combobox-space-small: theme("spacing.1");
+  --calcite-internal-combobox-height: theme("spacing.4");
+  --calcite-internal-combobox-space-y: calc(theme("spacing.1") - theme("borderWidth.DEFAULT"));
 }
 
 :host([scale="m"]) {
   @apply text-n1;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
-  --calcite-combobox-input-height: theme("spacing.4");
-  --calcite-internal-combobox-input-margin-block: calc(theme("spacing.2") - theme("borderWidth.DEFAULT"));
-
-  .x-button {
-    margin-inline-end: theme("spacing.3");
-  }
+  --calcite-internal-combobox-space-large: theme("spacing.3");
+  --calcite-internal-combobox-space-small: theme("spacing.2");
+  --calcite-internal-combobox-height: theme("spacing.4");
+  --calcite-internal-combobox-space-y: calc(theme("spacing.2") - theme("borderWidth.DEFAULT"));
 }
 
 :host([scale="l"]) {
   @apply text-0;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
-  --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
-  --calcite-combobox-input-height: theme("spacing.6");
-  --calcite-internal-combobox-input-margin-block: calc(theme("spacing[2.5]") - theme("borderWidth.DEFAULT"));
-
-  .x-button {
-    margin-inline-end: theme("spacing.4");
-  }
+  --calcite-internal-combobox-space-large: theme("spacing.4");
+  --calcite-internal-combobox-space-small: theme("spacing.3");
+  --calcite-internal-combobox-height: theme("spacing.6");
+  --calcite-internal-combobox-space-y: calc(theme("spacing[2.5]") - theme("borderWidth.DEFAULT"));
 }
 
 .wrapper {
-  @apply bg-foreground-1
-    text-color-1
-    focus-base
+  @apply focus-base
     flex
-    border-color-input
     border
     border-solid;
-  padding-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
-  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+  border-color: var(--calcite-combobox-border-color, var(--calcite-color-border-input));
+  background-color: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-combobox-text-color, var(--calcite-color-text-1));
+  padding-block: calc(var(--calcite-internal-combobox-space-small) / 4);
+  padding-inline: var(--calcite-internal-combobox-space-large);
 }
 
 :host(:focus-within) .wrapper,
@@ -67,16 +59,20 @@
 }
 
 :host([status="invalid"]) .wrapper {
-  @apply border-color-danger;
+  border-color: var(--calcite-combobox-border-color, var(--calcite-color-status-danger));
 }
 
 :host([status="invalid"]:focus-within) .wrapper {
   @apply focus-inset-danger;
 }
 
+.x-button {
+  margin-inline-end: var(--calcite-internal-combobox-space-large);
+}
+
 .wrapper--single {
   padding-block: 0;
-  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+  padding-inline: var(--calcite-internal-combobox-space-large);
   @apply cursor-pointer flex-nowrap;
 }
 
@@ -89,8 +85,8 @@
     truncate
     p-0;
 
-  gap: var(--calcite-combobox-item-spacing-unit-s);
-  margin-inline-end: var(--calcite-combobox-item-spacing-unit-s);
+  gap: var(--calcite-internal-combobox-space-small);
+  margin-inline-end: var(--calcite-internal-combobox-space-small);
 
   &.selection-display-fit,
   &.selection-display-single {
@@ -100,19 +96,19 @@
 
 .input {
   @apply appearance-none
-  bg-transparent
   border-none
   flex-grow
   font-inherit
-  text-color-1
   text-ellipsis
   overflow-hidden
   p-0;
+  background-color: var(--calcite-color-transparent);
+  color: var(--calcite-combobox-text-color, var(--calcite-color-text-1));
   font-size: inherit;
-  block-size: var(--calcite-combobox-input-height);
-  line-height: var(--calcite-combobox-input-height);
+  block-size: var(--calcite-internal-combobox-height);
+  line-height: var(--calcite-internal-combobox-height);
   inline-size: 100%;
-  margin-block-end: var(--calcite-combobox-item-spacing-unit-s);
+  margin-block-end: var(--calcite-internal-combobox-space-small);
   min-inline-size: 4.8125rem;
   &:focus {
     @apply outline-none;
@@ -129,7 +125,7 @@
 
 .input--single {
   @apply p-0;
-  margin-block: var(--calcite-internal-combobox-input-margin-block);
+  margin-block: var(--calcite-internal-combobox-space-y);
 }
 
 .wrapper--active .input-single {
@@ -145,7 +141,7 @@
 
 .input--icon {
   padding-block: 0;
-  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+  padding-inline: var(--calcite-internal-combobox-space-large);
 }
 
 .input-wrap {
@@ -163,12 +159,12 @@
     truncate
     p-0
     font-normal;
-  block-size: var(--calcite-combobox-input-height);
-  line-height: var(--calcite-combobox-input-height);
+  block-size: var(--calcite-internal-combobox-height);
+  line-height: var(--calcite-internal-combobox-height);
 }
 
 .label--icon {
-  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+  padding-inline: var(--calcite-internal-combobox-space-large);
 }
 
 .icon-end,
@@ -203,9 +199,9 @@
 }
 
 .list-container {
-  @apply bg-foreground-1
-    max-h-menu
+  @apply max-h-menu
     overflow-y-auto;
+  background-color: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
   inline-size: var(--calcite-dropdown-width);
 }
 
@@ -222,12 +218,12 @@ calcite-chip {
 }
 
 .chip {
-  margin-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
+  margin-block: calc(var(--calcite-internal-combobox-space-small) / 4);
   max-inline-size: 100%;
 }
 
 .chip--active {
-  @apply bg-foreground-3;
+  background-color: var(--calcite-combobox-chip-background-color-active, var(--calcite-color-foreground-3));
 }
 
 .chip--invisible {
@@ -243,5 +239,5 @@ calcite-chip {
 @include base-component();
 
 ::slotted(calcite-combobox-item-group:not(:first-child)) {
-  padding-block-start: var(--calcite-combobox-item-spacing-unit-l);
+  padding-block-start: var(--calcite-internal-combobox-space-large);
 }
