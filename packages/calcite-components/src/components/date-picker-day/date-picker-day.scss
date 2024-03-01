@@ -3,16 +3,16 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-day-text-color: Specifies the text color of component.
- * @prop --calcite-day-text-color-hover: Specifies the text color of component when hovered.
- * @prop --calcite-day-text-color-selected: Specifies the text color of component when selected.
- * @prop --calcite-day-font-size: Specifies the font size of component.
- * @prop --calcite-day-background-color: Specifies the background color of component.
  * @prop --calcite-day-background-color-hover: Specifies the background color of component when hovered.
  * @prop --calcite-day-background-color-selected: Specifies the background color of component when selected.
+ * @prop --calcite-day-background-color: Specifies the background color of component.
  * @prop --calcite-day-corner-radius: Specifies the border radius of component.
- * @prop --calcite-day-range-background-color-selected: Specifies the background color of day range when selected.
+ * @prop --calcite-day-font-size: Specifies the font size of component.
  * @prop --calcite-day-range-background-color-hovered: Specifies the background color of day range when hovered.
+ * @prop --calcite-day-range-background-color-selected: Specifies the background color of day range when selected.
+ * @prop --calcite-day-text-color-hover: Specifies the text color of component when hovered.
+ * @prop --calcite-day-text-color-selected: Specifies the text color of component when selected.
+ * @prop --calcite-day-text-color: Specifies the text color of component.
 */
 
 :host {

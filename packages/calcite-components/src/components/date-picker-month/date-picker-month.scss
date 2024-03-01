@@ -3,18 +3,18 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-date-picker-month-week-headers-border-color: Specifies the border color of week headers.
- * @prop --calcite-date-picker-month-week-headers-text-color: Specifies the text color of week header.
- * @prop --calcite-date-picker-month-day-text-color: Specifies the text color of component.
- * @prop --calcite-date-picker-month-day-text-color-hover: Specifies the text color of component when hovered.
- * @prop --calcite-date-picker-month-day-text-selected: Specifies the text color of component when selected.
- * @prop --calcite-date-picker-month-day-font-size: Specifies the font size of component.
- * @prop --calcite-date-picker-month-day-background-color: Specifies the background color of day.
  * @prop --calcite-date-picker-month-day-background-color-hover: Specifies the background color of day when hovered.
  * @prop --calcite-date-picker-month-day-background-color-selected: Specifies the background color of day range when selected.
+ * @prop --calcite-date-picker-month-day-background-color: Specifies the background color of day.
  * @prop --calcite-date-picker-month-day-corner-radius: Specifies the border radius of day.
- * @prop --calcite-date-picker-month-day-range-background-color-selected: Specifies the background color of day range when selected.
+ * @prop --calcite-date-picker-month-day-font-size: Specifies the font size of day.
  * @prop --calcite-date-picker-month-day-range-background-color-hovered: Specifies the background color of day range when hovered.
+ * @prop --calcite-date-picker-month-day-range-background-color-selected: Specifies the background color of day range when selected.
+ * @prop --calcite-date-picker-month-day-text-color-hover: Specifies the text color of day when hovered.
+ * @prop --calcite-date-picker-month-day-text-color: Specifies the text color of day.
+ * @prop --calcite-date-picker-month-day-text-selected: Specifies the text color of day when selected.
+ * @prop --calcite-date-picker-month-week-headers-border-color: Specifies the border color of week headers.
+ * @prop --calcite-date-picker-month-week-headers-text-color: Specifies the text color of week headers.
 */
 
 @include base-component();

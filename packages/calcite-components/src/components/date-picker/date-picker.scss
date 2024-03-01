@@ -3,20 +3,20 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-date-picker-border-radius: Specifies the border radius of the component.
  * @prop --calcite-date-picker-border-color: Specifies the border color of the component.
- * @prop --calcite-date-picker-week-headers-border-color: Specifies the border color of week headers.
- * @prop --calcite-date-picker-week-headers-text-color: Specifies the text color of week headers.
- * @prop --calcite-date-picker-day-text-color: Specifies the text color of day.
- * @prop --calcite-date-picker-day-text-color-hover: Specifies the text color of day when hovered.
- * @prop --calcite-date-picker-day-text-selected: Specifies the text color of day when selected.
- * @prop --calcite-date-picker-day-font-size: Specifies the font size of the day.
- * @prop --calcite-date-picker-day-background-color: Specifies the background color of the day.
+ * @prop --calcite-date-picker-border-radius: Specifies the border radius of the component.
  * @prop --calcite-date-picker-day-background-color-hover: Specifies the background color of the day when hovered.
  * @prop --calcite-date-picker-day-background-color-selected: Specifies the background color of the day when selected.
+ * @prop --calcite-date-picker-day-background-color: Specifies the background color of the day.
  * @prop --calcite-date-picker-day-corner-radius: Specifies the corner radius of day.
- * @prop --calcite-date-picker-day-range-background-color-selected: Specifies the background color of day range when selected.
+ * @prop --calcite-date-picker-day-font-size: Specifies the font size of the day.
  * @prop --calcite-date-picker-day-range-background-color-hover: Specifies the background color of day range when hovered.
+ * @prop --calcite-date-picker-day-range-background-color-selected: Specifies the background color of day range when selected.
+ * @prop --calcite-date-picker-day-text-color-hover: Specifies the text color of day when hovered.
+ * @prop --calcite-date-picker-day-text-color: Specifies the text color of day.
+ * @prop --calcite-date-picker-day-text-selected: Specifies the text color of day when selected.
+ * @prop --calcite-date-picker-week-headers-border-color: Specifies the border color of week headers.
+ * @prop --calcite-date-picker-week-headers-text-color: Specifies the text color of week headers.
  */
 
 :host {
