@@ -9,8 +9,6 @@
  * @prop --calcite-tree-item-checkbox-shadow: defines the shadow of the sub-component.
  * @prop --calcite-tree-item-checkbox-shadow-checked: defines the shadow of the sub-component when checked.
  * @prop --calcite-tree-item-checkbox-shadow-hover: defines the shadow of the sub-component when hovered.
- * @prop --calcite-tree-item-checkbox-shadow-invalid: defines the shadow of the sub-component when invalid.
- * @prop --calcite-tree-item-checkbox-size: defines the size of the sub-component.
  */
 
 :host {
@@ -270,8 +268,6 @@ calcite-checkbox {
   --calcite-checkbox-shadow: var(--calcite-tree-item-checkbox-shadow);
   --calcite-checkbox-shadow-checked: var(--calcite-tree-item-checkbox-shadow-checked);
   --calcite-checkbox-shadow-hover: var(--calcite-tree-item-checkbox-shadow-hover);
-  --calcite-checkbox-shadow-invalid: var(--calcite-tree-item-checkbox-shadow-invalid);
-  --calcite-checkbox-size: var(--calcite-tree-item-checkbox-size);
 }
 
 @include base-component();
