@@ -181,7 +181,7 @@
 }
 
 .floating-ui-container {
-  @include floatingUIContainer("--calcite-z-index-dropdown");
+  @include floatingUIContainer("var(--calcite-z-index-dropdown)");
   @include floatingUIWrapper();
 }
 

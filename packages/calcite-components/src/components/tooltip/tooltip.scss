@@ -12,22 +12,13 @@
  * @prop --calcite-tooltip-z-index: Sets the z-index value for the component.
  */
 
-:host {
-  --calcite-tooltip-background-color: var(--calcite-color-foreground-1);
-  --calcite-tooltip-border-color: var(--calcite-color-border-3);
-  --calcite-tooltip-shadow: var(--calcite-shadow-md);
-  --calcite-tooltip-text-color: var(--calcite-color-text-1);
-  --calcite-tooltip-corner-radius: var(--calcite-corner-radius-round);
-  --calcite-tooltip-z-index: var(--calcite-z-index-tooltip);
-}
-
 @include floatingUIHost(
-  "--calcite-tooltip-z-index",
-  "--calcite-tooltip-shadow",
-  "--calcite-tooltip-corner-radius",
-  "--calcite-border-width-sm",
-  "--calcite-tooltip-border-color",
-  "--calcite-tooltip-background-color"
+  "var(--calcite-tooltip-z-index, var(--calcite-z-index-tooltip))",
+  "var(--calcite-tooltip-shadow, var(--calcite-shadow-md))",
+  "var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round))",
+  "var(--calcite-border-width-sm)",
+  "var(--calcite-tooltip-border-color, var(--calcite-color-border-3))",
+  "var(--calcite-tooltip-background-color, var(--calcite-color-foreground-1))"
 );
 
 .container {
@@ -41,8 +32,8 @@
   max-inline-size: 20rem;
   max-block-size: 20rem;
   text-align: start;
-  color: var(--calcite-tooltip-text-color);
-  border-radius: var(--calcite-tooltip-corner-radius);
+  color: var(--calcite-tooltip-text-color, var(--calcite-color-text-1));
+  border-radius: var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round));
 }
 
 @include base-component();

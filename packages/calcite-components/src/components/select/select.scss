@@ -8,7 +8,6 @@
  */
 
 :host {
-  @extend %component-spacing;
   @apply flex flex-col;
 }
 
