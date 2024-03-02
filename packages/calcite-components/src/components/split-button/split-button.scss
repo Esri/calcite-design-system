@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * --calcite-split-button-dropdown-background-color: defines the background color of the component's dropdown.
+ *
+ */
 :host {
   @apply inline-block;
 }
@@ -135,3 +143,7 @@
 }
 
 @include base-component();
+
+calcite-dropdown {
+  --calcite-dropdown-background-color: var(--calcite-split-button-dropdown-background-color);
+}
