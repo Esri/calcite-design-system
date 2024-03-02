@@ -34,10 +34,8 @@
 
   border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
   background-color: var(--calcite-block-background-color, var(--calcite-color-foreground-1));
-}
 
-.header {
-  @apply justify-start p-0;
+  --calcite-internal-block-no-space: 0;
 }
 
 .header,
@@ -106,8 +104,6 @@ calcite-handle {
     leading-tight
     duration-150
     ease-in-out;
-
-  color: var(--calcite-block-heading-text-color, var(--calcite-color-text-2));
 }
 
 .description {
@@ -177,4 +173,4 @@ calcite-action-menu {
 
 @include base-component();
 @include disabled();
-@include header();
+@include header(--calcite-block-heading-text-color, --calcite-font-weight-medium, --calcite-internal-block-no-space);
