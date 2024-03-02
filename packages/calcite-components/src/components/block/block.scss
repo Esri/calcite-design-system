@@ -173,4 +173,4 @@ calcite-action-menu {
 
 @include base-component();
 @include disabled();
-@include header(--calcite-block-heading-text-color, --calcite-font-weight-medium, --calcite-internal-block-no-space);
+@include header($textColor: --calcite-block-heading-text-color, $spacing: --calcite-internal-block-no-space);
