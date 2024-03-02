@@ -3,18 +3,19 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ *
+ * @prop --calcite-card-accent-color-selected: Specifies the accent color of the component when `selected`.
  * @prop --calcite-card-background-color: Specifies the background color of the component.
  * @prop --calcite-card-border-color: Specifies the border color of the component.
- * @prop --calcite-card-shadow: Specifies the shadow of the component.
  * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
- * @prop --calcite-card-accent-color-selected: Specifies the accent color of the component when `selected`.
- * @prop --calcite-card-selection-background-color: Specifies the background color of the component's selection element.
- * @prop --calcite-card-selection-background-color-hover: Specifies the background color of the component's selection element when hovered.
  * @prop --calcite-card-selection-background-color-active: Specifies the background color of the component's selection element when active.
+ * @prop --calcite-card-selection-background-color-hover: Specifies the background color of the component's selection element when hovered.
  * @prop --calcite-card-selection-background-color-selected: Specifies the icon color of the component's selection element when `selected`.
- * @prop --calcite-card-selection-icon-color: Specifies the icon color of the component's selection element.
+ * @prop --calcite-card-selection-background-color: Specifies the background color of the component's selection element.
  * @prop --calcite-card-selection-icon-color-hover: Specifies the icon color of the component's selection element when hovered.
  * @prop --calcite-card-selection-icon-color-selected: Specifies the icon color of the component's selection element when `selected`.
+ * @prop --calcite-card-selection-icon-color: Specifies the icon color of the component's selection element.
+ * @prop --calcite-card-shadow: Specifies the shadow of the component.
  *
  */
 
@@ -218,6 +219,15 @@
 slot[name="footer-start"]::slotted(*),
 slot[name="footer-end"]::slotted(*) {
   @apply flex gap-1;
+}
+
+calcite-checkbox {
+  --calcite-checkbox-background-color: var(--calcite-card-checkbox-background-color);
+  --calcite-checkbox-background-color-checked: var(--calcite-card-checkbox-background-color-checked);
+  --calcite-checkbox-icon-color: var(--calcite-card-checkbox-icon-color);
+  --calcite-checkbox-shadow: var(--calcite-card-checkbox-shadow);
+  --calcite-checkbox-shadow-checked: var(--calcite-card-checkbox-shadow-checked);
+  --calcite-checkbox-shadow-hover: var(--calcite-card-checkbox-shadow-hover);
 }
 
 @include base-component();
