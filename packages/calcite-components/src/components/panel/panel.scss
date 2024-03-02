@@ -3,6 +3,9 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-panel-action-background-color: defines the background color of an action sub-component inside the component.
+ * @prop --calcite-panel-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
+ * @prop --calcite-panel-action-background-color-active: defines the background color of an action sub-component when active.
  * @prop --calcite-panel-action-menu-border-color: The border color of the sub-component.
  * @prop --calcite-panel-action-menu-text-color: The text color of the sub-component.
  * @prop --calcite-panel-background-color: Specifies the background color of the component.
@@ -15,7 +18,9 @@
  * @prop --calcite-panel-header-background-color: Specifies the component header's background color.
  * @prop --calcite-panel-header-border-block-end: [Deprecated] No longer necessary. Specifies the component header's block end border.
  * @prop --calcite-panel-header-z-index: Specifies the component header's z-index.
+ * @prop --calcite-panel-header-z-index: Specifies the component header's z-index.
  * @prop --calcite-panel-heading-text-color: Specifies the component's heading text color.
+ *
  */
 
 :host {
@@ -178,6 +183,19 @@
   padding: var(--calcite-spacing-xxs);
   inset-inline: 0;
   inline-size: fit-content;
+}
+
+calcite-action {
+  --calcite-action-background-color: var(--calcite-panel-action-background-color);
+
+  &:hover,
+  &:focus {
+    --calcite-action-background-color: var(--calcite-panel-action-background-color-hover);
+  }
+
+  &:active {
+    --calcite-action-background-color: var(--calcite-panel-action-background-color-active);
+  }
 }
 
 calcite-action-menu {

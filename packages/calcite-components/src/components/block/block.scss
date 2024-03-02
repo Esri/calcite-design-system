@@ -5,7 +5,19 @@
  *
  * @prop --calcite-block-action-menu-border-color: The border color of the sub-component.
  * @prop --calcite-block-action-menu-text-color: The text color of the sub-component.
+ * @prop --calcite-block-handle-background-color-focus: Specifies the background color of the sub-component when in focus state.
+ * @prop --calcite-block-handle-background-color-hover: Specifies the background color of the sub-component when in hover state.
+ * @prop --calcite-block-handle-background-color-selected: Specifies the background color of the sub-component when selected.
+ * @prop --calcite-block-handle-background-color: Specifies the background color of the sub-component.
+ * @prop --calcite-block-handle-icon-color-focus: Specifies the icon color of the sub-component when in focus state.
+ * @prop --calcite-block-handle-icon-color-hover: Specifies the icon color of the sub-component when in hover state.
+ * @prop --calcite-block-handle-icon-color-selected: Specifies the icon color of the sub-component when selected.
+ * @prop --calcite-block-handle-icon-color: Specifies the icon color of the sub-component.
+ * @prop --calcite-block-loader-color-one-third: Specifies the starting color of the loader
+ * @prop --calcite-block-loader-color-start: Specifies the starting color of the loader
+ * @prop --calcite-block-loader-color-two-thirds: Specifies the starting color of the loader
  * @prop --calcite-block-padding: Specifies the padding of the block `default` slot.
+ *
  */
 
 :host {
@@ -163,6 +175,26 @@ calcite-action-menu {
 calcite-action-menu {
   --calcite-action-menu-border-color: var(--calcite-block-action-menu-border-color);
   --calcite-action-menu-text-color: var(--calcite-block-action-menu-text-color);
+}
+
+calcite-handle {
+  --calcite-handle-icon-color: var(--calcite-block-handle-icon-color);
+  --calcite-handle-background-color: var(--calcite-block-handle-background-color);
+
+  --calcite-handle-icon-color-hover: var(--calcite-block-handle-icon-color-hover);
+  --calcite-handle-background-color-hover: var(--calcite-block-handle-background-color-hover);
+
+  --calcite-handle-icon-color-focus: var(--calcite-block-handle-icon-color-focus);
+  --calcite-handle-background-color-focus: var(--calcite-block-handle-background-color-focus);
+
+  --calcite-handle-icon-color-selected: var(--calcite-block-handle-icon-color-selected);
+  --calcite-handle-background-color-selected: var(--calcite-block-handle-background-color-selected);
+}
+
+calcite-loader {
+  --calcite-loader-color-one-third: var(--calcite-block-loader-color-one-third);
+  --calcite-loader-color-start: var(--calcite-block-loader-color-start);
+  --calcite-loader-color-two-thirds: var(--calcite-block-loader-color-two-thirds);
 }
 
 @include base-component();

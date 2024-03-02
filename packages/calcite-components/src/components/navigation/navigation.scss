@@ -3,9 +3,14 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-navigation-width: Specifies the width of the component's content area.
+ * @prop --calcite-navigation-action-background-color: defines the background color of an action sub-component inside the component.
+ * @prop --calcite-navigation-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
+ * @prop --calcite-navigation-action-background-color-active: defines the background color of an action sub-component when active.
+
  * @prop --calcite-navigation-background: Specifies the background color of the component.
  * @prop --calcite-navigation-border-color: Specifies the border color of the component.
+ * @prop --calcite-navigation-width: Specifies the width of the component's content area.
+ *
  */
 
 @include base-component();
@@ -107,4 +112,17 @@ slot[name="content-center"] ~ slot[name="content-end"],
 slot[name="content-center"] ~ slot[name="user"],
 slot[name="content-end"] ~ slot[name="user"] {
   @apply m-0;
+}
+
+calcite-action {
+  --calcite-action-background-color: var(--calcite-navigation-action-background-color);
+
+  &:hover,
+  &:focus {
+    --calcite-action-background-color: var(--calcite-navigation-action-background-color-hover);
+  }
+
+  &:active {
+    --calcite-action-background-color: var(--calcite-navigation-action-background-color-active);
+  }
 }
