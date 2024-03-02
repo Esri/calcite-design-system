@@ -197,10 +197,18 @@ calcite-handle {
   --calcite-handle-background-color-selected: var(--calcite-block-handle-background-color-selected);
 }
 
+calcite-icon {
+  // TODO: add sub-component tokens
+}
+
 calcite-loader {
   --calcite-loader-color-one-third: var(--calcite-block-loader-color-one-third);
   --calcite-loader-color-start: var(--calcite-block-loader-color-start);
   --calcite-loader-color-two-thirds: var(--calcite-block-loader-color-two-thirds);
+}
+
+calcite-scrim {
+  // TODO: add sub-component tokens
 }
 
 @include base-component();
