@@ -1,3 +1,19 @@
+/**
+* CSS Custom Properties
+*
+* These properties can be overridden using the component's tag as selector.
+*
+* @prop --calcite-list-item-handle-icon-color: Specifies the icon color of the sub-component.
+* @prop --calcite-list-item-handle-icon-color-hover: Specifies the icon color of the sub-component when in hover state.
+* @prop --calcite-list-item-handle-icon-color-focus: Specifies the icon color of the sub-component when in focus state.
+* @prop --calcite-list-item-handle-icon-color-selected: Specifies the icon color of the sub-component when selected.
+
+* @prop --calcite-list-item-handle-background-color: Specifies the background color of the sub-component.
+* @prop --calcite-list-item-handle-background-color-hover: Specifies the background color of the sub-component when in hover state.
+* @prop --calcite-list-item-handle-background-color-focus: Specifies the background color of the sub-component when in focus state.
+* @prop --calcite-list-item-handle-background-color-selected: Specifies the background color of the sub-component when selected.
+*/
+
 :host {
   @apply flex flex-col;
   --calcite-list-item-icon-color: theme("colors.brand");
@@ -208,6 +224,20 @@ td:focus {
 
 ::slotted(calcite-list:empty) {
   @apply py-3;
+}
+
+calcite-handle {
+  --calcite-handle-icon-color: var(--calcite-list-item-handle-icon-color);
+  --calcite-handle-background-color: var(--calcite-list-item-handle-background-color);
+
+  --calcite-handle-icon-color-hover: var(--calcite-list-item-handle-icon-color-hover);
+  --calcite-handle-background-color-hover: var(--calcite-list-item-handle-background-color-hover);
+
+  --calcite-handle-icon-color-focus: var(--calcite-list-item-handle-icon-color-focus);
+  --calcite-handle-background-color-focus: var(--calcite-list-item-handle-background-color-focus);
+
+  --calcite-handle-icon-color-selected: var(--calcite-list-item-handle-icon-color-selected);
+  --calcite-handle-background-color-selected: var(--calcite-list-item-handle-background-color-selected);
 }
 
 @include base-component();

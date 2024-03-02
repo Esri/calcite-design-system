@@ -9,10 +9,21 @@
  * @prop --calcite-block-border-color: Specifies the border color of the component.
  * @prop --calcite-block-content-space: Specifies the space of the component's `default` slot.
  * @prop --calcite-block-description-text-color: Specifies the text color of the component's description.
- * @prop --calcite-block-header-background-color: Specifies the background color of the component's header.
+ * @prop --calcite-block-handle-background-color-focus: Specifies the background color of the sub-component when in focus state.
+ * @prop --calcite-block-handle-background-color-hover: Specifies the background color of the sub-component when in hover state.
+ * @prop --calcite-block-handle-background-color-selected: Specifies the background color of the sub-component when selected.
+ * @prop --calcite-block-handle-background-color: Specifies the background color of the sub-component.
+ * @prop --calcite-block-handle-icon-color-focus: Specifies the icon color of the sub-component when in focus state.
+ * @prop --calcite-block-handle-icon-color-hover: Specifies the icon color of the sub-component when in hover state.
+ * @prop --calcite-block-handle-icon-color-selected: Specifies the icon color of the sub-component when selected.
+ * @prop --calcite-block-handle-icon-color: Specifies the icon color of the sub-component.
  * @prop --calcite-block-header-background-color-hover: Specifies the background color of the component's header when hovered.
- * @prop --calcite-block-heading-text-color: Specifies the text color of the component's heading.
+ * @prop --calcite-block-header-background-color: Specifies the background color of the component's header.
  * @prop --calcite-block-heading-text-color-open: Specifies the text color of the component's heading when open.
+ * @prop --calcite-block-heading-text-color: Specifies the text color of the component's heading.
+ * @prop --calcite-block-loader-color-one-third: Specifies the starting color of the loader
+ * @prop --calcite-block-loader-color-start: Specifies the starting color of the loader
+ * @prop --calcite-block-loader-color-two-thirds: Specifies the starting color of the loader
  * @prop --calcite-block-padding: [Deprecated] use `--calcite-block-content-space` instead - Specifies the padding of the component's `default` slot.
  * @prop --calcite-block-toggle-icon-color: Specifies the color of the component's toggle icon.
  */
@@ -169,6 +180,26 @@ calcite-action-menu {
   --calcite-action-menu-text-color: var(--calcite-block-action-menu-text-color);
 
   grid-area: menu;
+}
+
+calcite-handle {
+  --calcite-handle-icon-color: var(--calcite-block-handle-icon-color);
+  --calcite-handle-background-color: var(--calcite-block-handle-background-color);
+
+  --calcite-handle-icon-color-hover: var(--calcite-block-handle-icon-color-hover);
+  --calcite-handle-background-color-hover: var(--calcite-block-handle-background-color-hover);
+
+  --calcite-handle-icon-color-focus: var(--calcite-block-handle-icon-color-focus);
+  --calcite-handle-background-color-focus: var(--calcite-block-handle-background-color-focus);
+
+  --calcite-handle-icon-color-selected: var(--calcite-block-handle-icon-color-selected);
+  --calcite-handle-background-color-selected: var(--calcite-block-handle-background-color-selected);
+}
+
+calcite-loader {
+  --calcite-loader-color-one-third: var(--calcite-block-loader-color-one-third);
+  --calcite-loader-color-start: var(--calcite-block-loader-color-start);
+  --calcite-loader-color-two-thirds: var(--calcite-block-loader-color-two-thirds);
 }
 
 @include base-component();

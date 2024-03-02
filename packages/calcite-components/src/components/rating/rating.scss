@@ -30,14 +30,6 @@
 :host {
   @apply relative flex items-center;
   inline-size: fit-content;
-  --calcite-rating-outline-color: var(--calcite-color-border-input);
-  --calcite-rating-outline-color-hover: var(--calcite-color-brand);
-  --calcite-rating-value-fill-color: var(--calcite-color-brand);
-  --calcite-rating-average-fill-color: var(--calcite-color-status-warning);
-  --calcite-rating-chip-background-color: var(--calcite-color-foreground-2);
-  --calcite-rating-chip-border-color: var(--calcite-color-foreground-2);
-  --calcite-rating-chip-shadow: var(--calcite-shadow-none);
-  --calcite-rating-chip-corner-radius: 9999px;
 }
 
 :host([scale="s"]) {
@@ -92,8 +84,7 @@
   flex-direction: column;
   align-self: center;
   cursor: pointer;
-  box-shadow: var(--calcite-rating-shadow);
-  color: var(--calcite-rating-outline-color);
+  color: var(--calcite-rating-outline-color, var(--calcite-color-border-input));
   &:focus {
     @apply focus-outset;
   }
@@ -101,12 +92,15 @@
 
 .average,
 .fraction {
-  color: var(--calcite-rating-average-fill-color);
+  color: var(--calcite-rating-average-fill-color, var(--calcite-color-status-warning));
 }
 
-.hovered,
+.hovered {
+  color: var(--calcite-rating-outline-color-hover, var(--calcite-color-brand));
+}
+
 .selected {
-  color: var(--calcite-rating-value-fill-color);
+  color: var(--calcite-rating-value-fill-color, var(--calcite-color-brand));
 }
 
 .fraction {
@@ -122,12 +116,11 @@
 calcite-chip {
   pointer-events: none;
   cursor: default;
-  --calcite-chip-background-color: var(--calcite-rating-chip-background-color);
-  --calcite-chip-border-color: var(--calcite-rating-chip-border-color);
-  --calcite-chip-shadow: var(--calcite-rating-chip-shadow);
-  --calcite-chip-corner-radius: var(--calcite-rating-chip-corner-radius);
-  --calcite-chip-text-color: var(--calcite-rating-chip-text-color);
-  color: var(--calcite-color-text-3);
+  --calcite-chip-background-color: var(--calcite-rating-chip-background-color, var(--calcite-color-foreground-2));
+  --calcite-chip-border-color: var(--calcite-rating-chip-border-color, var(--calcite-color-foreground-2));
+  --calcite-chip-shadow: var(--calcite-rating-chip-shadow, var(--calcite-shadow-none));
+  --calcite-chip-corner-radius: var(--calcite-rating-chip-corner-radius, 9999px);
+  --calcite-chip-text-color: var(--calcite-rating-chip-text-color, var(--calcite-color-text-3));
 }
 
 .number--average {

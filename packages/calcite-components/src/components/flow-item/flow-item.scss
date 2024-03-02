@@ -3,6 +3,9 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-flow-item-action-background-color: defines the background color of an action sub-component inside the component.
+ * @prop --calcite-flow-item-action-background-color-hover: defines the background color of an action sub-component is hovered or focused inside the component.
+ * @prop --calcite-flow-item-action-background-color-active: defines the background color of an action sub-component is active inside the component.
  * @prop --calcite-flow-item-background-color: Specifies the background color of the component.
  * @prop --calcite-flow-item-border-color: Specifies the border color of the component.
  * @prop --calcite-flow-item-description-text-color: Specifies the text color of the component's description.
@@ -12,8 +15,9 @@
  * @prop --calcite-flow-item-footer-space: Specifies the spacing of the component's footer.
  * @prop --calcite-flow-item-header-background-color: Specifies the component header's background color.
  * @prop --calcite-flow-item-header-border-block-end: [Deprecated] No longer necessary. Specifies the component header's block end border.
- * @prop --calcite-flow-item-heading-text-color: Specifies the component's heading text color.
  * @prop --calcite-flow-item-header-z-index: Specifies the component header's z-index.
+ * @prop --calcite-flow-item-heading-text-color: Specifies the component's heading text color.
+ * 
  */
 
 :host {
@@ -48,6 +52,19 @@ calcite-panel {
   --calcite-panel-header-z-index: var(--calcite-flow-item-header-z-index);
   --calcite-panel-header-border-width: var(--calcite-flow-item-header-border-width);
   --calcite-panel-header-border-block-end: var(--calcite-flow-item-header-border-block-end);
+}
+
+calcite-action {
+  --calcite-action-background-color: var(--calcite-flow-item-action-background-color);
+
+  &:hover,
+  &:focus {
+    --calcite-action-background-color: var(--calcite-flow-item-action-background-color-hover);
+  }
+
+  &:active {
+    --calcite-action-background-color: var(--calcite-flow-item-action-background-color-active);
+  }
 }
 
 @include base-component();
