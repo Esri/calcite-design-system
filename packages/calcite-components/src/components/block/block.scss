@@ -45,6 +45,7 @@
 
   border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
   background-color: var(--calcite-block-background-color, var(--calcite-color-foreground-1));
+  font-size: var(--calcite-font-size--1);
 
   --calcite-internal-block-no-space: 0;
 }
