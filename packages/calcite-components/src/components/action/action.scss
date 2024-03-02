@@ -30,7 +30,7 @@
       rounded-full;
     inset-block-end: calc(-0.275rem);
     inset-inline-end: calc(-0.275rem);
-    background-color: var(--calcite-action-indicator-color);
+    background-color: var(--calcite-action-indicator-color, var(--calcite-color-brand));
   }
 }
 
