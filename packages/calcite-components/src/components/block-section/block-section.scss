@@ -3,7 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-block-section-border-color: Specifies the border color of the component. Applicable when open.
+ * @prop --calcite-block-section-background-color: Specifies the background color of the component.
+ * @prop --calcite-block-section-border-color: Specifies the border color of the component. Applicable on bottom border when open.
  * @prop --calcite-block-section-heading-text-color: Specifies the component's heading text color.
  * @prop --calcite-block-section-heading-text-color-hover: Specifies the component's heading text color on hover.
  */
@@ -12,6 +13,8 @@
   @apply block
     box-border
     text-n1;
+
+  background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
 }
 
 :host([open]) {
