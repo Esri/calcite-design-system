@@ -14,6 +14,10 @@
  * @prop --calcite-card-selection-background-color: Specifies the background color of the component's selection element.
  * @prop --calcite-card-selection-icon-color-hover: Specifies the icon color of the component's selection element when hovered.
  * @prop --calcite-card-selection-icon-color-selected: Specifies the icon color of the component's selection element when `selected`.
+ 
+ * @prop --calcite-card-loader-color-one-third: Specifies the starting color of the loader
+ * @prop --calcite-card-loader-color-start: Specifies the starting color of the loader
+ * @prop --calcite-card-loader-color-two-thirds: Specifies the starting color of the loader
  * @prop --calcite-card-selection-icon-color: Specifies the icon color of the component's selection element.
  * @prop --calcite-card-shadow: Specifies the shadow of the component.
  *
@@ -228,6 +232,12 @@ calcite-checkbox {
   --calcite-checkbox-shadow: var(--calcite-card-checkbox-shadow);
   --calcite-checkbox-shadow-checked: var(--calcite-card-checkbox-shadow-checked);
   --calcite-checkbox-shadow-hover: var(--calcite-card-checkbox-shadow-hover);
+}
+
+calcite-loader {
+  --calcite-loader-color-one-third: var(--calcite-card-loader-color-one-third);
+  --calcite-loader-color-start: var(--calcite-card-loader-color-start);
+  --calcite-loader-color-two-thirds: var(--calcite-card-loader-color-two-thirds);
 }
 
 @include base-component();

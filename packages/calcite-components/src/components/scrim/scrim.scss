@@ -5,6 +5,10 @@
  *
  * @prop --calcite-scrim-background: [Deprecated] Use the `--calcite-scrim-background-color` property instead. Specifies the background color of the component.
  * @prop --calcite-scrim-background-color: Specifies the background color of the component.
+ 
+ * @prop --calcite-scrim-loader-color-one-third: Specifies the starting color of the loader
+ * @prop --calcite-scrim-loader-color-start: Specifies the starting color of the loader
+ * @prop --calcite-scrim-loader-color-two-thirds: Specifies the starting color of the loader
  */
 :host {
   --calcite-scrim-background-color: var(--calcite-scrim-background, var(--calcite-color-transparent-scrim));
@@ -45,6 +49,12 @@
 
 .content {
   @apply p-4;
+}
+
+calcite-loader {
+  --calcite-loader-color-one-third: var(--calcite-scrim-loader-color-one-third);
+  --calcite-loader-color-start: var(--calcite-scrim-loader-color-start);
+  --calcite-loader-color-two-thirds: var(--calcite-scrim-loader-color-two-thirds);
 }
 
 @include base-component();
