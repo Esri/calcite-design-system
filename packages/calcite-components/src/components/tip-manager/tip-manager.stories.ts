@@ -149,16 +149,15 @@ export const bosnianLocale_TestOnly = (): string =>
   </calcite-tip-manager>`;
 
 export const themedGroup_TestOnly = (): string => html`
-<calcite-tip-manager>
-  <calcite-tip-group 
-    group-title="Tip Manager heading" 
-    style="
+  <calcite-tip-manager>
+    <calcite-tip-group
+      group-title="Astronomy"
+      style="
       --calcite-tip-group-background-color: red;
       --calcite-tip-group-text-color: green;
     "
-  >
-    <calcite-tip heading="Example tip title">
-    <calcite-tip><p>basic render</p></calcite-tip>
-  </calcite-tip-group>
-</calcite-tip-manager>
+    >
+      <calcite-tip heading="The Red Rocks and Blue Water"><p>This is a tip.</p></calcite-tip>
+    </calcite-tip-group>
+  </calcite-tip-manager>
 `;
