@@ -3,8 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-label-margin-bottom: **[Deprecated]** Use `--calcite-label-space-block-end` -  The spacing below the component.
- * @prop --calcite-label-space-block-end: Specifies the space below the component.
+ * @prop --calcite-label-margin-bottom: **[Deprecated]** Use `--calcite-label-space-y-end` -  The spacing below the component.
+ * @prop --calcite-label-space-y-end: Specifies the space below the component.
  * @prop --calcite-label-text-color: Specifies the text color of the component.
  */
 
@@ -42,7 +42,7 @@
   --calcite-internal-label-gap: var(--calcite-spacing-xxs);
 
   .container {
-    margin-block-end: var(--calcite-label-margin-bottom, var(--calcite-label-space-block-end, theme("spacing.2")));
+    margin-block-end: var(--calcite-label-margin-bottom, var(--calcite-label-space-y-end, theme("spacing.2")));
   }
 }
 
@@ -52,7 +52,7 @@
   --calcite-internal-label-gap: var(--calcite-spacing-sm);
 
   .container {
-    margin-block-end: var(--calcite-label-margin-bottom, var(--calcite-label-space-block-end, theme("spacing.3")));
+    margin-block-end: var(--calcite-label-margin-bottom, var(--calcite-label-space-y-end, theme("spacing.3")));
   }
 }
 
@@ -62,7 +62,7 @@
   --calcite-internal-label-gap: var(--calcite-spacing-sm);
 
   .container {
-    margin-block-end: var(--calcite-label-margin-bottom, var(--calcite-label-space-block-end, theme("spacing.4")));
+    margin-block-end: var(--calcite-label-margin-bottom, var(--calcite-label-space-y-end, theme("spacing.4")));
   }
 }
 
