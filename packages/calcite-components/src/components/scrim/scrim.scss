@@ -10,9 +10,6 @@
  * @prop --calcite-scrim-loader-color-start: Specifies the starting color of the loader
  * @prop --calcite-scrim-loader-color-two-thirds: Specifies the starting color of the loader
  */
-:host {
-  --calcite-scrim-background-color: var(--calcite-scrim-background, var(--calcite-color-transparent-scrim));
-}
 
 :host {
   @apply absolute
@@ -44,7 +41,10 @@
   justify-center
   overflow-hidden;
   animation: calcite-scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
-  background-color: var(--calcite-scrim-background-color);
+  background-color: var(
+    --calcite-scrim-background-color,
+    var(--calcite-scrim-background, var(--calcite-color-transparent-scrim))
+  );
 }
 
 .content {
