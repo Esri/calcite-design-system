@@ -14,7 +14,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-color-picker-swatch-size: #{$calcite-size-28}; // TODO: replace with token
+  --calcite-internal-color-picker-swatch-size: #{$calcite-size-28};
 }
 
 .swatch {
