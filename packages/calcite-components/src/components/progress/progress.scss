@@ -1,22 +1,38 @@
-@import "../../assets/styles/animation";
+/**
+* CSS Custom Properties
+*
+* These properties can be overridden using the component's tag as selector.
+*
+* @prop --calcite-progress-background-color: Defines the background color of the component.
+* @prop --calcite-progress-fill-color: Defines the background color of the progress bar.
+* @prop --calcite-progress-text-color: Defines the text color of the component.
+*/
 
 :host {
-  @apply relative block w-full;
+  --calcite-progress-background-color: var(--calcite-color-border-3);
+  --calcite-progress-fill-color: var(--calcite-color-brand);
+  --calcite-progress-text-color: var(--calcite-color-text-2);
+
+  @apply relative block;
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 .track,
 .bar {
-  @apply absolute top-0;
-  block-size: 2px;
+  @apply absolute top-0 z-default;
+
+  block-size: var(--calcite-size-xxxs);
 }
 
 .track {
-  @apply z-default w-full overflow-hidden;
-  background: theme("borderColor.color.3");
+  @apply overflow-hidden;
+
+  inline-size: var(--calcite-container-size-content-fluid);
+  background-color: var(--calcite-progress-background-color);
 }
 
 .bar {
-  @apply bg-brand z-default;
+  background-color: var(--calcite-progress-fill-color);
 }
 
 @media (forced-colors: active) {
@@ -30,6 +46,7 @@
 
 .indeterminate {
   @apply w-1/5;
+
   animation: looping-progress-bar-ani scaleDuration(--calcite-internal-animation-timing-medium, 11) linear infinite;
   &.calcite--rtl {
     animation-name: looping-progress-bar-ani-rtl;
@@ -42,7 +59,9 @@
 
 .text {
   @apply text-n2h px-0 pt-4 pb-0 text-center font-medium;
-  color: var(--calcite-color-text-2);
+
+  font-size: theme("fontSize.n2h");
+  color: var(--calcite-progress-text-color);
 }
 
 @keyframes looping-progress-bar-ani {

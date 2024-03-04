@@ -595,12 +595,12 @@ export type FocusElementInGroupDestination = "first" | "last" | "next" | "previo
  * @param {boolean} cycle Should navigation cycle through elements or stop at extent - defaults to true.
  * @returns {Element} The focused element
  */
-export const focusElementInGroup = (
+export const focusElementInGroup = <T extends Element = Element>(
   elements: Element[],
   currentElement: Element,
   destination: FocusElementInGroupDestination,
   cycle = true,
-): Element => {
+): T => {
   const currentIndex = elements.indexOf(currentElement);
   const isFirstItem = currentIndex === 0;
   const isLastItem = currentIndex === elements.length - 1;

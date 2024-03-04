@@ -1,3 +1,16 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tree-item-checkbox-background-color: defines the background-color of the sub-component.
+ * @prop --calcite-tree-item-checkbox-background-color-checked: defines the background-color of the sub-component when checked.
+ * @prop --calcite-tree-item-checkbox-icon-color: defines the checkmark color of the sub-component.
+ * @prop --calcite-tree-item-checkbox-shadow: defines the shadow of the sub-component.
+ * @prop --calcite-tree-item-checkbox-shadow-checked: defines the shadow of the sub-component when checked.
+ * @prop --calcite-tree-item-checkbox-shadow-hover: defines the shadow of the sub-component when hovered.
+ */
+
 :host {
   @apply text-color-3
     block
@@ -246,6 +259,15 @@
   .bullet-point {
     color: var(--calcite-color-brand);
   }
+}
+
+calcite-checkbox {
+  --calcite-checkbox-background-color: var(--calcite-tree-item-checkbox-background-color);
+  --calcite-checkbox-background-color-checked: var(--calcite-tree-item-checkbox-background-color-checked);
+  --calcite-checkbox-icon-color: var(--calcite-tree-item-checkbox-icon-color);
+  --calcite-checkbox-shadow: var(--calcite-tree-item-checkbox-shadow);
+  --calcite-checkbox-shadow-checked: var(--calcite-tree-item-checkbox-shadow-checked);
+  --calcite-checkbox-shadow-hover: var(--calcite-tree-item-checkbox-shadow-hover);
 }
 
 @include base-component();

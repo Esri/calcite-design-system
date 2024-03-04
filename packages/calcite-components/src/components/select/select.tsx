@@ -401,7 +401,7 @@ export class Select
             {this.renderChevron()}
             <HiddenFormInputSlot component={this} />
           </div>
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}
