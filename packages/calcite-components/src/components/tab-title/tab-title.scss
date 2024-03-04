@@ -166,7 +166,7 @@
   self-center
   transition-default;
 
-  background-color: var(--calcite-tab-title-close-button-background-color, var(--calcite-button-transparent-1));
+  background-color: var(--calcite-tab-title-close-button-background-color, var(--calcite-color-transparent));
   color: var(--calcite-tab-title-close-button-icon-color, var(--calcite-color-text-3));
 
   margin-inline-start: auto;
