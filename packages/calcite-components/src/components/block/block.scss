@@ -133,15 +133,16 @@ calcite-handle {
   display: flex;
   margin-inline-start: theme("spacing.3");
   margin-inline-end: 0;
-  color: var(--calcite-internal-block-icon-color);
 }
 
-.status-icon.valid {
-  --calcite-internal-block-icon-color: var(--calcite-color-status-success);
-}
+.status-icon {
+  &.valid {
+    color: var(--calcite-color-status-success);
+  }
 
-.status-icon.invalid {
-  --calcite-internal-block-icon-color: var(--calcite-color-status-danger);
+  &.invalid {
+    color: var(--calcite-color-status-danger);
+  }
 }
 
 .toggle-icon {
