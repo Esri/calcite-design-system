@@ -18,10 +18,18 @@
  * @prop --calcite-input-placeholder-text-color: defines the color of placeholder text in the component.
  * @prop --calcite-input-prefix-background-color: defines the background color of the prefix sub-component.
  * @prop --calcite-input-prefix-text-color:  defines the text color of the prefix sub-component.
+ * @prop --calcite-progress-background-color: Defines the background color of the progress sub-component.
+ * @prop --calcite-progress-fill-color: Defines the background color of the progress sub-component bar.
+ * @prop --calcite-progress-text-color: Defines the text color of the progress sub-component. 
  * @prop --calcite-input-suffix-background-color:  defines the background color of the suffix sub-component.
  * @prop --calcite-input-suffix-text-color:  defines the text color of the suffix sub-component.
  * @prop --calcite-input-text-color: defines the text color of the component.
  *
  */
 
+calcite-progress {
+  --calcite-progress-background-color: var(--calcite-input-progress-background-color);
+  --calcite-progress-fill-color: var(--calcite-input-progress-fill-color);
+  --calcite-progress-text-color: var(--calcite-input-progress-text-color);
+}
 @include addInputStyles;
