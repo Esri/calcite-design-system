@@ -62,14 +62,13 @@
 
 .container {
   @apply inline-flex
-  h-full
-  max-w-full
   items-center
   focus-base
   justify-center
   cursor-default
   box-border
   font-medium;
+  max-inline-size: var(--calcite-container-size-content-fluid);
   border: var(--calcite-border-width-sm) solid var(--calcite-chip-border-color, var(--calcite-color-border-3));
   color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
   border-radius: var(--calcite-chip-corner-radius, 9999px);
