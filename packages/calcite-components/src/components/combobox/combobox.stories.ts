@@ -482,14 +482,11 @@ export const darkModeRTL_TestOnly = (): string => html`
   <div style="width:400px;max-width:100%;padding:100px">
     <calcite-combobox
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
+      selection-mode="multiple"
       class="calcite-mode-dark"
-      placeholder="${text("placeholder", "placeholder")}"
-      label="${text("label (for screen readers)", "demo")}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      ${boolean("disabled", false)}
-      ${boolean("allow-custom-values", false)}
-      max-items="${number("max-items", 0)}"
+      placeholder="placeholder"
+      label="demo"
+      validation-message="This should not appear because the status is not 'invalid'"
     >
       <calcite-combobox-item value="Trees" text-label="Trees">
         <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>

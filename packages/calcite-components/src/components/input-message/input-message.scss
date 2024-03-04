@@ -3,34 +3,42 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-input-message-spacing-value: The top margin spacing above the component.
+ * @prop --calcite-input-message-icon-color: defines the icon color in the component.
+ * @prop --calcite-input-message-spacing-value: [Deprecated] The top margin spacing above the component.
+ * @prop --calcite-input-message-text-color: defines the text color of the component.
+ *
  */
 
 :host {
-  @apply text-color-1 transition-default box-border flex h-auto w-full items-center font-medium opacity-100;
-  --calcite-input-message-spacing-value: theme("spacing.1");
-  margin-block-start: var(--calcite-input-message-spacing-value);
+  @apply transition-default box-border flex h-auto items-center font-medium;
+  margin-block-start: var(
+    --calcite-input-message-spacing-value,
+    var(--calcite-internal-input-message-space, theme("spacing.1"))
+  );
+  color: var(--calcite-input-message-text-color, var(--calcite-color-text-1));
+  inline-size: var(--calcite-container-size-content-fluid);
+  opacity: var(--calcite-opacity-full);
 }
 
-.calcite-input-message-icon {
+calcite-icon {
   @apply transition-default pointer-events-none inline-flex flex-shrink-0;
   margin-inline-end: theme("margin.2");
 }
 
-:host([status="invalid"]) .calcite-input-message-icon {
-  color: var(--calcite-color-status-danger);
+:host([status="invalid"]) calcite-icon {
+  color: var(--calcite-input-message-icon-color, var(--calcite-color-status-danger));
 }
 
-:host([status="warning"]) .calcite-input-message-icon {
-  color: var(--calcite-color-status-warning);
+:host([status="warning"]) calcite-icon {
+  color: var(--calcite-input-message-icon-color, var(--calcite-color-status-warning));
 }
 
-:host([status="valid"]) .calcite-input-message-icon {
-  color: var(--calcite-color-status-success);
+:host([status="valid"]) calcite-icon {
+  color: var(--calcite-input-message-icon-color, var(--calcite-color-status-success));
 }
 
-:host([status="idle"]) .calcite-input-message-icon {
-  color: var(--calcite-color-brand);
+:host([status="idle"]) calcite-icon {
+  color: var(--calcite-input-message-icon-color, var(--calcite-color-brand));
 }
 
 :host([scale="s"]) {
