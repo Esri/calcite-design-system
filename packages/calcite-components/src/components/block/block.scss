@@ -25,6 +25,7 @@
  * @prop --calcite-block-loader-color-start: Specifies the starting color of the loader
  * @prop --calcite-block-loader-color-two-thirds: Specifies the starting color of the loader
  * @prop --calcite-block-padding: [Deprecated] use `--calcite-block-content-space` instead - Specifies the padding of the component's `default` slot.
+ * @prop --calcite-block-text-color: Specifies the text color of the component.
  * @prop --calcite-block-toggle-icon-color: Specifies the color of the component's toggle icon.
  */
 
@@ -43,8 +44,9 @@
     flex flex-col flex-grow-0 flex-shrink-0 p-0 transition-margin;
   flex-basis: auto;
 
-  border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
   background-color: var(--calcite-block-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-block-border-color, var(--calcite-color-border-3));
+  color: var(--calcite-block-text-color, var(--calcite-color-text-2));
   font-size: var(--calcite-font-size--1);
 
   --calcite-internal-block-no-space: 0;
