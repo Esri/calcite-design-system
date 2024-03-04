@@ -79,7 +79,9 @@
   &.is-circle {
     inline-size: var(--calcite-internal-chip-container-size);
   }
-
+  &:not(.is-circle) {
+    padding-inline: var(--calcite-internal-chip-spacing-s);
+  }
   &.selectable {
     @apply cursor-pointer;
   }
@@ -192,8 +194,6 @@
 }
 
 .container:not(.is-circle) {
-  padding-inline: var(--calcite-internal-chip-spacing-s);
-
   &.image--slotted {
     padding-inline-start: calc(var(--calcite-internal-chip-spacing-l) / 2);
   }
