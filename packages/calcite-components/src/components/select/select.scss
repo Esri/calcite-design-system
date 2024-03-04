@@ -108,10 +108,13 @@
 }
 
 :host([status="invalid"]) {
-  select:focus,
-  .icon-container:focus {
+  .select,
+  .icon-container {
     border-color: var(--calcite-select-border-color-invalid, var(--calcite-color-status-danger));
-    @apply focus-inset-danger;
+
+    &:focus {
+      @apply focus-inset-danger;
+    }
   }
 }
 
