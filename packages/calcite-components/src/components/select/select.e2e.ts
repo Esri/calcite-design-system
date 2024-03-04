@@ -412,7 +412,13 @@ describe("calcite-select", () => {
           <calcite-option id="3">tres</calcite-option>
         </calcite-select>
       `,
-      { testValue: "dos", validation: true, changeValueKeys: ["ArrowDown"] },
+      {
+        testValue: "dos",
+        validation: true,
+        // we use <select>'s char-matching behavior vs navigating with arrows + space/enter
+        // due to the context menu not being accessible in puppeteer
+        changeValueKeys: ["t"],
+      },
     );
   });
 });
