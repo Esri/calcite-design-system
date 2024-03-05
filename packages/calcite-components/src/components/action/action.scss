@@ -5,6 +5,9 @@
  *
  * @prop --calcite-action-background-color: Specifies the background color of the component.
  * @prop --calcite-action-indicator-color: Specifies the color of the component's indicator.
+ * @prop --calcite-action-loader-color-one-third: Specifies the starting color of the loader
+ * @prop --calcite-action-loader-color-start: Specifies the starting color of the loader
+ * @prop --calcite-action-loader-color-two-thirds: Specifies the starting color of the loader
  * @prop --calcite-action-text-color: Specifies the text color of the component.
  *
  */
@@ -27,7 +30,7 @@
       rounded-full;
     inset-block-end: calc(-0.275rem);
     inset-inline-end: calc(-0.275rem);
-    background-color: var(--calcite-action-indicator-color);
+    background-color: var(--calcite-action-indicator-color, var(--calcite-color-brand));
   }
 }
 
@@ -238,9 +241,9 @@ button {
 }
 
 calcite-loader {
-  //TODO: sub-component tokens
+  --calcite-loader-color-one-third: var(--calcite-action-loader-color-one-third);
+  --calcite-loader-color-start: var(--calcite-action-loader-color-start);
+  --calcite-loader-color-two-thirds: var(--calcite-action-loader-color-two-thirds);
 }
 
-calcite-icon {
-  //TODO: sub-component tokens
-}
+@include base-component();

@@ -3,18 +3,23 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ *
+ * @prop --calcite-card-accent-color-selected: Specifies the accent color of the component when `selected`.
  * @prop --calcite-card-background-color: Specifies the background color of the component.
  * @prop --calcite-card-border-color: Specifies the border color of the component.
- * @prop --calcite-card-shadow: Specifies the shadow of the component.
  * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
- * @prop --calcite-card-accent-color-selected: Specifies the accent color of the component when `selected`.
- * @prop --calcite-card-selection-background-color: Specifies the background color of the component's selection element.
- * @prop --calcite-card-selection-background-color-hover: Specifies the background color of the component's selection element when hovered.
  * @prop --calcite-card-selection-background-color-active: Specifies the background color of the component's selection element when active.
+ * @prop --calcite-card-selection-background-color-hover: Specifies the background color of the component's selection element when hovered.
  * @prop --calcite-card-selection-background-color-selected: Specifies the icon color of the component's selection element when `selected`.
- * @prop --calcite-card-selection-icon-color: Specifies the icon color of the component's selection element.
+ * @prop --calcite-card-selection-background-color: Specifies the background color of the component's selection element.
  * @prop --calcite-card-selection-icon-color-hover: Specifies the icon color of the component's selection element when hovered.
  * @prop --calcite-card-selection-icon-color-selected: Specifies the icon color of the component's selection element when `selected`.
+ * @prop --calcite-card-selection-icon-color: Specifies the icon color of the component's selection element.
+ * @prop --calcite-card-shadow: Specifies the shadow of the component.
+ 
+ * @prop --calcite-card-loader-color-one-third: Specifies the starting color of the loader
+ * @prop --calcite-card-loader-color-start: Specifies the starting color of the loader
+ * @prop --calcite-card-loader-color-two-thirds: Specifies the starting color of the loader
  *
  */
 
@@ -82,13 +87,6 @@
   }
 }
 
-.footer {
-  @apply flex mt-auto flex-row content-between justify-between;
-  padding-inline: var(--calcite-spacing-md);
-  padding-block-start: var(--calcite-spacing-xxs);
-  padding-block-end: var(--calcite-spacing-md);
-}
-
 .card-content {
   @apply h-auto text-n2-wrap;
 }
@@ -140,12 +138,10 @@
 @include slotted("footer-start", "*") {
   @apply text-n2-wrap self-center;
   margin-inline-end: auto;
-  color: var(--calcite-color-text-3);
 }
 
 @include slotted("footer-end", "*") {
   @apply text-n2-wrap self-center;
-  color: var(--calcite-color-text-3);
 }
 
 .checkbox-wrapper-deprecated {
@@ -218,6 +214,12 @@
 slot[name="footer-start"]::slotted(*),
 slot[name="footer-end"]::slotted(*) {
   @apply flex gap-1;
+}
+
+calcite-loader {
+  --calcite-loader-color-one-third: var(--calcite-card-loader-color-one-third);
+  --calcite-loader-color-start: var(--calcite-card-loader-color-start);
+  --calcite-loader-color-two-thirds: var(--calcite-card-loader-color-two-thirds);
 }
 
 @include base-component();
