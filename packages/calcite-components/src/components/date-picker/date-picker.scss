@@ -1,13 +1,34 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-date-picker-border-color: Specifies the border color of the component.
+ * @prop --calcite-date-picker-border-radius: Specifies the border radius of the component.
+ * @prop --calcite-date-picker-day-background-color-hover: Specifies the background color of the day when hovered.
+ * @prop --calcite-date-picker-day-background-color-selected: Specifies the background color of the day when selected.
+ * @prop --calcite-date-picker-day-background-color: Specifies the background color of the day.
+ * @prop --calcite-date-picker-day-corner-radius: Specifies the corner radius of day.
+ * @prop --calcite-date-picker-day-font-size: Specifies the font size of the day.
+ * @prop --calcite-date-picker-day-range-background-color-hover: Specifies the background color of day range when hovered.
+ * @prop --calcite-date-picker-day-range-background-color-selected: Specifies the background color of day range when selected.
+ * @prop --calcite-date-picker-day-text-color-hover: Specifies the text color of day when hovered.
+ * @prop --calcite-date-picker-day-text-color: Specifies the text color of day.
+ * @prop --calcite-date-picker-day-text-selected: Specifies the text color of day when selected.
+ * @prop --calcite-date-picker-week-headers-border-color: Specifies the border color of week headers.
+ * @prop --calcite-date-picker-week-headers-text-color: Specifies the text color of week headers.
+ */
+
 :host {
   @extend %component-host;
   @apply align-top
-    border
-    border-color-1
     border-solid
     inline-block
     overflow-visible
-    rounded-none
     w-auto;
+  border-radius: var(--calcite-date-picker-border-radius, var(--calcite-corner-radius));
+  border-color: var(--calcite-date-picker-border-color, var(--calcite-color-border-1));
+  border-width: var(--calcite-border-width-sm);
 }
 
 :host([scale="s"]) {
@@ -26,6 +47,25 @@
   inline-size: 370px;
   min-inline-size: 320px;
   max-inline-size: 600px;
+}
+
+calcite-date-picker-month {
+  --calcite-date-picker-month-week-headers-border-color: var(--calcite-date-picker-week-headers-border-color);
+  --calcite-date-picker-month-week-headers-text-color: var(--calcite-date-picker-week-headers-text-color);
+  --calcite-date-picker-month-day-text-color: var(--calcite-date-picker-day-text-color);
+  --calcite-date-picker-month-day-text-color-hover: var(--calcite-date-picker-day-text-color-hover);
+  --calcite-date-picker-month-day-text-selected: var(--calcite-date-picker-day-text-selected);
+  --calcite-date-picker-month-day-font-size: var(--calcite-date-picker-day-font-size);
+  --calcite-date-picker-month-day-background-color: var(--calcite-date-picker-day-background-color);
+  --calcite-date-picker-month-day-background-color-hover: var(--calcite-date-picker-day-background-color-hover);
+  --calcite-date-picker-month-day-background-color-selected: var(--calcite-date-picker-day-background-color-selected);
+  --calcite-date-picker-month-day-corner-radius: var(--calcite-date-picker-day-corner-radius);
+  --calcite-date-picker-month-day-range-background-color-selected: var(
+    --calcite-date-picker-day-range-background-color-selected
+  );
+  --calcite-date-picker-month-day-range-background-color-hovered: var(
+    --calcite-date-picker-day-range-background-color-hover
+  );
 }
 
 @include base-component();
