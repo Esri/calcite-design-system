@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "2.5.1-next.0",
+  "version": "2.7.0-next.1",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
@@ -34,7 +34,6 @@
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"**/*.md\" --fix --dot --ignore-path .gitignore",
     "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --write \"**/*.scss\" >/dev/null",
     "lint:ts": "eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
-    "postinstall": "cd ../ && npm run util:patch:calcite-components",
     "posttest": "npm run test:prerender",
     "release:docs": "npm run docs && storybook-to-ghpages --existing-output-dir=docs",
     "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev -- --serve\"",

@@ -29,7 +29,12 @@ export const simple = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-text-area dir="rtl" class="calcite-mode-dark"> </calcite-text-area>
+  <calcite-text-area
+    dir="rtl"
+    class="calcite-mode-dark"
+    validation-message="This should not appear because the status is not 'invalid'"
+  >
+  </calcite-text-area>
 `;
 
 export const withSlottedElements = (): string => html`
