@@ -11,12 +11,6 @@
 * @prop --calcite-tip-manager-heading-text-color: The heading text color of the component.
 * @prop --calcite-tip-manager-text-color: The text color of the component.
 * @prop --calcite-tip-manager-border-color: The border color of the component.
-* 
-* @prop --calcite-tip-manager-tip-border-color: The border color of the sub-component.
-* @prop --calcite-tip-manager-tip-background-color: The background color of the sub-component.
-* @prop --calcite-tip-manager-tip-text-color: The text color of the sub-component.
-* @prop --calcite-tip-manager-tip-heading-text-color: The heading text color of the sub-component.
-* @prop --calcite-tip-manager-tip-slotted-link-text-color: The text color of the sub-component's slotted link.
 */
 
 :host {
@@ -129,14 +123,6 @@
     @apply opacity-100;
     transform: translate3d(0, 0, 0) scale(1);
   }
-}
-
-calcite-tip {
-  --calcite-tip-border-color: var(--calcite-tip-manager-tip-border-color);
-  --calcite-tip-background-color: var(--calcite-tip-manager-tip-background-color);
-  --calcite-tip-text-color: var(--calcite-tip-manager-tip-text-color);
-  --calcite-tip-heading-text-color: var(--calcite-tip-manager-tip-heading-text-color);
-  --calcite-tip-slotted-link-text-color: var(--calcite-tip-manager-tip-slotted-link-text-color);
 }
 
 @include base-component();
