@@ -1361,6 +1361,19 @@ export const panelEndWithPositionStart_TestOnly = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
+export const theming_TestOnly = (): string =>
+  html(`<calcite-shell style="
+    --calcite-shell-background-color: red;
+    --calcite-shell-border-color: cyan;
+    --calcite-shell-tip-spacing: 40px;
+  " content-behind>
+  ${headerHTML}
+  <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+  ${contentHTML}
+  ${centerRowAdvancedHTML}
+${footerHTML}
+</calcite-shell>`);
+
 export const centerRowTheming_TestOnly = (): string =>
   html(`<calcite-shell content-behind>
   ${headerHTML}
