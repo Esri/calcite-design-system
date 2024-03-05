@@ -3,114 +3,126 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-select-font-size: The font size of `calcite-option`s in the component.
- * @prop --calcite-select-spacing: The padding around the selected option text.
+ * @prop --calcite-select-background-color: The background color of the component.
+ * @prop --calcite-select-border-color: The border color of the component.
+ * @prop --calcite-select-font-size: [Deprecated] The font size of `calcite-option`s in the component.
+ * @prop --calcite-select-spacing: [Deprecated] The padding around the selected option text.
+ * @prop --calcite-select-text-color: The text color of the component.
+ * @prop --calcite-select-background-color-hover: The background color of the component when hovered.
  */
 
 :host {
   @apply flex flex-col;
-}
 
-.wrapper {
-  @apply relative flex items-stretch;
-  inline-size: var(--select-width);
+  inline-size: var(--calcite-internal-select-size);
 }
-
-@include disabled();
 
 :host([scale="s"]) {
-  --calcite-select-font-size: theme("fontSize.n2h");
-  --calcite-select-spacing-inline: theme("spacing.2") theme("spacing.8");
+  --calcite-internal-select-icon-space-inline: 0.5rem;
+  --calcite-internal-select-line-height: 1rem;
+  --calcite-internal-select-spacing-inline: var(--calcite-select-spacing, 0.5rem 2rem);
+  --calcite-internal-select-wrapper-size: 1.5rem;
 
-  .wrapper {
-    @apply h-6;
-  }
-
-  .icon-container {
-    @apply px-2;
+  .select {
+    font-size: var(--calcite-select-font-size, var(--calcite-font-size-sm));
   }
 }
 
 :host([scale="m"]) {
-  --calcite-select-font-size: theme("fontSize.n1h");
-  --calcite-select-spacing-inline: theme("spacing.3") theme("spacing.10");
+  --calcite-internal-select-icon-space-inline: 0.75rem;
+  --calcite-internal-select-line-height: 1rem;
+  --calcite-internal-select-spacing-inline: var(--calcite-select-spacing, 0.75rem 2.5rem);
+  --calcite-internal-select-wrapper-size: 2rem;
 
-  .wrapper {
-    @apply h-8;
-  }
-
-  .icon-container {
-    @apply px-3;
+  .select {
+    font-size: var(--calcite-select-font-size, var(--calcite-font-size));
   }
 }
 
 :host([scale="l"]) {
-  --calcite-select-font-size: theme("fontSize.0h");
-  --calcite-select-spacing-inline: theme("spacing.4") theme("spacing.12");
+  --calcite-internal-select-icon-space-inline: 1rem;
+  --calcite-internal-select-line-height: 1.25rem;
+  --calcite-internal-select-spacing-inline: var(--calcite-select-spacing, 1rem 3rem);
+  --calcite-internal-select-wrapper-size: 2.75rem;
 
-  .wrapper {
-    block-size: 44px;
-  }
-
-  .icon-container {
-    @apply px-4;
+  .select {
+    font-size: var(--calcite-select-font-size, var(--calcite-font-size-md));
   }
 }
 
 :host([width="auto"]) {
-  @apply w-auto;
+  --calcite-internal-select-size: auto; // TODO: replace w/ design token
 }
 
 :host([width="half"]) {
-  @apply w-1/2;
+  --calcite-internal-select-size: 50%; // TODO: replace w/ design token
 }
 
 :host([width="full"]) {
-  @apply w-full;
+  --calcite-internal-select-size: var(--calcite-container-size-content-fluid);
+}
+
+.wrapper {
+  @apply relative flex items-stretch;
+  block-size: var(--calcite-internal-select-wrapper-size);
 }
 
 .select {
-  @apply bg-foreground-1 border-color-input text-color-2 font-inherit focus-base m-0 box-border w-full cursor-pointer appearance-none truncate rounded-none border border-solid;
-  font-size: var(--calcite-select-font-size);
-  padding-inline: var(--calcite-select-spacing-inline);
-  border-inline-end-width: theme("borderWidth.0");
+  @apply font-inherit focus-base box-border cursor-pointer appearance-none truncate border-solid;
+  background-color: var(--calcite-select-background-color, var(--calcite-color-foreground-1));
+  border-width: var(--calcite-border-width-sm);
+  padding-inline: var(--calcite-internal-select-spacing-inline);
+  border-inline-end-width: var(--calcite-border-width-none);
+  inline-size: var(--calcite-container-size-content-fluid);
 
   &:focus {
     @apply focus-inset;
   }
 
-  &:hover {
-    @apply bg-foreground-2;
+  // override user agent stylesheet disabled styling
+  &:disabled {
+    background-color: var(--calcite-opacity-100);
   }
 }
 
-// override user agent stylesheet disabled styling
-select:disabled {
-  @apply border-color-input bg-opacity-100;
+:host(:hover) {
+  .select {
+    background-color: var(--calcite-select-background-color-hover, var(--calcite-color-foreground-2));
+  }
+}
+
+.select,
+.icon-container {
+  color: var(--calcite-select-text-color, var(--calcite-color-text-2));
+  border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
 }
 
 .icon-container {
-  @apply border-color-input text-color-2 pointer-events-none absolute inset-y-0 flex items-center border-0 border-solid bg-transparent;
+  @apply pointer-events-none absolute inset-y-0 flex items-center border-solid;
+  background-color: var(--calcite-color-background-none);
+  border-width: var(--calcite-border-width-none);
+  border-inline-end-width: var(--calcite-border-width-none);
   inset-inline-end: theme("inset.0");
-  border-inline-width: theme("borderWidth.0") theme("borderWidth.DEFAULT");
+  border-inline-width: var(--calcite-border-width-none) var(--calcite-border-width-sm);
+  padding-inline: var(--calcite-internal-select-icon-space-inline);
 }
 
 :host([status="invalid"]) {
-  select,
+  .select,
   .icon-container {
-    @apply border-color-danger;
-  }
+    border-color: var(--calcite-select-border-color-invalid, var(--calcite-color-status-danger));
 
-  select:focus,
-  .icon-container:focus {
-    @apply focus-inset-danger;
+    &:focus {
+      @apply focus-inset-danger;
+    }
   }
 }
 
 .select:focus ~ .icon-container {
-  @apply border-color-transparent;
+  border-color: var(--calcite-color-background-none);
 }
 
+@include base-component();
 @include form-validation-message();
 @include hidden-form-input();
-@include base-component();
+@include disabled();
