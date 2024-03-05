@@ -3,15 +3,15 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-menu-action-background-color: defines the background color of an action sub-component inside the component.
- * @prop --calcite-action-menu-action-indicator-color: defines the indicator color of an action sub-component inside the component.
- * @prop --calcite-action-menu-action-text-color: defines the text color of an action sub-component inside the component.
- * @prop --calcite-action-menu-action-background-color-hover: defines the background color of an action sub-component when hovered or focused inside the component.
- * @prop --calcite-action-menu-action-indicator-color-hover: defines the indicator color of an action sub-component when hovered or focused inside the component.
- * @prop --calcite-action-menu-action-text-color-hover: defines the text color of an action sub-component when hovered or focused inside the component.
- * @prop --calcite-action-menu-action-background-color-active: defines the background color of an action sub-component when active inside the component.
- * @prop --calcite-action-menu-action-indicator-color-active: defines the indicator color of an action sub-component when active inside the component.
- * @prop --calcite-action-menu-action-text-color-active: defines the text color of an action sub-component when active inside the component.
+ * @prop --calcite-action-menu-background-color: defines the background color of an action sub-component inside the component.
+ * @prop --calcite-action-menu-indicator-color: defines the indicator color of an action sub-component inside the component.
+ * @prop --calcite-action-menu-text-color: defines the text color of an action sub-component inside the component.
+ * @prop --calcite-action-menu-background-color-hover: defines the background color of an action sub-component when hovered or focused inside the component.
+ * @prop --calcite-action-menu-indicator-color-hover: defines the indicator color of an action sub-component when hovered or focused inside the component.
+ * @prop --calcite-action-menu-text-color-hover: defines the text color of an action sub-component when hovered or focused inside the component.
+ * @prop --calcite-action-menu-background-color-active: defines the background color of an action sub-component when active inside the component.
+ * @prop --calcite-action-menu-indicator-color-active: defines the indicator color of an action sub-component when active inside the component.
+ * @prop --calcite-action-menu-text-color-active: defines the text color of an action sub-component when active inside the component.
  * @prop --calcite-action-menu-group-separator-border-color: The border color of the component.
  *
  */
@@ -57,21 +57,21 @@
 }
 
 calcite-action {
-  --calcite-action-indicator-color: var(--calcite-action-menu-action-indicator-color);
-  --calcite-action-background-color: var(--calcite-action-menu-action-background-color);
-  --calcite-action-text-color: var(--calcite-action-menu-action-text-color);
+  --calcite-action-indicator-color: var(--calcite-action-menu-indicator-color);
+  --calcite-action-background-color: var(--calcite-action-menu-background-color);
+  --calcite-action-text-color: var(--calcite-action-menu-text-color);
 
   &:hover,
   &:focus {
-    --calcite-action-indicator-color: var(--calcite-action-menu-action-indicator-color-hover);
-    --calcite-action-background-color: var(--calcite-action-menu-action-background-color-hover);
-    --calcite-action-text-color: var(--calcite-action-menu-action-text-color-hover);
+    --calcite-action-indicator-color: var(--calcite-action-menu-indicator-color-hover);
+    --calcite-action-background-color: var(--calcite-action-menu-background-color-hover);
+    --calcite-action-text-color: var(--calcite-action-menu-text-color-hover);
   }
 
   &:active {
-    --calcite-action-indicator-color: var(--calcite-action-menu-action-indicator-color-active);
-    --calcite-action-background-color: var(--calcite-action-menu-action-background-color-active);
-    --calcite-action-text-color: var(--calcite-action-menu-action-text-color-active);
+    --calcite-action-indicator-color: var(--calcite-action-menu-indicator-color-active);
+    --calcite-action-background-color: var(--calcite-action-menu-background-color-active);
+    --calcite-action-text-color: var(--calcite-action-menu-text-color-active);
   }
 }
 
