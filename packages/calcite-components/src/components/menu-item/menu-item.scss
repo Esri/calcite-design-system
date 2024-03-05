@@ -118,6 +118,7 @@
 
 .icon--dropdown {
   @apply ms-auto me-0 relative;
+  padding-inline: var(--calcite-spacing-xxs);
   --calcite-ui-icon-color: var(--calcite-color-text-3);
   --calcite-icon-color: var(--calcite-menu-item-chevron-icon-color, var(--calcite-color-text-3));
 }
@@ -161,7 +162,6 @@
   padding-inline-end: var(--calcite-spacing-md);
 }
 
-//TODO
 calcite-action {
   --calcite-action-background-color: var(--calcite-menu-item-action-background-color);
 
@@ -190,7 +190,6 @@ calcite-action {
   }
 }
 
-// TODO
 // extends the broder block of calcite action when hovered on content
 .content:focus ~ calcite-action,
 .content:hover ~ calcite-action {
@@ -200,9 +199,7 @@ calcite-action {
 
 .dropdown-menu-items {
   @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
-  border-width: var(calcite-spacing-px);
-  border-style: solid;
-  border-color: var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
+  border: 1px solid var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
   background: var(--calcite-menu-item-background-color);
   inset-block-start: 100%;
   z-index: theme("zIndex.dropdown");
