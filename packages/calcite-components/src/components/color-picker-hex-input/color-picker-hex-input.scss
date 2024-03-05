@@ -3,10 +3,6 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-filter-input-prefix-background-color: defines the background color of the prefix in the input sub-component.
- * @prop --calcite-filter-input-prefix-text-color: defines the text color of the prefix in the input sub-component.
- * @prop --calcite-filter-input-suffix-background-color: defines the background color of the suffix in the input sub-component.
- * @prop --calcite-filter-input-suffix-text-color: defines the text color of the suffix in the input sub-component.
  * @prop --calcite-hex-input-background-color: defines the background color of the input sub-component.
  * @prop --calcite-hex-input-border-color: defines the border color of the input sub-component.
  * @prop --calcite-hex-input-button-background-color: defines the background color of the button in the input sub-component.
@@ -55,6 +51,8 @@
   }
 }
 
+calcite-input-text,
+calcite-input-number,
 calcite-input {
   --calcite-input-suffix-background-color: var(--calcite-hex-input-suffix-background-color);
   --calcite-input-suffix-text-color: var(--calcite-hex-input-suffix-text-color);
