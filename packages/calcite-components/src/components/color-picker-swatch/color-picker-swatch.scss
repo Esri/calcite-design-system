@@ -14,7 +14,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-color-picker-swatch-size: #{$calcite-size-28};
+  --calcite-internal-color-picker-swatch-size: var(--calcite-size-xxxl);
 }
 
 .swatch {
