@@ -52,12 +52,12 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   );
 };
 
-const htmlSnippet = `<img slot="thumbnail" src="${placeholderImage({
+const htmlSimpleTipContent = `<img slot="thumbnail" src="${placeholderImage({
   width: 1000,
   height: 600,
 })}" alt="This is an image." />Enim nascetur erat faucibus ornare varius arcu fames bibendum habitant felis elit ante. Nibh morbi massa curae; leo semper diam aenean congue taciti eu porta. Varius faucibus ridiculus donec. Montes sit ligula purus porta ante lacus habitasse libero cubilia purus! In quis congue arcu maecenas felis cursus pellentesque nascetur porta donec non. Quisque, rutrum ligula pharetra justo habitasse facilisis rutrum neque. Magnis nostra nec nulla dictumst taciti consectetur. Non porttitor tempor orci dictumst magna porta vitae. </div><a href="http://www.esri.com">This is a link</a>.`;
 
-export const simple = (): string => create("calcite-tip", createAttributes(), htmlSnippet);
+export const simple = (): string => create("calcite-tip", createAttributes(), htmlSimpleTipContent);
 
 export const darkModeRTL_TestOnly = (): string =>
   create(
@@ -66,7 +66,7 @@ export const darkModeRTL_TestOnly = (): string =>
       { name: "dir", value: "rtl" },
       { name: "class", value: "calcite-mode-dark" },
     ]),
-    htmlSnippet,
+    htmlSimpleTipContent,
   );
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
