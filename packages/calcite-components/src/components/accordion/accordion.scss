@@ -6,7 +6,13 @@
  * @prop --calcite-accordion-background-color: defines the background color for the component and it's slotted accordion-items.
  * @prop --calcite-accordion-border-color: defines the border color for the component and it's slotted accordion-items.
  */
-:host() {
+
+:host {
+  @apply relative
+    block
+    leading-6;
+  max-inline-size: var(--calcite-container-size-content-fluid);
+
   ::slotted(accordion-item) {
     --calcite-internal-accordion-item-icon-space-x: var(--calcite-internal-accordion-space-large);
     --calcite-internal-accordion-item-space-inset: var(--calcite-internal-accordion-space-small)
@@ -53,13 +59,6 @@
   --calcite-internal-accordion-space-small: theme("spacing.3");
   --calcite-internal-accordion-space-large: theme("spacing.4");
   @apply text-0h;
-}
-
-:host {
-  @apply relative
-    block
-    leading-6;
-  max-inline-size: var(--calcite-container-size-content-fluid);
 }
 
 @include base-component();
