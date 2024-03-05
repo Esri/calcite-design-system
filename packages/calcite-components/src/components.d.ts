@@ -77,6 +77,7 @@ import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEve
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
+import { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
@@ -163,6 +164,7 @@ export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEve
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
+export { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
@@ -803,10 +805,6 @@ export namespace Components {
           * Accessible name for the component.
          */
         "label": string;
-        /**
-          * Specifies the size of the component. Child `calcite-card`s inherit the component's value.
-         */
-        "scale": Scale;
         /**
           * Specifies the component's selected items.
           * @readonly
@@ -4592,6 +4590,14 @@ export namespace Components {
         "indicatorWidth": number;
         "layout": TabLayout;
         /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<TabNavMessages>;
+        /**
+          * Made into a prop for testing purposes only.
+         */
+        "messages": TabNavMessages;
+        /**
           * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
          */
         "position": TabPosition;
@@ -8181,10 +8187,6 @@ declare namespace LocalJSX {
           * Emits when the component's selection changes and the `selectionMode` is not `none`.
          */
         "onCalciteCardGroupSelect"?: (event: CalciteCardGroupCustomEvent<void>) => void;
-        /**
-          * Specifies the size of the component. Child `calcite-card`s inherit the component's value.
-         */
-        "scale"?: Scale;
         /**
           * Specifies the component's selected items.
           * @readonly
@@ -12165,6 +12167,14 @@ declare namespace LocalJSX {
         "indicatorOffset"?: number;
         "indicatorWidth"?: number;
         "layout"?: TabLayout;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<TabNavMessages>;
+        /**
+          * Made into a prop for testing purposes only.
+         */
+        "messages"?: TabNavMessages;
         "onCalciteInternalTabChange"?: (event: CalciteTabNavCustomEvent<TabChangeEventDetail>) => void;
         /**
           * Emits when the selected `calcite-tab` changes.

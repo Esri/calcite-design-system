@@ -153,12 +153,10 @@
 @include slotted("footer-start", "*") {
   @apply text-n2-wrap self-center;
   margin-inline-end: auto;
-  color: var(--calcite-color-text-3);
 }
 
 @include slotted("footer-end", "*") {
   @apply text-n2-wrap self-center;
-  color: var(--calcite-color-text-3);
 }
 
 .checkbox-wrapper-deprecated {
