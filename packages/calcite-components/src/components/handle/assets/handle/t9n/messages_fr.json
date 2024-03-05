@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Poignée de redimensionnement",
+  "dragHandle": "Repositionner : {itemLabel}",
+  "dragHandleUntitled": "Repositionner",
   "dragHandleActive": "Réorganisation de {itemLabel}, position actuelle {position} sur {total}.",
   "dragHandleChange": "{itemLabel}, nouvelle position {position} sur {total}. Appuyez sur Espace pour confirmer.",
   "dragHandleCommit": "{itemLabel}, position actuelle {position} sur {total}.",
