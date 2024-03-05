@@ -50,6 +50,7 @@ import { CharacterLengthObj } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
+import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
 
 /**
  * @slot - A slot for adding text.
@@ -70,7 +71,8 @@ export class TextArea
     LocalizedComponent,
     LoadableComponent,
     T9nComponent,
-    InteractiveComponent
+    InteractiveComponent,
+    Omit<TextualInputComponent, "pattern">
 {
   //--------------------------------------------------------------------------
   //
@@ -116,6 +118,13 @@ export class TextArea
    * Accessible name for the component.
    */
   @Prop() label: string;
+
+  /**
+   * Specifies the minimum number of characters allowed.
+   *
+   * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
+   */
+  @Prop({ reflect: true }) minLength: number;
 
   /**
    * Specifies the maximum number of characters allowed.
@@ -189,7 +198,7 @@ export class TextArea
   @Prop({ reflect: true }) status: Status = "idle";
 
   /** The component's value. */
-  @Prop({ mutable: true }) value: string;
+  @Prop({ mutable: true }) value = "";
 
   /**
    * Specifies the wrapping mechanism for the text.
@@ -330,7 +339,7 @@ export class TextArea
               {this.replacePlaceHoldersInMessages()}
             </span>
           )}
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}
@@ -479,6 +488,8 @@ export class TextArea
     if (this.isCharacterLimitExceeded()) {
       input.setCustomValidity(this.replacePlaceHoldersInMessages());
     }
+
+    syncHiddenFormInput("textarea", this, input);
   }
 
   setTextAreaEl = (el: HTMLTextAreaElement): void => {
@@ -534,7 +545,7 @@ export class TextArea
       }
     },
     RESIZE_TIMEOUT,
-    { leading: false }
+    { leading: false },
   );
 
   private isCharacterLimitExceeded(): boolean {

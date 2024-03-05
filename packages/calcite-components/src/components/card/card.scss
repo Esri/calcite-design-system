@@ -3,10 +3,23 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ *
+ * @prop --calcite-card-accent-color-selected: Specifies the accent color of the component when `selected`.
  * @prop --calcite-card-background-color: Specifies the background color of the component.
  * @prop --calcite-card-border-color: Specifies the border color of the component.
- * @prop --calcite-card-box-shadow: Specifies the box shadow of the component.
  * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-card-selection-background-color-active: Specifies the background color of the component's selection element when active.
+ * @prop --calcite-card-selection-background-color-hover: Specifies the background color of the component's selection element when hovered.
+ * @prop --calcite-card-selection-background-color-selected: Specifies the icon color of the component's selection element when `selected`.
+ * @prop --calcite-card-selection-background-color: Specifies the background color of the component's selection element.
+ * @prop --calcite-card-selection-icon-color-hover: Specifies the icon color of the component's selection element when hovered.
+ * @prop --calcite-card-selection-icon-color-selected: Specifies the icon color of the component's selection element when `selected`.
+ * @prop --calcite-card-selection-icon-color: Specifies the icon color of the component's selection element.
+ * @prop --calcite-card-shadow: Specifies the shadow of the component.
+ 
+ * @prop --calcite-card-loader-color-one-third: Specifies the starting color of the loader
+ * @prop --calcite-card-loader-color-start: Specifies the starting color of the loader
+ * @prop --calcite-card-loader-color-two-thirds: Specifies the starting color of the loader
  *
  */
 
@@ -14,26 +27,40 @@
   @apply block max-w-full;
 }
 
-.calcite-card-container {
+.content-wrapper {
   @apply relative
     flex
     h-full
     flex-col
     justify-between
-    duration-150
-    ease-in-out
     overflow-hidden;
   border: var(--calcite-border-width-sm) solid var(--calcite-card-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-card-corner-radius, var(--calcite-corner-radius-sharp));
   background-color: var(--calcite-card-background-color, var(--calcite-color-foreground-1));
-  box-shadow: var(--calcite-card-box-shadow, var(--calcite-shadow-none));
+  box-shadow: var(--calcite-card-shadow, var(--calcite-shadow-none));
+  pointer-events: none;
+}
+
+::slotted(*) {
+  @apply pointer-events-auto;
+}
+
+:host(:not([selectable])) {
+  .content-wrapper {
+    &:not(.non-interactive) {
+      @apply focus-base;
+    }
+    &:not(.non-interactive):focus {
+      @apply focus-outset;
+    }
+  }
 }
 
 .container {
   @apply relative flex flex-auto flex-col;
 }
 
-:host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
+:host([loading]) .content-wrapper *:not(calcite-loader):not(.calcite-card-loader-container) {
   @apply pointer-events-none;
   opacity: $calcite-opacity-0;
 }
@@ -43,10 +70,7 @@
 }
 
 .header {
-  @apply flex flex-col;
-  padding-inline: var(--calcite-spacing-md);
-  padding-block-start: var(--calcite-spacing-md);
-  padding-block-end: var(--calcite-spacing-xxs);
+  @apply flex flex-row items-start;
 }
 
 .footer {
@@ -56,17 +80,29 @@
   padding-block-end: var(--calcite-spacing-md);
 }
 
+.header-text-container {
+  @apply flex flex-col px-3 py-2 w-full justify-center;
+  &:not(:only-child) {
+    @apply pr-0.5;
+  }
+}
+
 .card-content {
-  @apply text-n2-wrap;
-  color: var(--calcite-color-text-3);
-  padding: var(--calcite-spacing-md);
+  @apply h-auto text-n2-wrap;
 }
 
-:host([selected]) .calcite-card-container {
-  --calcite-card-border-color: var(--calcite-color-brand);
+.has-slotted-content {
+  @apply p-3;
 }
 
-// slotted content
+:host([selected]) .content-wrapper {
+  box-shadow: inset 0 -4px 0 0 var(--calcite-card-accent-color-selected, var(--calcite-color-brand));
+}
+
+:host([selectable]) .header {
+  padding-inline-end: var(--calcite-spacing-xxxl);
+}
+
 @include slotted("title", "*") {
   @apply text-n1-wrap;
   margin: 0;
@@ -74,18 +110,25 @@
   color: var(--calcite-color-text-1);
 }
 
-:host([selectable]) {
-  .header {
-    // prevents overlap with checkbox (default header padding + no-overlap spacing)
-    padding-inline-end: var(--calcite-spacing-xxxl);
-  }
+@include slotted("subtitle", "*") {
+  @apply text-color-2
+    text-n2-wrap
+    m-0 mt-0.5
+    font-normal;
 }
 
-@include slotted("subtitle", "*") {
-  @apply text-n2-wrap font-normal;
-  margin: 0;
-  margin-block-start: var(--calcite-spacing-sm);
-  color: var(--calcite-color-text-2);
+@include slotted("heading", "*") {
+  @apply text-color-1
+    text-n1-wrap
+    m-0
+    font-medium;
+}
+
+@include slotted("description", "*") {
+  @apply text-color-2
+    text-n2-wrap
+    m-0 mt-0.5
+    font-normal;
 }
 
 @include slotted("thumbnail", "img") {
@@ -95,27 +138,65 @@
 @include slotted("footer-start", "*") {
   @apply text-n2-wrap self-center;
   margin-inline-end: auto;
-  color: var(--calcite-color-text-3);
 }
 
 @include slotted("footer-end", "*") {
   @apply text-n2-wrap self-center;
-  color: var(--calcite-color-text-3);
 }
 
-.checkbox-wrapper {
-  @apply absolute;
+.checkbox-wrapper-deprecated {
+  @apply absolute pointer-events-auto;
   inset-block-start: var(--calcite-spacing-sm);
   inset-inline-end: var(--calcite-spacing-sm);
   margin: 0;
   padding: 0;
 }
 
+.checkbox-wrapper {
+  @apply m-2 p-2 focus-base cursor-pointer pointer-events-auto;
+  background-color: var(--calcite-card-selection-background-color, transparent);
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  --calcite-ui-icon-color: var(--calcite-card-selection-icon-color, var(--calcite-color-text-3));
+  &:hover {
+    background-color: var(--calcite-card-selection-background-color-hover, var(--calcite-color-transparent-hover));
+    --calcite-ui-icon-color: var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2));
+  }
+  &:active {
+    background-color: var(--calcite-card-selection-background-color-active, var(--calcite-color-transparent-press));
+  }
+  & calcite-icon {
+    pointer-events: none;
+  }
+}
+
+:host([selected]) .checkbox-wrapper {
+  --calcite-ui-icon-color: var(--calcite-card-selection-icon-color-selected, var(--calcite-color-brand));
+  background-color: var(--calcite-card-selection-background-color-selected, transparent);
+  &:hover {
+    background-color: var(--calcite-card-selection-background-color-hover, var(--calcite-color-transparent-hover));
+  }
+  &:active {
+    background-color: var(--calcite-card-selection-background-color-active, var(--calcite-color-transparent-press));
+  }
+}
+
+:host(:not([selectable])) .content-wrapper:not(.non-interactive):focus .checkbox-wrapper {
+  background-color: var(--calcite-card-selection-background-color-hover, var(--calcite-color-transparent-hover));
+  --calcite-ui-icon-color: var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2));
+}
+
+:host([selected]:not([selectable])) .content-wrapper:not(.non-interactive):focus .checkbox-wrapper {
+  background-color: var(--calcite-card-selection-background-color-active, var(--calcite-color-transparent-press));
+  --calcite-ui-icon-color: var(--calcite-card-selection-icon-color-selected, var(--calcite-color-brand));
+}
+
 .thumbnail-wrapper {
   @apply flex;
 }
 
-.calcite-card-container.inline {
+.content-wrapper.inline {
   @apply flex-row;
 
   & > .container {
@@ -135,4 +216,11 @@ slot[name="footer-end"]::slotted(*) {
   @apply flex gap-1;
 }
 
+calcite-loader {
+  --calcite-loader-color-one-third: var(--calcite-card-loader-color-one-third);
+  --calcite-loader-color-start: var(--calcite-card-loader-color-start);
+  --calcite-loader-color-two-thirds: var(--calcite-card-loader-color-two-thirds);
+}
+
 @include base-component();
+@include disabled();

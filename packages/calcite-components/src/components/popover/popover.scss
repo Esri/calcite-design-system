@@ -1,17 +1,46 @@
 /**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-popover-z-index: Sets the z-index value for the component.
- */
+* CSS Custom Properties
+*
+* These properties can be overridden using the component's tag as selector.
+*
+* @prop --calcite-popover-action-background-color: defines the background color of an action sub-component inside the component.
+* @prop --calcite-popover-action-text-color: defines the text color of an action sub-component inside the component.
+* @prop --calcite-popover-action-background-color-hover: defines the background color of an action sub-component when hovered or focused inside the component.
+* @prop --calcite-popover-action-text-color-hover: defines the text color of an action sub-component when hovered or focused inside the component.
+* @prop --calcite-popover-action-background-color-active: defines the background color of an action sub-component when active inside the component.
+* @prop --calcite-popover-action-text-color-active: defines the text color of an action sub-component when active inside the component.
+* @prop --calcite-popover-background-color: Specifies the background color of the component.
+* @prop --calcite-popover-border-color: The border color of the component.
+* @prop --calcite-popover-corner-radius: The corner radius of the component.
+* @prop --calcite-popover-shadow: The shadow of the component.
+* @prop --calcite-popover-text-color: The text color of the component.
+*
+*/
 
 :host {
-  --calcite-floating-ui-z-index: var(--calcite-popover-z-index, theme("zIndex.popover"));
+  @apply pointer-events-none;
 }
 
-@include floatingUIHost();
-@include floatingUIArrow();
+@include floatingUIHost(
+  "var(--calcite-popover-z-index, var(--calcite-z-index-popup))",
+  "var(--calcite-popover-shadow, var(--calcite-shadow-md))",
+  "var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round))",
+  "var(--calcite-border-width-sm)",
+  "var(--calcite-popover-border-color, var(--calcite-color-border-3))",
+  "var(--calcite-popover-background-color, var(--calcite-color-foreground-1))"
+);
+
+.heading {
+  @apply word-break
+  m-0
+  block
+  flex-auto
+  self-center
+  whitespace-normal
+  font-medium;
+
+  color: var(--calcite-popover-text-color, var(--calcite-color-text-1));
+}
 
 :host([scale="s"]) {
   .heading {
@@ -37,56 +66,32 @@
   }
 }
 
-:host {
-  @apply pointer-events-none;
-}
-
 :host([open]) {
   pointer-events: initial;
 }
 
-.calcite-floating-ui-anim {
-  @apply bg-foreground-1
-    border-color-3
-    rounded
-    border
-    border-solid;
-}
-
-.arrow::before {
-  outline: 1px solid var(--calcite-color-border-3);
-}
-
 .header {
-  @apply border-b-color-3
-    flex
+  @apply flex
     flex-auto
     items-stretch
     justify-start
     border-0
     border-b
     border-solid;
-}
 
-.heading {
-  @apply text-color-1
-  word-break
-  m-0
-  block
-  flex-auto
-  self-center
-  whitespace-normal
-  font-medium;
+  border-block-end-color: var(--calcite-popover-border-color, var(--calcite-color-border-3));
 }
 
 .container {
-  @apply text-color-1
-    relative
+  @apply relative
     flex
     h-full
     flex-row
-    flex-nowrap
-    rounded;
+    flex-nowrap;
+
+  color: var(--calcite-popover-text-color, var(--calcite-color-text-1));
+  border-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
+
   &.has-header {
     @apply flex-col;
   }
@@ -105,13 +110,29 @@
 .close-button-container {
   @apply flex overflow-hidden;
   flex: 0 0 auto;
-  border-start-end-radius: theme("borderRadius.DEFAULT");
-  border-end-end-radius: theme("borderRadius.DEFAULT");
+  border-start-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
+  border-end-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
 }
 
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply h-full;
+}
+
+calcite-action {
+  --calcite-action-background-color: var(--calcite-popover-action-background-color);
+  --calcite-action-text-color: var(--calcite-popover-action-text-color);
+
+  &:hover,
+  &:focus {
+    --calcite-action-background-color: var(--calcite-popover-action-background-color-hover);
+    --calcite-action-text-color: var(--calcite-popover-action-text-color-hover);
+  }
+
+  &:active {
+    --calcite-action-background-color: var(--calcite-popover-action-background-color-active);
+    --calcite-action-text-color: var(--calcite-popover-action-text-color-active);
+  }
 }
 
 @include base-component();

@@ -567,7 +567,7 @@ export class ListItem
       <div
         class={CSS.contentBottom}
         hidden={!hasContentBottom}
-        style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
+        style={{ "--calcite-internal-list-item-spacing-indent-multiplier": `${visualLevel}` }}
       >
         <slot name={SLOTS.contentBottom} onSlotchange={this.handleContentBottomSlotChange} />
       </div>
@@ -671,7 +671,6 @@ export class ListItem
             aria-setsize={setSize}
             class={{
               [CSS.container]: true,
-              [CSS.containerHover]: true,
               [CSS.containerBorder]: showBorder,
               [CSS.containerBorderSelected]: borderSelected,
               [CSS.containerBorderUnselected]: borderUnselected,
@@ -681,7 +680,7 @@ export class ListItem
             onFocusin={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
             role="row"
-            style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
+            style={{ "--calcite-internal-list-item-spacing-indent-multiplier": `${visualLevel}` }}
             tabIndex={active ? 0 : -1}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.containerEl = el)}
@@ -717,19 +716,19 @@ export class ListItem
   };
 
   private focusCellHandle = (): void => {
-    this.focusCell(this.handleGridEl);
+    this.handleCellFocusIn(this.handleGridEl);
   };
 
   private focusCellActionsStart = (): void => {
-    this.focusCell(this.actionsStartEl);
+    this.handleCellFocusIn(this.actionsStartEl);
   };
 
   private focusCellContent = (): void => {
-    this.focusCell(this.contentEl);
+    this.handleCellFocusIn(this.contentEl);
   };
 
   private focusCellActionsEnd = (): void => {
-    this.focusCell(this.actionsEndEl);
+    this.handleCellFocusIn(this.actionsEndEl);
   };
 
   private emitCalciteInternalListItemChange(): void {
@@ -894,7 +893,16 @@ export class ListItem
     this.focusCell(null);
   };
 
-  private focusCell = (focusEl: HTMLTableCellElement, saveFocusIndex = true): void => {
+  private handleCellFocusIn = (focusEl: HTMLTableCellElement): void => {
+    this.setFocusCell(focusEl, getFirstTabbable(focusEl), true);
+  };
+
+  // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
+  private setFocusCell = (
+    focusEl: HTMLTableCellElement | null,
+    focusedEl: HTMLElement,
+    saveFocusIndex: boolean,
+  ): void => {
     const { parentListEl } = this;
 
     if (saveFocusIndex) {
@@ -908,15 +916,21 @@ export class ListItem
       tableCell.removeAttribute(activeCellTestAttribute);
     });
 
-    const focusedEl = getFirstTabbable(focusEl);
-
-    // Only one cell within a list-item should be focusable at a time. Ensures the active cell is focusable.
-    if (focusEl) {
-      focusEl.tabIndex = focusEl === focusedEl ? 0 : -1;
-      saveFocusIndex && focusMap.set(parentListEl, gridCells.indexOf(focusEl));
-      focusEl.setAttribute(activeCellTestAttribute, "");
+    if (!focusEl) {
+      return;
     }
 
+    focusEl.tabIndex = focusEl === focusedEl ? 0 : -1;
+    focusEl.setAttribute(activeCellTestAttribute, "");
+
+    if (saveFocusIndex) {
+      focusMap.set(parentListEl, gridCells.indexOf(focusEl));
+    }
+  };
+
+  private focusCell = (focusEl: HTMLTableCellElement | null, saveFocusIndex = true): void => {
+    const focusedEl = getFirstTabbable(focusEl);
+    this.setFocusCell(focusEl, focusedEl, saveFocusIndex);
     focusedEl?.focus();
   };
 }

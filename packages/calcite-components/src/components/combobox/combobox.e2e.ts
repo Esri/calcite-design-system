@@ -1191,25 +1191,20 @@ describe("calcite-combobox", () => {
         <calcite-combobox id="myCombobox" selection-display="fit" style="width:400px">
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item-group text-label="Last Item">
-            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
-          </calcite-combobox-item-group>
+          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
         </calcite-combobox>
       `);
-
       const element = await page.find("#myCombobox");
       await element.click();
 
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item#two");
-      const item3 = await page.find("calcite-combobox-item:last-child");
       await item1.click();
       await item2.click();
-      await item3.click();
 
       await element.click();
-      await element.press("Backspace");
-      expect((await element.getProperty("selectedItems")).length).toBe(2);
+      await element.press("Delete");
+      expect((await element.getProperty("selectedItems")).length).toBe(1);
     });
   });
 
@@ -1609,7 +1604,7 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two" selected></calcite-combobox-item>
         <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
       </calcite-combobox>`,
-      { testValue: "two", submitsOnEnter: true },
+      { testValue: "two", submitsOnEnter: true, validation: true, changeValueKeys: ["Space", "Enter"] },
     );
   });
 

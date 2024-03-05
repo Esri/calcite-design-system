@@ -8,17 +8,13 @@
  * @prop --calcite-button-icon-color: Specifies the color of the component's start position icon.
  * @prop --calcite-button-shadow: Specifies the box shadow of the component.
  * @prop --calcite-button-border-color: Specifies border colors of the component.
- * @prop --calcite-button-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-button-border-color-hover: Specifies border colors of the component when in hover state.
+ * @prop --calcite-button-border-color-focus: Specifies border colors of the component when in focus state.
+ * @prop --calcite-button-border-color-active: Specifies border colors of the component when in active state.
  *
- */
-
-/*
- * Internal
- *
- * --calcite-internal-button-padding-inline: defines the inline padding of a button.
- * --calcite-internal-button-padding-block: defines the block padding of a button.
- * --calcite-internal-button-content-margin: defines the margin of the content element in a button.
- * --calcite-internal-button-animation-timing: defines the animation timing speed of the loader in a button. Defaults to --calcite-internal-animation-timing-slow.
+ * @prop --calcite-button-loader-color-one-third: defines the color of the loader when 1/3 complete.
+ * @prop --calcite-button-loader-color-start: defines the color of the loader at start and end.
+ * @prop --calcite-button-loader-color-two-thirds: defines the color of the loader when 2/3 complete.
  *
  */
 
@@ -681,7 +677,13 @@ a {
 /* accommodate for transparent buttons not having borders */
 :host([scale="l"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
 :host([scale="l"][icon-start][icon-end][appearance="transparent"]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-inline: theme("padding.11");
+  --calcite-button-padding-x-internal: theme("padding.11");
+}
+
+calcite-loader {
+  --calcite-loader-bar-color-one-third: var(--calcite-button-loader-bar-color-one-third);
+  --calcite-loader-bar-color-start: var(--calcite-button-loader-bar-color-start);
+  --calcite-loader-bar-color-two-thirds: var(--calcite-button-loader-bar-color-two-thirds);
 }
 
 @include base-component();

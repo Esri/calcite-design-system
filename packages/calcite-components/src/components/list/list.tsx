@@ -526,7 +526,7 @@ export class List
             {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
               <thead>
                 <tr class={{ [CSS.sticky]: true }}>
-                  <th colSpan={MAX_COLUMNS}>
+                  <th class={CSS.tableHeader} colSpan={MAX_COLUMNS}>
                     <calcite-stack class={CSS.stack}>
                       <slot
                         name={SLOTS.filterActionsStart}

@@ -1,95 +1,100 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-link-text-color: Specifies the text color of the component.
+ * @prop --calcite-link-background-color: Specifies the background color of the component.
+ * @prop --calcite-link-icon-start-color: Specifies the color of the component's start position icon.
+ * @prop --calcite-link-icon-end-color: Specifies the color of the component's end position icon.
+ * @prop --calcite-link-underline-color-start: Specifies the starting color of the underline of the component.
+ * @prop --calcite-link-underline-color-end: Specifies the ending color of the underline of the component.
+ */
+
 :host {
+  --calcite-link-background-color: transparent;
+  --calcite-link-text-color: var(--calcite-color-text-link);
+  --calcite-link-icon-start-color: currentColor;
+  --calcite-link-icon-end-color: currentColor;
+  --calcite-link-underline-color-start: var(--calcite-color-brand-underline);
+  --calcite-link-underline-color-end: var(--calcite-color-brand-underline);
+
   display: inline;
 }
 
-// link base
-:host a,
-:host span {
-  @apply font-inherit
-    transition-default
-    relative
-    flex
+span,
+a {
+  @apply border-none
     cursor-pointer
+    font-inherit
     items-center
     justify-center
+    p-0
+    relative
     rounded-none
-    border-none;
-  text-decoration: none;
-  line-height: inherit;
-  font-size: inherit;
+    transition-default
+    inline;
+
   -webkit-appearance: none;
+  background-color: var(--calcite-link-background-color);
+  background-image: linear-gradient(currentColor, currentColor),
+    linear-gradient(var(--calcite-link-underline-color-start), var(--calcite-link-underline-color-end));
+  background-position-x: 0%, 100%;
+  background-position-y: min(1.5em, 100%);
+  background-repeat: no-repeat, no-repeat;
+  background-size:
+    0% 1px,
+    100% 1px;
+  font-size: inherit;
+  line-height: inherit;
+  text-decoration: none;
+  white-space: initial;
+  color: var(--calcite-link-text-color);
+
+  &:hover,
+  &:focus {
+    background-size:
+      100% 1px,
+      100% 1px;
+  }
   &:hover {
     text-decoration: none;
   }
-}
 
-// focus styles
-:host a,
-:host span {
+  // focus styles
   @apply focus-base;
   &:focus {
     @apply focus-outset;
   }
+  &:active {
+    background-size:
+      100% 2px,
+      100% 2px;
+  }
+  &.calcite--rtl {
+    background-position:
+      100% 100%,
+      100% 100%;
+  }
 }
 
 calcite-icon {
+  @apply transition-default align-middle;
+
   inline-size: 1em;
   block-size: 1em;
   min-inline-size: unset;
   min-block-size: unset;
-}
-
-.calcite-link--icon {
-  @apply transition-default align-middle;
   margin-block-start: -0.25em;
-}
 
-// icon positioning and styles
-:host .calcite-link--icon.icon-start {
-  margin-inline-end: theme("margin.2");
-}
-
-:host .calcite-link--icon.icon-end {
-  margin-inline-start: theme("margin.2");
-}
-
-:host {
-  span,
-  a {
-    @apply text-color-link
-      transition-default
-      relative
-      inline
-      border-none
-      bg-transparent
-      p-0;
-    line-height: inherit;
-    white-space: initial;
-    background-image: linear-gradient(currentColor, currentColor),
-      linear-gradient(var(--calcite-color-brand-underline), var(--calcite-color-brand-underline));
-    background-position-x: 0%, 100%;
-    background-position-y: min(1.5em, 100%);
-    background-repeat: no-repeat, no-repeat;
-    background-size:
-      0% 1px,
-      100% 1px;
-
-    &:hover,
-    &:focus {
-      background-size:
-        100% 1px,
-        100% 1px;
-    }
-    &:active {
-      background-size:
-        100% 2px,
-        100% 2px;
-    }
-    &.calcite--rtl {
-      background-position:
-        100% 100%,
-        100% 100%;
-    }
+  // icon positioning and styles
+  &.icon-start {
+    margin-inline-end: theme("margin.2");
+    color: var(--calcite-link-icon-start-color);
+  }
+  &.icon-end {
+    margin-inline-start: theme("margin.2");
+    color: var(--calcite-link-icon-end-color);
   }
 }
 
