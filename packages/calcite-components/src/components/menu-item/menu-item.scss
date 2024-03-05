@@ -118,7 +118,7 @@
 
 .icon--dropdown {
   @apply ms-auto me-0 relative;
-  padding-inline: var(--calcite-spacing-xxs);
+  padding-inline-start: var(--calcite-spacing-xxs);
   --calcite-ui-icon-color: var(--calcite-color-text-3);
   --calcite-icon-color: var(--calcite-menu-item-chevron-icon-color, var(--calcite-color-text-3));
 }
