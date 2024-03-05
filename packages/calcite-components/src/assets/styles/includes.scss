@@ -50,11 +50,11 @@
 
   :host([scale="m"]) .validation-container,
   :host([scale="l"]) .validation-container {
-    padding-block-start: 0.5rem;
+    padding-block-start: var(--calcite-spacing-sm);
   }
 
   :host([scale="s"]) .validation-container {
-    padding-block-start: 0.25rem;
+    padding-block-start: var(--calcite-spacing-xxs);
   }
 }
 
@@ -108,4 +108,37 @@
   [hidden] {
     display: none;
   }
+}
+
+@mixin srOnly() {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@mixin outlineNone() {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+@mixin focusInset($outline, $outlineOffset) {
+  outline: var(
+    #{$outline},
+    2px solid var(--calcite-ui-focus-color, var(--calcite-color-brand-hover, var(--calcite--color-brand)))
+  );
+  outline-offset: var(#{$outlineOffset}, calc(-2px * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))));
+}
+
+@mixin focusOutset($outline, $outlineOffset) {
+  outline: var(
+    #{$outline},
+    2px solid var(--calcite-ui-focus-color, var(--calcite-color-brand-hover, var(--calcite--color-brand)))
+  );
+  outline-offset: var(#{$outlineOffset}, calc(2px * calc(1 - 2 * clamp(0, var(--calcite-offset-invert-focus), 1))));
 }
