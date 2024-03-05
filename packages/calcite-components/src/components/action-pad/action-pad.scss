@@ -4,6 +4,8 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-action-pad-expanded-max-width: When `layout` is `"vertical"`, specifies the expanded max width of the component.
+ * @prop --calcite-action-pad-corner-radius: defines the corner radius of the component.
+ * @prop --calcite-action-pad-shadow: defines the box shadow of the component.
  */
 
 :host {
@@ -18,20 +20,25 @@
 }
 
 ::slotted(calcite-action-group) {
-  @apply border-color-3
-  border-0
-  border-b
-  border-solid
-  pb-0 pt-0;
+  border-width: var(--calcite-border-width-none);
+  border-block-end-width: var(--calcite-border-width-sm);
+  border-style: solid;
+  padding-block: 0px;
+  border-color: var(--calcite-action-group-border-color, var(--calcite-color-border-3));
 }
 
 .container {
-  @apply bg-background
-  shadow-2
-  inline-flex
+  @apply inline-flex
   flex-col
-  overflow-y-auto
-  rounded;
+  overflow-y-auto;
+  box-shadow: var(
+    --calcite-action-pad-shadow,
+    var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000),
+    0 6px 20px -4px rgba(0, 0, 0, 0.1),
+    0 4px 12px -2px rgba(0, 0, 0, 0.08)
+  );
+  border-radius: var(--calcite-action-pad-corner-radius, var(--calcite-corner-radius-round));
 }
 
 .action-group--bottom {
