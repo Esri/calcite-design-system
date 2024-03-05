@@ -50,11 +50,11 @@
 
   :host([scale="m"]) .validation-container,
   :host([scale="l"]) .validation-container {
-    padding-block-start: 0.5rem;
+    padding-block-start: var(--calcite-spacing-sm);
   }
 
   :host([scale="s"]) .validation-container {
-    padding-block-start: 0.25rem;
+    padding-block-start: var(--calcite-spacing-xxs);
   }
 }
 
