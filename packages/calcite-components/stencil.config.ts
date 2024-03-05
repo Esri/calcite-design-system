@@ -9,9 +9,17 @@ import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
 import stylelint from "stylelint";
 import { version } from "./package.json";
+import { readFileSync } from "fs";
 
 export const create: () => Config = () => ({
   namespace: "calcite",
+  devServer: {
+    address: "calcite.dev:3333",
+    https: {
+      cert: readFileSync("calcite.dev.pem", "utf8"),
+      key: readFileSync("calcite.dev-key.pem", "utf8"),
+    },
+  },
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
     { components: ["calcite-action"] },
@@ -43,6 +51,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-icon"] },
     { components: ["calcite-inline-editable"] },
     { components: ["calcite-input"] },
+    { components: ["calcite-input-element-internals"] },
     { components: ["calcite-input-date-picker"] },
     { components: ["calcite-input-message"] },
     { components: ["calcite-input-number"] },

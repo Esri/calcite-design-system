@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="./_assets/head.js"></script>
+    <script type="module" src="./_assets/demo-form.js"></script>
+    <script type="module" src="./_assets/demo-spacer.js"></script>
+  </head>
+  <body>
+    <p>This page is to test browser autofill of email and password fields.</p>
+    <form action="auth.html" method="GET">
+      <calcite-label>
+        Name
+        <calcite-input-element-internals type="name" name="name"></calcite-input-element-internals>
+      </calcite-label>
+      <calcite-label>
+        Email
+        <calcite-input-element-internals type="email" name="email"></calcite-input-element-internals>
+      </calcite-label>
+
+      <calcite-label>
+        Password
+        <calcite-input-element-internals type="password" name="password"></calcite-input-element-internals>
+      </calcite-label>
+
+      <calcite-button type="submit">submit</calcite-button>
+    </form>
+    <button>Click me to display "value" of email and password inputs.</button>
+    <script>
+      document.querySelector("button").addEventListener("click", () => {
+        const form = document.querySelector("form");
+
+        const name = form.elements.name.value;
+        const email = form.elements.email.value;
+        const password = form.elements.password.value;
+
+        window.alert(`name: ${name}\nemail: ${email}\npassword: ${password}`);
+      });
+    </script>
+  </body>
+</html>
