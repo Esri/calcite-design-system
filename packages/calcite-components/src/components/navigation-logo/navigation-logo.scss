@@ -3,6 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-navigation-logo-active-border-color: Specifies the border color of the component when active property is true.
+ * @prop --calcite-navigation-logo-active-text-color: Specifies the text color of component when active property is true.
  * @prop --calcite-navigation-logo-background-color-active: Specifies the background color of the component when active.
  * @prop --calcite-navigation-logo-background-color-hover: Specifies the background color of the component when hovered.
  * @prop --calcite-navigation-logo-border-color-active: Specifies the border color of the component when active.
@@ -64,8 +66,8 @@
 }
 
 :host([active]) .anchor {
-  color: var(--calcite-navigation-logo-text-color-active, var(--calcite-color-text-1));
-  border-color: var(--calcite-navigation-logo-border-color-active, var(--calcite-color-brand));
+  color: var(--calcite-navigation-logo-active-text-color, var(--calcite-color-text-1));
+  border-color: var(--calcite-navigation-logo-active-border-color, var(--calcite-color-brand));
   --calcite-ui-icon-color: var(--calcite-color-brand);
 }
 
@@ -92,7 +94,7 @@
 .description {
   @apply truncate;
   color: var(--calcite-navigation-logo-description-text-color, var(--calcite-color-text-2));
-  font-size: var(--calcite-font-size-xl);
+  font-size: var(--calcite-font-size);
 }
 
 @include base-component();
