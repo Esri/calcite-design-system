@@ -35,12 +35,13 @@
         gap: 1em;
       }
       .themed-example {
-        --calcite-time-picker-background-color: red;
+        --calcite-time-picker-background-color: lightblue;
         --calcite-time-picker-background-color-hover: green;
         --calcite-time-picker-background-color-active: pink;
         --calcite-time-picker-icon-color: yellow;
-        --calcite-time-picker-text-color: blue;
-        --calcite-time-picker-corner-radius: 100%;
+        --calcite-time-picker-text-color: red;
+        --calcite-time-picker-input-box-shadow: inset 0 0 0 2px yellow;
+        --calcite-time-picker-input-box-shadow-focus: inset 0 0 0 2px green;
       }
     </style>
   </head>
@@ -48,10 +49,10 @@
     <demo-dom-swapper>
       <div id="main-container">
         <main>
-          <h3>Themed</h3>
+          <h3>Themed time picker</h3>
           <div class="grid">
             <calcite-label
-              >Themed example
+              >English(en)
               <calcite-input-time-picker
                 class="themed-example"
                 lang="en"

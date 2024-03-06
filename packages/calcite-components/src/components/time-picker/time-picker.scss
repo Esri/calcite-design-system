@@ -8,7 +8,8 @@
  * @prop --calcite-time-picker-background-color-hover: Specifies the background color of the component when hovered.
  * @prop --calcite-time-picker-background-color-active: Specifies the background color of the component when active.
  * @prop --calcite-time-picker-icon-color: Specifies the color of the component's icons.
- * @prop --calcite-time-picker-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-time-picker-input-box-shadow: Specifies the box shadow around the numbers inside the open component.
+ * @prop --calcite-time-picker-input-box-shadow-focus: Specifies the box shadow around the numbers inside the open component when focused.
  */
 time-picker :host {
   @apply inline-block;
@@ -66,14 +67,16 @@ time-picker :host {
   }
 
   .input {
-    @apply bg-foreground-1
-      inline-flex
+    @apply inline-flex
       cursor-pointer
       items-center
       justify-center
       font-medium;
+
+    background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
+
     &:hover {
-      box-shadow: inset 0 0 0 2px var(--calcite-color-foreground-2);
+      box-shadow: var(--calcite-time-picker-input-box-shadow, inset 0 0 0 2px var(--calcite-color-foreground-2));
       z-index: theme("zIndex.header");
     }
     &:focus,
@@ -83,7 +86,7 @@ time-picker :host {
     }
     &.inputFocus,
     &:hover.inputFocus {
-      box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
+      box-shadow: var(--calcite-time-picker-input-box-shadow-focus, inset 0 0 0 2px var(--calcite-color-brand));
       z-index: theme("zIndex.header");
     }
   }
@@ -92,8 +95,8 @@ time-picker :host {
     @apply text-n1;
     .button,
     .input {
-      @apply px-3
-        py-1;
+      padding-block: var(--calcite-spacing-xxs);
+      padding-inline: var(--calcite-spacing-md);
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
@@ -106,8 +109,8 @@ time-picker :host {
     @apply text-0;
     .button,
     .input {
-      @apply px-4
-        py-2;
+      padding-block: var(--calcite-spacing-sm);
+      padding-inline: var(--calcite-spacing-xl);
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
@@ -120,8 +123,8 @@ time-picker :host {
     @apply text-1;
     .button,
     .input {
-      @apply px-5
-        py-3;
+      padding-block: var(--calcite-spacing-md);
+      padding-inline: var(--calcite-spacing-xxl);
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
@@ -132,7 +135,7 @@ time-picker :host {
 }
 
 calcite-icon {
-  --calcite-icon-color: var(--calcite-time-picker-icon-color);
+  --calcite-icon-color: var(--calcite-time-picker-icon-color, var(--calcite-color-text-3));
 }
 
 @include base-component();
