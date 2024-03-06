@@ -8,6 +8,7 @@
  * @prop --calcite-navigation-user-background-color-hover: Specifies the background color of the component when hovered.
  * @prop --calcite-navigation-user-background-color-active: Specifies the background color of the component when active.
  * @prop --calcite-navigation-user-text-color-active: Specifies the text color of the component when active.
+ * @prop --calcite-navigation-user-active-text-color: Specifies the text color of the component when active property is true.
  * @prop --calcite-navigation-user-full-name-text-color: Specifies the text color of full name of the component.
  * @prop --calcite-navigation-user-name-text-color: Specifies the text color of user name of the component.
  * @prop --calcite-navigation-user-avatar-corner-radius: Specifies the corner radius of avatar of the component.
@@ -60,8 +61,7 @@ calcite-avatar ~ .text-container {
 
 :host([active]) .button {
   --calcite-ui-icon-color: var(--calcite-color-brand);
-  background-color: var(--calcite-navigation-user-background-color-active, var(--calcite-color-brand));
-  color: var(--calcite-navigation-user-text-color-active, var(--calcite-color-text-1));
+  color: var(--calcite-navigation-user-active-text-color, var(--calcite-color-text-1));
 }
 
 .text-container {
