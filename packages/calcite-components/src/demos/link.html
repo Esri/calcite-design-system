@@ -60,6 +60,15 @@
         margin: 25px 0;
         border-top: 1px solid var(--calcite-color-border-2);
       }
+
+      .themed-example {
+        --calcite-link-background-color: lightblue;
+        --calcite-link-text-color: yellow;
+        --calcite-link-icon-start-color: red;
+        --calcite-link-icon-end-color: red;
+        --calcite-link-underline-color-start: green;
+        --calcite-link-underline-color-end: blue;
+      }
     </style>
     <script src="./_assets/head.js"></script>
   </head>
@@ -161,6 +170,15 @@
       </div>
 
       <hr />
+
+      <!-- themed -->
+      <div class="parent">
+        <div class="trigger-external-wrap-paragraph right-aligned-text">themed</div>
+
+        <div class="trigger-external-wrap-paragraph">
+          <calcite-link class="themed-example" icon-start="smile" icon-end="smile">Themed link </calcite-link>
+        </div>
+      </div>
 
       <!-- tooltip trigger -->
       <div class="parent">
