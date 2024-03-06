@@ -5,8 +5,7 @@
  *
  * @prop --calcite-link-text-color: Specifies the text color of the component.
  * @prop --calcite-link-background-color: Specifies the background color of the component.
- * @prop --calcite-link-icon-start-color: Specifies the color of the component's start position icon.
- * @prop --calcite-link-icon-end-color: Specifies the color of the component's end position icon.
+ * @prop --calcite-link-icon-color: Specifies the color of the component's start position icon.
  * @prop --calcite-link-underline-color-start: Specifies the starting color of the underline of the component.
  * @prop --calcite-link-underline-color-end: Specifies the ending color of the underline of the component.
  */
@@ -86,11 +85,11 @@ calcite-icon {
   // icon positioning and styles
   &.icon-start {
     margin-inline-end: theme("margin.2");
-    color: var(--calcite-link-icon-start-color, currentColor);
+    color: var(--calcite-link-icon-color, currentColor);
   }
   &.icon-end {
     margin-inline-start: theme("margin.2");
-    color: var(--calcite-link-icon-end-color, currentColor);
+    color: var(--calcite-link-icon-color, currentColor);
   }
 }
 
