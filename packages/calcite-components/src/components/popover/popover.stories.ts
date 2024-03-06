@@ -195,25 +195,3 @@ export const transparentBG_TestOnly = (): string => html`
     </calcite-popover>
   </div>
 `;
-
-export const themed_TestOnly = (): string => html`
-  <div style="width: 400px;">
-    ${referenceElementHTML}
-    <calcite-popover
-      heading="these 🥨s are making me thirsty"
-      reference-element="reference-element"
-      placement="auto"
-      open
-      closable
-      scale="l"
-      style="
-    --calcite-popover-background-color: #8ec3eb;
-    --calcite-popover-border-color: #db9833;
-    --calcite-popover-corner-radius: 20px;
-    --calcite-popover-text-color: white;
-  "
-    >
-      ${contentHTML}
-    </calcite-popover>
-  </div>
-`;
