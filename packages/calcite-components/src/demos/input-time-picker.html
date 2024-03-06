@@ -34,12 +34,32 @@
         flex-direction: column;
         gap: 1em;
       }
+      .themed-example {
+        --calcite-time-picker-background-color: red;
+        --calcite-time-picker-background-color-hover: green;
+        --calcite-time-picker-background-color-active: pink;
+        --calcite-time-picker-icon-color: yellow;
+        --calcite-time-picker-text-color: blue;
+        --calcite-time-picker-corner-radius: 100%;
+      }
     </style>
   </head>
   <body>
     <demo-dom-swapper>
       <div id="main-container">
         <main>
+          <h3>Themed</h3>
+          <div class="grid">
+            <calcite-label
+              >Themed example
+              <calcite-input-time-picker
+                class="themed-example"
+                lang="en"
+                value="10:00:00"
+                open
+              ></calcite-input-time-picker>
+            </calcite-label>
+          </div>
           <h3>12-Hour Locales</h3>
           <div id="h12" class="grid"></div>
           <h3>24-Hour Locales</h3>
