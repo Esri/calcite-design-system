@@ -50,7 +50,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    const { allowEmpty, alphaChannel, value } = this;
+    const { allowEmpty, isClearable = allowEmpty, alphaChannel, value } = this;
 
     if (value) {
       const normalized = normalizeHex(value, alphaChannel);
@@ -62,7 +62,7 @@ export class ColorPickerHexInput implements LoadableComponent {
       return;
     }
 
-    if (allowEmpty) {
+    if (isClearable) {
       this.internalSetValue(null, null, false);
     }
   }
@@ -85,6 +85,8 @@ export class ColorPickerHexInput implements LoadableComponent {
    * When `true`, an empty color (`null`) will be allowed as a `value`.
    *
    * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   *
+   * @deprecated Use `clearable` instead.
    */
   @Prop() allowEmpty = false;
 
@@ -92,6 +94,11 @@ export class ColorPickerHexInput implements LoadableComponent {
    * When `true`, the component will allow updates to the color's alpha value.
    */
   @Prop() alphaChannel = false;
+
+  /**
+   * When `true`, a clear button is displayed when the component has a value.
+   */
+  @Prop({ reflect: true }) clearable = false;
 
   /**
    * Specifies accessible label for the input field.
@@ -142,7 +149,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     const node = this.hexInputNode;
     const inputValue = node.value;
     const hex = `#${inputValue}`;
-    const { allowEmpty, internalColor } = this;
+    const { allowEmpty, isClearable = allowEmpty, internalColor } = this;
     const willClearValue = allowEmpty && !inputValue;
     const isLonghand = isLonghandHex(hex);
 
@@ -155,7 +162,7 @@ export class ColorPickerHexInput implements LoadableComponent {
 
     // manipulating DOM directly since rerender doesn't update input value
     node.value =
-      allowEmpty && !internalColor
+      isClearable && !internalColor
         ? ""
         : this.formatHexForInternalInput(
             rgbToHex(
@@ -168,8 +175,8 @@ export class ColorPickerHexInput implements LoadableComponent {
   private onOpacityInputBlur = (): void => {
     const node = this.opacityInputNode;
     const inputValue = node.value;
-    const { allowEmpty, internalColor } = this;
-    const willClearValue = allowEmpty && !inputValue;
+    const { allowEmpty, isClearable = allowEmpty, internalColor } = this;
+    const willClearValue = isClearable && !inputValue;
 
     if (willClearValue) {
       return;
@@ -177,7 +184,7 @@ export class ColorPickerHexInput implements LoadableComponent {
 
     // manipulating DOM directly since rerender doesn't update input value
     node.value =
-      allowEmpty && !internalColor ? "" : this.formatOpacityForInternalInput(internalColor);
+      isClearable && !internalColor ? "" : this.formatOpacityForInternalInput(internalColor);
   };
 
   private onHexInputChange = (): void => {
@@ -296,6 +303,10 @@ export class ColorPickerHexInput implements LoadableComponent {
 
   private previousNonNullValue: string = this.value;
 
+  get isClearable(): boolean {
+    return this.clearable && this.value.length > 0;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -303,7 +314,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { alphaChannel, hexLabel, internalColor, messages, scale, value } = this;
+    const { alphaChannel, hexLabel, internalColor, isClearable, messages, scale, value } = this;
     const hexInputValue = this.formatHexForInternalInput(value);
     const opacityInputValue = this.formatOpacityForInternalInput(internalColor);
     const inputScale = scale === "l" ? "m" : "s";
@@ -312,6 +323,7 @@ export class ColorPickerHexInput implements LoadableComponent {
       <div class={CSS.container}>
         <calcite-input-text
           class={CSS.hexInput}
+          clearable={isClearable}
           label={messages?.hex || hexLabel}
           maxLength={6}
           onCalciteInputTextChange={this.onHexInputChange}
@@ -369,6 +381,8 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   private internalSetValue(value: string | null, oldValue: string | null, emit = true): void {
+    const { allowEmpty, isClearable = allowEmpty } = this;
+
     if (value) {
       const { alphaChannel } = this;
       const normalized = normalizeHex(value, alphaChannel, alphaChannel);
@@ -392,7 +406,7 @@ export class ColorPickerHexInput implements LoadableComponent {
 
         return;
       }
-    } else if (this.allowEmpty) {
+    } else if (isClearable) {
       this.internalColor = null;
       this.value = null;
 

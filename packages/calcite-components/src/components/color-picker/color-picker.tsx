@@ -878,9 +878,9 @@ export class ColorPicker
                 {noHex ? null : (
                   <div class={CSS.hexOptions}>
                     <calcite-color-picker-hex-input
-                      allowEmpty={isClearable}
                       alphaChannel={alphaChannel}
                       class={CSS.control}
+                      clearable={isClearable}
                       messages={messages}
                       numberingSystem={this.numberingSystem}
                       onCalciteColorPickerHexInputChange={this.handleHexInputChange}
