@@ -3,6 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-navigation-logo-background-color: Specifies the background color of the component.
  * @prop --calcite-navigation-logo-border-color: Specifies the border color of the component.
  * @prop --calcite-navigation-logo-description-text-color: Specifies text color of description of component.
  * @prop --calcite-navigation-logo-heading-text-color: Specifies the text color of heading of component.
@@ -60,7 +61,7 @@
 }
 
 :host(:active) .anchor {
-  --calcite-navigation-logo-text-color-active: var(--calcite-color-text-1);
+  --calcite-navigation-logo-text-color: var(--calcite-color-text-1);
 }
 
 :host([active]) .anchor {
