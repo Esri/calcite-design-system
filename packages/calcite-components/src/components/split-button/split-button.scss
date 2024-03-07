@@ -37,6 +37,7 @@
 
 :host([width="full"]) {
   @apply w-full;
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 :host([kind="brand"]) {
@@ -86,7 +87,8 @@
 .container {
   @apply flex items-stretch;
   > calcite-dropdown > calcite-button {
-    @apply h-full align-top;
+    @apply align-top;
+    block-size: var(--calcite-container-size-content-fluid);
   }
 }
 
