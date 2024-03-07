@@ -27,10 +27,7 @@
   color: var(--calcite-navigation-logo-text-color, inherit);
   font-size: var(--calcite-font-size-md);
   line-height: var(--calcite-font-line-height-fixed-lg);
-  border-block-end-width: var(--calcite-spacing-base);
-  border-style: solid;
-  border-color: var(--calcite-navigation-logo-border-color, transparent);
-  background-color: var(--calcite-navigation-logo-background-color, var(--calcite-color-foreground-1));
+  border-block-end: var(--calcite-spacing-base) solid var(--calcite-navigation-logo-border-color, transparent);
 }
 
 .anchor:hover,
