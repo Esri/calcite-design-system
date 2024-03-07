@@ -61,6 +61,32 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+## CSS Custom Properties
+
+| Name                                    | Description                                                            |
+| --------------------------------------- | ---------------------------------------------------------------------- |
+| `--calcite-fab-background-color`        | defines the component's background color.                              |
+| `--calcite-fab-background-color-active` | defines the component's background color in an active state.           |
+| `--calcite-fab-background-color-hover`  | defines the component's background color in a hover state.             |
+| `--calcite-fab-border-color`            | defines the component's border color.                                  |
+| `--calcite-fab-border-color-active`     | defines the component's border color in an active state.               |
+| `--calcite-fab-border-color-focus`      | defines the component's border color in a focus state.                 |
+| `--calcite-fab-border-color-hover`      | defines the component's border color in a hover state.                 |
+| `--calcite-fab-corner-radius`           | defines the component's corner radius.                                 |
+| `--calcite-fab-icon-color`              | defines the color of an icon in the component.                         |
+| `--calcite-fab-icon-color-active`       | defines the color of an icon in the component when in an active state. |
+| `--calcite-fab-icon-color-focus`        | defines the color of an icon in the component when in a focused state. |
+| `--calcite-fab-icon-color-hover`        | defines the color of an icon in the component when in a hover state.   |
+| `--calcite-fab-loader-color`            | defines the component's loader color.                                  |
+| `--calcite-fab-shadow`                  | defines the component's shadow.                                        |
+| `--calcite-fab-shadow-active`           | defines the component's shadow color in an active state.               |
+| `--calcite-fab-shadow-focus`            | defines the component's shadow color in a focus state.                 |
+| `--calcite-fab-shadow-hover`            | defines the component's shadow color in a hover state.                 |
+| `--calcite-fab-text-color`              | defines the component's text color.                                    |
+| `--calcite-fab-text-color-active`       | defines the component's text color in an active state.                 |
+| `--calcite-fab-text-color-focus`        | defines the component's text color in a focus state.                   |
+| `--calcite-fab-text-color-hover`        | defines the component's text color in a hover state.                   |
+
 ## Dependencies
 
 ### Depends on

@@ -48,6 +48,13 @@ When no thumbnail is provided, the avatar component will construct a useful plac
 | `userId`    | `user-id`   | Specifies the unique id of the user.                                                                                                | `string`            | `undefined` |
 | `username`  | `username`  | Specifies the username of the user.                                                                                                 | `string`            | `undefined` |
 
+## CSS Custom Properties
+
+| Name                             | Description                                 |
+| -------------------------------- | ------------------------------------------- |
+| `--calcite-avatar-corner-radius` | defines the corner radius of the component. |
+| `--calcite-avatar-text-color`    | defines the text color of the component.    |
+
 ## Dependencies
 
 ### Used by

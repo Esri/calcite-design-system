@@ -29,6 +29,26 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+## CSS Custom Properties
+
+| Name                                                | Description                                                                         |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `--calcite-filter-input-prefix-background-color`    | defines the background color of the prefix in the input sub-component.              |
+| `--calcite-filter-input-prefix-text-color`          | defines the text color of the prefix in the input sub-component.                    |
+| `--calcite-filter-input-suffix-background-color`    | defines the background color of the suffix in the input sub-component.              |
+| `--calcite-filter-input-suffix-text-color`          | defines the text color of the suffix in the input sub-component.                    |
+| `--calcite-hex-input-background-color`              | defines the background color of the input sub-component.                            |
+| `--calcite-hex-input-border-color`                  | defines the border color of the input sub-component.                                |
+| `--calcite-hex-input-button-background-color`       | defines the background color of the button in the input sub-component.              |
+| `--calcite-hex-input-button-background-color-hover` | defines the background color of the button when hovered in the input sub-component. |
+| `--calcite-hex-input-button-border-color`           | defines the border color of the button in the input sub-component.                  |
+| `--calcite-hex-input-button-icon-color`             | defines the icon color of the button in the input sub-component.                    |
+| `--calcite-hex-input-button-icon-color-active`      | defines the icon color of the button when active in the input sub-component.        |
+| `--calcite-hex-input-button-icon-color-hover`       | defines the icon color of the button when hovered in the input sub-component.       |
+| `--calcite-hex-input-corner-radius`                 | defines the corner radius of the input sub-component.                               |
+| `--calcite-hex-input-icon-color`                    | defines the icon color of the input sub-component.                                  |
+| `--calcite-hex-input-text-color`                    | defines the text color of the input sub-component.                                  |
+
 ## Dependencies
 
 ### Used by

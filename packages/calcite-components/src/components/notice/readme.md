@@ -25,16 +25,16 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                                                           | Type                                                      | Default     |
-| ------------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
-| `closable`         | `closable`          | When `true`, a close button is added to the component.                                                                | `boolean`                                                 | `false`     |
-| `icon`             | `icon`              | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                       | `undefined` |
-| `iconFlipRtl`      | `icon-flip-rtl`     | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                 | `false`     |
-| `kind`             | `kind`              | Specifies the kind of the component, which will apply to top border and icon.                                         | `"brand" \| "danger" \| "info" \| "success" \| "warning"` | `"brand"`   |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                               | `NoticeMessages`                                          | `undefined` |
-| `open`             | `open`              | When `true`, the component is visible.                                                                                | `boolean`                                                 | `false`     |
-| `scale`            | `scale`             | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                       | `"m"`       |
-| `width`            | `width`             | Specifies the width of the component.                                                                                 | `"auto" \| "full" \| "half"`                              | `"auto"`    |
+| Property           | Attribute       | Description                                                                                                           | Type                                                      | Default     |
+| ------------------ | --------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
+| `closable`         | `closable`      | When `true`, a close button is added to the component.                                                                | `boolean`                                                 | `false`     |
+| `icon`             | `icon`          | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                       | `undefined` |
+| `iconFlipRtl`      | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                 | `false`     |
+| `kind`             | `kind`          | Specifies the kind of the component, which will apply to top border and icon.                                         | `"brand" \| "danger" \| "info" \| "success" \| "warning"` | `"brand"`   |
+| `messageOverrides` | --              | Use this property to override individual strings used by the component.                                               | `{ close?: string; }`                                     | `undefined` |
+| `open`             | `open`          | When `true`, the component is visible.                                                                                | `boolean`                                                 | `false`     |
+| `scale`            | `scale`         | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                       | `"m"`       |
+| `width`            | `width`         | Specifies the width of the component.                                                                                 | `"auto" \| "full" \| "half"`                              | `"auto"`    |
 
 ## Events
 
@@ -66,9 +66,19 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                     | Description                 |
-| ------------------------ | --------------------------- |
-| `--calcite-notice-width` | The width of the component. |
+| Name                                             | Description                                                                        |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| `--calcite-notice-background-color`              | Specifies the background color of the component.                                   |
+| `--calcite-notice-border-color`                  | Specifies the border color of the component.                                       |
+| `--calcite-notice-close-background-color`        | Specifies the background color of the component's `closable`element.               |
+| `--calcite-notice-close-background-color-active` | Specifies the background color of the component's `closable` element when active.  |
+| `--calcite-notice-close-background-color-focus`  | Specifies the background color of the component's `closable` element when focused. |
+| `--calcite-notice-close-background-color-hover`  | Specifies the background color of the component's `closable` element when hovered. |
+| `--calcite-notice-close-focus-color`             | Specifies the focus color of the component's `closable` element.                   |
+| `--calcite-notice-close-icon-color`              | Specifies the color of the component's `closable` icon color.                      |
+| `--calcite-notice-corner-radius`                 | Specifies the corner radius of the component.                                      |
+| `--calcite-notice-icon-color`                    | Specifies the color of the component's icon property.                              |
+| `--calcite-notice-shadow`                        | Specifies the box shadow of the component.                                         |
 
 ## Dependencies
 

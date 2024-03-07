@@ -15,6 +15,13 @@
 | ---- | ------------------------------------------- |
 |      | A slot for adding `calcite-combobox-item`s. |
 
+## CSS Custom Properties
+
+| Name                                         | Description                                  |
+| -------------------------------------------- | -------------------------------------------- |
+| `--calcite-combobox-item-group-border-color` | defines the border color of a combobox item. |
+| `--calcite-combobox-item-group-text-color`   | defines the text color of a combobox item.   |
+
 ---
 
 *Built with [StencilJS](https://stenciljs.com/)*

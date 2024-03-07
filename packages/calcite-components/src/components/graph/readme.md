@@ -15,6 +15,13 @@ The graph component is used to show small, lightweight graphs in places where a 
 | `max` *(required)* | `max`           | Highest point of the range.                                                                                                   | `number`      | `undefined` |
 | `min` *(required)* | `min`           | Lowest point of the range.                                                                                                    | `number`      | `undefined` |
 
+## CSS Custom Properties
+
+| Name                               | Description                                      |
+| ---------------------------------- | ------------------------------------------------ |
+| `--calcite-graph-accent-color`     | Specifies the accent color of the component.     |
+| `--calcite-graph-background-color` | Specifies the background color of the component. |
+
 ## Dependencies
 
 ### Used by

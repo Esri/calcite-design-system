@@ -22,6 +22,14 @@ The `calcite-progress` component is used to show progress on some async task to 
 | `type`     | `type`     | Specifies the component type. Use `"indeterminate"` if finding actual progress value is impossible. | `"determinate" \| "indeterminate"` | `"determinate"` |
 | `value`    | `value`    | When `type` is `"determinate"`, the component's progress value with a range of 0.0 - 1.0.           | `number`                           | `0`             |
 
+## CSS Custom Properties
+
+| Name                                  | Description                                       |
+| ------------------------------------- | ------------------------------------------------- |
+| `--calcite-progress-background-color` | Defines the background color of the component.    |
+| `--calcite-progress-fill-color`       | Defines the background color of the progress bar. |
+| `--calcite-progress-text-color`       | Defines the text color of the component.          |
+
 ## Dependencies
 
 ### Used by

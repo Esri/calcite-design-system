@@ -152,10 +152,14 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                         | Description                                          |
-| ---------------------------- | ---------------------------------------------------- |
-| `--calcite-select-font-size` | The font size of `calcite-option`s in the component. |
-| `--calcite-select-spacing`   | The padding around the selected option text.         |
+| Name                                      | Description                                                       |
+| ----------------------------------------- | ----------------------------------------------------------------- |
+| `--calcite-select-background-color`       | The background color of the component.                            |
+| `--calcite-select-background-color-hover` | The background color of the component when hovered.               |
+| `--calcite-select-border-color`           | The border color of the component.                                |
+| `--calcite-select-font-size`              | [Deprecated] The font size of `calcite-option`s in the component. |
+| `--calcite-select-spacing`                | [Deprecated] The padding around the selected option text.         |
+| `--calcite-select-text-color`             | The text color of the component.                                  |
 
 ## Dependencies
 

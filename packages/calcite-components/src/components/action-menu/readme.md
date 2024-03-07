@@ -39,6 +39,26 @@ Type: `Promise<void>`
 | `"tooltip"` | A slot for adding an tooltip for the menu.                        |
 | `"trigger"` | A slot for adding a `calcite-action` to trigger opening the menu. |
 
+## CSS Custom Properties
+
+| Name                                                   | Description                                                                                           |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| `--calcite-action-menu-action-background-color`        | defines the background color of an action sub-component inside the component.                         |
+| `--calcite-action-menu-action-background-color-active` | defines the background color of an action sub-component when active inside the component.             |
+| `--calcite-action-menu-action-background-color-hover`  | defines the background color of an action sub-component when hovered or focused inside the component. |
+| `--calcite-action-menu-action-indicator-color`         | defines the indicator color of an action sub-component inside the component.                          |
+| `--calcite-action-menu-action-indicator-color-active`  | defines the indicator color of an action sub-component when active inside the component.              |
+| `--calcite-action-menu-action-indicator-color-hover`   | defines the indicator color of an action sub-component when hovered or focused inside the component.  |
+| `--calcite-action-menu-action-text-color`              | defines the text color of an action sub-component inside the component.                               |
+| `--calcite-action-menu-action-text-color-active`       | defines the text color of an action sub-component when active inside the component.                   |
+| `--calcite-action-menu-action-text-color-hover`        | defines the text color of an action sub-component when hovered or focused inside the component.       |
+| `--calcite-action-menu-group-separator-border-color`   | The border color of the sub-component.                                                                |
+| `--calcite-action-menu-popover-background-color`       | defines the background color of the sub-component.                                                    |
+| `--calcite-action-menu-popover-border-color`           | defines the border color of the sub-component.                                                        |
+| `--calcite-action-menu-popover-corner-radius`          | defines the corner radius of the sub-component.                                                       |
+| `--calcite-action-menu-popover-shadow`                 | defines the shadow of the component.                                                                  |
+| `--calcite-action-menu-popover-text-color`             | defines the text color of the sub-component.                                                          |
+
 ## Dependencies
 
 ### Used by

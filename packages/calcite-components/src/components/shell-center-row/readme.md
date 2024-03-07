@@ -17,6 +17,14 @@
 |                | A slot for adding content to the `calcite-shell-panel`.                |
 | `"action-bar"` | A slot for adding a `calcite-action-bar` to the `calcite-shell-panel`. |
 
+## CSS Custom Properties
+
+| Name                                          | Description                                      |
+| --------------------------------------------- | ------------------------------------------------ |
+| `--calcite-shell-center-row-background-color` | Specifies the background color of the component. |
+| `--calcite-shell-center-row-border-color`     | Specifies the border color of the component.     |
+| `--calcite-shell-center-row-border-radius`    | Specifies the border radius of the component.    |
+
 ---
 
 *Built with [StencilJS](https://stenciljs.com/)*

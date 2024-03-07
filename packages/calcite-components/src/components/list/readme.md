@@ -232,7 +232,7 @@ A general purpose list that enables users to construct list items that conform t
 | `group`               | `group`                | The list's group identifier. To drag elements from one list into another, both lists must have the same group value.                                                                                                                                     | `string`                                                                                      | `undefined` |
 | `label`               | `label`                | Specifies an accessible name for the component.                                                                                                                                                                                                          | `string`                                                                                      | `undefined` |
 | `loading`             | `loading`              | When `true`, a busy indicator is displayed.                                                                                                                                                                                                              | `boolean`                                                                                     | `false`     |
-| `messageOverrides`    | `message-overrides`    | Use this property to override individual strings used by the component.                                                                                                                                                                                  | `ListMessages`                                                                                | `undefined` |
+| `messageOverrides`    | --                     | Use this property to override individual strings used by the component.                                                                                                                                                                                  | `{ filterEnabled?: string; total?: string; }`                                                 | `undefined` |
 | `numberingSystem`     | `numbering-system`     | Specifies the Unicode numeral system used by the component for localization.                                                                                                                                                                             | `"arab" \| "arabext" \| "latn"`                                                               | `undefined` |
 | `selectedItems`       | --                     | The currently selected items.                                                                                                                                                                                                                            | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
 | `selectionAppearance` | `selection-appearance` | Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).                                                                                                                                           | `"border" \| "icon"`                                                                          | `"icon"`    |
@@ -266,6 +266,27 @@ Type: `Promise<void>`
 |                          | A slot for adding `calcite-list-item` elements.                                     |
 | `"filter-actions-end"`   | A slot for adding actionable `calcite-action` elements after the filter component.  |
 | `"filter-actions-start"` | A slot for adding actionable `calcite-action` elements before the filter component. |
+
+## CSS Custom Properties
+
+| Name                                                        | Description                                                                                      |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `--calcite-list-background-color`                           | Specifies the background color of the component.                                                 |
+| `--calcite-list-border-color`                               | Specifies the border color of the component.                                                     |
+| `--calcite-list-filter-background-color`                    | Specifies the background color of the filter sub-component.                                      |
+| `--calcite-list-filter-input-background-color`              | defines the background color of the filter input sub-component.                                  |
+| `--calcite-list-filter-input-border-color`                  | defines the border color of the filter input sub-component.                                      |
+| `--calcite-list-filter-input-button-background-color`       | defines the background color of the filter input button in the input sub-component.              |
+| `--calcite-list-filter-input-button-background-color-hover` | defines the background color of the filter input button when hovered in the input sub-component. |
+| `--calcite-list-filter-input-button-border-color`           | defines the border color of the button in the filter input sub-component.                        |
+| `--calcite-list-filter-input-button-icon-color`             | defines the icon color of the button in the filter input sub-component.                          |
+| `--calcite-list-filter-input-button-icon-color-active`      | defines the icon color of the button when active in the filter input sub-component.              |
+| `--calcite-list-filter-input-button-icon-color-hover`       | defines the icon color of the button when hovered in the filter input sub-component.             |
+| `--calcite-list-filter-input-corner-radius`                 | defines the corner radius of the input sub-component.                                            |
+| `--calcite-list-filter-input-icon-color`                    | defines the icon color of the filter input sub-component.                                        |
+| `--calcite-list-filter-input-placeholder-text-color`        | defines the placeholder text color of the filter input sub-component.                            |
+| `--calcite-list-filter-input-text-color`                    | defines the text color of the filter input sub-component.                                        |
+| `--calcite-list-header-z-index`                             | Specifies the component header's z-index.                                                        |
 
 ## Dependencies
 

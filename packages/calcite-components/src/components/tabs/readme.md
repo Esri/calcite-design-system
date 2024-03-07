@@ -52,6 +52,13 @@
 |                 | A slot for adding `calcite-tab`s.      |
 | `"title-group"` | A slot for adding a `calcite-tab-nav`. |
 
+## CSS Custom Properties
+
+| Name                              | Description                            |
+| --------------------------------- | -------------------------------------- |
+| `--calcite-tabs-background-color` | The background color of the component. |
+| `--calcite-tabs-border-color`     | The border color of the component.     |
+
 ## Dependencies
 
 ### Used by

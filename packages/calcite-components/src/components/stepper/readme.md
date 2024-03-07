@@ -115,6 +115,14 @@ Type: `Promise<void>`
 | ---- | -------------------------------------------------- |
 |      | A slot for adding `calcite-stepper-item` elements. |
 
+## CSS Custom Properties
+
+| Name                                               | Description                                                                      |
+| -------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `--calcite-stepper-action-background-color`        | defines the background color of an action sub-component inside the component.    |
+| `--calcite-stepper-action-background-color-active` | defines the background color of an action sub-component when active.             |
+| `--calcite-stepper-action-background-color-hover`  | defines the background color of an action sub-component when hovered or focused. |
+
 ## Dependencies
 
 ### Depends on

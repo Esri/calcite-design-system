@@ -198,9 +198,11 @@ Renders a shell with a header and panels on the left and right sides of the app.
 
 ## CSS Custom Properties
 
-| Name                          | Description                                                                            |
-| ----------------------------- | -------------------------------------------------------------------------------------- |
-| `--calcite-shell-tip-spacing` | The left and right spacing of the `calcite-tip-manager` when slotted in the component. |
+| Name                               | Description                                                                                                                                           |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--calcite-shell-background-color` | The background color of the component.                                                                                                                |
+| `--calcite-shell-border-color`     | The border color of the component.                                                                                                                    |
+| `--calcite-shell-tip-spacing`      | [Deprecated] Set spacing on the `calcite-tip-manager` instead. The left and right spacing of the `calcite-tip-manager` when slotted in the component. |
 
 ---
 

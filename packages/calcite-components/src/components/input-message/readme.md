@@ -36,9 +36,11 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 
 ## CSS Custom Properties
 
-| Name                                    | Description                                 |
-| --------------------------------------- | ------------------------------------------- |
-| `--calcite-input-message-spacing-value` | The top margin spacing above the component. |
+| Name                                    | Description                                              |
+| --------------------------------------- | -------------------------------------------------------- |
+| `--calcite-input-message-icon-color`    | defines the icon color in the component.                 |
+| `--calcite-input-message-spacing-value` | [Deprecated] The top margin spacing above the component. |
+| `--calcite-input-message-text-color`    | defines the text color of the component.                 |
 
 ## Dependencies
 
@@ -50,6 +52,8 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 - [calcite-input-number](../input-number)
 - [calcite-input-text](../input-text)
 - [calcite-input-time-picker](../input-time-picker)
+- [calcite-radio-button-group](../radio-button-group)
+- [calcite-segmented-control](../segmented-control)
 - [calcite-select](../select)
 - [calcite-text-area](../text-area)
 
@@ -68,6 +72,8 @@ graph TD;
   calcite-input-number --> calcite-input-message
   calcite-input-text --> calcite-input-message
   calcite-input-time-picker --> calcite-input-message
+  calcite-radio-button-group --> calcite-input-message
+  calcite-segmented-control --> calcite-input-message
   calcite-select --> calcite-input-message
   calcite-text-area --> calcite-input-message
   style calcite-input-message fill:#f9f,stroke:#333,stroke-width:4px

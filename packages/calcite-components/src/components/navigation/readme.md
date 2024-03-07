@@ -57,11 +57,14 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                | Description                                          |
-| ----------------------------------- | ---------------------------------------------------- |
-| `--calcite-navigation-background`   | Specifies the background color of the component.     |
-| `--calcite-navigation-border-color` | Specifies the border color of the component.         |
-| `--calcite-navigation-width`        | Specifies the width of the component's content area. |
+| Name                                                  | Description                                                                      |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `--calcite-navigation-action-background-color`        | defines the background color of an action sub-component inside the component.    |
+| `--calcite-navigation-action-background-color-active` | defines the background color of an action sub-component when active.             |
+| `--calcite-navigation-action-background-color-hover`  | defines the background color of an action sub-component when hovered or focused. |
+| `--calcite-navigation-background`                     | Specifies the background color of the component.                                 |
+| `--calcite-navigation-border-color`                   | Specifies the border color of the component.                                     |
+| `--calcite-navigation-width`                          | Specifies the width of the component's content area.                             |
 
 ## Dependencies
 

@@ -44,6 +44,17 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+## CSS Custom Properties
+
+| Name                                       | Description                                             |
+| ------------------------------------------ | ------------------------------------------------------- |
+| `--calcite-switch-corner-radius`           | Specifies the corner radius of the component.           |
+| `--calcite-switch-handle-background-color` | Specifies the background color of the component handle. |
+| `--calcite-switch-handle-border-color`     | Specifies the border color of the component handle.     |
+| `--calcite-switch-shadow`                  | Specifies the shadow of the component.                  |
+| `--calcite-switch-track-background-color`  | Specifies the background color of the component track.  |
+| `--calcite-switch-track-border-color`      | Specifies the border color of the component track.      |
+
 ## Dependencies
 
 ### Used by

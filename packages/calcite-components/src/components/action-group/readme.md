@@ -13,7 +13,7 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 | `label`              | `label`               | Accessible name for the component.                                                                                                                                                                                                                                                                                                                                          | `string`                               | `undefined`  |
 | `layout`             | `layout`              | <span style="color:red">**[DEPRECATED]**</span> Use the `layout` property on the component's parent instead.<br/><br/>Indicates the layout of the component.                                                                                                                                                                                                                | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
 | `menuOpen`           | `menu-open`           | When `true`, the `calcite-action-menu` is open.                                                                                                                                                                                                                                                                                                                             | `boolean`                              | `false`      |
-| `messageOverrides`   | `message-overrides`   | Use this property to override individual strings used by the component.                                                                                                                                                                                                                                                                                                     | `ActionGroupMessages`                  | `undefined`  |
+| `messageOverrides`   | --                    | Use this property to override individual strings used by the component.                                                                                                                                                                                                                                                                                                     | `{ more?: string; }`                   | `undefined`  |
 | `overlayPositioning` | `overlay-positioning` | Determines the type of positioning to use for the overlaid content. Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`. | `"absolute" \| "fixed"`                | `"absolute"` |
 | `scale`              | `scale`               | Specifies the size of the `calcite-action-menu`.                                                                                                                                                                                                                                                                                                                            | `"l" \| "m" \| "s"`                    | `undefined`  |
 
@@ -37,11 +37,25 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                             | Description                                                                             |
-| -------------------------------- | --------------------------------------------------------------------------------------- |
-| `--calcite-action-group-columns` | Sets number of grid-template-columns when the `layout` property is `"grid"`.            |
-| `--calcite-action-group-gap`     | Sets the gap (gutters) between rows and columns when the `layout` property is `"grid"`. |
-| `--calcite-action-group-padding` | Sets the padding when the `layout` property is `"grid"`.                                |
+| Name                                                                    | Description                                                                                           |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `--calcite-action-group-action-background-color`                        | defines the background color of an action sub-component inside the component.                         |
+| `--calcite-action-group-action-background-color-active`                 | defines the background color of an action sub-component when active inside the component.             |
+| `--calcite-action-group-action-background-color-hover`                  | defines the background color of an action sub-component when hovered or focused inside the component. |
+| `--calcite-action-group-action-indicator-color`                         | defines the indicator color of an action sub-component inside the component.                          |
+| `--calcite-action-group-action-indicator-color-active`                  | defines the indicator color of an action sub-component when active inside the component.              |
+| `--calcite-action-group-action-indicator-color-hover`                   | defines the indicator color of an action sub-component when hovered or focused inside the component.  |
+| `--calcite-action-group-action-menu-border-color`                       | The border color of the sub-component.                                                                |
+| `--calcite-action-group-action-menu-text-color`                         | The text color of the sub-component.                                                                  |
+| `--calcite-action-group-action-text-color`                              | defines the text color of an action sub-component inside the component.                               |
+| `--calcite-action-group-action-text-color-active`                       | defines the text color of an action sub-component when active inside the component.                   |
+| `--calcite-action-group-action-text-color-hover`                        | defines the text color of an action sub-component when hovered or focused inside the component.       |
+| `--calcite-action-group-background-color`                               | defines the background color of the component.                                                        |
+| `--calcite-action-group-columns`                                        | [Deprecated] Sets number of grid-template-columns when the `layout` property is `"grid"`.             |
+| `--calcite-action-group-gap`                                            | [Deprecated] Sets the gap (gutters) between rows and columns when the `layout` property is `"grid"`.  |
+| `--calcite-action-group-padding`                                        | [Deprecated] Sets the padding when the `layout` property is `"grid"`.                                 |
+| `--calcite-internal-action-group-columns`                               | Sets number of grid-template-columns when the `layout` property is `"grid"`.                          |
+| `--calcite-internal-action-group-gap, var(te-internal-action-group-gap` | Sets the gap (gutters) between rows and columns when the `layout` property is `"grid"`).              |
 
 ## Dependencies
 

@@ -52,11 +52,11 @@ Renders a tip manager using a group of tips as well as a single tip.
 
 ## Properties
 
-| Property           | Attribute           | Description                                                             | Type                         | Default     |
-| ------------------ | ------------------- | ----------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `closed`           | `closed`            | When `true`, does not display or position the component.                | `boolean`                    | `false`     |
-| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.            | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `TipManagerMessages`         | `undefined` |
+| Property           | Attribute       | Description                                                             | Type                                                                                                                 | Default     |
+| ------------------ | --------------- | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `closed`           | `closed`        | When `true`, does not display or position the component.                | `boolean`                                                                                                            | `false`     |
+| `headingLevel`     | `heading-level` | Specifies the number at which section headings should start.            | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                                                                                         | `undefined` |
+| `messageOverrides` | --              | Use this property to override individual strings used by the component. | `{ defaultGroupTitle?: string; defaultPaginationLabel?: string; close?: string; previous?: string; next?: string; }` | `undefined` |
 
 ## Events
 
@@ -90,10 +90,16 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                           | Description                                                        |
-| ------------------------------ | ------------------------------------------------------------------ |
-| `--calcite-tip-manager-height` | The maximum height of the component.                               |
-| `--calcite-tip-max-width`      | The maximum width of a slotted `calcite-tip` within the component. |
+| Name                                                   | Description                                                                                           |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| `--calcite-tip-manager-action-background-color`        | defines the background color of an action sub-component inside the component.                         |
+| `--calcite-tip-manager-action-background-color-active` | defines the background color of an action sub-component when active inside the component.             |
+| `--calcite-tip-manager-action-background-color-hover`  | defines the background color of an action sub-component when hovered or focused inside the component. |
+| `--calcite-tip-manager-action-text-color`              | defines the text color of an action sub-component inside the component.                               |
+| `--calcite-tip-manager-action-text-color-active`       | defines the text color of an action sub-component when active inside the component.                   |
+| `--calcite-tip-manager-action-text-color-hover`        | defines the text color of an action sub-component when hovered or focused inside the component.       |
+| `--calcite-tip-manager-height`                         | The maximum height of the component.                                                                  |
+| `--calcite-tip-max-width`                              | The maximum width of a slotted `calcite-tip` within the component.                                    |
 
 ## Dependencies
 

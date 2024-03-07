@@ -22,6 +22,17 @@
 | `"actions-end"` | A slot for adding actions to the end of the component. It is recommended to use two or fewer actions. |
 | `"children"`    | A slot for adding nested `calcite-tree` elements.                                                     |
 
+## CSS Custom Properties
+
+| Name                                                    | Description                                                     |
+| ------------------------------------------------------- | --------------------------------------------------------------- |
+| `--calcite-tree-item-checkbox-background-color`         | defines the background-color of the sub-component.              |
+| `--calcite-tree-item-checkbox-background-color-checked` | defines the background-color of the sub-component when checked. |
+| `--calcite-tree-item-checkbox-icon-color`               | defines the checkmark color of the sub-component.               |
+| `--calcite-tree-item-checkbox-shadow`                   | defines the shadow of the sub-component.                        |
+| `--calcite-tree-item-checkbox-shadow-checked`           | defines the shadow of the sub-component when checked.           |
+| `--calcite-tree-item-checkbox-shadow-hover`             | defines the shadow of the sub-component when hovered.           |
+
 ## Dependencies
 
 ### Depends on

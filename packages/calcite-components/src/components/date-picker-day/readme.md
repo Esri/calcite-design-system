@@ -25,6 +25,21 @@
 | ------------------ | ---------------------------- | ------------------- |
 | `calciteDaySelect` | Fires when user selects day. | `CustomEvent<void>` |
 
+## CSS Custom Properties
+
+| Name                                            | Description                                                |
+| ----------------------------------------------- | ---------------------------------------------------------- |
+| `--calcite-day-background-color`                | Specifies the background color of component.               |
+| `--calcite-day-background-color-hover`          | Specifies the background color of component when hovered.  |
+| `--calcite-day-background-color-selected`       | Specifies the background color of component when selected. |
+| `--calcite-day-corner-radius`                   | Specifies the border radius of component.                  |
+| `--calcite-day-font-size`                       | Specifies the font size of component.                      |
+| `--calcite-day-range-background-color-hovered`  | Specifies the background color of day range when hovered.  |
+| `--calcite-day-range-background-color-selected` | Specifies the background color of day range when selected. |
+| `--calcite-day-text-color`                      | Specifies the text color of component.                     |
+| `--calcite-day-text-color-hover`                | Specifies the text color of component when hovered.        |
+| `--calcite-day-text-color-selected`             | Specifies the text color of component when selected.       |
+
 ## Dependencies
 
 ### Used by

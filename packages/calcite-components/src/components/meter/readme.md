@@ -55,6 +55,18 @@ A simple meter component.
 | `valueLabel`         | `value-label`      | When `true`, displays the current value.                                                                                                                                     | `boolean`                                | `false`          |
 | `valueLabelType`     | `value-label-type` | When `valueLabel` is `true`, specifies the format of displayed label.                                                                                                        | `"percent" \| "units"`                   | `"percent"`      |
 
+## CSS Custom Properties
+
+| Name                               | Description                                                           |
+| ---------------------------------- | --------------------------------------------------------------------- |
+| `--calcite-meter-background-color` | Specifies the background color of the component.                      |
+| `--calcite-meter-border-color`     | Specifies the border color of the component and displayed step lines. |
+| `--calcite-meter-corner-radius`    | Specifies the corner radius of the component.                         |
+| `--calcite-meter-fill-color`       | Specifies the color of the component's fill.                          |
+| `--calcite-meter-range-text-color` | Specifies the color of the component's range labels.                  |
+| `--calcite-meter-shadow`           | Specifies the box shadow of the component.                            |
+| `--calcite-meter-value-text-color` | Specifies the color of the component's value label.                   |
+
 ---
 
 *Built with [StencilJS](https://stenciljs.com/)*

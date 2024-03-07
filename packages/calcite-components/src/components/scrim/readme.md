@@ -75,10 +75,10 @@
 
 ## Properties
 
-| Property           | Attribute           | Description                                                             | Type            | Default     |
-| ------------------ | ------------------- | ----------------------------------------------------------------------- | --------------- | ----------- |
-| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                             | `boolean`       | `false`     |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `ScrimMessages` | `undefined` |
+| Property           | Attribute | Description                                                             | Type                    | Default     |
+| ------------------ | --------- | ----------------------------------------------------------------------- | ----------------------- | ----------- |
+| `loading`          | `loading` | When `true`, a busy indicator is displayed.                             | `boolean`               | `false`     |
+| `messageOverrides` | --        | Use this property to override individual strings used by the component. | `{ loading?: string; }` | `undefined` |
 
 ## Slots
 
@@ -88,9 +88,13 @@
 
 ## CSS Custom Properties
 
-| Name                         | Description                                  |
-| ---------------------------- | -------------------------------------------- |
-| `--calcite-scrim-background` | Specifies the background color of the scrim. |
+| Name                                      | Description                                                                                                                |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `--calcite-scrim-background`              | [Deprecated] Use the `--calcite-scrim-background-color` property instead. Specifies the background color of the component. |
+| `--calcite-scrim-background-color`        | Specifies the background color of the component.                                                                           |
+| `--calcite-scrim-loader-color-one-third`  | Specifies the starting color of the loader                                                                                 |
+| `--calcite-scrim-loader-color-start`      | Specifies the starting color of the loader                                                                                 |
+| `--calcite-scrim-loader-color-two-thirds` | Specifies the starting color of the loader                                                                                 |
 
 ## Dependencies
 

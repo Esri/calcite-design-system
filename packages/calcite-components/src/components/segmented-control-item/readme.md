@@ -12,6 +12,17 @@
 | `iconStart`   | `icon-start`    | Specifies an icon to display at the start of the component.                                  | `string`  | `undefined` |
 | `value`       | `value`         | The component's value.                                                                       | `any`     | `undefined` |
 
+## CSS Custom Properties
+
+| Name                                                | Description                                      |
+| --------------------------------------------------- | ------------------------------------------------ |
+| `--calcite-segmented-control-item-background-color` | Specifies the background color of the component. |
+| `--calcite-segmented-control-item-border-color`     | Specifies the border color of the component.     |
+| `--calcite-segmented-control-item-focus`            | Specifies the focus color of the component.      |
+| `--calcite-segmented-control-item-icon-color`       | Specifies the icon color of the component.       |
+| `--calcite-segmented-control-item-shadow`           | Specifies the shadow of the component.           |
+| `--calcite-segmented-control-item-text-color`       | Specifies the text color of the component.       |
+
 ## Dependencies
 
 ### Depends on

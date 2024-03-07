@@ -29,7 +29,8 @@ Renders text-area with character limit counter.
 | `groupSeparator`    | `group-separator`    | When `true`, number values are displayed with a group separator corresponding to the language and country format.                                                          | `boolean`                                        | `false`     |
 | `label`             | `label`              | Accessible name for the component.                                                                                                                                         | `string`                                         | `undefined` |
 | `maxLength`         | `max-length`         | Specifies the maximum number of characters allowed.                                                                                                                        | `number`                                         | `undefined` |
-| `messageOverrides`  | `message-overrides`  | Use this property to override individual strings used by the component.                                                                                                    | `TextAreaMessages`                               | `undefined` |
+| `messageOverrides`  | --                   | Use this property to override individual strings used by the component.                                                                                                    | `{ invalid?: string; tooLong?: string; }`        | `undefined` |
+| `minLength`         | `min-length`         | Specifies the minimum number of characters allowed.                                                                                                                        | `number`                                         | `undefined` |
 | `name`              | `name`               | Specifies the name of the component.                                                                                                                                       | `string`                                         | `undefined` |
 | `numberingSystem`   | `numbering-system`   | Specifies the Unicode numeral system used by the component for localization.                                                                                               | `"arab" \| "arabext" \| "latn"`                  | `undefined` |
 | `placeholder`       | `placeholder`        | Specifies the placeholder text for the component.                                                                                                                          | `string`                                         | `undefined` |
@@ -41,7 +42,7 @@ Renders text-area with character limit counter.
 | `status`            | `status`             | Specifies the status of the input field, which determines message and icons.                                                                                               | `"idle" \| "invalid" \| "valid"`                 | `"idle"`    |
 | `validationIcon`    | `validation-icon`    | Specifies the validation icon to display under the component.                                                                                                              | `boolean \| string`                              | `undefined` |
 | `validationMessage` | `validation-message` | Specifies the validation message to display under the component.                                                                                                           | `string`                                         | `undefined` |
-| `value`             | `value`              | The component's value.                                                                                                                                                     | `string`                                         | `undefined` |
+| `value`             | `value`              | The component's value.                                                                                                                                                     | `string`                                         | `""`        |
 | `wrap`              | `wrap`               | Specifies the wrapping mechanism for the text.                                                                                                                             | `"hard" \| "soft"`                               | `"soft"`    |
 
 ## Events
@@ -76,6 +77,16 @@ Type: `Promise<void>`
 |                  | A slot for adding text.                                           |
 | `"footer-end"`   | A slot for adding content to the end of the component's footer.   |
 | `"footer-start"` | A slot for adding content to the start of the component's footer. |
+
+## CSS Custom Properties
+
+| Name                                             | Description                                                                           |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| `--calcite-text-area-background-color`           | Specifies the background color of the component.                                      |
+| `--calcite-text-area-border-block-end-color`     | Specifies the border block end color of the component.                                |
+| `--calcite-text-area-border-color`               | Specifies the border color of the component.                                          |
+| `--calcite-text-area-character-limit-text-color` | Specifies the color of the character limit text displayed in footer of the component. |
+| `--calcite-text-area-text-color`                 | Specifies the color of text in the component.                                         |
 
 ## Dependencies
 

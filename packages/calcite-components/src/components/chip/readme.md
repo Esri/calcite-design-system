@@ -12,20 +12,20 @@
 
 ## Properties
 
-| Property             | Attribute           | Description                                                                                                               | Type                                     | Default     |
-| -------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------- |
-| `appearance`         | `appearance`        | Specifies the appearance style of the component.                                                                          | `"outline" \| "outline-fill" \| "solid"` | `"solid"`   |
-| `closable`           | `closable`          | When `true`, a close button is added to the component.                                                                    | `boolean`                                | `false`     |
-| `closed`             | `closed`            | When `true`, hides the component.                                                                                         | `boolean`                                | `false`     |
-| `disabled`           | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                                  | `boolean`                                | `false`     |
-| `icon`               | `icon`              | Specifies an icon to display.                                                                                             | `string`                                 | `undefined` |
-| `iconFlipRtl`        | `icon-flip-rtl`     | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                              | `boolean`                                | `false`     |
-| `kind`               | `kind`              | Specifies the kind of the component, which will apply to border and background if applicable.                             | `"brand" \| "inverse" \| "neutral"`      | `"neutral"` |
-| `label`              | `label`             | Accessible name for the component.                                                                                        | `string`                                 | `undefined` |
-| `messageOverrides`   | `message-overrides` | Use this property to override individual strings used by the component.                                                   | `ChipMessages`                           | `undefined` |
-| `scale`              | `scale`             | Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value. | `"l" \| "m" \| "s"`                      | `"m"`       |
-| `selected`           | `selected`          | When `true`, the component is selected.                                                                                   | `boolean`                                | `false`     |
-| `value` *(required)* | `value`             | The component's value.                                                                                                    | `any`                                    | `undefined` |
+| Property             | Attribute       | Description                                                                                                               | Type                                     | Default     |
+| -------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------- |
+| `appearance`         | `appearance`    | Specifies the appearance style of the component.                                                                          | `"outline" \| "outline-fill" \| "solid"` | `"solid"`   |
+| `closable`           | `closable`      | When `true`, a close button is added to the component.                                                                    | `boolean`                                | `false`     |
+| `closed`             | `closed`        | When `true`, hides the component.                                                                                         | `boolean`                                | `false`     |
+| `disabled`           | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity.                                  | `boolean`                                | `false`     |
+| `icon`               | `icon`          | Specifies an icon to display.                                                                                             | `string`                                 | `undefined` |
+| `iconFlipRtl`        | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                              | `boolean`                                | `false`     |
+| `kind`               | `kind`          | Specifies the kind of the component, which will apply to border and background if applicable.                             | `"brand" \| "inverse" \| "neutral"`      | `"neutral"` |
+| `label`              | `label`         | Accessible name for the component.                                                                                        | `string`                                 | `undefined` |
+| `messageOverrides`   | --              | Use this property to override individual strings used by the component.                                                   | `{ dismissLabel?: string; }`             | `undefined` |
+| `scale`              | `scale`         | Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value. | `"l" \| "m" \| "s"`                      | `"m"`       |
+| `selected`           | `selected`      | When `true`, the component is selected.                                                                                   | `boolean`                                | `false`     |
+| `value` *(required)* | `value`         | The component's value.                                                                                                    | `any`                                    | `undefined` |
 
 ## Events
 
@@ -50,6 +50,23 @@ Type: `Promise<void>`
 | --------- | --------------------------- |
 |           | A slot for adding text.     |
 | `"image"` | A slot for adding an image. |
+
+## CSS Custom Properties
+
+| Name                                                                                                              | Description                                                                              |
+| ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `--calcite-chip-background-color`                                                                                 | Specifies the background color of the component.                                         |
+| `--calcite-chip-border-color`                                                                                     | Specifies the border color of the component.                                             |
+| `--calcite-chip-close-background-color`                                                                           | Specifies the background color of the component's `closable` element.                    |
+| `--calcite-chip-close-background-color-active`                                                                    | Specifies the active background color of the component's `closable` element when active. |
+| `--calcite-chip-close-background-color-focus`                                                                     | Specifies the focus background color of the component's `closable` element when focused. |
+| `--calcite-chip-close-background-color-hover`                                                                     | Specifies the hover background color of the component's `closable` element when hovered. |
+| `--calcite-chip-close-focus-outline-color Specifies the focus outline color of the component's`closable`element.` |                                                                                          |
+| `--calcite-chip-close-icon-color`                                                                                 | Specifies the icon color of the component's `closable` element.                          |
+| `--calcite-chip-corner-radius`                                                                                    | Specifies the corner radius of the component.                                            |
+| `--calcite-chip-icon-color`                                                                                       | Specifies the color of the component's icon property.                                    |
+| `--calcite-chip-shadow`                                                                                           | Specifies the shadow of the component.                                                   |
+| `--calcite-chip-text-color`                                                                                       | Specifies the color of the component's `"default"` slot.                                 |
 
 ## Dependencies
 

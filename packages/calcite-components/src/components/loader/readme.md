@@ -43,12 +43,18 @@ If you can calculate your progress, it's best to use the determinate version of 
 
 ## CSS Custom Properties
 
-| Name                           | Description                                                                     |
-| ------------------------------ | ------------------------------------------------------------------------------- |
-| `--calcite-loader-font-size`   | Specifies the font size of the loading percentage when type is `"determinate"`. |
-| `--calcite-loader-padding`     | Specifies the padding of the loader.                                            |
-| `--calcite-loader-size`        | The width and height of a non-inline loader.                                    |
-| `--calcite-loader-size-inline` | The width and height of an inline loader                                        |
+| Name                                       | Description                                                                                                  |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `--calcite-loader-bar-width`               | [Deprecated] defines the width of the loader animation.                                                      |
+| `--calcite-loader-color-end`               | defines the color of a loader. Applies to --calcite-loader-color between 66% - 99% of the animation.         |
+| `--calcite-loader-color-middle`            | defines the color of a loader. Applies to --calcite-loader-color between 33% - 66% of the animation.         |
+| `--calcite-loader-color-start`             | defines the starting color of a loader. Applies to --calcite-loader-color between 0% - 33% of the animation. |
+| `--calcite-loader-font-size`               | [Deprecated] Specifies the font size of the loading percentage when type is `"determinate"`.                 |
+| `--calcite-loader-padding`                 | [Deprecated] Specifies the padding of the loader.                                                            |
+| `--calcite-loader-size`                    | [Deprecated] The width and height of a non-inline loader.                                                    |
+| `--calcite-loader-size-inline`             | [Deprecated] The width and height of an inline loader.                                                       |
+| `--calcite-loader-text-color`              | var(--calcite-color-text-1); defines the text color of a loader.                                             |
+| `--calcite-loader-track-color-determinate` | var(--calcite-color-border-3); defines the track color of a "determinate" loader                             |
 
 ## Dependencies
 

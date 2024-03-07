@@ -49,9 +49,11 @@ When using the `default`, `inline` or `inline-space-between` layout option with 
 
 ## CSS Custom Properties
 
-| Name                            | Description                      |
-| ------------------------------- | -------------------------------- |
-| `--calcite-label-margin-bottom` | The spacing below the component. |
+| Name                            | Description                                                                           |
+| ------------------------------- | ------------------------------------------------------------------------------------- |
+| `--calcite-label-margin-bottom` | **[Deprecated]** Use `--calcite-label-space-y-end` - The spacing below the component. |
+| `--calcite-label-space-y-end`   | Specifies the space below the component.                                              |
+| `--calcite-label-text-color`    | Specifies the text color of the component.                                            |
 
 ## Dependencies
 

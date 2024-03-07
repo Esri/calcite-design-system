@@ -60,6 +60,29 @@ Type: `Promise<void>`
 | ---- | --------------------------------------------- |
 |      | A slot for adding `calcite-dropdown` content. |
 
+## CSS Custom Properties
+
+| Name                                             | Description                                                  |
+| ------------------------------------------------ | ------------------------------------------------------------ |
+| `--calcite-split-button-background-color`        | defines the component's background color.                    |
+| `--calcite-split-button-background-color-active` | defines the component's background color in an active state. |
+| `--calcite-split-button-background-color-hover`  | defines the component's background color in a hover state.   |
+| `--calcite-split-button-border-color`            | defines the component's border color.                        |
+| `--calcite-split-button-border-color-active`     | defines the component's border color in an active state.     |
+| `--calcite-split-button-border-color-focus`      | defines the component's border color in a focus state.       |
+| `--calcite-split-button-border-color-hover`      | defines the component's border color in a hover state.       |
+| `--calcite-split-button-corner-radius`           | defines the component's corner radius.                       |
+| `--calcite-split-button-divider-color`           | defines the color of the divider in the component.           |
+| `--calcite-split-button-loader-color`            | defines the component's loader color.                        |
+| `--calcite-split-button-shadow`                  | defines the component's shadow.                              |
+| `--calcite-split-button-shadow-active`           | defines the component's shadow color in an active state.     |
+| `--calcite-split-button-shadow-focus`            | defines the component's shadow color in a focus state.       |
+| `--calcite-split-button-shadow-hover`            | defines the component's shadow color in a hover state.       |
+| `--calcite-split-button-text-color`              | defines the component's text color.                          |
+| `--calcite-split-button-text-color-active`       | defines the component's text color in an active state.       |
+| `--calcite-split-button-text-color-focus`        | defines the component's text color in a focus state.         |
+| `--calcite-split-button-text-color-hover`        | defines the component's text color in a hover state.         |
+
 ## Dependencies
 
 ### Depends on

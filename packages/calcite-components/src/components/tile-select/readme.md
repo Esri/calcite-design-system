@@ -27,7 +27,6 @@
 | `description`    | `description`     | A description for the component, which displays below the heading.                                                                    | `string`                | `undefined` |
 | `disabled`       | `disabled`        | When `true`, interaction is prevented and the component is displayed with lower opacity.                                              | `boolean`               | `false`     |
 | `heading`        | `heading`         | The component header text, which displays between the icon and description.                                                           | `string`                | `undefined` |
-| `hidden`         | `hidden`          | When `true`, the component is not displayed and is not focusable or checkable.                                                        | `boolean`               | `false`     |
 | `icon`           | `icon`            | Specifies an icon to display.                                                                                                         | `string`                | `undefined` |
 | `iconFlipRtl`    | `icon-flip-rtl`   | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                                          | `boolean`               | `false`     |
 | `inputAlignment` | `input-alignment` | When `inputEnabled` is `true`, specifies the placement of the interactive input on the component.                                     | `"end" \| "start"`      | `"start"`   |
@@ -63,12 +62,16 @@ Type: `Promise<void>`
 
 ### Depends on
 
+- [calcite-radio-button](../radio-button)
+- [calcite-checkbox](../checkbox)
 - [calcite-icon](../icon)
 
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-tile-select --> calcite-radio-button
+  calcite-tile-select --> calcite-checkbox
   calcite-tile-select --> calcite-icon
   style calcite-tile-select fill:#f9f,stroke:#333,stroke-width:4px
 ```

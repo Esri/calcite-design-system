@@ -4,12 +4,12 @@
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                              | Type             | Default     |
-| ------------------ | ------------------- | ---------------------------------------------------------------------------------------- | ---------------- | ----------- |
-| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`        | `false`     |
-| `dragHandle`       | `drag-handle`       | Value for the button title attribute.                                                    | `string`         | `undefined` |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                  | `HandleMessages` | `undefined` |
-| `selected`         | `selected`          | When `true`, the component is selected.                                                  | `boolean`        | `false`     |
+| Property           | Attribute     | Description                                                                              | Type                                                                                                                                                              | Default     |
+| ------------------ | ------------- | ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `disabled`         | `disabled`    | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                                                                                                                                                         | `false`     |
+| `dragHandle`       | `drag-handle` | Value for the button title attribute.                                                    | `string`                                                                                                                                                          | `undefined` |
+| `messageOverrides` | --            | Use this property to override individual strings used by the component.                  | `{ dragHandle?: string; dragHandleUntitled?: string; dragHandleActive?: string; dragHandleChange?: string; dragHandleCommit?: string; dragHandleIdle?: string; }` | `undefined` |
+| `selected`         | `selected`    | When `true`, the component is selected.                                                  | `boolean`                                                                                                                                                         | `false`     |
 
 ## Events
 
@@ -27,6 +27,19 @@ Sets focus on the component.
 #### Returns
 
 Type: `Promise<void>`
+
+## CSS Custom Properties
+
+| Name                                         | Description                                               |
+| -------------------------------------------- | --------------------------------------------------------- |
+| `--calcite-handle-background-color`          | Specifies the component's background color.               |
+| `--calcite-handle-background-color-focus`    | Specifies the component's background color on focus.      |
+| `--calcite-handle-background-color-hover`    | Specifies the component's background color on hover.      |
+| `--calcite-handle-background-color-selected` | Specifies the component's background color when selected. |
+| `--calcite-handle-icon-color`                | Specifies the component's icon color.                     |
+| `--calcite-handle-icon-color-focus`          | Specifies the component's icon color on focus.            |
+| `--calcite-handle-icon-color-hover`          | Specifies the component's icon color on hover.            |
+| `--calcite-handle-icon-color-selected`       | Specifies the component's icon color when selected.       |
 
 ## Dependencies
 

@@ -32,6 +32,13 @@ Sets focus on the component.
 
 Type: `Promise<void>`
 
+## CSS Custom Properties
+
+| Name                                             | Description                                 |
+| ------------------------------------------------ | ------------------------------------------- |
+| `--calcite-navigation-user-avatar-corner-radius` | defines the corner radius of the component. |
+| `--calcite-navigation-user-avatar-text-color`    | defines the text color of the component.    |
+
 ## Dependencies
 
 ### Depends on

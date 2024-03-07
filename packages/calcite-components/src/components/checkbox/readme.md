@@ -60,15 +60,23 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                      | Description                                 |
-| ------------------------- | ------------------------------------------- |
-| `--calcite-checkbox-size` | Specifies the component's height and width. |
+| Name                                          | Description                                                                  |
+| --------------------------------------------- | ---------------------------------------------------------------------------- |
+| `--calcite-checkbox-background-color`         | defines the background color of the component                                |
+| `--calcite-checkbox-background-color-checked` | defines the background color of the component when it's in a ::checked state |
+| `--calcite-checkbox-icon-color`               | defines the icon color of the checkbox.                                      |
+| `--calcite-checkbox-shadow`                   | defines the shadow of the component                                          |
+| `--calcite-checkbox-shadow-checked`           | defines the shadow of the component in a ::checked state                     |
+| `--calcite-checkbox-shadow-hover`             | defines the shadow of the component in a :hover state.                       |
+| `--calcite-checkbox-shadow-invalid`           | defines the shadow of the component in an invalid state.                     |
+| `--calcite-checkbox-size`                     | defines the checkbox's size vertically and horizontally.                     |
 
 ## Dependencies
 
 ### Used by
 
 - [calcite-card](../card)
+- [calcite-tile-select](../tile-select)
 - [calcite-tree-item](../tree-item)
 
 ### Graph
@@ -76,6 +84,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-card --> calcite-checkbox
+  calcite-tile-select --> calcite-checkbox
   calcite-tree-item --> calcite-checkbox
   style calcite-checkbox fill:#f9f,stroke:#333,stroke-width:4px
 ```

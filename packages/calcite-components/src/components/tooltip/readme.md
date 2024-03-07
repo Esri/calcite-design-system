@@ -91,9 +91,14 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                        | Description                               |
-| --------------------------- | ----------------------------------------- |
-| `--calcite-tooltip-z-index` | Sets the z-index value for the component. |
+| Name                                 | Description                                      |
+| ------------------------------------ | ------------------------------------------------ |
+| `--calcite-tooltip-background-color` | Specifies the background color of the component. |
+| `--calcite-tooltip-border-color`     | The border color of the component.               |
+| `--calcite-tooltip-corner-radius`    | The corner radius of the component.              |
+| `--calcite-tooltip-shadow`           | The shadow of the component.                     |
+| `--calcite-tooltip-text-color`       | The text color of the component.                 |
+| `--calcite-tooltip-z-index`          | Sets the z-index value for the component.        |
 
 ---
 

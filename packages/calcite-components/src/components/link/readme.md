@@ -53,6 +53,17 @@ Type: `Promise<void>`
 | ---- | ----------------------- |
 |      | A slot for adding text. |
 
+## CSS Custom Properties
+
+| Name                                   | Description                                                     |
+| -------------------------------------- | --------------------------------------------------------------- |
+| `--calcite-link-background-color`      | Specifies the background color of the component.                |
+| `--calcite-link-icon-end-color`        | Specifies the color of the component's end position icon.       |
+| `--calcite-link-icon-start-color`      | Specifies the color of the component's start position icon.     |
+| `--calcite-link-text-color`            | Specifies the text color of the component.                      |
+| `--calcite-link-underline-color-end`   | Specifies the ending color of the underline of the component.   |
+| `--calcite-link-underline-color-start` | Specifies the starting color of the underline of the component. |
+
 ## Dependencies
 
 ### Used by

@@ -27,15 +27,15 @@ For example, after querying the search API, you'll get back a response similar t
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                                                       | Type                            | Default     |
-| ------------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------- | ----------- |
-| `groupSeparator`   | `group-separator`   | When `true`, number values are displayed with a group separator corresponding to the language and country format. | `boolean`                       | `false`     |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                           | `PaginationMessages`            | `undefined` |
-| `numberingSystem`  | `numbering-system`  | Specifies the Unicode numeral system used by the component for localization.                                      | `"arab" \| "arabext" \| "latn"` | `undefined` |
-| `pageSize`         | `page-size`         | Specifies the number of items per page.                                                                           | `number`                        | `20`        |
-| `scale`            | `scale`             | Specifies the size of the component.                                                                              | `"l" \| "m" \| "s"`             | `"m"`       |
-| `startItem`        | `start-item`        | Specifies the starting item number.                                                                               | `number`                        | `1`         |
-| `totalItems`       | `total-items`       | Specifies the total number of items.                                                                              | `number`                        | `0`         |
+| Property           | Attribute          | Description                                                                                                       | Type                                                                   | Default     |
+| ------------------ | ------------------ | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ----------- |
+| `groupSeparator`   | `group-separator`  | When `true`, number values are displayed with a group separator corresponding to the language and country format. | `boolean`                                                              | `false`     |
+| `messageOverrides` | --                 | Use this property to override individual strings used by the component.                                           | `{ next?: string; previous?: string; first?: string; last?: string; }` | `undefined` |
+| `numberingSystem`  | `numbering-system` | Specifies the Unicode numeral system used by the component for localization.                                      | `"arab" \| "arabext" \| "latn"`                                        | `undefined` |
+| `pageSize`         | `page-size`        | Specifies the number of items per page.                                                                           | `number`                                                               | `20`        |
+| `scale`            | `scale`            | Specifies the size of the component.                                                                              | `"l" \| "m" \| "s"`                                                    | `"m"`       |
+| `startItem`        | `start-item`       | Specifies the starting item number.                                                                               | `number`                                                               | `1`         |
+| `totalItems`       | `total-items`      | Specifies the total number of items.                                                                              | `number`                                                               | `0`         |
 
 ## Events
 
@@ -68,6 +68,25 @@ Sets focus on the component's first focusable element.
 #### Returns
 
 Type: `Promise<void>`
+
+## CSS Custom Properties
+
+| Name                                                 | Description                                                           |
+| ---------------------------------------------------- | --------------------------------------------------------------------- |
+| `--calcite-pagination-arrow-background-color`        | Specifies the background color of the arrow items.                    |
+| `--calcite-pagination-arrow-background-color-active` | Specifies the background color of the arrow items while active.       |
+| `--calcite-pagination-arrow-background-color-hover`  | Specifies the background color of the arrow items while hovered.      |
+| `--calcite-pagination-arrow-icon-color`              | Specifies the icon color of the arrow items.                          |
+| `--calcite-pagination-arrow-icon-color-active`       | Specifies the icon color of the arrow items while active.             |
+| `--calcite-pagination-arrow-icon-color-hover`        | Specifies the icon color of the arrow items while hovered.            |
+| `--calcite-pagination-background-color`              | Specifies the background color of the pagination items.               |
+| `--calcite-pagination-background-color-active`       | Specifies the background color of the pagination items while active.  |
+| `--calcite-pagination-background-color-hover`        | Specifies the background color of the pagination items while hovered. |
+| `--calcite-pagination-border-color-hover`            | Specifies the border color the pagination items while hovered.        |
+| `--calcite-pagination-border-color-selected`         | Specifies the border color of the pagination items when selected.     |
+| `--calcite-pagination-text-color`                    | Specifies the text color of the pagination items.                     |
+| `--calcite-pagination-text-color-hover`              | Specifies the text color of the pagination items items while hovered. |
+| `--calcite-pagination-text-color-selected`           | Specifies the text color of the pagination items when selected.       |
 
 ## Dependencies
 

@@ -21,6 +21,14 @@
 | ---- | ----------------------------------------------------------------------------- |
 |      | A slot for adding `calcite-list-item` and `calcite-list-item-group` elements. |
 
+## CSS Custom Properties
+
+| Name                                         | Description                                          |
+| -------------------------------------------- | ---------------------------------------------------- |
+| `--calcite-list-item-group-background-color` | Specifies the background color of the component.     |
+| `--calcite-list-item-group-border-color`     | Specifies the border color of the component.         |
+| `--calcite-list-item-heading-text-color`     | Specifies the text color of the component's heading. |
+
 ---
 
 *Built with [StencilJS](https://stenciljs.com/)*

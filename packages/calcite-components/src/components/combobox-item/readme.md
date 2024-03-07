@@ -29,10 +29,24 @@
 | ---- | -------------------------------------------------- |
 |      | A slot for adding nested `calcite-combobox-item`s. |
 
+## CSS Custom Properties
+
+| Name                                                  | Description                                                                |
+| ----------------------------------------------------- | -------------------------------------------------------------------------- |
+| `--calcite-combobox-item-background-color`            | defines the background color of the component                              |
+| `--calcite-combobox-item-background-color-active`     | defines the background color when the component is active or hovered.      |
+| `--calcite-combobox-item-icon-color`                  | defines the color of a custom icon in the component.                       |
+| `--calcite-combobox-item-indicator-icon-color`        | defines the indicator icon color.                                          |
+| `--calcite-combobox-item-indicator-icon-color-active` | defines the color of an indicator icon when the component is active.       |
+| `--calcite-combobox-item-shadow`                      | defines the shadow of the component.                                       |
+| `--calcite-combobox-item-text-color`                  | defines the text color of the component.                                   |
+| `--calcite-combobox-item-text-color-active`           | defines the text color when the component is selected, active, or hovered. |
+
 ## Dependencies
 
 ### Used by
 
+- [calcite-combobox](../combobox)
 - [calcite-input-time-zone](../input-time-zone)
 
 ### Depends on
@@ -44,6 +58,7 @@
 ```mermaid
 graph TD;
   calcite-combobox-item --> calcite-icon
+  calcite-combobox --> calcite-combobox-item
   calcite-input-time-zone --> calcite-combobox-item
   style calcite-combobox-item fill:#f9f,stroke:#333,stroke-width:4px
 ```

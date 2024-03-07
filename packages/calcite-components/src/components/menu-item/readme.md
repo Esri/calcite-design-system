@@ -2,22 +2,42 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<calcite-menu><calcite-menu-item text="Nature"></calcite-menu-item></calcite-menu>
+```
+
+### Nested-With-Href
+
+Nested submenu with href.
+
+```html
+<calcite-menu>
+  <calcite-menu-item text="Nature" href="#">
+    <calcite-menu-item text="Mountains" slot="submenu-item"></calcite-menu-item>
+  </calcite-menu-item>
+</calcite-menu>
+```
+
 ## Properties
 
-| Property             | Attribute           | Description                                                                                                 | Type                         | Default     |
-| -------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `active`             | `active`            | When `true`, the component is highlighted.                                                                  | `boolean`                    | `undefined` |
-| `breadcrumb`         | `breadcrumb`        | When `true`, the component displays a breadcrumb trail for use as a navigational aid.                       | `boolean`                    | `undefined` |
-| `href`               | `href`              | Specifies the URL destination of the component, which can be set as an absolute or relative path.           | `string`                     | `undefined` |
-| `iconEnd`            | `icon-end`          | Specifies an icon to display at the end of the component.                                                   | `string`                     | `undefined` |
-| `iconFlipRtl`        | `icon-flip-rtl`     | Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). | `"both" \| "end" \| "start"` | `undefined` |
-| `iconStart`          | `icon-start`        | Specifies an icon to display at the start of the component.                                                 | `string`                     | `undefined` |
-| `label` *(required)* | `label`             | Accessible name for the component.                                                                          | `string`                     | `undefined` |
-| `messageOverrides`   | `message-overrides` | Use this property to override individual strings used by the component.                                     | `MenuItemMessages`           | `undefined` |
-| `open`               | `open`              | When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu.           | `boolean`                    | `false`     |
-| `rel`                | `rel`               | Defines the relationship between the `href` value and the current document.                                 | `string`                     | `undefined` |
-| `target`             | `target`            | Specifies where to open the linked document defined in the `href` property.                                 | `string`                     | `undefined` |
-| `text`               | `text`              | Specifies the text to display.                                                                              | `string`                     | `undefined` |
+| Property             | Attribute       | Description                                                                                                 | Type                                   | Default     |
+| -------------------- | --------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------- | ----------- |
+| `active`             | `active`        | When `true`, the component is highlighted.                                                                  | `boolean`                              | `undefined` |
+| `breadcrumb`         | `breadcrumb`    | When `true`, the component displays a breadcrumb trail for use as a navigational aid.                       | `boolean`                              | `undefined` |
+| `href`               | `href`          | Specifies the URL destination of the component, which can be set as an absolute or relative path.           | `string`                               | `undefined` |
+| `iconEnd`            | `icon-end`      | Specifies an icon to display at the end of the component.                                                   | `string`                               | `undefined` |
+| `iconFlipRtl`        | `icon-flip-rtl` | Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). | `"both" \| "end" \| "start"`           | `undefined` |
+| `iconStart`          | `icon-start`    | Specifies an icon to display at the start of the component.                                                 | `string`                               | `undefined` |
+| `label` *(required)* | `label`         | Accessible name for the component.                                                                          | `string`                               | `undefined` |
+| `messageOverrides`   | --              | Use this property to override individual strings used by the component.                                     | `{ submenu?: string; open?: string; }` | `undefined` |
+| `open`               | `open`          | When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu.           | `boolean`                              | `false`     |
+| `rel`                | `rel`           | Defines the relationship between the `href` value and the current document.                                 | `string`                               | `undefined` |
+| `target`             | `target`        | Specifies where to open the linked document defined in the `href` property.                                 | `string`                               | `undefined` |
+| `text`               | `text`          | Specifies the text to display.                                                                              | `string`                               | `undefined` |
 
 ## Events
 
@@ -40,6 +60,16 @@ Type: `Promise<void>`
 | Slot             | Description                                          |
 | ---------------- | ---------------------------------------------------- |
 | `"submenu-item"` | A slot for adding `calcite-menu-item`s in a submenu. |
+
+## CSS Custom Properties
+
+| Name                                                 | Description                                                                      |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `--calcite-menu-item-action-background-color`        | defines the background color of an action sub-component inside a menu-item.      |
+| `--calcite-menu-item-action-background-color-active` | defines the background color of an action sub-component when active.             |
+| `--calcite-menu-item-action-background-color-hover`  | defines the background color of an action sub-component when hovered or focused. |
+| `--calcite-menu-item-action-menu-border-color`       | The border color of the sub-component.                                           |
+| `--calcite-menu-item-action-menu-text-color`         | The text color of the sub-component.                                             |
 
 ## Dependencies
 

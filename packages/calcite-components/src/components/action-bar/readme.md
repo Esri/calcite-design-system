@@ -61,16 +61,17 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ## Properties
 
-| Property                  | Attribute                   | Description                                                                     | Type                         | Default      |
-| ------------------------- | --------------------------- | ------------------------------------------------------------------------------- | ---------------------------- | ------------ |
-| `actionsEndGroupLabel`    | `actions-end-group-label`   | Specifies the accessible label for the last `calcite-action-group`.             | `string`                     | `undefined`  |
-| `expandDisabled`          | `expand-disabled`           | When `true`, the expand-toggling behavior is disabled.                          | `boolean`                    | `false`      |
-| `expanded`                | `expanded`                  | When `true`, the component is expanded.                                         | `boolean`                    | `false`      |
-| `layout`                  | `layout`                    | Specifies the layout direction of the actions.                                  | `"horizontal" \| "vertical"` | `"vertical"` |
-| `messageOverrides`        | `message-overrides`         | Use this property to override individual strings used by the component.         | `ActionBarMessages`          | `undefined`  |
-| `overflowActionsDisabled` | `overflow-actions-disabled` | Disables automatically overflowing `calcite-action`s that won't fit into menus. | `boolean`                    | `false`      |
-| `position`                | `position`                  | Arranges the component depending on the element's `dir` property.               | `"end" \| "start"`           | `undefined`  |
-| `scale`                   | `scale`                     | Specifies the size of the expand `calcite-action`.                              | `"l" \| "m" \| "s"`          | `undefined`  |
+| Property                  | Attribute                   | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                                      | Default      |
+| ------------------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ------------ |
+| `actionsEndGroupLabel`    | `actions-end-group-label`   | Specifies the accessible label for the last `calcite-action-group`.                                                                                                                                                                                                                                                                                                         | `string`                                  | `undefined`  |
+| `expandDisabled`          | `expand-disabled`           | When `true`, the expand-toggling behavior is disabled.                                                                                                                                                                                                                                                                                                                      | `boolean`                                 | `false`      |
+| `expanded`                | `expanded`                  | When `true`, the component is expanded.                                                                                                                                                                                                                                                                                                                                     | `boolean`                                 | `false`      |
+| `layout`                  | `layout`                    | Specifies the layout direction of the actions.                                                                                                                                                                                                                                                                                                                              | `"horizontal" \| "vertical"`              | `"vertical"` |
+| `messageOverrides`        | --                          | Use this property to override individual strings used by the component.                                                                                                                                                                                                                                                                                                     | `{ expand?: string; collapse?: string; }` | `undefined`  |
+| `overflowActionsDisabled` | `overflow-actions-disabled` | Disables automatically overflowing `calcite-action`s that won't fit into menus.                                                                                                                                                                                                                                                                                             | `boolean`                                 | `false`      |
+| `overlayPositioning`      | `overlay-positioning`       | Determines the type of positioning to use for the overlaid content. Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`. | `"absolute" \| "fixed"`                   | `"absolute"` |
+| `position`                | `position`                  | Arranges the component depending on the element's `dir` property.                                                                                                                                                                                                                                                                                                           | `"end" \| "start"`                        | `undefined`  |
+| `scale`                   | `scale`                     | Specifies the size of the expand `calcite-action`.                                                                                                                                                                                                                                                                                                                          | `"l" \| "m" \| "s"`                       | `undefined`  |
 
 ## Events
 
@@ -99,9 +100,18 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                      | Description                                                                       |
-| ----------------------------------------- | --------------------------------------------------------------------------------- |
-| `--calcite-action-bar-expanded-max-width` | When `layout` is `"vertical"`, specifies the expanded max width of the component. |
+| Name                                                  | Description                                                                                           |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `--calcite-action-bar-action-background-color`        | defines the background color of an action sub-component inside the component.                         |
+| `--calcite-action-bar-action-background-color-active` | defines the background color of an action sub-component when active inside the component.             |
+| `--calcite-action-bar-action-background-color-hover`  | defines the background color of an action sub-component when hovered or focused inside the component. |
+| `--calcite-action-bar-action-indicator-color`         | defines the indicator color of an action sub-component inside the component.                          |
+| `--calcite-action-bar-action-indicator-color-active`  | defines the indicator color of an action sub-component when active inside the component.              |
+| `--calcite-action-bar-action-indicator-color-hover`   | defines the indicator color of an action sub-component when hovered or focused inside the component.  |
+| `--calcite-action-bar-action-text-color`              | defines the text color of an action sub-component inside the component.                               |
+| `--calcite-action-bar-action-text-color-active`       | defines the text color of an action sub-component when active inside the component.                   |
+| `--calcite-action-bar-action-text-color-hover`        | defines the text color of an action sub-component when hovered or focused inside the component.       |
+| `--calcite-action-bar-expanded-max-width`             | When `layout` is `"vertical"`, specifies the expanded max width of the component.                     |
 
 ## Dependencies
 
