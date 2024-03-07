@@ -12,8 +12,12 @@
  * @prop --calcite-action-menu-action-background-color-active: defines the background color of an action sub-component when active inside the component.
  * @prop --calcite-action-menu-action-indicator-color-active: defines the indicator color of an action sub-component when active inside the component.
  * @prop --calcite-action-menu-action-text-color-active: defines the text color of an action sub-component when active inside the component.
- * @prop --calcite-action-menu-group-separator-border-color: The border color of the component.
- *
+ * @prop --calcite-action-menu-group-separator-border-color: The border color of the sub-component.
+ * @prop --calcite-action-menu-popover-background-color: defines the background color of the sub-component.
+ * @prop --calcite-action-menu-popover-border-color: defines the border color of the sub-component.
+ * @prop --calcite-action-menu-popover-corner-radius: defines the corner radius of the sub-component.
+ * @prop --calcite-action-menu-popover-shadow: defines the shadow of the component.
+ * @prop --calcite-action-menu-popover-text-color: defines the text color of the sub-component.
  */
 
 :host {
@@ -79,6 +83,7 @@ calcite-popover {
   --calcite-popover-background-color: var(--calcite-action-menu-popover-background-color);
   --calcite-popover-border-color: var(--calcite-action-menu-popover-border-color);
   --calcite-popover-corner-radius: var(--calcite-action-menu-popover-corner-radius);
+  --calcite-popover-shadow: var(--calcite-action-menu-popover-shadow);
   --calcite-popover-text-color: var(--calcite-action-menu-popover-text-color);
 }
 
