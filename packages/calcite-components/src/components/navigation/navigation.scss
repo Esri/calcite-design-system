@@ -61,8 +61,8 @@
   h-full
   mx-auto;
   margin-block: 0;
-  inline-size: var(--calcite-navigation-width, var(--calcite-size-relative-100));
-  max-inline-size: var(--calcite-size-relative-100);
+  inline-size: var(--calcite-navigation-width, #{$calcite-size-relative-100});
+  max-inline-size: #{$calcite-size-relative-100};
   &.progress-bar {
     margin-block-start: var(--calcite-spacing-base);
   }
@@ -74,7 +74,7 @@ slot[name] {
 
 slot[name="navigation-secondary"]::slotted(calcite-navigation),
 slot[name="navigation-tertiary"]::slotted(calcite-navigation) {
-  inline-size: var(--calcite-size-relative-100);
+  inline-size: #{$calcite-size-relative-100};
 }
 
 slot[name="content-start"]::slotted(*),
