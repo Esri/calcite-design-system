@@ -53,7 +53,7 @@
   cursor-pointer
   outline-none
   box-border;
-  font-size: var(calcite-font-size-md);
+  font-size: var(--calcite-font-size-md);
   color: var(--calcite-menu-item-text-color, var(--calcite-color-text-2));
   background-color: var(--calcite-menu-item-background-color, var(--calcite-color-foreground-1));
   inline-size: #{$calcite-size-relative-100};
@@ -79,7 +79,7 @@
     @apply flex w-full justify-start;
     padding-block: var(--calcite-spacing-xl);
     border-block-end: 0;
-    border-inline-end: theme("spacing.1") solid transparent;
+    border-inline-end: var(--calcite-spacing-xxs) solid var(--calcite-menu-item-border-color, transparent);
   }
 }
 
