@@ -20,6 +20,10 @@
  * @prop --calcite-button-text-color-active: defines the component's text color in an active state.
  * @prop --calcite-button-text-color-focus: defines the component's text color in a focus state.
  * @prop --calcite-button-text-color-hover: defines the component's text color in a hover state.
+ * @prop --calcite-button-icon-color: defines the color of an icon in the component.
+ * @prop --calcite-button-icon-color-hover: defines the color of an icon in the component when in a hover state.
+ * @prop --calcite-button-icon-color-focus: defines the color of an icon in the component when in a focused state.
+ * @prop --calcite-button-icon-color-active: defines the color of an icon in the component when in an active state.
  */
 :host {
   @apply inline-block w-auto align-middle;
@@ -778,6 +782,21 @@
     &:focus {
       outline-offset: -2px; // ensure focus outlines work in Safari
     }
+  }
+}
+
+a,
+button {
+  --calcite-icon-color: var(--calcite-button-icon-color);
+
+  &:hover {
+    --calcite-icon-color: var(--calcite-button-icon-color-hover);
+  }
+  &:active {
+    --calcite-icon-color: var(--calcite-button-icon-color-active);
+  }
+  &:focus {
+    --calcite-icon-color: var(--calcite-button-icon-color-focus);
   }
 }
 
