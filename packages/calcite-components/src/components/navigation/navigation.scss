@@ -3,11 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-navigation-action-background-color: defines the background color of an action sub-component inside the component.
- * @prop --calcite-navigation-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
  * @prop --calcite-navigation-action-background-color-active: defines the background color of an action sub-component when active.
-
- * @prop --calcite-navigation-background: Specifies the background color of the component.
+ * @prop --calcite-navigation-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
+ * @prop --calcite-navigation-action-background-color: defines the background color of an action sub-component inside the component.
+ * @prop --calcite-navigation-background-color: Specifies the background color of the component.
+ * @prop --calcite-navigation-background: [Deprecated] in favor of `--calcite-navigaton-background-color`. Specifies the background color of the component.
  * @prop --calcite-navigation-border-color: Specifies the border color of the component.
  * @prop --calcite-navigation-width: Specifies the width of the component's content area.
  *
@@ -16,18 +16,19 @@
 @include base-component();
 
 .container {
+  --calcite-navigation-background-color: var(--calcite-navigation-background, var(--calcite-color-foreground-1));
+
   @apply flex
   flex-col
   mx-auto
   w-full;
   margin-block: 0;
   margin-inline: auto;
-  background-color: var(--calcite-navigation-background, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-navigation-background-color);
   &.primary,
   &.secondary,
   &.tertiary {
-    border-block-end: 1px solid;
-    border-block-end-color: var(--calcite-navigation-border-color, var(--calcite-color-border-3));
+    border-block-end: 1px solid var(--calcite-navigation-border-color, var(--calcite-color-border-3));
   }
 }
 
@@ -58,10 +59,10 @@
   h-full
   mx-auto;
   margin-block: 0;
-  inline-size: var(--calcite-navigation-width, 100%);
-  max-inline-size: 100%;
+  inline-size: var(--calcite-navigation-width, var(--calcite-size-relative-100));
+  max-inline-size: var(--calcite-size-relative-100);
   &.progress-bar {
-    margin-block-start: 0.125rem;
+    margin-block-start: var(--calcite-spacing-base);
   }
 }
 
@@ -71,7 +72,7 @@ slot[name] {
 
 slot[name="navigation-secondary"]::slotted(calcite-navigation),
 slot[name="navigation-tertiary"]::slotted(calcite-navigation) {
-  @apply w-full;
+  inline-size: var(--calcite-size-relative-100);
 }
 
 slot[name="content-start"]::slotted(*),
