@@ -1,4 +1,4 @@
-import { Component, Element, h, Prop, State, VNode } from "@stencil/core";
+import { Component, Element, h, Listen, Prop, State, VNode } from "@stencil/core";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -86,7 +86,7 @@ export class Tile implements InteractiveComponent {
    *
    * @internal
    */
-  @Prop({ mutable: true }) selectionAppearance: SelectionAppearance = null;
+  @Prop() selectionAppearance: SelectionAppearance = null;
 
   /**
    * Specifies the selection mode, where:
@@ -98,7 +98,8 @@ export class Tile implements InteractiveComponent {
    *
    * @internal
    */
-  @Prop({ mutable: true }) selectionMode: Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode> = "none";
+  @Prop() selectionMode: Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode> =
+    "none";
 
   /**
    * Specifies the size of the component.
@@ -116,6 +117,23 @@ export class Tile implements InteractiveComponent {
   @State() hasContentStart = false;
 
   @State() hasContentEnd = false;
+
+  @Listen("click")
+  toggleSelected(): void {
+    const { selectionMode, selected } = this;
+
+    if (this.disabled) {
+      return;
+    }
+
+    if (selectionMode === "multiple" || selectionMode === "single") {
+      this.selected = !selected;
+    } else if (selectionMode === "single-persist") {
+      this.selected = true;
+    }
+
+    // TODO: emit change events
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -156,7 +174,7 @@ export class Tile implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   renderSelected(): VNode {
-    const { selected, selectionAppearance, selectionMode } = this;
+    const { selected, selectionMode } = this;
     if (selectionMode === "none") {
       return;
     }
