@@ -7,19 +7,13 @@
  * @prop --calcite-menu-item-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
  * @prop --calcite-menu-item-action-background-color: defines the background color of an action sub-component inside a menu-item.
  * @prop --calcite-menu-item-action-border-color: Specifies the border inline start color of an action sub-component.
- * @prop --calcite-menu-item-action-menu-border-color: The border color of the sub-component.
- * @prop --calcite-menu-item-action-menu-text-color: The text color of the sub-component.
  * @prop --calcite-menu-item-action-text-color: Specifies the text color of an action sub component.
- * @prop --calcite-menu-item-background-color-active: Specifies the background color of the component when active.
- * @prop --calcite-menu-item-background-color-hover: Specifies the background color of the component when hover.
  * @prop --calcite-menu-item-background-color: Specifies the background color of the component.
  * @prop --calcite-menu-item-breadcrumb-icon-color: Specifies the color of the breadcrumb icon when sub-menu items are slotted.
  * @prop --calcite-menu-item-chevron-icon-color-active: Specifies the color of the dropdown icon when active.
  * @prop --calcite-menu-item-chevron-icon-color: Specifies the color of the dropdown icon when sub-menu items are slotted.
  * @prop --calcite-menu-item-sub-menu-border-color: Specifies the border color of sub-menu.
- * @prop --calcite-menu-item-sub-menu-border-radius: Specifies the border radius of sub-menu.
- * @prop --calcite-menu-item-text-color-active: Specifies the text color of the component when active.
- * @prop --calcite-menu-item-text-color-hover: Specifies the text color of the component when hover.
+ * @prop --calcite-menu-item-sub-menu-corner-radius: Specifies the border radius of sub-menu.
  * @prop --calcite-menu-item-text-color: Specifies the text color of the component.
  */
 
@@ -59,7 +53,7 @@
   cursor-pointer
   outline-none
   box-border;
-  font-size: var(--calcite-font-size-0);
+  font-size: var(calcite-font-size-md);
   color: var(--calcite-menu-item-text-color, var(--calcite-color-text-2));
   background-color: var(--calcite-menu-item-background-color, var(--calcite-color-foreground-1));
   inline-size: #{$calcite-size-relative-100};
@@ -67,15 +61,15 @@
   padding-inline: var(--calcite-spacing-xl);
   padding-block-start: var(--calcite-spacing-base);
   text-decoration: none;
-  border-block-end: theme("spacing[0.5]") solid transparent;
+  border-block-end: var(--calcite-spacing-base) solid var(--calcite-menu-item-border-color, transparent);
   &:hover {
-    background-color: var(--calcite-menu-item-background-color-hover, var(--calcite-color-foreground-2));
-    color: var(--calcite-menu-item-text-color-hover, var(--calcite-color-text-2));
+    --calcite-menu-item-background-color: var(--calcite-color-foreground-2);
+    --calcite-menu-item-text-color: var(--calcite-color-text-2);
   }
   &:focus {
     @apply focus-inset;
-    background-color: var(--calcite-menu-item-background-color-focus, var(--calcite-color-foreground-2));
-    color: var(--calcite-menu-item-text-color-focus, var(--calcite-color-text-2));
+    --calcite-menu-item-background-color: var(--calcite-color-foreground-2);
+    --calcite-menu-item-text-color: var(--calcite-color-text-2);
   }
 
   & span {
@@ -91,9 +85,9 @@
 
 .content:active,
 :host([active]) .content {
-  background-color: var(--calcite-menu-item-background-color-active, var(--calcite-color-foreground-3));
-  color: var(--calcite-menu-item-text-color-active, var(--calcite-color-text-1));
-  border-color: var(--calcite-menu-item-border-color-active, var(--calcite-color-brand));
+  --calcite-menu-item-background-color: var(--calcite-color-foreground-3);
+  --calcite-menu-item-text-color: var(--calcite-color-text-1);
+  --calcite-menu-item-border-color: var(--calcite-color-brand);
   .icon {
     --calcite-icon-color: var(--calcite-menu-item-chevron-icon-color-active, var(--calcite-color-brand));
   }
@@ -219,7 +213,7 @@ calcite-action {
 
 .dropdown--vertical.dropdown-menu-items {
   @apply relative;
-  border-radius: var(--calcite-menu-item-sub-menu-border-radius, var(--calcite-corner-radius));
+  border-radius: var(--calcite-menu-item-sub-menu-corner-radius, var(--calcite-corner-radius));
   box-shadow: none;
   inset-block-start: 0;
   transform: none;
@@ -254,11 +248,6 @@ calcite-action {
 .content:hover .hover-href-icon {
   opacity: var(--calcite-opacity-full);
   inset-inline-end: calc(-1 * var(--calcite-spacing-xxs));
-}
-
-calcite-action-menu {
-  --calcite-action-menu-border-color: var(--calcite-menu-item-action-menu-border-color);
-  --calcite-action-menu-text-color: var(--calcite-menu-item-action-menu-text-color);
 }
 
 @include base-component();
