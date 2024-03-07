@@ -5,6 +5,12 @@
  *
  * @prop --calcite-inline-editable-background-color: Specifies the background color of the component.
  * @prop --calcite-inline-editable-border-color: Specifies the border color of the component.
+ * @prop --calcite-inline-editable-button-corner-radius: defines the button's corner radius.
+ * @prop --calcite-inline-editable-button-loader-color: defines the button's loader color.
+ * @prop --calcite-inline-editable-button-text-color: defines the button's text color.
+ * @prop --calcite-inline-editable-button-text-color-active: defines the button's text color in an active state.
+ * @prop --calcite-inline-editable-button-text-color-focus: defines the button's text color in a focus state.
+ * @prop --calcite-inline-editable-button-text-color-hover: defines the button's text color in a hover state.
  */
 
 :host {
@@ -46,6 +52,15 @@
 
 .controls-wrapper {
   @apply flex;
+}
+
+calcite-button {
+  --calcite-button-corner-radius: var(--calcite-inline-editable-button-corner-radius);
+  --calcite-button-loader-color: var(--calcite-inline-editable-button-loader-color);
+  --calcite-button-text-color: var(--calcite-inline-editable-button-text-color);
+  --calcite-button-text-color-active: var(--calcite-inline-editable-button-text-color-active);
+  --calcite-button-text-color-focus: var(--calcite-inline-editable-button-text-color-focus);
+  --calcite-button-text-color-hover: var(--calcite-inline-editable-button-text-color-hover);
 }
 
 @include disabled();

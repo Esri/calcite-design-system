@@ -1,3 +1,18 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-table-button-background-color: defines the component's background color.
+ * @prop --calcite-table-button-background-color-active: defines the component's background color in an active state.
+ * @prop --calcite-table-button-background-color-hover: defines the component's background color in a hover state.
+ * @prop --calcite-table-button-corner-radius: defines the component's corner radius.
+ * @prop --calcite-table-button-text-color: defines the component's text color.
+ * @prop --calcite-table-button-text-color-active: defines the component's text color in an active state.
+ * @prop --calcite-table-button-text-color-focus: defines the component's text color in a focus state.
+ * @prop --calcite-table-button-text-color-hover: defines the component's text color in a hover state.
+ */
+
 :host([scale="s"]) {
   --calcite-internal-table-cell-padding: 0.25rem;
   --calcite-internal-table-cell-font-size: var(--calcite-font-size--2);
@@ -20,6 +35,8 @@
 
 .container {
   @apply flex flex-col w-full h-full;
+  inline-size: var(--calcite-container-size-content-fluid);
+  block-size: var(--calcite-container-size-content-fluid);
 }
 
 .table-container {
@@ -27,7 +44,7 @@
 }
 
 .table-container {
-  border: 1px solid var(--calcite-color-border-3);
+  border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-3));
 }
 
 .assistive-text {
@@ -35,8 +52,9 @@
 }
 
 table {
-  @apply w-full border-collapse;
+  @apply border-collapse;
   overflow-x: scroll;
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 .table--fixed {
@@ -45,13 +63,13 @@ table {
 
 .bordered {
   ::slotted(calcite-table-row) {
-    --calcite-table-row-border-color: var(--calcite-color-border-3);
+    --calcite-table-row-border-color: var(--calcite-table-border-color, var(--calcite-color-border-3));
   }
 }
 
 .striped {
   ::slotted(calcite-table-row:nth-child(2n + 1)) {
-    --calcite-table-row-background: var(--calcite-color-foreground-2);
+    --calcite-table-row-background: var(--calcite-table-background-color-alternate, var(--calcite-color-foreground-2));
   }
 }
 
@@ -85,6 +103,17 @@ table {
 calcite-pagination {
   flex: 1;
   justify-content: center;
+}
+
+calcite-button {
+  --calcite-button-background-color: var(--calcite-table-button-background-color);
+  --calcite-button-background-color-active: var(--calcite-table-button-background-color-active);
+  --calcite-button-background-color-hover: var(--calcite-table-button-background-color-hover);
+  --calcite-button-corner-radius: var(--calcite-table-button-corner-radius);
+  --calcite-button-text-color: var(--calcite-table-button-text-color);
+  --calcite-button-text-color-active: var(--calcite-table-button-text-color-active);
+  --calcite-button-text-color-focus: var(--calcite-table-button-text-color-focus);
+  --calcite-button-text-color-hover: var(--calcite-table-button-text-color-hover);
 }
 
 @include base-component();

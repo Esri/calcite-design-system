@@ -5,6 +5,12 @@
  *
  * @prop --calcite-color-picker-tabs-background-color: The background color of the sub-component.
  * @prop --calcite-color-picker-tabs-border-color: The border color of the sub-component.
+ * @prop --calcite-color-picker-button-corner-radius: defines the button in the component's corner radius.
+ * @prop --calcite-color-picker-button-loader-color: defines the button in the component's loader color.
+ * @prop --calcite-color-picker-button-text-color: defines the button in the component's text color.
+ * @prop --calcite-color-picker-button-text-color-active: defines the button in the component's text color in an active state.
+ * @prop --calcite-color-picker-button-text-color-focus: defines the button in the component's text color in a focus state.
+ * @prop --calcite-color-picker-button-text-color-hover: defines the button in the component's text color in a hover state.
  */
 
 :host {
@@ -206,6 +212,15 @@
 calcite-tabs {
   --calcite-tabs-background-color: var(--calcite-color-picker-tabs-background-color);
   --calcite-tabs-border-color: var(--calcite-color-picker-tabs-border-color);
+}
+
+calcite-button {
+  --calcite-button-corner-radius: var(--calcite-color-picker-button-corner-radius);
+  --calcite-button-loader-color: var(--calcite-color-picker-button-loader-color);
+  --calcite-button-text-color: var(--calcite-color-picker-button-text-color);
+  --calcite-button-text-color-active: var(--calcite-color-picker-button-text-color-active);
+  --calcite-button-text-color-focus: var(--calcite-color-picker-button-text-color-focus);
+  --calcite-button-text-color-hover: var(--calcite-color-picker-button-text-color-hover);
 }
 
 @include base-component();
