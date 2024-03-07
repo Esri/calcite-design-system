@@ -1,3 +1,28 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-split-button-divider-color: defines the color of the divider in the component.
+ * @prop --calcite-split-button-background-color: defines the component's background color.
+ * @prop --calcite-split-button-background-color-active: defines the component's background color in an active state.
+ * @prop --calcite-split-button-background-color-hover: defines the component's background color in a hover state.
+ * @prop --calcite-split-button-border-color: defines the component's border color.
+ * @prop --calcite-split-button-border-color-active: defines the component's border color in an active state.
+ * @prop --calcite-split-button-border-color-focus: defines the component's border color in a focus state.
+ * @prop --calcite-split-button-border-color-hover: defines the component's border color in a hover state.
+ * @prop --calcite-split-button-corner-radius: defines the component's corner radius.
+ * @prop --calcite-split-button-loader-color: defines the component's loader color.
+ * @prop --calcite-split-button-shadow: defines the component's shadow.
+ * @prop --calcite-split-button-shadow-active: defines the component's shadow color in an active state.
+ * @prop --calcite-split-button-shadow-focus: defines the component's shadow color in a focus state.
+ * @prop --calcite-split-button-shadow-hover: defines the component's shadow color in a hover state.
+ * @prop --calcite-split-button-text-color: defines the component's text color.
+ * @prop --calcite-split-button-text-color-active: defines the component's text color in an active state.
+ * @prop --calcite-split-button-text-color-focus: defines the component's text color in a focus state.
+ * @prop --calcite-split-button-text-color-hover: defines the component's text color in a hover state.
+ */
+
 :host {
   @apply inline-block;
 }
@@ -14,66 +39,47 @@
   @apply w-full;
 }
 
-:host {
-  &:host([kind="brand"]) {
-    --calcite-split-button-background: theme("colors.brand");
-    --calcite-split-button-divider: theme("colors.background.foreground.1");
-  }
-  &:host([kind="danger"]) {
-    --calcite-split-button-background: theme("colors.danger");
-    --calcite-split-button-divider: theme("colors.background.foreground.1");
-  }
-  &:host([kind="neutral"]) {
-    --calcite-split-button-background: theme("colors.background.foreground.3");
-    --calcite-split-button-divider: theme("colors.color.1");
-  }
-  &:host([kind="inverse"]) {
-    --calcite-split-button-background: var(--calcite-color-inverse);
-    --calcite-split-button-divider: theme("colors.background.foreground.1");
-  }
+:host([kind="brand"]) {
+  --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-foreground-1));
+}
+:host([kind="danger"]) {
+  --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-foreground-1));
+}
+:host([kind="neutral"]) {
+  --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-text-1));
+}
+:host([kind="inverse"]) {
+  --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-foreground-1));
 }
 
 :host([appearance="transparent"]) {
   &:host([kind="brand"]) {
-    --calcite-split-button-divider: theme("colors.brand");
-    --calcite-split-button-background: transparent;
+    --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-brand));
   }
   &:host([kind="danger"]) {
-    --calcite-split-button-divider: theme("colors.danger");
-    --calcite-split-button-background: transparent;
+    --calcite-internal-split-button-divider: var(
+      --calcite-split-button-divider-color,
+      var(--calcite-color-status-danger)
+    );
   }
-  &:host([kind="neutral"]) {
-    --calcite-split-button-divider: theme("colors.color.1");
-    --calcite-split-button-background: transparent;
-  }
-  &:host([kind="inverse"]) {
-    --calcite-split-button-divider: theme("colors.background.foreground.1");
-    --calcite-split-button-background: transparent;
-  }
-}
-
-:host([appearance="outline"]) {
-  --calcite-split-button-background: transparent;
-}
-
-:host([appearance="outline-fill"]) {
-  --calcite-split-button-background: theme("colors.background.foreground.1");
 }
 
 :host([appearance="outline"]),
 :host([appearance="outline-fill"]) {
   &:host([kind="brand"]) {
-    --calcite-split-button-divider: theme("colors.brand");
+    --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-brand));
   }
   &:host([kind="danger"]) {
-    --calcite-split-button-divider: theme("colors.danger");
+    --calcite-internal-split-button-divider: var(
+      --calcite-split-button-divider-color,
+      var(--calcite-color-status-danger)
+    );
   }
   &:host([kind="neutral"]) {
-    --calcite-split-button-divider: theme("borderColor.color.1");
-    --calcite-split-button-background: theme("borderColor.color.1");
+    --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-border-1));
   }
   &:host([kind="inverse"]) {
-    --calcite-split-button-divider: var(--calcite-color-inverse);
+    --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-inverse));
   }
 }
 
@@ -86,42 +92,67 @@
 
 .divider-container {
   @apply transition-default flex w-px items-stretch;
-  background-color: var(--calcite-split-button-background);
 }
 
 .divider {
   @apply my-1 inline-block w-px;
-  background-color: var(--calcite-split-button-divider);
+  background-color: var(--calcite-internal-split-button-divider);
 }
 
 :host([appearance="outline-fill"]),
 :host([appearance="outline"]) {
   .divider-container {
-    border-block: 1px solid var(--calcite-split-button-divider);
+    border-block: var(--calcite-border-width-sm) solid var(--calcite-internal-split-button-divider);
   }
   &:hover .divider-container {
-    background-color: var(--calcite-split-button-divider);
+    background-color: var(--calcite-internal-split-button-divider);
   }
 }
 
 :host([appearance="outline-fill"]:hover),
 :host([appearance="outline"]:hover) {
   .divider-container {
-    background-color: var(--calcite-split-button-divider);
+    background-color: var(--calcite-internal-split-button-divider);
   }
 }
 
 :host([appearance="outline-fill"]:focus-within),
 :host([appearance="outline"]:focus-within) {
   &:host([kind="brand"]) {
-    --calcite-split-button-divider: theme("colors.brand-press");
+    --calcite-internal-split-button-divider: var(
+      --calcite-split-button-divider-color,
+      var(--calcite-color-brand-press)
+    );
   }
   &:host([kind="danger"]) {
-    --calcite-split-button-divider: theme("colors.danger-press");
+    --calcite-internal-split-button-divider: var(
+      --calcite-split-button-divider-color,
+      var(--calcite-color-status-danger-press)
+    );
   }
   .divider-container {
-    background-color: var(--calcite-split-button-divider);
+    background-color: var(--calcite-internal-split-button-divider);
   }
+}
+
+calcite-button {
+  --calcite-button-background-color: var(--calcite-split-button-background-color);
+  --calcite-button-background-color-active: var(--calcite-split-button-background-color-active);
+  --calcite-button-background-color-hover: var(--calcite-split-button-background-color-hover);
+  --calcite-button-border-color: var(--calcite-split-button-border-color);
+  --calcite-button-border-color-active: var(--calcite-split-button-border-color-active);
+  --calcite-button-border-color-focus: var(--calcite-split-button-border-color-focus);
+  --calcite-button-border-color-hover: var(--calcite-split-button-border-color-hover);
+  --calcite-button-corner-radius: var(--calcite-split-button-corner-radius);
+  --calcite-button-loader-color: var(--calcite-split-button-loader-color);
+  --calcite-button-shadow: var(--calcite-split-button-shadow);
+  --calcite-button-shadow-active: var(--calcite-split-button-shadow-active);
+  --calcite-button-shadow-focus: var(--calcite-split-button-shadow-focus);
+  --calcite-button-shadow-hover: var(--calcite-split-button-shadow-hover);
+  --calcite-button-text-color: var(--calcite-split-button-text-color);
+  --calcite-button-text-color-active: var(--calcite-split-button-text-color-active);
+  --calcite-button-text-color-focus: var(--calcite-split-button-text-color-focus);
+  --calcite-button-text-color-hover: var(--calcite-split-button-text-color-hover);
 }
 
 @include disabled() {
