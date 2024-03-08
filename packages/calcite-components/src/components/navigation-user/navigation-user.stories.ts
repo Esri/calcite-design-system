@@ -71,18 +71,18 @@ export const theming_TestOnly = (): string => html`
       --calcite-navigation-user-border-color: red;
     }
   </style>
+
   <calcite-navigation-user
     full-name="Edward Abbey"
     username="eabbey_123"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
     slot="user"
-  />
-
+  ></calcite-navigation-user>
   <calcite-navigation-user
     active
     full-name="Edward Abbey"
     username="eabbey_123"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
     slot="user"
-  />
+  ></calcite-navigation-user>
 `;
