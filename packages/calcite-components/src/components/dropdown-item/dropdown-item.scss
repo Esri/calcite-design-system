@@ -86,6 +86,12 @@
     var(--calcite-internal-dropdown-item-background-color, none)
   );
 
+  &.container--none-selection {
+    .dropdown-link {
+      --calcite-internal-dropdown-item-space-x-start: theme("padding.0");
+    }
+  }
+
   &.container--s {
     --calcite-internal-dropdown-item-space-x-start: theme("padding.6");
     --calcite-internal-dropdown-item-space-x-end: theme("padding.2");
@@ -96,9 +102,6 @@
     // none-selection mode
     &.container--none-selection {
       --calcite-internal-dropdown-item-space-x-start: theme("padding.1");
-      .dropdown-link {
-        padding-inline-start: theme("padding.0");
-      }
     }
 
     .dropdown-item-icon {
@@ -117,9 +120,6 @@
 
     &.container--none-selection {
       --calcite-internal-dropdown-item-space-x-start: theme("padding.2");
-      .dropdown-link {
-        padding-inline-start: theme("padding.0");
-      }
     }
 
     .dropdown-item-icon {
@@ -138,9 +138,6 @@
 
     &.container--none-selection {
       --calcite-internal-dropdown-item-space-x-start: theme("padding.3");
-      .dropdown-link {
-        padding-inline-start: theme("padding.0");
-      }
     }
 
     .dropdown-item-icon {
@@ -152,9 +149,7 @@
 
   // when used as link move styling anchor
   &.container--link {
-    --calcite-internal-dropdown-item-space-y: 0;
-    --calcite-internal-dropdown-item-space-x-start: 0;
-    --calcite-internal-dropdown-item-space-x-end: 0;
+    padding-inline: 0;
   }
 }
 
