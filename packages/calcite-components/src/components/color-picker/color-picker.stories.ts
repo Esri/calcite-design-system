@@ -69,6 +69,10 @@ export const simple = (): string =>
       name: "allow-empty",
       value: boolean("allow-empty", false),
     },
+    {
+      name: "clearable",
+      value: boolean("clearable", false),
+    },
     ...createColorAttributes(),
     {
       name: "value",
