@@ -1,3 +1,12 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-color-picker-tabs-background-color: The background color of the sub-component.
+ * @prop --calcite-color-picker-tabs-border-color: The border color of the sub-component.
+ */
+
 :host {
   @apply text-n2h inline-block font-normal;
 }
@@ -192,6 +201,11 @@
     outline: 2px solid var(--calcite-color-border-2);
     outline-offset: 2px;
   }
+}
+
+calcite-tabs {
+  --calcite-tabs-background-color: var(--calcite-color-picker-tabs-background-color);
+  --calcite-tabs-border-color: var(--calcite-color-picker-tabs-border-color);
 }
 
 @include base-component();

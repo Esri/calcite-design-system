@@ -9,10 +9,6 @@
 */
 
 :host {
-  --calcite-progress-background-color: var(--calcite-color-border-3);
-  --calcite-progress-fill-color: var(--calcite-color-brand);
-  --calcite-progress-text-color: var(--calcite-color-text-2);
-
   @apply relative block;
   inline-size: var(--calcite-container-size-content-fluid);
 }
@@ -28,11 +24,11 @@
   @apply overflow-hidden;
 
   inline-size: var(--calcite-container-size-content-fluid);
-  background-color: var(--calcite-progress-background-color);
+  background-color: var(--calcite-progress-background-color, var(--calcite-color-border-3));
 }
 
 .bar {
-  background-color: var(--calcite-progress-fill-color);
+  background-color: var(--calcite-progress-fill-color, var(--calcite-color-brand));
 }
 
 @media (forced-colors: active) {
@@ -61,7 +57,7 @@
   @apply text-n2h px-0 pt-4 pb-0 text-center font-medium;
 
   font-size: theme("fontSize.n2h");
-  color: var(--calcite-progress-text-color);
+  color: var(--calcite-progress-text-color, var(--calcite-color-text-2));
 }
 
 @keyframes looping-progress-bar-ani {
