@@ -8,6 +8,7 @@
  * @prop --calcite-stepper-action-background-color: defines the background color of an action sub-component inside the component.
  * @prop --calcite-stepper-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
  * @prop --calcite-stepper-action-background-color-active: defines the background color of an action sub-component when active.
+ * @prop --calcite-stepper-step-bar-color : Specifies fill color for step-bar when layout="horizontal-single".
  *
  */
 
@@ -38,12 +39,12 @@
 .container {
   @apply relative
     flex
-    w-full
     min-w-fit
     flex-row
     flex-wrap
     items-stretch
     justify-between;
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 :host([layout="vertical"]) .container {
@@ -90,35 +91,35 @@
 .action-container {
   @apply absolute flex justify-between;
   padding-block: var(--calcite-spacing-xxs);
-  inline-size: #{$calcite-size-relative-100};
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 @mixin stepBar {
   .step-bar {
     @apply flex;
-    block-size: #{$calcite-size-relative-100};
-    inline-size: #{$calcite-size-relative-100};
+    block-size: var(--calcite-container-size-content-fluid);
+    inline-size: var(--calcite-container-size-content-fluid);
   }
 
   .step-bar-container {
     @apply flex absolute justify-between items-start;
-    block-size: 0.125rem;
-    inline-size: 100%;
+    block-size: var(--calcite-spacing-base);
+    inline-size: var(--calcite-container-size-content-fluid);
     gap: var(--calcite-internal-step-bar-gap, var(--calcite-spacing-sm));
   }
 
   .step-bar--inactive {
-    fill: var(--calcite-color-border-3, #dfdfdf);
+    fill: var(--calcite-stepper-step-bar-color, var(--calcite-color-border-3));
     fill-opacity: var(--calcite-opacity-full);
-    block-size: #{$calcite-size-relative-100};
+    block-size: var(--calcite-container-size-content-fluid);
   }
 
   .step-bar--active {
-    fill: var(--calcite-color-brand);
+    fill: var(--calcite-stepper-step-bar-color, var(--calcite-color-brand));
   }
 
   .step-bar--complete {
-    fill: var(--calcite-color-brand);
+    fill: var(--calcite-stepper-step-bar-color, var(--calcite-color-brand));
     fill-opacity: var(--calcite-opacity-half);
   }
 

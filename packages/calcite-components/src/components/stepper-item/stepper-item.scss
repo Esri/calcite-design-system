@@ -380,7 +380,7 @@
 :host([layout="horizontal-single"]) .stepper-item-header {
   @apply border-none box-border
   me-0;
-  inline-size: 100%;
+  inline-size: var(--calcite-container-size-content-fluid);
   padding-inline: calc(var(--calcite-internal-stepper-action-inline-size) + 0.5rem);
 }
 
