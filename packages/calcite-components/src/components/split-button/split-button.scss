@@ -36,20 +36,23 @@
 }
 
 :host([width="full"]) {
-  @apply w-full;
   inline-size: var(--calcite-container-size-content-fluid);
 }
 
 :host([kind="brand"]) {
   --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-foreground-1));
+  --calcite-internal-split-button-divider-background-color: var(--calcite-color-brand);
 }
 :host([kind="danger"]) {
   --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-foreground-1));
+  --calcite-internal-split-button-divider-background-color: var(--calcite-color-status-danger);
 }
 :host([kind="neutral"]) {
   --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-text-1));
+  --calcite-internal-split-button-divider-background-color: var(--calcite-color-foreground-3);
 }
 :host([kind="inverse"]) {
+  --calcite-internal-split-button-divider-background-color: var(--calcite-color-inverse);
   --calcite-internal-split-button-divider: var(--calcite-split-button-divider-color, var(--calcite-color-foreground-1));
 }
 
@@ -94,6 +97,10 @@
 
 .divider-container {
   @apply transition-default flex w-px items-stretch;
+  background-color: var(
+    --calcite-split-button-background-color,
+    var(--calcite-internal-split-button-divider-background-color)
+  );
 }
 
 .divider {
@@ -139,22 +146,29 @@
 
 calcite-button {
   --calcite-button-background-color: var(--calcite-split-button-background-color);
-  --calcite-button-background-color-active: var(--calcite-split-button-background-color-active);
-  --calcite-button-background-color-hover: var(--calcite-split-button-background-color-hover);
   --calcite-button-border-color: var(--calcite-split-button-border-color);
-  --calcite-button-border-color-active: var(--calcite-split-button-border-color-active);
-  --calcite-button-border-color-focus: var(--calcite-split-button-border-color-focus);
-  --calcite-button-border-color-hover: var(--calcite-split-button-border-color-hover);
   --calcite-button-corner-radius: var(--calcite-split-button-corner-radius);
   --calcite-button-loader-color: var(--calcite-split-button-loader-color);
   --calcite-button-shadow: var(--calcite-split-button-shadow);
-  --calcite-button-shadow-active: var(--calcite-split-button-shadow-active);
-  --calcite-button-shadow-focus: var(--calcite-split-button-shadow-focus);
-  --calcite-button-shadow-hover: var(--calcite-split-button-shadow-hover);
   --calcite-button-text-color: var(--calcite-split-button-text-color);
-  --calcite-button-text-color-active: var(--calcite-split-button-text-color-active);
-  --calcite-button-text-color-focus: var(--calcite-split-button-text-color-focus);
-  --calcite-button-text-color-hover: var(--calcite-split-button-text-color-hover);
+
+  &:hover {
+    --calcite-button-background-color: var(--calcite-split-button-background-color-hover);
+    --calcite-button-border-color: var(--calcite-split-button-border-color-hover);
+    --calcite-button-shadow: var(--calcite-split-button-shadow-hover);
+    --calcite-button-text-color: var(--calcite-split-button-text-color-hover);
+  }
+  &:focus {
+    --calcite-button-border-color: var(--calcite-split-button-border-color-focus);
+    --calcite-button-shadow: var(--calcite-split-button-shadow-focus);
+    --calcite-button-text-color: var(--calcite-split-button-text-color-focus);
+  }
+  &:active {
+    --calcite-button-background-color: var(--calcite-split-button-background-color-active);
+    --calcite-button-shadow: var(--calcite-split-button-shadow-active);
+    --calcite-button-text-color: var(--calcite-split-button-text-color-active);
+    --calcite-button-border-color: var(--calcite-split-button-border-color-active);
+  }
 }
 
 @include disabled() {
