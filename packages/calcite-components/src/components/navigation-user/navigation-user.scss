@@ -3,13 +3,17 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-navigation-user-avatar-corner-radius: Specifies the corner radius of avatar of the component.
- * @prop --calcite-navigation-user-avatar-text-color: Specifies the text color of avatar of the component.
+ * @prop --calcite-navigation-user-active-border-color: Specifies the border color of the component when `active` property is `true`.
+ * @prop --calcite-navigation-user-active-text-color: Specifies the text color of the component when `active` property is `true`.
+ * @prop --calcite-navigation-user-avatar-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-navigation-user-avatar-text-color: Specifies the text color of the component.
+ * @prop --calcite-navigation-user-background-color-active: Specifies the background color of the component when active.
+ * @prop --calcite-navigation-user-background-color-hover: Specifies the background color of the component when hovered.
  * @prop --calcite-navigation-user-background-color: Specifies the background color of the component.
  * @prop --calcite-navigation-user-border-color: Specifies the border color of the component.
  * @prop --calcite-navigation-user-full-name-text-color: Specifies the text color of full name of the component.
  * @prop --calcite-navigation-user-name-text-color: Specifies the text color of user name of the component.
- * @prop --calcite-navigation-user-text-color: Specifies the text color of the component.
+ * @prop --calcite-navigation-user-text-color-active: Specifies the text color of the component when active.
  *
  */
 
@@ -26,9 +30,7 @@
       font-sans;
     background-color: var(--calcite-navigation-user-background-color, transparent);
     border: none;
-    border-block-end-width: var(--calcite-spacing-base);
-    border-block-end-style: solid;
-    border-color: var(--calcite-navigation-user-border-color, transparent);
+    border-block-end: var(--calcite-spacing-base) solid var(--calcite-navigation-user-border-color, transparent);
     font-size: var(--calcite-font-size-md);
     line-height: var(--calcite-font-line-height-fixed-lg);
   }
@@ -36,7 +38,7 @@
 
 :host(:hover) .button,
 :host(:focus) .button {
-  --calcite-navigation-user-background-color: var(--calcite-color-foreground-2);
+  background-color: var(--calcite-navigation-user-background-color-hover, var(--calcite-color-foreground-2));
 }
 
 :host(:focus) .button {
@@ -44,8 +46,8 @@
 }
 
 :host(:active) .button {
-  --calcite-navigation-user-background-color: var(--calcite-color-foreground-3);
-  --calcite-navigation-user-text-color: var(--calcite-color-text-1);
+  background-color: var(--calcite-navigation-user-background-color-active, var(--calcite-color-foreground-3));
+  color: var(--calcite-navigation-user-text-color-active, var(--calcite-color-text-1));
 }
 
 calcite-avatar {
@@ -58,8 +60,8 @@ calcite-avatar ~ .text-container {
 
 :host([active]) .button {
   --calcite-ui-icon-color: var(--calcite-color-brand);
-  --calcite-navigation-user-text-color: var(--calcite-color-text-1);
-  --calcite-navigation-user-border-color: var(--calcite-color-brand);
+  border-color: var(--calcite-navigation-user-active-border-color, var(--calcite-color-brand));
+  color: var(--calcite-navigation-user-active-text-color, var(--calcite-color-text-1));
 }
 
 .text-container {
