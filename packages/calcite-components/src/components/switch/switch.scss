@@ -19,23 +19,6 @@
  */
 
 :host {
-  --calcite-switch-handle-background-color: var(--calcite-color-foreground-1);
-  --calcite-switch-handle-border-color: var(--calcite-color-border-input);
-  --calcite-switch-track-background-color: var(--calcite-color-foreground-2);
-  --calcite-switch-track-border-color: var(--calcite-color-border-2);
-  --calcite-switch-corner-radius: var(--calcite-internal-switch-border-radius, --calcite-corner-radius-pill);
-  --calcite-switch-handle-shadow: none;
-
-  --calcite-switch-handle-border-color-hover: var(--calcite-color-brand);
-  --calcite-switch-handle-shadow-hover: inset 0 0 0 1px var(--calcite-color-brand);
-
-  --calcite-switch-handle-border-color-selected: var(--calcite-color-brand);
-  --calcite-switch-track-background-color-selected: var(--calcite-color-brand);
-  --calcite-switch-track-border-color-selected: var(--calcite-color-brand);
-
-  --calcite-switch-handle-border-color-selected-hover: var(--calcite-color-brand-hover);
-  --calcite-switch-handle-shadow-selected-hover: inset 0 0 0 1px var(--calcite-color-brand-hover);
-
   --calcite-internal-switch-border-radius: 9999px; // TODO: drop once --calcite-corner-radius is updated
 
   @apply relative
@@ -62,9 +45,12 @@
     pointer-events-none
     relative;
 
-  border-color: var(--calcite-switch-track-border-color);
-  background-color: var(--calcite-switch-track-background-color);
-  border-radius: var(--calcite-switch-corner-radius);
+  border-color: var(--calcite-switch-track-border-color, var(--calcite-color-border-2));
+  background-color: var(--calcite-switch-track-background-color, var(--calcite-color-foreground-2));
+  border-radius: var(
+    --calcite-switch-corner-radius,
+    var(--calcite-internal-switch-border-radius, var(--calcite-corner-radius-pill))
+  );
   block-size: var(--calcite-internal-switch-track-height);
   inline-size: var(--calcite-internal-switch-track-width);
 }
@@ -81,15 +67,17 @@
   inset-block-start: -1px;
   inset-inline: -1px theme("inset.auto");
 
-  border-color: var(--calcite-switch-handle-border-color);
-  background-color: var(--calcite-switch-handle-background-color);
-  border-radius: var(--calcite-switch-corner-radius);
-  box-shadow: var(--calcite-switch-handle-shadow);
+  border-color: var(--calcite-switch-handle-border-color, var(--calcite-color-border-input));
+  background-color: var(--calcite-switch-handle-background-color, var(--calcite-color-foreground-1));
+  border-radius: var(
+    --calcite-switch-corner-radius,
+    var(--calcite-internal-switch-border-radius, var(--calcite-corner-radius-pill))
+  );
+  box-shadow: var(--calcite-switch-handle-shadow, none);
   block-size: var(--calcite-internal-switch-handle-height);
   inline-size: var(--calcite-internal-switch-handle-width);
 }
 
-// sizes
 :host([scale="s"]) {
   --calcite-internal-switch-handle-height: var(--calcite-size-sm);
   --calcite-internal-switch-handle-width: var(--calcite-size-sm);
@@ -108,7 +96,7 @@
   --calcite-internal-switch-handle-height: var(--calcite-size-xl);
   --calcite-internal-switch-handle-width: var(--calcite-size-xl);
   --calcite-internal-switch-track-height: var(--calcite-size-xxl);
-  --calcite-internal-switch-track-width: #{$calcite-size-48}; // TODO: need new size token for this size
+  --calcite-internal-switch-track-width: #{$calcite-size-48};
 }
 
 :host(:focus) .track {
@@ -118,34 +106,33 @@
 :host(:hover),
 :host(:focus) {
   .handle {
-    border-color: var(--calcite-switch-handle-border-color-hover);
-    box-shadow: var(--calcite-switch-handle-shadow-hover);
+    border-color: var(--calcite-switch-handle-border-color-hover, var(--calcite-color-brand));
+    box-shadow: var(--calcite-switch-handle-shadow-hover, inset 0 0 0 1px var(--calcite-color-brand));
   }
 }
 
 :host([checked]) {
   .track {
-    background-color: var(--calcite-switch-track-background-color-selected);
-    border-color: var(--calcite-switch-track-border-color-selected);
+    background-color: var(--calcite-switch-track-background-color-selected, var(--calcite-color-brand));
+    border-color: var(--calcite-switch-track-border-color-selected, var(--calcite-color-brand));
   }
 
   .handle {
-    border-color: var(--calcite-switch-handle-border-color-selected);
-
+    border-color: var(--calcite-switch-handle-border-color-selected, var(--calcite-color-brand));
     inset-inline: theme("inset.auto") -1px;
   }
 }
 
 :host([checked]:hover) {
   .handle {
-    border-color: var(--calcite-switch-handle-border-color-selected-hover);
-    box-shadow: var(--calcite-switch-handle-shadow-selected-hover);
+    border-color: var(--calcite-switch-handle-border-color-selected-hover, var(--calcite-color-brand-hover));
+    box-shadow: var(--calcite-switch-handle-shadow-selected-hover, inset 0 0 0 1px var(--calcite-color-brand-hover));
   }
 }
 
 @media (forced-colors: active) {
   :host([checked]) {
-    --calcite-switch-track-background-color: canvasText;
+    background-color: canvasText;
   }
 }
 
