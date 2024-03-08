@@ -1,4 +1,14 @@
-import { Component, Element, h, Listen, Prop, State, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Listen,
+  Prop,
+  State,
+  VNode,
+} from "@stencil/core";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -121,6 +131,7 @@ export class Tile implements InteractiveComponent {
   @Listen("click")
   toggleSelected(): void {
     const { selectionMode, selected } = this;
+    const previousSelected = selected;
 
     if (this.disabled) {
       return;
@@ -132,8 +143,21 @@ export class Tile implements InteractiveComponent {
       this.selected = true;
     }
 
-    // TODO: emit change events
+    if (previousSelected !== this.selected) {
+      this.calciteTileChange.emit();
+    }
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Fires when the selected state of the component changes.
+   */
+  @Event() calciteTileChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

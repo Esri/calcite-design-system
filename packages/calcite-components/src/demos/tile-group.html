@@ -231,7 +231,7 @@
           </calcite-tile-group>
         </div>
         <div class="child">
-          <calcite-tile-group selection-mode="single">
+          <calcite-tile-group selection-mode="single-persist">
             <calcite-tile
               heading="Tile heading lorem ipsum"
               description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
@@ -255,7 +255,7 @@
           </calcite-tile-group>
         </div>
         <div class="child">
-          <calcite-tile-group selection-mode="single" scale="l">
+          <calcite-tile-group selection-mode="single-persist" scale="l">
             <calcite-tile
               heading="Tile heading lorem ipsum"
               description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
@@ -798,7 +798,7 @@
           </calcite-tile-group>
         </div>
         <div class="child">
-          <calcite-tile-group layout="vertical" selection-mode="single-persist">
+          <calcite-tile-group layout="vertical" selection-mode="single">
             <calcite-tile
               heading="Tile heading lorem ipsum"
               description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
@@ -822,7 +822,7 @@
           </calcite-tile-group>
         </div>
         <div class="child">
-          <calcite-tile-group layout="vertical" selection-mode="single-persist" scale="l">
+          <calcite-tile-group layout="vertical" selection-mode="single" scale="l">
             <calcite-tile
               heading="Tile heading lorem ipsum"
               description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
@@ -1476,5 +1476,11 @@
         </div>
       </div>
     </demo-dom-swapper>
+    <script>
+      document.addEventListener("calciteTileChange", (event) => {
+        console.clear();
+        console.log(event.target, event.target.selected);
+      });
+    </script>
   </body>
 </html>
