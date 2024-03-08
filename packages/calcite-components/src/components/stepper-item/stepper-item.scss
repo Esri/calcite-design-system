@@ -1,12 +1,15 @@
 :host([scale="s"]) {
-  --calcite-stepper-item-spacing-unit-s: theme("spacing.1");
-  --calcite-stepper-item-spacing-unit-m: theme("spacing.3");
-  --calcite-stepper-item-spacing-unit-l: theme("spacing.4");
-  --calcite-internal-stepper-action-inline-size: theme("spacing.8");
-  @apply text-n1h;
+  --calcite-stepper-item-spacing-unit-s: var(--calcite-spacing-xxs);
+  --calcite-stepper-item-spacing-unit-m: var(--calcite-spacing-md);
+  --calcite-stepper-item-spacing-unit-l: var(--calcite-spacing-xl);
+  --calcite-internal-stepper-action-inline-size: var(--calcite-spacing-xxxl);
+
+  font-size: var(--calcite-font-size);
+  line-height: var(--calcite-font-line-height-fixed-base);
   margin-inline-end: theme("margin.1");
   .stepper-item-description {
-    @apply text-n2h;
+    font-size: var(--calcite-font-size-sm);
+    line-height: var(--calcite-font-line-height-fixed-base);
   }
 }
 
@@ -15,10 +18,13 @@
   --calcite-stepper-item-spacing-unit-m: theme("spacing.4");
   --calcite-stepper-item-spacing-unit-l: theme("spacing.5");
   --calcite-internal-stepper-action-inline-size: theme("spacing.10");
-  @apply text-0h;
+
+  font-size: var(--calcite-font-size-md);
+  line-height: var(--calcite-font-line-height-fixed-xl);
   margin-inline-end: theme("margin.2");
   .stepper-item-description {
-    @apply text-n1h;
+    font-size: var(--calcite-font-size);
+    line-height: var(--calcite-font-line-height-fixed-base);
   }
 }
 
@@ -27,10 +33,13 @@
   --calcite-stepper-item-spacing-unit-m: theme("spacing.5");
   --calcite-stepper-item-spacing-unit-l: theme("spacing.6");
   --calcite-internal-stepper-action-inline-size: theme("spacing.12");
-  @apply text-1h;
+
+  font-size: var(calcite-font-size-lg);
+  line-height: var(--calcite-font-line-height-fixed-xl);
   margin-inline-end: theme("margin.3");
   .stepper-item-description {
-    @apply text-0h;
+    font-size: var(--calcite-font-size-md);
+    line-height: var(--calcite-font-line-height-fixed-xl);
   }
 }
 
@@ -44,9 +53,7 @@
 }
 
 :host .container {
-  @apply text-color-3
-    border-color-3
-    relative
+  @apply relative
     flex
     flex-grow
     cursor-pointer
@@ -58,6 +65,8 @@
     outline-none
     duration-150
     ease-in-out;
+  color: var(--calcite-color-text-3);
+  border-color: var(--calcite-color-border-3);
 }
 
 // focus styles
@@ -89,24 +98,25 @@
 }
 
 :host .stepper-item-content {
-  @apply text-n2-wrap
-    hidden
+  @apply hidden
     w-full
     flex-col;
+  font-size: var(--calcite-font-size-sm);
+  line-height: 1.375;
 }
 
 // stepper item icon
 :host .stepper-item-icon {
   margin-inline-end: var(--calcite-stepper-item-spacing-unit-m);
-  @apply text-color-3
-    opacity-disabled
-    mt-px
+  @apply mt-px
     inline-flex
     h-3
     flex-shrink-0
     self-start
     duration-150
     ease-in-out;
+  color: var(--calcite-color-text-3);
+  opacity: var(--calcite-opacity-disabled);
 }
 
 // stepper item title
@@ -121,18 +131,21 @@
   @apply flex w-full;
 }
 :host .stepper-item-heading {
-  @apply text-color-2 mb-1 font-medium;
+  @apply mb-1;
+
+  color: var(--calcite-color-text-2);
+  font-weight: var(--calcite-font-weight-medium);
 }
 :host .stepper-item-description {
-  @apply text-color-3;
+  color: var(--calcite-color-text-3);
 }
 
 :host .stepper-item-number {
-  @apply text-color-3
-    font-medium
-    duration-150
+  @apply duration-150
     ease-in-out;
   margin-inline-end: var(--calcite-stepper-item-spacing-unit-m);
+  color: var(--calcite-color-text-3);
+  font-weight: var(--calcite-font-weight-medium);
 }
 
 @include disabled();
@@ -141,53 +154,52 @@
   // todo dark mode
   border-color: rgba($h-bb-060, 0.5);
   & .stepper-item-icon {
-    color: theme("backgroundColor.brand");
+    color: var(--calcite-color-brand);
   }
 }
 
 :host([error]) .container {
-  @apply border-t-color-danger;
+  border-block-start-color: var(--calcite-color-status-danger);
   & .stepper-item-number {
-    color: theme("backgroundColor.danger");
+    color: var(--calcite-color-status-danger);
   }
   & .stepper-item-icon {
-    @apply opacity-100;
-    color: theme("backgroundColor.danger");
+    opacity: var(--calcite-opacity-full);
+    color: var(--calcite-color-status-danger);
   }
 }
 
 :host(:hover:not([disabled]):not([selected])) .container,
 :host(:focus:not([disabled]):not([selected])) .container {
-  @apply border-t-color-brand;
-
+  border-block-start-color: var(--calcite-color-brand);
   & .stepper-item-heading {
-    @apply text-color-1;
+    color: var(--calcite-color-text-1);
   }
   & .stepper-item-description {
-    @apply text-color-2;
+    color: var(--calcite-color-text-2);
   }
 }
 
 :host([error]:hover:not([disabled]):not([selected])) .container,
 :host([error]:focus:not([disabled]):not([selected])) .container {
-  @apply border-t-color-danger-hover;
+  border-block-start-color: var(--calcite-color-status-danger-hover);
 }
 
 :host([selected]) .container {
-  border-block-start-color: theme("backgroundColor.brand");
+  border-block-start-color: var(--calcite-color-brand);
   & .stepper-item-heading {
-    @apply text-color-1;
+    color: var(--calcite-color-text-1);
   }
   & .stepper-item-description {
-    @apply text-color-2;
+    color: var(--calcite-color-text-2);
   }
   & .stepper-item-number {
-    color: theme("backgroundColor.brand");
+    color: var(--calcite-color-brand);
   }
 
   & .stepper-item-icon {
-    color: theme("backgroundColor.brand");
-    @apply opacity-100;
+    color: var(--calcite-color-brand);
+    opacity: var(--calcite-opacity-full);
   }
 }
 
@@ -198,13 +210,13 @@
 }
 
 :host([layout="vertical"]) .container {
-  @apply border-color-3
-  mx-0
+  @apply mx-0
   mt-0
   flex-auto
   border-t-0
   border-solid
   py-0;
+  border-color: var(--calcite-color-border-3);
   border-inline-start-width: theme("borderWidth.2");
   padding-inline-start: var(--calcite-stepper-item-spacing-unit-l);
 
@@ -226,13 +238,13 @@
 }
 :host([layout="vertical"][complete]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][complete]:focus:not([disabled]):not([selected])) .container {
-  @apply border-color-brand;
+  border-color: var(--calcite-color-brand);
 }
 :host([layout="vertical"][error]) .container {
-  @apply border-color-danger;
+  border-color: var(--calcite-color-status-danger);
 }
 :host([layout="vertical"][selected]) .container {
-  @apply border-color-brand;
+  border-color: var(--calcite-color-brand);
 
   & .stepper-item-content:not(:empty) {
     margin-block-end: var(--calcite-stepper-item-spacing-unit-l);
@@ -244,7 +256,7 @@
 }
 :host([layout="vertical"][error]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][error]:focus:not([disabled]):not([selected])) .container {
-  @apply border-color-danger-hover;
+  border-color: var(--calcite-color-status-danger-hover);
 }
 
 :host([layout="horizontal"]),
@@ -256,12 +268,12 @@
   }
 
   .stepper-item-header {
-    @apply border-color-3
-    border-0
+    @apply border-0
     border-solid
     border-t-2
     focus-base;
     grid-row: items;
+    border-color: var(--calcite-color-border-3);
 
     &:focus {
       @apply focus-outset;
@@ -307,19 +319,19 @@
 :host([layout="horizontal-single"][complete]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal-single"][complete]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
-    @apply border-color-brand;
+    border-color: var(--calcite-color-brand);
   }
 }
 :host([layout="horizontal"][error]),
 :host([layout="horizontal-single"][error]) {
   .stepper-item-header {
-    @apply border-color-danger;
+    border-color: var(--calcite-color-status-danger);
   }
 }
 :host([layout="horizontal"][selected]),
 :host([layout="horizontal-single"][selected]) {
   .stepper-item-header {
-    @apply border-color-brand;
+    border-color: var(--calcite-color-brand);
   }
 }
 :host([layout="horizontal"]:hover:not([disabled]):not([selected])),
@@ -335,7 +347,7 @@
 :host([layout="horizontal-single"][error]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal-single"][error]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
-    @apply border-color-danger-hover;
+    border-color: var(--calcite-color-status-danger-hover);
   }
 }
 
@@ -374,28 +386,28 @@
 
 :host([layout="horizontal-single"][error]) .container {
   & .stepper-item-number {
-    color: theme("backgroundColor.danger");
+    color: var(--calcite-color-status-danger);
   }
   & .stepper-item-icon {
-    @apply opacity-100;
-    color: theme("backgroundColor.danger");
+    opacity: var(--calcite-opacity-full);
+    color: var(--calcite-color-status-danger);
   }
 }
 
 :host([layout="horizontal-single"][error][selected]),
 :host([layout="horizontal-single"][complete][selected]) .container {
-  @apply text-color-3;
+  color: var(--calcite-color-text-3);
   & .stepper-item-heading {
-    @apply text-color-2;
+    color: var(--calcite-color-text-2);
   }
 }
 
 :host([layout="horizontal-single"][complete][selected]) .container {
   & .stepper-item-icon {
-    @apply opacity-disabled;
+    opacity: var(--calcite-opacity-disabled);
   }
   & .stepper-item-number {
-    @apply text-color-3;
+    color: var(--calcite-color-text-3);
   }
 }
 

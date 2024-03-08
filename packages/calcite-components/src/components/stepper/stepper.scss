@@ -1,3 +1,5 @@
+@import "~@esri/calcite-design-tokens/dist/scss/core";
+
 /**
  * CSS Custom Properties
  *
@@ -10,23 +12,23 @@
  */
 
 :host([scale="s"]) {
-  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
+  --calcite-internal-stepper-item-spacing-unit-s: var(--calcite-spacing-xxs);
   --calcite-internal-stepper-action-block-size: theme("spacing.11");
-  --calcite-internal-stepper-action-inline-size: theme("spacing.8");
-  --calcite-internal-step-bar-gap: theme("spacing.1");
+  --calcite-internal-stepper-action-inline-size: var(--calcite-spacing-xxxl);
+  --calcite-internal-step-bar-gap: var(--calcite-spacing-xxs);
 }
 
 :host([scale="m"]) {
-  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.2");
+  --calcite-internal-stepper-item-spacing-unit-s: var(--calcite-spacing-sm);
   --calcite-internal-stepper-action-block-size: theme("spacing.13");
   --calcite-internal-stepper-action-inline-size: theme("spacing.10");
 }
 
 :host([scale="l"]) {
-  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.3");
+  --calcite-internal-stepper-item-spacing-unit-s: var(--calcite-spacing-md);
   --calcite-internal-stepper-action-block-size: theme("spacing.16");
   --calcite-internal-stepper-action-inline-size: theme("spacing.12");
-  --calcite-internal-step-bar-gap: theme("spacing.3");
+  --calcite-internal-step-bar-gap: var(--calcite-spacing-md);
 }
 
 :host {
@@ -57,21 +59,21 @@
     grid-template-areas:
       "items"
       "content";
-    gap: theme("spacing.2") var(--calcite-internal-stepper-item-spacing-unit-s);
+    gap: var(--calcite-spacing-sm) var(--calcite-internal-stepper-item-spacing-unit-s);
   }
 }
 
 :host([layout="horizontal"][scale="s"]),
 :host([layout="horizontal-single"][scale="s"]) {
   .container {
-    gap: theme("spacing.1") var(--calcite-internal-stepper-item-spacing-unit-s);
+    gap: var(--calcite-spacing-xxs) var(--calcite-internal-stepper-item-spacing-unit-s);
   }
 }
 
 :host([layout="horizontal"][scale="l"]),
 :host([layout="horizontal-single"][scale="l"]) {
   .container {
-    gap: theme("spacing.3") var(--calcite-internal-stepper-item-spacing-unit-s);
+    gap: var(--calcite-spacing-md) var(--calcite-internal-stepper-item-spacing-unit-s);
   }
 }
 
@@ -87,28 +89,28 @@
 
 .action-container {
   @apply absolute flex justify-between;
-  padding-block: 0.25rem;
-  inline-size: 100%;
+  padding-block: var(--calcite-spacing-xxs);
+  inline-size: #{$calcite-size-relative-100};
 }
 
 @mixin stepBar {
   .step-bar {
     @apply flex;
-    block-size: 100%;
-    inline-size: 100%;
+    block-size: #{$calcite-size-relative-100};
+    inline-size: #{$calcite-size-relative-100};
   }
 
   .step-bar-container {
     @apply flex absolute justify-between items-start;
     block-size: 0.125rem;
     inline-size: 100%;
-    gap: var(--calcite-internal-step-bar-gap, 0.5rem);
+    gap: var(--calcite-internal-step-bar-gap, var(--calcite-spacing-sm));
   }
 
   .step-bar--inactive {
     fill: var(--calcite-color-border-3, #dfdfdf);
-    fill-opacity: 1;
-    block-size: 100%;
+    fill-opacity: var(--calcite-opacity-full);
+    block-size: #{$calcite-size-relative-100};
   }
 
   .step-bar--active {
@@ -117,7 +119,7 @@
 
   .step-bar--complete {
     fill: var(--calcite-color-brand);
-    fill-opacity: 0.5;
+    fill-opacity: var(--calcite-opacity-half);
   }
 
   .step-bar--error {
@@ -125,7 +127,7 @@
   }
 
   .step-bar--disabled {
-    opacity: 0.5;
+    opacity: var(--calcite-opacity-half);
   }
 }
 
