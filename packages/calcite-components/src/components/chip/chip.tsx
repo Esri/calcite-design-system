@@ -221,6 +221,7 @@ export class Chip
     if (event.target === this.el) {
       switch (event.key) {
         case " ":
+          event.stopPropagation();
         case "Enter":
           this.handleEmittingEvent();
           event.preventDefault();
