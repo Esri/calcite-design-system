@@ -9,7 +9,6 @@
  * @prop --calcite-navigation-user-border-color: Specifies the border color of the component.
  * @prop --calcite-navigation-user-full-name-text-color: Specifies the text color of full name of the component.
  * @prop --calcite-navigation-user-name-text-color: Specifies the text color of user name of the component.
- * @prop --calcite-navigation-user-text-color: Specifies the text color of the component.
  *
  */
 
@@ -24,11 +23,13 @@
       transition-default
       focus-base
       font-sans;
-    background-color: var(--calcite-navigation-user-background-color, transparent);
+    background-color: var(
+      --calcite-navigation-user-background-color,
+      var(--calcite-internal-navigation-user-background-color, transparent)
+    );
     border: none;
-    border-block-end-width: var(--calcite-spacing-base);
-    border-block-end-style: solid;
-    border-color: var(--calcite-navigation-user-border-color, transparent);
+    border-block-end: var(--calcite-spacing-base) solid
+      var(--calcite-navigation-user-border-color, var(--calcite-internal-navigation-user-border-color, transparent));
     font-size: var(--calcite-font-size-md);
     line-height: var(--calcite-font-line-height-fixed-lg);
   }
@@ -36,7 +37,7 @@
 
 :host(:hover) .button,
 :host(:focus) .button {
-  --calcite-navigation-user-background-color: var(--calcite-color-foreground-2);
+  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-2);
 }
 
 :host(:focus) .button {
@@ -44,8 +45,7 @@
 }
 
 :host(:active) .button {
-  --calcite-navigation-user-background-color: var(--calcite-color-foreground-3);
-  --calcite-navigation-user-text-color: var(--calcite-color-text-1);
+  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-3);
 }
 
 calcite-avatar {
@@ -58,8 +58,7 @@ calcite-avatar ~ .text-container {
 
 :host([active]) .button {
   --calcite-ui-icon-color: var(--calcite-color-brand);
-  --calcite-navigation-user-text-color: var(--calcite-color-text-1);
-  --calcite-navigation-user-border-color: var(--calcite-color-brand);
+  --calcite-internal-navigation-user-border-color: var(--calcite-color-brand);
 }
 
 .text-container {
