@@ -10,6 +10,9 @@
  * @prop --calcite-menu-item-action-menu-border-color: The border color of the sub-component.
  * @prop --calcite-menu-item-action-menu-text-color: The text color of the sub-component.
  * @prop --calcite-menu-item-action-text-color: Specifies the text color of an action sub component.
+ * @prop --calcite-menu-item-active-background-color: Specifies background color of the component when `active` property is `true.
+ * @prop --calcite-menu-item-active-border-color: Specifies border color of the component when `active` property is `true.
+ * @prop --calcite-menu-item-active-text-color: Specifies text color of the component when `active` property is `true.
  * @prop --calcite-menu-item-background-color-active: Specifies the background color of the component when active.
  * @prop --calcite-menu-item-background-color-hover: Specifies the background color of the component when hover.
  * @prop --calcite-menu-item-background-color: Specifies the background color of the component.
@@ -87,9 +90,9 @@
 
 .content:active,
 :host([active]) .content {
-  background-color: var(--calcite-menu-item-background-color-active, var(--calcite-color-foreground-3));
-  color: var(--calcite-menu-item-text-color-active, var(--calcite-color-text-1));
-  border-color: var(--calcite-menu-item-border-color-active, var(--calcite-color-brand));
+  background-color: var(--calcite-menu-item-active-background-color, var(--calcite-color-foreground-3));
+  color: var(--calcite-menu-item-active-text-color, var(--calcite-color-text-1));
+  border-color: var(--calcite-menu-item-active-border-color, var(--calcite-color-brand));
   .icon {
     --calcite-icon-color: var(--calcite-menu-item-chevron-icon-color-active, var(--calcite-color-brand));
   }
