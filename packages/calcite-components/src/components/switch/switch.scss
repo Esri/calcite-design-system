@@ -5,17 +5,16 @@
  *
  * @prop --calcite-switch-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-switch-handle-background-color: Specifies the background color of the component handle.
- * @prop --calcite-switch-handle-border-color: Specifies the border color of the component handle.
- * @prop --calcite-switch-track-background-color: Specifies the background color of the component track.
- * @prop --calcite-switch-track-border-color: Specifies the border color of the component track.
- * @prop --calcite-switch-handle-shadow: Specifies the shadow of the component handle.
+ * @prop --calcite-switch-handle-border-color-checked-hover: Specifies the border color of the component handle when checked and hovered.
+ * @prop --calcite-switch-handle-border-color-checked: Specifies the border color of the component handle when checked.
  * @prop --calcite-switch-handle-border-color-hover: Specifies the border color of the component handle when hovered.
- * @prop --calcite-switch-shadow-hover: Specifies the shadow of the component handle when hovered.
- * @prop --calcite-switch-handle-border-color-selected: Specifies the border color of the component handle when selected.
- * @prop --calcite-switch-track-background-color-selected: Specifies the background color of the component track when selected.
- * @prop --calcite-switch-track-border-color-selected: Specifies the border color of the component track when selected.
- * @prop --calcite-switch-handle-border-color-selected-hover: Specifies the border color of the component handle when selected and hovered.
- * @prop --calcite-switch-shadow-selected-hover: Specifies the shadow of the component handle when selected and hovered.
+ * @prop --calcite-switch-handle-border-color: Specifies the border color of the component handle.
+ * @prop --calcite-switch-handle-shadow-checked-hover: Specifies the shadow of the component handle when checked and hovered.
+ * @prop --calcite-switch-handle-shadow: Specifies the shadow of the component handle.
+ * @prop --calcite-switch-track-background-color-checked: Specifies the background color of the component track when checked.
+ * @prop --calcite-switch-track-background-color: Specifies the background color of the component track.
+ * @prop --calcite-switch-track-border-color-checked: Specifies the border color of the component track when checked.
+ * @prop --calcite-switch-track-border-color: Specifies the border color of the component track.
  */
 
 :host {
@@ -112,20 +111,20 @@
 
 :host([checked]) {
   .track {
-    background-color: var(--calcite-switch-track-background-color-selected, var(--calcite-color-brand));
-    border-color: var(--calcite-switch-track-border-color-selected, var(--calcite-color-brand));
+    background-color: var(--calcite-switch-track-background-color-checked, var(--calcite-color-brand));
+    border-color: var(--calcite-switch-track-border-color-checked, var(--calcite-color-brand));
   }
 
   .handle {
-    border-color: var(--calcite-switch-handle-border-color-selected, var(--calcite-color-brand));
+    border-color: var(--calcite-switch-handle-border-color-checked, var(--calcite-color-brand));
     inset-inline: theme("inset.auto") -1px;
   }
 }
 
 :host([checked]:hover) {
   .handle {
-    border-color: var(--calcite-switch-handle-border-color-selected-hover, var(--calcite-color-brand-hover));
-    box-shadow: var(--calcite-switch-handle-shadow-selected-hover, inset 0 0 0 1px var(--calcite-color-brand-hover));
+    border-color: var(--calcite-switch-handle-border-color-checked-hover, var(--calcite-color-brand-hover));
+    box-shadow: var(--calcite-switch-handle-shadow-checked-hover, inset 0 0 0 1px var(--calcite-color-brand-hover));
   }
 }
 
