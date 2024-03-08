@@ -1,17 +1,29 @@
-:host {
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-time-picker-text-color: Specifies the text color of the component.
+ * @prop --calcite-time-picker-background-color: Specifies the background color of the component.
+ * @prop --calcite-time-picker-background-color-hover: Specifies the background color of the component when hovered.
+ * @prop --calcite-time-picker-background-color-active: Specifies the background color of the component when active.
+ * @prop --calcite-time-picker-icon-color: Specifies the color of the component's icons.
+ * @prop --calcite-time-picker-input-box-shadow: Specifies the box shadow around the numbers inside the open component.
+ * @prop --calcite-time-picker-input-box-shadow-focus: Specifies the box shadow around the numbers inside the open component when focused.
+ */
+time-picker :host {
   @apply inline-block;
 }
 
 .time-picker {
-  @apply bg-foreground-1
-    shadow-2
-    text-color-1
-    flex
+  @apply flex
     select-none
     items-center
     font-medium;
 
-  border-radius: var(--calcite-border-radius);
+  background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-time-picker-text-color, var(--calcite-color-text-1));
+  box-shadow: var(--calcite-time-picker-shadow, var(--calcite-shadow-none));
 
   .column {
     @apply flex
@@ -23,20 +35,22 @@
   }
 
   .button {
-    @apply bg-foreground-1
-      inline-flex
+    @apply inline-flex
       cursor-pointer
       items-center
       justify-center;
+
+    background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
+
     &:hover,
     &:focus {
-      @apply bg-foreground-2
-        outline-none;
+      @apply outline-none;
+      background-color: var(--calcite-time-picker-background-color-hover, var(--calcite-color-foreground-2));
       z-index: theme("zIndex.header");
       outline-offset: 0;
     }
     &:active {
-      @apply bg-foreground-3;
+      background-color: var(--calcite-time-picker-background-color-active, var(--calcite-color-foreground-3));
     }
     &.top-left {
       border-start-start-radius: var(--calcite-border-radius);
@@ -50,20 +64,19 @@
     &.bottom-right {
       border-end-end-radius: var(--calcite-border-radius);
     }
-    calcite-icon {
-      @apply text-color-3;
-    }
   }
 
   .input {
-    @apply bg-foreground-1
-      inline-flex
+    @apply inline-flex
       cursor-pointer
       items-center
       justify-center
       font-medium;
+
+    background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
+
     &:hover {
-      box-shadow: inset 0 0 0 2px var(--calcite-color-foreground-2);
+      box-shadow: var(--calcite-time-picker-input-box-shadow, inset 0 0 0 2px var(--calcite-color-foreground-2));
       z-index: theme("zIndex.header");
     }
     &:focus,
@@ -73,7 +86,7 @@
     }
     &.inputFocus,
     &:hover.inputFocus {
-      box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
+      box-shadow: var(--calcite-time-picker-input-box-shadow-focus, inset 0 0 0 2px var(--calcite-color-brand));
       z-index: theme("zIndex.header");
     }
   }
@@ -82,8 +95,8 @@
     @apply text-n1;
     .button,
     .input {
-      @apply px-3
-        py-1;
+      padding-block: var(--calcite-spacing-xxs);
+      padding-inline: var(--calcite-spacing-md);
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
@@ -96,8 +109,8 @@
     @apply text-0;
     .button,
     .input {
-      @apply px-4
-        py-2;
+      padding-block: var(--calcite-spacing-sm);
+      padding-inline: var(--calcite-spacing-xl);
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
@@ -110,8 +123,8 @@
     @apply text-1;
     .button,
     .input {
-      @apply px-5
-        py-3;
+      padding-block: var(--calcite-spacing-md);
+      padding-inline: var(--calcite-spacing-xxl);
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
@@ -119,6 +132,10 @@
       }
     }
   }
+}
+
+calcite-icon {
+  --calcite-icon-color: var(--calcite-time-picker-icon-color, var(--calcite-color-text-3));
 }
 
 @include base-component();
