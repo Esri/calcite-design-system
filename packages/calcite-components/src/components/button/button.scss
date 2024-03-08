@@ -46,7 +46,6 @@
       select-none
       appearance-none
       items-center
-      justify-center
       border-none
       text-center
       font-normal
@@ -56,7 +55,7 @@
     inline-size: var(--calcite-container-size-content-fluid);
     block-size: var(--calcite-container-size-content-fluid);
     border-radius: var(--calcite-button-corner-radius, var(--calcite-app-border-radius-none));
-    justify-content: var(--calcite-internal-button-content-align-x);
+    justify-content: var(--calcite-internal-button-content-align-x, center);
     // include transition from focus
     transition:
       color var(--calcite-animation-timing) ease-in-out,
@@ -79,11 +78,11 @@
 
 // fab variants
 :host([round]) {
-  border-radius: var(--calcite-button-corner-radius, 50%);
+  border-radius: var(--calcite-button-corner-radius, 50px);
 
   a,
   button {
-    border-radius: var(--calcite-button-corner-radius, 50%);
+    border-radius: var(--calcite-button-corner-radius, 50px);
   }
 }
 
