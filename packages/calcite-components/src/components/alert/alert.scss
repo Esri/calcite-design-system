@@ -5,6 +5,9 @@
  *
  * @prop --calcite-alert-background-color: Specifies the background color of the component.
  * @prop --calcite-alert-border-color: Specifies the border color of the component.
+ * @prop --calcite-alert-chip-background-color: Specifies the background color of the queue count chip in the component.
+ * @prop --calcite-alert-chip-border-color: Specifies the border color of the queue count chip in the component.
+ * @prop --calcite-alert-chip-corner-radius: Specifies the corner radius of the queue count chip in the component.
  * @prop --calcite-alert-chip-text-color: Specifies the color of the queue count chip text in the component.
  * @prop --calcite-alert-close-background-color-active: Specifies the background color of the close button in the component when the close button is active.
  * @prop --calcite-alert-close-background-color-focus: Specifies the background color of the close button in the component when the close button is focused.
@@ -135,7 +138,6 @@
   transition-default;
   border-inline: 0 solid transparent;
   border-start-end-radius: 0;
-  color: var(--calcite-alert-chip-text-color, var(--calcite-color-text-2));
 
   &--active {
     @apply visible opacity-100;
@@ -329,6 +331,13 @@ $alertDurations:
  */
 .container--slotted-in-shell {
   @apply absolute;
+}
+
+calcite-chip {
+  --calcite-chip-background-color: var(--calcite-alert-chip-background-color);
+  --calcite-chip-border-color: var(--calcite-alert-chip-border-color);
+  --calcite-chip-corner-radius: var(--calcite-alert-chip-corner-radius);
+  --calcite-chip-text-color: var(--calcite-alert-chip-text-color, var(--calcite-color-text-2));
 }
 
 @include base-component();
