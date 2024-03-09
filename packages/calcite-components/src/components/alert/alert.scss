@@ -57,7 +57,7 @@
   border-inline: 1px solid var(--calcite-internal-alert-border-color);
   border-block-end: 1px solid var(--calcite-internal-alert-border-color);
   border-block-start-color: var(--calcite-internal-alert-status-color);
-  box-shadow: var(--calcite-alert-shadow, var(--calcite-shadow-md));
+  box-shadow: var(--calcite-alert-shadow, var(--calcite-shadow-sm));
   inline-size: var(--calcite-internal-alert-width);
   max-inline-size: calc(100% - (var(--calcite-internal-alert-edge-distance) * 2));
   transition:
