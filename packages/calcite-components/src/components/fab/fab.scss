@@ -4,30 +4,38 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-fab-background-color: defines the component's background color.
- * @prop --calcite-fab-background-color-active: defines the component's background color in an active state.
- * @prop --calcite-fab-background-color-hover: defines the component's background color in a hover state.
  * @prop --calcite-fab-border-color: defines the component's border color.
- * @prop --calcite-fab-border-color-active: defines the component's border color in an active state.
- * @prop --calcite-fab-border-color-focus: defines the component's border color in a focus state.
- * @prop --calcite-fab-border-color-hover: defines the component's border color in a hover state.
  * @prop --calcite-fab-corner-radius: defines the component's corner radius.
  * @prop --calcite-fab-loader-color: defines the component's loader color.
  * @prop --calcite-fab-shadow: defines the component's shadow.
- * @prop --calcite-fab-shadow-active: defines the component's shadow color in an active state.
- * @prop --calcite-fab-shadow-focus: defines the component's shadow color in a focus state.
- * @prop --calcite-fab-shadow-hover: defines the component's shadow color in a hover state.
  * @prop --calcite-fab-text-color: defines the component's text color.
- * @prop --calcite-fab-text-color-active: defines the component's text color in an active state.
- * @prop --calcite-fab-text-color-focus: defines the component's text color in a focus state.
- * @prop --calcite-fab-text-color-hover: defines the component's text color in a hover state.
  * @prop --calcite-fab-icon-color: defines the color of an icon in the component.
- * @prop --calcite-fab-icon-color-hover: defines the color of an icon in the component when in a hover state.
- * @prop --calcite-fab-icon-color-focus: defines the color of an icon in the component when in a focused state.
- * @prop --calcite-fab-icon-color-active: defines the color of an icon in the component when in an active state.
  */
 
 :host {
   @apply flex bg-transparent;
+}
+
+:host(:hover) {
+  calcite-button {
+    --calcite-button-shadow: var(
+      --calcite-fab-shadow,
+      var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000),
+      var(--calcite-shadow-md)
+    );
+  }
+}
+:host(:active) {
+  calcite-button {
+    --calcite-button-shadow: var(
+      --calcite-fab-shadow-active,
+      var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000),
+      0 2px 12px -4px rgba(0, 0, 0, 0.2),
+      0 2px 4px -2px rgba(0, 0, 0, 0.16)
+    );
+  }
 }
 
 @include disabled();
@@ -47,24 +55,6 @@ calcite-button {
     0 6px 20px -4px rgba(0, 0, 0, 0.1),
     0 4px 12px -2px rgba(0, 0, 0, 0.08)
   );
-
-  &:hover {
-    --calcite-button-shadow: var(
-      --calcite-fab-shadow-hover,
-      var(--tw-ring-offset-shadow, 0 0 #0000),
-      var(--tw-ring-shadow, 0 0 #0000),
-      var(--calcite-shadow-md)
-    );
-  }
-  &:active {
-    --calcite-button-shadow: var(
-      --calcite-fab-shadow-active,
-      var(--tw-ring-offset-shadow, 0 0 #0000),
-      var(--tw-ring-shadow, 0 0 #0000),
-      0 2px 12px -4px rgba(0, 0, 0, 0.2),
-      0 2px 4px -2px rgba(0, 0, 0, 0.16)
-    );
-  }
 }
 
 @include base-component();
