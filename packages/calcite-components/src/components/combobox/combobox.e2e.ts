@@ -1918,4 +1918,42 @@ describe("calcite-combobox", () => {
       });
     });
   });
+  it("prevents toggling items when combobox is closed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox label="test" placeholder="placeholder" max-items="10" scale="m">
+        <calcite-combobox-item-group label="Pokemon">
+          <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
+          <calcite-combobox-item value="Venusaur" text-label="Venusaur"></calcite-combobox-item>
+          <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
+          <calcite-combobox-item-group label="Cutest Pokemon">
+            <calcite-combobox-item value="Bulbasaur" text-label="Bulbasaur"></calcite-combobox-item>
+            <calcite-combobox-item value="Squirtle1" text-label="Squirtle1">
+              <calcite-combobox-item value="Squirtle2" text-label="Squirtle2"> </calcite-combobox-item>
+            </calcite-combobox-item>
+          </calcite-combobox-item-group>
+        </calcite-combobox-item-group>
+      </calcite-combobox>
+    `);
+
+    const combobox = await page.find("calcite-combobox");
+    await combobox.click();
+    expect(await page.find("calcite-combobox")).toHaveAttribute("open");
+
+    const item1 = await combobox.find("calcite-combobox-item[value=Pikachu]");
+    await item1.click();
+    const item2 = await combobox.find("calcite-combobox-item[value=Charizard]");
+    await item2.click();
+
+    const chips = await page.findAll("calcite-combobox >>> calcite-chip");
+    expect(chips.length).toBe(2);
+
+    await combobox.click();
+    expect(await page.find("calcite-combobox")).not.toHaveAttribute("open");
+
+    await combobox.press("Enter");
+    expect(chips.length).toBe(2);
+    await combobox.press("Enter");
+    expect(chips.length).toBe(2);
+  });
 });
