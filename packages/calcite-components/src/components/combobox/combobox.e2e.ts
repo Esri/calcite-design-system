@@ -1918,6 +1918,7 @@ describe("calcite-combobox", () => {
       });
     });
   });
+
   it("prevents toggling items when combobox is closed", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
