@@ -693,6 +693,10 @@ export class Combobox
           }
           event.preventDefault();
         }
+
+        if ((event.target as HTMLElement).closest("calcite-chip")) {
+          event.stopPropagation();
+        }
         break;
       case "Home":
         if (!this.open) {
