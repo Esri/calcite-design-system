@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.1...@esri/calcite-components@2.7.0-next.2) (2024-03-06)
+
+### Reverts
+
+- refactor(popover): update token pattern ([#8889](https://github.com/Esri/calcite-design-system/issues/8889)) ([c43c280](https://github.com/Esri/calcite-design-system/commit/c43c280787d15e5602b2c9e13d01b0ebe2492901)), closes [#8875](https://github.com/Esri/calcite-design-system/issues/8875)
+
 ## [2.7.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.0...@esri/calcite-components@2.7.0-next.1) (2024-02-29)
 
 ### Bug Fixes

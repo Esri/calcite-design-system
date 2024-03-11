@@ -674,6 +674,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Specifies the optional new name of the file after it is downloaded.
+         */
+        "download": string | boolean;
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
@@ -8054,6 +8058,10 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        /**
+          * Specifies the optional new name of the file after it is downloaded.
+         */
+        "download"?: string | boolean;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
