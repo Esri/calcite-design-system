@@ -64,7 +64,10 @@
   padding-block-start: var(--calcite-spacing-base);
   text-decoration: none;
   border-block-end: var(--calcite-spacing-base) solid
-    var(--calcite-menu-item-border-color, var(--calcite-internal-menu-item-border-color, transparent));
+    var(
+      --calcite-menu-item-border-color,
+      var(--calcite-internal-menu-item-border-color, var(--calcite-color-transparent))
+    );
   &:hover {
     --calcite-internal-menu-item-background-color: var(--calcite-color-foreground-2);
     --calcite-internal-menu-item-text-color: var(--calcite-color-text-2);
@@ -86,17 +89,15 @@
     padding-block: var(--calcite-spacing-xl);
     border-block-end: 0;
     border-inline-end: var(--calcite-spacing-xxs) solid;
-
-    // border-inline-end-color: var(
-    //   --calcite-menu-item-border-color,
-    //   var(--calcite-internal-menu-item-border-color, transparent)
-    // );
   }
 }
 
 :host([layout="vertical"]) .content {
   padding-inline: var(--calcite-spacing-md);
-  border-color: var(--calcite-menu-item-border-color, var(--calcite-internal-menu-item-border-color, transparent));
+  border-color: var(
+    --calcite-menu-item-border-color,
+    var(--calcite-internal-menu-item-border-color, var(--calcite-color-transparent))
+  );
 }
 
 :host([active]) .content {
