@@ -7,22 +7,12 @@
  * @prop --calcite-menu-item-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
  * @prop --calcite-menu-item-action-background-color: defines the background color of an action sub-component inside a menu-item.
  * @prop --calcite-menu-item-action-border-color: Specifies the border inline start color of an action sub-component.
- * @prop --calcite-menu-item-action-menu-border-color: The border color of the sub-component.
- * @prop --calcite-menu-item-action-menu-text-color: The text color of the sub-component.
  * @prop --calcite-menu-item-action-text-color: Specifies the text color of an action sub component.
- * @prop --calcite-menu-item-active-background-color: Specifies background color of the component when `active` property is `true.
- * @prop --calcite-menu-item-active-border-color: Specifies border color of the component when `active` property is `true.
- * @prop --calcite-menu-item-active-text-color: Specifies text color of the component when `active` property is `true.
- * @prop --calcite-menu-item-background-color-active: Specifies the background color of the component when active.
- * @prop --calcite-menu-item-background-color-hover: Specifies the background color of the component when hover.
  * @prop --calcite-menu-item-background-color: Specifies the background color of the component.
- * @prop --calcite-menu-item-breadcrumb-icon-color: Specifies the color of the breadcrumb icon when sub-menu items are slotted.
- * @prop --calcite-menu-item-chevron-icon-color-active: Specifies the color of the dropdown icon when active.
- * @prop --calcite-menu-item-chevron-icon-color: Specifies the color of the dropdown icon when sub-menu items are slotted.
+ * @prop --calcite-menu-item-border-color: Specifies the border color of the component.
+ * @prop --calcite-menu-item-icon-color: Specifies the color of the icon.
  * @prop --calcite-menu-item-sub-menu-border-color: Specifies the border color of sub-menu.
  * @prop --calcite-menu-item-sub-menu-corner-radius: Specifies the border radius of sub-menu.
- * @prop --calcite-menu-item-text-color-active: Specifies the text color of the component when active.
- * @prop --calcite-menu-item-text-color-hover: Specifies the text color of the component when hover.
  * @prop --calcite-menu-item-text-color: Specifies the text color of the component.
  */
 
@@ -38,18 +28,22 @@
     min-block-size: #{$calcite-size-48};
   }
 }
+
 :host([layout="vertical"]) {
-  inline-size: #{$calcite-size-relative-100};
+  inline-size: var(--calcite-container-size-content-fluid);
 }
+
 :host(:not([layout="vertical"])) {
-  block-size: #{$calcite-size-relative-100};
+  block-size: var(--calcite-container-size-content-fluid);
 }
+
 .container,
 .item-content {
   @apply flex flex-row items-stretch;
-  inline-size: #{$calcite-size-relative-100};
-  block-size: #{$calcite-size-relative-100};
+  inline-size: var(--calcite-container-size-content-fluid);
+  block-size: var(--calcite-container-size-content-fluid);
 }
+
 .content {
   @apply flex
   items-center
@@ -59,24 +53,31 @@
   outline-none
   box-border;
   font-size: var(--calcite-font-size-md);
-  color: var(--calcite-menu-item-text-color, var(--calcite-color-text-2));
-  background-color: var(--calcite-menu-item-background-color, var(--calcite-color-foreground-1));
-  inline-size: #{$calcite-size-relative-100};
-  block-size: #{$calcite-size-relative-100};
+  color: var(--calcite-menu-item-text-color, var(--calcite-internal-menu-item-text-color, var(--calcite-color-text-2)));
+  background-color: var(
+    --calcite-menu-item-background-color,
+    var(--calcite-internal-menu-item-background-color, var(--calcite-color-foreground-1))
+  );
+  inline-size: var(--calcite-container-size-content-fluid);
+  block-size: var(--calcite-container-size-content-fluid);
   padding-inline: var(--calcite-spacing-xl);
   padding-block-start: var(--calcite-spacing-base);
   text-decoration: none;
-  border-block-end: var(--calcite-spacing-base) solid var(--calcite-menu-item-border-color, transparent);
+  border-block-end: var(--calcite-spacing-base) solid
+    var(--calcite-menu-item-border-color, var(--calcite-internal-menu-item-border-color, transparent));
   &:hover {
-    background-color: var(--calcite-menu-item-background-color-hover, var(--calcite-color-foreground-2));
-    color: var(--calcite-menu-item-text-color-hover, var(--calcite-color-text-2));
+    --calcite-internal-menu-item-background-color: var(--calcite-color-foreground-2);
+    --calcite-internal-menu-item-text-color: var(--calcite-color-text-2);
   }
   &:focus {
     @apply focus-inset;
-    background-color: var(--calcite-menu-item-background-color-focus, var(--calcite-color-foreground-2));
-    color: var(--calcite-menu-item-text-color-focus, var(--calcite-color-text-2));
+    --calcite-internal-menu-item-background-color: var(--calcite-color-foreground-2);
+    --calcite-internal-menu-item-text-color: var(--calcite-color-text-2);
   }
-
+  &:active {
+    --calcite-internal-menu-item-background-color: var(--calcite-color-foreground-3);
+    --calcite-internal-menu-item-text-color: var(--calcite-color-text-1);
+  }
   & span {
     display: inline-flex;
   }
@@ -84,68 +85,91 @@
     @apply flex w-full justify-start;
     padding-block: var(--calcite-spacing-xl);
     border-block-end: 0;
-    border-inline-end: var(--calcite-spacing-xxs) solid var(--calcite-menu-item-border-color, transparent);
+    border-inline-end: var(--calcite-spacing-xxs) solid;
+
+    // border-inline-end-color: var(
+    //   --calcite-menu-item-border-color,
+    //   var(--calcite-internal-menu-item-border-color, transparent)
+    // );
   }
 }
 
-.content:active,
-:host([active]) .content {
-  background-color: var(--calcite-menu-item-active-background-color, var(--calcite-color-foreground-3));
-  color: var(--calcite-menu-item-active-text-color, var(--calcite-color-text-1));
-  border-color: var(--calcite-menu-item-active-border-color, var(--calcite-color-brand));
-  .icon {
-    --calcite-icon-color: var(--calcite-menu-item-chevron-icon-color-active, var(--calcite-color-brand));
-  }
-}
 :host([layout="vertical"]) .content {
   padding-inline: var(--calcite-spacing-md);
+  border-color: var(--calcite-menu-item-border-color, var(--calcite-internal-menu-item-border-color, transparent));
 }
+
+:host([active]) .content {
+  --calcite-internal-menu-item-background-color: var(--calcite-color-foreground-3);
+  --calcite-internal-menu-item-text-color: var(--calcite-color-text-1);
+  --calcite-internal-menu-item-border-color: var(--calcite-color-brand);
+  .icon {
+    --calcite-internal-menu-item-icon-color: var(--calcite-color-brand);
+  }
+}
+
+.icon {
+  --calcite-icon-color: var(
+    --calcite-menu-item-icon-color,
+    var(--calcite-internal-menu-item-icon-color, var(--calcite-color-text-3))
+  );
+}
+
 .icon--start {
   margin-inline-end: var(--calcite-spacing-md);
 }
+
 .icon--end {
   margin-inline-start: var(--calcite-spacing-md);
 }
+
 :host([layout="vertical"]) .icon--end {
   @apply ms-auto;
   padding-inline-start: var(--calcite-spacing-md);
 }
+
 .icon--dropdown {
   @apply ms-auto me-0 relative;
   padding-inline-start: var(--calcite-spacing-sm);
-  --calcite-ui-icon-color: var(--calcite-color-text-3);
-  --calcite-icon-color: var(--calcite-menu-item-chevron-icon-color, var(--calcite-color-text-3));
 }
+
 :host([layout="vertical"]) .icon--end ~ .icon--dropdown {
   margin-inline-start: var(--calcite-spacing-md);
 }
+
 :host([layout="vertical"]) .hover-href-icon {
   padding-inline-start: var(--calcite-spacing-sm);
 }
+
 :host([layout="vertical"]) .hover-href-icon ~ .icon--end {
   margin-inline-start: var(--calcite-spacing-sm);
 }
+
 :host([layout="vertical"]) .hover-href-icon ~ .icon--breadcrumb {
   margin-inline-start: var(--calcite-spacing-md);
 }
+
 .icon--breadcrumb {
   @apply me-0;
   padding-inline-start: var(--calcite-spacing-sm);
-  --calcite-ui-icon-color: var(--calcite-color-text-3);
-  --calcite-icon-color: var(--calcite-menu-item-breadcrumb-icon-color, var(--calcite-color-text-3));
 }
+
 :host([layout="vertical"]) .icon--breadcrumb {
   @apply ms-auto;
 }
+
 :host([layout="vertical"]) .icon--breadcrumb ~ .icon--dropdown {
   margin-inline-start: var(--calcite-spacing-sm);
 }
+
 :host([layout="vertical"]) .icon--end ~ .icon--breadcrumb {
   margin-inline-start: var(--calcite-spacing-sm);
 }
+
 :host([breadcrumb]) .content {
   padding-inline-end: var(--calcite-spacing-md);
 }
+
 calcite-action {
   --calcite-action-background-color: var(--calcite-menu-item-action-background-color);
   @apply relative h-auto;
@@ -156,7 +180,7 @@ calcite-action {
     inline-size: var(--calcite-spacing-px);
     inset-inline-start: calc(-1 * var(--calcite-spacing-px));
     inset-block: theme("spacing.3");
-    background-color: var(--calcite-color-border-3);
+    background-color: var(--calcite-menu-item-action-border-color, var(--calcite-color-border-3));
   }
   &:hover:after {
     @apply h-full;
@@ -170,16 +194,21 @@ calcite-action {
     --calcite-action-background-color: var(--calcite-menu-item-action-background-color-active);
   }
 }
+
 // extends the broder block of calcite action when hovered on content
 .content:focus ~ calcite-action,
 .content:hover ~ calcite-action {
   --calcite-action-text-color: var(--calcite-menu-item-action-text-color, var(--calcite-color-text-1));
   border-inline-start: 1px solid var(--calcite-menu-item-action-border-color, var(--calcite-color-border-3));
 }
+
 .dropdown-menu-items {
   @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
   border: 1px solid var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
-  background: var(--calcite-menu-item-background-color);
+  background: var(
+    --calcite-menu-item-background-color,
+    var(--calcite-internal-menu-item-background-color, var(--calcite-color-foreground-1))
+  );
   inset-block-start: 100%;
   z-index: theme("zIndex.dropdown");
   &.open {
@@ -205,23 +234,29 @@ calcite-action {
     border-inline: 0;
   }
 }
+
 :host([layout="vertical"]:last-of-type) .dropdown-menu-items {
   border-block-end: 0;
 }
+
 :host([slot="submenu-item"]) .parent--vertical {
   @apply ps-6;
 }
+
 .dropdown-menu-items.nested.calcite--rtl {
   transform: translateX(calc(-100% + 2px));
 }
+
 .dropdown--vertical.dropdown-menu-items.nested.calcite--rtl {
   transform: none;
 }
+
 .hover-href-icon {
   @apply ms-auto relative opacity-0;
   inset-inline-end: var(--calcite-spacing-xxs);
   transition: all var(--calcite-internal-animation-timing-medium) ease-in-out;
 }
+
 .content:focus .hover-href-icon,
 .content:hover .hover-href-icon {
   opacity: var(--calcite-opacity-full);
