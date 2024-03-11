@@ -1,3 +1,14 @@
+/*
+* These properties can be overridden using the component's tag as selector.
+*
+* @prop --calcite-navigation-logo-background-color: Specifies the background color of the component.
+* @prop --calcite-navigation-logo-border-color: Specifies the border color of the component.
+* @prop --calcite-navigation-logo-description-text-color: Specifies text color of description of component.
+* @prop --calcite-navigation-logo-heading-text-color: Specifies the text color of heading of component.
+* @prop --calcite-navigation-logo-text-color: Specifies the text color of the component.
+*
+*/
+
 :host {
   @apply inline-flex outline-none;
 }
@@ -10,27 +21,35 @@
     cursor-pointer
     transition-default
     focus-base
-    no-underline
-    text-0h;
-  color: inherit;
-  border-block-end: 2px solid transparent;
+    no-underline;
+  color: var(--calcite-navigation-logo-text-color, var(--calcite-internal-navigation-logo-text-color, inherit));
+  font-size: var(--calcite-font-size-md);
+  line-height: var(--calcite-font-line-height-fixed-lg);
+  border-block-end: var(--calcite-spacing-base) solid
+    var(--calcite-navigation-logo-border-color, var(--calcite-internal-navigation-logo-border-color, transparent));
+  background-color: var(
+    --calcite-navigation-logo-background-color,
+    var(--calcite-internal-navigation-logo-background-color, var(--calcite-color-foreground-1))
+  );
 }
 
 .anchor:hover,
 .anchor:focus {
-  @apply bg-foreground-2;
+  --calcite-internal-navigation-logo-background-color: var(--calcite-color-foreground-2);
 }
 .anchor:focus {
   @apply focus-inset;
 }
 
 .anchor:active {
-  @apply bg-foreground-3;
+  --calcite-internal-navigation-logo-background-color: var(--calcite-color-foreground-3);
+  --calcite-internal-navigation-logo-text-color: var(--calcite-color-text-1);
 }
 
 .image,
 .icon {
-  @apply flex h-7 m-0 px-4;
+  @apply flex h-7 m-0;
+  padding-inline: var(--calcite-spacing-xl);
 }
 
 .image ~ .icon {
@@ -42,40 +61,36 @@
   @apply ps-0;
 }
 
-:host(:active) .anchor {
-  @apply text-color-1;
-}
-
 :host([active]) .anchor {
-  @apply text-color-1;
-  border-color: var(--calcite-color-brand);
-  --calcite-ui-icon-color: var(--calcite-color-brand);
+  --calcite-internal-navigation-logo-text-color: var(--calcite-color-text-1);
+  --calcite-internal-navigation-logo-border-color: var(--calcite-color-brand);
+  --calcite-icon-color: var(--calcite-color-brand);
 }
 
 .container {
   @apply flex
   flex-col
   truncate
-  text-start
-  px-4
-  mt-0.5;
+  text-start;
+  padding-inline: var(--calcite-spacing-xl);
+  margin-block-start: var(--calcite-spacing-base);
 }
 
 .heading {
-  @apply text-0
-  ms-0
-  truncate
-  text-color-1
-  font-medium;
+  @apply ms-0 truncate;
+  font-weight: var(--calcite-font-weight-medium);
+  color: var(--calcite-navigation-logo-heading-text-color, var(--calcite-color-text-1));
+  font-size: var(--calcite-font-size-md);
 }
 
 .standalone {
-  @apply text-1;
+  font-size: var(--calcite-font-size-lg);
 }
 
 .description {
-  @apply text-color-2 truncate;
-  font-size: var(--calcite-font-size--1);
+  @apply truncate;
+  color: var(--calcite-navigation-logo-description-text-color, var(--calcite-color-text-2));
+  font-size: var(--calcite-font-size);
 }
 
 @include base-component();
