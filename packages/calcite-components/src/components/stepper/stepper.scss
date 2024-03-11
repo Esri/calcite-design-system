@@ -8,7 +8,10 @@
  * @prop --calcite-stepper-action-background-color: defines the background color of an action sub-component inside the component.
  * @prop --calcite-stepper-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
  * @prop --calcite-stepper-action-background-color-active: defines the background color of an action sub-component when active.
- * @prop --calcite-stepper-step-bar-color : Specifies fill color for step-bar when layout="horizontal-single".
+ * @prop --calcite-stepper-step-bar-fill-color : Specifies fill color for step-bar when `layout="horizontal-single"`.
+ * @prop --calcite-stepper-step-bar-active-fill-color : Specifies fill color for active step-bar when `layout="horizontal-single"`.
+ * @prop --calcite-stepper-step-bar-complete-fill-color : Specifies fill color for completed step-bar when `layout="horizontal-single"`.
+ * @prop --calcite-stepper-step-bar-error-fill-color : Specifies fill color for error step-bar when `layout="horizontal-single"`.
  *
  */
 
@@ -109,22 +112,22 @@
   }
 
   .step-bar--inactive {
-    fill: var(--calcite-stepper-step-bar-color, var(--calcite-color-border-3));
+    fill: var(--calcite-stepper-step-bar-fill-color, var(--calcite-color-border-3));
     fill-opacity: var(--calcite-opacity-full);
     block-size: var(--calcite-container-size-content-fluid);
   }
 
   .step-bar--active {
-    fill: var(--calcite-stepper-step-bar-color, var(--calcite-color-brand));
+    fill: var(--calcite-stepper-step-bar-active-fill-color, var(--calcite-color-brand));
   }
 
   .step-bar--complete {
-    fill: var(--calcite-stepper-step-bar-color, var(--calcite-color-brand));
+    fill: var(--calcite-stepper-step-bar-complete-fill-color, var(--calcite-color-brand));
     fill-opacity: var(--calcite-opacity-half);
   }
 
   .step-bar--error {
-    fill: var(--calcite-color-status-danger);
+    fill: var(--calcite-stepper-step-bar-error-fill-color, var(--calcite-color-status-danger));
   }
 
   .step-bar--disabled {
