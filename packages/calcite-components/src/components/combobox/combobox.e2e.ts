@@ -1960,12 +1960,9 @@ describe("calcite-combobox", () => {
     await combobox.press("Tab");
     await closeEvent;
 
-    await page.evaluate(() => {
-      const combobox = document.querySelector("calcite-combobox");
-      const chip = combobox.shadowRoot.querySelector("calcite-chip");
-      const closeButton = chip.shadowRoot.querySelector(".close");
-      (closeButton as HTMLElement).click();
-    });
+    const wrapper = await page.find("calcite-combobox >>> .wrapper");
+    const close = await wrapper.find("calcite-chip >>> .close");
+    await close.click();
     await page.waitForChanges();
 
     const remainingChips = await page.findAll("calcite-combobox >>> calcite-chip");

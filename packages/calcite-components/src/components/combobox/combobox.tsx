@@ -694,7 +694,7 @@ export class Combobox
           event.preventDefault();
         }
 
-        if ((event.target as HTMLElement).closest("calcite-chip")) {
+        if (event.composedPath().find((el: HTMLElement) => el.tagName === "CALCITE-CHIP")) {
           event.preventDefault();
         }
         break;
