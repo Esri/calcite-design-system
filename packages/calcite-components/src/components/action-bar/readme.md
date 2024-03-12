@@ -4,6 +4,10 @@
 
 The `calcite-action-bar` component is made up of multiple `calcite-action`s in the form of clickable icons. The action bar can be expanded to view actions with descriptive text or made smaller to view with just icons.
 
+Action bars should be placed on the left or right edge of the interface. For a floating group of actions, please consider Action Pad.
+
+When using Action Bar, its parent should use the CSS Flexbox layout.
+
 <!-- Auto Generated Below -->
 
 ## Usage

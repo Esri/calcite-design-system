@@ -1,6 +1,6 @@
 # calcite-action
 
-The `calcite-action` component lives in either a `calcite-action-bar` or `calcite-action-pad`. Actions look like an icon with a text description option of the component that will be revealed when the icon/ text is clicked or selected.
+The `calcite-action` component lives in either a `calcite-action-bar` or `calcite-action-pad`. Actions are flexible buttons that have an icon, can have a text label, notification style indicator, active state, and other useful properties.
 
 <!-- Auto Generated Below -->
 
