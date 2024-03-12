@@ -1941,10 +1941,8 @@ describe("calcite-combobox", () => {
     await combobox.click();
     expect(await page.find("calcite-combobox")).toHaveAttribute("open");
 
-    const item1 = await combobox.find("calcite-combobox-item[value=Pikachu]");
-    await item1.click();
-    const item2 = await combobox.find("calcite-combobox-item[value=Charizard]");
-    await item2.click();
+    await (await combobox.find("calcite-combobox-item[value=Pikachu]")).click();
+    await (await combobox.find("calcite-combobox-item[value=Charizard]")).click();
 
     const chips = await page.findAll("calcite-combobox >>> calcite-chip");
     expect(chips.length).toBe(2);
