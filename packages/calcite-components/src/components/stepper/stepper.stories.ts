@@ -278,3 +278,107 @@ export const horizontalSingleLayout_TestOnly = (): string => html`
     </calcite-stepper>
   </div>
 `;
+
+export const theming_TestOnly = (): string => html`
+  <style>
+    calcite-stepper {
+      --calcite-stepper-action-background-color: #294b29;
+      --calcite-stepper-step-bar-fill-color: green;
+      --calcite-stepper-step-bar-active-fill-color: #e9f6ff;
+      --calcite-stepper-step-bar-complete-fill-color: #280274;
+      --calcite-stepper-step-bar-error-fill-color: #fe7a36;
+    }
+    calcite-stepper-item {
+      --calcite-stepper-item-border-color: green;
+      --calcite-stepper-item-description-text-color: #294b29;
+      --calcite-stepper-item-heading-text-color: #50623a;
+      --calcite-stepper-item-icon-color: blue;
+      --calcite-stepper-item-number-text-color: orange;
+      --calcite-stepper-item-text-color: black;
+    }
+
+    calcite-stepper-item[error] {
+      --calcite-stepper-item-border-color: #fe7a36;
+      --calcite-stepper-item-icon-color: #fe7a36;
+    }
+
+    calcite-stepper-item[complete] {
+      --calcite-stepper-item-border-color: #280274;
+      --calcite-stepper-item-icon-color: #280274;
+    }
+
+    calcite-stepper-item[selected] {
+      --calcite-stepper-item-border-color: #e9f6ff;
+      --calcite-stepper-item-icon-color: #e9f6ff;
+    }
+  </style>
+
+  <calcite-stepper layout="horizontal" numbered icon scale="s">
+    <calcite-stepper-item heading="Choose method" complete>
+      <calcite-notice open width="full">
+        <div slot="message">Step 1 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item heading="Compile member list" complete>
+      <calcite-notice open width="full">
+        <div slot="message">Step 2 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item heading="Set member properties" description="Some subtext" error>
+      <calcite-notice open width="full">
+        <div slot="message">Step 3 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item heading="Confirm and complete">
+      <calcite-notice open width="full">
+        <div slot="message">Step 4 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+  </calcite-stepper>
+
+  <calcite-stepper layout="vertical" numbered icon scale="s">
+    <calcite-stepper-item heading="Choose method" complete>
+      <calcite-notice open width="full">
+        <div slot="message">Step 1 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item heading="Compile member list" complete>
+      <calcite-notice open width="full">
+        <div slot="message">Step 2 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item heading="Set member properties" description="Some subtext" error>
+      <calcite-notice open width="full">
+        <div slot="message">Step 3 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item heading="Confirm and complete">
+      <calcite-notice open width="full">
+        <div slot="message">Step 4 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+  </calcite-stepper>
+
+  <calcite-stepper layout="horizontal-single" numbered icon scale="s">
+    <calcite-stepper-item heading="Choose method" complete>
+      <calcite-notice open width="full">
+        <div slot="message">Step 1 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item heading="Compile member list" complete>
+      <calcite-notice open width="full">
+        <div slot="message">Step 2 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item heading="Set member properties" description="Some subtext" error>
+      <calcite-notice open width="full">
+        <div slot="message">Step 3 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item heading="Confirm and complete">
+      <calcite-notice open width="full">
+        <div slot="message">Step 4 Content Goes Here</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+  </calcite-stepper>
+`;

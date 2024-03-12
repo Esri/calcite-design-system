@@ -186,14 +186,12 @@
 
 :host([complete]) .container {
   // todo dark mode
-  --calcite-internal-stepper-item-border-color: #007ac280;
   & .stepper-item-icon {
     --calcite-internal-stepper-item-icon-color: var(--calcite-color-brand);
   }
 }
 
 :host([error]) .container {
-  --calcite-internal-stepper-item-border-color: var(--calcite-color-status-danger);
   & .stepper-item-number {
     --calcite-internal-stepper-item-number-text-color: var(--calcite-color-status-danger);
   }
@@ -214,13 +212,7 @@
   }
 }
 
-:host([error]:hover:not([disabled]):not([selected])) .container,
-:host([error]:focus:not([disabled]):not([selected])) .container {
-  --calcite-internal-stepper-item-border-color: var(--calcite-color-status-danger-hover);
-}
-
 :host([selected]) .container {
-  --calcite-internal-stepper-item-border-color: var(--calcite-color-brand);
   & .stepper-item-heading {
     --calcite-internal-stepper-item-heading-text-color: var(--calcite-color-text-1);
   }
@@ -344,46 +336,61 @@
   }
 }
 
+:host([layout="horizontal"]),
+:host([layout="horizontal-single"]) {
+  .stepper-item-header {
+    border-color: var(
+      --calcite-stepper-item-border-color,
+      var(--calcite-internal-stepper-item-border-color, var(--calcite-color-border-3))
+    );
+  }
+}
+
 :host([layout="horizontal"][complete]),
 :host([layout="horizontal-single"][complete]) {
   .stepper-item-header {
-    border-color: #007ac280;
+    --calcite-internal-stepper-item-border-color: #007ac280;
   }
 }
+
 :host([layout="horizontal"][complete]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal"][complete]:focus:not([disabled]):not([selected])),
 :host([layout="horizontal-single"][complete]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal-single"][complete]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
-    border-color: var(--calcite-color-brand);
+    --calcite-internal-stepper-item-border-color: var(--calcite-color-brand);
   }
 }
+
 :host([layout="horizontal"][error]),
 :host([layout="horizontal-single"][error]) {
   .stepper-item-header {
-    border-color: var(--calcite-color-status-danger);
+    --calcite-internal-stepper-item-border-color: var(--calcite-color-status-danger);
   }
 }
+
 :host([layout="horizontal"][selected]),
 :host([layout="horizontal-single"][selected]) {
   .stepper-item-header {
-    border-color: var(--calcite-color-brand);
+    --calcite-internal-stepper-item-border-color: var(--calcite-color-brand);
   }
 }
+
 :host([layout="horizontal"]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal"]:focus:not([disabled]):not([selected])),
 :host([layout="horizontal-single"]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal-single"]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
-    border-color: #007ac280;
+    --calcite-internal-stepper-item-border-color: #007ac280;
   }
 }
+
 :host([layout="horizontal"][error]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal"][error]:focus:not([disabled]):not([selected])),
 :host([layout="horizontal-single"][error]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal-single"][error]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
-    border-color: var(--calcite-color-status-danger-hover);
+    --calcite-internal-stepper-item-border-color: var(--calcite-color-status-danger-hover);
   }
 }
 
