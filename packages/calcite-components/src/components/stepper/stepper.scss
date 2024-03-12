@@ -1,3 +1,14 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-stepper-action-background-color: defines the background color of an action sub-component inside the component.
+ * @prop --calcite-stepper-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
+ * @prop --calcite-stepper-action-background-color-active: defines the background color of an action sub-component when active.
+ *
+ */
+
 :host([scale="s"]) {
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-action-block-size: theme("spacing.11");
@@ -115,6 +126,18 @@
 
   .step-bar--disabled {
     opacity: 0.5;
+  }
+}
+
+calcite-action {
+  --calcite-action-background-color: var(--calcite-stepper-action-background-color);
+  &:hover,
+  &:focus {
+    --calcite-action-background-color: var(--calcite-stepper-action-background-color-hover);
+  }
+
+  &:active {
+    --calcite-action-background-color: var(--calcite-stepper-action-background-color-active);
   }
 }
 

@@ -674,6 +674,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Specifies the optional new name of the file after it is downloaded.
+         */
+        "download": string | boolean;
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
@@ -805,10 +809,6 @@ export namespace Components {
           * Accessible name for the component.
          */
         "label": string;
-        /**
-          * Specifies the size of the component. Child `calcite-card`s inherit the component's value.
-         */
-        "scale": Scale;
         /**
           * Specifies the component's selected items.
           * @readonly
@@ -8059,6 +8059,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Specifies the optional new name of the file after it is downloaded.
+         */
+        "download"?: string | boolean;
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
@@ -8191,10 +8195,6 @@ declare namespace LocalJSX {
           * Emits when the component's selection changes and the `selectionMode` is not `none`.
          */
         "onCalciteCardGroupSelect"?: (event: CalciteCardGroupCustomEvent<void>) => void;
-        /**
-          * Specifies the size of the component. Child `calcite-card`s inherit the component's value.
-         */
-        "scale"?: Scale;
         /**
           * Specifies the component's selected items.
           * @readonly

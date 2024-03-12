@@ -3,11 +3,18 @@
 *
 * These properties can be overridden using the component's tag as selector.
 *
-* @prop --calcite-popover-background-color: Specifies the background color of the component.
-* @prop --calcite-popover-border-color: The border color of the component.
-* @prop --calcite-popover-shadow: The shadow of the component.
-* @prop --calcite-popover-corner-radius: The corner radius of the component.
-* @prop --calcite-popover-text-color: The text color of the component.
+* @prop --calcite-popover-action-background-color: defines the background color of an action sub-component inside the component.
+* @prop --calcite-popover-action-text-color: defines the text color of an action sub-component inside the component.
+* @prop --calcite-popover-action-background-color-hover: defines the background color of an action sub-component when hovered or focused inside the component.
+* @prop --calcite-popover-action-text-color-hover: defines the text color of an action sub-component when hovered or focused inside the component.
+* @prop --calcite-popover-action-background-color-active: defines the background color of an action sub-component when active inside the component.
+* @prop --calcite-popover-action-text-color-active: defines the text color of an action sub-component when active inside the component.
+* @prop --calcite-popover-background-color: defines the background color of the component.
+* @prop --calcite-popover-border-color: defines the border color of the component.
+* @prop --calcite-popover-corner-radius: defines the corner radius of the component.
+* @prop --calcite-popover-shadow: defines the shadow of the component.
+* @prop --calcite-popover-text-color: defines the text color of the component.
+*
 */
 
 :host {
@@ -110,6 +117,22 @@
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply h-full;
+}
+
+calcite-action {
+  --calcite-action-background-color: var(--calcite-popover-action-background-color);
+  --calcite-action-text-color: var(--calcite-popover-action-text-color);
+
+  &:hover,
+  &:focus {
+    --calcite-action-background-color: var(--calcite-popover-action-background-color-hover);
+    --calcite-action-text-color: var(--calcite-popover-action-text-color-hover);
+  }
+
+  &:active {
+    --calcite-action-background-color: var(--calcite-popover-action-background-color-active);
+    --calcite-action-text-color: var(--calcite-popover-action-text-color-active);
+  }
 }
 
 @include base-component();
