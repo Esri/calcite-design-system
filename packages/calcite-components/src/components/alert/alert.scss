@@ -18,11 +18,8 @@
  * @prop --calcite-alert-close-icon-color-hover: Specifies the color of the close button icon in the component when the close button is hovered.
  * @prop --calcite-alert-close-icon-color: Specifies the color of the close button icon in the component.
  * @prop --calcite-alert-corner-radius: Specifies the corner radius of the component.
- * @prop --calcite-alert-link-text-color: Specifies the color of the link text in the component.
- * @prop --calcite-alert-message-text-color: Specifies the color of the message text in the component.
  * @prop --calcite-alert-shadow: Specifies the shadow of the component.
  * @prop --calcite-alert-accent-color: Specifies the accent color of the component.
- * @prop --calcite-alert-title-text-color: Specifies the color of the title text in the component.
  * @prop --calcite-alert-width: Specifies the width of the component.
  */
 
@@ -262,14 +259,14 @@
 }
 
 @include slotted("title", "*") {
-  color: var(--calcite-alert-title-text-color, var(--calcite-color-text-1));
+  color: var(--calcite-color-text-1);
 
   @apply font-medium
     text-0-wrap;
 }
 
 @include slotted("message", "*") {
-  color: var(--calcite-alert-message-text-color, var(--calcite-color-text-2));
+  color: var(--calcite-color-text-2);
 
   @apply font-normal
     inline
@@ -279,7 +276,7 @@
 }
 
 @include slotted("link", "*") {
-  color: var(--calcite-alert-link-text-color, var(--calcite-color-text-link));
+  color: var(--calcite-color-text-link);
 
   @apply inline-flex;
 }
