@@ -674,7 +674,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Specifies the optional new name of the file after it is downloaded.
+          * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value: Without a value, the browser will suggest a filename/extension See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
          */
         "download": string | boolean;
         /**
@@ -8059,7 +8059,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Specifies the optional new name of the file after it is downloaded.
+          * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value: Without a value, the browser will suggest a filename/extension See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
          */
         "download"?: string | boolean;
         /**
