@@ -3,12 +3,17 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-menu-item-action-background-color: defines the background color of an action sub-component inside a menu-item.
- * @prop --calcite-menu-item-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
  * @prop --calcite-menu-item-action-background-color-active: defines the background color of an action sub-component when active.
- * @prop --calcite-menu-item-action-menu-border-color: The border color of the sub-component.
- * @prop --calcite-menu-item-action-menu-text-color: The text color of the sub-component.
- *
+ * @prop --calcite-menu-item-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
+ * @prop --calcite-menu-item-action-background-color: defines the background color of an action sub-component inside a menu-item.
+ * @prop --calcite-menu-item-action-border-color: Specifies the border inline start color of an action sub-component.
+ * @prop --calcite-menu-item-action-text-color: Specifies the text color of an action sub component.
+ * @prop --calcite-menu-item-background-color: Specifies the background color of the component.
+ * @prop --calcite-menu-item-border-color: Specifies the border color of the component.
+ * @prop --calcite-menu-item-icon-color: Specifies the color of the icon.
+ * @prop --calcite-menu-item-sub-menu-border-color: Specifies the border color of sub-menu.
+ * @prop --calcite-menu-item-sub-menu-corner-radius: Specifies the border radius of sub-menu.
+ * @prop --calcite-menu-item-text-color: Specifies the text color of the component.
  */
 
 :host {
@@ -20,21 +25,23 @@
   & .container,
   & .item-content,
   & .content {
-    min-block-size: theme("spacing.12");
+    min-block-size: #{$calcite-size-48};
   }
 }
 
 :host([layout="vertical"]) {
-  @apply w-full;
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 :host(:not([layout="vertical"])) {
-  @apply h-full;
+  block-size: var(--calcite-container-size-content-fluid);
 }
 
 .container,
 .item-content {
-  @apply flex flex-row w-full h-full items-stretch;
+  @apply flex flex-row items-stretch;
+  inline-size: var(--calcite-container-size-content-fluid);
+  block-size: var(--calcite-container-size-content-fluid);
 }
 
 .content {
@@ -44,82 +51,108 @@
   justify-center
   cursor-pointer
   outline-none
-  text-0
-  text-color-2
-  box-border
-  bg-foreground-1
-  px-4
-  h-full
-  w-full;
+  box-border;
+  font-size: var(--calcite-font-size-md);
+  color: var(--calcite-menu-item-text-color, var(--calcite-internal-menu-item-text-color, var(--calcite-color-text-2)));
+  background-color: var(
+    --calcite-menu-item-background-color,
+    var(--calcite-internal-menu-item-background-color, var(--calcite-color-foreground-1))
+  );
+  inline-size: var(--calcite-container-size-content-fluid);
+  block-size: var(--calcite-container-size-content-fluid);
+  padding-inline: var(--calcite-spacing-xl);
+  padding-block-start: var(--calcite-spacing-base);
   text-decoration: none;
-  border-block-end: theme("spacing[0.5]") solid transparent;
-  padding-block-start: theme("spacing[0.5]");
+  border-block-end: var(--calcite-spacing-base) solid
+    var(
+      --calcite-menu-item-border-color,
+      var(--calcite-internal-menu-item-border-color, var(--calcite-color-transparent))
+    );
   &:hover {
-    @apply bg-foreground-2 text-color-2;
+    --calcite-internal-menu-item-background-color: var(--calcite-color-foreground-2);
+    --calcite-internal-menu-item-text-color: var(--calcite-color-text-2);
   }
   &:focus {
-    @apply bg-foreground-2 text-color-2 focus-inset;
+    @apply focus-inset;
+    --calcite-internal-menu-item-background-color: var(--calcite-color-foreground-2);
+    --calcite-internal-menu-item-text-color: var(--calcite-color-text-2);
   }
   &:active {
-    @apply bg-foreground-3 text-color-1;
+    --calcite-internal-menu-item-background-color: var(--calcite-color-foreground-3);
+    --calcite-internal-menu-item-text-color: var(--calcite-color-text-1);
   }
   & span {
     display: inline-flex;
   }
   &.layout--vertical {
     @apply flex w-full justify-start;
-    padding-block: 1rem;
+    padding-block: var(--calcite-spacing-xl);
     border-block-end: 0;
-    border-inline-end: theme("spacing.1") solid transparent;
+    border-inline-end: var(--calcite-spacing-xxs) solid;
   }
+}
+
+:host([layout="vertical"]) .content {
+  padding-inline: var(--calcite-spacing-md);
+  border-color: var(
+    --calcite-menu-item-border-color,
+    var(--calcite-internal-menu-item-border-color, var(--calcite-color-transparent))
+  );
 }
 
 :host([active]) .content {
-  @apply text-color-1;
-  border-color: var(--calcite-color-brand);
+  --calcite-internal-menu-item-background-color: var(--calcite-color-foreground-3);
+  --calcite-internal-menu-item-text-color: var(--calcite-color-text-1);
+  --calcite-internal-menu-item-border-color: var(--calcite-color-brand);
   .icon {
-    --calcite-ui-icon-color: var(--calcite-color-brand);
+    --calcite-internal-menu-item-icon-color: var(--calcite-color-brand);
   }
 }
-:host([layout="vertical"]) .content {
-  @apply px-3;
+
+.icon {
+  --calcite-icon-color: var(
+    --calcite-menu-item-icon-color,
+    var(--calcite-internal-menu-item-icon-color, var(--calcite-color-text-3))
+  );
 }
 
 .icon--start {
-  @apply me-3;
+  margin-inline-end: var(--calcite-spacing-md);
 }
 
 .icon--end {
-  @apply ms-3;
+  margin-inline-start: var(--calcite-spacing-md);
 }
 
 :host([layout="vertical"]) .icon--end {
-  @apply ms-auto ps-3;
+  @apply ms-auto;
+  padding-inline-start: var(--calcite-spacing-md);
 }
 
 .icon--dropdown {
-  @apply ms-auto me-0 ps-2 relative;
-  --calcite-ui-icon-color: var(--calcite-color-text-3);
+  @apply ms-auto me-0 relative;
+  padding-inline-start: var(--calcite-spacing-sm);
 }
 
 :host([layout="vertical"]) .icon--end ~ .icon--dropdown {
-  @apply ms-3;
+  margin-inline-start: var(--calcite-spacing-md);
 }
 
 :host([layout="vertical"]) .hover-href-icon {
-  @apply ps-2;
+  padding-inline-start: var(--calcite-spacing-sm);
 }
+
 :host([layout="vertical"]) .hover-href-icon ~ .icon--end {
-  @apply ms-2;
+  margin-inline-start: var(--calcite-spacing-sm);
 }
 
 :host([layout="vertical"]) .hover-href-icon ~ .icon--breadcrumb {
-  @apply ms-3;
+  margin-inline-start: var(--calcite-spacing-md);
 }
 
 .icon--breadcrumb {
-  @apply ps-2 me-0;
-  --calcite-ui-icon-color: var(--calcite-color-text-3);
+  @apply me-0;
+  padding-inline-start: var(--calcite-spacing-sm);
 }
 
 :host([layout="vertical"]) .icon--breadcrumb {
@@ -127,57 +160,56 @@
 }
 
 :host([layout="vertical"]) .icon--breadcrumb ~ .icon--dropdown {
-  @apply ms-2;
+  margin-inline-start: var(--calcite-spacing-sm);
 }
 
 :host([layout="vertical"]) .icon--end ~ .icon--breadcrumb {
-  @apply ms-2;
+  margin-inline-start: var(--calcite-spacing-sm);
 }
 
 :host([breadcrumb]) .content {
-  @apply pe-3;
+  padding-inline-end: var(--calcite-spacing-md);
 }
 
 calcite-action {
   --calcite-action-background-color: var(--calcite-menu-item-action-background-color);
-
   @apply relative h-auto;
   border-inline-start: 1px solid var(--calcite-color-foreground-1);
   &:after {
-    @apply block w-px  absolute -start-px;
+    @apply block absolute;
     content: "";
+    inline-size: var(--calcite-spacing-px);
+    inset-inline-start: calc(-1 * var(--calcite-spacing-px));
     inset-block: theme("spacing.3");
-    background-color: var(--calcite-color-border-3);
+    background-color: var(--calcite-menu-item-action-border-color, var(--calcite-color-border-3));
   }
   &:hover:after {
     @apply h-full;
     inset-block: 0;
   }
-
   &:hover,
   &:focus {
     --calcite-action-background-color: var(--calcite-menu-item-action-background-color-hover);
   }
-
   &:active {
     --calcite-action-background-color: var(--calcite-menu-item-action-background-color-active);
   }
 }
 
+// extends the broder block of calcite action when hovered on content
 .content:focus ~ calcite-action,
 .content:hover ~ calcite-action {
-  @apply text-color-1;
-  border-inline-start: 1px solid var(--calcite-color-border-3);
-}
-
-.container:hover .dropdown-action {
-  @apply bg-foreground-2;
+  --calcite-action-text-color: var(--calcite-menu-item-action-text-color, var(--calcite-color-text-1));
+  border-inline-start: 1px solid var(--calcite-menu-item-action-border-color, var(--calcite-color-border-3));
 }
 
 .dropdown-menu-items {
   @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
-  border: 1px solid var(--calcite-color-border-3);
-  background: var(--calcite-color-foreground-1);
+  border: 1px solid var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
+  background: var(
+    --calcite-menu-item-background-color,
+    var(--calcite-internal-menu-item-background-color, var(--calcite-color-foreground-1))
+  );
   inset-block-start: 100%;
   z-index: theme("zIndex.dropdown");
   &.open {
@@ -185,17 +217,17 @@ calcite-action {
   }
   &.nested {
     @apply absolute;
-    inset-block-start: -1px;
+    inset-block-start: calc(-1 * var(--calcite-spacing-px));
     transform: translateX(calc(100% - 2px));
   }
 }
-
 .parent--vertical {
   @apply flex-col;
 }
 
 .dropdown--vertical.dropdown-menu-items {
-  @apply relative rounded-none;
+  @apply relative;
+  border-radius: var(--calcite-menu-item-sub-menu-corner-radius, var(--calcite-corner-radius));
   box-shadow: none;
   inset-block-start: 0;
   transform: none;
@@ -221,18 +253,15 @@ calcite-action {
 }
 
 .hover-href-icon {
-  @apply ms-auto relative end-1 opacity-0;
+  @apply ms-auto relative opacity-0;
+  inset-inline-end: var(--calcite-spacing-xxs);
   transition: all var(--calcite-internal-animation-timing-medium) ease-in-out;
 }
 
 .content:focus .hover-href-icon,
 .content:hover .hover-href-icon {
-  @apply opacity-100 -end-1;
-}
-
-calcite-action-menu {
-  --calcite-action-menu-border-color: var(--calcite-menu-item-action-menu-border-color);
-  --calcite-action-menu-text-color: var(--calcite-menu-item-action-menu-text-color);
+  opacity: var(--calcite-opacity-full);
+  inset-inline-end: calc(-1 * var(--calcite-spacing-xxs));
 }
 
 @include base-component();
