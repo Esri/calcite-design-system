@@ -9,6 +9,8 @@
 
 :host {
   @apply flex flex-col;
+
+  --calcite-internal-tabs-border-color: var(--calcite-tabs-border-color, var(--calcite-color-border-1));
 }
 
 :host([bordered]) {
@@ -53,7 +55,7 @@ section {
     border-t;
 
   border-block-start-style: solid;
-  border-block-start-color: var(--calcite-tabs-border-color, var(--calcite-color-border-1));
+  border-block-start-color: var(--calcite-internal-tabs-border-color);
 }
 
 :host([position="bottom"]) section {
@@ -61,7 +63,7 @@ section {
     border-t-0
     border-b;
 
-  border-block-end-color: var(--calcite-tabs-border-color, var(--calcite-color-border-1));
+  border-block-start-color: var(--calcite-internal-tabs-border-color);
 }
 
 :host([position="bottom"]:not([bordered])) section {

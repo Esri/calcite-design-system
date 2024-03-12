@@ -4,12 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-tab-title-background-color: Specifies the background color of the component.
- * @prop --calcite-tab-title-background-color-hover: Specifies the background color of the component when hovered.
- * @prop --calcite-tab-title-border-color-selected: Specifies the border color of the component. Only applicable when bordered.
  * @prop --calcite-tab-title-text-color: Specifies the text color of the component.
- * @prop --calcite-tab-title-text-color-selected: Specifies the text color of the component when selected.
- * @prop --calcite-tab-title-icon-color: Specifies the icon color of the component.
- * @prop --calcite-tab-title-icon-color-selected: Specifies the icon color of the component when selected.
  * @prop --calcite-tab-title-close-button-background-color: Specifies the background color of the close button.
  * @prop --calcite-tab-title-close-button-background-color-active: Specifies the background color of the close button when active.
  * @prop --calcite-tab-title-close-button-background-color-focus: Specifies the background color of the close button when focused.
@@ -108,7 +103,7 @@
 
 :host([selected]) .container {
   @apply border-color-transparent;
-  color: var(--calcite-tab-title-text-color-selected, var(--calcite-color-text-1));
+  color: var(--calcite-tab-title-text-color, var(--calcite-color-text-1));
 }
 
 :host(:focus) .container {
@@ -133,12 +128,6 @@
   & svg {
     @apply transition-default;
   }
-
-  color: var(--calcite-tab-title-icon-color);
-}
-
-:host([selected]) .calcite-tab-title--icon {
-  color: var(--calcite-tab-title-icon-color-selected);
 }
 
 .content--has-text {
@@ -209,16 +198,18 @@
 }
 
 :host([bordered][selected]) {
-  box-shadow: inset 0 -2px var(--calcite-tab-title-border-color-selected, var(--calcite-color-foreground-1));
+  // we pick this up from tabs, where border is defined and applied
+  box-shadow: inset -1px -1px var(--calcite-internal-tabs-border-color);
 }
 
 :host([bordered][selected][position="bottom"]) {
-  box-shadow: inset 0 2px 0 var(--calcite-tab-title-border-color-selected, var(--calcite-color-foreground-1));
+  // we pick this up from tabs, where border is defined and applied
+  box-shadow: inset 0 2px 0 var(--calcite-internal-tabs-border-color);
 }
 
 :host([bordered]:hover) {
   .container {
-    background-color: var(--calcite-tab-title-background-color-hover, var(--calcite-color-transparent-hover));
+    background-color: var(--calcite-tab-title-background-color, var(--calcite-color-transparent-hover));
   }
 }
 
