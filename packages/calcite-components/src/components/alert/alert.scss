@@ -21,7 +21,7 @@
  * @prop --calcite-alert-link-text-color: Specifies the color of the link text in the component.
  * @prop --calcite-alert-message-text-color: Specifies the color of the message text in the component.
  * @prop --calcite-alert-shadow: Specifies the shadow of the component.
- * @prop --calcite-alert-status-color: Specifies the status color of the component.
+ * @prop --calcite-alert-accent-color: Specifies the accent color of the component.
  * @prop --calcite-alert-title-text-color: Specifies the color of the title text in the component.
  * @prop --calcite-alert-width: Specifies the width of the component.
  */
@@ -285,11 +285,11 @@
 }
 
 $alertKinds:
-  "brand" var(--calcite-alert-status-color, var(--calcite-color-brand)),
-  "info" var(--calcite-alert-status-color, var(--calcite-color-status-info)),
-  "danger" var(--calcite-alert-status-color, var(--calcite-color-status-danger)),
-  "success" var(--calcite-alert-status-color, var(--calcite-color-status-success)),
-  "warning" var(--calcite-alert-status-color, var(--calcite-color-status-warning));
+  "brand" var(--calcite-alert-accent-color, var(--calcite-color-brand)),
+  "info" var(--calcite-alert-accent-color, var(--calcite-color-status-info)),
+  "danger" var(--calcite-alert-accent-color, var(--calcite-color-status-danger)),
+  "success" var(--calcite-alert-accent-color, var(--calcite-color-status-success)),
+  "warning" var(--calcite-alert-accent-color, var(--calcite-color-status-warning));
 
 @each $alertKind in $alertKinds {
   $name: nth($alertKind, 1);
