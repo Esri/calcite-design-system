@@ -7,7 +7,6 @@
  * @prop --calcite-stepper-item-description-text-color: Specifies text color of description of component.
  * @prop --calcite-stepper-item-heading-text-color: Specifies text color of heading of component.
  * @prop --calcite-stepper-item-icon-color: Specifies color of icon of component.
- * @prop --calcite-stepper-item-icon-color: Specifies icon color of component.
  * @prop --calcite-stepper-item-number-text-color: Specifies text color of number of component.
  * @prop --calcite-stepper-item-text-color: Specifies text color of component.
  *
@@ -138,8 +137,7 @@
     ease-in-out;
   color: var(
     --calcite-stepper-item-icon-color,
-    var(--calcite-internal-stepper-item-icon-color),
-    var(--calcite-color-text-3)
+    var(--calcite-internal-stepper-item-icon-color, var(--calcite-color-text-3))
   );
   opacity: var(--calcite-opacity-disabled);
 }
@@ -188,7 +186,7 @@
 
 :host([complete]) .container {
   // todo dark mode
-  --calcite-internal-stepper-item-border-color: rgba(var(--calcite-color-brand), 0.5);
+  --calcite-internal-stepper-item-border-color: #007ac280;
   & .stepper-item-icon {
     --calcite-internal-stepper-item-icon-color: var(--calcite-color-brand);
   }
@@ -273,7 +271,7 @@
 }
 
 :host([layout="vertical"][complete]) .container {
-  --calcite-internal-stepper-item-border-color: rgba(var(--calcite-color-brand), 0.5);
+  --calcite-internal-stepper-item-border-color: #007ac280;
 }
 :host([layout="vertical"][complete]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][complete]:focus:not([disabled]):not([selected])) .container {
@@ -291,7 +289,7 @@
 }
 :host([layout="vertical"]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"]:focus:not([disabled]):not([selected])) .container {
-  --calcite-internal-stepper-item-border-color: rgba(var(--calcite-color-brand), 0.5);
+  --calcite-internal-stepper-item-border-color: #007ac280;
 }
 :host([layout="vertical"][error]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][error]:focus:not([disabled]):not([selected])) .container {
@@ -349,7 +347,7 @@
 :host([layout="horizontal"][complete]),
 :host([layout="horizontal-single"][complete]) {
   .stepper-item-header {
-    border-color: rgba(var(--calcite-color-brand), 0.5);
+    border-color: #007ac280;
   }
 }
 :host([layout="horizontal"][complete]:hover:not([disabled]):not([selected])),
@@ -377,7 +375,7 @@
 :host([layout="horizontal-single"]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal-single"]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
-    border-color: rgba(var(--calcite-color-brand), 0.5);
+    border-color: #007ac280;
   }
 }
 :host([layout="horizontal"][error]:hover:not([disabled]):not([selected])),
