@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.2...@esri/calcite-components@2.7.0-next.3) (2024-03-12)
+
+### Bug Fixes
+
+- **combobox:** prevent toggling items when combobox is closed ([#8923](https://github.com/Esri/calcite-design-system/issues/8923)) ([c3240c5](https://github.com/Esri/calcite-design-system/commit/c3240c58be7e706ed4d34177c33287d59b556d76)), closes [#8919](https://github.com/Esri/calcite-design-system/issues/8919)
+
 ## [2.7.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.1...@esri/calcite-components@2.7.0-next.2) (2024-03-06)
 
 ### Reverts
