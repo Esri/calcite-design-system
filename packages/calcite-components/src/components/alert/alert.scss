@@ -48,8 +48,8 @@
   w-full
   z-toast;
 
-  --calcite-internal-border-color: var(--calcite-alert-border-color, var(--calcite-color-border-3));
-  --calcite-internal-corner-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
+  --calcite-internal-alert-border-color: var(--calcite-alert-border-color, var(--calcite-color-border-3));
+  --calcite-internal-alert-corner-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
 
   background-color: var(--calcite-alert-background-color, var(--calcite-color-foreground-1));
   border-radius: var(--calcite-internal-alert-corner-radius, var(--calcite-border-radius));
