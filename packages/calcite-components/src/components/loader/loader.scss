@@ -3,10 +3,10 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-loader-color-one-third: defines the color of a loader. Applies to --calcite-loader-color between 33% - 66% of the animation.
- * @prop --calcite-loader-color-start:  defines the starting color of a loader. Applies to --calcite-loader-color between 0% - 33% of the animation.
- * @prop --calcite-loader-color-two-thirds: defines the color of a loader. Applies to --calcite-loader-color between 66% - 99% of the animation.
  * @prop --calcite-loader-bar-width:  [Deprecated] defines the width of the loader animation. 
+ * @prop --calcite-loader-color-end: defines the color of a loader. Applies to --calcite-loader-color between 66% - 99% of the animation.
+ * @prop --calcite-loader-color-middle: defines the color of a loader. Applies to --calcite-loader-color between 33% - 66% of the animation.
+ * @prop --calcite-loader-color-start:  defines the starting color of a loader. Applies to --calcite-loader-color between 0% - 33% of the animation.
  * @prop --calcite-loader-font-size: [Deprecated] Specifies the font size of the loading percentage when type is `"determinate"`.
  * @prop --calcite-loader-padding: [Deprecated] Specifies the padding of the loader.
  * @prop --calcite-loader-size-inline: [Deprecated] The width and height of an inline loader.
@@ -225,10 +225,16 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
     --calcite-internal-loader-bar-color: var(--calcite-loader-color-start, var(--calcite-color-brand));
   }
   33% {
-    --calcite-internal-loader-bar-color: var(--calcite-loader-color-one-third, var(--calcite-color-brand-press));
+    --calcite-internal-loader-bar-color: var(
+      --calcite-loader-color-middle,
+      var(--calcite-loader-color-start, var(--calcite-color-brand-press))
+    );
   }
   66% {
-    --calcite-internal-loader-bar-color: var(--calcite-loader-color-two-thirds, var(--calcite-color-brand-hover));
+    --calcite-internal-loader-bar-color: var(
+      --calcite-loader-color-end,
+      var(--calcite-loader-color-middle, var(--calcite-loader-color-start, var(--calcite-color-brand-hover)))
+    );
   }
   100% {
     --calcite-internal-loader-bar-color: var(--calcite-loader-color-start, var(--calcite-color-brand));
