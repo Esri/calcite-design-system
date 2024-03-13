@@ -143,3 +143,90 @@ export const validationMessage_TestOnly = (): string => html`
     </calcite-segmented-control>
   </div>
 `;
+
+const themingStyle = html`<style>
+  calcite-segmented-control {
+    --calcite-segmented-control-background-color: lightgreen;
+    --calcite-segmented-control-border-color: magenta;
+  }
+
+  calcite-segmented-control-item {
+    --calcite-segmented-control-item-background-color: yellow;
+    --calcite-segmented-control-item-border-color: red;
+    --calcite-segmented-control-item-focus: 2x solid red;
+    --calcite-segmented-control-item-icon-color: orange;
+    --calcite-segmented-control-item-shadow: 0 0 0 2px blue;
+    --calcite-segmented-control-item-text-color: green;
+  }
+</style>`;
+
+export const themingWithIconStartAndEnd_TestOnly = (): string =>
+  html`${themingStyle}
+    <calcite-segmented-control scale="s">
+      <calcite-segmented-control-item icon-start="car" icon-end="car" value="car" checked
+        >Car</calcite-segmented-control-item
+      >
+      <calcite-segmented-control-item icon-start="plane" icon-end="plane" value="plane"
+        >Plane</calcite-segmented-control-item
+      >
+      <calcite-segmented-control-item icon-start="biking" icon-end="biking" value="bicycle"
+        >Bicycle</calcite-segmented-control-item
+      >
+      <calcite-segmented-control-item value="nothing">Nothing</calcite-segmented-control-item>
+    </calcite-segmented-control>`;
+
+export const themingValidationMessage_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+      height: 200px;
+      gap: 20px;
+    }
+  </style>
+  ${themingStyle}
+  <div class="container">
+    <calcite-segmented-control
+      name="validation"
+      required
+      scale="s"
+      status="invalid"
+      validation-icon
+      validation-message="Please select an item."
+    >
+      <calcite-segmented-control-item scale="s" value="react" checked>React</calcite-segmented-control-item>
+      <calcite-segmented-control-item scale="s" value="ember">Ember</calcite-segmented-control-item>
+      <calcite-segmented-control-item scale="s" value="angular">Angular</calcite-segmented-control-item>
+      <calcite-segmented-control-item scale="s" value="vue">Vue</calcite-segmented-control-item>
+    </calcite-segmented-control>
+
+    <calcite-segmented-control
+      name="validation"
+      required
+      scale="m"
+      status="invalid"
+      validation-icon
+      validation-message="Please select an item."
+    >
+      <calcite-segmented-control-item scale="m" value="react" checked>React</calcite-segmented-control-item>
+      <calcite-segmented-control-item scale="m" value="ember">Ember</calcite-segmented-control-item>
+      <calcite-segmented-control-item scale="m" value="angular">Angular</calcite-segmented-control-item>
+      <calcite-segmented-control-item scale="m" value="vue">Vue</calcite-segmented-control-item>
+    </calcite-segmented-control>
+
+    <calcite-segmented-control
+      name="validation"
+      required
+      scale="l"
+      status="invalid"
+      validation-icon
+      validation-message="Please select an item."
+    >
+      <calcite-segmented-control-item scale="l" value="react" checked>React</calcite-segmented-control-item>
+      <calcite-segmented-control-item scale="l" value="ember">Ember</calcite-segmented-control-item>
+      <calcite-segmented-control-item scale="l" value="angular">Angular</calcite-segmented-control-item>
+      <calcite-segmented-control-item scale="l" value="vue">Vue</calcite-segmented-control-item>
+    </calcite-segmented-control>
+  </div>
+`;

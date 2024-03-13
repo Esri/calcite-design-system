@@ -241,9 +241,9 @@ button {
 }
 
 calcite-loader {
-  --calcite-loader-color-one-third: var(--calcite-action-loader-color-one-third);
+  --calcite-loader-color-middle: var(--calcite-action-loader-color-one-third);
   --calcite-loader-color-start: var(--calcite-action-loader-color-start);
-  --calcite-loader-color-two-thirds: var(--calcite-action-loader-color-two-thirds);
+  --calcite-loader-color-end: var(--calcite-action-loader-color-two-thirds);
 }
 
 @include base-component();

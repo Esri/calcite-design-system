@@ -14,12 +14,12 @@
  * @prop --calcite-card-selection-background-color: Specifies the background color of the component's selection element.
  * @prop --calcite-card-selection-icon-color-hover: Specifies the icon color of the component's selection element when hovered.
  * @prop --calcite-card-selection-icon-color-selected: Specifies the icon color of the component's selection element when `selected`.
+ * @prop --calcite-card-selection-icon-color: Specifies the icon color of the component's selection element.
+ * @prop --calcite-card-shadow: Specifies the shadow of the component.
  
  * @prop --calcite-card-loader-color-one-third: Specifies the starting color of the loader
  * @prop --calcite-card-loader-color-start: Specifies the starting color of the loader
  * @prop --calcite-card-loader-color-two-thirds: Specifies the starting color of the loader
- * @prop --calcite-card-selection-icon-color: Specifies the icon color of the component's selection element.
- * @prop --calcite-card-shadow: Specifies the shadow of the component.
  *
  */
 
@@ -85,13 +85,6 @@
   &:not(:only-child) {
     @apply pr-0.5;
   }
-}
-
-.footer {
-  @apply flex mt-auto flex-row content-between justify-between;
-  padding-inline: var(--calcite-spacing-md);
-  padding-block-start: var(--calcite-spacing-xxs);
-  padding-block-end: var(--calcite-spacing-md);
 }
 
 .card-content {
@@ -223,19 +216,10 @@ slot[name="footer-end"]::slotted(*) {
   @apply flex gap-1;
 }
 
-calcite-checkbox {
-  --calcite-checkbox-background-color: var(--calcite-card-checkbox-background-color);
-  --calcite-checkbox-background-color-checked: var(--calcite-card-checkbox-background-color-checked);
-  --calcite-checkbox-icon-color: var(--calcite-card-checkbox-icon-color);
-  --calcite-checkbox-shadow: var(--calcite-card-checkbox-shadow);
-  --calcite-checkbox-shadow-checked: var(--calcite-card-checkbox-shadow-checked);
-  --calcite-checkbox-shadow-hover: var(--calcite-card-checkbox-shadow-hover);
-}
-
 calcite-loader {
-  --calcite-loader-color-one-third: var(--calcite-card-loader-color-one-third);
+  --calcite-loader-color-middle: var(--calcite-card-loader-color-one-third);
   --calcite-loader-color-start: var(--calcite-card-loader-color-start);
-  --calcite-loader-color-two-thirds: var(--calcite-card-loader-color-two-thirds);
+  --calcite-loader-color-end: var(--calcite-card-loader-color-two-thirds);
 }
 
 @include base-component();

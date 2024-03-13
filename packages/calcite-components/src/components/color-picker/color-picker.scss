@@ -1,3 +1,24 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-color-picker-button-background-color-active: defines the background color of the button when in a active state in the component.
+ * @prop --calcite-color-picker-button-background-color-focus: defines the background color of the button when in a focus state in the component.
+ * @prop --calcite-color-picker-button-background-color-hover: defines the background color of the button when in a hover state in the component.
+ * @prop --calcite-color-picker-button-corner-radius: defines the corner radius of the button in the component.
+ * @prop --calcite-color-picker-button-icon-color-active: defines the icon color of the button when in a active state in the component.
+ * @prop --calcite-color-picker-button-icon-color-focus: defines the icon color of the button when in a focus state in the component.
+ * @prop --calcite-color-picker-button-icon-color-hover: defines the icon color of the button when in a hover state in the component.
+ * @prop --calcite-color-picker-button-loader-color: defines the loader color in the button in the component.
+ * @prop --calcite-color-picker-button-text-color-active: defines the text color of the button when in a active state in the component.
+ * @prop --calcite-color-picker-button-text-color-focus: defines the text color of the button when in a focus state in the component.
+ * @prop --calcite-color-picker-button-text-color-hover: defines the text color of the button when in a hover state in the component.
+ * @prop --calcite-color-picker-button-text-color: defines the text color of the button in the component.
+ * @prop --calcite-color-picker-tabs-background-color: The background color of the sub-component.
+ * @prop --calcite-color-picker-tabs-border-color: The border color of the sub-component.
+ */
+
 :host {
   @apply text-n2h inline-block font-normal;
 }
@@ -191,6 +212,36 @@
     transition: outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
     outline: 2px solid var(--calcite-color-border-2);
     outline-offset: 2px;
+  }
+}
+
+calcite-tabs {
+  --calcite-tabs-background-color: var(--calcite-color-picker-tabs-background-color);
+  --calcite-tabs-border-color: var(--calcite-color-picker-tabs-border-color);
+}
+
+calcite-button {
+  --calcite-button-corner-radius: var(--calcite-color-picker-button-corner-radius);
+  --calcite-button-loader-color: var(--calcite-color-picker-button-loader-color);
+  --calcite-button-text-color: var(--calcite-color-picker-button-text-color);
+
+  &:hover {
+    --calcite-button-text-color: var(--calcite-color-picker-button-text-color-hover);
+    --calcite-button-background-color: var(--calcite-color-picker-button-background-color-hover);
+    --calcite-button-icon-color: var(--calcite-color-picker-button-icon-color-hover);
+    --calcite-button-border-color: var(--calcite-color-picker-button-icon-color-hover);
+  }
+  &:focus {
+    --calcite-button-text-color: var(--calcite-color-picker-button-text-color-focus);
+    --calcite-button-background-color: var(--calcite-color-picker-button-background-color-focus);
+    --calcite-button-icon-color: var(--calcite-color-picker-button-icon-color-focus);
+    --calcite-button-border-color: var(--calcite-color-picker-button-icon-color-focus);
+  }
+  &:active {
+    --calcite-button-text-color: var(--calcite-color-picker-button-text-color-active);
+    --calcite-button-background-color: var(--calcite-color-picker-button-background-color-active);
+    --calcite-button-icon-color: var(--calcite-color-picker-button-icon-color-active);
+    --calcite-button-border-color: var(--calcite-color-picker-button-icon-color-active);
   }
 }
 
