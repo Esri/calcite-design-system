@@ -1,5 +1,9 @@
 # calcite-card
 
+The `calcite-card` component is a presentational surfaces used to house data or information representing an entity, asset, or item.
+
+Cards are most often presented in a [Card Group](https://developers.arcgis.com/calcite-design-system/components/card-group/). An individual Card may contain details or information about an instance within a set. Because Cards are most typically presented in groups, they are intended to be visually consistent and predictable in their layout and content.
+
 <!-- Auto Generated Below -->
 
 ## Usage

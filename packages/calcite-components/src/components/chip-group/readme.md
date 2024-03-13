@@ -1,5 +1,7 @@
 # calcite-chip-group
 
+The `chip-group` component provides consistent spacing, accessible keyboard navigation, and selection modes to multiple [Chips](https://developers.arcgis.com/calcite-design-system/components/chip/).
+
 <!-- Auto Generated Below -->
 
 ## Usage
@@ -31,7 +33,7 @@
 | Property             | Attribute        | Description                                                                                                                                                                                                                                              | Type                                                   | Default     |
 | -------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | ----------- |
 | `disabled`           | `disabled`       | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                                                                 | `boolean`                                              | `false`     |
-| `label` _(required)_ | `label`          | Accessible name for the component.                                                                                                                                                                                                                       | `string`                                               | `undefined` |
+| `label` *(required)* | `label`          | Accessible name for the component.                                                                                                                                                                                                                       | `string`                                               | `undefined` |
 | `scale`              | `scale`          | Specifies the size of the component. Child `calcite-chip`s inherit the component's value.                                                                                                                                                                | `"l" \| "m" \| "s"`                                    | `"m"`       |
 | `selectedItems`      | --               | Specifies the component's selected items.                                                                                                                                                                                                                | `HTMLCalciteChipElement[]`                             | `[]`        |
 | `selectionMode`      | `selection-mode` | Specifies the selection mode of the component, where: `"multiple"` allows any number of selections, `"single"` allows only one selection, `"single-persist"` allows one selection and prevents de-selection, and `"none"` does not allow any selections. | `"multiple" \| "none" \| "single" \| "single-persist"` | `"none"`    |
@@ -60,4 +62,4 @@ Type: `Promise<void>`
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

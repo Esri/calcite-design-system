@@ -1,5 +1,9 @@
 # calcite-combobox
 
+The `calcite-combobox` is an input and dropdown-based selection, which allows for quick filtering of single and multi-selections.
+
+Multi-select Combobox utilizes [Chips](https://developers.arcgis.com/calcite-design-system/components/chip/) to display selected items, which can quickly be deleted by selecting the "Closable" icon or pressing the Backspace key when focused.
+
 <!-- Auto Generated Below -->
 
 ## Usage

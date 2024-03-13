@@ -1,5 +1,7 @@
 # calcite-chip
 
+The `calcite-chip` is used in filtering and as a categorical identifier. Chips can be contained within a [Chip Group](https://developers.arcgis.com/calcite-design-system/components/chip-group/) to provide keyboard functionality, consistent spacing, and facilitate selection workflows and filtering patterns.
+
 <!-- Auto Generated Below -->
 
 ## Usage

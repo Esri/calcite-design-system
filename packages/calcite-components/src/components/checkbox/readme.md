@@ -1,5 +1,13 @@
 # calcite-checkbox
 
+The `calcite-checkbox` component is a small, square decision making components used for optional choice or multi-selectable lists.
+
+Checkboxes are designed to be used for "yes" and "no" interactions, or interactions where a choice is optional.
+
+Use Checkbox for interactions when a multi-select list is needed, for single choice interactions, please consider [Radio Button](https://developers.arcgis.com/calcite-design-system/components/radio-button/) or [Segmented Control](https://developers.arcgis.com/calcite-design-system/components/segmented-control/).
+
+For "on" and "off" interactions, consider [Switch](https://developers.arcgis.com/calcite-design-system/components/switch/).
+
 <!-- Auto Generated Below -->
 
 ## Usage

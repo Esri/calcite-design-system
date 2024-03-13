@@ -1,5 +1,7 @@
 # calcite-combobox-item
 
+The `calcite-combobox-item` component is a child of `calcite-combobox`.
+
 <!-- Auto Generated Below -->
 
 ## Properties
