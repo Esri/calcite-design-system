@@ -564,16 +564,19 @@ a:hover {
     --calcite-internal-button-border-color: var(--calcite-color-brand);
 
     &:hover {
+      --calcite-internal-button-background-color: var(--calcite-color-transparent);
       --calcite-internal-button-border-color: var(--calcite-color-brand-hover);
       --calcite-internal-button-text-color: var(--calcite-color-brand-hover);
       --calcite-internal-button-shadow: inset 0 0 0 1px var(--calcite-color-brand-hover);
     }
     &:focus {
+      --calcite-internal-button-background-color: var(--calcite-color-transparent);
       --calcite-internal-button-border-color: var(--calcite-color-brand);
       --calcite-internal-button-text-color: var(--calcite-color-brand);
       --calcite-internal-button-shadow: inset 0 0 0 2px var(--calcite-color-brand);
     }
     &:active {
+      --calcite-internal-button-background-color: var(--calcite-color-transparent);
       --calcite-internal-button-border-color: var(--calcite-color-brand-press);
       --calcite-internal-button-text-color: var(--calcite-color-brand-press);
       --calcite-internal-button-shadow: inset 0 0 0 2px var(--calcite-color-brand-press);
@@ -590,16 +593,19 @@ a:hover {
     --calcite-internal-button-border-color: var(--calcite-color-status-danger);
 
     &:hover {
+      --calcite-internal-button-background-color: var(--calcite-color-transparent);
       --calcite-internal-button-border-color: var(--calcite-color-status-danger-hover);
       --calcite-internal-button-text-color: var(--calcite-color-status-danger-hover);
       --calcite-internal-button-shadow: inset 0 0 0 1px var(--calcite-color-status-danger-hover);
     }
     &:focus {
+      --calcite-internal-button-background-color: var(--calcite-color-transparent);
       --calcite-internal-button-border-color: var(--calcite-color-status-danger);
       --calcite-internal-button-text-color: var(--calcite-color-status-danger);
       --calcite-internal-button-shadow: inset 0 0 0 2px var(--calcite-color-status-danger);
     }
     &:active {
+      --calcite-internal-button-background-color: var(--calcite-color-transparent);
       --calcite-internal-button-border-color: var(--calcite-color-status-danger-press);
       --calcite-internal-button-text-color: var(--calcite-color-status-danger-press);
       --calcite-internal-button-shadow: inset 0 0 0 2px var(--calcite-color-status-danger-press);
@@ -616,28 +622,15 @@ a:hover {
     --calcite-internal-button-background-color: var(--calcite-color-transparent);
 
     &:hover {
+      --calcite-internal-button-background-color: var(--calcite-color-transparent);
       --calcite-internal-button-shadow: inset 0 0 0 1px var(--calcite-color-foreground-3);
     }
     &:focus {
+      --calcite-internal-button-background-color: var(--calcite-color-transparent);
       --calcite-internal-button-shadow: inset 0 0 0 2px var(--calcite-color-foreground-3);
     }
     &:active {
-      --calcite-internal-button-shadow: inset 0 0 0 2px var(--calcite-color-foreground-3);
-    }
-    calcite-loader {
-      --calcite-internal-button-loader-color: var(--calcite-color-text-1);
-    }
-
-    --calcite-internal-button-text-color: var(--calcite-color-text-1);
-    --calcite-internal-button-border-color: var(--calcite-color-border-1);
-
-    &:hover {
-      --calcite-internal-button-shadow: inset 0 0 0 1px var(--calcite-color-foreground-3);
-    }
-    &:focus {
-      --calcite-internal-button-shadow: inset 0 0 0 2px var(--calcite-color-foreground-3);
-    }
-    &:active {
+      --calcite-internal-button-background-color: var(--calcite-color-transparent);
       --calcite-internal-button-shadow: inset 0 0 0 2px var(--calcite-color-foreground-3);
     }
     calcite-loader {
@@ -650,6 +643,13 @@ a:hover {
   a {
     --calcite-internal-button-text-color: var(--calcite-color-text-1);
     --calcite-internal-button-border-color: var(--calcite-color-inverse);
+
+    &:hover,
+    &:focus,
+    &:active {
+      --calcite-internal-button-background-color: var(--calcite-color-transparent);
+    }
+
     &:hover {
       --calcite-internal-button-border-color: var(--calcite-color-inverse-hover);
       --calcite-internal-button-shadow: inset 0 0 0 1px var(--calcite-color-inverse-hover);
