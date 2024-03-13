@@ -3,25 +3,24 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-slider-handle-color: Specifies the color of the handle.
- * @prop --calcite-slider-handle-extension-color: Specifies the color of the handle extension.
- * @prop --calcite-slider-handle-extension-color-hover: Specifies the color of the handle extension when hovered.
+ * @prop --calcite-slider-fill-color-disabled: Specifies the color of the fill when disabled.
+ * @prop --calcite-slider-fill-color: Specifies the color of the fill.
+ * @prop --calcite-slider-graph-accent-color: Specifies the accent color of the graph.
+ * @prop --calcite-slider-graph-background-color: Specifies the background color of the graph.
+ * @prop --calcite-slider-handle-border-color-hover: Specifies the border color of the handle when hovered.
+ * @prop --calcite-slider-handle-border-color: Specifies the border color of the handle.
  * @prop --calcite-slider-handle-color-active: Specifies the color of the handle.
  * @prop --calcite-slider-handle-color-hover: Specifies the color of the handle when hovered.
- * @prop --calcite-slider-handle-border-color: Specifies the border color of the handle.
- * @prop --calcite-slider-handle-border-color-hover: Specifies the border color of the handle when hovered.
- * @prop --calcite-slider-handle-shadow: Specifies the shadow of the handle.
+ * @prop --calcite-slider-handle-color: Specifies the color OF the handle.
+ * @prop --calcite-slider-handle-extension-color-hover: Specifies the color of the handle extension when hovered.
+ * @prop --calcite-slider-handle-extension-color: Specifies the color of the handle extension.
  * @prop --calcite-slider-handle-shadow-hover: Specifies the shadow of the handle when hovered.
- * @prop --calcite-slider-track-color: Specifies the color of the track.
- * @prop --calcite-slider-fill-color: Specifies the color of the fill.
- * @prop --calcite-slider-fill-color-disabled: Specifies the color of the fill when disabled.
- * @prop --calcite-slider-tick-color: Specifies the color of the tick.
- * @prop --calcite-slider-tick-border-color: Specifies the border color of the tick.
+ * @prop --calcite-slider-handle-shadow: Specifies the shadow of the handle.
+ * @prop --calcite-slider-text-color: Specifies the text color of the component.
  * @prop --calcite-slider-text-size: Specifies the text size of the component.
- * @prop --calcite-slider-text-color: Specifies the text color of the component (RENAME?)
- * @prop --calcite-slider-text-color-edge: Specifies the text color of the component (RENAME?).
- * @prop --calcite-slider-graph-background-color: Specifies the background color of the graph.
- * @prop --calcite-slider-graph-accent-color: Specifies the accent color of the graph.
+ * @prop --calcite-slider-tick-border-color: Specifies the border color of the tick.
+ * @prop --calcite-slider-tick-color: Specifies the color of the tick.
+ * @prop --calcite-slider-track-color: Specifies the color of the track.
  */
 
 .scale--s {
@@ -349,7 +348,7 @@
   .tick__label--min,
   .tick__label--max {
     @apply font-normal;
-    color: var(--calcite-slider-text-color-edge, var(--calcite-color-text-3));
+    color: var(--calcite-slider-text-color, var(--calcite-color-text-3));
   }
 }
 
