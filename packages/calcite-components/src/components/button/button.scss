@@ -49,7 +49,7 @@
       var(--calcite-internal-button-background-color, var(--calcite-color-foreground-1))
     );
     color: var(--calcite-button-text-color, var(--calcite-internal-button-text-color, var(--calcite-color-text-1)));
-    box-shadow: var(--calcite-button-shadow-color, var(--calcite-internal-button-shadow-color, none));
+    box-shadow: var(--calcite-button-shadow-color, var(--calcite-internal-button-shadow, none));
     border-style: none;
     border-width: var(--calcite-border-width-sm);
     border-color: var(
@@ -618,6 +618,7 @@ a:hover {
 :host([appearance="outline"][kind="neutral"]) {
   button,
   a {
+    --calcite-internal-button-border-color: var(--calcite-color-border-1);
     --calcite-internal-button-text-color: var(--calcite-color-text-1);
     --calcite-internal-button-background-color: var(--calcite-color-transparent);
 
