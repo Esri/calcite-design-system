@@ -3,7 +3,6 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-slider-fill-color-disabled: Specifies the color of the fill when disabled.
  * @prop --calcite-slider-fill-color: Specifies the color of the fill.
  * @prop --calcite-slider-graph-accent-color: Specifies the accent color of the graph.
  * @prop --calcite-slider-graph-background-color: Specifies the background color of the graph.
@@ -84,7 +83,7 @@
 @include disabled() {
   .track__range,
   .tick--active {
-    background-color: var(--calcite-slider-fill-color-disabled, var(--calcite-color-text-3));
+    background-color: var(--calcite-slider-fill-color, var(--calcite-color-text-3));
   }
 }
 
