@@ -16,11 +16,10 @@
  * @prop --calcite-inline-editable-cancel-button-icon-color-focus: Specifies the icon color of the cancel button when focused.
  * @prop --calcite-inline-editable-cancel-button-icon-color-hover: Specifies the icon color of the cancel button when hovered.
  * @prop --calcite-inline-editable-cancel-button-icon-color: Specifies the icon color of the cancel button.
- * @prop --calcite-inline-editable-cancel-button-text-color-active: Specifies the text color of the cancel button when active.
- * @prop --calcite-inline-editable-cancel-button-text-color-focus: Specifies the text color of the cancel button when focused.
- * @prop --calcite-inline-editable-cancel-button-text-color-hover: Specifies the text color of the cancel button when hovered.
- * @prop --calcite-inline-editable-cancel-button-text-color: Specifies the text color of the cancel button.
  * @prop --calcite-inline-editable-edit-button-background-color: Specifies the background color of the edit button.
+ * @prop --calcite-inline-editable-edit-button-background-color-active: Specifies the background color of the edit button when active.
+ * @prop --calcite-inline-editable-edit-button-background-color-focus: Specifies the background color of the edit button when focused.
+ * @prop --calcite-inline-editable-edit-button-background-color-hover: Specifies the background color of the edit button when hovered.
  * @prop --calcite-inline-editable-edit-button-border-color-active: Specifies the border color of the edit button when active.
  * @prop --calcite-inline-editable-edit-button-border-color-focus: Specifies the border color of the edit button when focused.
  * @prop --calcite-inline-editable-edit-button-border-color-hover: Specifies the border color of the edit button when hovered.
@@ -29,10 +28,6 @@
  * @prop --calcite-inline-editable-edit-button-icon-color-focus: Specifies the icon color of the edit button when focused.
  * @prop --calcite-inline-editable-edit-button-icon-color-hover: Specifies the icon color of the edit button when hovered.
  * @prop --calcite-inline-editable-edit-button-icon-color: Specifies the icon color of the edit button.
- * @prop --calcite-inline-editable-edit-button-text-color-active: Specifies the text color of the edit button when active.
- * @prop --calcite-inline-editable-edit-button-text-color-focus: Specifies the text color of the edit button when focused.
- * @prop --calcite-inline-editable-edit-button-text-color-hover: Specifies the text color of the edit button when hovered.
- * @prop --calcite-inline-editable-edit-button-text-color: Specifies the text color of the edit button.
  * @prop --calcite-inline-editable-ok-button-background-color-active: Specifies the background color of the OK button when active.
  * @prop --calcite-inline-editable-ok-button-background-color-focus: Specifies the background color of the OK button when focused.
  * @prop --calcite-inline-editable-ok-button-background-color-hover: Specifies the background color of the OK button when hovered.
@@ -45,10 +40,6 @@
  * @prop --calcite-inline-editable-ok-button-icon-color-focus: Specifies the icon color of the OK button when focused.
  * @prop --calcite-inline-editable-ok-button-icon-color-hover: Specifies the icon color of the OK button when hovered.
  * @prop --calcite-inline-editable-ok-button-icon-color: Specifies the icon color of the OK button.
- * @prop --calcite-inline-editable-ok-button-text-color-active: Specifies the text color of the OK button when active.
- * @prop --calcite-inline-editable-ok-button-text-color-focus: Specifies the text color of the OK button when focused.
- * @prop --calcite-inline-editable-ok-button-text-color-hover: Specifies the text color of the OK button when hovered.
- * @prop --calcite-inline-editable-ok-button-text-color: Specifies the text color of the OK button.
 */
 
 :host {
