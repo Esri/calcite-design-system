@@ -3,7 +3,6 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-inline-editable-background-color-hover: Specifies the background color of the component when hovered.
  * @prop --calcite-inline-editable-background-color: Specifies the background color of the component.
  * @prop --calcite-inline-editable-cancel-button-background-color-active: Specifies the background color of the cancel button when active.
  * @prop --calcite-inline-editable-cancel-button-background-color-focus: Specifies the background color of the cancel button when focused.
@@ -84,7 +83,7 @@
 
 :host(:not([editing-enabled]):not([disabled]):hover) {
   .wrapper {
-    background-color: var(--calcite-inline-editable-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-inline-editable-background-color, var(--calcite-color-foreground-2));
   }
 }
 
