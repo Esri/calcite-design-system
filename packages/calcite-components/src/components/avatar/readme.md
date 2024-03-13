@@ -1,6 +1,6 @@
 # calcite-avatar
 
-Avatars are visual representations of users' accounts that can be presented by an image or initials, they can be used inside of other components or by themselves to represent the user.
+The `calcite-avatar` component serves as a visual representation of a user's account. It can be displayed using either an image or initials.
 
 A randomly generated AA accessible background will fill behind the initials. That generated fill will stay assigned to the user until their account is deleted or an image is used.
 

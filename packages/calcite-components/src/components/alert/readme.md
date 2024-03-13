@@ -1,8 +1,8 @@
 # calcite-alert
 
-Alerts are contextual pop-up style messages that can contain actions without obstructing the application.
+The `calcite-alert` component is a contextual pop-up style message that can contain actions without obstructing the application.
 
-They are primarily displayed as a response to the user taking action on an element; however they can also be used to communicate non-critical system messages, or to provide updates on actions the user has previously taken.
+Alerts are primarily displayed as a response to the user taking action on an element; however they can also be used to communicate non-critical system messages, or to provide updates on actions the user has previously taken.
 
 <!-- Auto Generated Below -->
 
