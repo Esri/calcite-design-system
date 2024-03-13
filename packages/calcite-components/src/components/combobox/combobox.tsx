@@ -693,6 +693,10 @@ export class Combobox
           }
           event.preventDefault();
         }
+
+        if (event.composedPath().find((el: HTMLElement) => el.tagName === "CALCITE-CHIP")) {
+          event.preventDefault();
+        }
         break;
       case "Home":
         if (!this.open) {
