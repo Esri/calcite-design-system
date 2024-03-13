@@ -98,16 +98,34 @@ export class ColorPicker
    * When `true`, an empty color (`null`) will be allowed as a `value`.
    *
    * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   *
+   * @deprecated use `clearable` instead
    */
 
-  @Prop({ reflect: true }) clearable = false;
-
   @Prop({ reflect: true }) allowEmpty = false;
+
+  @Watch("allowEmpty")
+  @Watch("clearable")
+  handleEmptyValues(emptyProp: boolean): void {
+    if (emptyProp === true) {
+      this.isClearable = true;
+    } else if (this.allowEmpty == false && this.clearable == false) {
+      this.isClearable = false;
+    }
+  }
 
   /**
    * When `true`, the component will allow updates to the color's alpha value.
    */
   @Prop() alphaChannel = false;
+
+  /**
+   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   *
+   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   */
+
+  @Prop({ reflect: true }) clearable = false;
 
   @Watch("alphaChannel")
   handleAlphaChannelChange(alphaChannel: boolean): void {
@@ -118,24 +136,6 @@ export class ColorPicker
         `ignoring alphaChannel as the current format (${format}) does not support alpha`,
       );
       this.alphaChannel = false;
-    }
-  }
-
-  @Watch("allowEmpty")
-  handleAllowEmpty(): void {
-    if (this.allowEmpty === true) {
-      this.allowNullValues = true;
-    } else if (this.allowEmpty == false && this.clearable == false) {
-      this.allowNullValues = false;
-    }
-  }
-
-  @Watch("clearable")
-  handleClearableChange(): void {
-    if (this.clearable === true) {
-      this.allowNullValues = true;
-    } else if (this.allowEmpty == false && this.clearable == false) {
-      this.allowNullValues = false;
     }
   }
 
@@ -246,8 +246,8 @@ export class ColorPicker
 
   @Watch("value")
   handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
-    const { allowNullValues, format } = this;
-    const checkMode = !allowNullValues || value;
+    const { isClearable, format } = this;
+    const checkMode = !isClearable || value;
     let modeChanged = false;
 
     if (checkMode) {
@@ -279,7 +279,7 @@ export class ColorPicker
     }
 
     const color =
-      allowNullValues && !value
+      isClearable && !value
         ? null
         : Color(
             value != null && typeof value === "object" && alphaCompatible(this.mode)
@@ -314,6 +314,8 @@ export class ColorPicker
     return this.color || this.previousColor || DEFAULT_COLOR;
   }
 
+  private isClearable: boolean;
+
   private checkerPattern: HTMLCanvasElement;
 
   private colorFieldRenderingContext: CanvasRenderingContext2D;
@@ -335,8 +337,6 @@ export class ColorPicker
   private previousColor: InternalColor | null;
 
   private shiftKeyChannelAdjustment = 0;
-
-  private allowNullValues = !!(this.clearable || this.allowEmpty);
 
   @State() defaultMessages: ColorPickerMessages;
 
@@ -440,11 +440,11 @@ export class ColorPicker
 
   private handleHexInputChange = (event: Event): void => {
     event.stopPropagation();
-    const { allowNullValues, color } = this;
+    const { isClearable, color } = this;
     const input = event.target as HTMLCalciteColorPickerHexInputElement;
     const hex = input.value;
 
-    if (allowNullValues && !hex) {
+    if (isClearable && !hex) {
       this.internalColorSet(null);
       return;
     }
@@ -474,7 +474,7 @@ export class ColorPicker
 
     let inputValue: string;
 
-    if (this.allowNullValues && !input.value) {
+    if (this.isClearable && !input.value) {
       inputValue = "";
     } else {
       const value = Number(input.value);
@@ -531,7 +531,7 @@ export class ColorPicker
     const channelIndex = Number(input.getAttribute("data-channel-index"));
     const channels = [...this.channels] as this["channels"];
 
-    const shouldClearChannels = this.allowNullValues && !input.value;
+    const shouldClearChannels = this.isClearable && !input.value;
 
     if (shouldClearChannels) {
       this.channels = [null, null, null, null];
@@ -688,9 +688,10 @@ export class ColorPicker
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    this.isClearable = !!(this.clearable || this.allowEmpty);
 
-    const { allowNullValues, color, format, value } = this;
-    const willSetNoColor = allowNullValues && !value;
+    const { isClearable, color, format, value } = this;
+    const willSetNoColor = isClearable && !value;
     const parsedMode = parseMode(value);
     const valueIsCompatible =
       willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
@@ -699,7 +700,6 @@ export class ColorPicker
     if (!valueIsCompatible) {
       this.showIncompatibleColorWarning(value, format);
     }
-    console.log(allowNullValues);
     this.setMode(format, false);
     this.internalColorSet(initialColor, false, "initial");
 
@@ -883,7 +883,7 @@ export class ColorPicker
                 {noHex ? null : (
                   <div class={CSS.hexOptions}>
                     <calcite-color-picker-hex-input
-                      allowEmpty={this.allowNullValues}
+                      allowEmpty={this.isClearable}
                       alphaChannel={alphaChannel}
                       class={CSS.control}
                       messages={messages}
@@ -993,13 +993,7 @@ export class ColorPicker
   };
 
   private renderChannelsTab = (channelMode: this["channelMode"]): VNode => {
-    const {
-      allowNullValues,
-      channelMode: activeChannelMode,
-      channels,
-      messages,
-      alphaChannel,
-    } = this;
+    const { isClearable, channelMode: activeChannelMode, channels, messages, alphaChannel } = this;
     const selected = channelMode === activeChannelMode;
     const isRgb = channelMode === "rgb";
     const channelAriaLabels = isRgb
@@ -1017,7 +1011,7 @@ export class ColorPicker
 
             if (isAlphaChannel) {
               channelValue =
-                allowNullValues && !channelValue ? channelValue : alphaToOpacity(channelValue);
+                isClearable && !channelValue ? channelValue : alphaToOpacity(channelValue);
             }
 
             /* the channel container is ltr, so we apply the host's direction */
