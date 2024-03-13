@@ -278,6 +278,7 @@ export const theming_TestOnly = (): string =>
         --calcite-date-picker-border-color: #294b29;
         --calcite-date-picker-border-radius: 2px;
         --calcite-date-picker-day-background-color: #50623a;
+        --calcite-date-picker-day-background-color-selected: #ffb000;
         --calcite-date-picker-day-corner-radius: 0px;
         --calcite-date-picker-day-text-color: #a4ce95;
         --calcite-date-picker-week-headers-text-color: #5f5d9c;
