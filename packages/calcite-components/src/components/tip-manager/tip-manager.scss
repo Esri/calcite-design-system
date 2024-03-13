@@ -5,8 +5,8 @@
 *
 * These properties can be overridden using the component's tag as selector.
 *
-* @prop --calcite-tip-max-width: [Deprecated] No longer necessary, as we don't use mapped tokens for slotted components. Specifies the maximum width of a slotted`calcite-tip` within the component.
-* @prop --calcite-tip-manager-height: [Deprecated] No longer necessary, use block-size instead. Specifies The maximum height of the component.
+* @prop --calcite-tip-max-width: [Deprecated] in favor of setting `max-width` on tips directly - Specifies the maximum width of a slotted `calcite-tip` within the component.
+* @prop --calcite-tip-manager-height: [Deprecated] use `--calcite-tip-max-height instead` - Specifies the maximum height of a slotted `calcite-tip` within the component.
 * @prop --calcite-tip-manager-background-color: The background color of the component.
 * @prop --calcite-tip-manager-heading-text-color: The heading text color of the component.
 * @prop --calcite-tip-manager-text-color: The text color of the component.
@@ -18,9 +18,6 @@
 * @prop --calcite-tip-manager-action-text-color-hover: defines the text color of an action sub-component when hovered or focused inside the component.
 * @prop --calcite-tip-manager-action-background-color-active: defines the background color of an action sub-component when active inside the component.
 * @prop --calcite-tip-manager-action-text-color-active: defines the text color of an action sub-component when active inside the component.
-* @prop --calcite-tip-manager-height: The maximum height of the component.
-* @prop --calcite-tip-max-width: The maximum width of a slotted `calcite-tip` within the component.
-*
 */
 
 :host {
@@ -81,7 +78,7 @@
     p-4;
   animation-name: none;
   animation-duration: var(--calcite-animation-timing);
-  block-size: var(--calcite-internal-tip-manager-block-size, 19vh);
+  block-size: var(--calcite-tip-max-height, 19vh);
   &:focus {
     @apply focus-outset;
   }

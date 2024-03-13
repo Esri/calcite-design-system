@@ -151,8 +151,7 @@ export const bosnianLocale_TestOnly = (): string =>
 export const themed_TestOnly = (): string => html`
   <calcite-tip-manager
     style="
-      --calcite-tip-max-width: 400px;
-      --calcite-tip-manager-height: 200px;
+      --calcite-tip-max-height: 200px;
       --calcite-tip-manager-background-color: orange;
       --calcite-tip-manager-text-color: red;
       --calcite-tip-manager-border-color: purple;
