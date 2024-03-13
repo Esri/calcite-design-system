@@ -1,7 +1,8 @@
 # calcite-avatar
 
-The avatar component provides a unique (but consistent) visual for a user. It's built
-to work with users returned from the ArcGIS REST API.
+Avatars are visual representations of users' accounts that can be presented by an image or initials, they can be used inside of other components or by themselves to represent the user.
+
+A randomly generated AA accessible background will fill behind the initials. That generated fill will stay assigned to the user until their account is deleted or an image is used.
 
 <!-- Auto Generated Below -->
 
