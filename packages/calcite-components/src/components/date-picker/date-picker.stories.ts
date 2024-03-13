@@ -271,3 +271,20 @@ export const greaterThanMaxWidthAllScales_TestOnly = (): string => html`
   <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
   <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
 `;
+
+export const theming_TestOnly = (): string =>
+  html`<style>
+      calcite-date-picker {
+        --calcite-date-picker-border-color: #294b29;
+        --calcite-date-picker-border-radius: 2px;
+        --calcite-date-picker-day-background-color: #50623a;
+        --calcite-date-picker-day-corner-radius: 0px;
+        --calcite-date-picker-day-text-color: #a4ce95;
+        --calcite-date-picker-week-headers-text-color: #5f5d9c;
+        --calcite-date-picker-header-background-color: green;
+        --calcite-date-picker-header-navigation-button-background-color: #6d2932;
+        --calcite-date-picker-header-navigation-button-text-color: #c7b7a3;
+        --calcite-date-picker-header-text-color: #e8d8c4;
+      }
+    </style>
+    <calcite-date-picker scale="s" value="2000-11-27" lang="th"></calcite-date-picker>`;

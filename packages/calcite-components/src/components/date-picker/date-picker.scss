@@ -22,7 +22,7 @@
  * @prop --calcite-date-picker-header-navigation-button-background-color-hover: Specifies the background color of navigation button of month header when hovered.
  * @prop --calcite-date-picker-header-navigation-button-background-color: Specifies the background color of navigation button of month header.
  * @prop --calcite-date-picker-header-navigation-button-text-color-hover: Specifies the text color of navigation button of month header when hovered.
- * @porp --calcite-date-picker-header-navigation-button-text-color: Specifies the text color of navigation button of month header.
+ * @prop --calcite-date-picker-header-navigation-button-text-color: Specifies the text color of navigation button of month header.
  * @prop --calcite-date-picker-header-text-color: Specifies the text color of month header.
  *
  */
@@ -76,7 +76,7 @@ calcite-date-picker-month {
   );
 }
 
-calcite-date-picker-header {
+calcite-date-picker-month-header {
   --calcite-date-picker-month-header-background-color: var(--calcite-date-picker-header-background-color);
   --calcite-date-picker-month-header-navigation-button-background-color-active: var(
     --calcite-date-picker-header-navigation-button-background-color-active
