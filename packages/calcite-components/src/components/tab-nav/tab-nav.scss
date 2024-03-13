@@ -4,6 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-tab-nav-button-background-color-active: defines the scroll button's background color in an active state.
+ * @prop --calcite-tab-nav-button-background-color-focus: defines the scroll button's background color in a focus state.
  * @prop --calcite-tab-nav-button-background-color-hover: defines the scroll button's background color in a hover state.
  * @prop --calcite-tab-nav-button-background-color: defines the scroll button's background color.
  * @prop --calcite-tab-nav-button-border-color-active: defines the scroll button's border color in an active state.
@@ -199,6 +200,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
       --calcite-button-text-color: var(--calcite-tab-nav-button-text-color-hover, unset);
     }
     &:focus {
+      --calcite-button-background-color: var(--calcite-tab-nav-button-background-color-focus);
       --calcite-button-border-color: var(--calcite-tab-nav-button-border-color-focus);
       --calcite-button-icon-color: var(--calcite-tab-nav-button-icon-color-focus);
       --calcite-button-shadow: var(--calcite-tab-nav-button-shadow-focus);
