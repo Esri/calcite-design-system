@@ -5,8 +5,8 @@
  *
  * @prop --calcite-accordion-item-background-color: defines the background color for the component.
  * @prop --calcite-accordion-item-border-color: defines the border color for the component.
- * @prop --calcite-accordion-item-description-text-color: defines the text color of the description in the component. Falls back to `--calcite-accordion-item-text-color`.
- * @prop --calcite-accordion-item-heading-text-color: defines the text color of the heading in the component. Falls back to `--calcite-accordion-item-text-color`.
+ * @prop --calcite-accordion-item-description-text-color: defines the text color of the description in the component.
+ * @prop --calcite-accordion-item-heading-text-color: defines the text color of the heading in the component.
  * @prop --calcite-accordion-item-icon-color: defines the icon color for the component.
  * @prop --calcite-accordion-item-expand-icon-color: defines the icon color for the component.
  * @prop --calcite-accordion-item-text-color: defines the text color for the component.
@@ -24,15 +24,15 @@
 .icon-position--start {
   @extend %icon-position;
   --calcite-internal-accordion-item-flex-direction: row-reverse;
-  --calcite-internal-accordion-item-icon-spacing-start: 0;
-  --calcite-internal-accordion-item-icon-spacing-end: var(--calcite-internal-accordion-item-icon-space-x);
+  --calcite-internal-accordion-item-icon-space-x-start: 0;
+  --calcite-internal-accordion-item-icon-space-x-end: var(--calcite-internal-accordion-item-icon-space);
 }
 
 .icon-position--end {
   @extend %icon-position;
   --calcite-internal-accordion-item-flex-direction: row;
-  --calcite-internal-accordion-item-icon-spacing-start: var(--calcite-internal-accordion-item-icon-space-x);
-  --calcite-internal-accordion-item-icon-spacing-end: 0;
+  --calcite-internal-accordion-item-icon-space-x-start: var(--calcite-internal-accordion-item-icon-space);
+  --calcite-internal-accordion-item-icon-space-x-end: 0;
 }
 
 .icon-position--end:not(.icon-type--plus-minus) {
@@ -86,19 +86,19 @@
     --calcite-accordion-item-icon-color,
     var(--calcite-accordion-item-text-color, var(--calcite-color-text-3))
   );
-  margin-inline-end: var(--calcite-internal-accordion-item-icon-spacing-start);
-  margin-inline-start: var(--calcite-internal-accordion-item-icon-spacing-end);
+  margin-inline-end: var(--calcite-internal-accordion-item-icon-space-x-start);
+  margin-inline-start: var(--calcite-internal-accordion-item-icon-space-x-end);
 }
 
 .icon--start {
   @apply flex items-center;
-  margin-inline-end: var(--calcite-internal-accordion-item-icon-space-x);
+  margin-inline-end: var(--calcite-internal-accordion-item-icon-space);
 }
 
 .icon--end {
   @apply flex items-center;
-  margin-inline-end: var(--calcite-internal-accordion-item-icon-space-x);
-  margin-inline-start: var(--calcite-internal-accordion-item-icon-space-x);
+  margin-inline-end: var(--calcite-internal-accordion-item-icon-space);
+  margin-inline-start: var(--calcite-internal-accordion-item-icon-space);
 }
 
 .header-container {
@@ -106,13 +106,14 @@
 }
 
 .content {
-  padding: var(--calcite-internal-accordion-item-space-inset);
+  padding: var(--calcite-internal-accordion-item-content-space);
 }
 
 :host .content,
 :host .header {
-  border-block-end: var(--calcite-border-width-sm) solid
-    var(--calcite-internal-accordion-item-border, theme("borderColor.color.2"));
+  border-block-end-width: var(--calcite-border-width-sm);
+  border-block-end-style: solid;
+  border-block-end-color: var(--calcite-accordion-item-border-color, var(--calcite-color-border-2));
 }
 
 :host .header * {
@@ -130,8 +131,8 @@
 
 // accordion item icon
 :host .expand-icon {
-  margin-inline-start: var(--calcite-internal-accordion-item-icon-spacing-start);
-  margin-inline-end: var(--calcite-internal-accordion-item-icon-spacing-end);
+  margin-inline-start: var(--calcite-internal-accordion-item-icon-space-x-start);
+  margin-inline-end: var(--calcite-internal-accordion-item-icon-space-x-end);
   transform: rotate(var(--calcite-internal-accordion-item-icon-rotation));
 }
 
@@ -212,7 +213,7 @@
 
 .header-content {
   @apply flex-grow cursor-pointer;
-  padding: var(--calcite-internal-accordion-item-space-inset);
+  padding: var(--calcite-internal-accordion-item-content-space);
   flex-direction: var(--calcite-internal-accordion-item-flex-direction);
 }
 
