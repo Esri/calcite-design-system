@@ -11,7 +11,8 @@ import { Alignment, Scale } from "../interfaces";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 
 /**
- * @slot content-start - A slot for adding non-actionable elements before the component's content.
+ * @slot image - A slot for adding a custom image above before the component's content.
+ * @slot content-start - A slot for adding non-actionable elements before the component's content. @deprecated use `image` slot instead
  * @slot content-end - A slot for adding non-actionable elements after the component's content.
  */
 @Component({
@@ -92,6 +93,8 @@ export class Tile implements InteractiveComponent {
 
   @State() hasContentEnd = false;
 
+  @State() hasImage = false;
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -104,6 +107,10 @@ export class Tile implements InteractiveComponent {
 
   private handleContentEndSlotChange = (event: Event): void => {
     this.hasContentEnd = slotChangeHasAssignedElement(event);
+  };
+
+  private handleImageSlotChange = (event: Event): void => {
+    this.hasImage = slotChangeHasAssignedElement(event);
   };
 
   // --------------------------------------------------------------------------
@@ -131,17 +138,19 @@ export class Tile implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   renderTile(): VNode {
-    const { icon, hasContentStart, hasContentEnd, heading, description, iconFlipRtl } = this;
+    const { hasImage, icon, hasContentStart, hasContentEnd, heading, description, iconFlipRtl } =
+      this;
     const isLargeVisual = heading && icon && !description;
 
     return (
       <div class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual }}>
-        {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
+        {icon && !hasImage && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
         <div class={CSS.contentContainer}>
           <div class={{ [CSS.contentSlotContainer]: hasContentStart }}>
             <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
           </div>
           <div class={CSS.content}>
+            <slot name={SLOTS.image} onSlotchange={this.handleImageSlotChange} />
             {heading && <div class={CSS.heading}>{heading}</div>}
             {description && <div class={CSS.description}>{description}</div>}
           </div>

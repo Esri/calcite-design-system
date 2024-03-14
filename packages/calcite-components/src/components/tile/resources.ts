@@ -11,4 +11,5 @@ export const CSS = {
 export const SLOTS = {
   contentStart: "content-start",
   contentEnd: "content-end",
+  image: "image",
 };
