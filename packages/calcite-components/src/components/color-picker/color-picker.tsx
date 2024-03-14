@@ -106,12 +106,8 @@ export class ColorPicker
 
   @Watch("allowEmpty")
   @Watch("clearable")
-  handleEmptyValues(emptyProp: boolean): void {
-    if (emptyProp === true) {
-      this.isClearable = true;
-    } else if (this.allowEmpty == false && this.clearable == false) {
-      this.isClearable = false;
-    }
+  handleEmptyValues(): void {
+    this.isClearable = !!(this.clearable || this.allowEmpty);
   }
 
   /**
@@ -688,8 +684,7 @@ export class ColorPicker
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.isClearable = !!(this.clearable || this.allowEmpty);
-
+    this.handleEmptyValues();
     const { isClearable, color, format, value } = this;
     const willSetNoColor = isClearable && !value;
     const parsedMode = parseMode(value);
