@@ -15,14 +15,14 @@
   font-size: var(--calcite-internal-accordion-font-size);
   line-height: var(--calcite-internal-accordion-line-height);
 
-  ::slotted(accordion-item) {
+  ::slotted(calcite-accordion-item) {
     --calcite-internal-accordion-item-icon-space: var(--calcite-internal-accordion-space-large);
     --calcite-internal-accordion-item-content-space: var(--calcite-internal-accordion-space-small)
       var(--calcite-internal-accordion-space-large);
   }
 }
 :host([appearance="transparent"]) {
-  ::slotted(accordion-item) {
+  ::slotted(calcite-accordion-item) {
     --calcite-accordion-item-border-color: var(--calcite-color-transparent);
     --calcite-accordion-item-background-color: var(--calcite-color-transparent);
   }
