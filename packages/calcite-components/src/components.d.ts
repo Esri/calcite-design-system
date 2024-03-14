@@ -674,6 +674,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value: Without a value, the browser will suggest a filename/extension See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
+         */
+        "download": string | boolean;
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
@@ -8054,6 +8058,10 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        /**
+          * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value: Without a value, the browser will suggest a filename/extension See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
+         */
+        "download"?: string | boolean;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */

@@ -8,7 +8,6 @@
  * @prop --calcite-select-font-size: [Deprecated] The font size of `calcite-option`s in the component.
  * @prop --calcite-select-spacing: [Deprecated] The padding around the selected option text.
  * @prop --calcite-select-text-color: The text color of the component.
- * @prop --calcite-select-background-color-hover: The background color of the component when hovered.
  */
 
 :host {
@@ -87,7 +86,7 @@
 
 :host(:hover) {
   .select {
-    background-color: var(--calcite-select-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(--calcite-select-background-color, var(--calcite-color-foreground-2));
   }
 }
 
@@ -110,7 +109,7 @@
 :host([status="invalid"]) {
   .select,
   .icon-container {
-    border-color: var(--calcite-select-border-color-invalid, var(--calcite-color-status-danger));
+    border-color: var(--calcite-select-border-color, var(--calcite-color-status-danger));
 
     &:focus {
       @apply focus-inset-danger;
