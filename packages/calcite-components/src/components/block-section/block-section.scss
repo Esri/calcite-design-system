@@ -7,7 +7,7 @@
  * @prop --calcite-block-section-border-color: Specifies the border color of the component. Applicable on bottom border when open.
  * @prop --calcite-block-section-heading-text-color-hover: Specifies the component's heading text color on hover.
  * @prop --calcite-block-section-heading-text-color: Specifies the component's heading text color.
- * @prop --calcite-block-section-switch-border-radius: Specifies the border radius of the switch.
+ * @prop --calcite-block-section-switch-corner-radius: Specifies the border radius of the switch.
  * @prop --calcite-block-section-switch-handle-background-color: Specifies the background color of the switch handle.
  * @prop --calcite-block-section-switch-handle-border-color-hover: Specifies the border color of the switch handle on hover.
  * @prop --calcite-block-section-switch-handle-border-color: Specifies the border color of the switch handle.
@@ -129,7 +129,7 @@ calcite-icon {
 }
 
 calcite-switch {
-  --calcite-switch-corner-radius: var(--calcite-block-section-switch-border-radius);
+  --calcite-switch-corner-radius: var(--calcite-block-section-switch-corner-radius);
   --calcite-switch-handle-background-color: var(--calcite-block-section-switch-handle-background-color);
   --calcite-switch-handle-border-color: var(--calcite-block-section-switch-handle-border-color);
   --calcite-switch-handle-shadow: var(--calcite-block-section-switch-handle-shadow);
