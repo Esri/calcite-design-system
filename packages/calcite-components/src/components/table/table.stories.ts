@@ -1328,3 +1328,137 @@ export const darkModeRTLWithSelection_TestOnly = (): string =>
   </calcite-table>`;
 
 darkModeRTLWithSelection_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const themingExample_TestOnly = (): string =>
+  html`<style>
+      .themed calcite-table-row:nth-of-type(3) {
+        --calcite-table-cell-background-color: purple;
+        --calcite-table-row-border-color: purple;
+      }
+
+      .themed calcite-table-row:nth-of-type(3) calcite-table-cell:nth-of-type(3) {
+        --calcite-table-cell-background-color: yellow;
+        --calcite-table-cell-border-color: yellow;
+      }
+      calcite-table-row[slot="table-footer"] {
+        --calcite-table-cell-background-color: purple;
+        --calcite-table-number-cell-background-color: green;
+        --calcite-table-selection-cell-background-color: pink;
+      }
+      calcite-table-row[slot="table-header"] {
+        --calcite-table-cell-background-color: purple;
+        --calcite-table-number-cell-background-color: green;
+        --calcite-table-selection-cell-background-color: pink;
+      }
+    </style>
+    <calcite-table
+      striped
+      numbered
+      caption="Simple-striped table"
+      selection-mode="multiple"
+      style="
+        --calcite-table-selection-dismiss-button-background-color: red;
+        --calcite-table-selection-dismiss-button-border-color: red;
+        --calcite-table-selection-dismiss-button-corner-radius: 14px;
+        --calcite-table-selection-dismiss-button-shadow: var(--calcite-shadow-sm);
+        --calcite-table-selection-dismiss-button-text-color: pink;
+        --calcite-table-selection-dismiss-button-background-color-hover: pink;
+        --calcite-table-selection-dismiss-button-border-color-hover: pink;
+        --calcite-table-selection-dismiss-button-text-color-hover: red;
+        --calcite-table-selection-dismiss-button-background-color-active: red;
+        --calcite-table-selection-dismiss-button-border-color-active: red;
+        --calcite-table-selection-dismiss-button-text-color-active: red;
+        --calcite-table-selection-chip-background-color: red;
+        --calcite-table-selection-chip-border-color: red;
+        --calcite-table-selection-chip-corner-radius: red;
+        --calcite-table-selection-chip-shadow: var(--calcite-shadow-sm);
+        --calcite-table-selection-chip-text-color: green;
+        --calcite-table-selection-chip-selected-background-color: purple;
+        --calcite-table-selection-chip-selected-border-color: purple;
+        --calcite-table-selection-chip-selected-text-color: purple;
+        --calcite-table-selection-chip-background-color-selected: pink;
+        --calcite-table-selection-chip-border-color-selected: pink;
+        --calcite-table-selection-chip-text-color-selected: red;
+        --calcite-table-selection-out-of-view-chip-background-color: red;
+        --calcite-table-selection-out-of-view-chip-border-color: green;
+        --calcite-table-selection-out-of-view-chip-corner-radius: red;
+        --calcite-table-selection-out-of-view-chip-shadow: var(--calcite-shadow-sm);
+        --calcite-table-selection-out-of-view-chip-text-color: green;
+        --calcite-table-selection-out-of-view-chip-icon-color: blue;
+        --calcite-table-pagination-text-color: green;
+        --calcite-table-pagination-text-color-hover: darkgreen;
+        --calcite-table-pagination-text-color-selected: teal;
+        --calcite-table-pagination-background-color: lightyellow;
+        --calcite-table-pagination-background-color-hover: yellow;
+        --calcite-table-pagination-background-color-active: gold;
+        --calcite-table-pagination-border-color-selected: green;
+        --calcite-table-pagination-border-color-hover: orange;
+        --calcite-table-pagination-arrow-icon-color: blue;
+        --calcite-table-pagination-arrow-icon-color-hover: pink;
+        --calcite-table-pagination-arrow-icon-color-active: red;
+        --calcite-table-pagination-arrow-background-color: lightyellow;
+        --calcite-table-pagination-arrow-background-color-hover: orange;
+        --calcite-table-pagination-arrow-background-color-active: gold;
+    "
+    >
+      <calcite-table-row slot="table-header">
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      </calcite-table-row>
+      <calcite-table-row selected>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+      <calcite-table-row selected>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+      <calcite-table-row>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+      <calcite-table-row>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+      <calcite-table-row>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+      <calcite-table-row>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+      <calcite-table-row>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+      <calcite-table-row>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+      <calcite-table-row slot="table-footer">
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+    </calcite-table>`;

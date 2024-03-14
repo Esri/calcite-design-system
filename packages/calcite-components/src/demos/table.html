@@ -232,6 +232,101 @@
       .calcite-mode-dark #theme-chip-lavender[selected] {
         --calcite-ui-icon-color: #d6b9eb;
       }
+
+      .themed {
+        --calcite-table-corner-radius: var(--calcite-corner-radius-round);
+        --calcite-table-shadow: var(--calcite-shadow-sm);
+        --calcite-table-border-color: red;
+        --calcite-table-row-background-color: #e6f4e6;
+        --calcite-table-row-background-color-striped: green;
+        --calcite-table-row-background-color-selected: orange;
+        --calcite-table-border-color: green;
+        --calcite-table-row-border-color-selected: pink;
+        --calcite-table-row-selected-accent-color: red;
+        --calcite-table-row-background-color-selected: red;
+
+        --calcite-table-number-cell-background-color: purple;
+        --calcite-table-number-cell-text-color: red;
+
+        --calcite-table-selection-cell-background-color: lightgreen;
+        --calcite-table-selection-cell-background-color-selected: green;
+        --calcite-table-selection-cell-icon-color: blue;
+        --calcite-table-selection-cell-icon-color-selected: white;
+
+        --calcite-table-header-background-color: green;
+        --calcite-table-header-heading-color: lightgreen;
+        --calcite-table-header-description-color: lightyellow;
+
+        --calcite-table-selection-dismiss-button-background-color: red;
+        --calcite-table-selection-dismiss-button-border-color: red;
+        --calcite-table-selection-dismiss-button-corner-radius: 14px;
+        --calcite-table-selection-dismiss-button-shadow: var(--calcite-shadow-sm);
+        --calcite-table-selection-dismiss-button-text-color: pink;
+
+        --calcite-table-selection-dismiss-button-background-color-hover: pink;
+        --calcite-table-selection-dismiss-button-border-color-hover: pink;
+        --calcite-table-selection-dismiss-button-text-color-hover: red;
+
+        --calcite-table-selection-dismiss-button-background-color-active: red;
+        --calcite-table-selection-dismiss-button-border-color-active: red;
+        --calcite-table-selection-dismiss-button-text-color-active: red;
+
+        --calcite-table-selection-chip-background-color: red;
+        --calcite-table-selection-chip-border-color: red;
+        --calcite-table-selection-chip-corner-radius: red;
+        --calcite-table-selection-chip-shadow: var(--calcite-shadow-sm);
+        --calcite-table-selection-chip-text-color: green;
+        --calcite-table-selection-chip-selected-background-color: purple;
+        --calcite-table-selection-chip-selected-border-color: purple;
+        --calcite-table-selection-chip-selected-text-color: purple;
+
+        --calcite-table-selection-chip-background-color-selected: pink;
+        --calcite-table-selection-chip-border-color-selected: pink;
+        --calcite-table-selection-chip-text-color-selected: red;
+
+        --calcite-table-selection-out-of-view-chip-background-color: red;
+        --calcite-table-selection-out-of-view-chip-border-color: green;
+        --calcite-table-selection-out-of-view-chip-corner-radius: red;
+        --calcite-table-selection-out-of-view-chip-shadow: var(--calcite-shadow-sm);
+        --calcite-table-selection-out-of-view-chip-text-color: green;
+        --calcite-table-selection-out-of-view-chip-icon-color: blue;
+
+        --calcite-table-pagination-text-color: green;
+        --calcite-table-pagination-text-color-hover: darkgreen;
+        --calcite-table-pagination-text-color-selected: teal;
+        --calcite-table-pagination-background-color: lightyellow;
+        --calcite-table-pagination-background-color-hover: yellow;
+        --calcite-table-pagination-background-color-active: gold;
+        --calcite-table-pagination-border-color-selected: green;
+        --calcite-table-pagination-border-color-hover: orange;
+        --calcite-table-pagination-arrow-icon-color: blue;
+        --calcite-table-pagination-arrow-icon-color-hover: pink;
+        --calcite-table-pagination-arrow-icon-color-active: red;
+        --calcite-table-pagination-arrow-background-color: lightyellow;
+        --calcite-table-pagination-arrow-background-color-hover: orange;
+        --calcite-table-pagination-arrow-background-color-active: gold;
+      }
+
+      .themed calcite-table-row:nth-of-type(3) {
+        --calcite-table-cell-background-color: purple;
+        --calcite-table-row-border-color: purple;
+      }
+
+      .themed calcite-table-row:nth-of-type(3) calcite-table-cell:nth-of-type(3) {
+        --calcite-table-cell-background-color: yellow;
+        --calcite-table-cell-border-color: yellow;
+      }
+
+      calcite-table-row[slot="table-footer"] {
+        --calcite-table-cell-background-color: purple;
+        --calcite-table-number-cell-background-color: green;
+        --calcite-table-selection-cell-background-color: pink;
+      }
+      calcite-table-row[slot="table-header"] {
+        --calcite-table-cell-background-color: purple;
+        --calcite-table-number-cell-background-color: green;
+        --calcite-table-selection-cell-background-color: pink;
+      }
     </style>
   </head>
 
@@ -703,6 +798,1219 @@
           </calcite-table-row>
         </calcite-table>
       </div>
+      <h3>Themed</h3>
+      <calcite-table
+        class="themed"
+        bordered
+        striped
+        selection-mode="multiple"
+        numbered
+        caption="Theming testing"
+        page-size="10"
+      >
+        <calcite-action slot="selection-actions" icon="trash"></calcite-action>
+        <calcite-action slot="selection-actions" icon="send"></calcite-action>
+        <calcite-action slot="selection-actions" icon="copy"></calcite-action>
+        <calcite-action slot="selection-actions" icon="plus"></calcite-action>
+        <calcite-table-row slot="table-header">
+          <calcite-table-header heading="Example column heading"></calcite-table-header>
+          <calcite-table-header heading="Example heading"></calcite-table-header>
+          <calcite-table-header heading="Heading example">
+            <calcite-chip scale="s" appearance="outline-fill" slot="actions-end">slot</calcite-chip>
+          </calcite-table-header>
+          <calcite-table-header heading="Example"></calcite-table-header>
+          <calcite-table-header heading="Testing" description="With a description"> </calcite-table-header>
+          <calcite-table-header heading="Site visits" alignment="end"></calcite-table-header>
+          <calcite-table-header heading="Status"></calcite-table-header>
+          <calcite-table-header alignment="center" heading="More"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 1</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 2</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 3</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 4</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 5</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 6</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 7 </calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 8 </calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 9</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="frown">Sad</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 10</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 11</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 12</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 13</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 14</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 15</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 16</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 17</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 18</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 19</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 20</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="frown">Sad</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 21</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 22</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">test 23</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">12</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">78</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">62</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">1643</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">62</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">6</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">262</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="frown">Sad</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">53</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">25</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">1643</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">62</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">6</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">262</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="frown">Sad</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">120</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">987</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">12</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">78</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">1643</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">62</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">6</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">262</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="frown">Sad</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">120</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">987</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">12</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">78</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">62</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">1643</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">62</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">6</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">262</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="frown">Sad</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">53</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">25</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">1643</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">62</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">6</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">262</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="frown">Sad</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">120</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">987</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">12</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">78</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">1643</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">62</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">6</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">262</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="frown">Sad</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">120</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">987</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">12</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">78</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">62</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">1643</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">62</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell> </calcite-table-row
+        ><calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">6</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">262</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="frown">Sad</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">63</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">120</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">987</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row disabled>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">12</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">78</calcite-table-cell>
+          <calcite-table-cell><calcite-chip scale="s" icon="smile">Happy</calcite-chip></calcite-table-cell>
+          <calcite-table-cell alignment="center">
+            <calcite-chip scale="s">Another thing</calcite-chip>
+          </calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-footer">
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell col-span="5">foot</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>
+
       <h3>A11y testing</h3>
 
       <calcite-table selection-mode="multiple" numbered caption="Accessibility testing" page-size="10">

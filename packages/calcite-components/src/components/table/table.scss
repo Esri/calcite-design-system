@@ -3,14 +3,62 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-table-button-background-color: defines the component's background color.
- * @prop --calcite-table-button-background-color-active: defines the component's background color in an active state.
- * @prop --calcite-table-button-background-color-hover: defines the component's background color in a hover state.
- * @prop --calcite-table-button-corner-radius: defines the component's corner radius.
- * @prop --calcite-table-button-text-color: defines the component's text color.
- * @prop --calcite-table-button-text-color-active: defines the component's text color in an active state.
- * @prop --calcite-table-button-text-color-focus: defines the component's text color in a focus state.
- * @prop --calcite-table-button-text-color-hover: defines the component's text color in a hover state.
+ * @prop --calcite-table-border-color: The border color of the component.
+ * @prop --calcite-table-corner-radius: The border color of the component.
+ * @prop --calcite-table-shadow: The shadow of the component.
+
+ * @prop --calcite-table-selection-chip-background-color: The background color of the component's `selectionMode` selection chip.
+ * @prop --calcite-table-selection-chip-border-color: The border color of the component's `selectionMode` selection chip.
+ * @prop --calcite-table-selection-chip-corner-radius: The corner radius of the component's `selectionMode` selection chip.
+ * @prop --calcite-table-selection-chip-shadow: The shadow of the component's `selectionMode` selection chip.
+ * @prop --calcite-table-selection-chip-text-color: The text color of the component's `selectionMode` selection chip.
+ 
+ * @prop --calcite-table-number-cell-background-color: The background color of the component's `numbered` cell.
+ * @prop --calcite-table-number-cell-text-color: The text color of the component's `numbered` cell.
+
+ * @prop --calcite-table-selection-cell-background-color: The background color of the component's `selectionMode` cell.
+ * @prop --calcite-table-selection-cell-background-color-selected: The background color of the component's `selectionMode` cell.
+
+ * @prop --calcite-table-selection-cell-icon-color: The icon color of the component's `selectionMode` selection icon.
+ * @prop --calcite-table-selection-cell-icon-color-selected: The icon color of the component's `selectionMode` selection icon when selected.
+
+ * @prop --calcite-table-selection-chip-selected-background-color: The background color of the component's `selectionMode` selection chip.
+ * @prop --calcite-table-selection-chip-selected-border-color: The border color of the component's `selectionMode` selection chip.
+ * @prop --calcite-table-selection-chip-selected-text-color: The text color of the component's `selectionMode` selection chip.
+
+ * @prop --calcite-table-selection-dismiss-button-background-color-active: The background color of the component's `selectionMode` selection dismiss chip when active.
+ * @prop --calcite-table-selection-dismiss-button-background-color-hover: The background color of the component's `selectionMode` selection dismiss chip when hovered.
+ * @prop --calcite-table-selection-dismiss-button-background-color: The background color of the component's `selectionMode` selection dismiss chip.
+ * @prop --calcite-table-selection-dismiss-button-border-color-active: The border color of the component's `selectionMode` selection dismiss chip when active.
+ * @prop --calcite-table-selection-dismiss-button-border-color-hover: The border color of the component's `selectionMode` selection dismiss chip when hovered.
+ * @prop --calcite-table-selection-dismiss-button-border-color: The border color of the component's `selectionMode` selection dismiss chip.
+ * @prop --calcite-table-selection-dismiss-button-corner-radius: The corner radius of the component's `selectionMode` selection dismiss chip.
+ * @prop --calcite-table-selection-dismiss-button-shadow: The shadow of the component's `selectionMode` selection dismiss chip.
+ * @prop --calcite-table-selection-dismiss-button-text-color-active: The shadow of the component's `selectionMode` selection dismiss chip when active.
+ * @prop --calcite-table-selection-dismiss-button-text-color-hover: The shadow of the component's `selectionMode` selection dismiss chip when hovered.
+ * @prop --calcite-table-selection-dismiss-button-text-color: The shadow of the component's `selectionMode` selection dismiss chip.
+
+ * @prop --calcite-table-selection-out-of-view-chip-background-color: The background color of the component's `selectionMode` selection out of view chip.
+ * @prop --calcite-table-selection-out-of-view-chip-border-color: The border color of the component's `selectionMode` selection out of view chip.
+ * @prop --calcite-table-selection-out-of-view-chip-corner-radius: The corner radius of the component's `selectionMode` selection out of view chip.
+ * @prop --calcite-table-selection-out-of-view-chip-icon-color: The icon color of the component's `selectionMode` selection out of view chip.
+ * @prop --calcite-table-selection-out-of-view-chip-shadow: The shadow of the component's `selectionMode` selection out of view chip.
+ * @prop --calcite-table-selection-out-of-view-chip-text-color: The text color of the component's `selectionMode` selection out of view chip.
+
+ * @prop --calcite-table-pagination-arrow-background-color-active: Specifies the background color of the component's `pageSize` pagination arrow items while active.
+ * @prop --calcite-table-pagination-arrow-background-color-hover: Specifies the background color of the component's `pageSize` pagination arrow items while hovered.
+ * @prop --calcite-table-pagination-arrow-background-color: Specifies the background color of the component's `pageSize` pagination arrow items.
+ * @prop --calcite-table-pagination-arrow-icon-color-active: Specifies the icon color of the component's `pageSize` pagination arrow items while active.
+ * @prop --calcite-table-pagination-arrow-icon-color-hover: Specifies the icon color of the component's `pageSize` pagination arrow items while hovered.
+ * @prop --calcite-table-pagination-arrow-icon-color: Specifies the icon color of the component's `pageSize` pagination arrow items.
+ * @prop --calcite-table-pagination-background-color-active: Specifies the background color of the component's `pageSize` pagination items while active.
+ * @prop --calcite-table-pagination-background-color-hover: Specifies the background color of the component's `pageSize` pagination items while hovered.
+ * @prop --calcite-table-pagination-background-color: Specifies the background color of the component's `pageSize` pagination items.
+ * @prop --calcite-table-pagination-border-color-hover: Specifies the border color the pagination items while hovered.
+ * @prop --calcite-table-pagination-border-color-selected: Specifies the border color of the component's `pageSize` pagination items when selected.
+ * @prop --calcite-table-pagination-text-color-hover: Specifies the text color of the component's `pageSize` pagination items items while hovered.
+ * @prop --calcite-table-pagination-text-color-selected: Specifies the text color of the component's `pageSize` pagination items when selected.
+ * @prop --calcite-table-pagination-text-color: Specifies the text color of the component's `pageSize` pagination items.
  */
 
 :host([scale="s"]) {
@@ -44,7 +92,9 @@
 }
 
 .table-container {
-  border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-3));
+  border: 1px solid var(--calcite-table-border-color, var(--calcite-color-border-3));
+  border-radius: var(--calcite-table-corner-radius, var(--calcite-corner-radius-sharp));
+  box-shadow: var(--calcite-table-shadow, var(--calcite-shadow-none));
 }
 
 .assistive-text {
@@ -69,7 +119,10 @@ table {
 
 .striped {
   ::slotted(calcite-table-row:nth-child(2n + 1)) {
-    --calcite-table-row-background: var(--calcite-table-background-color-alternate, var(--calcite-color-foreground-2));
+    --calcite-table-row-background-color: var(
+      --calcite-table-row-background-color-striped,
+      var(--calcite-color-foreground-2)
+    );
   }
 }
 
@@ -83,6 +136,11 @@ table {
   padding-block: var(--calcite-internal-table-cell-padding);
 }
 
+.pagination-area {
+  @apply flex flex-row w-full justify-center;
+  padding-block: var(--calcite-internal-table-cell-padding);
+}
+
 .selection-area calcite-chip:last-of-type {
   @apply me-2;
 }
@@ -91,35 +149,63 @@ table {
   @apply ms-2;
 }
 
-.selection-area calcite-button {
-  @apply me-4;
+.selection-chip {
+  --calcite-chip-background-color: var(--calcite-table-selection-chip-background-color);
+  --calcite-chip-border-color: var(--calcite-table-selection-chip-border-color);
+  --calcite-chip-corner-radius: var(--calcite-table-selection-chip-corner-radius);
+  --calcite-chip-shadow: var(--calcite-table-selection-chip-shadow);
+  --calcite-chip-text-color: var(--calcite-table-selection-chip-text-color);
+  &.selection-chip-active {
+    --calcite-chip-background-color: var(--calcite-table-selection-chip-background-color-selected);
+    --calcite-chip-border-color: var(--calcite-table-selection-chip-border-color-selected);
+    --calcite-chip-text-color: var(--calcite-table-selection-chip-text-color-selected);
+  }
 }
 
-.pagination-area {
-  @apply flex flex-row w-full justify-center;
-  padding-block: var(--calcite-internal-table-cell-padding);
+.selection-out-of-view-chip {
+  --calcite-chip-background-color: var(--calcite-table-selection-out-of-view-chip-background-color);
+  --calcite-chip-border-color: var(--calcite-table-selection-out-of-view-chip-border-color);
+  --calcite-chip-corner-radius: var(--calcite-table-selection-out-of-view-chip-corner-radius);
+  --calcite-chip-shadow: var(--calcite-table-selection-out-of-view-chip-shadow);
+  --calcite-chip-text-color: var(--calcite-table-selection-out-of-view-chip-text-color);
+  --calcite-chip-icon-color: var(--calcite-table-selection-out-of-view-chip-icon-color);
 }
 
 calcite-pagination {
   flex: 1;
   justify-content: center;
+  --calcite-pagination-text-color: var(--calcite-table-pagination-text-color);
+  --calcite-pagination-text-color-hover: var(--calcite-table-pagination-text-color-hover);
+  --calcite-pagination-text-color-selected: var(--calcite-table-pagination-text-color-selected);
+  --calcite-pagination-background-color: var(--calcite-table-pagination-background-color);
+  --calcite-pagination-background-color-hover: var(--calcite-table-pagination-background-color-hover);
+  --calcite-pagination-background-color-active: var(--calcite-table-pagination-background-color-active);
+  --calcite-pagination-border-color-selected: var(--calcite-table-pagination-border-color-selected);
+  --calcite-pagination-border-color-hover: var(--calcite-table-pagination-border-color-hover);
+  --calcite-pagination-arrow-icon-color: var(--calcite-table-pagination-arrow-icon-color);
+  --calcite-pagination-arrow-icon-color-hover: var(--calcite-table-pagination-arrow-icon-color-hover);
+  --calcite-pagination-arrow-icon-color-active: var(--calcite-table-pagination-arrow-icon-color-active);
+  --calcite-pagination-arrow-background-color: var(--calcite-table-pagination-arrow-background-color);
+  --calcite-pagination-arrow-background-color-hover: var(--calcite-table-pagination-arrow-background-color-hover);
+  --calcite-pagination-arrow-background-color-active: var(--calcite-table-pagination-arrow-background-color-active);
 }
 
-calcite-button {
-  --calcite-button-background-color: var(--calcite-table-button-background-color);
-  --calcite-button-corner-radius: var(--calcite-table-button-corner-radius);
-  --calcite-button-text-color: var(--calcite-table-button-text-color);
-
+.dismiss-button {
+  @apply me-4;
+  --calcite-button-background-color: var(--calcite-table-selection-dismiss-button-background-color);
+  --calcite-button-border-color: var(--calcite-table-selection-dismiss-button-border-color);
+  --calcite-button-corner-radius: var(--calcite-table-selection-dismiss-button-corner-radius);
+  --calcite-button-shadow: var(--calcite-table-selection-dismiss-button-shadow);
+  --calcite-button-text-color: var(--calcite-table-selection-dismiss-button-text-color);
   &:hover {
-    --calcite-button-background-color: var(--calcite-table-button-background-color-hover);
-    --calcite-button-text-color: var(--calcite-table-button-text-color-hover);
-  }
-  &:focus {
-    --calcite-button-text-color: var(--calcite-table-button-text-color-focus);
+    --calcite-button-background-color: var(--calcite-table-selection-dismiss-button-background-color-hover);
+    --calcite-button-border-color: var(--calcite-table-selection-dismiss-button-border-color-hover);
+    --calcite-button-text-color: var(--calcite-table-selection-dismiss-button-text-color-hover);
   }
   &:active {
-    --calcite-button-text-color: var(--calcite-table-button-text-color-active);
-    --calcite-button-background-color: var(--calcite-table-button-background-color-active);
+    --calcite-button-background-color: var(--calcite-table-selection-dismiss-button-background-color-active);
+    --calcite-button-border-color: var(--calcite-table-selection-dismiss-button-border-color-active);
+    --calcite-button-text-color: var(--calcite-table-selection-dismiss-button-text-color-active);
   }
 }
 
