@@ -1387,13 +1387,16 @@ export const themingExample_TestOnly = (): string =>
       }
       calcite-table-row[slot="table-footer"] {
         --calcite-table-cell-background-color: purple;
-        --calcite-table-number-cell-background-color: green;
-        --calcite-table-selection-cell-background-color: pink;
+        --calcite-table-number-cell-background-color: purple;
+        --calcite-table-selection-cell-background-color: purple;
       }
       calcite-table-row[slot="table-header"] {
         --calcite-table-cell-background-color: purple;
         --calcite-table-number-cell-background-color: green;
         --calcite-table-selection-cell-background-color: pink;
+        --calcite-table-selection-cell-background-color-selected: red;
+        --calcite-table-selection-cell-icon-color: orange;
+        --calcite-table-selection-cell-icon-color-selected: purple;
       }
     </style>
     <calcite-table striped numbered caption="Simple-striped table" selection-mode="multiple" page-size="5">

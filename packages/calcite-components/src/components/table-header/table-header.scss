@@ -66,19 +66,11 @@ th.footer-row {
 .cell--multiple-selection {
   @apply cursor-pointer align-middle;
   color: var(--calcite-table-selection-cell-icon-color, var(--calcite-color-text-3));
+  background-color: var(--calcite-table-selection-cell-background-color, var(--calcite-color-foreground-2));
+  &.selected-cell {
+    background-color: var(--calcite-table-selection-cell-background-color-selected, var(--calcite-color-foreground-2));
+  }
 }
-
-.selected-cell:not(.number-cell):not(.footer-cell) {
-  --calcite-table-header-background: var(--calcite-color-foreground-current);
-}
-
-.selection-cell {
-  background-color: var(
-    --calcite-table-selection-cell-background-color,
-    var(--calcite-table-cell-background-color, var(--calcite-color-foreground-2))
-  );
-}
-
 .number-cell {
   background-color: var(
     --calcite-table-number-cell-background-color,

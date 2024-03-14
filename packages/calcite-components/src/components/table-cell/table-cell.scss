@@ -71,11 +71,8 @@ td.last-cell {
 }
 
 .number-cell {
-  color: var(--calcite-table-number-cell-text-color, var(--calcite-color-text-3));
-  background-color: var(
-    --calcite-table-number-cell-background-color,
-    var(--calcite-table-cell-background-color, var(--calcite-color-foreground-2))
-  );
+  color: var(--calcite-table-number-cell-text-color, var(--calcite-color-text-1));
+  background-color: var(--calcite-table-number-cell-background-color, var(--calcite-color-foreground-2));
 }
 
 .selection-cell {
