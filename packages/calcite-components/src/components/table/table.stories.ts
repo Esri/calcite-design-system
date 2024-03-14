@@ -1331,32 +1331,7 @@ darkModeRTLWithSelection_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const themingExample_TestOnly = (): string =>
   html`<style>
-      .themed calcite-table-row:nth-of-type(3) {
-        --calcite-table-cell-background-color: purple;
-        --calcite-table-row-border-color: purple;
-      }
-
-      .themed calcite-table-row:nth-of-type(3) calcite-table-cell:nth-of-type(3) {
-        --calcite-table-cell-background-color: yellow;
-        --calcite-table-cell-border-color: yellow;
-      }
-      calcite-table-row[slot="table-footer"] {
-        --calcite-table-cell-background-color: purple;
-        --calcite-table-number-cell-background-color: green;
-        --calcite-table-selection-cell-background-color: pink;
-      }
-      calcite-table-row[slot="table-header"] {
-        --calcite-table-cell-background-color: purple;
-        --calcite-table-number-cell-background-color: green;
-        --calcite-table-selection-cell-background-color: pink;
-      }
-    </style>
-    <calcite-table
-      striped
-      numbered
-      caption="Simple-striped table"
-      selection-mode="multiple"
-      style="
+      calcite-table {
         --calcite-table-selection-dismiss-button-background-color: red;
         --calcite-table-selection-dismiss-button-border-color: red;
         --calcite-table-selection-dismiss-button-corner-radius: 14px;
@@ -1399,8 +1374,29 @@ export const themingExample_TestOnly = (): string =>
         --calcite-table-pagination-arrow-background-color: lightyellow;
         --calcite-table-pagination-arrow-background-color-hover: orange;
         --calcite-table-pagination-arrow-background-color-active: gold;
-    "
-    >
+      }
+
+      calcite-table-row:nth-of-type(3) {
+        --calcite-table-cell-background-color: purple;
+        --calcite-table-row-border-color: purple;
+      }
+
+      calcite-table-row:nth-of-type(3) calcite-table-cell:nth-of-type(3) {
+        --calcite-table-cell-background-color: yellow;
+        --calcite-table-cell-border-color: yellow;
+      }
+      calcite-table-row[slot="table-footer"] {
+        --calcite-table-cell-background-color: purple;
+        --calcite-table-number-cell-background-color: green;
+        --calcite-table-selection-cell-background-color: pink;
+      }
+      calcite-table-row[slot="table-header"] {
+        --calcite-table-cell-background-color: purple;
+        --calcite-table-number-cell-background-color: green;
+        --calcite-table-selection-cell-background-color: pink;
+      }
+    </style>
+    <calcite-table striped numbered caption="Simple-striped table" selection-mode="multiple">
       <calcite-table-row slot="table-header">
         <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
