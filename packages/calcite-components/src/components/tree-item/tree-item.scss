@@ -71,12 +71,12 @@
 
 :host([lines]) {
   .children-container:after {
-    @apply transition-default
-        absolute
+    @apply absolute
         top-0
         w-px
         transition-colors
         z-default;
+    @include transition-default();
     // ensure lines don't overlap focus outline
     block-size: 96%;
     content: "";
@@ -160,7 +160,8 @@
 
   .checkmark,
   .bullet-point {
-    @apply transition-default opacity-0;
+    @apply opacity-0;
+    @include transition-default();
     color: var(--calcite-color-border-1);
   }
 }
@@ -225,10 +226,10 @@
 }
 
 .chevron {
-  @apply transition-default
-    text-color-3
+  @apply text-color-3
     relative
     self-center;
+  @include transition-default();
   flex: 0 0 auto;
   transform: rotate(0deg);
 

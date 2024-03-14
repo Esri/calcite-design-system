@@ -105,8 +105,8 @@ $border-style: 1px solid var(--calcite-color-border-3);
   overflow-hidden
   self-stretch
   text-center
-  text-color-2
-  transition-default;
+  text-color-2;
+  @include transition-default();
   border-inline: 0 solid transparent;
   border-start-end-radius: 0;
 

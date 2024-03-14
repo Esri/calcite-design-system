@@ -67,8 +67,9 @@
   px-0
   text-color-3
   text-n1h
-  transition-default
+
   w-full;
+  @include transition-default();
 
   border-block-end-style: solid;
 }
@@ -116,7 +117,8 @@
     inline-flex
     self-center;
   & svg {
-    @apply transition-default;
+    @apply;
+    @include transition-default();
   }
 }
 
@@ -144,8 +146,8 @@
   justify-center
   p-1
   self-center
-  text-color-3
-  transition-default;
+  text-color-3;
+  @include transition-default();
 
   background-color: var(--calcite-button-transparent-1);
   margin-inline-start: auto;

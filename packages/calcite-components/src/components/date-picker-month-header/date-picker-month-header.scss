@@ -47,8 +47,8 @@
     justify-center
     border-none
     px-1
-    outline-none
-    transition-default;
+    outline-none;
+  @include transition-default();
   inline-size: calc(100% / 7);
 
   &:focus {

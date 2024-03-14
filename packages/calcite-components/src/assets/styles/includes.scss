@@ -130,7 +130,8 @@
   }
 
   .x-button {
-    @apply appearance-none bg-transparent border-2 content-center cursor-pointer flex focus-base items-center justify-center m-0 self-center text-color-3 transition-default;
+    @apply appearance-none bg-transparent border-2 content-center cursor-pointer flex focus-base items-center justify-center m-0 self-center text-color-3;
+    @include transition-default();
 
     border-radius: 50%;
     border-color: transparent;
@@ -151,4 +152,14 @@
       color: inherit;
     }
   }
+}
+
+$common-animatable-props: "background-color, block-size, border-color, box-shadow, color, inset-block-end, inset-block-start, inset-inline-end, inset-inline-start inset-size, opacity, outline-color, transform";
+
+@mixin transition-default($target-props: $common-animatable-props) {
+  transition:
+    // we explicitly list these properties to avoid animating properties that are not intended to be animated and that might affect performance
+    #{$target-props} var(--calcite-animation-timing) ease-in-out 0s,
+    outline 0s,
+    outline-offset 0s;
 }
