@@ -25,7 +25,6 @@
 
 :host {
   --calcite-internal-alert-edge-distance: var(--calcite-spacing-xxxl);
-  --calcite-internal-alert-dismiss-progress-background-color: var(--calcite-color-transparent-tint);
 
   @apply block;
 }
@@ -157,7 +156,7 @@
     block;
     block-size: 2px;
     content: "";
-    background-color: var(--calcite-internal-alert-dismiss-progress-background-color);
+    background-color: var(--calcite-color-transparent-tint);
     inset-inline-end: 0;
   }
 }
