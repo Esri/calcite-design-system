@@ -106,10 +106,10 @@ th.footer-row {
 
 .heading {
   @apply text-color-1;
-  color: var(--calcite-table-header-heading-color, var(--calcite-table-header-heading-color));
+  color: var(--calcite-table-header-heading-color, var(--calcite-color-text-1));
 }
 
 .description {
-  color: var(--calcite-table-header-description-color, var(--calcite-table-header-description-color));
+  color: var(--calcite-table-header-description-color, var(--calcite-color-text-3));
   font-size: var(--calcite-internal-table-cell-font-size-secondary);
 }
