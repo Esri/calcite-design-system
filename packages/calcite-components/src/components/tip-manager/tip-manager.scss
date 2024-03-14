@@ -6,7 +6,7 @@
 * These properties can be overridden using the component's tag as selector.
 *
 * @prop --calcite-tip-max-width: [Deprecated] in favor of setting `max-width` on tips directly - Specifies the maximum width of a slotted `calcite-tip` within the component.
-* @prop --calcite-tip-manager-height: [Deprecated] use `--calcite-tip-max-height instead` - Specifies the maximum height of a slotted `calcite-tip` within the component.
+* @prop --calcite-tip-manager-height: [Deprecated] use `--calcite-tip-manager-content-height` instead - Specifies the maximum height of a slotted `calcite-tip` within the component.
 * @prop --calcite-tip-manager-background-color: The background color of the component.
 * @prop --calcite-tip-manager-heading-text-color: The heading text color of the component.
 * @prop --calcite-tip-manager-text-color: The text color of the component.
@@ -78,7 +78,7 @@
     p-4;
   animation-name: none;
   animation-duration: var(--calcite-animation-timing);
-  block-size: var(--calcite-tip-max-height, 19vh);
+  block-size: var(--calcite-tip-manager-content-height, 19vh);
   &:focus {
     @apply focus-outset;
   }
