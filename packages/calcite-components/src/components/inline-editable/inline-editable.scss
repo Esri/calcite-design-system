@@ -4,13 +4,49 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-inline-editable-background-color: Specifies the background color of the component.
- * @prop --calcite-inline-editable-border-color: Specifies the border color of the component.
+ * @prop --calcite-inline-editable-cancel-button-background-color-active: Specifies the background color of the cancel button when active.
+ * @prop --calcite-inline-editable-cancel-button-background-color-focus: Specifies the background color of the cancel button when focused.
+ * @prop --calcite-inline-editable-cancel-button-background-color-hover: Specifies the background color of the cancel button when hovered.
+ * @prop --calcite-inline-editable-cancel-button-background-color: Specifies the background color of the cancel button.
+ * @prop --calcite-inline-editable-cancel-button-border-color-active: Specifies the border color of the cancel button when active.
+ * @prop --calcite-inline-editable-cancel-button-border-color-focus: Specifies the border color of the cancel button when focused.
+ * @prop --calcite-inline-editable-cancel-button-border-color-hover: Specifies the border color of the cancel button when hovered.
+ * @prop --calcite-inline-editable-cancel-button-border-color: Specifies the border color of the cancel button.
+ * @prop --calcite-inline-editable-cancel-button-icon-color-active: Specifies the icon color of the cancel button when active.
+ * @prop --calcite-inline-editable-cancel-button-icon-color-focus: Specifies the icon color of the cancel button when focused.
+ * @prop --calcite-inline-editable-cancel-button-icon-color-hover: Specifies the icon color of the cancel button when hovered.
+ * @prop --calcite-inline-editable-cancel-button-icon-color: Specifies the icon color of the cancel button.
+ * @prop --calcite-inline-editable-cancel-button-corner-radius: Specifies the corner radius of the cancel button.
+ * @prop --calcite-inline-editable-edit-button-background-color: Specifies the background color of the edit button.
+ * @prop --calcite-inline-editable-edit-button-background-color-active: Specifies the background color of the edit button when active.
+ * @prop --calcite-inline-editable-edit-button-background-color-focus: Specifies the background color of the edit button when focused.
+ * @prop --calcite-inline-editable-edit-button-background-color-hover: Specifies the background color of the edit button when hovered.
+ * @prop --calcite-inline-editable-edit-button-border-color-active: Specifies the border color of the edit button when active.
+ * @prop --calcite-inline-editable-edit-button-border-color-focus: Specifies the border color of the edit button when focused.
+ * @prop --calcite-inline-editable-edit-button-border-color-hover: Specifies the border color of the edit button when hovered.
+ * @prop --calcite-inline-editable-edit-button-border-color: Specifies the border color of the edit button.
+ * @prop --calcite-inline-editable-edit-button-icon-color-active: Specifies the icon color of the edit button when active.
+ * @prop --calcite-inline-editable-edit-button-icon-color-focus: Specifies the icon color of the edit button when focused.
+ * @prop --calcite-inline-editable-edit-button-icon-color-hover: Specifies the icon color of the edit button when hovered.
+ * @prop --calcite-inline-editable-edit-button-icon-color: Specifies the icon color of the edit button.
+ * @prop --calcite-inline-editable-edit-button-corner-radius: Specifies the corner radius of the edit button.
+ * @prop --calcite-inline-editable-ok-button-background-color-active: Specifies the background color of the OK button when active.
+ * @prop --calcite-inline-editable-ok-button-background-color-focus: Specifies the background color of the OK button when focused.
+ * @prop --calcite-inline-editable-ok-button-background-color-hover: Specifies the background color of the OK button when hovered.
+ * @prop --calcite-inline-editable-ok-button-background-color: Specifies the background color of the OK button.
+ * @prop --calcite-inline-editable-ok-button-border-color-active: Specifies the border color of the OK button when active.
+ * @prop --calcite-inline-editable-ok-button-border-color-focus: Specifies the border color of the OK button when focused.
+ * @prop --calcite-inline-editable-ok-button-border-color-hover: Specifies the border color of the OK button when hovered.
+ * @prop --calcite-inline-editable-ok-button-border-color: Specifies the border color of the OK button.
+ * @prop --calcite-inline-editable-ok-button-icon-color-active: Specifies the icon color of the OK button when active.
+ * @prop --calcite-inline-editable-ok-button-icon-color-focus: Specifies the icon color of the OK button when focused.
+ * @prop --calcite-inline-editable-ok-button-icon-color-hover: Specifies the icon color of the OK button when hovered.
+ * @prop --calcite-inline-editable-ok-button-icon-color: Specifies the icon color of the OK button.
+ * @prop --calcite-inline-editable-ok-button-corner-radius: Specifies the corner radius of the OK button.
+ *
  */
 
 :host {
-  --calcite-inline-editable-background-color: var(--calcite-color-foreground-1);
-  --calcite-inline-editable-border-color: var(--calcite-color-border-2);
-
   @apply block;
 }
 
@@ -23,11 +59,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-inline-editable-height: #{$calcite-size-44}; // TODO: need semantic token for this size
-}
-
-:host(:not([editing-enabled]):not([disabled]):hover) {
-  --calcite-inline-editable-background-color: var(--calcite-color-foreground-2);
+  --calcite-internal-inline-editable-height: #{$calcite-size-44};
 }
 
 .wrapper {
@@ -37,15 +69,90 @@
     transition-default;
 
   block-size: var(--calcite-internal-inline-editable-height);
-  background-color: var(--calcite-inline-editable-background-color);
+  background-color: var(--calcite-inline-editable-background-color, var(--calcite-color-foreground-1));
 
   .input-wrapper {
     @apply flex-1;
   }
 }
 
+:host(:not([editing-enabled]):not([disabled]):hover) {
+  .wrapper {
+    background-color: var(--calcite-inline-editable-background-color, var(--calcite-color-foreground-2));
+  }
+}
+
 .controls-wrapper {
   @apply flex;
+}
+
+.enable-editing-button {
+  --calcite-button-background-color: var(--calcite-inline-editable-edit-button-background-color);
+  --calcite-button-border-color: var(--calcite-inline-editable-edit-button-border-color);
+  --calcite-button-icon-color: var(--calcite-inline-editable-edit-button-icon-color);
+  --calcite-button-corner-radius: var(--calcite-inline-editable-edit-button-corner-radius);
+
+  &:hover {
+    --calcite-button-background-color: var(--calcite-inline-editable-edit-button-background-color-hover);
+    --calcite-button-icon-color: var(--calcite-inline-editable-edit-button-icon-color-hover);
+    --calcite-button-border-color: var(--calcite-inline-editable-edit-button-border-color-hover);
+  }
+  &:focus {
+    --calcite-button-icon-color: var(--calcite-inline-editable-edit-button-icon-color-focus);
+    --calcite-button-background-color: var(--calcite-inline-editable-edit-button-background-color-focus);
+    --calcite-button-border-color: var(--calcite-inline-editable-edit-button-border-color-focus);
+  }
+  &:active {
+    --calcite-button-icon-color: var(--calcite-inline-editable-edit-button-icon-color-active);
+    --calcite-button-border-color: var(--calcite-inline-editable-edit-button-border-color-active);
+    --calcite-button-background-color: var(--calcite-inline-editable-edit-button-background-color-active);
+  }
+}
+
+.cancel-editing-button {
+  --calcite-button-background-color: var(--calcite-inline-editable-cancel-button-background-color);
+  --calcite-button-border-color: var(--calcite-inline-editable-cancel-button-border-color);
+  --calcite-button-icon-color: var(--calcite-inline-editable-cancel-button-icon-color);
+  --calcite-button-corner-radius: var(--calcite-inline-editable-cancel-button-corner-radius);
+
+  &:hover {
+    --calcite-button-background-color: var(--calcite-inline-editable-cancel-button-background-color-hover);
+    --calcite-button-icon-color: var(--calcite-inline-editable-cancel-button-icon-color-hover);
+    --calcite-button-border-color: var(--calcite-inline-editable-cancel-button-border-color-hover);
+  }
+  &:focus {
+    --calcite-button-icon-color: var(--calcite-inline-editable-cancel-button-icon-color-focus);
+    --calcite-button-background-color: var(--calcite-inline-editable-cancel-button-background-color-focus);
+    --calcite-button-border-color: var(--calcite-inline-editable-cancel-button-border-color-focus);
+  }
+  &:active {
+    --calcite-button-icon-color: var(--calcite-inline-editable-cancel-button-icon-color-active);
+    --calcite-button-border-color: var(--calcite-inline-editable-cancel-button-border-color-active);
+    --calcite-button-background-color: var(--calcite-inline-editable-cancel-button-background-color-active);
+  }
+}
+
+.confirm-editing-button {
+  --calcite-button-background-color: var(--calcite-inline-editable-ok-button-background-color);
+  --calcite-button-border-color: var(--calcite-inline-editable-ok-button-border-color);
+  --calcite-button-icon-color: var(--calcite-inline-editable-ok-button-icon-color);
+  --calcite-button-corner-radius: var(--calcite-inline-editable-ok-button-corner-radius);
+
+  &:hover {
+    --calcite-button-background-color: var(--calcite-inline-editable-ok-button-background-color-hover);
+    --calcite-button-icon-color: var(--calcite-inline-editable-ok-button-icon-color-hover);
+    --calcite-button-border-color: var(--calcite-inline-editable-ok-button-border-color-hover);
+  }
+  &:focus {
+    --calcite-button-icon-color: var(--calcite-inline-editable-ok-button-icon-color-focus);
+    --calcite-button-background-color: var(--calcite-inline-editable-ok-button-background-color-focus);
+    --calcite-button-border-color: var(--calcite-inline-editable-ok-button-border-color-focus);
+  }
+  &:active {
+    --calcite-button-icon-color: var(--calcite-inline-editable-ok-button-icon-color-active);
+    --calcite-button-border-color: var(--calcite-inline-editable-ok-button-border-color-active);
+    --calcite-button-background-color: var(--calcite-inline-editable-ok-button-background-color-active);
+  }
 }
 
 @include disabled();

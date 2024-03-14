@@ -11,7 +11,7 @@
  * @prop --calcite-time-picker-input-box-shadow: Specifies the box shadow around the numbers inside the open component.
  * @prop --calcite-time-picker-input-box-shadow-focus: Specifies the box shadow around the numbers inside the open component when focused.
  */
-time-picker :host {
+:host {
   @apply inline-block;
 }
 
@@ -46,7 +46,7 @@ time-picker :host {
     &:focus {
       @apply outline-none;
       background-color: var(--calcite-time-picker-background-color-hover, var(--calcite-color-foreground-2));
-      z-index: theme("zIndex.header");
+      z-index: var(--calcite-z-index-header);
       outline-offset: 0;
     }
     &:active {
