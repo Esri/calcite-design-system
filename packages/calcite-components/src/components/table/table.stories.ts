@@ -1396,7 +1396,7 @@ export const themingExample_TestOnly = (): string =>
         --calcite-table-selection-cell-background-color: pink;
       }
     </style>
-    <calcite-table striped numbered caption="Simple-striped table" selection-mode="multiple">
+    <calcite-table striped numbered caption="Simple-striped table" selection-mode="multiple" page-size="5">
       <calcite-table-row slot="table-header">
         <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1433,6 +1433,18 @@ export const themingExample_TestOnly = (): string =>
         <calcite-table-cell>cell</calcite-table-cell>
         <calcite-table-cell>cell</calcite-table-cell>
       </calcite-table-row>
+      <calcite-table-row selected>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+      <calcite-table-row>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
       <calcite-table-row>
         <calcite-table-cell>cell</calcite-table-cell>
         <calcite-table-cell>cell</calcite-table-cell>
@@ -1446,6 +1458,30 @@ export const themingExample_TestOnly = (): string =>
         <calcite-table-cell>cell</calcite-table-cell>
       </calcite-table-row>
       <calcite-table-row>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+      <calcite-table-row>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+      <calcite-table-row>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+      <calcite-table-row selected>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+      <calcite-table-row selected>
         <calcite-table-cell>cell</calcite-table-cell>
         <calcite-table-cell>cell</calcite-table-cell>
         <calcite-table-cell>cell</calcite-table-cell>
