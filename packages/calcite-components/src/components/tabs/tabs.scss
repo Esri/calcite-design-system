@@ -9,25 +9,50 @@
 
 :host {
   @apply flex flex-col;
+
+  --calcite-internal-tabs-border-color: var(--calcite-tabs-border-color, var(--calcite-color-border-1));
+  --calcite-internal-tabs-background-color: var(--calcite-tabs-background-color, var(--calcite-color-foreground-1));
 }
 
 :host([bordered]) {
   box-shadow: inset 0 1px 0 var(--calcite-color-border-1);
-  background-color: var(--calcite-tabs-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-internal-tabs-background-color);
+
+  ::slotted(calcite-tab-nav) {
+    margin-block-end: -1px;
+  }
 }
 
 section {
-  @apply border-color-1 border border-solid;
+  @apply border-color-1 border border-solid flex
+  border-t
+  flex-grow
+  overflow-hidden;
+
+  border-block-start-style: solid;
+  border-block-start-color: var(--calcite-internal-tabs-border-color);
 }
 
 :host([bordered][position="bottom"]) {
   box-shadow:
     inset 0 1px 0 var(--calcite-color-border-1),
     inset 0 -1px 0 var(--calcite-color-border-1);
+
+  ::slotted(calcite-tab-nav) {
+    margin-block-start: -1px;
+  }
 }
 
-:host([bordered]:not([position="bottom"])) ::slotted(calcite-tab-nav) {
-  margin-block-end: -1px;
+:host([position="bottom"]) {
+  @apply flex-col-reverse;
+
+  section {
+    @apply flex-col-reverse
+      border-t-0
+      border-b;
+
+    border-block-start-color: var(--calcite-internal-tabs-border-color);
+  }
 }
 
 :host([bordered][scale="s"]) section {
@@ -40,28 +65,6 @@ section {
 
 :host([bordered][scale="l"]) section {
   @apply p-4;
-}
-
-:host([position="bottom"]) {
-  @apply flex-col-reverse;
-}
-
-section {
-  @apply flex
-    flex-grow
-    overflow-hidden
-    border-t;
-
-  border-block-start-style: solid;
-  border-block-start-color: var(--calcite-tabs-border-color, var(--calcite-color-border-1));
-}
-
-:host([position="bottom"]) section {
-  @apply flex-col-reverse
-    border-t-0
-    border-b;
-
-  border-block-end-color: var(--calcite-tabs-border-color, var(--calcite-color-border-1));
 }
 
 :host([position="bottom"]:not([bordered])) section {
