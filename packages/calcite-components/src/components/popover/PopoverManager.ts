@@ -1,4 +1,3 @@
-import { isPrimaryPointerButton } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 
@@ -85,18 +84,16 @@ export default class PopoverManager {
   };
 
   private clickHandler = (event: PointerEvent): void => {
-    if (isPrimaryPointerButton(event)) {
-      this.togglePopovers(event);
-    }
+    this.togglePopovers(event);
   };
 
   private addListeners(): void {
-    window.addEventListener("pointerdown", this.clickHandler, { capture: true });
+    window.addEventListener("click", this.clickHandler, { capture: true });
     window.addEventListener("keydown", this.keyHandler, { capture: true });
   }
 
   private removeListeners(): void {
-    window.removeEventListener("pointerdown", this.clickHandler, { capture: true });
+    window.removeEventListener("click", this.clickHandler, { capture: true });
     window.removeEventListener("keydown", this.keyHandler, { capture: true });
   }
 }

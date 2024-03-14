@@ -15,12 +15,7 @@ import {
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
 
-import {
-  getElementWidth,
-  getTextWidth,
-  isPrimaryPointerButton,
-  toAriaBoolean,
-} from "../../utils/dom";
+import { getElementWidth, getTextWidth, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -321,9 +316,9 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
-  @Listen("pointerdown", { target: "document" })
+  @Listen("click", { target: "document" })
   documentClickHandler(event: PointerEvent): void {
-    if (this.disabled || !isPrimaryPointerButton(event)) {
+    if (this.disabled) {
       return;
     }
 
