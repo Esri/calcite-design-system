@@ -85,6 +85,7 @@ td.last-cell {
 }
 
 .selection-cell {
+  color: var(--calcite-table-selection-cell-icon-color, var(--calcite-color-text-3));
   &:not(.footer-cell) {
     @apply cursor-pointer;
     background-color: var(

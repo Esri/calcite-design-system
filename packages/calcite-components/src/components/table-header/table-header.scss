@@ -94,7 +94,6 @@ th.footer-row {
 }
 
 .heading {
-  @apply text-color-1;
   color: var(--calcite-table-header-heading-color, var(--calcite-color-text-1));
 }
 
