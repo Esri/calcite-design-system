@@ -11,4 +11,8 @@
   max-inline-size: var(--calcite-tip-max-width);
 }
 
+calcite-tip {
+  //TODO: sub-component tokens
+}
+
 @include base-component();

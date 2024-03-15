@@ -1,23 +1,27 @@
+@import "../../assets/styles/header";
+
 /**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-tip-manager-action-background-color: defines the background color of an action sub-component inside the component.
- * @prop --calcite-tip-manager-action-text-color: defines the text color of an action sub-component inside the component.
- * @prop --calcite-tip-manager-action-background-color-hover: defines the background color of an action sub-component when hovered or focused inside the component.
- * @prop --calcite-tip-manager-action-text-color-hover: defines the text color of an action sub-component when hovered or focused inside the component.
- * @prop --calcite-tip-manager-action-background-color-active: defines the background color of an action sub-component when active inside the component.
- * @prop --calcite-tip-manager-action-text-color-active: defines the text color of an action sub-component when active inside the component.
- * @prop --calcite-tip-manager-height: The maximum height of the component.
- * @prop --calcite-tip-max-width: The maximum width of a slotted `calcite-tip` within the component.
- *
- */
+* CSS Custom Properties
+*
+* These properties can be overridden using the component's tag as selector.
+*
+* @prop --calcite-tip-max-width: [Deprecated] in favor of setting `max-width` on tips directly - Specifies the maximum width of a slotted `calcite-tip` within the component.
+* @prop --calcite-tip-manager-height: [Deprecated] use `--calcite-tip-manager-content-height` instead - Specifies the maximum height of a slotted `calcite-tip` within the component.
+* @prop --calcite-tip-manager-background-color: The background color of the component.
+* @prop --calcite-tip-manager-heading-text-color: The heading text color of the component.
+* @prop --calcite-tip-manager-text-color: The text color of the component.
+* @prop --calcite-tip-manager-border-color: The border color of the component.
+*
+* @prop --calcite-tip-manager-action-background-color: defines the background color of an action sub-component inside the component.
+* @prop --calcite-tip-manager-action-text-color: defines the text color of an action sub-component inside the component.
+* @prop --calcite-tip-manager-action-background-color-hover: defines the background color of an action sub-component when hovered or focused inside the component.
+* @prop --calcite-tip-manager-action-text-color-hover: defines the text color of an action sub-component when hovered or focused inside the component.
+* @prop --calcite-tip-manager-action-background-color-active: defines the background color of an action sub-component when active inside the component.
+* @prop --calcite-tip-manager-action-text-color-active: defines the text color of an action sub-component when active inside the component.
+*/
 
 :host {
-  @apply bg-foreground-1
-  text-color-2
-  text-n1h
+  @apply text-n1h
   box-border
   block;
 
@@ -25,7 +29,8 @@
     @apply box-border;
   }
 
-  --calcite-tip-manager-height: 19vh;
+  background-color: var(--calcite-tip-manager-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-tip-manager-text-color, var(--calcite-color-text-2));
 }
 
 :host([closed]) {
@@ -35,20 +40,21 @@
 @include header();
 
 .header {
-  @apply border-color-3
-    border-0
+  @apply border-0
     border-b
     border-solid
     py-0;
 
   padding-inline-end: theme("padding.0");
   padding-inline-start: theme("padding.4");
+  border-color: var(--calcite-tip-manager-border-color, var(--calcite-color-border-3));
 
   .heading {
-    @apply text-color-1
-      text-1h
+    @apply text-1h
       p-0
       font-bold;
+
+    color: var(--calcite-tip-manager-heading-text-color, var(--calcite-color-text-1));
   }
 }
 
@@ -72,7 +78,7 @@
     p-4;
   animation-name: none;
   animation-duration: var(--calcite-animation-timing);
-  block-size: var(--calcite-tip-manager-height);
+  block-size: var(--calcite-tip-manager-content-height, 19vh);
   &:focus {
     @apply focus-outset;
   }
@@ -80,7 +86,6 @@
 
 ::slotted(calcite-tip) {
   @apply m-0 border-none;
-  max-inline-size: var(--calcite-tip-max-width);
 }
 
 .tip-container--advancing {
