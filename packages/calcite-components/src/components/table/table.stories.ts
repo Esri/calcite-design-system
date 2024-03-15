@@ -1047,21 +1047,29 @@ export const tableCellCssBackgroundVariable_TestOnly = (): string =>
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     </calcite-table-row>
     <calcite-table-row>
-      <calcite-table-cell style="--calcite-table-cell-background: rgba(20, 200, 50, 0.15)">cell</calcite-table-cell>
+      <calcite-table-cell style="--calcite-table-cell-background-color: rgba(20, 200, 50, 0.15)"
+        >cell</calcite-table-cell
+      >
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>
     </calcite-table-row>
     <calcite-table-row>
-      <calcite-table-cell style="--calcite-table-cell-background: rgba(200, 50, 20, 0.15)">cell</calcite-table-cell>
+      <calcite-table-cell style="--calcite-table-cell-background-color: rgba(200, 50, 20, 0.15)"
+        >cell</calcite-table-cell
+      >
       <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell style="--calcite-table-cell-background: rgba(20, 200, 50, 0.15)">cell</calcite-table-cell>
+      <calcite-table-cell style="--calcite-table-cell-background-color: rgba(20, 200, 50, 0.15)"
+        >cell</calcite-table-cell
+      >
       <calcite-table-cell>cell</calcite-table-cell>
     </calcite-table-row>
     <calcite-table-row>
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>
-      <calcite-table-cell style="--calcite-table-cell-background: rgba(200, 50, 20, 0.15)">cell</calcite-table-cell>
+      <calcite-table-cell style="--calcite-table-cell-background-color: rgba(200, 50, 20, 0.15)"
+        >cell</calcite-table-cell
+      >
       <calcite-table-cell>cell</calcite-table-cell>
     </calcite-table-row>
   </calcite-table>`;
