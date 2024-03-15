@@ -16,7 +16,6 @@
 
 :host {
   @apply cursor-pointer flex relative;
-  color: var(--calcite-day-text-color, var(--calcite-color-text-3));
 }
 
 @include disabled();
@@ -87,13 +86,14 @@
 
 .day {
   @apply flex
+  text-color-3
     focus-base
     items-center
     justify-center
     leading-none
     transition-default;
   border-radius: var(--calcite-day-corner-radius, 9999px);
-  color: var(--calcite-day-text-color);
+  color: var(--calcite-day-text-color, var(--calcite-color-text-3));
   font-size: var(--calcite-internal-day-font-size, var(--calcite-font-size));
   z-index: var(--calcite-z-index);
   background: none;
