@@ -183,11 +183,11 @@ export class Stepper implements LocalizedComponent, T9nComponent {
             <div class={{ [CSS.stepBarContainer]: true }}>
               {this.items.map((item, index) => (
                 <StepBar
-                  active={index === this.currentActivePosition}
                   complete={item.complete && index !== this.currentActivePosition && !item.error}
                   disabled={item.disabled && index !== this.currentActivePosition}
                   error={item.error && index !== this.currentActivePosition}
                   key={index}
+                  selected={index === this.currentActivePosition}
                 />
               ))}
             </div>

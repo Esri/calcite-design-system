@@ -105,6 +105,11 @@
     @apply flex;
     block-size: var(--calcite-container-size-content-fluid);
     inline-size: var(--calcite-container-size-content-fluid);
+    rect {
+      fill: var(--calcite-stepper-step-bar-fill-color, var(--calcite-color-border-3));
+      fill-opacity: var(--calcite-opacity-full);
+      block-size: var(--calcite-container-size-content-fluid);
+    }
   }
 
   .step-bar-container {
@@ -114,26 +119,20 @@
     gap: var(--calcite-internal-step-bar-gap, var(--calcite-spacing-sm));
   }
 
-  .step-bar--inactive {
-    fill: var(--calcite-stepper-step-bar-fill-color, var(--calcite-color-border-3));
-    fill-opacity: var(--calcite-opacity-full);
-    block-size: var(--calcite-container-size-content-fluid);
-  }
-
-  .step-bar--active {
+  rect.step-bar--selected {
     fill: var(--calcite-stepper-step-bar-selected-fill-color, var(--calcite-color-brand));
   }
 
-  .step-bar--complete {
+  rect.step-bar--complete {
     fill: var(--calcite-stepper-step-bar-complete-fill-color, var(--calcite-color-brand));
     fill-opacity: var(--calcite-opacity-half);
   }
 
-  .step-bar--error {
+  rect.step-bar--error {
     fill: var(--calcite-stepper-step-bar-error-fill-color, var(--calcite-color-status-danger));
   }
 
-  .step-bar--disabled {
+  rect.step-bar--disabled {
     opacity: var(--calcite-opacity-half);
   }
 }
@@ -148,18 +147,6 @@ calcite-action {
   &:active {
     --calcite-action-background-color: var(--calcite-stepper-action-background-color-active);
   }
-}
-
-calcite-stepper-item {
-  --calcite-internal-stepper-item-border-color: var(--calcite-stepper-step-bar-fill-color);
-  --calcite-internal-stepper-item-complete-border-color: var(--calcite-stepper-step-bar-complete-fill-color);
-  --calcite-internal-stepper-item-complete-border-color-hover: var(
-    --calcite-stepper-step-bar-complete-fill-color-hover
-  );
-  --calcite-internal-stepper-item-error-border-color: var(--calcite-stepper-step-bar-error-fill-color);
-  --calcite-internal-stepper-item-selected-border-color: var(--calcite-stepper-step-bar-active-fill-color);
-  --calcite-internal-stepper-item-border-color-hover: var(--calcite-stepper-step-bar-fill-color-hover);
-  --calcite-internal-stepper-item-error-border-color-hover: var(--calcite-stepper-step-bar-error-fill-color-hover);
 }
 
 @include stepBar();

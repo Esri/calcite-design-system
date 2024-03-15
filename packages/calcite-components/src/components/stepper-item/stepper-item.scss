@@ -3,7 +3,6 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-stepper-item-border-color: Specifies border color of component.
  * @prop --calcite-stepper-item-description-text-color: Specifies text color of description of component.
  * @prop --calcite-stepper-item-heading-text-color: Specifies text color of heading of component.
  * @prop --calcite-stepper-item-icon-color: Specifies color of icon of component.
@@ -85,7 +84,7 @@
   );
   border-color: var(
     --calcite-stepper-item-border-color,
-    var(--calcite-internal-stepper-item-border-color, var(--calcite-color-border-3))
+    var(--calcite-stepper-step-bar-fill-color, var(--calcite-color-border-3))
   );
 }
 
@@ -242,7 +241,7 @@
   border-t-0
   border-solid
   py-0;
-  border-color: var(--calcite-internal-stepper-item-border-color, var(--calcite-color-border-3));
+  border-color: var(--calcite-stepper-step-bar-fill-color, var(--calcite-color-border-3));
   border-inline-start-width: theme("borderWidth.2");
   padding-inline-start: var(--calcite-stepper-item-spacing-unit-l);
 
@@ -260,17 +259,17 @@
 }
 
 :host([layout="vertical"][complete]) .container {
-  border-color: var(--calcite-internal-stepper-item-complete-border-color, #007ac280);
+  border-color: var(--calcite-stepper-step-bar-complete-fill-color, #007ac280);
 }
 :host([layout="vertical"][complete]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][complete]:focus:not([disabled]):not([selected])) .container {
-  border-color: var(--calcite-internal-stepper-item-complete-border-color-hover, var(--calcite-color-brand));
+  border-color: var(--calcite-stepper-step-bar-complete-fill-color-hover, var(--calcite-color-brand));
 }
 :host([layout="vertical"][error]) .container {
-  border-color: var(--calcite-internal-stepper-item-error-border-color, var(--calcite-color-status-danger));
+  border-color: var(--calcite-stepper-step-bar-error-fill-color, var(--calcite-color-status-danger));
 }
 :host([layout="vertical"][selected]) .container {
-  border-color: var(--calcite-internal-stepper-item-selected-border-color, var(--calcite-color-brand));
+  border-color: var(--calcite-stepper-step-bar-selected-fill-color, var(--calcite-color-brand));
 
   & .stepper-item-content:not(:empty) {
     margin-block-end: var(--calcite-stepper-item-spacing-unit-l);
@@ -278,11 +277,11 @@
 }
 :host([layout="vertical"]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"]:focus:not([disabled]):not([selected])) .container {
-  border-color: var(--calcite-internal-stepper-item-border-color-hover, #007ac280);
+  border-color: var(--calcite-stepper-step-bar-fill-color-hover, #007ac280);
 }
 :host([layout="vertical"][error]:hover:not([disabled]):not([selected])) .container,
 :host([layout="vertical"][error]:focus:not([disabled]):not([selected])) .container {
-  border-color: var(--calcite-internal-stepper-item-error-border-color-hover, var(--calcite-color-status-danger-hover));
+  border-color: var(--calcite-stepper-step-bar-error-fill-color-hover, var(--calcite-color-status-danger-hover));
 }
 
 :host([layout="horizontal"]),
@@ -336,14 +335,14 @@
 :host([layout="horizontal"]),
 :host([layout="horizontal-single"]) {
   .stepper-item-header {
-    border-color: var(--calcite-internal-stepper-item-border-color, var(--calcite-color-border-3));
+    border-color: var(--calcite-stepper-step-bar-fill-color, var(--calcite-color-border-3));
   }
 }
 
 :host([layout="horizontal"][complete]),
 :host([layout="horizontal-single"][complete]) {
   .stepper-item-header {
-    border-color: var(--calcite-internal-stepper-item-complete-border-color, #007ac280);
+    border-color: var(--calcite-stepper-step-bar-complete-fill-color, #007ac280);
   }
 }
 
@@ -352,21 +351,21 @@
 :host([layout="horizontal-single"][complete]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal-single"][complete]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
-    border-color: var(--calcite-internal-stepper-item-complete-border-color-hover, var(--calcite-color-brand));
+    border-color: var(--calcite-stepper-step-bar-complete-fill-color-hover, var(--calcite-color-brand));
   }
 }
 
 :host([layout="horizontal"][error]),
 :host([layout="horizontal-single"][error]) {
   .stepper-item-header {
-    border-color: var(--calcite-internal-stepper-item-error-border-color, var(--calcite-color-status-danger));
+    border-color: var(--calcite-stepper-step-bar-error-fill-color, var(--calcite-color-status-danger));
   }
 }
 
 :host([layout="horizontal"][selected]),
 :host([layout="horizontal-single"][selected]) {
   .stepper-item-header {
-    border-color: var(--calcite-internal-stepper-item-selected-border-color, var(--calcite-color-brand));
+    border-color: var(--calcite-stepper-step-bar-selected-fill-color, var(--calcite-color-brand));
   }
 }
 
@@ -375,7 +374,7 @@
 :host([layout="horizontal-single"]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal-single"]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
-    border-color: var(--calcite-internal-stepper-item-border-color-hover, #007ac280);
+    border-color: var(--calcite-stepper-step-bar-fill-color-hover, #007ac280);
   }
 }
 
@@ -384,10 +383,7 @@
 :host([layout="horizontal-single"][error]:hover:not([disabled]):not([selected])),
 :host([layout="horizontal-single"][error]:focus:not([disabled]):not([selected])) {
   .stepper-item-header {
-    border-color: var(
-      --calcite-internal-stepper-item-error-border-color-hover,
-      var(--calcite-color-status-danger-hover)
-    );
+    border-color: var(--calcite-stepper-step-bar-error-fill-color-hover, var(--calcite-color-status-danger-hover));
   }
 }
 
