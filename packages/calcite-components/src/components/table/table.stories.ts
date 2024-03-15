@@ -1340,6 +1340,25 @@ darkModeRTLWithSelection_TestOnly.parameters = { modes: modesDarkDefault };
 export const themingExample_TestOnly = (): string =>
   html`<style>
       calcite-table {
+        --calcite-table-corner-radius: var(--calcite-corner-radius-round);
+        --calcite-table-shadow: var(--calcite-shadow-sm);
+        --calcite-table-border-color: red;
+        --calcite-table-row-background-color: #e6f4e6;
+        --calcite-table-row-background-color-striped: green;
+        --calcite-table-row-background-color-selected: orange;
+        --calcite-table-border-color: green;
+        --calcite-table-row-border-color-selected: pink;
+        --calcite-table-row-selected-accent-color: red;
+        --calcite-table-row-background-color-selected: red;
+        --calcite-table-number-cell-background-color: purple;
+        --calcite-table-number-cell-text-color: red;
+        --calcite-table-selection-cell-background-color: lightgreen;
+        --calcite-table-selection-cell-background-color-selected: green;
+        --calcite-table-selection-cell-icon-color: blue;
+        --calcite-table-selection-cell-icon-color-selected: white;
+        --calcite-table-header-background-color: green;
+        --calcite-table-header-heading-color: lightgreen;
+        --calcite-table-header-description-color: lightyellow;
         --calcite-table-selection-dismiss-button-background-color: red;
         --calcite-table-selection-dismiss-button-border-color: red;
         --calcite-table-selection-dismiss-button-corner-radius: 14px;
