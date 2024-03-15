@@ -11,7 +11,10 @@
 
 :host {
   --calcite-internal-tile-border-color: var(--calcite-tile-border-color, var(--calcite-color-border-2));
-  --calcite-internal-tile-description-text-color: var(--calcite-color-text-3);
+  --calcite-internal-tile-description-text-color: var(
+    --calcite-tile-description-text-color,
+    var(--calcite-color-text-3)
+  );
   --calcite-internal-tile-heading-text-color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-2));
 
   box-sizing: border-box;
@@ -55,7 +58,7 @@
   }
 
   .heading {
-    color: var(--calcite-tile-heading-text-color);
+    color: var(--calcite-internal-tile-heading-text-color);
     font-size: var(--calcite-font-size--1);
     font-weight: var(--calcite-font-weight-medium);
     line-height: 1.20313rem;
@@ -76,7 +79,7 @@
     }
   }
   .description {
-    color: var(--calcite-tile-description-text-color);
+    color: var(--calcite-internal-tile-description-text-color);
     font-size: var(--calcite-font-size--2);
     font-weight: var(--calcite-font-weight-regular);
     line-height: 1.03125rem;
@@ -129,7 +132,8 @@
 
 :host([href]),
 :host([href]:hover) {
-  --calcite-tile-heading-text-color: var(--calcite-color-text-link);
+  --calcite-internal-tile-heading-text-color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-link));
+
   .heading {
     text-decoration-line: underline;
   }
@@ -154,11 +158,11 @@
 
 :host(:hover),
 :host([active]) {
+  --calcite-internal-tile-heading-text-color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
   --calcite-internal-tile-description-text-color: var(
     --calcite-tile-description-text-color,
     var(--calcite-color-text-2)
   );
-  --calcite-internal-tile-heading-text-color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
 }
 
 :host(:not([embed])[href]:hover),
