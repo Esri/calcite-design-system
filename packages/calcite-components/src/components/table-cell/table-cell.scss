@@ -8,6 +8,13 @@
  * @prop --calcite-table-cell-border-color: Specifies the border color of the component.
  */
 
+/**
+  * Local props
+  * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
+  *
+  * --calcite-internal-table-cell-background-color
+*/
+
 :host {
   @apply contents;
 }
@@ -26,7 +33,10 @@
 
 td {
   @apply text-start  align-middle text-color-1 whitespace-normal;
-  background-color: var(--calcite-table-cell-background-color, var(--calcite-table-cell-background, transparent));
+  background-color: var(
+    --calcite-internal-table-cell-background-color,
+    var(--calcite-table-cell-background-color, transparent)
+  );
   font-size: var(--calcite-internal-table-cell-font-size);
   border-inline-end: 1px solid
     var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
@@ -63,20 +73,18 @@ td.last-cell {
   min-inline-size: 2rem;
 }
 
-.selection-cell {
-  background-color: var(
-    --calcite-table-selection-cell-background-color,
-    var(--calcite-table-cell-background-color, var(--calcite-color-foreground-2))
-  );
-}
-
 .number-cell {
   color: var(--calcite-table-number-cell-text-color, var(--calcite-color-text-1));
   background-color: var(--calcite-table-number-cell-background-color, var(--calcite-color-foreground-2));
+  &.footer-cell {
+    background-color: var(
+      --calcite-table-number-cell-background-color,
+      var(--calcite-table-cell-background-color, var(--calcite-color-background))
+    );
+  }
 }
 
 .selection-cell {
-  inset-inline-start: 2rem;
   &:not(.footer-cell) {
     @apply cursor-pointer;
     background-color: var(
@@ -84,7 +92,12 @@ td.last-cell {
       var(--calcite-table-cell-background-color, transparent)
     );
   }
-  color: var(--calcite-table-selection-cell-icon-color, var(--calcite-color-text-3));
+  &.footer-cell {
+    background-color: var(
+      --calcite-table-selection-cell-background-color,
+      var(--calcite-table-cell-background-color, var(--calcite-color-background))
+    );
+  }
 }
 
 .selected-cell:not(.number-cell):not(.footer-cell) {
