@@ -320,7 +320,7 @@ export class ColorPicker
 
   private internalColorUpdateContext: "internal" | "initial" | "user-interaction" | null = null;
 
-  private isClearable: boolean;
+  private isClearable: boolean = !!(this.clearable || this.allowEmpty);
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
