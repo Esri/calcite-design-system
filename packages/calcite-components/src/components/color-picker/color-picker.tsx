@@ -99,14 +99,13 @@ export class ColorPicker
    *
    * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    *
-   * @deprecated use `clearable` instead
+   * @deprecated Use `clearable` instead
    */
-
   @Prop({ reflect: true }) allowEmpty = false;
 
   @Watch("allowEmpty")
   @Watch("clearable")
-  handleEmptyValues(): void {
+  handleAllowNullValues(): void {
     this.isClearable = !!(this.clearable || this.allowEmpty);
   }
 
@@ -114,14 +113,6 @@ export class ColorPicker
    * When `true`, the component will allow updates to the color's alpha value.
    */
   @Prop() alphaChannel = false;
-
-  /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`.
-   *
-   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
-   */
-
-  @Prop({ reflect: true }) clearable = false;
 
   @Watch("alphaChannel")
   handleAlphaChannelChange(alphaChannel: boolean): void {
@@ -137,6 +128,13 @@ export class ColorPicker
 
   /** When `true`, hides the RGB/HSV channel inputs. */
   @Prop() channelsDisabled = false;
+
+  /**
+   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   *
+   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   */
+  @Prop({ reflect: true }) clearable = false;
 
   /**
    * Internal prop for advanced use-cases.
@@ -310,8 +308,6 @@ export class ColorPicker
     return this.color || this.previousColor || DEFAULT_COLOR;
   }
 
-  private isClearable: boolean;
-
   private checkerPattern: HTMLCanvasElement;
 
   private colorFieldRenderingContext: CanvasRenderingContext2D;
@@ -323,6 +319,8 @@ export class ColorPicker
   private hueScopeNode: HTMLDivElement;
 
   private internalColorUpdateContext: "internal" | "initial" | "user-interaction" | null = null;
+
+  private isClearable: boolean;
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
@@ -684,13 +682,15 @@ export class ColorPicker
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.handleEmptyValues();
+
     const { isClearable, color, format, value } = this;
     const willSetNoColor = isClearable && !value;
     const parsedMode = parseMode(value);
     const valueIsCompatible =
       willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
     const initialColor = willSetNoColor ? null : valueIsCompatible ? Color(value) : color;
+
+    this.handleAllowNullValues();
 
     if (!valueIsCompatible) {
       this.showIncompatibleColorWarning(value, format);
