@@ -74,6 +74,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   @Watch("scale")
   handleItemPropChange(): void {
     this.updateItems();
+    this.determineActiveStepper();
   }
 
   /**
@@ -150,7 +151,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   }
 
   componentDidLoad(): void {
-    this.resizeObserver?.observe(this.containerEl);
     // if no stepper items are set as active, default to the first one
     if (typeof this.currentActivePosition !== "number") {
       const enabledStepIndex = this.getFirstEnabledStepperPosition();
@@ -166,7 +166,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   }
 
   disconnectedCallback(): void {
-    this.resizeObserver?.disconnect();
     disconnectMessages(this);
     disconnectLocalized(this);
     this.mutationObserver?.disconnect();
@@ -356,15 +355,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     });
   }
 
-  @State() elWidth: number;
-
-  @Watch("elWidth")
-  handleElWidthChange(): void {
-    readTask((): void => {
-      this.determineActiveStepper();
-    });
-  }
-
   private enabledItems: HTMLCalciteStepperItemElement[] = [];
 
   private itemMap = new Map<HTMLCalciteStepperItemElement, { position: number; content: Node[] }>();
@@ -386,11 +376,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   //
   //--------------------------------------------------------------------------
 
-  private resizeObserver = createObserver(
-    "resize",
-    (entries) => (this.elWidth = entries[0].contentRect.width),
-  );
-
   private updateItems(): void {
     this.el.querySelectorAll("calcite-stepper-item").forEach((item) => {
       item.icon = this.icon;
@@ -401,18 +386,18 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   }
 
   private determineActiveStepper(): void {
-    const totalItems = this.items.length;
-    if (!this.elWidth || !totalItems || this.layout !== "horizontal-single" || totalItems === 1) {
+    const { items } = this;
+
+    if (items.length < 2) {
       return;
     }
-    const activePosition = this.currentActivePosition || 0;
 
-    if (this.layout === "horizontal-single") {
-      this.multipleViewMode = false;
-      this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
-        item.hidden = index !== activePosition;
-      });
-    }
+    const { currentActivePosition, layout } = this;
+
+    this.multipleViewMode = layout !== "horizontal-single";
+    items.forEach((item, index) => {
+      item.hidden = layout === "horizontal-single" && index !== (currentActivePosition || 0);
+    });
   }
 
   private getEnabledStepIndex(
