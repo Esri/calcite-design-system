@@ -22,6 +22,7 @@
   .container {
     background-color: var(--calcite-tile-background-color, var(--calcite-color-foreground-1));
     block-size: var(--calcite-container-size-content-fluid);
+    box-shadow: 0 0 0 var(--calcite-internal-tile-border-width) var(--calcite-internal-tile-border-color);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -164,10 +165,6 @@
 :host(:not([embed])[href]:focus),
 :host(:not([embed])[href]:active) {
   --calcite-internal-tile-border-color: var(--calcite-tile-border-color, var(--calcite-color-brand));
-
-  .container {
-    box-shadow: 0 0 0 var(--calcite-internal-tile-border-width) var(--calcite-internal-tile-border-color);
-  }
 }
 
 :host(:not([embed])[href]:hover),
