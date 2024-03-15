@@ -8,10 +8,13 @@
  * @prop --calcite-stepper-action-background-color: defines the background color of an action sub-component inside the component.
  * @prop --calcite-stepper-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
  * @prop --calcite-stepper-action-background-color-active: defines the background color of an action sub-component when active.
- * @prop --calcite-stepper-step-bar-fill-color : Specifies fill color for step-bar when `layout="horizontal-single"`.
- * @prop --calcite-stepper-step-bar-active-fill-color : Specifies fill color for active step-bar when `layout="horizontal-single"`.
- * @prop --calcite-stepper-step-bar-complete-fill-color : Specifies fill color for completed step-bar when `layout="horizontal-single"`.
- * @prop --calcite-stepper-step-bar-error-fill-color : Specifies fill color for error step-bar when `layout="horizontal-single"`.
+ * @prop --calcite-stepper-step-bar-fill-color : Specifies fill color for step-bar.
+ * @prop --calcite-stepper-step-bar-fill-color-hover : Specifies fill color for step-bar when hovered.
+ * @prop --calcite-stepper-step-bar-selected-fill-color : Specifies fill color for selected step-bar.
+ * @prop --calcite-stepper-step-bar-complete-fill-color : Specifies fill color for completed step-bar.
+ * @prop --calcite-stepper-step-bar-completed-fill-color-hover : Specifies fill color for completed step-bar when hovered.
+ * @prop --calcite-stepper-step-bar-error-fill-color : Specifies fill color for error step-bar.
+ * @prop --calcite-stepper-step-bar-error-fill-color-hover : Specifies fill color for error step-bar when hovered.
  *
  */
 
@@ -118,7 +121,7 @@
   }
 
   .step-bar--active {
-    fill: var(--calcite-stepper-step-bar-active-fill-color, var(--calcite-color-brand));
+    fill: var(--calcite-stepper-step-bar-selected-fill-color, var(--calcite-color-brand));
   }
 
   .step-bar--complete {
@@ -145,6 +148,18 @@ calcite-action {
   &:active {
     --calcite-action-background-color: var(--calcite-stepper-action-background-color-active);
   }
+}
+
+calcite-stepper-item {
+  --calcite-internal-stepper-item-border-color: var(--calcite-stepper-step-bar-fill-color);
+  --calcite-internal-stepper-item-complete-border-color: var(--calcite-stepper-step-bar-complete-fill-color);
+  --calcite-internal-stepper-item-complete-border-color-hover: var(
+    --calcite-stepper-step-bar-complete-fill-color-hover
+  );
+  --calcite-internal-stepper-item-error-border-color: var(--calcite-stepper-step-bar-error-fill-color);
+  --calcite-internal-stepper-item-selected-border-color: var(--calcite-stepper-step-bar-active-fill-color);
+  --calcite-internal-stepper-item-border-color-hover: var(--calcite-stepper-step-bar-fill-color-hover);
+  --calcite-internal-stepper-item-error-border-color-hover: var(--calcite-stepper-step-bar-error-fill-color-hover);
 }
 
 @include stepBar();
