@@ -66,21 +66,7 @@
     grid-template-areas:
       "items"
       "content";
-    gap: var(--calcite-spacing-sm) var(--calcite-internal-stepper-item-spacing-unit-s);
-  }
-}
-
-:host([layout="horizontal"][scale="s"]),
-:host([layout="horizontal-single"][scale="s"]) {
-  .container {
-    gap: var(--calcite-spacing-xxs) var(--calcite-internal-stepper-item-spacing-unit-s);
-  }
-}
-
-:host([layout="horizontal"][scale="l"]),
-:host([layout="horizontal-single"][scale="l"]) {
-  .container {
-    gap: var(--calcite-spacing-md) var(--calcite-internal-stepper-item-spacing-unit-s);
+    gap: var(--calcite-internal-stepper-item-spacing-unit-s) var(--calcite-internal-stepper-item-spacing-unit-s);
   }
 }
 

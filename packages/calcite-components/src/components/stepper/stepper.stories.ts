@@ -284,32 +284,16 @@ export const theming_TestOnly = (): string => html`
     calcite-stepper {
       --calcite-stepper-action-background-color: #294b29;
       --calcite-stepper-step-bar-fill-color: green;
-      --calcite-stepper-step-bar-active-fill-color: #e9f6ff;
+      --calcite-stepper-step-bar-selected-fill-color: #e9f6ff;
       --calcite-stepper-step-bar-complete-fill-color: #280274;
       --calcite-stepper-step-bar-error-fill-color: #fe7a36;
     }
+
     calcite-stepper-item {
-      --calcite-stepper-item-border-color: green;
       --calcite-stepper-item-description-text-color: #294b29;
       --calcite-stepper-item-heading-text-color: #50623a;
       --calcite-stepper-item-icon-color: blue;
       --calcite-stepper-item-number-text-color: orange;
-      --calcite-stepper-item-text-color: black;
-    }
-
-    calcite-stepper-item[error] {
-      --calcite-stepper-item-border-color: #fe7a36;
-      --calcite-stepper-item-icon-color: #fe7a36;
-    }
-
-    calcite-stepper-item[complete] {
-      --calcite-stepper-item-border-color: #280274;
-      --calcite-stepper-item-icon-color: #280274;
-    }
-
-    calcite-stepper-item[selected] {
-      --calcite-stepper-item-border-color: #e9f6ff;
-      --calcite-stepper-item-icon-color: #e9f6ff;
     }
   </style>
 
