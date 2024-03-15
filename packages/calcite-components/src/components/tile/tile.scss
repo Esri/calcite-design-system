@@ -10,10 +10,9 @@
  */
 
 :host {
-  --calcite-tile-background-color: var(--calcite-color-foreground-1);
-  --calcite-tile-border-color: var(--calcite-color-border-2);
-  --calcite-tile-description-text-color: var(--calcite-color-text-3);
-  --calcite-tile-heading-text-color: var(--calcite-color-text-2);
+  --calcite-internal-tile-border-color: var(--calcite-tile-border-color, var(--calcite-color-border-2));
+  --calcite-internal-tile-description-text-color: var(--calcite-color-text-3);
+  --calcite-internal-tile-heading-text-color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-2));
 
   box-sizing: border-box;
   display: inline-block;
@@ -21,7 +20,7 @@
   min-inline-size: 140px;
 
   .container {
-    background-color: var(--calcite-tile-background-color);
+    background-color: var(--calcite-tile-background-color, var(--calcite-color-foreground-1));
     block-size: var(--calcite-container-size-content-fluid);
     box-sizing: border-box;
     display: flex;
@@ -135,8 +134,9 @@
   }
 }
 :host(:not([embed])) {
+  --calcite-internal-tile-border-width: 1px;
+
   .container {
-    box-shadow: 0 0 0 1px var(--calcite-tile-border-color);
     padding: var(--calcite-spacing-md);
   }
 }
@@ -150,29 +150,40 @@
     padding: var(--calcite-spacing-xl);
   }
 }
+
+:host(:hover),
+:host([active]) {
+  --calcite-internal-tile-description-text-color: var(
+    --calcite-tile-description-text-color,
+    var(--calcite-color-text-2)
+  );
+  --calcite-internal-tile-heading-text-color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
+}
+
+:host(:not([embed])[href]:hover),
+:host(:not([embed])[href]:focus),
+:host(:not([embed])[href]:active) {
+  --calcite-internal-tile-border-color: var(--calcite-tile-border-color, var(--calcite-color-brand));
+
+  .container {
+    box-shadow: 0 0 0 var(--calcite-internal-tile-border-width) var(--calcite-internal-tile-border-color);
+  }
+}
+
 :host(:not([embed])[href]:hover),
 :host(:not([embed])[href]:focus) {
-  --calcite-tile-border-color: var(--calcite-color-brand);
+  --calcite-internal-tile-border-width: 2px;
+
   .container {
-    box-shadow: 0 0 0 2px var(--calcite-tile-border-color);
     cursor: pointer;
     position: relative;
     z-index: var(--calcite-z-index);
   }
 }
+
 :host(:not([embed])[href]:active) {
-  --calcite-tile-border-color: var(--calcite-color-brand);
-  .container {
-    box-shadow: 0 0 0 3px var(--calcite-tile-border-color);
-  }
+  --calcite-internal-tile-border-width: 3px;
 }
 
 @include disabled();
-
-:host(:hover),
-:host([active]) {
-  --calcite-tile-description-text-color: var(--calcite-color-text-2);
-  --calcite-tile-heading-text-color: var(--calcite-color-text-1);
-}
-
 @include base-component();
