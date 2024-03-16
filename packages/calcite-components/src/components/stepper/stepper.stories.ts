@@ -287,6 +287,7 @@ export const theming_TestOnly = (): string => html`
       --calcite-stepper-step-bar-selected-fill-color: #e9f6ff;
       --calcite-stepper-step-bar-complete-fill-color: #280274;
       --calcite-stepper-step-bar-error-fill-color: #fe7a36;
+      --calcite-stepper-item-text-color: black;
     }
 
     calcite-stepper-item {

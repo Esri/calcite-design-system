@@ -7,6 +7,7 @@
  * @prop --calcite-stepper-item-heading-text-color: Specifies text color of heading of component.
  * @prop --calcite-stepper-item-icon-color: Specifies color of icon of component.
  * @prop --calcite-stepper-item-number-text-color: Specifies text color of number of component.
+ * @prop --calcite-stepper-item-text-color: Specifies text color of component.
  *
  */
 
@@ -72,6 +73,10 @@
   border-color: var(
     --calcite-stepper-item-border-color,
     var(--calcite-stepper-step-bar-fill-color, var(--calcite-color-border-3))
+  );
+  color: var(
+    --calcite-stepper-item-text-color,
+    var(--calcite-internal-stepper-item-text-color, var(--calcite-color-text-3))
   );
 }
 
@@ -166,10 +171,7 @@
 @include disabled();
 
 :host([complete]) .container {
-  // todo dark mode
-  & .stepper-item-icon {
-    --calcite-internal-stepper-item-icon-color: var(--calcite-color-brand);
-  }
+  --calcite-internal-stepper-item-icon-color: var(--calcite-color-brand);
 }
 
 :host([error]) .container {
