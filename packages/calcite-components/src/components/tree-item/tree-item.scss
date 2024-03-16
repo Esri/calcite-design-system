@@ -3,19 +3,24 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-tree-item-checkbox-background-color: defines the background-color of the sub-component.
  * @prop --calcite-tree-item-checkbox-background-color-checked: defines the background-color of the sub-component when checked.
+ * @prop --calcite-tree-item-checkbox-background-color: defines the background-color of the sub-component.
  * @prop --calcite-tree-item-checkbox-icon-color: defines the checkmark color of the sub-component.
- * @prop --calcite-tree-item-checkbox-shadow: defines the shadow of the sub-component.
  * @prop --calcite-tree-item-checkbox-shadow-checked: defines the shadow of the sub-component when checked.
  * @prop --calcite-tree-item-checkbox-shadow-hover: defines the shadow of the sub-component when hovered.
+ * @prop --calcite-tree-item-checkbox-shadow: defines the shadow of the sub-component.
+ * @prop --calcite-tree-item-line-color: Specifies the line color of the component.
+ * @prop --calcite-tree-item-text-color: Specifies the text color of the component.
  */
 
 :host {
-  @apply text-color-3
-    block
-    max-w-full
-    cursor-pointer;
+  --calcite-internal-tree-item-text-color: var(--calcite-tree-item-text-color, var(--calcite-color-text-3));
+
+  @apply block
+    cursor-pointer
+    max-w-full;
+
+  color: var(--calcite-internal-tree-item-text-color);
 }
 
 .node-actions-container {
@@ -93,7 +98,7 @@
     // ensure lines don't overlap focus outline
     block-size: 96%;
     content: "";
-    background-color: var(--calcite-color-border-2);
+    background-color: var(--calcite-tree-item-line-color, var(--calcite-color-border-2));
   }
 }
 
@@ -187,9 +192,12 @@
   }
 }
 
-:host([selected]) .node-container,
-:host([selected]) .node-container:hover {
-  @apply font-medium text-color-1;
+:host([selected]) {
+  --calcite-internal-tree-item-text-color: var(--calcite-tree-item-text-color, var(--calcite-color-text-1));
+}
+
+:host([selected]) .node-container {
+  @apply font-medium;
 
   .bullet-point,
   .checkmark {
