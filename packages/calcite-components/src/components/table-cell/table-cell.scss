@@ -55,7 +55,8 @@ td.last-cell {
 }
 
 .footer-cell {
-  @apply font-medium text-color-1;
+  @apply font-medium;
+  color: var(--calcite-color-text-1);
   background-color: var(
     --calcite-table-cell-background-color,
     var(--calcite-table-cell-background, var(--calcite-color-background))
