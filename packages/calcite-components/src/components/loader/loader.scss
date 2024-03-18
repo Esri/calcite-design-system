@@ -98,17 +98,14 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   block-size: var(--calcite-loader-size);
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-}
 
-// in newer browsers use the stroke-dash-offset animation as it looks better
-@supports (display: grid) {
-  .loader__svg--1 {
+  &--1 {
     animation-name: loader-offset-1;
   }
-  .loader__svg--2 {
+  &--2 {
     animation-name: loader-offset-2;
   }
-  .loader__svg--3 {
+  &--3 {
     animation-name: loader-offset-3;
   }
 }
