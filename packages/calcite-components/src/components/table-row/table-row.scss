@@ -24,7 +24,7 @@
   }
 }
 
-:host calcite-table-cell {
+calcite-table-cell {
   --calcite-internal-table-cell-background-color: var(
     --calcite-table-row-background-color,
     var(--calcite-color-foreground-1)
@@ -32,7 +32,7 @@
 }
 
 :host([selected]) calcite-table-cell {
-  --calcite-table-cell-background-color: var(
+  --calcite-internal-table-cell-background-color: var(
     --calcite-table-row-background-color-selected,
     var(--calcite-color-foreground-1)
   );
