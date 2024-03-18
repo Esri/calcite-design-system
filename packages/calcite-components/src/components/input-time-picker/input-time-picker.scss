@@ -36,5 +36,13 @@
   padding-inline: var(--calcite-toggle-spacing);
 }
 
+calcite-icon {
+  --calcite-ui-icon-color: var(--calcite-color-text-3);
+}
+
+calcite-icon:hover {
+  --calcite-ui-icon-color: var(--calcite-color-text-1);
+}
+
 @include form-validation-message();
 @include base-component();
