@@ -105,8 +105,8 @@ export class ColorPicker
 
   @Watch("allowEmpty")
   @Watch("clearable")
-  handleAllowNullValues(): void {
-    this.isClearable = !!(this.clearable || this.allowEmpty);
+  handleEmptyOrClearableChange(): void {
+    this.isClearable = this.clearable || this.allowEmpty;
   }
 
   /**
@@ -320,7 +320,7 @@ export class ColorPicker
 
   private internalColorUpdateContext: "internal" | "initial" | "user-interaction" | null = null;
 
-  private isClearable: boolean = !!(this.clearable || this.allowEmpty);
+  private isClearable: boolean;
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
@@ -690,7 +690,7 @@ export class ColorPicker
       willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
     const initialColor = willSetNoColor ? null : valueIsCompatible ? Color(value) : color;
 
-    this.handleAllowNullValues();
+    this.handleEmptyOrClearableChange();
 
     if (!valueIsCompatible) {
       this.showIncompatibleColorWarning(value, format);
