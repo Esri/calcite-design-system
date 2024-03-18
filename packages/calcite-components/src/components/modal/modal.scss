@@ -389,7 +389,11 @@ slot[name="primary"] {
   --calcite-internal-modal-accent-color: var(--calcite-modal-accent-color, var(--calcite-color-status-warning));
 }
 
-:host([kind]) {
+:host([kind="brand"]),
+:host([kind="danger"]),
+:host([kind="info"]),
+:host([kind="success"]),
+:host([kind="warning"]) {
   .modal {
     @apply border-0 border-t-4 border-solid;
     border-color: var(--calcite-internal-modal-accent-color);
