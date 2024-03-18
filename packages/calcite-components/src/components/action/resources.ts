@@ -5,7 +5,7 @@ export const CSS = {
   buttonTextVisible: "button--text-visible",
   iconContainer: "icon-container",
   indicatorText: "indicator-text",
-  indicatorWithIcon: "indicator-with-icon",
+  icon: "icon",
   indicatorWithoutIcon: "indicator-without-icon",
   slotContainer: "slot-container",
   slotContainerHidden: "slot-container--hidden",
