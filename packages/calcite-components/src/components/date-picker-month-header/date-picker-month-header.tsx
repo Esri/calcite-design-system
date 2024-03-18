@@ -101,7 +101,7 @@ export class DatePickerMonthHeader {
   componentWillLoad(): void {
     this.parentDatePickerEl = closestElementCrossShadowBoundary(
       this.el,
-      "calcite-date-picker"
+      "calcite-date-picker",
     ) as HTMLCalciteDatePickerElement;
   }
 
@@ -138,15 +138,7 @@ export class DatePickerMonthHeader {
       <Fragment>
         <div class={{ text: true, [CSS.textReverse]: reverse }}>
           {this.renderMonthPicker(months, activeMonth)}
-          <calcite-year-picker
-            max={this.max?.getFullYear()}
-            min={this.min?.getFullYear()}
-            numberingSystem={this.parentDatePickerEl?.numberingSystem}
-            onCalciteYearPickerChange={this.onYearChange}
-            value={this.activeDate.getFullYear()}
-            // eslint-disable-next-line react/jsx-sort-props
-            ref={(el) => (this.yearPickerEl = el)}
-          />
+          {this.renderYearPicker()}
         </div>
         <div class="chevron-container">
           {this.position !== "end" && (
@@ -189,25 +181,53 @@ export class DatePickerMonthHeader {
   private renderMonthPicker(months: DateLocaleData["months"], activeMonth: number): VNode {
     const monthData = this.monthAbbreviations ? months.abbreviated : months.wide;
     return (
-      <calcite-select
-        class="start-year"
-        label={"start year"}
-        onCalciteSelectChange={this.handleMonthChange}
-        width="full"
-      >
+      <calcite-select label={"month"} onCalciteSelectChange={this.handleMonthChange} width="full">
         {monthData.map((month: string, index: number) => {
           return (
-            <calcite-option
-              // disabled={year > this.endYear && this.disableYearsOutOfRange}
-              selected={index === activeMonth}
-              value={month}
-            >
+            <calcite-option selected={index === activeMonth} value={month}>
               {month}
             </calcite-option>
           );
         })}
       </calcite-select>
     );
+  }
+
+  private renderYearPicker(): VNode {
+    this.getYearList();
+    return (
+      <calcite-select
+        label={"year"}
+        onCalciteSelectChange={this.handleYearChange}
+        width="full"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.yearPickerEl = el)}
+      >
+        {this.yearList?.map((year: number) => {
+          const yearString = year.toString();
+          return (
+            <calcite-option
+              selected={
+                this.selectedDate
+                  ? this.selectedDate.getFullYear() === year
+                  : this.activeDate.getFullYear() === year
+              }
+              value={yearString}
+            >
+              {numberStringFormatter?.localize(yearString)}
+              {this.localeData?.year?.suffix}
+            </calcite-option>
+          );
+        })}
+      </calcite-select>
+    );
+  }
+
+  private getYearList(): void {
+    this.yearList = [];
+    for (let i = this.min?.getFullYear() || 1900; i <= (this.max?.getFullYear() || 2100); i++) {
+      this.yearList.push(i);
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -220,13 +240,13 @@ export class DatePickerMonthHeader {
 
   private parentDatePickerEl: HTMLCalciteDatePickerElement;
 
-  private yearPickerEl: HTMLCalciteYearPickerElement;
+  private yearPickerEl: HTMLCalciteSelectElement;
 
   @State() nextMonthDate: Date;
 
   @State() prevMonthDate: Date;
 
-  @State() yearList: number[] = [];
+  private yearList: number[] = [];
 
   @Watch("min")
   @Watch("max")
@@ -246,15 +266,13 @@ export class DatePickerMonthHeader {
   //
   //--------------------------------------------------------------------------
 
-  private onYearChange = (event: Event): void => {
-    const target = event.target as HTMLCalciteYearPickerElement;
-    if (!Array.isArray(target.value)) {
-      this.setYear({
-        localizedYear: numberStringFormatter.localize(
-          `${parseCalendarYear(target.value, this.localeData)}`
-        ),
-      });
-    }
+  private handleYearChange = (event: Event): void => {
+    const target = event.target as HTMLCalciteSelectElement;
+    this.setYear({
+      localizedYear: numberStringFormatter.localize(
+        `${parseCalendarYear(Number(target.value), this.localeData)}`,
+      ),
+    });
   };
 
   private prevMonthClick = (event: KeyboardEvent | MouseEvent): void => {
@@ -344,8 +362,8 @@ export class DatePickerMonthHeader {
     if (commit) {
       this.yearPickerEl.value = formatCalendarYear(
         (inRangeDate || activeDate).getFullYear(),
-        this.localeData
-      );
+        this.localeData,
+      ).toString();
     }
   }
 }
