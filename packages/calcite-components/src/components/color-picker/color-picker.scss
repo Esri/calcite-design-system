@@ -3,6 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-color-picker-background-color: Specifies the background color of the component.
  * @prop --calcite-color-picker-button-background-color-active: defines the background color of the button when in a active state in the component.
  * @prop --calcite-color-picker-button-background-color-focus: defines the background color of the button when in a focus state in the component.
  * @prop --calcite-color-picker-button-background-color-hover: defines the background color of the button when in a hover state in the component.
@@ -15,8 +16,17 @@
  * @prop --calcite-color-picker-button-text-color-focus: defines the text color of the button when in a focus state in the component.
  * @prop --calcite-color-picker-button-text-color-hover: defines the text color of the button when in a hover state in the component.
  * @prop --calcite-color-picker-button-text-color: defines the text color of the button in the component.
+ * @prop --calcite-color-picker-input-background-color: defines the background color of the input in the component.
+ * @prop --calcite-color-picker-input-border-color: defines the border color of the input in the component.
+ * @prop --calcite-color-picker-input-corner-radius: defines the corner radius of the input in the component.
+ * @prop --calcite-color-picker-input-prefix-background-color: defines the background color of the prefix sub-component.
+ * @prop --calcite-color-picker-input-text-color: defines the text color of the input in the component.
+ * @prop --calcite-color-picker-tab-nav-indicator-color: Specifies the color of the active tab indicator.
+ * @prop --calcite-color-picker-tab-title-background-color: Specifies the background color of the sub-component.
+ * @prop --calcite-color-picker-tab-title-text-color: Specifies the text color of the sub-component.
  * @prop --calcite-color-picker-tabs-background-color: The background color of the sub-component.
  * @prop --calcite-color-picker-tabs-border-color: The border color of the sub-component.
+ * @prop --calcite-color-picker-text-color: Specifies the background color of the component.
  */
 
 :host {
@@ -26,7 +36,7 @@
 @include disabled();
 
 :host([scale="s"]) {
-  --calcite-color-picker-spacing: 8px;
+  --calcite-internal-color-picker-space: 8px;
 
   .container {
     inline-size: 160px;
@@ -39,7 +49,7 @@
 }
 
 :host([scale="m"]) {
-  --calcite-color-picker-spacing: 12px;
+  --calcite-internal-color-picker-space: 12px;
 
   .container {
     inline-size: 272px;
@@ -47,7 +57,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-color-picker-spacing: 16px;
+  --calcite-internal-color-picker-space: 16px;
 
   @apply text-n1h;
 
@@ -57,7 +67,7 @@
 
   .section {
     &:first-of-type {
-      padding-block-start: var(--calcite-color-picker-spacing);
+      padding-block-start: var(--calcite-internal-color-picker-space);
     }
   }
 
@@ -86,9 +96,9 @@
 }
 
 .container {
-  @apply bg-foreground-1;
-  display: inline-block;
+  background-color: var(--calcite-color-picker-background-color, var(--calcite-color-foreground-1));
   border: 1px solid var(--calcite-color-border-1);
+  display: inline-block;
 }
 
 .control-and-scope {
@@ -121,22 +131,22 @@
 }
 
 .section {
-  padding-block: 0 var(--calcite-color-picker-spacing);
-  padding-inline: var(--calcite-color-picker-spacing);
+  padding-block: 0 var(--calcite-internal-color-picker-space);
+  padding-inline: var(--calcite-internal-color-picker-space);
 
   &:first-of-type {
-    padding-block-start: var(--calcite-color-picker-spacing);
+    padding-block-start: var(--calcite-internal-color-picker-space);
   }
 }
 
 .sliders {
   @apply flex flex-col justify-between;
-  margin-inline-start: var(--calcite-color-picker-spacing);
+  margin-inline-start: var(--calcite-internal-color-picker-space);
 }
 
 .preview-and-sliders {
   @apply flex items-center;
-  padding: var(--calcite-color-picker-spacing);
+  padding: var(--calcite-internal-color-picker-space);
 }
 
 .color-hex-options,
@@ -145,14 +155,15 @@
 }
 
 .header {
-  @apply text-color-1
-    flex
+  @apply flex
     items-center
     justify-between;
+
+  color: var(--calcite-color-picker-text-color, var(--calcite-color-text-1));
 }
 
 .color-mode-container {
-  padding-block-start: var(--calcite-color-picker-spacing);
+  padding-block-start: var(--calcite-internal-color-picker-space);
 }
 
 .channels {
@@ -191,7 +202,7 @@
 
 .saved-colors {
   @apply grid gap-2;
-  padding-block-start: var(--calcite-color-picker-spacing);
+  padding-block-start: var(--calcite-internal-color-picker-space);
   grid-template-columns: repeat(auto-fill, 24px);
 }
 
@@ -213,11 +224,6 @@
     outline: 2px solid var(--calcite-color-border-2);
     outline-offset: 2px;
   }
-}
-
-calcite-tabs {
-  --calcite-tabs-background-color: var(--calcite-color-picker-tabs-background-color);
-  --calcite-tabs-border-color: var(--calcite-color-picker-tabs-border-color);
 }
 
 calcite-button {
@@ -243,6 +249,28 @@ calcite-button {
     --calcite-button-icon-color: var(--calcite-color-picker-button-icon-color-active);
     --calcite-button-border-color: var(--calcite-color-picker-button-icon-color-active);
   }
+}
+
+calcite-input-number {
+  --calcite-input-background-color: var(--calcite-color-picker-input-background-color);
+  --calcite-input-border-color: var(--calcite-color-picker-input-border-color);
+  --calcite-input-text-color: var(--calcite-color-picker-input-text-color);
+  --calcite-input-prefix-background-color: var(--calcite-color-picker-input-prefix-background-color);
+  --calcite-input-corner-radius: var(--calcite-color-picker-input-corner-radius);
+}
+
+calcite-tabs {
+  --calcite-tabs-background-color: var(--calcite-color-picker-tabs-background-color);
+  --calcite-tabs-border-color: var(--calcite-color-picker-tabs-border-color);
+}
+
+calcite-tab-nav {
+  --calcite-tab-nav-indicator-color: var(--calcite-color-picker-tab-nav-indicator-color);
+}
+
+calcite-tab-title {
+  --calcite-tab-title-background-color: var(--calcite-color-picker-tab-title-background-color);
+  --calcite-tab-title-text-color: var(--calcite-color-picker-tab-title-text-color);
 }
 
 @include base-component();
