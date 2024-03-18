@@ -612,7 +612,7 @@ export class Input
     if (this.readOnly || this.disabled) {
       return;
     }
-    if (this.isClearable && event.key === "Escape") {
+    if (this.isClearable && event.key === "Escape" && !event.defaultPrevented) {
       this.clearInputValue(event);
       event.preventDefault();
     }

@@ -234,12 +234,12 @@ export class Filter
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && !event.defaultPrevented) {
       this.clear();
       event.preventDefault();
     }
 
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && !event.defaultPrevented) {
       event.preventDefault();
     }
   };
