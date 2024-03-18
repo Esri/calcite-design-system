@@ -3,26 +3,35 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-modal-content-background: Specifies the background color of content placed in the component's `"content"` slot.
- * @prop --calcite-modal-content-padding: Specifies the padding of the component's `"content"` slot.
- * @prop --calcite-modal-scrim-background: Specifies the background color of the component's scrim.
- * @prop --calcite-modal-width: Specifies the width of the component, using `px`, `em`, `rem`, `vw`, or `%`. Will never exceed the width of the viewport. Will not apply if `fullscreen` if set.
+ * @prop --calcite-modal-accent-color: Specifies the accent color of the component.
+ * @prop --calcite-modal-background-color: Specifies the background color of the component.
+ * @prop --calcite-modal-border-color: Specifies the border color of the component.
+ * @prop --calcite-modal-close-button-background-color-hover: Specifies the background color of the close button when hovered.
+ * @prop --calcite-modal-close-button-background-color: Specifies the background color of the close button.
+ * @prop --calcite-modal-close-button-icon-color: Specifies the icon color of the close button.
+ * @prop --calcite-modal-content-background-color: Specifies the background color of content placed in the component's `"content"` slot.
+ * @prop --calcite-modal-content-background: [Deprecated] Use `--calcite-modal-content-background-color` instead – Specifies the background color of content placed in the component's `"content"` slot.
+ * @prop --calcite-modal-content-padding: [Deprecated] Use `--calcite-modal-content-space` instead – Specifies the padding of the component's `"content"` slot.
+ * @prop --calcite-modal-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-modal-height: Specifies the height of the component, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` if set.
- *
+ * @prop --calcite-modal-scrim-background-color: Specifies the background color of the component's scrim.
+ * @prop --calcite-modal-scrim-background: [Deprecated] Use `--calcite-modal-scrim-background-color` instead – Specifies the background color of the component's scrim.
+ * @prop --calcite-modal-shadow: Specifies the shadow of the component.
+ * @prop --calcite-modal-text-color: Specifies the text color of the component.
+ * @prop --calcite-modal-width: Specifies the width of the component, using `px`, `em`, `rem`, `vw`, or `%`. Will never exceed the width of the viewport. Will not apply if `fullscreen` if set.
  */
 
 :host {
-  --calcite-modal-scrim-background: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
-}
+  --calcite-internal-modal-border-color: var(--calcite-modal-border-color, var(--calcite-color-border-3));
+  --calcite-internal-modal-corner-radius: var(--calcite-modal-corner-radius, var(--calcite-corner-radius-round));
+  --calcite-internal-modal-hidden-position: translate3d(0, 20px, 0);
+  --calcite-internal-modal-shown-position: translate3d(0, 0, 0);
 
-:host {
   @apply absolute flex inset-0 opacity-0 z-overlay;
   visibility: hidden !important;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
-  // the modal should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
-  --calcite-modal-scrim-background-internal: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
 }
 
 .content-top[hidden],
@@ -31,60 +40,62 @@
 }
 
 .container {
-  @apply text-color-2
-    fixed
-    inset-0
+  @apply fixed
     flex
+    inset-0
     items-center
     justify-center
-    overflow-y-hidden
     opacity-0
+    overflow-y-hidden
     z-overlay;
   visibility: hidden !important;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+
+  color: var(--calcite-modal-text-color, var(--calcite-color-text-2));
 }
 
 :host([scale="s"]) {
-  --calcite-modal-padding-internal: theme("spacing.3");
-  --calcite-modal-padding-large-internal: theme("spacing.4");
-  --calcite-modal-title-text-internal: theme("fontSize.1h");
-  --calcite-modal-content-text-internal: theme("fontSize.n1");
+  --calcite-internal-modal-padding: theme("spacing.3");
+  --calcite-internal-modal-padding-large: theme("spacing.4");
+  --calcite-internal-modal-title-text: theme("fontSize.1h");
+  --calcite-internal-modal-content-text: theme("fontSize.n1");
 }
 
 :host([scale="m"]) {
-  --calcite-modal-padding-internal: theme("spacing.4");
-  --calcite-modal-padding-large-internal: theme("spacing.5");
-  --calcite-modal-title-text-internal: theme("fontSize.2h");
-  --calcite-modal-content-text-internal: theme("fontSize.0");
+  --calcite-internal-modal-padding: theme("spacing.4");
+  --calcite-internal-modal-padding-large: theme("spacing.5");
+  --calcite-internal-modal-title-text: theme("fontSize.2h");
+  --calcite-internal-modal-content-text: theme("fontSize.0");
 }
 
 :host([scale="l"]) {
-  --calcite-modal-padding-internal: theme("spacing.5");
-  --calcite-modal-padding-large-internal: theme("spacing.6");
-  --calcite-modal-title-text-internal: theme("fontSize.3h");
-  --calcite-modal-content-text-internal: theme("fontSize.1");
+  --calcite-internal-modal-padding: theme("spacing.5");
+  --calcite-internal-modal-padding-large: theme("spacing.6");
+  --calcite-internal-modal-title-text: theme("fontSize.3h");
+  --calcite-internal-modal-content-text: theme("fontSize.1");
 }
 
 .scrim {
-  --calcite-scrim-background: var(--calcite-modal-scrim-background, var(--calcite-color-transparent-scrim));
-  @apply fixed inset-0 flex overflow-y-hidden;
+  --calcite-color-transparent-scrim: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)}; // always use a dark scrim, regardless of light / dark mode
+  --calcite-scrim-background-color: var(
+    var(--calcite-modal-scrim-background-color),
+    var(--calcite-modal-scrim-background, var(--calcite-color-transparent-scrim))
+  );
+  @apply fixed flex inset-0 overflow-y-hidden;
 }
 
 .modal {
-  @apply shadow-2-sm
-    bg-foreground-1
-    pointer-events-none
+  @apply box-border
+    flex
+    flex-col
     float-none
     m-6
-    box-border
-    flex
-    w-full
-    flex-col
-    overflow-hidden
-    rounded
     opacity-0
+    overflow-hidden
+    pointer-events-none
+    w-full
     z-modal;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
@@ -93,24 +104,25 @@
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
 
-  --calcite-modal-hidden-position: translate3d(0, 20px, 0);
-  --calcite-modal-shown-position: translate3d(0, 0, 0);
+  background: var(--calcite-modal-background-color, var(--calcite-color-foreground-1));
+  box-shadow: var(--calcite-modal-shadow, var(--calcite-shadow-sm));
+  border-radius: var(--calcite-internal-modal-corner-radius);
 
   &--opening {
     &-idle {
-      transform: var(--calcite-modal-hidden-position);
+      transform: var(--calcite-internal-modal-hidden-position);
     }
     &-active {
-      transform: var(--calcite-modal-shown-position);
+      transform: var(--calcite-internal-modal-shown-position);
     }
   }
 
   &--closing {
     &-idle {
-      transform: var(--calcite-modal-shown-position);
+      transform: var(--calcite-internal-modal-shown-position);
     }
     &-active {
-      transform: var(--calcite-modal-hidden-position);
+      transform: var(--calcite-internal-modal-hidden-position);
     }
   }
 }
@@ -141,73 +153,94 @@
  * Header
  */
 .header {
-  @apply bg-foreground-1
-    border-color-3
-    flex
-    min-w-0
-    max-w-full
-    rounded-t
-    border-0
+  @apply border-0
     border-b
     border-solid
+    flex
+    max-w-full
+    min-w-0
     z-header;
   flex: 0 0 auto;
 }
 
+.header,
+.footer,
+.content-top,
+.content-bottom {
+  border-color: var(--calcite-internal-modal-border-color);
+}
+
 .close {
-  @apply text-color-3
-    transition-default
-    focus-base
-    order-2
-    m-0
-    cursor-pointer
-    appearance-none
+  @apply appearance-none
     border-none
-    bg-transparent;
-  padding-block: var(--calcite-modal-padding-internal);
-  padding-inline: var(--calcite-modal-padding-internal);
+    cursor-pointer
+    focus-base
+    m-0
+    order-2
+    transition-default;
+
+  background-color: var(--calcite-modal-close-button-background-color, transparent);
   flex: 0 0 auto;
-  calcite-icon {
-    @apply pointer-events-none;
-    vertical-align: -2px;
-  }
+  padding-block: var(--calcite-internal-modal-padding);
+  padding-inline: var(--calcite-internal-modal-padding);
+
   &:focus {
     @apply focus-inset;
   }
   &:hover,
   &:focus,
   &:active {
-    @apply bg-foreground-2 text-color-1;
+    background-color: var(--calcite-modal-close-button-background-color-hover, var(--calcite-color-foreground-2));
+    calcite-icon {
+      --calcite-icon-color: var(--calcite-modal-close-button-icon-color-hover, var(--calcite-color-text-1));
+    }
+  }
+
+  calcite-icon {
+    @apply pointer-events-none;
+    --calcite-icon-color: var(--calcite-modal-close-button-icon-color, var(--calcite-color-text-3));
+    vertical-align: -2px;
   }
 }
 
 .title {
   @apply order-1 flex min-w-0 items-center;
   flex: 1 1 auto;
-  padding-block: var(--calcite-modal-padding-internal);
-  padding-inline: var(--calcite-modal-padding-large-internal);
+  padding-block: var(--calcite-internal-modal-padding);
+  padding-inline: var(--calcite-internal-modal-padding-large);
 }
 
 @include slotted("header", "*") {
-  @apply text-color-1 m-0 font-normal;
-  font-size: var(--calcite-modal-title-text-internal);
+  @apply font-normal m-0;
+  color: var(--calcite-color-text-1);
+  font-size: var(--calcite-internal-modal-title-text);
 }
 
 /**
  * Content area
  */
 .content {
-  @apply relative box-border block h-full overflow-auto p-0;
-  background-color: var(--calcite-modal-content-background, theme("colors.background.foreground.1"));
+  @apply block box-border h-full overflow-auto p-0 relative;
   max-block-size: 100%;
-  padding: var(--calcite-modal-content-padding, var(--calcite-modal-padding-internal));
+}
+
+.content,
+.content-top,
+.content-bottom {
+  background-color: var(
+    --calcite-modal-content-background-color,
+    var(--calcite-modal-content-background, var(--calcite-color-foreground-1))
+  );
+  padding: var(
+    --calcite-modal-content-space,
+    var(--calcite-modal-content-padding, var(--calcite-internal-modal-padding))
+  );
 }
 
 .content-top,
 .content-bottom {
-  @apply bg-foreground-1 border-color-3 border-solid border-0 z-header flex;
+  @apply border-0 border-solid flex z-header;
   flex: 0 0 auto;
-  padding: var(--calcite-modal-padding-internal);
 }
 
 .content-top {
@@ -218,13 +251,15 @@
   @apply mt-auto box-border w-full justify-between border-t;
 }
 
+.header,
 .content-top:not(.header ~ .content-top) {
-  @apply rounded-t;
+  border-radius: var(--calcite-internal-modal-corner-radius) var(--calcite-internal-modal-corner-radius) 0 0;
 }
 
+.footer,
 .content-bottom:not(.content-bottom ~ .footer),
 .content--no-footer {
-  @apply rounded-b;
+  border-radius: 0 0 var(--calcite-internal-modal-corner-radius) var(--calcite-internal-modal-corner-radius);
 }
 
 @include slotted("content", "*") {
@@ -235,21 +270,18 @@
  * Footer
  */
 .footer {
-  @apply bg-foreground-1
-    border-color-3
-    mt-auto
+  @apply border-0
+    border-solid
+    border-t
     box-border
     flex
-    w-full
     justify-between
-    rounded-b
-    border-0
-    border-t
-    border-solid
+    mt-auto
+    w-full
     z-header;
   flex: 0 0 auto;
-  padding-block: var(--calcite-modal-padding-internal);
-  padding-inline: var(--calcite-modal-padding-large-internal);
+  padding-block: var(--calcite-internal-modal-padding);
+  padding-inline: var(--calcite-internal-modal-padding-large);
 }
 
 .footer--hide-back .back,
@@ -308,23 +340,16 @@ slot[name="primary"] {
  * Fullscreen
  */
 :host([fullscreen]) {
+  --calcite-internal-modal-corner-radius: var(--calcite-modal-corner-radius, var(--calcite-corner-radius-sharp));
+  --calcite-internal-modal-hidden-position: translate3D(0, 20px, 0) scale(0.95);
+  --calcite-internal-modal-shown-position: translate3D(0, 0, 0) scale(1);
+
   .modal {
-    @apply m-0 max-h-full max-w-full h-full w-full rounded-none;
-    --calcite-modal-hidden-position: translate3D(0, 20px, 0) scale(0.95);
-    --calcite-modal-shown-position: translate3D(0, 0, 0) scale(1);
+    @apply h-full m-0 max-h-full max-w-full w-full;
   }
   .content {
     @apply max-h-full;
     flex: 1 1 auto;
-  }
-}
-
-:host([opened][fullscreen]) {
-  .header,
-  .footer,
-  .content-top,
-  .content-bottom {
-    border-radius: 0;
   }
 }
 
@@ -344,37 +369,30 @@ slot[name="primary"] {
 /**
  * Kinds
  */
-:host([kind="brand"]) .modal {
-  @apply border-color-brand;
+:host([kind="brand"]) {
+  --calcite-internal-modal-accent-color: var(--calcite-modal-accent-color, var(--calcite-color-brand));
 }
 
-:host([kind="danger"]) .modal {
-  @apply border-color-danger;
+:host([kind="danger"]) {
+  --calcite-internal-modal-accent-color: var(--calcite-modal-accent-color, var(--calcite-color-status-danger));
 }
 
-:host([kind="info"]) .modal {
-  @apply border-color-info;
+:host([kind="info"]) {
+  --calcite-internal-modal-accent-color: var(--calcite-modal-accent-color, var(--calcite-color-status-info));
 }
 
-:host([kind="success"]) .modal {
-  @apply border-color-success;
+:host([kind="success"]) {
+  --calcite-internal-modal-accent-color: var(--calcite-modal-accent-color, var(--calcite-color-status-success));
 }
 
-:host([kind="warning"]) .modal {
-  @apply border-color-warning;
-}
-
-:host([kind="brand"]),
-:host([kind="danger"]),
-:host([kind="info"]),
-:host([kind="success"]),
 :host([kind="warning"]) {
+  --calcite-internal-modal-accent-color: var(--calcite-modal-accent-color, var(--calcite-color-status-warning));
+}
+
+:host([kind]) {
   .modal {
     @apply border-0 border-t-4 border-solid;
-  }
-  .header,
-  .content-top {
-    @apply rounded rounded-b-none;
+    border-color: var(--calcite-internal-modal-accent-color);
   }
 }
 
@@ -383,7 +401,7 @@ slot[name="primary"] {
  */
 @media screen and (max-width: $viewport-medium) {
   @include slotted("header", "content-top", "*") {
-    @apply text-1;
+    color: var(--calcite-color-text-1);
   }
   .footer,
   .content-bottom {
