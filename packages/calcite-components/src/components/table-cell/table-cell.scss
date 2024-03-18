@@ -3,11 +3,19 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-table-cell-background: Specifies the background color of the component.
+ * @prop --calcite-table-cell-background: [Deprecated] Use `--calcite-table-cell-background-color` instead. Specifies the background color of the component.
+ * @prop --calcite-table-cell-background-color: Specifies the background color of the component.
+ * @prop --calcite-table-cell-border-color: Specifies the border color of the component.
  */
 
+/**
+  * Local props
+  * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
+  *
+  * --calcite-internal-table-cell-background-color
+*/
+
 :host {
-  --calcite-internal-table-cell-background: var(--calcite-table-cell-background, transparent);
   @apply contents;
 }
 
@@ -25,9 +33,13 @@
 
 td {
   @apply text-start  align-middle text-color-1 whitespace-normal;
-  background: var(--calcite-internal-table-cell-background);
+  background-color: var(
+    --calcite-internal-table-cell-background-color,
+    var(--calcite-table-cell-background-color, transparent)
+  );
   font-size: var(--calcite-internal-table-cell-font-size);
-  border-inline-end: 1px solid var(--calcite-color-border-3);
+  border-inline-end: 1px solid
+    var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
   padding: var(--calcite-internal-table-cell-padding);
 
   &:not(.static-cell) {
@@ -42,44 +54,68 @@ td.last-cell {
   border-inline-end: 0;
 }
 
-.number-cell {
-  @apply bg-foreground-2;
-}
-
 .footer-cell {
-  @apply bg-background font-medium text-color-1;
-  border-block-start: 1px solid var(--calcite-color-border-3);
+  @apply font-medium;
+  color: var(--calcite-color-text-1);
+  background-color: var(
+    --calcite-table-cell-background-color,
+    var(--calcite-table-cell-background, var(--calcite-color-background))
+  );
+
+  border-block-start: 1px solid
+    var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
 }
 
 .number-cell,
 .selection-cell {
-  border-inline-end: 1px solid var(--calcite-color-border-3);
+  border-inline-end: 1px solid
+    var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
   inline-size: 2rem;
   min-inline-size: 2rem;
 }
 
+.number-cell {
+  color: var(--calcite-table-number-cell-text-color, var(--calcite-color-text-1));
+  background-color: var(--calcite-table-number-cell-background-color, var(--calcite-color-foreground-2));
+  &.footer-cell {
+    background-color: var(
+      --calcite-table-number-cell-background-color,
+      var(--calcite-table-cell-background-color, var(--calcite-color-background))
+    );
+  }
+}
+
 .selection-cell {
-  @apply text-color-3;
-  inset-inline-start: 2rem;
+  color: var(--calcite-table-selection-cell-icon-color, var(--calcite-color-text-3));
   &:not(.footer-cell) {
     @apply cursor-pointer;
+    background-color: var(
+      --calcite-table-selection-cell-background-color,
+      var(--calcite-table-cell-background-color, transparent)
+    );
+  }
+  &.footer-cell {
+    background-color: var(
+      --calcite-table-selection-cell-background-color,
+      var(--calcite-table-cell-background-color, var(--calcite-color-background))
+    );
   }
 }
 
 .selected-cell:not(.number-cell):not(.footer-cell) {
-  --calcite-internal-table-cell-background: var(--calcite-color-foreground-current);
+  background-color: var(
+    --calcite-table-cell-background-color-selected,
+    var(--calcite-table-row-background-color-selected, var(--calcite-color-foreground-current))
+  );
 }
 
 .selection-cell.selected-cell {
-  box-shadow: inset 0.25rem 0 0 0 var(--calcite-color-brand);
-  color: var(--calcite-color-brand);
-  & calcite-icon {
-    color: var(--calcite-color-brand);
-  }
+  box-shadow: inset 0.25rem 0 0 0 var(--calcite-table-row-selected-accent-color, var(--calcite-color-brand));
+  color: var(--calcite-table-selection-cell-icon-color-selected, var(--calcite-color-brand));
 }
 
 .calcite--rtl.selection-cell.selected-cell {
-  box-shadow: inset -0.25rem 0 0 0 var(--calcite-color-brand);
+  box-shadow: inset -0.25rem 0 0 0 var(--calcite-table-row-selected-accent-color, var(--calcite-color-brand));
 }
 
 .selection-cell {
