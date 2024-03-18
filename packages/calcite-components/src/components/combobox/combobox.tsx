@@ -693,6 +693,10 @@ export class Combobox
           }
           event.preventDefault();
         }
+
+        if (event.composedPath().find((el: HTMLElement) => el.tagName === "CALCITE-CHIP")) {
+          event.preventDefault();
+        }
         break;
       case "Home":
         if (!this.open) {
@@ -725,7 +729,7 @@ export class Combobox
         event.preventDefault();
         break;
       case "Enter":
-        if (this.activeItemIndex > -1) {
+        if (this.open && this.activeItemIndex > -1) {
           this.toggleSelection(this.filteredItems[this.activeItemIndex]);
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
@@ -1632,7 +1636,7 @@ export class Combobox
 
     return (
       this.showingInlineIcon && (
-        <span class="icon-start">
+        <span class="icon-start" key="selected-placeholder-icon">
           <calcite-icon
             class="selected-icon"
             flipRtl={this.open && selectedItem ? selectedItem.iconFlipRtl : placeholderIconFlipRtl}
@@ -1647,7 +1651,7 @@ export class Combobox
   renderChevronIcon(): VNode {
     const { open } = this;
     return (
-      <span class="icon-end">
+      <span class="icon-end" key="chevron">
         <calcite-icon
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
@@ -1692,6 +1696,7 @@ export class Combobox
                 [CSS.selectionDisplayFit]: fitSelectionDisplay,
                 [CSS.selectionDisplaySingle]: singleSelectionDisplay,
               }}
+              key="grid"
               ref={this.setChipContainerEl}
             >
               {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
@@ -1733,7 +1738,7 @@ export class Combobox
           </ul>
           {this.renderFloatingUIContainer()}
           <HiddenFormInputSlot component={this} />
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}

@@ -743,11 +743,11 @@ describe("calcite-stepper", () => {
     expect(await stepperItem2.getProperty("selected")).toBe(true);
   });
 
-  describe("responsive layout", () => {
-    it("should display action buttons when width is smaller", async () => {
+  describe("horizontal-single layout", () => {
+    it("should display action buttons when layout is horizontal-single.", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        html`<calcite-stepper style="width: 100px">
+        html`<calcite-stepper layout="horizontal-single">
           <calcite-stepper-item heading="Step 1" id="step-1">
             <div>Step 1 content</div>
           </calcite-stepper-item>
@@ -775,7 +775,7 @@ describe("calcite-stepper", () => {
     it("focus order", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        html`<calcite-stepper style="width: 100px">
+        html`<calcite-stepper layout="horizontal-single">
           <calcite-stepper-item heading="Step 1" id="step-1">
             <calcite-button id="button1">Click</calcite-button>
           </calcite-stepper-item>
@@ -822,7 +822,7 @@ describe("calcite-stepper", () => {
     it("should emit calciteStepperItemChange on user interaction", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        html`<calcite-stepper style="width: 100px">
+        html`<calcite-stepper layout="horizontal-single">
           <calcite-stepper-item heading="Step 1" id="step-1">
             <div>Step 1 content</div>
           </calcite-stepper-item>
@@ -857,6 +857,35 @@ describe("calcite-stepper", () => {
       await actionStart.click();
       await page.waitForChanges();
       expect(eventSpy).toHaveReceivedEventTimes(2);
+    });
+
+    it(`switching to layout="horizontal-single" dynamically from another option should display a single item (#8931)`, async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-stepper layout="horizontal">
+            <calcite-stepper-item heading="Step 1" selected>
+              <div>Step 1 content</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Step 2">
+              <div>Step 2 content</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Step 3">
+              <div>Step 3 content</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Review">
+              <div>Step 4 content</div>
+            </calcite-stepper-item>
+          </calcite-stepper>
+          </calcite-stepper>`,
+      );
+
+      const stepper = await page.find("calcite-stepper");
+      await stepper.setProperty("layout", "horizontal-single");
+      await page.waitForChanges();
+
+      const displayedItems = await page.findAll("calcite-stepper-item:not([hidden])");
+      expect(displayedItems.length).toBe(1);
     });
   });
 });

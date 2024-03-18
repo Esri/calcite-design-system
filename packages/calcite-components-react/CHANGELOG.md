@@ -3,15 +3,71 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.4.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.4.0...@esri/calcite-components-react@2.4.1-next.0) (2024-02-07)
+## [2.7.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.7.0-next.4...@esri/calcite-components-react@2.7.0-next.5) (2024-03-16)
 
 **Note:** Version bump only for package @esri/calcite-components-react
+
+## [2.7.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.7.0-next.3...@esri/calcite-components-react@2.7.0-next.4) (2024-03-13)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [2.7.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.7.0-next.2...@esri/calcite-components-react@2.7.0-next.3) (2024-03-12)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [2.7.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.7.0-next.1...@esri/calcite-components-react@2.7.0-next.2) (2024-03-06)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [2.7.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.7.0-next.0...@esri/calcite-components-react@2.7.0-next.1) (2024-02-29)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [2.7.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.6.0...@esri/calcite-components-react@2.7.0-next.0) (2024-02-28)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [2.6.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.5.1...@esri/calcite-components-react@2.6.0) (2024-02-27)
+
+### Miscellaneous Chores
+
+- **@esri/calcite-components-react:** Synchronize components versions
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - dependencies
+    - @esri/calcite-components bumped from ^2.6.0-next.3 to ^2.6.0
+
+## [2.5.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.5.0...@esri/calcite-components-react@2.5.1) (2024-02-16)
+
+### Miscellaneous Chores
+
+- **@esri/calcite-components-react:** Synchronize components versions
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - dependencies
+    - @esri/calcite-components bumped from ^2.5.1-next.1 to ^2.5.1
+
+## [2.5.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.4.0...@esri/calcite-components-react@2.5.0) (2024-02-15)
+
+### Miscellaneous Chores
+
+- **@esri/calcite-components-react:** Synchronize components versions
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - dependencies
+    - @esri/calcite-components bumped from ^2.5.0-next.6 to ^2.5.0
 
 ## [2.4.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.3.0...@esri/calcite-components-react@2.4.0) (2024-01-30)
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-react:** Synchronize undefined versions
+- **@esri/calcite-components-react:** Synchronize components versions
 
 ### Dependencies
 
@@ -23,7 +79,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-react:** Synchronize undefined versions
+- **@esri/calcite-components-react:** Synchronize components versions
 
 ### Dependencies
 
@@ -35,7 +91,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-react:** Synchronize undefined versions
+- **@esri/calcite-components-react:** Synchronize components versions
 
 ### Dependencies
 
@@ -47,7 +103,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-react:** Synchronize undefined versions
+- **@esri/calcite-components-react:** Synchronize components versions
 
 ### Dependencies
 
@@ -88,7 +144,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-react:** Synchronize undefined versions
+- **@esri/calcite-components-react:** Synchronize components versions
 
 ### Dependencies
 
@@ -100,7 +156,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-react:** Synchronize undefined versions
+- **@esri/calcite-components-react:** Synchronize components versions
 
 ### Dependencies
 
@@ -112,7 +168,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-react:** Synchronize undefined versions
+- **@esri/calcite-components-react:** Synchronize components versions
 
 ### Dependencies
 
@@ -124,7 +180,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-react:** Synchronize undefined versions
+- **@esri/calcite-components-react:** Synchronize components versions
 
 ### Dependencies
 
@@ -160,7 +216,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-react:** Synchronize undefined versions
+- **@esri/calcite-components-react:** Synchronize components versions
 
 ### Dependencies
 
@@ -184,7 +240,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-react:** Synchronize undefined versions
+- **@esri/calcite-components-react:** Synchronize components versions
 
 ### Dependencies
 
@@ -208,7 +264,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Miscellaneous Chores
 
-- **@esri/calcite-components-react:** Synchronize undefined versions
+- **@esri/calcite-components-react:** Synchronize components versions
 
 ### Dependencies
 

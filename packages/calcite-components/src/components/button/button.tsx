@@ -105,6 +105,13 @@ export class Button
   form: string;
 
   /**
+   * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
+   * Without a value, the browser will suggest a filename/extension
+   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
+   */
+  @Prop({ reflect: true }) download: string | boolean = false;
+
+  /**
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
    */
   @Prop({ reflect: true }) href: string;
@@ -287,6 +294,9 @@ export class Button
             [CSS.iconEndEmpty]: !this.iconEnd,
           }}
           disabled={childElType === "button" ? this.disabled || this.loading : null}
+          download={
+            childElType === "a" && (this.download === "" || this.download) ? this.download : null
+          }
           href={childElType === "a" && this.href}
           name={childElType === "button" && this.name}
           onClick={this.handleClick}

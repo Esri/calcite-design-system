@@ -186,7 +186,7 @@ export class SegmentedControl
             <HiddenFormInputSlot component={this} />
           </InteractiveContainer>
         </div>
-        {this.validationMessage ? (
+        {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}
             message={this.validationMessage}

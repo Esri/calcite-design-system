@@ -41,14 +41,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
       {
-        name: "selectable",
-        commit(): Attribute {
-          this.value = boolean("selectable", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
         name: "thumbnail-position",
         commit(): Attribute {
           this.value = select("thumbnail-position", logicalFlowPosition.values, logicalFlowPosition.defaultValue);
@@ -62,8 +54,8 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 };
 
 const titleHtml = html`
-  <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
-  <span slot="subtitle">
+  <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+  <span slot="description">
     A great example of a study description that might wrap to a line or two, but isn't overly verbose.
   </span>
 `;
@@ -129,8 +121,8 @@ export const thumbnail = (): string => html`
       createAttributes(),
       html`
         ${thumbnailHtml}
-        <h3 slot="title">Portland Businesses</h3>
-        <span slot="subtitle"
+        <h3 slot="heading">Portland Businesses</h3>
+        <span slot="description"
           >by
           <calcite-link href="">example_user</calcite-link>
         </span>
@@ -186,8 +178,8 @@ export const thumbnailRounded = (): string => html`
     </style>
     <calcite-card>
       ${thumbnailHtml}
-      <h3 slot="title">Portland Businesses</h3>
-      <span slot="subtitle"
+      <h3 slot="heading">Portland Businesses</h3>
+      <span slot="description"
         >by
         <calcite-link href="">example_user</calcite-link>
       </span>
@@ -209,7 +201,22 @@ export const thumbnailRounded = (): string => html`
   </div>
 `;
 
-export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
+export const headerDoesNotOverlapWithCheckboxDeprecated_TestOnly = (): string => html`
+  <calcite-card selectable style="width:260px">
+    <h3 slot="heading">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
+    <span slot="description"
+      >Pika-pi Soul Badge Zoroark Starly Spoink Diglett Rotom. Water Kyogre Hitmontop Rampardos</span
+    >
+    <p>
+      Team Rocket Whimsicott Snover Duskull Servine Kakuna Bellsprout. Scratch Shelgon Oddish Hitmonchan Quagsire Earth
+      Badge Leaf Green. Pika-pi Bonsly Rare Candy Seadra blast off at the speed of light Shellos Kirlia. Celadon City
+      Seviper Omanyte Espeon Body Slam Victini Darumaka. Normal Krookodile Junichi Masuda Machoke Body Slam Zigzagoon to
+      protect the world from devastation.
+    </p>
+  </calcite-card>
+`;
+
+export const deprecatedSlotsSelectable_TestOnly = (): string => html`
   <calcite-card selectable style="width:260px">
     <h3 slot="title">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
     <span slot="subtitle"
@@ -222,6 +229,28 @@ export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
       protect the world from devastation.
     </p>
   </calcite-card>
+`;
+
+export const slottedFooterItems_TestOnly = (): string => html`
+  <div id="card-container" style="width:260px;">
+    <calcite-card>
+      ${thumbnailHtml}
+      <h3 slot="heading">Portland Businesses</h3>
+      <span slot="description"
+        >by
+        <calcite-link href="">example_user</calcite-link>
+      </span>
+      <div>
+        Created: Apr 22, 2019
+        <br />
+        Updated: Dec 9, 2019
+        <br />
+        View Count: 0
+      </div>
+      <calcite-chip slot="footer-start" value="calcite chip" kind="brand" icon="clock-forward">Recent</calcite-chip>
+      <calcite-chip slot="footer-end" value="calcite chip" icon="walking">Recreation</calcite-chip>
+    </calcite-card>
+  </div>
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
