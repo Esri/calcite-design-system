@@ -7,7 +7,6 @@
  * @prop --calcite-day-background-color-selected: Specifies the background color of component when selected.
  * @prop --calcite-day-background-color: Specifies the background color of component.
  * @prop --calcite-day-corner-radius: Specifies the border radius of component.
- * @prop --calcite-day-font-size: Specifies the font size of component.
  * @prop --calcite-day-range-background-color-hovered: Specifies the background color of day range when hovered.
  * @prop --calcite-day-range-background-color-selected: Specifies the background color of day range when selected.
  * @prop --calcite-day-text-color-hover: Specifies the text color of component when hovered.
@@ -17,7 +16,6 @@
 
 :host {
   @apply cursor-pointer flex relative;
-  color: var(--calcite-day-text-color, var(--calcite-color-text-3));
 }
 
 @include disabled();
@@ -88,14 +86,15 @@
 
 .day {
   @apply flex
+  text-color-3
     focus-base
     items-center
     justify-center
     leading-none
     transition-default;
   border-radius: var(--calcite-day-corner-radius, 9999px);
-  color: var(--calcite-day-text-color);
-  font-size: var(--calcite-day-font-size, var(--calcite-font-size));
+  color: var(--calcite-day-text-color, var(--calcite-color-text-3));
+  font-size: var(--calcite-internal-day-font-size, var(--calcite-font-size));
   z-index: var(--calcite-z-index);
   background: none;
   background-color: var(--calcite-day-background-color, var(--calcite-color-background-none));
@@ -119,7 +118,7 @@
     @apply p-0;
   }
   .day {
-    --calcite-day-font-size: var(--calcite-font-size-sm);
+    --calcite-internal-day-font-size: var(--calcite-font-size-sm);
   }
 }
 
@@ -133,7 +132,7 @@
     @apply p-0;
   }
   .day {
-    --calcite-day-font-size: var(--calcite-font-size);
+    --calcite-internal-day-font-size: var(--calcite-font-size);
   }
 }
 
@@ -147,7 +146,7 @@
     padding-inline: var(--calcite-spacing-xxs);
   }
   .day {
-    --calcite-day-font-size: var(--calcite-font-size-md);
+    --calcite-internal-day-font-size: var(--calcite-font-size-md);
   }
 }
 

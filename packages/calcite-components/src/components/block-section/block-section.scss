@@ -5,8 +5,18 @@
  *
  * @prop --calcite-block-section-background-color: Specifies the background color of the component.
  * @prop --calcite-block-section-border-color: Specifies the border color of the component. Applicable on bottom border when open.
- * @prop --calcite-block-section-heading-text-color: Specifies the component's heading text color.
  * @prop --calcite-block-section-heading-text-color-hover: Specifies the component's heading text color on hover.
+ * @prop --calcite-block-section-heading-text-color: Specifies the component's heading text color.
+ * @prop --calcite-block-section-switch-corner-radius: Specifies the border radius of the switch.
+ * @prop --calcite-block-section-switch-handle-background-color: Specifies the background color of the switch handle.
+ * @prop --calcite-block-section-switch-handle-border-color-hover: Specifies the border color of the switch handle on hover.
+ * @prop --calcite-block-section-switch-handle-border-color: Specifies the border color of the switch handle.
+ * @prop --calcite-block-section-switch-handle-shadow-hover: Specifies the shadow of the switch handle on hover.
+ * @prop --calcite-block-section-switch-handle-shadow: Specifies the shadow of the switch handle.
+ * @prop --calcite-block-section-switch-track-background-color-checked: Specifies the background color of the switch track when checked.
+ * @prop --calcite-block-section-switch-track-background-color: Specifies the background color of the switch track.
+ * @prop --calcite-block-section-switch-track-border-color-checked: Specifies the border color of the switch track when checked.
+ * @prop --calcite-block-section-switch-track-border-color: Specifies the border color of the switch track.
  */
 
 :host {
@@ -118,12 +128,24 @@ calcite-icon {
   // TODO: add sub-component tokens
 }
 
-calcite-label {
-  // TODO: add sub-component tokens
-}
-
 calcite-switch {
-  // TODO: add sub-component tokens
+  --calcite-switch-corner-radius: var(--calcite-block-section-switch-corner-radius);
+  --calcite-switch-handle-background-color: var(--calcite-block-section-switch-handle-background-color);
+  --calcite-switch-handle-border-color: var(--calcite-block-section-switch-handle-border-color);
+  --calcite-switch-handle-shadow: var(--calcite-block-section-switch-handle-shadow);
+  --calcite-switch-track-background-color: var(--calcite-block-section-switch-track-background-color);
+  --calcite-switch-track-border-color: var(--calcite-block-section-switch-track-border-color);
+
+  &:focus,
+  &:hover {
+    --calcite-switch-handle-border-color: var(--calcite-block-section-switch-handle-border-color-hover);
+    --calcite-switch-handle-shadow: var(--calcite-block-section-switch-handle-shadow-hover);
+  }
+
+  &[checked] {
+    --calcite-switch-track-background-color: var(--calcite-block-section-switch-track-background-color-checked);
+    --calcite-switch-track-border-color: var(--calcite-block-section-switch-track-border-color-checked);
+  }
 }
 
 @include base-component();

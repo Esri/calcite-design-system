@@ -7,13 +7,11 @@
  * @prop --calcite-date-picker-month-day-background-color-selected: Specifies the background color of day range when selected.
  * @prop --calcite-date-picker-month-day-background-color: Specifies the background color of day.
  * @prop --calcite-date-picker-month-day-corner-radius: Specifies the border radius of day.
- * @prop --calcite-date-picker-month-day-font-size: Specifies the font size of day.
  * @prop --calcite-date-picker-month-day-range-background-color-hovered: Specifies the background color of day range when hovered.
  * @prop --calcite-date-picker-month-day-range-background-color-selected: Specifies the background color of day range when selected.
  * @prop --calcite-date-picker-month-day-text-color-hover: Specifies the text color of day when hovered.
  * @prop --calcite-date-picker-month-day-text-color: Specifies the text color of day.
  * @prop --calcite-date-picker-month-day-text-selected: Specifies the text color of day when selected.
- * @prop --calcite-date-picker-month-week-headers-border-color: Specifies the border color of week headers.
  * @prop --calcite-date-picker-month-week-headers-text-color: Specifies the text color of week headers.
 */
 
@@ -27,7 +25,7 @@
   @apply flex border-solid py-0;
   border-width: var(--calcite-border-width-none);
   border-block-start-width: var(--calcite-border-width-sm);
-  border-color: var(--calcite-date-picker-month-week-headers-border-color, var(--calcite-color-border-3));
+  border-color: var(--calcite-color-border-3);
   padding-inline: var(--calcite-spacing-xxs);
 }
 
@@ -82,7 +80,6 @@ calcite-date-picker-day {
   --calcite-day-text-color: var(--calcite-date-picker-month-day-text-color);
   --calcite-day-text-color-hover: var(--calcite-date-picker-month-day-text-color-hover);
   --calcite-day-text-color-selected: var(--calcite-date-picker-month-day-text-selected);
-  --calcite-day-font-size: var(--calcite-date-picker-month-day-font-size);
   --calcite-day-background-color: var(--calcite-date-picker-month-day-background-color);
   --calcite-day-background-color-hover: var(--calcite-date-picker-month-day-background-color-hover);
   --calcite-day-background-color-selected: var(--calcite-date-picker-month-day-background-color-selected);

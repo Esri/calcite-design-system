@@ -1,3 +1,20 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tab-title-background-color: Specifies the background color of the component.
+ * @prop --calcite-tab-title-text-color: Specifies the text color of the component.
+ * @prop --calcite-tab-title-close-button-background-color: Specifies the background color of the close button.
+ * @prop --calcite-tab-title-close-button-background-color-active: Specifies the background color of the close button when active.
+ * @prop --calcite-tab-title-close-button-background-color-focus: Specifies the background color of the close button when focused.
+ * @prop --calcite-tab-title-close-button-background-color-hover: Specifies the background color of the close button when hovered.
+ * @prop --calcite-tab-title-close-button-icon-color: Specifies the icon color of the close button.
+ * @prop --calcite-tab-title-close-button-icon-color-active: Specifies the icon color of the close button when active.
+ * @prop --calcite-tab-title-close-button-icon-color-focus: Specifies the icon color of the close button when focused.
+ * @prop --calcite-tab-title-close-button-icon-color-hover: Specifies the icon color of the close button when hovered.
+ */
+
 :host {
   @apply block outline-none;
   margin-inline-start: theme("margin.0");
@@ -65,12 +82,12 @@
   h-full
   justify-between
   px-0
-  text-color-3
   text-n1h
   transition-default
   w-full;
 
   border-block-end-style: solid;
+  color: var(--calcite-tab-title-text-color, var(--calcite-color-text-3));
 }
 
 :host([position="bottom"]) .container {
@@ -85,7 +102,8 @@
 }
 
 :host([selected]) .container {
-  @apply text-color-1 border-color-transparent;
+  @apply border-color-transparent;
+  color: var(--calcite-tab-title-text-color, var(--calcite-color-text-1));
 }
 
 :host(:focus) .container {
@@ -93,14 +111,6 @@
 
   &:focus-within {
     @apply focus-base;
-  }
-}
-
-:host(:active),
-:host(:focus),
-:host(:hover) {
-  a {
-    @apply text-color-1 border-color-2 no-underline;
   }
 }
 
@@ -134,7 +144,6 @@
 
 .close-button {
   @apply appearance-none
-  bg-foreground-1
   border-none
   content-center
   cursor-pointer
@@ -144,31 +153,34 @@
   justify-center
   p-1
   self-center
-  text-color-3
   transition-default;
 
-  background-color: var(--calcite-button-transparent-1);
+  background-color: var(--calcite-tab-title-close-button-background-color, var(--calcite-color-transparent));
+  color: var(--calcite-tab-title-close-button-icon-color, var(--calcite-color-text-3));
+
   margin-inline-start: auto;
 
   &:focus {
+    background-color: var(--calcite-tab-title-close-button-background-color-focus, var(--calcite-color-foreground-2));
+    color: var(--calcite-tab-title-close-button-icon-color-focus, var(--calcite-text-color-1));
+
     @apply focus-inset;
 
     // ⚠️overriding outline-offset should be avoided as it won't honor --calcite-color-focus-offset-invert
     outline-offset: -1px;
   }
 
-  &:focus,
   &:hover {
-    @apply text-color-1;
-    background-color: var(--calcite-color-foreground-2);
+    background-color: var(--calcite-tab-title-close-button-background-color-hover, var(--calcite-color-foreground-2));
+    color: var(--calcite-tab-title-close-button-icon-color-hover, var(--calcite-text-color-1));
   }
 
   &:active {
-    @apply text-color-1;
-    background-color: var(--calcite-color-foreground-3);
+    background-color: var(--calcite-tab-title-close-button-background-color-active, var(--calcite-color-foreground-3));
+    color: var(--calcite-tab-title-close-button-icon-color-active, var(--calcite-text-color-1));
   }
 
-  & calcite-icon {
+  calcite-icon {
     color: inherit;
   }
 }
@@ -186,16 +198,18 @@
 }
 
 :host([bordered][selected]) {
-  box-shadow: inset 0px -2px var(--calcite-color-foreground-1);
+  // we use the background color defined on tabs
+  box-shadow: inset 0 -2px var(--calcite-internal-tabs-background-color);
 }
 
 :host([bordered][selected][position="bottom"]) {
-  box-shadow: inset 0 2px 0 var(--calcite-color-foreground-1);
+  // we use the background color defined on tabs
+  box-shadow: inset 0 2px var(--calcite-internal-tabs-background-color);
 }
 
 :host([bordered]:hover) {
   .container {
-    background-color: var(--calcite-color-transparent-hover);
+    background-color: var(--calcite-tab-title-background-color, var(--calcite-color-transparent-hover));
   }
 }
 
@@ -279,6 +293,10 @@
     /* in high contrast the tab title outline covers the close button outline without a z-index */
     @apply z-default;
   }
+}
+
+calcite-icon {
+  // TODO: add sub-component tokens
 }
 
 @include base-component();

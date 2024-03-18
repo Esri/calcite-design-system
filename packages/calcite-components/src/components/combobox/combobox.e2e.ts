@@ -1913,4 +1913,89 @@ describe("calcite-combobox", () => {
       });
     });
   });
+
+  it("should not open combobox menu with spacebar while focusing on chip's close button", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox label="test" placeholder="placeholder" max-items="10" scale="m">
+        <calcite-combobox-item-group label="Pokemon">
+          <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
+          <calcite-combobox-item value="Venusaur" text-label="Venusaur"></calcite-combobox-item>
+          <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
+          <calcite-combobox-item-group label="Cutest Pokemon">
+            <calcite-combobox-item value="Bulbasaur" text-label="Bulbasaur"></calcite-combobox-item>
+            <calcite-combobox-item value="Squirtle1" text-label="Squirtle1">
+              <calcite-combobox-item value="Squirtle2" text-label="Squirtle2">
+                <calcite-combobox-item value="Squirtle3" text-label="Squirtle3">
+                  <calcite-combobox-item value="Squirtle4" text-label="Squirtle4"></calcite-combobox-item>
+                </calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox-item>
+          </calcite-combobox-item-group>
+        </calcite-combobox-item-group>
+      </calcite-combobox>
+    `);
+
+    const combobox = await page.find("calcite-combobox");
+    const openEvent = page.waitForEvent("calciteComboboxOpen");
+    await combobox.click();
+    await openEvent;
+
+    await (await combobox.find("calcite-combobox-item[value=Pikachu]")).click();
+    await (await combobox.find("calcite-combobox-item[value=Charizard]")).click();
+    await (await combobox.find("calcite-combobox-item[value=Squirtle3]")).click();
+
+    const chips = await page.findAll("calcite-combobox >>> calcite-chip");
+    expect(chips.length).toBe(3);
+
+    const closeEvent = page.waitForEvent("calciteComboboxClose");
+    await combobox.press("Tab");
+    await closeEvent;
+
+    const wrapper = await page.find("calcite-combobox >>> .wrapper");
+    const close = await wrapper.find("calcite-chip >>> .close");
+    await close.click();
+    await page.waitForChanges();
+
+    const remainingChips = await page.findAll("calcite-combobox >>> calcite-chip");
+    expect(remainingChips.length).toBe(2);
+    expect(await page.find("calcite-combobox")).not.toHaveAttribute("open");
+  });
+
+  it("prevents toggling items when combobox is closed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox label="test" placeholder="placeholder" max-items="10" scale="m">
+        <calcite-combobox-item-group label="Pokemon">
+          <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
+          <calcite-combobox-item value="Venusaur" text-label="Venusaur"></calcite-combobox-item>
+          <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
+          <calcite-combobox-item-group label="Cutest Pokemon">
+            <calcite-combobox-item value="Bulbasaur" text-label="Bulbasaur"></calcite-combobox-item>
+            <calcite-combobox-item value="Squirtle1" text-label="Squirtle1">
+              <calcite-combobox-item value="Squirtle2" text-label="Squirtle2"> </calcite-combobox-item>
+            </calcite-combobox-item>
+          </calcite-combobox-item-group>
+        </calcite-combobox-item-group>
+      </calcite-combobox>
+    `);
+
+    const combobox = await page.find("calcite-combobox");
+    await combobox.click();
+    expect(await page.find("calcite-combobox")).toHaveAttribute("open");
+
+    await (await combobox.find("calcite-combobox-item[value=Pikachu]")).click();
+    await (await combobox.find("calcite-combobox-item[value=Charizard]")).click();
+
+    const chips = await page.findAll("calcite-combobox >>> calcite-chip");
+    expect(chips.length).toBe(2);
+
+    await combobox.click();
+    expect(await page.find("calcite-combobox")).not.toHaveAttribute("open");
+
+    await combobox.press("Enter");
+    expect(chips.length).toBe(2);
+    await combobox.press("Enter");
+    expect(chips.length).toBe(2);
+  });
 });
