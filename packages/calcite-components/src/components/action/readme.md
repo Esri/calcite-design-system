@@ -1,6 +1,6 @@
 # calcite-action
 
-The `calcite-action` component lives in either a `calcite-action-bar` or `calcite-action-pad`. Actions are flexible buttons that have an icon, can have a text label, notification style indicator, active state, and other useful properties.
+For details on the `calcite-action` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/action/).
 
 <!-- Auto Generated Below -->
 

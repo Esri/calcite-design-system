@@ -1,6 +1,6 @@
 # calcite-chip-group
 
-The `chip-group` component provides consistent spacing, accessible keyboard navigation, and selection modes to multiple [Chips](https://developers.arcgis.com/calcite-design-system/components/chip/).
+For details on the `calcite-chip-group` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/chip-group/).
 
 <!-- Auto Generated Below -->
 

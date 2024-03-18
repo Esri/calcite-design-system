@@ -1,8 +1,6 @@
 # calcite-block-section
 
-The `calcite-block-section` component is a child element of `calcite-block`.
-
-Sections within a [Block](https://developers.arcgis.com/calcite-design-system/components/block/) can have their own header and content, and can be toggled open or closed to help organize and group content.
+For details on the `calcite-block-section` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/block-section/).
 
 <!-- Auto Generated Below -->
 

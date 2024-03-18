@@ -1,8 +1,6 @@
 # calcite-action-pad
 
-The `calcite-action-pad` component is made up of `calcite-action`s in the form of clickable icons. Action Pad has rounded corners and box-shadows and should be positioned above other content.
-
-Action Pad was created to be placed on a map, or floating by itself in an area of the interface. For a flush inline group of Actions, please consider Action Bar.
+For details on the `calcite-action-pad` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/action-pad/).
 
 <!-- Auto Generated Below -->
 

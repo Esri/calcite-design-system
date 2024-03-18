@@ -1,6 +1,6 @@
 # calcite-accordion
 
-`calcite-accordion` can be used to present content in collapsible sections. Configuration options exist for visual style icon-type, icon-position, scale, appearance, and selection functionality.
+For details on the `calcite-accordion` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/accordion/).
 
 <!-- Auto Generated Below -->
 

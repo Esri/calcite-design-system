@@ -1,8 +1,6 @@
 # calcite-button
 
-The `calcite-button` component facilitates actions through an application. Priority and intent can be communicated by using different variants.
-
-Buttons communicate actions that the user can take. It is important to note that the primary Button should be used sparingly as it utilizes the [Brand color](https://developers.arcgis.com/calcite-design-system/foundations/colors/#primary-colors), which typically stands out in the interface.
+For details on the `calcite-button` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/button/).
 
 <!-- Auto Generated Below -->
 

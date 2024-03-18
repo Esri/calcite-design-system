@@ -1,6 +1,6 @@
 # calcite-accordion-item
 
-The `calcite-accordion-item` component is a child of `calcite-accordion`.
+For details on the `calcite-accordion-item` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/accordion-item/).
 
 <!-- Auto Generated Below -->
 

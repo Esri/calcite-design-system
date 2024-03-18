@@ -1,8 +1,6 @@
 # calcite-alert
 
-The `calcite-alert` component is a contextual pop-up style message that can contain actions without obstructing the application.
-
-Alerts are primarily displayed as a response to the user taking action on an element; however they can also be used to communicate non-critical system messages, or to provide updates on actions the user has previously taken.
+For details on the `calcite-alert` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/alert/).
 
 <!-- Auto Generated Below -->
 

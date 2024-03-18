@@ -1,8 +1,6 @@
 # calcite-block
 
-The `calcite-block` component provides a way to organize and group related controls or content.
-
-Blocks should be used to house content and controls within [Panel](https://developers.arcgis.com/calcite-design-system/components/panel/), most often as part of an application layout comprised of [Shell Panels](https://developers.arcgis.com/calcite-design-system/components/shell-panel/) and [Shell](https://developers.arcgis.com/calcite-design-system/components/shell/).
+For details on the `calcite-block` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/block/).
 
 <!-- Auto Generated Below -->
 

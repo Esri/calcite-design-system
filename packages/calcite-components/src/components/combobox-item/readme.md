@@ -1,6 +1,6 @@
 # calcite-combobox-item
 
-The `calcite-combobox-item` component is a child of `calcite-combobox`.
+For details on the `calcite-combobox-item` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/combobox-item/).
 
 <!-- Auto Generated Below -->
 

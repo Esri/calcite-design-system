@@ -1,6 +1,6 @@
 # calcite-combobox-item-group
 
-The `calcite-combobox-item-group` is a wrapper that organizes and groups `calcite-combobox-items`s and is housed in a `calcite-combobox`.
+For details on the `calcite-combobox-item-group` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/combobox-item-group/).
 
 <!-- Auto Generated Below -->
 

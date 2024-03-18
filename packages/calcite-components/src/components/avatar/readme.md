@@ -1,8 +1,6 @@
 # calcite-avatar
 
-The `calcite-avatar` component serves as a visual representation of a user's account. It can be displayed using either an image or initials.
-
-A randomly generated AA accessible background will fill behind the initials. That generated fill will stay assigned to the user until their account is deleted or an image is used.
+For details on the `calcite-avatar` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/avatar/).
 
 <!-- Auto Generated Below -->
 
