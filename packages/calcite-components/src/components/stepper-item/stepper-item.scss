@@ -265,7 +265,6 @@
     focus-base;
     grid-row: items;
     border-block-start-width: var(--calcite-spacing-base);
-    border-color: var(--calcite-stepper-step-bar-fill-color, var(--calcite-color-border-3));
     &:focus {
       @apply focus-outset;
     }
@@ -286,12 +285,6 @@
   }
 }
 
-:host([layout="horizontal-single"]) {
-  .stepper-item-header {
-    grid-area: 1 / 1 / 1 / -1;
-  }
-}
-
 :host([layout="horizontal"]),
 :host([layout="horizontal-single"]) {
   .stepper-item-content {
@@ -299,49 +292,46 @@
   }
 }
 
-:host([layout="horizontal"][complete]),
-:host([layout="horizontal-single"][complete]) {
+:host([layout="horizontal"]) {
+  .stepper-item-header {
+    border-color: var(--calcite-stepper-step-bar-fill-color, var(--calcite-color-border-3));
+  }
+}
+
+:host([layout="horizontal"][complete]) {
   .stepper-item-header {
     border-color: var(--calcite-stepper-step-bar-complete-fill-color, #007ac280);
   }
 }
 
 :host([layout="horizontal"][complete]:hover):not([selected]),
-:host([layout="horizontal"][complete]:focus):not([selected]),
-:host([layout="horizontal-single"][complete]:hover):not([selected]),
-:host([layout="horizontal-single"][complete]:focus):not([selected]) {
+:host([layout="horizontal"][complete]:focus):not([selected]) {
   .stepper-item-header {
     border-color: var(--calcite-stepper-step-bar-complete-fill-color-hover, var(--calcite-color-brand));
   }
 }
 
-:host([layout="horizontal"][error]),
-:host([layout="horizontal-single"][error]) {
+:host([layout="horizontal"][error]) {
   .stepper-item-header {
     border-color: var(--calcite-stepper-step-bar-error-fill-color, var(--calcite-color-status-danger));
   }
 }
 
-:host([layout="horizontal"][selected]),
-:host([layout="horizontal-single"][selected]) {
+:host([layout="horizontal"][selected]) {
   .stepper-item-header {
     border-color: var(--calcite-stepper-step-bar-selected-fill-color, var(--calcite-color-brand));
   }
 }
 
 :host([layout="horizontal"]:hover):not([selected]),
-:host([layout="horizontal"]:focus):not([selected]),
-:host([layout="horizontal-single"]:hover):not([selected]),
-:host([layout="horizontal-single"]:focus):not([selected]) {
+:host([layout="horizontal"]:focus):not([selected]) {
   .stepper-item-header {
     border-color: var(--calcite-stepper-step-bar-fill-color-hover, #007ac280);
   }
 }
 
 :host([layout="horizontal"][error]:hover):not([selected]),
-:host([layout="horizontal"][error]:focus):not([selected]),
-:host([layout="horizontal-single"][error]:hover):not([selected]),
-:host([layout="horizontal-single"][error]:focus):not([selected]) {
+:host([layout="horizontal"][error]:focus):not([selected]) {
   .stepper-item-header {
     border-color: var(--calcite-stepper-step-bar-error-fill-color-hover, var(--calcite-color-status-danger-hover));
   }
@@ -350,6 +340,7 @@
 :host([layout="horizontal-single"]) .stepper-item-header {
   @apply border-none box-border
   me-0;
+  grid-area: 1 / 1 / 1 / -1;
   inline-size: var(--calcite-container-size-content-fluid);
   padding-inline: calc(var(--calcite-internal-stepper-action-inline-size) + 0.5rem);
 }
