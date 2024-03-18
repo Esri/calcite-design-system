@@ -19,19 +19,19 @@
  */
 
 :host([scale="s"]) {
-  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
+  --calcite-internal-stepper-item-space-unit-s: theme("spacing.1");
   --calcite-internal-stepper-action-block-size: theme("spacing.11");
   --calcite-internal-stepper-action-inline-size: theme("spacing.8");
 }
 
 :host([scale="m"]) {
-  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.2");
+  --calcite-internal-stepper-item-space-unit-s: theme("spacing.2");
   --calcite-internal-stepper-action-block-size: theme("spacing.13");
   --calcite-internal-stepper-action-inline-size: theme("spacing.10");
 }
 
 :host([scale="l"]) {
-  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.3");
+  --calcite-internal-stepper-item-space-unit-s: theme("spacing.3");
   --calcite-internal-stepper-action-block-size: theme("spacing.16");
   --calcite-internal-stepper-action-inline-size: theme("spacing.12");
 }
@@ -64,7 +64,7 @@
     grid-template-areas:
       "items"
       "content";
-    gap: var(--calcite-internal-stepper-item-spacing-unit-s) var(--calcite-internal-stepper-item-spacing-unit-s);
+    gap: var(--calcite-internal-stepper-item-space-unit-s);
   }
 }
 
@@ -100,7 +100,7 @@
     @apply flex absolute justify-between items-start;
     block-size: var(--calcite-spacing-base);
     inline-size: var(--calcite-container-size-content-fluid);
-    gap: var(--calcite-internal-step-bar-gap, var(--calcite-spacing-sm));
+    gap: var(--calcite-internal-stepper-item-space-unit-s, var(--calcite-spacing-sm));
   }
 
   rect.step-bar--selected {
