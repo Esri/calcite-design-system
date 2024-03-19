@@ -10,3 +10,5 @@ export interface TableRowFocusEvent {
 export type RowType = "head" | "body" | "foot";
 
 export type TableLayout = "auto" | "fixed";
+
+export type TableInteractionMode = "interactive" | "static";

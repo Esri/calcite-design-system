@@ -715,7 +715,7 @@ describe("calcite-input-date-picker", () => {
 
   describe("is form-associated", () => {
     describe("supports single value", () => {
-      formAssociated("calcite-input-date-picker", { testValue: "1985-03-23", submitsOnEnter: true });
+      formAssociated("calcite-input-date-picker", { testValue: "1985-03-23", submitsOnEnter: true, validation: true });
     });
 
     describe("supports range", () => {

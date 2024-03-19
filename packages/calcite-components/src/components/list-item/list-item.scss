@@ -201,7 +201,8 @@ td:focus {
   }
 }
 
-::slotted(calcite-list-item) {
+::slotted(calcite-list-item),
+::slotted(calcite-list) {
   @apply border-solid border-0 border-t border-color-3;
 }
 

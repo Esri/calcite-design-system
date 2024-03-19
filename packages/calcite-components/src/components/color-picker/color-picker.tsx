@@ -1382,7 +1382,7 @@ export class ColorPicker
       this.colorFieldScopeTop = y;
     });
 
-    this.drawThumb(this.colorFieldRenderingContext, radius, x, y, hsvColor);
+    this.drawThumb(this.colorFieldRenderingContext, radius, x, y, hsvColor, false);
   }
 
   private drawThumb(
@@ -1391,6 +1391,7 @@ export class ColorPicker
     x: number,
     y: number,
     color: Color,
+    applyAlpha: boolean,
   ): void {
     const startAngle = 0;
     const endAngle = 2 * Math.PI;
@@ -1400,14 +1401,28 @@ export class ColorPicker
     context.arc(x, y, radius, startAngle, endAngle);
     context.fillStyle = "#fff";
     context.fill();
+
     context.strokeStyle = "rgba(0,0,0,0.3)";
     context.lineWidth = outlineWidth;
     context.stroke();
 
+    if (applyAlpha && color.alpha() < 1) {
+      const pattern = context.createPattern(this.getCheckeredBackgroundPattern(), "repeat");
+      context.beginPath();
+      context.arc(x, y, radius - 3, startAngle, endAngle);
+      context.fillStyle = pattern;
+      context.fill();
+    }
+
+    context.globalCompositeOperation = "source-atop";
+
     context.beginPath();
     context.arc(x, y, radius - 3, startAngle, endAngle);
-    context.fillStyle = color.rgb().alpha(1).string();
+    const alpha = applyAlpha ? color.alpha() : 1;
+    context.fillStyle = color.rgb().alpha(alpha).string();
     context.fill();
+
+    context.globalCompositeOperation = "source-over";
   }
 
   private drawActiveHueSliderColor(): void {
@@ -1434,7 +1449,7 @@ export class ColorPicker
       this.hueScopeLeft = sliderBoundX;
     });
 
-    this.drawThumb(this.hueSliderRenderingContext, radius, sliderBoundX, y, hsvColor);
+    this.drawThumb(this.hueSliderRenderingContext, radius, sliderBoundX, y, hsvColor, false);
   }
 
   private drawHueSlider(): void {
@@ -1589,7 +1604,7 @@ export class ColorPicker
       this.opacityScopeLeft = sliderBoundX;
     });
 
-    this.drawThumb(this.opacitySliderRenderingContext, radius, sliderBoundX, y, hsvColor);
+    this.drawThumb(this.opacitySliderRenderingContext, radius, sliderBoundX, y, hsvColor, true);
   }
 
   private getSliderBoundX(x: number, width: number, radius: number): number {

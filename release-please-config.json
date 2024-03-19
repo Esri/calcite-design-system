@@ -29,7 +29,7 @@
     },
     {
       "type": "linked-versions",
-      "group-name": "components",
+      "groupName": "components",
       "components": ["@esri/calcite-components", "@esri/calcite-components-react", "@esri/calcite-components-angular"]
     },
     {

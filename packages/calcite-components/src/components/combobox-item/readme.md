@@ -33,6 +33,7 @@
 
 ### Used by
 
+- [calcite-combobox](../combobox)
 - [calcite-input-time-zone](../input-time-zone)
 
 ### Depends on
@@ -44,6 +45,7 @@
 ```mermaid
 graph TD;
   calcite-combobox-item --> calcite-icon
+  calcite-combobox --> calcite-combobox-item
   calcite-input-time-zone --> calcite-combobox-item
   style calcite-combobox-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
