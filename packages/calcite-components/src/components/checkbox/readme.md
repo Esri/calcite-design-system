@@ -32,7 +32,7 @@
 | --------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
 | `checked`       | `checked`       | When `true`, the component is checked.                                                                                                                                  | `boolean`                        | `false`     |
 | `disabled`      | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                | `boolean`                        | `false`     |
-| `form`          | `form`          | The ID of the form that will be associated with the component. When not set, the component will be associated with its ancestor form element, if any.                   | `string`                         | `undefined` |
+| `form`          | `form`          | The `id` of the form that will be associated with the component. When not set, the component will be associated with its ancestor form element, if any.                 | `string`                         | `undefined` |
 | `guid`          | `guid`          | The `id` attribute of the component. When omitted, a globally unique identifier is used.                                                                                | `string`                         | `undefined` |
 | `indeterminate` | `indeterminate` | When `true`, the component is initially indeterminate, which is independent from its `checked` value. The state is visual only, and can look different across browsers. | `boolean`                        | `false`     |
 | `label`         | `label`         | Accessible name for the component.                                                                                                                                      | `string`                         | `undefined` |
@@ -69,6 +69,7 @@ Type: `Promise<void>`
 ### Used by
 
 - [calcite-card](../card)
+- [calcite-tile-select](../tile-select)
 - [calcite-tree-item](../tree-item)
 
 ### Graph
@@ -76,6 +77,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-card --> calcite-checkbox
+  calcite-tile-select --> calcite-checkbox
   calcite-tree-item --> calcite-checkbox
   style calcite-checkbox fill:#f9f,stroke:#333,stroke-width:4px
 ```

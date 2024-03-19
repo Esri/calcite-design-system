@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, hidden, renders, t9n } from "../../tests/commonTests";
-import { CSS } from "./resources";
+import { CSS, SUBSTITUTIONS } from "./resources";
+import { HandleMessages } from "../../components";
 
 describe("calcite-handle", () => {
   describe("renders", () => {
@@ -17,6 +18,20 @@ describe("calcite-handle", () => {
 
   describe("accessible", () => {
     accessible(`<calcite-handle></calcite-handle>`);
+  });
+
+  it("sets handle tooltip", async () => {
+    const page = await newE2EPage();
+    const label = "Hello World";
+    await page.setContent(`<calcite-handle lang="en" label="${label}"></calcite-handle>`);
+    await page.waitForChanges();
+
+    const handle = await page.find("calcite-handle");
+    await handle.callMethod("setFocus");
+    const button = await page.find(`calcite-handle >>> .${CSS.handle}`);
+    const messages: HandleMessages = await handle.getProperty("messages");
+
+    expect(await button.getProperty("title")).toBe(messages.dragHandle.replace(SUBSTITUTIONS.itemLabel, label));
   });
 
   it("sets selected to true when focused and space is pressed", async () => {

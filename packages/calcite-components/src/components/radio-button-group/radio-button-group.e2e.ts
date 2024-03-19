@@ -18,6 +18,9 @@ describe("calcite-radio-button-group", () => {
     defaults("calcite-radio-button-group", [
       { propertyName: "layout", defaultValue: "horizontal" },
       { propertyName: "scale", defaultValue: "m" },
+      { propertyName: "status", defaultValue: "idle" },
+      { propertyName: "validationIcon", defaultValue: undefined },
+      { propertyName: "validationMessage", defaultValue: undefined },
     ]);
   });
 
@@ -108,6 +111,8 @@ describe("calcite-radio-button-group", () => {
       { propertyName: "name", value: "reflects-name" },
       { propertyName: "required", value: true },
       { propertyName: "scale", value: "m" },
+      { propertyName: "status", value: "invalid" },
+      { propertyName: "validationIcon", value: true },
     ]);
   });
 

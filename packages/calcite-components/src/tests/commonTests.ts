@@ -6,7 +6,7 @@ import { toHaveNoViolations } from "jest-axe";
 import { config } from "../../stencil.config";
 import { html } from "../../support/formatting";
 import type { JSX } from "../components";
-import { hiddenFormInputSlotName } from "../utils/form";
+import { getClearValidationEventName, hiddenFormInputSlotName, componentsWithInputEvent } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
 import {
   GlobalTestProps,
@@ -15,6 +15,7 @@ import {
   newProgrammaticE2EPage,
   skipAnimations,
 } from "./utils";
+import { KeyInput } from "puppeteer";
 
 expect.extend(toHaveNoViolations);
 
@@ -685,9 +686,28 @@ interface FormAssociatedOptions {
   testValue: any;
 
   /**
-   * Set this if the expected submit value **is different** from stringifying `testValue`. For example, a component may transform an object to a serializable string.
+   * Set this if the expected submit value **is different** from stringifying `testValue`.
+   * For example, a component may transform an object to a serializable string.
    */
   expectedSubmitValue?: any;
+
+  /*
+   * Set this if the value required to emit an input/change event is different from `testValue`.
+   * The value is passed to `page.keyboard.type()`. For example, input-time-picker requires
+   * appending AM or PM before the value commits and calciteInputTimePickerChange emits.
+   *
+   * This option is only relevant when the `validation` option is enabled.
+   */
+  validUserInputTestValue?: string;
+
+  /*
+   * Set this if emitting an input/change event requires key presses. Each array item will be passed
+   * to `page.keyboard.press()`. For example, the combobox value can be changed by pressing "Space"
+   * to open the component and "Enter" to select a value.
+   *
+   * This option is only relevant when the `validation` option is enabled.
+   */
+  changeValueKeys?: KeyInput[];
 
   /**
    * Specifies the input type that will be used to capture the value.
@@ -703,6 +723,11 @@ interface FormAssociatedOptions {
    * Specifies if the component supports clearing its value (i.e., setting to null).
    */
   clearable?: boolean;
+
+  /**
+   * Specifies if the component supports preventing submission and displaying validation messages.
+   */
+  validation?: boolean;
 }
 
 /**
@@ -717,8 +742,14 @@ export function formAssociated(
   componentTagOrHtml: TagOrHTML | TagOrHTMLWithBeforeContent,
   options: FormAssociatedOptions,
 ): void {
-  it("supports association via ancestry", () => testAncestorFormAssociated());
-  it("supports association via form ID", () => testIdFormAssociated());
+  const inputTypeContext = options?.inputType ? ` (input type="${options.inputType}")` : "";
+
+  it(`supports association via ancestry${inputTypeContext}`, () => testAncestorFormAssociated());
+  it(`supports association via form ID${inputTypeContext}`, () => testIdFormAssociated());
+
+  if (options?.validation && !["color", "month", "time"].includes(options?.inputType)) {
+    it(`supports required property validation${inputTypeContext}`, () => testRequiredPropertyValidation());
+  }
 
   async function testAncestorFormAssociated(): Promise<void> {
     const { beforeContent, tagOrHTML } = getTagOrHTMLWithBeforeContent(componentTagOrHtml);
@@ -777,12 +808,50 @@ export function formAssociated(
     }
   }
 
-  function ensureForm(html: string, componentTag: string): string {
-    return html.includes("form=") ? html : html.replace(componentTag, `${componentTag} form="test-form" `);
+  async function testRequiredPropertyValidation(): Promise<void> {
+    const requiredValidationMessage = "Please fill out this field.";
+    const { beforeContent, tagOrHTML } = getTagOrHTMLWithBeforeContent(componentTagOrHtml);
+    const tag = getTag(tagOrHTML);
+    const componentHtml = ensureUnchecked(
+      ensureRequired(ensureName(isHTML(tagOrHTML) ? tagOrHTML : `<${tag}></${tag}>`, tag), tag),
+    );
+
+    const page = await newE2EPage();
+    await beforeContent?.(page);
+
+    const content = html`
+      <form>
+        ${componentHtml}
+        <calcite-button id="submitButton" type="submit">Submit</calcite-button>
+      </form>
+    `;
+
+    await page.setContent(content);
+    await page.waitForChanges();
+    const component = await page.find(tag);
+
+    const submitButton = await page.find("#submitButton");
+    const spyEvent = await page.spyOnEvent(getClearValidationEventName(tag));
+
+    await assertPreventsFormSubmission(page, component, submitButton, requiredValidationMessage);
+    await assertClearsValidationOnValueChange(page, component, options, spyEvent, tag);
+    await assertUserMessageNotOverridden(page, component, submitButton);
   }
 
   function ensureName(html: string, componentTag: string): string {
     return html.includes("name=") ? html : html.replace(componentTag, `${componentTag} name="testName" `);
+  }
+
+  function ensureRequired(html: string, componentTag: string): string {
+    return html.includes("required") ? html : html.replace(componentTag, `${componentTag} required `);
+  }
+
+  function ensureUnchecked(html: string): string {
+    return html.replace(/(checked|selected)/, "");
+  }
+
+  function ensureForm(html: string, componentTag: string): string {
+    return html.includes("form=") ? html : html.replace(componentTag, `${componentTag} form="test-form" `);
   }
 
   async function isCheckable(page: E2EPage, component: E2EElement, options: FormAssociatedOptions): Promise<boolean> {
@@ -982,6 +1051,74 @@ export function formAssociated(
     const called = await page.evaluate(() => (window as TestWindow).called);
 
     expect(called).toBe(true);
+  }
+
+  async function assertPreventsFormSubmission(
+    page: E2EPage,
+    component: E2EElement,
+    submitButton: E2EElement,
+    message: string,
+  ) {
+    await submitButton.click();
+    await page.waitForChanges();
+
+    await expectValidationInvalid(component, message);
+  }
+
+  async function assertClearsValidationOnValueChange(
+    page: E2EPage,
+    component: E2EElement,
+    options: FormAssociatedOptions,
+    event: EventSpy,
+    tag: string,
+  ) {
+    if (options?.changeValueKeys) {
+      for (const key of options.changeValueKeys) {
+        await page.keyboard.press(key);
+      }
+    } else {
+      await page.keyboard.type(options?.validUserInputTestValue ?? options.testValue);
+      await page.keyboard.press("Tab");
+    }
+
+    await page.waitForChanges();
+
+    // components with an Input event will emit multiple times depending on the length of testValue
+    if (componentsWithInputEvent.includes(tag)) {
+      expect(event.length).toBeGreaterThanOrEqual(1);
+    } else {
+      expect(event).toHaveReceivedEventTimes(1);
+    }
+
+    await expectValidationIdle(component);
+  }
+
+  async function assertUserMessageNotOverridden(page: E2EPage, component: E2EElement, submitButton: E2EElement) {
+    const customValidationMessage = "This is a custom message.";
+    const customValidationIcon = "banana";
+
+    // don't override custom validation message and icon
+    component.setProperty("validationMessage", customValidationMessage);
+    component.setProperty("validationIcon", customValidationIcon);
+    component.setProperty("value", undefined);
+    await page.waitForChanges();
+
+    await submitButton.click();
+    await page.waitForChanges();
+
+    await expectValidationInvalid(component, customValidationMessage, customValidationIcon);
+  }
+
+  async function expectValidationIdle(element: E2EElement) {
+    expect(await element.getProperty("status")).toBe("idle");
+    expect(await element.getProperty("validationMessage")).toBe("");
+    expect(await element.getProperty("validationIcon")).toBe(false);
+  }
+
+  async function expectValidationInvalid(element: E2EElement, message: string, icon: string = "") {
+    expect(await element.getProperty("status")).toBe("invalid");
+    expect(await element.getProperty("validationMessage")).toBe(message);
+    expect(element.getAttribute("validation-icon")).toBe(icon);
   }
 }
 
@@ -1373,6 +1510,40 @@ export function floatingUIOwner(
     await page.waitForChanges();
 
     expect(await getTransform()).toBe(initialOpenTransform);
+  });
+}
+
+/**
+ * Helper to test if a component has a floating-UI-owning component wired up.
+ *
+ * Note: this performs a shallow test and assumes the underlying component has floating-ui properly configured.
+ *
+ * @example
+ * describe("delegates to floating-ui-owner component", () => {
+ *   delegatesToFloatingUiOwningComponent("calcite-pad", "calcite-action-group");
+ * });
+ *
+ * @param componentTagOrHTML
+ * @param floatingUiOwnerComponentTag
+ */
+export async function delegatesToFloatingUiOwningComponent(
+  componentTagOrHTML: TagOrHTML,
+  floatingUiOwnerComponentTag: ComponentTag,
+): Promise<void> {
+  it("delegates to floating-ui owning component", async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const tag = getTag(componentTagOrHTML);
+
+    // we assume if `overlay-positioning` is used by an internal component that it is a floating-ui component
+
+    const floatingUiOwningComponent = await page.find(`${tag} >>> ${floatingUiOwnerComponentTag}`);
+    expect(await floatingUiOwningComponent.getProperty("overlayPositioning")).toBe("absolute");
+
+    const component = await page.find(tag);
+    await component.setProperty("overlayPositioning", "fixed");
+    await page.waitForChanges();
+
+    expect(await floatingUiOwningComponent.getProperty("overlayPositioning")).toBe("fixed");
   });
 }
 

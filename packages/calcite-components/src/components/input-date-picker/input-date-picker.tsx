@@ -658,7 +658,7 @@ export class InputDatePicker
             </div>
           )}
           <HiddenFormInputSlot component={this} />
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}

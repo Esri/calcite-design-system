@@ -187,6 +187,7 @@ export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
       value="2020-12-12"
       numbering-system="arab"
       lang="ar"
+      validation-message="This should not appear because the status is not 'invalid'"
     ></calcite-input-date-picker
   </div>
 `;

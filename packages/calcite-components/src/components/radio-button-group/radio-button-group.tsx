@@ -13,13 +13,15 @@ import {
   Watch,
 } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
-import { Layout, Scale } from "../interfaces";
+import { Layout, Scale, Status } from "../interfaces";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { Validation } from "../functional/Validation";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-radio-button`s.
@@ -32,6 +34,17 @@ import {
 export class RadioButtonGroup implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
+  //  Global attributes
+  //
+  //--------------------------------------------------------------------------
+
+  @Watch("hidden")
+  handleHiddenChange(): void {
+    this.passPropsToRadioButtons();
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -41,14 +54,6 @@ export class RadioButtonGroup implements LoadableComponent {
 
   @Watch("disabled")
   onDisabledChange(): void {
-    this.passPropsToRadioButtons();
-  }
-
-  /** When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable. */
-  @Prop({ reflect: true }) hidden = false;
-
-  @Watch("hidden")
-  onHiddenChange(): void {
     this.passPropsToRadioButtons();
   }
 
@@ -75,6 +80,15 @@ export class RadioButtonGroup implements LoadableComponent {
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the validation message. */
+  @Prop({ reflect: true }) status: Status = "idle";
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   @Watch("scale")
   onScaleChange(): void {
@@ -129,7 +143,7 @@ export class RadioButtonGroup implements LoadableComponent {
     if (this.radioButtons.length > 0) {
       this.radioButtons.forEach((radioButton) => {
         radioButton.disabled = this.disabled || radioButton.disabled;
-        radioButton.hidden = this.hidden;
+        radioButton.hidden = this.el.hidden;
         radioButton.name = this.name;
         radioButton.required = this.required;
         radioButton.scale = this.scale;
@@ -191,7 +205,17 @@ export class RadioButtonGroup implements LoadableComponent {
   render(): VNode {
     return (
       <Host role="radiogroup">
-        <slot />
+        <div class={CSS.itemWrapper}>
+          <slot />
+        </div>
+        {this.validationMessage && this.status === "invalid" ? (
+          <Validation
+            icon={this.validationIcon}
+            message={this.validationMessage}
+            scale={this.scale}
+            status={this.status}
+          />
+        ) : null}
       </Host>
     );
   }

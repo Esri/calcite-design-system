@@ -1,4 +1,4 @@
-# calcite-tile-select-group
+# calcite-chip-group
 
 <!-- Auto Generated Below -->
 

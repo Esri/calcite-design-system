@@ -27,7 +27,7 @@ import {
 } from "../../utils/t9n";
 import { HandleMessages } from "./assets/handle/t9n";
 import { HandleChange, HandleNudge } from "./interfaces";
-import { CSS, ICONS } from "./resources";
+import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -216,6 +216,20 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   //
   // --------------------------------------------------------------------------
 
+  private getTooltip(): string {
+    const { label, messages } = this;
+
+    if (!messages) {
+      return "";
+    }
+
+    if (!label) {
+      return messages.dragHandleUntitled;
+    }
+
+    return messages.dragHandle.replace(SUBSTITUTIONS.itemLabel, label);
+  }
+
   getAriaText(type: "label" | "live"): string {
     const { setPosition, setSize, label, messages, selected } = this;
 
@@ -232,9 +246,9 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
           ? messages.dragHandleActive
           : messages.dragHandleCommit;
 
-    const replacePosition = text.replace("{position}", setPosition.toString());
-    const replaceLabel = replacePosition.replace("{itemLabel}", label);
-    return replaceLabel.replace("{total}", setSize.toString());
+    const replacePosition = text.replace(SUBSTITUTIONS.position, setPosition.toString());
+    const replaceLabel = replacePosition.replace(SUBSTITUTIONS.itemLabel, label);
+    return replaceLabel.replace(SUBSTITUTIONS.total, setSize.toString());
   }
 
   handleKeyDown = (event: KeyboardEvent): void => {
@@ -294,7 +308,7 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
         onKeyDown={this.handleKeyDown}
         role="button"
         tabIndex={this.disabled ? null : 0}
-        title={this.messages?.dragHandle}
+        title={this.getTooltip()}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el): void => {
           this.handleButton = el;

@@ -41,11 +41,19 @@
 // mixin for the container of validation messages displayed below form-associated components
 @mixin form-validation-message() {
   .validation-container {
-    padding-block-start: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     align-self: stretch;
+  }
+
+  :host([scale="m"]) .validation-container,
+  :host([scale="l"]) .validation-container {
+    padding-block-start: 0.5rem;
+  }
+
+  :host([scale="s"]) .validation-container {
+    padding-block-start: 0.25rem;
   }
 }
 
@@ -122,19 +130,7 @@
   }
 
   .x-button {
-    @apply appearance-none
-    bg-transparent
-    border-2
-    content-center
-    cursor-pointer
-    flex
-    focus-base
-    items-center
-    justify-center
-    m-0
-    self-center
-    text-color-3
-    transition-default;
+    @apply appearance-none bg-transparent border-2 content-center cursor-pointer flex focus-base items-center justify-center m-0 self-center text-color-3 transition-default;
 
     border-radius: 50%;
     border-color: transparent;
