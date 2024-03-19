@@ -199,7 +199,7 @@ export class DatePickerMonth {
       case "End":
         event.preventDefault();
         this.activeDate.setDate(
-          new Date(this.activeDate.getFullYear(), this.activeDate.getMonth() + 1, 0).getDate()
+          new Date(this.activeDate.getFullYear(), this.activeDate.getMonth() + 1, 0).getDate(),
         );
         this.addDays();
         break;
@@ -257,7 +257,7 @@ export class DatePickerMonth {
       endCalendarPrevMonDays,
       endCalendarCurrMonDays,
       endCalendarNextMonDays,
-      "end"
+      "end",
     );
     const nextMonthWeeks = this.getWeeks(nextMonthDays);
 
@@ -323,7 +323,7 @@ export class DatePickerMonth {
     const nextDate = new Date(this.activeDate);
     nextDate.setMonth(this.activeDate.getMonth() + step);
     this.calciteInternalDatePickerActiveDateChange.emit(
-      dateFromRange(nextDate, this.min, this.max)
+      dateFromRange(nextDate, this.min, this.max),
     );
     this.activeFocus = true;
   }
@@ -337,7 +337,7 @@ export class DatePickerMonth {
     const nextDate = new Date(this.focusedDate);
     nextDate.setDate(this.focusedDate.getDate() + step);
     this.calciteInternalDatePickerActiveDateChange.emit(
-      dateFromRange(nextDate, this.min, this.max)
+      dateFromRange(nextDate, this.min, this.max),
     );
 
     this.focusedDate = dateFromRange(nextDate, this.min, this.max);
@@ -520,7 +520,7 @@ export class DatePickerMonth {
           selected={this.isSelected(date)}
           startOfRange={this.isStartOfRange(date)}
           value={date}
-          //focusing in ref is creating diff UX for keyboard compared to click where in click the focus only shifts after selection where in keyboard while navigating the focus is updated.
+          // focusing in ref is creating diff UX for keyboard compared to click where in click the focus only shifts after selection where in keyboard while navigating the focus is updated.
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el: HTMLCalciteDatePickerDayElement) => {
             // when moving via keyboard, focus must be updated on active date
@@ -573,7 +573,7 @@ export class DatePickerMonth {
     prevMonthDays: number[],
     currMonthDays: number[],
     nextMonthDays: number[],
-    position: "start" | "end" = "start"
+    position: "start" | "end" = "start",
   ): Day[] => {
     let month = this.activeDate.getMonth();
     const year = this.activeDate.getFullYear();
