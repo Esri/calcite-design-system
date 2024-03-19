@@ -66,8 +66,8 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
 export const simple = (): string =>
   create("calcite-color-picker", [
     {
-      name: "allow-empty",
-      value: boolean("allow-empty", false),
+      name: "clearable",
+      value: boolean("clearable", false),
     },
     ...createColorAttributes(),
     {
