@@ -54,3 +54,35 @@ export const slottedInNav_TestOnly = (): string => html`
     />
   </calcite-navigation>
 `;
+
+export const theming_TestOnly = (): string => html`
+  <style>
+    calcite-navigation-user {
+      --calcite-navigation-user-avatar-corner-radius: 1px;
+      --calcite-navigation-user-avatar-text-color: red;
+      --calcite-navigation-user-background-color: green;
+      --calcite-navigation-user-border-color: yellow;
+      --calcite-navigation-user-full-name-text-color: pink;
+      --calcite-navigation-user-name-text-color: white;
+    }
+
+    calcite-navigation-user[active] {
+      --calcite-navigation-user-background-color: skyblue;
+      --calcite-navigation-user-border-color: red;
+    }
+  </style>
+
+  <calcite-navigation-user
+    full-name="Edward Abbey"
+    username="eabbey_123"
+    thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+    slot="user"
+  ></calcite-navigation-user>
+  <calcite-navigation-user
+    active
+    full-name="Edward Abbey"
+    username="eabbey_123"
+    thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+    slot="user"
+  ></calcite-navigation-user>
+`;

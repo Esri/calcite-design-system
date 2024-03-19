@@ -1,37 +1,50 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-segmented-control-background-color: Specifies the background color of the component.
+ * @prop --calcite-segmented-control-border-color: Specifies the border color of the component.
+ */
+
 :host {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
 }
 
 .item-wrapper {
-  @apply bg-foreground-1 flex;
+  background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-foreground-1));
+  display: flex;
   inline-size: fit-content;
-  outline: 1px solid var(--calcite-color-border-input);
+  outline: 1px solid var(--calcite-segmented-control-border-color, var(--calcite-color-border-input));
   outline-offset: -1px;
 }
 
 :host([appearance="outline"]) > .item-wrapper {
-  @apply bg-transparent;
+  background-color: transparent;
 }
 
 @include disabled();
 
 :host([layout="vertical"]) > .item-wrapper {
-  @apply flex-col items-start self-start;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: flex-start;
 }
 
 // segmented control width for full
 :host([width="full"]) > .item-wrapper {
-  @apply w-full;
+  inline-size: var(--calcite-container-size-content-fluid);
   min-inline-size: fit-content;
 
   ::slotted(calcite-segmented-control-item) {
-    @apply flex-auto;
+    flex: 1 1 auto;
   }
 }
 
 :host([width="full"][layout="vertical"]) > .item-wrapper {
   ::slotted(calcite-segmented-control-item) {
-    @apply justify-start;
+    justify-content: flex-start;
   }
 }
 

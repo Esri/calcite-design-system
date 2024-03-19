@@ -129,14 +129,14 @@ export const theming_TestOnly = (): string => html`
       page-size="100"
       start-item="1"
       style="
-      --calcite-pagination-text-color: green;
-      --calcite-pagination-text-color-hover: darkgreen;
-      --calcite-pagination-text-color-selected: teal;
-      --calcite-pagination-background-color: lightyellow;
-      --calcite-pagination-background-color-hover: yellow;
-      --calcite-pagination-background-color-active: gold;
-      --calcite-pagination-border-color-selected: green;
-      --calcite-pagination-border-color-hover: orange;
+      --calcite-pagination-item-text-color: green;
+      --calcite-pagination-item-text-color-hover: darkgreen;
+      --calcite-pagination-item-text-color-selected: teal;
+      --calcite-pagination-item-background-color: lightyellow;
+      --calcite-pagination-item-background-color-hover: yellow;
+      --calcite-pagination-item-background-color-active: gold;
+      --calcite-pagination-item-border-color-selected: green;
+      --calcite-pagination-item-border-color-hover: orange;
       --calcite-pagination-arrow-icon-color: blue;
       --calcite-pagination-arrow-icon-color-hover: pink;
       --calcite-pagination-arrow-icon-color-active: red;

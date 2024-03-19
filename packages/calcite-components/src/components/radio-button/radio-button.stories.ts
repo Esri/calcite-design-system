@@ -46,3 +46,30 @@ export const darkModeRTL_TestOnly = (): string => html`
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-radio-button checked disabled></calcite-radio-button>`;
+
+export const theming_TestOnly = (): string =>
+  html`<style>
+      calcite-radio-button {
+        --calcite-radio-button-background-color: orange;
+        --calcite-radio-button-border-radius: 50%;
+        --calcite-radio-focus: 2px solid red;
+        --calcite-radio-button-shadow: 0 0 0 2px blue;
+        --calcite-radio-button-size: 20px;
+      }
+    </style>
+    <calcite-label>
+      Radio:
+      <calcite-radio-button></calcite-radio-button>
+    </calcite-label>
+    <calcite-label>
+      Checked radio:
+      <calcite-radio-button checked></calcite-radio-button>
+    </calcite-label>
+    <calcite-label>
+      Checked disabled radio:
+      <calcite-radio-button checked disabled></calcite-radio-button>
+    </calcite-label>
+    <calcite-label>
+      Checked focused radio:
+      <calcite-radio-button checked focused></calcite-radio-button>
+    </calcite-label> `;

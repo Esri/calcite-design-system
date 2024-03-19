@@ -147,3 +147,31 @@ export const bosnianLocale_TestOnly = (): string =>
   html`<calcite-tip-manager heading-level="1" lang="bs">
     <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
   </calcite-tip-manager>`;
+
+export const themed_TestOnly = (): string => html`
+  <calcite-tip-manager
+    style="
+      --calcite-tip-max-height: 200px;
+      --calcite-tip-manager-background-color: orange;
+      --calcite-tip-manager-text-color: red;
+      --calcite-tip-manager-border-color: purple;
+      "
+  >
+    <calcite-tip-group group-title="Astronomy">
+      <calcite-tip heading="The Red Rocks and Blue Water">
+        <img slot="thumbnail" src="https://placeimg.com/1000/600/city" alt="This is an image." />
+        <p>
+          This tip is how a tip should really look. It has a landscape or square image and a small amount of text
+          content. This paragraph is in an "info" slot.
+        </p>
+        <a href="http://www.esri.com">This is the "link" slot.</a>
+      </calcite-tip>
+      <calcite-tip heading="The Long Trees">
+        <img slot="thumbnail" src="https://placeimg.com/1000/600/nature" alt="This is an image." />
+        <p>This tip has an image that is a pretty tall. And the text will run out before the end of the image.</p>
+        <p>In astronomy, the terms object and body are often used interchangeably.</p>
+        <a href="http://www.esri.com">View Esri</a>
+      </calcite-tip>
+    </calcite-tip-group>
+  </calcite-tip-manager>
+`;

@@ -231,6 +231,28 @@ export const deprecatedSlotsSelectable_TestOnly = (): string => html`
   </calcite-card>
 `;
 
+export const slottedFooterItems_TestOnly = (): string => html`
+  <div id="card-container" style="width:260px;">
+    <calcite-card>
+      ${thumbnailHtml}
+      <h3 slot="heading">Portland Businesses</h3>
+      <span slot="description"
+        >by
+        <calcite-link href="">example_user</calcite-link>
+      </span>
+      <div>
+        Created: Apr 22, 2019
+        <br />
+        Updated: Dec 9, 2019
+        <br />
+        View Count: 0
+      </div>
+      <calcite-chip slot="footer-start" value="calcite chip" kind="brand" icon="clock-forward">Recent</calcite-chip>
+      <calcite-chip slot="footer-end" value="calcite chip" icon="walking">Recreation</calcite-chip>
+    </calcite-card>
+  </div>
+`;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:260px;">
     <calcite-card>${thumbnailHtml}${titleHtml}${footerStartTextHtml}${footerEndButtonsHtml}</calcite-card>

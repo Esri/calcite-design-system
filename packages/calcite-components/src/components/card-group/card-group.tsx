@@ -19,7 +19,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { Scale, SelectionMode } from "../interfaces";
+import { SelectionMode } from "../interfaces";
 import {
   LoadableComponent,
   componentLoaded,
@@ -56,9 +56,6 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
 
   /** Accessible name for the component. */
   @Prop() label!: string;
-
-  /** Specifies the size of the component. Child `calcite-card`s inherit the component's value. */
-  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the selection mode of the component. */
   @Prop({ reflect: true }) selectionMode: Extract<

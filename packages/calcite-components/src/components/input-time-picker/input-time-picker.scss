@@ -15,7 +15,17 @@
  * @prop --calcite-input-icon-color:  defines the icon color of the component.
  * @prop --calcite-input-placeholder-text-color: defines the color of placeholder text in the component.
  * @prop --calcite-input-text-color: defines the text color of the component.
- *
+ * @prop --calcite-input-time-picker-background-color: defines the background color of the time picker sub component.
+ * @prop --calcite-input-time-picker-background-color-hover: defines the background color of the time picker sub component when hovered.
+ * @prop --calcite-input-time-picker-background-color-active: defines the background color of the time picker sub component when active.
+ * @prop --calcite-input-time-picker-text-color: defines the text color of the time picker sub component.
+ * @prop --calcite-input-time-picker-icon-color: defines the icon color of the time picker sub component.
+ * @prop --calcite-input-time-picker-box-shadow: defines the box shadow around the numbers inside the open component.
+ * @prop --calcite-input-time-picker-box-shadow-focus: defines the box shadow around the numbers inside the open component when focused.
+ * @prop --calcite-input-popover-background-color: defines the background color of the popover sub component.
+ * @prop --calcite-input-popover-border-color: defines the border color of the popover sub component.
+ * @prop --calcite-input-popover-text-color: defines the text color of the popover sub component.
+ * @prop --calcite-input-popover-background-color: defines the background color of the popover sub component.
  */
 
 :host {
@@ -57,15 +67,24 @@
 }
 
 calcite-popover {
-  // TODO: sub-component tokens go here
+  --calcite-popover-background-color: var(--calcite-input-popover-background-color);
+  --calcite-popover-border-color: var(--calcite-input-popover-border-color);
+  --calcite-popover-text-color: var(--calcite-input-popover-text-color);
+  --calcite-popover-shadow: var(--calcite-input-popover-shadow);
 }
 
 calcite-time-picker {
-  // TODO: sub-component tokens go here
+  --calcite-time-picker-text-color: var(--calcite-input-time-picker-text-color);
+  --calcite-time-picker-background-color: var(--calcite-input-time-picker-background-color);
+  --calcite-time-picker-background-color-hover: var(--calcite-input-time-picker-background-color-hover);
+  --calcite-time-picker-background-color-active: var(--calcite-input-time-picker-background-color-active);
+  --calcite-time-picker-icon-color: var(--calcite-input-time-picker-icon-color);
+  --calcite-time-picker-input-box-shadow: var(--calcite-input-time-picker-box-shadow);
+  --calcite-time-picker-input-box-shadow-focus: var(--calcite-input-time-picker-box-shadow-focus);
 }
 
 calcite-icon {
-  // TODO: sub-component tokens go here
+  --calcite-icon-color: var(--calcite-input-icon-color);
 }
 
 @include form-validation-message();

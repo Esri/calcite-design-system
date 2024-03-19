@@ -30,4 +30,18 @@ export const darkModeRTL_TestOnly = (): string => html`
   ></calcite-progress>
 `;
 
+export const themed_TestOnly = (): string => html`
+  <calcite-progress
+    type="determinate"
+    value="0.5"
+    label="a11y label"
+    text="50% Complete (optional text)"
+    style="
+    --calcite-progress-background-color: red;
+    --calcite-progress-fill-color: blue;
+    --calcite-progress-text-color: green;  
+    "
+  ></calcite-progress>
+`;
+
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

@@ -3,6 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-filter-background-color: Specifies the background color of the filter.
  * @prop --calcite-filter-input-background-color: defines the background color of the input sub-component.
  * @prop --calcite-filter-input-border-color: defines the border color of the input sub-component.
  * @prop --calcite-filter-input-button-background-color: defines the background color of the button in the input sub-component.
@@ -15,94 +16,41 @@
  * @prop --calcite-filter-input-icon-color: defines the icon color of the input sub-component.
  * @prop --calcite-filter-input-placeholder-text-color: defines the placeholder text color of the input sub-component.
  * @prop --calcite-filter-input-text-color: defines the text color of the input sub-component.
- *
 */
+
 :host {
-  @extend %component-host;
-  @apply flex w-full;
+  @include base-host();
+  display: flex;
+  background-color: var(--calcite-filter-background-color, var(--calcite-color-foreground-1));
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 @include disabled();
 
 .container {
-  @apply flex w-full p-2;
+  padding: var(--calcite-spacing-sm);
+  margin-inline: var(--calcite-spacing-xxs);
+  display: flex;
+  inline-size: var(--calcite-container-size-content-fluid);
+  position: relative;
+  overflow: hidden;
+  align-items: center;
 }
 
-label {
-  @apply relative
-    mx-1
-    my-0
-    flex w-full
-    items-center
-    overflow-hidden;
-}
-
-input[type="text"] {
-  @apply font-inherit
-    text-color-1
-    text-n2h
-    mb-1
-    w-full
-    border-none
-    bg-transparent
-    py-1;
-  padding-inline-end: theme("spacing.1");
-  padding-inline-start: theme("spacing.6");
-  transition:
-    padding var(--calcite-animation-timing),
-    box-shadow var(--calcite-animation-timing);
-  &::-ms-clear {
-    @apply hidden;
-  }
-}
-
-calcite-input {
-  --calcite-input-text-color: var(--calcite-filter-input-text-color);
-  --calcite-input-background-color: var(--calcite-filter-input-background-color);
-  --calcite-input-border-color: var(--calcite-filter-input-border-color);
+.input {
+  inline-size: var(--calcite-container-size-content-fluid);
   --calcite-input-corner-radius: var(--calcite-filter-input-corner-radius);
-  --calcite-input-placeholder-text-color: var(--calcite-filter-input-placeholder-text-color);
-  --calcite-input-icon-color: var(--calcite-filter-input-icon-color);
-  --calcite-input-button-border-color: var(--calcite-filter-input-button-border-color);
+  --calcite-input-text-color: var(--calcite-filter-input-text-color);
+  --calcite-input-border-color: var(--calcite-filter-input-border-color);
+  --calcite-input-background-color: var(--calcite-filter-input-background-color);
   --calcite-input-button-background-color: var(--calcite-filter-input-button-background-color);
   --calcite-input-button-background-color-hover: var(--calcite-filter-input-button-background-color-hover);
+  --calcite-input-button-border-color: var(--calcite-filter-input-button-border-color);
+  --calcite-input-icon-color: var(--calcite-filter-input-icon-color);
   --calcite-input-button-icon-color: var(--calcite-filter-input-button-icon-color);
-  --calcite-input-button-icon-color-hover: var(--calcite-filter-input-button-icon-color-hover);
   --calcite-input-button-icon-color-active: var(--calcite-filter-input-button-icon-color-active);
-  inline-size: var(--calcite-container-size-content-fluid);
-}
-
-.search-icon {
-  @apply text-color-2
-    absolute
-    flex;
-  inset-inline-start: 0;
-  transition:
-    inset-inline-start var(--calcite-animation-timing),
-    inset-inline-end var(--calcite-animation-timing),
-    opacity var(--calcite-animation-timing);
-}
-
-input[type="text"]:focus {
-  @apply border-color-brand outline-none;
-  padding-inline: theme("padding.1");
-  & ~ .search-icon {
-    inset-inline-start: calc(theme("spacing.4") * -1);
-    @apply opacity-0;
-  }
-}
-
-.clear-button {
-  @apply text-color-2
-    flex
-    cursor-pointer
-    items-center
-    border-0
-    bg-transparent;
-  &:hover,
-  &:focus {
-    @apply text-color-1;
-  }
+  --calcite-input-button-icon-color-hover: var(--calcite-filter-input-button-icon-color-hover);
+  --calcite-input-placeholder-text-color: var(--calcite-filter-input-placeholder-text-color);
 }
 
 @include base-component();

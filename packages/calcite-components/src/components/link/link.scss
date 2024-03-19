@@ -5,20 +5,12 @@
  *
  * @prop --calcite-link-text-color: Specifies the text color of the component.
  * @prop --calcite-link-background-color: Specifies the background color of the component.
- * @prop --calcite-link-icon-start-color: Specifies the color of the component's start position icon.
- * @prop --calcite-link-icon-end-color: Specifies the color of the component's end position icon.
+ * @prop --calcite-link-icon-color: Specifies the color of the component's icons.
  * @prop --calcite-link-underline-color-start: Specifies the starting color of the underline of the component.
  * @prop --calcite-link-underline-color-end: Specifies the ending color of the underline of the component.
  */
 
 :host {
-  --calcite-link-background-color: transparent;
-  --calcite-link-text-color: var(--calcite-color-text-link);
-  --calcite-link-icon-start-color: currentColor;
-  --calcite-link-icon-end-color: currentColor;
-  --calcite-link-underline-color-start: var(--calcite-color-brand-underline);
-  --calcite-link-underline-color-end: var(--calcite-color-brand-underline);
-
   display: inline;
 }
 
@@ -36,9 +28,12 @@ a {
     inline;
 
   -webkit-appearance: none;
-  background-color: var(--calcite-link-background-color);
+  background-color: var(--calcite-link-background-color, transparent);
   background-image: linear-gradient(currentColor, currentColor),
-    linear-gradient(var(--calcite-link-underline-color-start), var(--calcite-link-underline-color-end));
+    linear-gradient(
+      var(--calcite-link-underline-color-start, var(--calcite-color-brand-underline)),
+      var(--calcite-link-underline-color-end, var(--calcite-color-brand-underline))
+    );
   background-position-x: 0%, 100%;
   background-position-y: min(1.5em, 100%);
   background-repeat: no-repeat, no-repeat;
@@ -49,7 +44,7 @@ a {
   line-height: inherit;
   text-decoration: none;
   white-space: initial;
-  color: var(--calcite-link-text-color);
+  color: var(--calcite-link-text-color, var(--calcite-color-text-link));
 
   &:hover,
   &:focus {
@@ -90,11 +85,11 @@ calcite-icon {
   // icon positioning and styles
   &.icon-start {
     margin-inline-end: theme("margin.2");
-    color: var(--calcite-link-icon-start-color);
+    color: var(--calcite-link-icon-color, currentColor);
   }
   &.icon-end {
     margin-inline-start: theme("margin.2");
-    color: var(--calcite-link-icon-end-color);
+    color: var(--calcite-link-icon-color, currentColor);
   }
 }
 

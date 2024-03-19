@@ -1,40 +1,54 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-accordion-item-background-color: defines the background color for the component.
+ * @prop --calcite-accordion-item-border-color: defines the border color for the component.
+ * @prop --calcite-accordion-item-description-text-color: defines the text color of the description in the component.
+ * @prop --calcite-accordion-item-heading-text-color: defines the text color of the heading in the component.
+ * @prop --calcite-accordion-item-icon-color: defines the icon color for the component.
+ * @prop --calcite-accordion-item-expand-icon-color: defines the icon color for the component.
+ * @prop --calcite-accordion-item-text-color: defines the text color for the component.
+ */
+
 %icon-position {
   /* icon rotation variables */
-  --calcite-accordion-item-icon-rotation: calc(theme("rotate.90") * -1);
-  --calcite-accordion-item-active-icon-rotation: theme("rotate.0");
-  --calcite-accordion-item-icon-rotation-rtl: theme("rotate.90");
-  --calcite-accordion-item-active-icon-rotation-rtl: theme("rotate.0");
+  --calcite-internal-accordion-item-icon-rotation: calc(theme("rotate.90") * -1);
+  --calcite-internal-accordion-item-active-icon-rotation: theme("rotate.0");
+  --calcite-internal-accordion-item-icon-rotation-rtl: theme("rotate.90");
+  --calcite-internal-accordion-item-active-icon-rotation-rtl: theme("rotate.0");
 }
 
 // icon position variants for child
 .icon-position--start {
   @extend %icon-position;
-  --calcite-accordion-item-flex-direction: row-reverse;
-  --calcite-accordion-item-icon-spacing-start: 0;
-  --calcite-accordion-item-icon-spacing-end: var(--calcite-accordion-icon-margin);
+  --calcite-internal-accordion-item-flex-direction: row-reverse;
+  --calcite-internal-accordion-item-icon-space-x-start: 0;
+  --calcite-internal-accordion-item-icon-space-x-end: var(--calcite-internal-accordion-item-icon-space);
 }
 
 .icon-position--end {
   @extend %icon-position;
-  --calcite-accordion-item-flex-direction: row;
-  --calcite-accordion-item-icon-spacing-start: var(--calcite-accordion-icon-margin);
-  --calcite-accordion-item-icon-spacing-end: 0;
+  --calcite-internal-accordion-item-flex-direction: row;
+  --calcite-internal-accordion-item-icon-space-x-start: var(--calcite-internal-accordion-item-icon-space);
+  --calcite-internal-accordion-item-icon-space-x-end: 0;
 }
 
 .icon-position--end:not(.icon-type--plus-minus) {
-  --calcite-accordion-item-icon-rotation: theme("rotate.0");
-  --calcite-accordion-item-active-icon-rotation: theme("rotate.180");
-  --calcite-accordion-item-icon-rotation-rtl: theme("rotate.0");
-  --calcite-accordion-item-active-icon-rotation-rtl: calc(theme("rotate.180") * -1);
+  --calcite-internal-accordion-item-icon-rotation: theme("rotate.0");
+  --calcite-internal-accordion-item-active-icon-rotation: theme("rotate.180");
+  --calcite-internal-accordion-item-icon-rotation-rtl: theme("rotate.0");
+  --calcite-internal-accordion-item-active-icon-rotation-rtl: calc(theme("rotate.180") * -1);
 }
 
 :host {
-  @apply text-color-3
-    relative
+  @apply relative
     flex
     flex-col
     no-underline;
-  background-color: var(--calcite-accordion-item-background, theme("backgroundColor.foreground.1"));
+  color: var(--calcite-accordion-item-text-color, var(--calcite-color-text-3));
+  background-color: var(--calcite-accordion-item-background-color, var(--calcite-color-foreground-1));
 }
 
 // focus styles
@@ -43,17 +57,17 @@
 }
 
 :host(:focus) .header-content {
-  @apply focus-inset
-  outline-none;
+  @apply focus-inset outline-none;
 }
 
 :host([expanded]) {
-  @apply text-color-1;
+  color: var(--calcite-accordion-item-text-color, var(--calcite-color-text-1));
+
   & .content {
-    @apply text-color-1 block;
+    @apply block;
   }
   & .header {
-    border-block-end-color: transparent;
+    border-block-end-color: var(--calcite-color-transparent);
   }
 }
 
@@ -63,38 +77,43 @@
 }
 
 :host .icon {
-  @apply text-color-3
-    relative
+  @apply relative
     m-0
     inline-flex
     duration-150
     ease-in-out;
-  margin-inline-end: var(--calcite-accordion-item-icon-spacing-start);
-  margin-inline-start: var(--calcite-accordion-item-icon-spacing-end);
+  color: var(
+    --calcite-accordion-item-icon-color,
+    var(--calcite-accordion-item-text-color, var(--calcite-color-text-3))
+  );
+  margin-inline-end: var(--calcite-internal-accordion-item-icon-space-x-start);
+  margin-inline-start: var(--calcite-internal-accordion-item-icon-space-x-end);
 }
 
 .icon--start {
   @apply flex items-center;
-  margin-inline-end: var(--calcite-accordion-icon-margin);
+  margin-inline-end: var(--calcite-internal-accordion-item-icon-space);
 }
 
 .icon--end {
   @apply flex items-center;
-  margin-inline-end: var(--calcite-accordion-icon-margin);
-  margin-inline-start: var(--calcite-accordion-icon-margin);
+  margin-inline-end: var(--calcite-internal-accordion-item-icon-space);
+  margin-inline-start: var(--calcite-internal-accordion-item-icon-space);
 }
 
 .header-container {
-  inline-size: 100%;
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 .content {
-  padding: var(--calcite-accordion-item-padding);
+  padding: var(--calcite-internal-accordion-item-content-space);
 }
 
 :host .content,
 :host .header {
-  border-block-end: 1px solid var(--calcite-accordion-item-border, theme("borderColor.color.2"));
+  border-block-end-width: var(--calcite-border-width-sm);
+  border-block-end-style: solid;
+  border-block-end-color: var(--calcite-accordion-item-border-color, var(--calcite-color-border-2));
 }
 
 :host .header * {
@@ -106,29 +125,27 @@
 }
 
 :host .content {
-  @apply text-color-3 hidden pt-0;
+  @apply hidden pt-0;
   text-align: initial;
 }
 
 // accordion item icon
 :host .expand-icon {
-  @apply text-color-3;
-  margin-inline-start: var(--calcite-accordion-item-icon-spacing-start);
-  margin-inline-end: var(--calcite-accordion-item-icon-spacing-end);
-  transform: rotate(var(--calcite-accordion-item-icon-rotation));
+  margin-inline-start: var(--calcite-internal-accordion-item-icon-space-x-start);
+  margin-inline-end: var(--calcite-internal-accordion-item-icon-space-x-end);
+  transform: rotate(var(--calcite-internal-accordion-item-icon-rotation));
 }
 
 .calcite--rtl .expand-icon {
-  transform: rotate(var(--calcite-accordion-item-icon-rotation-rtl));
+  transform: rotate(var(--calcite-internal-accordion-item-icon-rotation-rtl));
 }
 
 :host([expanded]) .expand-icon {
-  @apply text-color-3;
-  transform: rotate(var(--calcite-accordion-item-active-icon-rotation));
+  transform: rotate(var(--calcite-internal-accordion-item-active-icon-rotation));
 }
 
 :host([expanded]) .calcite--rtl .expand-icon {
-  transform: rotate(var(--calcite-accordion-item-active-icon-rotation-rtl));
+  transform: rotate(var(--calcite-internal-accordion-item-active-icon-rotation-rtl));
 }
 
 // accordion item title
@@ -140,51 +157,64 @@
 
 :host .heading,
 :host .description {
-  @apply flex w-full;
+  @apply flex;
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 :host .heading {
-  @apply text-color-2 font-medium;
+  @apply font-medium;
+  color: var(
+    --calcite-accordion-item-heading-text-color,
+    var(--calcite-accordion-item-text-color, var(--calcite-color-text-2))
+  );
 }
 :host .description {
-  @apply text-color-3 mt-1;
+  @apply mt-1;
+  color: var(
+    --calcite-accordion-item-description-text-color,
+    var(--calcite-accordion-item-text-color, var(--calcite-color-text-3))
+  );
 }
 
 :host(:focus),
-:host(:hover) {
-  & .heading {
-    @apply text-color-1;
-  }
-  & .icon {
-    @apply text-color-1;
-  }
-
-  & .expand-icon {
-    @apply text-color-1;
-  }
-  & .description {
-    @apply text-color-2;
-  }
-}
-
-:host(:focus),
+:host(:hover),
 :host(:active),
 :host([expanded]) {
   & .heading {
-    @apply text-color-1;
+    color: var(
+      --calcite-accordion-item-heading-text-color,
+      var(--calcite-accordion-item-text-color, var(--calcite-color-text-1))
+    );
   }
+  & .expand-icon,
   & .icon {
-    @apply text-color-1;
+    color: var(
+      --calcite-accordion-item-icon-color,
+      var(--calcite-accordion-item-text-color, var(--calcite-color-text-1))
+    );
   }
+
   & .description {
-    @apply text-color-2;
+    color: var(
+      --calcite-accordion-item-description-text-color,
+      var(--calcite-accordion-item-text-color, var(--calcite-color-text-2))
+    );
+  }
+}
+
+:host([expanded]) {
+  & .expand-icon {
+    color: var(
+      --calcite-accordion-item-expand-icon-color,
+      var(--calcite-accordion-item-icon-color, var(--calcite-accordion-item-text-color, var(--calcite-color-text-3)))
+    );
   }
 }
 
 .header-content {
   @apply flex-grow cursor-pointer;
-  padding: var(--calcite-accordion-item-padding);
-  flex-direction: var(--calcite-accordion-item-flex-direction);
+  padding: var(--calcite-internal-accordion-item-content-space);
+  flex-direction: var(--calcite-internal-accordion-item-flex-direction);
 }
 
 .actions-start,

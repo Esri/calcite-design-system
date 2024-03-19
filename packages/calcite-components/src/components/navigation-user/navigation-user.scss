@@ -3,16 +3,18 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-navigation-user-avatar-corner-radius: defines the corner radius of the component.
- * @prop --calcite-navigation-user-avatar-text-color: defines the text color of the component.
+ * @prop --calcite-navigation-user-avatar-corner-radius: Specifies the corner radius of avatar of the component.
+ * @prop --calcite-navigation-user-avatar-text-color: Specifies the text color of avatar of the component.
+ * @prop --calcite-navigation-user-background-color: Specifies the background color of the component.
+ * @prop --calcite-navigation-user-border-color: Specifies the border color of the component.
+ * @prop --calcite-navigation-user-full-name-text-color: Specifies the text color of full name of the component.
+ * @prop --calcite-navigation-user-name-text-color: Specifies the text color of user name of the component.
  *
  */
 
 :host {
   @apply inline-flex outline-none;
   & .button {
-    background-color: transparent;
-    border: none;
     @apply flex
       m-0
       items-center
@@ -20,15 +22,22 @@
       cursor-pointer
       transition-default
       focus-base
-      font-sans
-      text-0h;
-    border-block-end: 2px solid transparent;
+      font-sans;
+    background-color: var(
+      --calcite-navigation-user-background-color,
+      var(--calcite-internal-navigation-user-background-color, transparent)
+    );
+    border: none;
+    border-block-end: var(--calcite-spacing-base) solid
+      var(--calcite-navigation-user-border-color, var(--calcite-internal-navigation-user-border-color, transparent));
+    font-size: var(--calcite-font-size-md);
+    line-height: var(--calcite-font-line-height-fixed-lg);
   }
 }
 
 :host(:hover) .button,
 :host(:focus) .button {
-  @apply bg-foreground-2;
+  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-2);
 }
 
 :host(:focus) .button {
@@ -36,11 +45,11 @@
 }
 
 :host(:active) .button {
-  @apply bg-foreground-3 text-color-1;
+  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-3);
 }
 
 calcite-avatar {
-  @apply px-4;
+  padding-inline: var(--calcite-spacing-xl);
 }
 
 calcite-avatar ~ .text-container {
@@ -48,28 +57,28 @@ calcite-avatar ~ .text-container {
 }
 
 :host([active]) .button {
-  @apply text-color-1 border-color-brand;
   --calcite-ui-icon-color: var(--calcite-color-brand);
+  --calcite-internal-navigation-user-border-color: var(--calcite-color-brand);
 }
 
 .text-container {
   @apply flex
   flex-col
-  text-start
-  px-4
-  mt-0.5;
+  text-start;
+  padding-inline: var(--calcite-spacing-xl);
+  margin-block-start: var(--calcite-spacing-base);
 }
 
 .full-name {
-  @apply text-0
-  ms-0
-  text-color-1
-  font-medium;
+  @apply ms-0;
+  font-size: var(--calcite-font-size-md);
+  font-weight: var(--calcite-font-weight-medium);
+  color: var(--calcite-navigation-user-full-name-text-color, var(--calcite-color-text-1));
 }
 
 .username {
-  @apply text-color-2;
-  font-size: var(--calcite-font-size--1);
+  font-size: var(--calcite-font-size);
+  color: var(--calcite-navigation-user-name-text-color, var(--calcite-color-text-2));
 }
 
 calcite-avatar {

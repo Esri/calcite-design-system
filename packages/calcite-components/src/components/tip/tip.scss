@@ -28,15 +28,9 @@
     border-solid
     m-4;
 
-  --calcite-tip-border-color: var(--calcite-color-border-2);
-  --calcite-tip-background-color: var(--calcite-color-foreground-1);
-  --calcite-tip-text-color: var(--calcite-color-text-2);
-  --calcite-tip-heading-text-color: var(--calcite-color-text-1);
-  --calcite-tip-slotted-link-text-color: var(--calcite-color-brand);
-
-  color: var(--calcite-tip-text-color);
-  border-color: var(--calite-tip-border-color);
-  background-color: var(--calcite-tip-background-color);
+  color: var(--calcite-tip-text-color, var(--calcite-color-text-2));
+  border-color: var(--calcite-tip-border-color, var(--calcite-color-border-2));
+  background-color: var(--calcite-tip-background-color, var(--calcite-color-foreground-1));
 
   * {
     @apply box-border;
@@ -65,7 +59,7 @@
 .header .heading {
   @apply text-0h p-0;
 
-  color: var(--calcite-tip-heading-text-color);
+  color: var(--calcite-tip-heading-text-color, var(--calcite-color-text-1));
 }
 
 .container[hidden] {
@@ -94,7 +88,7 @@
 ::slotted(a) {
   @apply focus-base;
 
-  color: var(--calcite-tip-slotted-link-text-color);
+  color: var(--calcite-tip-slotted-link-text-color, var(--calcite-color-brand));
 }
 
 ::slotted(a:focus) {

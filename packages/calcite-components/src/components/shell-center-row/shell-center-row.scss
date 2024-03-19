@@ -1,43 +1,58 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-shell-center-row-background-color: Specifies the background color of the component.
+ * @prop --calcite-shell-center-row-border-color: Specifies the border color of the component.
+ * @prop --calcite-shell-center-row-border-radius: Specifies the border radius of the component.
+ */
+
 :host {
-  @extend %component-host;
-  @apply flex
-    flex-auto
-    overflow-hidden
-    bg-transparent
-    z-default;
+  @include base-host();
+  display: flex;
+  flex: 1 1 auto;
+  overflow: hidden;
+  z-index: var(
+    --calcite-z-index
+  ); // todo: not sure why this is needed? Maybe can remove?? There's no positioning of this component by default.
+  background-color: var(--calcite-shell-center-row-background-color, var(--calcite-color-foreground-1));
+  font-size: var(--calcite-font-size--1);
 }
 
 .content {
-  @apply m-0
-    flex
-    h-full
-    w-full
-    overflow-hidden;
+  margin: 0px;
+  display: flex;
+  block-size: var(--calcite-container-size-content-fluid);
+  inline-size: var(--calcite-container-size-content-fluid);
+  overflow: hidden;
   flex: 1 0 0;
 }
 
 .action-bar-container {
-  @apply flex;
+  display: flex;
 }
 
 :host([detached]) {
-  @apply shadow-0
-  animate-in-up
-  mx-2
-  mt-2 mb-6 rounded
-  border-0;
+  animation: in-up var(--calcite-internal-animation-timing-slow) ease-in-out;
+  margin-inline: var(--calcite-size-sm);
+  margin-block-start: var(--calcite-size-sm);
+  margin-block-end: var(--calcite-size-lg);
+  border-radius: var(--calcite-shell-center-row-border-radius, var(--calcite-corner-radius-round));
+  border-width: 0px;
+  box-shadow: var(--calcite-shadow-md);
 }
 
 :host([position="end"]) {
-  @apply self-end;
+  align-self: flex-end;
 }
 
 :host([position="start"]) {
-  @apply self-start;
+  align-self: flex-start;
 }
 
 :host([height-scale="s"]) {
-  block-size: theme("width[1/3]");
+  block-size: 33.333333%;
 }
 
 :host([height-scale="m"]) {
@@ -45,21 +60,22 @@
 }
 
 :host([height-scale="l"]) {
-  @apply h-full;
+  block-size: var(--calcite-container-size-content-fluid);
 }
 
 :host([height-scale="l"][detached]) {
-  block-size: calc(theme("height.full") - theme("spacing.8"));
+  block-size: calc(var(--calcite-container-size-content-fluid) - var(--calcite-spacing-xxl));
 }
 
 ::slotted(calcite-panel) {
-  @apply h-full w-full;
+  block-size: var(--calcite-container-size-content-fluid);
+  inline-size: var(--calcite-container-size-content-fluid);
 }
 
 ::slotted(calcite-action-bar),
 ::slotted(calcite-action-bar[position="end"]) {
-  border-inline-end: theme("borderWidth.DEFAULT") solid;
-  @apply border-color-3;
+  border-inline-end: var(--calcite-border-width-sm) solid;
+  border-color: var(--calcite-shell-center-row-border-color, var(--calcite-color-border-3));
 }
 
 @include base-component();

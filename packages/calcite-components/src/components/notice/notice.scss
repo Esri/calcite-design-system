@@ -172,7 +172,7 @@
 
   &:focus {
     background-color: var(--calcite-notice-close-background-color-focus, var(--calcite-color-foreground-2));
-    outline-color: var(--calcite-notice-close-focus-color, inherit);
+    outline-color: var(--calcite-notice-close-focus-color, var(--calcite-color-brand));
     color: var(--calcite-notice-close-icon-color, var(--calcite-color-text-1));
   }
 }
