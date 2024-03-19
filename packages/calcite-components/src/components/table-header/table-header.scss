@@ -57,11 +57,11 @@ th.end:not(.selection-cell):not(.number-cell) {
 th.body-row,
 th.footer-row {
   padding-block: var(--calcite-internal-table-cell-padding);
+  border-block-end: 0;
 }
 
 th.footer-row {
   border-block-start: 1px solid var(--calcite-internal-table-header-border-color);
-  border-block-end: 0;
 }
 
 th.last-cell {
