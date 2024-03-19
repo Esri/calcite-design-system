@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.7...@esri/calcite-components@2.7.0-next.8) (2024-03-19)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [2.7.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.6...@esri/calcite-components@2.7.0-next.7) (2024-03-19)
+
+### Features
+
+- **color-picker:** add `clearable` prop and deprecate `allowEmpty` ([#8910](https://github.com/Esri/calcite-design-system/issues/8910)) ([f036ac2](https://github.com/Esri/calcite-design-system/commit/f036ac27bc8f361c03e3a7001d8d3fdbf4af04f6)), closes [#6880](https://github.com/Esri/calcite-design-system/issues/6880)
+
+## [2.7.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.5...@esri/calcite-components@2.7.0-next.6) (2024-03-19)
+
+### Bug Fixes
+
+- **list, list-item:** calcite-select becomes unresponsive in a list-item if drag-disabled is true ([#8957](https://github.com/Esri/calcite-design-system/issues/8957)) ([e408c62](https://github.com/Esri/calcite-design-system/commit/e408c626429ce60e0c21b23720ba42b490cabec7)), closes [#8954](https://github.com/Esri/calcite-design-system/issues/8954)
+- **list:** fix filter box when scrolling in Safari ([#8938](https://github.com/Esri/calcite-design-system/issues/8938)) ([ea8ea1e](https://github.com/Esri/calcite-design-system/commit/ea8ea1e3795dbc8d92a064fad8ebc00d13383252)), closes [#8928](https://github.com/Esri/calcite-design-system/issues/8928)
+
 ## [2.7.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.4...@esri/calcite-components@2.7.0-next.5) (2024-03-16)
 
 ### Bug Fixes

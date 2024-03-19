@@ -5,6 +5,7 @@ import { getTypographyReferences } from "../typography/utils.js";
 import { addSCSSImportByRef } from "../typography/scss.js";
 import { Platform } from "../../../../types/platform.js";
 import { MappedFormatterArguments } from "../../../../types/styleDictionary/formatterArguments.js";
+import { EOL } from "os";
 
 export function handleTypography(token: TransformedToken, args: MappedFormatterArguments): string {
   const strObj = Object.keys(token.value).reduce((acc, typeKey) => {
@@ -20,7 +21,7 @@ export function handleTypography(token: TransformedToken, args: MappedFormatterA
 
   switch (args.options.platform) {
     case Platform.CSS:
-      return `.${token.name} {\n\t${Object.keys(strObj).join("\n\t")}\n}`;
+      return `.${token.name} {${EOL}\t${Object.keys(strObj).join(`${EOL}\t`)}${EOL}}`;
 
     case Platform.SCSS:
     case Platform.SASS:
@@ -32,7 +33,7 @@ export function handleTypography(token: TransformedToken, args: MappedFormatterA
           : undefined;
       const mixinLines = [].concat(extraIncludes || [], Object.keys(strObj));
 
-      return `@mixin ${token.name} {\n\t${mixinLines.join("\n\t")}\n}`;
+      return `@mixin ${token.name} {${EOL}\t${mixinLines.join(`${EOL}\t`)}${EOL}}`;
     default:
       return;
   }

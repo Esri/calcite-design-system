@@ -13,7 +13,7 @@ export const formatDocsPlatform: CalledFormatterFunction = (args) => {
     timestamp: Date.now(),
     tokens: args.dictionary.allTokens.map((token) => {
       token.value = typeof token.value !== "string" ? JSON.stringify(token.value) : token.value;
-      token.filePath = relative(resolve(__dirname, "../../../../"), token.filePath);
+      token.filePath = relative(resolve(__dirname, "..", "..", "..", "..", ""), token.filePath);
       delete token.original;
       return token;
     }),
