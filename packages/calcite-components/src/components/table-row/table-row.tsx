@@ -42,7 +42,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   //
   //--------------------------------------------------------------------------
   /** Specifies the alignment of the component. */
-  @Prop({ reflect: true }) alignment: Alignment = "center";
+  @Prop({ reflect: true }) alignment: Alignment;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
@@ -275,6 +275,11 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   };
 
   private updateCells = (): void => {
+    const alignment = this.alignment
+      ? this.alignment
+      : this.rowType !== "head"
+        ? "center"
+        : "start";
     const slottedCells = this.tableRowSlotEl
       ?.assignedElements({ flatten: true })
       ?.filter(
@@ -295,7 +300,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
       cells?.forEach((cell: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement, index) => {
         cell.interactionMode = this.interactionMode;
         cell.lastCell = index === cells.length - 1;
-        cell.parentRowAlignment = this.alignment;
+        cell.parentRowAlignment = alignment;
         cell.parentRowIsSelected = this.selected;
         cell.parentRowType = this.rowType;
         cell.positionInRow = index + 1;

@@ -40,16 +40,17 @@ th {
       @apply focus-inset;
     }
   }
-  &:not(.center):not(.end) {
-    @apply align-top;
-  }
+}
+
+th:not(.center):not(.end):not(.selection-cell):not(.number-cell) {
+  @apply align-top;
 }
 
 th.center {
   @apply align-middle;
 }
 
-th.end {
+th.end:not(.selection-cell):not(.number-cell) {
   @apply align-bottom;
 }
 
@@ -69,6 +70,9 @@ th.last-cell {
 
 .cell--multiple-selection {
   @apply cursor-pointer align-middle text-color-3;
+  &:not(.end) {
+    @apply align-middle;
+  }
 }
 
 .selected-cell:not(.number-cell):not(.footer-cell) {
