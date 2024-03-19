@@ -157,6 +157,7 @@ Type: `Promise<void>`
 
 ### Depends on
 
+- [calcite-combobox-item](../combobox-item)
 - [calcite-chip](../chip)
 - [calcite-icon](../icon)
 - [calcite-input-message](../input-message)
@@ -165,9 +166,11 @@ Type: `Promise<void>`
 
 ```mermaid
 graph TD;
+  calcite-combobox --> calcite-combobox-item
   calcite-combobox --> calcite-chip
   calcite-combobox --> calcite-icon
   calcite-combobox --> calcite-input-message
+  calcite-combobox-item --> calcite-icon
   calcite-chip --> calcite-icon
   calcite-input-message --> calcite-icon
   calcite-input-time-zone --> calcite-combobox

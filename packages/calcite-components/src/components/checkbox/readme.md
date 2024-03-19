@@ -69,6 +69,7 @@ Type: `Promise<void>`
 ### Used by
 
 - [calcite-card](../card)
+- [calcite-tile-select](../tile-select)
 - [calcite-tree-item](../tree-item)
 
 ### Graph
@@ -76,6 +77,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   calcite-card --> calcite-checkbox
+  calcite-tile-select --> calcite-checkbox
   calcite-tree-item --> calcite-checkbox
   style calcite-checkbox fill:#f9f,stroke:#333,stroke-width:4px
 ```

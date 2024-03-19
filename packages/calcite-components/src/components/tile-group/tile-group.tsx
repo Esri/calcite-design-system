@@ -6,8 +6,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { TileGroupLayout } from "./interfaces";
-import { Scale } from "../interfaces";
+import { Layout, Scale } from "../interfaces";
 import { CSS } from "./resources";
 
 /**
@@ -33,7 +32,7 @@ export class TileGroup implements InteractiveComponent {
    *
    * Use `"horizontal"` for rows, and `"vertical"` for a single column.
    */
-  @Prop({ reflect: true }) layout: TileGroupLayout = "horizontal";
+  @Prop({ reflect: true }) layout: Exclude<Layout, "grid"> = "horizontal";
 
   /**
    * Specifies the size of the component.
@@ -85,7 +84,7 @@ export class TileGroup implements InteractiveComponent {
   render(): VNode {
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div class={CSS.tileGroup}>
+        <div class={CSS.container}>
           <slot onSlotchange={this.updateTiles} />
         </div>
       </InteractiveContainer>

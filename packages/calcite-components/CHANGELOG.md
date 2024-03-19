@@ -3,23 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.5.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.2-next.1...@esri/calcite-components@2.5.2-next.2) (2024-02-21)
+## [2.7.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.4...@esri/calcite-components@2.7.0-next.5) (2024-03-16)
 
 ### Bug Fixes
 
-- only show validation message when status='invalid' ([#8649](https://github.com/Esri/calcite-design-system/issues/8649)) ([7eac8d7](https://github.com/Esri/calcite-design-system/commit/7eac8d7c1e24ab89a3bff67ce9b4f38555023a47))
+- **stepper:** fix layout when switching modes dynamically to `horizontal-single` ([#8946](https://github.com/Esri/calcite-design-system/issues/8946)) ([01f58bf](https://github.com/Esri/calcite-design-system/commit/01f58bff05ac43777342df4a5d77804bf4c3677c)), closes [#8931](https://github.com/Esri/calcite-design-system/issues/8931)
 
-## [2.5.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.2-next.0...@esri/calcite-components@2.5.2-next.1) (2024-02-21)
-
-### Bug Fixes
-
-- **combobox:** long text truncates on single and single-persist modes ([#8731](https://github.com/Esri/calcite-design-system/issues/8731)) ([8fc42b1](https://github.com/Esri/calcite-design-system/commit/8fc42b164ceacad97ac9153673280ae63638b03c)), closes [#7020](https://github.com/Esri/calcite-design-system/issues/7020)
-
-## [2.5.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.1...@esri/calcite-components@2.5.2-next.0) (2024-02-20)
+## [2.7.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.3...@esri/calcite-components@2.7.0-next.4) (2024-03-13)
 
 ### Bug Fixes
 
-- **table:** Ensure border are correctly applied with complex rowSpan ([#8779](https://github.com/Esri/calcite-design-system/issues/8779)) ([69f05d4](https://github.com/Esri/calcite-design-system/commit/69f05d4f29938b0a3ce2ab3bb806d3d831ebf8d0)), closes [#8778](https://github.com/Esri/calcite-design-system/issues/8778)
+- **combobox:** prevent spacebar from opening the menu while focusing on `chip`'s close button ([#8909](https://github.com/Esri/calcite-design-system/issues/8909)) ([a1bae56](https://github.com/Esri/calcite-design-system/commit/a1bae56236f8fbe8733401fca9319521c1766ad1))
+
+## [2.7.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.2...@esri/calcite-components@2.7.0-next.3) (2024-03-12)
+
+### Bug Fixes
+
+- **combobox:** prevent toggling items when combobox is closed ([#8923](https://github.com/Esri/calcite-design-system/issues/8923)) ([c3240c5](https://github.com/Esri/calcite-design-system/commit/c3240c58be7e706ed4d34177c33287d59b556d76)), closes [#8919](https://github.com/Esri/calcite-design-system/issues/8919)
+
+## [2.7.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.1...@esri/calcite-components@2.7.0-next.2) (2024-03-06)
+
+### Reverts
+
+- refactor(popover): update token pattern ([#8889](https://github.com/Esri/calcite-design-system/issues/8889)) ([c43c280](https://github.com/Esri/calcite-design-system/commit/c43c280787d15e5602b2c9e13d01b0ebe2492901)), closes [#8875](https://github.com/Esri/calcite-design-system/issues/8875)
+
+## [2.7.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.0...@esri/calcite-components@2.7.0-next.1) (2024-02-29)
+
+### Bug Fixes
+
+- **card:** Do not apply text color to slotted footer items ([#8839](https://github.com/Esri/calcite-design-system/issues/8839)) ([30a2068](https://github.com/Esri/calcite-design-system/commit/30a206867d5f4b19d9cdfcc540f0286405b6d984)), closes [#8855](https://github.com/Esri/calcite-design-system/issues/8855)
+
+### Performance Improvements
+
+- update `transition-default` Tailwind util to only target common, animatable properties ([#8797](https://github.com/Esri/calcite-design-system/issues/8797)) ([f4d016b](https://github.com/Esri/calcite-design-system/commit/f4d016b0998f360f376c03705c98bd6c399143f6)), closes [#8571](https://github.com/Esri/calcite-design-system/issues/8571)
+
+## [2.7.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.6.0...@esri/calcite-components@2.7.0-next.0) (2024-02-28)
+
+### Features
+
+- **tabs:** make component responsive ([#8616](https://github.com/Esri/calcite-design-system/issues/8616)) ([83a2ef4](https://github.com/Esri/calcite-design-system/commit/83a2ef47157f88007af0ae528758fb5952a3f3bc)), closes [#6689](https://github.com/Esri/calcite-design-system/issues/6689)
+
+## [2.6.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.1...@esri/calcite-components@2.6.0) (2024-02-27)
+
+### Features
+
+- **card-group:** Add Card Group component ([#8749](https://github.com/Esri/calcite-design-system/issues/8749)) ([b012324](https://github.com/Esri/calcite-design-system/commit/b012324fdbf125662f1fb0ca1defc348b08a340d))
+- **tile-group:** Add Tile Group component ([#8806](https://github.com/Esri/calcite-design-system/issues/8806)) ([4f65bdd](https://github.com/Esri/calcite-design-system/commit/4f65bddb521af32047f9f5e6659c1b644291a83d))
+
+### Bug Fixes
+
+- **combobox:** Long text truncates on single and single-persist modes ([#8731](https://github.com/Esri/calcite-design-system/issues/8731)) ([8fc42b1](https://github.com/Esri/calcite-design-system/commit/8fc42b164ceacad97ac9153673280ae63638b03c))
+- **navigation-logo:** No longer changes icon color when `href` is parsed ([#8830](https://github.com/Esri/calcite-design-system/issues/8830)) ([16d456f](https://github.com/Esri/calcite-design-system/commit/16d456fa113da09daf16d73e819ddf2910cb73d5))
+- Only show validation message when status='invalid' ([#8649](https://github.com/Esri/calcite-design-system/issues/8649)) ([7eac8d7](https://github.com/Esri/calcite-design-system/commit/7eac8d7c1e24ab89a3bff67ce9b4f38555023a47))
+- **preset:** Calcite—color-brand to calcite-color-brand ([#8809](https://github.com/Esri/calcite-design-system/issues/8809)) ([ee2cf4e](https://github.com/Esri/calcite-design-system/commit/ee2cf4e62229753224fd3e54ed7caebe9b097040))
+- **table:** Ensure border are correctly applied with complex rowSpan ([#8779](https://github.com/Esri/calcite-design-system/issues/8779)) ([69f05d4](https://github.com/Esri/calcite-design-system/commit/69f05d4f29938b0a3ce2ab3bb806d3d831ebf8d0))
 
 ## [2.5.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.5.0...@esri/calcite-components@2.5.1) (2024-02-16)
 
