@@ -36,6 +36,7 @@
   );
   color: var(--calcite-action-text-color, var(--calcite-internal-action-text-color, var(--calcite-color-text-3)));
   flex: 1 0 auto;
+  font-family: var(--calcite-font-family);
   font-size: var(--calcite-internal-action-font-size, var(--calcite-font-size--2));
   justify-content: var(--calcite-internal-action-justify-content, start);
   line-height: var(--calcite-internal-action-line-height, 1rem /* 16px */);
@@ -136,16 +137,17 @@ calcite-loader {
   }
 }
 :host(:focus) {
-  @apply focus-inset;
+  .button {
+    @apply focus-inset;
+  }
 }
 :host(:active),
 :host([active]),
 :host([data-active]) {
   .button {
-    --calcite-internal-action-icon-color: ar(--calcite-color-text-1);
-    --calcite-internal-action-text-color: ar(--calcite-color-text-1);
+    --calcite-internal-action-icon-color: var(--calcite-color-text-1);
+    --calcite-internal-action-text-color: var(--calcite-color-text-1);
     --calcite-internal-action-indicator-color: var(--calcite-color-brand-press);
-    @apply focus-inset;
   }
 }
 
