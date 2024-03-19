@@ -255,13 +255,15 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
               scale={getIconScale(this.scale)}
             />
           )}
-          <span
-            aria-hidden={true}
-            aria-live={this.focused ? "polite" : "off"}
-            class={CSS.assistiveText}
-          >
-            {(this.selectionCell || this.numberCell) && this.screenReaderText}
-          </span>
+          {(this.selectionCell || this.numberCell) && (
+            <span
+              aria-hidden={true}
+              aria-live={this.focused ? "polite" : "off"}
+              class={CSS.assistiveText}
+            >
+              {this.screenReaderText}
+            </span>
+          )}
         </th>
       </Host>
     );
