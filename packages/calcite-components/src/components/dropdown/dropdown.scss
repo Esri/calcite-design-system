@@ -13,7 +13,7 @@
 
 @include disabled();
 
-:host .calcite-dropdown-wrapper {
+.calcite-dropdown-wrapper {
   @include floatingUIContainer("var(--calcite-z-index-dropdown)");
   @include floatingUIWrapper();
 }
@@ -23,7 +23,7 @@
   @include floatingUIWrapperActive();
 }
 
-:host .calcite-dropdown-content {
+.calcite-dropdown-content {
   @apply w-auto
     overflow-y-auto
     overflow-x-hidden
