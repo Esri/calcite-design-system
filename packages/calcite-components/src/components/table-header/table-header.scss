@@ -3,13 +3,15 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-table-header-background: Specifies the background color of the component.
+ * @prop --calcite-table-header-background: [Deprecated] Use the `--calcite-table-header-background-color` property instead. Specifies the background color of the component.
+ * @prop --calcite-table-header-background-color: Specifies the background color of the component.
  * @prop --calcite-table-header-border-color: Specifies the border color of the component.
+ * @prop --calcite-table-header-heading-color: Specifies the heading color of the component.
+ * @prop --calcite-table-header-description-color: Specifies the description color of the component.
+
  */
 
 :host {
-  --calcite-internal-table-header-background: var(--calcite-table-header-background, var(--calcite-color-foreground-2));
-  --calcite-internal-table-header-border-color: var(--calcite-table-border-color, var(--calcite-color-border-3));
   @apply contents;
 }
 
@@ -26,14 +28,18 @@
 }
 
 th {
-  @apply text-color-1 text-start font-medium align-top whitespace-normal;
-  font-size: var(--calcite-internal-table-cell-font-size);
-  border-inline-end: 1px solid var(--calcite-internal-table-header-border-color);
-  border-block-end: 1px solid var(--calcite-internal-table-header-border-color);
+  @apply text-start font-medium align-top whitespace-normal;
+  border-block-end: 1px solid
+    var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
   padding-block: calc(var(--calcite-internal-table-cell-padding) * 1.5);
   padding-inline: var(--calcite-internal-table-cell-padding);
-  background-color: var(--calcite-internal-table-header-background);
-
+  background-color: var(
+    --calcite-table-header-background-color,
+    var(--calcite-table-header-background, var(--calcite-color-foreground-2))
+  );
+  font-size: var(--calcite-internal-table-cell-font-size);
+  border-inline-end: 1px solid
+    var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
   &:not(.static-cell) {
     @apply focus-base;
     &:not(.static-cell):focus-within {
@@ -53,37 +59,45 @@ th.footer-row {
 }
 
 th.footer-row {
-  border-block-start: 1px solid var(--calcite-internal-table-header-border-color);
+  border-block-start: 1px solid
+    var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
 }
 
 .cell--multiple-selection {
-  @apply cursor-pointer align-middle text-color-3;
+  @apply cursor-pointer align-middle;
+  color: var(--calcite-table-selection-cell-icon-color, var(--calcite-color-text-3));
+  background-color: var(--calcite-table-selection-cell-background-color, var(--calcite-color-foreground-2));
+  &.selected-cell {
+    background-color: var(--calcite-table-selection-cell-background-color-selected, var(--calcite-color-foreground-2));
+  }
 }
-
-.selected-cell:not(.number-cell):not(.footer-cell) {
-  --calcite-internal-table-header-background: var(--calcite-color-foreground-current);
+.number-cell {
+  background-color: var(
+    --calcite-table-number-cell-background-color,
+    var(--calcite-table-cell-background-color, var(--calcite-color-foreground-2))
+  );
 }
 
 .number-cell,
 .selection-cell {
-  @apply text-color-2;
   inline-size: 2rem;
   min-inline-size: 2rem;
 }
 
 .selection-cell calcite-icon.active {
-  color: var(--calcite-color-brand);
+  color: var(--calcite-table-selection-cell-icon-color-selected, var(--calcite-color-brand));
 }
+
 .number-cell calcite-icon,
 .selection-cell calcite-icon {
   @apply ms-auto me-auto align-middle;
 }
 
 .heading {
-  @apply text-color-1;
+  color: var(--calcite-table-header-heading-color, var(--calcite-color-text-1));
 }
 
 .description {
-  @apply text-color-3;
+  color: var(--calcite-table-header-description-color, var(--calcite-color-text-3));
   font-size: var(--calcite-internal-table-cell-font-size-secondary);
 }

@@ -225,7 +225,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
             [CSS.footerRow]: this.parentRowType === "foot",
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
-            [CSS.selectedCell]: this.parentRowIsSelected,
+            [CSS.selectedCell]: allSelected,
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
             [CSS.staticCell]: staticCell,
             [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),

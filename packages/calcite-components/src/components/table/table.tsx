@@ -430,6 +430,10 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     return (
       <div class={CSS.selectionArea}>
         <calcite-chip
+          class={{
+            [CSS.selectionCountChip]: true,
+            [CSS.selectionChipActive]: this.selectedCount > 0,
+          }}
           kind={this.selectedCount > 0 ? "brand" : "neutral"}
           scale={this.scale}
           value={selectionText}
@@ -437,12 +441,19 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
           {selectionText}
         </calcite-chip>
         {outOfViewCount > 0 && (
-          <calcite-chip icon="hide-empty" scale={this.scale} title={outOfView} value={outOfView}>
+          <calcite-chip
+            class={CSS.selectionOutOfViewChip}
+            icon="hide-empty"
+            scale={this.scale}
+            title={outOfView}
+            value={outOfView}
+          >
             {localizedOutOfView}
           </calcite-chip>
         )}
         {this.selectedCount > 0 && (
           <calcite-button
+            class={CSS.dismissButton}
             icon-start="x"
             kind="neutral"
             onClick={this.handleDeselectAllRows}
