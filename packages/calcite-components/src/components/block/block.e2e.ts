@@ -1,6 +1,17 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS } from "./resources";
-import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  delegatesToFloatingUiOwningComponent,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 
@@ -26,6 +37,31 @@ describe("calcite-block", () => {
       {
         propertyName: "open",
         defaultValue: false,
+      },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-block", [
+      {
+        propertyName: "collapsible",
+        value: true,
+      },
+      {
+        propertyName: "headingLevel",
+        value: 2,
+      },
+      {
+        propertyName: "open",
+        value: true,
+      },
+      {
+        propertyName: "overlayPositioning",
+        value: "fixed",
       },
     ]);
   });
@@ -61,7 +97,7 @@ describe("calcite-block", () => {
         </calcite-block>`,
         {
           shadowFocusTargetSelector: `.${CSS.toggle}`,
-        }
+        },
       );
     });
 
@@ -78,13 +114,22 @@ describe("calcite-block", () => {
         </calcite-block>`,
         {
           focusTargetSelector: `.${blockSectionClass}`,
-        }
+        },
       );
     });
   });
 
   describe("disabled", () => {
     disabled(html`<calcite-block heading="heading" description="description" collapsible></calcite-block>`);
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      html`<calcite-block>
+        <calcite-action label="Add" icon="plus" slot="header-menu-actions"></calcite-action>
+      </calcite-block>`,
+      "calcite-action-menu",
+    );
   });
 
   it("has a loading state", async () => {
@@ -236,7 +281,7 @@ describe("calcite-block", () => {
       await page.setContent(
         `<calcite-block status="invalid">
           <div class="header-icon" slot=${SLOTS.icon} /></calcite-block>
-        </calcite-block>`
+        </calcite-block>`,
       );
 
       const headerIcon = await page.find("calcite-block >>> .header-icon");
@@ -252,7 +297,7 @@ describe("calcite-block", () => {
       await page.setContent(
         `<calcite-block status="invalid" loading>
           <div class="${headerIcon}" slot=${SLOTS.icon} /></calcite-block>
-        </calcite-block>`
+        </calcite-block>`,
       );
 
       const headerIconEle = await page.find(`calcite-block >>> .${headerIcon}`);
@@ -291,7 +336,7 @@ describe("calcite-block", () => {
       </style>
       <calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" open>
         <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-       </calcite-block>`
+       </calcite-block>`,
     );
     const content = await page.find(`calcite-block >>> .${CSS.content}`);
     const contentStyles = await content.getComputedStyle();
@@ -305,7 +350,7 @@ describe("calcite-block", () => {
     await page.setContent(
       `<calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" open>
           <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-        </calcite-block>`
+        </calcite-block>`,
     );
     const content = await page.find(`calcite-block >>> .${CSS.content}`);
     const contentStyles = await content.getComputedStyle();

@@ -19,7 +19,7 @@ You can use the `active` attribute to toggle visibility:
 For instances when you don't have room for the full loader, you can use the smaller `inline` version of the loader. The inline version is meant to sit to the left of text:
 
 ```html
-<p><calcite-loader inline></calcite-loader> Inline loader</p>
+<p><calcite-loader inline></calcite-loader>Inline loader</p>
 ```
 
 ### Determinate
@@ -35,7 +35,7 @@ If you can calculate your progress, it's best to use the determinate version of 
 | Property             | Attribute | Description                                                                                         | Type                               | Default     |
 | -------------------- | --------- | --------------------------------------------------------------------------------------------------- | ---------------------------------- | ----------- |
 | `inline`             | `inline`  | When `true`, displays smaller and appears to the left of the text.                                  | `boolean`                          | `false`     |
-| `label` _(required)_ | `label`   | Accessible name for the component.                                                                  | `string`                           | `undefined` |
+| `label` *(required)* | `label`   | Accessible name for the component.                                                                  | `string`                           | `undefined` |
 | `scale`              | `scale`   | Specifies the size of the component.                                                                | `"l" \| "m" \| "s"`                | `"m"`       |
 | `text`               | `text`    | Text that displays under the component's indicator.                                                 | `string`                           | `""`        |
 | `type`               | `type`    | Specifies the component type. Use `"indeterminate"` if finding actual progress value is impossible. | `"determinate" \| "indeterminate"` | `undefined` |
@@ -74,4 +74,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -68,7 +68,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Watch("selected")
   selectedHandler(): void {
     if (this.selected) {
-      this.emitActiveTab(false);
+      this.activateTab(false);
     }
   }
 
@@ -161,7 +161,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     document.body?.dispatchEvent(
       new CustomEvent("calciteTabTitleUnregister", {
         detail: this.el,
-      })
+      }),
     );
     this.resizeObserver?.disconnect();
     disconnectInteractive(this);
@@ -175,7 +175,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
       this.updateHasText();
     }
     if (this.tab && this.selected) {
-      this.emitActiveTab(false);
+      this.activateTab(false);
     }
   }
 
@@ -296,11 +296,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   @Listen("click")
   onClick(): void {
-    if (this.disabled) {
-      return;
-    }
-
-    this.emitActiveTab();
+    this.activateTab();
   }
 
   @Listen("keydown")
@@ -309,7 +305,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
       case " ":
       case "Enter":
         if (!event.composedPath().includes(this.closeButtonEl)) {
-          this.emitActiveTab();
+          this.activateTab();
           event.preventDefault();
         }
         break;
@@ -415,9 +411,9 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
       nodeListToArray(this.el.parentElement.children).filter((el) =>
-        el.matches("calcite-tab-title")
+        el.matches("calcite-tab-title"),
       ),
-      this.el
+      this.el,
     );
   }
 
@@ -437,6 +433,26 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Method()
   async updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): Promise<void> {
     this.controls = tabIds[titleIds.indexOf(this.el.id)] || null;
+  }
+
+  /**
+   * This activates a tab in order for it and its associated tab-title be selected.
+   *
+   * @param userTriggered - when `true`, user-interaction events will be emitted in addition to internal events
+   * @internal
+   */
+  @Method()
+  async activateTab(userTriggered = true): Promise<void> {
+    if (this.disabled || this.closed) {
+      return;
+    }
+    const payload = { tab: this.tab };
+    this.calciteInternalTabsActivate.emit(payload);
+
+    if (userTriggered) {
+      // emit in the next frame to let internal events sync up
+      requestAnimationFrame(() => this.calciteTabsActivate.emit());
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -492,19 +508,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   setupTextContentObserver(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-  }
-
-  emitActiveTab(userTriggered = true): void {
-    if (this.disabled || this.closed) {
-      return;
-    }
-    const payload = { tab: this.tab };
-    this.calciteInternalTabsActivate.emit(payload);
-
-    if (userTriggered) {
-      // emit in the next frame to let internal events sync up
-      requestAnimationFrame(() => this.calciteTabsActivate.emit());
-    }
   }
 
   closeTabTitleAndNotify(): void {

@@ -192,7 +192,9 @@
   visibility: hidden;
   inline-size: 0;
   opacity: 0;
-  transition: opacity 0.15s ease-in-out, inline-size 0.15s ease-in-out;
+  transition:
+    opacity 0.15s ease-in-out,
+    inline-size 0.15s ease-in-out;
   &.select-icon--active {
     visibility: visible;
     opacity: 0.5;

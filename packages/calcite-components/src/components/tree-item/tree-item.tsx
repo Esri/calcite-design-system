@@ -237,10 +237,10 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     const selectedIcon = showBulletPoint
       ? ICONS.bulletPoint
       : showCheckmark
-      ? ICONS.checkmark
-      : showBlank
-      ? ICONS.blank
-      : null;
+        ? ICONS.checkmark
+        : showBlank
+          ? ICONS.blank
+          : null;
     const itemIndicator = selectedIcon ? (
       <calcite-icon
         class={{
@@ -376,7 +376,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       case "Enter":
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
         const link = Array.from(this.el.children).find((el) =>
-          el.matches("a")
+          el.matches("a"),
         ) as HTMLAnchorElement;
 
         this.userChangedValue = true;
@@ -472,7 +472,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       const parentTree = this.el.parentElement;
       const siblings = Array.from(parentTree?.children);
       const selectedSiblings = siblings.filter(
-        (child: HTMLCalciteTreeItemElement) => child.selected
+        (child: HTMLCalciteTreeItemElement) => child.selected,
       );
 
       if (siblings.length === selectedSiblings.length) {
@@ -483,7 +483,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       }
 
       const childItems = Array.from(
-        this.el.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])")
+        this.el.querySelectorAll<HTMLCalciteTreeItemElement>("calcite-tree-item:not([disabled])"),
       );
 
       childItems.forEach((item: HTMLCalciteTreeItemElement) => {

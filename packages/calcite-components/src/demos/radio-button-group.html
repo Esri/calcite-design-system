@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -400,13 +400,90 @@
         </div>
       </div>
 
+      <!-- validation message displayed due to required property -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">Validation message displayed due to required property</div>
+
+        <div class="child-flex">
+          <calcite-radio-button-group
+            name="validationMessageRequiredHorizontal-s"
+            layout="horizontal"
+            required
+            status="invalid"
+            validation-icon
+            validation-message="Please select an option."
+          >
+            <calcite-label layout="inline" scale="s">
+              <calcite-radio-button value="stencil" scale="s"></calcite-radio-button>
+              Stencil
+            </calcite-label>
+            <calcite-label layout="inline" scale="s">
+              <calcite-radio-button value="react" scale="s"></calcite-radio-button>
+              React
+            </calcite-label>
+            <calcite-label layout="inline" scale="s">
+              <calcite-radio-button value="ember" scale="s"></calcite-radio-button>
+              Ember
+            </calcite-label>
+          </calcite-radio-button-group>
+        </div>
+
+        <div class="child-flex">
+          <calcite-radio-button-group
+            name="validationMessageRequiredHorizontal-m"
+            layout="horizontal"
+            required
+            status="invalid"
+            validation-icon
+            validation-message="Please select an option."
+          >
+            <calcite-label layout="inline" scale="m">
+              <calcite-radio-button value="stencil" scale="m"></calcite-radio-button>
+              Stencil
+            </calcite-label>
+            <calcite-label layout="inline">
+              <calcite-radio-button value="react" scale="m"></calcite-radio-button>
+              React
+            </calcite-label>
+            <calcite-label layout="inline" scale="m">
+              <calcite-radio-button value="ember" scale="m"></calcite-radio-button>
+              Ember
+            </calcite-label>
+          </calcite-radio-button-group>
+        </div>
+
+        <div class="child-flex">
+          <calcite-radio-button-group
+            name="validationMessageRequiredHorizontal-l"
+            layout="horizontal"
+            required
+            status="invalid"
+            validation-icon
+            validation-message="Please select an option."
+          >
+            <calcite-label layout="inline" scale="l">
+              <calcite-radio-button value="stencil" scale="l"></calcite-radio-button>
+              Stencil
+            </calcite-label>
+            <calcite-label layout="inline" scale="l">
+              <calcite-radio-button value="react" scale="l"></calcite-radio-button>
+              React
+            </calcite-label>
+            <calcite-label layout="inline" scale="l">
+              <calcite-radio-button value="ember" scale="l"></calcite-radio-button>
+              Ember
+            </calcite-label>
+          </calcite-radio-button-group>
+        </div>
+      </div>
+
       <hr />
 
       <!--
       **************************************************
       * VERTICAL LAYOUT
       **************************************************
-    -->
+      -->
       <div class="parent-flex">
         <div class="child-flex right-aligned-text">Default</div>
 
@@ -745,6 +822,83 @@
             </calcite-label>
             <calcite-label layout="inline" scale="l">
               <calcite-radio-button value="ember" scale="l" checked></calcite-radio-button>
+              Ember
+            </calcite-label>
+          </calcite-radio-button-group>
+        </div>
+      </div>
+
+      <!-- validation message displayed due to required property -->
+      <div class="parent-flex">
+        <div class="child-flex right-aligned-text">Validation message displayed due to required property</div>
+
+        <div class="child-flex">
+          <calcite-radio-button-group
+            name="validationMessageRequiredVertical-s"
+            layout="vertical"
+            required
+            status="invalid"
+            validation-icon
+            validation-message="Please select an option."
+          >
+            <calcite-label layout="inline" scale="s">
+              <calcite-radio-button value="stencil" scale="s"></calcite-radio-button>
+              Stencil
+            </calcite-label>
+            <calcite-label layout="inline" scale="s">
+              <calcite-radio-button value="react" scale="s"></calcite-radio-button>
+              React
+            </calcite-label>
+            <calcite-label layout="inline" scale="s">
+              <calcite-radio-button value="ember" scale="s"></calcite-radio-button>
+              Ember
+            </calcite-label>
+          </calcite-radio-button-group>
+        </div>
+
+        <div class="child-flex">
+          <calcite-radio-button-group
+            name="validationMessageRequiredVertical-m"
+            layout="vertical"
+            required
+            status="invalid"
+            validation-icon
+            validation-message="Please select an option."
+          >
+            <calcite-label layout="inline" scale="m">
+              <calcite-radio-button value="stencil" scale="m"></calcite-radio-button>
+              Stencil
+            </calcite-label>
+            <calcite-label layout="inline">
+              <calcite-radio-button value="react" scale="m"></calcite-radio-button>
+              React
+            </calcite-label>
+            <calcite-label layout="inline" scale="m">
+              <calcite-radio-button value="ember" scale="m"></calcite-radio-button>
+              Ember
+            </calcite-label>
+          </calcite-radio-button-group>
+        </div>
+
+        <div class="child-flex">
+          <calcite-radio-button-group
+            name="validationMessageRequiredVertical-l"
+            layout="vertical"
+            required
+            status="invalid"
+            validation-icon
+            validation-message="Please select an option."
+          >
+            <calcite-label layout="inline" scale="l">
+              <calcite-radio-button value="stencil" scale="l"></calcite-radio-button>
+              Stencil
+            </calcite-label>
+            <calcite-label layout="inline" scale="l">
+              <calcite-radio-button value="react" scale="l"></calcite-radio-button>
+              React
+            </calcite-label>
+            <calcite-label layout="inline" scale="l">
+              <calcite-radio-button value="ember" scale="l"></calcite-radio-button>
               Ember
             </calcite-label>
           </calcite-radio-button-group>

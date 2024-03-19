@@ -37,14 +37,14 @@ describe("calcite-navigation", () => {
 
   describe("accessible", () => {
     accessible(
-      html`<calcite-navigation navigation-action><calcite-navigation-logo heading="Test" /></calcite-navigation>`
+      html`<calcite-navigation navigation-action><calcite-navigation-logo heading="Test" /></calcite-navigation>`,
     );
   });
 
   it("should emit calciteNavigationActionSelect event when user interacts with navigation-action", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-navigation navigation-action><calcite-navigation-logo heading="Test" /></calcite-navigation>`
+      `<calcite-navigation navigation-action><calcite-navigation-logo heading="Test" /></calcite-navigation>`,
     );
     const eventSpy = await page.spyOnEvent("calciteNavigationActionSelect");
     const hamburgerMenu = await page.find(`calcite-navigation >>> calcite-action`);

@@ -35,6 +35,12 @@ Type: `Promise<number>`
 | ---- | --------------------------------- |
 |      | A slot for adding custom content. |
 
+## CSS Custom Properties
+
+| Name                                  | Description                                                                   |
+| ------------------------------------- | ----------------------------------------------------------------------------- |
+| `--calcite-tab-content-block-padding` | Specifies the block padding of the component's content in the `default` slot. |
+
 ## Dependencies
 
 ### Used by
@@ -51,4 +57,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

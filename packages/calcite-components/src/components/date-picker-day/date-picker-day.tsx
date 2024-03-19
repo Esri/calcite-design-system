@@ -54,7 +54,7 @@ export class DatePickerDay implements InteractiveComponent {
   /**  When `true`, the component is selected. */
   @Prop({ reflect: true }) selected = false;
 
-  /** Date is currently highlighted as part of the range */
+  /** Date is currently highlighted as part of the range, */
   @Prop({ reflect: true }) highlighted = false;
 
   /** When `true`, activates the component's range mode to allow a start and end date. */
@@ -67,13 +67,13 @@ export class DatePickerDay implements InteractiveComponent {
    */
   @Prop({ reflect: true }) rangeEdge: "start" | "end" | undefined;
 
-  /** Date is the start of date range */
+  /** Date is the start of date range. */
   @Prop({ reflect: true }) startOfRange = false;
 
-  /** Date is the end of date range */
+  /** Date is the end of date range. */
   @Prop({ reflect: true }) endOfRange = false;
 
-  /** Date is being hovered and within the set range */
+  /** Date is being hovered and within the set range. */
   @Prop({ reflect: true }) rangeHover = false;
 
   /** When `true`, the component is active. */
@@ -122,12 +122,12 @@ export class DatePickerDay implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Emitted when user selects day
+   * Fires when user selects day.
    */
   @Event({ cancelable: false }) calciteDaySelect: EventEmitter<void>;
 
   /**
-   * Emitted when user hovers over a day
+   * Fires when user hovers over a day.
    *
    * @internal
    */
@@ -142,7 +142,7 @@ export class DatePickerDay implements InteractiveComponent {
   componentWillLoad(): void {
     this.parentDatePickerEl = closestElementCrossShadowBoundary(
       this.el,
-      "calcite-date-picker"
+      "calcite-date-picker",
     ) as HTMLCalciteDatePickerElement;
   }
 

@@ -18,7 +18,7 @@ describe("utils", () => {
             Promise.resolve({
               /* intentionally empty */
             }),
-        })
+        }),
       );
     });
 

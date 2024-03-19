@@ -94,7 +94,7 @@ export class Popover
    */
   @Prop({ reflect: true }) autoClose = false;
 
-  /** When `true`, display a close button within the component. */
+  /** When `true`, displays a close button within the component. */
   @Prop({ reflect: true }) closable = false;
 
   /**
@@ -253,7 +253,7 @@ export class Popover
   @Element() el: HTMLCalcitePopoverElement;
 
   mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFocusTrapElements()
+    this.updateFocusTrapElements(),
   );
 
   filteredFlipPlacements: EffectivePlacement[];
@@ -381,7 +381,7 @@ export class Popover
         arrowEl,
         type: "popover",
       },
-      delayed
+      delayed,
     );
   }
 

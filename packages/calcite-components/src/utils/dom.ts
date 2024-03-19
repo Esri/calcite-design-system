@@ -48,7 +48,7 @@ export type Direction = "ltr" | "rtl";
 export function getModeName(el: HTMLElement): "light" | "dark" {
   const closestElWithMode = closestElementCrossShadowBoundary(
     el,
-    `.${CSS_UTILITY.darkMode}, .${CSS_UTILITY.lightMode}`
+    `.${CSS_UTILITY.darkMode}, .${CSS_UTILITY.lightMode}`,
   );
   return closestElWithMode?.classList.contains("calcite-mode-dark") ? "dark" : "light";
 }
@@ -161,7 +161,7 @@ export function queryElementRoots<T extends Element = Element>(
   }: {
     selector?: string;
     id?: string;
-  }
+  },
 ): T | null {
   // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
   // Based on: https://stackoverflow.com/q/54520554/194216
@@ -185,8 +185,8 @@ export function queryElementRoots<T extends Element = Element>(
           (rootNode.getElementById(id) as Element as T)
         : null
       : selector
-      ? (rootNode.querySelector(selector) as T)
-      : null;
+        ? (rootNode.querySelector(selector) as T)
+        : null;
 
     const host = getHost(rootNode);
 
@@ -205,7 +205,7 @@ export function queryElementRoots<T extends Element = Element>(
  */
 export function closestElementCrossShadowBoundary<T extends Element = Element>(
   element: Element,
-  selector: string
+  selector: string,
 ): T | null {
   // based on https://stackoverflow.com/q/54520554/194216
   function closestFrom<T extends Element = Element>(el: Element): T | null {
@@ -332,17 +332,17 @@ const defaultSlotSelector = ":not([slot])";
 export function getSlotted<T extends Element = Element>(
   element: Element,
   slotName: string | string[] | (GetSlottedOptions & { all: true }),
-  options: GetSlottedOptions & { all: true }
+  options: GetSlottedOptions & { all: true },
 ): T[];
 export function getSlotted<T extends Element = Element>(
   element: Element,
   slotName?: string | string[] | GetSlottedOptions,
-  options?: GetSlottedOptions
+  options?: GetSlottedOptions,
 ): T | null;
 export function getSlotted<T extends Element = Element>(
   element: Element,
   slotName?: string | string[] | GetSlottedOptions,
-  options?: GetSlottedOptions
+  options?: GetSlottedOptions,
 ): (T | null) | T[] {
   if (slotName && !Array.isArray(slotName) && typeof slotName !== "string") {
     options = slotName;
@@ -369,7 +369,7 @@ function getDirectChildren<T extends Element = Element>(el: Element, selector: s
 function queryMultiple<T extends Element = Element>(
   element: Element,
   slotSelector: string,
-  options?: GetSlottedOptions
+  options?: GetSlottedOptions,
 ): T[] {
   let matches =
     slotSelector === defaultSlotSelector
@@ -392,7 +392,7 @@ function queryMultiple<T extends Element = Element>(
 function querySingle<T extends Element = Element>(
   element: Element,
   slotSelector: string,
-  options?: GetSlottedOptions
+  options?: GetSlottedOptions,
 ): T | null {
   let match =
     slotSelector === defaultSlotSelector
@@ -429,7 +429,7 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
 export function setRequestedIcon(
   iconObject: Record<string, string>,
   iconValue: string | boolean,
-  matchedValue: string
+  matchedValue: string,
 ): string | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {
     return iconValue;
@@ -595,12 +595,12 @@ export type FocusElementInGroupDestination = "first" | "last" | "next" | "previo
  * @param {boolean} cycle Should navigation cycle through elements or stop at extent - defaults to true.
  * @returns {Element} The focused element
  */
-export const focusElementInGroup = (
+export const focusElementInGroup = <T extends Element = Element>(
   elements: Element[],
   currentElement: Element,
   destination: FocusElementInGroupDestination,
-  cycle = true
-): Element => {
+  cycle = true,
+): T => {
   const currentIndex = elements.indexOf(currentElement);
   const isFirstItem = currentIndex === 0;
   const isLastItem = currentIndex === elements.length - 1;

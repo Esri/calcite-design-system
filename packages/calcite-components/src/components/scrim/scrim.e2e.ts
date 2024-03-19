@@ -156,17 +156,19 @@ describe("calcite-scrim", () => {
     testValues.forEach((scaleSize) => {
       it(`should have a scale="${scaleSize.scale}" loading spinner`, async () => {
         const page = await newE2EPage();
-        await page.setContent(html`<style>
-            .scrim-container {
-              position: relative;
-              overflow: auto;
-              width: ${scaleSize.width}px;
-              height: ${scaleSize.height}px;
-            }
-          </style>
-          <div class="scrim-container">
-            <calcite-scrim loading><p>I'm a panel that is loading.</p></calcite-scrim>
-          </div>`);
+        await page.setContent(
+          html`<style>
+              .scrim-container {
+                position: relative;
+                overflow: auto;
+                width: ${scaleSize.width}px;
+                height: ${scaleSize.height}px;
+              }
+            </style>
+            <div class="scrim-container">
+              <calcite-scrim loading><p>I'm a panel that is loading.</p></calcite-scrim>
+            </div>`,
+        );
         await page.waitForChanges();
 
         const loader = await page.find("calcite-scrim >>> calcite-loader");
@@ -179,17 +181,19 @@ describe("calcite-scrim", () => {
 
     it("should responsively scale loading spinner on resize", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<style>
-          .scrim-container {
-            display: flex;
-            flex: 1;
-            position: relative;
-            overflow: auto;
-          }
-        </style>
-        <div class="scrim-container">
-          <calcite-scrim loading><p>I'm a panel that is loading.</p></calcite-scrim>
-        </div>`);
+      await page.setContent(
+        html`<style>
+            .scrim-container {
+              display: flex;
+              flex: 1;
+              position: relative;
+              overflow: auto;
+            }
+          </style>
+          <div class="scrim-container">
+            <calcite-scrim loading><p>I'm a panel that is loading.</p></calcite-scrim>
+          </div>`,
+      );
       await page.waitForChanges();
 
       for (let i = 0; i < testValues.length; i++) {
@@ -203,7 +207,7 @@ describe("calcite-scrim", () => {
             scrimContainer.style.height = `${height}px`;
           },
           width,
-          height
+          height,
         );
         await page.waitForChanges();
         const style = await scrimContainer.getComputedStyle();

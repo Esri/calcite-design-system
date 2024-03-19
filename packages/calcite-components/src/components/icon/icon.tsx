@@ -104,7 +104,7 @@ export class Icon {
               <path d={path} />
             ) : (
               <path d={path.d} opacity={"opacity" in path ? path.opacity : 1} />
-            )
+            ),
           )}
         </svg>
       </Host>
@@ -164,7 +164,7 @@ export class Icon {
           }
         });
       },
-      { rootMargin: "50px" }
+      { rootMargin: "50px" },
     );
 
     if (!this.intersectionObserver) {

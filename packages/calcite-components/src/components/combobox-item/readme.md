@@ -14,14 +14,14 @@
 | `icon`                   | `icon`            | Specifies an icon to display.                                                                | `string`                 | `undefined` |
 | `iconFlipRtl`            | `icon-flip-rtl`   | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). | `boolean`                | `false`     |
 | `selected`               | `selected`        | When `true`, the component is selected.                                                      | `boolean`                | `false`     |
-| `textLabel` _(required)_ | `text-label`      | The component's text.                                                                        | `string`                 | `undefined` |
-| `value` _(required)_     | `value`           | The component's value.                                                                       | `any`                    | `undefined` |
+| `textLabel` *(required)* | `text-label`      | The component's text.                                                                        | `string`                 | `undefined` |
+| `value` *(required)*     | `value`           | The component's value.                                                                       | `any`                    | `undefined` |
 
 ## Events
 
 | Event                       | Description                                             | Type                |
 | --------------------------- | ------------------------------------------------------- | ------------------- |
-| `calciteComboboxItemChange` | Emits whenever the component is selected or unselected. | `CustomEvent<void>` |
+| `calciteComboboxItemChange` | Fires whenever the component is selected or unselected. | `CustomEvent<void>` |
 
 ## Slots
 
@@ -33,6 +33,7 @@
 
 ### Used by
 
+- [calcite-combobox](../combobox)
 - [calcite-input-time-zone](../input-time-zone)
 
 ### Depends on
@@ -44,10 +45,11 @@
 ```mermaid
 graph TD;
   calcite-combobox-item --> calcite-icon
+  calcite-combobox --> calcite-combobox-item
   calcite-input-time-zone --> calcite-combobox-item
   style calcite-combobox-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -27,7 +27,7 @@ import {
 } from "../../utils/t9n";
 import { HandleMessages } from "./assets/handle/t9n";
 import { HandleChange, HandleNudge } from "./interfaces";
-import { CSS, ICONS } from "./resources";
+import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -49,20 +49,20 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   /**
-   * @internal
+   * When `true`, the component is selected.
    */
-  @Prop({ mutable: true, reflect: true }) activated = false;
+  @Prop({ mutable: true, reflect: true }) selected = false;
 
   @Watch("messages")
   @Watch("label")
-  @Watch("activated")
+  @Watch("selected")
   @Watch("setPosition")
   @Watch("setSize")
   handleAriaTextChange(): void {
     const message = this.getAriaText("live");
 
     if (message) {
-      this.calciteInternalHandleChange.emit({
+      this.calciteInternalAssistiveTextChange.emit({
         message,
       });
     }
@@ -74,12 +74,12 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * Value for the button title attribute
+   * Value for the button title attribute.
    */
   @Prop({ reflect: true }) dragHandle: string;
 
   /**
-   * Made into a prop for testing purposes only
+   * Made into a prop for testing purposes only.
    *
    * @internal
    */
@@ -105,6 +105,13 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
    * @internal
    */
   @Prop() label: string;
+
+  /**
+   * When `true`, disables unselecting the component when blurred.
+   *
+   * @internal
+   */
+  @Prop() blurUnselectDisabled = false;
 
   /**
    * Use this property to override individual strings used by the component.
@@ -173,14 +180,21 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the handle is activated and the up or down arrow key is pressed.
+   * Fires whenever the component is selected or unselected.
+   *
+   */
+  @Event({ cancelable: false }) calciteHandleChange: EventEmitter<void>;
+
+  /**
+   * Fires when the handle is selected and the up or down arrow key is pressed.
    */
   @Event({ cancelable: false }) calciteHandleNudge: EventEmitter<HandleNudge>;
 
   /**
-   * Emitted when the handle is activated or deactivated.
+   * Fires when the assistive text has changed.
+   * @internal
    */
-  @Event({ cancelable: false }) calciteInternalHandleChange: EventEmitter<HandleChange>;
+  @Event({ cancelable: false }) calciteInternalAssistiveTextChange: EventEmitter<HandleChange>;
 
   // --------------------------------------------------------------------------
   //
@@ -202,8 +216,22 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   //
   // --------------------------------------------------------------------------
 
+  private getTooltip(): string {
+    const { label, messages } = this;
+
+    if (!messages) {
+      return "";
+    }
+
+    if (!label) {
+      return messages.dragHandleUntitled;
+    }
+
+    return messages.dragHandle.replace(SUBSTITUTIONS.itemLabel, label);
+  }
+
   getAriaText(type: "label" | "live"): string {
-    const { setPosition, setSize, label, messages, activated } = this;
+    const { setPosition, setSize, label, messages, selected } = this;
 
     if (!messages || !label || typeof setSize !== "number" || typeof setPosition !== "number") {
       return null;
@@ -211,16 +239,16 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
 
     const text =
       type === "label"
-        ? activated
+        ? selected
           ? messages.dragHandleChange
           : messages.dragHandleIdle
-        : activated
-        ? messages.dragHandleActive
-        : messages.dragHandleCommit;
+        : selected
+          ? messages.dragHandleActive
+          : messages.dragHandleCommit;
 
-    const replacePosition = text.replace("{position}", setPosition.toString());
-    const replaceLabel = replacePosition.replace("{itemLabel}", label);
-    return replaceLabel.replace("{total}", setSize.toString());
+    const replacePosition = text.replace(SUBSTITUTIONS.position, setPosition.toString());
+    const replaceLabel = replacePosition.replace(SUBSTITUTIONS.itemLabel, label);
+    return replaceLabel.replace(SUBSTITUTIONS.total, setSize.toString());
   }
 
   handleKeyDown = (event: KeyboardEvent): void => {
@@ -230,18 +258,19 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
 
     switch (event.key) {
       case " ":
-        this.activated = !this.activated;
+        this.selected = !this.selected;
+        this.calciteHandleChange.emit();
         event.preventDefault();
         break;
       case "ArrowUp":
-        if (!this.activated) {
+        if (!this.selected) {
           return;
         }
         event.preventDefault();
         this.calciteHandleNudge.emit({ direction: "up" });
         break;
       case "ArrowDown":
-        if (!this.activated) {
+        if (!this.selected) {
           return;
         }
         event.preventDefault();
@@ -251,11 +280,14 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   };
 
   handleBlur = (): void => {
-    if (this.disabled) {
+    if (this.blurUnselectDisabled || this.disabled) {
       return;
     }
 
-    this.activated = false;
+    if (this.selected) {
+      this.selected = false;
+      this.calciteHandleChange.emit();
+    }
   };
 
   // --------------------------------------------------------------------------
@@ -270,13 +302,13 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
       <span
         aria-disabled={this.disabled ? toAriaBoolean(this.disabled) : null}
         aria-label={this.disabled ? null : this.getAriaText("label")}
-        aria-pressed={this.disabled ? null : toAriaBoolean(this.activated)}
-        class={{ [CSS.handle]: true, [CSS.handleActivated]: !this.disabled && this.activated }}
+        aria-pressed={this.disabled ? null : toAriaBoolean(this.selected)}
+        class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
         role="button"
         tabIndex={this.disabled ? null : 0}
-        title={this.messages?.dragHandle}
+        title={this.getTooltip()}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el): void => {
           this.handleButton = el;

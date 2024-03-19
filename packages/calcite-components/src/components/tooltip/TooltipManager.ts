@@ -228,7 +228,7 @@ export default class TooltipManager {
 
         this.toggleTooltip(tooltip, true);
       },
-      this.activeTooltip ? 0 : TOOLTIP_OPEN_DELAY_MS
+      this.activeTooltip ? 0 : TOOLTIP_OPEN_DELAY_MS,
     );
   };
 

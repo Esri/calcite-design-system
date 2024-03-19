@@ -6,7 +6,9 @@
     mb-px
     box-border
     flex;
-  transition: background-color var(--calcite-animation-timing), box-shadow var(--calcite-animation-timing);
+  transition:
+    background-color var(--calcite-animation-timing),
+    box-shadow var(--calcite-animation-timing);
   * {
     @apply box-border;
   }

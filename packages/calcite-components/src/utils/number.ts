@@ -32,7 +32,7 @@ export class BigDecimal {
 
   static _divRound = (dividend: bigint, divisor: bigint): BigDecimal =>
     BigDecimal.fromBigInt(
-      dividend / divisor + (BigDecimal.ROUNDED ? ((dividend * BigInt(2)) / divisor) % BigInt(2) : BigInt(0))
+      dividend / divisor + (BigDecimal.ROUNDED ? ((dividend * BigInt(2)) / divisor) % BigInt(2) : BigInt(0)),
     );
 
   static fromBigInt = (bigint: bigint): BigDecimal =>
@@ -69,7 +69,7 @@ export class BigDecimal {
   format(formatter: NumberStringFormat): string {
     const { integers, decimals } = this.getIntegersAndDecimals();
     const integersFormatted = `${this.isNegative ? formatter.minusSign : ""}${formatter.numberFormatter.format(
-      BigInt(integers)
+      BigInt(integers),
     )}`;
     const decimalsFormatted = decimals.length
       ? `${formatter.decimal}${decimals
@@ -240,7 +240,7 @@ function stringContainsNumbers(string: string): boolean {
 export function addLocalizedTrailingDecimalZeros(
   localizedValue: string,
   value: string,
-  formatter: NumberStringFormat
+  formatter: NumberStringFormat,
 ): string {
   const decimals = value.split(".")[1];
   if (decimals) {

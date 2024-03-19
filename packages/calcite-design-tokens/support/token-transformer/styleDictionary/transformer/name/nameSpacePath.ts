@@ -5,7 +5,7 @@ import { capitalCase } from "change-case";
 
 export const transformNamesSpacePath: CalledTransformerFunction<string> = (token, args) => {
   const tokenPath = parseTokenPath(
-    [].concat(args.options?.prefix, token.path).filter((p) => p && p !== args?.options?.prefix)
+    [].concat(args.options?.prefix, token.path).filter((p) => p && p !== args?.options?.prefix),
   );
   let name = capitalCase(tokenPath.join(" "));
 

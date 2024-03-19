@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -182,13 +182,13 @@
 
           if (valueList.hasAttribute("drag-enabled")) {
             valueList.addEventListener("calciteListOrderChange", (event) =>
-              console.log("sort order changed", event.detail)
+              console.log("sort order changed", event.detail),
             );
           }
         }
 
         Array.from(document.getElementsByTagName("calcite-value-list")).forEach((valueList) =>
-          setUpValueListEventListeners(valueList)
+          setUpValueListEventListeners(valueList),
         );
       </script>
     </demo-dom-swapper>

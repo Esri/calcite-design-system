@@ -8,7 +8,7 @@ export function getTypographyReferences(
   propName: string,
   value: string | Record<string, string>,
   originalValue: string | Record<string, string>,
-  args: MappedFormatterArguments
+  args: MappedFormatterArguments,
 ): string {
   if (args.dictionary.usesReference(originalValue)) {
     const refs = args.dictionary.getReferences(originalValue);

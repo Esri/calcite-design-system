@@ -13,7 +13,7 @@ import optionGroupReadme from "../option-group/readme.md";
 import { iconNames, storyFilters } from "../../../.storybook/helpers";
 
 const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes = (
-  { exceptions } = { exceptions: [] }
+  { exceptions } = { exceptions: [] },
 ) => {
   const group = "select";
 
@@ -68,7 +68,7 @@ const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -130,7 +130,7 @@ export const simple = (): string =>
           value="some-fixed-value"
         ></calcite-option>
         <calcite-option label="another fixed option" value="another-fixed-value"></calcite-option>
-      `
+      `,
     )}
   </div>`;
 
@@ -146,13 +146,13 @@ export const grouped = (): string =>
           ${create("calcite-option", createOptionAttributes())}
           <calcite-option label="some fixed option (A)" value="some-fixed-value-a"></calcite-option>
           <calcite-option label="another fixed option (A)" value="another-fixed-value-a"></calcite-option>
-        `
+        `,
       )}
       <calcite-option-group label="group B (fixed)">
         <calcite-option label="some fixed option (B)" value="some-fixed-value-b"></calcite-option>
         <calcite-option label="another fixed option (B)" value="another-fixed-value-b"></calcite-option>
       </calcite-option-group>
-    `
+    `,
   );
 
 export const darkModeRTL_TestOnly = (): string =>
@@ -168,6 +168,10 @@ export const darkModeRTL_TestOnly = (): string =>
         name: "class",
         value: "calcite-mode-dark",
       },
+      {
+        name: "validation-message",
+        value: "This should not appear because the status is not 'invalid'",
+      },
     ],
     html`
       ${create(
@@ -177,13 +181,13 @@ export const darkModeRTL_TestOnly = (): string =>
           ${create("calcite-option", createOptionAttributes())}
           <calcite-option label="some fixed option (A)" value="some-fixed-value-a"></calcite-option>
           <calcite-option label="another fixed option (A)" value="another-fixed-value-a"></calcite-option>
-        `
+        `,
       )}
       <calcite-option-group label="group B (fixed)">
         <calcite-option label="some fixed option (B)" value="some-fixed-value-b"></calcite-option>
         <calcite-option label="another fixed option (B)" value="another-fixed-value-b"></calcite-option>
       </calcite-option-group>
-    `
+    `,
   );
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

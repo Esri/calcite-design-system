@@ -50,7 +50,7 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
     Appearance
   > = "solid";
 
-  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  /** Specifies the kind of the component, which will apply to border and background, if applicable. */
   @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
@@ -242,9 +242,9 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
     return this.dropdownIconType === "chevron"
       ? "chevronDown"
       : this.dropdownIconType === "caret"
-      ? "caretDown"
-      : this.dropdownIconType === "ellipsis"
-      ? "ellipsis"
-      : "handle-vertical";
+        ? "caretDown"
+        : this.dropdownIconType === "ellipsis"
+          ? "ellipsis"
+          : "handle-vertical";
   }
 }

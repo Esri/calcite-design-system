@@ -6,6 +6,7 @@
 
 | Property      | Attribute       | Description                                                                                                                                       | Type                         | Default     |
 | ------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `disabled`    | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                          | `boolean`                    | `false`     |
 | `href`        | `href`          | Specifies the URL of the linked resource, which can be set as an absolute or relative path. Determines if the component will render as an anchor. | `string`                     | `undefined` |
 | `iconEnd`     | `icon-end`      | Specifies an icon to display at the end of the component.                                                                                         | `string`                     | `undefined` |
 | `iconFlipRtl` | `icon-flip-rtl` | Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).                                       | `"both" \| "end" \| "start"` | `undefined` |
@@ -53,4 +54,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

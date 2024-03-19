@@ -25,3 +25,7 @@ tr {
   border-block-end: 1px solid var(--calcite-internal-table-row-border-color);
   background-color: var(--calcite-internal-table-row-background);
 }
+
+tr.last-visible-row {
+  border-block-end: 0;
+}

@@ -20,7 +20,7 @@ export default {
 };
 
 const createColorAttributes: (options?: { exceptions: string[] }) => Attributes = (
-  { exceptions } = { exceptions: [] }
+  { exceptions } = { exceptions: [] },
 ) => {
   const { scale } = ATTRIBUTES;
 
@@ -59,7 +59,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -97,11 +97,10 @@ export const darkModeRTL_TestOnly = (): string =>
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const thumbsOnEdgeDoNotOverflowContainer_TestOnly = (): string => html`<div
-  style="overflow: auto; width: 274px;"
->
-  <calcite-color-picker value="#04006e"></calcite-color-picker>
-</div>`;
+export const thumbsOnEdgeDoNotOverflowContainer_TestOnly = (): string =>
+  html`<div style="overflow: auto; width: 274px;">
+    <calcite-color-picker value="#04006e"></calcite-color-picker>
+  </div>`;
 
 export const ArabicLocale_TestOnly = (): string => html`<calcite-color-picker lang="ar"></calcite-color-picker>`;
 
@@ -115,14 +114,15 @@ export const RussianLocale_TestOnly = (): string => html`<calcite-color-picker l
 
 export const ThaiLocale_TestOnly = (): string => html`<calcite-color-picker lang="th"></calcite-color-picker>`;
 
-export const Focus_TestOnly = (): string => html`<calcite-color-picker value="#97a7b0"></calcite-color-picker>
-  <script>
-    (async () => {
-      await customElements.whenDefined("calcite-color-picker");
-      const colorPicker = await document.querySelector("calcite-color-picker").componentOnReady();
-      await colorPicker.setFocus();
-    })();
-  </script>`;
+export const Focus_TestOnly = (): string =>
+  html`<calcite-color-picker value="#97a7b0"></calcite-color-picker>
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-color-picker");
+        const colorPicker = await document.querySelector("calcite-color-picker").componentOnReady();
+        await colorPicker.setFocus();
+      })();
+    </script>`;
 
 Focus_TestOnly.parameters = {
   chromatic: { delay: 2000 },

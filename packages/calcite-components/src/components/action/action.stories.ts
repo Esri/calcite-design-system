@@ -128,7 +128,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -145,7 +145,7 @@ export const simple = (): string =>
           name: "text",
           value: "",
         },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -156,7 +156,7 @@ export const disabledAndCompactAndTextOnly_TestOnly = (): string =>
       createAttributes({ exceptions: ["compact", "disabled"] }).concat([
         { name: "compact", value: true },
         { name: "disabled", value: true },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -168,7 +168,7 @@ export const activeAndAppearanceTransparent_TestOnly = (): string =>
         { name: "active", value: true },
         { name: "icon", value: "banana" },
         { name: "appearance", value: "transparent" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -181,7 +181,7 @@ export const alignmentEndAndSmallScaleAndIndicator_TestOnly = (): string =>
         { name: "alignment", value: "end" },
         { name: "indicator", value: true },
         { name: "scale", value: "s" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -194,7 +194,7 @@ export const alignmentStartAndLargeScaleAndTextOverflow_TestOnly = (): string =>
         { name: "text", value: "Blah blah blah blah blah blah blah blah blah blah" },
         { name: "alignment", value: "start" },
         { name: "scale", value: "l" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -229,7 +229,7 @@ export const darkModeRTL_TestOnly = (): string =>
         { name: "icon", value: "banana" },
         { name: "class", value: "calcite-mode-dark" },
         { name: "dir", value: "rtl" },
-      ])
+      ]),
     )}
   </div>`;
 

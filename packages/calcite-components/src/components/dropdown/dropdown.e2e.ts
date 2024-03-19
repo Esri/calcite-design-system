@@ -143,14 +143,16 @@ describe("calcite-dropdown", () => {
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown placement="bottom-end" width-scale="l">
-      <calcite-button slot="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="multiple">
-        <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>`);
+    await page.setContent(
+      html`<calcite-dropdown placement="bottom-end" width-scale="l">
+        <calcite-button slot="trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1" selection-mode="multiple">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+    );
 
     const element = await page.find("calcite-dropdown");
     const group1 = await element.find("calcite-dropdown-group[id='group-1']");
@@ -182,17 +184,19 @@ describe("calcite-dropdown", () => {
 
   it("renders icons if requested and does not render icons if not requested", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown>
-      <calcite-button slot="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group>
-        <calcite-dropdown-item icon-start="grid" id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item icon-end="grid" id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item icon-start="grid" icon-end="grid" id="item-3">
-          Dropdown Item Content
-        </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-4"> Dropdown Item Content </calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>`);
+    await page.setContent(
+      html`<calcite-dropdown>
+        <calcite-button slot="trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group>
+          <calcite-dropdown-item icon-start="grid" id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item icon-end="grid" id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item icon-start="grid" icon-end="grid" id="item-3">
+            Dropdown Item Content
+          </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-4"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+    );
 
     const item1IconStart = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon-start");
     const item1IconEnd = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon-end");
@@ -214,17 +218,19 @@ describe("calcite-dropdown", () => {
 
   it("renders group title if specified and not if absent", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown>
-      <calcite-button slot="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" group-title="My Group 1 Title">
-        <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-      </calcite-dropdown-group>
-      <calcite-dropdown-group id="group-2">
-        <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-4" selected> Dropdown Item Content </calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>`);
+    await page.setContent(
+      html`<calcite-dropdown>
+        <calcite-button slot="trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1" group-title="My Group 1 Title">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+        <calcite-dropdown-group id="group-2">
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-4" selected> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+    );
 
     const group1Title = await page.find("calcite-dropdown-group[id='group-1'] >>> .dropdown-title");
     const group2Title = await page.find("calcite-dropdown-group[id='group-2'] >>> .dropdown-title");
@@ -234,14 +240,16 @@ describe("calcite-dropdown", () => {
 
   it("renders selected item based on attribute in dom", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown>
-      <calcite-button slot="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1">
-        <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>`);
+    await page.setContent(
+      html`<calcite-dropdown>
+        <calcite-button slot="trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+    );
 
     const element = await page.find("calcite-dropdown");
     const item1 = await element.find("calcite-dropdown-item[id='item-1']");
@@ -306,14 +314,16 @@ describe("calcite-dropdown", () => {
 
   it("renders just one selected item when group is in single selection mode", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown>
-      <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="single">
-        <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>`);
+    await page.setContent(
+      html`<calcite-dropdown>
+        <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1" selection-mode="single">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+    );
 
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
@@ -348,14 +358,16 @@ describe("calcite-dropdown", () => {
 
   it("renders no selected item when group is in none selection mode (and removes any selected state set in dom on load)", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown>
-      <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="none">
-        <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>`);
+    await page.setContent(
+      html`<calcite-dropdown>
+        <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1" selection-mode="none">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+    );
 
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
@@ -387,24 +399,26 @@ describe("calcite-dropdown", () => {
 
   it("renders the correct selected state when parent contains groups of assorted selection modes", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown>
-      <calcite-button slot="trigger" id="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="multiple">
-        <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-      </calcite-dropdown-group>
-      <calcite-dropdown-group id="group-2" selection-mode="single">
-        <calcite-dropdown-item id="item-4"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-5" selected> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-6"> Dropdown Item Content </calcite-dropdown-item>
-      </calcite-dropdown-group>
-      <calcite-dropdown-group id="group-3" selection-mode="none">
-        <calcite-dropdown-item id="item-7"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-8"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-9"> Dropdown Item Content </calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>`);
+    await page.setContent(
+      html`<calcite-dropdown>
+        <calcite-button slot="trigger" id="trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1" selection-mode="multiple">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+        <calcite-dropdown-group id="group-2" selection-mode="single">
+          <calcite-dropdown-item id="item-4"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-5" selected> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-6"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+        <calcite-dropdown-group id="group-3" selection-mode="none">
+          <calcite-dropdown-item id="item-7"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-8"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-9"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+    );
 
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
@@ -492,16 +506,18 @@ describe("calcite-dropdown", () => {
 
   it("renders a calcite-dropdown-item with child anchor link with passed attributes if href is present", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown>
-      <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="none">
-        <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" href="google.com" rel="noopener noreferrer" target="_blank">
-          Dropdown Item Content
-        </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>`);
+    await page.setContent(
+      html`<calcite-dropdown>
+        <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1" selection-mode="none">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" href="google.com" rel="noopener noreferrer" target="_blank">
+            Dropdown Item Content
+          </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+    );
     const elementAsLink = await page.find("calcite-dropdown-item[id='item-2'] >>> a");
     expect(elementAsLink).not.toBeNull();
     expect(elementAsLink).toEqualAttribute("href", "google.com");
@@ -575,51 +591,53 @@ describe("calcite-dropdown", () => {
     it("focused item should be in view when long", async () => {
       const page = await newE2EPage();
 
-      await page.setContent(html`<calcite-dropdown>
-        <calcite-button slot="trigger">Open Dropdown</calcite-button>
-        <calcite-dropdown-group>
-          <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-11">11</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-12">12</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-13">13</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-14">14</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-15">15</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-16">16</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-17">17</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-18">18</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-19">19</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-20">20</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-21">21</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-22">22</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-23">23</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-24">24</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-25">25</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-26">26</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-27">27</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-28">28</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-29">29</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-30">30</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-41">41</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-42">42</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-43">43</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-44">44</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-45">45</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-46">46</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-47">47</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-48">48</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-49">49</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-50" selected>50</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>`);
+      await page.setContent(
+        html`<calcite-dropdown>
+          <calcite-button slot="trigger">Open Dropdown</calcite-button>
+          <calcite-dropdown-group>
+            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-4">4</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-5">5</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-6">6</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-7">7</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-8">8</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-9">9</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-10">10</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-11">11</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-12">12</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-13">13</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-14">14</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-15">15</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-16">16</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-17">17</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-18">18</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-19">19</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-20">20</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-21">21</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-22">22</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-23">23</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-24">24</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-25">25</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-26">26</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-27">27</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-28">28</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-29">29</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-30">30</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-41">41</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-42">42</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-43">43</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-44">44</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-45">45</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-46">46</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-47">47</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-48">48</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-49">49</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-50" selected>50</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>`,
+      );
       await page.waitForChanges();
 
       const element = await page.find("calcite-dropdown");
@@ -679,14 +697,16 @@ describe("calcite-dropdown", () => {
 
   it("closes when a selection is made", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown>
-      <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="single">
-        <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>`);
+    await page.setContent(
+      html`<calcite-dropdown>
+        <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1" selection-mode="single">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+    );
 
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
@@ -703,16 +723,18 @@ describe("calcite-dropdown", () => {
 
   it("remains open when close-on-select-disabled is requested and selected item is not in a selection-mode:none group", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown close-on-select-disabled>
-      <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="single">
-        <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item>
-          <div id="item-3">Dropdown Item Content</div>
-        </calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>`);
+    await page.setContent(
+      html`<calcite-dropdown close-on-select-disabled>
+        <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1" selection-mode="single">
+          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item>
+            <div id="item-3">Dropdown Item Content</div>
+          </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+    );
 
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
@@ -733,16 +755,18 @@ describe("calcite-dropdown", () => {
 
   it("closes when close-on-select-disabled is requested and selected item is in a selection-mode:none group", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-dropdown close-on-select-disabled>
-      <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-      <calcite-dropdown-group id="group-1" selection-mode="none">
-        <calcite-dropdown-item>
-          <div id="item-1">Dropdown Item Content</div>
-        </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-2"> Dropdown Item Content </calcite-dropdown-item>
-        <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-dropdown>`);
+    await page.setContent(
+      html`<calcite-dropdown close-on-select-disabled>
+        <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
+        <calcite-dropdown-group id="group-1" selection-mode="none">
+          <calcite-dropdown-item>
+            <div id="item-1">Dropdown Item Content</div>
+          </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2"> Dropdown Item Content </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>`,
+    );
 
     const element = await page.find("calcite-dropdown");
     const trigger = await element.find("#trigger");
@@ -954,22 +978,24 @@ describe("calcite-dropdown", () => {
 
   it("closes existing open dropdown when opened", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-dropdown id="dropdown-1">
-        <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-        <calcite-dropdown-group id="group-1" selection-mode="single">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>
-      <calcite-dropdown id="dropdown-2">
-        <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
-        <calcite-dropdown-group id="group-1" selection-mode="single">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>`);
+    await page.setContent(
+      html` <calcite-dropdown id="dropdown-1">
+          <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
+          <calcite-dropdown-group id="group-1" selection-mode="single">
+            <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <calcite-dropdown id="dropdown-2">
+          <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
+          <calcite-dropdown-group id="group-1" selection-mode="single">
+            <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>`,
+    );
 
     const element1 = await page.find("calcite-dropdown[id='dropdown-1']");
     const element2 = await page.find("calcite-dropdown[id='dropdown-2']");
@@ -1126,7 +1152,7 @@ describe("calcite-dropdown", () => {
             connectedCallback(): void {
               this.attachShadow({ mode: "open" }).innerHTML = templateHTML;
             }
-          }
+          },
         );
 
         document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
@@ -1135,7 +1161,7 @@ describe("calcite-dropdown", () => {
         wrapper.shadowRoot.querySelector<HTMLCalciteDropdownItemElement>("#item-3").click();
       },
       wrappedDropdownTemplateHTML,
-      wrapperName
+      wrapperName,
     );
 
     await page.waitForChanges();
@@ -1177,7 +1203,7 @@ describe("calcite-dropdown", () => {
         // check whether the element is overflown, ref :https://stackoverflow.com/questions/9333379/check-if-an-elements-content-is-overflowing
         const { clientWidth, clientHeight, scrollWidth, scrollHeight } = dropdown;
         return scrollHeight > clientHeight || scrollWidth > clientWidth;
-      })
+      }),
     ).toBe(false);
   });
 
@@ -1227,7 +1253,7 @@ describe("calcite-dropdown", () => {
       "open",
       {
         shadowSelector: ".calcite-dropdown-wrapper",
-      }
+      },
     );
   });
 

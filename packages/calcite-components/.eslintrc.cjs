@@ -157,4 +157,10 @@ module.exports = {
       ignorePrivate: true,
     },
   },
+  overrides: [{
+    files: ["**/*.e2e.ts", "src/tests/**/*"],
+    rules: {
+      "@esri/calcite-components/no-dynamic-createelement": "off",
+    }
+  }]
 };

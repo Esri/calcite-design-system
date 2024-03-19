@@ -6,7 +6,7 @@ const listItemSelector = "calcite-list-item";
 
 export function getListItemChildLists(slotEl: HTMLSlotElement): HTMLCalciteListElement[] {
   return Array.from(
-    slotEl.assignedElements({ flatten: true }).filter((el) => el.matches(listSelector))
+    slotEl.assignedElements({ flatten: true }).filter((el) => el.matches(listSelector)),
   ) as HTMLCalciteListElement[];
 }
 
@@ -19,8 +19,8 @@ export function getListItemChildren(slotEl: HTMLSlotElement): HTMLCalciteListIte
     .map((group) => Array.from(group.querySelectorAll(listItemSelector)))
     .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
 
-  const listItemChildren = assignedElements.filter((el) =>
-    el?.matches(listItemSelector)
+  const listItemChildren = assignedElements.filter(
+    (el) => el?.matches(listItemSelector),
   ) as HTMLCalciteListItemElement[];
 
   const listItemListChildren = (assignedElements.filter((el) => el?.matches(listSelector)) as HTMLCalciteListElement[])

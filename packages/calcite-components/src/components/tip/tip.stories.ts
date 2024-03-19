@@ -47,7 +47,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -65,6 +65,6 @@ export const darkModeRTL_TestOnly = (): string =>
       { name: "dir", value: "rtl" },
       { name: "class", value: "calcite-mode-dark" },
     ]),
-    html
+    html,
   );
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

@@ -179,10 +179,10 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
       this.iconStart && this.iconEnd
         ? [iconStartEl, contentNode, iconEndEl]
         : this.iconStart
-        ? [iconStartEl, contentNode]
-        : this.iconEnd
-        ? [contentNode, iconEndEl]
-        : contentNode;
+          ? [iconStartEl, contentNode]
+          : this.iconEnd
+            ? [contentNode, iconEndEl]
+            : contentNode;
 
     const contentEl = !href ? (
       slottedContent
@@ -204,10 +204,10 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
     const itemRole = href
       ? null
       : selectionMode === "single"
-      ? "menuitemradio"
-      : selectionMode === "multiple"
-      ? "menuitemcheckbox"
-      : "menuitem";
+        ? "menuitemradio"
+        : selectionMode === "multiple"
+          ? "menuitemcheckbox"
+          : "menuitem";
 
     const itemAria = selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
     const { disabled } = this;

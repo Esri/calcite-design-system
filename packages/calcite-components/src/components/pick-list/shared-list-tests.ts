@@ -10,12 +10,12 @@ type ListElement = HTMLCalcitePickListElement | HTMLCalciteValueListElement;
 export function keyboardNavigation(listType: ListType): void {
   const getFocusedItemValue = (page: E2EPage): ReturnType<E2EPage["evaluate"]> =>
     page.evaluate(
-      () => (document.activeElement as HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement)?.value ?? null
+      () => (document.activeElement as HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement)?.value ?? null,
     );
 
   async function getSelectedItemValues(list: E2EElement, listType: string): Promise<string[]> {
     return Promise.all(
-      (await list.findAll(`calcite-${listType}-list-item[selected]`)).map((el) => el.getProperty("value"))
+      (await list.findAll(`calcite-${listType}-list-item[selected]`)).map((el) => el.getProperty("value")),
     );
   }
 
@@ -592,7 +592,7 @@ export function itemRemoval(listType: ListType): void {
         return items;
       },
       listType,
-      `.${PICK_LIST_ITEM_CSS.remove}`
+      `.${PICK_LIST_ITEM_CSS.remove}`,
     );
 
     await page.waitForChanges();
@@ -616,7 +616,7 @@ export function focusing(listType: ListType): void {
       {
         focusId: "filter",
         shadowFocusTargetSelector: "calcite-filter",
-      }
+      },
     );
   });
 }
@@ -632,7 +632,7 @@ export function disabling(listType: ListType): void {
     `,
       {
         focusTarget: "child",
-      }
+      },
     );
   });
 }

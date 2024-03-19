@@ -17,13 +17,13 @@ Customize the modal by passing your content into multiple named slots: `header` 
 
 ```html
 <calcite-modal aria-labelledby="modal-title" open>
-  <h3 slot="header" id="modal-title">Title of the modal</h3>
-  <div slot="content">The actual content of the modal</div>
+  <h3 slot="header" id="modal-title">Edit profile</h3>
+  <div slot="content">Please update your profile information below:</div>
   <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full">
     Back
   </calcite-button>
-  <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
-  <calcite-button slot="primary" width="full"> Save </calcite-button>
+  <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+  <calcite-button slot="primary" width="full">Save changes</calcite-button>
 </calcite-modal>
 ```
 
@@ -55,20 +55,20 @@ modal.beforeClose = beforeClose;
 
 ## Properties
 
-| Property               | Attribute                | Description                                                                                                            | Type                                                      | Default     |
-| ---------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
-| `beforeClose`          | --                       | Passes a function to run before the component closes.                                                                  | `(el: HTMLCalciteModalElement) => Promise<void>`          | `undefined` |
-| `closeButtonDisabled`  | `close-button-disabled`  | When `true`, disables the component's close button.                                                                    | `boolean`                                                 | `false`     |
-| `docked`               | `docked`                 | When `true`, prevents the component from expanding to the entire screen on mobile devices.                             | `boolean`                                                 | `undefined` |
-| `escapeDisabled`       | `escape-disabled`        | When `true`, disables the default close on escape behavior.                                                            | `boolean`                                                 | `false`     |
-| `focusTrapDisabled`    | `focus-trap-disabled`    | When `true`, prevents focus trapping.                                                                                  | `boolean`                                                 | `false`     |
-| `fullscreen`           | `fullscreen`             | Sets the component to always be fullscreen (overrides `width` and `--calcite-modal-width` / `--calcite-modal-height`). | `boolean`                                                 | `undefined` |
-| `kind`                 | `kind`                   | Specifies the kind of the component (will apply to top border).                                                        | `"brand" \| "danger" \| "info" \| "success" \| "warning"` | `undefined` |
-| `messageOverrides`     | --                       | Use this property to override individual strings used by the component.                                                | `{ close?: string; }`                                     | `undefined` |
-| `open`                 | `open`                   | When `true`, displays and positions the component.                                                                     | `boolean`                                                 | `false`     |
-| `outsideCloseDisabled` | `outside-close-disabled` | When `true`, disables the closing of the component when clicked outside.                                               | `boolean`                                                 | `false`     |
-| `scale`                | `scale`                  | Specifies the size of the component.                                                                                   | `"l" \| "m" \| "s"`                                       | `"m"`       |
-| `width`                | `width`                  | Specifies the width of the component.                                                                                  | `"l" \| "m" \| "s"`                                       | `"m"`       |
+| Property               | Attribute                | Description                                                                                                                | Type                                                      | Default     |
+| ---------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
+| `beforeClose`          | --                       | Passes a function to run before the component closes.                                                                      | `(el: HTMLCalciteModalElement) => Promise<void>`          | `undefined` |
+| `closeButtonDisabled`  | `close-button-disabled`  | When `true`, disables the component's close button.                                                                        | `boolean`                                                 | `false`     |
+| `docked`               | `docked`                 | When `true`, prevents the component from expanding to the entire screen on mobile devices.                                 | `boolean`                                                 | `undefined` |
+| `escapeDisabled`       | `escape-disabled`        | When `true`, disables the default close on escape behavior.                                                                | `boolean`                                                 | `false`     |
+| `focusTrapDisabled`    | `focus-trap-disabled`    | When `true`, prevents focus trapping.                                                                                      | `boolean`                                                 | `false`     |
+| `fullscreen`           | `fullscreen`             | Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. | `boolean`                                                 | `undefined` |
+| `kind`                 | `kind`                   | Specifies the kind of the component, which will apply to top border.                                                       | `"brand" \| "danger" \| "info" \| "success" \| "warning"` | `undefined` |
+| `messageOverrides`     | `message-overrides`      | Use this property to override individual strings used by the component.                                                    | `ModalMessages`                                           | `undefined` |
+| `open`                 | `open`                   | When `true`, displays and positions the component.                                                                         | `boolean`                                                 | `false`     |
+| `outsideCloseDisabled` | `outside-close-disabled` | When `true`, disables the closing of the component when clicked outside.                                                   | `boolean`                                                 | `false`     |
+| `scale`                | `scale`                  | Specifies the size of the component.                                                                                       | `"l" \| "m" \| "s"`                                       | `"m"`       |
+| `widthScale`           | `width-scale`            | Specifies the width of the component.                                                                                      | `"l" \| "m" \| "s"`                                       | `"m"`       |
 
 ## Events
 
@@ -84,6 +84,13 @@ modal.beforeClose = beforeClose;
 ### `scrollContent(top?: number, left?: number) => Promise<void>`
 
 Sets the scroll top of the component's content.
+
+#### Parameters
+
+| Name   | Type     | Description |
+| ------ | -------- | ----------- |
+| `top`  | `number` |             |
+| `left` | `number` |             |
 
 #### Returns
 
@@ -119,13 +126,13 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                 | Description                                                                                                                                                  |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `--calcite-modal-content-background` | Specifies the background color of content placed in the `content` slot.                                                                                      |
-| `--calcite-modal-content-padding`    | Specifies the padding of the modal `content` slot.                                                                                                           |
-| `--calcite-modal-height`             | Specifies a height of the modal, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` if set. |
-| `--calcite-modal-scrim-background`   | Specifies the background color of the modal scrim.                                                                                                           |
-| `--calcite-modal-width`              | Specifies a width of the modal, using `px`, `em`, `rem`, `vw`, or `%`. Will never exceed the width of the viewport. Will not apply if `fullscreen` if set.   |
+| Name                                 | Description                                                                                                                                                        |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--calcite-modal-content-background` | Specifies the background color of content placed in the component's `"content"` slot.                                                                              |
+| `--calcite-modal-content-padding`    | Specifies the padding of the component's `"content"` slot.                                                                                                         |
+| `--calcite-modal-height`             | Specifies the height of the component, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` if set. |
+| `--calcite-modal-scrim-background`   | Specifies the background color of the component's scrim.                                                                                                           |
+| `--calcite-modal-width`              | Specifies the width of the component, using `px`, `em`, `rem`, `vw`, or `%`. Will never exceed the width of the viewport. Will not apply if `fullscreen` if set.   |
 
 ## Dependencies
 
@@ -146,4 +153,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -31,36 +31,47 @@ export const description_TestOnly = (): string =>
 export const thumbnail_TestOnly = (): string =>
   html`<calcite-navigation-logo thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const headingAndThumbnail_TestOnly = (): string => html`<calcite-navigation-logo
-  heading="ArcGIS Online"
-  thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-/>`;
+export const headingAndThumbnail_TestOnly = (): string =>
+  html`<calcite-navigation-logo heading="ArcGIS Online" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const headingAndIcon_TestOnly = (): string => html`<calcite-navigation-logo
-  heading="ArcGIS Online"
-  icon="link-chart"
-/>`;
+export const headingAndIcon_TestOnly = (): string =>
+  html`<calcite-navigation-logo heading="ArcGIS Online" icon="link-chart" />`;
 
-export const descriptionAndThumbnail_TestOnly = (): string => html`<calcite-navigation-logo
-  description="City of AcmeCo"
-  thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-/>`;
+export const descriptionAndThumbnail_TestOnly = (): string =>
+  html`<calcite-navigation-logo
+    description="City of AcmeCo"
+    thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+  />`;
 
-export const All_TestOnly = (): string => html`<calcite-navigation-logo
-  icon="link-chart"
-  heading="ArcGIS Online"
-  description="City of AcmeCo"
-  thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-/>`;
+export const All_TestOnly = (): string =>
+  html`<calcite-navigation-logo
+    icon="link-chart"
+    heading="ArcGIS Online"
+    description="City of AcmeCo"
+    thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+  />`;
 
-export const slottedInNav_TestOnly = (): string =>
-  html`
-    <calcite-navigation style="--calcite-color-brand: #bf390f">
-      <calcite-navigation-logo
-        heading="ArcGIS Online"
-        description="City of AcmeCo"
-        thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-        slot="logo"
-      />
-    </calcite-navigation>
-  `;
+export const slottedInNav_TestOnly = (): string => html`
+  <calcite-navigation style="--calcite-color-brand: #bf390f">
+    <calcite-navigation-logo
+      heading="ArcGIS Online"
+      description="City of AcmeCo"
+      thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+      slot="logo"
+    />
+  </calcite-navigation>
+`;
+
+export const withHref_TestOnly = (): string => html`
+  <calcite-navigation>
+    <calcite-navigation-logo
+      slot="logo"
+      heading="A view of the estuary"
+      icon="globe"
+      href="https://www.esri.com"
+      target="_blank"
+      description="20 years of change where the river meets the sea"
+    >
+    </calcite-navigation-logo>
+  </calcite-navigation>
+`;

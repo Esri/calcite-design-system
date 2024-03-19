@@ -72,11 +72,12 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const longValue_TestOnly = (): string => html`<div style="width: 300px;">
-  <calcite-inline-editable>
-    <calcite-input
-      value="A flower, sometimes known as a bloom or blossom, is the reproductive structure found in flowering plants (plants of the division Angiospermae)."
-      placeholder="My placeholder"
-    ></calcite-input>
-  </calcite-inline-editable>
-</div>`;
+export const longValue_TestOnly = (): string =>
+  html`<div style="width: 300px;">
+    <calcite-inline-editable>
+      <calcite-input
+        value="A flower, sometimes known as a bloom or blossom, is the reproductive structure found in flowering plants (plants of the division Angiospermae)."
+        placeholder="My placeholder"
+      ></calcite-input>
+    </calcite-inline-editable>
+  </div>`;

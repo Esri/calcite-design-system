@@ -42,7 +42,7 @@ export const titleMessage = (): string => html`
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-      "bottom"
+      "bottom",
     )}"
     ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -63,7 +63,7 @@ export const messageLink = (): string => html`
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-      "bottom"
+      "bottom",
     )}"
     ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -84,7 +84,7 @@ export const message = (): string => html`
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-      "bottom"
+      "bottom",
     )}"
     ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -102,7 +102,7 @@ export const customIcon = (): string => html`
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-      "bottom"
+      "bottom",
     )}"
     ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -168,7 +168,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-      "bottom"
+      "bottom",
     )}"
     ${boolean("open", true)}
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -217,4 +217,14 @@ export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
     <div slot="message">Some kind of contextually relevant content</div>
     <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
   </calcite-alert>
+`;
+
+export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
+  <div style="text-align:center">
+    <calcite-alert icon="rangefinder" kind="brand" open label="A report alert">
+      <div slot="title">Trail Camera Report</div>
+      <div slot="message">We thought you might want to take a look</div>
+      <calcite-link slot="link">Take action</calcite-link>
+    </calcite-alert>
+  </div>
 `;

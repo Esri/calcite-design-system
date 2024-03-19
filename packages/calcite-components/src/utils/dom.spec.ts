@@ -97,7 +97,7 @@ describe("dom", () => {
       `;
 
         expect(
-          getElementProp(document.getElementById("test").shadowRoot.firstElementChild, "test-prop", "not-found")
+          getElementProp(document.getElementById("test").shadowRoot.firstElementChild, "test-prop", "not-found"),
         ).toBe("not-found");
       });
     });
@@ -168,7 +168,7 @@ describe("dom", () => {
           expect(
             getSlotted(getTestComponent(), testSlotName, {
               selector: "non-existent-slot",
-            })
+            }),
           ).toBeNull());
       });
 
@@ -186,7 +186,7 @@ describe("dom", () => {
           expect(
             getSlotted(getTestComponent(), testSlotName, {
               direct: true,
-            })
+            }),
           ).toBeTruthy();
         });
 
@@ -203,7 +203,7 @@ describe("dom", () => {
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
               direct: true,
-            })
+            }),
           ).toBeTruthy();
         });
       });
@@ -220,7 +220,7 @@ describe("dom", () => {
         expect(
           getSlotted(getTestComponent(), [testSlotName, testSlotName2], {
             all: true,
-          })
+          }),
         ).toHaveLength(3));
 
       it("returns empty list when no results", () =>
@@ -232,7 +232,7 @@ describe("dom", () => {
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
               selector: "span",
-            })
+            }),
           ).toHaveLength(3));
 
         it("returns empty list with non-matching child selector", () =>
@@ -240,7 +240,7 @@ describe("dom", () => {
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
               selector: "non-existent",
-            })
+            }),
           ).toHaveLength(0));
       });
 
@@ -259,7 +259,7 @@ describe("dom", () => {
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
               direct: true,
-            })
+            }),
           ).toHaveLength(1);
         });
 
@@ -277,7 +277,7 @@ describe("dom", () => {
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
               direct: true,
-            })
+            }),
           ).toHaveLength(0);
         });
       });
@@ -287,12 +287,12 @@ describe("dom", () => {
   describe("setRequestedIcon()", () => {
     it("returns the custom icon name if custom value is passed", () =>
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "myCustomValue", "exampleValue")).toBe(
-        "myCustomValue"
+        "myCustomValue",
       ));
 
     it("returns the pre-defined icon name if custom value is not passed", () =>
       expect(setRequestedIcon({ exampleValue: "exampleReturnedValue" }, "", "exampleValue")).toBe(
-        "exampleReturnedValue"
+        "exampleReturnedValue",
       ));
   });
 

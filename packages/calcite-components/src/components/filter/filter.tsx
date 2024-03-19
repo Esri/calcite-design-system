@@ -146,7 +146,7 @@ export class Filter
   // --------------------------------------------------------------------------
 
   /**
-   * This event fires when the filter text changes.
+   * Fires when the filter text changes.
    */
   @Event({ cancelable: false }) calciteFilterChange: EventEmitter<void>;
 
@@ -224,7 +224,7 @@ export class Filter
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
       this.items.length && this.updateFiltered(filter(this.items, value), emit, onFilter),
-    DEBOUNCE_TIMEOUT
+    DEBOUNCE_TIMEOUT,
   );
 
   inputHandler = (event: CustomEvent): void => {

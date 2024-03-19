@@ -4,12 +4,12 @@
 
 ## Properties
 
-| Property           | Attribute   | Description                                                             | Type                                                                                                            | Default     |
-| ------------------ | ----------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ----------- |
-| `alignment`        | `alignment` | Specifies the alignment of the component.                               | `"center" \| "end" \| "start"`                                                                                  | `"start"`   |
-| `colSpan`          | `col-span`  | Specifies the number of columns the component should span.              | `number`                                                                                                        | `undefined` |
-| `messageOverrides` | --          | Use this property to override individual strings used by the component. | `{ keyboardDeselect?: string; keyboardSelect?: string; row?: string; selected?: string; unselected?: string; }` | `undefined` |
-| `rowSpan`          | `row-span`  | Specifies the number of rows the component should span.                 | `number`                                                                                                        | `undefined` |
+| Property           | Attribute           | Description                                                             | Type                           | Default     |
+| ------------------ | ------------------- | ----------------------------------------------------------------------- | ------------------------------ | ----------- |
+| `alignment`        | `alignment`         | Specifies the alignment of the component.                               | `"center" \| "end" \| "start"` | `"start"`   |
+| `colSpan`          | `col-span`          | Specifies the number of columns the component should span.              | `number`                       | `undefined` |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `TableCellMessages`            | `undefined` |
+| `rowSpan`          | `row-span`          | Specifies the number of rows the component should span.                 | `number`                       | `undefined` |
 
 ## Methods
 
@@ -29,10 +29,9 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                                | Description                                      |
-| ----------------------------------- | ------------------------------------------------ |
-| `--calcite-table-cell-background`   | Specifies the background color of the component. |
-| `--calcite-table-cell-border-color` | Specifies the border color of the component.     |
+| Name                              | Description                                      |
+| --------------------------------- | ------------------------------------------------ |
+| `--calcite-table-cell-background` | Specifies the background color of the component. |
 
 ## Dependencies
 
@@ -50,4 +49,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

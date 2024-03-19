@@ -16,11 +16,7 @@ import {
 import { toAriaBoolean, slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-} from "../../utils/conditionalSlot";
+
 import {
   componentFocusable,
   LoadableComponent,
@@ -43,7 +39,6 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
 import { isActivationKey } from "../../utils/key";
 import { ChipMessages } from "./assets/chip/t9n";
 import { getIconScale } from "../../utils/component";
@@ -59,12 +54,7 @@ import { getIconScale } from "../../utils/component";
   assetsDirs: ["assets"],
 })
 export class Chip
-  implements
-    ConditionalSlotComponent,
-    InteractiveComponent,
-    LoadableComponent,
-    LocalizedComponent,
-    T9nComponent
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -78,7 +68,7 @@ export class Chip
   @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
     "solid";
 
-  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  /** Specifies the kind of the component, which will apply to border and background if applicable. */
   @Prop({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
   /** When `true`, a close button is added to the component. */
@@ -166,8 +156,6 @@ export class Chip
 
   private closeButtonEl: HTMLButtonElement;
 
-  private mutationObserver = createObserver("mutation", () => this.updateHasText());
-
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -196,11 +184,9 @@ export class Chip
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectConditionalSlotComponent(this);
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   componentDidLoad(): void {
@@ -212,11 +198,9 @@ export class Chip
   }
 
   disconnectedCallback(): void {
-    disconnectConditionalSlotComponent(this);
     disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-    this.mutationObserver?.disconnect();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -282,6 +266,10 @@ export class Chip
   //
   // --------------------------------------------------------------------------
 
+  private handleDefaultSlotChange = (): void => {
+    this.updateHasText();
+  };
+
   private close = (): void => {
     this.calciteChipClose.emit();
     this.selected = false;
@@ -328,10 +316,10 @@ export class Chip
       this.selectionMode === "multiple" && this.selected
         ? ICONS.checked
         : this.selectionMode === "multiple"
-        ? ICONS.unchecked
-        : this.selected
-        ? ICONS.checkedSingle
-        : undefined;
+          ? ICONS.unchecked
+          : this.selected
+            ? ICONS.checkedSingle
+            : undefined;
 
     return (
       <div
@@ -340,7 +328,7 @@ export class Chip
           [CSS.selectIconActive]: this.selectionMode === "multiple" || this.selected,
         }}
       >
-        <calcite-icon icon={icon} scale={getIconScale(this.scale)} />
+        {icon ? <calcite-icon icon={icon} scale={getIconScale(this.scale)} /> : null}
       </div>
     );
   }
@@ -379,10 +367,10 @@ export class Chip
       this.selectionMode === "multiple" && this.interactive
         ? "checkbox"
         : this.selectionMode !== "none" && this.interactive
-        ? "radio"
-        : this.interactive
-        ? "button"
-        : undefined;
+          ? "radio"
+          : this.interactive
+            ? "button"
+            : undefined;
     return (
       <Host>
         <InteractiveContainer disabled={disabled}>
@@ -419,7 +407,7 @@ export class Chip
             {this.renderChipImage()}
             {this.icon && this.renderIcon()}
             <span class={CSS.title}>
-              <slot />
+              <slot onSlotchange={this.handleDefaultSlotChange} />
             </span>
             {this.closable && this.renderCloseButton()}
           </div>

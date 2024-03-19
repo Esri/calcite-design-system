@@ -95,12 +95,14 @@ export class ColorPicker
   //--------------------------------------------------------------------------
 
   /**
-   * When `true`, an empty color (`null`) will be allowed as a `value`. When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   *
+   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @Prop({ reflect: true }) allowEmpty = false;
 
   /**
-   * When true, the component will allow updates to the color's alpha value.
+   * When `true`, the component will allow updates to the color's alpha value.
    */
   @Prop() alphaChannel = false;
 
@@ -110,13 +112,13 @@ export class ColorPicker
 
     if (alphaChannel && format !== "auto" && !alphaCompatible(format)) {
       console.warn(
-        `ignoring alphaChannel as the current format (${format}) does not support alpha`
+        `ignoring alphaChannel as the current format (${format}) does not support alpha`,
       );
       this.alphaChannel = false;
     }
   }
 
-  /** When true, hides the RGB/HSV channel inputs */
+  /** When `true`, hides the RGB/HSV channel inputs. */
   @Prop() channelsDisabled = false;
 
   /**
@@ -161,7 +163,7 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) hideChannels = false;
 
-  /** When true, hides the hex input */
+  /** When `true`, hides the hex input. */
   @Prop() hexDisabled = false;
 
   /**
@@ -178,7 +180,7 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) hideSaved = false;
 
-  /** When true, hides the saved colors section */
+  /** When `true`, hides the saved colors section. */
   @Prop({ reflect: true }) savedDisabled = false;
 
   /** Specifies the size of the component. */
@@ -218,7 +220,7 @@ export class ColorPicker
    * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = normalizeHex(
-    hexify(DEFAULT_COLOR, this.alphaChannel)
+    hexify(DEFAULT_COLOR, this.alphaChannel),
   );
 
   @Watch("value")
@@ -261,7 +263,7 @@ export class ColorPicker
         : Color(
             value != null && typeof value === "object" && alphaCompatible(this.mode)
               ? normalizeColor(value as RGBA | HSVA | HSLA)
-              : value
+              : value,
           );
     const colorChanged = !colorEqual(color, this.color);
 
@@ -269,7 +271,7 @@ export class ColorPicker
       this.internalColorSet(
         color,
         this.alphaChannel && !(this.mode.endsWith("a") || this.mode.endsWith("a-css")),
-        "internal"
+        "internal",
       );
     }
   }
@@ -368,7 +370,7 @@ export class ColorPicker
 
   private handleTabActivate = (event: Event): void => {
     this.channelMode = (event.currentTarget as HTMLElement).getAttribute(
-      "data-color-mode"
+      "data-color-mode",
     ) as ColorMode;
 
     this.updateChannelsFromColor(this.color);
@@ -389,7 +391,7 @@ export class ColorPicker
       this.captureColorFieldColor(
         this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x || 0,
         this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0,
-        false
+        false,
       );
     }
   };
@@ -444,8 +446,8 @@ export class ColorPicker
     const limit = isAlphaChannel
       ? OPACITY_LIMITS.max
       : this.channelMode === "rgb"
-      ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
-      : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
+        ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
+        : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
 
     let inputValue: string;
 
@@ -460,6 +462,11 @@ export class ColorPicker
     }
 
     input.value = inputValue;
+
+    if (inputValue !== "" && this.shiftKeyChannelAdjustment !== 0) {
+      // we treat nudging as a change event since the input won't emit when modifying the value directly
+      this.handleChannelChange(event);
+    }
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -492,8 +499,8 @@ export class ColorPicker
       key === "ArrowUp" && shiftKey
         ? complementaryBump
         : key === "ArrowDown" && shiftKey
-        ? -complementaryBump
-        : 0;
+          ? -complementaryBump
+          : 0;
   }
 
   private handleChannelChange = (event: CustomEvent): void => {
@@ -751,15 +758,15 @@ export class ColorPicker
     const noSaved = savedDisabled || hideSaved;
     const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedScopePosition(
       colorFieldScopeLeft,
-      colorFieldScopeTop
+      colorFieldScopeTop,
     );
     const [adjustedHueScopeLeft, adjustedHueScopeTop] = this.getAdjustedScopePosition(
       hueLeft,
-      hueTop
+      hueTop,
     );
     const [adjustedOpacityScopeLeft, adjustedOpacityScopeTop] = this.getAdjustedScopePosition(
       opacityLeft,
-      opacityTop
+      opacityTop,
     );
 
     return (
@@ -992,7 +999,7 @@ export class ColorPicker
               index,
               channelAriaLabels[index],
               direction,
-              isAlphaChannel ? "%" : ""
+              isAlphaChannel ? "%" : "",
             );
           })}
         </div>
@@ -1005,7 +1012,7 @@ export class ColorPicker
     index: number,
     ariaLabel: string,
     direction: Direction,
-    suffix?: string
+    suffix?: string,
   ): VNode => {
     return (
       <calcite-input-number
@@ -1048,7 +1055,7 @@ export class ColorPicker
 
   private showIncompatibleColorWarning(value: ColorValue, format: Format): void {
     console.warn(
-      `ignoring color value (${value}) as it is not compatible with the current format (${format})`
+      `ignoring color value (${value}) as it is not compatible with the current format (${format})`,
     );
   }
 
@@ -1066,7 +1073,7 @@ export class ColorPicker
 
       if (warn) {
         console.warn(
-          `setting format to (${alphaMode}) as the provided one (${mode}) does not support alpha`
+          `setting format to (${alphaMode}) as the provided one (${mode}) does not support alpha`,
         );
       }
 
@@ -1078,7 +1085,7 @@ export class ColorPicker
 
       if (warn) {
         console.warn(
-          `setting format to (${nonAlphaMode}) as the provided one (${mode}) does not support alpha`
+          `setting format to (${nonAlphaMode}) as the provided one (${mode}) does not support alpha`,
         );
       }
 
@@ -1113,7 +1120,7 @@ export class ColorPicker
   private internalColorSet(
     color: Color | null,
     skipEqual = true,
-    context: ColorPicker["internalColorUpdateContext"] = "user-interaction"
+    context: ColorPicker["internalColorUpdateContext"] = "user-interaction",
   ): void {
     if (skipEqual && colorEqual(color, this.color)) {
       return;
@@ -1234,7 +1241,7 @@ export class ColorPicker
         this.drawOpacitySlider();
       }
     },
-    throttleFor60FpsInMs
+    throttleFor60FpsInMs,
   );
 
   private drawColorField(): void {
@@ -1270,7 +1277,7 @@ export class ColorPicker
 
   private setCanvasContextSize(
     canvas: HTMLCanvasElement,
-    { height, width }: { height: number; width: number }
+    { height, width }: { height: number; width: number },
   ): void {
     if (!canvas) {
       return;
@@ -1298,7 +1305,7 @@ export class ColorPicker
 
     this.internalColorSet(
       this.baseColorFieldColor.hsv().saturationv(saturation).value(value),
-      skipEqual
+      skipEqual,
     );
   };
 
@@ -1325,7 +1332,7 @@ export class ColorPicker
   };
 
   private updateCanvasSize(
-    context: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all"
+    context: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all",
   ): void {
     const { dimensions } = this;
 
@@ -1346,7 +1353,7 @@ export class ColorPicker
     if (context === "all" || context === "opacity-slider") {
       this.setCanvasContextSize(
         this.opacitySliderRenderingContext?.canvas,
-        adjustedSliderDimensions
+        adjustedSliderDimensions,
       );
     }
   }
@@ -1375,7 +1382,7 @@ export class ColorPicker
       this.colorFieldScopeTop = y;
     });
 
-    this.drawThumb(this.colorFieldRenderingContext, radius, x, y, hsvColor);
+    this.drawThumb(this.colorFieldRenderingContext, radius, x, y, hsvColor, false);
   }
 
   private drawThumb(
@@ -1383,7 +1390,8 @@ export class ColorPicker
     radius: number,
     x: number,
     y: number,
-    color: Color
+    color: Color,
+    applyAlpha: boolean,
   ): void {
     const startAngle = 0;
     const endAngle = 2 * Math.PI;
@@ -1393,14 +1401,28 @@ export class ColorPicker
     context.arc(x, y, radius, startAngle, endAngle);
     context.fillStyle = "#fff";
     context.fill();
+
     context.strokeStyle = "rgba(0,0,0,0.3)";
     context.lineWidth = outlineWidth;
     context.stroke();
 
+    if (applyAlpha && color.alpha() < 1) {
+      const pattern = context.createPattern(this.getCheckeredBackgroundPattern(), "repeat");
+      context.beginPath();
+      context.arc(x, y, radius - 3, startAngle, endAngle);
+      context.fillStyle = pattern;
+      context.fill();
+    }
+
+    context.globalCompositeOperation = "source-atop";
+
     context.beginPath();
     context.arc(x, y, radius - 3, startAngle, endAngle);
-    context.fillStyle = color.rgb().alpha(1).string();
+    const alpha = applyAlpha ? color.alpha() : 1;
+    context.fillStyle = color.rgb().alpha(alpha).string();
     context.fill();
+
+    context.globalCompositeOperation = "source-over";
   }
 
   private drawActiveHueSliderColor(): void {
@@ -1427,7 +1449,7 @@ export class ColorPicker
       this.hueScopeLeft = sliderBoundX;
     });
 
-    this.drawThumb(this.hueSliderRenderingContext, radius, sliderBoundX, y, hsvColor);
+    this.drawThumb(this.hueSliderRenderingContext, radius, sliderBoundX, y, hsvColor, false);
   }
 
   private drawHueSlider(): void {
@@ -1521,7 +1543,7 @@ export class ColorPicker
     height: number,
     width: number,
     x: number,
-    y: number
+    y: number,
   ): void {
     const radius = height / 2 + 1;
     context.beginPath();
@@ -1582,7 +1604,7 @@ export class ColorPicker
       this.opacityScopeLeft = sliderBoundX;
     });
 
-    this.drawThumb(this.opacitySliderRenderingContext, radius, sliderBoundX, y, hsvColor);
+    this.drawThumb(this.opacitySliderRenderingContext, radius, sliderBoundX, y, hsvColor, true);
   }
 
   private getSliderBoundX(x: number, width: number, radius: number): number {
@@ -1591,8 +1613,8 @@ export class ColorPicker
     return closeToEdge === 0
       ? x
       : closeToEdge === -1
-      ? remap(x, 0, width, radius, radius * 2)
-      : remap(x, 0, width, width - radius * 2, width - radius);
+        ? remap(x, 0, width, radius, radius * 2)
+        : remap(x, 0, width, width - radius * 2, width - radius);
   }
 
   private storeOpacityScope = (node: HTMLDivElement): void => {

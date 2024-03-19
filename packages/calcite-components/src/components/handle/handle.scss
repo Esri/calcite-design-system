@@ -28,7 +28,7 @@
   &:focus {
     @apply text-color-1 focus-inset;
   }
-  &--activated {
+  &--selected {
     @apply bg-foreground-3 text-color-1;
   }
 }

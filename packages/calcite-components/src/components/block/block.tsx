@@ -43,6 +43,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { OverlayPositioning } from "../../utils/floating-ui";
 
 /**
  * @slot - A slot for adding custom content.
@@ -139,6 +140,16 @@ export class Block
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
+
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   *
+   */
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   //--------------------------------------------------------------------------
   //
@@ -249,9 +260,9 @@ export class Block
   @Event({ cancelable: false }) calciteBlockOpen: EventEmitter<void>;
 
   /**
-   * Emits when the component's header is clicked.
+   * Fires when the component's header is clicked.
    *
-   * @deprecated use `openClose` events: `calciteBlock[Before]Open` and `calciteBlock[Before]Close` instead.
+   * @deprecated Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
    */
   @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
 
@@ -324,7 +335,7 @@ export class Block
   }
 
   render(): VNode {
-    const { collapsible, el, loading, open, messages } = this;
+    const { collapsible, el, loading, open, heading, messages } = this;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 
@@ -341,7 +352,7 @@ export class Block
 
     const headerNode = (
       <div class={CSS.headerContainer}>
-        {this.dragHandle ? <calcite-handle /> : null}
+        {this.dragHandle ? <calcite-handle label={heading} /> : null}
         {collapsible ? (
           <button
             aria-controls={IDS.content}
@@ -364,7 +375,10 @@ export class Block
           </div>
         ) : null}
         {hasMenuActions ? (
-          <calcite-action-menu label={messages.options}>
+          <calcite-action-menu
+            label={messages.options}
+            overlayPositioning={this.overlayPositioning}
+          >
             <slot name={SLOTS.headerMenuActions} />
           </calcite-action-menu>
         ) : null}

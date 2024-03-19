@@ -5,11 +5,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-modal-content-background: Specifies the background color of content placed in the `content` slot.
- * @prop --calcite-modal-content-padding: Specifies the padding of the modal `content` slot.
- * @prop --calcite-modal-scrim-background: Specifies the background color of the modal scrim.
- * @prop --calcite-modal-width: Specifies a width of the modal, using `px`, `em`, `rem`, `vw`, or `%`. Will never exceed the width of the viewport. Will not apply if `fullscreen` if set.
- * @prop --calcite-modal-height: Specifies a height of the modal, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` if set.
+ * @prop --calcite-modal-content-background: Specifies the background color of content placed in the component's `"content"` slot.
+ * @prop --calcite-modal-content-padding: Specifies the padding of the component's `"content"` slot.
+ * @prop --calcite-modal-scrim-background: Specifies the background color of the component's scrim.
+ * @prop --calcite-modal-width: Specifies the width of the component, using `px`, `em`, `rem`, `vw`, or `%`. Will never exceed the width of the viewport. Will not apply if `fullscreen` if set.
+ * @prop --calcite-modal-height: Specifies the height of the component, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` if set.
  *
  */
 
@@ -20,7 +20,8 @@
 :host {
   @apply absolute flex inset-0 opacity-0 z-overlay;
   visibility: hidden !important;
-  transition: visibility 0ms linear var(--calcite-internal-animation-timing-slow),
+  transition:
+    visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
   // the modal should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
   --calcite-modal-scrim-background-internal: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
@@ -42,7 +43,8 @@
     opacity-0
     z-overlay;
   visibility: hidden !important;
-  transition: visibility 0ms linear var(--calcite-internal-animation-timing-slow),
+  transition:
+    visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
 }
 
@@ -88,7 +90,8 @@
     z-modal;
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
-  transition: transform var(--calcite-internal-animation-timing-slow) $easing-function,
+  transition:
+    transform var(--calcite-internal-animation-timing-slow) $easing-function,
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
 
@@ -126,7 +129,9 @@
   transition-delay: 0ms;
   .modal {
     @apply pointer-events-auto visible opacity-100;
-    transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear,
+    transition:
+      transform var(--calcite-internal-animation-timing-slow) $easing-function,
+      visibility 0ms linear,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
       max-inline-size var(--calcite-internal-animation-timing-slow) $easing-function,
       max-block-size var(--calcite-internal-animation-timing-slow) $easing-function;

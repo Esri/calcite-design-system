@@ -6,7 +6,7 @@ import { TransformOptions } from "../../../../types/styleDictionary/transformOpt
 
 export function excludeParentKeys(
   dictionary: DeepKeyTokenMap<false>,
-  transformOpts?: TransformOptions
+  transformOpts?: TransformOptions,
 ): DeepKeyTokenMap<false> {
   if (!transformOpts?.excludeParentKeys) {
     return dictionary;

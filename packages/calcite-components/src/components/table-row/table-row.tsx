@@ -14,7 +14,7 @@ import {
 import { LocalizedComponent } from "../../utils/locale";
 import { Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
-import { RowType, TableRowFocusEvent } from "../table/interfaces";
+import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
 import { isActivationKey } from "../../utils/key";
 import {
   connectInteractive,
@@ -24,6 +24,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { getIconScale } from "../../utils/component";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements.
@@ -49,6 +50,12 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
 
   /** @internal */
   @Prop({ mutable: true }) cellCount: number;
+
+  /** @internal */
+  @Prop() interactionMode: TableInteractionMode = "interactive";
+
+  /** @internal */
+  @Prop() lastVisibleRow: boolean;
 
   /** @internal */
   @Prop() rowType: RowType;
@@ -87,6 +94,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   @Watch("scale")
   @Watch("selected")
   @Watch("selectedRowCount")
+  @Watch("interactionMode")
   handleCellChanges(): void {
     if (this.tableRowEl && this.rowCells.length > 0) {
       this.updateCells();
@@ -194,7 +202,10 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
-  private keyDownHandler(event: KeyboardEvent): void {
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    if (this.interactionMode !== "interactive") {
+      return;
+    }
     const el = event.target as HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement;
     const key = event.key;
     const isControl = event.ctrlKey;
@@ -245,13 +256,13 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
           break;
       }
     }
-  }
+  };
 
   private emitTableRowFocusRequest = (
     cellPosition: number,
     rowPosition: number,
     destination: FocusElementInGroupDestination,
-    lastCell?: boolean
+    lastCell?: boolean,
   ): void => {
     this.calciteInternalTableRowFocusRequest.emit({
       cellPosition,
@@ -266,24 +277,26 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
       ?.assignedElements({ flatten: true })
       ?.filter(
         (el: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement) =>
-          el.matches("calcite-table-cell") || el.matches("calcite-table-header")
+          el.matches("calcite-table-cell") || el.matches("calcite-table-header"),
       );
 
     const renderedCells = Array.from(
-      this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell")
+      this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell"),
     )?.filter(
       (el: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement) =>
-        el.numberCell || el.selectionCell
+        el.numberCell || el.selectionCell,
     );
 
     const cells = renderedCells ? renderedCells.concat(slottedCells) : slottedCells;
 
     if (cells.length > 0) {
       cells?.forEach((cell: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement, index) => {
+        cell.interactionMode = this.interactionMode;
         cell.positionInRow = index + 1;
         cell.parentRowType = this.rowType;
         cell.parentRowIsSelected = this.selected;
         cell.scale = this.scale;
+        cell.lastCell = index === cells.length - 1;
 
         if (cell.nodeName === "CALCITE-TABLE-CELL") {
           (cell as HTMLCalciteTableCellElement).readCellContentsToAT = this.readCellContentsToAT;
@@ -321,10 +334,10 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
       this.selectionMode === "multiple" && this.selected
         ? "check-square-f"
         : this.selectionMode === "multiple"
-        ? "square"
-        : this.selected
-        ? "circle-f"
-        : "circle";
+          ? "square"
+          : this.selected
+            ? "circle-f"
+            : "circle";
 
     return <calcite-icon icon={icon} scale={getIconScale(this.scale)} />;
   }
@@ -379,7 +392,8 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
             aria-disabled={this.disabled}
             aria-rowindex={this.positionAll + 1}
             aria-selected={this.selected}
-            onKeyDown={(event) => this.keyDownHandler(event)}
+            class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
+            onKeyDown={this.keyDownHandler}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.tableRowEl = el)}
           >

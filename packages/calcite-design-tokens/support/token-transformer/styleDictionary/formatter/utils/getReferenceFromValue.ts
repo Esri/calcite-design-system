@@ -7,7 +7,7 @@ export function getReferencesFromValue(
   originalValue: string,
   value: string,
   dictionary: Dictionary,
-  args: PlatformOptions
+  args: PlatformOptions,
 ): string {
   if (dictionary.usesReference(originalValue)) {
     const refs = dictionary.getReferences(originalValue);

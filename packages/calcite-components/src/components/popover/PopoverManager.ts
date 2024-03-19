@@ -63,7 +63,7 @@ export default class PopoverManager {
 
     Array.from(this.registeredElements.values())
       .filter(
-        (popover) => popover !== togglePopover && popover.autoClose && popover.open && !composedPath.includes(popover)
+        (popover) => popover !== togglePopover && popover.autoClose && popover.open && !composedPath.includes(popover),
       )
       .forEach((popover) => (popover.open = false));
   };

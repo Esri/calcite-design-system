@@ -40,6 +40,13 @@ export class ListItemGroup implements InteractiveComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * Hides the component when filtered.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) filterHidden = false;
+
+  /**
    * The header text for all nested `calcite-list-item` rows.
    *
    */
@@ -52,7 +59,7 @@ export class ListItemGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Emitted when the default slot has changes in order to notify parent lists.
+   * Fires when changes occur in the default slot, notifying parent lists of the changes.
    */
   @Event({ cancelable: false })
   calciteInternalListItemGroupDefaultSlotChange: EventEmitter<DragEvent>;

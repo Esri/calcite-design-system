@@ -8,10 +8,13 @@ export function evaluateMathInValue(value: any): any {
   }
 
   if (value === Object(value)) {
-    return Object.entries(value).reduce((acc, [k, v]) => {
-      acc[k] = evaluateMathInValue(v);
-      return acc;
-    }, {} as Record<string, any>);
+    return Object.entries(value).reduce(
+      (acc, [k, v]) => {
+        acc[k] = evaluateMathInValue(v);
+        return acc;
+      },
+      {} as Record<string, any>,
+    );
   }
 
   return typeof value === "string" || typeof value === "number" ? `${checkAndEvaluateMath(`${value}`)}` : value;

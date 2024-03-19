@@ -42,13 +42,14 @@ darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;
 
-export const Focus_TestOnly = (): string => html` <calcite-rating value="4" required></calcite-rating>
-  <script>
-    (async () => {
-      await customElements.whenDefined("calcite-rating");
-      await document.querySelector("calcite-rating").setFocus();
-    })();
-  </script>`;
+export const Focus_TestOnly = (): string =>
+  html` <calcite-rating value="4" required></calcite-rating>
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-rating");
+        await document.querySelector("calcite-rating").setFocus();
+      })();
+    </script>`;
 
 Focus_TestOnly.parameters = {
   chromatic: { delay: 500 },

@@ -8,8 +8,8 @@
 
 ```html
 <calcite-notice scale="l" width="half" open>
-  <div slot="title">Something failed</div>
-  <div slot="message">That thing you wanted to do didn't work as expected</div>
+  <div slot="title">Operation failed</div>
+  <div slot="message">The operation you attempted has encountered an unexpected issue.</div>
   <calcite-link slot="link" href="/">View details</calcite-link>
   <calcite-action id="retry-action" slot="actions-end" title="Retry" icon="reset"></calcite-action>
 </calcite-notice>
@@ -25,16 +25,16 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 
 ## Properties
 
-| Property           | Attribute       | Description                                                                                                           | Type                                                      | Default     |
-| ------------------ | --------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
-| `closable`         | `closable`      | When `true`, a close button is added to the component.                                                                | `boolean`                                                 | `false`     |
-| `icon`             | `icon`          | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                       | `undefined` |
-| `iconFlipRtl`      | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                 | `false`     |
-| `kind`             | `kind`          | Specifies the kind of the component (will apply to top border and icon).                                              | `"brand" \| "danger" \| "info" \| "success" \| "warning"` | `"brand"`   |
-| `messageOverrides` | --              | Use this property to override individual strings used by the component.                                               | `{ close?: string; }`                                     | `undefined` |
-| `open`             | `open`          | When `true`, the component is visible.                                                                                | `boolean`                                                 | `false`     |
-| `scale`            | `scale`         | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                       | `"m"`       |
-| `width`            | `width`         | Specifies the width of the component.                                                                                 | `"auto" \| "full" \| "half"`                              | `"auto"`    |
+| Property           | Attribute           | Description                                                                                                           | Type                                                      | Default     |
+| ------------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
+| `closable`         | `closable`          | When `true`, a close button is added to the component.                                                                | `boolean`                                                 | `false`     |
+| `icon`             | `icon`              | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                       | `undefined` |
+| `iconFlipRtl`      | `icon-flip-rtl`     | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                 | `false`     |
+| `kind`             | `kind`              | Specifies the kind of the component, which will apply to top border and icon.                                         | `"brand" \| "danger" \| "info" \| "success" \| "warning"` | `"brand"`   |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                               | `NoticeMessages`                                          | `undefined` |
+| `open`             | `open`              | When `true`, the component is visible.                                                                                | `boolean`                                                 | `false`     |
+| `scale`            | `scale`             | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                       | `"m"`       |
+| `width`            | `width`             | Specifies the width of the component.                                                                                 | `"auto" \| "full" \| "half"`                              | `"auto"`    |
 
 ## Events
 
@@ -86,4 +86,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

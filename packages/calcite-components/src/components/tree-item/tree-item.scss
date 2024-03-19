@@ -143,7 +143,9 @@
   @apply relative h-0 overflow-hidden opacity-0 origin-top;
   margin-inline-start: theme("margin.5");
   transform: scaleY(0);
-  transition: var(--calcite-animation-timing) $easing-function, opacity var(--calcite-animation-timing) $easing-function,
+  transition:
+    var(--calcite-animation-timing) $easing-function,
+    opacity var(--calcite-animation-timing) $easing-function,
     all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
 
   .item--expanded > & {

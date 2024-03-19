@@ -1,78 +1,198 @@
 :host {
+  --calcite-internal-tab-nav-gradient-start-side: left;
+  --calcite-internal-tab-nav-gradient-end-side: right;
+
   @apply relative flex;
 }
 
 .scale-s {
+  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-24};
   min-block-size: theme("spacing.6");
 }
 
 .scale-m {
+  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-32};
   min-block-size: theme("spacing.8");
 }
 
 .scale-l {
+  --calcite-internal-tab-nav-scroller-button-width: #{$calcite-size-44};
   min-block-size: theme("spacing.11");
 }
 
-:host([layout="center"]:not([bordered])) {
-  // `tab-nav` in all scales in layout="center" has a padding of 20px on both ends
-  padding-inline: theme("margin.5");
+.calcite--rtl {
+  --calcite-internal-tab-nav-gradient-start-side: right;
+  --calcite-internal-tab-nav-gradient-end-side: left;
+}
 
-  //override margin-inline-end for the last child for tab-nav to implement the 20px padding on both ends instead
-  .tab-nav {
-    ::slotted(calcite-tab-title:last-child) {
-      margin-inline-end: theme("margin.0");
-    }
+$last-mask-color-stop-position: 51%; // we go beyond the half point to ensure the mask color stops overlap when both start and end are overflowing
+
+.tab-nav--start-overflow {
+  .tab-nav-active-indicator-container,
+  .tab-titles-slot-wrapper {
+    mask-image: linear-gradient(
+      to var(--calcite-internal-tab-nav-gradient-end-side),
+      transparent,
+      transparent var(--calcite-internal-tab-nav-scroller-button-width),
+      white var(--calcite-internal-tab-nav-scroller-button-width),
+      white $last-mask-color-stop-position
+    );
+  }
+}
+
+.tab-nav--end-overflow {
+  .tab-nav-active-indicator-container,
+  .tab-titles-slot-wrapper {
+    mask-image: linear-gradient(
+      to var(--calcite-internal-tab-nav-gradient-start-side),
+      transparent,
+      transparent var(--calcite-internal-tab-nav-scroller-button-width),
+      white var(--calcite-internal-tab-nav-scroller-button-width),
+      white $last-mask-color-stop-position
+    );
+  }
+}
+
+.tab-nav--start-overflow.tab-nav--end-overflow {
+  .tab-nav-active-indicator-container,
+  .tab-titles-slot-wrapper {
+    mask-image: linear-gradient(
+        to var(--calcite-internal-tab-nav-gradient-end-side),
+        transparent,
+        transparent var(--calcite-internal-tab-nav-scroller-button-width),
+        white var(--calcite-internal-tab-nav-scroller-button-width),
+        white $last-mask-color-stop-position,
+        transparent $last-mask-color-stop-position
+      ),
+      linear-gradient(
+        to var(--calcite-internal-tab-nav-gradient-start-side),
+        transparent,
+        transparent var(--calcite-internal-tab-nav-scroller-button-width),
+        white var(--calcite-internal-tab-nav-scroller-button-width),
+        white $last-mask-color-stop-position,
+        transparent $last-mask-color-stop-position
+      );
+  }
+}
+
+.tab-nav::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+:host([layout="center"]) {
+  ::slotted(calcite-tab-title) {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    min-inline-size: auto;
+    white-space: nowrap;
+  }
+
+  ::slotted(calcite-tab-title[selected]) {
+    overflow: unset;
   }
 }
 
 :host(:not([bordered])) {
   .scale-l {
-    ::slotted(calcite-tab-title) {
-      margin-inline-end: theme("margin.6");
-    }
+    --calcite-internal-tab-nav-gap: var(--calcite-size-xxl);
   }
   .scale-m {
-    ::slotted(calcite-tab-title) {
-      margin-inline-end: theme("margin.5");
-    }
+    --calcite-internal-tab-nav-gap: var(--calcite-size-xl);
   }
   .scale-s {
-    ::slotted(calcite-tab-title) {
-      margin-inline-end: theme("margin.4");
-    }
+    --calcite-internal-tab-nav-gap: var(--calcite-size-lg);
+  }
+
+  .tab-titles-slot-wrapper {
+    gap: var(--calcite-internal-tab-nav-gap);
   }
 }
 
-.tab-nav {
+:host([layout="center"]:not([bordered])) {
+  .tab-titles-slot-wrapper {
+    padding-inline: var(--calcite-spacing-xxl);
+  }
+}
+
+.tab-nav,
+.tab-titles-slot-wrapper {
   @apply flex
     w-full
     justify-start
-    overflow-auto;
+    whitespace-nowrap
+    overflow-hidden;
 }
 
 // prevent indicator overflow in horizontal scrolling situations
 .tab-nav-active-indicator-container {
   @apply absolute
-    inset-x-0
     bottom-0
     h-0.5
-    w-full
-    overflow-hidden;
+    inset-x-0
+    overflow-hidden
+    w-full;
 }
 
 .tab-nav-active-indicator {
-  @apply bg-brand
-    absolute
+  @apply absolute
+    bg-brand
     bottom-0
     block
     h-0.5
-    transition-all
-    ease-out;
+    ease-out
+    transition-all;
 }
 
-:host([layout="center"]) .tab-nav {
-  @apply justify-evenly;
+.scroll-button-container {
+  @apply absolute bottom-0 top-0;
+
+  calcite-button {
+    --calcite-offset-invert-focus: 1;
+    --calcite-color-text-1: var(--calcite-color-text-3);
+
+    block-size: 100%;
+
+    &:hover {
+      --calcite-color-text-1: unset;
+      --calcite-color-foreground-1: var(--calcite-color-transparent-hover);
+      --calcite-color-foreground-3: var(--calcite-color-transparent);
+    }
+  }
+}
+
+.scroll-button-container--forward {
+  inset-inline-end: 0;
+  z-index: var(--calcite-z-index);
+}
+
+.scroll-button-container--backward {
+  inset-inline-start: 0;
+  z-index: var(--calcite-z-index);
+}
+
+:host(:not([bordered])) {
+  .scroll-button-container--backward,
+  .scroll-button-container--forward {
+    &::before {
+      background-color: var(--calcite-color-border-3);
+      content: "";
+      inline-size: var(--calcite-border-width-sm);
+      inset-block-start: var(--calcite-border-width-md);
+      inset-block-end: var(--calcite-border-width-md);
+      position: absolute;
+    }
+  }
+
+  .scroll-button-container--backward::before {
+    inset-inline-end: 0;
+  }
+
+  .scroll-button-container--forward::before {
+    inset-inline-start: 0;
+  }
 }
 
 :host .position-bottom .tab-nav-active-indicator {

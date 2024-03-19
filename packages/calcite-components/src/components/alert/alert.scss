@@ -37,7 +37,8 @@ $border-style: 1px solid var(--calcite-color-border-3);
   border-block-end: $border-style;
   inline-size: var(--calcite-alert-width);
   max-inline-size: calc(100% - (var(--calcite-alert-edge-distance) * 2));
-  transition: var(--calcite-internal-animation-timing-slow) $easing-function,
+  transition:
+    var(--calcite-internal-animation-timing-slow) $easing-function,
     opacity var(--calcite-internal-animation-timing-slow) $easing-function,
     all var(--calcite-animation-timing) ease-in-out;
 
@@ -258,8 +259,11 @@ $border-style: 1px solid var(--calcite-color-border-3);
   @apply text-color-link inline-flex;
 }
 
-$alertKinds: "brand" var(--calcite-color-brand), "info" var(--calcite-color-status-info),
-  "danger" var(--calcite-color-status-danger), "success" var(--calcite-color-status-success),
+$alertKinds:
+  "brand" var(--calcite-color-brand),
+  "info" var(--calcite-color-status-info),
+  "danger" var(--calcite-color-status-danger),
+  "success" var(--calcite-color-status-success),
   "warning" var(--calcite-color-status-warning);
 
 @each $alertKind in $alertKinds {
@@ -277,7 +281,10 @@ $alertKinds: "brand" var(--calcite-color-brand), "info" var(--calcite-color-stat
   }
 }
 
-$alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
+$alertDurations:
+  "fast" 6000ms,
+  "medium" 10000ms,
+  "slow" 14000ms;
 
 @each $alertDuration in $alertDurations {
   $name: nth($alertDuration, 1);

@@ -8,9 +8,11 @@
 
 ```html
 <div style="font-size: 16px; font-weight: 400;">
-  Some wrapping text
-  <calcite-link href="#">link text here</calcite-link>
-  around the link
+  Checkout the
+  <calcite-link href="https://developers.arcgis.com/calcite-design-system/" icon-end="launch" target="_blank">
+    Calcite Design System
+  </calcite-link>
+  website for comprehensive information about Calcite
 </div>
 ```
 
@@ -72,4 +74,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

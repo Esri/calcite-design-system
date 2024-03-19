@@ -70,17 +70,25 @@ calcite-icon {
     background-position-x: 0%, 100%;
     background-position-y: min(1.5em, 100%);
     background-repeat: no-repeat, no-repeat;
-    background-size: 0% 1px, 100% 1px;
+    background-size:
+      0% 1px,
+      100% 1px;
 
     &:hover,
     &:focus {
-      background-size: 100% 1px, 100% 1px;
+      background-size:
+        100% 1px,
+        100% 1px;
     }
     &:active {
-      background-size: 100% 2px, 100% 2px;
+      background-size:
+        100% 2px,
+        100% 2px;
     }
     &.calcite--rtl {
-      background-position: 100% 100%, 100% 100%;
+      background-position:
+        100% 100%,
+        100% 100%;
     }
   }
 }

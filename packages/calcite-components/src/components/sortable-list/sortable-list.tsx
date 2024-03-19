@@ -209,8 +209,8 @@ export class SortableList implements InteractiveComponent, SortableComponent {
     this.beginObserving();
     requestAnimationFrame(() => focusElement(handle));
 
-    if ("activated" in handle) {
-      handle.activated = true;
+    if ("selected" in handle) {
+      handle.selected = true;
     }
   }
 

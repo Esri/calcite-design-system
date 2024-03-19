@@ -300,8 +300,9 @@ describe("calcite-slider", () => {
       await page.mouse.up();
       await page.waitForChanges();
 
-      let isThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      let isThumbFocused = await page.$eval(
+        "calcite-slider",
+        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
       );
 
       expect(isThumbFocused).toBe(true);
@@ -312,8 +313,9 @@ describe("calcite-slider", () => {
       await page.mouse.up();
       await page.waitForChanges();
 
-      isThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      isThumbFocused = await page.$eval(
+        "calcite-slider",
+        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
       );
 
       expect(isThumbFocused).toBe(true);
@@ -324,8 +326,9 @@ describe("calcite-slider", () => {
       await page.mouse.up();
       await page.waitForChanges();
 
-      isThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      isThumbFocused = await page.$eval(
+        "calcite-slider",
+        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
       );
 
       expect(isThumbFocused).toBe(true);
@@ -356,8 +359,9 @@ describe("calcite-slider", () => {
       await page.mouse.up();
       await page.waitForChanges();
 
-      const isMinThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--minValue")
+      const isMinThumbFocused = await page.$eval(
+        "calcite-slider",
+        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--minValue"),
       );
 
       expect(await slider.getProperty("minValue")).toBe(0);
@@ -378,8 +382,9 @@ describe("calcite-slider", () => {
       await page.mouse.up();
       await page.waitForChanges();
 
-      const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      const isMaxThumbFocused = await page.$eval(
+        "calcite-slider",
+        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
       );
 
       expect(await slider.getProperty("minValue")).toBe(0);
@@ -400,8 +405,9 @@ describe("calcite-slider", () => {
       await page.mouse.up();
       await page.waitForChanges();
 
-      const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      const isMaxThumbFocused = await page.$eval(
+        "calcite-slider",
+        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
       );
 
       expect(await slider.getProperty("minValue")).toBe(0);
@@ -579,7 +585,7 @@ describe("calcite-slider", () => {
           max-value="50"
           snap
           style="width:${sliderWidthFor1To1PixelValueTrack}"
-        ></calcite-slider>`
+        ></calcite-slider>`,
       );
       const slider = await page.find("calcite-slider");
       const inputEvent = await slider.spyOnEvent("calciteSliderInput");
@@ -628,7 +634,7 @@ describe("calcite-slider", () => {
           elm.histogram = histogram;
           elm.histogramStops = histogramStops;
         },
-        props
+        props,
       );
 
       await page.waitForChanges();
@@ -678,8 +684,9 @@ describe("calcite-slider", () => {
       await page.mouse.click(trackX, trackY);
       await page.waitForChanges();
 
-      const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      const isMaxThumbFocused = await page.$eval(
+        "calcite-slider",
+        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
       );
 
       expect(isMaxThumbFocused).toBe(true);
@@ -703,8 +710,9 @@ describe("calcite-slider", () => {
       await page.mouse.click(trackX + 100, trackY);
       await page.waitForChanges();
 
-      const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
-        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      const isMaxThumbFocused = await page.$eval(
+        "calcite-slider",
+        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
       );
 
       expect(isMaxThumbFocused).toBe(true);
@@ -801,20 +809,22 @@ describe("calcite-slider", () => {
 
     beforeEach(async () => {
       page = await newE2EPage();
-      await page.setContent(html`<calcite-slider
-        group-separator
-        lang="en"
-        min="1000"
-        max="1000000.50"
-        min-value="2500"
-        max-value="500000.50"
-        step="1000"
-        ticks="1000"
-        label-handles
-        label-ticks
-        style="width:${sliderWidthFor1To1PixelValueTrack}"
-      >
-      </calcite-slider>`);
+      await page.setContent(
+        html`<calcite-slider
+          group-separator
+          lang="en"
+          min="1000"
+          max="1000000.50"
+          min-value="2500"
+          max-value="500000.50"
+          step="1000"
+          ticks="1000"
+          label-handles
+          label-ticks
+          style="width:${sliderWidthFor1To1PixelValueTrack}"
+        >
+        </calcite-slider>`,
+      );
       element = await page.find("calcite-slider");
 
       getDisplayedValuesArray = async (): Promise<string[]> => {

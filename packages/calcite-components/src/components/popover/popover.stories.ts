@@ -47,24 +47,25 @@ export const simple = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html` <div style="width: 400px;">
-  ${referenceElementHTML}
-  <calcite-popover
-    ${boolean("closable", false)}
-    ${boolean("flip-disabled", false)}
-    ${boolean("pointer-disabled", false)}
-    reference-element="reference-element"
-    placement="${select("placement", placements, defaultPopoverPlacement)}"
-    offset-distance="${number("offset-distance", 6)}"
-    offset-skidding="${number("offset-skidding", 0)}"
-    ${boolean("open", true)}
-    text-close="${text("text-close", "Close")}"
-    dir="${select("dir", ["ltr", "rtl"], "rtl")}"
-    class="calcite-mode-dark"
-  >
-    ${contentHTML}
-  </calcite-popover>
-</div>`;
+export const darkModeRTL_TestOnly = (): string =>
+  html` <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      ${boolean("closable", false)}
+      ${boolean("flip-disabled", false)}
+      ${boolean("pointer-disabled", false)}
+      reference-element="reference-element"
+      placement="${select("placement", placements, defaultPopoverPlacement)}"
+      offset-distance="${number("offset-distance", 6)}"
+      offset-skidding="${number("offset-skidding", 0)}"
+      ${boolean("open", true)}
+      text-close="${text("text-close", "Close")}"
+      dir="${select("dir", ["ltr", "rtl"], "rtl")}"
+      class="calcite-mode-dark"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>`;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 

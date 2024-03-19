@@ -34,7 +34,7 @@ export class Fab implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) appearance: Extract<"solid" | "outline-fill", Appearance> = "solid";
 
   /**
-   * Specifies the kind of the component (will apply to border and background).
+   * Specifies the kind of the component, which will apply to border and background.
    */
   @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";

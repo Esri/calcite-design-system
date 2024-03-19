@@ -131,7 +131,7 @@ export class ActionMenu implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the `open` property is toggled.
+   * Fires when the `open` property is toggled.
    *
    */
   @Event({ cancelable: false }) calciteActionMenuOpen: EventEmitter<void>;
@@ -401,13 +401,13 @@ export class ActionMenu implements LoadableComponent {
 
           if (currentValue?.matches("calcite-action-group")) {
             return previousValue.concat(
-              Array.from(currentValue.querySelectorAll("calcite-action"))
+              Array.from(currentValue.querySelectorAll("calcite-action")),
             );
           }
 
           return previousValue;
         },
-        []
+        [],
       );
 
     this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
@@ -454,7 +454,7 @@ export class ActionMenu implements LoadableComponent {
   handleActionNavigation = (
     event: KeyboardEvent,
     key: string,
-    actions: HTMLCalciteActionElement[]
+    actions: HTMLCalciteActionElement[],
   ): void => {
     if (!this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
       return;

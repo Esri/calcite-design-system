@@ -44,15 +44,20 @@ export const milliseconds_TestOnly = (): string => html`
 export const disabled_TestOnly = (): string =>
   html`<calcite-input-time-picker disabled scale="l" icon step="1" value="01:02"></calcite-input-time-picker>`;
 
-export const scales_TestOnly = (): string =>
-  html`
-    <calcite-input-time-picker scale="s" icon value="01:02"></calcite-input-time-picker>
-    <calcite-input-time-picker scale="m" icon value="01:02"></calcite-input-time-picker>
-    <calcite-input-time-picker scale="l" icon value="01:02"></calcite-input-time-picker>
-  `;
+export const scales_TestOnly = (): string => html`
+  <calcite-input-time-picker scale="s" icon value="01:02"></calcite-input-time-picker>
+  <calcite-input-time-picker scale="m" icon value="01:02"></calcite-input-time-picker>
+  <calcite-input-time-picker scale="l" icon value="01:02"></calcite-input-time-picker>
+`;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-input-time-picker class="calcite-mode-dark" value="22:37" step="1"> </calcite-input-time-picker>
+  <calcite-input-time-picker
+    class="calcite-mode-dark"
+    value="22:37"
+    step="1"
+    validation-message="This should not appear because the status is not 'invalid'"
+  >
+  </calcite-input-time-picker>
 `;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

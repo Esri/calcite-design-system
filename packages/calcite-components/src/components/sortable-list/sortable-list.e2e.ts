@@ -23,7 +23,7 @@ describe("calcite-sortable-list", () => {
         <div id="two"><calcite-handle></calcite-handle>2</div>
         <div id="three"><calcite-handle></calcite-handle>3</div>
       </calcite-sortable-list>`,
-      { focusTarget: "child" }
+      { focusTarget: "child" },
     );
   });
 

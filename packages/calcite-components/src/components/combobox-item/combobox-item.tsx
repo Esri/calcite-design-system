@@ -84,11 +84,15 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true }) filterDisabled: boolean;
 
   /**
-   * Specifies the selection mode:
-   * - "multiple" allows any number of selected items (default),
-   * - "single" allows only one selection,
-   * - "single-persist" allow and require one open item,
-   * - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+   * Specifies the selection mode of the component, where:
+   *
+   * `"multiple"` allows any number of selections,
+   *
+   * `"single"` allows only one selection,
+   *
+   * `"single-persist"` allows one selection and prevents de-selection, and
+   *
+   * `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    *
    * @internal
    */
@@ -140,7 +144,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   /**
-   * Emits whenever the component is selected or unselected.
+   * Fires whenever the component is selected or unselected.
    *
    */
   @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<void>;

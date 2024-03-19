@@ -108,7 +108,7 @@ describe("calcite-filter", () => {
               .shadowRoot.querySelector<HTMLElement>(buttonSelector)
               .click();
           },
-          `.${INPUT_CSS.clearButton}`
+          `.${INPUT_CSS.clearButton}`,
         );
         await page.waitForChanges();
 

@@ -47,7 +47,7 @@ describe("calcite-date-picker-month-header", () => {
 
     await page.evaluate((localeData) => {
       const dateMonthHeader = document.createElement(
-        "calcite-date-picker-month-header"
+        "calcite-date-picker-month-header",
       ) as HTMLCalciteDatePickerMonthHeaderElement;
       const now = new Date();
       dateMonthHeader.activeDate = now;
@@ -76,7 +76,7 @@ describe("calcite-date-picker-month-header", () => {
 
     await page.evaluate((localeData) => {
       const dateMonthHeader = document.createElement(
-        "calcite-date-picker-month-header"
+        "calcite-date-picker-month-header",
       ) as HTMLCalciteDatePickerMonthHeaderElement;
       const now = new Date();
       dateMonthHeader.activeDate = now;

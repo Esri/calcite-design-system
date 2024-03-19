@@ -8,7 +8,7 @@ import { DeepKeyTokenMap, SingleToken } from "../../../../types/tokenStudio/desi
 
 // Type function to determine whether the obj is `tokenValue` or `{ value: tokenValue }`
 function isReferenceValue(
-  obj: SingleToken<false>["value"] | { value: SingleToken<false>["value"] }
+  obj: SingleToken<false>["value"] | { value: SingleToken<false>["value"] },
 ): obj is { value: SingleToken<false>["value"] } {
   return Object.prototype.hasOwnProperty.call(obj, "value");
 }
@@ -22,7 +22,7 @@ type boundGetRef = (ref: string) => Array<SingleToken<false>["value"]> | Array<{
 
 export function resolveReference<T extends SingleToken<false>["value"]>(
   tokenValue: T,
-  copy: DeepKeyTokenMap<false>
+  copy: DeepKeyTokenMap<false>,
 ): T {
   const boundGetRef = getReferences.bind({ properties: copy }) as boundGetRef;
 
