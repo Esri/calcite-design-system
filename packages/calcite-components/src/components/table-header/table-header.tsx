@@ -57,6 +57,9 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Prop() numberCell = false;
 
   /** @internal */
+  @Prop() parentRowAlignment: Alignment = "start";
+
+  /** @internal */
   @Prop() parentRowIsSelected: boolean;
 
   /** @internal */
@@ -229,6 +232,8 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
             [CSS.staticCell]: staticCell,
             [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
+            [this.parentRowAlignment]:
+              this.parentRowAlignment === "center" || this.parentRowAlignment === "end",
           }}
           colSpan={this.colSpan}
           onBlur={this.onContainerBlur}

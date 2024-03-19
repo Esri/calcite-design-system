@@ -42,18 +42,25 @@ th {
   }
 }
 
+th.center {
+  @apply align-middle;
+}
+
+th.end {
+  @apply align-bottom;
+}
+
 th.last-cell {
   border-inline-end: 0;
 }
 
-th.body-row,
-th.footer-row {
+th.body-row {
   @apply align-middle;
-  border-block-end: 0;
 }
 
 th.footer-row {
   border-block-start: 1px solid var(--calcite-internal-table-header-border-color);
+  border-block-end: 0;
 }
 
 .cell--multiple-selection {

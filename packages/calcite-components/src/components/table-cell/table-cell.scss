@@ -24,7 +24,7 @@
 }
 
 td {
-  @apply text-start  align-middle text-color-1 whitespace-normal;
+  @apply text-start align-middle text-color-1 whitespace-normal;
   background: var(--calcite-internal-table-cell-background);
   font-size: var(--calcite-internal-table-cell-font-size);
   border-inline-end: 1px solid var(--calcite-color-border-3);
@@ -36,6 +36,14 @@ td {
       @apply focus-inset;
     }
   }
+}
+
+td.start {
+  @apply align-top;
+}
+
+td.end {
+  @apply align-bottom;
 }
 
 td.last-cell {
