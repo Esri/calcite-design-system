@@ -261,11 +261,12 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                     | Description                                                                         |
-| ------------------------ | ----------------------------------------------------------------------------------- |
-|                          | A slot for adding `calcite-list-item` elements.                                     |
-| `"filter-actions-end"`   | A slot for adding actionable `calcite-action` elements after the filter component.  |
-| `"filter-actions-start"` | A slot for adding actionable `calcite-action` elements before the filter component. |
+| Slot                     | Description                                                                                     |
+| ------------------------ | ----------------------------------------------------------------------------------------------- |
+|                          | A slot for adding `calcite-list-item` elements.                                                 |
+| `"filter-actions-end"`   | A slot for adding actionable `calcite-action` elements after the filter component.              |
+| `"filter-actions-start"` | A slot for adding actionable `calcite-action` elements before the filter component.             |
+| `"filter-no-results"`    | When `filterEnabled` is `true`, a slot for adding content to display when no results are found. |
 
 ## Dependencies
 
