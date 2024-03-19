@@ -75,7 +75,7 @@ td.last-cell {
   }
 }
 
-.selected-cell.content-cell {
+.selected-cell:not(.number-cell):not(.footer-cell) {
   --calcite-internal-table-cell-background: var(--calcite-color-foreground-current);
 }
 
