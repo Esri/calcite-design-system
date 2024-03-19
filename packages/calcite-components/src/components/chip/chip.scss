@@ -15,6 +15,8 @@
  * @prop --calcite-chip-close-background-color-active: Specifies the active background color of the component's `closable` element when active.
  * @prop --calcite-chip-close-background-color-focus: Specifies the focus background color of the component's `closable` element when focused.
  * @prop --calcite-chip-close-focus-outline-color Specifies the focus outline color of the component's `closable` element.
+ * @prop --calcite-chip-select-icon-color: Specifies the color of the component's select icon
+ * @prop --calcite-chip-select-icon-color-active: Specifies the color of the component's select icon when active.
  *
  */
 
@@ -270,7 +272,8 @@
   &:active {
     background-color: var(--calcite-chip-close-background-color-active, var(--calcite-color-transparent-press));
   }
-  & calcite-icon {
+
+  calcite-icon {
     color: inherit;
   }
 }
@@ -293,6 +296,14 @@
     inline-size: var(--calcite-internal-chip-icon-size);
     visibility: visible;
     opacity: 0.5;
+
+    calcite-icon {
+      --calcite-icon-color: var(--calcite-chip-select-icon-color-active);
+    }
+  }
+
+  calcite-icon {
+    --calcite-icon-color: var(--calcite-chip-select-icon-color);
   }
 }
 .container:not(.is-circle).image--slotted .select-icon.select-icon--active {

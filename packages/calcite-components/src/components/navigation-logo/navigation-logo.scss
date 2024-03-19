@@ -5,6 +5,7 @@
 * @prop --calcite-navigation-logo-border-color: Specifies the border color of the component.
 * @prop --calcite-navigation-logo-description-text-color: Specifies text color of description of component.
 * @prop --calcite-navigation-logo-heading-text-color: Specifies the text color of heading of component.
+* @prop --calcite-navigation-logo-icon-color: Specifies the icon color of the component.
 * @prop --calcite-navigation-logo-text-color: Specifies the text color of the component.
 *
 */
@@ -61,10 +62,14 @@
   @apply ps-0;
 }
 
+.icon {
+  --calcite-icon-color: var(--calcite-navigation-logo-icon-color, var(--calcite-internal-navigation-logo-icon-color));
+}
+
 :host([active]) .anchor {
   --calcite-internal-navigation-logo-text-color: var(--calcite-color-text-1);
   --calcite-internal-navigation-logo-border-color: var(--calcite-color-brand);
-  --calcite-icon-color: var(--calcite-color-brand);
+  --calcite-internal-navigation-logo-icon-color: var(--calcite-color-brand);
 }
 
 .container {

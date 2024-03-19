@@ -7,6 +7,7 @@
  * @prop --calcite-tile-border-color: Specifies the border color of the component.
  * @prop --calcite-tile-description-text-color: Specifies the description text color of the component.
  * @prop --calcite-tile-heading-text-color: Specifies the heading text color of the component.
+ * @prop --calcite-tile-icon-color: Specifies the icon color of the component.
  */
 
 :host {
@@ -127,7 +128,9 @@
 }
 
 :host(:not([href])) {
-  --calcite-ui-icon-color: var(--calcite-color-text-3);
+  calcite-icon {
+    --calcite-icon-color: var(--calcite-tile-icon-color, var(--calcite-color-text-3));
+  }
 }
 
 :host([href]),

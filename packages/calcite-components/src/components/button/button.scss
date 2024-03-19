@@ -108,6 +108,8 @@ a:hover {
 }
 
 .icon {
+  --calcite-icon-color: var(--calcite-button-icon-color);
+
   @apply relative
     m-0
     inline-flex
@@ -784,11 +786,6 @@ a:hover {
       outline-offset: -2px; // ensure focus outlines work in Safari
     }
   }
-}
-
-a,
-button {
-  --calcite-icon-color: var(--calcite-button-icon-color);
 }
 
 @include base-component();
