@@ -82,6 +82,7 @@ graph TD;
   calcite-input-text --> calcite-progress
   calcite-input-text --> calcite-icon
   calcite-input-text --> calcite-input-message
+  calcite-tab-nav --> calcite-button
   calcite-button --> calcite-loader
   calcite-button --> calcite-icon
   style calcite-color-picker fill:#f9f,stroke:#333,stroke-width:4px

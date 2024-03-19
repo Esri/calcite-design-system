@@ -22,11 +22,12 @@ Tabs `scale` and `position` properties are inherited by it's child components, t
 
 ## Properties
 
-| Property        | Attribute    | Description                                                                   | Type                         | Default     |
-| --------------- | ------------ | ----------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `selectedTitle` | --           | Specifies the component's selected `calcite-tab-title`.                       | `HTMLCalciteTabTitleElement` | `null`      |
-| `storageId`     | `storage-id` | Specifies the name when saving selected `calcite-tab` data to `localStorage`. | `string`                     | `undefined` |
-| `syncId`        | `sync-id`    | Specifies text to update multiple components to keep in sync if one changes.  | `string`                     | `undefined` |
+| Property           | Attribute           | Description                                                                   | Type                         | Default     |
+| ------------------ | ------------------- | ----------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.       | `TabNavMessages`             | `undefined` |
+| `selectedTitle`    | --                  | Specifies the component's selected `calcite-tab-title`.                       | `HTMLCalciteTabTitleElement` | `null`      |
+| `storageId`        | `storage-id`        | Specifies the name when saving selected `calcite-tab` data to `localStorage`. | `string`                     | `undefined` |
+| `syncId`           | `sync-id`           | Specifies text to update multiple components to keep in sync if one changes.  | `string`                     | `undefined` |
 
 ## Events
 
@@ -46,10 +47,17 @@ Tabs `scale` and `position` properties are inherited by it's child components, t
 
 - [calcite-color-picker](../color-picker)
 
+### Depends on
+
+- [calcite-button](../button)
+
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-tab-nav --> calcite-button
+  calcite-button --> calcite-loader
+  calcite-button --> calcite-icon
   calcite-color-picker --> calcite-tab-nav
   style calcite-tab-nav fill:#f9f,stroke:#333,stroke-width:4px
 ```
