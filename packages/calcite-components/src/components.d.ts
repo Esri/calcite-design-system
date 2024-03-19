@@ -882,9 +882,6 @@ export namespace Components {
         "setFocus": () => Promise<void>;
     }
     interface CalciteColorPicker {
-        /**
-          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
-         */
         "allowEmpty": boolean;
         /**
           * When `true`, the component will allow updates to the color's alpha value.
@@ -894,6 +891,10 @@ export namespace Components {
           * When `true`, hides the RGB/HSV channel inputs.
          */
         "channelsDisabled": boolean;
+        /**
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable": boolean;
         /**
           * Internal prop for advanced use-cases.
          */
@@ -8277,9 +8278,6 @@ declare namespace LocalJSX {
   >;
     }
     interface CalciteColorPicker {
-        /**
-          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
-         */
         "allowEmpty"?: boolean;
         /**
           * When `true`, the component will allow updates to the color's alpha value.
@@ -8289,6 +8287,10 @@ declare namespace LocalJSX {
           * When `true`, hides the RGB/HSV channel inputs.
          */
         "channelsDisabled"?: boolean;
+        /**
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable"?: boolean;
         /**
           * Internal prop for advanced use-cases.
          */
