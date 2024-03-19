@@ -1,6 +1,6 @@
 # calcite-block
 
-For details on the `calcite-block` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/block/).
+For complete usage and implementation guidance on the `calcite-block` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/block/).
 
 <!-- Auto Generated Below -->
 

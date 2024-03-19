@@ -1,6 +1,6 @@
 # calcite-action-pad
 
-For details on the `calcite-action-pad` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/action-pad/).
+For complete usage and implementation guidance on the `calcite-action-pad` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/action-pad/).
 
 <!-- Auto Generated Below -->
 

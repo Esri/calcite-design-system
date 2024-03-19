@@ -1,6 +1,6 @@
 # calcite-card
 
-For details on the `calcite-card` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/card/).
+For complete usage and implementation guidance on the `calcite-card` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/card/).
 
 <!-- Auto Generated Below -->
 
