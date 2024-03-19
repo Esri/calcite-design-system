@@ -38,11 +38,11 @@ td {
   }
 }
 
-td.start:not(.selection-cell):not(.number-cell) {
+td.start.content-cell {
   @apply align-top;
 }
 
-td.end:not(.selection-cell):not(.number-cell) {
+td.end.content-cell {
   @apply align-bottom;
 }
 
@@ -75,7 +75,7 @@ td.last-cell {
   }
 }
 
-.selected-cell:not(.number-cell):not(.footer-cell) {
+.selected-cell.content-cell {
   --calcite-internal-table-cell-background: var(--calcite-color-foreground-current);
 }
 

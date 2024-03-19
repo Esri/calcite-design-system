@@ -42,7 +42,7 @@ th {
   }
 }
 
-th:not(.center):not(.end):not(.selection-cell):not(.number-cell) {
+th:not(.center):not(.end).content-cell {
   @apply align-top;
 }
 
@@ -50,7 +50,7 @@ th.center {
   @apply align-middle;
 }
 
-th.end:not(.selection-cell):not(.number-cell) {
+th.end.content-cell {
   @apply align-bottom;
 }
 

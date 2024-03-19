@@ -226,6 +226,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           class={{
             [CSS.bodyRow]: this.parentRowType === "body",
             [CSS.footerRow]: this.parentRowType === "foot",
+            [CSS.contentCell]: !this.numberCell && !this.selectionCell,
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
             [CSS.selectedCell]: this.parentRowIsSelected,

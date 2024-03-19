@@ -241,6 +241,7 @@ export class TableCell
             aria-disabled={this.disabled}
             class={{
               [CSS.footerCell]: this.parentRowType === "foot",
+              [CSS.contentCell]: !this.numberCell && !this.selectionCell,
               [CSS.numberCell]: this.numberCell,
               [CSS.selectionCell]: this.selectionCell,
               [CSS.selectedCell]: this.parentRowIsSelected,
