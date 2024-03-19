@@ -5,16 +5,17 @@
  *
  * @prop --calcite-input-background-color: defines the background color of the component.
  * @prop --calcite-input-border-color: defines the border color of the component.
- * @prop --calcite-input-button-background-color: defines the background color of a button in the component.
  * @prop --calcite-input-button-background-color-hover: defines the background color of a button in the component when it's hovered.
+ * @prop --calcite-input-button-background-color: defines the background color of a button in the component.
  * @prop --calcite-input-button-border-color: defines the border color of a button in the component.
- * @prop --calcite-input-button-icon-color: defines the icon color of a button in the component.
  * @prop --calcite-input-button-icon-color-active: defines the icon color of a button in the component when it's active.
  * @prop --calcite-input-button-icon-color-hover: defines the icon color of a button in the component when it's hovered.
+ * @prop --calcite-input-button-icon-color: defines the icon color of a button in the component.
  * @prop --calcite-input-corner-radius: defines the corner radius of the component.
  * @prop --calcite-input-icon-color:  defines the icon color of the component.
  * @prop --calcite-input-placeholder-text-color: defines the color of placeholder text in the component.
  * @prop --calcite-input-text-color: defines the text color of the component.
+ * @prop --calcite-input-toggle-icon-color: defines the component's toggle icon color.
  *
  */
 
@@ -30,6 +31,26 @@
 
 @function get-trailing-text-input-padding($chevron-spacing) {
   @return calc(var(--calcite-toggle-spacing) + $chevron-spacing);
+}
+
+.horizontal-arrow-container,
+.vertical-arrow-container {
+  calcite-icon {
+    --calcite-icon-color: var(--calcite-input-button-icon-color);
+  }
+
+  &:hover,
+  &:focus {
+    calcite-icon {
+      --calcite-icon-color: var(--calcite-input-button-icon-color-hover);
+    }
+  }
+
+  &:active {
+    calcite-icon {
+      --calcite-icon-color: var(--calcite-input-button-icon-color-active);
+    }
+  }
 }
 
 :host([scale="s"]) {
@@ -63,6 +84,10 @@
   inset-inline-end: 0;
   inset-block: 0;
   padding-inline: var(--calcite-toggle-spacing);
+
+  calcite-icon {
+    --calcite-icon-color: var(--calcite-input-toggle-icon-color);
+  }
 }
 
 :host([range]) {
