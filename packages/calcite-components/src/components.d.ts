@@ -23,6 +23,8 @@ import { BlockSectionMessages } from "./components/block-section/assets/block-se
 import { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
 import { ButtonMessages } from "./components/button/assets/button/t9n";
 import { CardMessages } from "./components/card/assets/card/t9n";
+import { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
+import { CarouselItemMessages } from "./components/carousel-item/assets/carousel-item/t9n";
 import { ChipMessages } from "./components/chip/assets/chip/t9n";
 import { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 import { Format } from "./components/color-picker/utils";
@@ -110,6 +112,8 @@ export { BlockSectionMessages } from "./components/block-section/assets/block-se
 export { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
 export { ButtonMessages } from "./components/button/assets/button/t9n";
 export { CardMessages } from "./components/card/assets/card/t9n";
+export { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
+export { CarouselItemMessages } from "./components/carousel-item/assets/carousel-item/t9n";
 export { ChipMessages } from "./components/chip/assets/chip/t9n";
 export { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 export { Format } from "./components/color-picker/utils";
@@ -823,6 +827,67 @@ export namespace Components {
   >;
         /**
           * Sets focus on the component's first focusable element.
+         */
+        "setFocus": () => Promise<void>;
+    }
+    interface CalciteCarousel {
+        /**
+          * The component's selected option `calcite-carousel-item`.
+          * @readonly
+         */
+        "activeItem": HTMLCalciteCarouselItemElement;
+        /**
+          * control if the dot / bar and arrows are overlaid on the slotted content container or displayed adjacent to the slotted content
+         */
+        "controlOverlay"?: boolean;
+        /**
+          * control if the displayed control are dot, or bar
+         */
+        "controlType"?: "circle" | "square";
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * control if the displayed control are dot, or bar
+         */
+        "displayArrows"?: boolean;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<CarouselMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": CarouselMessages;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
+    }
+    interface CalciteCarouselItem {
+        /**
+          * When `true`, the component is active if it has a parent `calcite-carousel`.
+         */
+        "active": boolean;
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * The component label text.
+         */
+        "label": string;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<CarouselItemMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": CarouselItemMessages;
+        /**
+          * Sets focus on the component.
          */
         "setFocus": () => Promise<void>;
     }
@@ -5487,6 +5552,10 @@ export interface CalciteCardGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteCardGroupElement;
 }
+export interface CalciteCarouselCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteCarouselElement;
+}
 export interface CalciteCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteCheckboxElement;
@@ -5964,6 +6033,29 @@ declare global {
     var HTMLCalciteCardGroupElement: {
         prototype: HTMLCalciteCardGroupElement;
         new (): HTMLCalciteCardGroupElement;
+    };
+    interface HTMLCalciteCarouselElementEventMap {
+        "calciteCarouselChange": void;
+    }
+    interface HTMLCalciteCarouselElement extends Components.CalciteCarousel, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteCarouselElementEventMap>(type: K, listener: (this: HTMLCalciteCarouselElement, ev: CalciteCarouselCustomEvent<HTMLCalciteCarouselElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteCarouselElementEventMap>(type: K, listener: (this: HTMLCalciteCarouselElement, ev: CalciteCarouselCustomEvent<HTMLCalciteCarouselElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCalciteCarouselElement: {
+        prototype: HTMLCalciteCarouselElement;
+        new (): HTMLCalciteCarouselElement;
+    };
+    interface HTMLCalciteCarouselItemElement extends Components.CalciteCarouselItem, HTMLStencilElement {
+    }
+    var HTMLCalciteCarouselItemElement: {
+        prototype: HTMLCalciteCarouselItemElement;
+        new (): HTMLCalciteCarouselItemElement;
     };
     interface HTMLCalciteCheckboxElementEventMap {
         "calciteInternalCheckboxBlur": boolean;
@@ -7446,6 +7538,8 @@ declare global {
         "calcite-button": HTMLCalciteButtonElement;
         "calcite-card": HTMLCalciteCardElement;
         "calcite-card-group": HTMLCalciteCardGroupElement;
+        "calcite-carousel": HTMLCalciteCarouselElement;
+        "calcite-carousel-item": HTMLCalciteCarouselItemElement;
         "calcite-checkbox": HTMLCalciteCheckboxElement;
         "calcite-chip": HTMLCalciteChipElement;
         "calcite-chip-group": HTMLCalciteChipGroupElement;
@@ -8213,6 +8307,67 @@ declare namespace LocalJSX {
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
   >;
+    }
+    interface CalciteCarousel {
+        /**
+          * The component's selected option `calcite-carousel-item`.
+          * @readonly
+         */
+        "activeItem"?: HTMLCalciteCarouselItemElement;
+        /**
+          * control if the dot / bar and arrows are overlaid on the slotted content container or displayed adjacent to the slotted content
+         */
+        "controlOverlay"?: boolean;
+        /**
+          * control if the displayed control are dot, or bar
+         */
+        "controlType"?: "circle" | "square";
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled"?: boolean;
+        /**
+          * control if the displayed control are dot, or bar
+         */
+        "displayArrows"?: boolean;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<CarouselMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: CarouselMessages;
+        /**
+          * Fires when the selected carousel item changes.
+         */
+        "onCalciteCarouselChange"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
+    }
+    interface CalciteCarouselItem {
+        /**
+          * When `true`, the component is active if it has a parent `calcite-carousel`.
+         */
+        "active"?: boolean;
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled"?: boolean;
+        /**
+          * The component label text.
+         */
+        "label": string;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<CarouselItemMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: CarouselItemMessages;
     }
     interface CalciteCheckbox {
         /**
@@ -13092,6 +13247,8 @@ declare namespace LocalJSX {
         "calcite-button": CalciteButton;
         "calcite-card": CalciteCard;
         "calcite-card-group": CalciteCardGroup;
+        "calcite-carousel": CalciteCarousel;
+        "calcite-carousel-item": CalciteCarouselItem;
         "calcite-checkbox": CalciteCheckbox;
         "calcite-chip": CalciteChip;
         "calcite-chip-group": CalciteChipGroup;
@@ -13206,6 +13363,8 @@ declare module "@stencil/core" {
             "calcite-button": LocalJSX.CalciteButton & JSXBase.HTMLAttributes<HTMLCalciteButtonElement>;
             "calcite-card": LocalJSX.CalciteCard & JSXBase.HTMLAttributes<HTMLCalciteCardElement>;
             "calcite-card-group": LocalJSX.CalciteCardGroup & JSXBase.HTMLAttributes<HTMLCalciteCardGroupElement>;
+            "calcite-carousel": LocalJSX.CalciteCarousel & JSXBase.HTMLAttributes<HTMLCalciteCarouselElement>;
+            "calcite-carousel-item": LocalJSX.CalciteCarouselItem & JSXBase.HTMLAttributes<HTMLCalciteCarouselItemElement>;
             "calcite-checkbox": LocalJSX.CalciteCheckbox & JSXBase.HTMLAttributes<HTMLCalciteCheckboxElement>;
             "calcite-chip": LocalJSX.CalciteChip & JSXBase.HTMLAttributes<HTMLCalciteChipElement>;
             "calcite-chip-group": LocalJSX.CalciteChipGroup & JSXBase.HTMLAttributes<HTMLCalciteChipGroupElement>;
