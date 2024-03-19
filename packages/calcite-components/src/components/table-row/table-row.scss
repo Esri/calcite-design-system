@@ -3,13 +3,16 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-table-row-background: Specifies the background color of the component.
+ * @prop --calcite-table-row-background: [Deprecated] Use `--calcite-table-row-background-color` instead. Specifies the background color of the component.
+ * @prop --calcite-table-row-background-color: Specifies the background color of the component.
+ * @prop --calcite-table-row-background-color-striped: The background color of the component's `striped` rows, when specified.
+ * @prop --calcite-table-row-background-color-selected: The background color of the component's `selected` rows, when specified.
  * @prop --calcite-table-row-border-color: Specifies the border color of the component.
+ * @prop --calcite-table-row-selected-accent-color: Specifies the border color of the component.
+
  */
 
 :host {
-  --calcite-internal-table-row-background: var(--calcite-table-row-background, var(--calcite-color-foreground-1));
-  --calcite-internal-table-row-border-color: var(--calcite-table-row-border-color, transparent);
   @apply contents;
 }
 
@@ -21,9 +24,23 @@
   }
 }
 
+calcite-table-cell {
+  --calcite-internal-table-cell-background-color: var(
+    --calcite-table-row-background-color,
+    var(--calcite-color-foreground-1)
+  );
+}
+
+:host([selected]) calcite-table-cell {
+  --calcite-internal-table-cell-background-color: var(
+    --calcite-table-row-background-color-selected,
+    var(--calcite-color-foreground-1)
+  );
+}
+
 tr {
-  border-block-end: 1px solid var(--calcite-internal-table-row-border-color);
-  background-color: var(--calcite-internal-table-row-background);
+  border-block-end: 1px solid var(--calcite-table-row-border-color, transparent);
+  background-color: var(--calcite-table-row-background-color, var(--calcite-color-foreground-1));
 }
 
 tr.last-visible-row {

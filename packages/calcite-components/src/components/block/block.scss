@@ -27,6 +27,9 @@
  * @prop --calcite-block-padding: [Deprecated] use `--calcite-block-content-space` instead - Specifies the padding of the component's `default` slot.
  * @prop --calcite-block-text-color: Specifies the text color of the component.
  * @prop --calcite-block-toggle-icon-color: Specifies the color of the component's toggle icon.
+ * @prop --calcite-block-toggle-icon-color-hover: Specifies the color of the component's toggle icon on hover.
+ * @prop --calcite-block-status-icon-color-valid: Specifies the color of the component's status icon when valid.
+ * @prop --calcite-block-status-icon-color-invalid: Specifies the color of the component's status icon when invalid.
  */
 
 :host {
@@ -80,14 +83,14 @@
   background-color: var(--calcite-block-header-background-color, transparent);
 
   .toggle-icon {
-    color: var(--calcite-block-toggle-icon-color, var(--calcite-color-text-3));
+    --calcite-icon-color: var(--calcite-block-toggle-icon-color, var(--calcite-color-text-3));
   }
 
   &:hover {
     background-color: var(--calcite-block-header-background-color-hover, var(--calcite-color-foreground-2));
 
     .toggle-icon {
-      color: var(--calcite-block-toggle-icon-color, var(--calcite-color-text-1));
+      --calcite-icon-color: var(--calcite-block-toggle-icon-color-hover, var(--calcite-color-text-1));
     }
   }
   &:focus {
@@ -137,11 +140,11 @@ calcite-handle {
 
 .status-icon {
   &.valid {
-    color: var(--calcite-color-status-success);
+    --calcite-icon-color: var(--calcite-block-status-icon-color-valid, var(--calcite-color-status-success));
   }
 
   &.invalid {
-    color: var(--calcite-color-status-danger);
+    --calcite-icon-color: var(--calcite-block-status-icon-color-invalid, var(--calcite-color-status-danger));
   }
 }
 

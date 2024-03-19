@@ -8,6 +8,8 @@
  * @prop --calcite-select-font-size: [Deprecated] The font size of `calcite-option`s in the component.
  * @prop --calcite-select-spacing: [Deprecated] The padding around the selected option text.
  * @prop --calcite-select-text-color: The text color of the component.
+ * @prop --calcite-select-icon-color: The icon color of the component.
+ *
  */
 
 :host {
@@ -92,8 +94,15 @@
 
 .select,
 .icon-container {
-  color: var(--calcite-select-text-color, var(--calcite-color-text-2));
   border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
+}
+
+.select {
+  color: var(--calcite-select-text-color, var(--calcite-color-text-2));
+}
+
+.icon-container {
+  color: var(--calcite-select-icon-color, var(--calcite-color-text-2));
 }
 
 .icon-container {

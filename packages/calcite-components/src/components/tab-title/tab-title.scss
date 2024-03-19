@@ -4,15 +4,17 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-tab-title-background-color: Specifies the background color of the component.
- * @prop --calcite-tab-title-text-color: Specifies the text color of the component.
- * @prop --calcite-tab-title-close-button-background-color: Specifies the background color of the close button.
  * @prop --calcite-tab-title-close-button-background-color-active: Specifies the background color of the close button when active.
  * @prop --calcite-tab-title-close-button-background-color-focus: Specifies the background color of the close button when focused.
  * @prop --calcite-tab-title-close-button-background-color-hover: Specifies the background color of the close button when hovered.
- * @prop --calcite-tab-title-close-button-icon-color: Specifies the icon color of the close button.
+ * @prop --calcite-tab-title-close-button-background-color: Specifies the background color of the close button.
  * @prop --calcite-tab-title-close-button-icon-color-active: Specifies the icon color of the close button when active.
  * @prop --calcite-tab-title-close-button-icon-color-focus: Specifies the icon color of the close button when focused.
  * @prop --calcite-tab-title-close-button-icon-color-hover: Specifies the icon color of the close button when hovered.
+ * @prop --calcite-tab-title-close-button-icon-color: Specifies the icon color of the close button.
+ * @prop --calcite-tab-title-icon-color: Specifies the icon color of the component.
+ * @prop --calcite-tab-title-text-color: Specifies the text color of the component.
+ *
  */
 
 :host {
@@ -121,6 +123,8 @@
 }
 
 .calcite-tab-title--icon {
+  --calcite-icon-color: var(--calcite-tab-title-icon-color, currentcolor);
+
   @apply relative
     m-0
     inline-flex
