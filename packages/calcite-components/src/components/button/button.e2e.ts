@@ -28,6 +28,10 @@ describe("calcite-button", () => {
         defaultValue: false,
       },
       {
+        propertyName: "download",
+        defaultValue: false,
+      },
+      {
         propertyName: "href",
         defaultValue: undefined,
       },
@@ -215,6 +219,39 @@ describe("calcite-button", () => {
     expect(iconStart).toBeNull();
     expect(iconEnd).toBeNull();
     expect(loader).toBeNull();
+  });
+
+  it("sets download attribute", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button href="/">Continue</calcite-button>`);
+
+    const elementAsLink = await page.find("calcite-button >>> a");
+
+    expect(elementAsLink).not.toBeNull();
+    expect(await elementAsLink.getProperty("download")).toBe("");
+    expect(elementAsLink).not.toHaveAttribute("download");
+
+    const element = await page.find("calcite-button");
+
+    element.setProperty("download", true);
+    await page.waitForChanges();
+
+    expect(await elementAsLink.getProperty("download")).toBe("");
+    expect(elementAsLink).toHaveAttribute("download");
+    expect(elementAsLink.getAttribute("download")).toBe("");
+
+    const newFilename = "my-cool-file.jpg";
+    element.setProperty("download", newFilename);
+    await page.waitForChanges();
+
+    expect(await elementAsLink.getProperty("download")).toBe(newFilename);
+    expect(elementAsLink.getAttribute("download")).toBe(newFilename);
+
+    element.setProperty("download", false);
+    await page.waitForChanges();
+
+    expect(await elementAsLink.getProperty("download")).toBe("");
+    expect(elementAsLink).not.toHaveAttribute("download");
   });
 
   it("renders as a button with requested props", async () => {
@@ -648,8 +685,7 @@ describe("calcite-button", () => {
     t9n("calcite-button");
   });
 
-  describe('automatic tooltip', ()=>{
-
+  describe("automatic tooltip", () => {
     it("shows tooltip for buttons with truncated long text", async () => {
       const shortText = "Hi!";
       const longText =
@@ -685,7 +721,6 @@ describe("calcite-button", () => {
 
       expect(button).not.toHaveAttribute("title");
     });
-
   });
 
   it("should set aria-expanded attribute on shadowDOM element when used as trigger", async () => {

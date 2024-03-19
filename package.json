@@ -7,6 +7,7 @@
     "packages/calcite-components-angular/projects/component-library"
   ],
   "scripts": {
+    "postinstall": "patch-package",
     "build": "turbo run build --log-order=stream",
     "clean": "turbo run clean --log-order=stream && rimraf node_modules",
     "lint": "concurrently \"npm:lint:*\" \"turbo run lint --log-order=stream\"",
@@ -123,5 +124,8 @@
   "packageManager": "npm@10.2.3",
   "volta": {
     "node": "20.10.0"
+  },
+  "dependencies": {
+    "patch-package": "8.0.0"
   }
 }

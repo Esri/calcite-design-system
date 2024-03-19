@@ -208,7 +208,7 @@ export class RadioButtonGroup implements LoadableComponent {
         <div class={CSS.itemWrapper}>
           <slot />
         </div>
-        {this.validationMessage ? (
+        {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}
             message={this.validationMessage}

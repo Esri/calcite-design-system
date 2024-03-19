@@ -9,7 +9,7 @@
 
 :host {
   @extend %component-host;
-  @apply relative flex w-full h-full flex-auto;
+  @apply relative flex w-full h-full flex-auto overflow-hidden;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
 }

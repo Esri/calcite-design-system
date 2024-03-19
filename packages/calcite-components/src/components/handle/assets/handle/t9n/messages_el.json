@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Λαβή σύρσης",
+  "dragHandle": "Μετατόπιση: {itemLabel}",
+  "dragHandleUntitled": "Μετατόπιση",
   "dragHandleActive": "Αναδιάταξη {itemLabel}, τρέχουσα θέση {position} του {total}.",
   "dragHandleChange": "{itemLabel}, νέα θέση {position} του {total}. Πατήστε space για επιβεβαίωση.",
   "dragHandleCommit": "{itemLabel}, τρέχουσα θέση {position} του {total}.",

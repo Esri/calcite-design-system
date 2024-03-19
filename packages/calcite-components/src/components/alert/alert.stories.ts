@@ -218,3 +218,13 @@ export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
     <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
   </calcite-alert>
 `;
+
+export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
+  <div style="text-align:center">
+    <calcite-alert icon="rangefinder" kind="brand" open label="A report alert">
+      <div slot="title">Trail Camera Report</div>
+      <div slot="message">We thought you might want to take a look</div>
+      <calcite-link slot="link">Take action</calcite-link>
+    </calcite-alert>
+  </div>
+`;

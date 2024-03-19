@@ -71,6 +71,7 @@ import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfac
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
@@ -88,7 +89,9 @@ export class Input
     InteractiveComponent,
     T9nComponent,
     LocalizedComponent,
-    LoadableComponent
+    LoadableComponent,
+    NumericInputComponent,
+    TextualInputComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -884,22 +887,7 @@ export class Input
   };
 
   syncHiddenFormInput(input: HTMLInputElement): void {
-    const { type } = this;
-
-    input.type = type;
-
-    if (type === "number") {
-      input.min = this.min?.toString(10) ?? "";
-      input.max = this.max?.toString(10) ?? "";
-    } else if (type === "text") {
-      if (this.minLength != null) {
-        input.minLength = this.minLength;
-      }
-
-      if (this.maxLength != null) {
-        input.maxLength = this.maxLength;
-      }
-    }
+    syncHiddenFormInput(this.type, this, input);
   }
 
   private onHiddenFormInputInput = (event: Event): void => {
@@ -1245,7 +1233,7 @@ export class Input
               : null}
             <HiddenFormInputSlot component={this} />
           </div>
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}
