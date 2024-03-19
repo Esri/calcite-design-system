@@ -27,7 +27,7 @@ describe("Helper to create a Calcite Token Transformer configuration file", () =
     const args = {
       name: "testName",
       path: resolve(__dirname, "..", "..", "test", "mock", "src", "global.json"),
-      source: ["./my-extra-source"],
+      source: ["my-extra-source"],
     };
     const expected = {
       name: "testName",
