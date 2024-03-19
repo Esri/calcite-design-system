@@ -14,6 +14,9 @@
 * @prop --calcite-popover-corner-radius: defines the corner radius of the component.
 * @prop --calcite-popover-shadow: defines the shadow of the component.
 * @prop --calcite-popover-text-color: defines the text color of the component.
+* @prop --calcite-popover-close-icon-color: defines the component's close icon color.
+* @prop --calcite-popover-close-icon-color-hover: defines the component's close icon color on hover.
+* @prop --calcite-popover-close-icon-color-active: defines the component's close icon color when active.
 *
 */
 
@@ -112,6 +115,19 @@
   flex: 0 0 auto;
   border-start-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
   border-end-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
+}
+
+.close-button {
+  color: var(--calcite-popover-close-icon-color);
+
+  &:hover,
+  &:focus {
+    color: var(--calcite-popover-close-icon-color-hover);
+  }
+
+  &:active {
+    color: var(--calcite-popover-close-icon-color-active);
+  }
 }
 
 ::slotted(calcite-panel),
