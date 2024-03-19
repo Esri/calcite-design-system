@@ -129,7 +129,7 @@ export function connectSortableComponent(component: SortableComponent): void {
       },
     }),
     handle,
-    filter: "[drag-disabled]",
+    filter: `${handle}[disabled]`,
     onStart: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
       dragState.active = true;
       onGlobalDragStart();

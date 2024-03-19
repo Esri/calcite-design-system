@@ -37,11 +37,4 @@
   max-h-menu;
 }
 
-calcite-popover {
-  --calcite-popover-background-color: var(--calcite-action-menu-popover-background-color);
-  --calcite-popover-border-color: var(--calcite-action-menu-popover-border-color);
-  --calcite-popover-corner-radius: var(--calcite-action-menu-popover-corner-radius);
-  --calcite-popover-text-color: var(--calcite-action-menu-popover-text-color);
-}
-
 @include base-component();

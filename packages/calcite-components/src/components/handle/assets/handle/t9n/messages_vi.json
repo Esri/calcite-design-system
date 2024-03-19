@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Kéo thông tin",
+  "dragHandle": "Định vị lại: {itemLabel}",
+  "dragHandleUntitled": "Định vị lại",
   "dragHandleActive": "Sắp xếp lại {itemLabel}, vị trí hiện tại {position} trên {total}.",
   "dragHandleChange": "{itemLabel}, vị trí mới {position} trên {total}. Nhấn dấu cách để xác nhận.",
   "dragHandleCommit": "{itemLabel}, vị trí hiện tại {position} trên {total}.",

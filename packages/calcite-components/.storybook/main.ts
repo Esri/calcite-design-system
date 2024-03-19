@@ -1,7 +1,6 @@
 module.exports = {
   addons: [
     "@storybook/addon-a11y",
-    "@storybook/addon-docs",
     "@storybook/addon-interactions",
     "@storybook/addon-knobs",
     "@storybook/testing-library",
