@@ -4,17 +4,17 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-slider-fill-color: Specifies the color of the fill.
- * @prop --calcite-slider-graph-accent-color: Specifies the accent color of the graph.
- * @prop --calcite-slider-graph-background-color: Specifies the background color of the graph.
  * @prop --calcite-slider-handle-border-color-hover: Specifies the border color of the handle when hovered.
  * @prop --calcite-slider-handle-border-color: Specifies the border color of the handle.
  * @prop --calcite-slider-handle-color-active: Specifies the color of the handle.
  * @prop --calcite-slider-handle-color-hover: Specifies the color of the handle when hovered.
  * @prop --calcite-slider-handle-color: Specifies the color OF the handle.
- * @prop --calcite-slider-handle-extension-color-hover: Specifies the color of the handle extension when hovered.
- * @prop --calcite-slider-handle-extension-color: Specifies the color of the handle extension.
  * @prop --calcite-slider-handle-shadow-hover: Specifies the shadow of the handle when hovered.
  * @prop --calcite-slider-handle-shadow: Specifies the shadow of the handle.
+ * @prop --calcite-slider-histogram-accent-color: Specifies the accent color of the graph.
+ * @prop --calcite-slider-histogram-background-color: Specifies the background color of the graph.
+ * @prop --calcite-slider-precise-handle-color-hover: Specifies the color of the handle extension when hovered.
+ * @prop --calcite-slider-precise-handle-color: Specifies the color of the handle extension.
  * @prop --calcite-slider-text-color: Specifies the text color of the component.
  * @prop --calcite-slider-text-size: Specifies the text size of the component.
  * @prop --calcite-slider-tick-border-color: Specifies the border color of the tick.
@@ -24,7 +24,7 @@
 
 .scale--s {
   --calcite-internal-slider-handle-size: theme("spacing[2.5]");
-  --calcite-internal-slider-handle-extension-height: 0.4rem;
+  --calcite-internal-slider-precise-handle-height: 0.4rem;
   --calcite-internal-slider-container-font-size: var(--calcite-font-size--3);
 
   .handle__label,
@@ -35,7 +35,7 @@
 
 .scale--m {
   --calcite-internal-slider-handle-size: theme("spacing[3.5]");
-  --calcite-internal-slider-handle-extension-height: 0.5rem;
+  --calcite-internal-slider-precise-handle-height: 0.5rem;
   --calcite-internal-slider-container-font-size: var(--calcite-font-size--2);
 
   .handle__label,
@@ -46,7 +46,7 @@
 
 .scale--l {
   --calcite-internal-slider-handle-size: 1rem;
-  --calcite-internal-slider-handle-extension-height: 0.65rem;
+  --calcite-internal-slider-precise-handle-height: 0.65rem;
   --calcite-internal-slider-container-font-size: var(--calcite-font-size--1);
 
   .handle__label,
@@ -69,7 +69,7 @@
 .container {
   --calcite-internal-slider-handle-size-half: calc(var(--calcite-internal-slider-handle-size) * 0.5);
   --calcite-internal-slider-full-handle-height: calc(
-    var(--calcite-internal-slider-handle-size) + var(--calcite-internal-slider-handle-extension-height)
+    var(--calcite-internal-slider-handle-size) + var(--calcite-internal-slider-precise-handle-height)
   );
 
   @apply relative block break-normal;
@@ -162,8 +162,8 @@
 
   .handle-extension {
     @apply w-0.5;
-    block-size: var(--calcite-internal-slider-handle-extension-height);
-    background-color: var(--calcite-slider-handle-extension-color, var(--calcite-color-text-3));
+    block-size: var(--calcite-internal-slider-precise-handle-height);
+    background-color: var(--calcite-slider-precise-handle-color, var(--calcite-color-text-3));
   }
 
   &:focus {
@@ -179,7 +179,7 @@
       box-shadow: 0 0 0 3px var(--calcite-slider-handle-border-color-hover, var(--calcite-color-brand)) inset;
     }
     .handle-extension {
-      background-color: var(--calcite-slider-handle-extension-color-hover, var(--calcite-color-brand));
+      background-color: var(--calcite-slider-precise-handle-color-hover, var(--calcite-color-brand));
     }
   }
 
@@ -188,7 +188,7 @@
       box-shadow: 0 0 0 3px var(--calcite-slider-handle-border-color-hover, var(--calcite-color-brand)) inset;
     }
     .handle-extension {
-      background-color: var(--calcite-slider-handle-extension-color-hover, var(--calcite-color-brand));
+      background-color: var(--calcite-slider-precise-handle-color-hover, var(--calcite-color-brand));
     }
   }
 
@@ -281,7 +281,7 @@
       content: "";
       inset-block-start: calc(var(--calcite-internal-slider-full-handle-height) * -0.5);
       block-size: calc(
-        var(--calcite-internal-slider-handle-size) + var(--calcite-internal-slider-handle-extension-height)
+        var(--calcite-internal-slider-handle-size) + var(--calcite-internal-slider-precise-handle-height)
       );
     }
   }
@@ -408,8 +408,8 @@
 }
 
 calcite-graph {
-  --calcite-graph-background-color: var(--calcite-slider-graph-background-color, var(--calcite-color-foreground-3));
-  --calcite-graph-accent-color: var(--calcite-slider-graph-accent-color);
+  --calcite-graph-background-color: var(--calcite-slider-histogram-background-color, var(--calcite-color-foreground-3));
+  --calcite-graph-accent-color: var(--calcite-slider-histogram-accent-color);
 }
 
 @include hidden-form-input();
