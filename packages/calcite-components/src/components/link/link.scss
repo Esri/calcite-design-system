@@ -74,6 +74,7 @@ a {
 }
 
 calcite-icon {
+  --calcite-icon-color: var(--calcite-link-icon-color, currentColor);
   @apply transition-default align-middle;
 
   inline-size: 1em;
@@ -85,11 +86,9 @@ calcite-icon {
   // icon positioning and styles
   &.icon-start {
     margin-inline-end: theme("margin.2");
-    color: var(--calcite-link-icon-color, currentColor);
   }
   &.icon-end {
     margin-inline-start: theme("margin.2");
-    color: var(--calcite-link-icon-color, currentColor);
   }
 }
 

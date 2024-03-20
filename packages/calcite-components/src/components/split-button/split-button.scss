@@ -216,3 +216,7 @@ calcite-dropdown {
 }
 
 @include base-component();
+
+calcite-dropdown {
+  --calcite-dropdown-background-color: var(--calcite-split-button-dropdown-background-color);
+}

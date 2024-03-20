@@ -19,6 +19,7 @@
  * @prop --calcite-alert-close-icon-color-hover: Specifies the color of the close button icon in the component when the close button is hovered.
  * @prop --calcite-alert-close-icon-color: Specifies the color of the close button icon in the component.
  * @prop --calcite-alert-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-alert-icon-color: Specifies the color of the icon in the component.
  * @prop --calcite-alert-shadow: Specifies the shadow of the component.
  * @prop --calcite-alert-width: Specifies the width of the component.
  */
@@ -85,11 +86,11 @@
 }
 
 .icon {
+  --calcite-icon-color: var(--calcite-alert-icon-color, var(--calcite-internal-alert-status-color));
   @apply flex flex-col items-center justify-center p-0;
   margin-block: auto;
   margin-inline-end: auto;
   padding-inline-start: var(--calcite-internal-alert-spacing-token-large);
-  color: var(--calcite-internal-alert-status-color);
 }
 
 .close {
