@@ -132,14 +132,14 @@ calcite-loader {
     --calcite-internal-action-icon-color: var(--calcite-color-text-1);
   }
 }
-:host(:focus) {
+:host(:focus),
+:host([data-active]) {
   .button {
     @apply focus-inset;
   }
 }
 :host(:active),
-:host([active]),
-:host([data-active]) {
+:host([active]) {
   .button {
     --calcite-internal-action-icon-color: var(--calcite-color-text-1);
     --calcite-internal-action-text-color: var(--calcite-color-text-1);
@@ -155,8 +155,7 @@ calcite-loader {
     }
   }
   &:host(:active),
-  &:host([active]),
-  &:host([data-active]) {
+  &:host([active]) {
     .button {
       --calcite-internal-action-background-color: var(--calcite-color-foreground-3);
     }
@@ -186,8 +185,7 @@ calcite-loader {
     }
   }
   &:host(:active),
-  &:host([active]),
-  &:host([data-active]) {
+  &:host([active]) {
     .button {
       --calcite-internal-action-background-color: var(--calcite-action-color-transparent-press);
     }
