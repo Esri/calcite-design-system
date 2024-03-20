@@ -16,7 +16,7 @@ import {
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
-import { getElementXY, skipAnimations } from "../../tests/utils";
+import { getElementXY, skipAnimations, waitForTimeout } from "../../tests/utils";
 
 const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
 
@@ -1030,12 +1030,12 @@ describe("calcite-combobox", () => {
       expect(await page.evaluate(() => window.scrollY)).toEqual(0);
 
       await page.keyboard.press("PageDown");
-      await page.waitForTimeout(scrollTestDelayInMilliseconds);
+      waitForTimeout(scrollTestDelayInMilliseconds);
       const scrollPosition = await page.evaluate(() => window.scrollY);
       expect(scrollPosition).toBeTruthy();
 
       await page.keyboard.press("PageUp");
-      await page.waitForTimeout(scrollTestDelayInMilliseconds);
+      waitForTimeout(scrollTestDelayInMilliseconds);
       expect(
         await page.evaluate((scrollPosition) => {
           return window.scrollY < scrollPosition;

@@ -2,6 +2,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { DEBOUNCE_TIMEOUT } from "./resources";
 import { CSS as INPUT_CSS } from "../input/resources";
+import { waitForTimeout } from "../../tests/utils";
 
 describe("calcite-filter", () => {
   describe("renders", () => {
@@ -190,7 +191,7 @@ describe("calcite-filter", () => {
     it("updates filtered items after filtering", async () => {
       const filter = await page.find("calcite-filter");
       const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
-      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
+      waitForTimeout(DEBOUNCE_TIMEOUT);
       await page.waitForChanges();
 
       expect(filterChangeSpy).toHaveReceivedEventTimes(0);
@@ -215,7 +216,7 @@ describe("calcite-filter", () => {
       await page.$eval("calcite-filter", (filter: HTMLCalciteFilterElement): void => {
         filter.items = filter.items.slice(3);
       });
-      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
+      waitForTimeout(DEBOUNCE_TIMEOUT);
       await page.waitForChanges();
 
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
@@ -274,7 +275,7 @@ describe("calcite-filter", () => {
 
     it("should return matching value", async () => {
       const filter = await page.find("calcite-filter");
-      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
+      waitForTimeout(DEBOUNCE_TIMEOUT);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
     });
   });

@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils";
+import { skipAnimations, waitForTimeout } from "../../tests/utils";
 import { formatTimePart } from "../../utils/time";
 
 describe("calcite-date-picker", () => {
@@ -36,7 +36,7 @@ describe("calcite-date-picker", () => {
     const date = await page.find("calcite-date-picker");
     const changedEvent = await page.spyOnEvent("calciteDatePickerChange");
 
-    await page.waitForTimeout(animationDurationInMs);
+    waitForTimeout(animationDurationInMs);
     // can't find this input as it's deeply nested in shadow dom, so just tab to it
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
@@ -55,7 +55,7 @@ describe("calcite-date-picker", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-date-picker value="2015-02-28" active></calcite-date-picker>`);
     const datePicker = await page.find("calcite-date-picker");
-    await page.waitForTimeout(animationDurationInMs);
+    waitForTimeout(animationDurationInMs);
 
     async function getActiveMonthDate(): Promise<string> {
       return page.$eval("calcite-date-picker", (datePicker: HTMLCalciteDatePickerElement) =>
@@ -99,7 +99,7 @@ describe("calcite-date-picker", () => {
     await page.setContent("<calcite-date-picker value='2000-11-27' active></calcite-date-picker>");
     const changedEvent = await page.spyOnEvent("calciteDatePickerChange");
 
-    await page.waitForTimeout(animationDurationInMs);
+    waitForTimeout(animationDurationInMs);
 
     await selectFirstAvailableDay(page, "mouse");
     expect(changedEvent).toHaveReceivedEventTimes(1);
@@ -114,7 +114,7 @@ describe("calcite-date-picker", () => {
     const datePicker = await page.find("calcite-date-picker");
     const eventSpy = await page.spyOnEvent("calciteDatePickerRangeChange");
 
-    await page.waitForTimeout(animationDurationInMs);
+    waitForTimeout(animationDurationInMs);
 
     const now = new Date();
     const currentYear = now.getUTCFullYear();

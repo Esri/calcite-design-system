@@ -13,7 +13,7 @@ import {
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
-import { getElementRect, getElementXY, selectText } from "../../tests/utils";
+import { getElementRect, getElementXY, selectText, waitForTimeout } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
 import { testHiddenInputSyncing, testPostValidationFocusing } from "./common/tests";
 
@@ -380,7 +380,7 @@ describe("calcite-input", () => {
       const inputEventSpy = await input.spyOnEvent("calciteInputInput");
       await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
       await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       await page.mouse.up();
       await page.waitForChanges();
       const totalNudgesUp = inputEventSpy.length;
@@ -394,7 +394,7 @@ describe("calcite-input", () => {
 
       await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
       await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       await page.mouse.up();
       await page.waitForChanges();
       const totalNudgesDown = inputEventSpy.length - totalNudgesUp;
@@ -527,7 +527,7 @@ describe("calcite-input", () => {
       await page.waitForChanges();
 
       await page.keyboard.down("ArrowUp");
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       await page.waitForEvent("calciteInputInput");
       await page.keyboard.up("ArrowUp");
       await page.waitForChanges();
@@ -536,7 +536,7 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
 
       await page.keyboard.down("ArrowDown");
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       await page.keyboard.up("ArrowDown");
       await page.waitForChanges();
 
@@ -557,21 +557,21 @@ describe("calcite-input", () => {
       expect(calciteInputInput).toHaveReceivedEventTimes(0);
       await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
       await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       await page.mouse.up();
       await page.waitForChanges();
       let totalNudgesUp = calciteInputInput.length;
       expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
 
       await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       await page.mouse.move(buttonUpLocationX - 1, buttonUpLocationY - 1);
 
       totalNudgesUp = calciteInputInput.length;
       expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
 
       // assert changes no longer emitted after moving away from stepper
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
       await page.mouse.up(); // mouseleave assertion done, we release
 
@@ -583,7 +583,7 @@ describe("calcite-input", () => {
 
       await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
       await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       await page.mouse.up();
       await page.waitForChanges();
 
@@ -592,7 +592,7 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
 
       await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       await page.mouse.move(buttonDownLocationX - 1, buttonDownLocationY - 1);
 
       totalNudgesDown = calciteInputInput.length - totalNudgesUp;
@@ -600,7 +600,7 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
 
       // assert changes no longer emitted after moving away from stepper
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
     });
 
@@ -611,7 +611,7 @@ describe("calcite-input", () => {
       await page.waitForChanges();
 
       await Promise.all((["ArrowUp", "ArrowDown"] as const).map((key) => page.keyboard.press(key)));
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       expect(await element.getProperty("value")).toBe("0");
     });
 
@@ -694,7 +694,7 @@ describe("calcite-input", () => {
       await page.mouse.down();
       await page.waitForChanges();
       // timeout is used to simulate long press.
-      await page.waitForTimeout(3000);
+      waitForTimeout(3000);
       expect(await input.getProperty("value")).not.toBe("");
 
       const value = await input.getProperty("value");
@@ -718,7 +718,7 @@ describe("calcite-input", () => {
       await page.waitForChanges();
       await page.keyboard.down("ArrowUp");
       // timeout is used to simulate long press.
-      await page.waitForTimeout(3000);
+      waitForTimeout(3000);
       await page.keyboard.press("Tab");
       await page.waitForChanges();
 
@@ -726,7 +726,7 @@ describe("calcite-input", () => {
       expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
       expect(calciteInputInput).toHaveReceivedEventTimes(totalNudgesUp);
 
-      await page.waitForTimeout(3000);
+      waitForTimeout(3000);
       expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
       expect(calciteInputInput).toHaveReceivedEventTimes(totalNudgesUp);
     });
@@ -1930,7 +1930,7 @@ describe("calcite-input", () => {
         },
         cursorHomeCount,
       );
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
 
       await page.keyboard.up("ArrowUp");
       await page.waitForChanges();

@@ -12,6 +12,7 @@ import {
 } from "../../tests/commonTests";
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS, activeAttr } from "./resources";
+import { waitForTimeout } from "../../tests/utils";
 
 describe("calcite-action-menu", () => {
   describe("renders", () => {
@@ -228,7 +229,7 @@ describe("calcite-action-menu", () => {
     expect(await tooltip.isVisible()).toBe(false);
 
     await trigger.hover();
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     expect(await tooltip.isVisible()).toBe(true);
 
@@ -260,7 +261,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       await page.keyboard.press("ArrowDown");
-      await page.waitForTimeout(0);
+      waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await trigger.getProperty("active")).toBe(true);
@@ -270,7 +271,7 @@ describe("calcite-action-menu", () => {
       expect(actions[2].getAttribute(activeAttr)).toBe(null);
 
       await page.keyboard.press("ArrowDown");
-      await page.waitForTimeout(0);
+      waitForTimeout(0);
       await page.waitForChanges();
 
       expect(actions[0].getAttribute(activeAttr)).toBe(null);
@@ -340,7 +341,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       await page.keyboard.press("ArrowUp");
-      await page.waitForTimeout(0);
+      waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await trigger.getProperty("active")).toBe(true);
@@ -350,7 +351,7 @@ describe("calcite-action-menu", () => {
       expect(actions[2].getAttribute(activeAttr)).toBe("");
 
       await page.keyboard.press("ArrowUp");
-      await page.waitForTimeout(0);
+      waitForTimeout(0);
       await page.waitForChanges();
 
       expect(actions[0].getAttribute(activeAttr)).toBe(null);

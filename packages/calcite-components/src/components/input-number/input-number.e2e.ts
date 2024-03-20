@@ -12,7 +12,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getElementRect, getElementXY, selectText } from "../../tests/utils";
+import { getElementRect, getElementXY, selectText, waitForTimeout } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { testHiddenInputSyncing, testPostValidationFocusing } from "../input/common/tests";
@@ -371,7 +371,7 @@ describe("calcite-input-number", () => {
       const inputEventSpy = await input.spyOnEvent("calciteInputNumberInput");
       await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
       await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       await page.mouse.up();
       await page.waitForChanges();
       const totalNudgesUp = inputEventSpy.length;
@@ -385,7 +385,7 @@ describe("calcite-input-number", () => {
 
       await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
       await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       await page.mouse.up();
       await page.waitForChanges();
       const totalNudgesDown = inputEventSpy.length - totalNudgesUp;
@@ -538,7 +538,7 @@ describe("calcite-input-number", () => {
       await page.waitForChanges();
 
       await page.keyboard.down("ArrowUp");
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       await page.waitForEvent("calciteInputNumberInput");
       await page.keyboard.up("ArrowUp");
       await page.waitForChanges();
@@ -547,7 +547,7 @@ describe("calcite-input-number", () => {
       expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
 
       await page.keyboard.down("ArrowDown");
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       await page.keyboard.up("ArrowDown");
       await page.waitForChanges();
 
@@ -578,7 +578,7 @@ describe("calcite-input-number", () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
           await page.mouse.move(buttonUpLocation.x, buttonUpLocation.y);
           await page.mouse.down();
-          await page.waitForTimeout(delayFor2UpdatesInMs);
+          waitForTimeout(delayFor2UpdatesInMs);
           await page.mouse.up();
           await page.waitForChanges();
           const totalNudgesUp = calciteInputNumberInput.length;
@@ -589,12 +589,12 @@ describe("calcite-input-number", () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
           await page.mouse.move(buttonUpLocation.x, buttonUpLocation.y);
           await page.mouse.down();
-          await page.waitForTimeout(delayFor2UpdatesInMs);
+          waitForTimeout(delayFor2UpdatesInMs);
           await page.mouse.move(buttonUpLocation.x - 1, buttonUpLocation.y - 1);
 
           const totalNudgesUp = calciteInputNumberInput.length;
           // assert changes no longer emitted after moving away from stepper
-          await page.waitForTimeout(delayFor2UpdatesInMs);
+          waitForTimeout(delayFor2UpdatesInMs);
           await page.mouse.up(); // mouseleave assertion done, we release
           expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
         });
@@ -616,7 +616,7 @@ describe("calcite-input-number", () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
           await page.mouse.move(buttonDownLocation.x, buttonDownLocation.y);
           await page.mouse.down();
-          await page.waitForTimeout(delayFor2UpdatesInMs);
+          waitForTimeout(delayFor2UpdatesInMs);
           await page.mouse.up();
           await page.waitForChanges();
           const totalNudgesUp = calciteInputNumberInput.length;
@@ -627,12 +627,12 @@ describe("calcite-input-number", () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
           await page.mouse.move(buttonDownLocation.x, buttonDownLocation.y);
           await page.mouse.down();
-          await page.waitForTimeout(delayFor2UpdatesInMs);
+          waitForTimeout(delayFor2UpdatesInMs);
           await page.mouse.move(buttonDownLocation.x - 1, buttonDownLocation.y - 1);
 
           const totalNudgesUp = calciteInputNumberInput.length;
           // assert changes no longer emitted after moving away from stepper
-          await page.waitForTimeout(delayFor2UpdatesInMs);
+          waitForTimeout(delayFor2UpdatesInMs);
           await page.mouse.up(); // mouseleave assertion done, we release
           expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
         });
@@ -646,7 +646,7 @@ describe("calcite-input-number", () => {
       await page.waitForChanges();
 
       await Promise.all((["ArrowUp", "ArrowDown"] as const).map((key) => page.keyboard.press(key)));
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
       expect(await element.getProperty("value")).toBe("0");
     });
 
@@ -1651,7 +1651,7 @@ describe("calcite-input-number", () => {
         },
         cursorHomeCount,
       );
-      await page.waitForTimeout(delayFor2UpdatesInMs);
+      waitForTimeout(delayFor2UpdatesInMs);
 
       await page.keyboard.up("ArrowUp");
       await page.waitForChanges();
@@ -1775,7 +1775,7 @@ describe("calcite-input-number", () => {
     await page.mouse.down();
     await page.waitForChanges();
     // timeout is used to simulate long press.
-    await page.waitForTimeout(3000);
+    waitForTimeout(3000);
     expect(await inputNumber.getProperty("value")).not.toBe("");
 
     const value = await inputNumber.getProperty("value");
@@ -1799,7 +1799,7 @@ describe("calcite-input-number", () => {
     await page.waitForChanges();
     await page.keyboard.down("ArrowUp");
     // timeout is used to simulate long press.
-    await page.waitForTimeout(3000);
+    waitForTimeout(3000);
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
@@ -1807,7 +1807,7 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
     expect(calciteInputNumberInput).toHaveReceivedEventTimes(totalNudgesUp);
 
-    await page.waitForTimeout(3000);
+    waitForTimeout(3000);
     expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
     expect(calciteInputNumberInput).toHaveReceivedEventTimes(totalNudgesUp);
   });

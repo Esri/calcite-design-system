@@ -14,7 +14,7 @@ import {
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
-import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
+import { getFocusedElementProp, skipAnimations, waitForTimeout } from "../../tests/utils";
 const animationDurationInMs = 200;
 
 describe("calcite-input-date-picker", () => {
@@ -144,7 +144,7 @@ describe("calcite-input-date-picker", () => {
 
       await input.click();
       await page.waitForChanges();
-      await page.waitForTimeout(animationDurationInMs);
+      waitForTimeout(animationDurationInMs);
       const wrapper = await page.waitForFunction(
         (calendarWrapperClass: string) =>
           document.querySelector("calcite-input-date-picker").shadowRoot.querySelector(`.${calendarWrapperClass}`),
@@ -215,7 +215,7 @@ describe("calcite-input-date-picker", () => {
 
       await input.click();
       await page.waitForChanges();
-      await page.waitForTimeout(animationDurationInMs);
+      waitForTimeout(animationDurationInMs);
 
       const wrapper = await page.waitForFunction(
         (calendarWrapperClass: string) =>

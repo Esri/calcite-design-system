@@ -3,6 +3,7 @@ import { accessible, focusable, renders, slots, hidden, t9n } from "../../tests/
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
+import { waitForTimeout } from "../../tests/utils";
 
 describe("calcite-notice", () => {
   const noticeContent = html`
@@ -99,7 +100,7 @@ describe("calcite-notice", () => {
     expect(await notice1.isVisible()).toBe(true);
 
     await noticeClose1.click();
-    await page.waitForTimeout(animationDurationInMs);
+    waitForTimeout(animationDurationInMs);
     expect(await notice1.isVisible()).not.toBe(true);
   });
 
