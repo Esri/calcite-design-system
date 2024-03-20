@@ -473,19 +473,23 @@ export class ListItem
   renderOpen(): VNode {
     const { el, open, openable, messages } = this;
     const dir = getElementDir(el);
-    const icon = open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR;
-    const tooltip = open ? messages.collapse : messages.expand;
+    const icon = openable
+      ? open
+        ? ICONS.open
+        : dir === "rtl"
+          ? ICONS.closedRTL
+          : ICONS.closedLTR
+      : ICONS.blank;
 
-    return openable ? (
-      <td
-        class={CSS.openContainer}
-        key="open-container"
-        onClick={this.handleToggleClick}
-        title={tooltip}
-      >
+    const tooltip = openable ? (open ? messages.collapse : messages.expand) : undefined;
+
+    const openClickHandler = openable ? this.handleToggleClick : undefined;
+
+    return (
+      <td class={CSS.openContainer} key="open-container" onClick={openClickHandler} title={tooltip}>
         <calcite-icon icon={icon} key={icon} scale="s" />
       </td>
-    ) : null;
+    );
   }
 
   renderActionsStart(): VNode {
