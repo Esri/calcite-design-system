@@ -206,14 +206,7 @@ export class DatePickerMonthHeader {
         {this.yearList?.map((year: number) => {
           const yearString = year.toString();
           return (
-            <calcite-option
-              selected={
-                this.selectedDate
-                  ? this.selectedDate.getFullYear() === year
-                  : this.activeDate.getFullYear() === year
-              }
-              value={yearString}
-            >
+            <calcite-option selected={this.activeDate.getFullYear() === year} value={yearString}>
               {numberStringFormatter?.localize(yearString)}
               {this.localeData?.year?.suffix}
             </calcite-option>
@@ -299,6 +292,7 @@ export class DatePickerMonthHeader {
    * Update active month on clicks of left/right arrows
    */
   private handleArrowClick = (event: MouseEvent | KeyboardEvent, date: Date): void => {
+    console.log("handleArrowClick", date);
     event.preventDefault();
     this.calciteInternalDatePickerMonthHeaderSelect.emit(date);
   };
