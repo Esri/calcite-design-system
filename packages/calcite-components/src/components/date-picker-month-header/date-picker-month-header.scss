@@ -1,3 +1,18 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-date-picker-month-header-background-color: Specifies the background color of component.
+ * @prop --calcite-date-picker-month-header-navigation-button-background-color-active: Specifies the background color of navigation button of component when active.
+ * @prop --calcite-date-picker-month-header-navigation-button-background-color-hover: Specifies the background color of navigation button of component when hovered.
+ * @prop --calcite-date-picker-month-header-navigation-button-background-color: Specifies the background color of navigation button of component.
+ * @prop --calcite-date-picker-month-header-navigation-button-text-color-hover: Specifies the text of navigation button of component when hovered.
+ * @prop --calcite-date-picker-month-header-navigation-button-text-color: Specifies the text of navigation button of component.
+ * @prop --calcite-date-picker-month-header-text-color: Specifies the text color of component.
+ *
+*/
+
 :host {
   @apply block;
 }
@@ -9,7 +24,9 @@
 
 :host([scale="s"]) {
   .text {
-    @apply text-n1h my-2;
+    @apply my-2;
+    font-size: var(--calcite-font-size);
+    line-height: var(--calcite-font-line-height-fixed-base);
   }
   .chevron {
     @apply h-9;
@@ -18,7 +35,9 @@
 
 :host([scale="m"]) {
   .text {
-    @apply text-0h my-3;
+    @apply my-3;
+    font-size: var(--calcite-font-size-md);
+    line-height: var(--calcite-font-line-height-fixed-lg);
   }
   .chevron {
     @apply h-12;
@@ -27,7 +46,9 @@
 
 :host([scale="l"]) {
   .text {
-    @apply text-1h my-4;
+    @apply my-4;
+    font-size: var(--calcite-font-size-lg);
+    line-height: var(--calcite-font-line-height-fixed-xl);
   }
   .chevron {
     block-size: 3.5rem;
@@ -35,9 +56,7 @@
 }
 
 .chevron {
-  @apply text-color-3
-    bg-foreground-1
-    focus-base
+  @apply focus-base
     -mx-1
     box-content
     flex
@@ -49,6 +68,11 @@
     px-1
     outline-none
     transition-default;
+  background-color: var(
+    --calcite-date-picker-month-header-navigation-button-background-color,
+    var(--calcite-color-foreground-1)
+  );
+  color: var(--calcite-date-picker-month-header-navigation-button-text-color, var(--calcite-color-text-3));
   inline-size: calc(100% / 7);
 
   &:focus {
@@ -57,11 +81,19 @@
 
   &:hover,
   &:focus {
-    @apply text-color-1 bg-foreground-2 fill-color-1;
+    background-color: var(
+      --calcite-date-picker-month-header-navigation-button-background-color-hover,
+      var(--calcite-color-foreground-2)
+    );
+    color: var(--calcite-date-picker-month-header-navigation-button-text-color-hover, var(--calcite-color-text-1));
+    fill: var(--calcite-color-text-1);
   }
 
   &:active {
-    @apply bg-foreground-3;
+    background-color: var(
+      --calcite-date-picker-month-header-navigation-button-background-color-active,
+      var(--calcite-color-foreground-3)
+    );
   }
 
   &[aria-disabled="true"] {
@@ -78,6 +110,7 @@
     justify-center
     text-center
     leading-none;
+  background-color: var(--calcite-date-picker-month-header-background-color, var(--calcite-color-foreground-1));
 }
 
 .text--reverse {
@@ -87,14 +120,13 @@
 .month,
 .year,
 .suffix {
-  @apply text-color-1
-    bg-foreground-1
-    mx-1
+  @apply mx-1
     my-auto
     inline-block
-    font-medium
     leading-tight;
   font-size: inherit;
+  color: var(--calcite-date-picker-month-header-text-color, var(--calcite-color-text-1));
+  font-weight: var(--calcite-font-weight-medium);
 }
 
 .year {

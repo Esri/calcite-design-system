@@ -9,7 +9,12 @@
  * @prop --calcite-tree-item-checkbox-shadow-checked: defines the shadow of the sub-component when checked.
  * @prop --calcite-tree-item-checkbox-shadow-hover: defines the shadow of the sub-component when hovered.
  * @prop --calcite-tree-item-checkbox-shadow: defines the shadow of the sub-component.
+ * @prop --calcite-tree-item-chevron-color-active: defines the color of the component's chevron when active.
+ * @prop --calcite-tree-item-chevron-color-hover: defines the color of the component's chevron on hover.
+ * @prop --calcite-tree-item-chevron-color: defines the color of the component's chevron.
+ * @prop --calcite-tree-item-icon-color: defines the icon color of the component.
  * @prop --calcite-tree-item-line-color: Specifies the line color of the component.
+ * @prop --calcite-tree-item-selection-icon-color: defines the color of the component's selection icon.
  * @prop --calcite-tree-item-text-color: Specifies the text color of the component.
  */
 
@@ -276,6 +281,27 @@ calcite-checkbox {
   --calcite-checkbox-shadow: var(--calcite-tree-item-checkbox-shadow);
   --calcite-checkbox-shadow-checked: var(--calcite-tree-item-checkbox-shadow-checked);
   --calcite-checkbox-shadow-hover: var(--calcite-tree-item-checkbox-shadow-hover);
+}
+
+calcite-icon {
+  &.chevron {
+    --calcite-icon-color: var(--calcite-tree-item-chevron-color);
+
+    &:hover,
+    &:focus {
+      --calcite-icon-color: var(--calcite-tree-item-chevron-color-hover);
+    }
+    &:active {
+      --calcite-icon-color: var(--calcite-tree-item-chevron-color-active);
+    }
+  }
+  &.checkmark,
+  &.bullet-point {
+    --calcite-icon-color: var(--calcite-tree-item-selection-icon-color);
+  }
+  &.icon-start {
+    --calcite-icon-color: var(--calcite-tree-item-icon-color);
+  }
 }
 
 @include base-component();
