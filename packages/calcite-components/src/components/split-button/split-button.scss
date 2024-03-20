@@ -35,10 +35,7 @@
 }
 
 calcite-button {
-  --calcite-button-background-color: var(
-    --calcite-split-button-background-color,
-    var(--calcite-internal-split-button-background-color)
-  );
+  --calcite-button-background-color: var(--calcite-split-button-background-color);
   --calcite-button-border-color: var(--calcite-split-button-border-color);
   --calcite-button-corner-radius: var(--calcite-split-button-corner-radius);
   --calcite-button-loader-color: var(--calcite-split-button-loader-color);
@@ -82,7 +79,10 @@ calcite-dropdown {
 
 .divider-container {
   @apply transition-default flex w-px items-stretch;
-  background-color: var(--calcite-split-button-background-color, var(--calcite-internal-split-button-background-color));
+  background-color: var(
+    --calcite-split-button-divider-background-color,
+    var(--calcite-internal-split-button-divider-background-color)
+  );
 }
 
 .divider {
@@ -103,35 +103,38 @@ calcite-dropdown {
   @apply w-full;
 }
 
-:host([kind="brand"]) {
-  .container {
-    --calcite-internal-split-button-background-color: theme("colors.brand");
-    --calcite-internal-split-button-divider-color: theme("colors.background.foreground.1");
+:host([appearance="solid"]) {
+  &:host(:not([kind="neutral"])) {
+    .container {
+      --calcite-internal-split-button-divider-color: theme("colors.background.foreground.1");
+    }
   }
-}
-:host([kind="danger"]) {
-  .container {
-    --calcite-internal-split-button-background-color: theme("colors.danger");
-    --calcite-internal-split-button-divider-color: theme("colors.background.foreground.1");
+  &:host([kind="brand"]) {
+    .container {
+      --calcite-internal-split-button-divider-background-color: theme("colors.brand");
+    }
   }
-}
-:host([kind="neutral"]) {
-  .container {
-    --calcite-internal-split-button-background-color: theme("colors.background.foreground.3");
-    --calcite-internal-split-button-divider-color: theme("colors.color.1");
+  &:host([kind="danger"]) {
+    .container {
+      --calcite-internal-split-button-divider-background-color: theme("colors.danger");
+    }
   }
-}
-:host([kind="inverse"]) {
-  .container {
-    --calcite-internal-split-button-background-color: var(--calcite-color-inverse);
-    --calcite-internal-split-button-divider-color: theme("colors.background.foreground.1");
+  &:host([kind="neutral"]) {
+    .container {
+      --calcite-internal-split-button-divider-background-color: theme("colors.background.foreground.3");
+      --calcite-internal-split-button-divider-color: theme("colors.color.1");
+    }
+  }
+  &:host([kind="inverse"]) {
+    .container {
+      --calcite-internal-split-button-divider-background-color: var(--calcite-color-inverse);
+    }
   }
 }
 
-:host([appearance="transparent"]) {
-  .container {
-    --calcite-internal-split-button-background-color: transparent;
-  }
+:host([appearance="transparent"]),
+:host([appearance="outline"]),
+:host([appearance="outline-fill"]) {
   &:host([kind="brand"]) {
     .container {
       --calcite-internal-split-button-divider-color: theme("colors.brand");
@@ -142,14 +145,21 @@ calcite-dropdown {
       --calcite-internal-split-button-divider-color: theme("colors.danger");
     }
   }
+}
+
+:host([appearance="transparent"]) {
+  .container {
+    --calcite-internal-split-button-divider-background-color: transparent;
+  }
+
+  &:host([kind="inverse"]) {
+    .container {
+      --calcite-internal-split-button-divider-color: var(--calcite-color-foreground-1);
+    }
+  }
   &:host([kind="neutral"]) {
     .container {
       --calcite-internal-split-button-divider-color: theme("colors.color.1");
-    }
-  }
-  &:host([kind="inverse"]) {
-    .container {
-      --calcite-internal-split-button-divider-color: theme("colors.background.foreground.1");
     }
   }
 }
@@ -157,48 +167,41 @@ calcite-dropdown {
 :host([appearance="outline"]),
 :host([appearance="outline-fill"]) {
   .divider-container {
-    border-block: 1px solid var(--calcite-internal-split-button-divider-color);
+    background-color: var(--calcite-split-button-divider-color, var(--calcite-internal-split-button-divider-color));
+    border-block: var(--calcite-border-width-sm) solid
+      var(--calcite-split-button-divider-color, var(--calcite-internal-split-button-divider-color));
   }
-
-  &:host([kind="brand"]) {
-    --calcite-internal-split-button-divider-color: theme("colors.brand");
-
-    &:focus-within {
-      --calcite-internal-split-button-divider-color: theme("colors.brand-press");
-    }
-  }
-  &:host([kind="danger"]) {
-    --calcite-internal-split-button-divider-color: theme("colors.danger");
-
-    &:focus-within {
-      --calcite-internal-split-button-divider-color: theme("colors.danger-press");
-    }
-  }
-  &:host([kind="neutral"]) {
-    --calcite-internal-split-button-divider-color: theme("borderColor.color.1");
-    --calcite-internal-split-button-background-color: theme("borderColor.color.1");
-  }
-  &:host([kind="inverse"]) {
-    --calcite-internal-split-button-divider-color: var(--calcite-color-inverse);
-  }
-
   &:hover,
   &:focus-within {
     .divider-container {
-      background-color: var(--calcite-internal-split-button-divider-color);
+      background-color: var(--calcite-split-button-divider-color, var(--calcite-internal-split-button-divider-color));
     }
   }
-}
 
-:host([appearance="outline"]) {
-  .container {
-    --calcite-internal-split-button-background-color: transparent;
+  &:host([kind="brand"]) {
+    &:focus-within {
+      .container {
+        --calcite-internal-split-button-divider-color: theme("colors.brand-press");
+      }
+    }
   }
-}
-
-:host([appearance="outline-fill"]) {
-  .container {
-    --calcite-internal-split-button-background-color: theme("colors.background.foreground.1");
+  &:host([kind="danger"]) {
+    &:focus-within {
+      .container {
+        --calcite-internal-split-button-divider-color: theme("colors.danger-press");
+      }
+    }
+  }
+  &:host([kind="neutral"]) {
+    .container {
+      --calcite-internal-split-button-divider-color: theme("borderColor.color.1");
+      --calcite-internal-split-button-divider-background-color: theme("borderColor.color.1");
+    }
+  }
+  &:host([kind="inverse"]) {
+    .container {
+      --calcite-internal-split-button-divider-color: var(--calcite-color-inverse);
+    }
   }
 }
 
