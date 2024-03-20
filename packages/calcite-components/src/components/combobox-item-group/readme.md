@@ -1,6 +1,6 @@
 # calcite-combobox-item-group
 
-For complete usage and implementation guidance on the `calcite-combobox-item-group` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/combobox-item-group/).
+For complete usage and implementation guidance on the `calcite-combobox-item-group` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/combobox-item-group/).
 
 <!-- Auto Generated Below -->
 

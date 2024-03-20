@@ -1,6 +1,6 @@
 # calcite-block-section
 
-For complete usage and implementation guidance on the `calcite-block-section` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/block-section/).
+For complete usage and implementation guidance on the `calcite-block-section` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/block-section/).
 
 <!-- Auto Generated Below -->
 

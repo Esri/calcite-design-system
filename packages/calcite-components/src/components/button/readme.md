@@ -1,6 +1,6 @@
 # calcite-button
 
-For complete usage and implementation guidance on the `calcite-button` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/button/).
+For complete usage and implementation guidance on the `calcite-button` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/button/).
 
 <!-- Auto Generated Below -->
 

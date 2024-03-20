@@ -1,6 +1,6 @@
 # calcite-navigation-user
 
-For complete usage and implementation guidance on the `calcite-navigation-user` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/navigation-user/).
+For complete usage and implementation guidance on the `calcite-navigation-user` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/navigation-user/).
 
 <!-- Auto Generated Below -->
 

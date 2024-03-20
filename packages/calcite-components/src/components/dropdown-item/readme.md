@@ -1,6 +1,6 @@
 # calcite-dropdown-item
 
-For complete usage and implementation guidance on the `calcite-dropdown-item` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/dropdown-item/).
+For complete usage and implementation guidance on the `calcite-dropdown-item` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/dropdown-item/).
 
 <!-- Auto Generated Below -->
 

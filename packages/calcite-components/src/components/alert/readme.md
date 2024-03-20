@@ -1,6 +1,6 @@
 # calcite-alert
 
-For complete usage and implementation guidance on the `calcite-alert` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/alert/).
+For complete usage and implementation guidance on the `calcite-alert` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/alert/).
 
 <!-- Auto Generated Below -->
 

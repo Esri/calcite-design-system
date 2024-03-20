@@ -1,6 +1,6 @@
 # calcite-modal
 
-For complete usage and implementation guidance on the `calcite-modal` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/modal/).
+For complete usage and implementation guidance on the `calcite-modal` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/modal/).
 
 <style>
   html {
