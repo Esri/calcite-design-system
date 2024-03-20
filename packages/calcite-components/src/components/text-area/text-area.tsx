@@ -339,7 +339,7 @@ export class TextArea
               {this.replacePlaceHoldersInMessages()}
             </span>
           )}
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}

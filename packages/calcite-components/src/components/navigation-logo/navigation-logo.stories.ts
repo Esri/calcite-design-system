@@ -61,3 +61,17 @@ export const slottedInNav_TestOnly = (): string => html`
     />
   </calcite-navigation>
 `;
+
+export const withHref_TestOnly = (): string => html`
+  <calcite-navigation>
+    <calcite-navigation-logo
+      slot="logo"
+      heading="A view of the estuary"
+      icon="globe"
+      href="https://www.esri.com"
+      target="_blank"
+      description="20 years of change where the river meets the sea"
+    >
+    </calcite-navigation-logo>
+  </calcite-navigation>
+`;

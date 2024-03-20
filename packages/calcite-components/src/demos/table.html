@@ -3501,8 +3501,8 @@
         </calcite-table-row>
       </calcite-table>
 
-      <h3>Various alignments</h3>
-      <calcite-table numbered>
+      <h3>Various alignments header and cell</h3>
+      <calcite-table numbered selection-mode="multiple">
         <calcite-table-row slot="table-header" caption="Various alignments">
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" alignment="end" description="End"></calcite-table-header>
@@ -3526,6 +3526,85 @@
           <calcite-table-cell alignment="end">cell</calcite-table-cell>
           <calcite-table-cell alignment="center">cell</calcite-table-cell>
           <calcite-table-cell alignment="end">cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>
+
+      <h3>Various table row alignments</h3>
+      <calcite-table numbered selection-mode="multiple">
+        <calcite-table-row slot="table-header">
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header
+            heading="Heading"
+            alignment="end"
+            description="Row alignment default (start)"
+          ></calcite-table-header>
+          <calcite-table-header heading="Heading" alignment="center"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Mixed"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row alignment="start">
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">cell</calcite-table-cell>
+          <calcite-table-cell alignment="start"
+            >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+            table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+            depending on the width of table and copy text and cell and longer text that will often wrap here that could
+            be a few lines or more depending on the width of table and copy text and cell and longer text that will
+            often wrap here that could be a few lines or more depending on the width of table and
+            copy.</calcite-table-cell
+          >
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">cell</calcite-table-cell>
+          <calcite-table-cell alignment="center"
+            >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+            table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+            depending on the width of table and copy text and cell and longer text that will often wrap here that could
+            be a few lines or more depending on the width of table and copy text and cell and longer text that will
+            often wrap here that could be a few lines or more depending on the width of table and
+            copy.</calcite-table-cell
+          >
+          <calcite-table-cell alignment="center">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row alignment="end">
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell alignment="end">cell</calcite-table-cell>
+          <calcite-table-cell alignment="end"
+            >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+            table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+            depending on the width of table and copy text and cell and longer text that will often wrap here that could
+            be a few lines or more depending on the width of table and copy text and cell and longer text that will
+            often wrap here that could be a few lines or more depending on the width of table and
+            copy.</calcite-table-cell
+          >
+          <calcite-table-cell alignment="end">cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-footer" alignment="end">
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header
+            heading="Heading"
+            alignment="end"
+            description="Row alignment end"
+          ></calcite-table-header>
+          <calcite-table-header heading="Heading" alignment="center"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Mixed"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row slot="table-footer" alignment="center">
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header heading="Heading"></calcite-table-header>
+          <calcite-table-header
+            heading="Heading"
+            alignment="end"
+            description="Row alignment center"
+          ></calcite-table-header>
+          <calcite-table-header heading="Heading" alignment="center"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Mixed"></calcite-table-header>
         </calcite-table-row>
       </calcite-table>
 
@@ -3875,6 +3954,79 @@
         </calcite-table-row>
       </calcite-table>
 
+      <h3>Complex row-span and col-span</h3>
+      <calcite-table bordered caption="Table with complex col-span and row-span">
+        <calcite-table-row slot="table-header">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description" col-span="2"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>1A</calcite-table-cell>
+          <calcite-table-cell col-span="2">1B</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>2A</calcite-table-cell>
+          <calcite-table-cell col-span="2">2B</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell row-span="6">3A</calcite-table-cell>
+          <calcite-table-cell>3B-1</calcite-table-cell>
+          <calcite-table-cell>3C-1</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell row-span="5">3B-2</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>3C-2</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>3C-2</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>3C-2</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>3C-2</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell row-span="5">4A</calcite-table-cell>
+          <calcite-table-cell col-span="2">4B</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell col-span="2">4B</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell col-span="2">4B</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell col-span="2">4B</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell col-span="2">4B</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>5A</calcite-table-cell>
+          <calcite-table-cell col-span="2">5B</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell row-span="3">6A</calcite-table-cell>
+          <calcite-table-cell>6B-1</calcite-table-cell>
+          <calcite-table-cell>6C-1</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell row-span="2">6B-2</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>6C-2</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell col-span="3">7A</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell row-span="3" col-span="3">8A</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>
+
       <h3>Multiple headers using col-span</h3>
       <calcite-table caption="Multiple headers using col-span">
         <calcite-table-row slot="table-header">
@@ -4157,7 +4309,13 @@
 
       <h3>selection-mode multiple with multiple headers, footers, pageSize</h3>
 
-      <calcite-table numbered caption="Multiple headers using col-span" bordered page-size="2">
+      <calcite-table
+        numbered
+        caption="Multiple headers using col-span"
+        selection-mode="multiple"
+        bordered
+        page-size="2"
+      >
         <calcite-table-row slot="table-header">
           <calcite-table-header id="head-1a" col-span="2" heading="Name"></calcite-table-header>
           <calcite-table-header id="head-1b" col-span="2" heading="Information"></calcite-table-header>

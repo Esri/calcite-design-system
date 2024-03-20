@@ -35,6 +35,12 @@ Type: `Promise<number>`
 | ---- | --------------------------------- |
 |      | A slot for adding custom content. |
 
+## CSS Custom Properties
+
+| Name                                  | Description                                                                   |
+| ------------------------------------- | ----------------------------------------------------------------------------- |
+| `--calcite-tab-content-block-padding` | Specifies the block padding of the component's content in the `default` slot. |
+
 ## Dependencies
 
 ### Used by
