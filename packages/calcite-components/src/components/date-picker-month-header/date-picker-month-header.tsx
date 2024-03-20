@@ -292,7 +292,6 @@ export class DatePickerMonthHeader {
    * Update active month on clicks of left/right arrows
    */
   private handleArrowClick = (event: MouseEvent | KeyboardEvent, date: Date): void => {
-    console.log("handleArrowClick", date);
     event.preventDefault();
     this.calciteInternalDatePickerMonthHeaderSelect.emit(date);
   };
