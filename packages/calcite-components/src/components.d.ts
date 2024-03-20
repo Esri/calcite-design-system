@@ -4683,6 +4683,7 @@ export namespace Components {
          */
         "messages": TableCellMessages;
         "numberCell": boolean;
+        "parentRowAlignment": Alignment;
         "parentRowIsSelected": boolean;
         "parentRowPositionLocalized": string;
         "parentRowType": RowType;
@@ -4728,6 +4729,7 @@ export namespace Components {
          */
         "messages": TableHeaderMessages;
         "numberCell": boolean;
+        "parentRowAlignment": Alignment;
         "parentRowIsSelected": boolean;
         "parentRowType": RowType;
         "positionInRow": number;
@@ -4746,6 +4748,10 @@ export namespace Components {
         "setFocus": () => Promise<void>;
     }
     interface CalciteTableRow {
+        /**
+          * Specifies the alignment of the component.
+         */
+        "alignment": Alignment;
         "bodyRowCount": number;
         "cellCount": number;
         /**
@@ -12289,6 +12295,7 @@ declare namespace LocalJSX {
          */
         "messages"?: TableCellMessages;
         "numberCell"?: boolean;
+        "parentRowAlignment"?: Alignment;
         "parentRowIsSelected"?: boolean;
         "parentRowPositionLocalized"?: string;
         "parentRowType"?: RowType;
@@ -12330,6 +12337,7 @@ declare namespace LocalJSX {
          */
         "messages"?: TableHeaderMessages;
         "numberCell"?: boolean;
+        "parentRowAlignment"?: Alignment;
         "parentRowIsSelected"?: boolean;
         "parentRowType"?: RowType;
         "positionInRow"?: number;
@@ -12344,6 +12352,10 @@ declare namespace LocalJSX {
         "selectionMode"?: SelectionMode;
     }
     interface CalciteTableRow {
+        /**
+          * Specifies the alignment of the component.
+         */
+        "alignment"?: Alignment;
         "bodyRowCount"?: number;
         "cellCount"?: number;
         /**
