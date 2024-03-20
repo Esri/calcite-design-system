@@ -76,6 +76,9 @@ export class TableCell
   }
 
   /** @internal */
+  @Prop() parentRowAlignment: Alignment = "start";
+
+  /** @internal */
   @Prop() parentRowPositionLocalized: string;
 
   /** @internal */
@@ -227,12 +230,15 @@ export class TableCell
             aria-disabled={this.disabled}
             class={{
               [CSS.footerCell]: this.parentRowType === "foot",
+              [CSS.contentCell]: !this.numberCell && !this.selectionCell,
               [CSS.numberCell]: this.numberCell,
               [CSS.selectionCell]: this.selectionCell,
               [CSS.selectedCell]: this.parentRowIsSelected,
               [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
               [CSS_UTILITY.rtl]: dir === "rtl",
               [CSS.staticCell]: staticCell,
+              [this.parentRowAlignment]:
+                this.parentRowAlignment === "start" || this.parentRowAlignment === "end",
             }}
             colSpan={this.colSpan}
             onBlur={this.onContainerBlur}

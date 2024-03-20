@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.10...@esri/calcite-components@2.7.0-next.11) (2024-03-20)
+
+### Bug Fixes
+
+- **tab:** style focus outline of tab content ([#8804](https://github.com/Esri/calcite-design-system/issues/8804)) ([8f0133f](https://github.com/Esri/calcite-design-system/commit/8f0133fbd5f54493a7bb848a4b9f7ebde3c8eb61)), closes [#8799](https://github.com/Esri/calcite-design-system/issues/8799)
+
+## [2.7.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.9...@esri/calcite-components@2.7.0-next.10) (2024-03-19)
+
+### Features
+
+- **table-row:** Add alignment property ([#8961](https://github.com/Esri/calcite-design-system/issues/8961)) ([1f81fd7](https://github.com/Esri/calcite-design-system/commit/1f81fd713f9780d63bb4820256c038f4cdc13a32)), closes [#8958](https://github.com/Esri/calcite-design-system/issues/8958)
+
+## [2.7.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.8...@esri/calcite-components@2.7.0-next.9) (2024-03-19)
+
+### Bug Fixes
+
+- **table:** Prevent duplicate scrollbars in certain browsers ([#8962](https://github.com/Esri/calcite-design-system/issues/8962)) ([8434eeb](https://github.com/Esri/calcite-design-system/commit/8434eeb3fa94144066c9b59b77f5d0487c05588c)), closes [#8947](https://github.com/Esri/calcite-design-system/issues/8947)
+
 ## [2.7.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.7...@esri/calcite-components@2.7.0-next.8) (2024-03-19)
 
 **Note:** Version bump only for package @esri/calcite-components
