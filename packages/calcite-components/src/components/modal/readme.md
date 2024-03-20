@@ -1,6 +1,6 @@
 # calcite-modal
 
-`calcite-modal` allows you to show a modal/dialog to your users. The modal handles fencing focus and animating in/out.
+For complete usage and implementation guidance on the `calcite-modal` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/modal/).
 
 <style>
   html {

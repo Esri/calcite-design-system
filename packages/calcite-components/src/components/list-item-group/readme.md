@@ -1,5 +1,7 @@
 # calcite-list-item-group
 
+For complete usage and implementation guidance on the `calcite-list-item-group` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/list-item-group/).
+
 <!-- Auto Generated Below -->
 
 ## Properties

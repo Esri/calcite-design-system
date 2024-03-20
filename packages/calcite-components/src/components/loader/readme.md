@@ -1,6 +1,6 @@
 # calcite-loader
 
-The `calcite-loader` component can act as a determinate or indeterminate loading indicator.
+For complete usage and implementation guidance on the `calcite-loader` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/loader/).
 
 <!-- Auto Generated Below -->
 

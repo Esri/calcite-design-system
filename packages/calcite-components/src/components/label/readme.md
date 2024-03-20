@@ -1,6 +1,6 @@
 # calcite-label
 
-Renders a `<label>` around its children and can be used with any [labelable native](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Form_labelable) or labelable calcite element.
+For complete usage and implementation guidance on the `calcite-label` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/label/).
 
 <!-- Auto Generated Below -->
 

@@ -1,5 +1,7 @@
 # calcite-input-date-picker
 
+For complete usage and implementation guidance on the `calcite-input-date-picker` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/input-date-picker/).
+
 <!-- Auto Generated Below -->
 
 ## Usage

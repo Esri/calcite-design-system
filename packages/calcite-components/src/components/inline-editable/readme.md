@@ -1,5 +1,7 @@
 # calcite-inline-editable
 
+For complete usage and implementation guidance on the `calcite-inline-editable` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/inline-editable/).
+
 <!-- Auto Generated Below -->
 
 ## Usage

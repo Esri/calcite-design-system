@@ -1,6 +1,6 @@
 # calcite-flow
 
-The `calcite-flow` component is a series of panels that provides a user with a workflow (eg. editing experience), by which the user can switch from panel to panel of `calcite-panel`s.
+For complete usage and implementation guidance on the `calcite-flow` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/flow/).
 
 <!-- Auto Generated Below -->
 

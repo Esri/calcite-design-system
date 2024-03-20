@@ -1,5 +1,7 @@
 # calcite-link
 
+For complete usage and implementation guidance on the `calcite-link` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/link/).
+
 <!-- Auto Generated Below -->
 
 ## Usage

@@ -1,5 +1,7 @@
 # calcite-menu-item
 
+For complete usage and implementation guidance on the `calcite-menu-item` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/menu-item/).
+
 <!-- Auto Generated Below -->
 
 ## Properties

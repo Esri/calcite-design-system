@@ -1,5 +1,7 @@
 # calcite-flow-item
 
+For complete usage and implementation guidance on the `calcite-flow-item` component, visit Calcites [documentation page](https://developers.arcgis.com/calcite-design-system/components/flow-item/).
+
 <!-- Auto Generated Below -->
 
 ## Properties
