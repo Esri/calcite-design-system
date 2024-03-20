@@ -1,6 +1,6 @@
 # calcite-shell-panel
 
-The `calcite-shell-panel` is a child component of `calcite-shell` used as a container to display other components like `calcite-block` and `calcite-flow`.
+For complete usage and implementation guidance on the `calcite-shell-panel` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/shell-panel/).
 
 <!-- Auto Generated Below -->
 

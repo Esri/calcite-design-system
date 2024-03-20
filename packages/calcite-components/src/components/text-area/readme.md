@@ -1,5 +1,7 @@
 # calcite-text-area
 
+For complete usage and implementation guidance on the `calcite-text-area` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/text-area/).
+
 <!-- Auto Generated Below -->
 
 ## Usage

@@ -1,5 +1,7 @@
 # calcite-table-cell
 
+For complete usage and implementation guidance on the `calcite-table-cell` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/table-cell/).
+
 <!-- Auto Generated Below -->
 
 ## Properties

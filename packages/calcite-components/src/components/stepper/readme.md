@@ -1,6 +1,6 @@
 # calcite-stepper
 
-Calcite stepper can be used to present a stepper workflow to a user. It has configurable display options for layout (horizontal or vertical), and the ability to automatically render status icons, and step numbers.
+For complete usage and implementation guidance on the `calcite-stepper` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/stepper/).
 
 <!-- Auto Generated Below -->
 

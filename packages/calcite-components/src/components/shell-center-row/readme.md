@@ -1,5 +1,7 @@
 # calcite-shell-center-row
 
+For complete usage and implementation guidance on the `calcite-shell-center-row` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/shell-center-row/).
+
 <!-- Auto Generated Below -->
 
 ## Properties

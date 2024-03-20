@@ -1,6 +1,6 @@
 # calcite-tip-group
 
-`calcite-tip-group` is a wrapper for multiple `calcite-tip`s and is housed in `calcite-tip-manager`.
+For complete usage and implementation guidance on the `calcite-tip-group` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tip-group/).
 
 <!-- Auto Generated Below -->
 

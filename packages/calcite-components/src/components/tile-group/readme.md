@@ -1,5 +1,7 @@
 # calcite-tile-group
 
+For complete usage and implementation guidance on the `calcite-tile-group` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tile-group/).
+
 <!-- Auto Generated Below -->
 
 ## Properties

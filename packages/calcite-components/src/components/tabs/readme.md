@@ -1,5 +1,7 @@
 # calcite-tabs
 
+For complete usage and implementation guidance on the `calcite-tabs` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tabs/).
+
 <!-- Auto Generated Below -->
 
 ## Usage

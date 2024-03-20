@@ -1,5 +1,7 @@
 # calcite-option-group
 
+For complete usage and implementation guidance on the `calcite-option-group` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/option-group/).
+
 <!-- Auto Generated Below -->
 
 ## Properties

@@ -1,5 +1,7 @@
 # calcite-tile-select
 
+For complete usage and implementation guidance on the `calcite-tile-select` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tile-select/).
+
 <!-- Auto Generated Below -->
 
 ## Usage
