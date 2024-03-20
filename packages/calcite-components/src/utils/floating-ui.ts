@@ -508,6 +508,8 @@ export function connectFloatingUI(
     component,
     runAutoUpdate(referenceEl, floatingEl, () => component.reposition()),
   );
+
+  component.reposition(true);
 }
 
 /**
