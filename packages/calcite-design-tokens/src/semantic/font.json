@@ -6,6 +6,7 @@
           "value": [
             "{core.font.family.avenirNextWorld}",
             "{core.font.family.avenirNextPro}",
+            "{core.font.family.avenirNext}",
             "{core.font.family.avenir}",
             "{core.font.family.helveticaNeue}",
             "{core.font.family.sansSerif}"
