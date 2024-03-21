@@ -3,17 +3,68 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-pad-expanded-max-width: When `layout` is `"vertical"`, specifies the expanded max width of the component.
- * @prop --calcite-action-pad-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-action-pad-background-color: Specifies the background color of the component.
+ * @prop --calcite-action-pad-border-color: Specifies the border color of the component.
+ * @prop --calcite-action-pad-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-action-pad-expanded-max-width: When `layout` is `"vertical"`, specifies the expanded max width of the component.
+ * @prop --calcite-action-pad-popover-background-color: Specifies the background color of the popover in the component.
+ * @prop --calcite-action-pad-popover-border-color: Specifies the border color of the popover in the component.
+ * @prop --calcite-action-pad-popover-corner-radius: Specifies the corner radius of the popover in the component.
+ * @prop --calcite-action-pad-popover-shadow: Specifies the shadow of the popover in the component.
  * @prop --calcite-action-pad-shadow: Specifies the shadow of the component.
- *
+ * @prop --calcite-action-pad-trigger-background-color-active: Specifies the background color of the nested trigger when active in the component.
+ * @prop --calcite-action-pad-trigger-background-color-focus: Specifies the background color of the nested trigger when focused in the component.
+ * @prop --calcite-action-pad-trigger-background-color-hover: Specifies the background color of the nested trigger when hovered in the component.
+ * @prop --calcite-action-pad-trigger-background-color: Specifies the background color of the nested trigger in the component.
+ * @prop --calcite-action-pad-trigger-icon-color-active: Specifies the icon color color of the nested trigger when active in the component
+ * @prop --calcite-action-pad-trigger-icon-color-focus: Specifies the icon color of the nested trigger when focused in the component.
+ * @prop --calcite-action-pad-trigger-icon-color-hover: Specifies the icon color of the nested trigger when hovered in the component.
+ * @prop --calcite-action-pad-trigger-icon-color: Specifies the icon color of the nested trigger in the component.
+ * @prop --calcite-action-pad-trigger-indicator-color: Specifies the indicator color of the nested trigger in the component.
+ * @prop --calcite-action-pad-trigger-loader-color: Specifies the loader color of the nested trigger in the component component.
+ * @prop --calcite-action-pad-trigger-shadow-active: Specifies the shadow of the nested trigger when active in the component.
+ * @prop --calcite-action-pad-trigger-shadow-focus: Specifies the shadow of the nested trigger when focused in the component.
+ * @prop --calcite-action-pad-trigger-shadow-hover: Specifies the shadow of the nested trigger when hovered in the component.
+ * @prop --calcite-action-pad-trigger-shadow: Specifies the shadow of the nested trigger in the component.
+ * @prop --calcite-action-pad-trigger-text-color-active: Specifies the text color of the nested trigger when active in the component.
+ * @prop --calcite-action-pad-trigger-text-color-focus: Specifies the text color of the nested trigger when focused in the component.
+ * @prop --calcite-action-pad-trigger-text-color-hover: Specifies the text color of the nested trigger when hovered in the component.
+ * @prop --calcite-action-pad-trigger-text-color: Specifies the text color of the nested trigger in the component.
  */
 
 :host {
   @extend %component-host;
   @apply animate-in block rounded-sm;
   background: transparent;
+}
+
+calcite-action-group {
+  --calcite-action-group-border-color: var(--calcite-action-pad-border-color);
+  --calcite-action-group-popover-background-color: var(--calcite-action-pad-popover-background-color);
+  --calcite-action-group-popover-border-color: var(--calcite-action-pad-popover-border-color);
+  --calcite-action-group-popover-corner-radius: var(--calcite-action-pad-corner-radius);
+  --calcite-action-group-popover-shadow: var(--calcite-action-pad-popover-shadow, var(--calcite-action-pad-shadow));
+  --calcite-action-group-trigger-background-color-active: var(--calcite-action-pad-trigger-background-color-active);
+  --calcite-action-group-trigger-background-color-focus: var(--calcite-action-pad-trigger-background-color-focus);
+  --calcite-action-group-trigger-background-color-hover: var(--calcite-action-pad-trigger-background-color-hover);
+  --calcite-action-group-trigger-background-color: var(
+    --calcite-action-pad-trigger-background-color,
+    var(--calcite-action-pad-background-color)
+  );
+  --calcite-action-group-trigger-icon-color-active: var(--calcite-action-pad-trigger-icon-color-active);
+  --calcite-action-group-trigger-icon-color-focus: var(--calcite-action-pad-trigger-icon-color-focus);
+  --calcite-action-group-trigger-icon-color-hover: var(--calcite-action-pad-trigger-icon-color-hover);
+  --calcite-action-group-trigger-icon-color: var(--calcite-action-pad-trigger-icon-color);
+  --calcite-action-group-trigger-indicator-color: var(--calcite-action-pad-trigger-indicator-color);
+  --calcite-action-group-trigger-loader-color: var(--calcite-action-pad-trigger-loader-color);
+  --calcite-action-group-trigger-shadow-active: var(--calcite-action-pad-trigger-shadow-active);
+  --calcite-action-group-trigger-shadow-focus: var(--calcite-action-pad-trigger-shadow-focus);
+  --calcite-action-group-trigger-shadow-hover: var(--calcite-action-pad-trigger-shadow-hover);
+  --calcite-action-group-trigger-shadow: var(--calcite-action-pad-trigger-shadow);
+  --calcite-action-group-trigger-text-color-active: var(--calcite-action-pad-trigger-text-color-active);
+  --calcite-action-group-trigger-text-color-focus: var(--calcite-action-pad-trigger-text-color-focus);
+  --calcite-action-group-trigger-text-color-hover: var(--calcite-action-pad-trigger-text-color-hover);
+  --calcite-action-group-trigger-text-color: var(--calcite-action-pad-trigger-text-color);
 }
 
 :host([expanded][layout="vertical"]) .container {
@@ -53,6 +104,33 @@
     }
   }
   ::slotted(calcite-action-group) {
+    --calcite-action-group-border-color: var(--calcite-action-pad-border-color);
+    --calcite-action-group-popover-background-color: var(--calcite-action-pad-popover-background-color);
+    --calcite-action-group-popover-border-color: var(--calcite-action-pad-popover-border-color);
+    --calcite-action-group-popover-corner-radius: var(--calcite-action-pad-corner-radius);
+    --calcite-action-group-popover-shadow: var(--calcite-action-pad-popover-shadow, var(--calcite-action-pad-shadow));
+    --calcite-action-group-trigger-background-color-active: var(--calcite-action-pad-trigger-background-color-active);
+    --calcite-action-group-trigger-background-color-focus: var(--calcite-action-pad-trigger-background-color-focus);
+    --calcite-action-group-trigger-background-color-hover: var(--calcite-action-pad-trigger-background-color-hover);
+    --calcite-action-group-trigger-background-color: var(
+      --calcite-action-pad-trigger-background-color,
+      var(--calcite-action-pad-background-color)
+    );
+    --calcite-action-group-trigger-icon-color-active: var(--calcite-action-pad-trigger-icon-color-active);
+    --calcite-action-group-trigger-icon-color-focus: var(--calcite-action-pad-trigger-icon-color-focus);
+    --calcite-action-group-trigger-icon-color-hover: var(--calcite-action-pad-trigger-icon-color-hover);
+    --calcite-action-group-trigger-icon-color: var(--calcite-action-pad-trigger-icon-color);
+    --calcite-action-group-trigger-indicator-color: var(--calcite-action-pad-trigger-indicator-color);
+    --calcite-action-group-trigger-loader-color: var(--calcite-action-pad-trigger-loader-color);
+    --calcite-action-group-trigger-shadow-active: var(--calcite-action-pad-trigger-shadow-active);
+    --calcite-action-group-trigger-shadow-focus: var(--calcite-action-pad-trigger-shadow-focus);
+    --calcite-action-group-trigger-shadow-hover: var(--calcite-action-pad-trigger-shadow-hover);
+    --calcite-action-group-trigger-shadow: var(--calcite-action-pad-trigger-shadow);
+    --calcite-action-group-trigger-text-color-active: var(--calcite-action-pad-trigger-text-color-active);
+    --calcite-action-group-trigger-text-color-focus: var(--calcite-action-pad-trigger-text-color-focus);
+    --calcite-action-group-trigger-text-color-hover: var(--calcite-action-pad-trigger-text-color-hover);
+    --calcite-action-group-trigger-text-color: var(--calcite-action-pad-trigger-text-color);
+
     border-block-end-style: none;
     border-inline-end-style: solid;
   }
