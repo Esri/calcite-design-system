@@ -155,9 +155,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([layout="vertical"]) {
-  .container {
-    --calcite-internal-shell-panel-z-index: calc(theme("zIndex.default") + 1);
-  }
+  --calcite-internal-shell-panel-z-index: calc(theme("zIndex.default") + 1);
 
   .content {
     inline-size: var(--calcite-shell-panel-width, var(--calcite-internal-shell-panel-width));
@@ -184,9 +182,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   &:host([display-mode="overlay"]) {
-    .container {
-      --calcite-internal-shell-panel-z-index: calc(theme("zIndex.header") + 1);
-    }
+    --calcite-internal-shell-panel-z-index: calc(theme("zIndex.header") + 1);
   }
 
   &:host([width-scale="s"]) {
