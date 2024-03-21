@@ -1,6 +1,6 @@
 # calcite-date-picker
 
-The `calcite-date-picker` component allows for selecting a date via a calendar or text input. It supports multiple locales, languages, right to left, and is fully keyboard accessible.
+For comprehensive guidance on using and implementing `calcite-date-picker`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/date-picker/).
 
 <!-- Auto Generated Below -->
 

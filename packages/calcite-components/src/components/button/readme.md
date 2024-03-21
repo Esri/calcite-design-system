@@ -1,5 +1,7 @@
 # calcite-button
 
+For comprehensive guidance on using and implementing `calcite-button`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/button/).
+
 <!-- Auto Generated Below -->
 
 ## Usage

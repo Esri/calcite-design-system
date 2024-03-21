@@ -1,6 +1,6 @@
 # calcite-panel
 
-The `calcite-panel` component is a container for a header, content and optional footer. The header will have centered content as well as optional leading and trailing content. The panel can also be setup to be dismissible which allows it to be closed by a user.
+For comprehensive guidance on using and implementing `calcite-panel`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/panel/).
 
 <!-- Auto Generated Below -->
 

@@ -1,6 +1,6 @@
 # calcite-tab-nav
 
-The tab-nav groups several [calcite-tab-title](../tab-title) components and builds out the navigation. You can optionally use attibutes on the tab-nav to configure client side storage of the selected tab.
+For comprehensive guidance on using and implementing `calcite-tab-nav`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tab-nav/).
 
 <!-- Auto Generated Below -->
 
