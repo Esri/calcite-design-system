@@ -75,6 +75,31 @@
             }
           }
         },
+        "avenirNext": {
+          "value": "Avenir Next",
+          "type": "fontFamilies",
+          "description": "Fallback for Avenir Next",
+          "attributes": {
+            "calcite-schema": {
+              "system": "calcite",
+              "tier": "core",
+              "domain": "",
+              "component": "",
+              "pattern": "",
+              "element": "",
+              "category": "font",
+              "group": "family",
+              "kind": "",
+              "appearance": "",
+              "property": "",
+              "variant": "avenirNext",
+              "state": "",
+              "scale": "",
+              "context": "",
+              "mode": ""
+            }
+          }
+        },
         "avenir": {
           "value": "Avenir",
           "type": "fontFamilies",
