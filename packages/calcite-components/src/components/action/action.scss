@@ -125,10 +125,8 @@ calcite-loader {
 // States
 :host(:hover),
 :host(:focus) {
-  .button {
-    --calcite-internal-action-text-color: var(--calcite-color-text-1);
-    --calcite-internal-action-icon-color: var(--calcite-color-text-1);
-  }
+  --calcite-internal-action-text-color: var(--calcite-color-text-1);
+  --calcite-internal-action-icon-color: var(--calcite-color-text-1);
 }
 :host(:focus),
 :host([data-active]) {
@@ -138,39 +136,32 @@ calcite-loader {
 }
 :host(:active),
 :host([active]) {
-  .button {
-    --calcite-internal-action-icon-color: var(--calcite-color-text-1);
-    --calcite-internal-action-text-color: var(--calcite-color-text-1);
-  }
+  --calcite-internal-action-icon-color: var(--calcite-color-text-1);
+  --calcite-internal-action-text-color: var(--calcite-color-text-1);
 }
 
 // Appearance
 :host([appearance="solid"]) {
   &:host(:hover),
   &:host(:focus) {
-    .button {
-      --calcite-internal-action-background-color: var(--calcite-color-foreground-2);
-    }
+    --calcite-internal-action-background-color: var(--calcite-color-foreground-2);
   }
   &:host(:active),
   &:host([active]) {
-    .button {
-      --calcite-internal-action-background-color: var(--calcite-color-foreground-3);
-    }
+    --calcite-internal-action-background-color: var(--calcite-color-foreground-3);
   }
 
   &:host([loading]) {
-    .button {
-      --calcite-internal-action-background-color: var(--calcite-color-foreground-1);
-    }
+    --calcite-internal-action-background-color: var(--calcite-color-foreground-1);
     .text-container {
       @apply opacity-disabled;
     }
   }
 }
 :host([appearance="transparent"]) {
+  --calcite-internal-action-background-color: var(--calcite-color-transparent);
+
   .button {
-    --calcite-internal-action-background-color: var(--calcite-color-transparent);
     @apply transition-shadow
       duration-150
       ease-in-out;
@@ -178,60 +169,48 @@ calcite-loader {
 
   &:host(:hover),
   &:host(:focus) {
-    .button {
-      --calcite-internal-action-background-color: var(--calcite-action-color-transparent-hover);
-    }
+    --calcite-internal-action-background-color: var(--calcite-action-color-transparent-hover);
   }
   &:host(:active),
   &:host([active]) {
-    .button {
-      --calcite-internal-action-background-color: var(--calcite-action-color-transparent-press);
-    }
+    --calcite-internal-action-background-color: var(--calcite-action-color-transparent-press);
   }
 }
 
 // Scale
 :host([scale="s"]) {
-  .button {
-    --calcite-internal-action-font-size: var(--calcite-font-size--2);
-    --calcite-internal-action-line-height: 1rem /* 16px */;
-    --calcite-internal-action-icon-container-space-x-end: theme("spacing.2");
-    --calcite-internal-action-space-x: 0.5rem /* 8px */;
-    --calcite-internal-action-space-y: 0.25rem /* 4px */;
-  }
+  --calcite-internal-action-font-size: var(--calcite-font-size--2);
+  --calcite-internal-action-line-height: 1rem /* 16px */;
+  --calcite-internal-action-icon-container-space-x-end: theme("spacing.2");
+  --calcite-internal-action-space-x: 0.5rem /* 8px */;
+  --calcite-internal-action-space-y: 0.25rem /* 4px */;
 }
 :host([scale="m"]) {
-  .button {
-    --calcite-internal-action-font-size: var(--calcite-font-size--1);
-    --calcite-internal-action-line-height: 1rem /* 16px */;
-    --calcite-internal-action-icon-container-space-x-end: theme("spacing.3");
-    --calcite-internal-action-space-x: 1rem /* 8px */;
-    --calcite-internal-action-space-y: 0.75rem /* 12px */;
-  }
+  --calcite-internal-action-font-size: var(--calcite-font-size--1);
+  --calcite-internal-action-line-height: 1rem /* 16px */;
+  --calcite-internal-action-icon-container-space-x-end: theme("spacing.3");
+  --calcite-internal-action-space-x: 1rem /* 8px */;
+  --calcite-internal-action-space-y: 0.75rem /* 12px */;
 }
 :host([scale="l"]) {
-  .button {
-    --calcite-internal-action-font-size: var(--calcite-font-size-0);
-    --calcite-internal-action-line-height: 1.25rem /* 20px */;
-    --calcite-internal-action-icon-container-space-x-end: theme("spacing.4");
-    --calcite-internal-action-space-x: 1.25rem /* 20px */;
-    --calcite-internal-action-space-y: 1.25rem /* 20px */;
-  }
+  --calcite-internal-action-font-size: var(--calcite-font-size-0);
+  --calcite-internal-action-line-height: 1.25rem /* 20px */;
+  --calcite-internal-action-icon-container-space-x-end: theme("spacing.4");
+  --calcite-internal-action-space-x: 1.25rem /* 20px */;
+  --calcite-internal-action-space-y: 1.25rem /* 20px */;
 }
 // Compact
 :host([scale="s"][compact]),
 :host([scale="m"][compact]),
 :host([scale="l"][compact]) {
-  .button {
-    --calcite-internal-action-space-x: 0;
-  }
+  --calcite-internal-action-space-x: 0;
 }
 
 // Alignment
-:host([alignment="center"]) .button {
+:host([alignment="center"]) {
   --calcite-internal-action-justify-content: center;
 }
-:host([alignment="end"]) .button {
+:host([alignment="end"]) {
   --calcite-internal-action-justify-content: end;
 }
 :host([alignment="center"]),
@@ -244,14 +223,12 @@ calcite-loader {
 @include base-component();
 @include disabled() {
   &:host([active]) {
-    .button {
-      --calcite-internal-action-background-color: var(--calcite-color-foreground-3);
-    }
+    --calcite-internal-action-background-color: var(--calcite-color-foreground-3);
   }
-  &:host([appearance="solid"]) .button {
+  &:host([appearance="solid"]) {
     --calcite-internal-action-background-color: var(--calcite-color-foreground-1);
   }
-  &:host([appearance="transparent"]) .button {
+  &:host([appearance="transparent"]) {
     --calcite-internal-action-background-color: var(--calcite-color-transparent);
   }
 }

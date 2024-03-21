@@ -127,18 +127,21 @@ calcite-action-menu {
   @apply grid;
 }
 
-:host([layout="grid"]) .container {
+:host([layout="grid"]) {
   --calcite-internal-action-group-space: var(--calcite-spacing-px);
   --calcite-internal-action-group-display: grid;
   --calcite-internal-action-group-background-color: var(--calcite-color-background);
-  @apply place-content-stretch;
 
-  gap: var(--calcite-action-group-gap, var(--calcite-internal-action-group-space));
-  padding: var(--calcite-action-group-gap, var(--calcite-internal-action-group-space));
-  grid-template-columns: repeat(
-    var(--calcite-action-group-columns, var(--calcite-internal-action-group-columns)),
-    auto
-  );
+  .container {
+    @apply place-content-stretch;
+
+    gap: var(--calcite-action-group-gap, var(--calcite-internal-action-group-space));
+    padding: var(--calcite-action-group-gap, var(--calcite-internal-action-group-space));
+    grid-template-columns: repeat(
+      var(--calcite-action-group-columns, var(--calcite-internal-action-group-columns)),
+      auto
+    );
+  }
 }
 
 @include base-component();
