@@ -882,6 +882,10 @@ export namespace Components {
         "setFocus": () => Promise<void>;
     }
     interface CalciteColorPicker {
+        /**
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * @deprecated Use `clearable` instead
+         */
         "allowEmpty": boolean;
         /**
           * When `true`, the component will allow updates to the color's alpha value.
@@ -8284,6 +8288,10 @@ declare namespace LocalJSX {
   >;
     }
     interface CalciteColorPicker {
+        /**
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * @deprecated Use `clearable` instead
+         */
         "allowEmpty"?: boolean;
         /**
           * When `true`, the component will allow updates to the color's alpha value.
