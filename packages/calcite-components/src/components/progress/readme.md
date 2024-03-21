@@ -1,6 +1,6 @@
 # calcite-progress
 
-The `calcite-progress` component is used to show progress on some async task to the user.
+For comprehensive guidance on using and implementing `calcite-progress`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/progress/).
 
 <!-- Auto Generated Below -->
 

@@ -1,6 +1,6 @@
 # calcite-input-message
 
-Displays a contextual message to a user. Allows the passing of content, links, etc.
+For comprehensive guidance on using and implementing `calcite-input-message`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/input-message/).
 
 <!-- Auto Generated Below -->
 
