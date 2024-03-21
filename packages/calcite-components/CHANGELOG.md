@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.12...@esri/calcite-components@2.7.0-next.13) (2024-03-21)
+
+### Bug Fixes
+
+- **action-menu, combobox, dropdown, popover, tooltip:** use click instead of pointerdown for click contexts ([#8943](https://github.com/Esri/calcite-design-system/issues/8943)) ([cd7eed9](https://github.com/Esri/calcite-design-system/commit/cd7eed97282d2686c07d46ccd658956c8e4a138f)), closes [#7732](https://github.com/Esri/calcite-design-system/issues/7732)
+
 ## [2.7.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.11...@esri/calcite-components@2.7.0-next.12) (2024-03-21)
 
 ### Bug Fixes
