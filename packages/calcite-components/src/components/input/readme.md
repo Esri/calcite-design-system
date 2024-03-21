@@ -1,6 +1,6 @@
 # calcite-input
 
-For complete usage and implementation guidance on the `calcite-input` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/input/).
+For complete usage and implementation guidance for `calcite-input`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/input/).
 
 <!-- Auto Generated Below -->
 

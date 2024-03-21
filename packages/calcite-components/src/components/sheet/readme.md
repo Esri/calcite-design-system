@@ -1,6 +1,6 @@
 # calcite-sheet
 
-For complete usage and implementation guidance on the `calcite-sheet` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/sheet/).
+For complete usage and implementation guidance for `calcite-sheet`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/sheet/).
 
 <!-- Auto Generated Below -->
 

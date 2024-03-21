@@ -1,6 +1,6 @@
 # calcite-input-time-zone
 
-For complete usage and implementation guidance on the `calcite-input-time-zone` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/input-time-zone/).
+For complete usage and implementation guidance for `calcite-input-time-zone`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/input-time-zone/).
 
 <!-- Auto Generated Below -->
 

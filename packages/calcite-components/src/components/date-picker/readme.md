@@ -1,6 +1,6 @@
 # calcite-date-picker
 
-For complete usage and implementation guidance on the `calcite-date-picker` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/date-picker/).
+For complete usage and implementation guidance for `calcite-date-picker`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/date-picker/).
 
 <!-- Auto Generated Below -->
 

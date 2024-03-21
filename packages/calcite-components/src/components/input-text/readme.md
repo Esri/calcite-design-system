@@ -1,6 +1,6 @@
 # calcite-input-text
 
-For complete usage and implementation guidance on the `calcite-input-text` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/input-text/).
+For complete usage and implementation guidance for `calcite-input-text`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/input-text/).
 
 <!-- Auto Generated Below -->
 

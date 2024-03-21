@@ -1,6 +1,6 @@
 # calcite-loader
 
-For complete usage and implementation guidance on the `calcite-loader` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/loader/).
+For complete usage and implementation guidance for `calcite-loader`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/loader/).
 
 <!-- Auto Generated Below -->
 

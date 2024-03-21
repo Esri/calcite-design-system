@@ -1,6 +1,6 @@
 # calcite-tooltip
 
-For complete usage and implementation guidance on the `calcite-tooltip` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tooltip/).
+For complete usage and implementation guidance for `calcite-tooltip`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tooltip/).
 
 <!-- Auto Generated Below -->
 

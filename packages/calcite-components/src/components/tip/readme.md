@@ -1,6 +1,6 @@
 # calcite-tip
 
-For complete usage and implementation guidance on the `calcite-tip` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tip/).
+For complete usage and implementation guidance for `calcite-tip`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tip/).
 
 <!-- Auto Generated Below -->
 

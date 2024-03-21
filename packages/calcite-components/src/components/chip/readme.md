@@ -1,6 +1,6 @@
 # calcite-chip
 
-For complete usage and implementation guidance on the `calcite-chip` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/chip/).
+For complete usage and implementation guidance for `calcite-chip`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/chip/).
 
 <!-- Auto Generated Below -->
 

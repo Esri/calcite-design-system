@@ -1,6 +1,6 @@
 # calcite-chip-group
 
-For complete usage and implementation guidance on the `calcite-chip-group` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/chip-group/).
+For complete usage and implementation guidance for `calcite-chip-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/chip-group/).
 
 <!-- Auto Generated Below -->
 

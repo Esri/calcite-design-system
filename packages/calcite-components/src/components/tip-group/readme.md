@@ -1,6 +1,6 @@
 # calcite-tip-group
 
-For complete usage and implementation guidance on the `calcite-tip-group` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tip-group/).
+For complete usage and implementation guidance for `calcite-tip-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tip-group/).
 
 <!-- Auto Generated Below -->
 

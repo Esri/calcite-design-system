@@ -1,6 +1,6 @@
 # calcite-table-header
 
-For complete usage and implementation guidance on the `calcite-table-header` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/table-header/).
+For complete usage and implementation guidance for `calcite-table-header`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/table-header/).
 
 <!-- Auto Generated Below -->
 

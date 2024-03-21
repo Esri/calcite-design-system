@@ -1,6 +1,6 @@
 # calcite-tab-title
 
-For complete usage and implementation guidance on the `calcite-tab-title` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tab-title/).
+For complete usage and implementation guidance for `calcite-tab-title`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tab-title/).
 
 <!-- Auto Generated Below -->
 

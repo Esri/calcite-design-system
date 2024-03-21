@@ -1,6 +1,6 @@
 # calcite-segmented-control
 
-For complete usage and implementation guidance on the `calcite-segmented-control` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/segmented-control/).
+For complete usage and implementation guidance for `calcite-segmented-control`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/segmented-control/).
 
 <!-- Auto Generated Below -->
 

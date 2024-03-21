@@ -1,6 +1,6 @@
 # calcite-slider
 
-For complete usage and implementation guidance on the `calcite-slider` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/slider/).
+For complete usage and implementation guidance for `calcite-slider`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/slider/).
 
 <!-- Auto Generated Below -->
 

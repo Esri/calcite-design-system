@@ -1,6 +1,6 @@
 # calcite-rating
 
-For complete usage and implementation guidance on the `calcite-rating` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/rating/).
+For complete usage and implementation guidance for `calcite-rating`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/rating/).
 
 <!-- Auto Generated Below -->
 

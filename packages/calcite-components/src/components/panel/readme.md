@@ -1,6 +1,6 @@
 # calcite-panel
 
-For complete usage and implementation guidance on the `calcite-panel` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/panel/).
+For complete usage and implementation guidance for `calcite-panel`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/panel/).
 
 <!-- Auto Generated Below -->
 

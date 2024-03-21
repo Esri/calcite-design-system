@@ -1,6 +1,6 @@
 # calcite-table
 
-For complete usage and implementation guidance on the `calcite-table` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/table/).
+For complete usage and implementation guidance for `calcite-table`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/table/).
 
 <!-- Auto Generated Below -->
 

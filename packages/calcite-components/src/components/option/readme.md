@@ -1,6 +1,6 @@
 # calcite-option
 
-For complete usage and implementation guidance on the `calcite-option` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/option/).
+For complete usage and implementation guidance for `calcite-option`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/option/).
 
 <!-- Auto Generated Below -->
 

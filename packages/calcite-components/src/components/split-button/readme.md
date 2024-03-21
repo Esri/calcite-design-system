@@ -1,6 +1,6 @@
 # calcite-split-button
 
-For complete usage and implementation guidance on the `calcite-split-button` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/split-button/).
+For complete usage and implementation guidance for `calcite-split-button`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/split-button/).
 
 <!-- Auto Generated Below -->
 

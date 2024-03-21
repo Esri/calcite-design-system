@@ -1,6 +1,6 @@
 # calcite-inline-editable
 
-For complete usage and implementation guidance on the `calcite-inline-editable` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/inline-editable/).
+For complete usage and implementation guidance for `calcite-inline-editable`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/inline-editable/).
 
 <!-- Auto Generated Below -->
 
@@ -8,7 +8,7 @@ For complete usage and implementation guidance on the `calcite-inline-editable` 
 
 ### Basic
 
-There is no need to set a theme or scale on the `<calcite-inline-editable>` component, as it inherits these values from the wrapped `<calcite-input>`, or the closest parent component where these props are set.
+There is no need to set a theme or scale on the `<calcite-inline-editable>`, as it inherits these values from the wrapped `<calcite-input>`, or the closest parent component where these props are set.
 
 ```html
 <calcite-inline-editable>

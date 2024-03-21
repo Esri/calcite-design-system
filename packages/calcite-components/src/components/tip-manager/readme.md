@@ -1,6 +1,6 @@
 # calcite-tip-manager
 
-For complete usage and implementation guidance on the `calcite-tip-manager` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tip-manager/).
+For complete usage and implementation guidance for `calcite-tip-manager`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tip-manager/).
 
 <!-- Auto Generated Below -->
 

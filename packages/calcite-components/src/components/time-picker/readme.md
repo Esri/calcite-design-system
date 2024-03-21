@@ -1,6 +1,6 @@
 # calcite-time-picker
 
-For complete usage and implementation guidance on the `calcite-time-picker` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/time-picker/).
+For complete usage and implementation guidance for `calcite-time-picker`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/time-picker/).
 
 <!-- Auto Generated Below -->
 

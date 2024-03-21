@@ -1,6 +1,6 @@
 # calcite-progress
 
-For complete usage and implementation guidance on the `calcite-progress` component, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/progress/).
+For complete usage and implementation guidance for `calcite-progress`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/progress/).
 
 <!-- Auto Generated Below -->
 
