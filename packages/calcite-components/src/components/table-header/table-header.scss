@@ -48,19 +48,26 @@ th {
   }
 }
 
-th.last-cell {
-  border-inline-end: 0;
+th:not(.center):not(.end).content-cell {
+  @apply align-top;
+}
+
+th.center {
+  @apply align-middle;
+}
+
+th.end.content-cell {
+  @apply align-bottom;
 }
 
 th.body-row,
 th.footer-row {
-  @apply align-middle;
+  padding-block: var(--calcite-internal-table-cell-padding);
   border-block-end: 0;
 }
 
 th.footer-row {
-  border-block-start: 1px solid
-    var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
+  border-block-start: 1px solid var(--calcite-internal-table-header-border-color);
 }
 
 .cell--multiple-selection {

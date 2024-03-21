@@ -58,4 +58,12 @@ section,
   @apply hidden h-full w-full;
 }
 
+.container {
+  @apply focus-base;
+
+  &:focus {
+    @apply focus-inset;
+  }
+}
+
 @include base-component();

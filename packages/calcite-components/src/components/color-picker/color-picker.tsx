@@ -98,8 +98,16 @@ export class ColorPicker
    * When `true`, an empty color (`null`) will be allowed as a `value`.
    *
    * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   *
+   * @deprecated Use `clearable` instead
    */
   @Prop({ reflect: true }) allowEmpty = false;
+
+  @Watch("allowEmpty")
+  @Watch("clearable")
+  handleAllowEmptyOrClearableChange(): void {
+    this.isClearable = this.clearable || this.allowEmpty;
+  }
 
   /**
    * When `true`, the component will allow updates to the color's alpha value.
@@ -120,6 +128,13 @@ export class ColorPicker
 
   /** When `true`, hides the RGB/HSV channel inputs. */
   @Prop() channelsDisabled = false;
+
+  /**
+   * When `true`, an empty color (`null`) will be allowed as a `value`.
+   *
+   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   */
+  @Prop({ reflect: true }) clearable = false;
 
   /**
    * Internal prop for advanced use-cases.
@@ -225,8 +240,8 @@ export class ColorPicker
 
   @Watch("value")
   handleValueChange(value: ColorValue | null, oldValue: ColorValue | null): void {
-    const { allowEmpty, format } = this;
-    const checkMode = !allowEmpty || value;
+    const { isClearable, format } = this;
+    const checkMode = !isClearable || value;
     let modeChanged = false;
 
     if (checkMode) {
@@ -258,7 +273,7 @@ export class ColorPicker
     }
 
     const color =
-      allowEmpty && !value
+      isClearable && !value
         ? null
         : Color(
             value != null && typeof value === "object" && alphaCompatible(this.mode)
@@ -304,6 +319,8 @@ export class ColorPicker
   private hueScopeNode: HTMLDivElement;
 
   private internalColorUpdateContext: "internal" | "initial" | "user-interaction" | null = null;
+
+  private isClearable: boolean;
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
@@ -417,11 +434,11 @@ export class ColorPicker
 
   private handleHexInputChange = (event: Event): void => {
     event.stopPropagation();
-    const { allowEmpty, color } = this;
+    const { isClearable, color } = this;
     const input = event.target as HTMLCalciteColorPickerHexInputElement;
     const hex = input.value;
 
-    if (allowEmpty && !hex) {
+    if (isClearable && !hex) {
       this.internalColorSet(null);
       return;
     }
@@ -451,7 +468,7 @@ export class ColorPicker
 
     let inputValue: string;
 
-    if (this.allowEmpty && !input.value) {
+    if (this.isClearable && !input.value) {
       inputValue = "";
     } else {
       const value = Number(input.value);
@@ -508,7 +525,7 @@ export class ColorPicker
     const channelIndex = Number(input.getAttribute("data-channel-index"));
     const channels = [...this.channels] as this["channels"];
 
-    const shouldClearChannels = this.allowEmpty && !input.value;
+    const shouldClearChannels = this.isClearable && !input.value;
 
     if (shouldClearChannels) {
       this.channels = [null, null, null, null];
@@ -666,9 +683,10 @@ export class ColorPicker
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
 
-    const { allowEmpty, color, format, value } = this;
+    this.handleAllowEmptyOrClearableChange();
 
-    const willSetNoColor = allowEmpty && !value;
+    const { isClearable, color, format, value } = this;
+    const willSetNoColor = isClearable && !value;
     const parsedMode = parseMode(value);
     const valueIsCompatible =
       willSetNoColor || (format === "auto" && parsedMode) || format === parsedMode;
@@ -677,7 +695,6 @@ export class ColorPicker
     if (!valueIsCompatible) {
       this.showIncompatibleColorWarning(value, format);
     }
-
     this.setMode(format, false);
     this.internalColorSet(initialColor, false, "initial");
 
@@ -722,7 +739,6 @@ export class ColorPicker
 
   render(): VNode {
     const {
-      allowEmpty,
       channelsDisabled,
       color,
       colorFieldScopeLeft,
@@ -862,7 +878,7 @@ export class ColorPicker
                 {noHex ? null : (
                   <div class={CSS.hexOptions}>
                     <calcite-color-picker-hex-input
-                      allowEmpty={allowEmpty}
+                      allowEmpty={this.isClearable}
                       alphaChannel={alphaChannel}
                       class={CSS.control}
                       messages={messages}
@@ -972,7 +988,7 @@ export class ColorPicker
   };
 
   private renderChannelsTab = (channelMode: this["channelMode"]): VNode => {
-    const { allowEmpty, channelMode: activeChannelMode, channels, messages, alphaChannel } = this;
+    const { isClearable, channelMode: activeChannelMode, channels, messages, alphaChannel } = this;
     const selected = channelMode === activeChannelMode;
     const isRgb = channelMode === "rgb";
     const channelAriaLabels = isRgb
@@ -990,7 +1006,7 @@ export class ColorPicker
 
             if (isAlphaChannel) {
               channelValue =
-                allowEmpty && !channelValue ? channelValue : alphaToOpacity(channelValue);
+                isClearable && !channelValue ? channelValue : alphaToOpacity(channelValue);
             }
 
             /* the channel container is ltr, so we apply the host's direction */

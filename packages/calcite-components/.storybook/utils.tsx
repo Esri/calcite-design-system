@@ -67,17 +67,6 @@ export const modesDarkDefault = {
   list,
 };
 
-/**
- * This transforms a component markdown to properly render in Storybook notes.
- */
-export const parseReadme = (content: string) =>
-  content
-    // the generated readme includes escape characters which actually get rendered, remove them
-    .replace(/ \\\| /g, " | ")
-
-    // markdown uses relative paths for component links
-    .replace(/\.\.\//g, "https://github.com/Esri/calcite-design-system/tree/main/src/components/");
-
 export interface KnobbedAttribute {
   name: string;
   value: ReturnType<

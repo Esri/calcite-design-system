@@ -19,11 +19,11 @@
   @apply contents;
 }
 
-:host([alignment="center"]) td {
+:host([alignment="center"]) td:not(.selection-cell):not(.number-cell) {
   @apply text-center;
 }
 
-:host([alignment="end"]) td {
+:host([alignment="end"]) td:not(.selection-cell):not(.number-cell) {
   @apply text-end;
 }
 
@@ -48,6 +48,14 @@ td {
       @apply focus-inset;
     }
   }
+}
+
+td.start.content-cell {
+  @apply align-top;
+}
+
+td.end.content-cell {
+  @apply align-bottom;
 }
 
 td.last-cell {

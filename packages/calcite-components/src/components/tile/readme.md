@@ -17,18 +17,18 @@
 
 ## Properties
 
-| Property      | Attribute       | Description                                                                                                | Type                  | Default     |
-| ------------- | --------------- | ---------------------------------------------------------------------------------------------------------- | --------------------- | ----------- |
-| `active`      | `active`        | When `true`, the component is active.                                                                      | `boolean`             | `false`     |
-| `alignment`   | `alignment`     | Specifies the alignment of the Tile's content.                                                             | `"center" \| "start"` | `"start"`   |
-| `description` | `description`   | A description for the component, which displays below the heading.                                         | `string`              | `undefined` |
-| `disabled`    | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity.                   | `boolean`             | `false`     |
-| `embed`       | `embed`         | The component's embed mode. When `true`, renders without a border and padding for use by other components. | `boolean`             | `false`     |
-| `heading`     | `heading`       | The component header text, which displays between the icon and description.                                | `string`              | `undefined` |
-| `href`        | `href`          | When embed is `"false"`, the URL for the component.                                                        | `string`              | `undefined` |
-| `icon`        | `icon`          | Specifies an icon to display.                                                                              | `string`              | `undefined` |
-| `iconFlipRtl` | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).               | `boolean`             | `false`     |
-| `scale`       | `scale`         | Specifies the size of the component.                                                                       | `"l" \| "m" \| "s"`   | `"m"`       |
+| Property      | Attribute       | Description                                                                                                                                                                              | Type                  | Default     |
+| ------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ----------- |
+| `active`      | `active`        | When `true`, the component is active.                                                                                                                                                    | `boolean`             | `false`     |
+| `alignment`   | `alignment`     | Specifies the alignment of the Tile's content.                                                                                                                                           | `"center" \| "start"` | `"start"`   |
+| `description` | `description`   | A description for the component, which displays below the heading.                                                                                                                       | `string`              | `undefined` |
+| `disabled`    | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                 | `boolean`             | `false`     |
+| `embed`       | `embed`         | <span style="color:red">**[DEPRECATED]**</span> No longer necessary.<br/><br/>The component's embed mode. When `true`, renders without a border and padding for use by other components. | `boolean`             | `false`     |
+| `heading`     | `heading`       | The component header text, which displays between the icon and description.                                                                                                              | `string`              | `undefined` |
+| `href`        | `href`          | When embed is `"false"`, the URL for the component.                                                                                                                                      | `string`              | `undefined` |
+| `icon`        | `icon`          | Specifies an icon to display.                                                                                                                                                            | `string`              | `undefined` |
+| `iconFlipRtl` | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                                                                                             | `boolean`             | `false`     |
+| `scale`       | `scale`         | Specifies the size of the component.                                                                                                                                                     | `"l" \| "m" \| "s"`   | `"m"`       |
 
 ## Slots
 
