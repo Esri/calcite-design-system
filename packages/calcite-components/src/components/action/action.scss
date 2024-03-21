@@ -34,7 +34,7 @@
   }
 }
 
-button {
+.button {
   @apply focus-base
     text-n2h
     relative
@@ -93,6 +93,10 @@ button {
   .text-container--visible {
     @apply w-auto flex-auto opacity-100;
   }
+}
+
+.slot-container {
+  @apply flex;
 }
 
 .indicator-with-icon {
