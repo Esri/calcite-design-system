@@ -346,6 +346,8 @@ export class DatePickerMonth {
 
     this.focusedDate = dateFromRange(nextDate, this.min, this.max);
     this.activeFocus = true;
+    // adds hover effect on keyboard navigation
+    this.calciteInternalDatePickerHover.emit(nextDate);
   }
 
   /**
