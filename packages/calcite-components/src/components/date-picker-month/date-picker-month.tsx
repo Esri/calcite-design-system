@@ -104,6 +104,8 @@ export class DatePickerMonth {
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: DatePickerMessages;
 
+  @Prop() monthAbbreviations: boolean;
+
   /**
    * Specifies the number at which section headings should start.
    */
@@ -271,6 +273,7 @@ export class DatePickerMonth {
             max={this.max}
             messages={this.messages}
             min={this.min}
+            monthAbbreviations={this.monthAbbreviations}
             onCalciteInternalDatePickerMonthHeaderSelect={this.monthHeaderSelectChange}
             position={this.range ? "start" : null}
             scale={this.scale}
@@ -284,6 +287,7 @@ export class DatePickerMonth {
               max={this.max}
               messages={this.messages}
               min={this.min}
+              monthAbbreviations={this.monthAbbreviations}
               onCalciteInternalDatePickerMonthHeaderSelect={this.monthHeaderSelectChange}
               position={"end"}
               scale={this.scale}

@@ -1334,6 +1334,10 @@ export namespace Components {
          */
         "minAsDate": Date;
         /**
+          * Specifies if the month abbreviations are used by the component.
+         */
+        "monthAbbreviations": boolean;
+        /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
         "numberingSystem": NumberingSystem;
@@ -1461,6 +1465,7 @@ export namespace Components {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        "monthAbbreviations": boolean;
         "position": "start" | "end";
         "range": boolean;
         /**
@@ -2182,6 +2187,7 @@ export namespace Components {
           * Specifies the earliest allowed date as a full date object.
          */
         "minAsDate": Date;
+        "monthAbbreviations": boolean;
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
@@ -8771,6 +8777,10 @@ declare namespace LocalJSX {
          */
         "minAsDate"?: Date;
         /**
+          * Specifies if the month abbreviations are used by the component.
+         */
+        "monthAbbreviations"?: boolean;
+        /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
         "numberingSystem"?: NumberingSystem;
@@ -8906,6 +8916,7 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min"?: Date;
+        "monthAbbreviations"?: boolean;
         /**
           * Active date for the user keyboard access.
          */
@@ -9667,6 +9678,7 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date as a full date object.
          */
         "minAsDate"?: Date;
+        "monthAbbreviations"?: boolean;
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */

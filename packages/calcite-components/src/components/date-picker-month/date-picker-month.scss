@@ -1,7 +1,47 @@
 @include base-component();
 
 .calendar {
-  @apply mb-1 flex;
+  @apply mb-1 flex w-full;
+}
+
+:host([range]) .calendar {
+  gap: 12px;
+}
+
+:host([scale="s"]) .calendar {
+  inline-size: 234px;
+  min-inline-size: 216px;
+  max-inline-size: 380px;
+}
+
+:host([scale="m"]) .calendar {
+  inline-size: 304px;
+  min-inline-size: 272px;
+  max-inline-size: 480px;
+}
+
+:host([scale="l"]) .calendar {
+  inline-size: 370px;
+  min-inline-size: 320px;
+  max-inline-size: 600px;
+}
+
+:host([scale="s"][range]) .calendar {
+  inline-size: 480px;
+  min-inline-size: 432px;
+  max-inline-size: 772px;
+}
+
+:host([scale="m"][range]) .calendar {
+  inline-size: 620px;
+  min-inline-size: 544px;
+  max-inline-size: 972px;
+}
+
+:host([scale="l"][range]) .calendar {
+  inline-size: 752px;
+  min-inline-size: 640px;
+  max-inline-size: 1212px;
 }
 
 .week-headers {
@@ -16,7 +56,11 @@
 .week-header {
   @apply text-color-3
     text-center
-    font-bold;
+    font-bold 
+    flex 
+    px-0
+    text-n2h 
+    justify-center;
   inline-size: calc(100% / 7);
 }
 
@@ -32,15 +76,15 @@
 }
 
 :host([scale="s"]) .week-header {
-  @apply text-n2h px-0 pt-2 pb-3;
+  @apply pt-2 pb-3;
 }
 
 :host([scale="m"]) .week-header {
-  @apply text-n2h px-0 pt-3 pb-4;
+  @apply pt-3 pb-4;
 }
 
 :host([scale="l"]) .week-header {
-  @apply text-n1h px-0 pt-4 pb-5;
+  @apply text-n1h pt-4 pb-5;
 }
 
 .week-days {
@@ -55,4 +99,8 @@
 
 .month-header {
   @apply flex w-full justify-between;
+}
+
+.month {
+  @apply flex w-full justify-between flex-col;
 }

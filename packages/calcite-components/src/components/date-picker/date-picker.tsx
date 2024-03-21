@@ -166,6 +166,11 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   }
 
   /**
+   * Specifies if the month abbreviations are used by the component.
+   */
+  @Prop() monthAbbreviations: boolean = false;
+
+  /**
    * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
    *
    */
@@ -523,6 +528,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
             max={maxDate}
             messages={this.messages}
             min={minDate}
+            monthAbbreviations={this.monthAbbreviations}
             onCalciteInternalDatePickerActiveDateChange={this.monthActiveDateChange}
             onCalciteInternalDatePickerHover={this.monthHoverChange}
             onCalciteInternalDatePickerMonthChange={this.monthHeaderSelectChange}
