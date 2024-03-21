@@ -9,6 +9,7 @@ describe("enforce-ref-last-prop rule", () => {
   const files = {
     good: path.resolve(__dirname, "enforce-ref-last-prop.good.tsx"),
     wrong: path.resolve(__dirname, "enforce-ref-last-prop.wrong.tsx"),
+    output: path.resolve(__dirname, "enforce-ref-last-prop.output.tsx"),
   };
   ruleTester(projectPath).run("enforce-ref-last-prop", rule, {
     valid: [
@@ -23,6 +24,7 @@ describe("enforce-ref-last-prop rule", () => {
         code: fs.readFileSync(files.wrong, "utf8"),
         filename: files.wrong,
         errors: 1,
+        output: fs.readFileSync(files.output, "utf8"),
       },
     ],
   });
