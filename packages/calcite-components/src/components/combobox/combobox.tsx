@@ -449,12 +449,12 @@ export class Combobox
 
     this.updateItems();
     this.setFilteredPlacements();
-    this.reposition(true);
 
     if (this.open) {
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
+
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
@@ -466,7 +466,7 @@ export class Combobox
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    this.reposition(true);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
     setComponentLoaded(this);
   }
 
