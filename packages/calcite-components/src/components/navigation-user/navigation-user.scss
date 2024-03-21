@@ -3,7 +3,8 @@
   & .button {
     background-color: transparent;
     border: none;
-    @apply flex
+    @apply font-sans
+      flex
       m-0
       items-center
       justify-center
