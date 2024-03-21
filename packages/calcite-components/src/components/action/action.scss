@@ -12,13 +12,11 @@
  */
 
 :host {
+  @include base-host();
+
   box-sizing: border-box;
   display: flex;
   background-color: var(--calcite-color-transparent);
-
-  * {
-    box-sizing: border-box;
-  }
 }
 
 .button {
