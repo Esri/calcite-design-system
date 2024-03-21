@@ -104,7 +104,6 @@ calcite-action-menu {
   background-color: var(--calcite-action-group-background, var(--calcite-internal-action-group-background-color));
 }
 
-// :host([columns="1 - 6"])
 @for $i from 1 through 6 {
   :host([columns="#{$i}"]) {
     --calcite-internal-action-group-columns: $i;
