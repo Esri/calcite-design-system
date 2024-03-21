@@ -78,7 +78,7 @@
         "avenirNext": {
           "value": "Avenir Next",
           "type": "fontFamilies",
-          "description": "Fallback for Avenir Next",
+          "description": "Primary font family",
           "attributes": {
             "calcite-schema": {
               "system": "calcite",
