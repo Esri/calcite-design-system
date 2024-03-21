@@ -190,4 +190,13 @@ td:focus {
   @apply py-3;
 }
 
+.label,
+.description,
+.content-bottom {
+  &:only-child {
+    margin: 0px;
+    padding-block: 0.25rem;
+  }
+}
+
 @include base-component();
