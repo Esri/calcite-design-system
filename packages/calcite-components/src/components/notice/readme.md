@@ -1,6 +1,6 @@
 # calcite-notice
 
-For complete usage and implementation guidance for `calcite-notice`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/notice/).
+For comprehensive guidance on using and implementing `calcite-notice`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/notice/).
 
 <!-- Auto Generated Below -->
 

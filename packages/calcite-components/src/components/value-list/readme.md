@@ -1,6 +1,6 @@
 # calcite-value-list
 
-For complete usage and implementation guidance for `calcite-value-list`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/value-list/).
+For comprehensive guidance on using and implementing `calcite-value-list`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/value-list/).
 
 <!-- Auto Generated Below -->
 

@@ -1,6 +1,6 @@
 # calcite-radio-button-group
 
-For complete usage and implementation guidance for `calcite-radio-button-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/radio-button-group/).
+For comprehensive guidance on using and implementing `calcite-radio-button-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/radio-button-group/).
 
 <!-- Auto Generated Below -->
 

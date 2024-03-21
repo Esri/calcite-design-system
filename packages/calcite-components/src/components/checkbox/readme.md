@@ -1,6 +1,6 @@
 # calcite-checkbox
 
-For complete usage and implementation guidance for `calcite-checkbox`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/checkbox/).
+For comprehensive guidance on using and implementing `calcite-checkbox`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/checkbox/).
 
 <!-- Auto Generated Below -->
 

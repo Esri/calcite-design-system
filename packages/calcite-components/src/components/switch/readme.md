@@ -1,6 +1,6 @@
 # calcite-switch
 
-For complete usage and implementation guidance for `calcite-switch`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/switch/).
+For comprehensive guidance on using and implementing `calcite-switch`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/switch/).
 
 <!-- Auto Generated Below -->
 

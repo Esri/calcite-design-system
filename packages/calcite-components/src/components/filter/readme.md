@@ -1,6 +1,6 @@
 # calcite-filter
 
-For complete usage and implementation guidance for `calcite-filter`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/filter/).
+For comprehensive guidance on using and implementing `calcite-filter`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/filter/).
 
 <!-- Auto Generated Below -->
 

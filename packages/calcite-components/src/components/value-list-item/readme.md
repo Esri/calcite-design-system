@@ -1,6 +1,6 @@
 # calcite-value-list-item
 
-For complete usage and implementation guidance for `calcite-value-list-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/value-list-item/).
+For comprehensive guidance on using and implementing `calcite-value-list-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/value-list-item/).
 
 <!-- Auto Generated Below -->
 

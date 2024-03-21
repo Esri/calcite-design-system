@@ -1,6 +1,6 @@
 # calcite-list
 
-For complete usage and implementation guidance for `calcite-list`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/list/).
+For comprehensive guidance on using and implementing `calcite-list`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/list/).
 
 <!-- Auto Generated Below -->
 

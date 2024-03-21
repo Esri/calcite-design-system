@@ -1,6 +1,6 @@
 # calcite-flow-item
 
-For complete usage and implementation guidance for `calcite-flow-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/flow-item/).
+For comprehensive guidance on using and implementing `calcite-flow-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/flow-item/).
 
 <!-- Auto Generated Below -->
 

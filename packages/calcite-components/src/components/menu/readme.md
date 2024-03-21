@@ -1,6 +1,6 @@
 # calcite-menu
 
-For complete usage and implementation guidance for `calcite-menu`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/menu/).
+For comprehensive guidance on using and implementing `calcite-menu`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/menu/).
 
 <!-- Auto Generated Below -->
 

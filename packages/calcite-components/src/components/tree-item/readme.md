@@ -1,6 +1,6 @@
 # calcite-tree-item
 
-For complete usage and implementation guidance for `calcite-tree-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tree-item/).
+For comprehensive guidance on using and implementing `calcite-tree-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tree-item/).
 
 <!-- Auto Generated Below -->
 

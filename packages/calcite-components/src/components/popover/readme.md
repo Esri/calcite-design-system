@@ -1,6 +1,6 @@
 # calcite-popover
 
-For complete usage and implementation guidance for `calcite-popover`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/popover/).
+For comprehensive guidance on using and implementing `calcite-popover`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/popover/).
 
 <!-- Auto Generated Below -->
 

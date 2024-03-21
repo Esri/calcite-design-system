@@ -1,6 +1,6 @@
 # calcite-inline-editable
 
-For complete usage and implementation guidance for `calcite-inline-editable`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/inline-editable/).
+For comprehensive guidance on using and implementing `calcite-inline-editable`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/inline-editable/).
 
 <!-- Auto Generated Below -->
 

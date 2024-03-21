@@ -1,6 +1,6 @@
 # calcite-select
 
-For complete usage and implementation guidance for `calcite-select`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/select/).
+For comprehensive guidance on using and implementing `calcite-select`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/select/).
 
 <!-- Auto Generated Below -->
 

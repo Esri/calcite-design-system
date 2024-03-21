@@ -2,7 +2,7 @@
 
 ## Description
 
-For complete usage and implementation guidance for `calcite-action-bar`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/action-bar/).
+For comprehensive guidance on using and implementing `calcite-action-bar`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/action-bar/).
 
 <!-- Auto Generated Below -->
 

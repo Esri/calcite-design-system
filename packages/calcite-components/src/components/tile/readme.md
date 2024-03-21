@@ -1,6 +1,6 @@
 # calcite-tile
 
-For complete usage and implementation guidance for `calcite-tile`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tile/).
+For comprehensive guidance on using and implementing `calcite-tile`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tile/).
 
 <!-- Auto Generated Below -->
 

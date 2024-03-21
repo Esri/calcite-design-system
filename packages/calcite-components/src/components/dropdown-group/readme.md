@@ -1,6 +1,6 @@
 # calcite-dropdown-group
 
-For complete usage and implementation guidance for `calcite-dropdown-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/dropdown-group/).
+For comprehensive guidance on using and implementing `calcite-dropdown-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/dropdown-group/).
 
 <!-- Auto Generated Below -->
 

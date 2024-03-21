@@ -1,6 +1,6 @@
 # calcite-tab-nav
 
-For complete usage and implementation guidance for `calcite-tab-nav`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tab-nav/).
+For comprehensive guidance on using and implementing `calcite-tab-nav`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tab-nav/).
 
 <!-- Auto Generated Below -->
 

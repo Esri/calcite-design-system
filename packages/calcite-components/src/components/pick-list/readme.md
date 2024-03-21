@@ -1,6 +1,6 @@
 # calcite-pick-list
 
-For complete usage and implementation guidance for `calcite-pick-list`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/pick-list/).
+For comprehensive guidance on using and implementing `calcite-pick-list`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/pick-list/).
 
 <!-- Auto Generated Below -->
 

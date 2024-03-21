@@ -1,6 +1,6 @@
 # calcite-meter
 
-For complete usage and implementation guidance for `calcite-meter`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/meter/).
+For comprehensive guidance on using and implementing `calcite-meter`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/meter/).
 
 <!-- Auto Generated Below -->
 

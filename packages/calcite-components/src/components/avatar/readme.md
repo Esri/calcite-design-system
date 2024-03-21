@@ -1,6 +1,6 @@
 # calcite-avatar
 
-For complete usage and implementation guidance for `calcite-avatar`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/avatar/).
+For comprehensive guidance on using and implementing `calcite-avatar`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/avatar/).
 
 <!-- Auto Generated Below -->
 

@@ -1,6 +1,6 @@
 # calcite-option-group
 
-For complete usage and implementation guidance for `calcite-option-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/option-group/).
+For comprehensive guidance on using and implementing `calcite-option-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/option-group/).
 
 <!-- Auto Generated Below -->
 

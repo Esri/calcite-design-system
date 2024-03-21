@@ -1,6 +1,6 @@
 # calcite-input-time-picker
 
-For complete usage and implementation guidance for `calcite-input-time-picker`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/input-time-picker/).
+For comprehensive guidance on using and implementing `calcite-input-time-picker`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/input-time-picker/).
 
 <!-- Auto Generated Below -->
 

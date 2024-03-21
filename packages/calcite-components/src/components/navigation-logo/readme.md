@@ -1,6 +1,6 @@
 # calcite-navigation-logo
 
-For complete usage and implementation guidance for `calcite-navigation-logo`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/navigation-logo/).
+For comprehensive guidance on using and implementing `calcite-navigation-logo`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/navigation-logo/).
 
 <!-- Auto Generated Below -->
 

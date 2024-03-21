@@ -1,6 +1,6 @@
 # calcite-flow
 
-For complete usage and implementation guidance for `calcite-flow`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/flow/).
+For comprehensive guidance on using and implementing `calcite-flow`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/flow/).
 
 <!-- Auto Generated Below -->
 
@@ -122,4 +122,4 @@ Type: `Promise<void>`
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -1,6 +1,6 @@
 # calcite-label
 
-For complete usage and implementation guidance for `calcite-label`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/label/).
+For comprehensive guidance on using and implementing `calcite-label`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/label/).
 
 <!-- Auto Generated Below -->
 

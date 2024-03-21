@@ -1,6 +1,6 @@
 # calcite-shell
 
-For complete usage and implementation guidance for `calcite-shell`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/shell/).
+For comprehensive guidance on using and implementing `calcite-shell`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/shell/).
 
 <!-- Auto Generated Below -->
 

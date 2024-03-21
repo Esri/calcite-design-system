@@ -1,6 +1,6 @@
 # calcite-table-cell
 
-For complete usage and implementation guidance for `calcite-table-cell`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/table-cell/).
+For comprehensive guidance on using and implementing `calcite-table-cell`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/table-cell/).
 
 <!-- Auto Generated Below -->
 

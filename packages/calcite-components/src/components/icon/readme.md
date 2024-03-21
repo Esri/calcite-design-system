@@ -1,6 +1,6 @@
 # calcite-icon
 
-For complete usage and implementation guidance for `calcite-icon`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/icon/).
+For comprehensive guidance on using and implementing `calcite-icon`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/icon/).
 
 <!-- Auto Generated Below -->
 

@@ -1,6 +1,6 @@
 # calcite-pagination
 
-For complete usage and implementation guidance for `calcite-pagination`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/paination/).
+For comprehensive guidance on using and implementing `calcite-pagination`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/paination/).
 
 <!-- Auto Generated Below -->
 

@@ -1,6 +1,6 @@
 # calcite-action
 
-For complete usage and implementation guidance for `calcite-action`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/action/).
+For comprehensive guidance on using and implementing `calcite-action`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/action/).
 
 <!-- Auto Generated Below -->
 

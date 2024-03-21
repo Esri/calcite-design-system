@@ -1,6 +1,6 @@
 # calcite-accordion
 
-For complete usage and implementation guidance for `calcite-accordion`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/accordion/).
+For comprehensive guidance on using and implementing `calcite-accordion`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/accordion/).
 
 <!-- Auto Generated Below -->
 

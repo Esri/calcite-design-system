@@ -1,6 +1,6 @@
 # calcite-stepper-item
 
-For complete usage and implementation guidance for `calcite-stepper-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/stepper-item/).
+For comprehensive guidance on using and implementing `calcite-stepper-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/stepper-item/).
 
 <!-- Auto Generated Below -->
 
