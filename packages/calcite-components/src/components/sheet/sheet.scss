@@ -7,7 +7,6 @@
  * @prop --calcite-sheet-scrim-background-color: Specifies the background color of the sheet scrim.
  * @prop --calcite-sheet-background-color: Specifies the background color of the sheet.
  * @prop --calcite-sheet-shadow: Specifies the shadow of the sheet.
- * @prop --calcite-sheet-text-color: Specifies the text color of the sheet.
  * @prop --calcite-sheet-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
  * @prop --calcite-sheet-max-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the maximum width of the component.
  * @prop --calcite-sheet-min-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the minimum width of the component.
@@ -30,7 +29,6 @@
     z-overlay
     invisible;
   box-shadow: var(--calcite-sheet-shadow, var(--calcite-internal-sheet-shadow));
-  color: var(--calcite-sheet-text-color, var(--calcite-color-text-2));
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-medium),
     opacity var(--calcite-internal-animation-timing-medium) $easing-function;
