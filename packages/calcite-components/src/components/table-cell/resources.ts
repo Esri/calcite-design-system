@@ -1,4 +1,5 @@
 export const CSS = {
+  contentCell: "content-cell",
   numberCell: "number-cell",
   footerCell: "footer-cell",
   selectionCell: "selection-cell",

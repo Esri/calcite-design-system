@@ -15,12 +15,7 @@ import {
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
 
-import {
-  getElementWidth,
-  getTextWidth,
-  isPrimaryPointerButton,
-  toAriaBoolean,
-} from "../../utils/dom";
+import { getElementWidth, getTextWidth, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -321,9 +316,9 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
-  @Listen("pointerdown", { target: "document" })
+  @Listen("click", { target: "document" })
   documentClickHandler(event: PointerEvent): void {
-    if (this.disabled || !isPrimaryPointerButton(event)) {
+    if (this.disabled) {
       return;
     }
 
@@ -449,12 +444,12 @@ export class Combobox
 
     this.updateItems();
     this.setFilteredPlacements();
-    this.reposition(true);
 
     if (this.open) {
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
+
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
@@ -466,7 +461,7 @@ export class Combobox
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    this.reposition(true);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
     setComponentLoaded(this);
   }
 
@@ -693,6 +688,10 @@ export class Combobox
           }
           event.preventDefault();
         }
+
+        if (event.composedPath().find((el: HTMLElement) => el.tagName === "CALCITE-CHIP")) {
+          event.preventDefault();
+        }
         break;
       case "Home":
         if (!this.open) {
@@ -725,7 +724,7 @@ export class Combobox
         event.preventDefault();
         break;
       case "Enter":
-        if (this.activeItemIndex > -1) {
+        if (this.open && this.activeItemIndex > -1) {
           this.toggleSelection(this.filteredItems[this.activeItemIndex]);
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {

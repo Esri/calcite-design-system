@@ -473,7 +473,6 @@ export class InputDatePicker
     connectMessages(this);
 
     this.setFilteredPlacements();
-    this.reposition(true);
 
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
@@ -484,6 +483,7 @@ export class InputDatePicker
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
+
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
@@ -497,7 +497,7 @@ export class InputDatePicker
   componentDidLoad(): void {
     setComponentLoaded(this);
     this.localizeInputValues();
-    this.reposition(true);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   disconnectedCallback(): void {

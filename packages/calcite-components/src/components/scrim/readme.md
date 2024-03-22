@@ -1,5 +1,7 @@
 # calcite-scrim
 
+For comprehensive guidance on using and implementing `calcite-scrim`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/scrim/).
+
 <!-- Auto Generated Below -->
 
 ## Usage

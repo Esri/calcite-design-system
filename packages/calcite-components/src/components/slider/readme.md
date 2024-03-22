@@ -1,6 +1,6 @@
 # calcite-slider
 
-Range selection component for selecting single or multiple numeric values inside a given range.
+For comprehensive guidance on using and implementing `calcite-slider`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/slider/).
 
 <!-- Auto Generated Below -->
 
