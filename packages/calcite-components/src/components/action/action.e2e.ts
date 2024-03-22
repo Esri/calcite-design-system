@@ -221,13 +221,13 @@ describe("calcite-action", () => {
       ></calcite-action>`);
       await page.waitForChanges();
 
-      const action = await page.find("calcite-action");
+      let action = await page.find("calcite-action");
       const defaultStyle = await action.getComputedStyle();
 
       await action.setAttribute("style", `${color[0]}: ${color[1]}`);
       await page.waitForChanges();
 
-      // action = await page.find(`calcite-action >>> .${CSS.action}`);
+      action = await page.find(`calcite-action >>> .${CSS.button}`);
       const styles = await action.getComputedStyle();
 
       expect(defaultStyle.backgroundColor).not.toBe(color[1]);
