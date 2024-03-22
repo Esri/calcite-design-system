@@ -451,7 +451,7 @@ describe("calcite-color-picker-hex-input", () => {
           input = await page.find("calcite-color-picker-hex-input");
         });
 
-        it.skip("commits hexa chars on Tab and Enter", async () => {
+        it("commits hexa chars on Tab and Enter", async () => {
           await assertTabAndEnterBehavior("b00", "#bb0000ff", true);
           await assertTabAndEnterBehavior("abcd", "#aabbccdd", true);
           await assertTabAndEnterBehavior("c0ffee", "#c0ffeeff", true);
@@ -459,7 +459,7 @@ describe("calcite-color-picker-hex-input", () => {
           await assertTabAndEnterBehavior("", startingHexa, true);
         });
 
-        it.skip("prevents committing invalid hexa values", async () => {
+        it("prevents committing invalid hexa values", async () => {
           await assertTabAndEnterBehavior("aabbccd", startingHexa, true);
           await assertTabAndEnterBehavior("aabbcc", "#aabbccff", true);
           await assertTabAndEnterBehavior("ff00f", "#aabbccff", true);
@@ -502,7 +502,7 @@ describe("calcite-color-picker-hex-input", () => {
             await page.waitForChanges();
           });
 
-          it.skip("commits hexa chars on Tab and Enter", async () => {
+          it("commits hexa chars on Tab and Enter", async () => {
             await assertTabAndEnterBehavior("b00", "#bb0000ff", true);
             await assertTabAndEnterBehavior("baba", "#bbaabbaa", true);
             await assertTabAndEnterBehavior("c0ffee", "#c0ffeeff", true);
@@ -510,7 +510,7 @@ describe("calcite-color-picker-hex-input", () => {
             await assertTabAndEnterBehavior("", null, true);
           });
 
-          it.skip("prevents committing invalid hexa values", async () => {
+          it("prevents committing invalid hexa values", async () => {
             await assertTabAndEnterBehavior("aabbccd", startingHexa, true);
             await assertTabAndEnterBehavior("aabbcc", "#aabbccff", true);
             await assertTabAndEnterBehavior("ff00f", "#aabbccff", true);

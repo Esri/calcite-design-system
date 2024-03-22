@@ -13,7 +13,7 @@ describe("calcite-pick-list-item", () => {
   });
 
   // eslint-disable-next-line jest/no-disabled-tests
-  describe.skip("accessible", () => {
+  describe("accessible", () => {
     accessible(html`
       <calcite-pick-list>
         <calcite-pick-list-item label="test" description="a number" value="one"></calcite-pick-list-item>

@@ -178,7 +178,7 @@ export function keyboardNavigation(listType: ListType): void {
       });
     });
 
-    it.skip("should honor filterText", async () => {
+    it("should honor filterText", async () => {
       const page = await newE2EPage({
         html: `
         <calcite-${listType}-list filter-enabled filter-text="one">
@@ -193,7 +193,7 @@ export function keyboardNavigation(listType: ListType): void {
       expect(await list.getProperty("filterText")).toBe("one");
     });
 
-    it.skip("navigating items after filtering", async () => {
+    it("navigating items after filtering", async () => {
       const page = await newE2EPage({
         html: `
         <calcite-${listType}-list filter-enabled>

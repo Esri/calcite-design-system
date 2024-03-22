@@ -29,11 +29,11 @@ describe("calcite-alert", () => {
     hidden("<calcite-alert open></calcite-alert>");
   });
 
-  describe.skip("accessible", () => {
+  describe("accessible", () => {
     accessible(html` <calcite-alert open label="test"> ${alertContent} </calcite-alert> `);
   });
 
-  describe.skip("accessible with auto-close", () => {
+  describe("accessible with auto-close", () => {
     accessible(html`
       <calcite-alert open auto-close auto-close-duration="slow" label="test"> ${alertContent} </calcite-alert>
     `);
