@@ -587,10 +587,10 @@ export function isPrimaryPointerButton(event: PointerEvent): boolean {
 /**
  * This helper returns true if the mouse event was triggered by a keyboard click.
  *
- * @param {MouseEvent} event The mouse event.
+ * @param {PointerEvent} event The mouse event.
  * @returns {boolean} The value.
  */
-export function isKeyboardClick(event: MouseEvent): boolean {
+export function isKeyboardTriggeredClick(event: PointerEvent): boolean {
   // we assume event.detail = 0 is a keyboard click
   // see https://www.w3.org/TR/uievents/#event-type-click
   // see https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event#usage_notes
