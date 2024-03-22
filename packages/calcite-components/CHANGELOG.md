@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.13...@esri/calcite-components@2.7.0-next.14) (2024-03-22)
+
+### Bug Fixes
+
+- **popover:** prevent disabled reference elements from toggling popover ([#8983](https://github.com/Esri/calcite-design-system/issues/8983)) ([9f4b14b](https://github.com/Esri/calcite-design-system/commit/9f4b14bd8218d0457a4943f583c1d81aa6d84e1f)), closes [#7732](https://github.com/Esri/calcite-design-system/issues/7732)
+
 ## [2.7.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.12...@esri/calcite-components@2.7.0-next.13) (2024-03-21)
 
 ### Bug Fixes
