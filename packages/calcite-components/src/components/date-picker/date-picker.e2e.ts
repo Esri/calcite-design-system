@@ -224,7 +224,7 @@ describe("calcite-date-picker", () => {
     expect(changedEvent).toHaveReceivedEventTimes(0);
   });
 
-  it.skip("correctly changes date on next/prev", async () => {
+  it("correctly changes date on next/prev", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-date-picker value='2000-11-27'></calcite-date-picker>");
     const getMonth = () => {

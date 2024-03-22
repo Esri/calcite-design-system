@@ -420,7 +420,7 @@ describe("calcite-action-menu", () => {
       expect(await trigger.getProperty("active")).toBe(false);
     });
 
-    it.skip("should handle TAB navigation", async () => {
+    it("should handle TAB navigation", async () => {
       const page = await newE2EPage({
         html: html`<calcite-action-menu>
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>

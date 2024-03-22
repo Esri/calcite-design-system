@@ -22,7 +22,7 @@ describe("calcite-value-list", () => {
   });
 
   // eslint-disable-next-line jest/no-disabled-tests
-  describe.skip("accessible", () => {
+  describe("accessible", () => {
     accessible(html`
       <calcite-value-list>
         <calcite-value-list-item label="Sample" value="one"></calcite-value-list-item>

@@ -13,7 +13,7 @@ describe("calcite-pick-list-group", () => {
   });
 
   // eslint-disable-next-line jest/no-disabled-tests
-  describe.skip("accessible", () => {
+  describe("accessible", () => {
     accessible("<calcite-pick-list-group></calcite-pick-list-group>");
     accessible(`<calcite-pick-list-group title="awesome title"></calcite-pick-list-group>`);
     accessible(html`
