@@ -51,13 +51,13 @@ export class DatePickerMonth {
   /** Already selected date.*/
   @Prop() selectedDate: Date;
 
-  /** The currently active Date.*/
-  @Prop() activeDate: Date = new Date();
-
   @Watch("selectedDate")
   updateFocusedDate(newActiveDate: Date): void {
     this.focusedDate = newActiveDate;
   }
+
+  /** The currently active Date.*/
+  @Prop() activeDate: Date = new Date();
 
   @Watch("activeDate")
   updateFocusedDateWithActive(newActiveDate: Date): void {

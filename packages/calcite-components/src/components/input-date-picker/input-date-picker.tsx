@@ -344,13 +344,15 @@ export class InputDatePicker
   calciteDaySelectHandler(): void {
     if (
       this.shouldFocusRangeStart() ||
-      this.shouldFocusRangeEnd() ||
+      // this.shouldFocusRangeEnd() ||
       this.rangeStartValueChangedByUser
     ) {
       return;
     }
 
     this.open = false;
+    const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
+    focusedInput.setFocus();
   }
 
   private calciteInternalInputInputHandler = (event: CustomEvent<any>): void => {
@@ -1020,8 +1022,16 @@ export class InputDatePicker
     //avoid closing of date-picker while editing
     this.rangeStartValueChangedByUser = !restore && this.focusedInput === "start";
 
-    const focusedInput = restore && this.focusedInput === "start" ? this.startInput : this.endInput;
-    focusedInput.setFocus();
+    this.focusedInput = restore && this.focusedInput === "start" ? "start" : "end";
+
+    if (restore) {
+      //restore focus on to the input  that was focused before opening the date-picker on Escape key or form submission.
+      const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
+      focusedInput.setFocus();
+    }
+
+    // const focusedInput = restore && this.focusedInput === "start" ? this.startInput : this.endInput;
+    // focusedInput.setFocus();
 
     //avoids delay in updating focusedInput value while the `blur` handler in `date-picker` causing update in activeDate's.
     // this.focusedInput = restore && this.focusedInput === "start" ? "start" : "end";
