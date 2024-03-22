@@ -173,7 +173,7 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="s"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="image" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -184,7 +184,7 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="m"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="image" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -195,7 +195,7 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="l"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="image" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -212,7 +212,7 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="s"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="image" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -224,7 +224,7 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="m"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="image" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -236,7 +236,7 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="l"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="image" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -392,7 +392,7 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="s"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="image" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -404,7 +404,7 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="m"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="image" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -416,7 +416,7 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="l"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="image" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -435,7 +435,7 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="s"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="image" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -448,7 +448,7 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="m"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="image" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -461,7 +461,7 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="l"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="image" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -493,7 +493,7 @@ export const contentStartRTL_TestOnly = (): string => html`
     heading="${text("heading", "Percent of population that carpool to work")}"
     dir="rtl"
   >
-    <calcite-icon scale="s" slot="content-start" icon="polygon"></calcite-icon>
+    <calcite-icon scale="s" slot="image" icon="polygon"></calcite-icon>
     <calcite-icon scale="s" slot="content-end" icon="launch"></calcite-icon>
   </calcite-tile>
 `;
