@@ -683,15 +683,16 @@ export class Combobox
       case " ":
         if (!this.textInput.value) {
           if (!this.open) {
-            this.open = true;
-            this.shiftActiveItemIndex(1);
+            if (event.composedPath().find((el: HTMLElement) => el.tagName === "CALCITE-CHIP")) {
+              event.preventDefault();
+            } else {
+              this.open = true;
+              this.shiftActiveItemIndex(1);
+            }
           }
           event.preventDefault();
         }
 
-        if (event.composedPath().find((el: HTMLElement) => el.tagName === "CALCITE-CHIP")) {
-          event.preventDefault();
-        }
         break;
       case "Home":
         if (!this.open) {
