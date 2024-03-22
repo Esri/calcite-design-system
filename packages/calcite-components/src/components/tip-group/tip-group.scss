@@ -12,8 +12,8 @@
     box-border
     text-n1h;
 
-  --calcite-tip-group-background-color: var(--calcite-tip-group-background-color, var(--calcite-color-foreground-1));
-  --calcite-tip-group-text-color: var(--calcite-tip-group-text-color, var(--calcite-color-text-2));
+  background-color: var(--calcite-tip-group-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-tip-group-text-color, var(--calcite-color-text-2));
 }
 
 ::slotted(calcite-tip) {
