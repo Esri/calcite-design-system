@@ -598,13 +598,13 @@ describe("dom", () => {
 
   describe("isKeyboardTriggeredClick", () => {
     it("should return true if click is triggered by keyboard", () => {
-      const event = new MouseEvent("click");
+      const event = new MouseEvent("click", { detail: 0 });
       expect(isKeyboardTriggeredClick(event)).toBe(true);
     });
 
     it("should return false if click is triggered by mouse/pointer", () => {
       const event = new MouseEvent("click", { detail: 1 });
-      expect(isKeyboardTriggeredClick(event)).toBe(true);
+      expect(isKeyboardTriggeredClick(event)).toBe(false);
     });
   });
 });
