@@ -138,23 +138,20 @@ export class Tile implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   renderTile(): VNode {
-    const { hasImage, icon, hasContentStart, hasContentEnd, heading, description, iconFlipRtl } =
-      this;
+    const { hasImage, icon, heading, description, iconFlipRtl } = this;
     const isLargeVisual = heading && icon && !description;
 
     return (
       <div class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual }}>
         {icon && !hasImage && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
         <div class={CSS.contentContainer}>
-          <div class={{ [CSS.contentSlotContainer]: hasContentStart }}>
-            <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
-          </div>
+          <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
           <div class={CSS.content}>
             <slot name={SLOTS.image} onSlotchange={this.handleImageSlotChange} />
-            {heading && <div class={CSS.heading}>{heading}</div>}
-            {description && <div class={CSS.description}>{description}</div>}
-          </div>
-          <div class={{ [CSS.contentSlotContainer]: hasContentEnd }}>
+            <div>
+              {heading && <div class={CSS.heading}>{heading}</div>}
+              {description && <div class={CSS.description}>{description}</div>}
+            </div>
             <slot name={SLOTS.contentEnd} onSlotchange={this.handleContentEndSlotChange} />
           </div>
         </div>
