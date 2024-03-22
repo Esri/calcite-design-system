@@ -104,3 +104,51 @@ export const openMaxHeight_TestOnly = (): string => html`
 `;
 
 keyDownOpen_TestOnly.parameters = { chromatic: { delay: 1000 } };
+
+export const theming_TestOnly = (): string => html`
+  <calcite-action-menu
+    open
+    style="
+      --calcite-action-menu-close-background-color-active: #9BDAF2;
+      --calcite-action-menu-close-background-color-hover: #9BDAF2;
+      --calcite-action-menu-close-background-color: #9BDAF2;
+      --calcite-action-menu-close-icon-color-active: #D93D4A;
+      --calcite-action-menu-close-icon-color-hover: #D93D4A;
+      --calcite-action-menu-close-icon-color: #D93D4A;
+      --calcite-action-menu-close-text-color-active: #044BD9;
+      --calcite-action-menu-close-text-color-hover: #044BD9;
+      --calcite-action-menu-close-text-color: #044BD9;
+      --calcite-action-menu-popover-background-color: #9BDAF2;
+      --calcite-action-menu-popover-border-color: #9BDAF2;
+      --calcite-action-menu-popover-corner-radius: 0;
+      --calcite-action-menu-popover-shadow: 0 0 0 0.25rem #D93A2B;
+      --calcite-action-menu-popover-text-color: #044BD9;
+      --calcite-action-menu-trigger-background-color-active: #9BDAF2;
+      --calcite-action-menu-trigger-background-color-focus: #9BDAF2;
+      --calcite-action-menu-trigger-background-color-hover: #9BDAF2;
+      --calcite-action-menu-trigger-background-color: #9BDAF2;
+      --calcite-action-menu-trigger-icon-color-active: #D93D4A;
+      --calcite-action-menu-trigger-icon-color-focus: #D93D4A;
+      --calcite-action-menu-trigger-icon-color-hover: #D93D4A;
+      --calcite-action-menu-trigger-icon-color: #D93D4A;
+      --calcite-action-menu-trigger-indicator-color: #BFA939;
+      --calcite-action-menu-trigger-loader-color: #BFA939;
+      --calcite-action-menu-trigger-shadow: 0 0 0 0.25rem #D93A2B;  
+      --calcite-action-menu-trigger-text-color-active: #044BD9;
+      --calcite-action-menu-trigger-text-color-focus: #044BD9;
+      --calcite-action-menu-trigger-text-color-hover: #044BD9;
+      --calcite-action-menu-trigger-text-color: #044BD9;"
+  >
+    <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
+    <calcite-action-group>
+      <calcite-action text="Plus" icon="plus" text-enabled></calcite-action
+      ><calcite-action text="Minus" icon="minus" text-enabled></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Table" icon="table" text-enabled></calcite-action
+    ></calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Save" icon="save" text-enabled></calcite-action>
+    </calcite-action-group>
+  </calcite-action-menu>
+`;

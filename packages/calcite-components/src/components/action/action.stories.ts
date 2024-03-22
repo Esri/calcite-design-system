@@ -234,3 +234,24 @@ export const darkModeRTL_TestOnly = (): string =>
   </div>`;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const theming_TestOnly = (): string => html`
+  <calcite-action
+    style="
+    --calcite-action-background-color: #A7ABCF;
+    --calcite-action-text-color: #111C54;
+    --calcite-action-shadow: 0 0 0 0.25rem #111C54;
+    --calcite-action-icon-color: #70163B;
+    --calcite-action-indicator-color: #45B385;
+    --calcite-action-loader-color: #9AE0FF;
+    "
+    scale="s"
+    indicator
+    active
+    text="click-me"
+    label="hello world"
+    text-enabled
+    icon="configure-popup"
+  >
+  </calcite-action>
+`;
