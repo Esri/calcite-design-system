@@ -15,10 +15,6 @@
   @extend %type-vars;
   @include floating-ui-base();
   @include animation-base();
-
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   --calcite-popover-z-index: var(--calcite-z-index-popup);
   --calcite-border-radius: var(--calcite-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
@@ -26,7 +22,11 @@
   --calcite-panel-width-multiplier: 1;
   --calcite-ui-icon-color: currentColor;
 
-  @apply font-sans;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-family: var(--calcite-font-family);
 }
 
 .calcite-mode-auto {

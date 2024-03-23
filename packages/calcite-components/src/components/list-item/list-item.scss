@@ -14,7 +14,7 @@
   @apply bg-foreground-1
   box-border
   flex
-  flex-1 font-sans;
+  flex-1;
   * {
     @apply box-border;
   }
@@ -63,7 +63,6 @@
     select-none
     flex
     flex-auto
-    font-sans
     font-normal
     items-stretch
     p-0;
@@ -126,6 +125,10 @@ td:focus {
 .content-start,
 .content-end {
   @apply flex-auto;
+
+  ::slotted(calcite-icon) {
+    @apply self-center mx-3;
+  }
 }
 
 .content-bottom {
@@ -180,13 +183,6 @@ td:focus {
 .open-container,
 .selection-container {
   @apply cursor-pointer;
-}
-
-.content-start,
-.content-end {
-  ::slotted(calcite-icon) {
-    @apply self-center mx-3;
-  }
 }
 
 .actions-start,
