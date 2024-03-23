@@ -281,4 +281,89 @@ describe("calcite-accordion", () => {
     expect(await item2Content.isVisible()).toBe(true);
     expect(await item3Content.isVisible()).toBe(true);
   });
+
+  describe("Theme-ing", () => {
+    let page;
+
+    beforeAll(async () => {
+      page = await newE2EPage({
+        html: `
+        <calcite-accordion>
+        ${accordionContent}
+        </calcite-accordion>`,
+      });
+      await page.waitForChanges();
+    });
+
+    it("should theme accordion", async () => {
+      const customTheme = {
+        "--calcite-accordion-border-color": "rgb(0, 255, 0)",
+      };
+      const el = await page.find("calcite-accordion");
+      const accordion = await page.find("calcite-accordion >>> .accordion");
+      const defaultStyle = await accordion.getComputedStyle();
+
+      await el.setAttribute(
+        "style",
+        `${Object.entries(customTheme)
+          .map(([key, val]) => `${key}: ${val}`)
+          .join("; ")}`,
+      );
+      await page.waitForChanges();
+      const styles = await accordion.getComputedStyle();
+      expect(defaultStyle.borderColor).not.toBe(customTheme["--calcite-accordion-border-color"]);
+      expect(styles.borderColor).toBe(customTheme["--calcite-accordion-border-color"]);
+    });
+
+    it("should theme accordion-item", async () => {
+      const customTheme = {
+        "--calcite-accordion-item-background-color": "rgb(255, 0, 0)",
+        "--calcite-accordion-item-border-color": "rgb(0, 255, 0)",
+        "--calcite-accordion-item-description-text-color": "rgb(0, 0, 255)",
+        "--calcite-accordion-item-heading-text-color": "rgb(255, 255, 0)",
+        "--calcite-accordion-item-icon-color": "rgb(0, 255, 255)",
+        "--calcite-accordion-item-expand-icon-color": "rgb(255, 0, 255)",
+        "--calcite-accordion-item-text-color": "rgb(128, 0, 0)",
+      };
+      const el = await page.find("calcite-accordion-item");
+      const openEl = await page.find("calcite-accordion-item[expanded]");
+      await el.setAttribute("description", "Accordion Item Description");
+      await el.setAttribute("icon-start", "brush-tip");
+      await el.setAttribute(
+        "style",
+        `${Object.entries(customTheme)
+          .map(([key, val]) => `${key}: ${val}`)
+          .join("; ")}`,
+      );
+
+      await openEl.setAttribute(
+        "style",
+        `${Object.entries(customTheme)
+          .map(([key, val]) => `${key}: ${val}`)
+          .join("; ")}`,
+      );
+      await page.waitForChanges();
+
+      const styles = await el.getComputedStyle();
+      const headerStyles = await page.find("calcite-accordion-item >>> .header").then((el) => el.getComputedStyle());
+      const headingStyles = await page
+        .find("calcite-accordion-item >>> .header-content")
+        .then((el) => el.getComputedStyle());
+      const descriptionStyles = await page
+        .find("calcite-accordion-item >>> .description")
+        .then((el) => el.getComputedStyle());
+      const iconStyles = await page.find("calcite-accordion-item >>> .icon").then((el) => el.getComputedStyle());
+      const expandIconStyles = await page
+        .find("calcite-accordion-item >>> .expand-icon")
+        .then((el) => el.getComputedStyle());
+
+      expect(styles.backgroundColor).toBe(customTheme["--calcite-accordion-item-background-color"]);
+      expect(headerStyles.borderBottomColor).toBe(customTheme["--calcite-accordion-item-border-color"]);
+      expect(styles.color).toBe(customTheme["--calcite-accordion-item-text-color"]);
+      expect(descriptionStyles.textColor).toBe(customTheme["--calcite-accordion-item-description-text-color"]);
+      expect(headingStyles.textColor).toBe(customTheme["--calcite-accordion-item-heading-text-color"]);
+      expect(iconStyles.color).toBe(customTheme["--calcite-accordion-item-icon-color"]);
+      expect(expandIconStyles.color).toBe(customTheme["--calcite-accordion-item-expand-icon-color"]);
+    });
+  });
 });

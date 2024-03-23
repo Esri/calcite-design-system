@@ -3,7 +3,6 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-accordion-background-color: defines the background color for the component and it's slotted accordion-items.
  * @prop --calcite-accordion-border-color: defines the border color for the component and it's slotted accordion-items.
  */
 
@@ -14,13 +13,14 @@
   max-inline-size: var(--calcite-container-size-content-fluid);
   font-size: var(--calcite-internal-accordion-font-size);
   line-height: var(--calcite-internal-accordion-line-height);
-
-  ::slotted(calcite-accordion-item) {
-    --calcite-internal-accordion-item-icon-space: var(--calcite-internal-accordion-space-large);
-    --calcite-internal-accordion-item-content-space: var(--calcite-internal-accordion-space-small)
-      var(--calcite-internal-accordion-space-large);
-  }
 }
+
+::slotted(calcite-accordion-item) {
+  --calcite-internal-accordion-item-icon-space: var(--calcite-internal-accordion-space-large);
+  --calcite-internal-accordion-item-content-space: var(--calcite-internal-accordion-space-small)
+    var(--calcite-internal-accordion-space-large);
+}
+
 :host([appearance="transparent"]) {
   ::slotted(calcite-accordion-item) {
     --calcite-accordion-item-border-color: var(--calcite-color-transparent);
