@@ -281,4 +281,31 @@ describe("calcite-accordion", () => {
     expect(await item2Content.isVisible()).toBe(true);
     expect(await item3Content.isVisible()).toBe(true);
   });
+
+  it("should allow theme-ing", async () => {
+    const page = await newE2EPage({
+      html: `
+      <calcite-accordion selection-mode="single">
+      ${accordionContent}
+      </calcite-accordion>`,
+    });
+    await page.waitForChanges();
+    const customTheme = {
+      "--calcite-accordion-border-color": "rgb(0, 255, 0)",
+    };
+    const el = await page.find("calcite-accordion");
+    const accordion = await page.find("calcite-accordion >>> .accordion");
+    const defaultStyle = await accordion.getComputedStyle();
+
+    await el.setAttribute(
+      "style",
+      `${Object.entries(customTheme)
+        .map(([key, val]) => `${key}: ${val}`)
+        .join("; ")}`,
+    );
+    await page.waitForChanges();
+    const styles = await accordion.getComputedStyle();
+    expect(defaultStyle.borderColor).not.toBe(customTheme["--calcite-accordion-border-color"]);
+    expect(styles.borderColor).toBe(customTheme["--calcite-accordion-border-color"]);
+  });
 });
