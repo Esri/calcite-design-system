@@ -120,9 +120,9 @@
 .icon {
   @apply relative
     m-0
-    inline-flex
     duration-150
-    ease-in-out;
+    ease-in-out
+    items-center;
   color: var(
     --calcite-accordion-item-icon-color,
     var(--calcite-accordion-item-text-color, var(--calcite-color-text-3))
@@ -131,7 +131,6 @@
   margin-inline-start: var(--calcite-internal-accordion-item-icon-space-x-end, 0);
 }
 
-// accordion item icon
 .expand-icon {
   color: var(
     --calcite-accordion-item-expand-icon-color,
@@ -143,11 +142,12 @@
 }
 
 .icon--start {
-  @apply flex items-center;
+  margin-inline-end: var(--calcite-internal-accordion-item-icon-space);
 }
 
 .icon--end {
-  @apply flex items-center;
+  margin-inline-end: var(--calcite-internal-accordion-item-icon-space);
+  margin-inline-start: var(--calcite-internal-accordion-item-icon-space);
 }
 
 .content {
