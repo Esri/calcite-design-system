@@ -4,6 +4,7 @@ export const SLOTS = {
 };
 
 export const CSS = {
+  container: "container",
   icon: "icon",
   header: "header",
   headerContent: "header-content",
@@ -17,6 +18,8 @@ export const CSS = {
   iconStart: "icon--start",
   iconEnd: "icon--end",
   headerContainer: "header-container",
+  iconPosition: (position: string): string => `icon-position--${position}`,
+  iconType: (type: string): string => `icon-type--${type}`,
 };
 
 export const IDS = {
