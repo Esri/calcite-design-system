@@ -2034,7 +2034,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell, "1": CSS.selectedCell });
+    ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2051,7 +2051,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell, "1": CSS.selectedCell });
+    ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
@@ -2085,7 +2085,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell, "1": CSS.selectedCell });
+    ).toEqual({ "0": CSS.numberCell });
   });
 
   it("navigates correctly when number and selection column present numbered", async () => {
@@ -2127,7 +2127,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell, "1": CSS.selectedCell });
+    ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2187,7 +2187,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell, "1": CSS.selectedCell });
+    ).toEqual({ "0": CSS.numberCell });
   });
 
   it("navigates correctly when pagination present and selection and number and first page displayed", async () => {
@@ -2233,7 +2233,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell, "1": CSS.selectedCell });
+    ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2299,7 +2299,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell, "1": CSS.selectedCell });
+    ).toEqual({ "0": CSS.numberCell });
   });
 
   it("navigates correctly when pagination present, and selection and number and navigation to two other pages occurs", async () => {
@@ -2348,7 +2348,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell, "1": CSS.selectedCell });
+    ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2429,7 +2429,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell, "1": CSS.selectedCell });
+    ).toEqual({ "0": CSS.numberCell });
 
     await page.$eval("calcite-table", () => {
       const table = document.querySelector("calcite-table");
@@ -2454,7 +2454,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell, "1": CSS.selectedCell });
+    ).toEqual({ "0": CSS.numberCell });
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
