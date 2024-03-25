@@ -323,9 +323,11 @@ export class ActionMenu implements LoadableComponent {
   render(): VNode {
     return (
       <Fragment>
-        {this.renderMenuButton()}
-        {this.renderMenuItems()}
-        <slot name={SLOTS.tooltip} onSlotchange={this.updateTooltip} />
+        <div class={CSS.container}>
+          {this.renderMenuButton()}
+          {this.renderMenuItems()}
+          <slot name={SLOTS.tooltip} onSlotchange={this.updateTooltip} />
+        </div>
       </Fragment>
     );
   }
