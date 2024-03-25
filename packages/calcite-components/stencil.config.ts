@@ -23,6 +23,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-block", "calcite-block-section"] },
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
+    { components: ["calcite-card-group"] },
     { components: ["calcite-checkbox"] },
     { components: ["calcite-chip"] },
     { components: ["calcite-chip-group"] },

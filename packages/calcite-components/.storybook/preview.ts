@@ -1,6 +1,6 @@
 import { Theme as Mode } from "storybook-addon-themes/dist/models/Theme";
 import { withDirection } from "storybook-rtl-addon";
-import { globalDocsPage, modes, parseReadme } from "./utils";
+import { modes } from "./utils";
 
 declare global {
   interface Window {}
@@ -30,22 +30,6 @@ export const parameters = {
     manual: false,
   },
   modes,
-  docs: {
-    extractComponentDescription: (_component, { notes }) => {
-      if (notes) {
-        if (typeof notes === "string") {
-          return parseReadme(notes);
-        }
-
-        const multipleNotes = Array.isArray(notes) ? notes : Object.keys(notes).map((section) => notes[section]);
-
-        return parseReadme(multipleNotes.join("\n"));
-      }
-
-      return null;
-    },
-    page: globalDocsPage,
-  },
   layout: "centered",
   options: {
     storySort: {

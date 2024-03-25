@@ -77,6 +77,7 @@ import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEve
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
+import { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
@@ -163,6 +164,7 @@ export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEve
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
+export { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
@@ -672,6 +674,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value: Without a value, the browser will suggest a filename/extension See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
+         */
+        "download": string | boolean;
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
@@ -753,6 +759,14 @@ export namespace Components {
     }
     interface CalciteCard {
         /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
+        /**
           * When `true`, a busy indicator is displayed.
          */
         "loading": boolean;
@@ -766,6 +780,7 @@ export namespace Components {
         "messages": CardMessages;
         /**
           * When `true`, the component is selectable.
+          * @deprecated use `selectionMode` property on a parent `calcite-card-group` instead.
          */
         "selectable": boolean;
         /**
@@ -773,9 +788,43 @@ export namespace Components {
          */
         "selected": boolean;
         /**
+          * This internal property, managed by a containing `calcite-card-group`, is conditionally set based on the `selectionMode` of the parent
+         */
+        "selectionMode": Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode>;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
+        /**
           * Sets the placement of the thumbnail defined in the `thumbnail` slot.
          */
         "thumbnailPosition": LogicalFlowPosition;
+    }
+    interface CalciteCardGroup {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
+        /**
+          * Specifies the component's selected items.
+          * @readonly
+         */
+        "selectedItems": HTMLCalciteCardElement[];
+        /**
+          * Specifies the selection mode of the component.
+         */
+        "selectionMode": Extract<
+    "multiple" | "single" | "single-persist" | "none",
+    SelectionMode
+  >;
+        /**
+          * Sets focus on the component's first focusable element.
+         */
+        "setFocus": () => Promise<void>;
     }
     interface CalciteCheckbox {
         /**
@@ -931,6 +980,7 @@ export namespace Components {
     interface CalciteColorPicker {
         /**
           * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * @deprecated Use `clearable` instead
          */
         "allowEmpty": boolean;
         /**
@@ -941,6 +991,10 @@ export namespace Components {
           * When `true`, hides the RGB/HSV channel inputs.
          */
         "channelsDisabled": boolean;
+        /**
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable": boolean;
         /**
           * Internal prop for advanced use-cases.
          */
@@ -4545,6 +4599,14 @@ export namespace Components {
         "indicatorWidth": number;
         "layout": TabLayout;
         /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<TabNavMessages>;
+        /**
+          * Made into a prop for testing purposes only.
+         */
+        "messages": TabNavMessages;
+        /**
           * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
          */
         "position": TabPosition;
@@ -4721,6 +4783,7 @@ export namespace Components {
          */
         "messages": TableCellMessages;
         "numberCell": boolean;
+        "parentRowAlignment": Alignment;
         "parentRowIsSelected": boolean;
         "parentRowPositionLocalized": string;
         "parentRowType": RowType;
@@ -4766,6 +4829,7 @@ export namespace Components {
          */
         "messages": TableHeaderMessages;
         "numberCell": boolean;
+        "parentRowAlignment": Alignment;
         "parentRowIsSelected": boolean;
         "parentRowType": RowType;
         "positionInRow": number;
@@ -4784,6 +4848,10 @@ export namespace Components {
         "setFocus": () => Promise<void>;
     }
     interface CalciteTableRow {
+        /**
+          * Specifies the alignment of the component.
+         */
+        "alignment": Alignment;
         "bodyRowCount": number;
         "cellCount": number;
         /**
@@ -4958,6 +5026,7 @@ export namespace Components {
         "disabled": boolean;
         /**
           * The component's embed mode.  When `true`, renders without a border and padding for use by other components.
+          * @deprecated No longer necessary.
          */
         "embed": boolean;
         /**
@@ -5439,6 +5508,10 @@ export interface CalciteCardCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteCardElement;
 }
+export interface CalciteCardGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteCardGroupElement;
+}
 export interface CalciteCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteCheckboxElement;
@@ -5888,6 +5961,7 @@ declare global {
     };
     interface HTMLCalciteCardElementEventMap {
         "calciteCardSelect": void;
+        "calciteInternalCardKeyEvent": KeyboardEvent;
     }
     interface HTMLCalciteCardElement extends Components.CalciteCard, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteCardElementEventMap>(type: K, listener: (this: HTMLCalciteCardElement, ev: CalciteCardCustomEvent<HTMLCalciteCardElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -5902,6 +5976,23 @@ declare global {
     var HTMLCalciteCardElement: {
         prototype: HTMLCalciteCardElement;
         new (): HTMLCalciteCardElement;
+    };
+    interface HTMLCalciteCardGroupElementEventMap {
+        "calciteCardGroupSelect": void;
+    }
+    interface HTMLCalciteCardGroupElement extends Components.CalciteCardGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteCardGroupElementEventMap>(type: K, listener: (this: HTMLCalciteCardGroupElement, ev: CalciteCardGroupCustomEvent<HTMLCalciteCardGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteCardGroupElementEventMap>(type: K, listener: (this: HTMLCalciteCardGroupElement, ev: CalciteCardGroupCustomEvent<HTMLCalciteCardGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCalciteCardGroupElement: {
+        prototype: HTMLCalciteCardGroupElement;
+        new (): HTMLCalciteCardGroupElement;
     };
     interface HTMLCalciteCheckboxElementEventMap {
         "calciteInternalCheckboxBlur": boolean;
@@ -7394,6 +7485,7 @@ declare global {
         "calcite-block-section": HTMLCalciteBlockSectionElement;
         "calcite-button": HTMLCalciteButtonElement;
         "calcite-card": HTMLCalciteCardElement;
+        "calcite-card-group": HTMLCalciteCardGroupElement;
         "calcite-checkbox": HTMLCalciteCheckboxElement;
         "calcite-chip": HTMLCalciteChipElement;
         "calcite-chip-group": HTMLCalciteChipGroupElement;
@@ -8013,6 +8105,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value: Without a value, the browser will suggest a filename/extension See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
+         */
+        "download"?: string | boolean;
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
@@ -8090,6 +8186,14 @@ declare namespace LocalJSX {
     }
     interface CalciteCard {
         /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled"?: boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label"?: string;
+        /**
           * When `true`, a busy indicator is displayed.
          */
         "loading"?: boolean;
@@ -8102,11 +8206,13 @@ declare namespace LocalJSX {
          */
         "messages"?: CardMessages;
         /**
-          * Fires when `selectable` is `true` and the component is selected.
+          * Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected.
          */
         "onCalciteCardSelect"?: (event: CalciteCardCustomEvent<void>) => void;
+        "onCalciteInternalCardKeyEvent"?: (event: CalciteCardCustomEvent<KeyboardEvent>) => void;
         /**
           * When `true`, the component is selectable.
+          * @deprecated use `selectionMode` property on a parent `calcite-card-group` instead.
          */
         "selectable"?: boolean;
         /**
@@ -8114,9 +8220,39 @@ declare namespace LocalJSX {
          */
         "selected"?: boolean;
         /**
+          * This internal property, managed by a containing `calcite-card-group`, is conditionally set based on the `selectionMode` of the parent
+         */
+        "selectionMode"?: Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode>;
+        /**
           * Sets the placement of the thumbnail defined in the `thumbnail` slot.
          */
         "thumbnailPosition"?: LogicalFlowPosition;
+    }
+    interface CalciteCardGroup {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled"?: boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
+        /**
+          * Emits when the component's selection changes and the `selectionMode` is not `none`.
+         */
+        "onCalciteCardGroupSelect"?: (event: CalciteCardGroupCustomEvent<void>) => void;
+        /**
+          * Specifies the component's selected items.
+          * @readonly
+         */
+        "selectedItems"?: HTMLCalciteCardElement[];
+        /**
+          * Specifies the selection mode of the component.
+         */
+        "selectionMode"?: Extract<
+    "multiple" | "single" | "single-persist" | "none",
+    SelectionMode
+  >;
     }
     interface CalciteCheckbox {
         /**
@@ -8285,6 +8421,7 @@ declare namespace LocalJSX {
     interface CalciteColorPicker {
         /**
           * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * @deprecated Use `clearable` instead
          */
         "allowEmpty"?: boolean;
         /**
@@ -8295,6 +8432,10 @@ declare namespace LocalJSX {
           * When `true`, hides the RGB/HSV channel inputs.
          */
         "channelsDisabled"?: boolean;
+        /**
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable"?: boolean;
         /**
           * Internal prop for advanced use-cases.
          */
@@ -12085,6 +12226,14 @@ declare namespace LocalJSX {
         "indicatorOffset"?: number;
         "indicatorWidth"?: number;
         "layout"?: TabLayout;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<TabNavMessages>;
+        /**
+          * Made into a prop for testing purposes only.
+         */
+        "messages"?: TabNavMessages;
         "onCalciteInternalTabChange"?: (event: CalciteTabNavCustomEvent<TabChangeEventDetail>) => void;
         /**
           * Emits when the selected `calcite-tab` changes.
@@ -12285,6 +12434,7 @@ declare namespace LocalJSX {
          */
         "messages"?: TableCellMessages;
         "numberCell"?: boolean;
+        "parentRowAlignment"?: Alignment;
         "parentRowIsSelected"?: boolean;
         "parentRowPositionLocalized"?: string;
         "parentRowType"?: RowType;
@@ -12326,6 +12476,7 @@ declare namespace LocalJSX {
          */
         "messages"?: TableHeaderMessages;
         "numberCell"?: boolean;
+        "parentRowAlignment"?: Alignment;
         "parentRowIsSelected"?: boolean;
         "parentRowType"?: RowType;
         "positionInRow"?: number;
@@ -12340,6 +12491,10 @@ declare namespace LocalJSX {
         "selectionMode"?: SelectionMode;
     }
     interface CalciteTableRow {
+        /**
+          * Specifies the alignment of the component.
+         */
+        "alignment"?: Alignment;
         "bodyRowCount"?: number;
         "cellCount"?: number;
         /**
@@ -12519,6 +12674,7 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         /**
           * The component's embed mode.  When `true`, renders without a border and padding for use by other components.
+          * @deprecated No longer necessary.
          */
         "embed"?: boolean;
         /**
@@ -13004,6 +13160,7 @@ declare namespace LocalJSX {
         "calcite-block-section": CalciteBlockSection;
         "calcite-button": CalciteButton;
         "calcite-card": CalciteCard;
+        "calcite-card-group": CalciteCardGroup;
         "calcite-checkbox": CalciteCheckbox;
         "calcite-chip": CalciteChip;
         "calcite-chip-group": CalciteChipGroup;
@@ -13117,6 +13274,7 @@ declare module "@stencil/core" {
             "calcite-block-section": LocalJSX.CalciteBlockSection & JSXBase.HTMLAttributes<HTMLCalciteBlockSectionElement>;
             "calcite-button": LocalJSX.CalciteButton & JSXBase.HTMLAttributes<HTMLCalciteButtonElement>;
             "calcite-card": LocalJSX.CalciteCard & JSXBase.HTMLAttributes<HTMLCalciteCardElement>;
+            "calcite-card-group": LocalJSX.CalciteCardGroup & JSXBase.HTMLAttributes<HTMLCalciteCardGroupElement>;
             "calcite-checkbox": LocalJSX.CalciteCheckbox & JSXBase.HTMLAttributes<HTMLCalciteCheckboxElement>;
             "calcite-chip": LocalJSX.CalciteChip & JSXBase.HTMLAttributes<HTMLCalciteChipElement>;
             "calcite-chip-group": LocalJSX.CalciteChipGroup & JSXBase.HTMLAttributes<HTMLCalciteChipGroupElement>;
