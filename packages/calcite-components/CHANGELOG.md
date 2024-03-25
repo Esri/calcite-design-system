@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.14...@esri/calcite-components@2.7.0-next.15) (2024-03-25)
+
+### Bug Fixes
+
+- **combobox:** prevent spacebar from opening the menu when focused on chip's close button ([#8990](https://github.com/Esri/calcite-design-system/issues/8990)) ([1a20d0e](https://github.com/Esri/calcite-design-system/commit/1a20d0eb740dbe2e371aeff90b8b9f301ca8bf2a)), closes [#6777](https://github.com/Esri/calcite-design-system/issues/6777)
+
 ## [2.7.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.13...@esri/calcite-components@2.7.0-next.14) (2024-03-22)
 
 ### Bug Fixes
