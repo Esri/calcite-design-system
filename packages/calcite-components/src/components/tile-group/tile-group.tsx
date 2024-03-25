@@ -28,6 +28,9 @@ export class TileGroup implements InteractiveComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
+  /** Accessible name for the component. */
+  @Prop() label!: string;
+
   /**
    * Defines the layout of the component.
    *
@@ -51,7 +54,7 @@ export class TileGroup implements InteractiveComponent {
    * - `"icon"` (displays a checkmark or dot), or
    * - `"border"` (displays a border).
    */
-  @Prop({ mutable: true }) selectionAppearance: SelectionAppearance = "icon";
+  @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
 
   /**
    * Specifies the selection mode, where:
@@ -61,7 +64,10 @@ export class TileGroup implements InteractiveComponent {
    * - `"single-persist"` (allows only one selected item and prevents de-selection),
    * - `"none"` (allows no selected items).
    */
-  @Prop({ mutable: true }) selectionMode: Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode> = "none";
+  @Prop({ reflect: true }) selectionMode: Extract<
+    "multiple" | "none" | "single" | "single-persist",
+    SelectionMode
+  > = "none";
 
   @Watch("selectionMode")
   @Watch("selectionAppearance")
@@ -115,9 +121,11 @@ export class TileGroup implements InteractiveComponent {
   }
 
   render(): VNode {
+    const role =
+      this.selectionMode === "none" || this.selectionMode === "multiple" ? "group" : "radiogroup";
     return (
       <InteractiveContainer disabled={this.disabled}>
-        <div class={CSS.container}>
+        <div aria-label={this.label} class={CSS.container} role={role}>
           <slot onSlotchange={this.updateTiles} />
         </div>
       </InteractiveContainer>

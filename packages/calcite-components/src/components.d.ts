@@ -5050,6 +5050,10 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
+          * When true, enables the tile to be focused, and allows the `calciteChipSelect` to emit. This is set to `true` by a parent Chip Group component.
+         */
+        "interactive": boolean;
+        /**
           * Specifies the size of the component.
          */
         "scale": Scale;
@@ -5071,6 +5075,10 @@ export namespace Components {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
@@ -7264,7 +7272,7 @@ declare global {
         new (): HTMLCalciteTextAreaElement;
     };
     interface HTMLCalciteTileElementEventMap {
-        "calciteTileChange": void;
+        "calciteTileSelect": void;
     }
     interface HTMLCalciteTileElement extends Components.CalciteTile, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTileElementEventMap>(type: K, listener: (this: HTMLCalciteTileElement, ev: CalciteTileCustomEvent<HTMLCalciteTileElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -12698,9 +12706,13 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
+          * When true, enables the tile to be focused, and allows the `calciteChipSelect` to emit. This is set to `true` by a parent Chip Group component.
+         */
+        "interactive"?: boolean;
+        /**
           * Fires when the selected state of the component changes.
          */
-        "onCalciteTileChange"?: (event: CalciteTileCustomEvent<void>) => void;
+        "onCalciteTileSelect"?: (event: CalciteTileCustomEvent<void>) => void;
         /**
           * Specifies the size of the component.
          */
@@ -12723,6 +12735,10 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
