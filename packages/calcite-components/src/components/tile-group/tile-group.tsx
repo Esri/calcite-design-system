@@ -92,10 +92,11 @@ export class TileGroup implements InteractiveComponent {
   private mutationObserver = createObserver("mutation", () => this.updateTiles());
 
   private updateTiles = (): void => {
-    this.el.querySelectorAll("calcite-tile").forEach((item) => {
-      item.scale = this.scale;
-      item.selectionAppearance = this.selectionAppearance;
-      item.selectionMode = this.selectionMode;
+    this.el.querySelectorAll("calcite-tile").forEach((tile) => {
+      tile.interactive = true;
+      tile.scale = this.scale;
+      tile.selectionAppearance = this.selectionAppearance;
+      tile.selectionMode = this.selectionMode;
     });
   };
 

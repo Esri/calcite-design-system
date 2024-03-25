@@ -86,6 +86,14 @@ export class Tile implements InteractiveComponent {
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
+   * When true, enables the tile to be focused, and allows the `calciteChipSelect` to emit.
+   * This is set to `true` by a parent Chip Group component.
+   *
+   * @internal
+   */
+  @Prop() interactive = false;
+
+  /**
    * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
@@ -146,7 +154,7 @@ export class Tile implements InteractiveComponent {
     }
 
     if (previousSelected !== this.selected) {
-      this.calciteTileChange.emit();
+      this.calciteTileSelect.emit();
     }
   }
 
@@ -159,7 +167,7 @@ export class Tile implements InteractiveComponent {
   /**
    * Fires when the selected state of the component changes.
    */
-  @Event() calciteTileChange: EventEmitter<void>;
+  @Event() calciteTileSelect: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -221,11 +229,15 @@ export class Tile implements InteractiveComponent {
   }
 
   renderTile(): VNode {
-    const { icon, hasContentStart, hasContentEnd, heading, description, iconFlipRtl } = this;
+    const { disabled, icon, hasContentStart, hasContentEnd, heading, description, iconFlipRtl } =
+      this;
     const isLargeVisual = heading && icon && !description;
-
+    const disableInteraction = disabled || (!disabled && !this.interactive);
     return (
-      <div class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual }}>
+      <div
+        class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual }}
+        tabIndex={disableInteraction ? -1 : 0}
+      >
         {this.renderSelected()}
         <div>
           {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
