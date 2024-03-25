@@ -681,15 +681,11 @@ export class Combobox
         }
         break;
       case " ":
-        if (!this.textInput.value) {
+        if (!this.textInput.value && !event.defaultPrevented) {
           if (!this.open) {
             this.open = true;
             this.shiftActiveItemIndex(1);
           }
-          event.preventDefault();
-        }
-
-        if (event.composedPath().find((el: HTMLElement) => el.tagName === "CALCITE-CHIP")) {
           event.preventDefault();
         }
         break;
