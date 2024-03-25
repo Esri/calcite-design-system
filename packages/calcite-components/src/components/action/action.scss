@@ -94,11 +94,16 @@
   }
 }
 
-.icon {
+calcite-icon {
   --calcite-icon-color: var(
     --calcite-action-icon-color,
     var(--calcite-internal-action-icon-color, var(--calcite-color-text-3))
   );
+}
+
+calcite-loader {
+  --calcite-loader-color-start: var(--calcite-action-loader-color, var(--calcite-color-text-3));
+  margin-inline-end: theme("spacing.0");
 }
 
 .indicator-without-icon {
@@ -115,11 +120,6 @@
   &.slot-container--hidden {
     @apply hidden;
   }
-}
-
-calcite-loader {
-  --calcite-loader-color-start: var(--calcite-action-loader-color, var(--calcite-color-text-3));
-  margin-inline-end: theme("spacing.0");
 }
 
 // States
