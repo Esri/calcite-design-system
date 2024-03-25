@@ -28,6 +28,7 @@
     cursor-pointer
     items-center
     border-none;
+  align-items: center;
   background-color: var(
     --calcite-action-background-color,
     var(--calcite-internal-action-background-color, var(--calcite-color-foreground-1))
