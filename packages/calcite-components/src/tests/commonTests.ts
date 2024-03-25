@@ -1981,7 +1981,7 @@ export async function themed(
   const themedTokens = {};
 
   tokens.forEach((token, i) => {
-    themedTokens[token] = colorList[i];
+    themedTokens[token] = token.includes("color") ? colorList[i] : `${i * 10}${token.includes("z-index") ? "" : "px"}`;
   });
 
   component.setAttribute(
