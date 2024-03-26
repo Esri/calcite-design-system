@@ -820,6 +820,17 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
+export const contentTopBotton_TestOnly = (): string => html`
+  <calcite-tile
+    description="${text("description", "polygon layer")}"
+    heading="${text("heading", "Percent of population that carpool to work")}"
+    icon="layers"
+  >
+    <calcite-icon slot="content-top" icon="polygon"></calcite-icon>
+    <calcite-icon slot="content-bottom" icon="launch"></calcite-icon>
+  </calcite-tile>
+`;
+
 export const contentStartRTL_TestOnly = (): string => html`
   <calcite-tile
     description="${text("description", "polygon layer")}"
