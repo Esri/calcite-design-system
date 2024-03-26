@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  inline-size: 100%;
+}
+
+.start-year,
+.end-year {
+  inline-size: 50%;
+}
+
+.year {
+  inline-size: 100%;
+}
