@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.15...@esri/calcite-components@2.7.0-next.16) (2024-03-26)
+
+### Bug Fixes
+
+- **input-time-picker:** update toggle icon color ([#8955](https://github.com/Esri/calcite-design-system/issues/8955)) ([ce3ac5c](https://github.com/Esri/calcite-design-system/commit/ce3ac5cc514536c66dde9b26542a24c62e193b11)), closes [#7713](https://github.com/Esri/calcite-design-system/issues/7713)
+- **input, input-number, input-text:** ensure values are initialized properly for dist and components output targets ([#8997](https://github.com/Esri/calcite-design-system/issues/8997)) ([9152211](https://github.com/Esri/calcite-design-system/commit/915221146fcb1f48115fd34726324535542321df)), closes [#7014](https://github.com/Esri/calcite-design-system/issues/7014)
+
 ## [2.7.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.14...@esri/calcite-components@2.7.0-next.15) (2024-03-25)
 
 ### Bug Fixes
