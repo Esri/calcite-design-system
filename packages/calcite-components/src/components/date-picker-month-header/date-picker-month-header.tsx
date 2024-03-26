@@ -136,12 +136,8 @@ export class DatePickerMonthHeader {
 
     return (
       <Fragment>
-        <div class={{ text: true, [CSS.textReverse]: reverse }}>
-          {this.renderMonthPicker(months, activeMonth)}
-          {this.renderYearPicker()}
-        </div>
-        <div class="chevron-container">
-          {this.position !== "end" && (
+        {this.position !== "end" && (
+          <div class="chevron-container">
             <a
               aria-disabled={`${
                 this.prevMonthDate.getMonth() === activeMonth || this.min > this.activeDate
@@ -158,8 +154,14 @@ export class DatePickerMonthHeader {
             >
               <calcite-icon flip-rtl icon={ICON.chevronLeft} scale={getIconScale(this.scale)} />
             </a>
-          )}
-          {this.position !== "start" && (
+          </div>
+        )}
+        <div class={{ text: true, [CSS.textReverse]: reverse }}>
+          {this.renderMonthPicker(months, activeMonth)}
+          {this.renderYearPicker()}
+        </div>
+        {this.position !== "start" && (
+          <div class="chevron-container">
             <a
               aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
               aria-label={messages.nextMonth}
@@ -172,8 +174,8 @@ export class DatePickerMonthHeader {
             >
               <calcite-icon flip-rtl icon={ICON.chevronRight} scale={getIconScale(this.scale)} />
             </a>
-          )}
-        </div>
+          </div>
+        )}
       </Fragment>
     );
   }
