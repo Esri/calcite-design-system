@@ -119,28 +119,9 @@ withTooltips_TestOnly.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const theming_TestOnly = (): string => html`
-  // I want a tropical color scheme for the custom CSS prop overrides
-  <calcite-modal
-    open
-    aria-labelledby="modal-title"
-    id="modal"
-    style="
-    --calcite-modal-accent-color: #10403B;
-    --calcite-modal-background-color: #8AA6A3;
-    --calcite-modal-border-color: #127369;
-    --calcite-modal-close-button-background-color-hover: #8AA6A3;
-    --calcite-modal-close-button-background-color: #8AA6A3;
-    --calcite-modal-close-button-icon-color: #10403B;
-    --calcite-modal-content-background-color: #8AA6A3;
-    --calcite-modal-content-space: 1rem;
-    --calcite-modal-corner-radius: 0;
-    --calcite-modal-height: 500px;
-    --calcite-modal-scrim-background-color: #4C5958; 
-    --calcite-modal-shadow: 0 0 0 0.25rem #BFBFBF;
-    --calcite-modal-text-color: #10403B;
-    --calcite-modal-width: 600px;"
-  >
+export const withCSSVars_TestOnly = (): string => html`
+  <button id="button">Open</button>
+  <calcite-modal open aria-labelledby="modal-title" id="modal" style="--calcite-modal-content-background: #ddd;">
     <div slot="header" id="modal-title">Modal title</div>
     <div slot="content">
       Modal content lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore

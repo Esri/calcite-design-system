@@ -40,6 +40,36 @@ describe("calcite-modal", () => {
     expect(closeButton).toBe(null);
   });
 
+  it("sets custom width correctly", async () => {
+    const page = await newE2EPage();
+    // set large page to ensure test modal isn't becoming fullscreen
+    await page.setViewport({ width: 1440, height: 1440 });
+    await page.setContent(`<calcite-modal style="--calcite-modal-width:600px;"></calcite-modal>`);
+    const modal = await page.find("calcite-modal");
+    await modal.setProperty("open", true);
+    await page.waitForChanges();
+    const style = await page.$eval("calcite-modal", (el) => {
+      const m = el.shadowRoot.querySelector(".modal");
+      return window.getComputedStyle(m).getPropertyValue("width");
+    });
+    expect(style).toEqual("600px");
+  });
+
+  it("sets custom height correctly", async () => {
+    const page = await newE2EPage();
+    // set large page to ensure test modal isn't becoming fullscreen
+    await page.setViewport({ width: 1440, height: 1440 });
+    await page.setContent(`<calcite-modal style="--calcite-modal-height:600px;" open></calcite-modal>`);
+    const modal = await page.find("calcite-modal");
+    await modal.setProperty("open", true);
+    await page.waitForChanges();
+    const style = await page.$eval("calcite-modal", (el) => {
+      const m = el.shadowRoot.querySelector(".modal");
+      return window.getComputedStyle(m).getPropertyValue("height");
+    });
+    expect(style).toEqual("600px");
+  });
+
   it("expectedly does not set custom width when `fullscreen` is true", async () => {
     const page = await newE2EPage();
     // set large page to ensure test modal isn't becoming fullscreen
@@ -562,6 +592,49 @@ describe("calcite-modal", () => {
     await page.waitForChanges();
     footer = await page.$eval("calcite-modal", (el) => el.shadowRoot.querySelector(".footer"));
     expect(footer).toBeFalsy();
+  });
+
+  it("should render calcite-scrim with default background color", async () => {
+    const page = await newE2EPage({
+      html: `
+      <calcite-modal aria-labelledby="modal-title" open>
+        <h3 slot="header" id="modal-title">Title of the modal</h3>
+        <div slot="content">The actual content of the modal</div>
+        <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full">
+          Back
+        </calcite-button>
+        <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
+        <calcite-button slot="primary" width="full"> Save </calcite-button>
+      </calcite-modal>
+      `,
+    });
+    const scrimStyles = await page.evaluate(() => {
+      const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
+      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
+    });
+    expect(scrimStyles.trim()).toEqual("rgba(0, 0, 0, 0.85)");
+  });
+
+  it("when modal css override set, scrim should adhere to requested color", async () => {
+    const overrideStyle = "rgba(160, 20, 10, 0.5)";
+    const page = await newE2EPage({
+      html: `
+      <calcite-modal aria-labelledby="modal-title" open style="--calcite-modal-scrim-background:${overrideStyle}">
+        <h3 slot="header" id="modal-title">Title of the modal</h3>
+        <div slot="content">The actual content of the modal</div>
+        <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full">
+          Back
+        </calcite-button>
+        <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
+        <calcite-button slot="primary" width="full"> Save </calcite-button>
+      </calcite-modal>
+      `,
+    });
+    const scrimStyles = await page.evaluate(() => {
+      const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
+      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
+    });
+    expect(scrimStyles).toEqual(overrideStyle);
   });
 
   it("correctly reflects the scale of the modal on the close button icon", async () => {
