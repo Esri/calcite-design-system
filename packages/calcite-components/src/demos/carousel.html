@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Carousel</title>
+    <style>
+      .parent {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 25px 0;
+        justify-content: center;
+      }
+
+      .child {
+        flex: 1 0 21%;
+        padding: 0 25px;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .right-aligned-text {
+        text-align: right;
+      }
+
+      calcite-shell {
+        border-left: 1px solid var(--calcite-color-border-3);
+        border-right: 1px solid var(--calcite-color-border-3);
+        position: relative;
+        width: 80vw;
+        margin: 1rem auto;
+        height: 90vh;
+      }
+
+      calcite-popover {
+        width: 80%;
+        min-width: 300px;
+      }
+
+      calcite-carousel-item calcite-icon {
+        margin: 2rem auto 1.5rem;
+        display: block;
+      }
+
+      calcite-carousel-item p:not(.bg-image-example) {
+        text-align: center;
+        min-height: 100px;
+        max-width: 70%;
+        margin: 0 auto;
+      }
+
+      .bg-image-example {
+        background-image: url("https://placebear.com/3000/2000");
+        background-size: cover;
+        padding: 1rem;
+        height: 300px;
+        margin: 0;
+        font-size: 32px;
+        color: white;
+        font-weight: 600;
+        line-height: 32px;
+      }
+    </style>
+    <script src="_assets/head.js"></script>
+    <script type="module" src="./_assets/demo-form.js"></script>
+    <script type="module" src="./_assets/demo-spacer.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Carousel</h1>
+      <div class="parent">
+        <div class="child">
+          <div style="display: flex; flex-direction: row; gap: 1rem">
+            <calcite-label
+              >controlOverlay
+              <calcite-switch id="switch-overlay"></calcite-switch>
+            </calcite-label>
+          </div>
+        </div>
+        <div class="parent">
+          <div class="child">
+            <calcite-carousel id="example-carousel">
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <p>
+                  Some kind of text that isn't that long that can occupy a carousel item content slot, maybe in a p tag.
+                </p>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Long Trees">
+                <p>This is a carousel item with some kind of content example</p>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="Square Nature">
+                <p>And the text will run out before the end of the image.</p>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The lack of imagery">
+                <p>
+                  This is the next paragraph and should show how wide the content area is now. In astronomy, the terms
+                  object and body are often used interchangeably.
+                </p>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <p>
+                  Some kind of text that isn't that long that can occupy a carousel item content slot, maybe in a p tag.
+                </p>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Long Trees">
+                <p>This is a carousel item with some kind of content example</p>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="Square Nature">
+                <p>And the text will run out before the end of the image.</p>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The lack of imagery">
+                <p>
+                  This is the next paragraph and should show how wide the content area is now. In astronomy, the terms
+                  object and body are often used interchangeably.
+                </p>
+              </calcite-carousel-item>
+            </calcite-carousel>
+          </div>
+          <div class="child">
+            <hr />
+
+            <calcite-carousel id="example-carousel" arrow-type="edges">
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <calcite-card>
+                  <div slot="title">1 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Long Trees">
+                <calcite-card>
+                  <div slot="title">2 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <calcite-card>
+                  <div slot="title">3 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <calcite-card>
+                  <div slot="title">4 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Long Trees">
+                <calcite-card>
+                  <div slot="title">5 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <calcite-card>
+                  <div slot="title">6 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+            </calcite-carousel>
+          </div>
+          <div class="child">
+            <calcite-shell>
+              <calcite-panel heading="Content">
+                <calcite-block open style="height: 400px">
+                  <calcite-button style="margin: 1rem" id="example-popover">Launch onboarding</calcite-button>
+                  <calcite-popover open reference-element="example-popover" heading="Welcome to the show!" closable>
+                    <calcite-carousel id="example-carousel" arrow-type="inline">
+                      <calcite-carousel-item label="The Red Rocks and Blue Water">
+                        <p>
+                          <calcite-icon scale="l" icon="layer"></calcite-icon>
+                          An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+                        </p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The Long Trees">
+                        <p>
+                          <calcite-icon scale="l" icon="3d-glasses"></calcite-icon>
+                          Another bit of content about this unbelievable item can go here on the second carousel item as
+                          an example
+                        </p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The Red Rocks and Blue Water">
+                        <p>
+                          <calcite-icon scale="l" icon="layer"></calcite-icon>
+                          An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+                        </p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The Red Rocks and Blue Water">
+                        <p>
+                          <calcite-icon scale="l" icon="layer"></calcite-icon>
+                          An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+                        </p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The Long Trees">
+                        <p>
+                          <calcite-icon scale="l" icon="3d-glasses"></calcite-icon>
+                          Another bit of content about this unbelievable item can go here on the second carousel item as
+                          an example
+                        </p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The Red Rocks and Blue Water">
+                        <p>
+                          <calcite-icon scale="l" icon="layer"></calcite-icon>
+                          An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+                        </p>
+                      </calcite-carousel-item>
+                    </calcite-carousel>
+                  </calcite-popover>
+                </calcite-block>
+              </calcite-panel>
+              <calcite-shell-panel slot="panel-start" width-scale="l">
+                <calcite-panel heading="Carousel in context">
+                  <calcite-block open heading="Carousel in block">
+                    <calcite-carousel id="example-carousel" control-overlay arrow-type="bar" arrow-type="edges">
+                      <calcite-carousel-item label="The Red Rocks and Blue Water">
+                        <p class="bg-image-example">1 Some kind of rich content over a bg using overlay controls</p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The Long Trees">
+                        <p class="bg-image-example">
+                          2 Some kind of rich content over a bg using overlay controls but longer than the other one
+                        </p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="Square Nature">
+                        <p class="bg-image-example">
+                          3 Some kind of rich content over a bg using overlay controls but longer than the other one
+                        </p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The lack of imagery">
+                        <p class="bg-image-example">4 Some kind of rich content over a bg using overlay controls</p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The Red Rocks and Blue Water">
+                        <p class="bg-image-example">
+                          5 Some kind of rich content over a bg using overlay controls but longer than the other one
+                        </p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The Long Trees">
+                        <p class="bg-image-example">6 Some kind of rich content over a bg using overlay controls</p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="Square Nature">
+                        <p class="bg-image-example">
+                          7 Some kind of rich content over a bg using overlay controls but longer than the other one
+                        </p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The lack of imagery">
+                        <p class="bg-image-example">8 Some kind of rich content over a bg using overlay controls</p>
+                      </calcite-carousel-item>
+                    </calcite-carousel>
+                  </calcite-block>
+                  <calcite-block open>
+                    <calcite-button style="margin: 1rem" id="example-popover-2">Launch onboarding</calcite-button>
+                    <calcite-popover open reference-element="example-popover-2" heading="Welcome to the show!" closable>
+                      <calcite-carousel id="example-carousel">
+                        <calcite-carousel-item label="The Red Rocks and Blue Water">
+                          <p>
+                            <calcite-icon scale="l" icon="number-circle-1"></calcite-icon>
+                            An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+                          </p>
+                        </calcite-carousel-item>
+                        <calcite-carousel-item label="The Long Trees">
+                          <p>
+                            <calcite-icon scale="l" icon="number-circle-2"></calcite-icon>
+                            Another bit of content about this unbelievable item can go here on the second carousel item
+                            as an example
+                          </p>
+                        </calcite-carousel-item>
+                        <calcite-carousel-item label="The Red Rocks and Blue Water">
+                          <p>
+                            <calcite-icon scale="l" icon="number-circle-3"></calcite-icon>
+                            An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+                          </p>
+                        </calcite-carousel-item>
+                        <calcite-carousel-item label="The Red Rocks and Blue Water">
+                          <p>
+                            <calcite-icon scale="l" icon="number-circle-4"></calcite-icon>
+                            An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+                          </p>
+                        </calcite-carousel-item>
+                        <calcite-carousel-item label="The Long Trees">
+                          <p>
+                            <calcite-icon scale="l" icon="number-circle-5"></calcite-icon>
+                            Another bit of content about this unbelievable item can go here on the second carousel item
+                            as an example
+                          </p>
+                        </calcite-carousel-item>
+                        <calcite-carousel-item label="The Red Rocks and Blue Water">
+                          <p>
+                            <calcite-icon scale="l" icon="number-circle-6"></calcite-icon>
+                            An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+                          </p>
+                        </calcite-carousel-item>
+                      </calcite-carousel>
+                    </calcite-popover>
+                  </calcite-block>
+                </calcite-panel>
+              </calcite-shell-panel>
+            </calcite-shell>
+          </div>
+        </div>
+      </div>
+      <script>
+        const carousel = document.getElementById("example-carousel");
+        const switchOverlay = document.getElementById("switch-overlay");
+
+        document.querySelectorAll("calcite-carousel").forEach((item) => {
+          item.addEventListener("calciteCarouselChange", (event) => {
+            console.log(event.target.selectedItem);
+          });
+        });
+
+        switchOverlay.addEventListener("calciteSwitchChange", function () {
+          carousel.controlOverlay = event.target.checked;
+        });
+      </script>
+    </demo-dom-swapper>
+  </body>
+</html>

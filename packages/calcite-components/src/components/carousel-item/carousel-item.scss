@@ -1,0 +1,13 @@
+:host {
+  display: none;
+}
+
+:host([active]) {
+  display: block;
+}
+
+.container {
+  inline-size: var(--calcite-container-size-content-fluid);
+}
+
+@include base-component();

@@ -1,0 +1,110 @@
+:host {
+  @apply block w-full;
+  --calcite-internal-carousel-item-space: 1.5rem;
+  --calcite-internal-carousel-item-max-width: calc(100% - var(--calcite-internal-carousel-item-space-double));
+}
+
+.container {
+  @apply focus-base
+    relative
+    flex
+    overflow-hidden
+    text-color-2
+    text-n1h
+    w-full;
+  flex-direction: column;
+  &:focus {
+    @apply focus-normal;
+  }
+}
+
+.container:not(.is-overlay) {
+  inline-size: calc(100% - var(--calcite-internal-carousel-item-space-double));
+  padding-inline: var(--calcite-internal-carousel-item-space);
+}
+
+.item-container {
+  @apply focus-base
+    flex
+    items-start
+    justify-center
+    overflow-auto
+    flex-auto;
+  animation-name: none;
+  animation-duration: var(--calcite-animation-timing);
+  gap: 1rem;
+  &:focus {
+    @apply focus-inset;
+  }
+}
+
+.item-container--advancing {
+  animation-name: item-advance;
+}
+
+.item-container--retreating {
+  animation-name: item-retreat;
+}
+
+calcite-carousel-item:not([active]) {
+  opacity: 0.5;
+}
+
+/* Pagination Styles*/
+.pagination {
+  @apply flex
+  items-center
+  justify-center
+  p-3;
+  inline-size: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.is-overlay .pagination {
+  position: absolute;
+}
+
+.page-next {
+  inset-inline-end: 0;
+}
+
+.page-previous {
+  inset-inline-start: 0;
+}
+
+.is-overlay .pagination {
+  inset-block-start: unset;
+  inset-block-end: 0;
+  inset-inline: 0;
+}
+
+.pagination-item {
+  --calcite-ui-icon-color: var(--calcite-color-border-input);
+}
+
+.active-icon {
+  --calcite-ui-icon-color: var(--calcite-color-brand);
+}
+
+/* @keyframes*/
+@keyframes item-advance {
+  0% {
+    transform: translate3d(50px, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes item-retreat {
+  0% {
+    transform: translate3d(-50px, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@include disabled();
+
+@include base-component();
