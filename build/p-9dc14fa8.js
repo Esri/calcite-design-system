@@ -1,0 +1,7 @@
+/*!
+ * All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+ * See https://github.com/Esri/calcite-design-system/blob/main/LICENSE.md for details.
+ * v2.7.0-next.17
+ */
+import{d as s}from"./p-9ae5b670.js";import"./p-7dfe275c.js";import"./p-e3ec0867.js";import"./p-abba27ec.js";import"./p-e239d5cb.js";import"./p-95e72c17.js";import"./p-8eb2a3ac.js";import"./p-fd1a663e.js";import"./p-527d0b02.js";import"./p-ba315d5b.js";import"./p-898b373b.js";import"./p-d93a1abd.js";import"./p-c01c1e2d.js";import"./p-7b717f46.js";import"./p-ad1d85b3.js";import"./p-2dcd7f18.js";import"./p-ef7fb081.js";import"./p-ac528a6a.js";import"./p-34fa0965.js";var a={name:"lv",weekdays:"svētdiena_pirmdiena_otrdiena_trešdiena_ceturtdiena_piektdiena_sestdiena".split("_"),months:"janvāris_februāris_marts_aprīlis_maijs_jūnijs_jūlijs_augusts_septembris_oktobris_novembris_decembris".split("_"),weekStart:1,weekdaysShort:"Sv_P_O_T_C_Pk_S".split("_"),monthsShort:"jan_feb_mar_apr_mai_jūn_jūl_aug_sep_okt_nov_dec".split("_"),weekdaysMin:"Sv_P_O_T_C_Pk_S".split("_"),ordinal:function s(a){return a},formats:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY.",LL:"YYYY. [gada] D. MMMM",LLL:"YYYY. [gada] D. MMMM, HH:mm",LLLL:"YYYY. [gada] D. MMMM, dddd, HH:mm"},relativeTime:{future:"pēc %s",past:"pirms %s",s:"dažām sekundēm",m:"minūtes",mm:"%d minūtēm",h:"stundas",hh:"%d stundām",d:"dienas",dd:"%d dienām",M:"mēneša",MM:"%d mēnešiem",y:"gada",yy:"%d gadiem"}};s.locale(a,null,true);export default a;
+//# sourceMappingURL=p-9dc14fa8.js.map

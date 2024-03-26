@@ -1,0 +1,7 @@
+/*!
+ * All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+ * See https://github.com/Esri/calcite-design-system/blob/main/LICENSE.md for details.
+ * v2.7.0-next.17
+ */
+import{d as e}from"./p-9ae5b670.js";import"./p-7dfe275c.js";import"./p-e3ec0867.js";import"./p-abba27ec.js";import"./p-e239d5cb.js";import"./p-95e72c17.js";import"./p-8eb2a3ac.js";import"./p-fd1a663e.js";import"./p-527d0b02.js";import"./p-ba315d5b.js";import"./p-898b373b.js";import"./p-d93a1abd.js";import"./p-c01c1e2d.js";import"./p-7b717f46.js";import"./p-ad1d85b3.js";import"./p-2dcd7f18.js";import"./p-ef7fb081.js";import"./p-ac528a6a.js";import"./p-34fa0965.js";var r={name:"da",weekdays:"søndag_mandag_tirsdag_onsdag_torsdag_fredag_lørdag".split("_"),weekdaysShort:"søn._man._tirs._ons._tors._fre._lør.".split("_"),weekdaysMin:"sø._ma._ti._on._to._fr._lø.".split("_"),months:"januar_februar_marts_april_maj_juni_juli_august_september_oktober_november_december".split("_"),monthsShort:"jan._feb._mar._apr._maj_juni_juli_aug._sept._okt._nov._dec.".split("_"),weekStart:1,ordinal:function e(r){return r+"."},formats:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY HH:mm",LLLL:"dddd [d.] D. MMMM YYYY [kl.] HH:mm"},relativeTime:{future:"om %s",past:"%s siden",s:"få sekunder",m:"et minut",mm:"%d minutter",h:"en time",hh:"%d timer",d:"en dag",dd:"%d dage",M:"en måned",MM:"%d måneder",y:"et år",yy:"%d år"}};e.locale(r,null,true);export default r;
+//# sourceMappingURL=p-1c0991db.js.map

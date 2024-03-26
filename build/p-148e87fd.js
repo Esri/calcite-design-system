@@ -1,0 +1,7 @@
+/*!
+ * All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+ * See https://github.com/Esri/calcite-design-system/blob/main/LICENSE.md for details.
+ * v2.7.0-next.17
+ */
+import{d as a}from"./p-9ae5b670.js";import"./p-7dfe275c.js";import"./p-e3ec0867.js";import"./p-abba27ec.js";import"./p-e239d5cb.js";import"./p-95e72c17.js";import"./p-8eb2a3ac.js";import"./p-fd1a663e.js";import"./p-527d0b02.js";import"./p-ba315d5b.js";import"./p-898b373b.js";import"./p-d93a1abd.js";import"./p-c01c1e2d.js";import"./p-7b717f46.js";import"./p-ad1d85b3.js";import"./p-2dcd7f18.js";import"./p-ef7fb081.js";import"./p-ac528a6a.js";import"./p-34fa0965.js";var r={name:"tr",weekdays:"Pazar_Pazartesi_Salı_Çarşamba_Perşembe_Cuma_Cumartesi".split("_"),weekdaysShort:"Paz_Pts_Sal_Çar_Per_Cum_Cts".split("_"),weekdaysMin:"Pz_Pt_Sa_Ça_Pe_Cu_Ct".split("_"),months:"Ocak_Şubat_Mart_Nisan_Mayıs_Haziran_Temmuz_Ağustos_Eylül_Ekim_Kasım_Aralık".split("_"),monthsShort:"Oca_Şub_Mar_Nis_May_Haz_Tem_Ağu_Eyl_Eki_Kas_Ara".split("_"),weekStart:1,formats:{LT:"HH:mm",LTS:"HH:mm:ss",L:"DD.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY HH:mm",LLLL:"dddd, D MMMM YYYY HH:mm"},relativeTime:{future:"%s sonra",past:"%s önce",s:"birkaç saniye",m:"bir dakika",mm:"%d dakika",h:"bir saat",hh:"%d saat",d:"bir gün",dd:"%d gün",M:"bir ay",MM:"%d ay",y:"bir yıl",yy:"%d yıl"},ordinal:function a(r){return r+"."}};a.locale(r,null,true);export default r;
+//# sourceMappingURL=p-148e87fd.js.map

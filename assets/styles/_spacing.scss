@@ -1,0 +1,26 @@
+%component-spacing {
+  /* Component spacing variables */
+
+  --calcite-icon-size: 1rem;
+
+  --calcite-spacing-eighth: theme("spacing[0.5]");
+
+  --calcite-spacing-quarter: theme("spacing.1");
+
+  --calcite-spacing-half: theme("spacing.2");
+
+  --calcite-spacing-three-quarters: theme("spacing.3");
+
+  --calcite-spacing: theme("spacing.4");
+
+  --calcite-spacing-plus-quarter: theme("spacing.5");
+
+  --calcite-spacing-plus-half: theme("spacing.6");
+
+  --calcite-spacing-double: theme("spacing.8");
+
+  --calcite-menu-min-width: theme("spacing.40");
+
+  --calcite-header-min-height: theme("spacing.12");
+  --calcite-footer-min-height: theme("spacing.12");
+}
