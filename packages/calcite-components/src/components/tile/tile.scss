@@ -21,6 +21,7 @@
   min-inline-size: 140px;
 
   .container {
+    align-items: flex-start;
     background-color: var(--calcite-tile-background-color);
     block-size: var(--calcite-container-size-content-fluid);
     box-sizing: border-box;
@@ -36,15 +37,15 @@
 
   .content-container {
     display: flex;
+    gap: var(--calcite-spacing-md);
+    inline-size: 100%;
     outline-color: transparent;
     padding: 0;
-    inline-size: 100%;
   }
 
   .content {
     display: flex;
     flex-direction: column;
-    gap: var(--calcite-spacing-md);
   }
 
   .heading {
@@ -82,6 +83,7 @@
     align-items: center;
     text-align: center;
   }
+  slot[name="content-start"]::slotted(*),
   slot[name="content-end"]::slotted(*) {
     align-self: center;
   }
@@ -91,7 +93,7 @@
   max-inline-size: 400px;
   min-inline-size: 100px;
   .container,
-  .content {
+  .content-container {
     gap: var(--calcite-spacing-sm);
   }
   .heading {
@@ -108,7 +110,7 @@
   max-inline-size: 520px;
   min-inline-size: 160px;
   .container,
-  .content {
+  .content-container {
     gap: var(--calcite-spacing-xl);
   }
   .heading {

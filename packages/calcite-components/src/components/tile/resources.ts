@@ -8,7 +8,8 @@ export const CSS = {
 };
 
 export const SLOTS = {
-  contentStart: "content-start",
+  contentBottom: "content-bottom",
   contentEnd: "content-end",
-  image: "image",
+  contentStart: "content-start",
+  contentTop: "content-top",
 };
