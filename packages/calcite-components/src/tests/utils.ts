@@ -425,3 +425,33 @@ export function toBeNumber(): any {
     },
   };
 }
+
+/**
+ * Get the computed style of an element and assert that it matches the expected themed token value.
+ * This is useful for testing themed components.
+ *
+ * @param target - the element to get the computed style from
+ * @param props - an array of tuples where the first value is the CSS property to check and the second value is the expected themed token value
+ */
+export async function assertThemedProps(target: E2EElement, props: [string, string][]): Promise<void> {
+  const styles = await target.getComputedStyle();
+  for (const [targetProp, themedTokenValue] of props) {
+    expect(styles[targetProp]).toBe(themedTokenValue);
+  }
+}
+
+/**
+ *
+ * Sets the value of a CSS variable to a test value.
+ * This is useful for testing themed components.
+ *
+ * @param token - the token as a CSS variable
+ * @returns string - the new value for the token
+ */
+export function assignTestTokenThemeValues(token: string): string {
+  return token.includes("color")
+    ? "rgb(0, 191, 255)"
+    : token.includes("shadow")
+      ? "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px"
+      : `42${token.includes("z-index") ? "" : "px"}`;
+}

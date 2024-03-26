@@ -11,6 +11,8 @@ import { MessageBundle } from "../utils/t9n";
 import {
   GlobalTestProps,
   IntrinsicElementsWithProp,
+  assertThemedProps,
+  assignTestTokenThemeValues,
   isElementFocused,
   newProgrammaticE2EPage,
   skipAnimations,
@@ -1840,157 +1842,63 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
   }
 }
 
-export async function themed(
+/**
+ *
+ * @param componentTagOrHTML -
+ * @param tokens
+ */
+export function themed(
   componentTagOrHTML: TagOrHTML,
-  tokens: string[],
-  componentName?: string,
-): Promise<{ page: E2EPage; component: E2EElement; themedTokens: Record<string, string> }> {
-  let colorList: string[] = [
-    rgb(252, 88, 159),
-    rgb(193, 54, 91),
-    rgb(252, 42, 5),
-    rgb(252, 50, 121),
-    rgb(206, 35, 75),
-    rgb(153, 37, 29),
-    rgb(234, 105, 103),
-    rgb(219, 80, 52),
-    rgb(153, 7, 60),
-    rgb(224, 74, 134),
-    rgb(168, 43, 62),
-    rgb(252, 20, 24),
-    rgb(186, 1, 35),
-    rgb(255, 108, 63),
-    rgb(204, 63, 51),
-    rgb(216, 108, 41),
-    rgb(249, 192, 4),
-    rgb(252, 164, 22),
-    rgb(244, 150, 95),
-    rgb(226, 164, 93),
-    rgb(232, 192, 83),
-    rgb(237, 189, 106),
-    rgb(244, 147, 90),
-    rgb(204, 121, 32),
-    rgb(216, 131, 88),
-    rgb(221, 148, 93),
-    rgb(255, 144, 96),
-    rgb(242, 124, 33),
-    rgb(196, 69, 5),
-    rgb(237, 137, 87),
-    rgb(229, 194, 41),
-    rgb(252, 244, 95),
-    rgb(241, 244, 36),
-    rgb(216, 189, 54),
-    rgb(229, 218, 64),
-    rgb(252, 235, 106),
-    rgb(226, 220, 102),
-    rgb(234, 227, 98),
-    rgb(244, 244, 4),
-    rgb(229, 212, 100),
-    rgb(226, 216, 63),
-    rgb(247, 214, 81),
-    rgb(247, 232, 64),
-    rgb(224, 195, 80),
-    rgb(242, 230, 106),
-    rgb(13, 232, 199),
-    rgb(102, 160, 9),
-    rgb(4, 158, 45),
-    rgb(29, 193, 97),
-    rgb(6, 232, 127),
-    rgb(88, 181, 30),
-    rgb(115, 175, 31),
-    rgb(43, 229, 114),
-    rgb(106, 252, 95),
-    rgb(66, 255, 166),
-    rgb(101, 221, 95),
-    rgb(114, 255, 240),
-    rgb(188, 221, 88),
-    rgb(185, 219, 15),
-    rgb(64, 209, 187),
-    rgb(76, 119, 173),
-    rgb(74, 124, 181),
-    rgb(4, 54, 204),
-    rgb(11, 170, 188),
-    rgb(128, 98, 219),
-    rgb(3, 135, 150),
-    rgb(92, 214, 212),
-    rgb(46, 136, 232),
-    rgb(86, 70, 168),
-    rgb(32, 75, 173),
-    rgb(28, 131, 165),
-    rgb(99, 99, 221),
-    rgb(105, 177, 244),
-    rgb(27, 112, 119),
-    rgb(78, 197, 252),
-    rgb(57, 10, 168),
-    rgb(172, 54, 226),
-    rgb(152, 75, 252),
-    rgb(158, 15, 224),
-    rgb(117, 0, 196),
-    rgb(56, 10, 119),
-    rgb(139, 90, 237),
-    rgb(116, 65, 198),
-    rgb(90, 11, 130),
-    rgb(98, 18, 135),
-    rgb(135, 38, 181),
-    rgb(113, 61, 211),
-    rgb(163, 29, 247),
-    rgb(74, 27, 145),
-    rgb(128, 79, 188),
-    rgb(216, 0, 255),
-    rgb(221, 88, 175),
-    rgb(249, 29, 187),
-    rgb(244, 78, 172),
-    rgb(242, 77, 168),
-    rgb(249, 49, 136),
-    rgb(239, 57, 239),
-    rgb(234, 42, 212),
-    rgb(242, 94, 215),
-    rgb(211, 74, 177),
-    rgb(206, 24, 219),
-    rgb(207, 41, 244),
-    rgb(242, 107, 249),
-    rgb(226, 6, 190),
-    rgb(214, 40, 237),
-  ];
+  tokens: Record<string, { selector: string; shadowSelector?: string; targetProp: string }>,
+): void {
+  it("is theme-able", async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const expectChecklist: Record<
+      string,
+      [E2EElement, Record<string, [E2EElement, Record<string, [string, string]>]>]
+    > = {};
 
-  function shuffle(array) {
-    let currentIndex = array.length;
-    let temporaryValue;
-    let randomIndex;
+    for (const token in tokens) {
+      const { selector, shadowSelector, targetProp } = tokens[token];
+      const themedTokenValue = assignTestTokenThemeValues(token);
+      if (!expectChecklist[selector]) {
+        const el = await page.find(selector);
+        expectChecklist[selector] = [el, {}];
+      }
 
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
+      const [el, selectors] = expectChecklist[selector];
 
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
+      if (!selectors[shadowSelector || selector]) {
+        const target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : el;
+        selectors[shadowSelector || selector] = [target, { [token]: [targetProp, themedTokenValue] }];
+      } else {
+        const [, targetProps] = selectors[shadowSelector || selector];
+        targetProps[token] = [targetProp, themedTokenValue];
+      }
     }
 
-    return array;
-  }
+    // let all page.find calls resolve
+    await page.waitForChanges();
 
-  colorList = shuffle(colorList);
+    for (const selector in expectChecklist) {
+      const [el, selectors] = expectChecklist[selector];
+      const style = Object.entries(selectors).flatMap(([, targetProps]) =>
+        Object.entries(targetProps[1]).map(([token, [, themedTokenValue]]) => `${token}: ${themedTokenValue}`),
+      );
+      // Sets the style of each element to a string of CSS token props with themed token values
+      el.setAttribute("style", style.join("; "));
+    }
 
-  const page = await simplePageSetup(componentTagOrHTML);
-  const tag = getTag(isHTML(componentTagOrHTML) ? componentName : componentTagOrHTML);
-  const component = await page.find(tag);
-  const themedTokens = {};
+    // let all el.setAttribute calls resolve
+    await page.waitForChanges();
 
-  tokens.forEach((token, i) => {
-    themedTokens[token] = token.includes("color") ? colorList[i] : `${i * 10}${token.includes("z-index") ? "" : "px"}`;
+    for (const elSelector in expectChecklist) {
+      const [, selectors] = expectChecklist[elSelector];
+
+      for (const targetSelector in selectors) {
+        const [target, targetProps] = selectors[targetSelector];
+        await assertThemedProps(target, Object.values(targetProps));
+      }
+    }
   });
-
-  component.setAttribute(
-    "style",
-    Object.entries(themedTokens)
-      .map((k, v) => `${k}: ${v}`)
-      .join("; "),
-  );
-  await page.waitForChanges();
-
-  return { page, component, themedTokens };
 }
