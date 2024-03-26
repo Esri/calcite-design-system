@@ -1,6 +1,6 @@
 # calcite-action-group
 
-The `calcite-action-group` is a wrapper for multiple `calcite-action`s and housed in `calcite-action-bar` and `calcite-action-pad`.
+For comprehensive guidance on using and implementing `calcite-action-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/action-group/).
 
 <!-- Auto Generated Below -->
 

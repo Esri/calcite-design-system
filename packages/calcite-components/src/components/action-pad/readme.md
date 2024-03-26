@@ -1,6 +1,6 @@
 # calcite-action-pad
 
-The `calcite-action-pad` component is made up of `calcite-action`s in the form of clickable icons. This does not have an expandable option and is a smaller and simpler component than `calcite-action-bar`.
+For comprehensive guidance on using and implementing `calcite-action-pad`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/action-pad/).
 
 <!-- Auto Generated Below -->
 

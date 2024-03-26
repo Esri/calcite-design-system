@@ -1,7 +1,6 @@
 # calcite-avatar
 
-The avatar component provides a unique (but consistent) visual for a user. It's built
-to work with users returned from the ArcGIS REST API.
+For comprehensive guidance on using and implementing `calcite-avatar`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/avatar/).
 
 <!-- Auto Generated Below -->
 

@@ -313,7 +313,7 @@ export class Popover
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.reposition();
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.hasLoaded = true;
   }
 

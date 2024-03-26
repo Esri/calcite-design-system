@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.15...@esri/calcite-components@2.7.0-next.16) (2024-03-26)
+
+### Bug Fixes
+
+- **input-time-picker:** update toggle icon color ([#8955](https://github.com/Esri/calcite-design-system/issues/8955)) ([ce3ac5c](https://github.com/Esri/calcite-design-system/commit/ce3ac5cc514536c66dde9b26542a24c62e193b11)), closes [#7713](https://github.com/Esri/calcite-design-system/issues/7713)
+- **input, input-number, input-text:** ensure values are initialized properly for dist and components output targets ([#8997](https://github.com/Esri/calcite-design-system/issues/8997)) ([9152211](https://github.com/Esri/calcite-design-system/commit/915221146fcb1f48115fd34726324535542321df)), closes [#7014](https://github.com/Esri/calcite-design-system/issues/7014)
+
+## [2.7.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.14...@esri/calcite-components@2.7.0-next.15) (2024-03-25)
+
+### Bug Fixes
+
+- **combobox:** prevent spacebar from opening the menu when focused on chip's close button ([#8990](https://github.com/Esri/calcite-design-system/issues/8990)) ([1a20d0e](https://github.com/Esri/calcite-design-system/commit/1a20d0eb740dbe2e371aeff90b8b9f301ca8bf2a)), closes [#6777](https://github.com/Esri/calcite-design-system/issues/6777)
+
+## [2.7.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.13...@esri/calcite-components@2.7.0-next.14) (2024-03-22)
+
+### Bug Fixes
+
+- **popover:** prevent disabled reference elements from toggling popover ([#8983](https://github.com/Esri/calcite-design-system/issues/8983)) ([9f4b14b](https://github.com/Esri/calcite-design-system/commit/9f4b14bd8218d0457a4943f583c1d81aa6d84e1f)), closes [#7732](https://github.com/Esri/calcite-design-system/issues/7732)
+
+## [2.7.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.12...@esri/calcite-components@2.7.0-next.13) (2024-03-21)
+
+### Bug Fixes
+
+- **action-menu, combobox, dropdown, popover, tooltip:** use click instead of pointerdown for click contexts ([#8943](https://github.com/Esri/calcite-design-system/issues/8943)) ([cd7eed9](https://github.com/Esri/calcite-design-system/commit/cd7eed97282d2686c07d46ccd658956c8e4a138f)), closes [#7732](https://github.com/Esri/calcite-design-system/issues/7732)
+
+## [2.7.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.11...@esri/calcite-components@2.7.0-next.12) (2024-03-21)
+
+### Bug Fixes
+
+- **dropdown:** correct positioning behavior when inside a scrollable container ([#8973](https://github.com/Esri/calcite-design-system/issues/8973)) ([2524391](https://github.com/Esri/calcite-design-system/commit/2524391064327ff54e01164dc352e3acbc3459d3)), closes [#8685](https://github.com/Esri/calcite-design-system/issues/8685)
+
 ## [2.7.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0-next.10...@esri/calcite-components@2.7.0-next.11) (2024-03-20)
 
 ### Bug Fixes
