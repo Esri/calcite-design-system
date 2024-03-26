@@ -34,13 +34,14 @@
   inset-inline-end: 0;
   inset-block: 0;
   padding-inline: var(--calcite-toggle-spacing);
-}
-
-calcite-icon {
   --calcite-ui-icon-color: var(--calcite-color-text-3);
 }
 
-calcite-icon:hover {
+.input-wrapper:hover .toggle-icon {
+  --calcite-ui-icon-color: var(--calcite-color-text-1);
+}
+
+calcite-input-text:focus + .toggle-icon {
   --calcite-ui-icon-color: var(--calcite-color-text-1);
 }
 
