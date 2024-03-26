@@ -5,24 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.1.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.1...@esri/calcite-design-tokens@2.1.2) (2024-03-26)
 
-
 ### Bug Fixes
 
-* Fix invalid font stacks ([#8964](https://github.com/Esri/calcite-design-system/issues/8964)) ([d55186a](https://github.com/Esri/calcite-design-system/commit/d55186abe6d4011fdfd357c3c15aa9638e25927d))
-
-## [2.1.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.2-next.1...@esri/calcite-design-tokens@2.1.2-next.2) (2024-03-19)
-
-### Bug Fixes
-
-- fix invalid font stacks ([#8964](https://github.com/Esri/calcite-design-system/issues/8964)) ([d55186a](https://github.com/Esri/calcite-design-system/commit/d55186abe6d4011fdfd357c3c15aa9638e25927d)), closes [#8963](https://github.com/Esri/calcite-design-system/issues/8963)
-
-## [2.1.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.2-next.0...@esri/calcite-design-tokens@2.1.2-next.1) (2024-03-19)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
-
-## [2.1.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.1...@esri/calcite-design-tokens@2.1.2-next.0) (2024-01-18)
-
-**Note:** Version bump only for package @esri/calcite-design-tokens
+- Fix invalid font stacks ([#8964](https://github.com/Esri/calcite-design-system/issues/8964)) ([d55186a](https://github.com/Esri/calcite-design-system/commit/d55186abe6d4011fdfd357c3c15aa9638e25927d))
 
 ## [2.1.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.0...@esri/calcite-design-tokens@2.1.1) (2024-01-17)
 
