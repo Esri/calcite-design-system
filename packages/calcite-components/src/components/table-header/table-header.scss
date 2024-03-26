@@ -67,7 +67,12 @@ th.footer-row {
 }
 
 th.footer-row {
-  border-block-start: 1px solid var(--calcite-internal-table-header-border-color);
+  border-block-start: 1px solid
+    var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
+}
+
+th.last-cell {
+  border-inline-end: 0;
 }
 
 .cell--multiple-selection {
@@ -78,6 +83,13 @@ th.footer-row {
     background-color: var(--calcite-table-selection-cell-background-color-selected, var(--calcite-color-foreground-2));
   }
 }
+.selected-cell:not(.number-cell):not(.footer-cell) {
+  background-color: var(
+    --calcite-table-cell-background-color-selected,
+    var(--calcite-table-row-background-color-selected, var(--calcite-color-foreground-current))
+  );
+}
+
 .number-cell {
   background-color: var(
     --calcite-table-number-cell-background-color,

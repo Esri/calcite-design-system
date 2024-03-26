@@ -219,6 +219,8 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
     const allSelected = this.selectedRowCount === this.bodyRowCount;
     const selectionIcon = allSelected ? "check-square-f" : "check-square";
     const staticCell = this.interactionMode === "static" && !this.selectionCell;
+    const isSelected =
+      this.parentRowIsSelected || (this.selectionMode === "multiple" && allSelected);
     return (
       <Host>
         <th
@@ -229,7 +231,7 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
             [CSS.contentCell]: !this.numberCell && !this.selectionCell,
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
-            [CSS.selectedCell]: allSelected,
+            [CSS.selectedCell]: isSelected,
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
             [CSS.staticCell]: staticCell,
             [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
