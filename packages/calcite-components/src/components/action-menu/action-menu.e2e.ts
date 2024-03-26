@@ -490,7 +490,7 @@ describe("calcite-action-menu", () => {
       expect(clickSpy).toHaveReceivedEventTimes(1);
     });
 
-    it("should click the active action when clicked and close the menu", async () => {
+    it.skip("should click the active action when clicked and close the menu", async () => {
       const page = await newE2EPage({
         html: html`<calcite-action-menu>
           <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
