@@ -81,7 +81,7 @@
 .scrim {
   --calcite-color-transparent-scrim: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)}; // always use a dark scrim, regardless of light / dark mode
   --calcite-scrim-background-color: var(
-    var(--calcite-modal-scrim-background-color),
+    --calcite-modal-scrim-background-color,
     var(--calcite-modal-scrim-background, var(--calcite-color-transparent-scrim))
   );
   @apply fixed flex inset-0 overflow-y-hidden;
