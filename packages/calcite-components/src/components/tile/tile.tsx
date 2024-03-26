@@ -12,8 +12,8 @@ import { Alignment, Scale } from "../interfaces";
 /**
  * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
  * @slot content-bottom - A slot for adding non-actionable elements below the component's content.
- * @slot content-start - A slot for adding non-actionable elements before the component's content. @deprecated use `content-top` slot instead
- * @slot content-end - A slot for adding non-actionable elements after the component's content. @deprecated use `content-bottom` slot instead
+ * @slot content-start - [Deprecated] use `content-top` slot instead.  A slot for adding non-actionable elements before the component's content.
+ * @slot content-end - [Deprecated] use `content-bottom` slot instead. A slot for adding non-actionable elements after the component's content.
  */
 @Component({
   tag: "calcite-tile",
