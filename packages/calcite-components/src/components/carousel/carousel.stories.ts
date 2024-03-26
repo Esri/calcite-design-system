@@ -14,7 +14,7 @@ export default {
 export const carouselFullImage_TestOnly = (): string =>
   html` <calcite-panel heading="Carousel in context" style="width:"300px;">
     <calcite-block open heading="Carousel in block">
-      <calcite-carousel id="example-carousel" control-overlay control-type="bar" display-arrows>
+      <calcite-carousel id="example-carousel" control-overlay>
         <calcite-carousel-item label="The Red Rocks and Blue Water">
           <p class="bg-image-example">Some kind of rich content over a bg using overlay controls</p>
         </calcite-carousel-item>
@@ -50,7 +50,7 @@ export const carouselFullImage_TestOnly = (): string =>
       </calcite-carousel>
     </calcite-block>
     <calcite-block open heading="Carousel in block no pad and options" style="--calcite-block-padding: 0">
-      <calcite-carousel id="example-carousel" control-overlay control-type="square">
+      <calcite-carousel id="example-carousel" control-overlay>
         <calcite-carousel-item label="The Red Rocks and Blue Water">
           <p class="bg-image-example example-2">Some kind of rich content over a bg using overlay controls</p>
         </calcite-carousel-item>
@@ -91,7 +91,7 @@ export const carouselInPopover_TestOnly = (): string =>
   html`<calcite-panel label="Content" style="width:"300px;">
     <calcite-button style="margin: 1rem" id="example-popover">Launch onboarding</calcite-button>
     <calcite-popover open reference-element="example-popover" label="Welcome to the show!" closable>
-      <calcite-carousel id="example-carousel" display-arrows>
+      <calcite-carousel id="example-carousel">
         <calcite-carousel-item label="The Red Rocks and Blue Water">
           <p>
             <calcite-icon scale="l" icon="layer"></calcite-icon>
@@ -134,7 +134,7 @@ export const carouselInPopover_TestOnly = (): string =>
 
 export const darkModeRTL_TestOnly = (): string => html`
   <div style="background-color:#2b2b2b;padding:100px" dir="rtl">
-    <calcite-carousel id="example-carousel" display-arrows>
+    <calcite-carousel id="example-carousel">
       <calcite-carousel-item label="The Red Rocks and Blue Water">
         <p>
           <calcite-icon scale="l" icon="layer"></calcite-icon>

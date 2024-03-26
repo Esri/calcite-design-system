@@ -830,17 +830,13 @@ export namespace Components {
     }
     interface CalciteCarousel {
         /**
-          * control if the dot / bar and arrows are overlaid on the slotted content container or displayed adjacent to the slotted content
+          * Specify if the controls are overlaid on top of the content.
          */
         "controlOverlay"?: boolean;
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
-        /**
-          * control if the displayed control are dot, or bar
-         */
-        "displayArrows"?: boolean;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -850,7 +846,7 @@ export namespace Components {
          */
         "messages": CarouselMessages;
         /**
-          * The component's selected option `calcite-carousel-item`.
+          * The component's selected `calcite-carousel-item`.
           * @readonly
          */
         "selectedItem": HTMLCalciteCarouselItemElement;
@@ -8289,17 +8285,13 @@ declare namespace LocalJSX {
     }
     interface CalciteCarousel {
         /**
-          * control if the dot / bar and arrows are overlaid on the slotted content container or displayed adjacent to the slotted content
+          * Specify if the controls are overlaid on top of the content.
          */
         "controlOverlay"?: boolean;
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
-        /**
-          * control if the displayed control are dot, or bar
-         */
-        "displayArrows"?: boolean;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -8313,7 +8305,7 @@ declare namespace LocalJSX {
          */
         "onCalciteCarouselChange"?: (event: CalciteCarouselCustomEvent<void>) => void;
         /**
-          * The component's selected option `calcite-carousel-item`.
+          * The component's selected `calcite-carousel-item`.
           * @readonly
          */
         "selectedItem"?: HTMLCalciteCarouselItemElement;

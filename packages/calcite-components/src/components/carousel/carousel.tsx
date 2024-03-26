@@ -74,7 +74,7 @@ export class Carousel
   }
 
   /**
-   * control if the dot / bar and arrows are overlaid on the slotted content container or displayed adjacent to the slotted content
+   * Specify if the controls are overlaid on top of the content.
    */
   @Prop() controlOverlay?: boolean;
 
@@ -84,12 +84,7 @@ export class Carousel
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * control if the displayed control are dot, or bar
-   */
-  @Prop() displayArrows?: boolean;
-
-  /**
-   * The component's selected option `calcite-carousel-item`.
+   * The component's selected `calcite-carousel-item`.
    *
    * @readonly
    */
