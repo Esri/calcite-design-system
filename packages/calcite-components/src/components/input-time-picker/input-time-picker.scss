@@ -37,10 +37,7 @@
   --calcite-ui-icon-color: var(--calcite-color-text-3);
 }
 
-.input-wrapper:hover .toggle-icon {
-  --calcite-ui-icon-color: var(--calcite-color-text-1);
-}
-
+.input-wrapper:hover .toggle-icon,
 calcite-input-text:focus + .toggle-icon {
   --calcite-ui-icon-color: var(--calcite-color-text-1);
 }
