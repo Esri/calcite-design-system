@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders, slots, t9n, defaults } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, slots, t9n, defaults, themed } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action", () => {
@@ -206,11 +206,9 @@ describe("calcite-action", () => {
     expect(liveRegion.textContent).toBe("Indicator present");
   });
 
-  describe("theme-ing", () => {
-    it("should theme the background color", async () => {
-      const page = await newE2EPage();
-      const color = ["--calcite-action-background-color", "rgb(186, 218, 85)"];
-      await page.setContent(`<calcite-action
+  describe("theme", () => {
+    themed(
+      `<calcite-action
         scale="s"
         indicator
         active
@@ -218,20 +216,55 @@ describe("calcite-action", () => {
         label="hello world"
         text-enabled
         icon="configure-popup"
-      ></calcite-action>`);
-      await page.waitForChanges();
-
-      let action = await page.find("calcite-action");
-      const defaultStyle = await action.getComputedStyle();
-
-      await action.setAttribute("style", `${color[0]}: ${color[1]}`);
-      await page.waitForChanges();
-
-      action = await page.find(`calcite-action >>> .${CSS.button}`);
-      const styles = await action.getComputedStyle();
-
-      expect(defaultStyle.backgroundColor).not.toBe(color[1]);
-      expect(styles.backgroundColor).toBe(color[1]);
-    });
+      ></calcite-action>`,
+      {
+        "--calcite-action-background-color": {
+          selector: "calcite-action",
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-action-text-color": {
+          selector: "calcite-action",
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "color",
+        },
+        "--calcite-action-shadow": {
+          selector: "calcite-action",
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-action-icon-color": {
+          selector: "calcite-action",
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "color",
+        },
+        "--calcite-action-indicator-color": {
+          selector: "calcite-action",
+          shadowSelector: `.${CSS.indicatorWithoutIcon}`,
+          targetProp: "color",
+        },
+      },
+    );
+  });
+  describe("loading theme", () => {
+    themed(
+      `<calcite-action
+          scale="s"
+          indicator
+          active
+          text="click-me"
+          label="hello world"
+          text-enabled
+          icon="configure-popup"
+          loading
+        ></calcite-action>`,
+      {
+        "--calcite-action-loader-color": {
+          selector: "calcite-action",
+          shadowSelector: "calcite-loader",
+          targetProp: "color",
+        },
+      },
+    );
   });
 });
