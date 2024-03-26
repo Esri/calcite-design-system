@@ -12,6 +12,25 @@
  * @prop --calcite-input-button-icon-color-hover: defines the icon color of a button in the component when it's hovered.
  * @prop --calcite-input-button-icon-color: defines the icon color of a button in the component.
  * @prop --calcite-input-corner-radius: defines the corner radius of the component.
+ * @prop --calcite-input-date-picker-border-color: defines the border color of the date picker sub component.
+ * @prop --calcite-input-date-picker-corner-radius: defines the corner radius of the date picker sub component.
+ * @prop --calcite-input-date-picker-day-background-color-hover : defines the background color of a day in the date picker sub component when hovered.
+ * @prop --calcite-input-date-picker-day-background-color-selected: defines the background color of a day in the date picker sub component when selected.
+ * @prop --calcite-input-date-picker-day-background-color: defines the background color of a day in the date picker sub component.
+ * @prop --calcite-input-date-picker-day-corner-radius: defines the corner radius of a day in the date picker sub component.
+ * @prop --calcite-input-date-picker-day-range-background-color-hover: defines the background color of day range in the date picker sub component when hovered.
+ * @prop --calcite-input-date-picker-day-range-background-color-selected: defines the background color of day range in the date picker sub component when selected.
+ * @prop --calcite-input-date-picker-day-text-color-hover: defines the text color of a day in the date picker sub component when hovered.
+ * @prop --calcite-input-date-picker-day-text-color: defines the text color of a day in the date picker sub component.
+ * @prop --calcite-input-date-picker-day-text-selected: defines the text color of a day in the date picker sub component when selected.
+ * @prop --calcite-input-date-picker-header-background-color: defines the background color of the header in the date picker sub component.
+ * @prop --calcite-input-date-picker-header-navigation-button-background-color : defines the background color of the navigation button in the date picker sub component.
+ * @prop --calcite-input-date-picker-header-navigation-button-background-color-active: defines the background color of the navigation button in the date picker sub component when active.
+ * @prop --calcite-input-date-picker-header-navigation-button-background-color-hover : defines the background color of the navigation button in the date picker sub component when hovered.
+ * @prop --calcite-input-date-picker-header-navigation-button-text-color-hover: defines the text color of the navigation button in the date picker sub component when hovered.
+ * @prop --calcite-input-date-picker-header-navigation-button-text-color: defines the text color of the navigation button in the date picker sub component.
+ * @prop --calcite-input-date-picker-header-text-color: defines the text color of the header in the date picker sub component.
+ * @prop --calcite-input-date-picker-week-headers-text-color : defines the text color of week headers in the date picker sub component.
  * @prop --calcite-input-icon-color:  defines the icon color of the component.
  * @prop --calcite-input-placeholder-text-color: defines the color of placeholder text in the component.
  * @prop --calcite-input-text-color: defines the text color of the component.
@@ -189,3 +208,39 @@
 }
 
 @include base-component();
+
+calcite-date-picker {
+  --calcite-date-picker-border-color: var(--calcite-input-date-picker-border-color);
+  --calcite-date-picker-corner-radius: var(--calcite-input-date-picker-corner-radius);
+  --calcite-date-picker-day-background-color-hover: var(--calcite-input-date-picker-day-background-color-hover);
+  --calcite-date-picker-day-background-color-selected: var(--calcite-input-date-picker-day-background-color-selected);
+  --calcite-date-picker-day-background-color: var(--calcite-input-date-picker-day-background-color);
+  --calcite-date-picker-day-corner-radius: var(--calcite-input-date-picker-day-corner-radius);
+  --calcite-date-picker-day-range-background-color-hover: var(
+    --calcite-input-date-picker-day-range-background-color-hover
+  );
+  --calcite-date-picker-day-range-background-color-selected: var(
+    --calcite-input-date-picker-day-range-background-color-selected
+  );
+  --calcite-date-picker-day-text-color-hover: var(--calcite-input-date-picker-day-text-color-hover);
+  --calcite-date-picker-day-text-color: var(--calcite-input-date-picker-day-text-color);
+  --calcite-date-picker-day-text-selected: var(--calcite-input-date-picker-day-text-selected);
+  --calcite-date-picker-week-headers-text-color: var(--calcite-input-date-picker-week-headers-text-color);
+  --calcite-date-picker-header-background-color: var(--calcite-input-date-picker-header-background-color);
+  --calcite-date-picker-header-navigation-button-background-color-active: var(
+    --calcite-input-date-picker-header-navigation-button-background-color-active
+  );
+  --calcite-date-picker-header-navigation-button-background-color-hover: var(
+    --calcite-input-date-picker-header-navigation-button-background-color-hover
+  );
+  --calcite-date-picker-header-navigation-button-background-color: var(
+    --calcite-input-date-picker-header-navigation-button-background-color
+  );
+  --calcite-date-picker-header-navigation-button-text-color-hover: var(
+    --calcite-input-date-picker-header-navigation-button-text-color-hover
+  );
+  --calcite-date-picker-header-navigation-button-text-color: var(
+    --calcite-input-date-picker-header-navigation-button-text-color
+  );
+  --calcite-date-picker-header-text-color: var(--calcite-input-date-picker-header-text-color);
+}
