@@ -1,33 +1,51 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-list-item-group-background-color: Specifies the background color of the component.
+ * @prop --calcite-list-item-group-border-color: Specifies the border color of the component.
+ * @prop --calcite-list-item-heading-text-color: Specifies the text color of the component's heading.
+ */
+
 :host {
-  @apply flex flex-col bg-foreground-1;
-  --calcite-list-item-spacing-indent: theme("spacing.4");
+  display: flex;
+  flex-direction: column;
 }
 
 :host([filter-hidden]) {
-  @apply hidden;
+  display: none;
 }
 
 @include disabled();
 
 .container {
-  @apply bg-foreground-2 text-n1 text-color-2 m-0 flex flex-1 p-3 font-sans font-bold;
+  background-color: var(--calcite-list-item-group-background-color, var(--calcite-color-foreground-2));
+  font-size: var(--calcite-font-size--1);
+  color: var(--calcite-list-item-group-heading-text-color, var(--calcite-color-text-2));
+  margin: 0;
+  display: flex;
+  flex: 1 1 0%;
+  padding: var(--calcite-spacing-md);
+  font-family: var(--calcite-sans-family);
+  font-weight: var(--calcite-font-weight-bold);
 }
 
 .heading {
   padding-inline-start: calc(
-    var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
+    var(--calcite-internal-list-item-spacing-indent, var(--calcite-spacing-xl)) *
+      var(--calcite-internal-list-item-spacing-indent-multiplier)
   );
 }
 
 ::slotted(calcite-list-item) {
-  @apply shadow-border-top;
-  margin-block-start: 1px;
+  border-block-start: var(--calcite-border-width-sm) solid
+    var(--calcite-list-item-group-border-color, var(--calcite-color-border-3));
 }
 
-// removes shadow for the first item of the group for both filtered and unfiltered items.
+// removes border for the first item of the group for both filtered and unfiltered items.
 ::slotted(calcite-list-item:nth-child(1 of :not([hidden]))) {
-  @apply shadow-none;
-  margin-block-start: 0px;
+  border: none;
 }
 
 @include base-component();

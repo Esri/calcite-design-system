@@ -106,3 +106,45 @@ export const darkModeRTL_TestOnly = (): string =>
     icon-start="layer"
     icon-end="layer"
   />`;
+
+export const theming_TestOnly = (): string => html`
+  <style>
+    calcite-menu-item {
+      --calcite-menu-item-action-background-color: #e5c287;
+      --calcite-menu-item-action-border-color: red;
+      --calcite-menu-item-action-text-color: blue;
+      --calcite-menu-item-background-color: #898121;
+      --calcite-menu-item-text-color: #fda403;
+      --calcite-menu-item-border-color: blue;
+      --calcite-menu-item-icon-color: #e8751a;
+      --calcite-menu-item-sub-menu-border-color: blue;
+      --calcite-menu-item-sub-menu-corner-radius: 99px;
+    }
+    calcite-menu-item[active] {
+      --calcite-menu-item-border-color: red;
+    }
+  </style>
+  <calcite-menu layout="vertical">
+      <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
+      <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
+      <calcite-menu-item text="Example item 3" text-enabled icon-start="layer" icon-end="layer" breadcrumb open>
+        <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
+        <calcite-menu-item slot="submenu-item" text="Example submenu item 2" text-enabled href="https://esri.com">
+          <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
+        </calcite-menu-item>
+      </calcite-menu-item>
+      <calcite-menu-item text="Example item 4" text-enabled></calcite-menu-item>
+    </calcite-menu>
+    <br></br>
+    <calcite-menu layout="horizontal">
+      <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
+      <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
+      <calcite-menu-item text="Example item 3" text-enabled icon-start="layer" icon-end="layer" breadcrumb open>
+        <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
+        <calcite-menu-item slot="submenu-item" text="Example submenu item 2" text-enabled href="https://esri.com">
+          <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
+        </calcite-menu-item>
+      </calcite-menu-item>
+      <calcite-menu-item text="Example item 4" text-enabled></calcite-menu-item>
+    </calcite-menu>
+`;

@@ -1,15 +1,23 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-graph-background-color: Specifies the background color of the component.
+ * @prop --calcite-graph-accent-color: Specifies the accent color of the component.
+ */
+
 :host {
   @apply block;
   block-size: 100%;
 }
 
 .svg {
-  fill: currentColor;
-  stroke: transparent;
+  fill: var(--calcite-graph-background-color, currentColor);
   @apply m-0 block h-full w-full p-0;
 
   .graph-path--highlight {
-    fill: var(--calcite-color-brand);
+    fill: var(--calcite-graph-accent-color, var(--calcite-color-brand));
     @apply opacity-50;
   }
 }

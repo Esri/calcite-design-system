@@ -515,7 +515,7 @@ export class RadioButton
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setContainerEl}
           >
-            <div class="radio" />
+            <div class={CSS.radio} />
           </div>
           <HiddenFormInputSlot component={this} />
         </InteractiveContainer>

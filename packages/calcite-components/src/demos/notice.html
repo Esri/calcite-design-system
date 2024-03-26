@@ -31,6 +31,20 @@
         margin: 60px 0;
         border-top: 1px solid var(--calcite-color-border-2);
       }
+
+      .themed {
+        --calcite-notice-shadow: var(--calcite-shadow-none);
+        --calcite-notice-corner-radius: var(--calcite-corner-radius-round);
+        --calcite-notice-background-color: pink;
+        --calcite-notice-border-color: darkred;
+        --calcite-notice-icon-color: yellow;
+        --calcite-notice-close-icon-color: purple;
+        --calcite-notice-close-background-color: pink;
+        --calcite-notice-close-background-color-hover: rgb(236, 166, 178);
+        --calcite-notice-close-background-color-active: rgb(214, 147, 158);
+        --calcite-notice-close-background-color-focus: red;
+        --calcite-notice-close-focus-color: purple;
+      }
     </style>
     <script src="./_assets/head.js"></script>
   </head>
@@ -38,7 +52,16 @@
   <body>
     <demo-dom-swapper>
       <h1 style="margin: 0 auto; text-align: center">Notice</h1>
+      <div class="parent">
+        <div class="child right-aligned-text">Themed</div>
 
+        <div class="child themed">
+          <calcite-notice icon open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
+      </div>
       <!--
       **************************************************
       * SMALL

@@ -1,92 +1,129 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-radio-button-background-color: Specifies the background color of the component.
+ * @prop --calcite-radio-button-border-radius: Specifies the border radius of the component.
+ * @prop --calcite-radio-button-shadow: Specifies the shadow of the component.
+ * @prop --calcite-radio-button-size: Specifies the size of the component.
+ * @prop --calcite-radio-focus: Specifies the focus of the component.
+ */
+
 :host {
-  @apply block cursor-pointer;
-  .container {
-    @apply relative outline-none;
-  }
+  display: block;
+  cursor: pointer;
+}
+
+.container {
+  position: relative;
+  @include outlineNone();
+}
+
+.radio {
+  background-color: var(--calcite-radio-button-background-color, var(--calcite-color-foreground-1));
+  cursor: pointer;
+  outline-color: transparent;
+  border-radius: var(--calcite-radio-button-border-radius, var(--calcite-corner-radius-pill));
+  transition:
+    all var(--calcite-animation-timing) ease-in-out 0s,
+    outline 0s,
+    outline-offset 0s;
+  box-shadow: var(--calcite-radio-button-shadow, inset 0 0 0 1px var(--calcite-color-border-input));
+}
+
+:host([scale="s"]) .radio {
+  block-size: var(--calcite-radio-button-size, var(--calcite-font-size--2));
+  max-inline-size: var(--calcite-radio-button-size, var(--calcite-font-size--2));
+  min-inline-size: var(--calcite-radio-button-size, var(--calcite-font-size--2));
+}
+
+:host([scale="m"]) .radio {
+  block-size: var(--calcite-radio-button-size, var(--calcite-font-size--1));
+  max-inline-size: var(--calcite-radio-button-size, var(--calcite-font-size--1));
+  min-inline-size: var(--calcite-radio-button-size, var(--calcite-font-size--1));
+}
+
+:host([scale="l"]) .radio {
+  block-size: var(--calcite-radio-button-size, var(--calcite-font-size-0));
+  max-inline-size: var(--calcite-radio-button-size, var(--calcite-font-size-0));
+  min-inline-size: var(--calcite-radio-button-size, var(--calcite-font-size-0));
+}
+
+:host([focused]) {
   .radio {
-    @apply bg-foreground-1 cursor-pointer focus-base rounded-full transition-default;
-    box-shadow: inset 0 0 0 1px var(--calcite-color-border-input);
+    @include focusOutset("--calcite-radio-focus", "--calcite-internal-radio-focus-offset");
+  }
+}
+
+:host([hovered][disabled]) {
+  .radio {
+    box-shadow: var(--calcite-radio-button-shadow, inset 0 0 0 1px var(--calcite-color-border-input));
   }
 }
 
 :host([hovered]),
 :host(:not([checked])[focused]:not([disabled])) {
   .radio {
-    box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
-  }
-}
-
-:host([focused]) {
-  .radio {
-    @apply focus-outset;
+    box-shadow: var(--calcite-radio-button-shadow, inset 0 0 0 2px var(--calcite-color-brand));
   }
 }
 
 @include disabled() {
   .radio {
-    @apply opacity-disabled cursor-default;
+    opacity: var(--calcite-opacity-disabled);
+    cursor: default;
   }
-}
-
-:host([hovered][disabled]) {
-  .radio {
-    box-shadow: inset 0 0 0 1px var(--calcite-color-border-input);
-  }
-}
-
-:host([scale="s"]) {
-  --calcite-radio-size: theme("fontSize.n2");
-}
-:host([scale="m"]) {
-  --calcite-radio-size: theme("fontSize.n1");
-}
-:host([scale="l"]) {
-  --calcite-radio-size: theme("fontSize.0");
-}
-
-.radio {
-  block-size: var(--calcite-radio-size);
-  max-inline-size: var(--calcite-radio-size);
-  min-inline-size: var(--calcite-radio-size);
 }
 
 :host([scale="s"][checked]),
 :host([hovered][scale="s"][checked][disabled]) {
   .radio {
-    box-shadow: inset 0 0 0 4px var(--calcite-color-brand);
+    box-shadow: var(--calcite-radio-button-shadow, inset 0 0 0 4px var(--calcite-color-brand));
   }
 }
+
 :host([scale="s"][focused][checked]:not([disabled])) {
   .radio {
-    box-shadow:
+    box-shadow: var(
+      --calcite-radio-button-shadow,
       inset 0 0 0 4px var(--calcite-color-brand),
-      0 0 0 2px var(--calcite-color-foreground-1);
+      0 0 0 2px var(--calcite-color-foreground-1)
+    );
   }
 }
+
 :host([scale="m"][checked]),
 :host([hovered][scale="m"][checked][disabled]) {
   .radio {
-    box-shadow: inset 0 0 0 5px var(--calcite-color-brand);
+    box-shadow: var(--calcite-radio-button-shadow, inset 0 0 0 5px var(--calcite-color-brand));
   }
 }
+
 :host([scale="m"][focused][checked]:not([disabled])) {
   .radio {
-    box-shadow:
+    box-shadow: var(
+      --calcite-radio-button-shadow,
       inset 0 0 0 5px var(--calcite-color-brand),
-      0 0 0 2px var(--calcite-color-foreground-1);
+      0 0 0 2px var(--calcite-color-foreground-1)
+    );
   }
 }
+
 :host([scale="l"][checked]),
 :host([hovered][scale="l"][checked][disabled]) {
   .radio {
-    box-shadow: inset 0 0 0 6px var(--calcite-color-brand);
+    box-shadow: var(--calcite-radio-button-shadow, inset 0 0 0 6px var(--calcite-color-brand));
   }
 }
+
 :host([scale="l"][focused][checked]:not([disabled])) {
   .radio {
-    box-shadow:
+    box-shadow: var(
+      --calcite-radio-button-shadow,
       inset 0 0 0 6px var(--calcite-color-brand),
-      0 0 0 2px var(--calcite-color-foreground-1);
+      0 0 0 2px var(--calcite-color-foreground-1)
+    );
   }
 }
 
@@ -95,11 +132,24 @@
   :host([checked][disabled]) {
     .radio::after {
       content: "";
-      inline-size: var(--calcite-radio-size);
-      block-size: var(--calcite-radio-size);
       background-color: windowText;
       display: block;
     }
+  }
+
+  :host([checked][scale="s"]) .radio::after {
+    inline-size: var(--calcite-radio-button-size, var(--calcite-font-size--2));
+    block-size: var(--calcite-radio-button-size, var(--calcite-font-size--2));
+  }
+
+  :host([checked][scale="m"]) .radio::after {
+    inline-size: var(--calcite-radio-button-size, var(--calcite-font-size--1));
+    block-size: var(--calcite-radio-button-size, var(--calcite-font-size--1));
+  }
+
+  :host([checked][scale="l"]) .radio::after {
+    inline-size: var(--calcite-radio-button-size, var(--calcite-font-size-0));
+    block-size: var(--calcite-radio-button-size, var(--calcite-font-size-0));
   }
 }
 

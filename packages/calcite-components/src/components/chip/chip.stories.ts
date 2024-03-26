@@ -145,7 +145,7 @@ export const withAvatarAndIconAndClosable = (): string => {
   `;
 };
 export const overriddenIconColor = (): string =>
-  html`<calcite-chip icon="banana" style="--calcite-ui-icon-color: #ac9f42" closable>Banana</calcite-chip>`;
+  html`<calcite-chip icon="banana" style="--calcite-chip-icon-color: #ac9f42" closable>Banana</calcite-chip>`;
 
 export const darkModeRTL_TestOnly = (): string => html`
   <div style="background-color:#2b2b2b;padding:100px" dir="rtl">
@@ -154,3 +154,19 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const theming_TestOnly = (): string => html`
+  <calcite-chip
+    closable
+    icon="layer"
+    style="--calcite-chip-background-color: rgb(182, 101, 101);
+      --calcite-chip-border-color: rgb(183, 61, 61);
+      --calcite-chip-shadow: var(--calcite-shadow-sm);
+      --calcite-chip-corner-radius: 4px;
+      --calcite-chip-icon-color: rgb(244, 229, 229);
+      --calcite-chip-close-icon-color: orange;
+      --calcite-chip-text-color: rgb(244, 229, 229);"
+  >
+    Example Chip
+  </calcite-chip>
+`;

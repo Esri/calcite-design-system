@@ -1,3 +1,13 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-dropdown-group-border-color: specifies the border color of the component.
+ * @prop --calcite-dropdown-group-text-color: specifies the text color of the component.
+ *
+ */
+
 :host {
   // we make the host relative, so items can consistently compute their offsetTop based on the group
   @apply block relative;
@@ -29,21 +39,22 @@
 }
 
 .dropdown-title {
-  @apply border-color-3
-  text-color-2
-  -mb-px
+  @apply -mb-px
   block
   cursor-default
   break-words
-  border-0
-  border-b
   border-solid
   font-bold;
+  border-width: var(--calcite-border-width-none);
+  border-block-end-width: var(--calcite-border-width-sm);
+  border-color: var(--calcite-dropdown-group-border-color, var(--calcite-color-border-3));
+  color: var(--calcite-dropdown-group-text-color, var(--calcite-color-text-2));
 }
 
 .dropdown-separator {
-  @apply block h-px;
-  background-color: theme("borderColor.color.3");
+  @apply block;
+  block-size: var(--calcite-size-px);
+  background-color: var(--calcite-dropdown-group-border-color, var(--calcite-color-border-3));
 }
 
 @include base-component();

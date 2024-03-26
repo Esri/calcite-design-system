@@ -7,14 +7,13 @@
  */
 
 :host {
-  --calcite-card-group-gap: var(--calcite-size-md);
   display: block;
 }
 
 .container {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--calcite-card-group-gap);
+  gap: var(--calcite-card-group-gap, var(--calcite-size-md));
 }
 
 @include disabled();

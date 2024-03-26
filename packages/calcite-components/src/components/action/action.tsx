@@ -256,7 +256,7 @@ export class Action
     ) : null;
     const calciteIconNode = icon ? (
       <calcite-icon
-        class={{ [CSS.indicatorWithIcon]: indicator }}
+        class={{ [CSS.actionIndicator]: indicator, [CSS.icon]: true }}
         flipRtl={iconFlipRtl}
         icon={icon}
         scale={getIconScale(this.scale)}
@@ -324,7 +324,12 @@ export class Action
           >
             {this.renderIconContainer()}
             {this.renderTextContainer()}
-            {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
+            {!icon && indicator && (
+              <div
+                class={{ [CSS.indicatorWithoutIcon]: true, [CSS.actionIndicator]: true }}
+                key="indicator-no-icon"
+              />
+            )}
           </button>
           <slot name={SLOTS.tooltip} onSlotchange={this.handleTooltipSlotChange} />
           {this.renderIndicatorText()}

@@ -100,7 +100,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
    *
    *  @internal
    */
-  @Prop() position: TabPosition = "top";
+  @Prop({ reflect: true }) position: TabPosition = "top";
 
   /**
    * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.

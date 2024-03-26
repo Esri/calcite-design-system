@@ -1,41 +1,60 @@
-// scale variants for child
-:host([scale="s"]) {
-  --calcite-accordion-item-spacing-unit: theme("spacing.1");
-  --calcite-accordion-icon-margin: theme("spacing.2");
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.2");
-  @apply text-n2h;
-}
-
-:host([scale="m"]) {
-  --calcite-accordion-item-spacing-unit: theme("spacing.2");
-  --calcite-accordion-icon-margin: theme("spacing.3");
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.3");
-  @apply text-n1h;
-}
-
-:host([scale="l"]) {
-  --calcite-accordion-item-spacing-unit: theme("spacing.3");
-  --calcite-accordion-icon-margin: theme("spacing.4");
-  --calcite-accordion-item-padding: var(--calcite-accordion-item-spacing-unit) theme("spacing.4");
-  @apply text-0h;
-}
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-accordion-background-color: defines the background color for the component and it's slotted accordion-items.
+ * @prop --calcite-accordion-border-color: defines the border color for the component and it's slotted accordion-items.
+ */
 
 :host {
   @apply relative
     block
-    max-w-full
     leading-6;
-  --calcite-accordion-item-border: theme("borderColor.color.2");
-  --calcite-accordion-item-background: theme("backgroundColor.foreground.1");
-}
+  max-inline-size: var(--calcite-container-size-content-fluid);
+  font-size: var(--calcite-internal-accordion-font-size);
+  line-height: var(--calcite-internal-accordion-line-height);
 
-.accordion--transparent {
-  --calcite-accordion-item-border: transparent;
-  --calcite-accordion-item-background: transparent;
+  ::slotted(calcite-accordion-item) {
+    --calcite-internal-accordion-item-icon-space: var(--calcite-internal-accordion-space-large);
+    --calcite-internal-accordion-item-content-space: var(--calcite-internal-accordion-space-small)
+      var(--calcite-internal-accordion-space-large);
+  }
+}
+:host([appearance="transparent"]) {
+  ::slotted(calcite-accordion-item) {
+    --calcite-accordion-item-border-color: var(--calcite-color-transparent);
+    --calcite-accordion-item-background-color: var(--calcite-color-transparent);
+  }
 }
 
 .accordion {
-  @apply border border-solid border-color-2 border-b-0;
+  border-width: var(--calcite-border-width-sm);
+  border-color: var(--calcite-accordion-border-color, var(--calcite-color-border-2));
+  border-block-end-width: var(--calcite-border-width-none);
+  border-style: solid;
+}
+
+// scale variants for child
+:host([scale="s"]) {
+  --calcite-internal-accordion-space-small: theme("spacing.1");
+  --calcite-internal-accordion-space-large: theme("spacing.2");
+  --calcite-internal-accordion-font-size: var(--calcite-font-size--2);
+  --calcite-internal-accordion-line-height: 1rem /* 16px */;
+}
+
+:host([scale="m"]) {
+  --calcite-internal-accordion-space-small: theme("spacing.2");
+  --calcite-internal-accordion-space-large: theme("spacing.3");
+  --calcite-internal-accordion-font-size: var(--calcite-font-size--1);
+  --calcite-internal-accordion-line-height: 1rem /* 16px */;
+}
+
+:host([scale="l"]) {
+  --calcite-internal-accordion-space-small: theme("spacing.3");
+  --calcite-internal-accordion-space-large: theme("spacing.4");
+  --calcite-internal-accordion-font-size: var(--calcite-font-size-0);
+  --calcite-internal-accordion-line-height: 1.25rem /* 20px */;
 }
 
 @include base-component();

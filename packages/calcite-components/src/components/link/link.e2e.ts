@@ -69,8 +69,8 @@ describe("calcite-link", () => {
     const element = await page.find("calcite-link");
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
 
     expect(element).not.toHaveAttribute("icon-flip-rtl");
     expect(elementAsLink).toBeNull();
@@ -105,8 +105,8 @@ describe("calcite-link", () => {
     const element = await page.find("calcite-link");
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
 
     expect(element).not.toHaveAttribute("icon-flip-rtl");
     expect(elementAsLink).not.toBeNull();
@@ -120,8 +120,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link>Continue</calcite-link>`);
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
 
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
@@ -134,8 +134,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link href="/">Continue</calcite-link>`);
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
 
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
@@ -150,8 +150,8 @@ describe("calcite-link", () => {
     );
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
 
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
@@ -168,8 +168,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link icon-start='plus'>Continue</calcite-link>`);
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
     expect(iconStart).not.toBeNull();
@@ -181,8 +181,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link icon-end='plus'>Continue</calcite-link>`);
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
     expect(iconStart).toBeNull();
@@ -194,8 +194,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link icon-start='plus' icon-end='plus'>Continue</calcite-link>`);
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
     expect(iconStart).not.toBeNull();

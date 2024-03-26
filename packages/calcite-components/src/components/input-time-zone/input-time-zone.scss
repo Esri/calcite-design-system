@@ -1,5 +1,40 @@
+/**
+ *
+ * @prop --calcite-input-combobox-border-color: defines the border color of the combobox sub-component.
+ * @prop --calcite-input-combobox-background-color: defines the background color of the combobox sub-component.
+ * @prop --calcite-input-combobox-text-color: defines the text color of the combobox sub-component.
+ * @prop --calcite-input-combobox-chip-background-color-active: defines the color of a chip in the comobox sub-component when active.
+ * @prop --calcite-input-combobox-item-background-color-active: defines the background color of a combobox-item sub-component when active.
+ * @prop --calcite-input-combobox-item-background-color: defines the background color of a combobox-item sub-component.
+ * @prop --calcite-input-combobox-item-icon-color: defines the icon color of a combobox-item sub-component.
+ * @prop --calcite-input-combobox-item-indicator-icon-color-active: defines the indicator color of a combobox-item sub-component when active.
+ * @prop --calcite-input-combobox-item-indicator-icon-color: defines the indicator color of a combobox-item sub-component.
+ * @prop --calcite-input-combobox-item-shadow: defines the shadow of a combobox-item sub-component.
+ * @prop --calcite-input-combobox-item-text-color-active: defines the text color of a combobox-item sub-component when active.
+ * @prop --calcite-input-combobox-item-text-color: defines the text color of a combobox-item sub-component.
+ *
+ */
+
 :host {
   display: block;
+}
+
+calcite-combobox {
+  --calcite-combobox-border-color: var(--calcite-input-combobox-border-color);
+  --calcite-combobox-background-color: var(--calcite-input-combobox-background-color);
+  --calcite-combobox-text-color: var(--calcite-input-combobox-text-color);
+  --calcite-combobox-chip-background-color-active: var(--calcite-input-combobox-chip-background-color-active);
+}
+
+calcite-combobox-item {
+  --calcite-combobox-item-background-color-active: var(--calcite-input-combobox-item-background-color-active);
+  --calcite-combobox-item-background-color: var(--calcite-input-combobox-item-background-color);
+  --calcite-combobox-item-indicator-icon-color-active: var(--calcite-input-combobox-item-indicator-icon-color-active);
+  --calcite-combobox-item-indicator-icon-color: var(--calcite-input-combobox-item-indicator-icon-color);
+  --calcite-combobox-item-icon-color: var(--calcite-input-combobox-item-icon-color);
+  --calcite-combobox-item-shadow: var(--calcite-input-combobox-item-shadow);
+  --calcite-combobox-item-text-color-active: var(--calcite-input-combobox-item-text-color-active);
+  --calcite-combobox-item-text-color: var(--calcite-input-combobox-item-text-color);
 }
 
 @include base-component();

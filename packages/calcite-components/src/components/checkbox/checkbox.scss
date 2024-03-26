@@ -3,18 +3,15 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-checkbox-size: Specifies the component's height and width.
+ * @prop --calcite-checkbox-background-color: defines the background color of the component
+ * @prop --calcite-checkbox-background-color-checked: defines the background color of the component when it's in a ::checked state
+ * @prop --calcite-checkbox-icon-color: defines the icon color of the checkbox.
+ * @prop --calcite-checkbox-shadow: defines the shadow of the component
+ * @prop --calcite-checkbox-shadow-checked: defines the shadow of the component in a ::checked state
+ * @prop --calcite-checkbox-shadow-hover: defines the shadow of the component in a :hover state.
+ * @prop --calcite-checkbox-shadow-invalid: defines the shadow of the component in an invalid state.
+ * @prop --calcite-checkbox-size: defines the checkbox's size vertically and horizontally.
  */
-
-:host([scale="s"]) {
-  --calcite-checkbox-size: theme("spacing.3");
-}
-:host([scale="m"]) {
-  --calcite-checkbox-size: theme("fontSize.n1");
-}
-:host([scale="l"]) {
-  --calcite-checkbox-size: theme("spacing.4");
-}
 
 :host {
   @apply relative
@@ -22,49 +19,20 @@
     cursor-pointer
     select-none;
   -webkit-tap-highlight-color: transparent;
-
-  .check-svg,
-  .toggle {
-    inline-size: var(--calcite-checkbox-size);
-    block-size: var(--calcite-checkbox-size);
-  }
-
-  .check-svg {
-    @apply bg-foreground-1
-      pointer-events-none
-      box-border
-      block
-      overflow-hidden
-      fill-current
-      stroke-current
-      stroke-1
-      transition-default;
-    box-shadow: inset 0 0 0 1px var(--calcite-color-border-input);
-    color: theme("backgroundColor.background");
-  }
 }
 
-:host([status="invalid"]:not([checked])) {
-  .check-svg {
-    box-shadow: inset 0 0 0 1px var(--calcite-color-status-danger);
-  }
-  .toggle:focus {
-    @apply focus-outset-danger;
-  }
-}
-
-:host([checked]),
-:host([indeterminate]) {
-  .check-svg {
-    @apply bg-brand;
-    box-shadow: inset 0 0 0 1px var(--calcite-color-brand);
-  }
-}
-:host([hovered]) .toggle,
-:host .toggle:hover {
-  .check-svg {
-    box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
-  }
+.check-svg {
+  @apply pointer-events-none
+    box-border
+    block
+    overflow-hidden
+    fill-current
+    stroke-current
+    stroke-1
+    transition-default;
+  background-color: var(--calcite-checkbox-background-color, var(--calcite-color-foreground-1));
+  box-shadow: var(--calcite-checkbox-shadow, inset 0 0 0 1px var(--calcite-color-border-input));
+  color: var(--calcite-checkbox-icon-color, var(--calcite-color-background));
 }
 
 .toggle {
@@ -85,6 +53,49 @@
     position: absolute;
     transform: translateX(-50%) translateY(-50%);
   }
+}
+
+:host([scale="s"]) {
+  .check-svg,
+  .toggle {
+    inline-size: var(--calcite-checkbox-size, theme("spacing.3"));
+    block-size: var(--calcite-checkbox-size, theme("spacing.3"));
+  }
+}
+:host([scale="m"]) {
+  .check-svg,
+  .toggle {
+    inline-size: var(--calcite-checkbox-size, theme("fontSize.n1"));
+    block-size: var(--calcite-checkbox-size, theme("fontSize.n1"));
+  }
+}
+:host([scale="l"]) {
+  .check-svg,
+  .toggle {
+    inline-size: var(--calcite-checkbox-size, theme("spacing.4"));
+    block-size: var(--calcite-checkbox-size, theme("spacing.4"));
+  }
+}
+
+:host([status="invalid"]:not([checked])) {
+  .check-svg {
+    box-shadow: var(--calcite-checkbox-shadow-invalid, inset 0 0 0 1px var(--calcite-color-status-danger));
+  }
+
+  .toggle:focus {
+    @apply focus-outset-danger;
+  }
+}
+:host([checked]),
+:host([indeterminate]) {
+  .check-svg {
+    background-color: var(--calcite-checkbox-background-color-checked, var(--calcite-color-brand));
+    box-shadow: var(--calcite-checkbox-shadow-checked, inset 0 0 0 1px var(--calcite-color-brand));
+  }
+}
+:host([hovered]) .toggle,
+:host .toggle:hover {
+  box-shadow: var(--calcite-checkbox-shadow-hover, inset 0 0 0 2px var(--calcite-color-brand));
 }
 
 @include disabled();

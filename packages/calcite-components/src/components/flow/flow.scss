@@ -1,33 +1,32 @@
 :host {
-  @extend %component-host;
-  @apply relative
-    flex
-    w-full
-    flex-auto
-    items-stretch
-    overflow-hidden
-    bg-transparent;
+  @include base-host();
+  position: relative;
+  display: flex;
+  inline-size: var(--calcite-container-size-content-fluid);
+  flex: 1 1 auto;
+  align-items: stretch;
+  overflow: hidden;
 
   .frame {
-    @apply relative
-      m-0
-      flex
-      w-full
-      flex-auto
-      flex-col
-      items-stretch
-      p-0;
+    position: relative;
+    display: flex;
+    margin: 0;
+    inline-size: var(--calcite-container-size-content-fluid);
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
   }
 
   ::slotted(calcite-flow-item),
   ::slotted(calcite-panel) {
-    @apply h-full;
+    block-size: var(--calcite-container-size-content-fluid);
   }
 
   ::slotted(.calcite-match-height:last-child) {
-    @apply flex
-    flex-auto
-    overflow-hidden;
+    display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
   }
 
   .frame--advancing {
@@ -40,22 +39,22 @@
 
   @keyframes calcite-frame-advance {
     0% {
-      @apply bg-opacity-50;
+      opacity: var(--calcite-opacity-50);
       transform: translate3d(50px, 0, 0);
     }
     100% {
-      @apply bg-opacity-100;
+      opacity: var(--calcite-opacity-100);
       transform: translate3d(0, 0, 0);
     }
   }
 
   @keyframes calcite-frame-retreat {
     0% {
-      @apply bg-opacity-50;
+      opacity: var(--calcite-opacity-50);
       transform: translate3d(-50px, 0, 0);
     }
     100% {
-      @apply bg-opacity-100;
+      opacity: var(--calcite-opacity-100);
       transform: translate3d(0, 0, 0);
     }
   }

@@ -94,3 +94,23 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const theming_TestOnly = (): string => html`
+  <calcite-notice
+    closable
+    open
+    icon="layer"
+    style="--calcite-notice-background-color: rgb(182, 101, 101);
+      --calcite-notice-border-color: rgb(183, 61, 61);
+      --calcite-notice-shadow: var(--calcite-shadow-sm);
+      --calcite-notice-corner-radius: 4px;
+      --calcite-notice-icon-color: rgb(244, 229, 229);
+      --calcite-notice-close-icon-color: orange;
+      --calcite-notice-text-color: rgb(244, 229, 229);
+      --calcite-notice-close-icon-color: purple;
+      --calcite-notice-close-background-color: rgb(236, 166, 178);"
+  >
+    <div slot="title">This is a message</div>
+    <div slot="message">Be sure you know what you are doing, folks.</div>
+  </calcite-notice>
+`;
