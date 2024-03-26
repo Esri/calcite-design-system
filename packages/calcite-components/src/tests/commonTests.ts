@@ -11,7 +11,8 @@ import { MessageBundle } from "../utils/t9n";
 import {
   GlobalTestProps,
   IntrinsicElementsWithProp,
-  colorList,
+  assertThemedProps,
+  assignTestTokenThemeValues,
   isElementFocused,
   newProgrammaticE2EPage,
   skipAnimations,
@@ -1841,31 +1842,63 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
   }
 }
 
+/**
+ *
+ * @param componentTagOrHTML -
+ * @param tokens
+ */
 export function themed(
   componentTagOrHTML: TagOrHTML,
-  tokens: Record<string, { selector: string; shadowSelector?: string; targetProp }>,
+  tokens: Record<string, { selector: string; shadowSelector?: string; targetProp: string }>,
 ): void {
   it("is theme-able", async () => {
     const page = await simplePageSetup(componentTagOrHTML);
-    let i = 0;
+    const expectChecklist: Record<
+      string,
+      [E2EElement, Record<string, [E2EElement, Record<string, [string, string]>]>]
+    > = {};
 
     for (const token in tokens) {
       const { selector, shadowSelector, targetProp } = tokens[token];
-      const el = await page.find(selector);
-      const target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : await page.find(selector);
-      const themedTokenValue = token.includes("color")
-        ? colorList[i]
-        : token.includes("shadow")
-          ? `${colorList[i]} 0 4px 8px -1px`
-          : `${i * 10}${token.includes("z-index") ? "" : "px"}`;
-      i++;
+      const themedTokenValue = assignTestTokenThemeValues(token);
+      if (!expectChecklist[selector]) {
+        const el = await page.find(selector);
+        expectChecklist[selector] = [el, {}];
+      }
 
-      el.setAttribute("style", `${token}: ${themedTokenValue}`);
-      await page.waitForChanges();
+      const [el, selectors] = expectChecklist[selector];
 
-      const style = await target.getComputedStyle();
+      if (!selectors[shadowSelector || selector]) {
+        const target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : el;
+        selectors[shadowSelector || selector] = [target, { [token]: [targetProp, themedTokenValue] }];
+      } else {
+        const [, targetProps] = selectors[shadowSelector || selector];
+        targetProps[token] = [targetProp, themedTokenValue];
+      }
+    }
 
-      expect(style[targetProp]).toBe(themedTokenValue);
+    // let all page.find calls resolve
+    await page.waitForChanges();
+
+    for (const selector in expectChecklist) {
+      const [el, selectors] = expectChecklist[selector];
+      const style = Object.entries(selectors).flatMap(([, targetProps]) =>
+        Object.entries(targetProps[1]).map(([token, [, themedTokenValue]]) => `${token}: ${themedTokenValue}`),
+      );
+      // Sets the style of each element to a string of CSS token props with themed token values
+      el.setAttribute("style", style.join("; "));
+    }
+
+    // let all el.setAttribute calls resolve
+    await page.waitForChanges();
+
+    for (const elSelector in expectChecklist) {
+      const [, selectors] = expectChecklist[elSelector];
+
+      for (const targetSelector in selectors) {
+        const [target, targetProps] = selectors[targetSelector];
+        await assertThemedProps(target, Object.values(targetProps));
+      }
     }
   });
 }

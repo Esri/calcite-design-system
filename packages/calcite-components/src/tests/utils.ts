@@ -427,112 +427,31 @@ export function toBeNumber(): any {
 }
 
 /**
- * A list of colors to use in tests.
+ * Get the computed style of an element and assert that it matches the expected themed token value.
+ * This is useful for testing themed components.
+ *
+ * @param target - the element to get the computed style from
+ * @param props - an array of tuples where the first value is the CSS property to check and the second value is the expected themed token value
  */
-export const colorList: string[] = [
-  "rgb(76, 119, 173)",
-  "rgb(193, 54, 91)",
-  "rgb(249, 188, 199)",
-  "rgb(207, 41, 244)",
-  "rgb(56, 10, 119)",
-  "rgb(214, 40, 237",
-  "rgb(102, 160, 9)",
-  "rgb(211, 74, 177)",
-  "rgb(172, 54, 226)",
-  "rgb(229, 218, 64)",
-  "rgb(90, 11, 130)",
-  "rgb(252, 42, 5)",
-  "rgb(206, 35, 75)",
-  "rgb(255, 144, 96)",
-  "rgb(216, 0, 255)",
-  "rgb(234, 227, 98)",
-  "rgb(229, 212, 100)",
-  "rgb(66, 255, 166)",
-  "rgb(204, 63, 51)",
-  "rgb(234, 105, 103)",
-  "rgb(226, 164, 93)",
-  "rgb(241, 244, 36)",
-  "rgb(99, 99, 221)",
-  "rgb(4, 54, 204)",
-  "rgb(242, 230, 106)",
-  "rgb(163, 29, 247)",
-  "rgb(247, 232, 64)",
-  "rgb(116, 65, 198)",
-  "rgb(4, 158, 45)",
-  "rgb(249, 192, 4)",
-  "rgb(98, 18, 135)",
-  "rgb(168, 43, 62)",
-  "rgb(252, 164, 22)",
-  "rgb(237, 189, 106)",
-  "rgb(244, 150, 95)",
-  "rgb(188, 221, 88)",
-  "rgb(64, 209, 187)",
-  "rgb(88, 181, 30)",
-  "rgb(242, 107, 249)",
-  "rgb(6, 232, 127)",
-  "rgb(28, 131, 165)",
-  "rgb(29, 193, 97)",
-  "rgb(46, 136, 232)",
-  "rgb(117, 0, 196)",
-  "rgb(224, 195, 80)",
-  "rgb(252, 88, 159)",
-  "rgb(221, 88, 175)",
-  "rgb(221, 148, 93)",
-  "rgb(135, 38, 181)",
-  "rgb(78, 197, 252)",
-  "rgb(244, 78, 172)",
-  "rgb(255, 108, 63)",
-  "rgb(13, 232, 199)",
-  "rgb(113, 61, 211)",
-  "rgb(185, 219, 15)",
-  "rgb(139, 90, 237)",
-  "rgb(153, 37, 29)",
-  "rgb(101, 221, 95)",
-  "rgb(216, 131, 88)",
-  "rgb(74, 124, 181)",
-  "rgb(115, 175, 31)",
-  "rgb(249, 49, 136)",
-  "rgb(74, 27, 145)",
-  "rgb(158, 15, 224)",
-  "rgb(242, 77, 168)",
-  "rgb(196, 69, 5)",
-  "rgb(27, 112, 119)",
-  "rgb(242, 94, 215)",
-  "rgb(249, 29, 187)",
-  "rgb(11, 170, 188)",
-  "rgb(226, 216, 63)",
-  "rgb(247, 214, 81)",
-  "rgb(216, 189, 54)",
-  "rgb(128, 98, 219)",
-  "rgb(226, 6, 190)",
-  "rgb(92, 214, 212)",
-  "rgb(57, 10, 168)",
-  "rgb(229, 194, 41)",
-  "rgb(232, 192, 83)",
-  "rgb(32, 75, 173)",
-  "rgb(153, 7, 60)",
-  "rgb(237, 137, 87)",
-  "rgb(224, 74, 134)",
-  "rgb(252, 20, 24)",
-  "rgb(252, 235, 106)",
-  "rgb(219, 80, 52)",
-  "rgb(128, 79, 188)",
-  "rgb(242, 124, 33)",
-  "rgb(206, 24, 219)",
-  "rgb(244, 244, 4)",
-  "rgb(43, 229, 114)",
-  "rgb(226, 220, 102)",
-  "rgb(252, 50, 121)",
-  "rgb(114, 255, 240)",
-  "rgb(252, 244, 95)",
-  "rgb(152, 75, 252)",
-  "rgb(86, 70, 168)",
-  "rgb(105, 177, 244)",
-  "rgb(244, 147, 90)",
-  "rgb(3, 135, 150)",
-  "rgb(204, 121, 32)",
-  "rgb(216, 108, 41)",
-  "rgb(234, 42, 212)",
-  "rgb(186, 1, 35)",
-  "rgb(106, 252, 95)",
-];
+export async function assertThemedProps(target: E2EElement, props: [string, string][]): Promise<void> {
+  const styles = await target.getComputedStyle();
+  for (const [targetProp, themedTokenValue] of props) {
+    expect(styles[targetProp]).toBe(themedTokenValue);
+  }
+}
+
+/**
+ *
+ * Sets the value of a CSS variable to a test value.
+ * This is useful for testing themed components.
+ *
+ * @param token - the token as a CSS variable
+ * @returns string - the new value for the token
+ */
+export function assignTestTokenThemeValues(token: string): string {
+  return token.includes("color")
+    ? "rgb(0, 191, 255)"
+    : token.includes("shadow")
+      ? "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px"
+      : `42${token.includes("z-index") ? "" : "px"}`;
+}
