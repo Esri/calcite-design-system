@@ -5007,6 +5007,10 @@ export namespace Components {
          */
         "wrap": "soft" | "hard";
     }
+    /**
+     * @deprecated use `content-top` slot instead
+     * @deprecated use `content-bottom` slot instead
+     */
     interface CalciteTile {
         /**
           * When `true`, the component is active.
@@ -7239,6 +7243,10 @@ declare global {
         prototype: HTMLCalciteTextAreaElement;
         new (): HTMLCalciteTextAreaElement;
     };
+    /**
+     * @deprecated use `content-top` slot instead
+     * @deprecated use `content-bottom` slot instead
+     */
     interface HTMLCalciteTileElement extends Components.CalciteTile, HTMLStencilElement {
     }
     var HTMLCalciteTileElement: {
@@ -12620,6 +12628,10 @@ declare namespace LocalJSX {
          */
         "wrap"?: "soft" | "hard";
     }
+    /**
+     * @deprecated use `content-top` slot instead
+     * @deprecated use `content-bottom` slot instead
+     */
     interface CalciteTile {
         /**
           * When `true`, the component is active.
@@ -13309,6 +13321,10 @@ declare module "@stencil/core" {
             "calcite-table-row": LocalJSX.CalciteTableRow & JSXBase.HTMLAttributes<HTMLCalciteTableRowElement>;
             "calcite-tabs": LocalJSX.CalciteTabs & JSXBase.HTMLAttributes<HTMLCalciteTabsElement>;
             "calcite-text-area": LocalJSX.CalciteTextArea & JSXBase.HTMLAttributes<HTMLCalciteTextAreaElement>;
+            /**
+             * @deprecated use `content-top` slot instead
+             * @deprecated use `content-bottom` slot instead
+             */
             "calcite-tile": LocalJSX.CalciteTile & JSXBase.HTMLAttributes<HTMLCalciteTileElement>;
             "calcite-tile-group": LocalJSX.CalciteTileGroup & JSXBase.HTMLAttributes<HTMLCalciteTileGroupElement>;
             "calcite-tile-select": LocalJSX.CalciteTileSelect & JSXBase.HTMLAttributes<HTMLCalciteTileSelectElement>;
