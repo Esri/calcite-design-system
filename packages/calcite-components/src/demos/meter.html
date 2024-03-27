@@ -115,7 +115,7 @@
             </calcite-label>
             <calcite-label
               >fillType
-              <calcite-segmented-control id="control-type">
+              <calcite-segmented-control id="control-appearance">
                 <calcite-segmented-control-item value="range" checked>Range</calcite-segmented-control-item>
                 <calcite-segmented-control-item value="single">Single</calcite-segmented-control-item>
               </calcite-segmented-control>
@@ -817,7 +817,7 @@
         const switchvalueLabel = document.getElementById("switch-label");
         const switchStepLabels = document.getElementById("switch-step-labels");
 
-        const controlType = document.getElementById("control-type");
+        const controlAppearance = document.getElementById("control-appearance");
         const controlScale = document.getElementById("control-scale");
         const controlValueLabelType = document.getElementById("control-value-label-type");
         const controlValueRangeType = document.getElementById("control-range-label-type");
@@ -860,7 +860,7 @@
           meter.rangeLabels = event.target.checked;
         });
 
-        controlType.addEventListener("calciteSegmentedControlChange", function (event) {
+        controlAppearance.addEventListener("calciteSegmentedControlChange", function (event) {
           meter.fillType = event.target.value;
         });
 
