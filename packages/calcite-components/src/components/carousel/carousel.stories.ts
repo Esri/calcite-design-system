@@ -3,6 +3,7 @@ import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 import { boolean } from "../../../.storybook/helpers";
+import { select, text } from "@storybook/addon-knobs";
 
 export default {
   title: "Components/Carousel",
@@ -18,6 +19,9 @@ export const simple = (): string =>
       ${boolean("control-overlay", false)}
       ${boolean("tooltips-disabled", false)}
       ${boolean("disabled", false)}
+      ${text("label", "Example carousel label")}
+      arrow-type="${select("arrow-type", ["inline", "edges", "none"], "inline")}"
+      control-appearance="${select("control-appearance", ["square", "circle"], "square")}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -71,7 +75,7 @@ export const carouselFullImageWithOverlay_TestOnly = (): string =>
         line-height: 32px;
       }
     </style>
-    <calcite-carousel control-overlay>
+    <calcite-carousel control-overlay arrow-type="edges">
       <calcite-carousel-item label="Carousel Item 1">
         <div class="bg-image-example">Some kind of rich content over a bg using overlay controls</div>
       </calcite-carousel-item>
@@ -104,7 +108,7 @@ export const carouselInPopover_TestOnly = (): string =>
     </style>
     <calcite-button style="margin: 1rem" id="example-popover">Launch onboarding</calcite-button>
     <calcite-popover open reference-element="example-popover" heading="Welcome to the show!" closable>
-      <calcite-carousel>
+      <calcite-carousel arrow-type="none" control-appearance="circle">
         <calcite-carousel-item label="Carousel Item 1">
           <p>
             <calcite-icon scale="l" icon="number-circle-1"></calcite-icon>

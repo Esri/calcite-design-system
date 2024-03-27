@@ -65,11 +65,17 @@ calcite-carousel-item:not([active]) {
   position: absolute;
 }
 
-.page-next {
+.is-edges {
+  position: absolute;
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+}
+
+.page-next.is-edges {
   inset-inline-end: 0;
 }
 
-.page-previous {
+.page-previous.is-edges {
   inset-inline-start: 0;
 }
 

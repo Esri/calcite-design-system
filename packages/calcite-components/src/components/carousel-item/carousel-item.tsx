@@ -61,7 +61,7 @@ export class CarouselItem implements LoadableComponent {
   render(): VNode {
     return (
       <Host>
-        <div class={CSS.container + `${this.active ? " active" : ""}`} title={this.label}>
+        <div aria-label={this.label} class={CSS.container + `${this.active ? " active" : ""}`}>
           <slot />
         </div>
       </Host>

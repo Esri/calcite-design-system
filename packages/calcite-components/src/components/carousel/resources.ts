@@ -7,11 +7,14 @@ export const CSS = {
   pageNext: "page-next",
   pagePrevious: "page-previous",
   isOverlay: "is-overlay",
+  isEdges: "is-edges",
 };
 
 export const ICONS = {
   chevronLeft: "chevron-left",
   chevronRight: "chevron-right",
-  inactive: "square",
-  active: "square-area",
+  inactiveSquare: "square",
+  activeSquare: "square-f",
+  inactiveCircle: "circle",
+  activeCircle: "circle-f",
 };

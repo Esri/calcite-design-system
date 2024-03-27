@@ -84,6 +84,21 @@
               >tooltipsDisabled
               <calcite-switch id="switch-tooltips"></calcite-switch>
             </calcite-label>
+            <calcite-label
+              >arrowType
+              <calcite-segmented-control id="arrow-type">
+                <calcite-segmented-control-item value="inline" checked>inline</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="edges">edges</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="none">none</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+            <calcite-label
+              >controlAppearance
+              <calcite-segmented-control id="control-appearance">
+                <calcite-segmented-control-item value="square" checked>square</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="circle">circle</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
           </div>
         </div>
         <div class="parent">
@@ -237,7 +252,12 @@
               <calcite-shell-panel slot="panel-start" width-scale="l">
                 <calcite-panel heading="Carousel in context">
                   <calcite-block open heading="Carousel in block">
-                    <calcite-carousel id="example-carousel" control-overlay arrow-type="bar">
+                    <calcite-carousel
+                      id="example-carousel"
+                      control-overlay
+                      control-appearance="circle"
+                      arrow-type="edges"
+                    >
                       <calcite-carousel-item label="The Red Rocks and Blue Water">
                         <p class="bg-image-example">1 Some kind of rich content over a bg using overlay controls</p>
                       </calcite-carousel-item>
@@ -327,6 +347,8 @@
         const carousel = document.getElementById("example-carousel");
         const switchOverlay = document.getElementById("switch-overlay");
         const switchTooltips = document.getElementById("switch-tooltips");
+        const arrowType = document.getElementById("arrow-type");
+        const controlAppearance = document.getElementById("control-appearance");
 
         document.querySelectorAll("calcite-carousel").forEach((item) => {
           item.addEventListener("calciteCarouselChange", (event) => {
@@ -340,6 +362,14 @@
 
         switchTooltips.addEventListener("calciteSwitchChange", function () {
           carousel.tooltipsDisabled = event.target.checked;
+        });
+
+        arrowType.addEventListener("calciteSegmentedControlChange", function () {
+          carousel.arrowType = event.target.value;
+        });
+
+        controlAppearance.addEventListener("calciteSegmentedControlChange", function () {
+          carousel.controlAppearance = event.target.value;
         });
       </script>
     </demo-dom-swapper>

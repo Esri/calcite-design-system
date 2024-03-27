@@ -35,6 +35,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { ArrowType, ControlType } from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-carousel-item`s.
@@ -55,14 +56,29 @@ export class Carousel
   // --------------------------------------------------------------------------
 
   /**
+   * Specify how and if the previous and next arrows are displayed.
+   */
+  @Prop({ reflect: true }) arrowType: ArrowType = "inline";
+
+  /**
    * Specify if the controls are overlaid on top of the content.
    */
-  @Prop() controlOverlay?: boolean;
+  @Prop({ reflect: true }) controlOverlay = false;
+
+  /**
+   * Specify if the controls are overlaid on top of the content.
+   */
+  @Prop({ reflect: true }) controlAppearance: ControlType = "square";
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * The component label text
+   */
+  @Prop() label!: string;
 
   /**
    * When `true`, tooltips are not displayed on the carousel item controls.
@@ -276,6 +292,11 @@ export class Carousel
   renderPagination(): VNode {
     const { activeIndex } = this;
     const itemGuid = guid();
+    const inactiveIcon =
+      this.controlAppearance === "square" ? ICONS.inactiveSquare : ICONS.inactiveCircle;
+    const activeIcon =
+      this.controlAppearance === "square" ? ICONS.activeSquare : ICONS.activeCircle;
+
     return (
       <div
         class={{
@@ -283,13 +304,12 @@ export class Carousel
           [CSS.isOverlay]: this.controlOverlay,
         }}
       >
-        {this.renderPreviousArrow()}
+        {this.arrowType === "inline" && this.renderPreviousArrow()}
         {this.items?.map((item, index) => (
           <Fragment>
             <calcite-action
-              appearance={this.controlOverlay ? "solid" : "transparent"}
               class={`pagination-item${index === activeIndex ? " active-icon" : ""}`}
-              icon={index === activeIndex ? ICONS.active : ICONS.inactive}
+              icon={index === activeIndex ? activeIcon : inactiveIcon}
               id={`${itemGuid}-${index}`}
               label={item.label}
               onClick={() => this.goToItem(index)}
@@ -303,7 +323,7 @@ export class Carousel
             )}
           </Fragment>
         ))}
-        {this.renderNextArrow()}
+        {this.arrowType === "inline" && this.renderNextArrow()}
       </div>
     );
   }
@@ -312,11 +332,10 @@ export class Carousel
     const dir = getElementDir(this.el);
     return (
       <calcite-action
-        appearance={this.controlOverlay ? "solid" : "transparent"}
-        class={CSS.pagePrevious}
+        class={{ [CSS.pagePrevious]: true, [CSS.isEdges]: this.arrowType === "edges" }}
         icon={dir === "rtl" ? ICONS.chevronRight : ICONS.chevronLeft}
         onClick={this.previousClicked}
-        scale="s"
+        scale={this.arrowType === "edges" ? "m" : "s"}
         text={this.messages.previous}
       />
     );
@@ -326,11 +345,10 @@ export class Carousel
     const dir = getElementDir(this.el);
     return (
       <calcite-action
-        appearance={this.controlOverlay ? "solid" : "transparent"}
-        class={CSS.pageNext}
+        class={{ [CSS.pageNext]: true, [CSS.isEdges]: this.arrowType === "edges" }}
         icon={dir === "rtl" ? ICONS.chevronLeft : ICONS.chevronRight}
         onClick={this.nextClicked}
-        scale="s"
+        scale={this.arrowType === "edges" ? "m" : "s"}
         text={this.messages.next}
       />
     );
@@ -342,6 +360,7 @@ export class Carousel
       <Host>
         <InteractiveContainer disabled={this.disabled}>
           <div
+            aria-label={this.label}
             class={{ [CSS.container]: true, [CSS.isOverlay]: this.controlOverlay }}
             onKeyDown={this.keyDownHandler}
             tabIndex={0}
@@ -361,7 +380,9 @@ export class Carousel
                 ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}
               />
             </div>
+            {this.arrowType === "edges" && this.renderPreviousArrow()}
             {this.items?.length > 1 && this.renderPagination()}
+            {this.arrowType === "edges" && this.renderNextArrow()}
           </div>
         </InteractiveContainer>
       </Host>

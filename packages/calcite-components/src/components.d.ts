@@ -23,6 +23,7 @@ import { BlockSectionMessages } from "./components/block-section/assets/block-se
 import { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
 import { ButtonMessages } from "./components/button/assets/button/t9n";
 import { CardMessages } from "./components/card/assets/card/t9n";
+import { ArrowType, ControlType } from "./components/carousel/interfaces";
 import { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 import { ChipMessages } from "./components/chip/assets/chip/t9n";
 import { ColorValue, InternalColor } from "./components/color-picker/interfaces";
@@ -111,6 +112,7 @@ export { BlockSectionMessages } from "./components/block-section/assets/block-se
 export { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
 export { ButtonMessages } from "./components/button/assets/button/t9n";
 export { CardMessages } from "./components/card/assets/card/t9n";
+export { ArrowType, ControlType } from "./components/carousel/interfaces";
 export { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 export { ChipMessages } from "./components/chip/assets/chip/t9n";
 export { ColorValue, InternalColor } from "./components/color-picker/interfaces";
@@ -830,13 +832,25 @@ export namespace Components {
     }
     interface CalciteCarousel {
         /**
+          * Specify how and if the previous and next arrows are displayed.
+         */
+        "arrowType": ArrowType;
+        /**
           * Specify if the controls are overlaid on top of the content.
          */
-        "controlOverlay"?: boolean;
+        "controlAppearance": ControlType;
+        /**
+          * Specify if the controls are overlaid on top of the content.
+         */
+        "controlOverlay": boolean;
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
+        /**
+          * The component label text
+         */
+        "label": string;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -8289,6 +8303,14 @@ declare namespace LocalJSX {
     }
     interface CalciteCarousel {
         /**
+          * Specify how and if the previous and next arrows are displayed.
+         */
+        "arrowType"?: ArrowType;
+        /**
+          * Specify if the controls are overlaid on top of the content.
+         */
+        "controlAppearance"?: ControlType;
+        /**
           * Specify if the controls are overlaid on top of the content.
          */
         "controlOverlay"?: boolean;
@@ -8296,6 +8318,10 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        /**
+          * The component label text
+         */
+        "label": string;
         /**
           * Use this property to override individual strings used by the component.
          */
