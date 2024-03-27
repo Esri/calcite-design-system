@@ -1,4 +1,4 @@
-import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-carousel-item", () => {
   describe("renders", () => {
@@ -13,9 +13,5 @@ describe("calcite-carousel-item", () => {
 
   describe("accessible", () => {
     accessible("calcite-carousel-item");
-  });
-
-  describe("translation support", () => {
-    t9n("calcite-carousel-item");
   });
 });

@@ -42,13 +42,12 @@ describe("calcite-carousel", () => {
         `<calcite-carousel>
           <calcite-carousel-item id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item id="two" active><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
       await page.waitForChanges();
-
       const itemManager = await page.find("calcite-carousel");
-
       const selectedItem = await itemManager.find(`calcite-carousel-item[active]`);
       expect(selectedItem.id).toEqual("two");
     });
@@ -66,9 +65,8 @@ describe("calcite-carousel", () => {
       await page.waitForChanges();
 
       const itemManager = await page.find("calcite-carousel");
-
       let selectedItem = await itemManager.find(`calcite-carousel-item[active]`);
-      expect(selectedItem.id).toEqual("one"); // default selected item is index 0
+      expect(selectedItem.id).toEqual("one");
 
       const nextButton = await page.find(`calcite-carousel >>> .${CSS.pageNext}`);
       await nextButton.click();
