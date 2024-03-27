@@ -27,7 +27,7 @@ export class CarouselItem implements LoadableComponent {
   @Prop({ reflect: true }) active = false;
 
   /**
-   * The component label text.
+   * The component label text, used to populate tooltips in the `calcite-carousel`'s controls.
    */
   @Prop() label!: string;
 

@@ -14,7 +14,11 @@ export default {
 
 export const simple = (): string =>
   html` <div style="width:600px;height:400px;">
-    <calcite-carousel ${boolean("control-overlay", false)} ${boolean("disabled", false)}>
+    <calcite-carousel
+      ${boolean("control-overlay", false)}
+      ${boolean("tooltips-disabled", false)}
+      ${boolean("disabled", false)}
+    >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
           <span slot="title">Some kind of carousel item content</span>

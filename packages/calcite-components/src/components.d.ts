@@ -850,6 +850,10 @@ export namespace Components {
           * @readonly
          */
         "selectedItem": HTMLCalciteCarouselItemElement;
+        /**
+          * When `true`, tooltips are not displayed on the carousel item controls.
+         */
+        "tooltipsDisabled": boolean;
     }
     interface CalciteCarouselItem {
         /**
@@ -857,7 +861,7 @@ export namespace Components {
          */
         "active": boolean;
         /**
-          * The component label text.
+          * The component label text, used to populate tooltips in the `calcite-carousel`'s controls.
          */
         "label": string;
     }
@@ -5042,10 +5046,6 @@ export namespace Components {
          */
         "wrap": "soft" | "hard";
     }
-    /**
-     * @deprecated use `content-top` slot instead
-     * @deprecated use `content-bottom` slot instead
-     */
     interface CalciteTile {
         /**
           * When `true`, the component is active.
@@ -7305,10 +7305,6 @@ declare global {
         prototype: HTMLCalciteTextAreaElement;
         new (): HTMLCalciteTextAreaElement;
     };
-    /**
-     * @deprecated use `content-top` slot instead
-     * @deprecated use `content-bottom` slot instead
-     */
     interface HTMLCalciteTileElement extends Components.CalciteTile, HTMLStencilElement {
     }
     var HTMLCalciteTileElement: {
@@ -8317,6 +8313,10 @@ declare namespace LocalJSX {
           * @readonly
          */
         "selectedItem"?: HTMLCalciteCarouselItemElement;
+        /**
+          * When `true`, tooltips are not displayed on the carousel item controls.
+         */
+        "tooltipsDisabled"?: boolean;
     }
     interface CalciteCarouselItem {
         /**
@@ -8324,7 +8324,7 @@ declare namespace LocalJSX {
          */
         "active"?: boolean;
         /**
-          * The component label text.
+          * The component label text, used to populate tooltips in the `calcite-carousel`'s controls.
          */
         "label": string;
     }
@@ -12729,10 +12729,6 @@ declare namespace LocalJSX {
          */
         "wrap"?: "soft" | "hard";
     }
-    /**
-     * @deprecated use `content-top` slot instead
-     * @deprecated use `content-bottom` slot instead
-     */
     interface CalciteTile {
         /**
           * When `true`, the component is active.
@@ -13426,10 +13422,6 @@ declare module "@stencil/core" {
             "calcite-table-row": LocalJSX.CalciteTableRow & JSXBase.HTMLAttributes<HTMLCalciteTableRowElement>;
             "calcite-tabs": LocalJSX.CalciteTabs & JSXBase.HTMLAttributes<HTMLCalciteTabsElement>;
             "calcite-text-area": LocalJSX.CalciteTextArea & JSXBase.HTMLAttributes<HTMLCalciteTextAreaElement>;
-            /**
-             * @deprecated use `content-top` slot instead
-             * @deprecated use `content-bottom` slot instead
-             */
             "calcite-tile": LocalJSX.CalciteTile & JSXBase.HTMLAttributes<HTMLCalciteTileElement>;
             "calcite-tile-group": LocalJSX.CalciteTileGroup & JSXBase.HTMLAttributes<HTMLCalciteTileGroupElement>;
             "calcite-tile-select": LocalJSX.CalciteTileSelect & JSXBase.HTMLAttributes<HTMLCalciteTileSelectElement>;

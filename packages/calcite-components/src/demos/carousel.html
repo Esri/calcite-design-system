@@ -80,6 +80,10 @@
               >controlOverlay
               <calcite-switch id="switch-overlay"></calcite-switch>
             </calcite-label>
+            <calcite-label
+              >tooltipsDisabled
+              <calcite-switch id="switch-tooltips"></calcite-switch>
+            </calcite-label>
           </div>
         </div>
         <div class="parent">
@@ -322,6 +326,7 @@
       <script>
         const carousel = document.getElementById("example-carousel");
         const switchOverlay = document.getElementById("switch-overlay");
+        const switchTooltips = document.getElementById("switch-tooltips");
 
         document.querySelectorAll("calcite-carousel").forEach((item) => {
           item.addEventListener("calciteCarouselChange", (event) => {
@@ -331,6 +336,10 @@
 
         switchOverlay.addEventListener("calciteSwitchChange", function () {
           carousel.controlOverlay = event.target.checked;
+        });
+
+        switchTooltips.addEventListener("calciteSwitchChange", function () {
+          carousel.tooltipsDisabled = event.target.checked;
         });
       </script>
     </demo-dom-swapper>

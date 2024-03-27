@@ -65,6 +65,11 @@ export class Carousel
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * When `true`, tooltips are not displayed on the carousel item controls.
+   */
+  @Prop({ reflect: true }) tooltipsDisabled = false;
+
+  /**
    * Made into a prop for testing purposes only
    *
    * @internal
@@ -291,9 +296,11 @@ export class Carousel
               scale="s"
               text={item.label}
             />
-            <calcite-tooltip placement="bottom" reference-element={`${itemGuid}-${index}`}>
-              {item.label}
-            </calcite-tooltip>
+            {!this.tooltipsDisabled && (
+              <calcite-tooltip placement="bottom" reference-element={`${itemGuid}-${index}`}>
+                {item.label}
+              </calcite-tooltip>
+            )}
           </Fragment>
         ))}
         {this.renderNextArrow()}
