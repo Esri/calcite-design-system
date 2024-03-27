@@ -584,6 +584,19 @@ export function isPrimaryPointerButton(event: PointerEvent): boolean {
   return !!(event.isPrimary && event.button === 0);
 }
 
+/**
+ * This helper returns true if the mouse event was triggered by a keyboard click.
+ *
+ * @param {MouseEvent} event The mouse event.
+ * @returns {boolean} The value.
+ */
+export function isKeyboardTriggeredClick(event: MouseEvent): boolean {
+  // we assume event.detail = 0 is a keyboard click
+  // see https://www.w3.org/TR/uievents/#event-type-click
+  // see https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event#usage_notes
+  return event.detail === 0;
+}
+
 export type FocusElementInGroupDestination = "first" | "last" | "next" | "previous";
 
 /**

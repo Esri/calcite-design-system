@@ -1,4 +1,4 @@
-import { getShadowRootNode, isPrimaryPointerButton } from "../../utils/dom";
+import { getShadowRootNode } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
 import { getEffectiveReferenceElement } from "./utils";
@@ -119,11 +119,7 @@ export default class TooltipManager {
     }
   };
 
-  private pointerDownHandler = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
+  private clickHandler = (event: PointerEvent): void => {
     const clickedTooltip = this.queryTooltip(event.composedPath());
 
     this.clickedTooltip = clickedTooltip;
@@ -155,7 +151,7 @@ export default class TooltipManager {
   private addListeners(): void {
     window.addEventListener("keydown", this.keyDownHandler, { capture: true });
     window.addEventListener("pointermove", this.pointerMoveHandler, { capture: true });
-    window.addEventListener("pointerdown", this.pointerDownHandler, { capture: true });
+    window.addEventListener("click", this.clickHandler, { capture: true });
     window.addEventListener("focusin", this.focusInHandler, { capture: true });
     window.addEventListener("focusout", this.focusOutHandler, { capture: true });
   }
@@ -163,7 +159,7 @@ export default class TooltipManager {
   private removeListeners(): void {
     window.removeEventListener("keydown", this.keyDownHandler, { capture: true });
     window.removeEventListener("pointermove", this.pointerMoveHandler, { capture: true });
-    window.removeEventListener("pointerdown", this.pointerDownHandler, { capture: true });
+    window.removeEventListener("click", this.clickHandler, { capture: true });
     window.removeEventListener("focusin", this.focusInHandler, { capture: true });
     window.removeEventListener("focusout", this.focusOutHandler, { capture: true });
   }
