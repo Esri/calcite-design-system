@@ -334,7 +334,7 @@ export class Carousel
     return (
       <calcite-action
         appearance={this.controlOverlay ? "solid" : "transparent"}
-        class={{ [CSS.pagePrevious]: true, [CSS.isEdges]: this.arrowType === "edges" }}
+        class={CSS.pagePrevious}
         icon={dir === "rtl" ? ICONS.chevronRight : ICONS.chevronLeft}
         onClick={this.previousClicked}
         scale={this.arrowType === "edges" ? "m" : "s"}
@@ -348,7 +348,7 @@ export class Carousel
     return (
       <calcite-action
         appearance={this.controlOverlay ? "solid" : "transparent"}
-        class={{ [CSS.pageNext]: true, [CSS.isEdges]: this.arrowType === "edges" }}
+        class={CSS.pageNext}
         icon={dir === "rtl" ? ICONS.chevronLeft : ICONS.chevronRight}
         onClick={this.nextClicked}
         scale={this.arrowType === "edges" ? "m" : "s"}
@@ -364,7 +364,11 @@ export class Carousel
         <InteractiveContainer disabled={this.disabled}>
           <div
             aria-label={this.label}
-            class={{ [CSS.container]: true, [CSS.isOverlay]: this.controlOverlay }}
+            class={{
+              [CSS.container]: true,
+              [CSS.isOverlay]: this.controlOverlay,
+              [CSS.isEdges]: this.arrowType === "edges",
+            }}
             onKeyDown={this.keyDownHandler}
             tabIndex={0}
             // eslint-disable-next-line react/jsx-sort-props

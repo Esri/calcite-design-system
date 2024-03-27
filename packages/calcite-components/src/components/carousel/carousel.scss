@@ -1,7 +1,7 @@
 :host {
   @apply block w-full;
   --calcite-internal-carousel-item-space: 1.5rem;
-  --calcite-internal-carousel-item-max-width: calc(100% - var(--calcite-internal-carousel-item-space-double));
+  --calcite-internal-carousel-item-space-wide: 3.5rem;
 }
 
 .container {
@@ -18,9 +18,9 @@
   }
 }
 
-.container:not(.is-overlay) {
-  inline-size: calc(100% - var(--calcite-internal-carousel-item-space-double));
-  padding-inline: var(--calcite-internal-carousel-item-space);
+.container.is-edges:not(.is-overlay) {
+  padding-inline: var(--calcite-internal-carousel-item-space-wide);
+  inline-size: calc(100% - var(--calcite-internal-carousel-item-space-wide) * 2);
 }
 
 .item-container {
@@ -66,17 +66,20 @@ calcite-carousel-item:not([active]) {
 }
 
 .is-edges {
-  position: absolute;
-  inset-block-start: 50%;
-  transform: translateY(-50%);
-}
+  .page-next,
+  .page-previous {
+    position: absolute;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+  }
 
-.page-next.is-edges {
-  inset-inline-end: 0;
-}
+  .page-next {
+    inset-inline-end: 0;
+  }
 
-.page-previous.is-edges {
-  inset-inline-start: 0;
+  .page-previous {
+    inset-inline-start: 0;
+  }
 }
 
 .is-overlay .pagination {
