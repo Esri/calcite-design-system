@@ -275,14 +275,12 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     }
 
     if (key === " " || key === "Enter") {
+      event.preventDefault();
       if (hasSubmenu && (!href || (href && targetIsDropdown))) {
         this.open = !open;
       }
       if (!(href && targetIsDropdown) && key !== "Enter") {
         this.selectMenuItem(event);
-      }
-      if (key === " " || (href && targetIsDropdown)) {
-        event.preventDefault();
       }
     } else if (key === "Escape") {
       if (open) {
