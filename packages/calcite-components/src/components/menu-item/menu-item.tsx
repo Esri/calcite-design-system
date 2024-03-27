@@ -269,6 +269,11 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     const { hasSubmenu, href, layout, open, submenuItems } = this;
     const key = event.key;
     const targetIsDropdown = event.target === this.dropdownActionEl;
+
+    if (event.defaultPrevented) {
+      return;
+    }
+
     if (key === " " || key === "Enter") {
       if (hasSubmenu && (!href || (href && targetIsDropdown))) {
         this.open = !open;
