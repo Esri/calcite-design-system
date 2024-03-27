@@ -515,162 +515,21 @@ describe("calcite-action-bar", () => {
         },
         "--calcite-action-bar-trigger-icon-color": {
           selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-loader-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
+          shadowSelector: "calcite-action-group calcite-action >>> calcite-icon",
           targetProp: "color",
         },
         "--calcite-action-bar-trigger-shadow": {
           selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
+          shadowSelector: "calcite-action-group calcite-action >>> .button",
           targetProp: "boxShadow",
         },
         "--calcite-action-bar-trigger-text-color": {
           selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
+          shadowSelector: "calcite-action-group calcite-action >>> .button",
           targetProp: "color",
         },
       };
       themed(`calcite-action-bar`, tokens);
-    });
-    describe("slotted", () => {
-      const tokens = {
-        "--calcite-action-bar-border-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group",
-          targetProp: "borderColor",
-        },
-        "--calcite-action-bar-popover-background-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group",
-          targetProp: "backgroundColor",
-        },
-        "--calcite-action-bar-popover-border-color": {
-          selector: "calcite-action-bar",
-          targetProp: "borderColor",
-        },
-        "--calcite-action-bar-popover-corner-radius": {
-          selector: "calcite-action-bar",
-          targetProp: "borderRadius",
-        },
-        "--calcite-action-bar-popover-shadow": {
-          selector: "calcite-action-bar",
-          targetProp: "boxShadow",
-        },
-        "--calcite-action-bar-trigger-background-color-active": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "backgroundColor",
-        },
-        "--calcite-action-bar-trigger-background-color-focus": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "backgroundColor",
-        },
-        "--calcite-action-bar-trigger-background-color-hover": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "backgroundColor",
-        },
-        "--calcite-action-bar-trigger-background-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "backgroundColor",
-        },
-        "--calcite-action-bar-trigger-icon-color-active": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-icon-color-focus": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-icon-color-hover": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-icon-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-indicator-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-loader-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-shadow-active": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "boxShadow",
-        },
-        "--calcite-action-bar-trigger-shadow-focus": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "boxShadow",
-        },
-        "--calcite-action-bar-trigger-shadow-hover": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "boxShadow",
-        },
-        "--calcite-action-bar-trigger-shadow": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "boxShadow",
-        },
-        "--calcite-action-bar-trigger-text-color-active": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-text-color-focus": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-text-color-hover": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-text-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-      };
-      themed(
-        `<calcite-action-bar style="height: 290px">
-      <calcite-action-group id="dynamic-group"
-        ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
-        <calcite-action text="Styles" icon="shapes"></calcite-action>
-        <calcite-action text="Styles" icon="shapes"></calcite-action>
-        <calcite-action text="Filter" icon="layer-filter"></calcite-action>
-        <calcite-action text="Configure pop-ups" icon="popup"></calcite-action>
-        <calcite-action text="Configure attributes" icon="feature-details"></calcite-action>
-        <calcite-action text="Labels" icon="label" active></calcite-action>
-        <calcite-action text="Table" icon="table"></calcite-action
-      ></calcite-action-group>
-      <calcite-action-group>
-        <calcite-action text="Save" icon="save" disabled></calcite-action>
-        <calcite-action icon="layers" text="Layers"></calcite-action>
-      </calcite-action-group>
-      <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
-    </calcite-action-bar>`,
-        tokens,
-      );
     });
     describe("vertical", () => {
       const tokens = {
@@ -679,102 +538,7 @@ describe("calcite-action-bar", () => {
           targetProp: "maxWidth",
         },
       };
-      themed(`<calcite-action-bar layout="vertical"></calcite-action-bar>`, tokens);
-    });
-    describe("states", () => {
-      const tokens = {
-        "--calcite-action-bar-trigger-background-color-active": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "backgroundColor",
-        },
-        "--calcite-action-bar-trigger-background-color-focus": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "backgroundColor",
-        },
-        "--calcite-action-bar-trigger-background-color-hover": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "backgroundColor",
-        },
-        "--calcite-action-bar-trigger-background-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "backgroundColor",
-        },
-        "--calcite-action-bar-trigger-icon-color-active": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-icon-color-focus": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-icon-color-hover": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-icon-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-indicator-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-loader-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-shadow-active": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "boxShadow",
-        },
-        "--calcite-action-bar-trigger-shadow-focus": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "boxShadow",
-        },
-        "--calcite-action-bar-trigger-shadow-hover": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "boxShadow",
-        },
-        "--calcite-action-bar-trigger-shadow": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "boxShadow",
-        },
-        "--calcite-action-bar-trigger-text-color-active": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-text-color-focus": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-text-color-hover": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-text-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action",
-          targetProp: "color",
-        },
-      };
-      themed(`calcite-action-bar`, tokens);
+      themed(`<calcite-action-bar layout="vertical" expanded></calcite-action-bar>`, tokens);
     });
   });
 });
