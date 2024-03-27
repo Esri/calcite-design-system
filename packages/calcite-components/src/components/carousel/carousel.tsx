@@ -55,6 +55,16 @@ export class Carousel
   // --------------------------------------------------------------------------
 
   /**
+   * Specify if the controls are overlaid on top of the content.
+   */
+  @Prop() controlOverlay?: boolean;
+
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   */
+  @Prop({ reflect: true }) disabled = false;
+
+  /**
    * Made into a prop for testing purposes only
    *
    * @internal
@@ -72,16 +82,6 @@ export class Carousel
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
-
-  /**
-   * Specify if the controls are overlaid on top of the content.
-   */
-  @Prop() controlOverlay?: boolean;
-
-  /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
 
   /**
    * The component's selected `calcite-carousel-item`.
