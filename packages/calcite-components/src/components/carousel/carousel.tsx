@@ -308,6 +308,7 @@ export class Carousel
         {this.items?.map((item, index) => (
           <Fragment>
             <calcite-action
+              appearance={this.controlOverlay ? "solid" : "transparent"}
               class={`pagination-item${index === activeIndex ? " active-icon" : ""}`}
               icon={index === activeIndex ? activeIcon : inactiveIcon}
               id={`${itemGuid}-${index}`}
@@ -332,6 +333,7 @@ export class Carousel
     const dir = getElementDir(this.el);
     return (
       <calcite-action
+        appearance={this.controlOverlay ? "solid" : "transparent"}
         class={{ [CSS.pagePrevious]: true, [CSS.isEdges]: this.arrowType === "edges" }}
         icon={dir === "rtl" ? ICONS.chevronRight : ICONS.chevronLeft}
         onClick={this.previousClicked}
@@ -345,6 +347,7 @@ export class Carousel
     const dir = getElementDir(this.el);
     return (
       <calcite-action
+        appearance={this.controlOverlay ? "solid" : "transparent"}
         class={{ [CSS.pageNext]: true, [CSS.isEdges]: this.arrowType === "edges" }}
         icon={dir === "rtl" ? ICONS.chevronLeft : ICONS.chevronRight}
         onClick={this.nextClicked}
