@@ -1869,12 +1869,32 @@ export function themed(
       const [el, selectors] = expectChecklist[selector];
 
       if (!selectors[shadowSelector || selector]) {
-        const target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : el;
-        selectors[shadowSelector || selector] = [target, { [token]: [targetProp, themedTokenValue] }];
-      } else {
-        const [, targetProps] = selectors[shadowSelector || selector];
-        targetProps[token] = [targetProp, themedTokenValue];
+        let target: E2EElement;
+
+        if (shadowSelector && shadowSelector.includes(">>>")) {
+          const shadowSelectors = shadowSelector.split(" ");
+
+          for (let i = 0; i < shadowSelectors.length; i++) {
+            const s = shadowSelectors[i];
+
+            if (i === 0) {
+              target = await page.find(`${selector} >>> ${s}`);
+            } else if (shadowSelectors[i + 1] === ">>>") {
+              target = await target.find(`${s} >>> ${shadowSelectors[i + 2]}`);
+              i += 2;
+            } else {
+              target = await target.find(s);
+            }
+          }
+        } else {
+          target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : el;
+        }
+
+        selectors[shadowSelector || selector] = [target, {}];
       }
+
+      const [, targetProps] = selectors[shadowSelector || selector];
+      targetProps[token] = [targetProp, themedTokenValue];
     }
 
     // let all page.find calls resolve
