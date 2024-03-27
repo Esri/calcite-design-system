@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
 import {
@@ -686,6 +686,53 @@ describe("calcite-popover", () => {
       focusable(createPopoverHTML(contentHTML, "closable"), {
         shadowFocusTargetSelector: `.${CSS.closeButton}`,
       });
+    });
+  });
+
+  describe("Theme-ing", () => {
+    let page: E2EPage;
+    const customTheme = {
+      "--calcite-popover-background-color": "rgb(255, 0, 0)",
+      "--calcite-popover-border-color": "rgb(0, 255, 0)",
+      "--calcite-popover-close-background-color-active": "rgb(0, 0, 255)",
+      "--calcite-popover-close-background-color-hover": "rgb(255, 255, 0)",
+      "--calcite-popover-close-background-color": "rgb(0, 255, 255)",
+      "--calcite-popover-close-icon-color-active": "rgb(255, 0, 255)",
+      "--calcite-popover-close-icon-color-hover": "rgb(128, 0, 0)",
+      "--calcite-popover-close-icon-color": "rgb(0, 128, 0)",
+      "--calcite-popover-close-text-color-active": "rgb(0, 0, 128)",
+      "--calcite-popover-close-text-color-hover": "rgb(128, 128, 0)",
+      "--calcite-popover-close-text-color": "rgb(0, 128, 128)",
+      "--calcite-popover-corner-radius": "rgb(128, 0, 128)",
+      "--calcite-popover-shadow": "rgb(192, 192, 192)",
+      "--calcite-popover-text-color": "rgb(192, 0, 0)",
+    };
+
+    beforeEach(async () => {
+      page = await newE2EPage({
+        html: `
+          <calcite-popover reference-element="ref" closable open>Content</calcite-popover>
+          <div id="ref"><span>Button</span></div>
+        `,
+      });
+      await page.waitForChanges();
+    });
+
+    it("should allow theme-ing", async () => {
+      const popover = await page.find("calcite-popover");
+      const defaultStyle = await popover.getComputedStyle();
+
+      await popover.setAttribute(
+        "style",
+        `${Object.entries(customTheme)
+          .map(([key, val]) => `${key}: ${val}`)
+          .join("; ")}`,
+      );
+      await page.waitForChanges();
+      const styles = await popover.getComputedStyle();
+      debugger;
+      expect(defaultStyle.backgroundColor).not.toBe(customTheme["--calcite-action-group-background-color"]);
+      expect(styles.backgroundColor).toBe(customTheme["--calcite-action-group-background-color"]);
     });
   });
 });

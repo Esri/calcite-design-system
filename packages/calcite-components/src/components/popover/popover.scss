@@ -11,9 +11,6 @@
 * @prop --calcite-popover-close-icon-color-active: Specifies the component's close icon color when active.
 * @prop --calcite-popover-close-icon-color-hover: Specifies the component's close icon color on hover.
 * @prop --calcite-popover-close-icon-color: Specifies the component's close icon color.
-* @prop --calcite-popover-close-text-color-active: Specifies the text color of an action sub-component when active inside the component.
-* @prop --calcite-popover-close-text-color-hover: Specifies the text color of an action sub-component when hovered or focused inside the component.
-* @prop --calcite-popover-close-text-color: Specifies the text color of an action sub-component inside the component.
 * @prop --calcite-popover-corner-radius: Specifies the corner radius of the component.
 * @prop --calcite-popover-shadow: Specifies the shadow of the component.
 * @prop --calcite-popover-text-color: Specifies the text color of the component.
@@ -117,19 +114,6 @@
   border-end-end-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
 }
 
-.close-button {
-  color: var(--calcite-popover-close-icon-color);
-
-  &:hover,
-  &:focus {
-    color: var(--calcite-popover-close-icon-color-hover);
-  }
-
-  &:active {
-    color: var(--calcite-popover-close-icon-color-active);
-  }
-}
-
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply h-full;
@@ -137,17 +121,17 @@
 
 calcite-action {
   --calcite-action-background-color: var(--calcite-popover-close-background-color);
-  --calcite-action-text-color: var(--calcite-popover-close-text-color);
+  --calcite-action-icon-color: var(--calcite-popover-close-icon-color);
 
   &:hover,
   &:focus {
     --calcite-action-background-color: var(--calcite-popover-close-background-color-hover);
-    --calcite-action-text-color: var(--calcite-popover-close-text-color-hover);
+    --calcite-action-icon-color: var(--calcite-popover-close-icon-color-hover);
   }
 
   &:active {
     --calcite-action-background-color: var(--calcite-popover-close-background-color-active);
-    --calcite-action-text-color: var(--calcite-popover-close-text-color-active);
+    --calcite-action-icon-color: var(--calcite-popover-close-icon-color-active);
   }
 }
 

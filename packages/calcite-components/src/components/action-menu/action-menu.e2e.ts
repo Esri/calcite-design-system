@@ -530,46 +530,62 @@ describe("calcite-action-menu", () => {
   describe("Theme-ing", () => {
     let page: E2EPage;
     const customTheme = {
-      "--calcite-action-menu-group-separator-border-color": "rgb(192, 255, 238)",
+      "--calcite-action-menu-default-trigger-background-color-active": "rgb(255, 0, 0)",
+      "--calcite-action-menu-default-trigger-background-color-focus": "rgb(0, 255, 0)",
+      "--calcite-action-menu-default-trigger-background-color-hover": "rgb(0, 0, 255)",
+      "--calcite-action-menu-default-trigger-background-color": "rgb(255, 255, 0)",
+      "--calcite-action-menu-default-trigger-icon-color-active": "rgb(0, 255, 255)",
+      "--calcite-action-menu-default-trigger-icon-color-focus": "rgb(255, 0, 255)",
+      "--calcite-action-menu-default-trigger-icon-color-hover": "rgb(128, 0, 0)",
+      "--calcite-action-menu-default-trigger-icon-color": "rgb(0, 128, 0)",
+      "--calcite-action-menu-default-trigger-shadow-active": "0 4px 8px 0 rgb(0, 128, 128)",
+      "--calcite-action-menu-default-trigger-shadow-focus": "0 4px 8px 0 rgb(128, 0, 128)",
+      "--calcite-action-menu-default-trigger-shadow-hover": "0 4px 8px 0 rgb(192, 192, 192)",
+      "--calcite-action-menu-default-trigger-shadow": "0 4px 8px 0 rgb(192, 0, 0)",
+      "--calcite-action-menu-default-trigger-text-color-active": "rgb(0, 192, 0)",
+      "--calcite-action-menu-default-trigger-text-color-focus": "rgb(0, 0, 192)",
+      "--calcite-action-menu-default-trigger-text-color-hover": "rgb(192, 192, 0)",
+      "--calcite-action-menu-default-trigger-text-color": "rgb(0, 192, 192)",
+      "--calcite-action-menu-popover-background-color": "rgb(192, 0, 192)",
+      "--calcite-action-menu-popover-border-color": "rgb(128, 128, 128)",
+      "--calcite-action-menu-popover-close-background-color-active": "rgb(128, 64, 64)",
+      "--calcite-action-menu-popover-close-background-color-hover": "rgb(64, 128, 64)",
+      "--calcite-action-menu-popover-close-background-color": "rgb(64, 64, 128)",
+      "--calcite-action-menu-popover-close-icon-color-active": "rgb(128, 64, 128)",
+      "--calcite-action-menu-popover-close-icon-color-hover": "rgb(64, 128, 128)",
+      "--calcite-action-menu-popover-close-icon-color": "rgb(128, 64, 64)",
+      "--calcite-action-menu-popover-corner-radius": "8px",
+      "--calcite-action-menu-popover-shadow": "rgb(128, 64, 64)",
+      "--calcite-action-menu-popover-text-color": "rgb(64, 128, 128)",
     };
 
     beforeEach(async () => {
       page = await newE2EPage({
         html: `
-        <calcite-action-menu open>
-          <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
-          <calcite-action-group>
-            <calcite-action text="Plus" icon="plus" text-enabled></calcite-action
-            ><calcite-action text="Minus" icon="minus" text-enabled></calcite-action>
-          </calcite-action-group>
-          <calcite-action-group>
-            <calcite-action text="Table" icon="table" text-enabled></calcite-action
-          ></calcite-action-group>
-          <calcite-action-group>
-            <calcite-action text="Save" icon="save" text-enabled></calcite-action>
-          </calcite-action-group>
+        <calcite-action-menu open closeable>
+          <span>test</span>
         </calcite-action-menu>
       `,
       });
       await page.waitForChanges();
     });
 
-    it("should allow theme-ing of the border-color", async () => {
+    it("should allow theme-ing", async () => {
       const actionMenu = await page.find("calcite-action-menu");
-      const slottedActionGroup = await page.find("calcite-action-group");
-      const defaultStyle = await slottedActionGroup.getComputedStyle();
+      const actionMenuPopover = await page.find(`calcite-action-menu >>> .container`);
+      const actionMenuFloatingUI = await actionMenuPopover.find("calcite-popover >>> .calcite-floating-ui-anim");
+      const defaultStyle = await actionMenuFloatingUI.getComputedStyle();
 
       await actionMenu.setAttribute(
         "style",
-        `--calcite-action-menu-group-separator-border-color: ${customTheme["--calcite-action-menu-group-separator-border-color"]}`,
+        `${Object.entries(customTheme)
+          .map(([key, val]) => `${key}: ${val}`)
+          .join("; ")}`,
       );
       await page.waitForChanges();
-
-      const styles = await slottedActionGroup.getComputedStyle();
-      expect(defaultStyle.borderBlockEndColor).not.toBe(
-        customTheme["--calcite-action-menu-group-separator-border-color"],
-      );
-      expect(styles.borderBlockEndColor).toBe(customTheme["--calcite-action-menu-group-separator-border-color"]);
+      const styles = await actionMenuFloatingUI.getComputedStyle();
+      expect(defaultStyle.backgroundColor).not.toBe(customTheme["--calcite-action-menu-popover-background-color"]);
+      expect(styles.backgroundColor).toBe(customTheme["--calcite-action-menu-popover-background-color"]);
     });
   });
 });

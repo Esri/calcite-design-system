@@ -10,6 +10,7 @@ import {
   renders,
   slots,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
@@ -502,5 +503,42 @@ describe("calcite-action-bar", () => {
     await page.waitForChanges();
 
     expect(await group.getProperty("layout")).toBe("vertical");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens = {
+        "--calcite-action-bar-trigger-background-color": {
+          selector: "calcite-action-bar",
+          shadowSelector: "calcite-action-group calcite-action >>> .button",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-action-bar-trigger-icon-color": {
+          selector: "calcite-action-bar",
+          shadowSelector: "calcite-action-group calcite-action >>> calcite-icon",
+          targetProp: "color",
+        },
+        "--calcite-action-bar-trigger-shadow": {
+          selector: "calcite-action-bar",
+          shadowSelector: "calcite-action-group calcite-action >>> .button",
+          targetProp: "boxShadow",
+        },
+        "--calcite-action-bar-trigger-text-color": {
+          selector: "calcite-action-bar",
+          shadowSelector: "calcite-action-group calcite-action >>> .button",
+          targetProp: "color",
+        },
+      };
+      themed(`calcite-action-bar`, tokens);
+    });
+    describe("vertical", () => {
+      const tokens = {
+        "--calcite-action-bar-expanded-max-width": {
+          selector: "calcite-action-bar",
+          targetProp: "maxWidth",
+        },
+      };
+      themed(`<calcite-action-bar layout="vertical" expanded></calcite-action-bar>`, tokens);
+    });
   });
 });

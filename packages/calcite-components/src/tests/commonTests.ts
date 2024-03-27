@@ -11,6 +11,8 @@ import { MessageBundle } from "../utils/t9n";
 import {
   GlobalTestProps,
   IntrinsicElementsWithProp,
+  assertThemedProps,
+  assignTestTokenThemeValues,
   isElementFocused,
   newProgrammaticE2EPage,
   skipAnimations,
@@ -1838,4 +1840,85 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
       await testOpenCloseEvents(componentTagOrHTML, page);
     });
   }
+}
+
+/**
+ *
+ * @param componentTagOrHTML -
+ * @param tokens
+ */
+export function themed(
+  componentTagOrHTML: TagOrHTML,
+  tokens: Record<string, { selector: string; shadowSelector?: string; targetProp: string }>,
+): void {
+  it("is theme-able", async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const expectChecklist: Record<
+      string,
+      [E2EElement, Record<string, [E2EElement, Record<string, [string, string]>]>]
+    > = {};
+
+    for (const token in tokens) {
+      const { selector, shadowSelector, targetProp } = tokens[token];
+      const themedTokenValue = assignTestTokenThemeValues(token);
+      if (!expectChecklist[selector]) {
+        const el = await page.find(selector);
+        expectChecklist[selector] = [el, {}];
+      }
+
+      const [el, selectors] = expectChecklist[selector];
+
+      if (!selectors[shadowSelector || selector]) {
+        let target: E2EElement;
+
+        if (shadowSelector && shadowSelector.includes(">>>")) {
+          const shadowSelectors = shadowSelector.split(" ");
+
+          for (let i = 0; i < shadowSelectors.length; i++) {
+            const s = shadowSelectors[i];
+
+            if (i === 0) {
+              target = await page.find(`${selector} >>> ${s}`);
+            } else if (shadowSelectors[i + 1] === ">>>") {
+              target = await target.find(`${s} >>> ${shadowSelectors[i + 2]}`);
+              i += 2;
+            } else {
+              target = await target.find(s);
+            }
+          }
+        } else {
+          target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : el;
+        }
+
+        selectors[shadowSelector || selector] = [target, {}];
+      }
+
+      const [, targetProps] = selectors[shadowSelector || selector];
+      targetProps[token] = [targetProp, themedTokenValue];
+    }
+
+    // let all page.find calls resolve
+    await page.waitForChanges();
+
+    for (const selector in expectChecklist) {
+      const [el, selectors] = expectChecklist[selector];
+      const style = Object.entries(selectors).flatMap(([, targetProps]) =>
+        Object.entries(targetProps[1]).map(([token, [, themedTokenValue]]) => `${token}: ${themedTokenValue}`),
+      );
+      // Sets the style of each element to a string of CSS token props with themed token values
+      el.setAttribute("style", style.join("; "));
+    }
+
+    // let all el.setAttribute calls resolve
+    await page.waitForChanges();
+
+    for (const elSelector in expectChecklist) {
+      const [, selectors] = expectChecklist[elSelector];
+
+      for (const targetSelector in selectors) {
+        const [target, targetProps] = selectors[targetSelector];
+        await assertThemedProps(target, Object.values(targetProps));
+      }
+    }
+  });
 }

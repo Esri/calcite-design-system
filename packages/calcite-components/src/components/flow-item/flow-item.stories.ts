@@ -298,19 +298,22 @@ export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
     >Slotted content!</calcite-flow-item
   >`;
 
-const themeStyles = `
-  --calcite-flow-item-color: blue;
-  --calcite-flow-item-background-color: red;
-`;
+const themeStyles = {
+  "--calcite-flow-item-action-background-color": "rgb(255, 0, 0)",
+  "--calcite-flow-item-action-background-color-hover": "rgb(0, 255, 0)",
+  "--calcite-flow-item-action-background-color-active": "rgb(0, 0, 255)",
+  "--calcite-flow-item-background-color": "rgb(255, 255, 0)",
+  "--calcite-flow-item-border-color": "rgb(0, 255, 255)",
+  "--calcite-flow-item-description-text-color": "rgb(255, 0, 255)",
+  "--calcite-flow-item-fab-z-index": "10",
+  "--calcite-flow-item-footer-background-color": "rgb(128, 0, 0)",
+  "--calcite-flow-item-footer-space": "20px",
+  "--calcite-flow-item-header-background-color": "rgb(0, 128, 0)",
+  "--calcite-flow-item-header-z-index": "20",
+  "--calcite-flow-item-heading-text-color": "rgb(128, 128, 0)",
+};
 
-export const themed_TestOnly = (): string =>
-  html`<calcite-flow-item style="${themeStyles}" heading="Example" collapsible closable description="description">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sapien lectus, ultricies a molestie nec,
-    sollicitudin ac nulla. Pellentesque tincidunt malesuada arcu et placerat. In malesuada neque lectus, at congue est
-    malesuada quis.
-  </calcite-flow-item>`;
-
-export const theming_TestOnly = (): string => html`
+export const themed_TestOnly = (): string => html`
   <style>
     .container {
       max-height: 300px;
@@ -321,34 +324,14 @@ export const theming_TestOnly = (): string => html`
     <calcite-flow-item
       heading="My Flow Item"
       description="My description"
-      style="
-      --calcite-flow-item-background-color: lightblue;
-      --calcite-flow-item-border-color: red;
-      --calcite-flow-item-description-color: purple;
-      --calcite-flow-item-footer-background-color: lightgreen;
-      --calcite-flow-item-footer-space: 24px;
-      --calcite-flow-item-header-background-color: yellow;
-      --calcite-flow-item-header-border-width: 1px;
-      --calcite-flow-item-heading-text-color: orange;
-      --calcite-flow-item-header-z-index: 999;
-      --calcite-flow-item-fab-z-index: 998;
-    "
+      show-back-button
+      style="${Object.entries(themeStyles)
+        .map(([k, v]) => `${k}: ${v}`)
+        .join(";")}"
     >
-      <calcite-list>
-        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
-        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
-        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
-        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
-        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
-        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
-        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
-        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
-        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
-        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
-        <calcite-list-item label="My list item" description="My description"></calcite-list-item>
-      </calcite-list>
-      <calcite-fab slot="fab"></calcite-fab>
-      ${footerHTML}
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sapien lectus, ultricies a molestie nec,
+      sollicitudin ac nulla. Pellentesque tincidunt malesuada arcu et placerat. In malesuada neque lectus, at congue est
+      malesuada quis.
     </calcite-flow-item>
   </div>
 `;
