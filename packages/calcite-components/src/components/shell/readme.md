@@ -1,8 +1,6 @@
 # calcite-shell
 
-The `calcite-shell` component is used for application layout management. It is a container for the view as well as other calcite components like `calcite-shell-panel` and `calcite-tip-manager`.
-
-**Note:** `calcite-shell` supports tablet as the smallest screen size.
+For comprehensive guidance on using and implementing `calcite-shell`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/shell/).
 
 <!-- Auto Generated Below -->
 

@@ -1,5 +1,7 @@
 # calcite-input-time-zone
 
+For comprehensive guidance on using and implementing `calcite-input-time-zone`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/input-time-zone/).
+
 <!-- Auto Generated Below -->
 
 ## Usage
@@ -70,12 +72,13 @@ Type: `Promise<void>`
 graph TD;
   calcite-input-time-zone --> calcite-combobox
   calcite-input-time-zone --> calcite-combobox-item
+  calcite-combobox --> calcite-combobox-item
   calcite-combobox --> calcite-chip
   calcite-combobox --> calcite-icon
   calcite-combobox --> calcite-input-message
+  calcite-combobox-item --> calcite-icon
   calcite-chip --> calcite-icon
   calcite-input-message --> calcite-icon
-  calcite-combobox-item --> calcite-icon
   style calcite-input-time-zone fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

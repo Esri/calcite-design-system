@@ -11,7 +11,7 @@ import {
 } from "@stencil/core";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
-import { focusElement, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { EffectivePlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
@@ -222,7 +222,7 @@ export class ActionMenu implements LoadableComponent {
       menuButtonEl.text = label;
     }
 
-    menuButtonEl.addEventListener("pointerdown", this.menuButtonClick);
+    menuButtonEl.addEventListener("click", this.menuButtonClick);
     menuButtonEl.addEventListener("keydown", this.menuButtonKeyDown);
   };
 
@@ -233,7 +233,7 @@ export class ActionMenu implements LoadableComponent {
       return;
     }
 
-    menuButtonEl.removeEventListener("pointerdown", this.menuButtonClick);
+    menuButtonEl.removeEventListener("click", this.menuButtonClick);
     menuButtonEl.removeEventListener("keydown", this.menuButtonKeyDown);
   };
 
@@ -341,11 +341,7 @@ export class ActionMenu implements LoadableComponent {
     this.setFocus();
   };
 
-  menuButtonClick = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
+  private menuButtonClick = (): void => {
     this.toggleOpen();
   };
 

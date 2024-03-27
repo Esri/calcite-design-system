@@ -1,6 +1,6 @@
 # calcite-value-list
 
-`calcite-value-list` is housed in a panel and contains `calcite-value-list-item`s. The value list has options for drag and drop, label editing, and single or multi-select of items which can be done through shift+click.
+For comprehensive guidance on using and implementing `calcite-value-list`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/value-list/).
 
 <!-- Auto Generated Below -->
 

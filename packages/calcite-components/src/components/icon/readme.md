@@ -1,5 +1,7 @@
 # calcite-icon
 
+For comprehensive guidance on using and implementing `calcite-icon`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/icon/).
+
 <!-- Auto Generated Below -->
 
 ## Usage
@@ -44,6 +46,7 @@ To use a custom color for the icon fill, you can supply your desired color to th
 - [calcite-block](../block)
 - [calcite-block-section](../block-section)
 - [calcite-button](../button)
+- [calcite-card](../card)
 - [calcite-chip](../chip)
 - [calcite-combobox](../combobox)
 - [calcite-combobox-item](../combobox-item)
@@ -90,6 +93,7 @@ graph TD;
   calcite-block --> calcite-icon
   calcite-block-section --> calcite-icon
   calcite-button --> calcite-icon
+  calcite-card --> calcite-icon
   calcite-chip --> calcite-icon
   calcite-combobox --> calcite-icon
   calcite-combobox-item --> calcite-icon
