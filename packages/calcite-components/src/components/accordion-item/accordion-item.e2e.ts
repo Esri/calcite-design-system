@@ -38,7 +38,7 @@ describe("calcite-accordion-item", () => {
       },
       "--calcite-accordion-item-heading-text-color": {
         selector: "calcite-accordion-item",
-        shadowSelector: ".header-content",
+        shadowSelector: ".heading",
         targetProp: "color",
       },
       "--calcite-accordion-item-icon-color": {
@@ -53,6 +53,7 @@ describe("calcite-accordion-item", () => {
       },
       "--calcite-accordion-item-text-color": { selector: "calcite-accordion-item", targetProp: "color" },
     };
+
     themed(
       `<calcite-accordion><calcite-accordion-item description="Accordion Item Description" icon-start="brush-tip" heading="Accordion Title 1" id="2" expanded>Accordion Item Content </calcite-accordion-item></calcite-accordion>`,
       tokens,
