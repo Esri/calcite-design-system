@@ -207,17 +207,8 @@ describe("calcite-action", () => {
   });
 
   describe("theme", () => {
-    themed(
-      `<calcite-action
-        scale="s"
-        indicator
-        active
-        text="click-me"
-        label="hello world"
-        text-enabled
-        icon="configure-popup"
-      ></calcite-action>`,
-      {
+    describe("default", () => {
+      const tokens = {
         "--calcite-action-background-color": {
           selector: "calcite-action",
           shadowSelector: `.${CSS.button}`,
@@ -240,15 +231,12 @@ describe("calcite-action", () => {
         },
         "--calcite-action-indicator-color": {
           selector: "calcite-action",
-          shadowSelector: `.${CSS.indicatorWithoutIcon}`,
+          shadowSelector: `.${CSS.actionIndicator}`,
           targetProp: "color",
         },
-      },
-    );
-  });
-  describe("loading theme", () => {
-    themed(
-      `<calcite-action
+      };
+      themed(
+        `<calcite-action
           scale="s"
           indicator
           active
@@ -256,15 +244,32 @@ describe("calcite-action", () => {
           label="hello world"
           text-enabled
           icon="configure-popup"
-          loading
         ></calcite-action>`,
-      {
+        tokens,
+      );
+    });
+    describe("loading", () => {
+      const tokens = {
         "--calcite-action-loader-color": {
           selector: "calcite-action",
           shadowSelector: "calcite-loader",
           targetProp: "color",
         },
-      },
-    );
+      };
+
+      themed(
+        `<calcite-action
+            scale="s"
+            indicator
+            active
+            text="click-me"
+            label="hello world"
+            text-enabled
+            icon="configure-popup"
+            loading
+          ></calcite-action>`,
+        tokens,
+      );
+    });
   });
 });

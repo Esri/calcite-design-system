@@ -83,6 +83,10 @@
 
 .action-indicator {
   position: relative;
+  color: var(--calcite-action-indicator-color, var(--calcite-color-brand));
+  block-size: var(--calcite-internal-action-line-height);
+  inline-size: var(--calcite-internal-action-line-height);
+
   &::after {
     position: absolute;
     block-size: 0.5rem /* 8px */;
@@ -91,7 +95,7 @@
     @apply rounded-full;
     inset-block-end: -0.275rem;
     inset-inline-end: -0.275rem;
-    background-color: var(--calcite-action-indicator-color, var(--calcite-color-brand));
+    background-color: currentColor;
   }
 }
 
@@ -103,7 +107,7 @@ calcite-icon {
 }
 
 calcite-loader {
-  --calcite-loader-color-start: var(--calcite-action-loader-color, var(--calcite-color-text-3));
+  color: var(--calcite-action-loader-color, var(--calcite-color-text-3));
   margin-inline-end: theme("spacing.0");
 }
 
