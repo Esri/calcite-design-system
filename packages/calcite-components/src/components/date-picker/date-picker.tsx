@@ -568,7 +568,10 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     this.userChangeRangeValue = true;
     this.value = [dateToISO(startDate), dateToISO(date)];
     this.valueAsDate = [startDate, date];
-    this.calciteDatePickerRangeChange.emit();
+    // avoid emitting change event when user select stat date beyond end date
+    if (!!date) {
+      this.calciteDatePickerRangeChange.emit();
+    }
   }
 
   private getStartDate(): Date {

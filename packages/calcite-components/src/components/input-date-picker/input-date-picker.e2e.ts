@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-focused-tests */
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import {
   accessible,
@@ -1314,7 +1313,7 @@ describe("calcite-input-date-picker", () => {
     expect(await calendar.isVisible()).toBe(true);
   });
 
-  it.only("should set the endDate to empty and open the calendar when startDate is updated to date beyond initial endDate", async () => {
+  it("should set the endDate to empty and open the calendar when startDate is updated to date beyond initial endDate", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
     await skipAnimations(page);
@@ -1323,7 +1322,7 @@ describe("calcite-input-date-picker", () => {
     const inputDatePickerEl = await page.find("calcite-input-date-picker");
     const startDatePicker = await page.find("calcite-input-date-picker >>> calcite-input-text");
 
-    inputDatePickerEl.setProperty("value", ["2024-05-25", "2024-06-25"]);
+    inputDatePickerEl.setProperty("value", ["2024-05-25", "2024-06-20"]);
     let calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
     expect(await calendar.isVisible()).toBe(false);
 
@@ -1338,6 +1337,6 @@ describe("calcite-input-date-picker", () => {
     expect(await calendar.isVisible()).toBe(true);
 
     const value = await inputDatePickerEl.getProperty("value");
-    expect(value[1]).not.toEqual("2024-06-25");
+    expect(value).toEqual(["2024-06-29", ""]);
   });
 });
