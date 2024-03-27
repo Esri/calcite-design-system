@@ -665,8 +665,9 @@ export class InputTimePicker
     }
 
     if (key === "Enter") {
+      event.preventDefault();
+
       if (submitForm(this)) {
-        event.preventDefault();
         this.calciteInputEl.setFocus();
       }
 
