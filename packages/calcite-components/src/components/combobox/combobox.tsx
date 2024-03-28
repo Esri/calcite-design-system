@@ -463,6 +463,7 @@ export class Combobox
     afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
     setComponentLoaded(this);
+    this.setTooltipText();
   }
 
   componentDidRender(): void {
@@ -531,6 +532,9 @@ export class Combobox
 
   @State() text = "";
 
+  /** keeps track of the tooltipText */
+  @State() tooltipText: string;
+
   /** when search text is cleared, reset active to  */
   @Watch("text")
   textHandler(): void {
@@ -555,7 +559,11 @@ export class Combobox
   private resizeObserver = createObserver("resize", () => {
     this.setMaxScrollerHeight();
     this.refreshSelectionDisplay();
+    this.setTooltipText();
   });
+
+  /** keep track of the rendered textLabelEl */
+  private textLabelEl: HTMLSpanElement;
 
   private guid = guid();
 
@@ -762,6 +770,22 @@ export class Combobox
   private toggleOpenEnd = (): void => {
     this.open = false;
     this.el.removeEventListener("calciteComboboxOpen", this.toggleOpenEnd);
+  };
+
+  private setTooltipText = (): void => {
+    const { textLabelEl } = this;
+    if (textLabelEl) {
+      this.tooltipText =
+        textLabelEl.offsetWidth < textLabelEl.scrollWidth ? this.el.innerText : null;
+    }
+  };
+
+  private setTextInputWrapEl = (el: HTMLInputElement): void => {
+    this.textInput = el;
+
+    if (el) {
+      this.resizeObserver?.observe(el);
+    }
   };
 
   onBeforeOpen(): void {
@@ -1538,6 +1562,9 @@ export class Combobox
           "input-wrap": true,
           "input-wrap--single": single,
         }}
+        title={this.tooltipText}
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={this.setTextInputWrapEl}
       >
         {showLabel && (
           <span
@@ -1546,6 +1573,7 @@ export class Combobox
               "label--icon": !!selectedItem?.icon,
             }}
             key="label"
+            ref={(el) => (this.textLabelEl = el)}
           >
             {selectedItem.textLabel}
           </span>
@@ -1569,8 +1597,6 @@ export class Combobox
           onInput={this.inputHandler}
           placeholder={placeholder}
           type="text"
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.textInput = el as HTMLInputElement)}
         />
       </span>
     );
