@@ -41,14 +41,14 @@ describe("calcite-carousel", () => {
       await page.setContent(
         `<calcite-carousel>
           <calcite-carousel-item id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item id="two" active><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
           <calcite-carousel-item id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
       await page.waitForChanges();
       const itemManager = await page.find("calcite-carousel");
-      const selectedItem = await itemManager.find(`calcite-carousel-item[active]`);
+      const selectedItem = await itemManager.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("two");
     });
   });
@@ -65,21 +65,21 @@ describe("calcite-carousel", () => {
       await page.waitForChanges();
 
       const itemManager = await page.find("calcite-carousel");
-      let selectedItem = await itemManager.find(`calcite-carousel-item[active]`);
+      let selectedItem = await itemManager.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("one");
 
       const nextButton = await page.find(`calcite-carousel >>> .${CSS.pageNext}`);
       await nextButton.click();
       await page.waitForChanges();
 
-      selectedItem = await itemManager.find(`calcite-carousel-item[active]`);
+      selectedItem = await itemManager.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("two");
 
       const previousButton = await page.find(`calcite-carousel >>> .${CSS.pagePrevious}`);
       await previousButton.click();
       await page.waitForChanges();
 
-      selectedItem = await itemManager.find(`calcite-carousel-item[active]`);
+      selectedItem = await itemManager.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("one");
     });
 
@@ -117,11 +117,11 @@ describe("calcite-carousel", () => {
       await nextButton.click();
       await page.waitForChanges();
 
-      const selectedItem = await itemManager.find(`calcite-carousel-item[active]`);
+      const selectedItem = await itemManager.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual(newItemId);
     });
 
-    it("should update visible item if active item is removed", async () => {
+    it("should update visible item if selected item is removed", async () => {
       const page = await newE2EPage();
       await page.setContent(
         `<calcite-carousel>
@@ -136,7 +136,7 @@ describe("calcite-carousel", () => {
       });
       await page.waitForChanges();
 
-      const selectedItem = await itemManager.find(`calcite-carousel-item[active]`);
+      const selectedItem = await itemManager.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("two");
     });
   });

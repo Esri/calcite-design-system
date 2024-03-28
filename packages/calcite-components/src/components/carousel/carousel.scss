@@ -32,7 +32,6 @@
     flex-auto;
   animation-name: none;
   animation-duration: var(--calcite-animation-timing);
-  gap: 1rem;
   &:focus {
     @apply focus-inset;
   }
