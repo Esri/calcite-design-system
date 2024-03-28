@@ -13,7 +13,6 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
-import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
 const animationDurationInMs = 200;
 
@@ -74,48 +73,49 @@ describe("calcite-input-date-picker", () => {
 
   it.skip("supports t9n", () => t9n("calcite-input-date-picker"));
 
-  async function navigateMonth(page: E2EPage, direction: "previous" | "next"): Promise<void> {
-    const linkIndex = direction === "previous" ? 0 : 1;
-
-    await page.evaluate(
-      async (MONTH_HEADER_CSS, linkIndex: number): Promise<void> =>
-        document
-          .querySelector("calcite-input-date-picker")
-          .shadowRoot.querySelector("calcite-date-picker")
-          .shadowRoot.querySelector("calcite-date-picker-month-header")
-          .shadowRoot.querySelectorAll<HTMLAnchorElement>(`.${MONTH_HEADER_CSS.chevron}`)
-          [linkIndex].click(),
-      MONTH_HEADER_CSS,
-      linkIndex,
+  async function navigateMonth(page: E2EPage, direction: "previous" | "next", range = false): Promise<void> {
+    const datePicker = await page.find("calcite-input-date-picker >>> .menu-container");
+    const datePickerContainer = await datePicker.find("calcite-date-picker >>> .container");
+    const datePickerMonth = await datePickerContainer.find("calcite-date-picker-month >>> .month-header");
+    const [datePickerMonthHeaderStart, datePickerMonthHeaderEnd] = await datePickerMonth.findAll(
+      "calcite-date-picker-month-header >>> .header ",
     );
+
+    let prevMonth: E2EElement;
+    let nextMonth: E2EElement;
+    if (range) {
+      prevMonth = await datePickerMonthHeaderStart.find("a");
+      nextMonth = await datePickerMonthHeaderEnd.find("a");
+    } else {
+      [prevMonth, nextMonth] = await datePickerMonthHeaderStart.findAll("a");
+    }
+
+    await (direction === "previous" ? prevMonth.click() : nextMonth.click());
     await page.waitForChanges();
   }
 
   async function selectDayInMonth(page: E2EPage, day: number): Promise<void> {
     const dayIndex = day - 1;
 
-    await page.evaluate(
-      async (dayIndex: number) =>
-        document
-          .querySelector<HTMLCalciteInputDatePickerElement>("calcite-input-date-picker")
-          .shadowRoot.querySelector<HTMLCalciteDatePickerElement>("calcite-date-picker")
-          .shadowRoot.querySelector<HTMLCalciteDatePickerMonthElement>("calcite-date-picker-month")
-          .shadowRoot.querySelectorAll<HTMLCalciteDatePickerDayElement>("calcite-date-picker-day[current-month]")
-          [dayIndex].click(),
-      dayIndex,
-    );
+    const datePicker = await page.find("calcite-input-date-picker >>> .menu-container");
+    const datePickerContainer = await datePicker.find("calcite-date-picker >>> .container");
+    const datePickerMonth = await datePickerContainer.find("calcite-date-picker-month >>> .calendar");
+    const days = await datePickerMonth.findAll("calcite-date-picker-day[current-month]");
+
+    await days[dayIndex].click();
     await page.waitForChanges();
   }
 
   async function getActiveMonth(page: E2EPage): Promise<string> {
     return page.evaluate(
-      async (MONTH_HEADER_CSS) =>
+      async () =>
         document
           .querySelector("calcite-input-date-picker")
           .shadowRoot.querySelector("calcite-date-picker")
+          .shadowRoot.querySelector("calcite-date-picker-month")
           .shadowRoot.querySelector("calcite-date-picker-month-header")
-          .shadowRoot.querySelector(`.${MONTH_HEADER_CSS.month}`).textContent,
-      MONTH_HEADER_CSS,
+          .shadowRoot.querySelector("calcite-select")
+          .querySelector("calcite-option[selected]").textContent,
     );
   }
 
@@ -210,7 +210,8 @@ describe("calcite-input-date-picker", () => {
     it("emits when value is committed for date range", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-input-date-picker range></calcite-input-date-picker>");
-      const input = await page.find("calcite-input-date-picker");
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
 
       await input.click();
@@ -236,14 +237,15 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      expect(await input.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
+      expect(await inputDatePicker.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
       expect(changeEvent).toHaveReceivedEventTimes(1);
+      expect(await wrapper.isIntersectingViewport()).toBe(true);
 
       await page.keyboard.type(inputtedEndDate);
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      expect(await input.getProperty("value")).toEqual([
+      expect(await inputDatePicker.getProperty("value")).toEqual([
         expectedStartDateComponentValue,
         expectedEndDateComponentValue,
       ]);
@@ -262,7 +264,7 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      expect(await input.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
+      expect(await inputDatePicker.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
       expect(changeEvent).toHaveReceivedEventTimes(3);
     });
 
@@ -412,9 +414,6 @@ describe("calcite-input-date-picker", () => {
         const startInput = await page.find(
           `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="start"] calcite-input-text`,
         );
-        const startInputToggle = await page.find(
-          `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="start"] .${CSS.toggleIcon}`,
-        );
 
         const endInput = await page.find(
           `calcite-input-date-picker >>> .${CSS.inputWrapper}[data-position="end"] calcite-input-text`,
@@ -432,19 +431,6 @@ describe("calcite-input-date-picker", () => {
         expect(await isCalendarVisible(calendar, "start")).toBe(true);
 
         await startInput.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(false);
-
-        // toggling via start date toggle icon
-
-        await resetFocus(page);
-        await startInputToggle.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
-
-        await startInputToggle.click();
         await page.waitForChanges();
 
         expect(await isCalendarVisible(calendar, "start")).toBe(false);
@@ -474,32 +460,6 @@ describe("calcite-input-date-picker", () => {
         await page.waitForChanges();
 
         expect(await isCalendarVisible(calendar, "end")).toBe(false);
-
-        // toggling via start date input and toggle icon
-
-        await resetFocus(page);
-        await startInput.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
-
-        await startInputToggle.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(false);
-
-        // toggling via start toggle icon and date input
-
-        await resetFocus(page);
-        await startInputToggle.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
-
-        await startInput.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(false);
 
         // toggling via end date input and toggle icon
 
@@ -540,35 +500,9 @@ describe("calcite-input-date-picker", () => {
 
         expect(await isCalendarVisible(calendar, "end")).toBe(true);
 
-        // toggling via start toggle icon and date input
-
-        await resetFocus(page);
-        await startInputToggle.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
-
-        await endInput.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(true);
-
         // close
         await endInput.click();
         await page.waitForChanges();
-
-        // toggling via end date input and start toggle icon
-
-        await resetFocus(page);
-        await endInput.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "end")).toBe(true);
-
-        await startInputToggle.click();
-        await page.waitForChanges();
-
-        expect(await isCalendarVisible(calendar, "start")).toBe(true);
 
         // toggling via end toggle icon and start date input
 
@@ -1062,30 +996,39 @@ describe("calcite-input-date-picker", () => {
     await page.waitForChanges();
 
     const [startDatePicker, endDatePicker] = await page.findAll("calcite-input-date-picker >>> calcite-input-text");
+    let calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(false);
 
     await startDatePicker.click();
     await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
 
     await navigateMonth(page, "previous");
     await selectDayInMonth(page, 1);
+    expect(await calendar.isVisible()).toBe(true);
 
-    await endDatePicker.click();
-    await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
 
     await navigateMonth(page, "previous");
     await selectDayInMonth(page, 31);
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(false);
 
     inputDatePicker.setProperty("value", ["2022-10-01", "2022-10-31"]);
     await page.waitForChanges();
 
     await startDatePicker.click();
     await page.waitForChanges();
-
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
     expect(await getActiveMonth(page)).toBe("October");
 
     await endDatePicker.click();
     await page.waitForChanges();
-
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
     expect(await getActiveMonth(page)).toBe("October");
   });
 
@@ -1125,14 +1068,24 @@ describe("calcite-input-date-picker", () => {
     it("should normalize year to current century when user types the value in range", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-input-date-picker normalize-year  range></calcite-input-date-picker>");
+      const inputEl = await page.find("calcite-input-date-picker >>> calcite-input-text");
       const element = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
 
-      await element.click();
+      let calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(false);
+
+      await inputEl.click();
       await page.waitForChanges();
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
+
       await page.keyboard.type("1/1/20");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
+
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
 
       expect(await element.getProperty("value")).toEqual(["2020-01-01", ""]);
       expect(changeEvent).toHaveReceivedEventTimes(1);
@@ -1141,8 +1094,243 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
+
       expect(await element.getProperty("value")).toEqual(["2020-01-01", "2020-02-02"]);
       expect(changeEvent).toHaveReceivedEventTimes(2);
     });
+  });
+
+  describe("date-picker visibility in range", () => {
+    async function isCalendarVisible(page: E2EPage): Promise<boolean> {
+      const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      return await calendar.isVisible();
+    }
+
+    it("should keep date-picker open when user selects dates in range calendar", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
+      await skipAnimations(page);
+      await page.waitForChanges();
+
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const startDatePicker = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      expect(await isCalendarVisible(page)).toBe(false);
+
+      await startDatePicker.click();
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(true);
+
+      await selectDayInMonth(page, 1);
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(true);
+
+      await selectDayInMonth(page, 32);
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(false);
+      expect(await inputDatePicker.getProperty("value")).not.toBeNull();
+    });
+
+    it("should keep date-picker open when user select startDate from end calendar", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
+      await skipAnimations(page);
+      await page.waitForChanges();
+
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const startDatePicker = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      expect(await isCalendarVisible(page)).toBe(false);
+
+      await startDatePicker.click();
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(true);
+
+      await selectDayInMonth(page, 35);
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(true);
+
+      await selectDayInMonth(page, 52);
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(false);
+      expect(await inputDatePicker.getProperty("value")).not.toBeNull();
+    });
+
+    it("should keep date-picker open when user select startDate from start calendar", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
+      await skipAnimations(page);
+      await page.waitForChanges();
+
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const startDatePicker = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      expect(await isCalendarVisible(page)).toBe(false);
+
+      await startDatePicker.click();
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(true);
+
+      await selectDayInMonth(page, 5);
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(true);
+
+      await selectDayInMonth(page, 22);
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(false);
+      expect(await inputDatePicker.getProperty("value")).not.toBeNull();
+    });
+
+    it("should keep date-picker open when user is modifying the dates after initial selection", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
+      await skipAnimations(page);
+      await page.waitForChanges();
+
+      const startDatePicker = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      expect(await isCalendarVisible(page)).toBe(false);
+
+      await startDatePicker.click();
+      await page.waitForChanges();
+
+      await selectDayInMonth(page, 1);
+      await page.waitForChanges();
+
+      await selectDayInMonth(page, 32);
+      await page.waitForChanges();
+
+      await startDatePicker.click();
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(true);
+
+      await navigateMonth(page, "previous", true);
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(true);
+
+      await navigateMonth(page, "previous", true);
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(true);
+
+      await selectDayInMonth(page, 1);
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(true);
+
+      await navigateMonth(page, "next", true);
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(true);
+
+      await selectDayInMonth(page, 32);
+      await page.waitForChanges();
+      expect(await isCalendarVisible(page)).toBe(false);
+    });
+  });
+
+  it("should be able to navigate to previous months in startDate and update endDate by switching the focus with mouse", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
+    await skipAnimations(page);
+    await page.waitForChanges();
+
+    const inputDatePickerEl = await page.find("calcite-input-date-picker");
+    const [startDatePicker, endDatePicker] = await page.findAll("calcite-input-date-picker >>> calcite-input-text");
+
+    inputDatePickerEl.setProperty("value", ["2024-05-25", "2024-06-25"]);
+    let calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(false);
+
+    await startDatePicker.click();
+    await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
+
+    await navigateMonth(page, "previous", true);
+    await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
+
+    await navigateMonth(page, "previous", true);
+    await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
+
+    await navigateMonth(page, "previous", true);
+    await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
+
+    await endDatePicker.click();
+    await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
+
+    await selectDayInMonth(page, 40);
+    await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(false);
+
+    const value = await inputDatePickerEl.getProperty("value");
+    expect(value[1]).not.toEqual("2024-06-25");
+  });
+
+  it("should be able to navigate months when valueAsDate is parsed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
+    await skipAnimations(page);
+    await page.waitForChanges();
+
+    const startDatePicker = await page.find("calcite-input-date-picker >>> calcite-input-text");
+
+    await page.$eval("calcite-input-date-picker", (element: any) => {
+      element.valueAsDate = [new Date("2024-05-25"), new Date("2024-06-25")];
+    });
+
+    let calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(false);
+
+    await startDatePicker.click();
+    await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
+
+    await navigateMonth(page, "previous", true);
+    await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
+
+    await navigateMonth(page, "previous", true);
+    await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
+
+    await navigateMonth(page, "next", true);
+    await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
+  });
+
+  it("should set the endDate to empty and open the calendar when startDate is updated to date beyond initial endDate", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
+    await skipAnimations(page);
+    await page.waitForChanges();
+
+    const inputDatePickerEl = await page.find("calcite-input-date-picker");
+    const startDatePicker = await page.find("calcite-input-date-picker >>> calcite-input-text");
+
+    inputDatePickerEl.setProperty("value", ["2024-05-25", "2024-06-20"]);
+    let calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(false);
+
+    await startDatePicker.click();
+    await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
+
+    await selectDayInMonth(page, 60);
+    await page.waitForChanges();
+    calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+    expect(await calendar.isVisible()).toBe(true);
+
+    const value = await inputDatePickerEl.getProperty("value");
+    expect(value).toEqual(["2024-06-29", ""]);
   });
 });

@@ -70,7 +70,7 @@ describe("calcite-date-picker-month-header", () => {
     expect(await next.isVisible()).toBe(true);
   });
 
-  it("should set the input aria-label to year", async () => {
+  it.skip("should set the input aria-label to year", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
 

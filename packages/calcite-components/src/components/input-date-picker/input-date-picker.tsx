@@ -255,6 +255,8 @@ export class InputDatePicker
     }
   }
 
+  @Prop() monthAbbreviations: boolean = false;
+
   /** When `true`, displays the `calcite-date-picker` component. */
   @Prop({ mutable: true, reflect: true }) open = false;
 
@@ -340,11 +342,17 @@ export class InputDatePicker
 
   @Listen("calciteDaySelect")
   calciteDaySelectHandler(): void {
-    if (this.shouldFocusRangeStart() || this.shouldFocusRangeEnd()) {
+    if (
+      this.shouldFocusRangeStart() ||
+      // this.shouldFocusRangeEnd() ||
+      this.rangeStartValueChangedByUser
+    ) {
       return;
     }
 
     this.open = false;
+    const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
+    focusedInput.setFocus();
   }
 
   private calciteInternalInputInputHandler = (event: CustomEvent<any>): void => {
@@ -559,6 +567,7 @@ export class InputDatePicker
                   ref={this.setStartInput}
                 />
                 {!this.readOnly &&
+                  !this.range &&
                   this.renderToggleIcon(this.open && this.focusedInput === "start")}
                 <span aria-hidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
                   Date Format: {this.localeData?.placeholder}
@@ -597,6 +606,7 @@ export class InputDatePicker
                     messageOverrides={this.messageOverrides}
                     min={this.min}
                     minAsDate={this.minAsDate}
+                    monthAbbreviations={this.monthAbbreviations}
                     numberingSystem={numberingSystem}
                     onCalciteDatePickerChange={this.handleDateChange}
                     onCalciteDatePickerRangeChange={this.handleDateRangeChange}
@@ -611,15 +621,6 @@ export class InputDatePicker
                 </div>
               </div>
 
-              {this.range && this.layout === "horizontal" && (
-                <div class={CSS.horizontalArrowContainer}>
-                  <calcite-icon
-                    flipRtl={true}
-                    icon="arrow-right"
-                    scale={getIconScale(this.scale)}
-                  />
-                </div>
-              )}
               {this.range && this.layout === "vertical" && this.scale !== "s" && (
                 <div class={CSS.verticalArrowContainer}>
                   <calcite-icon icon="arrow-down" scale={getIconScale(this.scale)} />
@@ -656,8 +657,7 @@ export class InputDatePicker
                     // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                     ref={this.setEndInput}
                   />
-                  {!this.readOnly &&
-                    this.renderToggleIcon(this.open && this.focusedInput === "end")}
+                  {!this.readOnly && this.renderToggleIcon(this.open)}
                 </div>
               )}
             </div>
@@ -738,12 +738,15 @@ export class InputDatePicker
 
   private userChangedValue = false;
 
+  rangeStartValueChangedByUser = false;
+
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
 
   @Watch("layout")
-  @Watch("focusedInput")
+  // no need for re-opening of the date-picker. closes only on espace or value/end-value selection in range.
+  // @Watch("focusedInput")
   setReferenceEl(): void {
     const { focusedInput, layout, endWrapper, startWrapper } = this;
 
@@ -825,7 +828,8 @@ export class InputDatePicker
   onClose(): void {
     this.calciteInputDatePickerClose.emit();
     deactivateFocusTrap(this);
-    this.restoreInputFocus();
+    //should we restore the focus when user clicks outside?
+    //this.restoreInputFocus();
     this.focusOnOpen = false;
     this.datePickerEl.reset();
   }
@@ -903,7 +907,7 @@ export class InputDatePicker
 
       if (submitForm(this)) {
         event.preventDefault();
-        this.restoreInputFocus();
+        this.restoreInputFocus(true);
       }
     } else if (key === "ArrowDown") {
       this.open = true;
@@ -912,7 +916,7 @@ export class InputDatePicker
     } else if (key === "Escape") {
       this.open = false;
       event.preventDefault();
-      this.restoreInputFocus();
+      this.restoreInputFocus(true);
     }
   };
 
@@ -987,6 +991,8 @@ export class InputDatePicker
     return !!(endValue && !startValue && this.focusedInput === "end" && this.startInput);
   }
 
+  //update these logics to allow focus restoration during editing
+  // these values might always be false considering focusInput is changed in restoreInputFocus method.
   private shouldFocusRangeEnd(): boolean {
     const startValue = this.value[0];
     const endValue = this.value[1];
@@ -1007,14 +1013,28 @@ export class InputDatePicker
     this.restoreInputFocus();
   };
 
-  private restoreInputFocus(): void {
+  private restoreInputFocus(restore = false): void {
     if (!this.range) {
       this.startInput.setFocus();
       return;
     }
 
-    const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
-    focusedInput.setFocus();
+    //avoid closing of date-picker while editing
+    this.rangeStartValueChangedByUser = !restore && this.focusedInput === "start";
+
+    this.focusedInput = restore && this.focusedInput === "start" ? "start" : "end";
+
+    if (restore) {
+      //restore focus on to the input  that was focused before opening the date-picker on Escape key or form submission.
+      const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
+      focusedInput.setFocus();
+    }
+
+    // const focusedInput = restore && this.focusedInput === "start" ? this.startInput : this.endInput;
+    // focusedInput.setFocus();
+
+    //avoids delay in updating focusedInput value while the `blur` handler in `date-picker` causing update in activeDate's.
+    // this.focusedInput = restore && this.focusedInput === "start" ? "start" : "end";
   }
 
   private localizeInputValues(): void {
@@ -1085,7 +1105,6 @@ export class InputDatePicker
     this.userChangedValue = true;
     this.value = newValue;
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
-
     const changeEvent = this.calciteInputDatePickerChange.emit();
 
     if (changeEvent && changeEvent.defaultPrevented) {

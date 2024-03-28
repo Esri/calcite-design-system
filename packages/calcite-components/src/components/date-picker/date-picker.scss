@@ -7,7 +7,11 @@
     inline-block
     overflow-visible
     rounded-none
-    w-auto;
+    w-full;
+}
+
+.month-header {
+  @apply flex w-full justify-between;
 }
 
 :host([scale="s"]) {
@@ -16,16 +20,39 @@
   max-inline-size: 380px;
 }
 
+:host([scale="s"][range]) {
+  inline-size: 480px;
+  min-inline-size: 432px;
+  max-inline-size: 772px;
+}
+
 :host([scale="m"]) {
   inline-size: 304px;
   min-inline-size: 272px;
   max-inline-size: 480px;
 }
 
+:host([scale="m"][range]) {
+  inline-size: 620px;
+  min-inline-size: 544px;
+  max-inline-size: 972px;
+}
+
 :host([scale="l"]) {
   inline-size: 370px;
   min-inline-size: 320px;
   max-inline-size: 600px;
+}
+
+:host([scale="l"][range]) {
+  inline-size: 752px;
+  min-inline-size: 640px;
+  max-inline-size: 1212px;
+}
+
+.container {
+  display: flex;
+  inline-size: 100%;
 }
 
 @include base-component();

@@ -71,7 +71,20 @@
 }
 
 .select {
-  @apply bg-foreground-1 border-color-input text-color-2 font-inherit focus-base m-0 box-border w-full cursor-pointer appearance-none truncate rounded-none border border-solid;
+  @apply bg-foreground-1
+    border-color-input
+    text-color-2
+    font-inherit
+    focus-base
+    m-0
+    box-border
+    w-full
+    cursor-pointer
+    appearance-none
+    truncate
+    rounded-none
+    border-solid;
+  border-width: var(--calcite-select-internal-border-width, 1px);
   font-size: var(--calcite-select-font-size);
   padding-inline: var(--calcite-select-spacing-inline);
   border-inline-end-width: theme("borderWidth.0");
@@ -93,7 +106,8 @@ select:disabled {
 .icon-container {
   @apply border-color-input text-color-2 pointer-events-none absolute inset-y-0 flex items-center border-0 border-solid bg-transparent;
   inset-inline-end: theme("inset.0");
-  border-inline-width: theme("borderWidth.0") theme("borderWidth.DEFAULT");
+  border-inline-width: theme("borderWidth.0")
+    var(--calcite-select-internal-icon-border-inline-end-width, theme("borderWidth.DEFAULT"));
 }
 
 :host([status="invalid"]) {
