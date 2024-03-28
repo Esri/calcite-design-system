@@ -17,7 +17,6 @@ export const simple = (): string =>
   html` <div style="width:600px;height:400px;">
     <calcite-carousel
       ${boolean("control-overlay", false)}
-      ${boolean("tooltips-disabled", false)}
       ${boolean("disabled", false)}
       ${text("label", "Example carousel label")}
       arrow-type="${select("arrow-type", ["inline", "edges", "none"], "inline")}"

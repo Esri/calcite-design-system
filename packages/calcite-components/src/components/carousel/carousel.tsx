@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
   Host,
   Prop,
@@ -12,7 +11,6 @@ import {
   Watch,
 } from "@stencil/core";
 import { getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
-import { guid } from "../../utils/guid";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -74,11 +72,6 @@ export class Carousel
    * The component label text
    */
   @Prop() label!: string;
-
-  /**
-   * When `true`, tooltips are not displayed on the carousel item controls.
-   */
-  @Prop({ reflect: true }) tooltipsDisabled = false;
 
   /**
    * Made into a prop for testing purposes only
@@ -144,7 +137,7 @@ export class Carousel
 
   @Element() el: HTMLCalciteCarouselElement;
 
-  @State() activeIndex: number;
+  @State() selectedIndex: number;
 
   @State() items: HTMLCalciteCarouselItemElement[];
 
@@ -183,20 +176,20 @@ export class Carousel
       return;
     }
 
-    const activeItemIndex = items?.findIndex((item) => item.active);
-    const requestedActiveIndex = activeItemIndex > -1 ? activeItemIndex : 0;
+    const activeItemIndex = items?.findIndex((item) => item.selected);
+    const requestedSelectedIndex = activeItemIndex > -1 ? activeItemIndex : 0;
 
     this.items = items;
-    this.setSelectedItem(false, requestedActiveIndex);
+    this.setSelectedItem(false, requestedSelectedIndex);
   };
 
   private setSelectedItem = (emit: boolean, requestedIndex: number): void => {
     this.items?.forEach((el, index) => {
       const isMatch = requestedIndex === index;
-      el.active = isMatch;
+      el.selected = isMatch;
       if (isMatch) {
         this.selectedItem = el;
-        this.activeIndex = index;
+        this.selectedIndex = index;
       }
     });
 
@@ -207,13 +200,14 @@ export class Carousel
 
   private nextItem = (): void => {
     this.direction = "advancing";
-    const nextIndex = this.activeIndex === this.items?.length - 1 ? 0 : this.activeIndex + 1;
+    const nextIndex = this.selectedIndex === this.items?.length - 1 ? 0 : this.selectedIndex + 1;
     this.setSelectedItem(true, nextIndex);
   };
 
   private previousItem = (): void => {
     this.direction = "retreating";
-    const previousIndex = this.activeIndex === 0 ? this.items?.length - 1 : this.activeIndex - 1;
+    const previousIndex =
+      this.selectedIndex === 0 ? this.items?.length - 1 : this.selectedIndex - 1;
     this.setSelectedItem(true, previousIndex);
   };
 
@@ -252,8 +246,7 @@ export class Carousel
   //
   // --------------------------------------------------------------------------
   renderPagination(): VNode {
-    const { activeIndex } = this;
-    const itemGuid = guid();
+    const { selectedIndex } = this;
 
     return (
       <div
@@ -264,23 +257,19 @@ export class Carousel
       >
         {this.arrowType === "inline" && this.renderPreviousArrow()}
         {this.items?.map((item, index) => (
-          <Fragment>
-            <calcite-action
-              appearance={this.controlOverlay ? "solid" : "transparent"}
-              class={`pagination-item${index === activeIndex ? " active-icon" : ""}`}
-              icon={index === activeIndex ? ICONS.active : ICONS.inactive}
-              id={`${itemGuid}-${index}`}
-              label={item.label}
-              onClick={() => this.setSelectedItem(true, index)}
-              scale="s"
-              text={item.label}
-            />
-            {!this.tooltipsDisabled && (
-              <calcite-tooltip placement="bottom" reference-element={`${itemGuid}-${index}`}>
-                {item.label}
-              </calcite-tooltip>
-            )}
-          </Fragment>
+          <calcite-action
+            appearance={this.controlOverlay ? "solid" : "transparent"}
+            class={{
+              [CSS.paginationItem]: true,
+              [CSS.paginationItemSelected]: index === selectedIndex,
+            }}
+            icon={index === selectedIndex ? ICONS.active : ICONS.inactive}
+            label={item.label}
+            onClick={() => this.setSelectedItem(true, index)}
+            scale="s"
+            text={item.label}
+            title={item.label}
+          />
         ))}
         {this.arrowType === "inline" && this.renderNextArrow()}
       </div>
@@ -316,7 +305,7 @@ export class Carousel
   }
 
   render(): VNode {
-    const { direction, activeIndex } = this;
+    const { direction, selectedIndex } = this;
     return (
       <Host>
         <InteractiveContainer disabled={this.disabled}>
@@ -338,7 +327,7 @@ export class Carousel
                 [CSS.itemContainerAdvancing]: direction === "advancing",
                 [CSS.itemContainerRetreating]: direction === "retreating",
               }}
-              key={activeIndex}
+              key={selectedIndex}
             >
               <slot onSlotchange={this.updateItems} />
             </div>

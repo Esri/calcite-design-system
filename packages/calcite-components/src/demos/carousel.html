@@ -81,10 +81,6 @@
               <calcite-switch id="switch-overlay"></calcite-switch>
             </calcite-label>
             <calcite-label
-              >tooltipsDisabled
-              <calcite-switch id="switch-tooltips"></calcite-switch>
-            </calcite-label>
-            <calcite-label
               >arrowType
               <calcite-segmented-control id="arrow-type">
                 <calcite-segmented-control-item value="inline" checked>inline</calcite-segmented-control-item>
@@ -213,7 +209,7 @@
                           an example
                         </p>
                       </calcite-carousel-item>
-                      <calcite-carousel-item active label="The Red Rocks and Blue Water">
+                      <calcite-carousel-item selected label="The Red Rocks and Blue Water">
                         <p>
                           <calcite-icon scale="l" icon="layer"></calcite-icon>
                           An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
@@ -370,7 +366,6 @@
       <script>
         const carousel = document.getElementById("example-carousel");
         const switchOverlay = document.getElementById("switch-overlay");
-        const switchTooltips = document.getElementById("switch-tooltips");
         const arrowType = document.getElementById("arrow-type");
 
         document.querySelectorAll("calcite-carousel").forEach((item) => {
@@ -381,10 +376,6 @@
 
         switchOverlay.addEventListener("calciteSwitchChange", function () {
           carousel.controlOverlay = event.target.checked;
-        });
-
-        switchTooltips.addEventListener("calciteSwitchChange", function () {
-          carousel.tooltipsDisabled = event.target.checked;
         });
 
         arrowType.addEventListener("calciteSegmentedControlChange", function () {

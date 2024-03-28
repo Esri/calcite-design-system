@@ -860,20 +860,16 @@ export namespace Components {
           * @readonly
          */
         "selectedItem": HTMLCalciteCarouselItemElement;
-        /**
-          * When `true`, tooltips are not displayed on the carousel item controls.
-         */
-        "tooltipsDisabled": boolean;
     }
     interface CalciteCarouselItem {
-        /**
-          * When `true`, the component is active if it has a parent `calcite-carousel`.
-         */
-        "active": boolean;
         /**
           * The component label text, used to populate tooltips in the `calcite-carousel`'s controls.
          */
         "label": string;
+        /**
+          * When `true`, the component is selected.
+         */
+        "selected": boolean;
     }
     interface CalciteCheckbox {
         /**
@@ -8331,20 +8327,16 @@ declare namespace LocalJSX {
           * @readonly
          */
         "selectedItem"?: HTMLCalciteCarouselItemElement;
-        /**
-          * When `true`, tooltips are not displayed on the carousel item controls.
-         */
-        "tooltipsDisabled"?: boolean;
     }
     interface CalciteCarouselItem {
-        /**
-          * When `true`, the component is active if it has a parent `calcite-carousel`.
-         */
-        "active"?: boolean;
         /**
           * The component label text, used to populate tooltips in the `calcite-carousel`'s controls.
          */
         "label": string;
+        /**
+          * When `true`, the component is selected.
+         */
+        "selected"?: boolean;
     }
     interface CalciteCheckbox {
         /**

@@ -46,7 +46,7 @@
   animation-name: item-retreat;
 }
 
-calcite-carousel-item:not([active]) {
+calcite-carousel-item:not([selected]) {
   opacity: 0.5;
 }
 
@@ -92,7 +92,7 @@ calcite-carousel-item:not([active]) {
   --calcite-ui-icon-color: var(--calcite-color-border-input);
 }
 
-.active-icon {
+.pagination-item--selected {
   --calcite-ui-icon-color: var(--calcite-color-brand);
 }
 

@@ -4,6 +4,8 @@ export const CSS = {
   itemContainerAdvancing: "item-container--advancing",
   itemContainerRetreating: "item-container--retreating",
   pagination: "pagination",
+  paginationItem: "pagination-item",
+  paginationItemSelected: "pagination-item--selected",
   pageNext: "page-next",
   pagePrevious: "page-previous",
   isOverlay: "is-overlay",

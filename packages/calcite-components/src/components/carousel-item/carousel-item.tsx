@@ -22,9 +22,9 @@ export class CarouselItem implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When `true`, the component is active if it has a parent `calcite-carousel`.
+   * When `true`, the component is selected.
    */
-  @Prop({ reflect: true }) active = false;
+  @Prop({ reflect: true }) selected = false;
 
   /**
    * The component label text, used to populate tooltips in the `calcite-carousel`'s controls.
@@ -62,7 +62,10 @@ export class CarouselItem implements LoadableComponent {
   render(): VNode {
     return (
       <Host>
-        <div aria-label={this.label} class={CSS.container + `${this.active ? " active" : ""}`}>
+        <div
+          aria-label={this.label}
+          class={{ [CSS.container]: true, [CSS.selected]: this.selected }}
+        >
           <slot />
         </div>
       </Host>
