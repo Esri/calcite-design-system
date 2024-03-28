@@ -11,7 +11,14 @@ import {
   Watch,
   State,
 } from "@stencil/core";
-import { dateFromRange, HoverRange, inRange, nextMonth, sameDate } from "../../utils/date";
+import {
+  dateFromRange,
+  hasSameMonthAndYear,
+  HoverRange,
+  inRange,
+  nextMonth,
+  sameDate,
+} from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
@@ -650,6 +657,23 @@ export class DatePickerMonth {
   monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
     const date = new Date(event.detail);
     const target = event.target as HTMLCalciteDatePickerMonthHeaderElement;
+    this.updateFocusableDate(date);
     this.calciteInternalDatePickerMonthChange.emit({ date, position: target.position });
   };
+
+  // updates focusable date on monthHeaderSelectChange
+  private updateFocusableDate(date: Date): void {
+    if (!this.selectedDate || !this.range) {
+      this.focusedDate = date;
+    } else if (this.selectedDate && this.range) {
+      if (!hasSameMonthAndYear(this.activeDate, date)) {
+        if (
+          !hasSameMonthAndYear(date, this.activeDate) &&
+          !hasSameMonthAndYear(date, nextMonth(this.activeDate))
+        ) {
+          this.focusedDate = date;
+        }
+      }
+    }
+  }
 }

@@ -286,3 +286,18 @@ export function setEndOfDay(date: Date): Date {
   date.setHours(23, 59, 59, 999);
   return date;
 }
+
+/**
+ *
+ * Returns if two dates have same month and year.
+ *
+ * @param date1
+ * @param date2
+ * @returns {boolean}
+ */
+export function hasSameMonthAndYear(date1: Date, date2: Date): boolean {
+  if (!date1 || !date2) {
+    return false;
+  }
+  return date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear();
+}

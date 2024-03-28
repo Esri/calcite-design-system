@@ -18,6 +18,7 @@ import {
   dateFromRange,
   dateToISO,
   getDaysDiff,
+  hasSameMonthAndYear,
   HoverRange,
   inRange,
   nextMonth,
@@ -306,7 +307,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     const startCalendarActiveDate = this.range
       ? this.activeRange === "end" &&
         this.activeEndDate &&
-        !this.hasSameMonthAndYear(this.activeStartDate, this.activeEndDate)
+        !hasSameMonthAndYear(this.activeStartDate, this.activeEndDate)
         ? prevMonth(this.activeEndDate)
         : this.activeStartDate || prevMonth(this.activeEndDate)
       : activeDate;
@@ -700,20 +701,5 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         }
       }
     }
-  }
-
-  private hasSameMonthAndYear(startDate: Date, endDate: Date): boolean {
-    // if (!Array.isArray(this.valueAsDate) || !this.valueAsDate[1]) {
-    //   return false;
-    // }
-    if (!startDate || !endDate) {
-      return false;
-    }
-    const startYearMonth = startDate.getMonth();
-    const startYearYear = startDate.getFullYear();
-
-    const endYearMonth = endDate.getMonth();
-    const endYearYear = endDate.getFullYear();
-    return endYearYear === startYearYear && startYearMonth === endYearMonth;
   }
 }
