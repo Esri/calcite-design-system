@@ -11,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -108,42 +108,6 @@ export class Carousel
 
   // --------------------------------------------------------------------------
   //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
-
-  @Element() el: HTMLCalciteCarouselElement;
-
-  @State() activeIndex: number;
-
-  @Watch("activeIndex")
-  activeChangeHandler(): void {
-    this.showSelectedItem();
-  }
-
-  @State() items: HTMLCalciteCarouselItemElement[];
-
-  @State() itemsAvailable: HTMLCalciteCarouselItemElement[];
-
-  @State() total: number;
-
-  @State() direction: "advancing" | "retreating";
-
-  @State() defaultMessages: CarouselMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  async effectiveLocaleChange(): Promise<void> {
-    await updateMessages(this, this.effectiveLocale);
-  }
-
-  private slotRefEl: HTMLSlotElement;
-
-  private container: HTMLDivElement;
-
-  // --------------------------------------------------------------------------
-  //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
@@ -174,6 +138,31 @@ export class Carousel
 
   // --------------------------------------------------------------------------
   //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteCarouselElement;
+
+  @State() activeIndex: number;
+
+  @State() items: HTMLCalciteCarouselItemElement[];
+
+  @State() direction: "advancing" | "retreating";
+
+  @State() defaultMessages: CarouselMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  async effectiveLocaleChange(): Promise<void> {
+    await updateMessages(this, this.effectiveLocale);
+  }
+
+  private container: HTMLDivElement;
+
+  // --------------------------------------------------------------------------
+  //
   //  Events
   //
   // --------------------------------------------------------------------------
@@ -187,67 +176,45 @@ export class Carousel
   //
   // --------------------------------------------------------------------------
 
-  private updateItems = (event?: Event): void => {
-    const target = event ? (event.target as HTMLSlotElement) : this.slotRefEl;
-    const items = target
-      ?.assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-carousel-item")) as HTMLCalciteCarouselItemElement[];
+  private updateItems = (event: Event): void => {
+    const items = slotChangeGetAssignedElements(event) as HTMLCalciteCarouselItemElement[];
 
-    if (items?.length < 1) {
+    if (items.length < 1) {
       return;
     }
 
-    this.total = items?.length;
-
-    const selectedItem = this.el?.querySelector<HTMLCalciteCarouselItemElement>(
-      "calcite-carousel-item[active]",
-    );
+    const activeItemIndex = items?.findIndex((item) => item.active);
+    const requestedActiveIndex = activeItemIndex > -1 ? activeItemIndex : 0;
 
     this.items = items;
-    this.activeIndex = selectedItem ? items?.indexOf(selectedItem) : 0;
-
-    if (event) {
-      this.showSelectedItem();
-    }
+    this.setSelectedItem(false, requestedActiveIndex);
   };
 
-  private showSelectedItem(): void {
-    this.items?.forEach((item, index) => {
-      const isActive = this.activeIndex === index;
-      item.active = isActive;
-
-      if (isActive) {
-        this.selectedItem = item;
+  private setSelectedItem = (emit: boolean, requestedIndex: number): void => {
+    this.items?.forEach((el, index) => {
+      const isMatch = requestedIndex === index;
+      el.active = isMatch;
+      if (isMatch) {
+        this.selectedItem = el;
+        this.activeIndex = index;
       }
     });
 
-    if (this.selectedItem) {
+    if (emit) {
       this.calciteCarouselChange.emit();
     }
-  }
+  };
 
-  private nextItem(): void {
+  private nextItem = (): void => {
     this.direction = "advancing";
-    const nextIndex = this.activeIndex + 1;
-    this.activeIndex = (nextIndex + this.total) % this.total;
-  }
+    const nextIndex = this.activeIndex === this.items?.length - 1 ? 0 : this.activeIndex + 1;
+    this.setSelectedItem(true, nextIndex);
+  };
 
-  private previousItem(): void {
+  private previousItem = (): void => {
     this.direction = "retreating";
-    const previousIndex = this.activeIndex - 1;
-    this.activeIndex = (previousIndex + this.total) % this.total;
-  }
-
-  private goToItem = (step: number): void => {
-    this.activeIndex = step;
-  };
-
-  private previousClicked = (): void => {
-    this.previousItem();
-  };
-
-  private nextClicked = (): void => {
-    this.nextItem();
+    const previousIndex = this.activeIndex === 0 ? this.items?.length - 1 : this.activeIndex - 1;
+    this.setSelectedItem(true, previousIndex);
   };
 
   private keyDownHandler = (event: KeyboardEvent): void => {
@@ -266,11 +233,11 @@ export class Carousel
         break;
       case "Home":
         event.preventDefault();
-        this.activeIndex = 0;
+        this.setSelectedItem(true, 0);
         break;
       case "End":
         event.preventDefault();
-        this.activeIndex = this.total - 1;
+        this.setSelectedItem(true, this.items?.length - 1);
         break;
     }
   };
@@ -304,7 +271,7 @@ export class Carousel
               icon={index === activeIndex ? ICONS.active : ICONS.inactive}
               id={`${itemGuid}-${index}`}
               label={item.label}
-              onClick={() => this.goToItem(index)}
+              onClick={() => this.setSelectedItem(true, index)}
               scale="s"
               text={item.label}
             />
@@ -327,7 +294,7 @@ export class Carousel
         appearance={this.controlOverlay ? "solid" : "transparent"}
         class={CSS.pagePrevious}
         icon={dir === "rtl" ? ICONS.chevronRight : ICONS.chevronLeft}
-        onClick={this.previousClicked}
+        onClick={this.previousItem}
         scale={this.arrowType === "edges" ? "m" : "s"}
         text={this.messages.previous}
       />
@@ -341,7 +308,7 @@ export class Carousel
         appearance={this.controlOverlay ? "solid" : "transparent"}
         class={CSS.pageNext}
         icon={dir === "rtl" ? ICONS.chevronLeft : ICONS.chevronRight}
-        onClick={this.nextClicked}
+        onClick={this.nextItem}
         scale={this.arrowType === "edges" ? "m" : "s"}
         text={this.messages.next}
       />
@@ -373,10 +340,7 @@ export class Carousel
               }}
               key={activeIndex}
             >
-              <slot
-                onSlotchange={this.updateItems}
-                ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}
-              />
+              <slot onSlotchange={this.updateItems} />
             </div>
             {this.arrowType === "edges" && this.renderPreviousArrow()}
             {this.items?.length > 1 && this.renderPagination()}

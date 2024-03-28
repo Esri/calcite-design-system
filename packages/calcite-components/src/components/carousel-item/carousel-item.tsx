@@ -52,6 +52,7 @@ export class CarouselItem implements LoadableComponent {
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
   }
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
