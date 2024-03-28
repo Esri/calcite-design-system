@@ -35,7 +35,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { ArrowType, ControlType } from "./interfaces";
+import { ArrowType } from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-carousel-item`s.
@@ -64,11 +64,6 @@ export class Carousel
    * Specify if the controls are overlaid on top of the content.
    */
   @Prop({ reflect: true }) controlOverlay = false;
-
-  /**
-   * Specify if the controls are overlaid on top of the content.
-   */
-  @Prop({ reflect: true }) controlAppearance: ControlType = "square";
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -292,10 +287,6 @@ export class Carousel
   renderPagination(): VNode {
     const { activeIndex } = this;
     const itemGuid = guid();
-    const inactiveIcon =
-      this.controlAppearance === "square" ? ICONS.inactiveSquare : ICONS.inactiveCircle;
-    const activeIcon =
-      this.controlAppearance === "square" ? ICONS.activeSquare : ICONS.activeCircle;
 
     return (
       <div
@@ -310,7 +301,7 @@ export class Carousel
             <calcite-action
               appearance={this.controlOverlay ? "solid" : "transparent"}
               class={`pagination-item${index === activeIndex ? " active-icon" : ""}`}
-              icon={index === activeIndex ? activeIcon : inactiveIcon}
+              icon={index === activeIndex ? ICONS.active : ICONS.inactive}
               id={`${itemGuid}-${index}`}
               label={item.label}
               onClick={() => this.goToItem(index)}

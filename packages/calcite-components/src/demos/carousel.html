@@ -92,13 +92,6 @@
                 <calcite-segmented-control-item value="none">none</calcite-segmented-control-item>
               </calcite-segmented-control>
             </calcite-label>
-            <calcite-label
-              >controlAppearance
-              <calcite-segmented-control id="control-appearance">
-                <calcite-segmented-control-item value="square" checked>square</calcite-segmented-control-item>
-                <calcite-segmented-control-item value="circle">circle</calcite-segmented-control-item>
-              </calcite-segmented-control>
-            </calcite-label>
           </div>
         </div>
         <div class="parent">
@@ -252,12 +245,7 @@
               <calcite-shell-panel slot="panel-start" width-scale="l">
                 <calcite-panel heading="Carousel in context">
                   <calcite-block open heading="Carousel in block">
-                    <calcite-carousel
-                      id="example-carousel"
-                      control-overlay
-                      control-appearance="circle"
-                      arrow-type="edges"
-                    >
+                    <calcite-carousel id="example-carousel" control-overlay arrow-type="edges">
                       <calcite-carousel-item label="The Red Rocks and Blue Water">
                         <p class="bg-image-example">1 Some kind of rich content over a bg using overlay controls</p>
                       </calcite-carousel-item>
@@ -293,7 +281,7 @@
                     </calcite-carousel>
                   </calcite-block>
                   <calcite-block open heading="Carousel in block">
-                    <calcite-carousel id="example-carousel" control-appearance="circle" arrow-type="edges">
+                    <calcite-carousel id="example-carousel" arrow-type="edges">
                       <calcite-carousel-item label="The Red Rocks and Blue Water">
                         <p class="bg-image-example">1 Some kind of rich content over a bg using overlay controls</p>
                       </calcite-carousel-item>
@@ -384,7 +372,6 @@
         const switchOverlay = document.getElementById("switch-overlay");
         const switchTooltips = document.getElementById("switch-tooltips");
         const arrowType = document.getElementById("arrow-type");
-        const controlAppearance = document.getElementById("control-appearance");
 
         document.querySelectorAll("calcite-carousel").forEach((item) => {
           item.addEventListener("calciteCarouselChange", (event) => {
@@ -402,10 +389,6 @@
 
         arrowType.addEventListener("calciteSegmentedControlChange", function () {
           carousel.arrowType = event.target.value;
-        });
-
-        controlAppearance.addEventListener("calciteSegmentedControlChange", function () {
-          carousel.controlAppearance = event.target.value;
         });
       </script>
     </demo-dom-swapper>

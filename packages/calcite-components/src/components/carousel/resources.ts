@@ -13,8 +13,6 @@ export const CSS = {
 export const ICONS = {
   chevronLeft: "chevron-left",
   chevronRight: "chevron-right",
-  inactiveSquare: "square",
-  activeSquare: "square-f",
-  inactiveCircle: "circle",
-  activeCircle: "circle-f",
+  inactive: "square",
+  active: "square-f",
 };

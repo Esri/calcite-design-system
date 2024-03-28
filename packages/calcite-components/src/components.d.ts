@@ -23,7 +23,7 @@ import { BlockSectionMessages } from "./components/block-section/assets/block-se
 import { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
 import { ButtonMessages } from "./components/button/assets/button/t9n";
 import { CardMessages } from "./components/card/assets/card/t9n";
-import { ArrowType, ControlType } from "./components/carousel/interfaces";
+import { ArrowType } from "./components/carousel/interfaces";
 import { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 import { ChipMessages } from "./components/chip/assets/chip/t9n";
 import { ColorValue, InternalColor } from "./components/color-picker/interfaces";
@@ -112,7 +112,7 @@ export { BlockSectionMessages } from "./components/block-section/assets/block-se
 export { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
 export { ButtonMessages } from "./components/button/assets/button/t9n";
 export { CardMessages } from "./components/card/assets/card/t9n";
-export { ArrowType, ControlType } from "./components/carousel/interfaces";
+export { ArrowType } from "./components/carousel/interfaces";
 export { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 export { ChipMessages } from "./components/chip/assets/chip/t9n";
 export { ColorValue, InternalColor } from "./components/color-picker/interfaces";
@@ -835,10 +835,6 @@ export namespace Components {
           * Specify how and if the previous and next arrows are displayed.
          */
         "arrowType": ArrowType;
-        /**
-          * Specify if the controls are overlaid on top of the content.
-         */
-        "controlAppearance": ControlType;
         /**
           * Specify if the controls are overlaid on top of the content.
          */
@@ -8306,10 +8302,6 @@ declare namespace LocalJSX {
           * Specify how and if the previous and next arrows are displayed.
          */
         "arrowType"?: ArrowType;
-        /**
-          * Specify if the controls are overlaid on top of the content.
-         */
-        "controlAppearance"?: ControlType;
         /**
           * Specify if the controls are overlaid on top of the content.
          */

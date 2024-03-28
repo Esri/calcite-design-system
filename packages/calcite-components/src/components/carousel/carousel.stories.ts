@@ -21,7 +21,6 @@ export const simple = (): string =>
       ${boolean("disabled", false)}
       ${text("label", "Example carousel label")}
       arrow-type="${select("arrow-type", ["inline", "edges", "none"], "inline")}"
-      control-appearance="${select("control-appearance", ["square", "circle"], "square")}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -108,7 +107,7 @@ export const carouselInPopover_TestOnly = (): string =>
     </style>
     <calcite-button style="margin: 1rem" id="example-popover">Launch onboarding</calcite-button>
     <calcite-popover open reference-element="example-popover" heading="Welcome to the show!" closable>
-      <calcite-carousel arrow-type="none" control-appearance="circle">
+      <calcite-carousel arrow-type="none">
         <calcite-carousel-item label="Carousel Item 1">
           <p>
             <calcite-icon scale="l" icon="number-circle-1"></calcite-icon>
