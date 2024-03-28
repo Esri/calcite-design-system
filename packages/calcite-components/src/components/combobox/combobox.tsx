@@ -550,6 +550,8 @@ export class Combobox
 
   @State() defaultMessages: ComboboxMessages;
 
+  @State() innerText: string;
+
   textInput: HTMLInputElement = null;
 
   data: ItemData[];
@@ -775,8 +777,7 @@ export class Combobox
   private setTooltipText = (): void => {
     const { textLabelEl } = this;
     if (textLabelEl) {
-      this.tooltipText =
-        textLabelEl.offsetWidth < textLabelEl.scrollWidth ? this.el.innerText : null;
+      this.tooltipText = textLabelEl.offsetWidth < textLabelEl.scrollWidth ? this.innerText : null;
     }
   };
 
@@ -786,6 +787,11 @@ export class Combobox
     if (el) {
       this.resizeObserver?.observe(el);
     }
+  };
+
+  private handleSlotchange = (): void => {
+    this.innerText = this.el.innerText;
+    this.setTooltipText();
   };
 
   onBeforeOpen(): void {
@@ -1639,7 +1645,7 @@ export class Combobox
           ref={setContainerEl}
         >
           <ul class={{ list: true, "list--hide": !open }}>
-            <slot />
+            <slot onSlotchange={this.handleSlotchange} />
           </ul>
         </div>
       </div>
