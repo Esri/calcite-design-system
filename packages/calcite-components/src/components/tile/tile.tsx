@@ -1,4 +1,4 @@
-import { Component, Element, h, Prop, State, VNode } from "@stencil/core";
+import { Component, Element, h, Prop, VNode } from "@stencil/core";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -8,11 +8,12 @@ import {
 } from "../../utils/interactive";
 import { CSS, SLOTS } from "./resources";
 import { Alignment, Scale } from "../interfaces";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
 
 /**
- * @slot content-start - A slot for adding non-actionable elements before the component's content.
- * @slot content-end - A slot for adding non-actionable elements after the component's content.
+ * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
+ * @slot content-bottom - A slot for adding non-actionable elements below the component's content.
+ * @slot content-start - [Deprecated] use `content-top` slot instead.  A slot for adding non-actionable elements before the component's content.
+ * @slot content-end - [Deprecated] use `content-bottom` slot instead. A slot for adding non-actionable elements after the component's content.
  */
 @Component({
   tag: "calcite-tile",
@@ -88,24 +89,6 @@ export class Tile implements InteractiveComponent {
 
   @Element() el: HTMLCalciteTileElement;
 
-  @State() hasContentStart = false;
-
-  @State() hasContentEnd = false;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  private handleContentStartSlotChange = (event: Event): void => {
-    this.hasContentStart = slotChangeHasAssignedElement(event);
-  };
-
-  private handleContentEndSlotChange = (event: Event): void => {
-    this.hasContentEnd = slotChangeHasAssignedElement(event);
-  };
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -131,24 +114,22 @@ export class Tile implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   renderTile(): VNode {
-    const { icon, hasContentStart, hasContentEnd, heading, description, iconFlipRtl } = this;
+    const { icon, heading, description, iconFlipRtl } = this;
     const isLargeVisual = heading && icon && !description;
 
     return (
       <div class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual }}>
+        <slot name={SLOTS.contentTop} />
         {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
         <div class={CSS.contentContainer}>
-          <div class={{ [CSS.contentSlotContainer]: hasContentStart }}>
-            <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
-          </div>
+          <slot name={SLOTS.contentStart} />
           <div class={CSS.content}>
             {heading && <div class={CSS.heading}>{heading}</div>}
             {description && <div class={CSS.description}>{description}</div>}
           </div>
-          <div class={{ [CSS.contentSlotContainer]: hasContentEnd }}>
-            <slot name={SLOTS.contentEnd} onSlotchange={this.handleContentEndSlotChange} />
-          </div>
+          <slot name={SLOTS.contentEnd} />
         </div>
+        <slot name={SLOTS.contentBottom} />
       </div>
     );
   }
