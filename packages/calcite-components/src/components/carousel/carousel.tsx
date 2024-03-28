@@ -206,9 +206,14 @@ export class Carousel
 
   private previousItem = (): void => {
     this.direction = "retreating";
-    const previousIndex =
-      this.selectedIndex === 0 ? this.items?.length - 1 : this.selectedIndex - 1;
-    this.setSelectedItem(true, previousIndex);
+    const prevIndex = this.selectedIndex === 0 ? this.items?.length - 1 : this.selectedIndex - 1;
+    this.setSelectedItem(true, prevIndex);
+  };
+
+  private handleItemSelection = (event: MouseEvent): void => {
+    const item = event.target as HTMLCalciteActionElement;
+    const requestedPosition = parseInt(item.dataset.index);
+    this.setSelectedItem(true, requestedPosition);
   };
 
   private keyDownHandler = (event: KeyboardEvent): void => {
@@ -227,10 +232,12 @@ export class Carousel
         break;
       case "Home":
         event.preventDefault();
+        this.direction = "retreating";
         this.setSelectedItem(true, 0);
         break;
       case "End":
         event.preventDefault();
+        this.direction = "advancing";
         this.setSelectedItem(true, this.items?.length - 1);
         break;
     }
@@ -247,7 +254,6 @@ export class Carousel
   // --------------------------------------------------------------------------
   renderPagination(): VNode {
     const { selectedIndex } = this;
-
     return (
       <div
         class={{
@@ -263,9 +269,10 @@ export class Carousel
               [CSS.paginationItem]: true,
               [CSS.paginationItemSelected]: index === selectedIndex,
             }}
+            data-index={index}
             icon={index === selectedIndex ? ICONS.active : ICONS.inactive}
             label={item.label}
-            onClick={() => this.setSelectedItem(true, index)}
+            onClick={this.handleItemSelection}
             scale="s"
             text={item.label}
             title={item.label}
