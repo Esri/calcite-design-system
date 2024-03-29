@@ -75,6 +75,7 @@
 
 :host .stepper-item-content,
 :host .stepper-item-header {
+  @apply duration-150 ease-in-out;
   padding-block: var(--calcite-stepper-item-spacing-unit-l);
   padding-inline-end: var(--calcite-stepper-item-spacing-unit-m);
   text-align: start;
@@ -263,7 +264,7 @@
     grid-row: items;
 
     &:focus {
-      @apply focus-outset;
+      @apply focus-outset duration-0;
     }
   }
 
@@ -272,6 +273,12 @@
     padding-block: 0;
     padding-inline-end: var(--calcite-stepper-item-spacing-unit-m);
     text-align: start;
+  }
+}
+
+:host([layout="vertical"]) {
+  .stepper-item-header:focus {
+    @apply duration-0;
   }
 }
 
