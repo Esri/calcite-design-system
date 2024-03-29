@@ -4,9 +4,12 @@ import { CSS } from "./resources";
 
 describe("calcite-carousel", () => {
   describe("renders", () => {
-    renders("<calcite-carousel><calcite-carousel-item><p>basic render</p></calcite-carousel-item></calcite-carousel>", {
-      display: "block",
-    });
+    renders(
+      "<calcite-carousel><calcite-carousel-item selected><p>basic render</p></calcite-carousel-item></calcite-carousel>",
+      {
+        display: "block",
+      },
+    );
   });
 
   describe("honors hidden attribute", () => {
