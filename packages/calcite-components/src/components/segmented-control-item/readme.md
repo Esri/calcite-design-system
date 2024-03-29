@@ -1,5 +1,7 @@
 # calcite-segmented-control-item
 
+For comprehensive guidance on using and implementing `calcite-segmented-control-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/segmented-control-item/).
+
 <!-- Auto Generated Below -->
 
 ## Properties

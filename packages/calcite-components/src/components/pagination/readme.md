@@ -1,6 +1,6 @@
 # calcite-pagination
 
-`calcite-pagination` allows users to select a page from a paginated API.
+For comprehensive guidance on using and implementing `calcite-pagination`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/paination/).
 
 <!-- Auto Generated Below -->
 

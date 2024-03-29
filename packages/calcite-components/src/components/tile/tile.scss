@@ -24,6 +24,7 @@
   min-inline-size: 140px;
 
   .container {
+    align-items: flex-start;
     background-color: var(--calcite-tile-background-color, var(--calcite-color-foreground-1));
     block-size: var(--calcite-container-size-content-fluid);
     box-shadow: 0 0 0 var(--calcite-internal-tile-border-width) var(--calcite-internal-tile-border-color);

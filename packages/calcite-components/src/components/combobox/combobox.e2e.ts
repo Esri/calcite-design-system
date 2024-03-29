@@ -1954,7 +1954,7 @@ describe("calcite-combobox", () => {
 
     const wrapper = await page.find("calcite-combobox >>> .wrapper");
     const close = await wrapper.find("calcite-chip >>> .close");
-    await close.click();
+    await close.press(" ");
     await page.waitForChanges();
 
     const remainingChips = await page.findAll("calcite-combobox >>> calcite-chip");
