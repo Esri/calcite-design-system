@@ -433,21 +433,6 @@ export class InputNumber
     connectLabel(this);
     connectForm(this);
 
-    this.setPreviousEmittedNumberValue(this.value);
-    this.setPreviousNumberValue(this.value);
-
-    this.warnAboutInvalidNumberValue(this.value);
-
-    if (this.value === "Infinity" || this.value === "-Infinity") {
-      this.displayedValue = this.value;
-      this.previousEmittedNumberValue = this.value;
-    } else {
-      this.setNumberValue({
-        origin: "connected",
-        value: isValidNumber(this.value) ? this.value : "",
-      });
-    }
-
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
     this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
@@ -474,6 +459,21 @@ export class InputNumber
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon({}, this.icon, "number");
     await setUpMessages(this);
+
+    this.setPreviousEmittedNumberValue(this.value);
+    this.setPreviousNumberValue(this.value);
+
+    this.warnAboutInvalidNumberValue(this.value);
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      this.displayedValue = this.value;
+      this.previousEmittedNumberValue = this.value;
+    } else {
+      this.setNumberValue({
+        origin: "connected",
+        value: isValidNumber(this.value) ? this.value : "",
+      });
+    }
   }
 
   componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {

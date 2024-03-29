@@ -20,10 +20,13 @@
 }
 
 .container {
+  align-items: flex-start;
   background-color: var(--calcite-tile-background-color);
   block-size: var(--calcite-container-size-content-fluid);
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
+  gap: var(--calcite-spacing-md);
   inline-size: var(--calcite-container-size-content-fluid);
   pointer-events: none;
   transition-duration: 150ms;
@@ -33,29 +36,24 @@
 
 .content-container {
   display: flex;
+  gap: var(--calcite-spacing-md);
+  inline-size: 100%;
   outline-color: transparent;
   padding: 0;
-  inline-size: 100%;
 }
 
-.content-slot-container {
-  align-items: center;
+.content {
   display: flex;
-
-  &:first-child {
-    padding-inline: 0 0.75rem;
-  }
-
-  &:last-child {
-    padding-inline: 0.75rem 0;
-  }
+  flex-direction: column;
 }
 
 .heading {
   color: var(--calcite-tile-heading-text-color);
   font-weight: var(--calcite-font-weight-medium);
+  line-height: 1.20313rem;
   overflow-wrap: break-word;
 }
+
 .large-visual {
   align-items: center;
   justify-content: center;
@@ -70,6 +68,7 @@
     justify-content: center;
   }
 }
+
 .description {
   color: var(--calcite-tile-description-text-color);
   font-weight: var(--calcite-font-weight-regular);
@@ -81,12 +80,17 @@
     align-items: center;
     text-align: center;
   }
+  slot[name="content-start"]::slotted(*),
+  slot[name="content-end"]::slotted(*) {
+    align-self: center;
+  }
 }
 
 :host([scale="s"]) {
   max-inline-size: 400px;
   min-inline-size: 100px;
-  .container {
+  .container,
+  .content-container {
     gap: var(--calcite-spacing-sm);
   }
   .heading {
@@ -118,7 +122,8 @@
 :host([scale="l"]) {
   max-inline-size: 520px;
   min-inline-size: 160px;
-  .container {
+  .container,
+  .content-container {
     gap: var(--calcite-spacing-xl);
   }
   .heading {
@@ -142,22 +147,26 @@
     text-decoration-line: underline;
   }
 }
+
 :host(:not([embed])) {
   .container {
     box-shadow: 0 0 0 1px var(--calcite-tile-border-color);
     padding: var(--calcite-spacing-md);
   }
 }
+
 :host(:not([embed])[scale="s"]) {
   .container {
     padding: var(--calcite-spacing-sm);
   }
 }
+
 :host(:not([embed])[scale="l"]) {
   .container {
     padding: var(--calcite-spacing-xl);
   }
 }
+
 :host(:not([embed])[href]:hover),
 :host(:not([embed])[href]:focus) {
   --calcite-tile-border-color: var(--calcite-color-brand);
@@ -168,6 +177,7 @@
     z-index: var(--calcite-z-index);
   }
 }
+
 :host(:not([embed])[href]:active) {
   --calcite-tile-border-color: var(--calcite-color-brand);
   .container {

@@ -1,5 +1,7 @@
 # calcite-color-picker
 
+For comprehensive guidance on using and implementing `calcite-color-picker`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/color-picker/).
+
 <!-- Auto Generated Below -->
 
 ## Usage
