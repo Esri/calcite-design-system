@@ -38,9 +38,22 @@ The `latest` release process is mostly automated, but a few manual steps are req
      npm view @esri/calcite-components version
      ```
 
-9. Reach out to Ben for investigation if something went wrong (this is unlikely now that everything is automated)
+9. See the [troubleshooting](#troubleshooting) section if something went wrong, or reach out to Ben or Franco for help.
 10. Change the `main` branch's required approvals back to 1 and save the changes (see the [Prevent merging PRs](#prevent-merging-pull-requests) section)
 11. Let the team know via Teams merging is now unblocked in the initial `Core - Releases` message from earlier.
+
+### Troubleshooting
+
+The following are some troubleshooting steps you can take if a release is unsuccessful.
+
+1. Find the workflow run for the release [here](https://github.com/Esri/calcite-design-system/actions/workflows/deploy-latest.yml), and view the logs to find the error message.
+2. Fix the error. In some cases you can resolve the issue with a temporary solution, and then fix the CI after the release is completed. For example, if the `components.d.ts` file is outdated and breaks releases due to an unclean working tree, the [temporary solution](https://github.com/Esri/calcite-design-system/pull/9008) would be to build locally and submit a PR with the updated file. That way you won't be so time crunched when determining an [actual fix](https://github.com/Esri/calcite-design-system/pull/9011) to prevent the same error from occurring in the future. Reach out to Ben or Franco if a solution to the error isn't clear.
+3. Once the PR with the fix is installed, make sure the new workflow run is passing.
+4. **IMPORTANT:** If the new release is showing up in the [GitHub releases](https://github.com/Esri/calcite-design-system/releases) but not on NPM, you'll need to release locally. This signifies the error involved publishing to NPM, which happens after the releases and tags are created on GitHub. To release locally, run the following commands:
+
+   ```sh
+   npm install && npm run build && npm test && npm run publish:latest
+   ```
 
 ### Bumping the examples
 
