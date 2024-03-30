@@ -18,16 +18,18 @@
   box-shadow: inset 0 1px 0 var(--calcite-internal-tabs-border-color);
   background-color: var(--calcite-internal-tabs-background-color);
 
+  section {
+    border-color: var(--calcite-internal-tabs-border-color);
+    border-style: solid;
+  }
+
   ::slotted(calcite-tab-nav) {
     margin-block-end: -1px;
   }
 }
 
 section {
-  @apply border-color-1 border border-solid flex
-  border-t
-  flex-grow
-  overflow-hidden;
+  @apply border flex flex-grow overflow-hidden;
 
   border-block-start-style: solid;
   border-block-start-color: var(--calcite-internal-tabs-border-color);
@@ -35,8 +37,8 @@ section {
 
 :host([bordered][position="bottom"]) {
   box-shadow:
-    inset 0 1px 0 var(--calcite-color-border-1),
-    inset 0 -1px 0 var(--calcite-color-border-1);
+    inset 0 1px 0 var(--calcite-internal-tabs-border-color),
+    inset 0 -1px 0 var(--calcite-internal-tabs-border-color);
 
   ::slotted(calcite-tab-nav) {
     margin-block-start: -1px;

@@ -228,8 +228,7 @@
 }
 
 :host([selected][bordered]) .container {
-  border-inline-start-color: var(--calcite-color-border-1);
-  border-inline-end-color: var(--calcite-color-border-1);
+  border-inline-color: var(--calcite-internal-tabs-border-color);
 }
 
 :host([layout="inline"][bordered]),
