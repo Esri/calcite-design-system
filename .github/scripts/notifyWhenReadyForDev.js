@@ -6,6 +6,8 @@
 // The secret is formatted like so: person1, person2, person3
 //
 // Note the script automatically adds the "@" character in to notify the project manager(s)
+const { issueWorkflow, planning } = require("./labels");
+
 module.exports = async ({ github, context }) => {
   const { managers } = process.env;
   const { label } = context.payload;
@@ -30,16 +32,16 @@ module.exports = async ({ github, context }) => {
     try {
       await github.rest.issues.removeLabel({
         ...issueProps,
-        name: "1 - assigned",
+        name: issueWorkflow.assigned,
       });
     } catch (err) {
-      console.log("The '1 - assigned' label is not associated with the issue", err);
+      console.log(`The '${issueWorkflow.assigned}' label is not associated with the issue`, err);
     }
 
     // Add labels
     await github.rest.issues.addLabels({
       ...issueProps,
-      labels: ["0 - new", "needs milestone"],
+      labels: [issueWorkflow.new, planning.needsMilestone],
     });
 
     /* Update issue */
