@@ -1,4 +1,5 @@
 const { createLabelIfMissing } = require("./support/utils");
+
 module.exports = async ({ github, context }) => {
   const {
     repo: { owner, repo },
