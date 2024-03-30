@@ -7,6 +7,7 @@
 //
 // Note the script automatically adds the "@" character in to notify the project manager(s)
 const { issueWorkflow, planning } = require("./labels");
+const { removeLabel } = require("./support/utils");
 
 module.exports = async ({ github, context }) => {
   const { managers } = process.env;
@@ -23,34 +24,25 @@ module.exports = async ({ github, context }) => {
     };
 
     /* Modify labels */
-    try {
-      await github.rest.issues.removeLabel({
-        ...issueProps,
-        name: planning.spike,
-      });
-    } catch (err) {
-      console.log(`The '${planning.spike}' label is not associated with the issue`, err);
-    }
 
-    try {
-      await github.rest.issues.removeLabel({
-        ...issueProps,
-        name: issueWorkflow.assigned,
-      });
-    } catch (err) {
-      console.log(`The '${issueWorkflow.assigned}' label is not associated with the issue`, err);
-    }
+    await removeLabel({
+      github,
+      context,
+      name: planning.spike,
+    });
 
-    try {
-      await github.rest.issues.removeLabel({
-        ...issueProps,
-        name: issueWorkflow.inDevelopment,
-      });
-    } catch (err) {
-      console.log(`The '${issueWorkflow.inDevelopment}' label is not associated with the issue`, err);
-    }
+    await removeLabel({
+      github,
+      context,
+      name: issueWorkflow.assigned,
+    });
 
-    // Add labels
+    await removeLabel({
+      github,
+      context,
+      name: issueWorkflow.inDevelopment,
+    });
+
     await github.rest.issues.addLabels({
       ...issueProps,
       labels: [issueWorkflow.new, planning.needsMilestone],
