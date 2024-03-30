@@ -1,4 +1,4 @@
-import { select, number, text } from "@storybook/addon-knobs";
+import { select, number, text } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";

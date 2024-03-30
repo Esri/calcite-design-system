@@ -1,4 +1,4 @@
-import { select } from "@storybook/addon-knobs";
+import { select } from "../../../.storybook/fake-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";

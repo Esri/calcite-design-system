@@ -1,4 +1,4 @@
-import { array, boolean as booleanFn, number, select, text } from "@storybook/addon-knobs";
+import { array, boolean as booleanFn, number, select, text } from "../../../.storybook/fake-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";

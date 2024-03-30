@@ -1,4 +1,4 @@
-import { boolean } from "@storybook/addon-knobs";
+import { boolean } from "../../../.storybook/fake-knobs";
 import { storyFilters } from "../../../.storybook/helpers";
 import {
   Attribute,

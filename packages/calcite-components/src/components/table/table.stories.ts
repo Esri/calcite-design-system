@@ -2,7 +2,7 @@ import { storyFilters, boolean } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import { number, select, text } from "@storybook/addon-knobs";
+import { number, select, text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/Table",

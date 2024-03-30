@@ -6,7 +6,7 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { select, boolean, text } from "@storybook/addon-knobs";
+import { select, boolean, text } from "../../../.storybook/fake-knobs";
 import selectReadme from "../select/readme.md";
 import optionReadme from "../option/readme.md";
 import optionGroupReadme from "../option-group/readme.md";

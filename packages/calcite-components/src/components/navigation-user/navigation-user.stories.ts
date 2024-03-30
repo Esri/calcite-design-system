@@ -1,5 +1,5 @@
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { text } from "@storybook/addon-knobs";
+import { text } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 import { placeholderImage } from "../../../.storybook/placeholderImage";

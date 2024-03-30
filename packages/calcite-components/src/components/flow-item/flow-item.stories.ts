@@ -1,4 +1,4 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import {
   Attributes,
   createComponentHTML as create,

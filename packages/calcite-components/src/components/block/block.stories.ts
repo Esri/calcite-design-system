@@ -1,4 +1,4 @@
-import { boolean, number, select, text } from "@storybook/addon-knobs";
+import { boolean, number, select, text } from "../../../.storybook/fake-knobs";
 import {
   Attribute,
   filterComponentAttributes,

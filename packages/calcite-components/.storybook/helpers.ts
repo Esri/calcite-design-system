@@ -1,8 +1,5 @@
 import * as icons from "@esri/calcite-ui-icons";
-import { boolean as booleanKnob } from "@storybook/addon-knobs";
-import { Parameters } from "@storybook/api";
-import { ModeName } from "../src/components/interfaces";
-import { MODES } from "../src/utils/resources";
+import { boolean as booleanKnob } from "./fake-knobs";
 
 // we can get all unique icon names from all size 16 non-filled icons.
 export const iconNames = Object.keys(icons)
@@ -17,25 +14,6 @@ export const boolean = (prop, value, standalone = true) => {
   const attrValue = standalone ? "" : `="${knob}"`;
   return `${propValue}${attrValue}`;
 };
-
-export interface Story {
-  (): string;
-  decorators?: ((Story: Story) => DocumentFragment)[];
-  parameters?: Parameters;
-}
-
-export const setKnobs = ({ story, knobs }: { story: string; knobs: { name: string; value: string }[] }) => {
-  return `window.location.href = "?path=/story/${story}${knobs
-    .map(({ name, value }) => `&knob-${name}=${value}`)
-    .join("")}"`;
-};
-
-export const setMode = (value: ModeName) => `${MODES.map(
-  (mode) => `document.body.classList.toggle('${mode.className}', ${(mode.name === value).toString()});`,
-).join("")}
-`;
-
-export const toggleCentered: string = `document.body.classList.toggle('sb-main-centered');`;
 
 /**
  * This helps create different storybook builds for internal and screenshot test environments

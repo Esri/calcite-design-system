@@ -1,7 +1,7 @@
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { select, text } from "@storybook/addon-knobs";
+import { select, text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/Menu Item",

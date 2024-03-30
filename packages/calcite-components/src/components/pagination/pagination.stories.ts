@@ -1,4 +1,4 @@
-import { number, select } from "@storybook/addon-knobs";
+import { number, select } from "../../../.storybook/fake-knobs";
 import { locales, numberingSystems } from "../../utils/locale";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";

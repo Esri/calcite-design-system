@@ -5,7 +5,7 @@ import itemReadme from "../list-item/readme.md";
 import groupReadme from "../list-item-group/readme.md";
 import { html } from "../../../support/formatting";
 import { storyFilters, boolean } from "../../../.storybook/helpers";
-import { select, text } from "@storybook/addon-knobs";
+import { select, text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/List",

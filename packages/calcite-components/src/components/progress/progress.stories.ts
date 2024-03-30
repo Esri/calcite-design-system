@@ -1,4 +1,4 @@
-import { number, select, text } from "@storybook/addon-knobs";
+import { number, select, text } from "../../../.storybook/fake-knobs";
 
 import { storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";

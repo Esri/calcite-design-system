@@ -1,4 +1,4 @@
-import { select, number } from "@storybook/addon-knobs";
+import { select, number } from "../../../.storybook/fake-knobs";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { boolean, storyFilters } from "../../../.storybook/helpers";

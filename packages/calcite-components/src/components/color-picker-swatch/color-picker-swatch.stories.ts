@@ -1,4 +1,4 @@
-import { boolean, text } from "@storybook/addon-knobs";
+import { boolean, text } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import colorPickerSwatchReadme from "./readme.md";
 import { html } from "../../../support/formatting";

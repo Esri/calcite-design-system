@@ -1,4 +1,4 @@
-import { boolean, text } from "@storybook/addon-knobs";
+import { boolean, text } from "../../../.storybook/fake-knobs";
 import { storyFilters } from "../../../.storybook/helpers";
 import { Attributes, createComponentHTML as create, filterComponentAttributes } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";

@@ -8,7 +8,7 @@ import {
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { iconNames, storyFilters } from "../../../.storybook/helpers";
-import { select, text } from "@storybook/addon-knobs";
+import { select, text } from "../../../.storybook/fake-knobs";
 import accordionReadme from "./readme.md";
 import accordionItemReadme from "../accordion-item/readme.md";
 import { html } from "../../../support/formatting";
