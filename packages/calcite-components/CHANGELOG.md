@@ -3,11 +3,11 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.7.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0...@esri/calcite-components@2.7.1-next.0) (2024-03-29)
+## [2.7.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.0...@esri/calcite-components@2.7.1) (2024-03-29)
 
 ### Bug Fixes
 
-- **tab-nav:** fix custom element creation error in `components` build output ([#9021](https://github.com/Esri/calcite-design-system/issues/9021)) ([cc8eb99](https://github.com/Esri/calcite-design-system/commit/cc8eb99e1d68279e7be082311672d77afc7b1872)), closes [#9010](https://github.com/Esri/calcite-design-system/issues/9010)
+- **tab-nav:** Fix custom element creation error in `components` build output ([#9021](https://github.com/Esri/calcite-design-system/issues/9021)) ([cc8eb99](https://github.com/Esri/calcite-design-system/commit/cc8eb99e1d68279e7be082311672d77afc7b1872))
 
 ## [2.7.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.6.0...@esri/calcite-components@2.7.0) (2024-03-26)
 
