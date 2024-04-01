@@ -5,6 +5,7 @@ export const ComboboxChildSelector = `${ComboboxItem}, ${ComboboxItemGroup}`;
 export const CSS = {
   chipInvisible: "chip--invisible",
   inputWrap: "input-wrap",
+  inputWrapSingle: "input-wrap--single",
   selectionDisplayFit: "selection-display-fit",
   selectionDisplaySingle: "selection-display-single",
   listContainer: "list-container",

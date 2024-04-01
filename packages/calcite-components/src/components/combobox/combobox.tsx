@@ -463,7 +463,6 @@ export class Combobox
     afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
     setComponentLoaded(this);
-    this.setTooltipText();
   }
 
   componentDidRender(): void {
@@ -482,6 +481,7 @@ export class Combobox
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
+    this.textLabelElResizeObserver?.disconnect();
     disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
@@ -559,6 +559,9 @@ export class Combobox
   private resizeObserver = createObserver("resize", () => {
     this.setMaxScrollerHeight();
     this.refreshSelectionDisplay();
+  });
+
+  private textLabelElResizeObserver = createObserver("resize", () => {
     this.setTooltipText();
   });
 
@@ -774,17 +777,20 @@ export class Combobox
 
   private setTooltipText = (): void => {
     const { textLabelEl } = this;
-    if (textLabelEl) {
-      this.tooltipText =
-        textLabelEl.offsetWidth < textLabelEl.scrollWidth ? this.textLabelEl.innerText : null;
+    if (!textLabelEl) {
+      return;
     }
+
+    this.tooltipText =
+      textLabelEl.offsetWidth < textLabelEl.scrollWidth ? textLabelEl.innerText : null;
   };
 
   private setTextInputWrapEl = (el: HTMLInputElement): void => {
     this.textInput = el;
 
     if (el) {
-      this.resizeObserver?.observe(el);
+      this.textLabelElResizeObserver?.observe(el);
+      this.setTooltipText();
     }
   };
 
@@ -1551,7 +1557,7 @@ export class Combobox
   }
 
   private renderInput(): VNode {
-    const { guid, disabled, placeholder, selectionMode, selectedItems, open } = this;
+    const { guid, disabled, placeholder, selectionMode, selectedItems, open, tooltipText } = this;
     const single = isSingleLike(selectionMode);
     const selectedItem = selectedItems[0];
     const showLabel = !open && single && !!selectedItem;
@@ -1559,10 +1565,10 @@ export class Combobox
     return (
       <span
         class={{
-          "input-wrap": true,
-          "input-wrap--single": single,
+          [CSS.inputWrap]: true,
+          [CSS.inputWrapSingle]: single,
         }}
-        title={this.tooltipText}
+        title={tooltipText}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setTextInputWrapEl}
       >
@@ -1597,6 +1603,8 @@ export class Combobox
           onInput={this.inputHandler}
           placeholder={placeholder}
           type="text"
+          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+          ref={(el) => (this.textInput = el as HTMLInputElement)}
         />
       </span>
     );

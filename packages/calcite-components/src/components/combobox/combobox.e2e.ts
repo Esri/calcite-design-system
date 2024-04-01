@@ -16,7 +16,7 @@ import {
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
-import { CSS } from "../combobox/resources";
+import { CSS } from "./resources";
 import { getElementXY, skipAnimations } from "../../tests/utils";
 
 const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
@@ -2009,26 +2009,20 @@ describe("calcite-combobox", () => {
     const longValue = "Natural Resources Including a Comprehensive List of Resources to Protect or Plunder";
     const page = await newE2EPage();
     await page.setContent(html`
-      <calcite-combobox open placeholder="Select a field" selection-mode="single">
-        <calcite-combobox-item value="NaturalResources" text-label=${longValue}></calcite-combobox-item>
-        <calcite-combobox-item value="Agriculture" text-label="Agriculture"></calcite-combobox-item>
-        <calcite-combobox-item value="Forestry" text-label="Forestry"></calcite-combobox-item>
-        <calcite-combobox-item value="Mining" text-label="Mining"></calcite-combobox-item>
-        <calcite-combobox-item value="Business" text-label="Business"></calcite-combobox-item>
-      </calcite-combobox>
+      <div style="width:200px;">
+        <calcite-combobox placeholder="Select a field" selection-mode="single">
+          <calcite-combobox-item selected value="NaturalResources" text-label="${longValue}"></calcite-combobox-item>
+          <calcite-combobox-item value="Agriculture" text-label="Agriculture"></calcite-combobox-item>
+          <calcite-combobox-item value="Forestry" text-label="Forestry"></calcite-combobox-item>
+          <calcite-combobox-item value="Mining" text-label="Mining"></calcite-combobox-item>
+          <calcite-combobox-item value="Business" text-label="Business"></calcite-combobox-item>
+        </calcite-combobox>
+      </div>
     `);
 
     await page.waitForChanges();
-    const combobox = await page.find("calcite-combobox");
-    const firstItem = await combobox.find("calcite-combobox-item[value=NaturalResources]");
-
-    console.log("firstItem", firstItem);
-    await firstItem.click();
 
     const inputWrap = await page.find(`calcite-combobox >>> .${CSS.inputWrap}`);
-    expect(inputWrap).toHaveAttribute("title");
-
-    expect(inputWrap.textContent.length).toBeLessThan(longValue.length);
-    expect(inputWrap.getAttribute("title")).toEqual(longValue);
+    expect(inputWrap.title).toEqual(longValue);
   });
 });
