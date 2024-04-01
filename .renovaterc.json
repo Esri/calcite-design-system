@@ -3,7 +3,6 @@
   "extends": [
     "config:base",
     "npm:unpublishSafe",
-    "schedule:daily",
     "workarounds:typesNodeVersioning",
     ":pinAllExceptPeerDependencies",
     ":widenPeerDependencies"
@@ -11,6 +10,7 @@
   "platformCommit": true,
   "enabledManagers": ["npm"],
   "timezone": "America/Los_Angeles",
+  "schedule": ["before 5am on every weekday"],
   "labels": ["dependencies"],
   "ignoreDeps": [
     "@types/jest",
@@ -35,11 +35,6 @@
       "semanticCommitType": "build",
       "semanticCommitScope": "deps",
       "addLabels": ["chore"]
-    },
-    {
-      "matchPackagePatterns": ["^@(esri|stencil)/*"],
-      "schedule": ["8am", "12pm", "4pm"],
-      "extends": [":disableRateLimiting"]
     }
   ]
 }
