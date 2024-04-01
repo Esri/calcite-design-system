@@ -10,7 +10,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
+import { focusElementInGroup, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -154,6 +154,8 @@ export class Carousel
 
   private container: HTMLDivElement;
 
+  private tabList: HTMLDivElement;
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -216,18 +218,16 @@ export class Carousel
     this.setSelectedItem(true, requestedPosition);
   };
 
-  private keyDownHandler = (event: KeyboardEvent): void => {
+  private containerKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.target !== this.container) {
       return;
     }
 
     switch (event.key) {
       case "ArrowRight":
-        event.preventDefault();
         this.nextItem();
         break;
       case "ArrowLeft":
-        event.preventDefault();
         this.previousItem();
         break;
       case "Home":
@@ -241,6 +241,31 @@ export class Carousel
         this.setSelectedItem(true, this.items?.length - 1);
         break;
     }
+  };
+
+  private tabListKeyDownHandler = (event: KeyboardEvent): void => {
+    const interactiveItems = Array(...this.tabList.querySelectorAll("calcite-action"));
+    const currentEl = event.target as HTMLCalciteActionElement;
+    switch (event.key) {
+      case "ArrowRight":
+        focusElementInGroup(interactiveItems, currentEl, "next");
+        break;
+      case "ArrowLeft":
+        focusElementInGroup(interactiveItems, currentEl, "previous");
+        break;
+      case "Home":
+        event.preventDefault();
+        focusElementInGroup(interactiveItems, currentEl, "first");
+        break;
+      case "End":
+        event.preventDefault();
+        focusElementInGroup(interactiveItems, currentEl, "last");
+        break;
+    }
+  };
+
+  private storeTabListRef = (el: HTMLDivElement): void => {
+    this.tabList = el;
   };
 
   private storeContainerRef = (el: HTMLDivElement): void => {
@@ -260,7 +285,10 @@ export class Carousel
           [CSS.pagination]: true,
           [CSS.isOverlay]: this.controlOverlay,
         }}
+        onKeyDown={this.tabListKeyDownHandler}
         role="tablist"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.storeTabListRef}
       >
         {this.arrowType === "inline" && this.renderPreviousArrow()}
         {this.items?.map((item, index) => (
@@ -326,7 +354,7 @@ export class Carousel
               [CSS.isOverlay]: this.controlOverlay,
               [CSS.isEdges]: this.arrowType === "edges",
             }}
-            onKeyDown={this.keyDownHandler}
+            onKeyDown={this.containerKeyDownHandler}
             role="group"
             tabIndex={0}
             // eslint-disable-next-line react/jsx-sort-props
