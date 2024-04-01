@@ -1849,17 +1849,34 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
  */
 export function themed(
   componentTagOrHTML: TagOrHTML,
-  tokens: Record<string, { selector: string; shadowSelector?: string; targetProp: string }>,
+  tokens: Record<
+    string,
+    {
+      selector: string;
+      shadowSelector?: string;
+      targetProp: string;
+      state?: string | Record<string, { attribute: string; value: string }>;
+    }
+  >,
 ): void {
   it("is theme-able", async () => {
     const page = await simplePageSetup(componentTagOrHTML);
     const expectChecklist: Record<
       string,
-      [E2EElement, Record<string, [E2EElement, Record<string, [string, string]>]>]
+      [
+        E2EElement,
+        Record<
+          string,
+          [
+            E2EElement,
+            Record<string, [string, string, string | Record<string, { attribute: string; value: string }> | undefined]>,
+          ]
+        >,
+      ]
     > = {};
 
     for (const token in tokens) {
-      const { selector, shadowSelector, targetProp } = tokens[token];
+      const { selector, shadowSelector, targetProp, state } = tokens[token];
       const themedTokenValue = assignTestTokenThemeValues(token);
       if (!expectChecklist[selector]) {
         const el = await page.find(selector);
@@ -1894,7 +1911,7 @@ export function themed(
       }
 
       const [, targetProps] = selectors[shadowSelector || selector];
-      targetProps[token] = [targetProp, themedTokenValue];
+      targetProps[token] = [targetProp, themedTokenValue, state];
     }
 
     // let all page.find calls resolve
@@ -1917,7 +1934,7 @@ export function themed(
 
       for (const targetSelector in selectors) {
         const [target, targetProps] = selectors[targetSelector];
-        await assertThemedProps(target, Object.values(targetProps));
+        await assertThemedProps(page, target, Object.values(targetProps));
       }
     }
   });

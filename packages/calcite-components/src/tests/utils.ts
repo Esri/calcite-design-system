@@ -430,13 +430,97 @@ export function toBeNumber(): any {
  * Get the computed style of an element and assert that it matches the expected themed token value.
  * This is useful for testing themed components.
  *
+ * @param page - the e2e page
  * @param target - the element to get the computed style from
+ * @param selector - the selector of the target element
  * @param props - an array of tuples where the first value is the CSS property to check and the second value is the expected themed token value
  */
-export async function assertThemedProps(target: E2EElement, props: [string, string][]): Promise<void> {
+export async function assertThemedProps(
+  page: E2EPage,
+  target: E2EElement,
+  props: [string, string, string | Record<string, { attribute: string; value: string }> | undefined][],
+): Promise<void> {
   const styles = await target.getComputedStyle();
-  for (const [targetProp, themedTokenValue] of props) {
-    expect(styles[targetProp]).toBe(themedTokenValue);
+  for (const [targetProp, themedTokenValue, state] of props) {
+    if (state) {
+      if (typeof state === "string") {
+        await target[state]();
+        await page.waitForChanges();
+      } else {
+        const [stateName, { attribute, value }] = Object.entries(state)[0];
+        const rect = (await page.evaluate(
+          (attribute: string, value: string | RegExp) => {
+            const searchInShadowDom = (node: Node): T | undefined => {
+              if (node.nodeType === 1) {
+                const attr = (node as Element).getAttribute(attribute);
+                if (typeof value === "string" && attr === value) {
+                  return node;
+                }
+                if (value instanceof RegExp && attr && value.test(attr)) {
+                  return node ?? undefined;
+                }
+                if ((node as Element).getAttribute(attribute) === value) {
+                  return node;
+                }
+
+                if ((node as Element) && !attribute && !value) {
+                  return node;
+                }
+              }
+
+              if (node.nodeType === 1 && (node as Element).shadowRoot) {
+                for (const child of ((node as Element).shadowRoot as ShadowRoot).children) {
+                  const result = searchInShadowDom(child);
+                  if (result) {
+                    return result;
+                  }
+                }
+              }
+
+              for (const child of node.childNodes) {
+                const result = searchInShadowDom(child);
+                if (result) {
+                  return result;
+                }
+              }
+            };
+            return new Promise<{ width: number; height: number; left: number; top: number } | undefined>((resolve) => {
+              requestAnimationFrame(() => {
+                const foundNode = searchInShadowDom(document);
+                if (foundNode && foundNode.getBoundingClientRect) {
+                  const { width, height, left, top } = foundNode.getBoundingClientRect();
+                  resolve({ width, height, left, top });
+                } else {
+                  resolve(undefined);
+                }
+              });
+            });
+          },
+          attribute,
+          value,
+        )) as { width: number; height: number; left: number; top: number } | undefined;
+
+        const box = {
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+        };
+        await page.mouse.move(box.x, box.y);
+
+        if (stateName === "press") {
+          await page.mouse.down();
+        }
+        if (stateName === "focus") {
+          await page.mouse.up();
+        }
+        await page.waitForChanges();
+      }
+
+      const statefulStyles = await target.getComputedStyle();
+      expect(statefulStyles[targetProp]).toBe(themedTokenValue);
+    } else {
+      expect(styles[targetProp]).toBe(themedTokenValue);
+    }
+    page.mouse.reset();
   }
 }
 
