@@ -440,7 +440,7 @@ export async function assertThemedProps(
   target: E2EElement,
   props: [string, string, string | Record<string, { attribute: string; value: string }> | undefined][],
 ): Promise<void> {
-  const styles = await target.getComputedStyle();
+  let styles = await target.getComputedStyle();
   for (const [targetProp, themedTokenValue, state] of props) {
     if (state) {
       if (typeof state === "string") {
@@ -515,13 +515,13 @@ export async function assertThemedProps(
         await page.waitForChanges();
       }
 
-      const statefulStyles = await target.getComputedStyle();
-      expect(statefulStyles[targetProp]).toBe(themedTokenValue);
-    } else {
-      expect(styles[targetProp]).toBe(themedTokenValue);
+      styles = await target.getComputedStyle();
+      // reset the mouse state to ensure each "state" starts with a clean slate
+      page.mouse.reset();
     }
-    // reset the mouse state to ensure each "state" starts with a clean slate
-    page.mouse.reset();
+
+    await page.waitForChanges();
+    expect(Object.is(styles[targetProp], themedTokenValue)).toBe(true);
   }
 }
 
