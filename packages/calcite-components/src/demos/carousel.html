@@ -64,6 +64,17 @@
         font-weight: 600;
         line-height: 32px;
       }
+
+      .themed {
+        --calcite-carousel-slide-item-background-color-active: orange;
+        --calcite-carousel-slide-item-background-color-hover: yellow;
+        --calcite-carousel-slide-item-background-color-selected: red;
+        --calcite-carousel-slide-item-background-color: green;
+        --calcite-carousel-slide-item-icon-color-hover: white;
+        --calcite-carousel-slide-item-icon-color-selected: pink;
+        --calcite-carousel-slide-item-icon-color-active: white;
+        --calcite-carousel-slide-item-icon-color: lightgreen;
+      }
     </style>
     <script src="_assets/head.js"></script>
     <script type="module" src="./_assets/demo-form.js"></script>
@@ -131,8 +142,8 @@
           </div>
           <div class="child">
             <hr />
-
-            <calcite-carousel id="example-carousel">
+            <h3>Themed</h3>
+            <calcite-carousel id="example-carousel" class="themed">
               <calcite-carousel-item label="The Red Rocks and Blue Water">
                 <calcite-card>
                   <div slot="title">1 ArcGIS Online: Gallery and Organization pages</div>
@@ -240,8 +251,44 @@
               </calcite-panel>
               <calcite-shell-panel slot="panel-start" width-scale="l">
                 <calcite-panel heading="Carousel in context">
-                  <calcite-block open heading="Carousel in block">
+                  <calcite-block open heading="Carousel in block themed">
                     <calcite-carousel id="example-carousel" control-overlay arrow-type="edges">
+                      <calcite-carousel-item label="The Red Rocks and Blue Water">
+                        <p class="bg-image-example">1 Some kind of rich content over a bg using overlay controls</p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The Long Trees">
+                        <p class="bg-image-example">
+                          2 Some kind of rich content over a bg using overlay controls but longer than the other one
+                        </p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="Square Nature">
+                        <p class="bg-image-example">
+                          3 Some kind of rich content over a bg using overlay controls but longer than the other one
+                        </p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The lack of imagery">
+                        <p class="bg-image-example">4 Some kind of rich content over a bg using overlay controls</p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The Red Rocks and Blue Water">
+                        <p class="bg-image-example">
+                          5 Some kind of rich content over a bg using overlay controls but longer than the other one
+                        </p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The Long Trees">
+                        <p class="bg-image-example">6 Some kind of rich content over a bg using overlay controls</p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="Square Nature">
+                        <p class="bg-image-example">
+                          7 Some kind of rich content over a bg using overlay controls but longer than the other one
+                        </p>
+                      </calcite-carousel-item>
+                      <calcite-carousel-item label="The lack of imagery">
+                        <p class="bg-image-example">8 Some kind of rich content over a bg using overlay controls</p>
+                      </calcite-carousel-item>
+                    </calcite-carousel>
+                  </calcite-block>
+                  <calcite-block open heading="Carousel in block">
+                    <calcite-carousel id="example-carousel" control-overlay arrow-type="edges" class="themed">
                       <calcite-carousel-item label="The Red Rocks and Blue Water">
                         <p class="bg-image-example">1 Some kind of rich content over a bg using overlay controls</p>
                       </calcite-carousel-item>

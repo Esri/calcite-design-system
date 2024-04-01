@@ -1,7 +1,47 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-carousel-slide-item-background-color-active: Specifies the background color of the slide item while active.
+ * @prop --calcite-carousel-slide-item-background-color-hover: Specifies the background color of the slide item while hovered.
+ * @prop --calcite-carousel-slide-item-background-color-selected: Specifies the background color of the slide item when selected.
+ * @prop --calcite-carousel-slide-item-background-color: Specifies the background color of the slide item.
+ * @prop --calcite-carousel-slide-item-icon-color-hover: Specifies the icon color of the slide item while hovered.
+ * @prop --calcite-carousel-slide-item-icon-color-selected: Specifies the icon color of the slide item when selected.
+ * @prop --calcite-carousel-slide-item-icon-color: Specifies the icon color of the slide item.
+ *
+ */
+
 :host {
   @apply block w-full;
   --calcite-internal-carousel-item-space: 1.5rem;
   --calcite-internal-carousel-item-space-wide: 3.5rem;
+  --calcite-internal-item-background-color: var(
+    --calcite-carousel-slide-item-background-color,
+    var(--calcite-color-foreground-1)
+  );
+  --calcite-internal-item-background-color-hover: var(
+    --calcite-carousel-slide-item-background-color-hover,
+    var(--calcite-color-foreground-2)
+  );
+  --calcite-internal-item-background-color-active: var(
+    --calcite-carousel-slide-item-background-color-active,
+    var(--calcite-color-foreground-2)
+  );
+  --calcite-internal-item-background-color-selected: var(
+    --calcite-carousel-slide-item-background-color-selected,
+    var(--calcite-color-foreground-1)
+  );
+  --calcite-internal-item-icon-color-hover: var(
+    --calcite-carousel-slide-item-icon-color-hover,
+    var(--calcite-action-color-transparent-hover)
+  );
+  --calcite-internal-item-icon-color-selected: var(
+    --calcite-carousel-slide-item-icon-color-selected,
+    var(--calcite-color-brand)
+  );
+  --calcite-internal-item-icon-color: var(--calcite-carousel-slide-item-icon-color, var(--calcite-color-border-input));
 }
 
 .container {
@@ -87,12 +127,33 @@ calcite-carousel-item:not([selected]) {
   inset-inline: 0;
 }
 
+.page-next,
+.page-previous,
 .pagination-item {
-  --calcite-ui-icon-color: var(--calcite-color-border-input);
-}
+  --calcite-color-foreground-1: var(--calcite-internal-item-background-color);
+  --calcite-ui-icon-color: var(--calcite-internal-item-icon-color);
 
-.pagination-item--selected {
-  --calcite-ui-icon-color: var(--calcite-color-brand);
+  &:hover {
+    --calcite-color-foreground-2: var(--calcite-internal-item-background-color-hover);
+    --calcite-color-foreground-3: var(--calcite-internal-item-background-color-hover);
+    --calcite-color-background: var(--calcite-internal-item-background-color-hover);
+    --calcite-ui-icon-color: var(--calcite-internal-item-icon-color-hover);
+  }
+
+  &:active {
+    --calcite-color-foreground-3: var(--calcite-internal-item-background-color-active);
+    --calcite-ui-icon-color: var(--calcite-internal-item-icon-color-hover);
+  }
+
+  &:focus {
+    --calcite-color-foreground-2: var(--calcite-internal-item-background-color-active);
+  }
+
+  &.pagination-item--selected {
+    --calcite-color-foreground-1: var(--calcite-internal-item-background-color-selected);
+    --calcite-color-foreground-3: var(--calcite-internal-item-background-color-selected);
+    --calcite-ui-icon-color: var(--calcite-internal-item-icon-color-selected);
+  }
 }
 
 /* @keyframes*/
