@@ -271,7 +271,7 @@ export class DatePickerMonth {
     const nextMonthWeeks = this.getWeeks(nextMonthDays);
 
     return (
-      <Host onFocusOut={this.disableActiveFocus} onKeyDown={this.keyDownHandler}>
+      <Host onFocusOut={this.disableActiveFocus}>
         <div class="month-header">
           <calcite-date-picker-month-header
             activeDate={this.activeDate}
@@ -302,7 +302,7 @@ export class DatePickerMonth {
             />
           )}
         </div>
-        <div class="calendar" role="grid">
+        <div class="calendar" onKeyDown={this.keyDownHandler} role="grid">
           {this.renderMonthCalendar(adjustedWeekDays, weeks)}
           {this.range && this.renderMonthCalendar(adjustedWeekDays, nextMonthWeeks)}
         </div>
@@ -482,6 +482,7 @@ export class DatePickerMonth {
 
   daySelect = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteDatePickerDayElement;
+    // below line needs to be commented out to focus on active date on based on focused input
     this.activeFocus = false;
     this.calciteInternalDatePickerSelect.emit(target.value);
   };
