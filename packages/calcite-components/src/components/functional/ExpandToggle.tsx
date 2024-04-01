@@ -62,7 +62,7 @@ const setTooltipReference = ({
   return referenceElement;
 };
 
-export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
+export const ExpandToggle: FunctionalComponent<ExpandToggleProps & any> = ({
   expanded,
   expandText,
   collapseText,
@@ -72,6 +72,7 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
   tooltip,
   ref,
   scale,
+  ...props
 }) => {
   const rtl = getElementDir(el) === "rtl";
 
@@ -98,6 +99,7 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
       ref={(referenceElement): HTMLCalciteActionElement =>
         setTooltipReference({ tooltip, referenceElement, expanded, ref })
       }
+      {...props}
     />
   );
 
