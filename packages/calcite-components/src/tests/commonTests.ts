@@ -11,6 +11,8 @@ import { MessageBundle } from "../utils/t9n";
 import {
   GlobalTestProps,
   IntrinsicElementsWithProp,
+  assertThemedProps,
+  assignTestTokenThemeValues,
   isElementFocused,
   newProgrammaticE2EPage,
   skipAnimations,
@@ -1838,4 +1840,134 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
       await testOpenCloseEvents(componentTagOrHTML, page);
     });
   }
+}
+
+/**
+ *
+ * Helper to test custom theming of a component's associated tokens.
+ *
+ * @example
+ * describe("default", () => {
+ *   const tokens = {
+ *     "--calcite-action-bar-trigger-background-color": {
+ *       selector: "calcite-action-bar",
+ *       shadowSelector: "calcite-action-group calcite-action >>> .button",
+ *       targetProp: "backgroundColor",
+ *     },
+ *     "--calcite-action-bar-trigger-background-color-active": {
+ *       selector: "calcite-action-bar",
+ *       shadowSelector: "calcite-action-group calcite-action >>> .button",
+ *       targetProp: "backgroundColor",
+ *       state: { press: { attribute: "class", value: CSS.expandToggle } },
+ *     },
+ *     "--calcite-action-bar-trigger-background-color-focus": {
+ *       selector: "calcite-action-bar",
+ *       shadowSelector: "calcite-action-group calcite-action >>> .button",
+ *       targetProp: "backgroundColor",
+ *       state: "focus",
+ *     },
+ *     "--calcite-action-bar-trigger-background-color-hover": {
+ *       selector: "calcite-action-bar",
+ *       shadowSelector: "calcite-action-group calcite-action >>> .button",
+ *       targetProp: "backgroundColor",
+ *       state: "hover",
+ *     },
+ *   };
+ *   themed(`calcite-action-bar`, tokens);
+ * });
+ *
+ * @param componentTagOrHTML  - The component tag or HTML markup to test against.
+ * @param tokens - A record of token names and their associated selectors, shadow selectors, target props, and states.
+ */
+export function themed(
+  componentTagOrHTML: TagOrHTML,
+  tokens: Record<
+    string,
+    {
+      selector: string;
+      shadowSelector?: string;
+      targetProp: string;
+      state?: string | Record<string, { attribute: string; value: string }>;
+    }
+  >,
+): void {
+  it("is theme-able", async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const expectChecklist: Record<
+      string,
+      [
+        E2EElement,
+        Record<
+          string,
+          [
+            E2EElement,
+            Record<string, [string, string, string | Record<string, { attribute: string; value: string }> | undefined]>,
+          ]
+        >,
+      ]
+    > = {};
+
+    for (const token in tokens) {
+      const { selector, shadowSelector, targetProp, state } = tokens[token];
+      const themedTokenValue = assignTestTokenThemeValues(token);
+      if (!expectChecklist[selector]) {
+        const el = await page.find(selector);
+        expectChecklist[selector] = [el, {}];
+      }
+
+      const [el, selectors] = expectChecklist[selector];
+
+      if (!selectors[shadowSelector || selector]) {
+        let target: E2EElement;
+
+        if (shadowSelector && shadowSelector.includes(">>>")) {
+          const shadowSelectors = shadowSelector.split(" ");
+
+          for (let i = 0; i < shadowSelectors.length; i++) {
+            const s = shadowSelectors[i];
+
+            if (i === 0) {
+              target = await page.find(`${selector} >>> ${s}`);
+            } else if (shadowSelectors[i + 1] === ">>>") {
+              target = await target.find(`${s} >>> ${shadowSelectors[i + 2]}`);
+              i += 2;
+            } else {
+              target = await target.find(s);
+            }
+          }
+        } else {
+          target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : el;
+        }
+
+        selectors[shadowSelector || selector] = [target, {}];
+      }
+
+      const [, targetProps] = selectors[shadowSelector || selector];
+      targetProps[token] = [targetProp, themedTokenValue, state];
+    }
+
+    // let all page.find calls resolve
+    await page.waitForChanges();
+
+    for (const selector in expectChecklist) {
+      const [el, selectors] = expectChecklist[selector];
+      const style = Object.entries(selectors).flatMap(([, targetProps]) =>
+        Object.entries(targetProps[1]).map(([token, [, themedTokenValue]]) => `${token}: ${themedTokenValue}`),
+      );
+      // Sets the style of each element to a string of CSS token props with themed token values
+      el.setAttribute("style", style.join("; "));
+    }
+
+    // let all el.setAttribute calls resolve
+    await page.waitForChanges();
+
+    for (const elSelector in expectChecklist) {
+      const [, selectors] = expectChecklist[elSelector];
+
+      for (const targetSelector in selectors) {
+        const [target, targetProps] = selectors[targetSelector];
+        await assertThemedProps(page, target, Object.values(targetProps));
+      }
+    }
+  });
 }
