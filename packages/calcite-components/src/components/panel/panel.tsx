@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Method,
   Prop,
   State,
@@ -602,7 +603,6 @@ export class Panel
         aria-busy={toAriaBoolean(loading)}
         class={CSS.container}
         hidden={closed}
-        onKeyDown={panelKeyDownHandler}
         tabIndex={closable ? 0 : -1}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setContainerRef}
@@ -614,10 +614,12 @@ export class Panel
     );
 
     return (
-      <InteractiveContainer disabled={disabled}>
-        {loading ? <calcite-scrim loading={loading} /> : null}
-        {panelNode}
-      </InteractiveContainer>
+      <Host onKeyDown={panelKeyDownHandler}>
+        <InteractiveContainer disabled={disabled}>
+          {loading ? <calcite-scrim loading={loading} /> : null}
+          {panelNode}
+        </InteractiveContainer>
+      </Host>
     );
   }
 }
