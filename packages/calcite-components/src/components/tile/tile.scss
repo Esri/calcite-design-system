@@ -24,6 +24,7 @@
   min-inline-size: 140px;
 
   .container {
+    align-items: flex-start;
     background-color: var(--calcite-tile-background-color, var(--calcite-color-foreground-1));
     block-size: var(--calcite-container-size-content-fluid);
     box-shadow: 0 0 0 var(--calcite-internal-tile-border-width) var(--calcite-internal-tile-border-color);
@@ -40,22 +41,15 @@
 
   .content-container {
     display: flex;
+    gap: var(--calcite-spacing-md);
+    inline-size: 100%;
     outline-color: transparent;
     padding: 0;
-    inline-size: 100%;
   }
 
-  .content-slot-container {
-    align-items: center;
+  .content {
     display: flex;
-
-    &:first-child {
-      padding-inline: 0 0.75rem;
-    }
-
-    &:last-child {
-      padding-inline: 0.75rem 0;
-    }
+    flex-direction: column;
   }
 
   .heading {
@@ -93,12 +87,17 @@
     align-items: center;
     text-align: center;
   }
+  slot[name="content-start"]::slotted(*),
+  slot[name="content-end"]::slotted(*) {
+    align-self: center;
+  }
 }
 
 :host([scale="s"]) {
   max-inline-size: 400px;
   min-inline-size: 100px;
-  .container {
+  .container,
+  .content-container {
     gap: var(--calcite-spacing-sm);
   }
   .heading {
@@ -114,7 +113,8 @@
 :host([scale="l"]) {
   max-inline-size: 520px;
   min-inline-size: 160px;
-  .container {
+  .container,
+  .content-container {
     gap: var(--calcite-spacing-xl);
   }
   .heading {

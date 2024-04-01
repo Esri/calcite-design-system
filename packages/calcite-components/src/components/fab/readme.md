@@ -1,5 +1,7 @@
 # calcite-fab
 
+For comprehensive guidance on using and implementing `calcite-fab`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/fab/).
+
 <!-- Auto Generated Below -->
 
 ## Usage

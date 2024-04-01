@@ -1,5 +1,7 @@
 # calcite-tree
 
+For comprehensive guidance on using and implementing `calcite-tree`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tree/).
+
 <!-- Auto Generated Below -->
 
 ## Usage

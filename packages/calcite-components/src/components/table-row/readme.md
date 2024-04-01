@@ -1,5 +1,7 @@
 # calcite-table-row
 
+For comprehensive guidance on using and implementing `calcite-table-row`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/table-row/).
+
 <!-- Auto Generated Below -->
 
 ## Properties
