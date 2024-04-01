@@ -36,6 +36,15 @@ jobs:
         run: |
           npm install
           npm run build
+
+          # These git commands can be removed once we stop tracking components.d.ts
+          # For more info, see: https://github.com/Esri/calcite-design-system/pull/9011
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          # the "|| true" prevents failure if there are no changes
+          git add packages/calcite-components/src/components.d.ts || true
+          git commit -m "build: update types" || true
+
           npm run publish:latest
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
