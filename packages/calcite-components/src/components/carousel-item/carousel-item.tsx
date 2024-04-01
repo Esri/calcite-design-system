@@ -65,6 +65,7 @@ export class CarouselItem implements LoadableComponent {
         <div
           aria-label={this.label}
           class={{ [CSS.container]: true, [CSS.selected]: this.selected }}
+          role="tabpanel"
         >
           <slot />
         </div>

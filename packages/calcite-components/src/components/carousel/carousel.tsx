@@ -260,6 +260,7 @@ export class Carousel
           [CSS.pagination]: true,
           [CSS.isOverlay]: this.controlOverlay,
         }}
+        role="tablist"
       >
         {this.arrowType === "inline" && this.renderPreviousArrow()}
         {this.items?.map((item, index) => (
@@ -273,6 +274,7 @@ export class Carousel
             icon={index === selectedIndex ? ICONS.active : ICONS.inactive}
             label={item.label}
             onClick={this.handleItemSelection}
+            role="tab"
             scale="s"
             text={item.label}
             title={item.label}
@@ -318,12 +320,14 @@ export class Carousel
         <InteractiveContainer disabled={this.disabled}>
           <div
             aria-label={this.label}
+            aria-roledescription="carousel"
             class={{
               [CSS.container]: true,
               [CSS.isOverlay]: this.controlOverlay,
               [CSS.isEdges]: this.arrowType === "edges",
             }}
             onKeyDown={this.keyDownHandler}
+            role="group"
             tabIndex={0}
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.storeContainerRef}
