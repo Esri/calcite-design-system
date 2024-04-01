@@ -520,6 +520,7 @@ export async function assertThemedProps(
     } else {
       expect(styles[targetProp]).toBe(themedTokenValue);
     }
+    // reset the mouse state to ensure each "state" starts with a clean slate
     page.mouse.reset();
   }
 }
