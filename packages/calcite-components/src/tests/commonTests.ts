@@ -1844,8 +1844,40 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
 
 /**
  *
- * @param componentTagOrHTML -
- * @param tokens
+ * Helper to test custom theming of a component's associated tokens.
+ *
+ * @example
+ * describe("default", () => {
+ *   const tokens = {
+ *     "--calcite-action-bar-trigger-background-color": {
+ *       selector: "calcite-action-bar",
+ *       shadowSelector: "calcite-action-group calcite-action >>> .button",
+ *       targetProp: "backgroundColor",
+ *     },
+ *     "--calcite-action-bar-trigger-background-color-active": {
+ *       selector: "calcite-action-bar",
+ *       shadowSelector: "calcite-action-group calcite-action >>> .button",
+ *       targetProp: "backgroundColor",
+ *       state: { press: { attribute: "class", value: CSS.expandToggle } },
+ *     },
+ *     "--calcite-action-bar-trigger-background-color-focus": {
+ *       selector: "calcite-action-bar",
+ *       shadowSelector: "calcite-action-group calcite-action >>> .button",
+ *       targetProp: "backgroundColor",
+ *       state: "focus",
+ *     },
+ *     "--calcite-action-bar-trigger-background-color-hover": {
+ *       selector: "calcite-action-bar",
+ *       shadowSelector: "calcite-action-group calcite-action >>> .button",
+ *       targetProp: "backgroundColor",
+ *       state: "hover",
+ *     },
+ *   };
+ *   themed(`calcite-action-bar`, tokens);
+ * });
+ *
+ * @param componentTagOrHTML  - The component tag or HTML markup to test against.
+ * @param tokens - A record of token names and their associated selectors, shadow selectors, target props, and states.
  */
 export function themed(
   componentTagOrHTML: TagOrHTML,
