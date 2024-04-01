@@ -610,7 +610,7 @@ describe("calcite-action-bar", () => {
           targetProp: "maxWidth",
         },
       };
-      themed(`<calcite-action-bar layout="vertical"></calcite-action-bar>`, tokens);
+      themed(`<calcite-action-bar layout="vertical" expanded></calcite-action-bar>`, tokens);
     });
   });
 });
