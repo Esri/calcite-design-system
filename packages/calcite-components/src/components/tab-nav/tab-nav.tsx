@@ -181,7 +181,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
     this.layout = parentTabsEl?.layout;
     this.bordered = parentTabsEl?.bordered;
-    this.dir = getElementDir(this.el);
+    this.effectiveDir = getElementDir(this.el);
 
     if (this.selectedTitle) {
       this.updateActiveIndicator();
@@ -218,7 +218,8 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   render(): VNode {
     const width = `${this.indicatorWidth}px`;
     const offset = `${this.indicatorOffset}px`;
-    const indicatorStyle = this.dir !== "rtl" ? { width, left: offset } : { width, right: offset };
+    const indicatorStyle =
+      this.effectiveDir !== "rtl" ? { width, left: offset } : { width, right: offset };
 
     return (
       <Host role="tablist">
@@ -229,7 +230,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
             [CSS.containerHasEndTabTitleOverflow]: !!this.hasOverflowingEndTabTitle,
             [`scale-${this.scale}`]: true,
             [`position-${this.position}`]: true,
-            [CSS_UTILITY.rtl]: this.dir === "rtl",
+            [CSS_UTILITY.rtl]: this.effectiveDir === "rtl",
           }}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.storeContainerRef}
@@ -313,7 +314,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     }
 
     readTask(() => {
-      const isLTR = this.dir === "ltr";
+      const isLTR = this.effectiveDir === "ltr";
       const tabTitleContainer = this.tabTitleContainerEl;
       const containerBounds = tabTitleContainer.getBoundingClientRect();
       const tabTitleBounds = activatedTabTitle.getBoundingClientRect();
@@ -431,9 +432,9 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   private activeIndicatorContainerEl: HTMLDivElement;
 
-  private dir: Direction = "ltr";
-
   private containerEl: HTMLDivElement;
+
+  private effectiveDir: Direction = "ltr";
 
   private lastScrollWheelAxis: "x" | "y" = "x";
 
@@ -471,8 +472,8 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     const tabLeft = this.selectedTitle?.offsetLeft;
     const tabWidth = this.selectedTitle?.offsetWidth;
     const offsetRight = navWidth - tabLeft - tabWidth;
-    const offsetBase = this.dir === "ltr" ? tabLeft : offsetRight;
-    const multiplier = this.dir === "ltr" ? -1 : 1;
+    const offsetBase = this.effectiveDir === "ltr" ? tabLeft : offsetRight;
+    const multiplier = this.effectiveDir === "ltr" ? -1 : 1;
 
     this.indicatorOffset = offsetBase + multiplier * (containerScrollLeft + tabTitleScrollLeft);
     this.indicatorWidth = this.selectedTitle?.offsetWidth;
@@ -497,7 +498,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       this.lastScrollWheelAxis = "y";
     }
 
-    const scrollByX = (this.dir === "rtl" ? -1 : 1) * scrollBy;
+    const scrollByX = (this.effectiveDir === "rtl" ? -1 : 1) * scrollBy;
     (event.currentTarget as HTMLDivElement).scrollBy(scrollByX, 0);
     requestAnimationFrame(() => this.updateActiveIndicator());
   };
@@ -535,7 +536,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     const visibleWidth = tabTitleContainer.clientWidth;
     const totalContentWidth = tabTitleContainer.scrollWidth;
 
-    if (this.dir === "ltr") {
+    if (this.effectiveDir === "ltr") {
       isOverflowStart = scrollPosition > 0;
       isOverflowEnd = scrollPosition + visibleWidth < totalContentWidth;
     } else {
@@ -552,7 +553,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       const tabTitleContainer = this.tabTitleContainerEl;
       const containerBounds = tabTitleContainer.getBoundingClientRect();
       const tabTitles = Array.from(this.el.querySelectorAll("calcite-tab-title"));
-      const { dir } = this;
+      const { effectiveDir } = this;
 
       if (direction === "forward") {
         tabTitles.reverse();
@@ -566,8 +567,8 @@ export class TabNav implements LocalizedComponent, T9nComponent {
         const tabTitleEndX = tabTitleBounds.x + tabTitleBounds.width;
 
         if (
-          (direction === "forward" && dir === "ltr") ||
-          (direction === "backward" && dir === "rtl")
+          (direction === "forward" && effectiveDir === "ltr") ||
+          (direction === "backward" && effectiveDir === "rtl")
         ) {
           const afterContainerEnd = tabTitleBounds.x > containerEndX;
 
@@ -600,7 +601,8 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       if (closestToEdge) {
         const { scrollerButtonWidth } = this;
         const offsetAdjustment =
-          (direction === "forward" && dir === "ltr") || (direction === "backward" && dir === "rtl")
+          (direction === "forward" && effectiveDir === "ltr") ||
+          (direction === "backward" && effectiveDir === "rtl")
             ? -scrollerButtonWidth
             : closestToEdge.offsetWidth - tabTitleContainer.clientWidth + scrollerButtonWidth;
         const scrollTo = closestToEdge.offsetLeft + offsetAdjustment;

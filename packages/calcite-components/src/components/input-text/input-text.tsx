@@ -324,8 +324,6 @@ export class InputText
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
-    this.setPreviousEmittedValue(this.value);
-    this.setPreviousValue(this.value);
 
     connectLabel(this);
     connectForm(this);
@@ -349,6 +347,9 @@ export class InputText
     setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon({}, this.icon, "text");
     await setUpMessages(this);
+
+    this.setPreviousEmittedValue(this.value);
+    this.setPreviousValue(this.value);
   }
 
   componentDidLoad(): void {
