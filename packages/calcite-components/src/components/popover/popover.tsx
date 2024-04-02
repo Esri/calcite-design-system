@@ -138,7 +138,7 @@ export class Popover
   @Prop() heading: string;
 
   /**
-   * Specifies the number at which section headings should start.
+   * Specifies the semantic heading level of the internally-rendered text container for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 

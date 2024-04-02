@@ -82,7 +82,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Prop({ mutable: true }) value: string | string[];
 
   /**
-   * Specifies the number at which section headings should start.
+   * Specifies the semantic heading level of the internally-rendered text container for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
