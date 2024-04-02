@@ -22,10 +22,7 @@ export function storyFilters(): {
   excludeStories: RegExp | string[];
 } {
   return {
-    excludeStories: process.env.STORYBOOK_SCREENSHOT_TEST_BUILD
-      ? /.*_NoTest$/
-      : process.env.STORYBOOK_SCREENSHOT_LOCAL_BUILD
-        ? []
-        : /.*_TestOnly$/,
+    // allow all for now as Storybook v8 does not support dynamic story filtering
+    excludeStories: [],
   };
 }
