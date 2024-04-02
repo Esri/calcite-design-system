@@ -13,7 +13,9 @@ export class Code {
   //
   // --------------------------------------------------------------------------
 
-  @Prop() code: string;
+  @Prop() language: string;
+
+  @Prop() source: string;
 
   // --------------------------------------------------------------------------
   //
@@ -22,9 +24,18 @@ export class Code {
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const { source, language } = this;
     return (
       <pre>
-        <code innerHTML={hljs.highlightAuto(this.code).value} />
+        <code
+          innerHTML={
+            source
+              ? language
+                ? hljs.highlight(source, { language, ignoreIllegals: true }).value
+                : hljs.highlightAuto(source).value
+              : null
+          }
+        />
       </pre>
     );
   }

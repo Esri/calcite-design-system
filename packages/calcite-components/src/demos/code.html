@@ -38,7 +38,7 @@
   <body>
     <h2>CSS</h2>
     <calcite-code
-      code=".myClass{
+      source=".myClass{
   display:block;
 }
 
@@ -49,7 +49,7 @@ calcite-block {
 
     <h2>HTML</h2>
     <calcite-code
-      code='&lt;calcite-panel&gt;
+      source='&lt;calcite-panel&gt;
   &lt;div slot="header-content"&gt;Header!&lt;/div&gt;
   &lt;p&gt;Slotted content!&lt;/p&gt;
 &lt;/calcite-panel&gt;'
@@ -57,7 +57,7 @@ calcite-block {
 
     <h2>TS</h2>
     <calcite-code
-      code="export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
+      source="export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
   if (a.parentNode !== b.parentNode) {
     return false;
   }

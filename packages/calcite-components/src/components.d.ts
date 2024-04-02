@@ -929,7 +929,8 @@ export namespace Components {
         "setFocus": () => Promise<void>;
     }
     interface CalciteCode {
-        "code": string;
+        "language": string;
+        "source": string;
     }
     interface CalciteColorPicker {
         /**
@@ -8239,7 +8240,8 @@ declare namespace LocalJSX {
   >;
     }
     interface CalciteCode {
-        "code"?: string;
+        "language"?: string;
+        "source"?: string;
     }
     interface CalciteColorPicker {
         /**
