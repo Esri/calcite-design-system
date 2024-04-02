@@ -125,4 +125,14 @@ describe("calcite-handle", () => {
   describe("translation support", () => {
     t9n("calcite-handle");
   });
+
+  it("sets application role on handle", async () => {
+    const page = await newE2EPage();
+    const label = "Hello World";
+    await page.setContent(`<calcite-handle lang="en" label="${label}"></calcite-handle>`);
+    await page.waitForChanges();
+
+    const handle = await page.find("calcite-handle");
+    expect(handle.getAttribute("role")).toBe("application");
+  });
 });
