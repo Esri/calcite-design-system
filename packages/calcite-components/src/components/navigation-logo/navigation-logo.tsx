@@ -6,6 +6,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { Heading, HeadingLevel } from "../functional/Heading";
 
 @Component({
   tag: "calcite-navigation-logo",
@@ -59,6 +60,11 @@ export class CalciteNavigationLogo implements LoadableComponent {
   /** Specifies the `src` to an image. */
   @Prop() thumbnail: string;
 
+  /**
+   * Specifies the number at which section headings should start.
+   */
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -107,34 +113,45 @@ export class CalciteNavigationLogo implements LoadableComponent {
     return <calcite-icon class={CSS.icon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="l" />;
   }
 
+  renderHeaderContent(): VNode {
+    const { heading, headingLevel, description } = this;
+    const headingNode = heading ? (
+      <Heading class={CSS.heading} level={headingLevel}>
+        <span
+          aria-label={this.heading}
+          class={{
+            [CSS.heading]: true,
+            [CSS.standalone]: !this.description,
+          }}
+          key={CSS.heading}
+        >
+          {heading}
+        </span>
+      </Heading>
+    ) : null;
+
+    const descriptionNode = description ? (
+      <span aria-label={this.description} class={CSS.description} key={CSS.description}>
+        {description}
+      </span>
+    ) : null;
+
+    return headingNode || descriptionNode ? (
+      <div class={CSS.container}>
+        {headingNode}
+        {descriptionNode}
+      </div>
+    ) : null;
+  }
+
   render(): VNode {
-    const { heading, description, thumbnail } = this;
+    const { thumbnail } = this;
     return (
       <Host>
         <a class={CSS.anchor} href={this.href} rel={this.rel} target={this.target}>
           {thumbnail && <img alt={this.label || ""} class={CSS.image} src={thumbnail} />}
           {this.icon && this.renderIcon()}
-          {(heading || description) && (
-            <div class={CSS.container}>
-              {heading && (
-                <span
-                  aria-label={this.heading}
-                  class={{
-                    [CSS.heading]: true,
-                    [CSS.standalone]: !this.description,
-                  }}
-                  key={CSS.heading}
-                >
-                  {heading}
-                </span>
-              )}
-              {description && (
-                <span aria-label={this.description} class={CSS.description} key={CSS.description}>
-                  {description}
-                </span>
-              )}
-            </div>
-          )}
+          {this.renderHeaderContent()}
         </a>
       </Host>
     );
