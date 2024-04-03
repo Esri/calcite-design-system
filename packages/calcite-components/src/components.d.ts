@@ -595,7 +595,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -1311,7 +1311,7 @@ export namespace Components {
          */
         "activeRange": "start" | "end";
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -1771,7 +1771,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -2144,7 +2144,7 @@ export namespace Components {
          */
         "form": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -3486,7 +3486,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -3556,7 +3556,7 @@ export namespace Components {
          */
         "getSelectedItems": () => Promise<Map<string, HTMLCalcitePickListItemElement>>;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -3586,7 +3586,7 @@ export namespace Components {
          */
         "groupTitle": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
     }
@@ -3680,7 +3680,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -5088,6 +5088,11 @@ export namespace Components {
          */
         "scale": Scale;
         /**
+          * Specifies the component's selected items.
+          * @readonly
+         */
+        "selectedItems": HTMLCalciteTileElement[];
+        /**
           * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).
          */
         "selectionAppearance": SelectionAppearance1;
@@ -5207,7 +5212,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -5235,7 +5240,7 @@ export namespace Components {
          */
         "closed": boolean;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -5762,6 +5767,10 @@ export interface CalciteTextAreaCustomEvent<T> extends CustomEvent<T> {
 export interface CalciteTileCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteTileElement;
+}
+export interface CalciteTileGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteTileGroupElement;
 }
 export interface CalciteTileSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -7291,7 +7300,18 @@ declare global {
         prototype: HTMLCalciteTileElement;
         new (): HTMLCalciteTileElement;
     };
+    interface HTMLCalciteTileGroupElementEventMap {
+        "calciteTileGroupSelect": void;
+    }
     interface HTMLCalciteTileGroupElement extends Components.CalciteTileGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteTileGroupElementEventMap>(type: K, listener: (this: HTMLCalciteTileGroupElement, ev: CalciteTileGroupCustomEvent<HTMLCalciteTileGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteTileGroupElementEventMap>(type: K, listener: (this: HTMLCalciteTileGroupElement, ev: CalciteTileGroupCustomEvent<HTMLCalciteTileGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCalciteTileGroupElement: {
         prototype: HTMLCalciteTileGroupElement;
@@ -8020,7 +8040,7 @@ declare namespace LocalJSX {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -8789,7 +8809,7 @@ declare namespace LocalJSX {
          */
         "activeRange"?: "start" | "end";
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -9271,7 +9291,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -9663,7 +9683,7 @@ declare namespace LocalJSX {
          */
         "form"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -11091,7 +11111,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -11158,7 +11178,7 @@ declare namespace LocalJSX {
          */
         "filteredItems"?: HTMLCalcitePickListItemElement[];
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -11191,7 +11211,7 @@ declare namespace LocalJSX {
          */
         "groupTitle"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
     }
@@ -11300,7 +11320,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -12747,9 +12767,18 @@ declare namespace LocalJSX {
          */
         "layout"?: Exclude<Layout, "grid">;
         /**
+          * Fires when the component's selection changes.
+         */
+        "onCalciteTileGroupSelect"?: (event: CalciteTileGroupCustomEvent<void>) => void;
+        /**
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        /**
+          * Specifies the component's selected items.
+          * @readonly
+         */
+        "selectedItems"?: HTMLCalciteTileElement[];
         /**
           * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).
          */
@@ -12869,7 +12898,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -12901,7 +12930,7 @@ declare namespace LocalJSX {
          */
         "closed"?: boolean;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**

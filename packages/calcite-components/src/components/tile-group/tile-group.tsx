@@ -1,4 +1,4 @@
-import { Component, Element, h, Prop, VNode, Watch } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode, Watch } from "@stencil/core";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -45,8 +45,15 @@ export class TileGroup implements InteractiveComponent {
 
   @Watch("scale")
   scaleWatcher(): void {
-    this.updateTiles();
+    this.updateItems();
   }
+
+  /**
+   * Specifies the component's selected items.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) selectedItems: HTMLCalciteTileElement[] = [];
 
   /**
    * Specifies the selection appearance, where:
@@ -71,8 +78,8 @@ export class TileGroup implements InteractiveComponent {
 
   @Watch("selectionMode")
   @Watch("selectionAppearance")
-  handleListItemChange(): void {
-    this.updateTiles();
+  handleSelectionModeOrAppearanceChange(): void {
+    this.updateItems();
   }
 
   //--------------------------------------------------------------------------
@@ -83,22 +90,75 @@ export class TileGroup implements InteractiveComponent {
 
   @Element() el: HTMLCalciteTileGroupElement;
 
+  private items: HTMLCalciteTileElement[] = [];
+
+  private slotEl: HTMLSlotElement;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
 
-  private mutationObserver = createObserver("mutation", () => this.updateTiles());
+  private mutationObserver = createObserver("mutation", () => this.updateItems());
 
-  private updateTiles = (): void => {
-    this.el.querySelectorAll("calcite-tile").forEach((tile) => {
-      tile.interactive = true;
-      tile.scale = this.scale;
-      tile.selectionAppearance = this.selectionAppearance;
-      tile.selectionMode = this.selectionMode;
-    });
+  private setSelectedItems = (emit: boolean, elToMatch?: HTMLCalciteTileElement): void => {
+    if (elToMatch) {
+      this.items?.forEach((el) => {
+        const matchingEl = elToMatch === el;
+        switch (this.selectionMode) {
+          case "multiple":
+            if (matchingEl) {
+              el.selected = !el.selected;
+            }
+            break;
+
+          case "single":
+            el.selected = matchingEl ? !el.selected : false;
+            break;
+
+          case "single-persist":
+            el.selected = !!matchingEl;
+            break;
+        }
+      });
+    }
+
+    this.selectedItems = this.items?.filter((el) => el.selected);
+
+    if (emit) {
+      this.calciteTileGroupSelect.emit();
+    }
   };
+
+  private setSlotElRef = (el: HTMLSlotElement): void => {
+    this.slotEl = el;
+  }
+
+  private updateItems = (event?: Event): void => {
+    const target = event ? (event.target as HTMLSlotElement) : this.slotEl;
+    this.items = target
+      ?.assignedElements({ flatten: true })
+      .filter((el) => el?.matches("calcite-tile")) as HTMLCalciteTileElement[];
+
+    this.items?.forEach((el) => {
+      el.interactive = true;
+      el.scale = this.scale;
+      el.selectionAppearance = this.selectionAppearance;
+      el.selectionMode = this.selectionMode;
+    });
+
+    this.setSelectedItems(false);
+  };
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /** Fires when the component's selection changes. */
+  @Event({ cancelable: false }) calciteTileGroupSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -109,7 +169,7 @@ export class TileGroup implements InteractiveComponent {
   connectedCallback(): void {
     connectInteractive(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.updateTiles();
+    this.updateItems();
   }
 
   componentDidRender(): void {
@@ -121,13 +181,26 @@ export class TileGroup implements InteractiveComponent {
     this.mutationObserver?.disconnect();
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("calciteTileSelect")
+  calciteTileSelectHandler(event: CustomEvent): void {
+    if (event.composedPath().includes(this.el)) {
+      this.setSelectedItems(true, event.target as HTMLCalciteTileElement);
+    }
+  }
+
   render(): VNode {
     const role =
       this.selectionMode === "none" || this.selectionMode === "multiple" ? "group" : "radiogroup";
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div aria-label={this.label} class={CSS.container} role={role}>
-          <slot onSlotchange={this.updateTiles} />
+          <slot onSlotchange={this.updateItems} ref={this.setSlotElRef} />
         </div>
       </InteractiveContainer>
     );

@@ -87,7 +87,7 @@ export class Tile implements InteractiveComponent {
   /**
    * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
    */
-  @Prop({ reflect: true, mutable: true }) selected = false;
+  @Prop({ reflect: true }) selected = false;
 
   /**
    * Specifies the selection appearance, where:
@@ -126,21 +126,8 @@ export class Tile implements InteractiveComponent {
   @Element() el: HTMLCalciteTileElement;
 
   @Listen("click")
-  toggleSelected(): void {
-    const { selectionMode, selected } = this;
-    const previousSelected = selected;
-
-    if (this.disabled) {
-      return;
-    }
-
-    if (selectionMode === "multiple" || selectionMode === "single") {
-      this.selected = !selected;
-    } else if (selectionMode === "single-persist") {
-      this.selected = true;
-    }
-
-    if (previousSelected !== this.selected) {
+  clickHandler(): void {
+    if (!this.disabled && this.interactive) {
       this.calciteTileSelect.emit();
     }
   }
@@ -180,7 +167,7 @@ export class Tile implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  renderSelected(): VNode {
+  renderSelectionIcon(): VNode {
     const { selected, selectionMode } = this;
     if (selectionMode === "none") {
       return;
@@ -210,7 +197,7 @@ export class Tile implements InteractiveComponent {
         class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual, [CSS.row]: true }}
         tabIndex={disableInteraction ? -1 : 0}
       >
-        {this.renderSelected()}
+        {this.renderSelectionIcon()}
         <div class={CSS.column}>
           <slot name={SLOTS.contentTop} />
           {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
