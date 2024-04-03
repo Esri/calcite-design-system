@@ -7,7 +7,7 @@ describe("calcite-carousel", () => {
     renders(
       "<calcite-carousel><calcite-carousel-item selected><p>basic render</p></calcite-carousel-item></calcite-carousel>",
       {
-        display: "block",
+        display: "flex",
       },
     );
   });

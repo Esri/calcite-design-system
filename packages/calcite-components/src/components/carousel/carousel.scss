@@ -3,18 +3,18 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-carousel-slide-item-background-color-active: Specifies the background color of the slide item while active.
- * @prop --calcite-carousel-slide-item-background-color-hover: Specifies the background color of the slide item while hovered.
- * @prop --calcite-carousel-slide-item-background-color-selected: Specifies the background color of the slide item when selected.
- * @prop --calcite-carousel-slide-item-background-color: Specifies the background color of the slide item.
- * @prop --calcite-carousel-slide-item-icon-color-hover: Specifies the icon color of the slide item while hovered.
- * @prop --calcite-carousel-slide-item-icon-color-selected: Specifies the icon color of the slide item when selected.
- * @prop --calcite-carousel-slide-item-icon-color: Specifies the icon color of the slide item.
+ * @prop --calcite-carousel-slide-item-background-color-active: Specifies the background color of the component's slide item while active.
+ * @prop --calcite-carousel-slide-item-background-color-hover: Specifies the background color of the component's slide item while hovered.
+ * @prop --calcite-carousel-slide-item-background-color-selected: Specifies the background color of the component's slide item when selected.
+ * @prop --calcite-carousel-slide-item-background-color: Specifies the background color of the component's slide item.
+ * @prop --calcite-carousel-slide-item-icon-color-hover: Specifies the icon color of the component's slide item while hovered.
+ * @prop --calcite-carousel-slide-item-icon-color-selected: Specifies the icon color of the component's slide item when selected.
+ * @prop --calcite-carousel-slide-item-icon-color: Specifies the icon color of the component's slide item.
  *
  */
 
 :host {
-  @apply block w-full;
+  @apply flex w-full;
   --calcite-internal-carousel-item-space: 1.5rem;
   --calcite-internal-carousel-item-space-wide: 3.5rem;
   --calcite-internal-item-background-color: var(

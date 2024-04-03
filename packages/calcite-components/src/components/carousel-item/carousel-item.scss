@@ -1,5 +1,5 @@
 :host {
-  @apply block;
+  @apply flex;
 }
 
 :host([selected]) .container {

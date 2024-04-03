@@ -832,11 +832,11 @@ export namespace Components {
     }
     interface CalciteCarousel {
         /**
-          * Specify how and if the previous and next arrows are displayed.
+          * Specifies how and if the "previous" and "next" arrows are displayed.
          */
         "arrowType": ArrowType;
         /**
-          * Specify if the controls are overlaid on top of the content.
+          * Specifies if the component's controls are placed on top of the content.
          */
         "controlOverlay": boolean;
         /**
@@ -844,7 +844,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The component label text
+          * Accessible name for the component.
          */
         "label": string;
         /**
@@ -863,7 +863,7 @@ export namespace Components {
     }
     interface CalciteCarouselItem {
         /**
-          * The component label text, used to populate tooltips in the `calcite-carousel`'s controls.
+          * Accessible name for the component.
          */
         "label": string;
         /**
@@ -8295,11 +8295,11 @@ declare namespace LocalJSX {
     }
     interface CalciteCarousel {
         /**
-          * Specify how and if the previous and next arrows are displayed.
+          * Specifies how and if the "previous" and "next" arrows are displayed.
          */
         "arrowType"?: ArrowType;
         /**
-          * Specify if the controls are overlaid on top of the content.
+          * Specifies if the component's controls are placed on top of the content.
          */
         "controlOverlay"?: boolean;
         /**
@@ -8307,7 +8307,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The component label text
+          * Accessible name for the component.
          */
         "label": string;
         /**
@@ -8319,7 +8319,7 @@ declare namespace LocalJSX {
          */
         "messages"?: CarouselMessages;
         /**
-          * Fires when the selected carousel item changes.
+          * Fires when the selected `calcite-carousel-item` changes.
          */
         "onCalciteCarouselChange"?: (event: CalciteCarouselCustomEvent<void>) => void;
         /**
@@ -8330,7 +8330,7 @@ declare namespace LocalJSX {
     }
     interface CalciteCarouselItem {
         /**
-          * The component label text, used to populate tooltips in the `calcite-carousel`'s controls.
+          * Accessible name for the component.
          */
         "label": string;
         /**

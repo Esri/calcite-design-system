@@ -3,7 +3,7 @@ import { accessible, hidden, renders } from "../../tests/commonTests";
 describe("calcite-carousel-item", () => {
   describe("renders", () => {
     renders("<calcite-carousel-item selected></calcite-carousel-item>", {
-      display: "block",
+      display: "flex",
     });
   });
 

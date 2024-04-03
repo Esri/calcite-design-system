@@ -59,12 +59,12 @@ export class Carousel
   // --------------------------------------------------------------------------
 
   /**
-   * Specify how and if the previous and next arrows are displayed.
+   * Specifies how and if the "previous" and "next" arrows are displayed.
    */
   @Prop({ reflect: true }) arrowType: ArrowType = "inline";
 
   /**
-   * Specify if the controls are overlaid on top of the content.
+   * Specifies if the component's controls are placed on top of the content.
    */
   @Prop({ reflect: true }) controlOverlay = false;
 
@@ -74,7 +74,7 @@ export class Carousel
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The component label text
+   * Accessible name for the component.
    */
   @Prop() label!: string;
 
@@ -167,7 +167,7 @@ export class Carousel
   //
   // --------------------------------------------------------------------------
 
-  /** Fires when the selected carousel item changes. */
+  /** Fires when the selected `calcite-carousel-item` changes. */
   @Event({ cancelable: false }) calciteCarouselChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
