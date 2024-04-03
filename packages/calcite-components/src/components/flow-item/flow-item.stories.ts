@@ -28,7 +28,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "closed",
         commit(): Attribute {
-          this.value = boolean("closed", false, "prop");
+          this.value = boolean("closed", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -36,7 +36,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false, "prop");
+          this.value = boolean("disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -44,7 +44,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "closable",
         commit(): Attribute {
-          this.value = boolean("closable", false, "prop");
+          this.value = boolean("closable", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -52,7 +52,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "collapsible",
         commit(): Attribute {
-          this.value = boolean("collapsible", false, "prop");
+          this.value = boolean("collapsible", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -60,7 +60,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "collapsed",
         commit(): Attribute {
-          this.value = boolean("collapsed", false, "prop");
+          this.value = boolean("collapsed", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -84,7 +84,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false, "prop");
+          this.value = boolean("loading", false, "", "prop");
           delete this.build;
           return this;
         },

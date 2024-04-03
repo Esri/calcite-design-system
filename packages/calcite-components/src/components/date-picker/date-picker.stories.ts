@@ -84,7 +84,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "range",
         commit(): Attribute {
-          this.value = boolean("range", false, "prop");
+          this.value = boolean("range", false, "", "prop");
           delete this.build;
           return this;
         },

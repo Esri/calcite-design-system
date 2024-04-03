@@ -29,7 +29,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "channels-disabled",
         commit(): Attribute {
-          this.value = boolean("channels-disabled", false, "prop");
+          this.value = boolean("channels-disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -37,7 +37,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "hex-disabled",
         commit(): Attribute {
-          this.value = boolean("hex-disabled", false, "prop");
+          this.value = boolean("hex-disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -45,7 +45,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "saved-disabled",
         commit(): Attribute {
-          this.value = boolean("saved-disabled", false, "prop");
+          this.value = boolean("saved-disabled", false, "", "prop");
           delete this.build;
           return this;
         },

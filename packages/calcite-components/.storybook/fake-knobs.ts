@@ -4,22 +4,22 @@
  * `@storybook/addon-knobs` does not support Storybook v8+, so this is a placeholder to upgrade to v8 while we discuss the future of knobs.
  */
 
-export function select(_name: string, _options: string[], defaultValue: string, _groupName: string): string {
+export function select(_name: string, _options: string[], defaultValue: string, _groupName?: string): string {
   return defaultValue;
 }
 
-export function text(_name: string, defaultValue: string, _groupName: string): string {
+export function text(_name: string, defaultValue: string, _groupName?: string): string {
   return defaultValue;
 }
 
-export function color(_name: string, defaultValue: string, _groupName: string): string {
+export function color(_name: string, defaultValue: string, _groupName?: string): string {
   return defaultValue;
 }
 
 export function boolean(
   name: string,
   defaultValue: boolean,
-  _groupName: string,
+  _groupName?: string,
   mode: "prop" | "attr" = "attr",
 ): string | boolean {
   if (mode === "prop") {
@@ -30,10 +30,10 @@ export function boolean(
   return defaultValue ? name : "";
 }
 
-export function array(_name: string, defaultValue: string[], _groupName: string): string[] {
+export function array(_name: string, defaultValue: string[], _groupName?: string): string[] {
   return defaultValue;
 }
 
-export function number(_name: string, defaultValue: number, _groupName: string): number {
+export function number(_name: string, defaultValue: number, _groupName?: string): number {
   return defaultValue;
 }

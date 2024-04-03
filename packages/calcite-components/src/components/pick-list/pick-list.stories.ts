@@ -26,7 +26,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false, "prop");
+          this.value = boolean("disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -34,7 +34,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "filter-enabled",
         commit(): Attribute {
-          this.value = boolean("filterEnabled", false, "prop");
+          this.value = boolean("filterEnabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -42,7 +42,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false, "prop");
+          this.value = boolean("loading", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -50,7 +50,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "multiple",
         commit(): Attribute {
-          this.value = boolean("multiple", false, "prop");
+          this.value = boolean("multiple", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -58,7 +58,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "selection-follows-focus",
         commit(): Attribute {
-          this.value = boolean("selection-follows-focus", false, "prop");
+          this.value = boolean("selection-follows-focus", false, "", "prop");
           delete this.build;
           return this;
         },
