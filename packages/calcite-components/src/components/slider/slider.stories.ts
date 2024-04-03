@@ -76,7 +76,7 @@ export const darkModeMirroredRange_TestOnly = (): string => html`
 `;
 
 darkModeMirroredRange_TestOnly.story = {
-  parameters: { modes: modesDarkDefault },
+  parameters: { themes: modesDarkDefault },
 };
 
 export const rangeLabeledTicks_TestOnly = (): string => html`
@@ -261,7 +261,7 @@ export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
   return slider;
 };
 
-darkModeHistogramRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeHistogramRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-slider disabled value="5"></calcite-slider>`;
 

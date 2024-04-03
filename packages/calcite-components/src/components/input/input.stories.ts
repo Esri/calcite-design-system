@@ -130,7 +130,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const negativeInfinity_TestOnly = (): string =>
   html` <calcite-input type="number" value="-Infinity"></calcite-input>`;

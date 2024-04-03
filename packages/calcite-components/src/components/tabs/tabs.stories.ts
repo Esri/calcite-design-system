@@ -37,7 +37,7 @@ export const simpleDarkModeRTL_TestOnly = (): string => html`
   </calcite-tabs>
 `;
 simpleDarkModeRTL_TestOnly.parameters = {
-  modes: modesDarkDefault,
+  themes: modesDarkDefault,
   chromatic: {
     delay: 500,
   },
@@ -104,7 +104,7 @@ export const borderedDarkModeRTL_TestOnly = (): string => html`
     <calcite-tab tab="tab4" selected>Tab 4 Content</calcite-tab>
   </calcite-tabs>
 `;
-borderedDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+borderedDarkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 const selectedIcon = iconNames[0];
 

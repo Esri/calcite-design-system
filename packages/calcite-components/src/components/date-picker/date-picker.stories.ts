@@ -154,7 +154,7 @@ export const darkModeRTL_TestOnly = (): string =>
     )}
   </div>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const bgLang_TestOnly = (): string =>
   html`<div style="width: 400px">

@@ -112,7 +112,7 @@ export const darkModeRTL_TestOnly = (): string =>
     `,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const withTooltip_NoTest = (): string =>
   create(

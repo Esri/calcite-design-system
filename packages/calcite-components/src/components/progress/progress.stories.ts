@@ -30,4 +30,4 @@ export const darkModeRTL_TestOnly = (): string => html`
   ></calcite-progress>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

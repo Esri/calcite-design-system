@@ -84,4 +84,4 @@ export const darkModeRTL_TestOnly = (): HTMLDivElement => {
   return div;
 };
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

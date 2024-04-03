@@ -70,7 +70,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-label>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const longValue_TestOnly = (): string =>
   html`<div style="width: 300px;">

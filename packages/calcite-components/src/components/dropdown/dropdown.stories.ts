@@ -223,7 +223,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-dropdown>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const itemsAsLinksDarkMode = (): string => html`
   <calcite-dropdown
@@ -257,7 +257,7 @@ export const itemsAsLinksDarkMode = (): string => html`
   </calcite-dropdown>
 `;
 
-itemsAsLinksDarkMode.parameters = { modes: modesDarkDefault };
+itemsAsLinksDarkMode.parameters = { themes: modesDarkDefault };
 
 export const scrollingAfterCertainItems_TestOnly = (): string => html`
   <calcite-dropdown

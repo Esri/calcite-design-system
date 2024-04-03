@@ -509,7 +509,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-combobox>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const singleLongLabel_TestOnly = (): string => html`
   <calcite-combobox open selection-mode="single" allow-custom-values>

@@ -153,4 +153,4 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

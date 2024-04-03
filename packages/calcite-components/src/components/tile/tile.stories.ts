@@ -818,7 +818,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   >
   </calcite-tile>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const contentTopBotton_TestOnly = (): string => html`
   <calcite-tile

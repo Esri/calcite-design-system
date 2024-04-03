@@ -190,7 +190,7 @@ export const darkModeRTL_TestOnly = (): string =>
     `,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabledAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
   <calcite-select disabled scale="l">

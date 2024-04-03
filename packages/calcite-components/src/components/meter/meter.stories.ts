@@ -185,7 +185,7 @@ export const darkModeRTL_TestOnly = (): string =>
     range-labels
   ></calcite-meter>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const complexPercentRTL_TestOnly = (): string =>
   html`<calcite-meter

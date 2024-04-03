@@ -180,7 +180,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-alert>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const actionsEndNoQueue_TestOnly = (): string => html`
   <calcite-alert label="this is a default danger with icon and link" scale="l" kind="danger" icon open>

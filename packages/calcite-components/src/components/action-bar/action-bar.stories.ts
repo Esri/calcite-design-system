@@ -179,7 +179,7 @@ export const darkModeRTL_TestOnly = (): string =>
     `,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const adjacentTooltipsOpenQuickly = (): string =>
   html`<div style="display:flex; height:500px; width: 200px;">

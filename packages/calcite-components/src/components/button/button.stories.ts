@@ -159,7 +159,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-button>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const appearanceAndKindCombinations_TestOnly = (): string => html`
   <calcite-button scale="s" appearance="outline" kind="brand">outline+brand</calcite-button>

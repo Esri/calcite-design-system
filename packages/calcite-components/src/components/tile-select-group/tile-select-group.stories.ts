@@ -91,4 +91,4 @@ export const darkModeRTL_TestOnly = (): string => html`
     ${tileSelectsHTML()}
   </calcite-tile-select-group>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

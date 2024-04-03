@@ -48,7 +48,7 @@ export const stretchSlottedContent = (): string => html`
 `;
 
 export const simpleDarkMode_TestOnly = (): string => simpleHTML;
-simpleDarkMode_TestOnly.parameters = { modes: modesDarkDefault };
+simpleDarkMode_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string =>
   html`<calcite-stack disabled>

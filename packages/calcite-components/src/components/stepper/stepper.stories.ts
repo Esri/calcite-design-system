@@ -131,7 +131,7 @@ export const darkModeRTL_TestOnly = (): string => html`
 </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const overriddenWidth_TestOnly = (): string =>
   html` <calcite-stepper numbered style="width: 50vw">

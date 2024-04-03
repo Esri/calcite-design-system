@@ -32,7 +32,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   ></calcite-switch>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-switch disabled checked></calcite-switch>`;
 

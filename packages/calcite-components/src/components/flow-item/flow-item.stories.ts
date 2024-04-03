@@ -193,7 +193,7 @@ export const darkModeRTL_TestOnly = (): string =>
     flowItemContent,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const noDoubleScrollbars_TestOnly = (): string => html`
   <style>

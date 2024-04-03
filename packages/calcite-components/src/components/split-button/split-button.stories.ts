@@ -145,7 +145,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`
   <calcite-split-button disabled>

@@ -191,7 +191,7 @@ export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
     ></calcite-input-date-picker
   </div>
 `;
-arabicLocaleDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+arabicLocaleDarkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(

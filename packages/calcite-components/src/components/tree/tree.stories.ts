@@ -263,7 +263,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     ${treeItems}
   </calcite-tree>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const OverflowingSubtree = (): string =>
   html`<div style="width:400px">

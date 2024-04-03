@@ -37,4 +37,4 @@ export const darkModeRTL_TestOnly = (): string => html`
     ${boolean("flip-rtl", true)}
   ></calcite-icon>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

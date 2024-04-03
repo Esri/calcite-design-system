@@ -64,7 +64,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const rightAligned_TestOnly = (): string =>
   html`<div style="text-align: right">

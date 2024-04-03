@@ -67,4 +67,4 @@ export const darkModeRTL_TestOnly = (): string =>
     ]),
     html,
   );
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

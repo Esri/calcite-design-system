@@ -402,7 +402,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-list>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string =>
   html`<calcite-list disabled>

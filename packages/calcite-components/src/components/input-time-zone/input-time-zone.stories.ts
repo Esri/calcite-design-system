@@ -64,7 +64,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   <calcite-input-time-zone dir="rtl" class="calcite-mode-dark"></calcite-input-time-zone>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const validationMessageAllScales_TestOnly = (): string => html`
   <style>

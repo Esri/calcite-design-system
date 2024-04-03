@@ -95,7 +95,7 @@ export const darkModeRTL_TestOnly = (): string =>
     },
   ]);
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const thumbsOnEdgeDoNotOverflowContainer_TestOnly = (): string =>
   html`<div style="overflow: auto; width: 274px;">

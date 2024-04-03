@@ -101,7 +101,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-radio-button-group>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const validationMessage_TestOnly = (): string => html`
   <style>

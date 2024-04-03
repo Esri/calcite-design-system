@@ -71,7 +71,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-input-text>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const mediumIconForLargeScaleStyling_TestOnly = (): string => html`
   <calcite-label scale="l">

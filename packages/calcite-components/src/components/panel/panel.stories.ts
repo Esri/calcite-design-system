@@ -185,7 +185,7 @@ export const darkModeRTL_TestOnly = (): string =>
     panelContent,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const closableWithActions_TestOnly = (): string => html`
   <calcite-panel

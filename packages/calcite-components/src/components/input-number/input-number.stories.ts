@@ -90,7 +90,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-label>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const Infinity_TestOnly = (): string => html`<calcite-input-number value="Infinity"></calcite-input-number>`;
 

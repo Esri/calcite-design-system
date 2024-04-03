@@ -32,4 +32,4 @@ export const withAlphaActive_TestOnly = (): string =>
 
 export const darkModeRTL_TestOnly = (): string =>
   html`<calcite-color-picker-swatch value="#c00f33"></calcite-color-picker-swatch>`;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

@@ -60,7 +60,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-input-time-picker>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const open_TestOnly = (): string => html`
   <calcite-input-time-picker value="10:37" open> </calcite-input-time-picker>

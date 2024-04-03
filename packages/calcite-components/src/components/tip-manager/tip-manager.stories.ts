@@ -90,7 +90,7 @@ export const darkModeRTL_TestOnly = (): string =>
     ]),
     tipContent,
   );
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const tipWithoutGroup_TestOnly = (): string =>
   html`<calcite-tip-manager>

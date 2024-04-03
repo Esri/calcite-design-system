@@ -92,7 +92,7 @@ export const darkModeRTLCustomSizeCSSVars_TestOnly = (): string => html`
   </calcite-modal>
 `;
 
-darkModeRTLCustomSizeCSSVars_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTLCustomSizeCSSVars_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const withTooltips_TestOnly = (): string => html`
   <button id="button">Open</button>

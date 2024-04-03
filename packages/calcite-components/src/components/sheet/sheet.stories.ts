@@ -45,7 +45,7 @@ export const simpleDarkMode = (): string => html`
     >${panelHTML}</calcite-sheet
   >
 `;
-simpleDarkMode.parameters = { modes: modesDarkDefault };
+simpleDarkMode.parameters = { themes: modesDarkDefault };
 
 export const inlineStartfloat_TestOnly = (): string =>
   html`<calcite-sheet label="libero nunc" open position="inline-start" display-mode="float"
@@ -74,4 +74,4 @@ export const darkModeFloatRTL_TestOnly = (): string =>
     <calcite-sheet label="libero nunc" open position="inline-start" display-mode="float">${panelHTML}</calcite-sheet>
   </div>`;
 
-darkModeFloatRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeFloatRTL_TestOnly.parameters = { themes: modesDarkDefault };
