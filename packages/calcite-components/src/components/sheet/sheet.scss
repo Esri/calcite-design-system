@@ -37,7 +37,7 @@
 .content {
   @apply relative box-border block p-0 z-modal overflow-y-hidden;
   max-inline-size: var(--calcite-container-size-content-fluid);
-  background-color: var(--calcite-sheet-background-color, theme("colors.background.foreground.1"));
+  background-color: var(--calcite-sheet-background-color, var(--calcite-color-foreground-1));
   max-block-size: var(--calcite-container-size-content-fluid);
   visibility: hidden;
   transition:
