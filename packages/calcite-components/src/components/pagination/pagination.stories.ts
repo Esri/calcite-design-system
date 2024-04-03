@@ -18,7 +18,7 @@ export default {
 
 export const simple = (): string => html`
   <style>
-    .sb-show-main.sb-main-centered #root {
+    .sb-show-main.sb-main-centered #storybook-root {
       padding: 0 !important;
       flex: 1;
       width: 100%;
