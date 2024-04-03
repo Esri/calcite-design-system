@@ -107,7 +107,7 @@ export class FlowItem
   @Prop() heading: string;
 
   /**
-   * Specifies the semantic heading level of the internally-rendered text container for proper document structure, without affecting visual styling.
+   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
