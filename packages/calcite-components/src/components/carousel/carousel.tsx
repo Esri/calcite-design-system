@@ -10,7 +10,12 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { focusElementInGroup, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
+import {
+  focusElementInGroup,
+  getElementDir,
+  slotChangeGetAssignedElements,
+  toAriaBoolean,
+} from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -294,6 +299,7 @@ export class Carousel
         {this.items?.map((item, index) => (
           <calcite-action
             appearance={this.controlOverlay ? "solid" : "transparent"}
+            aria-selected={toAriaBoolean(index === selectedIndex)}
             class={{
               [CSS.paginationItem]: true,
               [CSS.paginationItemSelected]: index === selectedIndex,
@@ -346,7 +352,7 @@ export class Carousel
     return (
       <Host>
         <InteractiveContainer disabled={this.disabled}>
-          <div
+          <section
             aria-label={this.label}
             aria-roledescription="carousel"
             class={{
@@ -373,7 +379,7 @@ export class Carousel
             {this.arrowType === "edges" && this.renderPreviousArrow()}
             {this.items?.length > 1 && this.renderPagination()}
             {this.arrowType === "edges" && this.renderNextArrow()}
-          </div>
+          </section>
         </InteractiveContainer>
       </Host>
     );
