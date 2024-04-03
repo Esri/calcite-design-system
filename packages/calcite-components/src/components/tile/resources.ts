@@ -1,10 +1,12 @@
 export const CSS = {
+  column: "column",
   container: "container",
-  content: "content",
   contentContainer: "content-container",
   description: "description",
   heading: "heading",
   largeVisual: "large-visual",
+  row: "row",
+  textContent: "text-content",
 };
 
 export const ICONS = {

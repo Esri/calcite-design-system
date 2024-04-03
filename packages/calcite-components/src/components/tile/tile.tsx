@@ -207,21 +207,23 @@ export class Tile implements InteractiveComponent {
     const disableInteraction = disabled || (!disabled && !this.interactive);
     return (
       <div
-        class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual }}
+        class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual, [CSS.row]: true }}
         tabIndex={disableInteraction ? -1 : 0}
       >
         {this.renderSelected()}
-        <slot name={SLOTS.contentTop} />
-        {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
-        <div class={CSS.contentContainer}>
-          <slot name={SLOTS.contentStart} />
-          <div class={CSS.content}>
-            {heading && <div class={CSS.heading}>{heading}</div>}
-            {description && <div class={CSS.description}>{description}</div>}
+        <div class={CSS.column}>
+          <slot name={SLOTS.contentTop} />
+          {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
+          <div class={{ [CSS.contentContainer]: true, [CSS.row]: true }}>
+            <slot name={SLOTS.contentStart} />
+            <div class={CSS.textContent}>
+              {heading && <div class={CSS.heading}>{heading}</div>}
+              {description && <div class={CSS.description}>{description}</div>}
+            </div>
+            <slot name={SLOTS.contentEnd} />
           </div>
-          <slot name={SLOTS.contentEnd} />
+          <slot name={SLOTS.contentBottom} />
         </div>
-        <slot name={SLOTS.contentBottom} />
       </div>
     );
   }
