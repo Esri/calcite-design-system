@@ -22,7 +22,7 @@ const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false, group);
+          this.value = boolean("disabled", false, group, "prop");
           delete this.build;
           return this;
         },

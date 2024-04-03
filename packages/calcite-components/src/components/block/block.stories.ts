@@ -49,7 +49,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "open",
         commit(): Attribute {
-          this.value = boolean("open", true, group);
+          this.value = boolean("open", true, group, "prop");
           delete this.build;
           return this;
         },
@@ -57,7 +57,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "collapsible",
         commit(): Attribute {
-          this.value = boolean("collapsible", true, group);
+          this.value = boolean("collapsible", true, group, "prop");
           delete this.build;
           return this;
         },
@@ -65,7 +65,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false, group);
+          this.value = boolean("loading", false, group, "prop");
           delete this.build;
           return this;
         },
@@ -73,7 +73,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false, group);
+          this.value = boolean("disabled", false, group, "prop");
           delete this.build;
           return this;
         },

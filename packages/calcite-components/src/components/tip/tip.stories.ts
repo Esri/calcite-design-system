@@ -25,7 +25,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "closed",
         commit(): Attribute {
-          this.value = boolean("closed", false);
+          this.value = boolean("closed", false, "prop");
           delete this.build;
           return this;
         },
@@ -33,7 +33,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "close-disabled",
         commit(): Attribute {
-          this.value = boolean("closeDisabled", false);
+          this.value = boolean("closeDisabled", false, "prop");
           delete this.build;
           return this;
         },

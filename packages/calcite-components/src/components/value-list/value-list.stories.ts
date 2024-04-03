@@ -25,7 +25,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false);
+          this.value = boolean("disabled", false, "prop");
           delete this.build;
           return this;
         },
@@ -33,7 +33,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "drag-enabled",
         commit(): Attribute {
-          this.value = boolean("dragEnabled", false);
+          this.value = boolean("dragEnabled", false, "prop");
           delete this.build;
           return this;
         },
@@ -41,7 +41,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "filter-enabled",
         commit(): Attribute {
-          this.value = boolean("filterEnabled", false);
+          this.value = boolean("filterEnabled", false, "prop");
           delete this.build;
           return this;
         },
@@ -49,7 +49,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false);
+          this.value = boolean("loading", false, "prop");
           delete this.build;
           return this;
         },
@@ -57,7 +57,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "multiple",
         commit(): Attribute {
-          this.value = boolean("multiple", false);
+          this.value = boolean("multiple", false, "prop");
           delete this.build;
           return this;
         },
@@ -65,7 +65,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "selection-follows-focus",
         commit(): Attribute {
-          this.value = boolean("selection-follows-focus", false);
+          this.value = boolean("selection-follows-focus", false, "prop");
           delete this.build;
           return this;
         },

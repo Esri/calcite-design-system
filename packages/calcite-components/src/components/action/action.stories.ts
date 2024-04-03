@@ -26,7 +26,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "active",
         commit(): Attribute {
-          this.value = boolean("active", false);
+          this.value = boolean("active", false, "prop");
           delete this.build;
           return this;
         },
@@ -50,7 +50,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "compact",
         commit(): Attribute {
-          this.value = boolean("compact", false);
+          this.value = boolean("compact", false, "prop");
           delete this.build;
           return this;
         },
@@ -58,7 +58,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false);
+          this.value = boolean("disabled", false, "prop");
           delete this.build;
           return this;
         },
@@ -74,7 +74,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "indicator",
         commit(): Attribute {
-          this.value = boolean("indicator", false);
+          this.value = boolean("indicator", false, "prop");
           delete this.build;
           return this;
         },
@@ -90,7 +90,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false);
+          this.value = boolean("loading", false, "prop");
           delete this.build;
           return this;
         },
@@ -114,7 +114,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "text-enabled",
         commit(): Attribute {
-          this.value = boolean("textEnabled", true);
+          this.value = boolean("textEnabled", true, "prop");
           delete this.build;
           return this;
         },
@@ -122,7 +122,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "style",
         commit(): Attribute {
-          this.value = boolean("textEnabled", true);
+          this.value = boolean("textEnabled", true, "prop");
           delete this.build;
           return this;
         },
