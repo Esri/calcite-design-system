@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Host,
   Method,
   Prop,
   State,
@@ -299,26 +298,24 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
 
   render(): VNode {
     return (
-      <Host role="application">
-        <span
-          // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
-          aria-disabled={this.disabled ? toAriaBoolean(this.disabled) : null}
-          aria-label={this.disabled ? null : this.getAriaText("label")}
-          aria-pressed={this.disabled ? null : toAriaBoolean(this.selected)}
-          class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
-          onBlur={this.handleBlur}
-          onKeyDown={this.handleKeyDown}
-          role="button"
-          tabIndex={this.disabled ? null : 0}
-          title={this.getTooltip()}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el): void => {
-            this.handleButton = el;
-          }}
-        >
-          <calcite-icon icon={ICONS.drag} scale="s" />
-        </span>
-      </Host>
+      <span
+        // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
+        aria-checked={this.disabled ? null : toAriaBoolean(this.selected)}
+        aria-disabled={this.disabled ? toAriaBoolean(this.disabled) : null}
+        aria-label={this.disabled ? null : this.getAriaText("label")}
+        class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
+        onBlur={this.handleBlur}
+        onKeyDown={this.handleKeyDown}
+        role="radio"
+        tabIndex={this.disabled ? null : 0}
+        title={this.getTooltip()}
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={(el): void => {
+          this.handleButton = el;
+        }}
+      >
+        <calcite-icon icon={ICONS.drag} scale="s" />
+      </span>
     );
   }
 }

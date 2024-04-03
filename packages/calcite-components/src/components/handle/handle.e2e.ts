@@ -126,13 +126,21 @@ describe("calcite-handle", () => {
     t9n("calcite-handle");
   });
 
-  it("sets application role on handle", async () => {
+  it("sets radio role properly", async () => {
     const page = await newE2EPage();
     const label = "Hello World";
     await page.setContent(`<calcite-handle lang="en" label="${label}"></calcite-handle>`);
     await page.waitForChanges();
 
     const handle = await page.find("calcite-handle");
-    expect(handle.getAttribute("role")).toBe("application");
+
+    const internalHandle = await page.find(`calcite-handle >>> .${CSS.handle}`);
+    expect(internalHandle.getAttribute("role")).toBe("radio");
+    expect(internalHandle.getAttribute("aria-checked")).toBe("false");
+
+    handle.setProperty("selected", true);
+
+    await page.waitForChanges();
+    expect(internalHandle.getAttribute("aria-checked")).toBe("true");
   });
 });
