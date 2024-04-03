@@ -109,7 +109,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 

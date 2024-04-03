@@ -42,14 +42,16 @@ describe("calcite-shell", () => {
   it("should place content behind", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(html`<calcite-shell content-behind>
-      <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
-        <p>Primary Content</p>
-      </calcite-shell-panel>
-      <calcite-shell-panel slot="${SLOTS.panelEnd}" position="start">
-        <p>Primary Content</p>
-      </calcite-shell-panel>
-    </calcite-shell>`);
+    await page.setContent(
+      html`<calcite-shell content-behind>
+        <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
+          <p>Primary Content</p>
+        </calcite-shell-panel>
+        <calcite-shell-panel slot="${SLOTS.panelEnd}" position="start">
+          <p>Primary Content</p>
+        </calcite-shell-panel>
+      </calcite-shell>`,
+    );
 
     await page.waitForChanges();
 
@@ -61,21 +63,23 @@ describe("calcite-shell", () => {
   it("should place the panel-top and panel-bottom slots inside the content node when content-behind is false", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(html`<calcite-shell>
-      <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
-        <p>Primary Content</p>
-      </calcite-shell-panel>
-      <calcite-shell-panel slot="${SLOTS.panelEnd}" position="start">
-        <p>Primary Content</p>
-      </calcite-shell-panel>
-      <p>Main content</p>
-      <calcite-shell-center-row slot="${SLOTS.panelBottom}">
-        <p>Center row content</p>
-      </calcite-shell-center-row>
-      <calcite-shell-center-row slot="${SLOTS.panelTop}">
-        <p>Center row content</p>
-      </calcite-shell-center-row>
-    </calcite-shell>`);
+    await page.setContent(
+      html`<calcite-shell>
+        <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
+          <p>Primary Content</p>
+        </calcite-shell-panel>
+        <calcite-shell-panel slot="${SLOTS.panelEnd}" position="start">
+          <p>Primary Content</p>
+        </calcite-shell-panel>
+        <p>Main content</p>
+        <calcite-shell-center-row slot="${SLOTS.panelBottom}">
+          <p>Center row content</p>
+        </calcite-shell-center-row>
+        <calcite-shell-center-row slot="${SLOTS.panelTop}">
+          <p>Center row content</p>
+        </calcite-shell-center-row>
+      </calcite-shell>`,
+    );
 
     await page.waitForChanges();
 
@@ -90,21 +94,23 @@ describe("calcite-shell", () => {
   it("should place the panel-top and panel-bottom slots outside the content node when content-behind is true", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(html`<calcite-shell content-behind>
-      <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
-        <p>Primary Content</p>
-      </calcite-shell-panel>
-      <calcite-shell-panel slot="${SLOTS.panelEnd}" position="start">
-        <p>Primary Content</p>
-      </calcite-shell-panel>
-      <p>Main content</p>
-      <calcite-shell-center-row slot="${SLOTS.panelBottom}">
-        <p>Center row content</p>
-      </calcite-shell-center-row>
-      <calcite-shell-center-row slot="${SLOTS.panelTop}">
-        <p>Center row content</p>
-      </calcite-shell-center-row>
-    </calcite-shell>`);
+    await page.setContent(
+      html`<calcite-shell content-behind>
+        <calcite-shell-panel slot="${SLOTS.panelStart}" position="end">
+          <p>Primary Content</p>
+        </calcite-shell-panel>
+        <calcite-shell-panel slot="${SLOTS.panelEnd}" position="start">
+          <p>Primary Content</p>
+        </calcite-shell-panel>
+        <p>Main content</p>
+        <calcite-shell-center-row slot="${SLOTS.panelBottom}">
+          <p>Center row content</p>
+        </calcite-shell-center-row>
+        <calcite-shell-center-row slot="${SLOTS.panelTop}">
+          <p>Center row content</p>
+        </calcite-shell-center-row>
+      </calcite-shell>`,
+    );
 
     await page.waitForChanges();
 

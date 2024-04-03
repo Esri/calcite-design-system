@@ -89,7 +89,7 @@
 :host(:focus) {
   .handle {
     @apply border-color-brand;
-    box-shadow: inset 0 0 0 1px var(--calcite-ui-brand);
+    box-shadow: inset 0 0 0 1px var(--calcite-color-brand);
   }
 }
 
@@ -109,7 +109,7 @@
   }
   .handle {
     @apply border-color-brand-hover;
-    box-shadow: inset 0 0 0 1px var(--calcite-ui-brand-hover);
+    box-shadow: inset 0 0 0 1px var(--calcite-color-brand-hover);
   }
 }
 

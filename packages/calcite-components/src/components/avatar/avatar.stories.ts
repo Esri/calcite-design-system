@@ -70,7 +70,7 @@ const contrastDarkRTL = users
         class="calcite-mode-dark"
         user-id="${user.id}"
         username="${user.name}"
-      ></calcite-avatar>`
+      ></calcite-avatar>`,
   )
   .join("");
 

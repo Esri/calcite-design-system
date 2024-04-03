@@ -142,7 +142,7 @@ describe("calcite-accordion", () => {
     const element = await page.find("calcite-accordion");
     const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
     const [item1Content, item2Content, item3Content] = await element.findAll(
-      `calcite-accordion-item >>> .${CSS.content}`
+      `calcite-accordion-item >>> .${CSS.content}`,
     );
 
     expect(item1).not.toHaveAttribute("expanded");
@@ -166,7 +166,7 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("selection-mode", "multiple");
     const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
     const [item1Content, item2Content, item3Content] = await element.findAll(
-      `calcite-accordion-item >>> .${CSS.content}`
+      `calcite-accordion-item >>> .${CSS.content}`,
     );
     await item1.click();
     await item3.click();
@@ -191,7 +191,7 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("selection-mode", "single");
     const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
     const [item1Content, item2Content, item3Content] = await element.findAll(
-      `calcite-accordion-item >>> .${CSS.content}`
+      `calcite-accordion-item >>> .${CSS.content}`,
     );
     await item1.click();
     await item3.click();
@@ -240,7 +240,7 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("selection-mode", "single-persist");
     const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
     const [item1Content, item2Content, item3Content] = await element.findAll(
-      `calcite-accordion-item >>> .${CSS.content}`
+      `calcite-accordion-item >>> .${CSS.content}`,
     );
     await item2.click();
 
@@ -267,7 +267,7 @@ describe("calcite-accordion", () => {
     await page.waitForChanges();
     const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
     const [item1Content, item2Content, item3Content] = await element.findAll(
-      `calcite-accordion-item >>> .${CSS.content}`
+      `calcite-accordion-item >>> .${CSS.content}`,
     );
     await item1.click();
     await item3.click();

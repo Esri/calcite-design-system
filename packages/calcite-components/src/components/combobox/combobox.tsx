@@ -15,7 +15,7 @@ import {
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
 
-import { isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import { getElementWidth, getTextWidth, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -41,11 +41,13 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentFocusable,
+  componentLoaded,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
@@ -60,13 +62,15 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode, Status } from "../interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
-import { ComboboxChildElement } from "./interfaces";
+import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } from "./utils";
 import { XButton, CSS as XButtonCSS } from "../functional/XButton";
 import { getIconScale } from "../../utils/component";
+import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
+import { Validation } from "../functional/Validation";
 
 interface ItemData {
   label: string;
@@ -112,6 +116,17 @@ export class Combobox
    */
   @Prop({ reflect: true }) clearDisabled = false;
 
+  /**
+   * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:
+   *
+   * `"all"` displays all selections with individual `calcite-chip`s,
+   *
+   * `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed, and
+   *
+   * `"single"` displays one `calcite-chip` with the total number of selections.
+   */
+  @Prop({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
+
   /**When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
@@ -138,12 +153,11 @@ export class Combobox
   }
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /** Accessible name for the component. */
   @Prop() label!: string;
@@ -164,6 +178,12 @@ export class Combobox
   maxItemsHandler(): void {
     this.setMaxScrollerHeight();
   }
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -190,19 +210,19 @@ export class Combobox
     this.reposition(true);
   }
 
-  /**
-   * When `true`, the component must have a value in order for the form to submit.
-   *
-   * @internal
-   */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /**
-   * Specifies the selection mode:
-   * - "multiple" allows any number of selected items (default),
-   * - "single" allows only one selection,
-   * - "single-persist" allow and require one open item,
-   * - "ancestors" is like multiple, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+   * Specifies the selection mode of the component, where:
+   *
+   * `"multiple"` allows any number of selections,
+   *
+   * `"single"` allows only one selection,
+   *
+   * `"single-persist"` allows one selection and prevents de-selection, and
+   *
+   * `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -211,6 +231,9 @@ export class Combobox
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   @Watch("selectionMode")
   @Watch("scale")
@@ -293,9 +316,9 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
-  @Listen("pointerdown", { target: "document" })
+  @Listen("click", { target: "document" })
   documentClickHandler(event: PointerEvent): void {
-    if (this.disabled || !isPrimaryPointerButton(event)) {
+    if (this.disabled) {
       return;
     }
 
@@ -339,7 +362,8 @@ export class Combobox
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param delayed Reposition the component after a delay
+   * @returns Promise
    */
   @Method()
   async reposition(delayed = false): Promise<void> {
@@ -355,7 +379,7 @@ export class Combobox
         flipPlacements: filteredFlipPlacements,
         type: "menu",
       },
-      delayed
+      delayed,
     );
   }
 
@@ -420,12 +444,13 @@ export class Combobox
 
     this.updateItems();
     this.setFilteredPlacements();
-    this.reposition(true);
 
     if (this.open) {
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
+
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -436,7 +461,7 @@ export class Combobox
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    this.reposition(true);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
     setComponentLoaded(this);
   }
 
@@ -447,6 +472,10 @@ export class Combobox
     }
 
     updateHostInteraction(this);
+  }
+
+  componentDidUpdate(): void {
+    this.refreshSelectionDisplay();
   }
 
   disconnectedCallback(): void {
@@ -465,6 +494,8 @@ export class Combobox
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  private allSelectedIndicatorChipEl: HTMLCalciteChipElement;
 
   @Element() el: HTMLCalciteComboboxElement;
 
@@ -492,6 +523,12 @@ export class Combobox
 
   @State() activeDescendant = "";
 
+  @State() compactSelectionDisplay = false;
+
+  @State() selectedHiddenChipsCount = 0;
+
+  @State() selectedVisibleChipsCount = 0;
+
   @State() text = "";
 
   /** when search text is cleared, reset active to  */
@@ -515,7 +552,10 @@ export class Combobox
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
-  resizeObserver = createObserver("resize", () => this.setMaxScrollerHeight());
+  private resizeObserver = createObserver("resize", () => {
+    this.setMaxScrollerHeight();
+    this.refreshSelectionDisplay();
+  });
 
   private guid = guid();
 
@@ -525,11 +565,17 @@ export class Combobox
 
   private referenceEl: HTMLDivElement;
 
+  private chipContainerEl: HTMLDivElement;
+
   private listContainerEl: HTMLDivElement;
 
   private ignoreSelectedEventsFlag = false;
 
+  private maxCompactBreakpoint: number;
+
   openTransitionProp = "opacity";
+
+  private selectedIndicatorChipEl: HTMLCalciteChipElement;
 
   transitionEl: HTMLDivElement;
 
@@ -635,7 +681,7 @@ export class Combobox
         }
         break;
       case " ":
-        if (!this.textInput.value) {
+        if (!this.textInput.value && !event.defaultPrevented) {
           if (!this.open) {
             this.open = true;
             this.shiftActiveItemIndex(1);
@@ -674,7 +720,7 @@ export class Combobox
         event.preventDefault();
         break;
       case "Enter":
-        if (this.activeItemIndex > -1) {
+        if (this.open && this.activeItemIndex > -1) {
           this.toggleSelection(this.filteredItems[this.activeItemIndex]);
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
@@ -691,6 +737,12 @@ export class Combobox
         break;
       case "Delete":
       case "Backspace":
+        const notDeletable =
+          this.selectionDisplay === "single" ||
+          (this.selectionDisplay === "fit" && this.selectedHiddenChipsCount > 0);
+        if (notDeletable) {
+          return;
+        }
         if (this.activeChipIndex > -1) {
           event.preventDefault();
           this.removeActiveChip();
@@ -782,10 +834,110 @@ export class Combobox
     this.updateActiveItemIndex(targetIndex);
   }
 
+  private hideChip(chipEl: HTMLCalciteChipElement): void {
+    chipEl.classList.add(CSS.chipInvisible);
+  }
+
+  private showChip(chipEl: HTMLCalciteChipElement): void {
+    chipEl.classList.remove(CSS.chipInvisible);
+  }
+
+  private refreshChipDisplay({
+    chipEls,
+    availableHorizontalChipElSpace,
+    chipContainerElGap,
+  }): void {
+    chipEls.forEach((chipEl: HTMLCalciteChipElement) => {
+      if (!chipEl.selected) {
+        this.hideChip(chipEl);
+      } else {
+        const chipElWidth = getElementWidth(chipEl);
+        if (chipElWidth && chipElWidth < availableHorizontalChipElSpace) {
+          availableHorizontalChipElSpace -= chipElWidth + chipContainerElGap;
+          this.showChip(chipEl);
+          return;
+        }
+      }
+      this.hideChip(chipEl);
+    });
+  }
+
+  private refreshSelectionDisplay = async () => {
+    await componentLoaded(this);
+
+    if (isSingleLike(this.selectionMode)) {
+      return;
+    }
+
+    if (!this.textInput) {
+      return;
+    }
+
+    const {
+      allSelectedIndicatorChipEl,
+      chipContainerEl,
+      selectionDisplay,
+      placeholder,
+      selectedIndicatorChipEl,
+      textInput,
+    } = this;
+
+    const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap.replace("px", ""));
+    const chipContainerElWidth = getElementWidth(chipContainerEl);
+    const { fontSize, fontFamily } = getComputedStyle(textInput);
+    const inputTextWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
+    const inputWidth = (inputTextWidth || parseInt(calciteSize48)) + chipContainerElGap;
+    const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipEl);
+    const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipEl);
+    const largestSelectedIndicatorChipWidth = Math.max(
+      allSelectedIndicatorChipElWidth,
+      selectedIndicatorChipElWidth,
+    );
+
+    this.setCompactSelectionDisplay({
+      chipContainerElGap,
+      chipContainerElWidth,
+      inputWidth,
+      largestSelectedIndicatorChipWidth,
+    });
+
+    if (selectionDisplay === "fit") {
+      const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
+        (chipEl) => chipEl.closable,
+      );
+
+      const availableHorizontalChipElSpace = Math.round(
+        chipContainerElWidth -
+          ((this.selectedHiddenChipsCount > 0 ? selectedIndicatorChipElWidth : 0) +
+            chipContainerElGap +
+            inputWidth +
+            chipContainerElGap),
+      );
+
+      this.refreshChipDisplay({ availableHorizontalChipElSpace, chipContainerElGap, chipEls });
+      this.setVisibleAndHiddenChips(chipEls);
+    }
+  };
+
   setFloatingEl = (el: HTMLDivElement): void => {
     this.floatingEl = el;
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
+
+  private setCompactSelectionDisplay({
+    chipContainerElGap,
+    chipContainerElWidth,
+    inputWidth,
+    largestSelectedIndicatorChipWidth,
+  }): void {
+    const newCompactBreakpoint = Math.round(
+      largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth,
+    );
+    if (!this.maxCompactBreakpoint || this.maxCompactBreakpoint < newCompactBreakpoint) {
+      this.maxCompactBreakpoint = newCompactBreakpoint;
+    }
+    this.compactSelectionDisplay = chipContainerElWidth < this.maxCompactBreakpoint;
+  }
 
   setContainerEl = (el: HTMLDivElement): void => {
     this.resizeObserver.observe(el);
@@ -793,10 +945,40 @@ export class Combobox
     this.transitionEl = el;
   };
 
+  setChipContainerEl = (el: HTMLDivElement): void => {
+    this.resizeObserver.observe(el);
+    this.chipContainerEl = el;
+  };
+
   setReferenceEl = (el: HTMLDivElement): void => {
     this.referenceEl = el;
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
+
+  setAllSelectedIndicatorChipEl = (el: HTMLCalciteChipElement): void => {
+    this.allSelectedIndicatorChipEl = el;
+  };
+
+  setSelectedIndicatorChipEl = (el: HTMLCalciteChipElement): void => {
+    this.selectedIndicatorChipEl = el;
+  };
+
+  private setVisibleAndHiddenChips(chipEls: HTMLCalciteChipElement[]): void {
+    let newSelectedVisibleChipsCount = 0;
+    chipEls.forEach((chipEl) => {
+      if (chipEl.selected && !chipEl.classList.contains(CSS.chipInvisible)) {
+        newSelectedVisibleChipsCount++;
+      }
+    });
+    if (newSelectedVisibleChipsCount !== this.selectedVisibleChipsCount) {
+      this.selectedVisibleChipsCount = newSelectedVisibleChipsCount;
+    }
+    const newSelectedHiddenChipsCount =
+      this.getSelectedItems().length - newSelectedVisibleChipsCount;
+    if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
+      this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
+    }
+  }
 
   private getMaxScrollerHeight(): number {
     const items = this.getItemsAndGroups().filter((item) => !item.hidden);
@@ -854,7 +1036,7 @@ export class Combobox
     const find = (item: ComboboxChildElement, filteredData: ItemData[]) =>
       item &&
       filteredData.some(({ label, value }) =>
-        isGroup(item) ? label === item.label : value === item.value && label === item.textLabel
+        isGroup(item) ? label === item.label : value === item.value && label === item.textLabel,
       );
 
     return debounce((text: string): void => {
@@ -942,7 +1124,7 @@ export class Combobox
     return this.items.filter((item) => !item.hidden);
   }
 
-  getSelectedItems(): HTMLCalciteComboboxItemElement[] {
+  private getSelectedItems = (): HTMLCalciteComboboxItemElement[] => {
     if (!this.isMulti()) {
       const match = this.items.find(({ selected }) => selected);
       return match ? [match] : [];
@@ -952,7 +1134,7 @@ export class Combobox
       this.items
         .filter(
           (item) =>
-            item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item))
+            item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
         )
         /** Preserve order of entered tags */
         .sort((a, b) => {
@@ -964,7 +1146,7 @@ export class Combobox
           return bIdx - aIdx;
         })
     );
-  }
+  };
 
   private updateItems = (): void => {
     this.items = this.getItems();
@@ -1017,7 +1199,7 @@ export class Combobox
 
   getItems(): HTMLCalciteComboboxItemElement[] {
     const items: HTMLCalciteComboboxItemElement[] = Array.from(
-      this.el.querySelectorAll(ComboboxItem)
+      this.el.querySelectorAll(ComboboxItem),
     );
     return items.filter((item) => !item.disabled);
   }
@@ -1034,7 +1216,7 @@ export class Combobox
       if (!this.isMulti()) {
         this.toggleSelection(this.selectedItems[this.selectedItems.length - 1], false);
       }
-      const item = document.createElement(ComboboxItem) as HTMLCalciteComboboxItemElement;
+      const item = document.createElement("calcite-combobox-item");
       item.value = value;
       item.textLabel = value;
       item.selected = true;
@@ -1135,6 +1317,10 @@ export class Combobox
     }
   }
 
+  private isAllSelected(): boolean {
+    return this.getItems().length === this.getSelectedItems().length;
+  }
+
   isMulti(): boolean {
     return !isSingleLike(this.selectionMode);
   }
@@ -1174,6 +1360,7 @@ export class Combobox
           messageOverrides={{ dismissLabel: messages.removeTag }}
           onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
           scale={scale}
+          selected={item.selected}
           title={label}
           value={item.value}
         >
@@ -1183,7 +1370,163 @@ export class Combobox
     });
   }
 
-  renderInput(): VNode {
+  renderAllSelectedIndicatorChip(): VNode {
+    const {
+      compactSelectionDisplay,
+      scale,
+      selectedVisibleChipsCount,
+      setAllSelectedIndicatorChipEl,
+    } = this;
+    const label = this.messages.allSelected;
+    return (
+      <calcite-chip
+        class={{
+          chip: true,
+          [CSS.chipInvisible]: !(
+            this.isAllSelected() &&
+            !selectedVisibleChipsCount &&
+            !compactSelectionDisplay
+          ),
+        }}
+        scale={scale}
+        title={label}
+        value=""
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={setAllSelectedIndicatorChipEl}
+      >
+        {label}
+      </calcite-chip>
+    );
+  }
+
+  renderAllSelectedIndicatorChipCompact(): VNode {
+    const { compactSelectionDisplay, scale, selectedVisibleChipsCount } = this;
+    const label = this.messages.all || "All";
+    return (
+      <calcite-chip
+        class={{
+          chip: true,
+          [CSS.chipInvisible]: !(
+            this.isAllSelected() &&
+            !selectedVisibleChipsCount &&
+            compactSelectionDisplay
+          ),
+        }}
+        scale={scale}
+        title={label}
+        value=""
+      >
+        {label}
+      </calcite-chip>
+    );
+  }
+
+  renderSelectedIndicatorChip(): VNode {
+    const {
+      compactSelectionDisplay,
+      selectionDisplay,
+      getSelectedItems,
+      scale,
+      selectedHiddenChipsCount,
+      selectedVisibleChipsCount,
+      setSelectedIndicatorChipEl,
+    } = this;
+    let chipInvisible: boolean;
+    let label: string;
+
+    if (compactSelectionDisplay) {
+      chipInvisible = true;
+    } else {
+      if (selectionDisplay === "single") {
+        const selectedItemsCount = getSelectedItems().length;
+        if (this.isAllSelected()) {
+          chipInvisible = true;
+        } else if (selectedItemsCount > 0) {
+          chipInvisible = false;
+        } else {
+          chipInvisible = true;
+        }
+        label = `${selectedItemsCount} ${this.messages.selected}`;
+      } else if (selectionDisplay === "fit") {
+        chipInvisible = !!(
+          (this.isAllSelected() && selectedVisibleChipsCount === 0) ||
+          selectedHiddenChipsCount === 0
+        );
+        label =
+          selectedVisibleChipsCount > 0
+            ? `+${selectedHiddenChipsCount}`
+            : `${selectedHiddenChipsCount} ${this.messages.selected}`;
+      }
+    }
+    return (
+      <calcite-chip
+        class={{
+          chip: true,
+          [CSS.chipInvisible]: chipInvisible,
+        }}
+        scale={scale}
+        title={label}
+        value=""
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={setSelectedIndicatorChipEl}
+      >
+        {label}
+      </calcite-chip>
+    );
+  }
+
+  renderSelectedIndicatorChipCompact(): VNode {
+    const {
+      compactSelectionDisplay,
+      selectionDisplay,
+      getSelectedItems,
+      scale,
+      selectedHiddenChipsCount,
+    } = this;
+    let chipInvisible: boolean;
+    let label: string;
+
+    if (compactSelectionDisplay) {
+      const selectedItemsCount = getSelectedItems().length;
+      if (this.isAllSelected()) {
+        chipInvisible = true;
+      } else if (selectionDisplay === "fit") {
+        chipInvisible = !(selectedHiddenChipsCount > 0);
+        label = `${selectedHiddenChipsCount || 0}`;
+      } else if (selectionDisplay === "single") {
+        chipInvisible = !(selectedItemsCount > 0);
+        label = `${selectedItemsCount}`;
+      }
+    } else {
+      chipInvisible = true;
+    }
+    return (
+      <calcite-chip
+        class={{
+          chip: true,
+          [CSS.chipInvisible]: chipInvisible,
+        }}
+        scale={scale}
+        title={label}
+        value=""
+      >
+        {label}
+      </calcite-chip>
+    );
+  }
+
+  private get showingInlineIcon(): boolean {
+    const { placeholderIcon, selectionMode, selectedItems, open } = this;
+    const selectedItem = selectedItems[0];
+    const selectedIcon = selectedItem?.icon;
+    const singleSelectionMode = isSingleLike(selectionMode);
+
+    return !open && selectedItem
+      ? !!selectedIcon && singleSelectionMode
+      : !!placeholderIcon && (!selectedItem || singleSelectionMode);
+  }
+
+  private renderInput(): VNode {
     const { guid, disabled, placeholder, selectionMode, selectedItems, open } = this;
     const single = isSingleLike(selectionMode);
     const selectedItem = selectedItems[0];
@@ -1217,7 +1560,7 @@ export class Combobox
             "input--single": true,
             "input--transparent": this.activeChipIndex > -1,
             "input--hidden": showLabel,
-            "input--icon": !!this.placeholderIcon,
+            "input--icon": this.showingInlineIcon && !!this.placeholderIcon,
           }}
           disabled={disabled}
           id={`${inputUidPrefix}${guid}`}
@@ -1277,20 +1620,14 @@ export class Combobox
     );
   }
 
-  renderIconStart(): VNode {
-    const { selectedItems, placeholderIcon, selectionMode, placeholderIconFlipRtl } = this;
+  renderSelectedOrPlaceholderIcon(): VNode {
+    const { selectedItems, placeholderIcon, placeholderIconFlipRtl } = this;
     const selectedItem = selectedItems[0];
     const selectedIcon = selectedItem?.icon;
-    const singleSelectionMode = isSingleLike(selectionMode);
-
-    const iconAtStart =
-      !this.open && selectedItem
-        ? !!selectedIcon && singleSelectionMode
-        : !!this.placeholderIcon && (!selectedItem || singleSelectionMode);
 
     return (
-      iconAtStart && (
-        <span class="icon-start">
+      this.showingInlineIcon && (
+        <span class="icon-start" key="selected-placeholder-icon">
           <calcite-icon
             class="selected-icon"
             flipRtl={this.open && selectedItem ? selectedItem.iconFlipRtl : placeholderIconFlipRtl}
@@ -1302,10 +1639,10 @@ export class Combobox
     );
   }
 
-  renderIconEnd(): VNode {
+  renderChevronIcon(): VNode {
     const { open } = this;
     return (
-      <span class="icon-end">
+      <span class="icon-end" key="chevron">
         <calcite-icon
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
@@ -1315,65 +1652,92 @@ export class Combobox
   }
 
   render(): VNode {
-    const { guid, label, open } = this;
-    const single = isSingleLike(this.selectionMode);
+    const { selectionDisplay, guid, label, open } = this;
+    const singleSelectionMode = isSingleLike(this.selectionMode);
+    const allSelectionDisplay = selectionDisplay === "all";
+    const singleSelectionDisplay = selectionDisplay === "single";
+    const fitSelectionDisplay = !singleSelectionMode && selectionDisplay === "fit";
     const isClearable = !this.clearDisabled && this.value?.length > 0;
-
     return (
       <Host onClick={this.comboboxFocusHandler}>
-        <div
-          aria-autocomplete="list"
-          aria-controls={`${listboxUidPrefix}${guid}`}
-          aria-expanded={toAriaBoolean(open)}
-          aria-haspopup="listbox"
-          aria-label={getLabelText(this)}
-          aria-live="polite"
-          aria-owns={`${listboxUidPrefix}${guid}`}
-          class={{
-            wrapper: true,
-            "wrapper--single": single || !this.selectedItems.length,
-            "wrapper--active": open,
-          }}
-          onClick={this.clickHandler}
-          onKeyDown={this.keyDownHandler}
-          role="combobox"
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setReferenceEl}
-        >
-          <div class="grid-input">
-            {this.renderIconStart()}
-            {!single && this.renderChips()}
-            <label
-              class="screen-readers-only"
-              htmlFor={`${inputUidPrefix}${guid}`}
-              id={`${labelUidPrefix}${guid}`}
+        <InteractiveContainer disabled={this.disabled}>
+          <div
+            aria-autocomplete="list"
+            aria-controls={`${listboxUidPrefix}${guid}`}
+            aria-expanded={toAriaBoolean(open)}
+            aria-haspopup="listbox"
+            aria-label={getLabelText(this)}
+            aria-live="polite"
+            aria-owns={`${listboxUidPrefix}${guid}`}
+            class={{
+              wrapper: true,
+              "wrapper--single": singleSelectionMode || !this.selectedItems.length,
+              "wrapper--active": open,
+            }}
+            onClick={this.clickHandler}
+            onKeyDown={this.keyDownHandler}
+            role="combobox"
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.setReferenceEl}
+          >
+            {this.renderSelectedOrPlaceholderIcon()}
+            <div
+              class={{
+                "grid-input": true,
+                [CSS.selectionDisplayFit]: fitSelectionDisplay,
+                [CSS.selectionDisplaySingle]: singleSelectionDisplay,
+              }}
+              key="grid"
+              ref={this.setChipContainerEl}
             >
-              {label}
-            </label>
-            {this.renderInput()}
+              {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
+              {!singleSelectionMode &&
+                !allSelectionDisplay && [
+                  this.renderSelectedIndicatorChip(),
+                  this.renderSelectedIndicatorChipCompact(),
+                  this.renderAllSelectedIndicatorChip(),
+                  this.renderAllSelectedIndicatorChipCompact(),
+                ]}
+              <label
+                class="screen-readers-only"
+                htmlFor={`${inputUidPrefix}${guid}`}
+                id={`${labelUidPrefix}${guid}`}
+              >
+                {label}
+              </label>
+              {this.renderInput()}
+            </div>
+            {isClearable ? (
+              <XButton
+                disabled={this.disabled}
+                key="close-button"
+                label={this.messages.clear}
+                scale={this.scale}
+              />
+            ) : null}
+            {this.renderChevronIcon()}
           </div>
-          {isClearable ? (
-            <XButton
-              disabled={this.disabled}
-              key="close-button"
-              label={this.messages.clear}
+          <ul
+            aria-labelledby={`${labelUidPrefix}${guid}`}
+            aria-multiselectable="true"
+            class="screen-readers-only"
+            id={`${listboxUidPrefix}${guid}`}
+            role="listbox"
+            tabIndex={-1}
+          >
+            {this.renderListBoxOptions()}
+          </ul>
+          {this.renderFloatingUIContainer()}
+          <HiddenFormInputSlot component={this} />
+          {this.validationMessage && this.status === "invalid" ? (
+            <Validation
+              icon={this.validationIcon}
+              message={this.validationMessage}
               scale={this.scale}
+              status={this.status}
             />
           ) : null}
-          {this.renderIconEnd()}
-        </div>
-        <ul
-          aria-labelledby={`${labelUidPrefix}${guid}`}
-          aria-multiselectable="true"
-          class="screen-readers-only"
-          id={`${listboxUidPrefix}${guid}`}
-          role="listbox"
-          tabIndex={-1}
-        >
-          {this.renderListBoxOptions()}
-        </ul>
-        {this.renderFloatingUIContainer()}
-        <HiddenFormInputSlot component={this} />
+        </InteractiveContainer>
       </Host>
     );
   }

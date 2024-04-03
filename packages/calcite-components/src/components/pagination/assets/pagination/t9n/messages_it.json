@@ -1,4 +1,6 @@
 {
   "next": "Avanti",
-  "previous": "Precedente"
+  "previous": "Precedente",
+  "first": "Prima",
+  "last": "Ultima"
 }

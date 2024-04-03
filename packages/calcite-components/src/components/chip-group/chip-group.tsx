@@ -15,6 +15,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
@@ -48,7 +49,17 @@ export class ChipGroup implements InteractiveComponent {
   /** Specifies the size of the component. Child `calcite-chip`s inherit the component's value. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the selection mode of the component. */
+  /**
+   * Specifies the selection mode of the component, where:
+   *
+   * `"multiple"` allows any number of selections,
+   *
+   * `"single"` allows only one selection,
+   *
+   * `"single-persist"` allows one selection and prevents de-selection, and
+   *
+   * `"none"` does not allow any selections.
+   */
   @Prop({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
@@ -86,7 +97,7 @@ export class ChipGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Emits when the component's selection changes. */
+  /** Fires when the component's selection changes. */
   @Event({ cancelable: false }) calciteChipGroupSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
@@ -241,19 +252,22 @@ export class ChipGroup implements InteractiveComponent {
   render(): VNode {
     const role =
       this.selectionMode === "none" || this.selectionMode === "multiple" ? "group" : "radiogroup";
+    const { disabled } = this;
 
     return (
-      <div
-        aria-disabled={toAriaBoolean(this.disabled)}
-        aria-label={this.label}
-        class="container"
-        role={role}
-      >
-        <slot
-          onSlotchange={this.updateItems}
-          ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}
-        />
-      </div>
+      <InteractiveContainer disabled={disabled}>
+        <div
+          aria-disabled={toAriaBoolean(disabled)}
+          aria-label={this.label}
+          class="container"
+          role={role}
+        >
+          <slot
+            onSlotchange={this.updateItems}
+            ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}
+          />
+        </div>
+      </InteractiveContainer>
     );
   }
 }

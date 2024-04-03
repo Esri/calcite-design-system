@@ -30,7 +30,7 @@
 
 @include disabled();
 
-.calendar-picker-wrapper {
+.calendar-wrapper {
   @apply shadow-none;
   transform: translate3d(0, 0, 0);
 }
@@ -79,7 +79,7 @@
       items-start;
   }
 
-  .calendar-picker-wrapper--end {
+  .calendar-wrapper--end {
     transform: translate3d(0, 0, 0);
   }
 
@@ -137,6 +137,7 @@
   }
 }
 
+@include form-validation-message();
 @include hidden-form-input();
 
 .assistive-text {

@@ -154,15 +154,15 @@
 
 :host([selected]) .day {
   @apply font-medium;
-  background-color: var(--calcite-ui-brand);
-  color: var(--calcite-ui-foreground-1);
+  background-color: var(--calcite-color-brand);
+  color: var(--calcite-color-foreground-1);
 }
 
 :host(:focus:not([disabled])),
 :host([start-of-range]:not(:focus)),
 :host([end-of-range]:not(:focus)) {
   .day {
-    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+    box-shadow: 0 0 0 2px var(--calcite-color-foreground-1);
   }
 }
 
@@ -182,7 +182,7 @@
   .day-wrapper {
     &:before,
     &:after {
-      background-color: var(--calcite-ui-foreground-current);
+      background-color: var(--calcite-color-foreground-current);
     }
   }
 }
@@ -234,7 +234,7 @@
 :host(:hover[range-hover]:not([selected]).focused--start.hover--outside-range),
 :host(:hover[range-hover]:not([selected]).focused--end.hover--outside-range) {
   .day {
-    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1);
+    box-shadow: 0 0 0 2px var(--calcite-color-foreground-1);
   }
 }
 

@@ -20,7 +20,7 @@ describe("calcite-radio-button", () => {
 
   describe("accessible", () => {
     accessible(
-      `<calcite-label><calcite-radio-button id="example" name="example" value="one"></calcite-radio-button>label</calcite-label>`
+      `<calcite-label><calcite-radio-button id="example" name="example" value="one"></calcite-radio-button>label</calcite-label>`,
     );
   });
 
@@ -286,16 +286,18 @@ describe("calcite-radio-button", () => {
 
   it("should not emit calciteRadioButtonChange when checked already", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-radio-button-group name="Options" layout="vertical">
-      <calcite-label layout="inline">
-        <calcite-radio-button checked value="trees"></calcite-radio-button>
-        Trees
-      </calcite-label>
-      <calcite-label layout="inline">
-        <calcite-radio-button value="layers" shrubs></calcite-radio-button>
-        Shrubs
-      </calcite-label>
-    </calcite-radio-button-group>`);
+    await page.setContent(
+      html`<calcite-radio-button-group name="Options" layout="vertical">
+        <calcite-label layout="inline">
+          <calcite-radio-button checked value="trees"></calcite-radio-button>
+          Trees
+        </calcite-label>
+        <calcite-label layout="inline">
+          <calcite-radio-button value="layers" shrubs></calcite-radio-button>
+          Shrubs
+        </calcite-label>
+      </calcite-radio-button-group>`,
+    );
 
     const checkedRadio = await page.find("calcite-radio-button[checked]");
     expect(await checkedRadio.getProperty("checked")).toBe(true);
@@ -402,7 +404,7 @@ describe("calcite-radio-button", () => {
   it("appropriately triggers the custom internal focus and blur events on click", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-radio-button></calcite-radio-button><calcite-radio-button id="two"></calcite-radio-button>`
+      `<calcite-radio-button></calcite-radio-button><calcite-radio-button id="two"></calcite-radio-button>`,
     );
 
     const radio = await page.find("calcite-radio-button");
@@ -428,7 +430,7 @@ describe("calcite-radio-button", () => {
   it.skip("appropriately triggers the custom internal focus and blur events with keyboard", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-radio-button name="example"></calcite-radio-button><calcite-radio-button name="example"></calcite-radio-button>`
+      `<calcite-radio-button name="example"></calcite-radio-button><calcite-radio-button name="example"></calcite-radio-button>`,
     );
 
     const radio = await page.find("calcite-radio-button");
@@ -453,7 +455,7 @@ describe("calcite-radio-button", () => {
   it("round robins to the first or last radio when pressing right arrow on the last radio or left arrow on the first radio", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-radio-button name="example"></calcite-radio-button><calcite-radio-button id="two" name="example"></calcite-radio-button>`
+      `<calcite-radio-button name="example"></calcite-radio-button><calcite-radio-button id="two" name="example"></calcite-radio-button>`,
     );
 
     const radio = await page.find("calcite-radio-button");

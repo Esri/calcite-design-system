@@ -1,5 +1,4 @@
 {
-  "select": "Kiválasztható kártya",
-  "deselect": "Kijelölés megszüntetése",
+  "select": "Kiválasztás",
   "loading": "Betöltés"
 }

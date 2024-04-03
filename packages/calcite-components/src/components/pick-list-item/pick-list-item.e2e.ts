@@ -91,9 +91,9 @@ describe("calcite-pick-list-item", () => {
     const properties = await eventDetail.getProperties();
 
     expect(properties.get("item")).toBeDefined();
-    expect(properties.get("value")._remoteObject.value).toBe("example");
-    expect(properties.get("selected")._remoteObject.value).toBe(true);
-    expect(properties.get("shiftPressed")._remoteObject.value).toBe(false);
+    expect(properties.get("value").remoteObject().value).toBe("example");
+    expect(properties.get("selected").remoteObject().value).toBe(true);
+    expect(properties.get("shiftPressed").remoteObject().value).toBe(false);
   });
 
   it("prevents deselection when deselectDisabled is true", async () => {
@@ -147,18 +147,16 @@ describe("calcite-pick-list-item", () => {
 
   it("slot keyboard navigation", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      html`
-        <calcite-pick-list style="width: 400px">
-          <calcite-pick-list-item label="apple" value="apple" icon="circle">
-            <calcite-action slot="actions-end" icon="information"></calcite-action>
-          </calcite-pick-list-item>
-          <calcite-pick-list-item label="mango" value="mango" selected="" icon="circle">
-            <calcite-action slot="actions-end" icon="information"></calcite-action>
-          </calcite-pick-list-item>
-        </calcite-pick-list>
-      `
-    );
+    await page.setContent(html`
+      <calcite-pick-list style="width: 400px">
+        <calcite-pick-list-item label="apple" value="apple" icon="circle">
+          <calcite-action slot="actions-end" icon="information"></calcite-action>
+        </calcite-pick-list-item>
+        <calcite-pick-list-item label="mango" value="mango" selected="" icon="circle">
+          <calcite-action slot="actions-end" icon="information"></calcite-action>
+        </calcite-pick-list-item>
+      </calcite-pick-list>
+    `);
 
     const item = await page.find("calcite-pick-list-item:nth-child(2)");
     await item.click();

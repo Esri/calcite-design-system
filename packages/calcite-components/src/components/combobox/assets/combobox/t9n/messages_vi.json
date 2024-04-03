@@ -1,4 +1,7 @@
 {
+  "all": "Tất cả",
+  "allSelected": "Tất cả đã được chọn",
   "clear": "Xóa giá trị",
-  "removeTag": "Xóa thẻ"
+  "removeTag": "Xóa thẻ",
+  "selected": "đã được chọn"
 }

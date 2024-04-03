@@ -329,8 +329,8 @@ describe("label", () => {
       getLabelText(
         createFakeLabelable({
           labelEl,
-        })
-      )
+        }),
+      ),
     ).toBe("from-text-content");
 
     expect(
@@ -338,8 +338,8 @@ describe("label", () => {
         createFakeLabelable({
           label,
           labelEl,
-        })
-      )
+        }),
+      ),
     ).toBe("from-label");
   });
 });

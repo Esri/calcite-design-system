@@ -26,27 +26,25 @@ const panelHTML = html`<calcite-panel heading="Ultrices neque"
   <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
 </calcite-panel>`;
 
-export const simple = (): string =>
-  html`
-    <calcite-sheet
-      label="libero nunc"
-      ${boolean("open", true)}
-      position="${select("position", ["inline-start", "inline-end", "block-start", "block-end"], "inline-start")}"
-      display-mode="${select("display-mode", ["overlay", "float"], "overlay")}"
-      >${panelHTML}</calcite-sheet
-    >
-  `;
+export const simple = (): string => html`
+  <calcite-sheet
+    label="libero nunc"
+    ${boolean("open", true)}
+    position="${select("position", ["inline-start", "inline-end", "block-start", "block-end"], "inline-start")}"
+    display-mode="${select("display-mode", ["overlay", "float"], "overlay")}"
+    >${panelHTML}</calcite-sheet
+  >
+`;
 
-export const simpleDarkMode = (): string =>
-  html`
-    <calcite-sheet
-      label="libero nunc"
-      ${boolean("open", true)}
-      ${select("position", ["inline-start", "inline-end", "block-start", "block-end"], "inline-start")}
-      ${select("display-mode", ["overlay", "float"], "overlay")}
-      >${panelHTML}</calcite-sheet
-    >
-  `;
+export const simpleDarkMode = (): string => html`
+  <calcite-sheet
+    label="libero nunc"
+    ${boolean("open", true)}
+    ${select("position", ["inline-start", "inline-end", "block-start", "block-end"], "inline-start")}
+    ${select("display-mode", ["overlay", "float"], "overlay")}
+    >${panelHTML}</calcite-sheet
+  >
+`;
 simpleDarkMode.parameters = { modes: modesDarkDefault };
 
 export const inlineStartfloat_TestOnly = (): string =>

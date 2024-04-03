@@ -49,7 +49,7 @@ Slots are a common web components concept, and chances are you already use them.
 </select>
 ```
 
-The `option` elements are placed in `select`'s _default slot_. Additionally, the "JavaScript" and "TypeScript" text is placed in `option`'s respective default slots. Many Calcite Components also utilize default slots. For example, here is a `calcite-dropdown` component:
+The `option` elements are placed in `select`'s *default slot*. Additionally, the "JavaScript" and "TypeScript" text is placed in `option`'s respective default slots. Many Calcite Components also utilize default slots. For example, here is a `calcite-dropdown` component:
 
 ```html
 <calcite-dropdown>
@@ -59,7 +59,7 @@ The `option` elements are placed in `select`'s _default slot_. Additionally, the
 </calcite-dropdown>
 ```
 
-The `calcite-dropdown-item`s are placed in `calcite-dropdown`'s default slot. In many cases a default slot is all that is needed. However, as components become more complicated, the need arises to position and style child components differently. This is where _named slots_ come into play. In the example above, we are passing `calcite-button` into the dropdown's `trigger` slot. This informs the dropdown that the `calcite-button` component should be handled differently than the components in the default slot. If a Calcite Component has slots, they will be listed in the documentation. For example, [here are the slots](https://developers.arcgis.com/calcite-design-system/components/card/#component-api-slots) for `calcite-card`. For a more detailed explanation, I suggest reading the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots#adding_flexibility_with_slots) about slots.
+The `calcite-dropdown-item`s are placed in `calcite-dropdown`'s default slot. In many cases a default slot is all that is needed. However, as components become more complicated, the need arises to position and style child components differently. This is where *named slots* come into play. In the example above, we are passing `calcite-button` into the dropdown's `trigger` slot. This informs the dropdown that the `calcite-button` component should be handled differently than the components in the default slot. If a Calcite Component has slots, they will be listed in the documentation. For example, [here are the slots](https://developers.arcgis.com/calcite-design-system/components/card/#component-api-slots) for `calcite-card`. For a more detailed explanation, I suggest reading the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots#adding_flexibility_with_slots) about slots.
 
 ### How do I change modes?
 
@@ -81,8 +81,8 @@ If we want to swap the foreground and text colors, we can use the variables:
 
 ```css
 calcite-notice {
-  --calcite-ui-foreground-1: #151515;
-  --calcite-ui-text-1: #ffffff;
+  --calcite-color-foreground-1: #151515;
+  --calcite-color-text-1: #ffffff;
 }
 ```
 

@@ -17,6 +17,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -308,24 +309,26 @@ export class Action
 
     return (
       <Host>
-        <button
-          aria-busy={toAriaBoolean(loading)}
-          aria-controls={indicator ? indicatorId : null}
-          aria-disabled={toAriaBoolean(disabled)}
-          aria-label={ariaLabel}
-          aria-pressed={toAriaBoolean(active)}
-          class={buttonClasses}
-          disabled={disabled}
-          id={buttonId}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
-        >
-          {this.renderIconContainer()}
-          {this.renderTextContainer()}
-          {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
-        </button>
-        <slot name={SLOTS.tooltip} onSlotchange={this.handleTooltipSlotChange} />
-        {this.renderIndicatorText()}
+        <InteractiveContainer disabled={disabled}>
+          <button
+            aria-busy={toAriaBoolean(loading)}
+            aria-controls={indicator ? indicatorId : null}
+            aria-disabled={toAriaBoolean(disabled)}
+            aria-label={ariaLabel}
+            aria-pressed={toAriaBoolean(active)}
+            class={buttonClasses}
+            disabled={disabled}
+            id={buttonId}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
+          >
+            {this.renderIconContainer()}
+            {this.renderTextContainer()}
+            {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
+          </button>
+          <slot name={SLOTS.tooltip} onSlotchange={this.handleTooltipSlotChange} />
+          {this.renderIndicatorText()}
+        </InteractiveContainer>
       </Host>
     );
   }

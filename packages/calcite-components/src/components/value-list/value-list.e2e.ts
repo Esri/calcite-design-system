@@ -8,7 +8,6 @@ import {
   focusing,
   itemRemoval,
   keyboardNavigation,
-  loadingState,
   selectionAndDeselection,
 } from "../pick-list/shared-list-tests";
 import { CSS, ICON_TYPES } from "./resources";
@@ -99,10 +98,6 @@ describe("calcite-value-list", () => {
     itemRemoval("value");
   });
 
-  describe("loading state", () => {
-    loadingState("value");
-  });
-
   describe("setFocus", () => {
     focusing("value");
   });
@@ -131,7 +126,7 @@ describe("calcite-value-list", () => {
         {
           element: `calcite-value-list-item[value="two"]`,
           shadow: `.${CSS.handle}`,
-        }
+        },
       );
 
       const [first, second] = await page.findAll("calcite-value-list-item");
@@ -211,7 +206,7 @@ describe("calcite-value-list", () => {
           pointerPosition: {
             vertical: "bottom",
           },
-        }
+        },
       );
 
       await dragAndDrop(
@@ -225,7 +220,7 @@ describe("calcite-value-list", () => {
           pointerPosition: {
             vertical: "bottom",
           },
-        }
+        },
       );
 
       await dragAndDrop(
@@ -239,12 +234,11 @@ describe("calcite-value-list", () => {
           pointerPosition: {
             vertical: "bottom",
           },
-        }
+        },
       );
 
-      const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] = await page.findAll(
-        "calcite-value-list-item"
-      );
+      const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] =
+        await page.findAll("calcite-value-list-item");
       expect(await first.getProperty("value")).toBe("a");
       expect(await second.getProperty("value")).toBe("b");
       expect(await third.getProperty("value")).toBe("d");
@@ -274,14 +268,14 @@ describe("calcite-value-list", () => {
       expect(handleAriaLabel).toBe(
         `${itemLabel}, press space and use arrow keys to reorder content. Current position ${startIndex + 1} of ${
           items.length
-        }.`
+        }.`,
       );
 
       await page.keyboard.press("Space");
       await page.waitForChanges();
 
       expect(assistiveTextElement.textContent).toBe(
-        `Reordering ${itemLabel}, current position ${startIndex + 1} of ${items.length}.`
+        `Reordering ${itemLabel}, current position ${startIndex + 1} of ${items.length}.`,
       );
 
       await page.keyboard.press("ArrowDown");
@@ -291,13 +285,13 @@ describe("calcite-value-list", () => {
       const changeHandleLabel = handle.getAttribute("aria-label");
 
       expect(changeHandleLabel).toBe(
-        `${itemLabel}, new position ${startIndex + 1} of ${items.length}. Press space to confirm.`
+        `${itemLabel}, new position ${startIndex + 1} of ${items.length}. Press space to confirm.`,
       );
       await page.keyboard.press("Space");
       await page.waitForChanges();
 
       expect(assistiveTextElement.textContent).toBe(
-        `${itemLabel}, current position ${startIndex + 1} of ${items.length}.`
+        `${itemLabel}, current position ${startIndex + 1} of ${items.length}.`,
       );
 
       await page.keyboard.press("Space");
@@ -310,7 +304,7 @@ describe("calcite-value-list", () => {
       const idleHandleLabel = handle.getAttribute("aria-label");
 
       expect(idleHandleLabel).toBe(
-        `${itemLabel}, new position ${startIndex + 1} of ${items.length}. Press space to confirm.`
+        `${itemLabel}, new position ${startIndex + 1} of ${items.length}. Press space to confirm.`,
       );
     });
   });

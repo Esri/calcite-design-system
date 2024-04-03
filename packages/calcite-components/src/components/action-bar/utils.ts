@@ -9,7 +9,7 @@ const groupBufferPx = 2;
 const getAverage = (arr: number[]) => arr.reduce((p, c) => p + c, 0) / arr.length;
 
 export const geActionDimensions = (
-  actions: HTMLCalciteActionElement[]
+  actions: HTMLCalciteActionElement[],
 ): { actionWidth: number; actionHeight: number } => {
   const actionsNotSlotted = actions.filter((action) => action.slot !== ACTION_GROUP_SLOTS.menuActions);
   const actionLen = actionsNotSlotted?.length;
@@ -61,7 +61,7 @@ export const getOverflowCount = ({
 
 export const queryActions = (el: HTMLElement): HTMLCalciteActionElement[] => {
   return Array.from(el.querySelectorAll("calcite-action")).filter((action) =>
-    action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true
+    action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true,
   );
 };
 

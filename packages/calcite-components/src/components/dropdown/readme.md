@@ -1,6 +1,6 @@
 # calcite-dropdown
 
-A `calcite-dropdown` can be used to provide an absolutely positioned set of selectable items. You can combine multiple groups of items and selection modes, and optionally pass a title for each group. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
+For comprehensive guidance on using and implementing `calcite-dropdown`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/dropdown/).
 
 <!-- Auto Generated Below -->
 
@@ -74,7 +74,7 @@ You can combine groups in a single Dropdown, with different `selectionMode`s:
 | `scale`                 | `scale`                    | Specifies the size of the component.                                                                                                                                                                                                                                                                                                                                        | `"l" \| "m" \| "s"`                                                               | `"m"`                  |
 | `selectedItems`         | --                         | Specifies the component's selected items.                                                                                                                                                                                                                                                                                                                                   | `HTMLCalciteDropdownItemElement[]`                                                | `[]`                   |
 | `type`                  | `type`                     | Specifies the action to open the component from the container element.                                                                                                                                                                                                                                                                                                      | `"click" \| "hover"`                                                              | `"click"`              |
-| `width`                 | `width`                    | Specifies the width of the component.                                                                                                                                                                                                                                                                                                                                       | `"l" \| "m" \| "s"`                                                               | `undefined`            |
+| `widthScale`            | `width-scale`              | Specifies the width of the component.                                                                                                                                                                                                                                                                                                                                       | `"l" \| "m" \| "s"`                                                               | `undefined`            |
 
 ## Events
 
@@ -91,6 +91,12 @@ You can combine groups in a single Dropdown, with different `selectionMode`s:
 ### `reposition(delayed?: boolean) => Promise<void>`
 
 Updates the position of the component.
+
+#### Parameters
+
+| Name      | Type      | Description |
+| --------- | --------- | ----------- |
+| `delayed` | `boolean` |             |
 
 #### Returns
 
@@ -133,4 +139,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

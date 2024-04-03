@@ -1,4 +1,7 @@
 {
+  "all": "Alle",
+  "allSelected": "Alle valgt",
   "clear": "Ryd værdi",
-  "removeTag": "Fjern nøgleord"
+  "removeTag": "Fjern nøgleord",
+  "selected": "valgt"
 }

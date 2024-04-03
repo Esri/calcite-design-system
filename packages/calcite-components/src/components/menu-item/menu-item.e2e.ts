@@ -50,6 +50,39 @@ describe("calcite-menu-item", () => {
     expect(eventSpy).toHaveReceivedEventTimes(1);
   });
 
+  describe("href support", () => {
+    const testHref = "#nature";
+    const testEl = `<calcite-menu><calcite-menu-item id="Nature" text="Nature" href="${testHref}"></calcite-menu-item></calcite-menu>`;
+
+    it("should navigate to a new url when href provided and user interacts with click", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`${testEl}`);
+      const originalUrl = page.url();
+      await page.waitForChanges();
+
+      const menuItem = await page.find("calcite-menu-item");
+      await page.waitForChanges();
+      await menuItem.click();
+      await page.waitForChanges();
+      const newUrl = page.url();
+      expect(newUrl).toEqual(originalUrl + testHref);
+    });
+
+    it("should navigate to a new url when href provided and user interacts with `enter` key", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`${testEl}`);
+      const originalUrl = page.url();
+      await page.waitForChanges();
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      const newUrl = page.url();
+      expect(newUrl).toEqual(originalUrl + testHref);
+    });
+  });
+
   it("should emit calciteMenuItemSelect event when user select the text area of the component using Enter or Space key", async () => {
     const page = await newE2EPage();
     await page.setContent(html`

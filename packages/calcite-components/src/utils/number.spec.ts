@@ -148,7 +148,7 @@ describe("BigDecimal", () => {
       const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter);
       const groupPart = parts.find((part) => part.type === "group").value;
       expect(groupPart.trim().length === 0 || groupPart === " " ? "\u00A0" : groupPart).toBe(
-        numberStringFormatter.group
+        numberStringFormatter.group,
       );
       expect(parts.find((part) => part.type === "decimal").value).toBe(numberStringFormatter.decimal);
       expect(parts.find((part) => part.type === "minusSign").value).toBe(numberStringFormatter.minusSign);
@@ -165,18 +165,18 @@ describe("expandExponentialNumberString", () => {
     expect(expandExponentialNumberString(".987e0")).toBe("0.987");
     expect(expandExponentialNumberString(".00000000000000000000000000000000000000000000000001e50")).toBe("1");
     expect(expandExponentialNumberString("1.2345678987654321000000000000000000000000000000000000000000e16")).toBe(
-      "12345678987654321"
+      "12345678987654321",
     );
   });
   it("exponential number strings with negative magnitude", () => {
     expect(expandExponentialNumberString("1.23e-60")).toBe(
-      "0.00000000000000000000000000000000000000000000000000000000000123"
+      "0.00000000000000000000000000000000000000000000000000000000000123",
     );
     expect(expandExponentialNumberString("100000000000000000000000000000000000000000000000000e-50")).toBe("1");
   });
   it("handles non-exponential numbers", () => {
     expect(expandExponentialNumberString("1100000000000000000000000000000000000000000000000000")).toBe(
-      "1100000000000000000000000000000000000000000000000000"
+      "1100000000000000000000000000000000000000000000000000",
     );
     expect(expandExponentialNumberString("")).toBe("");
   });
@@ -207,22 +207,22 @@ describe("addLocalizedTrailingDecimalZeros", () => {
         addLocalizedTrailingDecimalZeros(
           numberStringFormatter.localize(stringWithTrailingZeros),
           stringWithTrailingZeros,
-          numberStringFormatter
-        )
+          numberStringFormatter,
+        ),
       ).toBe(getLocalizedDecimalValue(stringWithTrailingZeros, 3));
       expect(
         addLocalizedTrailingDecimalZeros(
           numberStringFormatter.localize(bigDecimalWithTrailingZeros),
           bigDecimalWithTrailingZeros,
-          numberStringFormatter
-        )
+          numberStringFormatter,
+        ),
       ).toBe(getLocalizedDecimalValue(bigDecimalWithTrailingZeros, 24));
       expect(
         addLocalizedTrailingDecimalZeros(
           numberStringFormatter.localize(negativeExponentialString),
           negativeExponentialString,
-          numberStringFormatter
-        )
+          numberStringFormatter,
+        ),
       ).toBe(numberStringFormatter.localize(negativeExponentialString));
     });
 

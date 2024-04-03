@@ -1,4 +1,7 @@
 {
+  "all": "Vse",
+  "allSelected": "Vse izbrano",
   "clear": "Počisti vrednost",
-  "removeTag": "Odstrani oznako"
+  "removeTag": "Odstrani oznako",
+  "selected": "izbrano"
 }

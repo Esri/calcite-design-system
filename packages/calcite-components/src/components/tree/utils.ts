@@ -19,6 +19,6 @@ export function getTraversableItems(root: HTMLCalciteTreeElement): HTMLCalciteTr
       }
 
       return true;
-    }
+    },
   );
 }

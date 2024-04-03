@@ -17,7 +17,7 @@ describe("calcite-checkbox", () => {
 
   describe("accessible", () => {
     accessible(
-      `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox> label</calcite-label>`
+      `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox> label</calcite-label>`,
     );
   });
 
@@ -175,7 +175,7 @@ describe("calcite-checkbox", () => {
       await page.setContent(html`<calcite-checkbox scale="s"></calcite-checkbox>`);
       const checkbox = await page.find("calcite-checkbox");
       const { left, top, right, bottom } = await page.evaluate(() =>
-        document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON()
+        document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON(),
       );
 
       const maxExtraPixels = 5;
@@ -211,7 +211,7 @@ describe("calcite-checkbox", () => {
       await page.setContent(html`<calcite-checkbox scale="m"></calcite-checkbox>`);
       const checkbox = await page.find("calcite-checkbox");
       const { left, top, right, bottom } = await page.evaluate(() =>
-        document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON()
+        document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON(),
       );
 
       const maxExtraPixels = 4;
@@ -247,7 +247,7 @@ describe("calcite-checkbox", () => {
       await page.setContent(html`<calcite-checkbox scale="l"></calcite-checkbox>`);
       const checkbox = await page.find("calcite-checkbox");
       const { left, top, right, bottom } = await page.evaluate(() =>
-        document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON()
+        document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON(),
       );
 
       const maxExtraPixels = 3;

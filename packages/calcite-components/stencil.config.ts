@@ -1,5 +1,5 @@
 import { Config } from "@stencil/core";
-import { postcss } from "@stencil/postcss";
+import { postcss } from "@stencil-community/postcss";
 import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
 import { reactOutputTarget } from "@stencil/react-output-target";
@@ -23,6 +23,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-block", "calcite-block-section"] },
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
+    { components: ["calcite-card-group"] },
     { components: ["calcite-checkbox"] },
     { components: ["calcite-chip"] },
     { components: ["calcite-chip-group"] },
@@ -78,6 +79,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"] },
     { components: ["calcite-text-area"] },
     { components: ["calcite-tile"] },
+    { components: ["calcite-tile-group"] },
     { components: ["calcite-tile-select-group", "calcite-tile-select"] },
     { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tooltip"] },
@@ -97,10 +99,9 @@ export const create: () => Config = () => ({
       proxiesFile: "../calcite-components-react/src/components.ts",
       excludeComponents: ["context-consumer"],
       customElementsDir: "dist/components",
-      includeImportCustomElements: true,
     }),
     { type: "dist-hydrate-script" },
-    { type: "dist-custom-elements", autoDefineCustomElements: true },
+    { type: "dist-custom-elements", customElementsExportBehavior: "auto-define-custom-elements" },
     { type: "dist" },
     { type: "docs-readme" },
     { type: "docs-json", file: "./dist/extras/docs-json.json" },
@@ -142,12 +143,11 @@ export const create: () => Config = () => ({
   testing: {
     watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
     moduleNameMapper: {
-      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts",
       "^lodash-es$": "lodash",
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
     transform: {
-      "calcite-design-tokens/dist/es6/calcite-headless\\.js$":
+      "calcite-design-tokens/dist/es6/.*\\.js$":
         "<rootDir>../../node_modules/@stencil/core/testing/jest-preprocessor.js",
     },
   },
@@ -157,7 +157,7 @@ export const create: () => Config = () => ({
   },
   preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-design-system/blob/main/LICENSE.md for details.\nv${version}`,
   extras: {
-    experimentalImportInjection: true,
+    enableImportInjection: true,
     scriptDataOpts: true,
   },
 });

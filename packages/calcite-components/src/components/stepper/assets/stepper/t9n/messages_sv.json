@@ -1,3 +1,5 @@
 {
-  "label": "Förloppssteg"
+  "label": "Förloppssteg",
+  "previousStep": "Föregående steg",
+  "nextStep": "Nästa steg"
 }

@@ -1,6 +1,6 @@
 # calcite-tab-nav
 
-The tab-nav groups several [calcite-tab-title](../tab-title) components and builds out the navigation. You can optionally use attibutes on the tab-nav to configure client side storage of the selected tab.
+For comprehensive guidance on using and implementing `calcite-tab-nav`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tab-nav/).
 
 <!-- Auto Generated Below -->
 
@@ -8,7 +8,7 @@ The tab-nav groups several [calcite-tab-title](../tab-title) components and buil
 
 ### Basic
 
-Tab-nav and tab-title inherit their `scale` and `position` from tab-title parent:
+Tabs `scale` and `position` properties are inherited by it's child components, tab-nav and tab-title.
 
 ```html
 <calcite-tabs scale="l" position="bottom">
@@ -22,11 +22,12 @@ Tab-nav and tab-title inherit their `scale` and `position` from tab-title parent
 
 ## Properties
 
-| Property        | Attribute    | Description                                                                   | Type                         | Default     |
-| --------------- | ------------ | ----------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `selectedTitle` | --           | Specifies the component's selected tab-title.                                 | `HTMLCalciteTabTitleElement` | `null`      |
-| `storageId`     | `storage-id` | Specifies the name when saving selected `calcite-tab` data to `localStorage`. | `string`                     | `undefined` |
-| `syncId`        | `sync-id`    | Specifies text to update multiple components to keep in sync if one changes.  | `string`                     | `undefined` |
+| Property           | Attribute           | Description                                                                   | Type                         | Default     |
+| ------------------ | ------------------- | ----------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.       | `TabNavMessages`             | `undefined` |
+| `selectedTitle`    | --                  | Specifies the component's selected `calcite-tab-title`.                       | `HTMLCalciteTabTitleElement` | `null`      |
+| `storageId`        | `storage-id`        | Specifies the name when saving selected `calcite-tab` data to `localStorage`. | `string`                     | `undefined` |
+| `syncId`           | `sync-id`           | Specifies text to update multiple components to keep in sync if one changes.  | `string`                     | `undefined` |
 
 ## Events
 
@@ -46,14 +47,21 @@ Tab-nav and tab-title inherit their `scale` and `position` from tab-title parent
 
 - [calcite-color-picker](../color-picker)
 
+### Depends on
+
+- [calcite-button](../button)
+
 ### Graph
 
 ```mermaid
 graph TD;
+  calcite-tab-nav --> calcite-button
+  calcite-button --> calcite-loader
+  calcite-button --> calcite-icon
   calcite-color-picker --> calcite-tab-nav
   style calcite-tab-nav fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

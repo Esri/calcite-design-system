@@ -1,5 +1,7 @@
 # calcite-list-item-group
 
+For comprehensive guidance on using and implementing `calcite-list-item-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/list-item-group/).
+
 <!-- Auto Generated Below -->
 
 ## Properties
@@ -11,9 +13,9 @@
 
 ## Events
 
-| Event                                           | Description                                                                | Type                     |
-| ----------------------------------------------- | -------------------------------------------------------------------------- | ------------------------ |
-| `calciteInternalListItemGroupDefaultSlotChange` | Emitted when the default slot has changes in order to notify parent lists. | `CustomEvent<DragEvent>` |
+| Event                                           | Description                                                                          | Type                     |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------ |
+| `calciteInternalListItemGroupDefaultSlotChange` | Fires when changes occur in the default slot, notifying parent lists of the changes. | `CustomEvent<DragEvent>` |
 
 ## Slots
 
@@ -23,4 +25,4 @@
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

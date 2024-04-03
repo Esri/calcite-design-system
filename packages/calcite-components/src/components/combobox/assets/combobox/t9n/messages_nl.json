@@ -1,4 +1,7 @@
 {
+  "all": "Alle",
+  "allSelected": "Alle geselecteerde",
   "clear": "Waarde wissen",
-  "removeTag": "Tag verwijderen"
+  "removeTag": "Tag verwijderen",
+  "selected": "geselecteerd"
 }

@@ -46,7 +46,7 @@ function createLocaleDateTimeFormatter(
   locale: string,
   numberingSystem: NumberingSystem,
   includeSeconds = true,
-  fractionalSecondDigits?: FractionalSecondDigits
+  fractionalSecondDigits?: FractionalSecondDigits,
 ): Intl.DateTimeFormat {
   const options: Intl.DateTimeFormatOptions = {
     hour: "2-digit",
@@ -124,7 +124,7 @@ export function getLocalizedDecimalSeparator(locale: string, numberingSystem: Nu
 export function getLocalizedTimePartSuffix(
   part: "hour" | "minute" | "second",
   locale: string,
-  numberingSystem: NumberingSystem = "latn"
+  numberingSystem: NumberingSystem = "latn",
 ): string {
   const formatter = createLocaleDateTimeFormatter(locale, numberingSystem);
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
@@ -241,8 +241,8 @@ export function localizeTimePart({ value, part, locale, numberingSystem }: Local
       0,
       part === "hour" ? valueAsNumber : part === "meridiem" ? (value === "AM" ? 0 : 12) : 0,
       part === "minute" ? valueAsNumber : 0,
-      part === "second" ? valueAsNumber : 0
-    )
+      part === "second" ? valueAsNumber : 0,
+    ),
   );
   if (!date) {
     return;
@@ -280,8 +280,8 @@ export function localizeTimeString({
       parseInt(hour),
       parseInt(minute),
       parseInt(second),
-      fractionalSecond && fractionalSecondPartToMilliseconds(fractionalSecond)
-    )
+      fractionalSecond && fractionalSecondPartToMilliseconds(fractionalSecond),
+    ),
   );
   const formatter = createLocaleDateTimeFormatter(locale, numberingSystem, includeSeconds, fractionalSecondDigits);
   return formatter.format(dateFromTimeString) || null;

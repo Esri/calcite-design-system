@@ -1,4 +1,7 @@
 {
+  "all": "全部",
+  "allSelected": "已全選",
   "clear": "清除值",
-  "removeTag": "移除標記"
+  "removeTag": "移除標記",
+  "selected": "選取"
 }

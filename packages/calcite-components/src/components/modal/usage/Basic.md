@@ -2,12 +2,12 @@ Customize the modal by passing your content into multiple named slots: `header` 
 
 ```html
 <calcite-modal aria-labelledby="modal-title" open>
-  <h3 slot="header" id="modal-title">Title of the modal</h3>
-  <div slot="content">The actual content of the modal</div>
+  <h3 slot="header" id="modal-title">Edit profile</h3>
+  <div slot="content">Please update your profile information below:</div>
   <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full">
     Back
   </calcite-button>
-  <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
-  <calcite-button slot="primary" width="full"> Save </calcite-button>
+  <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+  <calcite-button slot="primary" width="full">Save changes</calcite-button>
 </calcite-modal>
 ```

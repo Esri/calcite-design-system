@@ -1,10 +1,10 @@
 import {
-  CoreBreakpointWidthDefaultLg,
-  CoreBreakpointWidthDefaultMd,
-  CoreBreakpointWidthDefaultSm,
-  CoreBreakpointWidthDefaultXs,
-  CoreBreakpointWidthDefaultXxs,
-} from "@esri/calcite-design-tokens/dist/es6/calcite-headless";
+  calciteContainerSizeWidthLg,
+  calciteContainerSizeWidthMd,
+  calciteContainerSizeWidthSm,
+  calciteContainerSizeWidthXs,
+  calciteContainerSizeWidthXxs,
+} from "@esri/calcite-design-tokens/dist/es6/global";
 
 export interface Breakpoints {
   width: {
@@ -21,11 +21,11 @@ export interface Breakpoints {
  */
 export const breakpoints: Breakpoints = {
   width: {
-    large: cssLengthToNumber(CoreBreakpointWidthDefaultLg),
-    medium: cssLengthToNumber(CoreBreakpointWidthDefaultMd),
-    small: cssLengthToNumber(CoreBreakpointWidthDefaultSm),
-    xsmall: cssLengthToNumber(CoreBreakpointWidthDefaultXs),
-    xxsmall: cssLengthToNumber(CoreBreakpointWidthDefaultXxs),
+    large: cssLengthToNumber(calciteContainerSizeWidthLg.max),
+    medium: cssLengthToNumber(calciteContainerSizeWidthMd.max),
+    small: cssLengthToNumber(calciteContainerSizeWidthSm.max),
+    xsmall: cssLengthToNumber(calciteContainerSizeWidthXs.max),
+    xxsmall: cssLengthToNumber(calciteContainerSizeWidthXxs.max),
   },
 };
 

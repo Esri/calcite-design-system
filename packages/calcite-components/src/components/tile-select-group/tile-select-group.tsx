@@ -3,6 +3,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { TileSelectGroupLayout } from "./interfaces";
@@ -59,6 +60,10 @@ export class TileSelectGroup implements InteractiveComponent {
   }
 
   render(): VNode {
-    return <slot />;
+    return (
+      <InteractiveContainer disabled={this.disabled}>
+        <slot />
+      </InteractiveContainer>
+    );
   }
 }

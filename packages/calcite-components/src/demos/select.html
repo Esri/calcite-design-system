@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -15,7 +15,7 @@
       .child {
         flex: 0 0 15%;
         margin: 0 25px;
-        color: var(--calcite-ui-text-3);
+        color: var(--calcite-color-text-3);
         font-family: var(--calcite-sans-family);
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
@@ -173,6 +173,52 @@
               <calcite-option>He-Who-Must-Not-Be-Named</calcite-option>
               <calcite-option>Voldemort</calcite-option>
             </calcite-option-group>
+          </calcite-select>
+        </div>
+      </div>
+
+      <!-- Validation message -->
+      <div class="parent">
+        <div class="child right-aligned-text">Validation message</div>
+        <div class="child">
+          <calcite-select
+            label="calcite select"
+            scale="s"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+          >
+            <calcite-option value="high">😃</calcite-option>
+            <calcite-option value="medium">😶</calcite-option>
+            <calcite-option value="low">😭</calcite-option>
+          </calcite-select>
+        </div>
+
+        <div class="child">
+          <calcite-select
+            label="calcite select"
+            scale="m"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+          >
+            <calcite-option value="high">😃</calcite-option>
+            <calcite-option value="medium">😶</calcite-option>
+            <calcite-option value="low">😭</calcite-option>
+          </calcite-select>
+        </div>
+
+        <div class="child">
+          <calcite-select
+            label="calcite select"
+            scale="l"
+            status="invalid"
+            validation-message="Error message"
+            validation-icon
+          >
+            <calcite-option value="high">😃</calcite-option>
+            <calcite-option value="medium">😶</calcite-option>
+            <calcite-option value="low">😭</calcite-option>
           </calcite-select>
         </div>
       </div>

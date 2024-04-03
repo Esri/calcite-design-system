@@ -21,6 +21,7 @@ packages\calcite-components\src\components\input-number\assets\input-number\t9n
 packages\calcite-components\src\components\input-text\assets\input-text\t9n
 packages\calcite-components\src\components\input-time-picker\assets\input-time-picker\t9n
 packages\calcite-components\src\components\input-time-zone\assets\input-time-zone\t9n
+packages\calcite-components\src\components\list\assets\list\t9n
 packages\calcite-components\src\components\list-item\assets\list-item\t9n
 packages\calcite-components\src\components\menu\assets\menu\t9n
 packages\calcite-components\src\components\menu-item\assets\menu-item\t9n

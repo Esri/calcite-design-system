@@ -90,7 +90,7 @@ export class Tab {
     document.body?.dispatchEvent(
       new CustomEvent("calciteTabUnregister", {
         detail: this.el,
-      })
+      }),
     );
   }
 
@@ -147,7 +147,7 @@ export class Tab {
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
       nodeListToArray(this.el.parentElement.children).filter((el) => el.matches("calcite-tab")),
-      this.el
+      this.el,
     );
   }
 

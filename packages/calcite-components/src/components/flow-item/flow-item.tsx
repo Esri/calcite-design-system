@@ -16,6 +16,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -36,6 +37,7 @@ import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { FlowItemMessages } from "./assets/flow-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
+import { OverlayPositioning } from "../../utils/floating-ui";
 
 /**
  * @slot - A slot for adding custom content.
@@ -137,6 +139,16 @@ export class FlowItem
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: FlowItemMessages;
+
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   *
+   */
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * When `true`, displays a back button in the component's header.
@@ -343,39 +355,43 @@ export class FlowItem
       loading,
       menuOpen,
       messages,
+      overlayPositioning,
     } = this;
     return (
       <Host>
-        <calcite-panel
-          closable={closable}
-          closed={closed}
-          collapseDirection={collapseDirection}
-          collapsed={collapsed}
-          collapsible={collapsible}
-          description={description}
-          disabled={disabled}
-          heading={heading}
-          headingLevel={headingLevel}
-          loading={loading}
-          menuOpen={menuOpen}
-          messageOverrides={messages}
-          onCalcitePanelClose={this.handlePanelClose}
-          onCalcitePanelScroll={this.handlePanelScroll}
-          onCalcitePanelToggle={this.handlePanelToggle}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setContainerRef}
-        >
-          {this.renderBackButton()}
-          <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
-          <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
-          <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
-          <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
-          <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
-          <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
-          <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
-          <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
-          <slot />
-        </calcite-panel>
+        <InteractiveContainer disabled={disabled}>
+          <calcite-panel
+            closable={closable}
+            closed={closed}
+            collapseDirection={collapseDirection}
+            collapsed={collapsed}
+            collapsible={collapsible}
+            description={description}
+            disabled={disabled}
+            heading={heading}
+            headingLevel={headingLevel}
+            loading={loading}
+            menuOpen={menuOpen}
+            messageOverrides={messages}
+            onCalcitePanelClose={this.handlePanelClose}
+            onCalcitePanelScroll={this.handlePanelScroll}
+            onCalcitePanelToggle={this.handlePanelToggle}
+            overlayPositioning={overlayPositioning}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.setContainerRef}
+          >
+            {this.renderBackButton()}
+            <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
+            <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
+            <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+            <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
+            <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
+            <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
+            <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
+            <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
+            <slot />
+          </calcite-panel>
+        </InteractiveContainer>
       </Host>
     );
   }

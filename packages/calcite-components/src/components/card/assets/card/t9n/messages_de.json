@@ -1,5 +1,4 @@
 {
-  "select": "Auswählbare Kachel",
-  "deselect": "Auswahl aufheben",
+  "select": "Auswählen",
   "loading": "Wird geladen"
 }

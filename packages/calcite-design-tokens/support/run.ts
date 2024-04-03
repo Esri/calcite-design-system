@@ -1,16 +1,17 @@
-import { readFileSync } from "fs";
-import { resolve, dirname } from "path";
-import { fileURLToPath } from "url";
-import { getThemes } from "./token-transformer/getThemes.js";
-import { run } from "./token-transformer/sd-run.js";
+import { run as styleDictionaryRunner } from "./token-transformer/sd-run.js";
+import { config } from "../src/$config.js";
+import { CalciteTokenTransformConfig } from "./types/config.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const runConfig: CalciteTokenTransformConfig = config;
 
-/**
- * Get all themes defined int the tokens/$themes.json and generate a Style Dictionary output for each theme
- */
-const rawData = readFileSync(resolve(__dirname, "../src/$themes.json"), { encoding: "utf-8" });
-const data = JSON.parse(rawData);
-
-getThemes(data).then((themes) => Promise.all(themes.map((theme) => run("src", "dist", theme))));
+Promise.all(
+  runConfig.files.map(({ name, source, references, options }) =>
+    styleDictionaryRunner({
+      name: name,
+      source: source,
+      include: references,
+      options: { ...runConfig.options, ...options },
+      output: config.output,
+    }),
+  ),
+);

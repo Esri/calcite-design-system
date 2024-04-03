@@ -150,8 +150,8 @@ export class Flow implements LoadableComponent {
 
     const newItems = Array.from<FlowItemLikeElement>(
       el.querySelectorAll(
-        `calcite-flow-item${customItemSelectors ? `,${customItemSelectors}` : ""}`
-      )
+        `calcite-flow-item${customItemSelectors ? `,${customItemSelectors}` : ""}`,
+      ),
     ).filter((flowItem) => flowItem.closest("calcite-flow") === el);
 
     const oldItemCount = items.length;

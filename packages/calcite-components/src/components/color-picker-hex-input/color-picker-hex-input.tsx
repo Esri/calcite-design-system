@@ -82,14 +82,14 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.
+   * When `true`, an empty color (`null`) will be allowed as a `value`.
    *
-   * When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
+   * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @Prop() allowEmpty = false;
 
   /**
-   * When true, the component will allow updates to the color's alpha value.
+   * When `true`, the component will allow updates to the color's alpha value.
    */
   @Prop() alphaChannel = false;
 
@@ -119,7 +119,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(
     hexify(DEFAULT_COLOR, this.alphaChannel),
     this.alphaChannel,
-    true
+    true,
   );
 
   @Watch("value")
@@ -160,8 +160,8 @@ export class ColorPickerHexInput implements LoadableComponent {
         : this.formatHexForInternalInput(
             rgbToHex(
               // always display hex input in RRGGBB format
-              internalColor.object() as any as RGB
-            )
+              internalColor.object() as any as RGB,
+            ),
           );
   };
 
@@ -248,11 +248,11 @@ export class ColorPickerHexInput implements LoadableComponent {
           this.nudgeRGBChannels(
             internalColor,
             bump * direction,
-            composedPath.includes(hexInputNode) ? "rgb" : "a"
+            composedPath.includes(hexInputNode) ? "rgb" : "a",
           ),
-          alphaChannel
+          alphaChannel,
         ),
-        oldValue
+        oldValue,
       );
 
       event.preventDefault();

@@ -53,8 +53,8 @@ const getResponsiveTemplate = ({
       start-item="${type === "last"
         ? totalItems - pageSize + 1
         : type === "middle"
-        ? totalItems / 2 - Math.max(pageSize / 2, 1) + 1
-        : 1}"
+          ? totalItems / 2 - Math.max(pageSize / 2, 1) + 1
+          : 1}"
       scale="{scale}"
     ></calcite-pagination>
   `;
@@ -102,15 +102,16 @@ export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): s
 
 darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-pagination
-  dir="rtl"
-  numbering-system="arab"
-  start-item="1"
-  lang="fr"
-  total-items="123456789"
-  page-size="10"
->
-</calcite-pagination>`;
+export const arabicNumberingSystemAndRTL_TestOnly = (): string =>
+  html`<calcite-pagination
+    dir="rtl"
+    numbering-system="arab"
+    start-item="1"
+    lang="fr"
+    total-items="123456789"
+    page-size="10"
+  >
+  </calcite-pagination>`;
 
 arabicNumberingSystemAndRTL_TestOnly.parameters = {
   chromatic: { diffThreshold: 1 },

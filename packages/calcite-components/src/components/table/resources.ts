@@ -1,6 +1,6 @@
 export const CSS = {
   bordered: "bordered",
-  zebra: "zebra",
+  striped: "striped",
   selectionArea: "selection-area",
   paginationArea: "pagination-area",
   container: "container",

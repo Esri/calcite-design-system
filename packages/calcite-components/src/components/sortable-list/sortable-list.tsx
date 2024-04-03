@@ -4,6 +4,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
@@ -146,13 +147,17 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   //
   // --------------------------------------------------------------------------
 
-  onDragStart(): void {
+  onGlobalDragStart(): void {
     this.endObserving();
   }
 
-  onDragEnd(): void {
+  onGlobalDragEnd(): void {
     this.beginObserving();
   }
+
+  onDragEnd(): void {}
+
+  onDragStart(): void {}
 
   onDragSort(): void {
     this.items = Array.from(this.el.children);
@@ -204,8 +209,8 @@ export class SortableList implements InteractiveComponent, SortableComponent {
     this.beginObserving();
     requestAnimationFrame(() => focusElement(handle));
 
-    if ("activated" in handle) {
-      handle.activated = true;
+    if ("selected" in handle) {
+      handle.selected = true;
     }
   }
 
@@ -229,19 +234,21 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { layout } = this;
+    const { disabled, layout } = this;
     const horizontal = layout === "horizontal" || false;
 
     return (
-      <div
-        class={{
-          [CSS.container]: true,
-          [CSS.containerVertical]: !horizontal,
-          [CSS.containerHorizontal]: horizontal,
-        }}
-      >
-        <slot />
-      </div>
+      <InteractiveContainer disabled={disabled}>
+        <div
+          class={{
+            [CSS.container]: true,
+            [CSS.containerVertical]: !horizontal,
+            [CSS.containerHorizontal]: horizontal,
+          }}
+        >
+          <slot />
+        </div>
+      </InteractiveContainer>
     );
   }
 }

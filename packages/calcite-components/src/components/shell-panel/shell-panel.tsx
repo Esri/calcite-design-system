@@ -1,4 +1,15 @@
-import { Component, Element, forceUpdate, h, Prop, State, VNode, Watch } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  forceUpdate,
+  h,
+  Prop,
+  State,
+  VNode,
+  Watch,
+} from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -50,7 +61,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   /**
    * When `true`, the content area displays like a floating panel.
    *
-   * @deprecated use `displayMode` instead.
+   * @deprecated Use `displayMode` instead.
    */
   @Prop({ reflect: true }) detached = false;
 
@@ -64,8 +75,13 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   }
 
   /**
-   * Specifies the display mode - `"dock"` (full height, displays adjacent to center content), `"float"` (not full height, content is separated detached from `calcite-action-bar`, displays on top of center content),
-   * or `"overlay"` (full height, displays on top of center content).
+   * Specifies the display mode of the component, where:
+   *
+   * `"dock"` displays at full height adjacent to center content,
+   *
+   * `"overlay"` displays at full height on top of center content, and
+   *
+   * `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
    */
   @Prop({ reflect: true }) displayMode: DisplayMode = "dock";
 
@@ -77,7 +93,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   /**
    * When `displayMode` is `float`, specifies the maximum height of the component.
    *
-   * @deprecated use `heightScale` instead.
+   * @deprecated Use `heightScale` instead.
    */
   @Prop({ reflect: true }) detachedHeightScale: Scale;
 
@@ -87,7 +103,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   }
 
   /**
-   * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the maximum height of the component.
+   * When `layout` is `horizontal`, specifies the maximum height of the component.
    */
   @Prop({ reflect: true }) heightScale: Scale;
 
@@ -218,6 +234,22 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
   // --------------------------------------------------------------------------
   //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalShellPanelResizeStart: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalShellPanelResizeEnd: EventEmitter<void>;
+
+  // --------------------------------------------------------------------------
+  //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
@@ -256,8 +288,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           ? { height: `${contentHeight}px` }
           : null
         : contentWidth
-        ? { width: `${contentWidth}px` }
-        : null
+          ? { width: `${contentWidth}px` }
+          : null
       : null;
 
     const separatorNode =
@@ -564,8 +596,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           ? -adjustmentDirection * offset
           : adjustmentDirection * offset
         : position === "end"
-        ? -adjustmentDirection * offset
-        : adjustmentDirection * offset;
+          ? -adjustmentDirection * offset
+          : adjustmentDirection * offset;
 
     layout === "horizontal"
       ? this.setContentHeight(initialContentHeight + adjustedOffset)
@@ -577,9 +609,11 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       return;
     }
 
+    this.calciteInternalShellPanelResizeEnd.emit();
+
     event.preventDefault();
-    document.removeEventListener("pointerup", this.separatorPointerUp);
-    document.removeEventListener("pointermove", this.separatorPointerMove);
+    window.removeEventListener("pointerup", this.separatorPointerUp);
+    window.removeEventListener("pointermove", this.separatorPointerMove);
   };
 
   setInitialContentHeight = (): void => {
@@ -595,6 +629,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       return;
     }
 
+    this.calciteInternalShellPanelResizeStart.emit();
+
     event.preventDefault();
     const { separatorEl } = this;
 
@@ -608,8 +644,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       this.initialClientX = event.clientX;
     }
 
-    document.addEventListener("pointerup", this.separatorPointerUp);
-    document.addEventListener("pointermove", this.separatorPointerMove);
+    window.addEventListener("pointerup", this.separatorPointerUp);
+    window.addEventListener("pointermove", this.separatorPointerMove);
   };
 
   connectSeparator = (separatorEl: HTMLDivElement): void => {
@@ -627,8 +663,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
-      el?.matches("calcite-action-bar")
+    const actionBars = slotChangeGetAssignedElements(event).filter(
+      (el) => el?.matches("calcite-action-bar"),
     ) as HTMLCalciteActionBarElement[];
 
     this.actionBars = actionBars;

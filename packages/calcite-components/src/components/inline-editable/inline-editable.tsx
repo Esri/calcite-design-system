@@ -16,6 +16,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
@@ -159,65 +160,67 @@ export class InlineEditable
 
   render(): VNode {
     return (
-      <div
-        class={CSS.wrapper}
-        onClick={this.enableEditingHandler}
-        onKeyDown={this.escapeKeyHandler}
-      >
-        <div class={CSS.inputWrapper}>
-          <slot />
-        </div>
-        <div class={CSS.controlsWrapper}>
-          <calcite-button
-            appearance="transparent"
-            class={CSS.enableEditingButton}
-            disabled={this.disabled}
-            iconStart="pencil"
-            kind="neutral"
-            label={this.messages.enableEditing}
-            onClick={this.enableEditingHandler}
-            scale={this.scale}
-            style={{
-              opacity: this.editingEnabled ? "0" : "1",
-              width: this.editingEnabled ? "0" : "inherit",
-            }}
-            type="button"
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(el) => (this.enableEditingButton = el)}
-          />
-          {this.shouldShowControls && [
-            <div class={CSS.cancelEditingButtonWrapper}>
+      <InteractiveContainer disabled={this.disabled}>
+        <div
+          class={CSS.wrapper}
+          onClick={this.enableEditingHandler}
+          onKeyDown={this.escapeKeyHandler}
+        >
+          <div class={CSS.inputWrapper}>
+            <slot />
+          </div>
+          <div class={CSS.controlsWrapper}>
+            <calcite-button
+              appearance="transparent"
+              class={CSS.enableEditingButton}
+              disabled={this.disabled}
+              iconStart="pencil"
+              kind="neutral"
+              label={this.messages.enableEditing}
+              onClick={this.enableEditingHandler}
+              scale={this.scale}
+              style={{
+                opacity: this.editingEnabled ? "0" : "1",
+                width: this.editingEnabled ? "0" : "inherit",
+              }}
+              type="button"
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={(el) => (this.enableEditingButton = el)}
+            />
+            {this.shouldShowControls && [
+              <div class={CSS.cancelEditingButtonWrapper}>
+                <calcite-button
+                  appearance="transparent"
+                  class={CSS.cancelEditingButton}
+                  disabled={this.disabled}
+                  iconStart="x"
+                  kind="neutral"
+                  label={this.messages.cancelEditing}
+                  onClick={this.cancelEditingHandler}
+                  scale={this.scale}
+                  type="button"
+                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+                  ref={(el) => (this.cancelEditingButton = el)}
+                />
+              </div>,
               <calcite-button
-                appearance="transparent"
-                class={CSS.cancelEditingButton}
+                appearance="solid"
+                class={CSS.confirmChangesButton}
                 disabled={this.disabled}
-                iconStart="x"
-                kind="neutral"
-                label={this.messages.cancelEditing}
-                onClick={this.cancelEditingHandler}
+                iconStart="check"
+                kind="brand"
+                label={this.messages.confirmChanges}
+                loading={this.loading}
+                onClick={this.confirmChangesHandler}
                 scale={this.scale}
                 type="button"
                 // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                ref={(el) => (this.cancelEditingButton = el)}
-              />
-            </div>,
-            <calcite-button
-              appearance="solid"
-              class={CSS.confirmChangesButton}
-              disabled={this.disabled}
-              iconStart="check"
-              kind="brand"
-              label={this.messages.confirmChanges}
-              loading={this.loading}
-              onClick={this.confirmChangesHandler}
-              scale={this.scale}
-              type="button"
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={(el) => (this.confirmEditingButton = el)}
-            />,
-          ]}
+                ref={(el) => (this.confirmEditingButton = el)}
+              />,
+            ]}
+          </div>
         </div>
-      </div>
+      </InteractiveContainer>
     );
   }
 

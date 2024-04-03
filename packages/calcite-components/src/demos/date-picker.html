@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -15,7 +15,7 @@
       .child {
         flex: 1 0 25%;
         margin: 0 25px;
-        color: var(--calcite-ui-text-3);
+        color: var(--calcite-color-text-3);
         font-family: var(--calcite-sans-family);
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
@@ -27,7 +27,7 @@
 
       hr {
         margin: 25px 0;
-        border-top: 1px solid var(--calcite-ui-border-2);
+        border-top: 1px solid var(--calcite-color-border-2);
       }
 
       calcite-button,
@@ -218,33 +218,10 @@
       <script type="module">
         import { locales } from "./_assets/locales.js";
 
-        const numberingSystems = [
-          "arab",
-          "arabext",
-          "bali",
-          "beng",
-          "deva",
-          "fullwide",
-          "gujr",
-          "guru",
-          "hanidec",
-          "khmr",
-          "knda",
-          "laoo",
-          "latn",
-          "limb",
-          "mlym",
-          "mong",
-          "mymr",
-          "orya",
-          "tamldec",
-          "telu",
-          "thai",
-          "tibt",
-        ];
+        const numberingSystems = ["arab", "arabext", "latn"];
 
-        let selectedLang = "th";
-        let selectedNumberingSystem = "thai";
+        let selectedLang = "ar";
+        let selectedNumberingSystem = "arab";
 
         let localeDatePickerS;
         let localeDatePickerL;
@@ -259,7 +236,7 @@
             dropdownItem.setAttribute("data-lang", locale);
             dropdownItem.innerText = `${name} (${locale})`;
             return dropdownItem;
-          })
+          }),
         );
 
         // creates the date picker with the selected lang/numberingSystem
@@ -303,7 +280,7 @@
           createLocaleDatePicker({
             numberingSystem: selectedItems[0].getAttribute("data-numbering-system") || selectedNumberingSystem,
             lang: selectedItems[0].getAttribute("data-lang") || selectedLang,
-          })
+          }),
         );
 
         createLocaleDatePicker({ lang: selectedLang, numberingSystem: selectedNumberingSystem });

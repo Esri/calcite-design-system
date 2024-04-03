@@ -106,7 +106,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -120,23 +120,22 @@ export const range = (): string =>
       createAttributes({ exceptions: ["min", "range"] }).concat([
         { name: "min", value: "2016-08-09" },
         { name: "range", value: "true" },
-      ])
+      ]),
     )}
   </div>`;
 
-export const rangeHighlighted_TestOnly = (): string =>
-  html`
-    <div style="width: 400px">
-      <calcite-date-picker range></calcite-date-picker>
-    </div>
-    <script>
-      (async () => {
-        await customElements.whenDefined("calcite-date-picker");
-        document.querySelector("calcite-date-picker").value = ["2020-02-14", "2020-02-28"];
-        await new Promise((resolve) => requestAnimationFrame(() => resolve()));
-      })();
-    </script>
-  `;
+export const rangeHighlighted_TestOnly = (): string => html`
+  <div style="width: 400px">
+    <calcite-date-picker range></calcite-date-picker>
+  </div>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-date-picker");
+      document.querySelector("calcite-date-picker").value = ["2020-02-14", "2020-02-28"];
+      await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+    })();
+  </script>
+`;
 
 export const rangeRTL_TestOnly = (): string => html`
   <div style="width: 400px">
@@ -151,7 +150,7 @@ export const darkModeRTL_TestOnly = (): string =>
       createAttributes({ exceptions: ["class", "dir"] }).concat([
         { name: "dir", value: "rtl" },
         { name: "class", value: "calcite-mode-dark" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -166,7 +165,7 @@ export const ptPTLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
-      createAttributes({ exceptions: ["lang"] }).concat([{ name: "lang", value: "pt-PT" }])
+      createAttributes({ exceptions: ["lang"] }).concat([{ name: "lang", value: "pt-PT" }]),
     )}
   </div>`;
 
@@ -177,7 +176,7 @@ export const germanLang_TestOnly = (): string =>
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "de" },
         { name: "value", value: "2022-08-11" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -188,7 +187,7 @@ export const spanishLang_TestOnly = (): string =>
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "es" },
         { name: "value", value: "2023-05-11" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -199,7 +198,7 @@ export const norwegianLang_TestOnly = (): string =>
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "nb" },
         { name: "value", value: "2023-05-11" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -210,7 +209,7 @@ export const britishLang_TestOnly = (): string =>
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "en-gb" },
         { name: "value", value: "2024-01-11" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -221,7 +220,7 @@ export const chineseLang_TestOnly = (): string =>
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "zh-cn" },
         { name: "value", value: "2024-01-11" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -233,7 +232,7 @@ export const arabLangNumberingSystem_TestOnly = (): string =>
         { name: "lang", value: "ar" },
         { name: "numbering-system", value: "arab" },
         { name: "value", value: "2022-08-11" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -241,48 +240,34 @@ arabLangNumberingSystem_TestOnly.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const thaiLangNumberingSystem_TestOnly = (): string =>
-  html`<div style="width: 400px">
-    ${create(
-      "calcite-date-picker",
-      createAttributes({ exceptions: ["lang", "numberingSystem"] }).concat([
-        { name: "lang", value: "th" },
-        { name: "numbering-system", value: "thai" },
-      ])
-    )}
-  </div>`;
-
 export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(html`<calcite-date-picker scale="{scale}" value="2000-11-27"></calcite-date-picker>`);
 
-export const defaultWidthAllScales_TestOnly = (): string =>
-  html`
-    <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
-    <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
-    <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
-  `;
+export const defaultWidthAllScales_TestOnly = (): string => html`
+  <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
+  <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
+  <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
+`;
 
-export const smallerThanMinWidthAllScales_TestOnly = (): string =>
-  html`
-    <style>
-      calcite-date-picker {
-        width: 50px;
-      }
-    </style>
-    <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
-    <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
-    <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
-  `;
+export const smallerThanMinWidthAllScales_TestOnly = (): string => html`
+  <style>
+    calcite-date-picker {
+      width: 50px;
+    }
+  </style>
+  <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
+  <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
+  <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
+`;
 
-export const greaterThanMaxWidthAllScales_TestOnly = (): string =>
-  html`
-    <style>
-      calcite-date-picker {
-        width: 1000px;
-        display: block;
-      }
-    </style>
-    <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
-    <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
-    <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
-  `;
+export const greaterThanMaxWidthAllScales_TestOnly = (): string => html`
+  <style>
+    calcite-date-picker {
+      width: 1000px;
+      display: block;
+    }
+  </style>
+  <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
+  <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
+  <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
+`;

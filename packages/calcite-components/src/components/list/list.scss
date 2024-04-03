@@ -28,7 +28,7 @@
   --calcite-stack-padding-block: 0;
 }
 
-::slotted(calcite-list-item) {
+::slotted(calcite-list-item:not([filter-hidden], [closed])) {
   @apply shadow-border-top;
   margin-block-start: 1px;
 }

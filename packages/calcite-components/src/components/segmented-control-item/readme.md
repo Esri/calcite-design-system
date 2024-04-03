@@ -1,5 +1,7 @@
 # calcite-segmented-control-item
 
+For comprehensive guidance on using and implementing `calcite-segmented-control-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/segmented-control-item/).
+
 <!-- Auto Generated Below -->
 
 ## Properties
@@ -28,4 +30,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

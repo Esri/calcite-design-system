@@ -5,7 +5,7 @@ import { ValueList } from "./value-list";
 export function getScreenReaderText(
   item: HTMLCalciteValueListItemElement,
   status: DragStatus,
-  valueList: ValueList<HTMLCalciteValueListItemElement>
+  valueList: ValueList<HTMLCalciteValueListItemElement>,
 ): string {
   const { items, messages } = valueList;
 
@@ -15,10 +15,10 @@ export function getScreenReaderText(
     status === "idle"
       ? messages.dragHandleIdle
       : status === "active"
-      ? messages.dragHandleActive
-      : status === "change"
-      ? messages.dragHandleChange
-      : messages.dragHandleCommit;
+        ? messages.dragHandleActive
+        : status === "change"
+          ? messages.dragHandleChange
+          : messages.dragHandleCommit;
 
   return replacePlaceholders(template, item.label, position, total);
 }
@@ -34,7 +34,7 @@ export function getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
   const item = event
     .composedPath()
     .find(
-      (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item"
+      (item: HTMLElement) => item.tagName?.toLowerCase() === "calcite-value-list-item",
     ) as HTMLCalciteValueListItemElement;
 
   return { handle, item };

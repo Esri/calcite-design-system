@@ -26,7 +26,7 @@ describe("calcite-chip-group", () => {
       html`<calcite-chip-group label="test-label">
         <calcite-chip label="test-label"></calcite-chip>
         <calcite-chip label="test-label"></calcite-chip>
-      </calcite-chip-group>`
+      </calcite-chip-group>`,
     );
   });
 
@@ -35,7 +35,7 @@ describe("calcite-chip-group", () => {
       html` <calcite-chip-group label="test-label" selection-mode="single">
         <calcite-chip label="test-label"></calcite-chip>
         <calcite-chip label="test-label"></calcite-chip>
-      </calcite-chip-group>`
+      </calcite-chip-group>`,
     );
   });
 
@@ -44,7 +44,7 @@ describe("calcite-chip-group", () => {
       html`<calcite-chip-group label="test-label" selection-mode="single-persist">
         <calcite-chip label="test-label"></calcite-chip>
         <calcite-chip label="test-label"></calcite-chip>
-      </calcite-chip-group>`
+      </calcite-chip-group>`,
     );
   });
 
@@ -53,7 +53,7 @@ describe("calcite-chip-group", () => {
       html`<calcite-chip-group label="test-label" selection-mode="multiple">
         <calcite-chip label="test-label"></calcite-chip>
         <calcite-chip label="test-label"></calcite-chip>
-      </calcite-chip-group>`
+      </calcite-chip-group>`,
     );
   });
 
@@ -65,7 +65,7 @@ describe("calcite-chip-group", () => {
           <calcite-chip id="chip-1" label="test-label"></calcite-chip>
           <calcite-chip id="chip-2" selected label="test-label"></calcite-chip>
           <calcite-chip id="chip-3" label="test-label"></calcite-chip>
-        </calcite-chip-group>`
+        </calcite-chip-group>`,
       );
       await page.waitForChanges();
 
@@ -122,7 +122,7 @@ describe("calcite-chip-group", () => {
         html`<calcite-chip-group label="test-label">
           <calcite-chip id="chip-1" label="test-label"></calcite-chip>
           <calcite-chip id="chip-2" label="test-label"></calcite-chip>
-        </calcite-chip-group>`
+        </calcite-chip-group>`,
       );
       await page.waitForChanges();
 
@@ -166,7 +166,7 @@ describe("calcite-chip-group", () => {
         html`<calcite-chip-group label="test-label" selection-mode="single-persist">
           <calcite-chip id="chip-1" selected label="test-label"></calcite-chip>
           <calcite-chip id="chip-2" label="test-label"></calcite-chip>
-        </calcite-chip-group>`
+        </calcite-chip-group>`,
       );
       await page.waitForChanges();
 
@@ -212,7 +212,7 @@ describe("calcite-chip-group", () => {
           <calcite-chip id="chip-1" label="test-label"></calcite-chip>
           <calcite-chip id="chip-2" label="test-label"></calcite-chip>
           <calcite-chip id="chip-3" label="test-label"></calcite-chip>
-        </calcite-chip-group>`
+        </calcite-chip-group>`,
       );
       await page.waitForChanges();
 
@@ -294,7 +294,7 @@ describe("calcite-chip-group", () => {
           <calcite-chip id="chip-3" label="test-label"></calcite-chip>
           <calcite-chip id="chip-4" label="test-label"></calcite-chip>
           <calcite-chip id="chip-5" label="test-label"></calcite-chip>
-        </calcite-chip-group>`
+        </calcite-chip-group>`,
       );
 
       const element = await page.find("calcite-chip-group");
@@ -369,7 +369,7 @@ describe("calcite-chip-group", () => {
           <calcite-chip closable id="chip-3" label="test-label"></calcite-chip>
           <calcite-chip closable id="chip-4" label="test-label"></calcite-chip>
           <calcite-chip closable id="chip-5" label="test-label"></calcite-chip>
-        </calcite-chip-group>`
+        </calcite-chip-group>`,
       );
 
       const chip1 = await page.find("#chip-1");
@@ -415,7 +415,7 @@ describe("calcite-chip-group", () => {
           <calcite-chip closable id="chip-3" label="test-label"></calcite-chip>
           <calcite-chip closable id="chip-4" label="test-label"></calcite-chip>
           <calcite-chip closable id="chip-5" label="test-label"></calcite-chip>
-        </calcite-chip-group>`
+        </calcite-chip-group>`,
       );
 
       const chip1 = await page.find("#chip-1");
@@ -450,7 +450,7 @@ describe("calcite-chip-group", () => {
         <calcite-chip label="test-label"></calcite-chip>
         <calcite-chip id="chip-4" selected label="test-label"></calcite-chip>
         <calcite-chip id="chip-5" selected label="test-label"></calcite-chip>
-      </calcite-chip-group>`
+      </calcite-chip-group>`,
     );
     const element = await page.find("calcite-chip-group");
     const chip4 = await page.find("#chip-4");

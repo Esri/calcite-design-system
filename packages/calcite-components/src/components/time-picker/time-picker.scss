@@ -63,7 +63,7 @@
       justify-center
       font-medium;
     &:hover {
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
+      box-shadow: inset 0 0 0 2px var(--calcite-color-foreground-2);
       z-index: theme("zIndex.header");
     }
     &:focus,
@@ -73,7 +73,7 @@
     }
     &.inputFocus,
     &:hover.inputFocus {
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
+      box-shadow: inset 0 0 0 2px var(--calcite-color-brand);
       z-index: theme("zIndex.header");
     }
   }

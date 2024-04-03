@@ -3,5 +3,5 @@
   "*.scss": ["stylelint --fix", "prettier --write"],
   "packages/**/*.{ts,tsx}": ["eslint --ext .ts,.tsx --fix", "prettier --write"],
   ".github/scripts/*.js": ["eslint --ext .js", "prettier --write"],
-  "*.md": ["markdownlint --fix", "prettier --write"]
+  "*.md": ["prettier --write", "markdownlint --fix"]
 }

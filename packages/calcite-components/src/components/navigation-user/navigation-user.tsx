@@ -21,7 +21,7 @@ export class CalciteNavigationUser implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, the component is highlighted.*/
+  /** When `true`, the component is highlighted.*/
   @Prop({ reflect: true }) active: boolean;
 
   /** Specifies the full name of the user.*/

@@ -1,6 +1,6 @@
 # calcite-pick-list-group
 
-`calcite-pick-list-group` is a wrapper for multiple `calcite-pick-list-item`s and lives in `calcite-pick-list`.
+For comprehensive guidance on using and implementing `calcite-pick-list-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/pick-list-group/).
 
 <!-- Auto Generated Below -->
 
@@ -21,4 +21,4 @@
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

@@ -21,7 +21,7 @@ export const decimalPlaces = (value: number | string): number => {
     // Number of digits right of decimal point.
     (match[1] ? match[1].length : 0) -
       // Adjust for scientific notation.
-      (match[2] ? +match[2] : 0)
+      (match[2] ? +match[2] : 0),
   );
 };
 
