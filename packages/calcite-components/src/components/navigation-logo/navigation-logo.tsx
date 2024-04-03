@@ -116,22 +116,20 @@ export class CalciteNavigationLogo implements LoadableComponent {
   renderHeaderContent(): VNode {
     const { heading, headingLevel, description } = this;
     const headingNode = heading ? (
-      <Heading class={CSS.heading} level={headingLevel}>
-        <span
-          aria-label={this.heading}
-          class={{
-            [CSS.heading]: true,
-            [CSS.standalone]: !this.description,
-          }}
-          key={CSS.heading}
-        >
-          {heading}
-        </span>
+      <Heading
+        class={{
+          [CSS.heading]: true,
+          [CSS.standalone]: !this.description,
+        }}
+        key={CSS.heading}
+        level={headingLevel}
+      >
+        {heading}
       </Heading>
     ) : null;
 
     const descriptionNode = description ? (
-      <span aria-label={this.description} class={CSS.description} key={CSS.description}>
+      <span class={CSS.description} key={CSS.description}>
         {description}
       </span>
     ) : null;
