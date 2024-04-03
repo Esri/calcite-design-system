@@ -100,7 +100,7 @@ export class Panel
   @Prop({ reflect: true }) collapsible = false;
 
   /**
-   * Specifies the number at which section headings should start.
+   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
