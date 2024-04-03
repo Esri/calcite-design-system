@@ -425,3 +425,32 @@ export function toBeNumber(): any {
     },
   };
 }
+
+/**
+ *
+ * Sets the value of a CSS variable to a test value.
+ * This is useful for testing themed components.
+ *
+ * @param token - the token as a CSS variable
+ * @returns string - the new value for the token
+ */
+export function assignTestTokenThemeValues(token: string): string {
+  return token.includes("color")
+    ? "rgb(0, 191, 255)"
+    : token.includes("shadow")
+      ? "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px"
+      : `42${token.includes("z-index") ? "" : "px"}`;
+}
+
+/**
+ * Evaluate a passed value to determine if it is an array.
+ *
+ * @param value - the value to check
+ * @returns - a type guard to check if the value is an array
+ */
+export const isArray = <T>(value: unknown): value is T[] => {
+  if (value instanceof Array) {
+    return true;
+  }
+  return false;
+};

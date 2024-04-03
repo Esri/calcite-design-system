@@ -11,6 +11,8 @@ import { MessageBundle } from "../utils/t9n";
 import {
   GlobalTestProps,
   IntrinsicElementsWithProp,
+  assignTestTokenThemeValues,
+  isArray,
   isElementFocused,
   newProgrammaticE2EPage,
   skipAnimations,
@@ -1838,4 +1840,263 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
       await testOpenCloseEvents(componentTagOrHTML, page);
     });
   }
+}
+
+/**
+ *
+ * Helper to test custom theming of a component's associated tokens.
+ *
+ * @example
+ * describe("theme", () => {
+ *   const tokens = {
+ *     "--calcite-action-bar-trigger-background-color": [{
+ *       selector: "calcite-action-bar",
+ *       targetProp: "backgroundColor",
+ *     }, {
+ *       selector: "calcite-action-bar",
+ *       shadowSelector: "calcite-action-group calcite-action >>> .button",
+ *       targetProp: "backgroundColor",
+ *     }],
+ *     "--calcite-action-bar-trigger-background-color-active": {
+ *       selector: "calcite-action-bar",
+ *       shadowSelector: "calcite-action-group calcite-action >>> .button",
+ *       targetProp: "backgroundColor",
+ *       state: { press: { attribute: "class", value: CSS.expandToggle } },
+ *     },
+ *     "--calcite-action-bar-trigger-background-color-focus": {
+ *       selector: "calcite-action-bar",
+ *       shadowSelector: "calcite-action-group calcite-action >>> .button",
+ *       targetProp: "backgroundColor",
+ *       state: "focus",
+ *     },
+ *     "--calcite-action-bar-trigger-background-color-hover": {
+ *       selector: "calcite-action-bar",
+ *       shadowSelector: "calcite-action-group calcite-action >>> .button",
+ *       targetProp: "backgroundColor",
+ *       state: "hover",
+ *     },
+ *   };
+ *   themed(`calcite-action-bar`, tokens);
+ * });
+ *
+ * @param componentTagOrHTML  - The component tag or HTML markup to test against.
+ * @param tokens - A record of token names and their associated selectors, shadow selectors, target props, and states.
+ */
+export function themed(
+  componentTagOrHTML: TagOrHTML,
+  tokens: Record<string, TestSelectToken | TestSelectToken[]>,
+): void {
+  it("is themeable", async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const setTokens: Record<string, string> = {};
+    const styleTargets: Record<string, [E2EElement, string[]]> = {};
+    const testTargets: TestTarget[] = [];
+
+    // Parse test config for tokens and selectors
+    for (const token in tokens) {
+      let selectors = tokens[token];
+
+      if (!isArray(selectors)) {
+        selectors = [selectors];
+      }
+
+      // Set test values for each token
+      if (!setTokens[token]) {
+        setTokens[token] = assignTestTokenThemeValues(token);
+      }
+
+      // Set up styleTargets and testTargets
+      for (let i = 0; i < selectors.length; i++) {
+        const { selector, shadowSelector, targetProp, state } = selectors[i];
+        const el = await page.find(selector);
+        const tokenStyle = `${token}: ${setTokens[token]}`;
+        let target = el;
+        let contextSelector = undefined;
+        let stateName = undefined;
+
+        if (state) {
+          stateName = typeof state === "string" ? state : Object.keys(state)[0];
+        }
+
+        if (!styleTargets[selector]) {
+          styleTargets[selector] = [el, []];
+        }
+        if (styleTargets[selector][1].indexOf(tokenStyle) === -1) {
+          styleTargets[selector][1].push(tokenStyle);
+        }
+        if (shadowSelector) {
+          if (shadowSelector.includes(">>>")) {
+            const shadowSelectors = shadowSelector.split(" ");
+
+            for (let i = 0; i < shadowSelectors.length; i++) {
+              const s = shadowSelectors[i];
+
+              if (i === 0) {
+                target = await page.find(`${selector} >>> ${s}`);
+              } else if (target && shadowSelectors[i + 1] === ">>>") {
+                target = await target.find(`${s} >>> ${shadowSelectors[i + 2]}`);
+                i += 2;
+              } else if (target) {
+                target = await target.find(s);
+              }
+            }
+          } else {
+            target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : target;
+          }
+        }
+        if (state && typeof state !== "string") {
+          contextSelector = Object.values(state)[0];
+        }
+
+        testTargets.push({ target, targetProp, contextSelector, state: stateName, expectedValue: setTokens[token] });
+      }
+    }
+
+    // set style attribute on styleTargets with the assigned token values
+    for (const selector in styleTargets) {
+      const [el, assignedCSSVars] = styleTargets[selector];
+
+      // Sets the style of each element to a string of CSS token props with themed token values
+      el.setAttribute("style", assignedCSSVars.join("; "));
+    }
+
+    await page.waitForChanges();
+
+    // Assert target computedStyle targetProp matches test theme token color
+    for (let i = 0; i < testTargets.length; i++) {
+      await assertThemedProps(page, { ...testTargets[i] });
+    }
+  });
+}
+
+export type ContextSelectByAttr = { attribute: string; value: string | RegExp };
+
+/**
+ * Custom type describing a test target for themed components. Use with themed and assertThemedProps.
+ */
+export type TestTarget = {
+  target: E2EElement;
+  contextSelector?: string | ContextSelectByAttr;
+  targetProp: keyof CSSStyleDeclaration;
+  state?: string;
+  expectedValue: string;
+};
+
+/**
+ * Custom type describing a test selector for themed components. Use with themed assertThemedProps.
+ */
+export type TestSelectToken = {
+  selector: string;
+  shadowSelector?: string;
+  targetProp: keyof CSSStyleDeclaration;
+  state?: string | Record<string, ContextSelectByAttr>;
+};
+
+/**
+ * Get the computed style of an element and assert that it matches the expected themed token value.
+ * This is useful for testing themed components.
+ *
+ * @param page - the e2e page
+ * @param options - the options to pass to the utility
+ * @param options.target - the element to get the computed style from
+ * @param options.contextSelector - the selector of the target element
+ * @param options.targetProp - the CSSStyleDeclaration property to check
+ * @param options.state - the state to apply to the target element
+ * @param options.expectedValue - the expected value of the targetProp
+ */
+export async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<void> {
+  const { target, contextSelector, targetProp, state, expectedValue } = options;
+  let styles = await target.getComputedStyle();
+
+  if (state) {
+    if (contextSelector) {
+      const rect = (await page.evaluate(
+        (
+          context:
+            | string
+            | {
+                attribute: string;
+                value: string | RegExp;
+              },
+        ) => {
+          const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
+            const { attribute, value } = context as {
+              attribute: string;
+              value: string | RegExp;
+            };
+            if (node.nodeType === 1) {
+              const attr = (node as Element).getAttribute(attribute);
+              if (typeof value === "string" && attr === value) {
+                return node;
+              }
+              if (value instanceof RegExp && attr && value.test(attr)) {
+                return node ?? undefined;
+              }
+              if (attr === value) {
+                return node;
+              }
+
+              if ((node as Element) && !attribute && !value) {
+                return node;
+              }
+            }
+
+            if (node.nodeType === 1 && (node as Element).shadowRoot) {
+              for (const child of ((node as Element).shadowRoot as ShadowRoot).children) {
+                const result = searchInShadowDom(child);
+                if (result) {
+                  return result;
+                }
+              }
+            }
+
+            for (const child of node.childNodes) {
+              const result = searchInShadowDom(child);
+              if (result) {
+                return result;
+              }
+            }
+          };
+          return new Promise<{ width: number; height: number; left: number; top: number } | undefined>((resolve) => {
+            requestAnimationFrame(() => {
+              const foundNode =
+                typeof context === "string"
+                  ? document.querySelector(context)
+                  : (searchInShadowDom(document) as HTMLElement | SVGElement | undefined);
+
+              if (foundNode?.getBoundingClientRect) {
+                const { width, height, left, top } = foundNode.getBoundingClientRect();
+                resolve({ width, height, left, top });
+              } else {
+                resolve(undefined);
+              }
+            });
+          });
+        },
+        contextSelector,
+      )) as { width: number; height: number; left: number; top: number } | undefined;
+
+      const box = {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      };
+
+      // hover state
+      await page.mouse.move(box.x, box.y);
+
+      if (state === "press") {
+        await page.mouse.down();
+      } else if (state === "focus") {
+        await page.mouse.down();
+        await page.mouse.up();
+      }
+    } else {
+      await target[state]();
+    }
+    await page.waitForChanges();
+    styles = await target.getComputedStyle();
+    await page.mouse.reset();
+  }
+  await page.waitForChanges();
+  expect(Object.is(styles[targetProp], expectedValue)).toBe(true);
 }
