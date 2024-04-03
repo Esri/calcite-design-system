@@ -954,3 +954,67 @@ export const nestingLists_TestOnly = (): string => html`<h4>Nesting List Items</
       </calcite-list>
     </calcite-list-item>
   </calcite-list>`;
+
+export const closedItems_TestOnly = (): string =>
+  html` <calcite-list>
+    <calcite-list-item
+      closable
+      label="Hiking trails"
+      description="Designated routes for hikers to use."
+      value="hiking-trails"
+    >
+    </calcite-list-item>
+    <calcite-list-item closed closable label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+    </calcite-list-item>
+    <calcite-list-item
+      closed
+      closable
+      label="Rivers"
+      description="Large naturally flowing watercourses."
+      value="rivers"
+    >
+    </calcite-list-item>
+    <calcite-list-item
+      closed
+      closable
+      label="Hiking trails"
+      description="Designated routes for hikers to use."
+      value="hiking-trails"
+    >
+    </calcite-list-item>
+    <calcite-list-item closed closable label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+    </calcite-list-item>
+    <calcite-list-item
+      closed
+      closable
+      label="Rivers"
+      description="Large naturally flowing watercourses."
+      value="rivers"
+    >
+    </calcite-list-item>
+    <calcite-list-item
+      closed
+      closable
+      label="Hiking trails"
+      description="Designated routes for hikers to use."
+      value="hiking-trails"
+    >
+    </calcite-list-item>
+    <calcite-list-item closed closable label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+    </calcite-list-item>
+    <calcite-list-item
+      closed
+      closable
+      label="Rivers"
+      description="Large naturally flowing watercourses."
+      value="rivers"
+    >
+    </calcite-list-item>
+    <calcite-list-item
+      closable
+      label="Hiking trails"
+      description="Designated routes for hikers to use."
+      value="hiking-trails"
+    >
+    </calcite-list-item>
+  </calcite-list>`;
