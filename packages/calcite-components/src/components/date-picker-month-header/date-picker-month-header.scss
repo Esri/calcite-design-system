@@ -4,9 +4,9 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-date-picker-month-header-background-color: Specifies the background color of component.
- * @prop --calcite-date-picker-month-header-buttonbackground-color-active: Specifies the background color of navigation button of component when active.
- * @prop --calcite-date-picker-month-header-buttonbackground-color-hover: Specifies the background color of navigation button of component when hovered.
- * @prop --calcite-date-picker-month-header-buttonbackground-color: Specifies the background color of navigation button of component.
+ * @prop --calcite-date-picker-month-header-button-background-color-active: Specifies the background color of navigation button of component when active.
+ * @prop --calcite-date-picker-month-header-button-background-color-hover: Specifies the background color of navigation button of component when hovered.
+ * @prop --calcite-date-picker-month-header-button-background-color: Specifies the background color of navigation button of component.
  * @prop --calcite-date-picker-month-header-buttontext-color-hover: Specifies the text of navigation button of component when hovered.
  * @prop --calcite-date-picker-month-header-buttontext-color: Specifies the text of navigation button of component.
  * @prop --calcite-date-picker-month-header-text-color: Specifies the text color of component.
@@ -68,7 +68,7 @@
     px-1
     outline-none
     transition-default;
-  background-color: var(--calcite-date-picker-month-header-buttonbackground-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-date-picker-month-header-button-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-date-picker-month-header-buttontext-color, var(--calcite-color-text-3));
   inline-size: calc(100% / 7);
 
@@ -79,7 +79,7 @@
   &:hover,
   &:focus {
     background-color: var(
-      --calcite-date-picker-month-header-buttonbackground-color-hover,
+      --calcite-date-picker-month-header-button-background-color-hover,
       var(--calcite-color-foreground-2)
     );
     color: var(--calcite-date-picker-month-header-buttontext-color-hover, var(--calcite-color-text-1));
@@ -88,7 +88,7 @@
 
   &:active {
     background-color: var(
-      --calcite-date-picker-month-header-buttonbackground-color-active,
+      --calcite-date-picker-month-header-button-background-color-active,
       var(--calcite-color-foreground-3)
     );
   }
