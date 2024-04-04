@@ -600,7 +600,7 @@ describe("calcite-action-bar", () => {
           targetProp: "color",
           state: "hover",
         },
-      };
+      } as const;
       themed(`calcite-action-bar`, tokens);
     });
     describe("vertical", () => {
@@ -609,7 +609,7 @@ describe("calcite-action-bar", () => {
           selector: "calcite-action-bar",
           targetProp: "maxWidth",
         },
-      };
+      } as const;
       themed(`<calcite-action-bar layout="vertical" expanded></calcite-action-bar>`, tokens);
     });
   });
