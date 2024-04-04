@@ -91,7 +91,7 @@ describe("calcite-accordion", () => {
         shadowSelector: ".accordion",
         targetProp: "borderColor",
       },
-    };
+    } as const;
     themed(`<calcite-accordion>${accordionContent}</calcite-accordion>`, tokens);
   });
 
