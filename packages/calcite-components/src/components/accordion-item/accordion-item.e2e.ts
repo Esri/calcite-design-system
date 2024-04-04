@@ -52,7 +52,7 @@ describe("calcite-accordion-item", () => {
         targetProp: "color",
       },
       "--calcite-accordion-item-text-color": { selector: "calcite-accordion-item", targetProp: "color" },
-    };
+    } as const;
 
     themed(
       `<calcite-accordion><calcite-accordion-item description="Accordion Item Description" icon-start="brush-tip" heading="Accordion Title 1" id="2" expanded>Accordion Item Content </calcite-accordion-item></calcite-accordion>`,
