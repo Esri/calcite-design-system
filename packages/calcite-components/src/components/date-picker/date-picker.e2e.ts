@@ -330,4 +330,64 @@ describe("calcite-date-picker", () => {
   describe("translation support", () => {
     t9n("calcite-date-picker");
   });
+
+  it("should be able to navigate between month and select date using arrow keys", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-date-picker value="2024-01-01"></calcite-date-picker>`);
+    const datePicker = await page.find("calcite-date-picker");
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(await datePicker.getProperty("value")).toEqual("2023-12-25");
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(await datePicker.getProperty("value")).toEqual("2024-01-08");
+  });
+
+  it("should be able to navigate between month and select date using page keys", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-date-picker value="2024-01-01"></calcite-date-picker>`);
+    const datePicker = await page.find("calcite-date-picker");
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("PageUp");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(await datePicker.getProperty("value")).toEqual("2023-12-01");
+
+    await page.keyboard.press("PageDown");
+    await page.waitForChanges();
+    await page.keyboard.press("PageDown");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(await datePicker.getProperty("value")).toEqual("2024-02-01");
+  });
 });

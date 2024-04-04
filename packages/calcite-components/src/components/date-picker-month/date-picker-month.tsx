@@ -229,11 +229,6 @@ export class DatePickerMonth {
       }),
     ];
 
-    const weeks: Day[][] = [];
-    for (let i = 0; i < days.length; i += 7) {
-      weeks.push(days.slice(i, i + 7));
-    }
-
     return (
       <Host onFocusOut={this.disableActiveFocus} onKeyDown={this.keyDownHandler}>
         <div class="calendar" role="grid">
@@ -244,11 +239,10 @@ export class DatePickerMonth {
               </span>
             ))}
           </div>
-          {weeks.map((days) => (
-            <div class="week-days" role="row">
-              {days.map((day) => this.renderDateDay(day))}
-            </div>
-          ))}
+
+          <div class="week-days" role="row">
+            {days.map((day, index) => this.renderDateDay(day, index))}
+          </div>
         </div>
       </Host>
     );
@@ -440,15 +434,16 @@ export class DatePickerMonth {
    * @param active.day
    * @param active.dayInWeek
    * @param active.ref
+   * @param key
    */
-  private renderDateDay({ active, currentMonth, date, day, dayInWeek, ref }: Day) {
+  private renderDateDay({ active, currentMonth, date, day, dayInWeek, ref }: Day, key: number) {
     const isFocusedOnStart = this.isFocusedOnStart();
     const isHoverInRange =
       this.isHoverInRange() ||
       (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate));
 
     return (
-      <div class="day" key={date.toDateString()} role="gridcell">
+      <div class="day" key={key} role="gridcell">
         <calcite-date-picker-day
           active={active}
           class={{

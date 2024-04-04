@@ -44,12 +44,18 @@
   @apply text-n1h px-0 pt-4 pb-5;
 }
 
+// .week-days {
+//   @apply flex
+//     flex-row
+//     py-0;
+//   padding-inline: 6px;
+//   &:focus {
+//     @apply outline-none;
+//   }
+// }
+
 .week-days {
-  @apply flex
-    flex-row
-    py-0;
-  padding-inline: 6px;
-  &:focus {
-    @apply outline-none;
-  }
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
 }
