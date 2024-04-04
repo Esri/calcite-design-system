@@ -135,7 +135,7 @@ export class CalciteNavigationLogo implements LoadableComponent {
     ) : null;
 
     return headingNode || descriptionNode ? (
-      <div class={CSS.container}>
+      <div class={CSS.container} key={CSS.container}>
         {headingNode}
         {descriptionNode}
       </div>
