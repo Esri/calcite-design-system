@@ -785,6 +785,14 @@ export class Combobox
       textLabelEl.offsetWidth < textLabelEl.scrollWidth ? textLabelEl.innerText : null;
   };
 
+  private setTextLabelEl = (el: HTMLSpanElement): void => {
+    this.textLabelEl = el;
+
+    if (el) {
+      this.setTooltipText();
+    }
+  };
+
   private setTextInputWrapEl = (el: HTMLInputElement): void => {
     this.textInput = el;
 
@@ -1127,6 +1135,7 @@ export class Combobox
       this.updateActiveItemIndex(-1);
       this.resetText();
       this.filterItems("");
+      this.setTooltipText();
     }
   }
 
@@ -1579,7 +1588,7 @@ export class Combobox
               "label--icon": !!selectedItem?.icon,
             }}
             key="label"
-            ref={(el) => (this.textLabelEl = el)}
+            ref={this.setTextLabelEl}
           >
             {selectedItem.textLabel}
           </span>
