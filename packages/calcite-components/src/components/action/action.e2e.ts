@@ -234,7 +234,7 @@ describe("calcite-action", () => {
           shadowSelector: `.${CSS.actionIndicator}`,
           targetProp: "color",
         },
-      };
+      } as const;
       themed(
         `<calcite-action
           scale="s"
