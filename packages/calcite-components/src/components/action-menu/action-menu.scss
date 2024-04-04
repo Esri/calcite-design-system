@@ -3,22 +3,22 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-menu-default-trigger-background-color-active: Specifies the background color of the component's default trigger when active.
- * @prop --calcite-action-menu-default-trigger-background-color-focus: Specifies the background color of the component's default trigger when focused.
- * @prop --calcite-action-menu-default-trigger-background-color-hover: Specifies the background color of the component's default trigger when hovered.
- * @prop --calcite-action-menu-default-trigger-background-color: Specifies the background color of the component.
- * @prop --calcite-action-menu-default-trigger-icon-color-active: Specifies the background color of the component's default trigger when active.
- * @prop --calcite-action-menu-default-trigger-icon-color-focus: Specifies the background color of the component's default trigger when focused.
- * @prop --calcite-action-menu-default-trigger-icon-color-hover: Specifies the background color of the component's default trigger when hovered.
- * @prop --calcite-action-menu-default-trigger-icon-color: Specifies the color of the component's default trigger icon.
- * @prop --calcite-action-menu-default-trigger-shadow-active: Specifies the shadow of the component  default trigger  when active.
- * @prop --calcite-action-menu-default-trigger-shadow-focus: Specifies the shadow of the component  default trigger  when focused.
- * @prop --calcite-action-menu-default-trigger-shadow-hover: Specifies the shadow of the component  default trigger  when hovered.
- * @prop --calcite-action-menu-default-trigger-shadow: Specifies the shadow of the component  default trigger .
- * @prop --calcite-action-menu-default-trigger-text-color-active: Specifies the background color of the component's default trigger when active.
- * @prop --calcite-action-menu-default-trigger-text-color-focus: Specifies the background color of the component's default trigger when focused.
- * @prop --calcite-action-menu-default-trigger-text-color-hover: Specifies the background color of the component's default trigger when hovered.
- * @prop --calcite-action-menu-default-trigger-text-color: Specifies the text color of the  default trigger .
+ * @prop --calcite-action-menu-trigger-background-color-active: Specifies the background color of the component's default trigger when active.
+ * @prop --calcite-action-menu-trigger-background-color-focus: Specifies the background color of the component's default trigger when focused.
+ * @prop --calcite-action-menu-trigger-background-color-hover: Specifies the background color of the component's default trigger when hovered.
+ * @prop --calcite-action-menu-trigger-background-color: Specifies the background color of the component.
+ * @prop --calcite-action-menu-trigger-icon-color-active: Specifies the background color of the component's default trigger when active.
+ * @prop --calcite-action-menu-trigger-icon-color-focus: Specifies the background color of the component's default trigger when focused.
+ * @prop --calcite-action-menu-trigger-icon-color-hover: Specifies the background color of the component's default trigger when hovered.
+ * @prop --calcite-action-menu-trigger-icon-color: Specifies the color of the component's default trigger icon.
+ * @prop --calcite-action-menu-trigger-shadow-active: Specifies the shadow of the component  default trigger  when active.
+ * @prop --calcite-action-menu-trigger-shadow-focus: Specifies the shadow of the component  default trigger  when focused.
+ * @prop --calcite-action-menu-trigger-shadow-hover: Specifies the shadow of the component  default trigger  when hovered.
+ * @prop --calcite-action-menu-trigger-shadow: Specifies the shadow of the component  default trigger .
+ * @prop --calcite-action-menu-trigger-text-color-active: Specifies the background color of the component's default trigger when active.
+ * @prop --calcite-action-menu-trigger-text-color-focus: Specifies the background color of the component's default trigger when focused.
+ * @prop --calcite-action-menu-trigger-text-color-hover: Specifies the background color of the component's default trigger when hovered.
+ * @prop --calcite-action-menu-trigger-text-color: Specifies the text color of the  default trigger .
  * @prop --calcite-action-menu-popover-background-color: Specifies the background color of the popover sub-componen.
  * @prop --calcite-action-menu-popover-border-color: Specifies the border color of the popover sub-componen.
  * @prop --calcite-action-menu-popover-close-background-color-active: Specifies the background color of an popover sub-component close button when active inside the component.
@@ -45,37 +45,31 @@
 }
 
 calcite-action {
-  --calcite-action-background-color: var(--calcite-action-menu-default-trigger-background-color);
-  --calcite-action-text-color: var(--calcite-action-menu-default-trigger-text-color);
-  --calcite-action-icon-color: var(--calcite-action-menu-default-trigger-icon-color);
-  --calcite-action-shadow: var(--calcite-action-menu-default-trigger-shadow);
+  --calcite-action-background-color: var(--calcite-action-menu-trigger-background-color);
+  --calcite-action-text-color: var(--calcite-action-menu-trigger-text-color);
+  --calcite-action-icon-color: var(--calcite-action-menu-trigger-icon-color);
+  --calcite-action-shadow: var(--calcite-action-menu-trigger-shadow);
 
   &:hover {
-    --calcite-action-background-color: var(--calcite-action-menu-default-trigger-background-color-hover);
-    --calcite-action-text-color: var(--calcite-action-menu-default-trigger-text-color-hover);
-    --calcite-action-icon-color: var(--calcite-action-menu-default-trigger-icon-color-hover);
+    --calcite-action-background-color: var(--calcite-action-menu-trigger-background-color-hover);
+    --calcite-action-text-color: var(--calcite-action-menu-trigger-text-color-hover);
+    --calcite-action-icon-color: var(--calcite-action-menu-trigger-icon-color-hover);
   }
   &:focus {
-    --calcite-action-background-color: var(--calcite-action-menu-default-trigger-background-color-focus);
-    --calcite-action-text-color: var(--calcite-action-menu-default-trigger-text-color-focus);
-    --calcite-action-icon-color: var(--calcite-action-menu-default-trigger-icon-color-focus);
+    --calcite-action-background-color: var(--calcite-action-menu-trigger-background-color-focus);
+    --calcite-action-text-color: var(--calcite-action-menu-trigger-text-color-focus);
+    --calcite-action-icon-color: var(--calcite-action-menu-trigger-icon-color-focus);
   }
   &:active {
-    --calcite-action-background-color: var(--calcite-action-menu-default-trigger-background-color-active);
-    --calcite-action-text-color: var(--calcite-action-menu-default-trigger-text-color-active);
-    --calcite-action-icon-color: var(--calcite-action-menu-default-trigger-icon-color-active);
+    --calcite-action-background-color: var(--calcite-action-menu-trigger-background-color-active);
+    --calcite-action-text-color: var(--calcite-action-menu-trigger-text-color-active);
+    --calcite-action-icon-color: var(--calcite-action-menu-trigger-icon-color-active);
   }
 }
 
 calcite-popover {
   --calcite-popover-background-color: var(--calcite-action-menu-popover-background-color);
   --calcite-popover-border-color: var(--calcite-action-menu-popover-border-color);
-  --calcite-popover-close-background-color-active: var(--calcite-action-menu-popover-close-background-color-active);
-  --calcite-popover-close-background-color-hover: var(--calcite-action-menu-popover-close-background-color-hover);
-  --calcite-popover-close-background-color: var(--calcite-action-menu-popover-close-background-color);
-  --calcite-popover-close-icon-color-active: var(--calcite-action-menu-popover-close-icon-color-active);
-  --calcite-popover-close-icon-color-hover: var(--calcite-action-menu-popover-close-icon-color-hover);
-  --calcite-popover-close-icon-color: var(--calcite-action-menu-popover-close-icon-color);
   --calcite-popover-corner-radius: var(--calcite-action-menu-popover-corner-radius);
   --calcite-popover-shadow: var(--calcite-action-menu-popover-shadow);
   --calcite-popover-text-color: var(--calcite-action-menu-popover-text-color);
