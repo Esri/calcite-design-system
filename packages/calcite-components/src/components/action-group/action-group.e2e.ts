@@ -65,7 +65,7 @@ describe("calcite-action-group", () => {
     <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action>
     </calcite-action-group>`);
     await page.waitForChanges();
-    const container = await page.find(`calcite-action-group >>> ..${CSS.container}`);
+    const container = await page.find(`calcite-action-group >>> .${CSS.container}`);
     expect(await container.getProperty("ariaLabel")).toBe("test");
   });
 
