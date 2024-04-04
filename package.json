@@ -91,7 +91,7 @@
     "lerna": "7.4.2",
     "lint-staged": "13.3.0",
     "markdownlint-cli": "0.38.0",
-    "postcss": "8.4.32",
+    "postcss": "8.4.38",
     "prettier": "3.1.1",
     "puppeteer": "21.5.0",
     "quicktype-core": "23.0.80",
