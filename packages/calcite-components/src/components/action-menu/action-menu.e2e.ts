@@ -1,4 +1,4 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -9,6 +9,7 @@ import {
   reflects,
   renders,
   slots,
+  themed,
 } from "../../tests/commonTests";
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS, activeAttr } from "./resources";
@@ -527,65 +528,140 @@ describe("calcite-action-menu", () => {
     });
   });
 
-  describe("Theme-ing", () => {
-    let page: E2EPage;
-    const customTheme = {
-      "--calcite-action-menu-default-trigger-background-color-active": "rgb(255, 0, 0)",
-      "--calcite-action-menu-default-trigger-background-color-focus": "rgb(0, 255, 0)",
-      "--calcite-action-menu-default-trigger-background-color-hover": "rgb(0, 0, 255)",
-      "--calcite-action-menu-default-trigger-background-color": "rgb(255, 255, 0)",
-      "--calcite-action-menu-default-trigger-icon-color-active": "rgb(0, 255, 255)",
-      "--calcite-action-menu-default-trigger-icon-color-focus": "rgb(255, 0, 255)",
-      "--calcite-action-menu-default-trigger-icon-color-hover": "rgb(128, 0, 0)",
-      "--calcite-action-menu-default-trigger-icon-color": "rgb(0, 128, 0)",
-      "--calcite-action-menu-default-trigger-shadow-active": "0 4px 8px 0 rgb(0, 128, 128)",
-      "--calcite-action-menu-default-trigger-shadow-focus": "0 4px 8px 0 rgb(128, 0, 128)",
-      "--calcite-action-menu-default-trigger-shadow-hover": "0 4px 8px 0 rgb(192, 192, 192)",
-      "--calcite-action-menu-default-trigger-shadow": "0 4px 8px 0 rgb(192, 0, 0)",
-      "--calcite-action-menu-default-trigger-text-color-active": "rgb(0, 192, 0)",
-      "--calcite-action-menu-default-trigger-text-color-focus": "rgb(0, 0, 192)",
-      "--calcite-action-menu-default-trigger-text-color-hover": "rgb(192, 192, 0)",
-      "--calcite-action-menu-default-trigger-text-color": "rgb(0, 192, 192)",
-      "--calcite-action-menu-popover-background-color": "rgb(192, 0, 192)",
-      "--calcite-action-menu-popover-border-color": "rgb(128, 128, 128)",
-      "--calcite-action-menu-popover-close-background-color-active": "rgb(128, 64, 64)",
-      "--calcite-action-menu-popover-close-background-color-hover": "rgb(64, 128, 64)",
-      "--calcite-action-menu-popover-close-background-color": "rgb(64, 64, 128)",
-      "--calcite-action-menu-popover-close-icon-color-active": "rgb(128, 64, 128)",
-      "--calcite-action-menu-popover-close-icon-color-hover": "rgb(64, 128, 128)",
-      "--calcite-action-menu-popover-close-icon-color": "rgb(128, 64, 64)",
-      "--calcite-action-menu-popover-corner-radius": "8px",
-      "--calcite-action-menu-popover-shadow": "rgb(128, 64, 64)",
-      "--calcite-action-menu-popover-text-color": "rgb(64, 128, 128)",
-    };
-
-    beforeEach(async () => {
-      page = await newE2EPage({
-        html: `
-        <calcite-action-menu open closeable>
-          <span>test</span>
-        </calcite-action-menu>
-      `,
-      });
-      await page.waitForChanges();
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens = {
+        "--calcite-action-menu-trigger-background-color-active": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> .button",
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+        },
+        "--calcite-action-menu-trigger-background-color-focus": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> .button",
+          targetProp: "backgroundColor",
+          state: "focus",
+        },
+        "--calcite-action-menu-trigger-background-color-hover": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> .button",
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-action-menu-trigger-background-color": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> .button",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-action-menu-trigger-icon-color-active": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> calcite-icon",
+          targetProp: "color",
+          state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+        },
+        "--calcite-action-menu-trigger-icon-color-focus": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> calcite-icon",
+          targetProp: "color",
+          state: "focus",
+        },
+        "--calcite-action-menu-trigger-icon-color-hover": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> calcite-icon",
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-action-menu-trigger-icon-color": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> calcite-icon",
+          targetProp: "color",
+        },
+        "--calcite-action-menu-trigger-shadow-active": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> .button",
+          targetProp: "boxShadow",
+          state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+        },
+        "--calcite-action-menu-trigger-shadow-focus": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> .button",
+          targetProp: "boxShadow",
+          state: "focus",
+        },
+        "--calcite-action-menu-trigger-shadow-hover": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> .button",
+          targetProp: "boxShadow",
+          state: "hover",
+        },
+        "--calcite-action-menu-trigger-shadow": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> .button",
+          targetProp: "boxShadow",
+        },
+        "--calcite-action-menu-trigger-text-color-active": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> .button",
+          targetProp: "color",
+          state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+        },
+        "--calcite-action-menu-trigger-text-color-focus": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> .button",
+          targetProp: "color",
+          state: "focus",
+        },
+        "--calcite-action-menu-trigger-text-color-hover": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> .button",
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-action-menu-trigger-text-color": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-action >>> .button",
+          targetProp: "color",
+        },
+      } as const;
+      themed("calcite-action-menu", tokens);
     });
-
-    it("should allow theme-ing", async () => {
-      const actionMenu = await page.find("calcite-action-menu");
-      const actionMenuPopover = await page.find(`calcite-action-menu >>> .container`);
-      const actionMenuFloatingUI = await actionMenuPopover.find("calcite-popover >>> .calcite-floating-ui-anim");
-      const defaultStyle = await actionMenuFloatingUI.getComputedStyle();
-
-      await actionMenu.setAttribute(
-        "style",
-        `${Object.entries(customTheme)
-          .map(([key, val]) => `${key}: ${val}`)
-          .join("; ")}`,
+    describe("popover", () => {
+      const tokens = {
+        "--calcite-action-menu-popover-background-color": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-popover >>> .calcite-floating-ui-anim",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-action-menu-popover-border-color": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-popover >>> .calcite-floating-ui-anim",
+          targetProp: "borderColor",
+        },
+        "--calcite-action-menu-popover-corner-radius": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-popover >>> .calcite-floating-ui-anim",
+          targetProp: "borderRadius",
+        },
+        "--calcite-action-menu-popover-shadow": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-popover >>> .calcite-floating-ui-anim",
+          targetProp: "boxShadow",
+        },
+        "--calcite-action-menu-popover-text-color": {
+          selector: "calcite-action-menu",
+          shadowSelector: ".container calcite-popover >>> .container",
+          targetProp: "color",
+        },
+      } as const;
+      themed(
+        `<calcite-action-menu open>
+          <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action
+        ></calcite-action-menu>`,
+        tokens,
       );
-      await page.waitForChanges();
-      const styles = await actionMenuFloatingUI.getComputedStyle();
-      expect(defaultStyle.backgroundColor).not.toBe(customTheme["--calcite-action-menu-popover-background-color"]);
-      expect(styles.backgroundColor).toBe(customTheme["--calcite-action-menu-popover-background-color"]);
     });
   });
 });
