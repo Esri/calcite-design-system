@@ -1875,7 +1875,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
  *       targetProp: "backgroundColor",
  *       state: "hover",
  *     },
- *   };
+ *   } as const;
  *   themed(`calcite-action-bar`, tokens);
  * });
  *
