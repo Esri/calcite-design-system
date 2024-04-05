@@ -53,7 +53,7 @@ darkModeRTL.parameters = { modes: modesDarkDefault };
 - Story names should be camelCased
 - Update the [main custom theme](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/custom-theme.stories.ts) story instead of adding a specific story showing how to use a custom CSS prop
 - Should only have HTML for the component or use case itself (e.g., no need to wrap in calcite-label)
-- Update the `simple` story with corresponding controls instead of adding a story specific to a new prop with its respective control
+- Update the `simple` story with corresponding [controls](https://storybook.js.org/docs/essentials/controls) instead of adding a story specific to a new prop with its respective control
 - Don't add or update a story if it is covered by an existing one
 
 #### Interactive showcase stories
