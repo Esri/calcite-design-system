@@ -158,7 +158,7 @@ export class ListItem
   /**
    * @internal
    */
-  @Prop() mode: ListMode = "classic";
+  @Prop({ reflect: true }) mode: ListMode = "classic";
 
   /**
    * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
