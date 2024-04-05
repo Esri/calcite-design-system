@@ -2,7 +2,7 @@ import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 
 import { html } from "../../../support/formatting";
-import { storyFilters, boolean } from "../../../.storybook/helpers";
+
 import { select, text } from "../../../.storybook/fake-knobs";
 
 export default {
@@ -12,7 +12,6 @@ export default {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });

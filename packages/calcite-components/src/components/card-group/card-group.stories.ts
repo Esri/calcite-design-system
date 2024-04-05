@@ -1,5 +1,5 @@
 import { select } from "../../../.storybook/fake-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+
 import { modesDarkDefault } from "../../../.storybook/utils";
 
 import { html } from "../../../support/formatting";
@@ -7,7 +7,6 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 
 export default {
   title: "Components/Card Group",
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

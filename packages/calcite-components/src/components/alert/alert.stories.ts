@@ -1,5 +1,5 @@
 import { select } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
@@ -10,7 +10,6 @@ export default {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 export const titleMessageLink = (): string => html`

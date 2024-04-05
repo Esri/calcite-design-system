@@ -1,12 +1,9 @@
-import { storyFilters, boolean } from "../../../.storybook/helpers";
-
 import { html } from "../../../support/formatting";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { number, select, text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/Meter",
-  ...storyFilters(),
 };
 
 export const simple = (): string =>

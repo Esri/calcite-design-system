@@ -1,12 +1,10 @@
 import { select, text } from "../../../.storybook/fake-knobs";
 
-import { storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Avatar",
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

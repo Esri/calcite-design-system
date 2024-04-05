@@ -1,5 +1,5 @@
 import { boolean, select, text } from "../../../.storybook/fake-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
@@ -14,7 +14,6 @@ import { SLOTS } from "./resources";
 
 export default {
   title: "Components/Panel",
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

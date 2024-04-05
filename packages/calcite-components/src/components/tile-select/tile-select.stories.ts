@@ -1,5 +1,5 @@
 import { boolean, select, text } from "../../../.storybook/fake-knobs";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
 import {
   Attribute,
   Attributes,
@@ -11,7 +11,6 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Tiles/Tile Select",
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

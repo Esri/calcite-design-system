@@ -9,11 +9,9 @@ import {
 
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/ColorPicker",
-  ...storyFilters(),
 };
 
 const createColorAttributes: (options?: { exceptions: string[] }) => Attributes = (

@@ -1,14 +1,11 @@
 import { select, boolean } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
 
-import { storyFilters } from "../../../.storybook/helpers";
-
 export default {
   title: "Components/Tiles/Tile Group",
   parameters: {
     chromatic: { delay: 10000 },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

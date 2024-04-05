@@ -1,5 +1,5 @@
 import { boolean, select } from "../../../.storybook/fake-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
@@ -17,7 +17,6 @@ export default {
       delay: 1000,
     },
   },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

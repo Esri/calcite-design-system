@@ -1,11 +1,10 @@
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 
 import { html } from "../../../support/formatting";
 import { select, text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/Menu Item",
-  ...storyFilters(),
 };
 
 export const simple = (): string =>

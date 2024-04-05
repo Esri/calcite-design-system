@@ -1,5 +1,5 @@
 import { select } from "../../../.storybook/fake-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 
 import { html } from "../../../support/formatting";
@@ -11,7 +11,6 @@ export default {
       delay: 1000,
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

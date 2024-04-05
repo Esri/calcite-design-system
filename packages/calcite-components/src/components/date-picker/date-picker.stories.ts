@@ -1,6 +1,5 @@
 import { boolean, select, text } from "../../../.storybook/fake-knobs";
 
-import { storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
@@ -24,7 +23,6 @@ export default {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 const testDate = "2020-02-28";

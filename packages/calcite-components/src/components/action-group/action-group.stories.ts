@@ -1,11 +1,10 @@
 import { select, text } from "../../../.storybook/fake-knobs";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
 
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Action Group",
-  ...storyFilters(),
 };
 
 export const honorsFlexGrow = (): string =>

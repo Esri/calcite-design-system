@@ -1,12 +1,11 @@
 import { select } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Tabs",
-  ...storyFilters(),
 };
 
 export const simpleDarkModeRTL_TestOnly = (): string => html`

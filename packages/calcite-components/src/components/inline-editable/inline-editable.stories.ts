@@ -1,11 +1,9 @@
 import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/Inline Editable",
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

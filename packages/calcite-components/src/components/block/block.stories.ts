@@ -8,11 +8,9 @@ import {
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Block",
-  ...storyFilters(),
 };
 
 const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes = (

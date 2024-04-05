@@ -1,12 +1,11 @@
 import { text, select } from "../../../.storybook/fake-knobs";
-import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
+import { iconNames, boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Buttons/Split Button",
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

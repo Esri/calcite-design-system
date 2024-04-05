@@ -1,5 +1,5 @@
 import { select, text } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
@@ -12,7 +12,6 @@ export default {
       timezone: "America/Mexico_City",
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

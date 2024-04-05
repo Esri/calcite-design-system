@@ -8,13 +8,12 @@ import {
 } from "../../../.storybook/utils";
 
 import { html } from "../../../support/formatting";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { alignment, scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Buttons/Action",
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

@@ -20,15 +20,3 @@ export const boolean = (prop, value, standalone = true) => {
   const attrValue = standalone ? "" : `="${knob}"`;
   return `${propValue}${attrValue}`;
 };
-
-/**
- * This helps create different storybook builds for internal and screenshot test environments
- */
-export function storyFilters(): {
-  excludeStories: RegExp | string[];
-} {
-  return {
-    // allow all for now as Storybook v8 does not support dynamic story filtering
-    excludeStories: [],
-  };
-}

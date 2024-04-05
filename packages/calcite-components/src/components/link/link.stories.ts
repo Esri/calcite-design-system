@@ -1,5 +1,5 @@
 import { select, text } from "../../../.storybook/fake-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
 import { html } from "../../../support/formatting";
@@ -11,7 +11,6 @@ const iconNames = Object.keys(icons)
 
 export default {
   title: "Components/Link",
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

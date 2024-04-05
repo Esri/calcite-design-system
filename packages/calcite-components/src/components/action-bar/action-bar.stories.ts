@@ -1,5 +1,5 @@
 import { boolean, select } from "../../../.storybook/fake-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
@@ -12,7 +12,6 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Action Bar",
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

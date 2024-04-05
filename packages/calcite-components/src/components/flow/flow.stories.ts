@@ -1,5 +1,5 @@
 import { boolean, text } from "../../../.storybook/fake-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+
 import { Attributes, createComponentHTML as create, filterComponentAttributes } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
@@ -7,7 +7,6 @@ import { SLOTS } from "../panel/resources";
 
 export default {
   title: "Components/Flow",
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

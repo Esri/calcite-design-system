@@ -1,5 +1,5 @@
 import { select } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
@@ -159,7 +159,6 @@ export default {
       delay: 1000,
     },
   },
-  ...storyFilters(),
 };
 
 const selectionModes = ["single", "children", "multichildren", "ancestors", "none", "multiple"];

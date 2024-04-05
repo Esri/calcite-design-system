@@ -1,4 +1,4 @@
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 
 import { html } from "../../../support/formatting";
@@ -6,7 +6,6 @@ import { text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/Navigation/Navigation Logo",
-  ...storyFilters(),
 };
 
 export const simple = (): string =>

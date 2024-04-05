@@ -8,11 +8,9 @@ import {
 } from "../../../.storybook/utils";
 
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Tips/Tip",
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

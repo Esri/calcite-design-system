@@ -1,5 +1,5 @@
 import { boolean, text } from "../../../.storybook/fake-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+
 import {
   Attribute,
   Attributes,
@@ -11,7 +11,6 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Pick List",
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

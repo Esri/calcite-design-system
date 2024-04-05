@@ -9,12 +9,11 @@ import {
   modesDarkDefault,
   createComponentHTML as create,
 } from "../../../.storybook/utils";
-import { storyFilters } from "../../../.storybook/helpers";
+
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
   title: "Components/Card",
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

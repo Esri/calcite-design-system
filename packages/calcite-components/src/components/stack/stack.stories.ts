@@ -2,11 +2,9 @@ import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Support/Stack",
-  ...storyFilters(),
 };
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });

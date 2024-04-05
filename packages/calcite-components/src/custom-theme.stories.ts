@@ -1,10 +1,8 @@
-import { storyFilters } from "../.storybook/helpers";
 import { color } from "../.storybook/fake-knobs";
 import { placeholderImage } from "../.storybook/placeholderImage";
 
 export default {
   title: "Theming/Custom Theme",
-  ...storyFilters(),
 };
 
 export const themingInteractive = (): string => {

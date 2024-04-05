@@ -1,10 +1,9 @@
 import { number } from "../../../.storybook/fake-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+
 import { modesDarkDefault } from "../../../.storybook/utils";
 
 export default {
   title: "Components/Controls/Slider/support/Graph",
-  ...storyFilters(),
 };
 
 const data: HTMLCalciteGraphElement["data"] = [

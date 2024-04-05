@@ -1,10 +1,9 @@
 import { color, number, select } from "../../../.storybook/fake-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Loader",
-  ...storyFilters(),
 };
 
 export const simple_TestOnly = (): string => html`

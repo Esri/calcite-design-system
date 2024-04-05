@@ -4,11 +4,10 @@ import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/u
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/InputDatePicker",
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

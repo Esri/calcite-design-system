@@ -1,7 +1,7 @@
 import { select, number } from "../../../.storybook/fake-knobs";
 
 import { html } from "../../../support/formatting";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
 import { modesDarkDefault } from "../../../.storybook/utils";
 
@@ -11,7 +11,6 @@ const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appe
 
 export default {
   title: "Components/Tooltip",
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

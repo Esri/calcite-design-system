@@ -3,7 +3,6 @@ import { locales, numberingSystems } from "../../utils/locale";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Pagination",
@@ -12,7 +11,6 @@ export default {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

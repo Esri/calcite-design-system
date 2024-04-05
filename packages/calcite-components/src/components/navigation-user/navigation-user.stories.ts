@@ -1,4 +1,4 @@
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { text } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
 
@@ -6,7 +6,6 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 
 export default {
   title: "Components/Navigation/Navigation User",
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

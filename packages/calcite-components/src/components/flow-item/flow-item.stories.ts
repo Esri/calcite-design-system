@@ -10,11 +10,9 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 
 import { SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Flow Item",
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

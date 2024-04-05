@@ -1,9 +1,7 @@
-import { storyFilters } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Action Menu",
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

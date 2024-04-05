@@ -1,11 +1,10 @@
 import { select, text } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/Input Text",
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

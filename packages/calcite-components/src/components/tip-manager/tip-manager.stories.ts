@@ -1,5 +1,5 @@
 import { boolean } from "../../../.storybook/fake-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import {
   Attribute,
@@ -12,7 +12,6 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Tips/Tip Manager",
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

@@ -8,7 +8,7 @@ import {
 import { html } from "../../../support/formatting";
 import { select, boolean, text } from "../../../.storybook/fake-knobs";
 
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
 
 const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes = (
   { exceptions } = { exceptions: [] },
@@ -105,7 +105,6 @@ const createOptionGroupAttributes: () => Attributes = () => {
 
 export default {
   title: "Components/Controls/Select",
-  ...storyFilters(),
 };
 
 export const simple = (): string =>

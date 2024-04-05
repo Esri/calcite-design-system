@@ -1,11 +1,8 @@
-import { storyFilters } from "../../../.storybook/helpers";
-
 import { html } from "../../../support/formatting";
 import { select } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/Menu",
-  ...storyFilters(),
 };
 
 export const simple = (): string =>

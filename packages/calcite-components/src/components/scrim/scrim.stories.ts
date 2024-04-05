@@ -1,10 +1,9 @@
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Scrim",
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

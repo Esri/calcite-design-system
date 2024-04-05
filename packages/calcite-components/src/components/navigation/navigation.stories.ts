@@ -1,10 +1,7 @@
-import { storyFilters } from "../../../.storybook/helpers";
-
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Navigation/Navigation",
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

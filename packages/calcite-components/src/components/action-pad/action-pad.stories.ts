@@ -9,7 +9,6 @@ import {
 
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Action Pad",
@@ -18,7 +17,6 @@ export default {
       delay: 5000,
     },
   },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {

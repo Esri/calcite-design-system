@@ -1,6 +1,6 @@
 import { select, number, text } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
 
 import { defaultPopoverPlacement } from "../popover/resources";
@@ -24,7 +24,6 @@ export default {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
