@@ -130,7 +130,7 @@ td:focus {
   @apply flex-auto;
 
   ::slotted(calcite-icon) {
-    @apply self-center;
+    @apply self-center mx-3;
   }
 }
 
