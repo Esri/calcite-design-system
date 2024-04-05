@@ -3,6 +3,14 @@
   --calcite-list-item-icon-color: theme("colors.brand");
 }
 
+:host([mode="classic"]) {
+  --calcite-internal-list-item-spacing-indent: var(--calcite-list-item-spacing-indent, theme("spacing.8"));
+}
+
+:host([mode="flat"][mode="nested"]) {
+  --calcite-internal-list-item-spacing-indent: var(--calcite-list-item-spacing-indent, theme("spacing.6"));
+}
+
 @include disabled();
 
 .indent {
@@ -12,7 +20,7 @@
     border-0
     border-color-3;
 
-  margin-inline-start: theme("spacing.7");
+  margin-inline-start: var(--calcite-internal-list-item-spacing-indent);
 }
 
 .container {
