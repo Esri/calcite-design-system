@@ -171,7 +171,6 @@ export class DatePickerMonth {
    * disable auto focusing of active date
    */
   disableActiveFocus = (): void => {
-    console.log("focus out");
     this.activeFocus = false;
   };
 
