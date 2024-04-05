@@ -1,14 +1,11 @@
 :host {
   @apply flex flex-col bg-foreground-1;
   --calcite-list-item-icon-color: theme("colors.brand");
+  --calcite-internal-list-item-spacing-indent: var(--calcite-list-item-spacing-indent, theme("spacing.6"));
 }
 
 :host([mode="classic"]) {
   --calcite-internal-list-item-spacing-indent: var(--calcite-list-item-spacing-indent, theme("spacing.8"));
-}
-
-:host([mode="flat"][mode="nested"]) {
-  --calcite-internal-list-item-spacing-indent: var(--calcite-list-item-spacing-indent, theme("spacing.6"));
 }
 
 @include disabled();
