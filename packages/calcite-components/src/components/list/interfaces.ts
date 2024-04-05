@@ -5,3 +5,5 @@ export interface ListDragDetail extends DragDetail {
   fromEl: HTMLCalciteListElement;
   dragEl: HTMLCalciteListItemElement;
 }
+
+export type ListMode = "classic" | "nested" | "flat";

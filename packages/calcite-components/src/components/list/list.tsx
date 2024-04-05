@@ -55,7 +55,7 @@ import {
 } from "../../utils/t9n";
 import { ListMessages } from "./assets/list/t9n";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { ListDragDetail } from "./interfaces";
+import { ListDragDetail, ListMode } from "./interfaces";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -152,6 +152,11 @@ export class List
   @Prop({ reflect: true }) loading = false;
 
   /**
+   * todo: documentation
+   */
+  @Prop({ reflect: true }) mode: ListMode = "classic";
+
+  /**
    * Use this property to override individual strings used by the component.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
@@ -215,6 +220,7 @@ export class List
   @Watch("dragEnabled")
   @Watch("selectionMode")
   @Watch("selectionAppearance")
+  @Watch("mode")
   handleListItemChange(): void {
     this.updateListItems();
   }
@@ -809,28 +815,25 @@ export class List
   };
 
   private updateListItems = debounce((emit = false): void => {
-    const { selectionAppearance, selectionMode, dragEnabled } = this;
-
-    if (!!this.parentListEl) {
-      const items = this.queryListItems(true);
-
-      items.forEach((item) => {
-        item.dragHandle = dragEnabled;
-      });
-
-      this.setUpSorting();
-      return;
-    }
+    const { selectionAppearance, selectionMode, dragEnabled, mode } = this;
 
     const items = this.queryListItems();
     items.forEach((item) => {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
+      item.mode = mode;
     });
-    const dragItems = this.queryListItems(true);
-    dragItems.forEach((item) => {
+
+    const directItems = this.queryListItems(true);
+    directItems.forEach((item) => {
       item.dragHandle = dragEnabled;
     });
+
+    if (!!this.parentListEl) {
+      this.setUpSorting();
+      return;
+    }
+
     this.listItems = items;
     if (this.filterEnabled) {
       this.dataForFilter = this.getItemData();

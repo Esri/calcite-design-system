@@ -55,6 +55,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { SortableComponentItem } from "../../utils/sortableComponent";
+import { ListMode } from "../list/interfaces";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -153,6 +154,11 @@ export class ListItem
    * The label text of the component. Displays above the description text.
    */
   @Prop() label: string;
+
+  /**
+   * @internal
+   */
+  @Prop() mode: ListMode = "classic";
 
   /**
    * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
@@ -314,8 +320,6 @@ export class ListItem
 
   @State() level: number = null;
 
-  @State() visualLevel: number = null;
-
   @State() parentListEl: HTMLCalciteListElement;
 
   @State() openable = false;
@@ -357,7 +361,6 @@ export class ListItem
     const { el } = this;
     this.parentListEl = el.closest(listSelector);
     this.level = getDepth(el) + 1;
-    this.visualLevel = getDepth(el, true);
     this.setSelectionDefaults();
   }
 
@@ -471,18 +474,28 @@ export class ListItem
   }
 
   renderOpen(): VNode {
-    const { el, open, openable, messages } = this;
-    const dir = getElementDir(el);
-    const icon = open ? ICONS.open : dir === "rtl" ? ICONS.closedRTL : ICONS.closedLTR;
-    const tooltip = open ? messages.collapse : messages.expand;
+    const { el, open, openable, messages, mode } = this;
 
-    return openable ? (
-      <td
-        class={CSS.openContainer}
-        key="open-container"
-        onClick={this.handleToggleClick}
-        title={tooltip}
-      >
+    if (mode === "flat") {
+      return null;
+    }
+
+    const dir = getElementDir(el);
+
+    const icon = openable
+      ? open
+        ? ICONS.open
+        : dir === "rtl"
+          ? ICONS.closedRTL
+          : ICONS.closedLTR
+      : ICONS.blank;
+
+    const tooltip = openable ? (open ? messages.collapse : messages.expand) : undefined;
+
+    const openClickHandler = openable ? this.handleToggleClick : undefined;
+
+    return mode === "nested" || openable ? (
+      <td class={CSS.openContainer} key="open-container" onClick={openClickHandler} title={tooltip}>
         <calcite-icon icon={icon} key={icon} scale="s" />
       </td>
     ) : null;
@@ -562,13 +575,9 @@ export class ListItem
   }
 
   renderContentBottom(): VNode {
-    const { hasContentBottom, visualLevel } = this;
+    const { hasContentBottom } = this;
     return (
-      <div
-        class={CSS.contentBottom}
-        hidden={!hasContentBottom}
-        style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
-      >
+      <div class={CSS.contentBottom} hidden={!hasContentBottom}>
         <slot name={SLOTS.contentBottom} onSlotchange={this.handleContentBottomSlotChange} />
       </div>
     );
@@ -581,6 +590,7 @@ export class ListItem
           [CSS.nestedContainer]: true,
           [CSS.nestedContainerHidden]: this.openable && !this.open,
         }}
+        hidden={this.mode === "flat"}
       >
         <slot
           onSlotchange={this.handleDefaultSlotChange}
@@ -652,7 +662,6 @@ export class ListItem
       selectionAppearance,
       selectionMode,
       closed,
-      visualLevel,
       filterHidden,
     } = this;
 
@@ -682,7 +691,6 @@ export class ListItem
             onFocusin={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
             role="row"
-            style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
             tabIndex={active ? 0 : -1}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.containerEl = el)}
@@ -694,8 +702,10 @@ export class ListItem
             {this.renderContentContainer()}
             {this.renderActionsEnd()}
           </tr>
-          {this.renderContentBottom()}
-          {this.renderDefaultContainer()}
+          <div class={CSS.indent}>
+            {this.renderContentBottom()}
+            {this.renderDefaultContainer()}
+          </div>
         </InteractiveContainer>
       </Host>
     );

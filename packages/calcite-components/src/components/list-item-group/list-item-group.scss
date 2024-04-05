@@ -1,6 +1,5 @@
 :host {
   @apply flex flex-col bg-foreground-1;
-  --calcite-list-item-spacing-indent: theme("spacing.4");
 }
 
 :host([filter-hidden]) {
@@ -14,9 +13,7 @@
 }
 
 .heading {
-  padding-inline-start: calc(
-    var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
-  );
+  @apply p-0;
 }
 
 ::slotted(calcite-list-item) {
