@@ -3,7 +3,7 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 
 import { html } from "../../../support/formatting";
 
-import { select, text } from "../../../.storybook/fake-knobs";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/List",
