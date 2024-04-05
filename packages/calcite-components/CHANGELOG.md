@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.2-next.1...@esri/calcite-components@2.7.2-next.2) (2024-04-05)
+
+### Bug Fixes
+
+- **panel:** support cancelling the esc key event to prevent closing a panel ([#9032](https://github.com/Esri/calcite-design-system/issues/9032)) ([ecfa5f1](https://github.com/Esri/calcite-design-system/commit/ecfa5f14a5857d26e3b846cdb31999f9a0dff5b2)), closes [#9070](https://github.com/Esri/calcite-design-system/issues/9070)
+
 ## [2.7.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.2-next.0...@esri/calcite-components@2.7.2-next.1) (2024-04-03)
 
 ### Bug Fixes
