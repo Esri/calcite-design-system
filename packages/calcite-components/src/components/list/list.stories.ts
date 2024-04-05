@@ -21,7 +21,8 @@ export default {
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
 
 const knobsHTML = (): string =>
-  html`selection-mode="${select("selection-mode", ["single", "single-persist", "multiple", "none"], "none")}"
+  html`mode="${select("mode", ["nested", "flat", "classic"], "classic")}"
+  selection-mode="${select("selection-mode", ["single", "single-persist", "multiple", "none"], "none")}"
   selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}" ${boolean("loading", false)}
   ${boolean("closable", false)} ${boolean("closed", false)} ${boolean("filter-enabled", false)}
   ${boolean("drag-enabled", false)} ${boolean("disabled", false)} ${text("label", "My List")}`;
@@ -979,3 +980,69 @@ export const nestingLists_TestOnly = (): string => html`<h4>Nesting List Items</
       </calcite-list>
     </calcite-list-item>
   </calcite-list>`;
+
+export const modeFlatList_TestOnly = (): string =>
+  html`<calcite-list mode="flat" drag-enabled group="nested" label="test" selection-mode="multiple">
+    <calcite-list-item open label="Hi! 1" description="hello world">
+      <calcite-list drag-enabled group="nested" selection-mode="multiple">
+        <calcite-list-item open label="Hi! 2" description="hello world">
+          <calcite-list drag-enabled group="nested" selection-mode="multiple">
+            <calcite-list-item open label="Hi! 3" description="hello world">
+              <calcite-action-menu overlay-positioning="fixed" slot="actions-end">
+                <calcite-action text-enabled text="Edit" icon="pencil"></calcite-action>
+                <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+                <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+                <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+                <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+              </calcite-action-menu>
+              <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+            </calcite-list-item>
+            <calcite-list-item open label="Hi! 4" description="hello world">
+              <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+            </calcite-list-item>
+          </calcite-list>
+        </calcite-list-item>
+        <calcite-list-item open label="Hi! 5" description="hello world">
+          <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+        </calcite-list-item>
+      </calcite-list>
+    </calcite-list-item>
+    <calcite-list-item open label="Hi! 6" description="hello world">
+      <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+    </calcite-list-item>
+    <calcite-list-item open label="Hi! 7" description="hello world">
+      <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list></calcite-list-item
+  ></calcite-list>`;
+
+export const modeNestedList_TestOnly = (): string =>
+  html`<calcite-list mode="nested" drag-enabled group="nested" label="test" selection-mode="multiple">
+    <calcite-list-item open label="Hi! 1" description="hello world">
+      <calcite-list drag-enabled group="nested" selection-mode="multiple">
+        <calcite-list-item open label="Hi! 2" description="hello world">
+          <calcite-list drag-enabled group="nested" selection-mode="multiple">
+            <calcite-list-item open label="Hi! 3" description="hello world">
+              <calcite-action-menu overlay-positioning="fixed" slot="actions-end">
+                <calcite-action text-enabled text="Edit" icon="pencil"></calcite-action>
+                <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+                <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+                <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+                <calcite-action text-enabled text="Delete" icon="trash"></calcite-action>
+              </calcite-action-menu>
+              <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+            </calcite-list-item>
+            <calcite-list-item open label="Hi! 4" description="hello world">
+              <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+            </calcite-list-item>
+          </calcite-list>
+        </calcite-list-item>
+        <calcite-list-item open label="Hi! 5" description="hello world">
+          <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+        </calcite-list-item>
+      </calcite-list>
+    </calcite-list-item>
+    <calcite-list-item open label="Hi! 6" description="hello world">
+      <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+    </calcite-list-item>
+    <calcite-list-item open label="Hi! 7" description="hello world">
+      <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list></calcite-list-item
+  ></calcite-list>`;
