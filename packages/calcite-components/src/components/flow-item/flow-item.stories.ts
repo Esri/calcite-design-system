@@ -7,16 +7,13 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import readme from "./readme.md";
+
 import { SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Flow Item",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

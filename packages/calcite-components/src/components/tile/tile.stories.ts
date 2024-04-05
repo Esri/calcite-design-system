@@ -1,14 +1,11 @@
 import { select, text } from "../../../.storybook/fake-knobs";
 import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Tiles/Tile",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

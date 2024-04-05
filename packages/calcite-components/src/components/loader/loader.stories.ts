@@ -1,13 +1,9 @@
 import { color, number, select } from "../../../.storybook/fake-knobs";
 import { storyFilters } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Loader",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

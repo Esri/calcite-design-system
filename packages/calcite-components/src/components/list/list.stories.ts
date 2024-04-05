@@ -1,8 +1,6 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import readme from "./readme.md";
-import itemReadme from "../list-item/readme.md";
-import groupReadme from "../list-item-group/readme.md";
+
 import { html } from "../../../support/formatting";
 import { storyFilters, boolean } from "../../../.storybook/helpers";
 import { select, text } from "../../../.storybook/fake-knobs";
@@ -10,7 +8,6 @@ import { select, text } from "../../../.storybook/fake-knobs";
 export default {
   title: "Components/List",
   parameters: {
-    notes: [readme, itemReadme, groupReadme],
     chromatic: {
       delay: 500,
     },

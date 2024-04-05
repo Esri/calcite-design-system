@@ -1,12 +1,8 @@
 import { storyFilters } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Action Menu",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

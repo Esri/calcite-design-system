@@ -6,7 +6,7 @@ import {
   createComponentHTML as create,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
+
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
@@ -14,7 +14,6 @@ import { storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Action Pad",
   parameters: {
-    notes: readme,
     chromatic: {
       delay: 5000,
     },

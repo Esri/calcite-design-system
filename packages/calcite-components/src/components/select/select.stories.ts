@@ -7,9 +7,7 @@ import {
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { select, boolean, text } from "../../../.storybook/fake-knobs";
-import selectReadme from "../select/readme.md";
-import optionReadme from "../option/readme.md";
-import optionGroupReadme from "../option-group/readme.md";
+
 import { iconNames, storyFilters } from "../../../.storybook/helpers";
 
 const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes = (
@@ -107,13 +105,6 @@ const createOptionGroupAttributes: () => Attributes = () => {
 
 export default {
   title: "Components/Controls/Select",
-  parameters: {
-    notes: {
-      select: selectReadme,
-      option: optionReadme,
-      optionGroup: optionGroupReadme,
-    },
-  },
   ...storyFilters(),
 };
 

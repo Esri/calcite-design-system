@@ -9,14 +9,10 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import centerRowReadme from "../shell-center-row/readme.md";
-import panelReadme from "../shell-panel/readme.md";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Shell",
   parameters: {
-    notes: [readme, panelReadme, centerRowReadme],
     chromatic: {
       delay: 1000,
     },

@@ -2,13 +2,9 @@ import { number, select, text } from "../../../.storybook/fake-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Input Number",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

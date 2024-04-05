@@ -2,8 +2,6 @@ import { select } from "../../../.storybook/fake-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import treeItemReadme from "../tree-item/readme.md";
-import readme from "./readme.md";
 
 const treeItems = html`
   <calcite-tree-item>
@@ -157,7 +155,6 @@ const slottedSmallActionsEnd = html`
 export default {
   title: "Components/Tree",
   parameters: {
-    notes: [readme, treeItemReadme],
     chromatic: {
       delay: 1000,
     },

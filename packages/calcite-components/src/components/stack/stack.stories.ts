@@ -1,14 +1,11 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import readme from "./readme.md";
+
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Support/Stack",
-  parameters: {
-    notes: [readme],
-  },
   ...storyFilters(),
 };
 

@@ -9,17 +9,12 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { iconNames, storyFilters } from "../../../.storybook/helpers";
 import { select, text } from "../../../.storybook/fake-knobs";
-import accordionReadme from "./readme.md";
-import accordionItemReadme from "../accordion-item/readme.md";
+
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Accordion",
   parameters: {
-    notes: {
-      accordion: accordionReadme,
-      accordionItem: accordionItemReadme,
-    },
     backgrounds: {
       values: [{ name: "transparent", value: "#0000ffff" }],
     },

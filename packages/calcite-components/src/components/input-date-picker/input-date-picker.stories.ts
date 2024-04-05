@@ -1,6 +1,6 @@
 import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
@@ -8,9 +8,6 @@ import { iconNames, storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/InputDatePicker",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

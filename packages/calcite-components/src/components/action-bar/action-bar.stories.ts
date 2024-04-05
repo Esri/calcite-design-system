@@ -9,13 +9,9 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Action Bar",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

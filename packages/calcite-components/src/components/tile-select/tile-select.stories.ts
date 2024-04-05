@@ -6,14 +6,11 @@ import {
   createComponentHTML as create,
   filterComponentAttributes,
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
+
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Tiles/Tile Select",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

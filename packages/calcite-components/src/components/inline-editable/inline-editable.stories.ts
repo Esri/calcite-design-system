@@ -1,4 +1,3 @@
-import readme from "./readme.md";
 import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
@@ -6,9 +5,6 @@ import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/Inline Editable",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

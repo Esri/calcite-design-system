@@ -1,15 +1,12 @@
 import { number, select, text } from "../../../.storybook/fake-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 
 export default {
   title: "Components/Controls/Time/Input Time Picker",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

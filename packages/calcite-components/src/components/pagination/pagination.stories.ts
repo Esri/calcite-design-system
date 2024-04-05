@@ -1,14 +1,13 @@
 import { number, select } from "../../../.storybook/fake-knobs";
 import { locales, numberingSystems } from "../../utils/locale";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Pagination",
   parameters: {
-    notes: readme,
     chromatic: {
       delay: 500,
     },

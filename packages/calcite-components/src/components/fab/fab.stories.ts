@@ -6,7 +6,7 @@ import {
   filterComponentAttributes,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
+
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ICONS } from "./resources";
 import { html } from "../../../support/formatting";
@@ -15,9 +15,6 @@ const { scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Buttons/FAB",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

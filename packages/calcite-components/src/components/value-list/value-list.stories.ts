@@ -8,14 +8,9 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import itemReadme from "../value-list-item/readme.md";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Value List",
-  parameters: {
-    notes: [readme, itemReadme],
-  },
   ...storyFilters(),
 };
 

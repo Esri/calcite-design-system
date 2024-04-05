@@ -1,12 +1,9 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Label",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

@@ -2,7 +2,7 @@ import { select, number, text } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
-import readme from "./readme.md";
+
 import { defaultPopoverPlacement } from "../popover/resources";
 import { modesDarkDefault } from "../../../.storybook/utils";
 
@@ -20,7 +20,6 @@ const nestedReferenceElementHTML = `Ut enim ad minim veniam, quis <calcite-butto
 export default {
   title: "Components/Popover",
   parameters: {
-    notes: [readme],
     chromatic: {
       delay: 500,
     },

@@ -12,13 +12,12 @@ import {
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
-import readme from "./readme.md";
+
 const { scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Controls/DatePicker",
   parameters: {
-    notes: readme,
     chromatic: {
       // https://www.chromatic.com/docs/threshold
       diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,

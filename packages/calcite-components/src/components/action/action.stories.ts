@@ -6,7 +6,7 @@ import {
   createComponentHTML as create,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
+
 import { html } from "../../../support/formatting";
 import { iconNames, storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -14,9 +14,6 @@ const { alignment, scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Buttons/Action",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

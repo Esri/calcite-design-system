@@ -1,14 +1,11 @@
 import { select, boolean } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
+
 import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Tiles/Tile Select Group",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

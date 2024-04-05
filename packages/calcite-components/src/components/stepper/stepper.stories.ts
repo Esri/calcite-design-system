@@ -1,14 +1,12 @@
 import { select, text } from "../../../.storybook/fake-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme1 from "./readme.md";
-import readme2 from "../stepper-item/readme.md";
+
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Stepper",
   parameters: {
-    notes: [readme1, readme2],
     chromatic: {
       delay: 500,
     },

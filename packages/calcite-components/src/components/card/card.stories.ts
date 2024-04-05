@@ -1,7 +1,7 @@
 import { boolean, select } from "../../../.storybook/fake-knobs";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
+
 import {
   Attribute,
   Attributes,
@@ -14,9 +14,6 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
   title: "Components/Card",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

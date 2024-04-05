@@ -9,14 +9,11 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
+
 import { SLOTS } from "./resources";
 
 export default {
   title: "Components/Panel",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

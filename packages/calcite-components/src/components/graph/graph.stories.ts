@@ -1,13 +1,9 @@
 import { number } from "../../../.storybook/fake-knobs";
 import { storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Slider/support/Graph",
-  parameters: {
-    notes: readme,
-  },
   ...storyFilters(),
 };
 

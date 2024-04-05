@@ -1,13 +1,12 @@
 import { select } from "../../../.storybook/fake-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Modal",
   parameters: {
-    notes: readme,
     chromatic: {
       delay: 1000,
     },

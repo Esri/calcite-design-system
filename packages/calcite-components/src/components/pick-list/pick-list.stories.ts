@@ -8,15 +8,9 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import groupReadme from "../pick-list-group/readme.md";
-import itemReadme from "../pick-list-item/readme.md";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Pick List",
-  parameters: {
-    notes: [readme, itemReadme, groupReadme],
-  },
   ...storyFilters(),
 };
 

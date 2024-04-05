@@ -6,16 +6,12 @@ import {
   createComponentHTML as create,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
-import groupReadme from "../tip-group/readme.md";
+
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Tips/Tip",
-  parameters: {
-    notes: [readme, groupReadme],
-  },
   ...storyFilters(),
 };
 

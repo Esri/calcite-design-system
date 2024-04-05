@@ -2,14 +2,9 @@ import { select, text } from "../../../.storybook/fake-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme2 from "../segmented-control-item/readme.md";
-import readme1 from "./readme.md";
 
 export default {
   title: "Components/Controls/Radio/Segmented Control",
-  parameters: {
-    notes: [readme1, readme2],
-  },
   ...storyFilters(),
 };
 

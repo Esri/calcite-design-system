@@ -2,18 +2,11 @@ import { boolean, text } from "../../../.storybook/fake-knobs";
 import { storyFilters } from "../../../.storybook/helpers";
 import { Attributes, createComponentHTML as create, filterComponentAttributes } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import itemReadme from "../panel/readme.md";
+
 import { SLOTS } from "../panel/resources";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Flow",
-  parameters: {
-    notes: {
-      flow: readme,
-      item: itemReadme,
-    },
-  },
   ...storyFilters(),
 };
 

@@ -2,12 +2,10 @@ import { select } from "../../../.storybook/fake-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Alert",
   parameters: {
-    notes: readme,
     chromatic: {
       delay: 500,
     },

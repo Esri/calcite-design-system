@@ -2,12 +2,10 @@ import { array, boolean as booleanFn, number, select, text } from "../../../.sto
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Slider",
   parameters: {
-    notes: readme,
     chromatic: {
       // https://www.chromatic.com/docs/threshold
       diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,

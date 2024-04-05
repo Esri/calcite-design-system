@@ -1,14 +1,11 @@
 import { boolean, text } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import colorPickerSwatchReadme from "./readme.md";
+
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/ColorPicker/support/ColorPickerSwatch",
-  parameters: {
-    notes: colorPickerSwatchReadme,
-  },
   ...storyFilters(),
 };
 
