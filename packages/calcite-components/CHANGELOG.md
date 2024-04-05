@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.2-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.2-next.2...@esri/calcite-components@2.7.2-next.3) (2024-04-05)
+
+### Bug Fixes
+
+- **combobox:** fix aria-role for proper voiceover support ([#9039](https://github.com/Esri/calcite-design-system/issues/9039)) ([eebe8ca](https://github.com/Esri/calcite-design-system/commit/eebe8ca6c944f8663d3650bd213b7d041833efa9)), closes [#8460](https://github.com/Esri/calcite-design-system/issues/8460)
+- **list, list-item:** support keyboard sorting in screen readers ([#9038](https://github.com/Esri/calcite-design-system/issues/9038)) ([b2e1b9b](https://github.com/Esri/calcite-design-system/commit/b2e1b9b93cb36e32208553f9a7a524b21d76b4e9)), closes [#7426](https://github.com/Esri/calcite-design-system/issues/7426)
+
 ## [2.7.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.2-next.1...@esri/calcite-components@2.7.2-next.2) (2024-04-05)
 
 ### Bug Fixes
