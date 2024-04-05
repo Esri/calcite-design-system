@@ -171,6 +171,7 @@ export class DatePickerMonth {
    * disable auto focusing of active date
    */
   disableActiveFocus = (): void => {
+    console.log("focus out");
     this.activeFocus = false;
   };
 
@@ -230,7 +231,7 @@ export class DatePickerMonth {
     ];
 
     return (
-      <Host onFocusOut={this.disableActiveFocus} onKeyDown={this.keyDownHandler}>
+      <Host onFocusout={this.disableActiveFocus} onKeyDown={this.keyDownHandler}>
         <div class="calendar" role="grid">
           <div class="week-headers" role="row">
             {adjustedWeekDays.map((weekday) => (
