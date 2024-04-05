@@ -114,20 +114,6 @@ export const darkModeRTL_TestOnly = (): string =>
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
-export const withTooltip_NoTest = (): string =>
-  create(
-    "calcite-action-pad",
-    createAttributes(),
-    html`
-      <calcite-tooltip placement="bottom" slot="expand-tooltip">Expand</calcite-tooltip>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    `,
-  );
-
-withTooltip_NoTest.parameters = {
-  chromatic: { disableSnapshot: true },
-};
-
 export const hebrewLocale_TestOnly = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="he" layout="horizontal"> </calcite-action-pad>

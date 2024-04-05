@@ -88,11 +88,6 @@ const footerEndButtonsHtml = html`
   </div>
 `;
 
-const tooltipHtml = html`
-  <calcite-tooltip placement="top-start" reference-element="card-icon-test-6">Configure</calcite-tooltip>
-  <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-7">Delete</calcite-tooltip>
-`;
-
 export const simple = (): string =>
   html` <div style="width: 260px">${create("calcite-card", createAttributes(), titleHtml)}</div>`;
 
@@ -103,16 +98,6 @@ export const simpleWithFooterLinks = (): string => html`
 export const simpleWithFooterButton = (): string => html`
   <div style="width:260px">${create("calcite-card", createAttributes(), html`${titleHtml}${footerButtonHtml}`)}</div>
 `;
-
-export const simpleWithFooterTextButtonTooltip_NoTest = (): string => html`
-  <div style="width:260px">
-    ${create("calcite-card", createAttributes(), html`${titleHtml}${footerStartTextHtml}${footerEndButtonsHtml}`)}
-  </div>
-  ${tooltipHtml}
-`;
-simpleWithFooterTextButtonTooltip_NoTest.parameters = {
-  chromatic: { disableSnapshot: true },
-};
 
 export const thumbnail = (): string => html`
   <div style="width:260px">

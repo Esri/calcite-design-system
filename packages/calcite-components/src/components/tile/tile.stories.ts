@@ -29,7 +29,7 @@ export const simple = (): string => html`
   </calcite-tile>
 `;
 
-export const allVariants_NoTest = (): string => html`
+export const allVariants = (): string => html`
   <style>
     .parent {
       display: flex;

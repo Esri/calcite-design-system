@@ -212,20 +212,6 @@ export const adjacentTooltipsOpenQuickly = (): string =>
     </calcite-action-bar>
   </div>`;
 
-export const withTooltip_NoTest = (): string =>
-  create(
-    "calcite-action-bar",
-    createAttributes(),
-    html`
-      <calcite-tooltip placement="bottom" slot="expand-tooltip">Expand</calcite-tooltip>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    `,
-  );
-
-withTooltip_NoTest.parameters = {
-  chromatic: { disableSnapshot: true },
-};
-
 export const hebrewLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="he">
 <calcite-action text="Information" icon="information"></calcite-action>
 <calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
