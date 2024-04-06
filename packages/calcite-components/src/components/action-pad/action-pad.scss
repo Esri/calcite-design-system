@@ -4,13 +4,8 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-action-pad-background-color: Specifies the background color of the component.
- * @prop --calcite-action-pad-border-color: Specifies the border color of the component.
  * @prop --calcite-action-pad-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-action-pad-expanded-max-width: When `layout` is `"vertical"`, specifies the expanded max width of the component.
- * @prop --calcite-action-pad-popover-background-color: Specifies the background color of the popover in the component.
- * @prop --calcite-action-pad-popover-border-color: Specifies the border color of the popover in the component.
- * @prop --calcite-action-pad-popover-corner-radius: Specifies the corner radius of the popover in the component.
- * @prop --calcite-action-pad-popover-shadow: Specifies the shadow of the popover in the component.
  * @prop --calcite-action-pad-shadow: Specifies the shadow of the component.
  * @prop --calcite-action-pad-trigger-background-color-active: Specifies the background color of the nested trigger when active in the component.
  * @prop --calcite-action-pad-trigger-background-color-focus: Specifies the background color of the nested trigger when focused in the component.
@@ -60,14 +55,6 @@ calcite-action {
     --calcite-action-icon-color: var(--calcite-action-pad-trigger-icon-color-active);
     --calcite-action-shadow: var(--calcite-action-pad-trigger-shadow-active);
   }
-}
-
-calcite-action-group {
-  --calcite-action-group-border-color: var(--calcite-action-pad-border-color);
-  --calcite-action-group-popover-background-color: var(--calcite-action-pad-popover-background-color);
-  --calcite-action-group-popover-border-color: var(--calcite-action-pad-popover-border-color);
-  --calcite-action-group-popover-corner-radius: var(--calcite-action-pad-corner-radius);
-  --calcite-action-group-popover-shadow: var(--calcite-action-pad-popover-shadow, var(--calcite-action-pad-shadow));
 }
 
 :host([expanded][layout="vertical"]) .container {
