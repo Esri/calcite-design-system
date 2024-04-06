@@ -653,6 +653,7 @@ export class ListItem
       selectionMode,
       closed,
       visualLevel,
+      filterHidden,
     } = this;
 
     const showBorder = selectionMode !== "none" && selectionAppearance === "border";
@@ -676,7 +677,7 @@ export class ListItem
               [CSS.containerBorderSelected]: borderSelected,
               [CSS.containerBorderUnselected]: borderUnselected,
             }}
-            hidden={closed}
+            hidden={closed || filterHidden}
             onFocus={this.focusCellNull}
             onFocusin={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
