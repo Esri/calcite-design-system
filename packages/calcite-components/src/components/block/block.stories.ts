@@ -93,7 +93,7 @@ const createSectionAttributes: () => Attributes = () => {
     },
     {
       name: "open",
-      value: boolean("open", true, group),
+      value: boolean("open", true, group, "prop"),
     },
     {
       name: "toggle-display",

@@ -76,15 +76,15 @@ const createOptionAttributes: () => Attributes = () => {
   return [
     {
       name: "disabled",
-      value: boolean("disabled", false, group),
+      value: boolean("disabled", false, group, "prop"),
     },
     {
       name: "label",
-      value: text("label", "fancy label", group),
+      value: text("label", "fancy label", group, "prop"),
     },
     {
       name: "selected",
-      value: boolean("selected", false, group),
+      value: boolean("selected", false, group, "prop"),
     },
     {
       name: "value",

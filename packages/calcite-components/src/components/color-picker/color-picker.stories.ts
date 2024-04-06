@@ -62,7 +62,7 @@ export const simple = (): string =>
   create("calcite-color-picker", [
     {
       name: "clearable",
-      value: boolean("clearable", false),
+      value: boolean("clearable", false, "", "prop"),
     },
     ...createColorAttributes(),
     {

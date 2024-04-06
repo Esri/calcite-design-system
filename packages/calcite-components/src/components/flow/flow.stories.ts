@@ -17,7 +17,7 @@ const createFlowItemAttributes: (group: string) => Attributes = (group) => {
   return [
     {
       name: "disabled",
-      value: boolean("disabled", false, group),
+      value: boolean("disabled", false, group, "prop"),
     },
     {
       name: "heading",
@@ -25,11 +25,11 @@ const createFlowItemAttributes: (group: string) => Attributes = (group) => {
     },
     {
       name: "loading",
-      value: boolean("loading", false, group),
+      value: boolean("loading", false, group, "prop"),
     },
     {
       name: "menu-open",
-      value: boolean("menuOpen", false, group),
+      value: boolean("menuOpen", false, group, "prop"),
     },
     {
       name: "description",

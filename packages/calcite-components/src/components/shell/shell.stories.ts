@@ -36,7 +36,7 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", re
     },
     {
       name: "collapsed",
-      value: boolean("collapsed", false, group),
+      value: boolean("collapsed", false, group, "prop"),
     },
     {
       name: "displayMode",
@@ -53,7 +53,7 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", re
     },
     {
       name: "resizable",
-      value: boolean("resizable", resizable, group),
+      value: boolean("resizable", resizable, group, "prop"),
     },
   ];
 };
@@ -64,7 +64,7 @@ const createShellCenterRowAttributes: (group: string) => Attributes = (group) =>
   return [
     {
       name: "detached",
-      value: boolean("detached", false, group),
+      value: boolean("detached", false, group, "prop"),
     },
     {
       name: "height-scale",
