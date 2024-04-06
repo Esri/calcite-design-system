@@ -17,13 +17,13 @@ const rule: Rule.RuleModule = {
       JSXIdentifier(node) {
         const openingElement = node.parent as JSXOpeningElement;
         if (openingElement.type === "JSXOpeningElement") {
-          const attributes: (JSXAttribute | JSXSpreadAttribute)[] = [];
-
-          openingElement.attributes.forEach((attr: JSXAttribute | JSXSpreadAttribute) => {
-            if (attr.type === "JSXAttribute" && attr.name?.type === "JSXIdentifier") {
-              attributes.push(attr);
-            }
-          });
+          const attributes = openingElement.attributes
+            .map((attr) => {
+              if (attr.type === "JSXAttribute" && attr.name?.type === "JSXIdentifier") {
+                return attr;
+              }
+            })
+            .filter(Boolean);
 
           const refAttribute = attributes.find(
             (attr: JSXAttribute | JSXSpreadAttribute) =>
