@@ -39,11 +39,10 @@ const rule: Rule.RuleModule = {
             const eslintDisableComments = sourceCode
               .getCommentsBefore(refAttribute as typeof node)
               .filter((comment) => comment.value.includes("eslint-disable-next-line"));
-            const refIsLastWithSortDisablingComment = !(
-              attributes.indexOf(refAttribute) === attributes.length - 1 && eslintDisableComments.length !== 0
-            );
+            const refIsLastWithSortDisablingComment =
+              attributes.indexOf(refAttribute) === attributes.length - 1 && eslintDisableComments.length !== 0;
 
-            if (refIsLastWithSortDisablingComment) {
+            if (!refIsLastWithSortDisablingComment) {
               context.report({
                 node,
                 message: `"ref" prop should be placed last in JSX to ensure the node attrs/props are in sync.`,
