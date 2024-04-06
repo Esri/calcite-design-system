@@ -23,7 +23,7 @@ describe("enforce-ref-last-prop rule", () => {
       {
         code: fs.readFileSync(files.wrong, "utf8"),
         filename: files.wrong,
-        errors: 2,
+        errors: 3,
         output: fs.readFileSync(files.output, "utf8"),
       },
     ],
