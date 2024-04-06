@@ -1,4 +1,4 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import {
   Attributes,
   createComponentHTML as create,
@@ -7,17 +7,12 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import readme from "./readme.md";
+
 import { SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Flow Item",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -28,7 +23,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "closed",
         commit(): Attribute {
-          this.value = boolean("closed", false);
+          this.value = boolean("closed", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -36,7 +31,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false);
+          this.value = boolean("disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -44,7 +39,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "closable",
         commit(): Attribute {
-          this.value = boolean("closable", false);
+          this.value = boolean("closable", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -52,7 +47,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "collapsible",
         commit(): Attribute {
-          this.value = boolean("collapsible", false);
+          this.value = boolean("collapsible", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -60,7 +55,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "collapsed",
         commit(): Attribute {
-          this.value = boolean("collapsed", false);
+          this.value = boolean("collapsed", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -84,7 +79,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false);
+          this.value = boolean("loading", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -193,7 +188,7 @@ export const darkModeRTL_TestOnly = (): string =>
     flowItemContent,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const noDoubleScrollbars_TestOnly = (): string => html`
   <style>
