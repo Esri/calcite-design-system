@@ -23,7 +23,24 @@ describe("enforce-ref-last-prop rule", () => {
       {
         code: fs.readFileSync(files.wrong, "utf8"),
         filename: files.wrong,
-        errors: 3,
+        errors: [
+          // we include the disabled rule not found error because RuleTester doesn't support multiple rules
+          {
+            message: `"ref" prop should be placed last in JSX to ensure the node attrs/props are in sync.`,
+          },
+          {
+            message: `"ref" prop should be placed last in JSX to ensure the node attrs/props are in sync.`,
+          },
+          {
+            message: `Definition for rule 'react/jsx-sort-props' was not found.`,
+          },
+          {
+            message: `"ref" prop should be placed last in JSX to ensure the node attrs/props are in sync.`,
+          },
+          {
+            message: `Definition for rule 'react/jsx-sort-props' was not found.`,
+          },
+        ],
         output: fs.readFileSync(files.output, "utf8"),
       },
     ],
