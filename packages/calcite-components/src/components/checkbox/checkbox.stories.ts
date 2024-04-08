@@ -1,15 +1,10 @@
-import { select, text } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { select, text } from "../../../.storybook/fake-knobs";
+import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Checkbox",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -39,4 +34,4 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-label>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
