@@ -258,27 +258,25 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`,
+      html`<calcite-popover placement="auto" reference-element="ref">content</calcite-popover>
+        <div id="ref" tabindex="0">referenceElement</div>`,
     );
 
     await page.waitForChanges();
 
     const popover = await page.find(`calcite-popover`);
+    const ref = await page.find("#ref");
 
     expect(await popover.isVisible()).toBe(false);
 
-    await page.evaluate(() => {
-      document.getElementById("ref").dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
-    });
-
+    await ref.focus();
+    await page.keyboard.press("Enter");
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(true);
 
-    await page.evaluate(() => {
-      document.getElementById("ref").dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
-    });
-
+    await ref.focus();
+    await page.keyboard.press("Enter");
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(false);
@@ -288,27 +286,25 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`,
+      html`<calcite-popover placement="auto" reference-element="ref">content</calcite-popover>
+        <div id="ref" tabindex="0">referenceElement</div>`,
     );
 
     await page.waitForChanges();
 
     const popover = await page.find(`calcite-popover`);
+    const ref = await page.find("#ref");
 
     expect(await popover.isVisible()).toBe(false);
 
-    await page.evaluate(() => {
-      document.getElementById("ref").dispatchEvent(new KeyboardEvent("keydown", { key: " " }));
-    });
-
+    await ref.focus();
+    await page.keyboard.press(" ");
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(true);
 
-    await page.evaluate(() => {
-      document.getElementById("ref").dispatchEvent(new KeyboardEvent("keydown", { key: " " }));
-    });
-
+    await ref.focus();
+    await page.keyboard.press(" ");
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(false);
@@ -556,6 +552,22 @@ describe("calcite-popover", () => {
 
     await page.waitForChanges();
 
+    expect(await popover.getProperty("open")).toBe(false);
+  });
+
+  it("should not toggle popovers when the ref element (component) is disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html` <calcite-popover reference-element="ref"> Hello World</calcite-popover>
+        <calcite-button id="ref" disabled>Button</calcite-button>`,
+    );
+    const popover = await page.find("calcite-popover");
+    const ref = await page.find("#ref");
+
+    expect(await popover.getProperty("open")).toBe(false);
+
+    await ref.click();
+    await page.waitForChanges();
     expect(await popover.getProperty("open")).toBe(false);
   });
 

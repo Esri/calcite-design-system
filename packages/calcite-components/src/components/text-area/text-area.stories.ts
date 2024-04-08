@@ -1,14 +1,10 @@
-import { select, text, number } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import readme from "./readme.md";
+import { select, text, number } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
+
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/TextArea",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -29,7 +25,12 @@ export const simple = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-text-area dir="rtl" class="calcite-mode-dark"> </calcite-text-area>
+  <calcite-text-area
+    dir="rtl"
+    class="calcite-mode-dark"
+    validation-message="This should not appear because the status is not 'invalid'"
+  >
+  </calcite-text-area>
 `;
 
 export const withSlottedElements = (): string => html`

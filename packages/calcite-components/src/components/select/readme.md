@@ -1,6 +1,6 @@
 # calcite-select
 
-This component represents a menu of options.
+For comprehensive guidance on using and implementing `calcite-select`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/select/).
 
 <!-- Auto Generated Below -->
 

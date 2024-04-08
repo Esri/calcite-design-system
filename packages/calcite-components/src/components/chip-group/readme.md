@@ -1,4 +1,6 @@
-# calcite-tile-select-group
+# calcite-chip-group
+
+For comprehensive guidance on using and implementing `calcite-chip-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/chip-group/).
 
 <!-- Auto Generated Below -->
 

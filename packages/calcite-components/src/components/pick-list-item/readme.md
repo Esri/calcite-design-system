@@ -1,6 +1,6 @@
 # calcite-pick-list-item
 
-`calcite-pick-list-item`s are cards contained in a `calcite-pick-list`. They each can have a label, description and an icon. The developer can disable or preselect each list item and give it a value.
+For comprehensive guidance on using and implementing `calcite-pick-list-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/pick-list-item/).
 
 <!-- Auto Generated Below -->
 

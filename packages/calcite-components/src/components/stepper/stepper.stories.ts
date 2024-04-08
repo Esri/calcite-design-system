@@ -1,26 +1,22 @@
-import { select, text } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { select, text } from "../../../.storybook/fake-knobs";
+import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme1 from "./readme.md";
-import readme2 from "../stepper-item/readme.md";
+
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Stepper",
   parameters: {
-    notes: [readme1, readme2],
     chromatic: {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
   <h1>Default</h1>
   <calcite-stepper
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
+    layout="${select("layout", ["horizontal", "vertical", "horizontal-single"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("numbered", true)}
     ${boolean("icon", true)}
@@ -57,8 +53,7 @@ export const simple = (): string => html`
   </calcite-stepper>
   <h1>No Content</h1>
   <calcite-stepper
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
+    layout="${select("layout", ["horizontal", "vertical", "horizontal-single"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("numbered", true)}
     ${boolean("icon", true)}
@@ -95,8 +90,7 @@ export const darkModeRTL_TestOnly = (): string => html`
 <div dir="rtl">
   <calcite-stepper
   class="calcite-mode-dark"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
+    layout="${select("layout", ["horizontal", "vertical", "horizontal-single"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     ${boolean("numbered", true)}
     ${boolean("icon", true)}
@@ -134,7 +128,7 @@ export const darkModeRTL_TestOnly = (): string => html`
 </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const overriddenWidth_TestOnly = (): string =>
   html` <calcite-stepper numbered style="width: 50vw">
@@ -209,87 +203,75 @@ export const verticalLayout_TestOnly = (): string =>
       >
     </calcite-stepper>`;
 
-const getBreakpointsStoryTemplate = ({ scale, width }: { scale: string; width: number }): string =>
-  html`<style>
-      calcite-stepper {
-        width: ${width}px;
-      }
-    </style>
-    <calcite-stepper numbered icon layout="horizontal" scale="${scale}">
-      <calcite-stepper-item
-        heading="Choose method"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-        complete
-        disabled
-      >
+export const horizontalSingleLayout_TestOnly = (): string => html`
+  <div style="display: flex; flex-direction: column; gap: 1em;">
+    <calcite-stepper layout="horizontal-single" numbered icon scale="s">
+      <calcite-stepper-item heading="Choose method">
         <calcite-notice open width="full">
           <div slot="message">Step 1 Content Goes Here</div>
         </calcite-notice>
       </calcite-stepper-item>
-      <calcite-stepper-item
-        heading="Compile member list"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-        complete
-      >
+      <calcite-stepper-item heading="Compile member list">
         <calcite-notice open width="full">
           <div slot="message">Step 2 Content Goes Here</div>
         </calcite-notice>
       </calcite-stepper-item>
-      <calcite-stepper-item
-        heading="Set member properties"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-        description="Some subtext"
-        error
-      >
+      <calcite-stepper-item heading="Set member properties" description="Some subtext">
         <calcite-notice open width="full">
           <div slot="message">Step 3 Content Goes Here</div>
         </calcite-notice>
       </calcite-stepper-item>
-      <calcite-stepper-item
-        heading="Confirm and complete"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-      >
+      <calcite-stepper-item heading="Confirm and complete">
         <calcite-notice open width="full">
           <div slot="message">Step 4 Content Goes Here</div>
         </calcite-notice>
       </calcite-stepper-item>
-    </calcite-stepper>`;
+    </calcite-stepper>
 
-export const responsiveLayoutScaleS_TestOnly = (): string => getBreakpointsStoryTemplate({ scale: "s", width: 400 });
-export const responsiveLayoutScaleM_TestOnly = (): string => getBreakpointsStoryTemplate({ scale: "m", width: 500 });
-export const responsiveLayoutScaleL_TestOnly = (): string => getBreakpointsStoryTemplate({ scale: "l", width: 600 });
+    <calcite-stepper layout="horizontal-single" numbered icon scale="m">
+      <calcite-stepper-item heading="Choose method">
+        <calcite-notice open width="full">
+          <div slot="message">Step 1 Content Goes Here</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Compile member list" selected>
+        <calcite-notice open width="full">
+          <div slot="message">Step 2 Content Goes Here</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Set member properties" description="Some subtext">
+        <calcite-notice open width="full">
+          <div slot="message">Step 3 Content Goes Here</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Confirm and complete">
+        <calcite-notice open width="full">
+          <div slot="message">Step 4 Content Goes Here</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+    </calcite-stepper>
 
-export const responsiveLayoutWithDisabledStepperItems_TestOnly = (): string => html`<style>
-    calcite-stepper {
-      width: 300px;
-    }
-  </style>
-  <calcite-stepper numbered icon layout="horizontal" scale="s">
-    <calcite-stepper-item
-      heading="Choose method"
-      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-      complete
-      disabled>
-      <calcite-notice open width="full">
-        <div slot="message">Step 1 Content Goes Here</div>
-      </calcite-notice>
-    </calcite-stepper-item>
-    <calcite-stepper-item
-      heading="Compile member list"
-      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-      complete
-      disabled
-      selected
-    >
-      <calcite-notice open width="full">
-        <div slot="message">Step 2 Content Goes Here</div>
-      </calcite-notice>
-    </calcite-stepper-item>
-    <calcite-stepper-item
-      heading="Set member properties"
-      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-      description="Some subtext"
-      error
-      disabled
-    >
-  </calcite-stepper>`;
+    <calcite-stepper layout="horizontal-single" numbered icon scale="l">
+      <calcite-stepper-item heading="Choose method">
+        <calcite-notice open width="full">
+          <div slot="message">Step 1 Content Goes Here</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Compile member list">
+        <calcite-notice open width="full">
+          <div slot="message">Step 2 Content Goes Here</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Set member properties" description="Some subtext" selected>
+        <calcite-notice open width="full">
+          <div slot="message">Step 3 Content Goes Here</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Confirm and complete">
+        <calcite-notice open width="full">
+          <div slot="message">Step 4 Content Goes Here</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+    </calcite-stepper>
+  </div>
+`;

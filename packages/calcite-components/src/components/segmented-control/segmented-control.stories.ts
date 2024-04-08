@@ -1,16 +1,10 @@
-import { select, text } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { select, text } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme2 from "../segmented-control-item/readme.md";
-import readme1 from "./readme.md";
 
 export default {
   title: "Components/Controls/Radio/Segmented Control",
-  parameters: {
-    notes: [readme1, readme2],
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -52,8 +46,12 @@ export const fullWidthWithIcons = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
-  <calcite-segmented-control class="calcite-mode-dark" dir="rtl">
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-segmented-control
+    class="calcite-mode-dark"
+    dir="rtl"
+    validation-message="This should not appear because the status is not 'invalid'"
+  >
     <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
     <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
     <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
@@ -61,7 +59,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </calcite-segmented-control>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string =>
   html`<calcite-segmented-control disabled>

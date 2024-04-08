@@ -13,6 +13,7 @@ export const CSS = {
   ghostClass: "calcite-sortable--ghost",
   chosenClass: "calcite-sortable--chosen",
   dragClass: "calcite-sortable--drag",
+  fallbackClass: "calcite-sortable--fallback",
 };
 
 /**
@@ -128,7 +129,7 @@ export function connectSortableComponent(component: SortableComponent): void {
       },
     }),
     handle,
-    filter: "[drag-disabled]",
+    filter: `${handle}[disabled]`,
     onStart: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
       dragState.active = true;
       onGlobalDragStart();

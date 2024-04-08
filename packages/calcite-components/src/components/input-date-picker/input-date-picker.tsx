@@ -203,7 +203,7 @@ export class InputDatePicker
   }
 
   /**
-   * Specifies the number at which section headings should start.
+   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
@@ -473,7 +473,6 @@ export class InputDatePicker
     connectMessages(this);
 
     this.setFilteredPlacements();
-    this.reposition(true);
 
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
@@ -484,6 +483,7 @@ export class InputDatePicker
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
+
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
@@ -497,7 +497,7 @@ export class InputDatePicker
   componentDidLoad(): void {
     setComponentLoaded(this);
     this.localizeInputValues();
-    this.reposition(true);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   disconnectedCallback(): void {
@@ -663,7 +663,7 @@ export class InputDatePicker
             </div>
           )}
           <HiddenFormInputSlot component={this} />
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}

@@ -63,6 +63,7 @@ import { ListDragDetail } from "./interfaces";
  * @slot - A slot for adding `calcite-list-item` elements.
  * @slot filter-actions-start - A slot for adding actionable `calcite-action` elements before the filter component.
  * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
+ * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
  */
 @Component({
   tag: "calcite-list",
@@ -524,8 +525,8 @@ export class List
             role="treegrid"
           >
             {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
-              <thead>
-                <tr class={{ [CSS.sticky]: true }}>
+              <thead class={CSS.sticky}>
+                <tr>
                   <th colSpan={MAX_COLUMNS}>
                     <calcite-stack class={CSS.stack}>
                       <slot

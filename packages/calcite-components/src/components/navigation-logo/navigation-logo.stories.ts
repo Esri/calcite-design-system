@@ -1,15 +1,11 @@
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import readme from "./readme.md";
+
 import { html } from "../../../support/formatting";
-import { text } from "@storybook/addon-knobs";
+import { text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/Navigation/Navigation Logo",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string =>
@@ -59,5 +55,19 @@ export const slottedInNav_TestOnly = (): string => html`
       thumbnail="${placeholderImage({ width: 50, height: 50 })}"
       slot="logo"
     />
+  </calcite-navigation>
+`;
+
+export const withHref_TestOnly = (): string => html`
+  <calcite-navigation>
+    <calcite-navigation-logo
+      slot="logo"
+      heading="A view of the estuary"
+      icon="globe"
+      href="https://www.esri.com"
+      target="_blank"
+      description="20 years of change where the river meets the sea"
+    >
+    </calcite-navigation-logo>
   </calcite-navigation>
 `;

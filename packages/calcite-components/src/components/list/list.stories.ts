@@ -1,21 +1,17 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import readme from "./readme.md";
-import itemReadme from "../list-item/readme.md";
-import groupReadme from "../list-item-group/readme.md";
+
 import { html } from "../../../support/formatting";
-import { storyFilters, boolean } from "../../../.storybook/helpers";
-import { select, text } from "@storybook/addon-knobs";
+
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/List",
   parameters: {
-    notes: [readme, itemReadme, groupReadme],
     chromatic: {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
@@ -402,7 +398,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-list>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string =>
   html`<calcite-list disabled>
@@ -933,4 +929,88 @@ export const filteredListItemsNoResults_TestOnly = (): string =>
       <div slot="title">No fruits found</div>
       <div slot="message">Try a different fruit?</div>
     </calcite-notice>
+  </calcite-list>`;
+
+export const nestingLists_TestOnly = (): string => html`<h4>Nesting List Items</h4>
+  <calcite-list>
+    <calcite-list-item label="List Item" open>
+      <calcite-list-item label="List Item"></calcite-list-item>
+      <calcite-list-item label="List Item"></calcite-list-item>
+      <calcite-list-item label="List Item"></calcite-list-item>
+    </calcite-list-item>
+  </calcite-list>
+  </br>
+  <h4>Nesting Lists</h4>
+  <calcite-list>
+    <calcite-list-item label="List Item" open>
+      <calcite-list>
+        <calcite-list-item label="List Item"></calcite-list-item>
+        <calcite-list-item label="List Item"></calcite-list-item>
+        <calcite-list-item label="List Item"></calcite-list-item>
+      </calcite-list>
+    </calcite-list-item>
+  </calcite-list>`;
+
+export const closedItems_TestOnly = (): string =>
+  html` <calcite-list>
+    <calcite-list-item
+      closable
+      label="Hiking trails"
+      description="Designated routes for hikers to use."
+      value="hiking-trails"
+    >
+    </calcite-list-item>
+    <calcite-list-item closed closable label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+    </calcite-list-item>
+    <calcite-list-item
+      closed
+      closable
+      label="Rivers"
+      description="Large naturally flowing watercourses."
+      value="rivers"
+    >
+    </calcite-list-item>
+    <calcite-list-item
+      closed
+      closable
+      label="Hiking trails"
+      description="Designated routes for hikers to use."
+      value="hiking-trails"
+    >
+    </calcite-list-item>
+    <calcite-list-item closed closable label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+    </calcite-list-item>
+    <calcite-list-item
+      closed
+      closable
+      label="Rivers"
+      description="Large naturally flowing watercourses."
+      value="rivers"
+    >
+    </calcite-list-item>
+    <calcite-list-item
+      closed
+      closable
+      label="Hiking trails"
+      description="Designated routes for hikers to use."
+      value="hiking-trails"
+    >
+    </calcite-list-item>
+    <calcite-list-item closed closable label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+    </calcite-list-item>
+    <calcite-list-item
+      closed
+      closable
+      label="Rivers"
+      description="Large naturally flowing watercourses."
+      value="rivers"
+    >
+    </calcite-list-item>
+    <calcite-list-item
+      closable
+      label="Hiking trails"
+      description="Designated routes for hikers to use."
+      value="hiking-trails"
+    >
+    </calcite-list-item>
   </calcite-list>`;

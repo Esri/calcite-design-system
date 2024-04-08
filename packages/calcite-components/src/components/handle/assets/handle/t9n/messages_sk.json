@@ -1,5 +1,6 @@
 {
-  "dragHandle": "Rukoväť na ťahanie",
+  "dragHandle": "Premiestnenie: {itemLabel}",
+  "dragHandleUntitled": "Premiestnenie",
   "dragHandleActive": "Zmena poradia {itemLabel}, aktuálna pozícia {position} z {total}.",
   "dragHandleChange": "{itemLabel}, nová pozícia {position} z {total}. Stlačte medzerník na potvrdenie.",
   "dragHandleCommit": "{itemLabel}, aktuálna pozícia {position} z {total}.",

@@ -15,12 +15,7 @@ import {
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
 
-import {
-  getElementWidth,
-  getTextWidth,
-  isPrimaryPointerButton,
-  toAriaBoolean,
-} from "../../utils/dom";
+import { getElementWidth, getTextWidth, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -321,9 +316,9 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
-  @Listen("pointerdown", { target: "document" })
+  @Listen("click", { target: "document" })
   documentClickHandler(event: PointerEvent): void {
-    if (this.disabled || !isPrimaryPointerButton(event)) {
+    if (this.disabled) {
       return;
     }
 
@@ -449,12 +444,12 @@ export class Combobox
 
     this.updateItems();
     this.setFilteredPlacements();
-    this.reposition(true);
 
     if (this.open) {
       this.openHandler();
       onToggleOpenCloseComponent(this);
     }
+
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
@@ -466,7 +461,7 @@ export class Combobox
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    this.reposition(true);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
     setComponentLoaded(this);
   }
 
@@ -686,7 +681,7 @@ export class Combobox
         }
         break;
       case " ":
-        if (!this.textInput.value) {
+        if (!this.textInput.value && !event.defaultPrevented) {
           if (!this.open) {
             this.open = true;
             this.shiftActiveItemIndex(1);
@@ -725,7 +720,7 @@ export class Combobox
         event.preventDefault();
         break;
       case "Enter":
-        if (this.activeItemIndex > -1) {
+        if (this.open && this.activeItemIndex > -1) {
           this.toggleSelection(this.filteredItems[this.activeItemIndex]);
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
@@ -1559,7 +1554,10 @@ export class Combobox
           aria-activedescendant={this.activeDescendant}
           aria-autocomplete="list"
           aria-controls={`${listboxUidPrefix}${guid}`}
+          aria-expanded={toAriaBoolean(open)}
+          aria-haspopup="listbox"
           aria-label={getLabelText(this)}
+          aria-owns={`${listboxUidPrefix}${guid}`}
           class={{
             input: true,
             "input--single": true,
@@ -1573,6 +1571,7 @@ export class Combobox
           onFocus={this.comboboxFocusHandler}
           onInput={this.inputHandler}
           placeholder={placeholder}
+          role="combobox"
           type="text"
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.textInput = el as HTMLInputElement)}
@@ -1632,7 +1631,7 @@ export class Combobox
 
     return (
       this.showingInlineIcon && (
-        <span class="icon-start">
+        <span class="icon-start" key="selected-placeholder-icon">
           <calcite-icon
             class="selected-icon"
             flipRtl={this.open && selectedItem ? selectedItem.iconFlipRtl : placeholderIconFlipRtl}
@@ -1647,7 +1646,7 @@ export class Combobox
   renderChevronIcon(): VNode {
     const { open } = this;
     return (
-      <span class="icon-end">
+      <span class="icon-end" key="chevron">
         <calcite-icon
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
@@ -1667,13 +1666,7 @@ export class Combobox
       <Host onClick={this.comboboxFocusHandler}>
         <InteractiveContainer disabled={this.disabled}>
           <div
-            aria-autocomplete="list"
-            aria-controls={`${listboxUidPrefix}${guid}`}
-            aria-expanded={toAriaBoolean(open)}
-            aria-haspopup="listbox"
-            aria-label={getLabelText(this)}
             aria-live="polite"
-            aria-owns={`${listboxUidPrefix}${guid}`}
             class={{
               wrapper: true,
               "wrapper--single": singleSelectionMode || !this.selectedItems.length,
@@ -1681,7 +1674,6 @@ export class Combobox
             }}
             onClick={this.clickHandler}
             onKeyDown={this.keyDownHandler}
-            role="combobox"
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setReferenceEl}
           >
@@ -1692,6 +1684,7 @@ export class Combobox
                 [CSS.selectionDisplayFit]: fitSelectionDisplay,
                 [CSS.selectionDisplaySingle]: singleSelectionDisplay,
               }}
+              key="grid"
               ref={this.setChipContainerEl}
             >
               {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
@@ -1733,7 +1726,7 @@ export class Combobox
           </ul>
           {this.renderFloatingUIContainer()}
           <HiddenFormInputSlot component={this} />
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}

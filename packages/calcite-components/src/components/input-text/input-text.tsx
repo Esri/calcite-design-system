@@ -50,6 +50,7 @@ import { InputTextMessages } from "./assets/input-text/t9n";
 import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -67,6 +68,7 @@ export class InputText
     InteractiveComponent,
     LoadableComponent,
     LocalizedComponent,
+    TextualInputComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -322,8 +324,6 @@ export class InputText
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
-    this.setPreviousEmittedValue(this.value);
-    this.setPreviousValue(this.value);
 
     connectLabel(this);
     connectForm(this);
@@ -347,6 +347,9 @@ export class InputText
     setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon({}, this.icon, "text");
     await setUpMessages(this);
+
+    this.setPreviousEmittedValue(this.value);
+    this.setPreviousValue(this.value);
   }
 
   componentDidLoad(): void {
@@ -494,13 +497,7 @@ export class InputText
   };
 
   syncHiddenFormInput(input: HTMLInputElement): void {
-    if (this.minLength != null) {
-      input.minLength = this.minLength;
-    }
-
-    if (this.maxLength != null) {
-      input.maxLength = this.maxLength;
-    }
+    syncHiddenFormInput("text", this, input);
   }
 
   private onHiddenFormInputInput = (event: Event): void => {
@@ -672,7 +669,7 @@ export class InputText
             {this.suffixText ? suffixText : null}
             <HiddenFormInputSlot component={this} />
           </div>
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}

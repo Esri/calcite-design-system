@@ -1,6 +1,6 @@
 # calcite-accordion-item
 
-A child component of `calcite-accordion`, where some behavior is inherited from its parent such as the `appearance` and `selectionMode`.
+For comprehensive guidance on using and implementing `calcite-accordion-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/accordion-item/).
 
 <!-- Auto Generated Below -->
 

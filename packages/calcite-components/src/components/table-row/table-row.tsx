@@ -12,9 +12,9 @@ import {
   Watch,
 } from "@stencil/core";
 import { LocalizedComponent } from "../../utils/locale";
-import { Scale, SelectionMode } from "../interfaces";
+import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
-import { RowType, TableRowFocusEvent } from "../table/interfaces";
+import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
 import { isActivationKey } from "../../utils/key";
 import {
   connectInteractive,
@@ -41,6 +41,8 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   //  Properties
   //
   //--------------------------------------------------------------------------
+  /** Specifies the alignment of the component. */
+  @Prop({ reflect: true }) alignment: Alignment;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
@@ -50,6 +52,9 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
 
   /** @internal */
   @Prop({ mutable: true }) cellCount: number;
+
+  /** @internal */
+  @Prop() interactionMode: TableInteractionMode = "interactive";
 
   /** @internal */
   @Prop() lastVisibleRow: boolean;
@@ -91,6 +96,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   @Watch("scale")
   @Watch("selected")
   @Watch("selectedRowCount")
+  @Watch("interactionMode")
   handleCellChanges(): void {
     if (this.tableRowEl && this.rowCells.length > 0) {
       this.updateCells();
@@ -198,7 +204,10 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
-  private keyDownHandler(event: KeyboardEvent): void {
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    if (this.interactionMode !== "interactive") {
+      return;
+    }
     const el = event.target as HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement;
     const key = event.key;
     const isControl = event.ctrlKey;
@@ -249,7 +258,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
           break;
       }
     }
-  }
+  };
 
   private emitTableRowFocusRequest = (
     cellPosition: number,
@@ -266,6 +275,11 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   };
 
   private updateCells = (): void => {
+    const alignment = this.alignment
+      ? this.alignment
+      : this.rowType !== "head"
+        ? "center"
+        : "start";
     const slottedCells = this.tableRowSlotEl
       ?.assignedElements({ flatten: true })
       ?.filter(
@@ -284,11 +298,13 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
 
     if (cells.length > 0) {
       cells?.forEach((cell: HTMLCalciteTableCellElement | HTMLCalciteTableHeaderElement, index) => {
-        cell.positionInRow = index + 1;
-        cell.parentRowType = this.rowType;
-        cell.parentRowIsSelected = this.selected;
-        cell.scale = this.scale;
+        cell.interactionMode = this.interactionMode;
         cell.lastCell = index === cells.length - 1;
+        cell.parentRowAlignment = alignment;
+        cell.parentRowIsSelected = this.selected;
+        cell.parentRowType = this.rowType;
+        cell.positionInRow = index + 1;
+        cell.scale = this.scale;
 
         if (cell.nodeName === "CALCITE-TABLE-CELL") {
           (cell as HTMLCalciteTableCellElement).readCellContentsToAT = this.readCellContentsToAT;
@@ -342,6 +358,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
         key="selection-head"
         onClick={this.selectionMode === "multiple" && this.handleSelectionOfRow}
         onKeyDown={this.selectionMode === "multiple" && this.handleKeyboardSelection}
+        parentRowAlignment={this.alignment}
         selectedRowCount={this.selectedRowCount}
         selectedRowCountLocalized={this.selectedRowCountLocalized}
         selectionCell={true}
@@ -353,6 +370,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
         key="selection-body"
         onClick={this.handleSelectionOfRow}
         onKeyDown={this.handleKeyboardSelection}
+        parentRowAlignment={this.alignment}
         parentRowIsSelected={this.selected}
         parentRowPositionLocalized={this.positionSectionLocalized}
         selectionCell={true}
@@ -360,19 +378,39 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
         {this.renderSelectionIcon()}
       </calcite-table-cell>
     ) : (
-      <calcite-table-cell alignment="center" key="selection-foot" selectionCell={true} />
+      <calcite-table-cell
+        alignment="center"
+        key="selection-foot"
+        parentRowAlignment={this.alignment}
+        selectionCell={true}
+      />
     );
   }
 
   renderNumberedCell(): VNode {
     return this.rowType === "head" ? (
-      <calcite-table-header alignment="center" key="numbered-head" numberCell={true} />
+      <calcite-table-header
+        alignment="center"
+        key="numbered-head"
+        numberCell={true}
+        parentRowAlignment={this.alignment}
+      />
     ) : this.rowType === "body" ? (
-      <calcite-table-cell alignment="center" key="numbered-body" numberCell={true}>
+      <calcite-table-cell
+        alignment="center"
+        key="numbered-body"
+        numberCell={true}
+        parentRowAlignment={this.alignment}
+      >
         {this.positionSectionLocalized}
       </calcite-table-cell>
     ) : (
-      <calcite-table-cell alignment="center" key="numbered-foot" numberCell={true} />
+      <calcite-table-cell
+        alignment="center"
+        key="numbered-foot"
+        numberCell={true}
+        parentRowAlignment={this.alignment}
+      />
     );
   }
 
@@ -385,7 +423,7 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
             aria-rowindex={this.positionAll + 1}
             aria-selected={this.selected}
             class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
-            onKeyDown={(event) => this.keyDownHandler(event)}
+            onKeyDown={this.keyDownHandler}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.tableRowEl = el)}
           >
