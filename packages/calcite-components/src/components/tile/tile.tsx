@@ -8,6 +8,7 @@ import {
 } from "../../utils/interactive";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { Alignment, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
+import { toAriaBoolean } from "../../utils/dom";
 
 /**
  * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
@@ -84,6 +85,9 @@ export class Tile implements InteractiveComponent {
    */
   @Prop() interactive = false;
 
+  /** Accessible name for the component. */
+  @Prop() label: string;
+
   /**
    * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
    */
@@ -127,9 +131,7 @@ export class Tile implements InteractiveComponent {
 
   @Listen("click")
   clickHandler(): void {
-    if (!this.disabled && this.interactive) {
-      this.calciteTileSelect.emit();
-    }
+    this.handleSelectEvent();
   }
 
   //--------------------------------------------------------------------------
@@ -139,9 +141,26 @@ export class Tile implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalTileKeyEvent: EventEmitter<KeyboardEvent>;
+
+  /**
    * Fires when the selected state of the component changes.
    */
   @Event() calciteTileSelect: EventEmitter<void>;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  private handleSelectEvent = (): void => {
+    if (!this.disabled && this.interactive) {
+      this.calciteTileSelect.emit();
+    }
+  };
 
   // --------------------------------------------------------------------------
   //
@@ -159,6 +178,32 @@ export class Tile implements InteractiveComponent {
 
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("keydown")
+  keyDownHandler(event: KeyboardEvent): void {
+    if (event.target === this.el) {
+      switch (event.key) {
+        case " ":
+        case "Enter":
+          this.handleSelectEvent();
+          event.preventDefault();
+          break;
+        case "ArrowRight":
+        case "ArrowLeft":
+        case "Home":
+        case "End":
+          this.calciteInternalTileKeyEvent.emit(event);
+          event.preventDefault();
+          break;
+      }
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -192,9 +237,29 @@ export class Tile implements InteractiveComponent {
     const { disabled, icon, heading, description, iconFlipRtl } = this;
     const isLargeVisual = heading && icon && !description;
     const disableInteraction = disabled || (!disabled && !this.interactive);
+    const role =
+      this.selectionMode === "multiple" && this.interactive
+        ? "checkbox"
+        : this.selectionMode !== "none" && this.interactive
+          ? "radio"
+          : this.interactive
+            ? "button"
+            : undefined;
     return (
       <div
-        class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual, [CSS.row]: true }}
+        aria-checked={
+          this.selectionMode !== "none" && this.interactive
+            ? toAriaBoolean(this.selected)
+            : undefined
+        }
+        aria-disabled={disableInteraction ? toAriaBoolean(disabled) : undefined}
+        aria-label={this.label}
+        class={{
+          [CSS.container]: true,
+          [CSS.largeVisual]: isLargeVisual,
+          [CSS.row]: true,
+        }}
+        role={role}
         tabIndex={disableInteraction ? -1 : 0}
       >
         {this.renderSelectionIcon()}

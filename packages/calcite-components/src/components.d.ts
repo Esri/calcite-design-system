@@ -5054,6 +5054,10 @@ export namespace Components {
          */
         "interactive": boolean;
         /**
+          * Accessible name for the component.
+         */
+        "label": string;
+        /**
           * Specifies the size of the component.
          */
         "scale": Scale;
@@ -7284,6 +7288,7 @@ declare global {
         new (): HTMLCalciteTextAreaElement;
     };
     interface HTMLCalciteTileElementEventMap {
+        "calciteInternalTileKeyEvent": KeyboardEvent;
         "calciteTileSelect": void;
     }
     interface HTMLCalciteTileElement extends Components.CalciteTile, HTMLStencilElement {
@@ -12732,6 +12737,11 @@ declare namespace LocalJSX {
           * When true, enables the tile to be focused, and allows the `calciteChipSelect` to emit. This is set to `true` by a parent Chip Group component.
          */
         "interactive"?: boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label"?: string;
+        "onCalciteInternalTileKeyEvent"?: (event: CalciteTileCustomEvent<KeyboardEvent>) => void;
         /**
           * Fires when the selected state of the component changes.
          */

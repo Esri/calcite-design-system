@@ -1,4 +1,14 @@
-import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode, Watch } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Listen,
+  Prop,
+  VNode,
+  Watch,
+} from "@stencil/core";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -133,7 +143,7 @@ export class TileGroup implements InteractiveComponent {
 
   private setSlotElRef = (el: HTMLSlotElement): void => {
     this.slotEl = el;
-  }
+  };
 
   private updateItems = (event?: Event): void => {
     const target = event ? (event.target as HTMLSlotElement) : this.slotEl;
@@ -193,6 +203,12 @@ export class TileGroup implements InteractiveComponent {
       this.setSelectedItems(true, event.target as HTMLCalciteTileElement);
     }
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  //--------------------------------------------------------------------------
 
   render(): VNode {
     const role =
