@@ -1,7 +1,7 @@
-import { select, number } from "@storybook/addon-knobs";
-import readme from "./readme.md";
+import { select, number } from "../../../.storybook/fake-knobs";
+
 import { html } from "../../../support/formatting";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
 import { modesDarkDefault } from "../../../.storybook/utils";
 
@@ -11,10 +11,6 @@ const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appe
 
 export default {
   title: "Components/Tooltip",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -64,7 +60,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const rightAligned_TestOnly = (): string =>
   html`<div style="text-align: right">
