@@ -17,15 +17,7 @@ import {
   toAriaBoolean,
 } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
-import { CarouselMessages } from "./assets/carousel/t9n";
-import { CSS, ICONS } from "./resources";
+import { guid } from "../../utils/guid";
 import {
   connectInteractive,
   updateHostInteraction,
@@ -38,6 +30,15 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
+import { CSS, ICONS } from "./resources";
+import { CarouselMessages } from "./assets/carousel/t9n";
 import { ArrowType } from "./interfaces";
 
 /**
@@ -299,6 +300,7 @@ export class Carousel
         {this.items?.map((item, index) => (
           <calcite-action
             appearance={this.controlOverlay ? "solid" : "transparent"}
+            aria-controls={item.id}
             aria-selected={toAriaBoolean(index === selectedIndex)}
             class={{
               [CSS.paginationItem]: true,
@@ -324,6 +326,7 @@ export class Carousel
     return (
       <calcite-action
         appearance={this.controlOverlay ? "solid" : "transparent"}
+        aria-controls={this.container?.id}
         class={CSS.pagePrevious}
         icon={dir === "rtl" ? ICONS.chevronRight : ICONS.chevronLeft}
         onClick={this.previousItem}
@@ -338,6 +341,7 @@ export class Carousel
     return (
       <calcite-action
         appearance={this.controlOverlay ? "solid" : "transparent"}
+        aria-controls={this.container?.id}
         class={CSS.pageNext}
         icon={dir === "rtl" ? ICONS.chevronLeft : ICONS.chevronRight}
         onClick={this.nextItem}
@@ -349,6 +353,7 @@ export class Carousel
 
   render(): VNode {
     const { direction, selectedIndex } = this;
+    const containerId = `calcite-carousel-container-${guid()}`;
     return (
       <Host>
         <InteractiveContainer disabled={this.disabled}>
@@ -360,6 +365,7 @@ export class Carousel
               [CSS.isOverlay]: this.controlOverlay,
               [CSS.isEdges]: this.arrowType === "edges",
             }}
+            id={containerId}
             onKeyDown={this.containerKeyDownHandler}
             role="group"
             tabIndex={0}

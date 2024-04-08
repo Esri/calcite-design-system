@@ -1,10 +1,11 @@
 import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
-import { CSS } from "./resources";
 import {
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { guid } from "../../utils/guid";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding content.
@@ -39,6 +40,8 @@ export class CarouselItem implements LoadableComponent {
 
   @Element() el: HTMLCalciteCarouselItemElement;
 
+  private guid = `calcite-carousel-item-${guid()}`;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -60,8 +63,9 @@ export class CarouselItem implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const id = this.el.id || this.guid;
     return (
-      <Host>
+      <Host id={id}>
         <div
           aria-label={this.label}
           class={{ [CSS.container]: true, [CSS.selected]: this.selected }}
