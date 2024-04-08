@@ -14,16 +14,13 @@ import {
   Watch,
 } from "@stencil/core";
 import { toAriaBoolean, slotChangeHasAssignedElement } from "../../utils/dom";
-import { CSS, SLOTS, ICONS } from "./resources";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
-
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-
 import {
   connectMessages,
   disconnectMessages,
@@ -40,8 +37,9 @@ import {
 } from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { isActivationKey } from "../../utils/key";
-import { ChipMessages } from "./assets/chip/t9n";
 import { getIconScale } from "../../utils/component";
+import { ChipMessages } from "./assets/chip/t9n";
+import { CSS, SLOTS, ICONS } from "./resources";
 
 /**
  * @slot - A slot for adding text.
@@ -340,9 +338,8 @@ export class Chip
         class={CSS.close}
         onClick={this.close}
         onKeyDown={this.closeButtonKeyDownHandler}
-        tabIndex={this.disabled ? -1 : 0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
+        tabIndex={this.disabled ? -1 : 0}
       >
         <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
       </button>
@@ -398,10 +395,9 @@ export class Chip
                   (!!this.selectionMode && this.selectionMode !== "multiple" && !this.selected)),
             }}
             onClick={this.handleEmittingEvent}
+            ref={(el) => (this.containerEl = el)}
             role={role}
             tabIndex={disableInteraction ? -1 : 0}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(el) => (this.containerEl = el)}
           >
             {this.selectionMode !== "none" && this.renderSelectionIcon()}
             {this.renderChipImage()}

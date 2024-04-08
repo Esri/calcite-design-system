@@ -14,7 +14,6 @@ import { toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
-import { CSS } from "./resources";
 import {
   componentFocusable,
   LoadableComponent,
@@ -27,6 +26,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding text.
@@ -191,11 +191,10 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
         aria-label={label}
         class={CSS.link}
         href={href}
+        ref={(el) => (this.childLink = el)}
         rel={this.rel}
         tabIndex={-1}
         target={this.target}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el) => (this.childLink = el)}
       >
         {slottedContent}
       </a>

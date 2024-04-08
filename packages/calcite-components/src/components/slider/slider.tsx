@@ -13,7 +13,6 @@ import {
   Watch,
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
@@ -294,11 +293,7 @@ export class Slider
             }}
           >
             {this.renderGraph()}
-            <div
-              class={CSS.track}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.storeTrackRef}
-            >
+            <div class={CSS.track} ref={this.storeTrackRef}>
               <div
                 class={CSS.trackRange}
                 onPointerDown={this.onTrackPointerDown}
@@ -421,11 +416,10 @@ export class Slider
         onBlur={this.onThumbBlur}
         onFocus={this.onThumbFocus}
         onPointerDown={this.onThumbPointerDown}
+        ref={this.storeThumbRef}
         role="slider"
         style={thumbStyle}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.storeThumbRef}
       >
         {thumbContent}
       </div>

@@ -27,13 +27,6 @@ import {
 } from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
-import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
-import {
-  getDepth,
-  getListItemChildren,
-  getListItemChildLists,
-  updateListItemChildren,
-} from "./utils";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -42,12 +35,6 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { ListItemMessages } from "./assets/list-item/t9n";
-
-const focusMap = new Map<HTMLCalciteListElement, number>();
-
-const listSelector = "calcite-list";
-
 import {
   componentFocusable,
   LoadableComponent,
@@ -55,6 +42,17 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { SortableComponentItem } from "../../utils/sortableComponent";
+import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
+import { ListItemMessages } from "./assets/list-item/t9n";
+import {
+  getDepth,
+  getListItemChildren,
+  getListItemChildLists,
+  updateListItemChildren,
+} from "./utils";
+
+const focusMap = new Map<HTMLCalciteListElement, number>();
+const listSelector = "calcite-list";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -454,9 +452,8 @@ export class ListItem
         class={CSS.dragContainer}
         key="drag-handle-container"
         onFocusin={this.focusCellHandle}
-        role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.handleGridEl = el)}
+        role="gridcell"
       >
         <calcite-handle
           disabled={dragDisabled}
@@ -497,9 +494,8 @@ export class ListItem
         hidden={!hasActionsStart}
         key="actions-start-container"
         onFocusin={this.focusCellActionsStart}
-        role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.actionsStartEl = el)}
+        role="gridcell"
       >
         <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
       </td>
@@ -515,9 +511,8 @@ export class ListItem
         hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
         onFocusin={this.focusCellActionsEnd}
-        role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.actionsEndEl = el)}
+        role="gridcell"
       >
         <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
         {closable ? (
@@ -630,9 +625,8 @@ export class ListItem
         key="content-container"
         onClick={this.handleItemClick}
         onFocusin={this.focusCellContent}
-        role="gridcell"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.contentEl = el)}
+        role="gridcell"
       >
         {content}
       </td>
@@ -681,11 +675,10 @@ export class ListItem
             onFocus={this.focusCellNull}
             onFocusin={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
+            ref={(el) => (this.containerEl = el)}
             role="row"
             style={{ "--calcite-list-item-spacing-indent-multiplier": `${visualLevel}` }}
             tabIndex={active ? 0 : -1}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(el) => (this.containerEl = el)}
           >
             {this.renderDragHandle()}
             {this.renderSelected()}

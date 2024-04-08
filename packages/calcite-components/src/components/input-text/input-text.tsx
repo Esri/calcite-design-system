@@ -46,11 +46,11 @@ import {
 } from "../../utils/t9n";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
-import { InputTextMessages } from "./assets/input-text/t9n";
-import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { CSS, SLOTS } from "./resources";
+import { InputTextMessages } from "./assets/input-text/t9n";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -643,12 +643,11 @@ export class InputText
         pattern={this.pattern}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
+        ref={this.setChildElRef}
         required={this.required ? true : null}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
         type="text"
         value={this.value}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setChildElRef}
       />
     );
 

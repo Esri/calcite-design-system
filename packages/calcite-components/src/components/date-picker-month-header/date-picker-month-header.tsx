@@ -18,7 +18,6 @@ import {
   prevMonth,
   formatCalendarYear,
 } from "../../utils/date";
-
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
@@ -26,8 +25,8 @@ import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "../date-picker/utils";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
-import { CSS, ICON } from "./resources";
 import { getIconScale } from "../../utils/component";
+import { CSS, ICON } from "./resources";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -162,10 +161,9 @@ export class DatePickerMonthHeader {
               onInput={this.onYearInput}
               onKeyDown={this.onYearKey}
               pattern="\d*"
+              ref={(el) => (this.yearInput = el)}
               type="text"
               value={localizedYear}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={(el) => (this.yearInput = el)}
             />
             {suffix && <span class={CSS.suffix}>{suffix}</span>}
           </span>

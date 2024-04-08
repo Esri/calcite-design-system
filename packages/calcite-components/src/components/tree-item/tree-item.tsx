@@ -32,9 +32,9 @@ import {
 } from "../../utils/interactive";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
+import { getIconScale } from "../../utils/component";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { getIconScale } from "../../utils/component";
 
 /**
  * @slot - A slot for adding text.
@@ -291,7 +291,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
                   [CSS_UTILITY.rtl]: rtl,
                 }}
                 data-selection-mode={this.selectionMode}
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
               >
                 {chevron}

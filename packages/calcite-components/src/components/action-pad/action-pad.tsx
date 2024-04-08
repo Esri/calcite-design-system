@@ -33,10 +33,10 @@ import {
 } from "../../utils/t9n";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
-import { ActionPadMessages } from "./assets/action-pad/t9n";
-import { CSS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { ActionPadMessages } from "./assets/action-pad/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-action`s to the component.
@@ -286,11 +286,10 @@ export class ActionPad
         expandText={messages.expand}
         expanded={expanded}
         position={position}
+        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setExpandToggleRef}
       />
     ) : null;
 

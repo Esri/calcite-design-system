@@ -10,6 +10,9 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import Color from "color";
+import { Scale } from "../interfaces";
+import { Channels, RGB } from "../color-picker/interfaces";
 import {
   alphaToOpacity,
   hexChar,
@@ -20,10 +23,6 @@ import {
   opacityToAlpha,
   rgbToHex,
 } from "../color-picker/utils";
-import { CSS } from "./resources";
-import { Scale } from "../interfaces";
-import { Channels, RGB } from "../color-picker/interfaces";
-import Color from "color";
 import { focusElement } from "../../utils/dom";
 import {
   componentFocusable,
@@ -34,6 +33,7 @@ import {
 import { NumberingSystem } from "../../utils/locale";
 import { OPACITY_LIMITS } from "../color-picker/resources";
 import { ColorPickerMessages } from "../color-picker/assets/color-picker/t9n";
+import { CSS } from "./resources";
 
 const DEFAULT_COLOR = Color();
 
@@ -319,10 +319,9 @@ export class ColorPickerHexInput implements LoadableComponent {
           onKeyDown={this.onInputKeyDown}
           onPaste={this.onHexInputPaste}
           prefixText="#"
+          ref={this.storeHexInputRef}
           scale={inputScale}
           value={hexInputValue}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.storeHexInputRef}
         />
         {alphaChannel ? (
           <calcite-input-number
@@ -337,11 +336,10 @@ export class ColorPickerHexInput implements LoadableComponent {
             onCalciteInputNumberChange={this.onOpacityInputChange}
             onCalciteInternalInputNumberBlur={this.onOpacityInputBlur}
             onKeyDown={this.onInputKeyDown}
+            ref={this.storeOpacityInputRef}
             scale={inputScale}
             suffixText="%"
             value={opacityInputValue}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.storeOpacityInputRef}
           />
         ) : null}
       </div>

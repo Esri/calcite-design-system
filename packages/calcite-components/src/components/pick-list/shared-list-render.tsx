@@ -1,10 +1,10 @@
 import { FunctionalComponent, h, Host, VNode } from "@stencil/core";
 import { JSXBase } from "@stencil/core/internal";
 import { toAriaBoolean } from "../../utils/dom";
+import { InteractiveContainer } from "../../utils/interactive";
 import { CSS, SLOTS } from "./resources";
 import { handleFilter, handleFilterEvent } from "./shared-list-logic";
 import DOMAttributes = JSXBase.DOMAttributes;
-import { InteractiveContainer } from "../../utils/interactive";
 
 interface ListProps extends DOMAttributes<any> {
   disabled: boolean;
@@ -45,12 +45,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
       <InteractiveContainer disabled={disabled}>
         <section>
           {dragEnabled ? (
-            <span
-              aria-live="assertive"
-              class="assistive-text"
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={storeAssistiveEl}
-            />
+            <span aria-live="assertive" class="assistive-text" ref={storeAssistiveEl} />
           ) : null}
           <header class={{ [CSS.sticky]: true }}>
             {filterEnabled ? (
@@ -60,9 +55,8 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
                 items={dataForFilter}
                 onCalciteFilterChange={handleFilterEvent}
                 placeholder={filterPlaceholder}
-                value={filterText}
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={setFilterEl}
+                value={filterText}
               />
             ) : null}
             <slot name={SLOTS.menuActions} />

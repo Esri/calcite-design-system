@@ -11,10 +11,10 @@ import {
   Host,
   State,
 } from "@stencil/core";
+import { throttle } from "lodash-es";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
-import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -37,8 +37,6 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { TextAreaMessages } from "./assets/text-area/t9n";
-import { throttle } from "lodash-es";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -46,11 +44,13 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { CharacterLengthObj } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { CharacterLengthObj } from "./interfaces";
+import { TextAreaMessages } from "./assets/text-area/t9n";
+import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 
 /**
  * @slot - A slot for adding text.
@@ -294,12 +294,11 @@ export class TextArea
             onInput={this.handleInput}
             placeholder={this.placeholder}
             readonly={this.readOnly}
+            ref={this.setTextAreaEl}
             required={this.required}
             rows={this.rows}
             value={this.value}
             wrap={this.wrap}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setTextAreaEl}
           />
           <span class={{ [CSS.content]: true }}>
             <slot onSlotchange={this.contentSlotChangeHandler} />

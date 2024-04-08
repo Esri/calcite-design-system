@@ -13,8 +13,8 @@ import {
   Watch,
 } from "@stencil/core";
 import { debounce } from "lodash-es";
+import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { filter } from "../../utils/filter";
-
 import { getElementWidth, getTextWidth, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -63,14 +63,13 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale, SelectionMode, Status } from "../interfaces";
+import { XButton, CSS as XButtonCSS } from "../functional/XButton";
+import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } from "./utils";
-import { XButton, CSS as XButtonCSS } from "../functional/XButton";
-import { getIconScale } from "../../utils/component";
-import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
-import { Validation } from "../functional/Validation";
 
 interface ItemData {
   label: string;
@@ -1388,11 +1387,10 @@ export class Combobox
             !compactSelectionDisplay
           ),
         }}
+        ref={setAllSelectedIndicatorChipEl}
         scale={scale}
         title={label}
         value=""
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={setAllSelectedIndicatorChipEl}
       >
         {label}
       </calcite-chip>
@@ -1464,11 +1462,10 @@ export class Combobox
           chip: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
+        ref={setSelectedIndicatorChipEl}
         scale={scale}
         title={label}
         value=""
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={setSelectedIndicatorChipEl}
       >
         {label}
       </calcite-chip>
@@ -1571,10 +1568,9 @@ export class Combobox
           onFocus={this.comboboxFocusHandler}
           onInput={this.inputHandler}
           placeholder={placeholder}
+          ref={(el) => (this.textInput = el as HTMLInputElement)}
           role="combobox"
           type="text"
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.textInput = el as HTMLInputElement)}
         />
       </span>
     );
@@ -1608,14 +1604,9 @@ export class Combobox
           "floating-ui-container": true,
           "floating-ui-container--active": open,
         }}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={setFloatingEl}
       >
-        <div
-          class={classes}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={setContainerEl}
-        >
+        <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !open }}>
             <slot />
           </ul>
@@ -1674,7 +1665,6 @@ export class Combobox
             }}
             onClick={this.clickHandler}
             onKeyDown={this.keyDownHandler}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setReferenceEl}
           >
             {this.renderSelectedOrPlaceholderIcon()}

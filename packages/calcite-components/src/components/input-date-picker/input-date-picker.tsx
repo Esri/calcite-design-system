@@ -13,6 +13,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { FocusTrap } from "focus-trap";
 import {
   dateFromISO,
   dateFromLocalizedString,
@@ -69,21 +70,20 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
-import { CSS } from "./resources";
 import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
-import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
 import {
   activateFocusTrap,
   connectFocusTrap,
   deactivateFocusTrap,
   FocusTrapComponent,
 } from "../../utils/focusTrapComponent";
-import { FocusTrap } from "focus-trap";
 import { guid } from "../../utils/guid";
-import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
+import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
+import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -532,7 +532,6 @@ export class InputDatePicker
                 data-position="start"
                 onClick={this.onInputWrapperClick}
                 onPointerDown={this.onInputWrapperPointerDown}
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={this.setStartWrapper}
               >
                 <calcite-input-text
@@ -552,11 +551,10 @@ export class InputDatePicker
                   onCalciteInternalInputTextFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
+                  ref={this.setStartInput}
                   role="combobox"
                   scale={this.scale}
                   status={this.status}
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                  ref={this.setStartInput}
                 />
                 {!this.readOnly &&
                   this.renderToggleIcon(this.open && this.focusedInput === "start")}
@@ -574,9 +572,8 @@ export class InputDatePicker
                   [CSS.menuActive]: this.open,
                 }}
                 id={this.dialogId}
-                role="dialog"
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={this.setFloatingEl}
+                role="dialog"
               >
                 <div
                   class={{
@@ -585,7 +582,6 @@ export class InputDatePicker
                     [FloatingCSS.animation]: true,
                     [FloatingCSS.animationActive]: this.open,
                   }}
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                   ref={this.setTransitionEl}
                 >
                   <calcite-date-picker
@@ -602,11 +598,10 @@ export class InputDatePicker
                     onCalciteDatePickerRangeChange={this.handleDateRangeChange}
                     proximitySelectionDisabled={this.proximitySelectionDisabled}
                     range={this.range}
+                    ref={this.setDatePickerRef}
                     scale={this.scale}
                     tabIndex={this.open ? undefined : -1}
                     valueAsDate={this.valueAsDate}
-                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                    ref={this.setDatePickerRef}
                   />
                 </div>
               </div>
@@ -631,7 +626,6 @@ export class InputDatePicker
                   data-position="end"
                   onClick={this.onInputWrapperClick}
                   onPointerDown={this.onInputWrapperPointerDown}
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                   ref={this.setEndWrapper}
                 >
                   <calcite-input-text
@@ -650,11 +644,10 @@ export class InputDatePicker
                     onCalciteInternalInputTextFocus={this.endInputFocus}
                     placeholder={this.localeData?.placeholder}
                     readOnly={readOnly}
+                    ref={this.setEndInput}
                     role="combobox"
                     scale={this.scale}
                     status={this.status}
-                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                    ref={this.setEndInput}
                   />
                   {!this.readOnly &&
                     this.renderToggleIcon(this.open && this.focusedInput === "end")}

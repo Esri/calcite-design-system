@@ -34,8 +34,6 @@ import {
 } from "../../utils/t9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
-import { BlockMessages } from "./assets/block/t9n";
-import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import {
   componentFocusable,
   LoadableComponent,
@@ -44,6 +42,8 @@ import {
 } from "../../utils/loadable";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import { BlockMessages } from "./assets/block/t9n";
 
 /**
  * @slot - A slot for adding custom content.
@@ -400,7 +400,6 @@ export class Block
               class={CSS.content}
               hidden={!open}
               id={IDS.content}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.setTransitionEl}
             >
               {this.renderScrim()}

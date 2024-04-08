@@ -23,7 +23,6 @@ import {
   LocalizedComponent,
   SupportedLocale,
 } from "../../utils/locale";
-import { TimeZoneItem, TimeZoneMode } from "./interfaces";
 import { Scale, Status } from "../interfaces";
 import {
   connectMessages,
@@ -32,8 +31,6 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
-import { createTimeZoneItems, getUserTimeZoneName, getUserTimeZoneOffset } from "./utils";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import {
   componentFocusable,
@@ -48,6 +45,9 @@ import {
   FormComponent,
   HiddenFormInputSlot,
 } from "../../utils/form";
+import { createTimeZoneItems, getUserTimeZoneName, getUserTimeZoneOffset } from "./utils";
+import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
+import { TimeZoneItem, TimeZoneMode } from "./interfaces";
 
 @Component({
   tag: "calcite-input-time-zone",
@@ -410,13 +410,12 @@ export class InputTimeZone
             onCalciteComboboxOpen={this.onComboboxOpen}
             open={this.open}
             overlayPositioning={this.overlayPositioning}
+            ref={this.setComboboxRef}
             scale={this.scale}
             selectionMode="single-persist"
             status={this.status}
             validation-icon={this.validationIcon}
             validation-message={this.validationMessage}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setComboboxRef}
           >
             {this.timeZoneItems.map((group) => {
               const selected = this.selectedTimeZoneItem === group;

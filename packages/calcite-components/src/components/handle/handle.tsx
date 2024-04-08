@@ -25,15 +25,15 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { HandleMessages } from "./assets/handle/t9n";
-import { HandleChange, HandleNudge } from "./interfaces";
-import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
   updateHostInteraction,
 } from "../../utils/interactive";
+import { HandleMessages } from "./assets/handle/t9n";
+import { HandleChange, HandleNudge } from "./interfaces";
+import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
 
 @Component({
   tag: "calcite-handle",
@@ -306,14 +306,13 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
         class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
+        ref={(el): void => {
+          this.handleButton = el;
+        }}
         // role of radio is being applied to allow space key to select in screen readers
         role="radio"
         tabIndex={this.disabled ? null : 0}
         title={this.getTooltip()}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el): void => {
-          this.handleButton = el;
-        }}
       >
         <calcite-icon icon={ICONS.drag} scale="s" />
       </span>

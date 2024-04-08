@@ -18,7 +18,6 @@ import {
   setRequestedIcon,
 } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
-
 import {
   connectForm,
   disconnectForm,
@@ -66,8 +65,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
-import { InputNumberMessages } from "./assets/input-number/t9n";
-import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import {
@@ -75,6 +72,8 @@ import {
   syncHiddenFormInput,
   TextualInputComponent,
 } from "../input/common/input";
+import { CSS, SLOTS } from "./resources";
+import { InputNumberMessages } from "./assets/input-number/t9n";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -1058,10 +1057,9 @@ export class InputNumber
         onKeyUp={this.inputNumberKeyUpHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
+        ref={this.setChildNumberElRef}
         type="text"
         value={this.displayedValue}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setChildNumberElRef}
       />
     );
 

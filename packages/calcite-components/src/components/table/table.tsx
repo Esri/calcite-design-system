@@ -31,10 +31,10 @@ import {
   numberStringFormatter,
   NumberingSystem,
 } from "../../utils/locale";
+import { getUserAgentString } from "../../utils/browser";
 import { TableInteractionMode, TableLayout, TableRowFocusEvent } from "./interfaces";
 import { CSS, SLOTS } from "./resources";
 import { TableMessages } from "./assets/table/t9n";
-import { getUserAgentString } from "../../utils/browser";
 
 /**
  * @slot - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
@@ -468,11 +468,10 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
           numberingSystem={this.numberingSystem}
           onCalcitePaginationChange={this.handlePaginationChange}
           pageSize={this.pageSize}
+          ref={(el) => (this.paginationEl = el)}
           scale={this.scale}
           startItem={1}
           totalItems={this.bodyRows?.length}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.paginationEl = el)}
         />
       </div>
     );

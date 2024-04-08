@@ -12,7 +12,11 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-
+import {
+  calciteSize24,
+  calciteSize32,
+  calciteSize44,
+} from "@esri/calcite-design-tokens/dist/es6/core";
 import {
   Direction,
   filterDirectChildren,
@@ -24,7 +28,6 @@ import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
-import { CSS, ICON } from "./resources";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -33,13 +36,9 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { TabNavMessages } from "./assets/tab-nav/t9n";
-import {
-  calciteSize24,
-  calciteSize32,
-  calciteSize44,
-} from "@esri/calcite-design-tokens/dist/es6/core";
 import { CSS_UTILITY } from "../../utils/resources";
+import { CSS, ICON } from "./resources";
+import { TabNavMessages } from "./assets/tab-nav/t9n";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.
@@ -232,7 +231,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
             [`position-${this.position}`]: true,
             [CSS_UTILITY.rtl]: this.effectiveDir === "rtl",
           }}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.storeContainerRef}
         >
           {this.renderScrollButton("start")}
@@ -242,7 +240,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
             }}
             onScroll={this.onTabTitleScroll}
             onWheel={this.onTabTitleWheel}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.storeTabTitleWrapperRef}
           >
             <slot onSlotchange={this.onSlotChange} />
@@ -251,14 +248,12 @@ export class TabNav implements LocalizedComponent, T9nComponent {
             class={{
               [CSS.activeIndicatorContainer]: true,
             }}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.activeIndicatorContainerEl = el)}
           >
             <div
               class="tab-nav-active-indicator"
-              style={indicatorStyle}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
+              style={indicatorStyle}
             />
           </div>
           {this.renderScrollButton("end")}

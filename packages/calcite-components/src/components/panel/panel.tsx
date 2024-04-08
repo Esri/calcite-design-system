@@ -33,8 +33,6 @@ import {
 import { createObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { CSS, ICONS, SLOTS } from "./resources";
-
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -43,8 +41,9 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { PanelMessages } from "./assets/panel/t9n";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { PanelMessages } from "./assets/panel/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
@@ -578,7 +577,6 @@ export class Panel
         class={CSS.contentWrapper}
         hidden={this.collapsible && this.collapsed}
         onScroll={this.panelScrollHandler}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setPanelScrollEl}
       >
         <slot />
@@ -603,9 +601,8 @@ export class Panel
         aria-busy={toAriaBoolean(loading)}
         class={CSS.container}
         hidden={closed}
-        tabIndex={closable ? 0 : -1}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setContainerRef}
+        tabIndex={closable ? 0 : -1}
       >
         {this.renderHeaderNode()}
         {this.renderContent()}

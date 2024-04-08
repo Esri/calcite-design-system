@@ -35,9 +35,9 @@ import {
 } from "../../utils/t9n";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
+import { OverlayPositioning } from "../../utils/floating-ui";
 import { FlowItemMessages } from "./assets/flow-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { OverlayPositioning } from "../../utils/floating-ui";
 
 /**
  * @slot - A slot for adding custom content.
@@ -331,12 +331,11 @@ export class FlowItem
         icon={icon}
         key="flow-back-button"
         onClick={backButtonClick}
+        ref={this.setBackRef}
         scale="s"
         slot="header-actions-start"
         text={label}
         title={label}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setBackRef}
       />
     ) : null;
   }
@@ -377,7 +376,6 @@ export class FlowItem
             onCalcitePanelScroll={this.handlePanelScroll}
             onCalcitePanelToggle={this.handlePanelToggle}
             overlayPositioning={overlayPositioning}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setContainerRef}
           >
             {this.renderBackButton()}

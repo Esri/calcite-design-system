@@ -35,9 +35,9 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
-import { CSS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { CSS } from "./resources";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -393,7 +393,6 @@ export class Select
               class={CSS.select}
               disabled={disabled}
               onChange={this.handleInternalSelectChange}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.storeSelectRef}
             >
               <slot />

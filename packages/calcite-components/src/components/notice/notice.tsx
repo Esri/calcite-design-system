@@ -32,10 +32,10 @@ import {
 } from "../../utils/t9n";
 import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
-import { NoticeMessages } from "./assets/notice/t9n";
-import { CSS, SLOTS } from "./resources";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
+import { NoticeMessages } from "./assets/notice/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -165,7 +165,6 @@ export class Notice
         aria-label={this.messages.close}
         class={CSS.close}
         onClick={this.close}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon icon="x" scale={getIconScale(this.scale)} />
@@ -175,11 +174,7 @@ export class Notice
     const hasActionEnd = getSlotted(el, SLOTS.actionsEnd);
 
     return (
-      <div
-        class={CSS.container}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setTransitionEl}
-      >
+      <div class={CSS.container} ref={this.setTransitionEl}>
         {this.requestedIcon ? (
           <div class={CSS.icon}>
             <calcite-icon

@@ -20,13 +20,12 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { TableCellMessages } from "./assets/table-cell/t9n";
-import { CSS } from "./resources";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
+import { CSS } from "./resources";
+import { TableCellMessages } from "./assets/table-cell/t9n";
 
 /**
  * @slot - A slot for adding content, usually text content.
@@ -243,11 +242,10 @@ export class TableCell
             colSpan={this.colSpan}
             onBlur={this.onContainerBlur}
             onFocus={this.onContainerFocus}
+            ref={(el) => (this.containerEl = el)}
             role={this.interactionMode === "interactive" ? "gridcell" : "cell"}
             rowSpan={this.rowSpan}
             tabIndex={staticCell ? -1 : 0}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(el) => (this.containerEl = el)}
           >
             {(this.selectionCell || this.readCellContentsToAT) && (
               <span
