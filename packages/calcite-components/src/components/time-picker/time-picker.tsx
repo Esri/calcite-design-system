@@ -14,7 +14,6 @@ import {
 import { numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
 import { Scale } from "../interfaces";
-
 import {
   connectLocalized,
   disconnectLocalized,
@@ -45,10 +44,7 @@ import {
   parseTimeString,
   TimePart,
 } from "../../utils/time";
-import { TimePickerMessages } from "./assets/time-picker/t9n";
-import { CSS } from "./resources";
 import { getIconScale } from "../../utils/component";
-
 import {
   componentFocusable,
   LoadableComponent,
@@ -56,6 +52,8 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { decimalPlaces, getDecimals } from "../../utils/math";
+import { CSS } from "./resources";
+import { TimePickerMessages } from "./assets/time-picker/t9n";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -398,7 +396,7 @@ export class TimePicker
       } else if (fractionalSecondAsIntegerLength < stepPrecision) {
         newFractionalSecondAsIntegerString = `${fractionalSecondAsInteger}${key}`.padStart(
           stepPrecision,
-          "0"
+          "0",
         );
       }
 
@@ -764,25 +762,25 @@ export class TimePicker
       this.localizedHourSuffix = getLocalizedTimePartSuffix(
         "hour",
         this.effectiveLocale,
-        this.numberingSystem
+        this.numberingSystem,
       );
       this.localizedMeridiem = null;
       this.localizedMinute = null;
       this.localizedMinuteSuffix = getLocalizedTimePartSuffix(
         "minute",
         this.effectiveLocale,
-        this.numberingSystem
+        this.numberingSystem,
       );
       this.localizedSecond = null;
       this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
         this.effectiveLocale,
-        this.numberingSystem
+        this.numberingSystem,
       );
       this.localizedFractionalSecond = null;
       this.localizedSecondSuffix = getLocalizedTimePartSuffix(
         "second",
         this.effectiveLocale,
-        this.numberingSystem
+        this.numberingSystem,
       );
       this.meridiem = null;
       this.minute = null;
@@ -793,7 +791,7 @@ export class TimePicker
 
   private setValuePart = (
     key: "hour" | "minute" | "second" | "fractionalSecond" | "meridiem",
-    value: number | string | Meridiem
+    value: number | string | Meridiem,
   ): void => {
     const { effectiveLocale: locale, numberingSystem } = this;
     if (key === "meridiem") {
@@ -890,7 +888,7 @@ export class TimePicker
     this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
     this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
       this.effectiveLocale,
-      this.numberingSystem
+      this.numberingSystem,
     );
     this.setValue(this.sanitizeValue(this.value));
   }
@@ -911,7 +909,7 @@ export class TimePicker
         value: "0:00:00",
         locale: this.effectiveLocale,
         numberingSystem: this.numberingSystem,
-      })
+      }),
     );
   }
 

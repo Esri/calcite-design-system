@@ -1,5 +1,4 @@
 {
-  "select": "Targeta seleccionable",
-  "deselect": "Anul·la la selecció",
+  "select": "Selecciona",
   "loading": "S'està carregant..."
 }

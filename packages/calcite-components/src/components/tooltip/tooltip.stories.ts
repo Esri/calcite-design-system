@@ -1,7 +1,6 @@
-import { select, number } from "@storybook/addon-knobs";
-import readme from "./readme.md";
+import { select, number } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
 import { modesDarkDefault } from "../../../.storybook/utils";
 
@@ -11,10 +10,6 @@ const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appe
 
 export default {
   title: "Components/Tooltip",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -64,20 +59,21 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
-export const rightAligned_TestOnly = (): string => html`<div style="text-align: right">
-  <a href="#" id="tooltip-button">Hover for Tooltip</a>
-  <calcite-tooltip open reference-element="tooltip-button">
-    <span>Tooltip content lorem ipsum</span>
-  </calcite-tooltip>
-</div>`;
+export const rightAligned_TestOnly = (): string =>
+  html`<div style="text-align: right">
+    <a href="#" id="tooltip-button">Hover for Tooltip</a>
+    <calcite-tooltip open reference-element="tooltip-button">
+      <span>Tooltip content lorem ipsum</span>
+    </calcite-tooltip>
+  </div>`;
 
 export const transparentBG_TestOnly = (): string => html`
   <style>
     calcite-tooltip {
-      --calcite-ui-foreground-1: rgba(0, 0, 0, 0.5);
-      --calcite-ui-text-1: orange;
+      --calcite-color-foreground-1: rgba(0, 0, 0, 0.5);
+      --calcite-color-text-1: orange;
     }
   </style>
   <div style="width: 400px;">

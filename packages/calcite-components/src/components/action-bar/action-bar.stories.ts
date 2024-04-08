@@ -1,5 +1,4 @@
-import { boolean, select } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+import { boolean, select } from "../../../.storybook/fake-knobs";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
@@ -9,14 +8,9 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Action Bar",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -27,7 +21,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "expand-disabled",
         commit(): Attribute {
-          this.value = boolean("expandDisabled", false);
+          this.value = boolean("expandDisabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -35,7 +29,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "expanded",
         commit(): Attribute {
-          this.value = boolean("expanded", false);
+          this.value = boolean("expanded", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -49,7 +43,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -65,7 +59,7 @@ export const simple = (): string =>
       <calcite-action-group>
         <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
       </calcite-action-group>
-    `
+    `,
   );
 
 export const horizontal = (): string => html`
@@ -138,23 +132,22 @@ export const horizontalOverflow_TestOnly = (): string => html`
   </div>
 `;
 
-export const withDefinedWidths = (): string =>
-  html`
-    <style>
-      calcite-action-bar {
-        --calcite-action-bar-expanded-max-width: 150px;
-      }
-    </style>
-    <calcite-action-bar expanded>
-      <calcite-action-group>
-        <calcite-action text="Add to my custom action bar application" icon="plus"></calcite-action>
-        <calcite-action text="Save to my custom action bar application" icon="save"></calcite-action>
-      </calcite-action-group>
-      <calcite-action-group>
-        <calcite-action text="Layers in my custom action bar application" icon="layers"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-bar>
-  `;
+export const withDefinedWidths = (): string => html`
+  <style>
+    calcite-action-bar {
+      --calcite-action-bar-expanded-max-width: 150px;
+    }
+  </style>
+  <calcite-action-bar expanded>
+    <calcite-action-group>
+      <calcite-action text="Add to my custom action bar application" icon="plus"></calcite-action>
+      <calcite-action text="Save to my custom action bar application" icon="save"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Layers in my custom action bar application" icon="layers"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>
+`;
 
 export const darkModeRTL_TestOnly = (): string =>
   create(
@@ -177,54 +170,41 @@ export const darkModeRTL_TestOnly = (): string =>
       <calcite-action-group>
         <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
       </calcite-action-group>
-    `
+    `,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
-export const adjacentTooltipsOpenQuickly = (): string => html`<div style="display:flex; height:500px; width: 200px;">
-  <calcite-action-bar>
-    <calcite-action-group>
-      <calcite-action text="Add" icon="plus">
-        <calcite-tooltip placement="right" slot="tooltip">Add</calcite-tooltip>
-      </calcite-action>
-      <calcite-action text="Save" icon="save"
-        ><calcite-tooltip placement="right" slot="tooltip">Save</calcite-tooltip></calcite-action
+export const adjacentTooltipsOpenQuickly = (): string =>
+  html`<div style="display:flex; height:500px; width: 200px;">
+    <calcite-action-bar>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus">
+          <calcite-tooltip placement="right" slot="tooltip">Add</calcite-tooltip>
+        </calcite-action>
+        <calcite-action text="Save" icon="save"
+          ><calcite-tooltip placement="right" slot="tooltip">Save</calcite-tooltip></calcite-action
+        >
+        <calcite-action text="Layers" icon="layers"
+          ><calcite-tooltip placement="right" slot="tooltip">Layers</calcite-tooltip></calcite-action
+        >
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"
+          ><calcite-tooltip placement="right" slot="tooltip">Add</calcite-tooltip></calcite-action
+        >
+        <calcite-action text="Save" active icon="save"
+          ><calcite-tooltip placement="right" slot="tooltip">Save</calcite-tooltip></calcite-action
+        >
+        <calcite-action text="Layers" icon="layers"
+          ><calcite-tooltip placement="right" slot="tooltip">Layers</calcite-tooltip></calcite-action
+        >
+      </calcite-action-group>
+      <calcite-action slot="actions-end" text="hello world" icon="layers"
+        ><calcite-tooltip placement="right" slot="tooltip">hello world</calcite-tooltip></calcite-action
       >
-      <calcite-action text="Layers" icon="layers"
-        ><calcite-tooltip placement="right" slot="tooltip">Layers</calcite-tooltip></calcite-action
-      >
-    </calcite-action-group>
-    <calcite-action-group>
-      <calcite-action text="Add" icon="plus"
-        ><calcite-tooltip placement="right" slot="tooltip">Add</calcite-tooltip></calcite-action
-      >
-      <calcite-action text="Save" active icon="save"
-        ><calcite-tooltip placement="right" slot="tooltip">Save</calcite-tooltip></calcite-action
-      >
-      <calcite-action text="Layers" icon="layers"
-        ><calcite-tooltip placement="right" slot="tooltip">Layers</calcite-tooltip></calcite-action
-      >
-    </calcite-action-group>
-    <calcite-action slot="actions-end" text="hello world" icon="layers"
-      ><calcite-tooltip placement="right" slot="tooltip">hello world</calcite-tooltip></calcite-action
-    >
-  </calcite-action-bar>
-</div>`;
-
-export const withTooltip_NoTest = (): string =>
-  create(
-    "calcite-action-bar",
-    createAttributes(),
-    html`
-      <calcite-tooltip placement="bottom" slot="expand-tooltip">Expand</calcite-tooltip>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    `
-  );
-
-withTooltip_NoTest.parameters = {
-  chromatic: { disableSnapshot: true },
-};
+    </calcite-action-bar>
+  </div>`;
 
 export const hebrewLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="he">
 <calcite-action text="Information" icon="information"></calcite-action>

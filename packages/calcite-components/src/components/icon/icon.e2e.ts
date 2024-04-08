@@ -102,7 +102,7 @@ describe("calcite-icon", () => {
           expect(svg.getAttribute("width")).toBe("100%");
           expect(svg.getAttribute("height")).toBe("100%");
           expect(svg.getAttribute("viewBox")).toBe(`0 0 ${sizeInPx} ${sizeInPx}`);
-        })
+        }),
       );
     });
   });

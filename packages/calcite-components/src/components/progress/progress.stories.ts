@@ -1,16 +1,9 @@
-import { number, select, text } from "@storybook/addon-knobs";
-
-import { storyFilters } from "../../../.storybook/helpers";
+import { number, select, text } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Progress",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -30,4 +23,4 @@ export const darkModeRTL_TestOnly = (): string => html`
   ></calcite-progress>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

@@ -8,13 +8,11 @@ The following is an outline of the steps required to use `@esri/calcite-componen
 
 ### Install the packages
 
-Install the Angular wrapper components along with [`@esri/calcite-components`](https://www.npmjs.com/package/@esri/calcite-components):
-
 ```sh
-npm install @esri/calcite-components @esri/calcite-components-angular
+npm install @esri/calcite-components-angular
 ```
 
-Make sure the versions of the two packages remain the same when updating your dependencies.
+This package includes the compatible version of the main component library as a dependency, so no need to install `@esri/calcite-components` separately.
 
 ### Copy local assets
 
@@ -76,7 +74,7 @@ We welcome contributions to this project. See [CONTRIBUTING.md](https://github.c
 
 ## License
 
-COPYRIGHT © 2023 Esri
+COPYRIGHT © 2024 Esri
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 

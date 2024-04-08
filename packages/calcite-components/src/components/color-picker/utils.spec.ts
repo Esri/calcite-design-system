@@ -1,3 +1,4 @@
+import Color from "color";
 import {
   colorEqual,
   hexToRGB,
@@ -8,7 +9,6 @@ import {
   parseMode,
   rgbToHex,
 } from "./utils";
-import Color from "color";
 
 describe("utils", () => {
   it("can parse supported color modes", () => {
@@ -53,7 +53,7 @@ describe("utils", () => {
         r: 0,
         g: 255,
         b: 0,
-      })
+      }),
     ).toBe("#00ff00");
 
     expect(
@@ -62,7 +62,7 @@ describe("utils", () => {
         g: 255,
         b: 0,
         a: 1,
-      })
+      }),
     ).toBe("#00ff00ff");
   });
 

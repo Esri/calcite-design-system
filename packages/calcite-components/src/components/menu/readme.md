@@ -1,14 +1,16 @@
 # calcite-menu
 
+For comprehensive guidance on using and implementing `calcite-menu`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/menu/).
+
 <!-- Auto Generated Below -->
 
 ## Properties
 
-| Property             | Attribute | Description                                                             | Type                         | Default        |
-| -------------------- | --------- | ----------------------------------------------------------------------- | ---------------------------- | -------------- |
-| `label` _(required)_ | `label`   | Accessible name for the component.                                      | `string`                     | `undefined`    |
-| `layout`             | `layout`  | Specifies the layout of the component.                                  | `"horizontal" \| "vertical"` | `"horizontal"` |
-| `messageOverrides`   | --        | Use this property to override individual strings used by the component. | `{ more?: string; }`         | `undefined`    |
+| Property             | Attribute           | Description                                                             | Type                         | Default        |
+| -------------------- | ------------------- | ----------------------------------------------------------------------- | ---------------------------- | -------------- |
+| `label` *(required)* | `label`             | Accessible name for the component.                                      | `string`                     | `undefined`    |
+| `layout`             | `layout`            | Specifies the layout of the component.                                  | `"horizontal" \| "vertical"` | `"horizontal"` |
+| `messageOverrides`   | `message-overrides` | Use this property to override individual strings used by the component. | `MenuMessages`               | `undefined`    |
 
 ## Methods
 
@@ -36,4 +38,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

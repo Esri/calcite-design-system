@@ -17,16 +17,18 @@ describe("calcite-tree-item", () => {
   });
 
   describe("accessible: with nested children", () => {
-    accessible(html`<calcite-tree lines>
-      <calcite-tree-item>
-        <a href="#">Child 2</a>
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="http://www.google.com">Grandchild 1</a>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>`);
+    accessible(
+      html`<calcite-tree lines>
+        <calcite-tree-item>
+          <a href="#">Child 2</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a href="http://www.esri.com">Grandchild 1</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>`,
+    );
   });
 
   describe("defaults", () => {
@@ -87,7 +89,7 @@ describe("calcite-tree-item", () => {
 
           <calcite-tree slot="children">
             <calcite-tree-item>
-              <a href="http://www.google.com">Grandchild 1</a>
+              <a href="http://www.esri.com">Grandchild 1</a>
             </calcite-tree-item>
           </calcite-tree>
         </calcite-tree-item>
@@ -285,7 +287,7 @@ describe("calcite-tree-item", () => {
 
       const item = await page.find("#newbie");
       expect(item).toEqualAttribute("aria-hidden", "false");
-      expect(item.tabIndex).toBe(-1); // items are programmatically focused
+      expect(item.tabIndex).toBe(0);
     });
   });
 
@@ -363,18 +365,16 @@ describe("calcite-tree-item", () => {
 
   it("displaying an expanded item is visible", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      html`
-        <calcite-tree id="root" style="display:none;">
-          <calcite-tree-item expanded
-            >parent
-            <calcite-tree slot="children">
-              <calcite-tree-item id="child">child</calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-      `
-    );
+    await page.setContent(html`
+      <calcite-tree id="root" style="display:none;">
+        <calcite-tree-item expanded
+          >parent
+          <calcite-tree slot="children">
+            <calcite-tree-item id="child">child</calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    `);
 
     await page.$eval("#root", (root: HTMLCalciteTreeElement) => (root.style.display = ""));
     await page.waitForChanges();

@@ -58,9 +58,6 @@ import {
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
 import { ListItemAndHandle } from "../value-list-item/interfaces";
-import { ValueListMessages } from "./assets/value-list/t9n";
-import { CSS, ICON_TYPES } from "./resources";
-import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 import {
   DragDetail,
   connectSortableComponent,
@@ -69,6 +66,9 @@ import {
   dragActive,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
+import { ValueListMessages } from "./assets/value-list/t9n";
+import { CSS, ICON_TYPES } from "./resources";
+import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 
 /**
  * @deprecated Use the `list` component instead.
@@ -82,8 +82,9 @@ import { focusElement } from "../../utils/dom";
   assetsDirs: ["assets"],
 })
 export class ValueList<
-  ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
-> implements
+    ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement,
+  >
+  implements
     InteractiveComponent,
     LoadableComponent,
     LocalizedComponent,
@@ -102,7 +103,7 @@ export class ValueList<
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When provided, the method will be called to determine whether the element can  move from the list.
+   * When provided, the method will be called to determine whether the element can move from the list.
    */
   @Prop() canPull: (detail: DragDetail) => boolean;
 
@@ -333,13 +334,17 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
-  onDragStart(): void {
+  onGlobalDragStart(): void {
     cleanUpObserver.call(this);
   }
 
-  onDragEnd(): void {
+  onGlobalDragEnd(): void {
     initializeObserver.call(this);
   }
+
+  onDragEnd(): void {}
+
+  onDragStart(): void {}
 
   onDragSort(): void {
     this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
@@ -453,7 +458,7 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
-  /** Returns the currently selected items */
+  /** Returns the component's selected items. */
   @Method()
   async getSelectedItems(): Promise<Map<string, HTMLCalciteValueListItemElement>> {
     return this.selectedValues;

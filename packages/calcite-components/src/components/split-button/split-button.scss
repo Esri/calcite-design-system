@@ -28,7 +28,7 @@
     --calcite-split-button-divider: theme("colors.color.1");
   }
   &:host([kind="inverse"]) {
-    --calcite-split-button-background: var(--calcite-ui-inverse);
+    --calcite-split-button-background: var(--calcite-color-inverse);
     --calcite-split-button-divider: theme("colors.background.foreground.1");
   }
 }
@@ -73,7 +73,7 @@
     --calcite-split-button-background: theme("borderColor.color.1");
   }
   &:host([kind="inverse"]) {
-    --calcite-split-button-divider: var(--calcite-ui-inverse);
+    --calcite-split-button-divider: var(--calcite-color-inverse);
   }
 }
 

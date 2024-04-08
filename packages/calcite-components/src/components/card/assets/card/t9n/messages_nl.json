@@ -1,5 +1,4 @@
 {
-  "select": "Selecteerbare card",
-  "deselect": "Selectie opheffen",
+  "select": "Selecteren",
   "loading": "Bezig met laden"
 }

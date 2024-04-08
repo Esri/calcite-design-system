@@ -8,7 +8,7 @@ const projectPath = path.resolve(__dirname, "../../../tsconfig.json");
 describe("stencil rules", () => {
   const files = {
     good: path.resolve(__dirname, "ban-events.good.tsx"),
-    wrong: path.resolve(__dirname, "ban-events.wrong.tsx")
+    wrong: path.resolve(__dirname, "ban-events.wrong.tsx"),
   };
 
   const options = ["some-unsupported-event", { event: "keypress", message: "use keyup or keydown instead" }];
@@ -18,8 +18,8 @@ describe("stencil rules", () => {
       {
         code: fs.readFileSync(files.good, "utf8"),
         options,
-        filename: files.good
-      }
+        filename: files.good,
+      },
     ],
 
     invalid: [
@@ -27,8 +27,8 @@ describe("stencil rules", () => {
         code: fs.readFileSync(files.wrong, "utf8"),
         options,
         filename: files.wrong,
-        errors: 3
-      }
-    ]
+        errors: 3,
+      },
+    ],
   });
 });

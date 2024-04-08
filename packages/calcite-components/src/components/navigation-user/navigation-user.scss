@@ -39,7 +39,7 @@ calcite-avatar ~ .text-container {
 
 :host([active]) .button {
   @apply text-color-1 border-color-brand;
-  --calcite-ui-icon-color: var(--calcite-ui-brand);
+  --calcite-ui-icon-color: var(--calcite-color-brand);
 }
 
 .text-container {

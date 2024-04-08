@@ -1,7 +1,6 @@
-import { boolean, select } from "@storybook/addon-knobs";
+import { boolean, select } from "../../../.storybook/fake-knobs";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 import {
   Attribute,
   Attributes,
@@ -9,15 +8,10 @@ import {
   modesDarkDefault,
   createComponentHTML as create,
 } from "../../../.storybook/utils";
-import { storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
   title: "Components/Card",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -27,7 +21,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false);
+          this.value = boolean("loading", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -35,15 +29,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "selected",
         commit(): Attribute {
-          this.value = boolean("selected", false);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "selectable",
-        commit(): Attribute {
-          this.value = boolean("selectable", false);
+          this.value = boolean("selected", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -57,13 +43,13 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
 const titleHtml = html`
-  <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
-  <span slot="subtitle">
+  <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+  <span slot="description">
     A great example of a study description that might wrap to a line or two, but isn't overly verbose.
   </span>
 `;
@@ -96,14 +82,8 @@ const footerEndButtonsHtml = html`
   </div>
 `;
 
-const tooltipHtml = html`
-  <calcite-tooltip placement="top-start" reference-element="card-icon-test-6">Configure</calcite-tooltip>
-  <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-7">Delete</calcite-tooltip>
-`;
-
-export const simple = (): string => html` <div style="width: 260px">
-  ${create("calcite-card", createAttributes(), titleHtml)}
-</div>`;
+export const simple = (): string =>
+  html` <div style="width: 260px">${create("calcite-card", createAttributes(), titleHtml)}</div>`;
 
 export const simpleWithFooterLinks = (): string => html`
   <div style="width:260px">${create("calcite-card", createAttributes(), html`${titleHtml}${footerLinksHtml}`)}</div>
@@ -113,16 +93,6 @@ export const simpleWithFooterButton = (): string => html`
   <div style="width:260px">${create("calcite-card", createAttributes(), html`${titleHtml}${footerButtonHtml}`)}</div>
 `;
 
-export const simpleWithFooterTextButtonTooltip_NoTest = (): string => html`
-  <div style="width:260px">
-    ${create("calcite-card", createAttributes(), html`${titleHtml}${footerStartTextHtml}${footerEndButtonsHtml}`)}
-  </div>
-  ${tooltipHtml}
-`;
-simpleWithFooterTextButtonTooltip_NoTest.parameters = {
-  chromatic: { disableSnapshot: true },
-};
-
 export const thumbnail = (): string => html`
   <div style="width:260px">
     ${create(
@@ -130,8 +100,8 @@ export const thumbnail = (): string => html`
       createAttributes(),
       html`
         ${thumbnailHtml}
-        <h3 slot="title">Portland Businesses</h3>
-        <span slot="subtitle"
+        <h3 slot="heading">Portland Businesses</h3>
+        <span slot="description"
           >by
           <calcite-link href="">example_user</calcite-link>
         </span>
@@ -167,7 +137,7 @@ export const thumbnail = (): string => html`
             </calcite-dropdown-group>
           </calcite-dropdown>
         </div>
-      `
+      `,
     )}
     <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-1"
       >My great tooltip example
@@ -187,8 +157,8 @@ export const thumbnailRounded = (): string => html`
     </style>
     <calcite-card>
       ${thumbnailHtml}
-      <h3 slot="title">Portland Businesses</h3>
-      <span slot="subtitle"
+      <h3 slot="heading">Portland Businesses</h3>
+      <span slot="description"
         >by
         <calcite-link href="">example_user</calcite-link>
       </span>
@@ -210,7 +180,22 @@ export const thumbnailRounded = (): string => html`
   </div>
 `;
 
-export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
+export const headerDoesNotOverlapWithCheckboxDeprecated_TestOnly = (): string => html`
+  <calcite-card selectable style="width:260px">
+    <h3 slot="heading">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
+    <span slot="description"
+      >Pika-pi Soul Badge Zoroark Starly Spoink Diglett Rotom. Water Kyogre Hitmontop Rampardos</span
+    >
+    <p>
+      Team Rocket Whimsicott Snover Duskull Servine Kakuna Bellsprout. Scratch Shelgon Oddish Hitmonchan Quagsire Earth
+      Badge Leaf Green. Pika-pi Bonsly Rare Candy Seadra blast off at the speed of light Shellos Kirlia. Celadon City
+      Seviper Omanyte Espeon Body Slam Victini Darumaka. Normal Krookodile Junichi Masuda Machoke Body Slam Zigzagoon to
+      protect the world from devastation.
+    </p>
+  </calcite-card>
+`;
+
+export const deprecatedSlotsSelectable_TestOnly = (): string => html`
   <calcite-card selectable style="width:260px">
     <h3 slot="title">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
     <span slot="subtitle"
@@ -225,10 +210,32 @@ export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
   </calcite-card>
 `;
 
+export const slottedFooterItems_TestOnly = (): string => html`
+  <div id="card-container" style="width:260px;">
+    <calcite-card>
+      ${thumbnailHtml}
+      <h3 slot="heading">Portland Businesses</h3>
+      <span slot="description"
+        >by
+        <calcite-link href="">example_user</calcite-link>
+      </span>
+      <div>
+        Created: Apr 22, 2019
+        <br />
+        Updated: Dec 9, 2019
+        <br />
+        View Count: 0
+      </div>
+      <calcite-chip slot="footer-start" value="calcite chip" kind="brand" icon="clock-forward">Recent</calcite-chip>
+      <calcite-chip slot="footer-end" value="calcite chip" icon="walking">Recreation</calcite-chip>
+    </calcite-card>
+  </div>
+`;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:260px;">
     <calcite-card>${thumbnailHtml}${titleHtml}${footerStartTextHtml}${footerEndButtonsHtml}</calcite-card>
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

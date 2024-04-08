@@ -8,10 +8,10 @@ const rule: Rule.RuleModule = {
       description:
         "This rule helps enforce the payload type to EventEmitters to avoid misleading `any` type on the CustomEvent detail object.",
       category: "Best practices",
-      recommended: true
+      recommended: true,
     },
     schema: [],
-    type: "problem"
+    type: "problem",
   },
 
   create(context): Rule.RuleListener {
@@ -28,7 +28,7 @@ const rule: Rule.RuleModule = {
           if (!typedAsEventEmitter) {
             context.report({
               node,
-              message: "Emitter not typed as `EventEmitter<CustomEventDetailsType>`"
+              message: "Emitter not typed as `EventEmitter<CustomEventDetailsType>`",
             });
             return;
           }
@@ -38,13 +38,13 @@ const rule: Rule.RuleModule = {
           if (eventEmitterType === undefined) {
             context.report({
               node,
-              message: "EventEmitter is not typed and will cause its detail object to be typed as `any`"
+              message: "EventEmitter is not typed and will cause its detail object to be typed as `any`",
             });
           }
         }
-      }
+      },
     };
-  }
+  },
 };
 
 export default rule;

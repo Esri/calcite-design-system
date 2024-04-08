@@ -1,7 +1,7 @@
-import { accessible, disabled, labelable, renders, hidden, t9n } from "../../tests/commonTests";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { CSS } from "./resources";
+import { accessible, disabled, labelable, renders, hidden, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-inline-editable", () => {
   describe("renders", () => {
@@ -11,7 +11,7 @@ describe("calcite-inline-editable", () => {
           <calcite-input />
         </calcite-inline-editable>
       `,
-      { display: "block" }
+      { display: "block" },
     );
   });
 
@@ -26,7 +26,7 @@ describe("calcite-inline-editable", () => {
           <calcite-input />
         </calcite-inline-editable>
       `,
-      { focusTarget: { tab: "calcite-inline-editable", click: "calcite-input" } }
+      { focusTarget: { tab: "calcite-inline-editable", click: "calcite-input" } },
     );
   });
 
@@ -109,7 +109,7 @@ describe("calcite-inline-editable", () => {
 
     it("enables editing when enable button is clicked", async () => {
       const calciteInternalInlineEditableEnableEditingChange = await page.spyOnEvent(
-        "calciteInternalInlineEditableEnableEditingChange"
+        "calciteInternalInlineEditableEnableEditingChange",
       );
       const element = await page.find("calcite-inline-editable");
       const enableEditingButton = await page.find(`calcite-inline-editable >>> .${CSS.enableEditingButton}`);
@@ -120,7 +120,7 @@ describe("calcite-inline-editable", () => {
 
     it("enables editing when the child input is clicked", async () => {
       const calciteInternalInlineEditableEnableEditingChange = await page.spyOnEvent(
-        "calciteInternalInlineEditableEnableEditingChange"
+        "calciteInternalInlineEditableEnableEditingChange",
       );
       const element = await page.find("calcite-inline-editable");
       await element.click();
@@ -173,7 +173,7 @@ describe("calcite-inline-editable", () => {
 
     it("enables editing when enable button is clicked", async () => {
       const calciteInternalInlineEditableEnableEditingChange = await page.spyOnEvent(
-        "calciteInternalInlineEditableEnableEditingChange"
+        "calciteInternalInlineEditableEnableEditingChange",
       );
       const element = await page.find("calcite-inline-editable");
       const enableEditingButton = await page.find(`calcite-inline-editable >>> .${CSS.enableEditingButton}`);
@@ -184,7 +184,7 @@ describe("calcite-inline-editable", () => {
 
     it("enables editing when the child input is clicked", async () => {
       const calciteInternalInlineEditableEnableEditingChange = await page.spyOnEvent(
-        "calciteInternalInlineEditableEnableEditingChange"
+        "calciteInternalInlineEditableEnableEditingChange",
       );
       const element = await page.find("calcite-inline-editable");
       await element.click();
@@ -362,7 +362,7 @@ describe("calcite-inline-editable", () => {
             </calcite-inline-editable>`,
           {
             focusTargetSelector: "calcite-input",
-          }
+          },
         );
       });
 
@@ -373,7 +373,7 @@ describe("calcite-inline-editable", () => {
           </calcite-inline-editable>`,
           {
             focusTargetSelector: "calcite-input",
-          }
+          },
         );
       });
     });

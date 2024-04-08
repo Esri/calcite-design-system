@@ -67,7 +67,7 @@
 .container {
   @apply bg-foreground-1;
   display: inline-block;
-  border: 1px solid var(--calcite-ui-border-1);
+  border: 1px solid var(--calcite-color-border-1);
 }
 
 .control-and-scope {
@@ -189,7 +189,7 @@
 
   &:hover {
     transition: outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
-    outline: 2px solid var(--calcite-ui-border-2);
+    outline: 2px solid var(--calcite-color-border-2);
     outline-offset: 2px;
   }
 }

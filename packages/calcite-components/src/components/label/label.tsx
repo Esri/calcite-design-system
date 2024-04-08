@@ -1,5 +1,19 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
-import { labelConnectedEvent, labelDisconnectedEvent } from "../../utils/label";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Prop,
+  VNode,
+  Watch,
+} from "@stencil/core";
+import {
+  associateExplicitLabelToUnlabeledComponent,
+  labelConnectedEvent,
+  labelDisconnectedEvent,
+} from "../../utils/label";
 import { Alignment, Scale } from "../interfaces";
 import { CSS } from "./resources";
 
@@ -23,6 +37,11 @@ export class Label {
 
   /** Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component. */
   @Prop({ reflect: true }) for: string;
+
+  @Watch("for")
+  handleForChange(): void {
+    associateExplicitLabelToUnlabeledComponent(this.el);
+  }
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";

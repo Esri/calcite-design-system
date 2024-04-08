@@ -1,4 +1,7 @@
 {
+  "all": "Všetko",
+  "allSelected": "Všetky vybrané",
   "clear": "Vymazať hodnotu",
-  "removeTag": "Odstrániť štítok"
+  "removeTag": "Odstrániť štítok",
+  "selected": "vybrané"
 }

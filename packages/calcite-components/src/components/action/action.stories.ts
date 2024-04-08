@@ -1,4 +1,4 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import {
   Attribute,
   filterComponentAttributes,
@@ -6,18 +6,13 @@ import {
   createComponentHTML as create,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { alignment, scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Buttons/Action",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -26,7 +21,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "active",
         commit(): Attribute {
-          this.value = boolean("active", false);
+          this.value = boolean("active", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -50,7 +45,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "compact",
         commit(): Attribute {
-          this.value = boolean("compact", false);
+          this.value = boolean("compact", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -58,7 +53,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false);
+          this.value = boolean("disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -74,7 +69,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "indicator",
         commit(): Attribute {
-          this.value = boolean("indicator", false);
+          this.value = boolean("indicator", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -90,7 +85,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false);
+          this.value = boolean("loading", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -114,7 +109,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "text-enabled",
         commit(): Attribute {
-          this.value = boolean("textEnabled", true);
+          this.value = boolean("textEnabled", true, "", "prop");
           delete this.build;
           return this;
         },
@@ -122,13 +117,13 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "style",
         commit(): Attribute {
-          this.value = boolean("textEnabled", true);
+          this.value = boolean("textEnabled", true, "", "prop");
           delete this.build;
           return this;
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -145,7 +140,7 @@ export const simple = (): string =>
           name: "text",
           value: "",
         },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -156,7 +151,7 @@ export const disabledAndCompactAndTextOnly_TestOnly = (): string =>
       createAttributes({ exceptions: ["compact", "disabled"] }).concat([
         { name: "compact", value: true },
         { name: "disabled", value: true },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -168,7 +163,7 @@ export const activeAndAppearanceTransparent_TestOnly = (): string =>
         { name: "active", value: true },
         { name: "icon", value: "banana" },
         { name: "appearance", value: "transparent" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -181,7 +176,7 @@ export const alignmentEndAndSmallScaleAndIndicator_TestOnly = (): string =>
         { name: "alignment", value: "end" },
         { name: "indicator", value: true },
         { name: "scale", value: "s" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -194,12 +189,20 @@ export const alignmentStartAndLargeScaleAndTextOverflow_TestOnly = (): string =>
         { name: "text", value: "Blah blah blah blah blah blah blah blah blah blah" },
         { name: "alignment", value: "start" },
         { name: "scale", value: "l" },
-      ])
+      ]),
     )}
   </div>`;
 
 export const indicatorTextEnabled_TestOnly = (): string => html`
   <calcite-action indicator active text="click-me" text-enabled icon="gear"></calcite-action>
+`;
+
+export const indicatorTextEnabledNoIcon_TestOnly = (): string => html`
+  <calcite-action indicator active text="click-me" text-enabled></calcite-action>
+`;
+
+export const indicatorNoTextEnabledNoIcon_TestOnly = (): string => html`
+  <calcite-action indicator active text="click-me"></calcite-action>
 `;
 
 export const arabicLocale_TestOnly = (): string => html`
@@ -221,8 +224,8 @@ export const darkModeRTL_TestOnly = (): string =>
         { name: "icon", value: "banana" },
         { name: "class", value: "calcite-mode-dark" },
         { name: "dir", value: "rtl" },
-      ])
+      ]),
     )}
   </div>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

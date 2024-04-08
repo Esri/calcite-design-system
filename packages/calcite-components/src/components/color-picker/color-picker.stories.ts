@@ -1,4 +1,4 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import {
   Attribute,
   filterComponentAttributes,
@@ -6,21 +6,15 @@ import {
   createComponentHTML as create,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-import colorReadme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/ColorPicker",
-  parameters: {
-    notes: colorReadme,
-  },
-  ...storyFilters(),
 };
 
 const createColorAttributes: (options?: { exceptions: string[] }) => Attributes = (
-  { exceptions } = { exceptions: [] }
+  { exceptions } = { exceptions: [] },
 ) => {
   const { scale } = ATTRIBUTES;
 
@@ -29,7 +23,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "channels-disabled",
         commit(): Attribute {
-          this.value = boolean("channels-disabled", false);
+          this.value = boolean("channels-disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -37,7 +31,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "hex-disabled",
         commit(): Attribute {
-          this.value = boolean("hex-disabled", false);
+          this.value = boolean("hex-disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -45,7 +39,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "saved-disabled",
         commit(): Attribute {
-          this.value = boolean("saved-disabled", false);
+          this.value = boolean("saved-disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -59,15 +53,15 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
 export const simple = (): string =>
   create("calcite-color-picker", [
     {
-      name: "allow-empty",
-      value: boolean("allow-empty", false),
+      name: "clearable",
+      value: boolean("clearable", false, "", "prop"),
     },
     ...createColorAttributes(),
     {
@@ -95,13 +89,12 @@ export const darkModeRTL_TestOnly = (): string =>
     },
   ]);
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
-export const thumbsOnEdgeDoNotOverflowContainer_TestOnly = (): string => html`<div
-  style="overflow: auto; width: 274px;"
->
-  <calcite-color-picker value="#04006e"></calcite-color-picker>
-</div>`;
+export const thumbsOnEdgeDoNotOverflowContainer_TestOnly = (): string =>
+  html`<div style="overflow: auto; width: 274px;">
+    <calcite-color-picker value="#04006e"></calcite-color-picker>
+  </div>`;
 
 export const ArabicLocale_TestOnly = (): string => html`<calcite-color-picker lang="ar"></calcite-color-picker>`;
 
@@ -115,14 +108,15 @@ export const RussianLocale_TestOnly = (): string => html`<calcite-color-picker l
 
 export const ThaiLocale_TestOnly = (): string => html`<calcite-color-picker lang="th"></calcite-color-picker>`;
 
-export const Focus_TestOnly = (): string => html`<calcite-color-picker value="#97a7b0"></calcite-color-picker>
-  <script>
-    (async () => {
-      await customElements.whenDefined("calcite-color-picker");
-      const colorPicker = await document.querySelector("calcite-color-picker").componentOnReady();
-      await colorPicker.setFocus();
-    })();
-  </script>`;
+export const Focus_TestOnly = (): string =>
+  html`<calcite-color-picker value="#97a7b0"></calcite-color-picker>
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-color-picker");
+        const colorPicker = await document.querySelector("calcite-color-picker").componentOnReady();
+        await colorPicker.setFocus();
+      })();
+    </script>`;
 
 Focus_TestOnly.parameters = {
   chromatic: { delay: 2000 },

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, renders, hidden } from "../../tests/commonTests";
+import { focusable, renders, hidden, disabled } from "../../tests/commonTests";
 
 describe("calcite-dropdown-item", () => {
   describe("renders", () => {
@@ -12,6 +12,10 @@ describe("calcite-dropdown-item", () => {
 
   describe("can be focused", () => {
     focusable(`calcite-dropdown-item`);
+  });
+
+  describe("disabled", () => {
+    disabled(`calcite-dropdown-item`);
   });
 
   it("should emit calciteDropdownItemSelect", async () => {

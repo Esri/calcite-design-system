@@ -21,6 +21,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
@@ -31,7 +32,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { Scale } from "../interfaces";
+import { Scale, Status } from "../interfaces";
 
 @Component({
   tag: "calcite-checkbox",
@@ -54,7 +55,7 @@ export class Checkbox
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -80,25 +81,24 @@ export class Checkbox
    */
   @Prop({ reflect: true, mutable: true }) indeterminate = false;
 
-  /**
-   * Accessible name for the component.
-   *
-   * @internal
-   */
+  /** Accessible name for the component. */
   @Prop() label: string;
 
-  /** Specifies the name of the component on form submission. */
-  @Prop({ reflect: true }) name;
-
   /**
-   * When `true`, the component must have a value in order for the form to submit.
+   * Specifies the name of the component.
    *
-   * @internal
+   * Required to pass the component's `value` on form submission.
    */
+  @Prop({ reflect: true }) name: string;
+
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /** The component's value. */
   @Prop() value: any;
@@ -183,17 +183,17 @@ export class Checkbox
   //--------------------------------------------------------------------------
 
   /**
-   * Emits when the component is blurred.
+   * Fires when the component is blurred.
    *
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalCheckboxBlur: EventEmitter<boolean>;
 
-  /** Emits when the component's `checked` status changes. */
+  /** Fires when the component's `checked` status changes. */
   @Event({ cancelable: false }) calciteCheckboxChange: EventEmitter<void>;
 
   /**
-   * Emits when the component is focused.
+   * Fires when the component is focused.
    *
    * @internal
    */
@@ -257,23 +257,25 @@ export class Checkbox
   render(): VNode {
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
-        <div
-          aria-checked={toAriaBoolean(this.checked)}
-          aria-label={getLabelText(this)}
-          class="toggle"
-          onBlur={this.onToggleBlur}
-          onFocus={this.onToggleFocus}
-          role="checkbox"
-          tabIndex={this.disabled ? undefined : 0}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(toggleEl) => (this.toggleEl = toggleEl)}
-        >
-          <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">
-            <path d={this.getPath()} />
-          </svg>
-          <slot />
-        </div>
-        <HiddenFormInputSlot component={this} />
+        <InteractiveContainer disabled={this.disabled}>
+          <div
+            aria-checked={toAriaBoolean(this.checked)}
+            aria-label={getLabelText(this)}
+            class="toggle"
+            onBlur={this.onToggleBlur}
+            onFocus={this.onToggleFocus}
+            role="checkbox"
+            tabIndex={this.disabled ? undefined : 0}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={(toggleEl) => (this.toggleEl = toggleEl)}
+          >
+            <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">
+              <path d={this.getPath()} />
+            </svg>
+            <slot />
+          </div>
+          <HiddenFormInputSlot component={this} />
+        </InteractiveContainer>
       </Host>
     );
   }

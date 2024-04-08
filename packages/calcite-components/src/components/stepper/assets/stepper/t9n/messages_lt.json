@@ -1,3 +1,5 @@
 {
-  "label": "Eigos žingsniai"
+  "label": "Eigos žingsniai",
+  "previousStep": "Ankstesnis žingsnis",
+  "nextStep": "Kitas žingsnis"
 }

@@ -1,5 +1,4 @@
 {
-  "select": "Voliteľná karta",
-  "deselect": "Zrušiť výber",
+  "select": "Vybrať",
   "loading": "Načítava sa"
 }

@@ -1,13 +1,13 @@
 import { Component, Element, h, Listen, Method, Prop, State, VNode } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
-import { FlowDirection, FlowItemLikeElement } from "./interfaces";
-import { CSS } from "./resources";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { FlowDirection, FlowItemLikeElement } from "./interfaces";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-flow-item` elements to the component.
@@ -150,8 +150,8 @@ export class Flow implements LoadableComponent {
 
     const newItems = Array.from<FlowItemLikeElement>(
       el.querySelectorAll(
-        `calcite-flow-item${customItemSelectors ? `,${customItemSelectors}` : ""}`
-      )
+        `calcite-flow-item${customItemSelectors ? `,${customItemSelectors}` : ""}`,
+      ),
     ).filter((flowItem) => flowItem.closest("calcite-flow") === el);
 
     const oldItemCount = items.length;

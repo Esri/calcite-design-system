@@ -17,12 +17,12 @@
   w-full;
   margin-block: 0;
   margin-inline: auto;
-  background-color: var(--calcite-navigation-background, var(--calcite-ui-foreground-1));
+  background-color: var(--calcite-navigation-background, var(--calcite-color-foreground-1));
   &.primary,
   &.secondary,
   &.tertiary {
     border-block-end: 1px solid;
-    border-block-end-color: var(--calcite-navigation-border-color, var(--calcite-ui-border-3));
+    border-block-end-color: var(--calcite-navigation-border-color, var(--calcite-color-border-3));
   }
 }
 

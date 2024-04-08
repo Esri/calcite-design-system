@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
   Method,
   Prop,
@@ -21,6 +20,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import {
@@ -219,7 +219,7 @@ export class PickListItem
   }
 
   componentDidRender(): void {
-    updateHostInteraction(this, this.el.closest("calcite-pick-list") ? "managed" : false);
+    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------
@@ -381,7 +381,7 @@ export class PickListItem
     const { description, label } = this;
 
     return (
-      <Fragment>
+      <InteractiveContainer disabled={this.disabled}>
         {this.renderIcon()}
         {this.renderActionsStart()}
         <label
@@ -403,7 +403,7 @@ export class PickListItem
           </div>
         </label>
         {this.renderActionsEnd()}
-      </Fragment>
+      </InteractiveContainer>
     );
   }
 }

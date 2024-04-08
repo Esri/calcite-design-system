@@ -11,6 +11,13 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { FocusTrap } from "focus-trap";
+import dayjs from "dayjs/esm";
+import customParseFormat from "dayjs/esm/plugin/customParseFormat";
+import localeData from "dayjs/esm/plugin/localeData";
+import localizedFormat from "dayjs/esm/plugin/localizedFormat";
+import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
+import updateLocale from "dayjs/esm/plugin/updateLocale";
 import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -24,6 +31,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
@@ -48,7 +56,6 @@ import {
   deactivateFocusTrap,
   FocusTrapComponent,
 } from "../../utils/focusTrapComponent";
-import { FocusTrap } from "focus-trap";
 import {
   formatTimePart,
   formatTimeString,
@@ -60,19 +67,13 @@ import {
 import { Scale, Status } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
-import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
-import { CSS } from "./resources";
-
-import dayjs from "dayjs/esm";
-import customParseFormat from "dayjs/esm/plugin/customParseFormat";
-import localeData from "dayjs/esm/plugin/localeData";
-import localizedFormat from "dayjs/esm/plugin/localizedFormat";
-import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
-import updateLocale from "dayjs/esm/plugin/updateLocale";
 import { getSupportedLocale } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
+import { CSS } from "./resources";
+import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
 const supportedDayjsLocaleToLocaleConfigImport = new Map([
@@ -172,16 +173,15 @@ export class InputTimePicker
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(open: boolean): void {
+  openHandler(): void {
     onToggleOpenCloseComponent(this);
+
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
     }
 
-    if (open) {
-      this.reposition(true);
-    }
+    this.reposition(true);
   }
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -202,7 +202,7 @@ export class InputTimePicker
   }
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -242,6 +242,12 @@ export class InputTimePicker
     /* wired up by t9n util */
   }
 
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: string | boolean;
+
   /** Specifies the name of the component on form submission. */
   @Prop() name: string;
 
@@ -259,15 +265,11 @@ export class InputTimePicker
         numberingSystem,
         includeSeconds: this.shouldIncludeSeconds(),
         fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-      })
+      }),
     );
   }
 
-  /**
-   * When `true`, the component must have a value in order for the form to submit.
-   *
-   * @internal
-   */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -372,7 +374,7 @@ export class InputTimePicker
         numberingSystem: this.numberingSystem,
         includeSeconds: this.shouldIncludeSeconds(),
         fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-      })
+      }),
     );
   }
 
@@ -389,7 +391,7 @@ export class InputTimePicker
   @Event({ cancelable: false }) calciteInputTimePickerBeforeOpen: EventEmitter<void>;
 
   /**
-   * Fires when the time value is changed as a result of user input.
+   * Fires when the component's `value` is changes.
    */
   @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<void>;
 
@@ -457,7 +459,7 @@ export class InputTimePicker
         .map((char) =>
           numberKeys.includes(char)
             ? numberStringFormatter.numberFormatter.format(Number(char))
-            : char
+            : char,
         )
         .join("");
 
@@ -478,7 +480,7 @@ export class InputTimePicker
         numberingSystem: this.numberingSystem,
         includeSeconds,
         fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-      })
+      }),
     );
   };
 
@@ -578,7 +580,7 @@ export class InputTimePicker
 
   private delocalizeTimeStringToParts(
     localizedTimeString: string,
-    fractionalSecondFormatToken?: "S" | "SS" | "SSS"
+    fractionalSecondFormatToken?: "S" | "SS" | "SSS",
   ): DayjsTimeParts {
     const ltsFormatString = this.localeConfig?.formats?.LTS;
     const fractionalSecondTokenMatch = ltsFormatString.match(/ss\.*(S+)/g);
@@ -594,7 +596,7 @@ export class InputTimePicker
 
     dayjs.updateLocale(
       this.getSupportedDayjsLocale(getSupportedLocale(this.effectiveLocale)),
-      this.localeConfig as Record<string, any>
+      this.localeConfig as Record<string, any>,
     );
 
     const dayjsParseResult = dayjs(localizedTimeString, ["LTS", "LT"]);
@@ -715,9 +717,8 @@ export class InputTimePicker
 
     supportedLocale = this.getSupportedDayjsLocale(supportedLocale);
 
-    const { default: localeConfig } = await supportedDayjsLocaleToLocaleConfigImport.get(
-      supportedLocale
-    )();
+    const { default: localeConfig } =
+      await supportedDayjsLocaleToLocaleConfigImport.get(supportedLocale)();
 
     this.localeConfig = localeConfig;
 
@@ -726,7 +727,7 @@ export class InputTimePicker
   }
 
   private getExtendedLocaleConfig(
-    locale: string
+    locale: string,
   ): Parameters<(typeof dayjs)["updateLocale"]>[1] | undefined {
     if (locale === "ar") {
       return {
@@ -868,7 +869,7 @@ export class InputTimePicker
           numberingSystem: this.numberingSystem,
           includeSeconds: this.shouldIncludeSeconds(),
           fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-        })
+        }),
       );
     }
   };
@@ -891,7 +892,7 @@ export class InputTimePicker
             numberingSystem: this.numberingSystem,
             fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
           })
-        : ""
+        : "",
     );
   };
 
@@ -942,7 +943,7 @@ export class InputTimePicker
           numberingSystem: this.numberingSystem,
           includeSeconds: this.shouldIncludeSeconds(),
           fractionalSecondDigits: decimalPlaces(this.step) as FractionalSecondDigits,
-        })
+        }),
       );
     }
   }
@@ -970,56 +971,65 @@ export class InputTimePicker
     const { disabled, messages, readOnly, dialogId } = this;
     return (
       <Host onBlur={this.hostBlurHandler} onKeyDown={this.keyDownHandler}>
-        <div class="input-wrapper" onClick={this.onInputWrapperClick}>
-          <calcite-input
-            aria-autocomplete="none"
-            aria-haspopup="dialog"
-            disabled={disabled}
-            icon="clock"
-            id={this.referenceElementId}
-            label={getLabelText(this)}
+        <InteractiveContainer disabled={this.disabled}>
+          <div class="input-wrapper" onClick={this.onInputWrapperClick}>
+            <calcite-input-text
+              aria-autocomplete="none"
+              aria-haspopup="dialog"
+              disabled={disabled}
+              icon="clock"
+              id={this.referenceElementId}
+              label={getLabelText(this)}
+              lang={this.effectiveLocale}
+              onCalciteInputTextInput={this.calciteInternalInputInputHandler}
+              onCalciteInternalInputTextFocus={this.calciteInternalInputFocusHandler}
+              readOnly={readOnly}
+              role="combobox"
+              scale={this.scale}
+              status={this.status}
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={this.setInputAndTransitionEl}
+            />
+            {!this.readOnly && this.renderToggleIcon(this.open)}
+          </div>
+          <calcite-popover
+            focusTrapDisabled={true}
+            id={dialogId}
+            label={messages.chooseTime}
             lang={this.effectiveLocale}
-            onCalciteInputInput={this.calciteInternalInputInputHandler}
-            onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
-            readOnly={readOnly}
-            role="combobox"
-            scale={this.scale}
-            status={this.status}
-            step={this.step}
+            onCalcitePopoverClose={this.popoverCloseHandler}
+            onCalcitePopoverOpen={this.popoverOpenHandler}
+            open={this.open}
+            overlayPositioning={this.overlayPositioning}
+            placement={this.placement}
+            referenceElement={this.referenceElementId}
+            triggerDisabled={true}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setInputAndTransitionEl}
-          />
-          {!this.readOnly && this.renderToggleIcon(this.open)}
-        </div>
-        <calcite-popover
-          focusTrapDisabled={true}
-          id={dialogId}
-          label={messages.chooseTime}
-          lang={this.effectiveLocale}
-          onCalcitePopoverClose={this.popoverCloseHandler}
-          onCalcitePopoverOpen={this.popoverOpenHandler}
-          open={this.open}
-          overlayPositioning={this.overlayPositioning}
-          placement={this.placement}
-          referenceElement={this.referenceElementId}
-          triggerDisabled={true}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setCalcitePopoverEl}
-        >
-          <calcite-time-picker
-            lang={this.effectiveLocale}
-            messageOverrides={this.messageOverrides}
-            numberingSystem={this.numberingSystem}
-            onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
-            scale={this.scale}
-            step={this.step}
-            tabIndex={this.open ? undefined : -1}
-            value={this.value}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setCalciteTimePickerEl}
-          />
-        </calcite-popover>
-        <HiddenFormInputSlot component={this} />
+            ref={this.setCalcitePopoverEl}
+          >
+            <calcite-time-picker
+              lang={this.effectiveLocale}
+              messageOverrides={this.messageOverrides}
+              numberingSystem={this.numberingSystem}
+              onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
+              scale={this.scale}
+              step={this.step}
+              tabIndex={this.open ? undefined : -1}
+              value={this.value}
+              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+              ref={this.setCalciteTimePickerEl}
+            />
+          </calcite-popover>
+          <HiddenFormInputSlot component={this} />
+          {this.validationMessage && this.status === "invalid" ? (
+            <Validation
+              icon={this.validationIcon}
+              message={this.validationMessage}
+              scale={this.scale}
+              status={this.status}
+            />
+          ) : null}
+        </InteractiveContainer>
       </Host>
     );
   }

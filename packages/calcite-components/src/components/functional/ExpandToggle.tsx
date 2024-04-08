@@ -36,7 +36,7 @@ export function toggleChildActionText({
     .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
     .forEach((action) => (action.textEnabled = expanded));
   el.querySelectorAll("calcite-action-group, calcite-action-menu").forEach(
-    (el: HTMLCalciteActionMenuElement | HTMLCalciteActionGroupElement) => (el.expanded = expanded)
+    (el: HTMLCalciteActionMenuElement | HTMLCalciteActionGroupElement) => (el.expanded = expanded),
   );
 }
 

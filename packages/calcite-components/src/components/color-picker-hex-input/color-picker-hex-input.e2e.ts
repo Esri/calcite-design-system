@@ -119,7 +119,7 @@ describe("calcite-color-picker-hex-input", () => {
   it("normalizes hexa value when initialized", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      "<calcite-color-picker-hex-input alpha-channel value='#f0f0'></calcite-color-picker-hex-input>"
+      "<calcite-color-picker-hex-input alpha-channel value='#f0f0'></calcite-color-picker-hex-input>",
     );
     const input = await page.find(`calcite-color-picker-hex-input`);
 
@@ -172,7 +172,7 @@ describe("calcite-color-picker-hex-input", () => {
     const hex = "#b33f33ff";
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-color-picker-hex-input alpha-channel value='${hex}'></calcite-color-picker-hex-input>`
+      `<calcite-color-picker-hex-input alpha-channel value='${hex}'></calcite-color-picker-hex-input>`,
     );
     const input = await page.find(`calcite-color-picker-hex-input`);
 
@@ -256,7 +256,7 @@ describe("calcite-color-picker-hex-input", () => {
   it("prevents entering chars if invalid hexa chars or it exceeds max hexa length", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      "<calcite-color-picker-hex-input alpha-channel value='#b33f33'></calcite-color-picker-hex-input>"
+      "<calcite-color-picker-hex-input alpha-channel value='#b33f33'></calcite-color-picker-hex-input>",
     );
     const input = await page.find("calcite-color-picker-hex-input");
     const blockedCharsAndLonghandHexa = "zabcdz";
@@ -286,7 +286,7 @@ describe("calcite-color-picker-hex-input", () => {
     async function assertTabAndEnterBehavior(
       hexInputChars: string,
       expectedValue: string | null,
-      alphaChannel = false
+      alphaChannel = false,
     ): Promise<void> {
       const normalizedInputHex = normalizeHex(hexInputChars);
       const resetHex = alphaChannel ? "#face0fff" : "#efface";
@@ -335,7 +335,7 @@ describe("calcite-color-picker-hex-input", () => {
         beforeEach(async () => {
           page = await newE2EPage();
           await page.setContent(
-            `<calcite-color-picker-hex-input value=${startingHex}></calcite-color-picker-hex-input>`
+            `<calcite-color-picker-hex-input value=${startingHex}></calcite-color-picker-hex-input>`,
           );
           await page.waitForChanges();
 
@@ -445,7 +445,7 @@ describe("calcite-color-picker-hex-input", () => {
         beforeEach(async () => {
           page = await newE2EPage();
           await page.setContent(
-            `<calcite-color-picker-hex-input alpha-channel value=${startingHexa}></calcite-color-picker-hex-input>`
+            `<calcite-color-picker-hex-input alpha-channel value=${startingHexa}></calcite-color-picker-hex-input>`,
           );
 
           input = await page.find("calcite-color-picker-hex-input");

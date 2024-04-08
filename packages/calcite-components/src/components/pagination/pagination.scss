@@ -4,8 +4,7 @@
 }
 
 :host([scale="s"]) {
-  & .previous,
-  & .next,
+  & .chevron,
   & .page,
   & .ellipsis {
     @apply text-n2h h-6 px-1;
@@ -14,8 +13,7 @@
 }
 
 :host([scale="m"]) {
-  & .previous,
-  & .next,
+  & .chevron,
   & .page,
   & .ellipsis {
     @apply text-n1h h-8 px-2;
@@ -24,16 +22,14 @@
 }
 
 :host([scale="l"]) {
-  & .previous,
-  & .next,
+  & .chevron,
   & .page,
   & .ellipsis {
     @apply text-0h h-11;
     min-inline-size: theme("width.11");
   }
 
-  & .previous,
-  & .next {
+  & .chevron {
     @apply px-2.5;
   }
 
@@ -51,8 +47,7 @@
   }
 }
 
-.previous,
-.next,
+.chevron,
 .page,
 .ellipsis {
   @apply p-0
@@ -70,8 +65,7 @@
     bg-transparent;
 }
 
-.previous,
-.next,
+.chevron,
 .page {
   @apply cursor-pointer;
   border-block: 2px solid transparent;
@@ -85,13 +79,12 @@
   &:hover {
     @apply border-b-color-2;
   }
-  &.is-selected {
+  &.selected {
     @apply text-color-1 border-b-color-brand font-medium;
   }
 }
 
-.previous,
-.next {
+.chevron {
   &:hover {
     @apply bg-foreground-2;
     color: theme("backgroundColor.brand");
@@ -99,7 +92,7 @@
   &:active {
     @apply bg-foreground-3;
   }
-  &.is-disabled {
+  &.disabled {
     @apply pointer-events-none bg-transparent;
     & > calcite-icon {
       @apply opacity-disabled;

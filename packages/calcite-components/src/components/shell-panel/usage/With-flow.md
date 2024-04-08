@@ -6,8 +6,8 @@
     <calcite-action text="Layers" icon="layers"></calcite-action>
   </calcite-action-bar>
   <calcite-flow>
-    <calcite-flow-item> ... </calcite-flow-item>
-    <calcite-flow-item> ... </calcite-flow-item>
+    <calcite-flow-item> <img src="https://placebear.com/g/600/600" alt="" /> </calcite-flow-item>
+    <calcite-flow-item> <img src="https://placebear.com/g/500/500" alt="" /> </calcite-flow-item>
   </calcite-flow>
 </calcite-shell-panel>
 ```

@@ -1,3 +1,5 @@
 {
-  "label": "Pași de progres"
+  "label": "Pași de progres",
+  "previousStep": "Pasul anterior",
+  "nextStep": "Pasul următor"
 }

@@ -11,10 +11,10 @@ import {
   Host,
   State,
 } from "@stencil/core";
+import { throttle } from "lodash-es";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
-import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -37,16 +37,20 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { TextAreaMessages } from "./assets/text-area/t9n";
-import { throttle } from "lodash-es";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
+  InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { CharacterLengthObj } from "./interfaces";
 import { guid } from "../../utils/guid";
+import { Status } from "../interfaces";
+import { Validation } from "../functional/Validation";
+import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { CharacterLengthObj } from "./interfaces";
+import { TextAreaMessages } from "./assets/text-area/t9n";
+import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 
 /**
  * @slot - A slot for adding text.
@@ -67,7 +71,8 @@ export class TextArea
     LocalizedComponent,
     LoadableComponent,
     T9nComponent,
-    InteractiveComponent
+    InteractiveComponent,
+    Omit<TextualInputComponent, "pattern">
 {
   //--------------------------------------------------------------------------
   //
@@ -97,7 +102,7 @@ export class TextArea
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The ID of the form that will be associated with the component.
+   * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
@@ -115,6 +120,13 @@ export class TextArea
   @Prop() label: string;
 
   /**
+   * Specifies the minimum number of characters allowed.
+   *
+   * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
+   */
+  @Prop({ reflect: true }) minLength: number;
+
+  /**
    * Specifies the maximum number of characters allowed.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
@@ -128,6 +140,12 @@ export class TextArea
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: TextAreaMessages;
+
+  /** Specifies the validation message to display under the component. */
+  @Prop() validationMessage: string;
+
+  /** Specifies the validation icon to display under the component. */
+  @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
    * Specifies the name of the component.
@@ -176,8 +194,11 @@ export class TextArea
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: "l" | "m" | "s" = "m";
 
+  /** Specifies the status of the input field, which determines message and icons. */
+  @Prop({ reflect: true }) status: Status = "idle";
+
   /** The component's value. */
-  @Prop({ mutable: true }) value: string;
+  @Prop({ mutable: true }) value = "";
 
   /**
    * Specifies the wrapping mechanism for the text.
@@ -253,70 +274,81 @@ export class TextArea
     const hasFooter = this.startSlotHasElements || this.endSlotHasElements || !!this.maxLength;
     return (
       <Host>
-        <textarea
-          aria-describedby={this.guid}
-          aria-invalid={toAriaBoolean(this.isCharacterLimitExceeded())}
-          aria-label={getLabelText(this)}
-          autofocus={this.autofocus}
-          class={{
-            [CSS.readOnly]: this.readOnly,
-            [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
-            [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
-            [CSS.blockSizeFull]: !hasFooter,
-            [CSS.borderColor]: !hasFooter,
-          }}
-          cols={this.columns}
-          disabled={this.disabled}
-          name={this.name}
-          onChange={this.handleChange}
-          onInput={this.handleInput}
-          placeholder={this.placeholder}
-          readonly={this.readOnly}
-          required={this.required}
-          rows={this.rows}
-          value={this.value}
-          wrap={this.wrap}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setTextAreaEl}
-        />
-        <span class={{ [CSS.content]: true }}>
-          <slot onSlotchange={this.contentSlotChangeHandler} />
-        </span>
-        <footer
-          class={{
-            [CSS.footer]: true,
-            [CSS.readOnly]: this.readOnly,
-            [CSS.hide]: !hasFooter,
-          }}
-          ref={(el) => (this.footerEl = el as HTMLElement)}
-        >
-          <div
+        <InteractiveContainer disabled={this.disabled}>
+          <textarea
+            aria-describedby={this.guid}
+            aria-invalid={toAriaBoolean(this.isCharacterLimitExceeded())}
+            aria-label={getLabelText(this)}
+            autofocus={this.autofocus}
             class={{
-              [CSS.container]: true,
-              [CSS.footerEndSlotOnly]: !this.startSlotHasElements && this.endSlotHasElements,
+              [CSS.readOnly]: this.readOnly,
+              [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
+              [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
+              [CSS.blockSizeFull]: !hasFooter,
+              [CSS.borderColor]: !hasFooter,
             }}
-          >
-            <slot
-              name={SLOTS.footerStart}
-              onSlotchange={(event) =>
-                (this.startSlotHasElements = slotChangeHasAssignedElement(event))
-              }
-            />
-            <slot
-              name={SLOTS.footerEnd}
-              onSlotchange={(event) =>
-                (this.endSlotHasElements = slotChangeHasAssignedElement(event))
-              }
-            />
-          </div>
-          {this.renderCharacterLimit()}
-        </footer>
-        <HiddenFormInputSlot component={this} />
-        {this.isCharacterLimitExceeded() && (
-          <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText} id={this.guid}>
-            {this.replacePlaceHoldersInMessages()}
+            cols={this.columns}
+            disabled={this.disabled}
+            name={this.name}
+            onChange={this.handleChange}
+            onInput={this.handleInput}
+            placeholder={this.placeholder}
+            readonly={this.readOnly}
+            required={this.required}
+            rows={this.rows}
+            value={this.value}
+            wrap={this.wrap}
+            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+            ref={this.setTextAreaEl}
+          />
+          <span class={{ [CSS.content]: true }}>
+            <slot onSlotchange={this.contentSlotChangeHandler} />
           </span>
-        )}
+          <footer
+            class={{
+              [CSS.footer]: true,
+              [CSS.readOnly]: this.readOnly,
+              [CSS.hide]: !hasFooter,
+            }}
+            // eslint-disable-next-line react/jsx-sort-props -- auto-generated by @esri/calcite-components/enforce-ref-last-prop
+            ref={(el) => (this.footerEl = el as HTMLElement)}
+          >
+            <div
+              class={{
+                [CSS.container]: true,
+                [CSS.footerEndSlotOnly]: !this.startSlotHasElements && this.endSlotHasElements,
+              }}
+            >
+              <slot
+                name={SLOTS.footerStart}
+                onSlotchange={(event) =>
+                  (this.startSlotHasElements = slotChangeHasAssignedElement(event))
+                }
+              />
+              <slot
+                name={SLOTS.footerEnd}
+                onSlotchange={(event) =>
+                  (this.endSlotHasElements = slotChangeHasAssignedElement(event))
+                }
+              />
+            </div>
+            {this.renderCharacterLimit()}
+          </footer>
+          <HiddenFormInputSlot component={this} />
+          {this.isCharacterLimitExceeded() && (
+            <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText} id={this.guid}>
+              {this.replacePlaceHoldersInMessages()}
+            </span>
+          )}
+          {this.validationMessage && this.status === "invalid" ? (
+            <Validation
+              icon={this.validationIcon}
+              message={this.validationMessage}
+              scale={this.scale}
+              status={this.status}
+            />
+          ) : null}
+        </InteractiveContainer>
       </Host>
     );
   }
@@ -366,8 +398,6 @@ export class TextArea
 
   @State() effectiveLocale = "";
 
-  @State() localizedCharacterLengthObj: CharacterLengthObj;
-
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
@@ -375,15 +405,13 @@ export class TextArea
 
   private guid = guid();
 
+  private localizedCharacterLengthObj: CharacterLengthObj;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  onFormReset(): void {
-    this.value = this.defaultValue;
-  }
 
   onLabelClick(): void {
     this.setFocus();
@@ -461,6 +489,8 @@ export class TextArea
     if (this.isCharacterLimitExceeded()) {
       input.setCustomValidity(this.replacePlaceHoldersInMessages());
     }
+
+    syncHiddenFormInput("textarea", this, input);
   }
 
   setTextAreaEl = (el: HTMLTextAreaElement): void => {
@@ -516,7 +546,7 @@ export class TextArea
       }
     },
     RESIZE_TIMEOUT,
-    { leading: false }
+    { leading: false },
   );
 
   private isCharacterLimitExceeded(): boolean {

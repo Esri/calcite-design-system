@@ -1,11 +1,11 @@
 import { Component, Element, h, Host, Prop, VNode, Method } from "@stencil/core";
-import { CSS } from "./resources";
 import {
   LoadableComponent,
   componentFocusable,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-navigation-user",
@@ -21,7 +21,7 @@ export class CalciteNavigationUser implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, the component is highlighted.*/
+  /** When `true`, the component is highlighted.*/
   @Prop({ reflect: true }) active: boolean;
 
   /** Specifies the full name of the user.*/

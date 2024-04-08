@@ -1,5 +1,4 @@
 {
-  "select": "Kort, der kan vælges",
-  "deselect": "Fravælg",
+  "select": "Vælg",
   "loading": "Indlæser"
 }

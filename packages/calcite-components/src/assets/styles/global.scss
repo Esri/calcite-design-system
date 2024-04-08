@@ -1,78 +1,41 @@
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-light";
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-dark";
-@import "../../node_modules/@esri/calcite-design-tokens/dist/scss/calcite-headless";
-@import "../../node_modules/@esri/calcite-base/dist/_index";
+@import "~@esri/calcite-base/dist/_index";
+@import "~@esri/calcite-design-tokens/dist/scss/index";
+@import "~@esri/calcite-design-tokens/dist/scss/core";
 
 /* CSS vars (@include in global) */
 @import "type";
 
-@mixin calcite-mode-light-extended {
-  // todo update include when calcite-colors updates to "mode" nomenclature
-  @include calcite-theme-light();
-  --calcite-mode-name: "light";
-  --calcite-ui-foreground-current: var(--calcite-semantic-ui-color-foreground-current-light);
-  --calcite-ui-inverse: #{$blk-190};
-  --calcite-ui-inverse-hover: #{$blk-200};
-  --calcite-ui-inverse-press: #{$blk-210};
-  --calcite-alert-dismiss-progress-background: #{rgba($blk-000, 0.8)};
-  --calcite-button-transparent-hover: #{rgba($blk-240, 0.05)};
-  --calcite-button-transparent-press: #{rgba($blk-240, 0.08)};
-  --calcite-link-blue-underline: #{rgba($h-bb-070, 0.4)};
-  --calcite-scrim-background-internal: #{rgba($blk-000, 0.85)};
-}
+// Add Calcite Design Tokens as CSS Custom Props
+@import url("~@esri/calcite-design-tokens/dist/css/index.css");
 
-@mixin calcite-mode-dark-extended {
-  // todo update include when calcite-colors updates to "mode" nomenclature
-  @include calcite-theme-dark();
-  --calcite-mode-name: "dark";
-  --calcite-ui-foreground-current: var(--calcite-semantic-ui-color-foreground-current-dark);
-  --calcite-ui-inverse: #{$blk-005};
-  --calcite-ui-inverse-hover: #{$blk-000};
-  --calcite-ui-inverse-press: #{$blk-010};
-  --calcite-alert-dismiss-progress-background: #{rgba($blk-200, 0.8)};
-  --calcite-button-transparent-hover: #{rgba($blk-000, 0.05)};
-  --calcite-button-transparent-press: #{rgba($blk-000, 0.08)};
-  --calcite-link-blue-underline: #{rgba($d-bb-420, 0.4)};
-  --calcite-scrim-background-internal: #{rgba($blk-240, 0.85)};
-}
+// Include legacy tokens for backwards compatibility
+@import "./legacy";
 
 :root {
   @extend %type-vars;
-  @include calcite-theme-headless();
-  @include calcite-mode-light-extended();
   @include floating-ui-base();
   @include animation-base();
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --calcite-popover-z-index: var(--calcite-app-z-index-popup);
-  --calcite-border-radius: var(--calcite-semantic-border-border-radius-round, 4px);
+  --calcite-popover-z-index: var(--calcite-z-index-popup);
+  --calcite-border-radius: var(--calcite-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
+  --calcite-offset-invert-focus: 0; // should be 0 or 1
   --calcite-panel-width-multiplier: 1;
-  --calcite-ui-focus-offset-invert: 0; // should be 0 or 1
   --calcite-ui-icon-color: currentColor;
-  --calcite-ui-opacity-disabled: var(--calcite-core-opacity-50, 0.5);
 
   @apply font-sans;
 }
 
-.calcite-mode-dark {
-  @include calcite-mode-dark-extended();
-  --calcite-ui-background: var(--calcite-ui-background-1);
-}
-
-.calcite-mode-light {
-  @include calcite-mode-light-extended();
-}
-
 .calcite-mode-auto {
   @media (prefers-color-scheme: dark) {
-    @include calcite-mode-dark-extended();
+    @include calcite-mode-dark();
   }
 
   @media (prefers-color-scheme: light) {
-    @include calcite-mode-light-extended();
+    @include calcite-mode-light();
   }
 }
 

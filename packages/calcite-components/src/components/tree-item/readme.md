@@ -1,6 +1,6 @@
 # calcite-tree-item
 
-`<calcite-tree-item>` is used to represent a single item in a `<calcite-tree>`.
+For comprehensive guidance on using and implementing `calcite-tree-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tree-item/).
 
 <!-- Auto Generated Below -->
 
@@ -40,4 +40,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

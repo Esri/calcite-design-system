@@ -108,7 +108,7 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
   readTask((): void => {
     if (component.transitionEl) {
       const { transitionDuration: allDurations, transitionProperty: allProps } = getComputedStyle(
-        component.transitionEl
+        component.transitionEl,
       );
       const allTransitionDurationsArray = allDurations.split(",");
       const allTransitionPropsArray = allProps.split(",");
@@ -125,12 +125,15 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
         return;
       }
 
-      const fallbackTimeoutId = setTimeout((): void => {
-        component.transitionEl.removeEventListener("transitionstart", onStart);
-        component.transitionEl.removeEventListener("transitionend", onEndOrCancel);
-        component.transitionEl.removeEventListener("transitioncancel", onEndOrCancel);
-        emitImmediately(component, nonOpenCloseComponent);
-      }, parseFloat(transitionDuration) * 1000);
+      const fallbackTimeoutId = setTimeout(
+        (): void => {
+          component.transitionEl.removeEventListener("transitionstart", onStart);
+          component.transitionEl.removeEventListener("transitionend", onEndOrCancel);
+          component.transitionEl.removeEventListener("transitioncancel", onEndOrCancel);
+          emitImmediately(component, nonOpenCloseComponent);
+        },
+        parseFloat(transitionDuration) * 1000,
+      );
 
       component.transitionEl.addEventListener("transitionstart", onStart);
       component.transitionEl.addEventListener("transitionend", onEndOrCancel);

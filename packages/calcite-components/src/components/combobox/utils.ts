@@ -1,7 +1,7 @@
+import { Build } from "@stencil/core";
 import { nodeListToArray } from "../../utils/dom";
 import { ComboboxChildElement } from "./interfaces";
 import { ComboboxChildSelector } from "./resources";
-import { Build } from "@stencil/core";
 import { Combobox } from "./combobox";
 
 export function getAncestors(element: HTMLElement): ComboboxChildElement[] {
@@ -35,7 +35,7 @@ export function getDepth(element: HTMLElement): number {
     element,
     null,
     XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
-    null
+    null,
   );
 
   return result.snapshotLength;

@@ -1,5 +1,4 @@
 {
-  "select": "Valgbart kort",
-  "deselect": "Fjern valg",
+  "select": "Velg",
   "loading": "Laster inn"
 }

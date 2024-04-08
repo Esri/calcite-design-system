@@ -59,7 +59,7 @@ describe("calcite-date-picker", () => {
 
     async function getActiveMonthDate(): Promise<string> {
       return page.$eval("calcite-date-picker", (datePicker: HTMLCalciteDatePickerElement) =>
-        datePicker.shadowRoot.querySelector("calcite-date-picker-month").activeDate.toISOString()
+        datePicker.shadowRoot.querySelector("calcite-date-picker-month").activeDate.toISOString(),
       );
     }
 
@@ -71,7 +71,7 @@ describe("calcite-date-picker", () => {
             datePicker.shadowRoot
               .querySelector("calcite-date-picker-month-header")
               .shadowRoot.querySelector(".year") as HTMLInputElement
-          ).value
+          ).value,
       );
     }
 
@@ -171,7 +171,7 @@ describe("calcite-date-picker", () => {
         }
       },
       id,
-      method
+      method,
     );
     await page.waitForChanges();
   }
@@ -190,7 +190,7 @@ describe("calcite-date-picker", () => {
           day.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
         }
       },
-      method
+      method,
     );
     await page.waitForChanges();
   }
@@ -209,7 +209,7 @@ describe("calcite-date-picker", () => {
           day.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
         }
       },
-      method
+      method,
     );
     await page.waitForChanges();
   }
@@ -290,7 +290,7 @@ describe("calcite-date-picker", () => {
           document
             .querySelector("calcite-date-picker")
             .shadowRoot.querySelector("calcite-date-picker-month")
-            .shadowRoot.querySelector(".week-header").textContent
+            .shadowRoot.querySelector(".week-header").textContent,
       );
 
       expect(text).toEqual("po");
@@ -301,7 +301,7 @@ describe("calcite-date-picker", () => {
     const page = await newE2EPage();
     await page.emulateTimezone("America/Los_Angeles");
     await page.setContent(
-      html`<calcite-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-date-picker>`
+      html`<calcite-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-date-picker>`,
     );
 
     const element = await page.find("calcite-date-picker");
@@ -310,7 +310,7 @@ describe("calcite-date-picker", () => {
     await page.waitForChanges();
     const minDateString = "Mon Nov 15 2021 00:00:00 GMT-0800 (Pacific Standard Time)";
     const minDateAsTime = await page.$eval("calcite-date-picker", (picker: HTMLCalciteDatePickerElement) =>
-      picker.minAsDate.getTime()
+      picker.minAsDate.getTime(),
     );
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });

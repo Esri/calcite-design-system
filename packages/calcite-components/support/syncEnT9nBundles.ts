@@ -25,6 +25,6 @@
   console.log(
     `created messages_en.json file for the following components: \n${synchronized
       .map((synchronized) => `* ${synchronized}`)
-      .join("\n")} `
+      .join("\n")} `,
   );
 })();

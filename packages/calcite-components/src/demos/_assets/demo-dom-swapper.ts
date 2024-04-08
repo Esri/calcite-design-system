@@ -51,7 +51,7 @@ class DomSwapper extends HTMLElement {
 
   private recreateDemoStyle(): HTMLStyleElement[] {
     return Array.from(document.querySelectorAll("head style:not([data-styles]), head link[rel=stylesheet]")).map(
-      (style) => style.cloneNode(true) as HTMLStyleElement
+      (style) => style.cloneNode(true) as HTMLStyleElement,
     );
   }
 }

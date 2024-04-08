@@ -1,15 +1,10 @@
-import { number, select } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { number, select } from "../../../.storybook/fake-knobs";
+import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Rating",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -38,17 +33,18 @@ export const darkModeRTL_TestOnly = (): string => html`
   ></calcite-rating>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;
 
-export const Focus_TestOnly = (): string => html` <calcite-rating value="4" required></calcite-rating>
-  <script>
-    (async () => {
-      await customElements.whenDefined("calcite-rating");
-      await document.querySelector("calcite-rating").setFocus();
-    })();
-  </script>`;
+export const Focus_TestOnly = (): string =>
+  html` <calcite-rating value="4" required></calcite-rating>
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-rating");
+        await document.querySelector("calcite-rating").setFocus();
+      })();
+    </script>`;
 
 Focus_TestOnly.parameters = {
   chromatic: { delay: 500 },

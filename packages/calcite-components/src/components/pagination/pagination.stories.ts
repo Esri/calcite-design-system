@@ -1,24 +1,20 @@
-import { number, select } from "@storybook/addon-knobs";
+import { number, select } from "../../../.storybook/fake-knobs";
 import { locales, numberingSystems } from "../../utils/locale";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Pagination",
   parameters: {
-    notes: readme,
     chromatic: {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
   <style>
-    .sb-show-main.sb-main-centered #root {
+    .sb-show-main.sb-main-centered #storybook-root {
       padding: 0 !important;
       flex: 1;
       width: 100%;
@@ -53,8 +49,8 @@ const getResponsiveTemplate = ({
       start-item="${type === "last"
         ? totalItems - pageSize + 1
         : type === "middle"
-        ? totalItems / 2 - Math.max(pageSize / 2, 1) + 1
-        : 1}"
+          ? totalItems / 2 - Math.max(pageSize / 2, 1) + 1
+          : 1}"
       scale="{scale}"
     ></calcite-pagination>
   `;
@@ -100,17 +96,18 @@ export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): s
   </calcite-pagination>
 `;
 
-darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { themes: modesDarkDefault };
 
-export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-pagination
-  dir="rtl"
-  numbering-system="arab"
-  start-item="1"
-  lang="fr"
-  total-items="123456789"
-  page-size="10"
->
-</calcite-pagination>`;
+export const arabicNumberingSystemAndRTL_TestOnly = (): string =>
+  html`<calcite-pagination
+    dir="rtl"
+    numbering-system="arab"
+    start-item="1"
+    lang="fr"
+    total-items="123456789"
+    page-size="10"
+  >
+  </calcite-pagination>`;
 
 arabicNumberingSystemAndRTL_TestOnly.parameters = {
   chromatic: { diffThreshold: 1 },

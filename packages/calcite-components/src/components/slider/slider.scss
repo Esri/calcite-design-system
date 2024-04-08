@@ -54,7 +54,7 @@
 @include disabled() {
   .track__range,
   .tick--active {
-    background-color: var(--calcite-ui-text-3);
+    background-color: var(--calcite-color-text-3);
   }
 }
 
@@ -124,8 +124,9 @@
       rounded-full;
     block-size: var(--calcite-slider-handle-size);
     inline-size: var(--calcite-slider-handle-size);
-    box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
-    transition: border var(--calcite-internal-animation-timing-medium) ease,
+    box-shadow: 0 0 0 2px var(--calcite-color-text-3) inset;
+    transition:
+      border var(--calcite-internal-animation-timing-medium) ease,
       background-color var(--calcite-internal-animation-timing-medium) ease,
       box-shadow var(--calcite-animation-timing) ease;
   }
@@ -133,12 +134,12 @@
   .handle-extension {
     @apply w-0.5;
     block-size: var(--calcite-slider-handle-extension-height);
-    background-color: var(--calcite-ui-text-3);
+    background-color: var(--calcite-color-text-3);
   }
 
   &:hover {
     .handle {
-      box-shadow: 0 0 0 3px var(--calcite-ui-brand) inset;
+      box-shadow: 0 0 0 3px var(--calcite-color-brand) inset;
     }
     .handle-extension {
       @apply bg-brand;
@@ -227,7 +228,7 @@
 
 .track {
   @apply relative h-0.5 rounded-none;
-  background-color: var(--calcite-ui-border-2);
+  background-color: var(--calcite-color-border-2);
   transition: all var(--calcite-internal-animation-timing-medium) ease-in;
 }
 
@@ -280,8 +281,8 @@
     w-0.5
     border
     border-solid;
-  background-color: var(--calcite-ui-border-input);
-  border-color: var(--calcite-ui-foreground-1);
+  background-color: var(--calcite-color-border-input);
+  border-color: var(--calcite-color-foreground-1);
   inset-block-start: -2px;
   pointer-events: none;
   margin-inline-start: calc(-1 * theme("margin[0.5]"));
@@ -315,7 +316,7 @@
 }
 
 .graph {
-  color: var(--calcite-ui-foreground-3);
+  color: var(--calcite-color-foreground-3);
   block-size: 48px;
 }
 

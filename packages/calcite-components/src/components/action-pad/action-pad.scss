@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-pad-expanded-max-width: optionally specify the expanded max width of the action pad when in "vertical" layout.
+ * @prop --calcite-action-pad-expanded-max-width: When `layout` is `"vertical"`, specifies the expanded max width of the component.
  */
 
 :host {

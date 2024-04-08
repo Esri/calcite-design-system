@@ -26,11 +26,10 @@ import {
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { FloatingArrow } from "../functional/FloatingArrow";
 import { ARIA_DESCRIBED_BY, CSS } from "./resources";
-
 import TooltipManager from "./TooltipManager";
 import { getEffectiveReferenceElement } from "./utils";
-import { FloatingArrow } from "../functional/FloatingArrow";
 
 const manager = new TooltipManager();
 
@@ -87,11 +86,9 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   @Prop({ reflect: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
+  openHandler(): void {
     onToggleOpenCloseComponent(this);
-    if (value) {
-      this.reposition(true);
-    }
+    this.reposition(true);
   }
 
   /**
@@ -166,6 +163,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -178,7 +176,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.reposition(true);
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.hasLoaded = true;
   }
 
@@ -240,7 +238,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
         arrowEl,
         type: "tooltip",
       },
-      delayed
+      delayed,
     );
   }
 

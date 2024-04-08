@@ -6,9 +6,9 @@
 
 | Property       | Attribute | Description                                           | Type                | Default      |
 | -------------- | --------- | ----------------------------------------------------- | ------------------- | ------------ |
-| `activeDate`   | --        | Date currently active.                                | `Date`              | `new Date()` |
-| `endDate`      | --        | End date currently active                             | `Date`              | `undefined`  |
-| `hoverRange`   | --        | The range of dates currently being hovered            | `HoverRange`        | `undefined`  |
+| `activeDate`   | --        | The currently active Date.                            | `Date`              | `new Date()` |
+| `endDate`      | --        | End date currently active.                            | `Date`              | `undefined`  |
+| `hoverRange`   | --        | The range of dates currently being hovered.           | `HoverRange`        | `undefined`  |
 | `max`          | --        | Specifies the latest allowed date (`"yyyy-mm-dd"`).   | `Date`              | `undefined`  |
 | `min`          | --        | Specifies the earliest allowed date (`"yyyy-mm-dd"`). | `Date`              | `undefined`  |
 | `scale`        | `scale`   | Specifies the size of the component.                  | `"l" \| "m" \| "s"` | `undefined`  |
@@ -36,4 +36,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

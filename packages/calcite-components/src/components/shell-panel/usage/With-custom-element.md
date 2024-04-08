@@ -8,7 +8,7 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
     <calcite-action text="Layers" icon="layers"></calcite-action>
   </calcite-action-bar>
   <your-custom-element class="calcite-match-height">
-    <calcite-panel> ... </calcite-panel>
+    <calcite-panel> <img src="https://placebear.com/g/600/600" alt="" /> </calcite-panel>
   </your-custom-element>
 </calcite-shell-panel>
 ```

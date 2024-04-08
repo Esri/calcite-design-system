@@ -7,28 +7,21 @@ import {
 } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
-import { select, text } from "@storybook/addon-knobs";
-import accordionReadme from "./readme.md";
-import accordionItemReadme from "../accordion-item/readme.md";
+import { iconNames } from "../../../.storybook/helpers";
+import { select, text } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Accordion",
   parameters: {
-    notes: {
-      accordion: accordionReadme,
-      accordionItem: accordionItemReadme,
-    },
     backgrounds: {
       values: [{ name: "transparent", value: "#0000ffff" }],
     },
   },
-  ...storyFilters(),
 };
 
 const createAccordionAttributes: (options?: { exceptions: string[] }) => Attributes = (
-  { exceptions } = { exceptions: [] }
+  { exceptions } = { exceptions: [] },
 ) => {
   const group = "accordion";
   const { scale } = ATTRIBUTES;
@@ -60,7 +53,7 @@ const createAccordionAttributes: (options?: { exceptions: string[] }) => Attribu
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -101,17 +94,17 @@ export const simple = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-1" }),
-        accordionItemContent
+        accordionItemContent,
       )}
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-2" }),
-        accordionItemContent
+        accordionItemContent,
       )}
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-3" }),
-        accordionItemContent
+        accordionItemContent,
       )}
       ${create(
         "calcite-accordion-item",
@@ -119,9 +112,9 @@ export const simple = (): string =>
           name: "expanded",
           value: true,
         }),
-        accordionItemContent
+        accordionItemContent,
       )}
-    `
+    `,
   );
 
 export const withActions = (): string => html`
@@ -158,23 +151,23 @@ export const darkModeRTL_TestOnly = (): string =>
       {
         name: "dir",
         value: "rtl",
-      }
+      },
     ),
     html`
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ iconStart: "banana", group: "accordion-item-1" }),
-        accordionItemContent
+        accordionItemContent,
       )}
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ iconStart: "banana", group: "accordion-item-2" }),
-        accordionItemContent
+        accordionItemContent,
       )}
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ iconStart: "banana", group: "accordion-item-3" }),
-        accordionItemContent
+        accordionItemContent,
       )}
       ${create(
         "calcite-accordion-item",
@@ -182,12 +175,12 @@ export const darkModeRTL_TestOnly = (): string =>
           name: "expanded",
           value: true,
         }),
-        accordionItemContent
+        accordionItemContent,
       )}
-    `
+    `,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const transparentAppearance_TestOnly = (): string =>
   create(
@@ -200,17 +193,17 @@ export const transparentAppearance_TestOnly = (): string =>
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-1" }),
-        accordionItemContent
+        accordionItemContent,
       )}
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-2" }),
-        accordionItemContent
+        accordionItemContent,
       )}
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-3" }),
-        accordionItemContent
+        accordionItemContent,
       )}
       ${create(
         "calcite-accordion-item",
@@ -218,9 +211,9 @@ export const transparentAppearance_TestOnly = (): string =>
           name: "expanded",
           value: true,
         }),
-        accordionItemContent
+        accordionItemContent,
       )}
-    `
+    `,
   );
 
 export const withIconStartAndEnd_TestOnly = (): string =>
@@ -237,17 +230,17 @@ export const withIconStartAndEnd_TestOnly = (): string =>
           name: "expanded",
           value: true,
         }),
-        accordionItemContent
+        accordionItemContent,
       )}
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-2", iconEnd: "cars" }),
-        accordionItemContent
+        accordionItemContent,
       )}
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-3", iconEnd: "plane", iconStart: "plane" }),
-        accordionItemContent
+        accordionItemContent,
       )}
       ${create(
         "calcite-accordion-item",
@@ -259,9 +252,9 @@ export const withIconStartAndEnd_TestOnly = (): string =>
           name: "expanded",
           value: true,
         }),
-        accordionItemContent
+        accordionItemContent,
       )}
-    `
+    `,
   );
 
 const iconHeaderUseCasesArr: { icon: string; heading: string; description: string }[] = [
@@ -296,7 +289,7 @@ const accordionItemsIconHeaderUseCases = iconHeaderUseCasesArr
         scale="l"
         heading="${useCase.heading}"
         description="${useCase.description}"
-      ></calcite-accordion-item>`
+      ></calcite-accordion-item>`,
   )
   .join("");
 

@@ -2,22 +2,21 @@ Disable specific items or groups.
 
 ```html
 <calcite-select>
-  <calcite-option-group label="letters">
-    <calcite-option>a</calcite-option>
-    <calcite-option>b</calcite-option>
-    <calcite-option>c</calcite-option>
-    <calcite-option disabled>d (disabled)</calcite-option>
+  <calcite-option-group label="Mammals">
+    <calcite-option>Cat</calcite-option>
+    <calcite-option>Dog</calcite-option>
+    <calcite-option>Horse</calcite-option>
+    <calcite-option disabled>Elephant (disabled)</calcite-option>
   </calcite-option-group>
-  <calcite-option-group label="numbers">
-    <calcite-option disabled>1 (disabled)</calcite-option>
-    <calcite-option>2</calcite-option>
-    <calcite-option selected>2</calcite-option>
+  <calcite-option-group label="Birds">
+    <calcite-option disabled>Penguin (disabled)</calcite-option>
+    <calcite-option>Parrot</calcite-option>
+    <calcite-option selected>Owl</calcite-option>
   </calcite-option-group>
-  <calcite-option-group label="non-selectable" disabled>
-    <calcite-option>You-Know-Who</calcite-option>
-    <calcite-option selected>Tom Marvolo Riddle</calcite-option>
-    <calcite-option>He-Who-Must-Not-Be-Named</calcite-option>
-    <calcite-option>Voldemort</calcite-option>
+  <calcite-option-group label="Reptiles">
+    <calcite-option disabled>Crocodile (disabled)</calcite-option>
+    <calcite-option>Lizard</calcite-option>
+    <calcite-option>Snake</calcite-option>
   </calcite-option-group>
 </calcite-select>
 ```

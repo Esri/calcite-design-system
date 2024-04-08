@@ -14,10 +14,10 @@ import {
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
+import { RowType, TableInteractionMode } from "../table/interfaces";
+import { getIconScale } from "../../utils/component";
 import { TableHeaderMessages } from "./assets/table-header/t9n";
 import { CSS } from "./resources";
-import { RowType } from "../table/interfaces";
-import { getIconScale } from "../../utils/component";
 
 @Component({
   tag: "calcite-table-header",
@@ -48,10 +48,19 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
   @Prop({ reflect: true }) rowSpan: number;
 
   /** @internal */
+  @Prop() interactionMode: TableInteractionMode = "interactive";
+
+  /** @internal */
+  @Prop() lastCell: boolean;
+
+  /** @internal */
   @Prop() numberCell = false;
 
   /** @internal */
-  @Prop() parentRowPosition: number;
+  @Prop() parentRowAlignment: Alignment = "start";
+
+  /** @internal */
+  @Prop() parentRowIsSelected: boolean;
 
   /** @internal */
   @Prop() parentRowType: RowType;
@@ -137,6 +146,8 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
 
   @State() defaultMessages: TableHeaderMessages;
 
+  @State() focused = false;
+
   @State() screenReaderText = "";
 
   @State() effectiveLocale = "";
@@ -182,6 +193,14 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
     this.screenReaderText = text;
   }
 
+  private onContainerBlur = (): void => {
+    this.focused = false;
+  };
+
+  private onContainerFocus = (): void => {
+    this.focused = true;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -192,30 +211,38 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
     const scope = this.rowSpan
       ? "rowgroup"
       : this.colSpan
-      ? "colgroup"
-      : this.parentRowType === "body"
-      ? "row"
-      : "col";
+        ? "colgroup"
+        : this.parentRowType === "body"
+          ? "row"
+          : "col";
 
     const allSelected = this.selectedRowCount === this.bodyRowCount;
     const selectionIcon = allSelected ? "check-square-f" : "check-square";
-
+    const staticCell = this.interactionMode === "static" && !this.selectionCell;
     return (
       <Host>
         <th
-          aria-colindex={this.parentRowType !== "body" ? this.positionInRow : ""}
+          aria-colindex={this.parentRowType === "head" ? this.positionInRow : undefined}
           class={{
             [CSS.bodyRow]: this.parentRowType === "body",
             [CSS.footerRow]: this.parentRowType === "foot",
+            [CSS.contentCell]: !this.numberCell && !this.selectionCell,
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
+            [CSS.selectedCell]: this.parentRowIsSelected,
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
+            [CSS.staticCell]: staticCell,
+            [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
+            [this.parentRowAlignment]:
+              this.parentRowAlignment === "center" || this.parentRowAlignment === "end",
           }}
           colSpan={this.colSpan}
-          role="columnheader"
+          onBlur={this.onContainerBlur}
+          onFocus={this.onContainerFocus}
+          role={this.parentRowType === "head" ? "columnheader" : "rowheader"}
           rowSpan={this.rowSpan}
           scope={scope}
-          tabIndex={0}
+          tabIndex={this.selectionCell ? 0 : staticCell ? -1 : 0}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.containerEl = el)}
         >
@@ -229,7 +256,11 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
             />
           )}
           {(this.selectionCell || this.numberCell) && (
-            <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText}>
+            <span
+              aria-hidden={true}
+              aria-live={this.focused ? "polite" : "off"}
+              class={CSS.assistiveText}
+            >
               {this.screenReaderText}
             </span>
           )}

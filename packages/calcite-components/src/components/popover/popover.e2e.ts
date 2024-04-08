@@ -1,6 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-
 import {
   accessible,
   defaults,
@@ -29,7 +28,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`,
     );
 
     await page.waitForChanges();
@@ -53,7 +52,7 @@ describe("calcite-popover", () => {
 
   describe("accessible with close button", () => {
     accessible(
-      `<calcite-popover label="test" open closable reference-element="ref"></calcite-popover><div id="ref">😄</div>`
+      `<calcite-popover label="test" open closable reference-element="ref"></calcite-popover><div id="ref">😄</div>`,
     );
   });
 
@@ -113,7 +112,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-popover open placement="auto"></calcite-popover>
-        <div id="ref">referenceElement</div>`
+        <div id="ref">referenceElement</div>`,
     );
     const element = await page.find("calcite-popover");
 
@@ -162,7 +161,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`,
     );
 
     await page.waitForChanges();
@@ -195,7 +194,7 @@ describe("calcite-popover", () => {
             right: 100,
             bottom: 100,
             left: 600,
-          } as DOMRect),
+          }) as DOMRect,
       };
 
       popover.referenceElement = virtualElement;
@@ -216,7 +215,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`
+      `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover><div id="ref">referenceElement</div>`,
     );
 
     await page.waitForChanges();
@@ -238,7 +237,7 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`
+      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`,
     );
 
     await page.waitForChanges();
@@ -258,27 +257,25 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`
+      html`<calcite-popover placement="auto" reference-element="ref">content</calcite-popover>
+        <div id="ref" tabindex="0">referenceElement</div>`,
     );
 
     await page.waitForChanges();
 
     const popover = await page.find(`calcite-popover`);
+    const ref = await page.find("#ref");
 
     expect(await popover.isVisible()).toBe(false);
 
-    await page.evaluate(() => {
-      document.getElementById("ref").dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
-    });
-
+    await ref.focus();
+    await page.keyboard.press("Enter");
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(true);
 
-    await page.evaluate(() => {
-      document.getElementById("ref").dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
-    });
-
+    await ref.focus();
+    await page.keyboard.press("Enter");
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(false);
@@ -288,27 +285,25 @@ describe("calcite-popover", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`
+      html`<calcite-popover placement="auto" reference-element="ref">content</calcite-popover>
+        <div id="ref" tabindex="0">referenceElement</div>`,
     );
 
     await page.waitForChanges();
 
     const popover = await page.find(`calcite-popover`);
+    const ref = await page.find("#ref");
 
     expect(await popover.isVisible()).toBe(false);
 
-    await page.evaluate(() => {
-      document.getElementById("ref").dispatchEvent(new KeyboardEvent("keydown", { key: " " }));
-    });
-
+    await ref.focus();
+    await page.keyboard.press(" ");
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(true);
 
-    await page.evaluate(() => {
-      document.getElementById("ref").dispatchEvent(new KeyboardEvent("keydown", { key: " " }));
-    });
-
+    await ref.focus();
+    await page.keyboard.press(" ");
     await page.waitForChanges();
 
     expect(await popover.isVisible()).toBe(false);
@@ -317,12 +312,10 @@ describe("calcite-popover", () => {
   it("should open popovers", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <calcite-popover reference-element="ref">Content</calcite-popover>
-        <div id="ref">Button</div>
-      `
-    );
+    await page.setContent(html`
+      <calcite-popover reference-element="ref">Content</calcite-popover>
+      <div id="ref">Button</div>
+    `);
 
     await page.waitForChanges();
 
@@ -342,12 +335,10 @@ describe("calcite-popover", () => {
   it("should open popovers 2", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <calcite-popover reference-element="ref">Content</calcite-popover>
-        <div id="ref"><span>Button</span></div>
-      `
-    );
+    await page.setContent(html`
+      <calcite-popover reference-element="ref">Content</calcite-popover>
+      <div id="ref"><span>Button</span></div>
+    `);
 
     await page.waitForChanges();
 
@@ -372,7 +363,7 @@ describe("calcite-popover", () => {
         <div id="scrollEl" style="height: 200px; overflow: auto;">
           <div id="ref">referenceElement</div>
           <div style="height: 400px;">some content</div>
-        </div>`
+        </div>`,
     );
 
     await page.waitForChanges();
@@ -399,13 +390,11 @@ describe("calcite-popover", () => {
   it("do not autoClose popovers when clicked outside", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <div id="outsideNode">Outside node</div>
-        <calcite-popover reference-element="ref" open>Content</calcite-popover>
-        <div id="ref">Button</div>
-      `
-    );
+    await page.setContent(html`
+      <div id="outsideNode">Outside node</div>
+      <calcite-popover reference-element="ref" open>Content</calcite-popover>
+      <div id="ref">Button</div>
+    `);
 
     await page.waitForChanges();
 
@@ -423,15 +412,13 @@ describe("calcite-popover", () => {
   it("autoClose popovers when clicked outside", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <div id="outsideNode">Outside node</div>
-        <calcite-popover auto-close reference-element="ref" open>
-          <div id="insideNode">Inside node</div>
-        </calcite-popover>
-        <div id="ref">Button</div>
-      `
-    );
+    await page.setContent(html`
+      <div id="outsideNode">Outside node</div>
+      <calcite-popover auto-close reference-element="ref" open>
+        <div id="insideNode">Inside node</div>
+      </calcite-popover>
+      <div id="ref">Button</div>
+    `);
 
     await page.waitForChanges();
 
@@ -459,20 +446,18 @@ describe("calcite-popover", () => {
   it("should autoClose popovers when clicked on another referenceElement", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <p>
-          Some text
-          <button id="ref1">Button</button>
-        </p>
-        <p>
-          Some more text
-          <button id="ref2">Button</button>
-        </p>
-        <calcite-popover id="popover1" auto-close reference-element="ref1" open>Content 1</calcite-popover>
-        <calcite-popover id="popover2" auto-close reference-element="ref2">Content 2</calcite-popover>
-      `
-    );
+    await page.setContent(html`
+      <p>
+        Some text
+        <button id="ref1">Button</button>
+      </p>
+      <p>
+        Some more text
+        <button id="ref2">Button</button>
+      </p>
+      <calcite-popover id="popover1" auto-close reference-element="ref1" open>Content 1</calcite-popover>
+      <calcite-popover id="popover2" auto-close reference-element="ref2">Content 2</calcite-popover>
+    `);
 
     await page.waitForChanges();
 
@@ -505,7 +490,7 @@ describe("calcite-popover", () => {
         <calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
         <div id="ref">referenceElement</div>
         <div style="height: 400px;">some content</div>
-      </div>`
+      </div>`,
     );
 
     await page.waitForChanges();
@@ -535,7 +520,7 @@ describe("calcite-popover", () => {
     await page.setContent(
       html` <div id="outsideNode">Outside node</div>
         <calcite-popover trigger-disabled reference-element="ref" open> Hello World </calcite-popover>
-        <div id="ref">Button</div>`
+        <div id="ref">Button</div>`,
     );
 
     const popover = await page.find("calcite-popover");
@@ -569,24 +554,38 @@ describe("calcite-popover", () => {
     expect(await popover.getProperty("open")).toBe(false);
   });
 
+  it("should not toggle popovers when the ref element (component) is disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html` <calcite-popover reference-element="ref"> Hello World</calcite-popover>
+        <calcite-button id="ref" disabled>Button</calcite-button>`,
+    );
+    const popover = await page.find("calcite-popover");
+    const ref = await page.find("#ref");
+
+    expect(await popover.getProperty("open")).toBe(false);
+
+    await ref.click();
+    await page.waitForChanges();
+    expect(await popover.getProperty("open")).toBe(false);
+  });
+
   describe("owns a floating-ui", () => {
     floatingUIOwner(
       `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`,
-      "open"
+      "open",
     );
   });
 
   it("should autoClose shadow popovers when clicked outside", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <div id="host"></div>
-        <div id="outsideNode">Outside node</div>
-        <calcite-popover id="dummy" reference-element="ref">dummy popover</calcite-popover>
-        <div id="ref">Button</div>
-      `
-    );
+    await page.setContent(html`
+      <div id="host"></div>
+      <div id="outsideNode">Outside node</div>
+      <calcite-popover id="dummy" reference-element="ref">dummy popover</calcite-popover>
+      <div id="ref">Button</div>
+    `);
 
     await page.waitForChanges();
 
@@ -628,7 +627,7 @@ describe("calcite-popover", () => {
     await page.setContent(
       `<calcite-popover placement="auto" reference-element="ref" open>content</calcite-popover>
       <div id="transfer"></div>
-      <div id="ref">referenceElement</div>`
+      <div id="ref">referenceElement</div>`,
     );
 
     await page.waitForChanges();
@@ -654,12 +653,10 @@ describe("calcite-popover", () => {
   it("should close popovers with ESC key", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(
-      html`
-        <calcite-popover reference-element="ref">Content</calcite-popover>
-        <button id="ref">Button</button>
-      `
-    );
+    await page.setContent(html`
+      <calcite-popover reference-element="ref">Content</calcite-popover>
+      <button id="ref">Button</button>
+    `);
 
     await page.waitForChanges();
 

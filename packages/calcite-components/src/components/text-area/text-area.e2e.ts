@@ -11,8 +11,8 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { CSS } from "./resources";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-text-area", () => {
   describe("renders", () => {
@@ -28,6 +28,18 @@ describe("calcite-text-area", () => {
       {
         propertyName: "scale",
         defaultValue: "m",
+      },
+      {
+        propertyName: "status",
+        defaultValue: "idle",
+      },
+      {
+        propertyName: "validationIcon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "validationMessage",
+        defaultValue: undefined,
       },
     ]);
   });
@@ -58,14 +70,24 @@ describe("calcite-text-area", () => {
         propertyName: "scale",
         value: "s",
       },
+      {
+        propertyName: "status",
+        value: "invalid",
+      },
+      {
+        propertyName: "validationIcon",
+        value: true,
+      },
     ]);
   });
 
   describe("accessible", () => {
-    accessible(html`<calcite-label>
-      add notes
-      <calcite-text-area max-length="50" required name="something"></calcite-text-area>
-    </calcite-label>`);
+    accessible(
+      html`<calcite-label>
+        add notes
+        <calcite-text-area max-length="50" required name="something"></calcite-text-area>
+      </calcite-label>`,
+    );
   });
 
   describe("is focusable", () => {
@@ -77,6 +99,7 @@ describe("calcite-text-area", () => {
       testValue: "zion national park",
       expectedSubmitValue: "zion national park",
       submitsOnEnter: false,
+      validation: true,
     });
   });
 

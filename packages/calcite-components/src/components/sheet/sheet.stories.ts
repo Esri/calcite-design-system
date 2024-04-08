@@ -1,18 +1,15 @@
-import { select } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { select } from "../../../.storybook/fake-knobs";
+import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Sheet",
   parameters: {
-    notes: readme,
     chromatic: {
       delay: 1000,
     },
   },
-  ...storyFilters(),
 };
 
 const panelHTML = html`<calcite-panel heading="Ultrices neque"
@@ -26,28 +23,26 @@ const panelHTML = html`<calcite-panel heading="Ultrices neque"
   <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
 </calcite-panel>`;
 
-export const simple = (): string =>
-  html`
-    <calcite-sheet
-      label="libero nunc"
-      ${boolean("open", true)}
-      position="${select("position", ["inline-start", "inline-end", "block-start", "block-end"], "inline-start")}"
-      display-mode="${select("display-mode", ["overlay", "float"], "overlay")}"
-      >${panelHTML}</calcite-sheet
-    >
-  `;
+export const simple = (): string => html`
+  <calcite-sheet
+    label="libero nunc"
+    ${boolean("open", true)}
+    position="${select("position", ["inline-start", "inline-end", "block-start", "block-end"], "inline-start")}"
+    display-mode="${select("display-mode", ["overlay", "float"], "overlay")}"
+    >${panelHTML}</calcite-sheet
+  >
+`;
 
-export const simpleDarkMode = (): string =>
-  html`
-    <calcite-sheet
-      label="libero nunc"
-      ${boolean("open", true)}
-      ${select("position", ["inline-start", "inline-end", "block-start", "block-end"], "inline-start")}
-      ${select("display-mode", ["overlay", "float"], "overlay")}
-      >${panelHTML}</calcite-sheet
-    >
-  `;
-simpleDarkMode.parameters = { modes: modesDarkDefault };
+export const simpleDarkMode = (): string => html`
+  <calcite-sheet
+    label="libero nunc"
+    ${boolean("open", true)}
+    ${select("position", ["inline-start", "inline-end", "block-start", "block-end"], "inline-start")}
+    ${select("display-mode", ["overlay", "float"], "overlay")}
+    >${panelHTML}</calcite-sheet
+  >
+`;
+simpleDarkMode.parameters = { themes: modesDarkDefault };
 
 export const inlineStartfloat_TestOnly = (): string =>
   html`<calcite-sheet label="libero nunc" open position="inline-start" display-mode="float"
@@ -76,4 +71,4 @@ export const darkModeFloatRTL_TestOnly = (): string =>
     <calcite-sheet label="libero nunc" open position="inline-start" display-mode="float">${panelHTML}</calcite-sheet>
   </div>`;
 
-darkModeFloatRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeFloatRTL_TestOnly.parameters = { themes: modesDarkDefault };

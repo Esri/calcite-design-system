@@ -27,6 +27,18 @@ describe("calcite-chip", () => {
     disabled("<calcite-chip interactive>doritos</calcite-chip>");
   });
 
+  it("should not render a calcite-icon when selectionMode is single and not selected", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(`<calcite-chip selection-mode="single" id="chip-1" >cheetos</calcite-chip>`);
+
+    await page.waitForChanges();
+
+    const icon = await page.find("#chip-1 >>> calcite-icon");
+
+    expect(icon).toBeNull();
+  });
+
   it("should not emit event after the chip is clicked if interactive if not set", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip id="chip-1" >cheetos</calcite-chip>`);
@@ -161,12 +173,12 @@ describe("calcite-chip", () => {
         await chipCloseButton.focus();
         await page.waitForChanges();
         chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle(":focus");
-        expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.05)");
+        expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
 
         await chipCloseButton.hover();
         await page.waitForChanges();
         chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle(":hover");
-        expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.05)");
+        expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(0, 0, 0, 0.04)");
       });
     });
 
@@ -179,12 +191,12 @@ describe("calcite-chip", () => {
         await chipCloseButton.focus();
         await page.waitForChanges();
         chipCloseButtonFocusStyle = await chipCloseButton.getComputedStyle(":focus");
-        expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.05)");
+        expect(chipCloseButtonFocusStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
 
         await chipCloseButton.hover();
         await page.waitForChanges();
         chipCloseButtonHoverStyle = await chipCloseButton.getComputedStyle(":hover");
-        expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.05)");
+        expect(chipCloseButtonHoverStyle.getPropertyValue("background-color")).toEqual("rgba(255, 255, 255, 0.04)");
       });
     });
 
@@ -194,7 +206,7 @@ describe("calcite-chip", () => {
         html: `
         <style>
           :root {
-            --calcite-button-transparent-hover: ${overrideStyle};
+            --calcite-color-transparent-hover: ${overrideStyle};
           }
         </style>
         <div>${chipSnippet}</div>`,

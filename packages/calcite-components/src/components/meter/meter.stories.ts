@@ -1,15 +1,9 @@
-import { storyFilters, boolean } from "../../../.storybook/helpers";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import { number, select, text } from "@storybook/addon-knobs";
+import { boolean, number, select, text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/Meter",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string =>
@@ -47,157 +41,131 @@ export const complex = (): string =>
     ${boolean("value-label", true)}
   ></calcite-meter>`;
 
-export const swapLabelPlacementWhenCloseToMax_TestOnly = (): string => html`<calcite-meter
-  value-label
-  range-labels
-  min="0"
-  max="100"
-  low="30"
-  high="90"
-  value="10"
-></calcite-meter>`;
+export const swapLabelPlacementWhenCloseToMax_TestOnly = (): string =>
+  html`<calcite-meter value-label range-labels min="0" max="100" low="30" high="90" value="10"></calcite-meter>`;
 
-export const swapLabelPlacementWhenCloseToMaxRTL_TestOnly = (): string => html`<calcite-meter
-  dir="rtl"
-  value-label
-  range-labels
-  min="0"
-  max="100"
-  low="30"
-  high="90"
-  value="10"
-></calcite-meter>`;
+export const swapLabelPlacementWhenCloseToMaxRTL_TestOnly = (): string =>
+  html`<calcite-meter
+    dir="rtl"
+    value-label
+    range-labels
+    min="0"
+    max="100"
+    low="30"
+    high="90"
+    value="10"
+  ></calcite-meter>`;
 
-export const swapLabelPlacementWhenLowCloseToHigh_TestOnly = (): string => html`<calcite-meter
-  value-label
-  range-labels
-  min="0"
-  max="100"
-  low="20"
-  high="25"
-  value="5"
-></calcite-meter>`;
+export const swapLabelPlacementWhenLowCloseToHigh_TestOnly = (): string =>
+  html`<calcite-meter value-label range-labels min="0" max="100" low="20" high="25" value="5"></calcite-meter>`;
 
-export const swapLabelPlacementWhenLowCloseToHighRTL_TestOnly = (): string => html`<calcite-meter
-  dir="rtl"
-  value-label
-  range-labels
-  min="0"
-  max="100"
-  low="20"
-  high="25"
-  value="5"
-></calcite-meter>`;
+export const swapLabelPlacementWhenLowCloseToHighRTL_TestOnly = (): string =>
+  html`<calcite-meter
+    dir="rtl"
+    value-label
+    range-labels
+    min="0"
+    max="100"
+    low="20"
+    high="25"
+    value="5"
+  ></calcite-meter>`;
 
-export const valueDoesNotPositionBelowMin_TestOnly = (): string => html`<calcite-meter
-  value-label
-  range-labels
-  low="25"
-  high="75"
-  value="-100"
-  min="0"
-  max="100"
-></calcite-meter>`;
+export const valueDoesNotPositionBelowMin_TestOnly = (): string =>
+  html`<calcite-meter value-label range-labels low="25" high="75" value="-100" min="0" max="100"></calcite-meter>`;
 
-export const valueDoesNotPositionBelowMinRTL_TestOnly = (): string => html`<calcite-meter
-  dir="rtl"
-  value-label
-  range-labels
-  low="25"
-  high="75"
-  value="-100"
-  min="0"
-  max="100"
-></calcite-meter>`;
+export const valueDoesNotPositionBelowMinRTL_TestOnly = (): string =>
+  html`<calcite-meter
+    dir="rtl"
+    value-label
+    range-labels
+    low="25"
+    high="75"
+    value="-100"
+    min="0"
+    max="100"
+  ></calcite-meter>`;
 
-export const valueDoesNotPositionAboveMax_TestOnly = (): string => html`<calcite-meter
-  value-label
-  range-labels
-  low="25"
-  high="75"
-  value="200"
-  min="0"
-  max="100"
-></calcite-meter>`;
+export const valueDoesNotPositionAboveMax_TestOnly = (): string =>
+  html`<calcite-meter value-label range-labels low="25" high="75" value="200" min="0" max="100"></calcite-meter>`;
 
-export const valueDoesNotPositionAboveMaxRTL_TestOnly = (): string => html`<calcite-meter
-  dir="rtl"
-  value-label
-  range-labels
-  low="25"
-  high="75"
-  value="200"
-  min="0"
-  max="100"
-></calcite-meter>`;
+export const valueDoesNotPositionAboveMaxRTL_TestOnly = (): string =>
+  html`<calcite-meter
+    dir="rtl"
+    value-label
+    range-labels
+    low="25"
+    high="75"
+    value="200"
+    min="0"
+    max="100"
+  ></calcite-meter>`;
 
-export const hideOverlappingLabel_TestOnly = (): string => html`<calcite-meter
-  value-label
-  range-labels
-  low="2"
-  high="98"
-  value="0"
-  min="0"
-  max="100"
-></calcite-meter>`;
+export const hideOverlappingLabel_TestOnly = (): string =>
+  html`<calcite-meter value-label range-labels low="2" high="98" value="0" min="0" max="100"></calcite-meter>`;
 
-export const hideOverlappingLabelRTL_TestOnly = (): string => html`<calcite-meter
-  dir="rtl"
-  value-label
-  range-labels
-  low="2"
-  high="98"
-  value="0"
-  min="0"
-  max="100"
-></calcite-meter>`;
+export const hideOverlappingLabelRTL_TestOnly = (): string =>
+  html`<calcite-meter
+    dir="rtl"
+    value-label
+    range-labels
+    low="2"
+    high="98"
+    value="0"
+    min="0"
+    max="100"
+  ></calcite-meter>`;
 
-export const hideOverlappingLabelUnits_TestOnly = (): string => html`<calcite-meter
-  value-label
-  range-labels
-  value-label-type="units"
-  unit-label="credits"
-  low="2"
-  high="98"
-  value="0"
-  min="0"
-  max="100"
-></calcite-meter>`;
+export const hideOverlappingLabelUnits_TestOnly = (): string =>
+  html`<calcite-meter
+    value-label
+    range-labels
+    value-label-type="units"
+    unit-label="credits"
+    low="2"
+    high="98"
+    value="0"
+    min="0"
+    max="100"
+  ></calcite-meter>`;
 
-export const hideOverlappingLabelUnitsRTL_TestOnly = (): string => html`<calcite-meter
-  dir="rtl"
-  value-label
-  range-labels
-  value-label-type="units"
-  unit-label="credits"
-  low="2"
-  high="98"
-  value="0"
-  min="0"
-  max="100"
-></calcite-meter>`;
+export const hideOverlappingLabelUnitsRTL_TestOnly = (): string =>
+  html`<calcite-meter
+    dir="rtl"
+    value-label
+    range-labels
+    value-label-type="units"
+    unit-label="credits"
+    low="2"
+    high="98"
+    value="0"
+    min="0"
+    max="100"
+  ></calcite-meter>`;
 
-export const complexPercent_TestOnly = (): string => html`<calcite-meter
-  value-label
-  range-labels
-  min="0"
-  max="12400"
-  low="4600"
-  high="7600"
-  value="2200"
-></calcite-meter>`;
+export const complexPercent_TestOnly = (): string =>
+  html`<calcite-meter
+    value-label
+    range-labels
+    min="0"
+    max="12400"
+    low="4600"
+    high="7600"
+    value="2200"
+  ></calcite-meter>`;
 
-export const complexUnit_TestOnly = (): string => html`<calcite-meter
-  unit-label="GB"
-  value-label
-  range-labels
-  value-label-type="units"
-  min="0"
-  max="12400"
-  low="4600"
-  high="7600"
-  value="2200"
-></calcite-meter>`;
+export const complexUnit_TestOnly = (): string =>
+  html`<calcite-meter
+    unit-label="GB"
+    value-label
+    range-labels
+    value-label-type="units"
+    min="0"
+    max="12400"
+    low="4600"
+    high="7600"
+    value="2200"
+  ></calcite-meter>`;
 
 export const darkModeRTL_TestOnly = (): string =>
   html`<calcite-meter
@@ -211,7 +179,7 @@ export const darkModeRTL_TestOnly = (): string =>
     range-labels
   ></calcite-meter>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const complexPercentRTL_TestOnly = (): string =>
   html`<calcite-meter

@@ -51,9 +51,10 @@ export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
       class={CSS.arrow}
       height={width}
       key={key}
-      ref={ref}
       viewBox={`0 0 ${width} ${width + (!isVertical ? strokeWidth : 0)}`}
       width={width + (isVertical ? strokeWidth : 0)}
+      // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+      ref={ref}
     >
       {strokeWidth > 0 && (
         <path

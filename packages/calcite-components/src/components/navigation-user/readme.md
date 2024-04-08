@@ -1,5 +1,7 @@
 # calcite-navigation-user
 
+For comprehensive guidance on using and implementing `calcite-navigation-user`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/navigation-user/).
+
 <!-- Auto Generated Below -->
 
 ## Usage
@@ -14,7 +16,7 @@
 
 | Property       | Attribute       | Description                                                                                                              | Type      | Default     |
 | -------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------ | --------- | ----------- |
-| `active`       | `active`        | When true, the component is highlighted.                                                                                 | `boolean` | `undefined` |
+| `active`       | `active`        | When `true`, the component is highlighted.                                                                               | `boolean` | `undefined` |
 | `fullName`     | `full-name`     | Specifies the full name of the user.                                                                                     | `string`  | `undefined` |
 | `label`        | `label`         | Describes the appearance of the avatar. If no label is provided, context will not be provided to assistive technologies. | `string`  | `undefined` |
 | `textDisabled` | `text-disabled` | When `true`, hides the `fullName` and `username` contents.                                                               | `boolean` | `false`     |
@@ -49,4 +51,4 @@ graph TD;
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

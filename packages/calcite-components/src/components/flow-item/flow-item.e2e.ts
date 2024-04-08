@@ -1,7 +1,18 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
-import { CSS, SLOTS } from "./resources";
+import {
+  accessible,
+  defaults,
+  delegatesToFloatingUiOwningComponent,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-flow-item", () => {
   describe("renders", () => {
@@ -47,8 +58,49 @@ describe("calcite-flow-item", () => {
         defaultValue: false,
       },
       {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
+      {
         propertyName: "showBackButton",
         defaultValue: false,
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-flow-item", [
+      {
+        propertyName: "closable",
+        value: true,
+      },
+      {
+        propertyName: "closed",
+        value: true,
+      },
+      {
+        propertyName: "collapsible",
+        value: true,
+      },
+      {
+        propertyName: "collapsed",
+        value: true,
+      },
+      {
+        propertyName: "disabled",
+        value: true,
+      },
+      {
+        propertyName: "loading",
+        value: true,
+      },
+      {
+        propertyName: "menuOpen",
+        value: true,
+      },
+      {
+        propertyName: "overlayPositioning",
+        value: "fixed",
       },
     ]);
   });
@@ -93,6 +145,15 @@ describe("calcite-flow-item", () => {
 
   describe("translation support", () => {
     t9n("calcite-flow-item");
+  });
+
+  describe("delegates to floating-ui-owner component", () => {
+    delegatesToFloatingUiOwningComponent(
+      html`<calcite-flow-item>
+        <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+      </calcite-flow-item>`,
+      "calcite-panel",
+    );
   });
 
   it("showBackButton", async () => {
@@ -191,11 +252,11 @@ describe("calcite-flow-item", () => {
 
     expect(await top.isIntersectingViewport()).toBe(false);
 
-    await page.$eval("calcite-flow-item", (panel: HTMLCalcitePanelElement) =>
+    await page.$eval("calcite-flow-item", (panel: HTMLCalciteFlowItemElement) =>
       panel.scrollContentTo({
         top: 0,
         behavior: "auto",
-      })
+      }),
     );
 
     expect(await top.isIntersectingViewport()).toBe(true);

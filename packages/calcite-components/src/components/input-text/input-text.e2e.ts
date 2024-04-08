@@ -12,6 +12,7 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils";
+import { testHiddenInputSyncing, testPostValidationFocusing } from "../input/common/tests";
 
 describe("calcite-input-text", () => {
   describe("labelable", () => {
@@ -40,6 +41,10 @@ describe("calcite-input-text", () => {
         propertyName: "scale",
         value: "s",
       },
+      {
+        propertyName: "validationIcon",
+        value: true,
+      },
     ]);
   });
 
@@ -60,6 +65,14 @@ describe("calcite-input-text", () => {
       {
         propertyName: "value",
         defaultValue: "",
+      },
+      {
+        propertyName: "validationIcon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "validationMessage",
+        defaultValue: undefined,
       },
     ]);
   });
@@ -394,7 +407,7 @@ describe("calcite-input-text", () => {
   it("allows disabling slotted action", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-input-text><calcite-button slot="action" disabled>Action</calcite-button></calcite-input-text>`
+      `<calcite-input-text><calcite-button slot="action" disabled>Action</calcite-button></calcite-input-text>`,
     );
 
     const input = await page.find("calcite-input-text");
@@ -449,7 +462,11 @@ describe("calcite-input-text", () => {
   });
 
   describe("is form-associated", () => {
-    formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true });
+    formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true, validation: true });
+
+    testPostValidationFocusing("calcite-input-text");
+
+    testHiddenInputSyncing("calcite-input-text");
   });
 
   describe("translation support", () => {

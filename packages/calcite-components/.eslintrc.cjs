@@ -12,7 +12,7 @@ module.exports = {
     "plugin:jsdoc/recommended",
     "prettier",
   ],
-  ignorePatterns: ["dist", "docs", "hydrate", "www"],
+  ignorePatterns: ["dist", "docs", "hydrate", "www", "**/*.d.ts"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     tsconfigRootDir: __dirname,
@@ -50,6 +50,9 @@ module.exports = {
     "@stencil-community/prefer-vdom-listener": "warn",
     "@stencil-community/required-jsdoc": "off",
     "@stencil-community/strict-boolean-conditions": "off",
+    "@stencil-community/reserved-member-names": "off",
+    "@stencil-community/ban-exported-const-enums": "off",
+    "@typescript-eslint/no-duplicate-enum-values": "off",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
@@ -72,6 +75,7 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": "error",
     curly: "error",
     "import/no-dynamic-require": ["error", { esmodule: true }],
+    "import/order": ["error", { "newlines-between": "never" }],
     "jest/expect-expect": "off",
     "jest/no-export": "warn",
     "jsdoc/check-tag-names": "off",
@@ -154,4 +158,10 @@ module.exports = {
       ignorePrivate: true,
     },
   },
+  overrides: [{
+    files: ["**/*.e2e.ts", "src/tests/**/*"],
+    rules: {
+      "@esri/calcite-components/no-dynamic-createelement": "off",
+    }
+  }]
 };

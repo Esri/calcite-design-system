@@ -1,5 +1,7 @@
 # calcite-option
 
+For comprehensive guidance on using and implementing `calcite-option`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/option/).
+
 <!-- Auto Generated Below -->
 
 ## Properties
@@ -13,4 +15,4 @@
 
 ---
 
-_Built with [StencilJS](https://stenciljs.com/)_
+*Built with [StencilJS](https://stenciljs.com/)*

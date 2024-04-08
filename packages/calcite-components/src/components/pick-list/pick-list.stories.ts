@@ -1,5 +1,4 @@
-import { boolean, text } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+import { boolean, text } from "../../../.storybook/fake-knobs";
 import {
   Attribute,
   Attributes,
@@ -8,16 +7,9 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import groupReadme from "../pick-list-group/readme.md";
-import itemReadme from "../pick-list-item/readme.md";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Pick List",
-  parameters: {
-    notes: [readme, itemReadme, groupReadme],
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -26,7 +18,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false);
+          this.value = boolean("disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -34,7 +26,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "filter-enabled",
         commit(): Attribute {
-          this.value = boolean("filterEnabled", false);
+          this.value = boolean("filterEnabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -42,7 +34,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false);
+          this.value = boolean("loading", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -50,7 +42,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "multiple",
         commit(): Attribute {
-          this.value = boolean("multiple", false);
+          this.value = boolean("multiple", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -58,13 +50,13 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "selection-follows-focus",
         commit(): Attribute {
-          this.value = boolean("selection-follows-focus", false);
+          this.value = boolean("selection-follows-focus", false, "", "prop");
           delete this.build;
           return this;
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -91,7 +83,7 @@ export const simple = (): string =>
         ${action}
       </calcite-pick-list-item>
       <calcite-pick-list-item label="hi" description="there" value="helloWorld"> ${action} </calcite-pick-list-item>
-    `
+    `,
   );
 
 export const darkModeRTL_TestOnly = (): string =>
@@ -115,10 +107,10 @@ export const darkModeRTL_TestOnly = (): string =>
         ${action}
       </calcite-pick-list-item>
       <calcite-pick-list-item label="hi" description="there" value="helloWorld"> ${action} </calcite-pick-list-item>
-    `
+    `,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const grouped = (): string =>
   create(
@@ -141,7 +133,7 @@ export const grouped = (): string =>
           ${action}
         </calcite-pick-list-item>
       </calcite-pick-list-group>
-    `
+    `,
   );
 
 export const nested = (): string =>
@@ -165,16 +157,17 @@ export const nested = (): string =>
         <calcite-pick-list-item label="Persian" value="persian"> ${action} </calcite-pick-list-item>
         <calcite-pick-list-item label="Sphynx" value="sphynx"> ${action} </calcite-pick-list-item>
       </calcite-pick-list-group>
-    `
+    `,
   );
 
-export const disabled_TestOnly = (): string => html`<calcite-pick-list disabled>
-  <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex"></calcite-pick-list-item>
-  <calcite-pick-list-item
-    label="Triceratops"
-    description="3 horn"
-    value="triceratops"
-    selected
-  ></calcite-pick-list-item>
-  <calcite-pick-list-item label="hi" description="there" value="helloWorld"></calcite-pick-list-item>
-</calcite-pick-list>`;
+export const disabled_TestOnly = (): string =>
+  html`<calcite-pick-list disabled>
+    <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex"></calcite-pick-list-item>
+    <calcite-pick-list-item
+      label="Triceratops"
+      description="3 horn"
+      value="triceratops"
+      selected
+    ></calcite-pick-list-item>
+    <calcite-pick-list-item label="hi" description="there" value="helloWorld"></calcite-pick-list-item>
+  </calcite-pick-list>`;

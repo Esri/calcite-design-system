@@ -1,19 +1,15 @@
-import { select, text, number } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
-import readme from "./readme.md";
+import { select, text, number } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/TextArea",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
   <calcite-text-area
     scale="${select("scale", ["s", "m", "l"], "m")}"
+    status="${select("status", ["idle", "invalid", "valid"], "idle")}"
     placeholder="${text("placeholder", "Add Notes")}"
     ${boolean("disabled", false)}
     columns="${number("columns", 20)}"
@@ -21,12 +17,19 @@ export const simple = (): string => html`
     rows="${number("rows", 2)}"
     label="${text("label", "")}"
     name="${text("name", "")}"
+    validation-message="${text("validation-message", "")}"
+    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
   >
   </calcite-text-area>
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-text-area dir="rtl" class="calcite-mode-dark"> </calcite-text-area>
+  <calcite-text-area
+    dir="rtl"
+    class="calcite-mode-dark"
+    validation-message="This should not appear because the status is not 'invalid'"
+  >
+  </calcite-text-area>
 `;
 
 export const withSlottedElements = (): string => html`
@@ -42,6 +45,8 @@ export const withSlottedElements = (): string => html`
     ${boolean("readonly", false)}
     label="${text("label", "")}"
     name="${text("name", "")}"
+    validation-message="${text("validation-message", "")}"
+    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
   >
     <calcite-button slot="${text("slot", "footer-start")}">RESET</calcite-button>
     <calcite-action icon="code" slot="${text("slot", "footer-end")}"></calcite-action>
@@ -70,16 +75,44 @@ export const exceedingMaxLength_TestOnly = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" max-length="10"> </calcite-text-area>
 `;
 
-export const chineseLangNumberingSystem_TestOnly = (): string => html`
-  <calcite-text-area
-    value="Rocky Mountains National Park"
-    lang="zh-cn"
-    numbering-system="hanidec"
-    group-separator
-    max-length="654321"
-  >
+export const chineseLang_TestOnly = (): string => html`
+  <calcite-text-area value="Rocky Mountains National Park" lang="zh-cn" group-separator max-length="654321">
   </calcite-text-area>
 `;
 
 export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
   html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;
+
+export const validationMessageAllScales_TestOnly = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 420px;
+      height: 80px;
+      gap: 45px;
+    }
+  </style>
+  <div class="container">
+    <calcite-text-area
+      scale="s"
+      status="invalid"
+      validation-message="This field is required."
+      validation-icon="frown"
+    ></calcite-text-area>
+    <calcite-text-area
+      scale="m"
+      status="invalid"
+      validation-message="Less than the minimum length of 6 characters"
+      validation-icon
+      value="Hi"
+    ></calcite-text-area>
+    <calcite-text-area
+      scale="l"
+      status="invalid"
+      validation-message="Exceeds the maximum length of 9 characters"
+      validation-icon
+      value="Lorem ipsum"
+    ></calcite-text-area>
+  </div>
+`;

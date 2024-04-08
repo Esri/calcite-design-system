@@ -1,4 +1,6 @@
 {
   "next": "Next",
-  "previous": "Previous"
+  "previous": "Previous",
+  "first": "First",
+  "last": "Last"
 }

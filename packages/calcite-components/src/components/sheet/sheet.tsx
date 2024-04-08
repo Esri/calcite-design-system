@@ -28,10 +28,10 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { CSS } from "./resources";
-import { DisplayMode } from "./interfaces";
 import { LogicalFlowPosition, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { CSS } from "./resources";
+import { DisplayMode } from "./interfaces";
 
 @Component({
   tag: "calcite-sheet",
@@ -215,7 +215,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   private ignoreOpenChange = false;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver()
+    this.handleMutationObserver(),
   );
 
   //--------------------------------------------------------------------------
@@ -257,7 +257,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   //--------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component's "close" button (the first focusable item).
+   * Sets focus on the component's "close" button - the first focusable item.
    *
    */
   @Method()

@@ -32,7 +32,7 @@
       throw new Error(`Unable to find data for the HEAD linked package: ${LINKED_VERSIONS_HEAD_PACKAGE}`);
     }
 
-    LINKED_VERSIONS_TRACKING_PACKAGES.forEach(async (pkg) => {
+    for (const pkg of LINKED_VERSIONS_TRACKING_PACKAGES) {
       const trackingPackageData = packagesData.find((data: PackageData) => data.name === pkg);
 
       if (!trackingPackageData) {
@@ -77,20 +77,22 @@
 
         await fs.writeFile(packageChangelogPath, updatedChangelogContent);
       }
-    });
+    }
 
     // get updated data for deployable packages
     const changedPackagesData: Array<PackageData> = JSON.parse((await exec("npx lerna changed --json")).stdout.trim());
 
     console.log("Deployable packages:", changedPackagesData);
 
+    await exec("markdownlint packages/{*,calcite-components-angular/projects/component-library}/CHANGELOG.md --fix");
+
     // add/commit changed files
     await exec(`git add --all && git commit -m 'chore: release ${releaseTarget}'`);
 
     // create git tags with the updated versions
-    changedPackagesData.forEach(async (pkg: PackageData) => {
+    for (const pkg of changedPackagesData) {
       await exec(`git tag -a "${pkg.name}@${pkg.version}" HEAD -m "${pkg.name}@${pkg.version}"`);
-    });
+    }
   } catch (error) {
     console.error(error);
     process.exit(1);

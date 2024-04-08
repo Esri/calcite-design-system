@@ -1,10 +1,9 @@
 import { newE2EPage } from "@stencil/core/testing";
-
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
-import { CSS } from "./resources";
 import { isElementFocused } from "../../tests/utils";
+import { CSS } from "./resources";
 import { FlowItemLikeElement } from "./interfaces";
 
 describe("calcite-flow", () => {
@@ -24,7 +23,7 @@ describe("calcite-flow", () => {
       </calcite-flow>`,
       {
         focusTargetSelector: "#two",
-      }
+      },
     );
   });
 
@@ -63,7 +62,7 @@ describe("calcite-flow", () => {
       await page.setContent(
         html`<calcite-flow
           ><calcite-flow-item id="one"></calcite-flow-item><calcite-flow-item id="two"></calcite-flow-item
-        ></calcite-flow>`
+        ></calcite-flow>`,
       );
 
       await page.$eval(
@@ -71,7 +70,7 @@ describe("calcite-flow", () => {
         (elm: HTMLCalciteFlowItemElement, backButtonCSS: string) => {
           elm.shadowRoot.querySelector<HTMLCalciteActionElement>(`.${backButtonCSS}`)?.click();
         },
-        ITEM_CSS.backButton
+        ITEM_CSS.backButton,
       );
       await page.waitForChanges();
 
@@ -80,10 +79,12 @@ describe("calcite-flow", () => {
 
     it("goes back when item back button is clicked", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-flow show-back-button>
-        <calcite-flow-item id="first"></calcite-flow-item>
-        <calcite-flow-item id="second"></calcite-flow-item>
-      </calcite-flow>`);
+      await page.setContent(
+        html`<calcite-flow show-back-button>
+          <calcite-flow-item id="first"></calcite-flow-item>
+          <calcite-flow-item id="second"></calcite-flow-item>
+        </calcite-flow>`,
+      );
       await page.waitForChanges();
 
       let items = await page.findAll("calcite-flow-item");
@@ -104,10 +105,12 @@ describe("calcite-flow", () => {
 
     it("does not go back when item back button is clicked and defaultPrevented", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-flow show-back-button>
-        <calcite-flow-item id="first"></calcite-flow-item>
-        <calcite-flow-item id="second"></calcite-flow-item>
-      </calcite-flow>`);
+      await page.setContent(
+        html`<calcite-flow show-back-button>
+          <calcite-flow-item id="first"></calcite-flow-item>
+          <calcite-flow-item id="second"></calcite-flow-item>
+        </calcite-flow>`,
+      );
       await page.waitForChanges();
 
       let items = await page.findAll("calcite-flow-item");
@@ -121,7 +124,7 @@ describe("calcite-flow", () => {
 
         lastFlowItem?.addEventListener("calciteFlowItemBack", (event) => event.preventDefault());
 
-        lastFlowItem?.shadowRoot.querySelector(backButtonSelector)?.click();
+        lastFlowItem?.shadowRoot.querySelector<HTMLElement>(backButtonSelector)?.click();
       }, `.${ITEM_CSS.backButton}`);
       await page.waitForChanges();
 
@@ -144,7 +147,7 @@ describe("calcite-flow", () => {
       await page.$eval(
         "calcite-flow-item",
         (elm: HTMLCalciteFlowItemElement) =>
-          (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack)
+          (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack),
       );
 
       const flow = await page.find("calcite-flow");
@@ -167,7 +170,7 @@ describe("calcite-flow", () => {
       await page.$eval(
         "calcite-flow-item",
         (elm: HTMLCalciteFlowItemElement) =>
-          (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack)
+          (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack),
       );
 
       const flow = await page.find("calcite-flow");
@@ -189,7 +192,7 @@ describe("calcite-flow", () => {
       await page.$eval(
         "calcite-flow-item",
         (elm: HTMLCalciteFlowItemElement) =>
-          (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack)
+          (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack),
       );
 
       const flow = await page.find("calcite-flow");
@@ -287,7 +290,7 @@ describe("calcite-flow", () => {
       const page = await newE2EPage();
 
       await page.setContent(
-        `<calcite-flow><calcite-flow-item>test</calcite-flow-item><calcite-flow-item>test</calcite-flow-item></calcite-flow>`
+        `<calcite-flow><calcite-flow-item>test</calcite-flow-item><calcite-flow-item>test</calcite-flow-item></calcite-flow>`,
       );
 
       const frame = await page.find(`calcite-flow >>> .${CSS.frame}`);
@@ -345,16 +348,18 @@ describe("calcite-flow", () => {
     it("should also work with descendant slotted items", async () => {
       const page = await newE2EPage();
 
-      await page.setContent(html`<calcite-flow>
-        <calcite-flow-item>Assigned item</calcite-flow-item>
-        <calcite-flow-item>Assigned item</calcite-flow-item>
-        <div>
-          <calcite-flow-item
-            >Assigned item <calcite-flow-item>Assigned item</calcite-flow-item
-            ><calcite-flow><calcite-flow-item>Unassigned item</calcite-flow-item></calcite-flow></calcite-flow-item
-          >
-        </div>
-      </calcite-flow>`);
+      await page.setContent(
+        html`<calcite-flow>
+          <calcite-flow-item>Assigned item</calcite-flow-item>
+          <calcite-flow-item>Assigned item</calcite-flow-item>
+          <div>
+            <calcite-flow-item
+              >Assigned item <calcite-flow-item>Assigned item</calcite-flow-item
+              ><calcite-flow><calcite-flow-item>Unassigned item</calcite-flow-item></calcite-flow></calcite-flow-item
+            >
+          </div>
+        </calcite-flow>`,
+      );
 
       const items = await page.findAll("calcite-flow-item");
 
@@ -484,7 +489,7 @@ describe("calcite-flow", () => {
           .click();
       },
       displayedItemSelector,
-      ITEM_CSS
+      ITEM_CSS,
     );
     await page.waitForChanges();
 
@@ -501,7 +506,7 @@ describe("calcite-flow", () => {
           .click();
       },
       displayedItemSelector,
-      ITEM_CSS
+      ITEM_CSS,
     );
     await page.waitForChanges();
 

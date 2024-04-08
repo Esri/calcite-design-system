@@ -60,8 +60,9 @@ import List from "./shared-list-render";
   shadow: true,
 })
 export class PickList<
-  ItemElement extends HTMLCalcitePickListItemElement = HTMLCalcitePickListItemElement
-> implements InteractiveComponent, LoadableComponent
+    ItemElement extends HTMLCalcitePickListItemElement = HTMLCalcitePickListItemElement,
+  >
+  implements InteractiveComponent, LoadableComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -75,14 +76,14 @@ export class PickList<
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The currently filtered items.
+   * The component's filtered items.
    *
    * @readonly
    */
   @Prop({ mutable: true }) filteredItems: HTMLCalcitePickListItemElement[] = [];
 
   /**
-   * The currently filtered data.
+   * The component's filtered data.
    *
    * @readonly
    */
@@ -106,7 +107,7 @@ export class PickList<
   @Prop({ reflect: true, mutable: true }) filterText: string;
 
   /**
-   * Specifies the number at which section headings should start.
+   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 

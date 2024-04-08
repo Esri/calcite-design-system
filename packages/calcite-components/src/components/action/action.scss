@@ -10,6 +10,22 @@
   @extend %component-host;
   @apply flex bg-transparent;
   --calcite-action-indicator-color: theme("colors.brand");
+  --calcite-action-color-transparent-hover: var(--calcite-color-transparent-hover);
+  --calcite-action-color-transparent-press: var(--calcite-color-transparent-press);
+}
+
+@mixin action-indicator() {
+  position: relative;
+  &::after {
+    content: "";
+    @apply absolute
+      h-2
+      w-2
+      rounded-full;
+    inset-block-end: calc(-0.275rem);
+    inset-inline-end: calc(-0.275rem);
+    background-color: var(--calcite-action-indicator-color);
+  }
 }
 
 @include disabled();
@@ -70,8 +86,11 @@
 
   .text-container--visible {
     @apply w-auto flex-auto opacity-100;
-    margin-inline-end: theme("spacing.4");
   }
+}
+
+:host([data-active]) .button {
+  @apply focus-inset;
 }
 
 :host([scale="s"]) {
@@ -147,32 +166,26 @@
 }
 
 :host([appearance="transparent"]) .button {
-  @apply bg-transparent
-    transition-shadow
-    duration-150
-    ease-in-out;
+  @apply bg-transparent;
 }
 
+:host([appearance="transparent"][active]) .button,
 :host([appearance="transparent"]) .button:hover,
 :host([appearance="transparent"]) .button:focus {
-  @apply bg-transparent;
-  box-shadow: 0 0 0 2px theme("borderColor.color.1") inset;
+  background-color: var(--calcite-action-color-transparent-hover);
 }
 
-:host([active][appearance="transparent"]) .button,
-:host([active][appearance="transparent"]) .button:hover,
-:host([active][appearance="transparent"]) .button:focus {
-  @apply text-color-1 fill-color-1 bg-foreground-3;
+:host([appearance="transparent"]) .button:active {
+  background-color: var(--calcite-action-color-transparent-press);
 }
 
-:host([appearance="transparent"][loading]) .button,
 :host([appearance="transparent"][disabled]) .button {
   @apply bg-transparent;
 }
 
-:host([loading]) .button,
-:host([loading]) .button:hover,
-:host([loading]) .button:focus {
+:host([loading][appearance="solid"]) .button,
+:host([loading][appearance="solid"]) .button:hover,
+:host([loading][appearance="solid"]) .button:focus {
   @apply bg-foreground-1;
   .text-container {
     @apply opacity-disabled;
@@ -196,44 +209,20 @@
   @apply opacity-disabled bg-foreground-3;
 }
 
-:host([indicator]) {
-  .button::after {
-    content: "";
-    @apply absolute
-      h-2
-      w-2
-      rounded-full
-      border-2;
-
-    background-color: var(--calcite-action-indicator-color);
-    border-color: theme("colors.background.foreground.1");
-    inset-block-end: theme("spacing.3");
-    inset-inline-end: theme("spacing.3");
-  }
-  .button--text-visible {
-    &::after {
-      inset-block-end: auto;
-    }
-  }
-  .button:hover::after,
-  .button:focus::after {
-    border-color: theme("colors.background.foreground.1");
-  }
+:host([appearance="transparent"]) .button {
+  @apply bg-transparent
+    transition-shadow
+    duration-150
+    ease-in-out;
 }
 
-:host([indicator][scale="s"]) {
-  .button::after {
-    inset-block-end: theme("spacing.1");
-    inset-inline-end: theme("spacing.1");
-  }
-  .button--text-visible::after {
-    inset-block-end: auto;
-    inset-inline-end: theme("spacing.2");
-  }
+.indicator-with-icon {
+  @include action-indicator();
 }
 
-:host([indicator][active]) .button::after {
-  border-color: theme("colors.background.foreground.3");
+.indicator-without-icon {
+  @apply w-4 mx-1;
+  @include action-indicator();
 }
 
 .indicator-text {

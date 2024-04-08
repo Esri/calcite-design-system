@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Listen,
   Method,
   Prop,
   State,
@@ -12,7 +11,7 @@ import {
 } from "@stencil/core";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
-import { focusElement, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { EffectivePlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
@@ -43,6 +42,10 @@ export class ActionMenu implements LoadableComponent {
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.connectMenuButtonEl();
+  }
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
@@ -128,25 +131,10 @@ export class ActionMenu implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the `open` property is toggled.
+   * Fires when the `open` property is toggled.
    *
    */
   @Event({ cancelable: false }) calciteActionMenuOpen: EventEmitter<void>;
-
-  @Listen("pointerdown", { target: "window" })
-  closeCalciteActionMenuOnClick(event: PointerEvent): void {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
-    const composedPath = event.composedPath();
-
-    if (composedPath.includes(this.el)) {
-      return;
-    }
-
-    this.open = false;
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -234,7 +222,7 @@ export class ActionMenu implements LoadableComponent {
       menuButtonEl.text = label;
     }
 
-    menuButtonEl.addEventListener("pointerdown", this.menuButtonClick);
+    menuButtonEl.addEventListener("click", this.menuButtonClick);
     menuButtonEl.addEventListener("keydown", this.menuButtonKeyDown);
   };
 
@@ -245,7 +233,7 @@ export class ActionMenu implements LoadableComponent {
       return;
     }
 
-    menuButtonEl.removeEventListener("pointerdown", this.menuButtonClick);
+    menuButtonEl.removeEventListener("click", this.menuButtonClick);
     menuButtonEl.removeEventListener("keydown", this.menuButtonKeyDown);
   };
 
@@ -304,10 +292,13 @@ export class ActionMenu implements LoadableComponent {
 
     return (
       <calcite-popover
+        autoClose={true}
         flipPlacements={flipPlacements}
         focusTrapDisabled={true}
         label={label}
         offsetDistance={0}
+        onCalcitePopoverClose={this.handlePopoverClose}
+        onCalcitePopoverOpen={this.handlePopoverOpen}
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
@@ -350,11 +341,7 @@ export class ActionMenu implements LoadableComponent {
     this.setFocus();
   };
 
-  menuButtonClick = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
+  private menuButtonClick = (): void => {
     this.toggleOpen();
   };
 
@@ -401,9 +388,25 @@ export class ActionMenu implements LoadableComponent {
       .assignedElements({
         flatten: true,
       })
-      .filter((el) => el?.matches("calcite-action")) as HTMLCalciteActionElement[];
+      .reduce(
+        (previousValue: HTMLCalciteActionElement[], currentValue): HTMLCalciteActionElement[] => {
+          if (currentValue?.matches("calcite-action")) {
+            previousValue.push(currentValue as HTMLCalciteActionElement);
+            return previousValue;
+          }
 
-    this.actionElements = actions;
+          if (currentValue?.matches("calcite-action-group")) {
+            return previousValue.concat(
+              Array.from(currentValue.querySelectorAll("calcite-action")),
+            );
+          }
+
+          return previousValue;
+        },
+        [],
+      );
+
+    this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
   };
 
   isValidKey(key: string, supportedKeys: string[]): boolean {
@@ -447,7 +450,7 @@ export class ActionMenu implements LoadableComponent {
   handleActionNavigation = (
     event: KeyboardEvent,
     key: string,
-    actions: HTMLCalciteActionElement[]
+    actions: HTMLCalciteActionElement[],
   ): void => {
     if (!this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
       return;
@@ -496,5 +499,13 @@ export class ActionMenu implements LoadableComponent {
   toggleOpen = (value = !this.open): void => {
     this.el.addEventListener("calcitePopoverOpen", this.toggleOpenEnd);
     this.open = value;
+  };
+
+  private handlePopoverOpen = (): void => {
+    this.open = true;
+  };
+
+  private handlePopoverClose = (): void => {
+    this.open = false;
   };
 }

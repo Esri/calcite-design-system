@@ -1,5 +1,7 @@
 export const CSS = {
   container: "container",
+  containerHover: "container--hover",
+  containerBorder: "container--border",
   containerBorderSelected: "container--border-selected",
   containerBorderUnselected: "container--border-unselected",
   contentContainer: "content-container",
@@ -14,8 +16,10 @@ export const CSS = {
   label: "label",
   description: "description",
   contentEnd: "content-end",
+  contentBottom: "content-bottom",
   actionsEnd: "actions-end",
   selectionContainer: "selection-container",
+  selectionContainerSingle: "selection-container--single",
   openContainer: "open-container",
   dragContainer: "drag-container",
 };
@@ -24,6 +28,7 @@ export const SLOTS = {
   actionsStart: "actions-start",
   contentStart: "content-start",
   content: "content",
+  contentBottom: "content-bottom",
   contentEnd: "content-end",
   actionsEnd: "actions-end",
 };
@@ -32,12 +37,15 @@ export const SLOTS = {
 export const MAX_COLUMNS = 0;
 
 export const ICONS = {
-  selectedMultiple: "check-circle-f",
-  selectedSingle: "circle-f",
-  unselected: "blank",
-  closedLTR: "caret-right",
-  closedRTL: "caret-left",
-  open: "caret-down",
+  selectedMultiple: "check-square-f",
+  selectedSingle: "bullet-point-large",
+  unselectedMultiple: "square",
+  unselectedSingle: "bullet-point-large",
+  closedLTR: "chevron-right",
+  closedRTL: "chevron-left",
+  open: "chevron-down",
   blank: "blank",
   close: "x",
 };
+
+export const activeCellTestAttribute = "data-test-active";

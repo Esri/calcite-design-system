@@ -1,20 +1,10 @@
-import { boolean, text } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+import { boolean, text } from "../../../.storybook/fake-knobs";
 import { Attributes, createComponentHTML as create, filterComponentAttributes } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import itemReadme from "../panel/readme.md";
 import { SLOTS } from "../panel/resources";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Flow",
-  parameters: {
-    notes: {
-      flow: readme,
-      item: itemReadme,
-    },
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -25,7 +15,7 @@ const createFlowItemAttributes: (group: string) => Attributes = (group) => {
   return [
     {
       name: "disabled",
-      value: boolean("disabled", false, group),
+      value: boolean("disabled", false, group, "prop"),
     },
     {
       name: "heading",
@@ -33,11 +23,11 @@ const createFlowItemAttributes: (group: string) => Attributes = (group) => {
     },
     {
       name: "loading",
-      value: boolean("loading", false, group),
+      value: boolean("loading", false, group, "prop"),
     },
     {
       name: "menu-open",
-      value: boolean("menuOpen", false, group),
+      value: boolean("menuOpen", false, group, "prop"),
     },
     {
       name: "description",
@@ -144,7 +134,7 @@ export const simple = (): string =>
     "calcite-flow",
     createAttributes(),
     `${create("calcite-flow-item", createFlowItemAttributes("Flow Item 1"), createItemHTML(item1HTML))}
-    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`
+    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`,
   );
 
 export const darkModeRTL_TestOnly = (): string =>
@@ -155,10 +145,10 @@ export const darkModeRTL_TestOnly = (): string =>
         name: "class",
         value: "calcite-mode-dark",
       },
-      { name: "dir", value: "rtl" }
+      { name: "dir", value: "rtl" },
     ),
     `${create("calcite-flow-item", createFlowItemAttributes("Flow Item 1"), createItemHTML(item1HTML))}
-    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`
+    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`,
   );
 
 export const noDoubleScrollbars_TestOnly = (): string => html`

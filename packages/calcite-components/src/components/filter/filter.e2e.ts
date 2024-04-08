@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
-import { DEBOUNCE_TIMEOUT } from "./resources";
 import { CSS as INPUT_CSS } from "../input/resources";
+import { DEBOUNCE_TIMEOUT } from "./resources";
 
 describe("calcite-filter", () => {
   describe("renders", () => {
@@ -108,7 +108,7 @@ describe("calcite-filter", () => {
               .shadowRoot.querySelector<HTMLElement>(buttonSelector)
               .click();
           },
-          `.${INPUT_CSS.clearButton}`
+          `.${INPUT_CSS.clearButton}`,
         );
         await page.waitForChanges();
 

@@ -10,12 +10,12 @@ type ListElement = HTMLCalcitePickListElement | HTMLCalciteValueListElement;
 export function keyboardNavigation(listType: ListType): void {
   const getFocusedItemValue = (page: E2EPage): ReturnType<E2EPage["evaluate"]> =>
     page.evaluate(
-      () => (document.activeElement as HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement)?.value ?? null
+      () => (document.activeElement as HTMLCalcitePickListItemElement | HTMLCalciteValueListItemElement)?.value ?? null,
     );
 
   async function getSelectedItemValues(list: E2EElement, listType: string): Promise<string[]> {
     return Promise.all(
-      (await list.findAll(`calcite-${listType}-list-item[selected]`)).map((el) => el.getProperty("value"))
+      (await list.findAll(`calcite-${listType}-list-item[selected]`)).map((el) => el.getProperty("value")),
     );
   }
 
@@ -411,8 +411,8 @@ export function selectionAndDeselection(listType: ListType): void {
       });
       const properties = await eventDetail.getProperties();
       expect(eventDetail).toBeDefined();
-      expect(properties.get("size")._remoteObject.value).toBe(1);
-      expect(properties.get("hasItem")._remoteObject.value).toBe(true);
+      expect(properties.get("size").remoteObject().value).toBe(1);
+      expect(properties.get("hasItem").remoteObject().value).toBe(true);
     });
   });
 
@@ -548,22 +548,6 @@ export function filterBehavior(listType: ListType): void {
   });
 }
 
-export function loadingState(listType: ListType): void {
-  it("loading", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-${listType}-list loading>
-        <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
-      </calcite-${listType}-list>`);
-
-    const list = await page.find(`calcite-${listType}-list`);
-    const item1 = await list.find("[value=one]");
-    const toggleSpy = await list.spyOnEvent("calciteListChange");
-
-    await item1.click();
-    expect(toggleSpy).toHaveReceivedEventTimes(0);
-  });
-}
-
 export function itemRemoval(listType: ListType): void {
   const pickListGroupHtml = html` <calcite-pick-list-group
       label="Will be removed when slotted 'parent item' is removed"
@@ -595,12 +579,12 @@ export function itemRemoval(listType: ListType): void {
 
     const removableItems = await page.$$eval(
       `calcite-${listType}-list-item`,
-      (items: ListElement[], listType, selector: string) => {
+      (items, listType, selector: string) => {
         items.forEach((item) => {
           listType === "pick"
             ? item.shadowRoot.querySelector<HTMLElement>(selector).click()
             : item.shadowRoot
-                .querySelector<ListElement>("calcite-pick-list-item")
+                .querySelector<HTMLCalcitePickListItemElement>("calcite-pick-list-item")
                 .shadowRoot.querySelector<HTMLElement>(selector)
                 .click();
         });
@@ -608,7 +592,7 @@ export function itemRemoval(listType: ListType): void {
         return items;
       },
       listType,
-      `.${PICK_LIST_ITEM_CSS.remove}`
+      `.${PICK_LIST_ITEM_CSS.remove}`,
     );
 
     await page.waitForChanges();
@@ -632,7 +616,7 @@ export function focusing(listType: ListType): void {
       {
         focusId: "filter",
         shadowFocusTargetSelector: "calcite-filter",
-      }
+      },
     );
   });
 }
@@ -648,7 +632,7 @@ export function disabling(listType: ListType): void {
     `,
       {
         focusTarget: "child",
-      }
+      },
     );
   });
 }

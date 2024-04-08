@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -16,7 +16,7 @@
       .child {
         flex: 0 0 16%;
         margin: 0 25px;
-        color: var(--calcite-ui-text-3);
+        color: var(--calcite-color-text-3);
         font-family: var(--calcite-sans-family);
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
@@ -29,7 +29,7 @@
 
       hr {
         margin: 25px 0;
-        border-top: 1px solid var(--calcite-ui-border-2);
+        border-top: 1px solid var(--calcite-color-border-2);
       }
     </style>
     <script>
@@ -61,19 +61,19 @@
 
         <div class="child">
           <calcite-inline-editable scale="s">
-            <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+            <calcite-input value="Entered value" placeholder="My placeholder" scale="s"></calcite-input>
           </calcite-inline-editable>
         </div>
 
         <div class="child">
           <calcite-inline-editable scale="m">
-            <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+            <calcite-input value="Entered value" placeholder="My placeholder" scale="m"></calcite-input>
           </calcite-inline-editable>
         </div>
 
         <div class="child">
           <calcite-inline-editable scale="l">
-            <calcite-input value="Entered value" placeholder="My placeholder"></calcite-input>
+            <calcite-input value="Entered value" placeholder="My placeholder" scale="l"></calcite-input>
           </calcite-inline-editable>
         </div>
       </div>
@@ -83,7 +83,7 @@
         <div class="child right-aligned-text">with controls</div>
         <div class="child">
           <calcite-inline-editable scale="s" id="example-small" controls>
-            <calcite-input placeholder="Day of the week" />
+            <calcite-input placeholder="Day of the week" scale="s" />
           </calcite-inline-editable>
           <script>
             handleChangesFoInput("#example-small");
@@ -92,7 +92,7 @@
 
         <div class="child">
           <calcite-inline-editable scale="m" id="example-medium" controls>
-            <calcite-input placeholder="Day of the week" />
+            <calcite-input placeholder="Day of the week" scale="m" />
           </calcite-inline-editable>
           <script>
             handleChangesFoInput("#example-medium");
@@ -101,7 +101,7 @@
 
         <div class="child">
           <calcite-inline-editable scale="l" id="example-large" controls>
-            <calcite-input placeholder="Day of the week" />
+            <calcite-input placeholder="Day of the week" scale="l" />
           </calcite-inline-editable>
           <script>
             handleChangesFoInput("#example-large");
@@ -117,7 +117,7 @@
           <calcite-label scale="s">
             Access denied
             <calcite-inline-editable controls disabled>
-              <calcite-input placeholder="Day of the week" />
+              <calcite-input placeholder="Day of the week" scale="s" />
             </calcite-inline-editable>
           </calcite-label>
         </div>
@@ -126,7 +126,7 @@
           <calcite-label scale="m">
             Access denied
             <calcite-inline-editable controls disabled>
-              <calcite-input placeholder="Day of the week" />
+              <calcite-input placeholder="Day of the week" scale="m" />
             </calcite-inline-editable>
           </calcite-label>
         </div>
@@ -135,7 +135,7 @@
           <calcite-label scale="l">
             Access denied
             <calcite-inline-editable controls disabled>
-              <calcite-input placeholder="Day of the week" />
+              <calcite-input placeholder="Day of the week" scale="l" />
             </calcite-inline-editable>
           </calcite-label>
         </div>

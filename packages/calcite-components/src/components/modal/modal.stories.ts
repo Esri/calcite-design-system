@@ -1,18 +1,15 @@
-import { select } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { select } from "../../../.storybook/fake-knobs";
+import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Modal",
   parameters: {
-    notes: readme,
     chromatic: {
       delay: 1000,
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -20,7 +17,7 @@ export const simple = (): string => html`
     ${boolean("open", true)}
     kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    width="${select("width", ["s", "m", "l"], "s")}"
+    width-scale="${select("width-scale", ["s", "m", "l"], "s")}"
     ${boolean("fullscreen", false)}
     ${boolean("docked", false)}
     ${boolean("escape-disabled", false)}
@@ -52,7 +49,7 @@ export const slots = (): string => html`
     ${boolean("open", true)}
     kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    width="${select("width", ["s", "m", "l"], "s")}"
+    width-scale="${select("width-scale", ["s", "m", "l"], "s")}"
     ${boolean("fullscreen", false)}
     ${boolean("docked", false)}
     ${boolean("escape-disabled", false)}
@@ -92,7 +89,7 @@ export const darkModeRTLCustomSizeCSSVars_TestOnly = (): string => html`
   </calcite-modal>
 `;
 
-darkModeRTLCustomSizeCSSVars_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTLCustomSizeCSSVars_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const withTooltips_TestOnly = (): string => html`
   <button id="button">Open</button>
