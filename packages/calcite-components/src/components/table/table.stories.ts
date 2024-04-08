@@ -1,15 +1,9 @@
-import { storyFilters, boolean } from "../../../.storybook/helpers";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import { number, select, text } from "@storybook/addon-knobs";
+import { boolean, number, select, text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/Table",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string =>
@@ -1425,7 +1419,7 @@ export const darkModeRTL_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const darkModeRTLWithSelection_TestOnly = (): string =>
   html`<calcite-table striped caption="Simple-striped table" dir="rtl" selection-mode="multiple">
@@ -1455,4 +1449,4 @@ export const darkModeRTLWithSelection_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-darkModeRTLWithSelection_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTLWithSelection_TestOnly.parameters = { themes: modesDarkDefault };
