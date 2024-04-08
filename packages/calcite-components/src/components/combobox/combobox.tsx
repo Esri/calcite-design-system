@@ -777,8 +777,10 @@ export class Combobox
       return;
     }
 
-    this.tooltipText =
-      textLabelEl.offsetWidth < textLabelEl.scrollWidth ? textLabelEl.innerText : null;
+    requestAnimationFrame(() => {
+      this.tooltipText =
+        textLabelEl.offsetWidth < textLabelEl.scrollWidth ? textLabelEl.innerText : null;
+    });
   };
 
   private textLabelElResizeObserver = createObserver("resize", this.setTooltipText);
@@ -1127,7 +1129,6 @@ export class Combobox
       this.updateActiveItemIndex(-1);
       this.resetText();
       this.filterItems("");
-      this.setTooltipText();
     }
   }
 

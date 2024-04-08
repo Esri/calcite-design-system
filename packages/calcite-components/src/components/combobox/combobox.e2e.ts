@@ -2007,13 +2007,14 @@ describe("calcite-combobox", () => {
 
   it("shows tooltip for combobox with truncated long single-select values", async () => {
     const longValue = "Natural Resources Including a Comprehensive List of Resources to Protect or Plunder";
+    const longValue2 = "Includes activities such as tree planting, timber harvesting, and wildlife management";
     const page = await newE2EPage();
     await page.setContent(html`
       <div style="width:200px;">
         <calcite-combobox placeholder="Select a field" selection-mode="single">
           <calcite-combobox-item selected value="NaturalResources" text-label="${longValue}"></calcite-combobox-item>
           <calcite-combobox-item value="Agriculture" text-label="Agriculture"></calcite-combobox-item>
-          <calcite-combobox-item value="Forestry" text-label="Forestry"></calcite-combobox-item>
+          <calcite-combobox-item value="Forestry" text-label="${longValue2}"></calcite-combobox-item>
           <calcite-combobox-item value="Mining" text-label="Mining"></calcite-combobox-item>
           <calcite-combobox-item value="Business" text-label="Business"></calcite-combobox-item>
         </calcite-combobox>
@@ -2024,5 +2025,18 @@ describe("calcite-combobox", () => {
 
     const inputWrap = await page.find(`calcite-combobox >>> .${CSS.inputWrap}`);
     expect(inputWrap.title).toEqual(longValue);
+
+    const combobox = await page.find("calcite-combobox");
+    await combobox.click();
+
+    await (await combobox.find("calcite-combobox-item[value=Agriculture]")).click();
+    const inputWrap1 = await page.find(`calcite-combobox >>> .${CSS.inputWrap}`);
+    expect(inputWrap1.title).not.toEqual(longValue);
+
+    await combobox.click();
+
+    await (await combobox.find("calcite-combobox-item[value=Forestry]")).click();
+    const inputWrap2 = await page.find(`calcite-combobox >>> .${CSS.inputWrap}`);
+    expect(inputWrap2.title).toEqual(longValue2);
   });
 });
