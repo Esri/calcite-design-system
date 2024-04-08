@@ -8,7 +8,7 @@
     ":widenPeerDependencies"
   ],
   "platformCommit": true,
-  "enabledManagers": ["npm"],
+  "enabledManagers": ["npm", "github-actions"],
   "timezone": "America/Los_Angeles",
   "schedule": ["before 5am on every weekday"],
   "labels": ["dependencies"],
