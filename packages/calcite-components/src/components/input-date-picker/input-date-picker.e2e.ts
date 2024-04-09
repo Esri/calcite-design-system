@@ -12,9 +12,9 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS } from "./resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
+import { CSS } from "./resources";
 const animationDurationInMs = 200;
 
 describe("calcite-input-date-picker", () => {
@@ -1143,6 +1143,129 @@ describe("calcite-input-date-picker", () => {
 
       expect(await element.getProperty("value")).toEqual(["2020-01-01", "2020-02-02"]);
       expect(changeEvent).toHaveReceivedEventTimes(2);
+    });
+  });
+
+  describe("ArrowKeys and PageKeys", () => {
+    it("should be able to navigate between months using arrow keys and page keys", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input-date-picker value="2024-01-01"></calcite-input-date-picker>`);
+      await page.waitForChanges();
+
+      const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      let calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(false);
+
+      await input.click();
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("PageUp");
+      await page.waitForChanges();
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      await page.waitForEvent("calciteInputDatePickerClose");
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(false);
+    });
+
+    it("should be able to navigate between months using arrow keys and page keys in range", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
+      await page.waitForChanges();
+
+      await page.evaluate(() => {
+        const inputDatePicker = document.querySelector("calcite-input-date-picker");
+        inputDatePicker.value = ["2024-01-01", "2024-02-10"];
+      });
+
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const [inputStart, inputEnd] = await page.findAll("calcite-input-date-picker >>> calcite-input-text");
+      let calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(false);
+
+      await inputStart.click();
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      await page.keyboard.press("PageUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      await page.waitForEvent("calciteInputDatePickerClose");
+
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(false);
+      expect(await inputDatePicker.getProperty("value")).not.toEqual(["2024-01-01", "2024-02-10"]);
+
+      await inputEnd.click();
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      await page.waitForEvent("calciteInputDatePickerClose");
+      calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(false);
+      expect(await inputDatePicker.getProperty("value")).not.toEqual(["2024-01-01", "2024-02-10"]);
     });
   });
 });
