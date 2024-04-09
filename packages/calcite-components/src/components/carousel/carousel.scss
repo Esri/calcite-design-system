@@ -17,31 +17,34 @@
   @apply flex w-full;
   --calcite-internal-carousel-item-space: 1.5rem;
   --calcite-internal-carousel-item-space-wide: 3.5rem;
-  --calcite-internal-item-background-color: var(
+  --calcite-internal-carousel-item-background-color: var(
     --calcite-carousel-slide-item-background-color,
     var(--calcite-color-foreground-1)
   );
-  --calcite-internal-item-background-color-hover: var(
+  --calcite-internal-carousel-item-background-color-hover: var(
     --calcite-carousel-slide-item-background-color-hover,
     var(--calcite-color-foreground-2)
   );
-  --calcite-internal-item-background-color-active: var(
+  --calcite-internal-carousel-item-background-color-active: var(
     --calcite-carousel-slide-item-background-color-active,
     var(--calcite-color-foreground-2)
   );
-  --calcite-internal-item-background-color-selected: var(
+  --calcite-internal-carousel-item-background-color-selected: var(
     --calcite-carousel-slide-item-background-color-selected,
     var(--calcite-color-foreground-1)
   );
-  --calcite-internal-item-icon-color-hover: var(
+  --calcite-internal-carousel-item-icon-color-hover: var(
     --calcite-carousel-slide-item-icon-color-hover,
     var(--calcite-action-color-transparent-hover)
   );
-  --calcite-internal-item-icon-color-selected: var(
+  --calcite-internal-carousel-item-icon-color-selected: var(
     --calcite-carousel-slide-item-icon-color-selected,
     var(--calcite-color-brand)
   );
-  --calcite-internal-item-icon-color: var(--calcite-carousel-slide-item-icon-color, var(--calcite-color-border-input));
+  --calcite-internal-carousel-item-icon-color: var(
+    --calcite-carousel-slide-item-icon-color,
+    var(--calcite-color-border-input)
+  );
 }
 
 .container {
@@ -92,12 +95,15 @@ calcite-carousel-item:not([selected]) {
 /* Pagination Styles*/
 .pagination {
   @apply flex
+  flex-row
   items-center
   justify-center
   p-3;
   inline-size: auto;
-  display: flex;
-  flex-direction: row;
+}
+
+.pagination-items {
+  @apply flex flex-row items-center;
 }
 
 .is-overlay .pagination {
@@ -107,6 +113,7 @@ calcite-carousel-item:not([selected]) {
 .is-edges {
   .page-next,
   .page-previous {
+    @apply h-12 w-12;
     position: absolute;
     inset-block-start: 50%;
     transform: translateY(-50%);
@@ -127,35 +134,56 @@ calcite-carousel-item:not([selected]) {
   inset-inline: 0;
 }
 
-.page-next,
-.page-previous,
 .pagination-item {
-  --calcite-color-foreground-1: var(--calcite-internal-item-background-color);
-  --calcite-ui-icon-color: var(--calcite-internal-item-icon-color);
-
+  @apply focus-base
+    transition-default
+    m-0
+    h-8
+    w-8
+    cursor-pointer
+    items-center
+    border-none
+    bg-transparent;
+  -webkit-appearance: none;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  --calcite-color-foreground-1: var(--calcite-internal-carousel-item-background-color);
+  color: var(--calcite-internal-carousel-item-icon-color);
   &:hover {
-    --calcite-color-foreground-2: var(--calcite-internal-item-background-color-hover);
-    --calcite-color-foreground-3: var(--calcite-internal-item-background-color-hover);
-    --calcite-color-background: var(--calcite-internal-item-background-color-hover);
-    --calcite-ui-icon-color: var(--calcite-internal-item-icon-color-hover);
+    background-color: var(--calcite-internal-carousel-item-background-color-hover);
+    color: var(--calcite-internal-carousel-item-icon-color-hover);
   }
-
-  &:active {
-    --calcite-color-foreground-3: var(--calcite-internal-item-background-color-active);
-    --calcite-ui-icon-color: var(--calcite-internal-item-icon-color-hover);
-  }
-
   &:focus {
-    --calcite-color-foreground-2: var(--calcite-internal-item-background-color-active);
+    background-color: var(--calcite-internal-carousel-item-background-color-active);
+    @apply focus-inset;
   }
-
+  &:active {
+    background-color: var(--calcite-internal-carousel-item-background-color-active);
+    color: var(--calcite-internal-carousel-item-icon-color-hover);
+  }
+  & calcite-icon {
+    color: inherit;
+  }
   &.pagination-item--selected {
-    --calcite-color-foreground-1: var(--calcite-internal-item-background-color-selected);
-    --calcite-color-foreground-3: var(--calcite-internal-item-background-color-selected);
-    --calcite-ui-icon-color: var(--calcite-internal-item-icon-color-selected);
+    --calcite-color-foreground-1: var(--calcite-internal-carousel-item-background-color-selected);
+    --calcite-color-foreground-3: var(--calcite-internal-carousel-item-background-color-selected);
+    color: var(--calcite-internal-carousel-item-icon-color-selected);
   }
 }
 
+.is-overlay .pagination-item {
+  background-color: var(--calcite-internal-carousel-item-background-color);
+  &:hover {
+    background-color: var(--calcite-internal-carousel-item-background-color-hover);
+  }
+  &:focus {
+    background-color: var(--calcite-internal-carousel-item-background-color-active);
+  }
+  &:active {
+    background-color: var(--calcite-internal-carousel-item-background-color-active);
+  }
+}
 /* @keyframes*/
 @keyframes item-advance {
   0% {

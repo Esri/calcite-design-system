@@ -5,7 +5,7 @@ import { CSS } from "./resources";
 describe("calcite-carousel", () => {
   describe("renders", () => {
     renders(
-      "<calcite-carousel><calcite-carousel-item selected><p>basic render</p></calcite-carousel-item></calcite-carousel>",
+      `<calcite-carousel label="Carousel example"><calcite-carousel-item label="Slide 1"><p>basic render</p></calcite-carousel-item><calcite-carousel-item label="Slide 2"><p>basic render</p></calcite-carousel-item></calcite-carousel>`,
       {
         display: "flex",
       },
@@ -13,12 +13,14 @@ describe("calcite-carousel", () => {
   });
 
   describe("honors hidden attribute", () => {
-    hidden("<calcite-carousel><calcite-carousel-item><p>basic render</p></calcite-carousel-item></calcite-carousel>");
+    hidden(
+      `<calcite-carousel hidden label="Carousel example"><calcite-carousel-item label="Slide 1"><p>basic render</p></calcite-carousel-item><calcite-carousel-item label="Slide 2"><p>basic render</p></calcite-carousel-item></calcite-carousel>`,
+    );
   });
 
   describe("accessible", () => {
     accessible(
-      "<calcite-carousel><calcite-carousel-item><p>basic render</p></calcite-carousel-item></calcite-carousel>",
+      `<calcite-carousel label="Carousel example"><calcite-carousel-item label="Slide 1"><p>basic render</p></calcite-carousel-item><calcite-carousel-item label="Slide 2"><p>basic render</p></calcite-carousel-item></calcite-carousel>`,
     );
   });
 
@@ -31,7 +33,7 @@ describe("calcite-carousel", () => {
       const page = await newE2EPage();
 
       await page.setContent(
-        `<calcite-carousel><calcite-carousel-item><p>basic render</p></calcite-carousel-item></calcite-carousel>`,
+        `<calcite-carousel label="Carousel example"><calcite-carousel-item label="Slide 1"><p>basic render</p></calcite-carousel-item><calcite-carousel-item label="Slide 2"><p>basic render</p></calcite-carousel-item></calcite-carousel>`,
       );
       const itemManager = await page.find("calcite-carousel");
       expect(itemManager).not.toBeNull();
@@ -42,10 +44,10 @@ describe("calcite-carousel", () => {
     it("should pre-select the correct item if the selected attribute is set", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        `<calcite-carousel>
-          <calcite-carousel-item id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+        `<calcite-carousel label="Carousel example">
+          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
@@ -59,9 +61,9 @@ describe("calcite-carousel", () => {
   describe("pagination", () => {
     it("should select the first item by default and change the selectedIndex when the previous or next buttons are clicked", async () => {
       const page = await newE2EPage({
-        html: `<calcite-carousel>
-      <calcite-carousel-item id="one"><p>first item default selected</p></calcite-carousel-item>
-      <calcite-carousel-item id="two"><p>next/prev behavior</p></calcite-carousel-item>
+        html: `<calcite-carousel label="Carousel example">
+      <calcite-carousel-item label="Slide 1" id="one"><p>first item default selected</p></calcite-carousel-item>
+      <calcite-carousel-item label="Slide 2" id="two"><p>next/prev behavior</p></calcite-carousel-item>
     </calcite-carousel>`,
       });
 
@@ -88,7 +90,9 @@ describe("calcite-carousel", () => {
 
     it("pagination should be hidden if there is 1 or fewer items", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-carousel></calcite-carousel>`);
+      await page.setContent(
+        `<calcite-carousel label="Carousel example"><calcite-carousel-item label="Slide 1" id="one"><p>first item default selected</p></calcite-carousel-item></calcite-carousel>`,
+      );
 
       const pagination = await page.find(`calcite-carousel >>> .${CSS.pagination}`);
       expect(pagination).toBeNull();
@@ -98,8 +102,8 @@ describe("calcite-carousel", () => {
   describe("handling dom updates after initial render", () => {
     it("should update if items are added after initial load", async () => {
       const page = await newE2EPage({
-        html: `<calcite-carousel>
-      <calcite-carousel-item><p>dynamically adding/removing items</p></calcite-carousel-item>
+        html: `<calcite-carousel label="Carousel example">
+      <calcite-carousel-item label="Slide 1"><p>dynamically adding/removing items</p></calcite-carousel-item>
     </calcite-carousel>`,
       });
 
@@ -127,7 +131,7 @@ describe("calcite-carousel", () => {
     it("should update visible item if selected item is removed", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        `<calcite-carousel>
+        `<calcite-carousel label="Carousel example">
           <calcite-carousel-item id="one"><p>dynamically adding/removing items</p></calcite-carousel-item>
           <calcite-carousel-item id="two"><p>dynamically adding/removing items</p></calcite-carousel-item>
         </calcite-carousel>`,

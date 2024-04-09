@@ -158,7 +158,14 @@ export class Carousel
     await updateMessages(this, this.effectiveLocale);
   }
 
+  @State() containerId = "";
+
   private container: HTMLDivElement;
+
+  @Watch("container")
+  onContainerRefChange(): void {
+    this.containerId = this.container?.id;
+  }
 
   private tabList: HTMLDivElement;
 
@@ -207,13 +214,11 @@ export class Carousel
   };
 
   private nextItem = (): void => {
-    this.direction = "advancing";
     const nextIndex = this.selectedIndex === this.items?.length - 1 ? 0 : this.selectedIndex + 1;
     this.setSelectedItem(true, nextIndex);
   };
 
   private previousItem = (): void => {
-    this.direction = "retreating";
     const prevIndex = this.selectedIndex === 0 ? this.items?.length - 1 : this.selectedIndex - 1;
     this.setSelectedItem(true, prevIndex);
   };
@@ -231,9 +236,11 @@ export class Carousel
 
     switch (event.key) {
       case "ArrowRight":
+        this.direction = "advancing";
         this.nextItem();
         break;
       case "ArrowLeft":
+        this.direction = "retreating";
         this.previousItem();
         break;
       case "Home":
@@ -250,7 +257,7 @@ export class Carousel
   };
 
   private tabListKeyDownHandler = (event: KeyboardEvent): void => {
-    const interactiveItems = Array(...this.tabList.querySelectorAll("calcite-action"));
+    const interactiveItems = Array(...this.tabList.querySelectorAll("button"));
     const currentEl = event.target as HTMLCalciteActionElement;
     switch (event.key) {
       case "ArrowRight":
@@ -292,100 +299,94 @@ export class Carousel
           [CSS.isOverlay]: this.controlOverlay,
         }}
         onKeyDown={this.tabListKeyDownHandler}
-        role="tablist"
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.storeTabListRef}
       >
-        {this.arrowType === "inline" && this.renderPreviousArrow()}
-        {this.items?.map((item, index) => (
-          <calcite-action
-            appearance={this.controlOverlay ? "solid" : "transparent"}
-            aria-controls={item.id}
-            aria-selected={toAriaBoolean(index === selectedIndex)}
-            class={{
-              [CSS.paginationItem]: true,
-              [CSS.paginationItemSelected]: index === selectedIndex,
-            }}
-            data-index={index}
-            icon={index === selectedIndex ? ICONS.active : ICONS.inactive}
-            label={item.label}
-            onClick={this.handleItemSelection}
-            role="tab"
-            scale="s"
-            text={item.label}
-            title={item.label}
-          />
-        ))}
-        {this.arrowType === "inline" && this.renderNextArrow()}
+        {this.arrowType === "inline" && this.renderArrow("previous")}
+        <div aria-label={this.label} class={CSS.paginationItems} role="tablist" tabIndex={-1}>
+          {this.items?.map((item, index) => {
+            const isMatch = index === selectedIndex;
+            return (
+              <button
+                aria-controls={!isMatch ? item.id : undefined}
+                aria-selected={toAriaBoolean(isMatch)}
+                class={{
+                  [CSS.paginationItem]: true,
+                  [CSS.paginationItemSelected]: isMatch,
+                }}
+                data-index={index}
+                key={item.id}
+                onClick={this.handleItemSelection}
+                role="tab"
+                title={item.label}
+              >
+                <calcite-icon icon={isMatch ? ICONS.active : ICONS.inactive} scale="s" />
+              </button>
+            );
+          })}
+        </div>
+        {this.arrowType === "inline" && this.renderArrow("next")}
       </div>
     );
   }
 
-  renderPreviousArrow(): VNode {
+  renderArrow = (direction: "previous" | "next"): VNode => {
     const dir = getElementDir(this.el);
+    const scale = this.arrowType === "edges" ? "m" : "s";
+    const css = direction === "previous" ? CSS.pagePrevious : CSS.pageNext;
+    const navigateFx = direction === "previous" ? this.previousItem : this.nextItem;
+    const title = direction === "previous" ? this.messages.previous : this.messages.next;
+    const iconRtl = direction === "previous" ? ICONS.chevronRight : ICONS.chevronLeft;
+    const iconLtr = direction === "previous" ? ICONS.chevronLeft : ICONS.chevronRight;
     return (
-      <calcite-action
-        appearance={this.controlOverlay ? "solid" : "transparent"}
-        aria-controls={this.container?.id}
-        class={CSS.pagePrevious}
-        icon={dir === "rtl" ? ICONS.chevronRight : ICONS.chevronLeft}
-        onClick={this.previousItem}
-        scale={this.arrowType === "edges" ? "m" : "s"}
-        text={this.messages.previous}
-      />
+      <button
+        aria-controls={this.containerId}
+        class={{
+          [CSS.paginationItem]: true,
+          [css]: true,
+        }}
+        onClick={navigateFx}
+        title={title}
+      >
+        <calcite-icon icon={dir === "rtl" ? iconRtl : iconLtr} scale={scale} />
+      </button>
     );
-  }
-
-  renderNextArrow(): VNode {
-    const dir = getElementDir(this.el);
-    return (
-      <calcite-action
-        appearance={this.controlOverlay ? "solid" : "transparent"}
-        aria-controls={this.container?.id}
-        class={CSS.pageNext}
-        icon={dir === "rtl" ? ICONS.chevronLeft : ICONS.chevronRight}
-        onClick={this.nextItem}
-        scale={this.arrowType === "edges" ? "m" : "s"}
-        text={this.messages.next}
-      />
-    );
-  }
+  };
 
   render(): VNode {
-    const { direction, selectedIndex } = this;
+    const { direction } = this;
     const containerId = `calcite-carousel-container-${guid()}`;
     return (
       <Host>
         <InteractiveContainer disabled={this.disabled}>
-          <section
-            aria-label={this.label}
-            aria-roledescription="carousel"
+          <div
             class={{
               [CSS.container]: true,
               [CSS.isOverlay]: this.controlOverlay,
               [CSS.isEdges]: this.arrowType === "edges",
             }}
-            id={containerId}
-            onKeyDown={this.containerKeyDownHandler}
-            role="group"
-            tabIndex={0}
-            // eslint-disable-next-line react/jsx-sort-props
-            ref={this.storeContainerRef}
           >
-            <div
+            <section
+              aria-label={this.label}
+              aria-roledescription="carousel"
               class={{
                 [CSS.itemContainer]: true,
                 [CSS.itemContainerAdvancing]: direction === "advancing",
                 [CSS.itemContainerRetreating]: direction === "retreating",
               }}
-              key={selectedIndex}
+              id={containerId}
+              onKeyDown={this.containerKeyDownHandler}
+              role="group"
+              tabIndex={0}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={this.storeContainerRef}
             >
               <slot onSlotchange={this.updateItems} />
-            </div>
-            {this.arrowType === "edges" && this.renderPreviousArrow()}
+            </section>
             {this.items?.length > 1 && this.renderPagination()}
-            {this.arrowType === "edges" && this.renderNextArrow()}
-          </section>
+            {this.arrowType === "edges" && this.renderArrow("previous")}
+            {this.arrowType === "edges" && this.renderArrow("next")}
+          </div>
         </InteractiveContainer>
       </Host>
     );

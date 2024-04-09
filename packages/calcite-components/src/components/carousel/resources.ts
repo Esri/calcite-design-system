@@ -4,6 +4,7 @@ export const CSS = {
   itemContainerAdvancing: "item-container--advancing",
   itemContainerRetreating: "item-container--retreating",
   pagination: "pagination",
+  paginationItems: "pagination-items",
   paginationItem: "pagination-item",
   paginationItemSelected: "pagination-item--selected",
   pageNext: "page-next",

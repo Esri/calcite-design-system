@@ -65,11 +65,10 @@ export class CarouselItem implements LoadableComponent {
   render(): VNode {
     const id = this.el.id || this.guid;
     return (
-      <Host id={id}>
+      <Host id={id} role="tabpanel">
         <div
           aria-label={this.label}
           class={{ [CSS.container]: true, [CSS.selected]: this.selected }}
-          role="tabpanel"
         >
           <slot />
         </div>
