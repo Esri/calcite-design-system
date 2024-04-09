@@ -191,6 +191,134 @@ export const alignments_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
+export const alignmentsTableRow_TestOnly = (): string =>
+  html`<calcite-table numbered selection-mode="multiple">
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading" description="Row alignment default (start)"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row alignment="start">
+      <calcite-table-header heading="Heading" description="Row alignment start"></calcite-table-header>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell
+        >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+        table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+        depending on the width of table and copy text and cell and longer text that will often wrap here that could be a
+        few lines or more depending on the width of table and copy text and cell and longer text that will often wrap
+        here that could be a few lines or more depending on the width of table and copy.</calcite-table-cell
+      >
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell
+        >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+        table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+        depending on the width of table and copy text and cell and longer text that will often wrap here that could be a
+        few lines or more depending on the width of table and copy text and cell and longer text that will often wrap
+        here that could be a few lines or more depending on the width of table and copy.</calcite-table-cell
+      >
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row alignment="end">
+      <calcite-table-header heading="Heading" description="Row alignment end"></calcite-table-header>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell
+        >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+        table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+        depending on the width of table and copy text and cell and longer text that will often wrap here that could be a
+        few lines or more depending on the width of table and copy text and cell and longer text that will often wrap
+        here that could be a few lines or more depending on the width of table and copy.</calcite-table-cell
+      >
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer" alignment="end">
+      <calcite-table-header heading="Heading" description="Row alignment end"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer" alignment="center">
+      <calcite-table-header heading="Heading" description="Row alignment center"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+  </calcite-table>`;
+
+export const alignmentsTableRowAndHeadersAndCells_TestOnly = (): string =>
+  html`<calcite-table numbered selection-mode="multiple">
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading" description="Row alignment default (start)"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Header center" alignment="center"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row alignment="start">
+      <calcite-table-header heading="Heading" description="Row alignment start"></calcite-table-header>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell
+        >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+        table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+        depending on the width of table and copy text and cell and longer text that will often wrap here that could be a
+        few lines or more depending on the width of table and copy text and cell and longer text that will often wrap
+        here that could be a few lines or more depending on the width of table and copy.</calcite-table-cell
+      >
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-cell alignment="center">cell align center</calcite-table-cell>
+      <calcite-table-cell alignment="end">cell align end</calcite-table-cell>
+      <calcite-table-cell
+        >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+        table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+        depending on the width of table and copy text and cell and longer text that will often wrap here that could be a
+        few lines or more depending on the width of table and copy text and cell and longer text that will often wrap
+        here that could be a few lines or more depending on the width of table and copy.</calcite-table-cell
+      >
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row alignment="end">
+      <calcite-table-header heading="Heading" description="Row alignment end"></calcite-table-header>
+      <calcite-table-cell alignment="center">cell align center</calcite-table-cell>
+      <calcite-table-cell alignment="end">cell align end</calcite-table-cell>
+      <calcite-table-cell alignment="center"
+        >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+        table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+        depending on the width of table and copy text and cell and longer text that will often wrap here that could be a
+        few lines or more depending on the width of table and copy text and cell and longer text that will often wrap
+        here that could be a few lines or more depending on the width of table and copy.</calcite-table-cell
+      >
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer" alignment="end">
+      <calcite-table-header heading="Heading" description="Row alignment end"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="alignment end" alignment="end"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer" alignment="center">
+      <calcite-table-header heading="Heading" description="Row alignment center"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="alignment end" alignment="end"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+  </calcite-table>`;
+
 export const disabledRows_TestOnly = (): string =>
   html`<calcite-table caption="Bordered-striped table">
     <calcite-table-row slot="table-header">
@@ -1387,14 +1515,14 @@ export const themingExample_TestOnly = (): string =>
         --calcite-table-selection-out-of-view-chip-shadow: var(--calcite-shadow-sm);
         --calcite-table-selection-out-of-view-chip-text-color: green;
         --calcite-table-selection-out-of-view-chip-icon-color: blue;
-        --calcite-table-pagination-text-color: green;
-        --calcite-table-pagination-text-color-hover: darkgreen;
-        --calcite-table-pagination-text-color-selected: teal;
-        --calcite-table-pagination-background-color: lightyellow;
-        --calcite-table-pagination-background-color-hover: yellow;
-        --calcite-table-pagination-background-color-active: gold;
-        --calcite-table-pagination-border-color-selected: green;
-        --calcite-table-pagination-border-color-hover: orange;
+        --calcite-table-pagination-item-text-color: green;
+        --calcite-table-pagination-item-text-color-hover: darkgreen;
+        --calcite-table-pagination-item-text-color-selected: teal;
+        --calcite-table-pagination-item-background-color: lightyellow;
+        --calcite-table-pagination-item-background-color-hover: yellow;
+        --calcite-table-pagination-item-background-color-active: gold;
+        --calcite-table-pagination-item-border-color-selected: green;
+        --calcite-table-pagination-item-border-color-hover: orange;
         --calcite-table-pagination-arrow-icon-color: blue;
         --calcite-table-pagination-arrow-icon-color-hover: pink;
         --calcite-table-pagination-arrow-icon-color-active: red;

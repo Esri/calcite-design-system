@@ -1,6 +1,6 @@
 # calcite-pick-list
 
-`calcite-pick-list` lives in a panel and contains `calcite-pick-list-item`s. Each item is able to be be selected via radio button or checkboxes (which have a multiselect and shift-click capability). There is also an option for a filter at the top of the list for searching.
+For comprehensive guidance on using and implementing `calcite-pick-list`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/pick-list/).
 
 <!-- Auto Generated Below -->
 
