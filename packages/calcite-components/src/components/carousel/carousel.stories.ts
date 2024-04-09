@@ -1,16 +1,10 @@
-import { storyFilters } from "../../../.storybook/helpers";
+import { select, text } from "@storybook/addon-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 import { boolean } from "../../../.storybook/helpers";
-import { select, text } from "@storybook/addon-knobs";
 
 export default {
   title: "Components/Carousel",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string =>
@@ -18,6 +12,8 @@ export const simple = (): string =>
     <calcite-carousel
       ${boolean("control-overlay", false)}
       ${boolean("disabled", false)}
+      ${boolean("rotation", false)}
+      ${boolean("rotating", false)}
       ${text("label", "Example carousel label")}
       arrow-type="${select("arrow-type", ["inline", "edges", "none"], "inline")}"
     >
@@ -57,6 +53,36 @@ export const simple = (): string =>
         </calcite-card>
       </calcite-carousel-item>
     </calcite-carousel>
+  </div>`;
+
+export const carouselRotationFullImageWithOverlay_TestOnly = (): string =>
+  html` <div style="width:600px;height:400px;">
+    <style>
+      .bg-image-example {
+        color: red;
+        background-image: url("https://placebear.com/3000/2000");
+        background-size: cover;
+        padding: 1rem;
+        height: 300px;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 32px;
+      }
+    </style>
+    <calcite-carousel control-overlay arrow-type="edges" rotation>
+      <calcite-carousel-item label="Carousel Item 1">
+        <div class="bg-image-example">Some kind of rich content over a bg using overlay controls</div>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 2">
+        <div class="bg-image-example">
+          Some kind of rich content over a bg using overlay controls but longer than the other one
+        </div>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 3">
+        <div class="bg-image-example">
+          Some kind of rich content over a bg using overlay controls but longer than the other one
+        </div>
+      </calcite-carousel-item>
   </div>`;
 
 export const carouselFullImageWithOverlay_TestOnly = (): string =>
