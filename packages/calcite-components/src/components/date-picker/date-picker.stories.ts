@@ -281,10 +281,10 @@ export const theming_TestOnly = (): string =>
         --calcite-date-picker-day-background-color-selected: #ffb000;
         --calcite-date-picker-day-corner-radius: 0px;
         --calcite-date-picker-day-text-color: #a4ce95;
-        --calcite-date-picker-week-headers-text-color: #5f5d9c;
+        --calcite-date-picker-week-header-text-color: #5f5d9c;
         --calcite-date-picker-header-background-color: green;
-        --calcite-date-picker-header-navigation-button-background-color: #6d2932;
-        --calcite-date-picker-header-navigation-button-text-color: #c7b7a3;
+        --calcite-date-picker-header-button-background-color: #6d2932;
+        --calcite-date-picker-header-button-text-color: #c7b7a3;
         --calcite-date-picker-header-text-color: #e8d8c4;
       }
     </style>
