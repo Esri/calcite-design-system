@@ -2003,7 +2003,7 @@ export type TestSelectToken = {
  * @param options.state - the state to apply to the target element
  * @param options.expectedValue - the expected value of the targetProp
  */
-export async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<void> {
+async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<void> {
   const { target, contextSelector, targetProp, state, expectedValue } = options;
   let styles = await target.getComputedStyle();
 
@@ -2108,7 +2108,7 @@ export async function assertThemedProps(page: E2EPage, options: TestTarget): Pro
  * @param token - the token as a CSS variable
  * @returns string - the new value for the token
  */
-export function assignTestTokenThemeValues(token: string): string {
+function assignTestTokenThemeValues(token: string): string {
   return token.includes("color")
     ? "rgb(0, 191, 255)"
     : token.includes("shadow")
