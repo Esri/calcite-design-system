@@ -12,7 +12,7 @@
  * @prop --calcite-date-picker-month-day-text-color-hover: Specifies the text color of day when hovered.
  * @prop --calcite-date-picker-month-day-text-color: Specifies the text color of day.
  * @prop --calcite-date-picker-month-day-text-selected: Specifies the text color of day when selected.
- * @prop --calcite-date-picker-month-week-headers-text-color: Specifies the text color of week headers.
+ * @prop --calcite-date-picker-month-week-header-text-color: Specifies the text color of week headers.
 */
 
 @include base-component();
@@ -31,7 +31,7 @@
 
 .week-header {
   @apply text-center px-0;
-  color: var(--calcite-date-picker-month-week-headers-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-date-picker-month-week-header-text-color, var(--calcite-color-text-3));
   font-weight: var(--calcite-font-weight-semibold);
   inline-size: calc(100% / 7);
   line-height: var(--calcite-font-line-height-fixed-base);
