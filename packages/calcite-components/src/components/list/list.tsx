@@ -48,8 +48,8 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { ListMessages } from "./assets/list/t9n";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
+import { ListMessages } from "./assets/list/t9n";
 import { ListDragDetail } from "./interfaces";
 
 const listItemSelector = "calcite-list-item";
