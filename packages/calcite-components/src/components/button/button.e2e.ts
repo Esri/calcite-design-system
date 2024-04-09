@@ -1,8 +1,8 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden, t9n } from "../../tests/commonTests";
-import { CSS } from "./resources";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-button", () => {
   describe("defaults", () => {

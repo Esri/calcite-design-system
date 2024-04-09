@@ -1,8 +1,6 @@
 import { boolean, text } from "../../../.storybook/fake-knobs";
-
 import { Attributes, createComponentHTML as create, filterComponentAttributes } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-
 import { SLOTS } from "../panel/resources";
 
 export default {

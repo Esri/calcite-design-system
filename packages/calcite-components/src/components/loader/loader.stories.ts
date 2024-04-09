@@ -1,5 +1,4 @@
 import { color, number, select } from "../../../.storybook/fake-knobs";
-
 import { html } from "../../../support/formatting";
 
 export default {

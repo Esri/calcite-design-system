@@ -1,20 +1,16 @@
 import { Component, Element, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
 import { Appearance, Scale } from "../interfaces";
-import { CSS } from "./resources";
-
 import {
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-
 import {
   afterConnectDefaultValueSet,
   connectForm,
   disconnectForm,
   FormComponent,
 } from "../../utils/form";
-
 import {
   connectLocalized,
   disconnectLocalized,
@@ -26,6 +22,7 @@ import {
 } from "../../utils/locale";
 import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
+import { CSS } from "./resources";
 import { MeterLabelType } from "./interfaces";
 
 @Component({

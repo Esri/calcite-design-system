@@ -1,8 +1,6 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-
 import { html } from "../../../support/formatting";
-
 import { boolean, select, text } from "../../../.storybook/fake-knobs";
 
 export default {
