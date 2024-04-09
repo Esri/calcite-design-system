@@ -64,7 +64,7 @@
     "@types/react-dom": "^16.0.9",
     "@types/semver": "7.5.8",
     "@types/shell-quote": "1.7.5",
-    "@types/sortablejs": "1.15.8",
+    "@types/sortablejs": "1.15.7",
     "@typescript-eslint/eslint-plugin": "7.6.0",
     "@typescript-eslint/parser": "7.6.0",
     "@whitespace/storybook-addon-html": "6.0.4",
