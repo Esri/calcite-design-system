@@ -163,9 +163,15 @@ export class Carousel
 
   @State() items: HTMLCalciteCarouselItemElement[];
 
+  @State() containerId = "";
+
   @State() direction: "advancing" | "retreating";
 
   @State() defaultMessages: CarouselMessages;
+
+  @State() swipeStartPosition: number;
+
+  @State() swipeTolerance = 100;
 
   @State() effectiveLocale = "";
 
@@ -173,8 +179,6 @@ export class Carousel
   async effectiveLocaleChange(): Promise<void> {
     await updateMessages(this, this.effectiveLocale);
   }
-
-  @State() containerId = "";
 
   private container: HTMLDivElement;
 
@@ -317,6 +321,24 @@ export class Carousel
     }
   };
 
+  private handleSwipeStart = (event: MouseEvent): void => {
+    this.swipeStartPosition = event.pageX;
+  };
+
+  private handleSwipeEnd = (event: MouseEvent): void => {
+    const pagePosition = event.pageX;
+    const diffX = Math.abs(event.pageX - this.swipeStartPosition);
+    const thresholdMet = diffX > this.swipeTolerance;
+
+    if (thresholdMet && pagePosition > this.swipeStartPosition) {
+      this.direction = "retreating";
+      this.previousItem();
+    } else if (thresholdMet) {
+      this.direction = "advancing";
+      this.nextItem(true);
+    }
+  };
+
   private setRotationInterval = (): void => {
     clearInterval(this.slideInterval);
     if (this.rotating) {
@@ -452,6 +474,8 @@ export class Carousel
               }}
               id={containerId}
               onKeyDown={this.containerKeyDownHandler}
+              onPointerDown={this.handleSwipeStart}
+              onPointerUp={this.handleSwipeEnd}
               role="group"
               tabIndex={0}
               // eslint-disable-next-line react/jsx-sort-props
