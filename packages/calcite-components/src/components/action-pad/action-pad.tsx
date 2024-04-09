@@ -33,10 +33,10 @@ import {
 } from "../../utils/t9n";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
-import { ActionPadMessages } from "./assets/action-pad/t9n";
-import { CSS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { ActionPadMessages } from "./assets/action-pad/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-action`s to the component.

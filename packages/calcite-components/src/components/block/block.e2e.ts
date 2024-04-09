@@ -1,5 +1,4 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { CSS, SLOTS } from "./resources";
 import {
   accessible,
   defaults,
@@ -14,6 +13,7 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-block", () => {
   describe("renders", () => {

@@ -1,7 +1,6 @@
 import { number, select, text } from "../../../.storybook/fake-knobs";
 import { boolean, iconNames } from "../../../.storybook/helpers";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 

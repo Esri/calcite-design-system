@@ -1,6 +1,5 @@
 import { boolean } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-
 import { html } from "../../../support/formatting";
 import { text } from "../../../.storybook/fake-knobs";
 

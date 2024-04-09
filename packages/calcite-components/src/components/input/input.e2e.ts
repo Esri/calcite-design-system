@@ -1,4 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { KeyInput } from "puppeteer";
 import {
   defaults,
   disabled,
@@ -14,7 +15,6 @@ import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementRect, getElementXY, selectText } from "../../tests/utils";
-import { KeyInput } from "puppeteer";
 import { testHiddenInputSyncing, testPostValidationFocusing } from "./common/tests";
 
 describe("calcite-input", () => {

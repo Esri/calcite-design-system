@@ -1,5 +1,4 @@
 import { boolean } from "../../../.storybook/fake-knobs";
-
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import {
   Attribute,
