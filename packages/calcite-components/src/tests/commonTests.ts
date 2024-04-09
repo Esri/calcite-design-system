@@ -11,7 +11,6 @@ import { MessageBundle } from "../utils/t9n";
 import {
   GlobalTestProps,
   IntrinsicElementsWithProp,
-  assignTestTokenThemeValues,
   isArray,
   isElementFocused,
   newProgrammaticE2EPage,
@@ -1875,7 +1874,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
  *       targetProp: "backgroundColor",
  *       state: "hover",
  *     },
- *   };
+ *   } as const;
  *   themed(`calcite-action-bar`, tokens);
  * });
  *
@@ -2004,7 +2003,7 @@ export type TestSelectToken = {
  * @param options.state - the state to apply to the target element
  * @param options.expectedValue - the expected value of the targetProp
  */
-export async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<void> {
+async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<void> {
   const { target, contextSelector, targetProp, state, expectedValue } = options;
   let styles = await target.getComputedStyle();
 
@@ -2099,4 +2098,20 @@ export async function assertThemedProps(page: E2EPage, options: TestTarget): Pro
   }
   await page.waitForChanges();
   expect(Object.is(styles[targetProp], expectedValue)).toBe(true);
+}
+
+/**
+ *
+ * Sets the value of a CSS variable to a test value.
+ * This is useful for testing themed components.
+ *
+ * @param token - the token as a CSS variable
+ * @returns string - the new value for the token
+ */
+function assignTestTokenThemeValues(token: string): string {
+  return token.includes("color")
+    ? "rgb(0, 191, 255)"
+    : token.includes("shadow")
+      ? "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px"
+      : `42${token.includes("z-index") ? "" : "px"}`;
 }
