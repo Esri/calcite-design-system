@@ -1,7 +1,7 @@
-import { CSS } from "./resources";
-import { accessible, defaults, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { accessible, defaults, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-block-section", () => {
   describe("renders", () => {

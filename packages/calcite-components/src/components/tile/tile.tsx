@@ -6,8 +6,8 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { CSS, SLOTS } from "./resources";
 import { Alignment, Scale } from "../interfaces";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.

@@ -1,5 +1,4 @@
 import { FunctionalComponent, h } from "@stencil/core";
-
 import { StarIconProps } from "../interfaces";
 
 export const StarIcon: FunctionalComponent<StarIconProps> = ({ full, scale, partial }) => (

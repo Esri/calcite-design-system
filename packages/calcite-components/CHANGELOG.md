@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.2-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.2-next.4...@esri/calcite-components@2.7.2-next.5) (2024-04-09)
+
+### Bug Fixes
+
+- **action:** maintain equal height when text is not enabled in a small scale ([#9051](https://github.com/Esri/calcite-design-system/issues/9051)) ([407824a](https://github.com/Esri/calcite-design-system/commit/407824a56ac879b253da50d6e1224c1e5879bf5d)), closes [#8900](https://github.com/Esri/calcite-design-system/issues/8900)
+
 ## [2.7.2-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.2-next.3...@esri/calcite-components@2.7.2-next.4) (2024-04-06)
 
 **Note:** Version bump only for package @esri/calcite-components

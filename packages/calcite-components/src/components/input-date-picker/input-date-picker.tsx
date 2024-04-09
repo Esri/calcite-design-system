@@ -13,6 +13,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { FocusTrap } from "focus-trap";
 import {
   dateFromISO,
   dateFromLocalizedString,
@@ -69,21 +70,20 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
-import { CSS } from "./resources";
 import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
-import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
 import {
   activateFocusTrap,
   connectFocusTrap,
   deactivateFocusTrap,
   FocusTrapComponent,
 } from "../../utils/focusTrapComponent";
-import { FocusTrap } from "focus-trap";
 import { guid } from "../../utils/guid";
-import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
+import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
+import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-input-date-picker",

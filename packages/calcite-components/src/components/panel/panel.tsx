@@ -33,8 +33,6 @@ import {
 import { createObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { CSS, ICONS, SLOTS } from "./resources";
-
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -43,8 +41,9 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { PanelMessages } from "./assets/panel/t9n";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { PanelMessages } from "./assets/panel/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.

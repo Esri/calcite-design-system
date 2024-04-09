@@ -6,7 +6,6 @@ import {
   createComponentHTML as create,
   filterComponentAttributes,
 } from "../../../.storybook/utils";
-
 import { html } from "../../../support/formatting";
 
 export default {

@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { CSS } from "./resources";
 import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-color-picker-swatch", () => {
   describe("renders", () => {
