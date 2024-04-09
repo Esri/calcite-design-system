@@ -1,4 +1,4 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { defaults, disabled, formAssociated, hidden, labelable, renders } from "../../tests/commonTests";
 import { getElementRect, getElementXY, isElementFocused } from "../../tests/utils";
@@ -656,12 +656,16 @@ describe("calcite-slider", () => {
     });
   });
 
-  describe("when range thumbs overlap at min edge", () => {
-    const commonSliderAttrs = `<calcite-slider
+  describe("when range thumbs overlap", () => {
+    let page: E2EPage;
+    let changeEvent: EventSpy;
+    let inputEvent: EventSpy;
+    let element: E2EElement;
+    let trackRect: DOMRect;
+
+    const commonSliderAttrs = `
       min="5"
       max="100"
-      min-value="5"
-      max-value="5"
       step="10"
       ticks="10"
       label-handles
@@ -669,106 +673,83 @@ describe("calcite-slider", () => {
       snap
       style="width:${sliderWidthFor1To1PixelValueTrack}"`;
 
-    it("click/tap should grab the max value thumb", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-slider ${commonSliderAttrs}></calcite-slider>`);
-      const element = await page.find("calcite-slider");
-      const changeEvent = await element.spyOnEvent("calciteSliderChange");
-      const inputEvent = await element.spyOnEvent("calciteSliderInput");
-      expect(await element.getProperty("minValue")).toBe(5);
-      expect(await element.getProperty("maxValue")).toBe(5);
-
-      const trackRect = await getElementRect(page, "calcite-slider", ".track");
-      await page.mouse.click(trackRect.x, trackRect.y);
-      await page.waitForChanges();
-
-      const isMaxThumbFocused = await isElementFocused(page, ".thumb--value", { shadowed: true });
-
-      expect(isMaxThumbFocused).toBe(true);
-      expect(await element.getProperty("minValue")).toBe(5);
-      expect(await element.getProperty("maxValue")).toBe(5);
+    async function assertValuesUnchanged(minMaxValue: number): void {
+      expect(await element.getProperty("minValue")).toBe(minMaxValue);
+      expect(await element.getProperty("maxValue")).toBe(minMaxValue);
       expect(changeEvent).toHaveReceivedEventTimes(0);
       expect(inputEvent).toHaveReceivedEventTimes(0);
+    }
+
+    async function setUpTest(sliderAttrs: string): Promise<void> {
+      page = await newE2EPage();
+      await page.setContent(html`<calcite-slider ${sliderAttrs}></calcite-slider>`);
+
+      element = await page.find("calcite-slider");
+      trackRect = await getElementRect(page, "calcite-slider", `.${CSS.track}`);
+      changeEvent = await element.spyOnEvent("calciteSliderChange");
+      inputEvent = await element.spyOnEvent("calciteSliderInput");
+    }
+
+    describe("at min edge", () => {
+      const expectedValue = 5;
+
+      it("click/tap should grab the max value thumb", async () => {
+        await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}"`);
+
+        await assertValuesUnchanged(5);
+
+        await page.mouse.click(trackRect.x, trackRect.y);
+        await page.waitForChanges();
+
+        const isMaxThumbFocused = await isElementFocused(page, `.${CSS.thumbValue}`, { shadowed: true });
+
+        expect(isMaxThumbFocused).toBe(true);
+        await assertValuesUnchanged(5);
+      });
+
+      it("mirrored: click/tap should grab the max value thumb", async () => {
+        await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}" mirrored`);
+
+        await assertValuesUnchanged(5);
+
+        await page.mouse.click(trackRect.x + trackRect.width, trackRect.y);
+        await page.waitForChanges();
+
+        const isMaxThumbFocused = await isElementFocused(page, `.${CSS.thumbValue}`, { shadowed: true });
+
+        expect(isMaxThumbFocused).toBe(true);
+        await assertValuesUnchanged(5);
+      });
     });
 
-    it("mirrored: click/tap should grab the max value thumb", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-slider ${commonSliderAttrs} mirrored></calcite-slider>`);
-      const element = await page.find("calcite-slider");
-      const changeEvent = await element.spyOnEvent("calciteSliderChange");
-      const inputEvent = await element.spyOnEvent("calciteSliderInput");
-      expect(await element.getProperty("minValue")).toBe(5);
-      expect(await element.getProperty("maxValue")).toBe(5);
+    describe("at max edge", () => {
+      const expectedValue = 100;
 
-      const trackRect = await getElementRect(page, "calcite-slider", ".track");
-      await page.mouse.click(trackRect.x + trackRect.width, trackRect.y);
-      await page.waitForChanges();
+      it("click/tap should grab the min value thumb", async () => {
+        await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}"`);
 
-      const isMaxThumbFocused = await isElementFocused(page, ".thumb--value", { shadowed: true });
+        await page.mouse.click(trackRect.x + trackRect.width, trackRect.y);
+        await page.waitForChanges();
 
-      expect(isMaxThumbFocused).toBe(true);
-      expect(await element.getProperty("minValue")).toBe(5);
-      expect(await element.getProperty("maxValue")).toBe(5);
-      expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(inputEvent).toHaveReceivedEventTimes(0);
-    });
-  });
+        const isMinThumbFocused = await isElementFocused(page, `.${CSS.thumbMinValue}`, { shadowed: true });
 
-  describe("when range thumbs overlap at max edge", () => {
-    const commonSliderAttrs = html`<calcite-slider
-      min="5"
-      max="100"
-      min-value="100"
-      max-value="100"
-      step="10"
-      ticks="10"
-      label-handles
-      label-ticks
-      snap
-      style="width:${sliderWidthFor1To1PixelValueTrack}"`;
+        expect(isMinThumbFocused).toBe(true);
+        await assertValuesUnchanged(expectedValue);
+      });
 
-    it("click/tap should grab the min value thumb", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-slider ${commonSliderAttrs}></calcite-slider>`);
-      const element = await page.find("calcite-slider");
-      const changeEvent = await element.spyOnEvent("calciteSliderChange");
-      const inputEvent = await element.spyOnEvent("calciteSliderInput");
-      expect(await element.getProperty("minValue")).toBe(100);
-      expect(await element.getProperty("maxValue")).toBe(100);
+      it("mirrored: click/tap should grab the max value thumb", async () => {
+        await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}" mirrored`);
 
-      const trackRect = await getElementRect(page, "calcite-slider", ".track");
-      await page.mouse.click(trackRect.x + trackRect.width, trackRect.y);
-      await page.waitForChanges();
+        await assertValuesUnchanged(expectedValue);
 
-      const isMinThumbFocused = await isElementFocused(page, ".thumb--minValue", { shadowed: true });
+        await page.mouse.click(trackRect.x, trackRect.y);
+        await page.waitForChanges();
 
-      expect(isMinThumbFocused).toBe(true);
-      expect(await element.getProperty("minValue")).toBe(100);
-      expect(await element.getProperty("maxValue")).toBe(100);
-      expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(inputEvent).toHaveReceivedEventTimes(0);
-    });
+        const isMinThumbFocused = await isElementFocused(page, `.${CSS.thumbMinValue}`, { shadowed: true });
 
-    it("mirrored: click/tap should grab the max value thumb", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html` <calcite-slider ${commonSliderAttrs} mirrored></calcite-slider>`);
-      const element = await page.find("calcite-slider");
-      const changeEvent = await element.spyOnEvent("calciteSliderChange");
-      const inputEvent = await element.spyOnEvent("calciteSliderInput");
-      expect(await element.getProperty("minValue")).toBe(100);
-      expect(await element.getProperty("maxValue")).toBe(100);
-
-      const trackRect = await getElementRect(page, "calcite-slider", ".track");
-      await page.mouse.click(trackRect.x, trackRect.y);
-      await page.waitForChanges();
-
-      const isMinThumbFocused = await isElementFocused(page, ".thumb--minValue", { shadowed: true });
-
-      expect(isMinThumbFocused).toBe(true);
-      expect(await element.getProperty("minValue")).toBe(100);
-      expect(await element.getProperty("maxValue")).toBe(100);
-      expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(inputEvent).toHaveReceivedEventTimes(0);
+        expect(isMinThumbFocused).toBe(true);
+        await assertValuesUnchanged(expectedValue);
+      });
     });
   });
 
