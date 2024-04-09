@@ -673,7 +673,7 @@ describe("calcite-slider", () => {
       snap
       style="width:${sliderWidthFor1To1PixelValueTrack}"`;
 
-    async function assertValuesUnchanged(minMaxValue: number): void {
+    async function assertValuesUnchanged(minMaxValue: number): Promise<void> {
       expect(await element.getProperty("minValue")).toBe(minMaxValue);
       expect(await element.getProperty("maxValue")).toBe(minMaxValue);
       expect(changeEvent).toHaveReceivedEventTimes(0);
