@@ -122,7 +122,7 @@ export const carouselInPopover_TestOnly = (): string =>
         margin: 2rem auto 1rem;
         display: block;
       }
-      calcite-carousel-item {
+      calcite-carousel {
         width: 400px;
       }
       calcite-carousel-item p {
@@ -328,7 +328,7 @@ export const carouselInPopoverDarkModeRTL_TestOnly = (): string => html`
         margin: 2rem auto 1rem;
         display: block;
       }
-      calcite-carousel-item {
+      calcite-carousel {
         width: 400px;
       }
       calcite-carousel-item p {
