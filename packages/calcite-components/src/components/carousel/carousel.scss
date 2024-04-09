@@ -164,6 +164,7 @@ calcite-carousel-item:not([selected]) {
   }
   & calcite-icon {
     color: inherit;
+    pointer-events: none;
   }
   &.pagination-item--selected {
     --calcite-color-foreground-1: var(--calcite-internal-carousel-item-background-color-selected);
