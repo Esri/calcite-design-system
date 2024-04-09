@@ -1,5 +1,4 @@
 import { boolean, select, text } from "../../../.storybook/fake-knobs";
-
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
@@ -9,7 +8,6 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-
 import { SLOTS } from "./resources";
 
 export default {

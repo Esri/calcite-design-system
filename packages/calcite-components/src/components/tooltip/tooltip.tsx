@@ -26,11 +26,10 @@ import {
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { FloatingArrow } from "../functional/FloatingArrow";
 import { ARIA_DESCRIBED_BY, CSS } from "./resources";
-
 import TooltipManager from "./TooltipManager";
 import { getEffectiveReferenceElement } from "./utils";
-import { FloatingArrow } from "../functional/FloatingArrow";
 
 const manager = new TooltipManager();
 

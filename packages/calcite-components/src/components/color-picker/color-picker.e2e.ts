@@ -1,8 +1,5 @@
-import { accessible, defaults, hidden, reflects, renders, focusable, disabled, t9n } from "../../tests/commonTests";
-import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, SCOPE_SIZE } from "./resources";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
-import { ColorValue } from "./interfaces";
-import SpyInstance = jest.SpyInstance;
+import { accessible, defaults, hidden, reflects, renders, focusable, disabled, t9n } from "../../tests/commonTests";
 import {
   GlobalTestProps,
   selectText,
@@ -12,6 +9,10 @@ import {
   toBeInteger,
 } from "../../tests/utils";
 import { html } from "../../../support/formatting";
+import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, SCOPE_SIZE } from "./resources";
+import { ColorValue } from "./interfaces";
+
+type SpyInstance = jest.SpyInstance;
 
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;

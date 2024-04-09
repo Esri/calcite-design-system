@@ -20,13 +20,12 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { TableCellMessages } from "./assets/table-cell/t9n";
-import { CSS } from "./resources";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
+import { CSS } from "./resources";
+import { TableCellMessages } from "./assets/table-cell/t9n";
 
 /**
  * @slot - A slot for adding content, usually text content.

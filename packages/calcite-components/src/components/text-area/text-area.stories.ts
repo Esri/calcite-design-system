@@ -1,6 +1,5 @@
 import { select, text, number } from "../../../.storybook/fake-knobs";
 import { boolean, iconNames } from "../../../.storybook/helpers";
-
 import { html } from "../../../support/formatting";
 
 export default {

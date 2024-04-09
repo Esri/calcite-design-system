@@ -1,11 +1,11 @@
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders, focusable, disabled, defaults, t9n } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { debounceTimeout } from "./resources";
 import { CSS as ListItemCSS, activeCellTestAttribute } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
 import { GlobalTestProps, dragAndDrop, isElementFocused, getFocusedElementProp } from "../../tests/utils";
+import { debounceTimeout } from "./resources";
 import { ListDragDetail } from "./interfaces";
 
 const placeholder = placeholderImage({

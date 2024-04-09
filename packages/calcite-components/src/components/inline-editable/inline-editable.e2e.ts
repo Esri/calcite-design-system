@@ -1,7 +1,7 @@
-import { accessible, disabled, labelable, renders, hidden, t9n } from "../../tests/commonTests";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { CSS } from "./resources";
+import { accessible, disabled, labelable, renders, hidden, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-inline-editable", () => {
   describe("renders", () => {
