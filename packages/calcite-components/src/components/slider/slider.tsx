@@ -515,23 +515,9 @@ export class Slider
     event.preventDefault();
     const fixedDecimalAdjustment = Number(adjustment.toFixed(decimalPlaces(step)));
     this.setValue({
-      [activeProp as SetValueProperty]: this.clamp(fixedDecimalAdjustment, activeProp, true),
+      [activeProp as SetValueProperty]: this.clamp(fixedDecimalAdjustment, activeProp),
     });
   };
-
-  /**
-   * Returns the max allowed value according to the W3C spec
-   *
-   * @param min
-   * @param max
-   * @param step
-   * @private
-   */
-  private getMaxAllowedValue(min: number, max: number, step: number): number {
-    const range = max - min;
-    const quotient = Math.floor(range / step);
-    return min + quotient * step;
-  }
 
   @Listen("pointerdown")
   pointerDownHandler(event: PointerEvent): void {
@@ -548,7 +534,7 @@ export class Slider
         prop = "minMaxValue";
       } else {
         const closerToMax = Math.abs(this.maxValue - position) < Math.abs(this.minValue - position);
-        prop = closerToMax || position > this.maxValue ? "maxValue" : "minValue";
+        prop = closerToMax || position >= this.maxValue ? "maxValue" : "minValue";
       }
     }
     this.lastDragPropValue = this[prop];
@@ -766,19 +752,12 @@ export class Slider
   }
 
   private focusActiveHandle(valueX: number): void {
-    switch (this.dragProp) {
-      case "minValue":
-        this.minHandle.focus();
-        break;
-      case "maxValue":
-      case "value":
-        this.maxHandle.focus();
-        break;
-      case "minMaxValue":
-        this.getClosestHandle(valueX).focus();
-        break;
-      default:
-        break;
+    if (this.dragProp === "minValue") {
+      this.minHandle.focus();
+    } else if (this.dragProp === "maxValue" || this.dragProp === "value") {
+      this.maxHandle.focus();
+    } else if (this.dragProp === "minMaxValue") {
+      this.getClosestHandle(valueX).focus();
     }
   }
 
@@ -908,12 +887,8 @@ export class Slider
    * @param prop
    * @internal
    */
-  private clamp(value: number, prop?: ActiveSliderProperty, bla = false): number {
-    value = clamp(
-      value,
-      this.min,
-      bla ? this.getMaxAllowedValue(this.min, this.max, this.step) : this.max,
-    );
+  private clamp(value: number, prop?: ActiveSliderProperty): number {
+    value = clamp(value, this.min, this.max);
 
     // ensure that maxValue and minValue don't swap positions
     if (prop === "maxValue") {
@@ -922,6 +897,7 @@ export class Slider
     if (prop === "minValue") {
       value = Math.min(value, this.maxValue);
     }
+
     return value;
   }
 
@@ -936,25 +912,21 @@ export class Slider
     const { left, width } = this.trackEl.getBoundingClientRect();
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
-    const clampedValue = this.clamp(
-      this.min + range * (mirror ? 1 - percent : percent),
-      undefined,
-      true,
-    );
+    const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
     const value = Number(clampedValue.toFixed(decimalPlaces(this.step)));
 
-    return this.snap && this.step ? this.getClosestStep(value) : value;
+    return !(this.snap && this.step) ? value : this.getClosestStep(value);
   }
 
   /**
    * Get closest allowed value along stepped values
    *
-   * @param num
+   * @param value
    * @internal
    */
-  private getClosestStep(num: number): number {
+  private getClosestStep(value: number): number {
     const { max, min, step } = this;
-    const snappedValue = Math.floor((num - min) / step) * step + min;
+    const snappedValue = Math.floor((value - min) / step) * step + min;
     return clamp(snappedValue, min, max);
   }
 
