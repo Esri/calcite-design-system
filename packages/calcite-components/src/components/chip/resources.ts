@@ -21,7 +21,7 @@ export const SLOTS = {
 
 export const ICONS = {
   close: "x",
-  unchecked: "circle",
-  checkedSingle: "circle-f",
-  checked: "check-circle-f",
+  unchecked: "square",
+  checkedSingle: "square-f",
+  checked: "check-square-f",
 };

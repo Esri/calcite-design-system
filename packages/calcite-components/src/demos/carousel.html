@@ -86,6 +86,7 @@
       <h1 style="margin: 0 auto; text-align: center">Carousel</h1>
       <div class="parent">
         <div class="child">
+          <h3>Interactive Demo</h3>
           <div style="display: flex; flex-direction: row; gap: 1rem">
             <calcite-label
               >controlOverlay
@@ -99,6 +100,14 @@
                 <calcite-segmented-control-item value="none">none</calcite-segmented-control-item>
               </calcite-segmented-control>
             </calcite-label>
+            <calcite-label
+              >rotation
+              <calcite-switch id="switch-rotation"></calcite-switch>
+            </calcite-label>
+            <calcite-label
+              >rotating
+              <calcite-switch id="switch-rotating"></calcite-switch>
+            </calcite-label>
           </div>
         </div>
         <div class="parent">
@@ -106,36 +115,40 @@
             <calcite-carousel id="example-carousel">
               <calcite-carousel-item label="The Red Rocks and Blue Water">
                 <p>
-                  Some kind of text that isn't that long that can occupy a carousel item content slot, maybe in a p tag.
+                  <calcite-icon scale="l" icon="number-circle-1"></calcite-icon>
+                  An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
                 </p>
               </calcite-carousel-item>
               <calcite-carousel-item label="The Long Trees">
-                <p>This is a carousel item with some kind of content example</p>
-              </calcite-carousel-item>
-              <calcite-carousel-item label="Square Nature">
-                <p>And the text will run out before the end of the image.</p>
-              </calcite-carousel-item>
-              <calcite-carousel-item label="The lack of imagery">
                 <p>
-                  This is the next paragraph and should show how wide the content area is now. In astronomy, the terms
-                  object and body are often used interchangeably.
+                  <calcite-icon scale="l" icon="number-circle-2"></calcite-icon>
+                  Another bit of content about this unbelievable item can go here on the second carousel item as an
+                  example
                 </p>
               </calcite-carousel-item>
               <calcite-carousel-item label="The Red Rocks and Blue Water">
                 <p>
-                  Some kind of text that isn't that long that can occupy a carousel item content slot, maybe in a p tag.
+                  <calcite-icon scale="l" icon="number-circle-3"></calcite-icon>
+                  An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
+                </p>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <p>
+                  <calcite-icon scale="l" icon="number-circle-4"></calcite-icon>
+                  An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
                 </p>
               </calcite-carousel-item>
               <calcite-carousel-item label="The Long Trees">
-                <p>This is a carousel item with some kind of content example</p>
-              </calcite-carousel-item>
-              <calcite-carousel-item label="Square Nature">
-                <p>And the text will run out before the end of the image.</p>
-              </calcite-carousel-item>
-              <calcite-carousel-item label="The lack of imagery">
                 <p>
-                  This is the next paragraph and should show how wide the content area is now. In astronomy, the terms
-                  object and body are often used interchangeably.
+                  <calcite-icon scale="l" icon="number-circle-5"></calcite-icon>
+                  Another bit of content about this unbelievable item can go here on the second carousel item as an
+                  example
+                </p>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <p>
+                  <calcite-icon scale="l" icon="number-circle-6"></calcite-icon>
+                  An unbelievable new feature has arrived in this exciting product category. It's pretty neat.
                 </p>
               </calcite-carousel-item>
             </calcite-carousel>
@@ -144,6 +157,120 @@
             <hr />
             <h3>Themed</h3>
             <calcite-carousel id="example-carousel" class="themed">
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <calcite-card>
+                  <div slot="title">1 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Long Trees">
+                <calcite-card>
+                  <div slot="title">2 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <calcite-card>
+                  <div slot="title">3 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <calcite-card>
+                  <div slot="title">4 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Long Trees">
+                <calcite-card>
+                  <div slot="title">5 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <calcite-card>
+                  <div slot="title">6 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+            </calcite-carousel>
+            <h3>auto-rotate manual</h3>
+            <calcite-carousel id="example-carousel" rotation>
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <calcite-card>
+                  <div slot="title">1 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Long Trees">
+                <calcite-card>
+                  <div slot="title">2 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <calcite-card>
+                  <div slot="title">3 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <calcite-card>
+                  <div slot="title">4 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Long Trees">
+                <calcite-card>
+                  <div slot="title">5 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+              <calcite-carousel-item label="The Red Rocks and Blue Water">
+                <calcite-card>
+                  <div slot="title">6 ArcGIS Online: Gallery and Organization pages</div>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                </calcite-card>
+              </calcite-carousel-item>
+            </calcite-carousel>
+            <h3>auto-rotate automatic</h3>
+            <calcite-carousel id="example-carousel" rotation rotating>
               <calcite-carousel-item label="The Red Rocks and Blue Water">
                 <calcite-card>
                   <div slot="title">1 ArcGIS Online: Gallery and Organization pages</div>
@@ -251,7 +378,7 @@
               </calcite-panel>
               <calcite-shell-panel slot="panel-start" width-scale="l">
                 <calcite-panel heading="Carousel in context">
-                  <calcite-block open heading="Carousel in block themed">
+                  <calcite-block open heading="Carousel in block ">
                     <calcite-carousel id="example-carousel" control-overlay arrow-type="edges">
                       <calcite-carousel-item label="The Red Rocks and Blue Water">
                         <p class="bg-image-example">1 Some kind of rich content over a bg using overlay controls</p>
@@ -287,8 +414,8 @@
                       </calcite-carousel-item>
                     </calcite-carousel>
                   </calcite-block>
-                  <calcite-block open heading="Carousel in block">
-                    <calcite-carousel id="example-carousel" control-overlay arrow-type="edges" class="themed">
+                  <calcite-block open heading="Carousel in block themed auto rotate">
+                    <calcite-carousel id="example-carousel" control-overlay arrow-type="edges" class="themed" rotation>
                       <calcite-carousel-item label="The Red Rocks and Blue Water">
                         <p class="bg-image-example">1 Some kind of rich content over a bg using overlay controls</p>
                       </calcite-carousel-item>
@@ -413,16 +540,30 @@
       <script>
         const carousel = document.getElementById("example-carousel");
         const switchOverlay = document.getElementById("switch-overlay");
+        const switchRotation = document.getElementById("switch-rotation");
+        const switchRotating = document.getElementById("switch-rotating");
+
         const arrowType = document.getElementById("arrow-type");
 
         document.querySelectorAll("calcite-carousel").forEach((item) => {
           item.addEventListener("calciteCarouselChange", (event) => {
-            console.log(event.target.selectedItem);
+            console.log(event.target.selectedItem, "selectedItem");
+          });
+          item.addEventListener("calciteCarouselRotatingChange", (event) => {
+            console.log(event.target.rotating, "rotating");
           });
         });
 
         switchOverlay.addEventListener("calciteSwitchChange", function () {
           carousel.controlOverlay = event.target.checked;
+        });
+
+        switchRotation.addEventListener("calciteSwitchChange", function () {
+          carousel.rotation = event.target.checked;
+        });
+
+        switchRotating.addEventListener("calciteSwitchChange", function () {
+          carousel.rotating = event.target.checked;
         });
 
         arrowType.addEventListener("calciteSegmentedControlChange", function () {

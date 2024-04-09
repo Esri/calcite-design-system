@@ -1,4 +1,6 @@
 {
   "previous": "Forrige",
-  "next": "Neste"
+  "next": "Neste",
+  "play": "Play",
+  "pause": "Pause"
 }

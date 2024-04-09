@@ -1,4 +1,6 @@
 {
   "previous": "Nazaj",
-  "next": "Naprej"
+  "next": "Naprej",
+  "play": "Play",
+  "pause": "Pause"
 }

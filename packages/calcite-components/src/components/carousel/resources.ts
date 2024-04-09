@@ -1,3 +1,5 @@
+export const DURATION = 10000;
+
 export const CSS = {
   container: "container",
   itemContainer: "item-container",
@@ -11,11 +13,14 @@ export const CSS = {
   pagePrevious: "page-previous",
   isOverlay: "is-overlay",
   isEdges: "is-edges",
+  rotationControl: "rotation-control",
 };
 
 export const ICONS = {
   chevronLeft: "chevron-left",
   chevronRight: "chevron-right",
-  inactive: "square",
+  inactive: "bullet-point-large",
   active: "square-f",
+  pause: "pause-f",
+  play: "play-f",
 };

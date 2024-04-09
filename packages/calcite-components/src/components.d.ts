@@ -599,7 +599,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -855,6 +855,14 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": CarouselMessages;
+        /**
+          * When `true`, and `rotation` is `true`, the carousel will continue automatically rotating.
+         */
+        "rotating": boolean;
+        /**
+          * When `true`, the rotation control is displayed.
+         */
+        "rotation": boolean;
         /**
           * The component's selected `calcite-carousel-item`.
           * @readonly
@@ -1356,7 +1364,7 @@ export namespace Components {
          */
         "activeRange": "start" | "end";
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -1816,7 +1824,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -2189,7 +2197,7 @@ export namespace Components {
          */
         "form": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -3531,7 +3539,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -3601,7 +3609,7 @@ export namespace Components {
          */
         "getSelectedItems": () => Promise<Map<string, HTMLCalcitePickListItemElement>>;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -3631,7 +3639,7 @@ export namespace Components {
          */
         "groupTitle": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
     }
@@ -3725,7 +3733,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -5221,7 +5229,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -5249,7 +5257,7 @@ export namespace Components {
          */
         "closed": boolean;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -6021,6 +6029,7 @@ declare global {
     };
     interface HTMLCalciteCarouselElementEventMap {
         "calciteCarouselChange": void;
+        "calciteCarouselRotatingChange": void;
     }
     interface HTMLCalciteCarouselElement extends Components.CalciteCarousel, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteCarouselElementEventMap>(type: K, listener: (this: HTMLCalciteCarouselElement, ev: CalciteCarouselCustomEvent<HTMLCalciteCarouselElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8048,7 +8057,7 @@ declare namespace LocalJSX {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -8322,6 +8331,18 @@ declare namespace LocalJSX {
           * Fires when the selected `calcite-carousel-item` changes.
          */
         "onCalciteCarouselChange"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        /**
+          * Fires when the carousel rotation state changes.
+         */
+        "onCalciteCarouselRotatingChange"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        /**
+          * When `true`, and `rotation` is `true`, the carousel will continue automatically rotating.
+         */
+        "rotating"?: boolean;
+        /**
+          * When `true`, the rotation control is displayed.
+         */
+        "rotation"?: boolean;
         /**
           * The component's selected `calcite-carousel-item`.
           * @readonly
@@ -8862,7 +8883,7 @@ declare namespace LocalJSX {
          */
         "activeRange"?: "start" | "end";
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -9344,7 +9365,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -9736,7 +9757,7 @@ declare namespace LocalJSX {
          */
         "form"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -11164,7 +11185,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -11231,7 +11252,7 @@ declare namespace LocalJSX {
          */
         "filteredItems"?: HTMLCalcitePickListItemElement[];
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -11264,7 +11285,7 @@ declare namespace LocalJSX {
          */
         "groupTitle"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
     }
@@ -11373,7 +11394,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -12907,7 +12928,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -12939,7 +12960,7 @@ declare namespace LocalJSX {
          */
         "closed"?: boolean;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**

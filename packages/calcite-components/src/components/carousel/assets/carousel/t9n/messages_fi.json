@@ -1,4 +1,6 @@
 {
   "previous": "Edellinen",
-  "next": "Seuraava"
+  "next": "Seuraava",
+  "play": "Play",
+  "pause": "Pause"
 }

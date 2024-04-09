@@ -37,7 +37,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { CSS, ICONS } from "./resources";
+import { CSS, DURATION, ICONS } from "./resources";
 import { CarouselMessages } from "./assets/carousel/t9n";
 import { ArrowType } from "./interfaces";
 
@@ -78,6 +78,21 @@ export class Carousel
    * Accessible name for the component.
    */
   @Prop() label!: string;
+
+  /**
+   * When `true`, the rotation control is displayed.
+   */
+  @Prop({ reflect: true }) rotation = false;
+
+  /**
+   * When `true`, and `rotation` is `true`, the carousel will continue automatically rotating.
+   */
+  @Prop({ reflect: true, mutable: true }) rotating = false;
+
+  @Watch("rotating")
+  handleIsRotatingChange(): void {
+    this.setRotationInterval();
+  }
 
   /**
    * Made into a prop for testing purposes only
@@ -122,6 +137,7 @@ export class Carousel
 
   componentDidRender(): void {
     updateHostInteraction(this);
+    this.setRotationInterval();
   }
 
   disconnectedCallback(): void {
@@ -169,6 +185,10 @@ export class Carousel
 
   private tabList: HTMLDivElement;
 
+  private slideDuration = DURATION;
+
+  private slideInterval = null;
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -177,6 +197,9 @@ export class Carousel
 
   /** Fires when the selected `calcite-carousel-item` changes. */
   @Event({ cancelable: false }) calciteCarouselChange: EventEmitter<void>;
+
+  /** Fires when the carousel rotation state changes. */
+  @Event({ cancelable: false }) calciteCarouselRotatingChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -199,6 +222,7 @@ export class Carousel
   };
 
   private setSelectedItem = (emit: boolean, requestedIndex: number): void => {
+    const previousSelected = this.selectedIndex;
     this.items?.forEach((el, index) => {
       const isMatch = requestedIndex === index;
       el.selected = isMatch;
@@ -209,13 +233,20 @@ export class Carousel
     });
 
     if (emit) {
-      this.calciteCarouselChange.emit();
+      if (this.rotating) {
+        this.rotating = false;
+        this.calciteCarouselRotatingChange.emit();
+      }
+
+      if (previousSelected !== this.selectedIndex) {
+        this.calciteCarouselChange.emit();
+      }
     }
   };
 
-  private nextItem = (): void => {
+  private nextItem = (emit: boolean): void => {
     const nextIndex = this.selectedIndex === this.items?.length - 1 ? 0 : this.selectedIndex + 1;
-    this.setSelectedItem(true, nextIndex);
+    this.setSelectedItem(emit, nextIndex);
   };
 
   private previousItem = (): void => {
@@ -224,8 +255,12 @@ export class Carousel
   };
 
   private handleItemSelection = (event: MouseEvent): void => {
+    if (this.rotating && event.target) {
+      this.rotating = false;
+    }
     const item = event.target as HTMLCalciteActionElement;
     const requestedPosition = parseInt(item.dataset.index);
+    this.direction = requestedPosition > this.selectedIndex ? "advancing" : "retreating";
     this.setSelectedItem(true, requestedPosition);
   };
 
@@ -235,9 +270,14 @@ export class Carousel
     }
 
     switch (event.key) {
+      case " ":
+      case "Enter":
+        event.preventDefault();
+        this.setIsRotating();
+        break;
       case "ArrowRight":
         this.direction = "advancing";
-        this.nextItem();
+        this.nextItem(true);
         break;
       case "ArrowLeft":
         this.direction = "retreating";
@@ -277,6 +317,22 @@ export class Carousel
     }
   };
 
+  private setRotationInterval = (): void => {
+    clearInterval(this.slideInterval);
+    if (this.rotating) {
+      this.slideInterval = setInterval(() => this.nextItem(false), this.slideDuration);
+    }
+  };
+
+  private setIsRotating = (): void => {
+    this.rotating = !this.rotating;
+    this.calciteCarouselRotatingChange.emit();
+  };
+
+  private handleRotationControlClick = (): void => {
+    this.setIsRotating();
+  };
+
   private storeTabListRef = (el: HTMLDivElement): void => {
     this.tabList = el;
   };
@@ -290,6 +346,24 @@ export class Carousel
   //  Render Methods
   //
   // --------------------------------------------------------------------------
+
+  renderRotationControl(): VNode {
+    const text = this.rotating ? this.messages.pause : this.messages.play;
+    return (
+      <button
+        aria-label={text}
+        class={{
+          [CSS.paginationItem]: true,
+          [CSS.rotationControl]: true,
+        }}
+        onClick={this.handleRotationControlClick}
+        title={text}
+      >
+        <calcite-icon icon={this.rotating ? ICONS.pause : ICONS.play} scale="s" />
+      </button>
+    );
+  }
+
   renderPagination(): VNode {
     const { selectedIndex } = this;
     return (
@@ -302,6 +376,7 @@ export class Carousel
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.storeTabListRef}
       >
+        {this.rotation && this.renderRotationControl()}
         {this.arrowType === "inline" && this.renderArrow("previous")}
         <div aria-label={this.label} class={CSS.paginationItems} role="tablist" tabIndex={-1}>
           {this.items?.map((item, index) => {
@@ -334,7 +409,7 @@ export class Carousel
     const dir = getElementDir(this.el);
     const scale = this.arrowType === "edges" ? "m" : "s";
     const css = direction === "previous" ? CSS.pagePrevious : CSS.pageNext;
-    const navigateFx = direction === "previous" ? this.previousItem : this.nextItem;
+    const navigateFx = direction === "previous" ? this.previousItem : () => this.nextItem(true);
     const title = direction === "previous" ? this.messages.previous : this.messages.next;
     const iconRtl = direction === "previous" ? ICONS.chevronRight : ICONS.chevronLeft;
     const iconLtr = direction === "previous" ? ICONS.chevronLeft : ICONS.chevronRight;
@@ -368,6 +443,7 @@ export class Carousel
           >
             <section
               aria-label={this.label}
+              aria-live={this.rotating ? "off" : "polite"}
               aria-roledescription="carousel"
               class={{
                 [CSS.itemContainer]: true,
