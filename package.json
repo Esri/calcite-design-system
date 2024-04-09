@@ -32,7 +32,7 @@
     "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
   },
   "devDependencies": {
-    "@babel/preset-react": "7.23.3",
+    "@babel/preset-react": "7.24.1",
     "@cspell/eslint-plugin": "8.3.2",
     "@esri/calcite-base": "1.2.0",
     "@esri/calcite-colors": "6.1.0",
