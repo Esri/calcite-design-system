@@ -135,15 +135,15 @@
 :host([position^="inline"]) .container,
 :host([position^="inline"]) .content {
   inline-size: var(--calcite-sheet-width, var(--calcite-sheet-width-internal));
-  max-inline-size: var(--calcite-sheet-max-width-internal);
-  min-inline-size: var(--calcite-sheet-min-width-internal);
+  max-inline-size: var(--calcite-sheet-max-width, var(--calcite-sheet-max-width-internal));
+  min-inline-size: var(--calcite-sheet-min-width, var(--calcite-sheet-min-width-internal));
 }
 
 :host([position^="block"]) .container,
 :host([position^="block"]) .content {
-  block-size: var(--calcite-sheet-height-internal);
-  max-block-size: var(--calcite-sheet-max-height-internal);
-  min-block-size: var(--calcite-sheet-min-height-internal);
+  block-size: var(--calcite-sheet-height, var(--calcite-sheet-height-internal));
+  max-block-size: var(--calcite-sheet-max-height, var(--calcite-sheet-max-height-internal));
+  min-block-size: var(--calcite-sheet-min-height, var(--calcite-sheet-min-height-internal));
 }
 
 :host([display-mode="float"][position^="inline"]) .container {
