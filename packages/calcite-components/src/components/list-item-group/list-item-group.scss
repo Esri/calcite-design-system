@@ -10,7 +10,7 @@
 @include disabled();
 
 .container {
-  @apply text-n1 text-color-2 m-0 flex flex-1 p-3 font-sans;
+  @apply text-n1 text-color-2 m-0 flex flex-1 p-3 font-sans font-normal;
 }
 
 .heading {
