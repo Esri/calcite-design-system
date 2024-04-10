@@ -7,6 +7,8 @@ export const CSS = {
   largeVisual: "large-visual",
   row: "row",
   selectable: "selectable",
+  selected: "selected",
+  selectionIcon: "selection-icon",
   textContent: "text-content",
 };
 

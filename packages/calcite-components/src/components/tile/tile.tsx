@@ -266,6 +266,7 @@ export class Tile implements InteractiveComponent {
     }
     return (
       <calcite-icon
+        class={CSS.selectionIcon}
         icon={
           selected
             ? selectionMode === "multiple"
@@ -281,24 +282,24 @@ export class Tile implements InteractiveComponent {
   }
 
   renderTile(): VNode {
-    const { disabled, icon, heading, description, iconFlipRtl, selectionMode } = this;
+    const { description, disabled, heading, icon, iconFlipRtl, interactive, selectionMode } = this;
     const isLargeVisual = heading && icon && !description;
 
     // TODO: this might have to be smarter to handle standalone href cases
-    const disableInteraction = disabled || (!disabled && !this.interactive);
+    const disableInteraction = disabled || (!disabled && !interactive);
 
     const role =
-      selectionMode === "multiple" && this.interactive
+      selectionMode === "multiple" && interactive
         ? "checkbox"
-        : selectionMode !== "none" && this.interactive
+        : selectionMode !== "none" && interactive
           ? "radio"
-          : this.interactive
+          : interactive
             ? "button"
             : undefined;
     return (
       <div
         aria-checked={
-          selectionMode !== "none" && this.interactive ? toAriaBoolean(this.selected) : undefined
+          selectionMode !== "none" && interactive ? toAriaBoolean(this.selected) : undefined
         }
         aria-disabled={disableInteraction ? toAriaBoolean(disabled) : undefined}
         aria-label={this.label}
@@ -306,6 +307,7 @@ export class Tile implements InteractiveComponent {
           [CSS.container]: true,
           [CSS.largeVisual]: isLargeVisual,
           [CSS.row]: true,
+          [CSS.selected]: this.selected,
           [CSS.selectable]: selectionMode !== "none",
         }}
         onClick={this.handleSelectEvent}

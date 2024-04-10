@@ -27,10 +27,20 @@
   inline-size: var(--calcite-container-size-content-fluid);
   pointer-events: none;
   user-select: none;
-  &:focus {
+  &.selected {
     outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-color-brand);
-    position: relative;
     z-index: var(--calcite-z-index);
+  }
+  &:focus {
+    outline: var(--calcite-border-width-md, 2px) solid var(--calcite-color-brand);
+    z-index: var(--calcite-z-index-sticky);
+  }
+  &:focus,
+  &.selected {
+    position: relative;
+    .selection-icon {
+      --calcite-ui-icon-color: var(--calcite-color-brand);
+    }
   }
 }
 
