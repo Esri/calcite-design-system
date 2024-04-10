@@ -12,7 +12,6 @@ import { MessageBundle } from "../utils/t9n";
 import {
   GlobalTestProps,
   IntrinsicElementsWithProp,
-  isArray,
   isElementFocused,
   newProgrammaticE2EPage,
   skipAnimations,
@@ -1895,7 +1894,7 @@ export function themed(
     for (const token in tokens) {
       let selectors = tokens[token];
 
-      if (!isArray(selectors)) {
+      if (!Array.isArray(selectors)) {
         selectors = [selectors];
       }
 
