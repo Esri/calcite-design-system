@@ -1,5 +1,5 @@
-import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 import { FunctionalComponent, h } from "@stencil/core";
+import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 
 /**
  * Any form <Component> with a `calcite<Component>Input` event needs to be included in this array.

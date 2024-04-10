@@ -1,4 +1,4 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import {
   Attribute,
   filterComponentAttributes,
@@ -6,18 +6,13 @@ import {
   createComponentHTML as create,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { alignment, scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Buttons/Action",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -26,7 +21,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "active",
         commit(): Attribute {
-          this.value = boolean("active", false);
+          this.value = boolean("active", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -50,7 +45,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "compact",
         commit(): Attribute {
-          this.value = boolean("compact", false);
+          this.value = boolean("compact", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -58,7 +53,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false);
+          this.value = boolean("disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -74,7 +69,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "indicator",
         commit(): Attribute {
-          this.value = boolean("indicator", false);
+          this.value = boolean("indicator", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -90,7 +85,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false);
+          this.value = boolean("loading", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -114,7 +109,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "text-enabled",
         commit(): Attribute {
-          this.value = boolean("textEnabled", true);
+          this.value = boolean("textEnabled", true, "", "prop");
           delete this.build;
           return this;
         },
@@ -122,7 +117,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "style",
         commit(): Attribute {
-          this.value = boolean("textEnabled", true);
+          this.value = boolean("textEnabled", true, "", "prop");
           delete this.build;
           return this;
         },
@@ -210,6 +205,20 @@ export const indicatorNoTextEnabledNoIcon_TestOnly = (): string => html`
   <calcite-action indicator active text="click-me"></calcite-action>
 `;
 
+export const noTextHeight_TestOnly = (): string =>
+  html`<h2>All actions should be the same height</h2>
+    <div style="width: min-content">
+      <div style="border: solid 1px">
+        <calcite-action text="hello" text-enabled icon="home" scale="s"></calcite-action>
+      </div>
+      <div style="border: solid 1px">
+        <calcite-action text="hello" icon="home" scale="s"></calcite-action>
+      </div>
+      <div style="border: solid 1px">
+        <calcite-action icon="home" scale="s"></calcite-action>
+      </div>
+    </div>`;
+
 export const arabicLocale_TestOnly = (): string => html`
   <calcite-action
     dir="rtl"
@@ -233,4 +242,4 @@ export const darkModeRTL_TestOnly = (): string =>
     )}
   </div>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

@@ -266,7 +266,7 @@
     grid-row: items;
     border-block-start-width: var(--calcite-spacing-base);
     &:focus {
-      @apply focus-outset;
+      @apply focus-outset duration-0;
     }
   }
 
@@ -275,6 +275,12 @@
     padding-block: 0;
     padding-inline-end: var(--calcite-internal-stepper-item-space-unit-m);
     text-align: start;
+  }
+}
+
+:host([layout="vertical"]) {
+  .stepper-item-header:focus {
+    @apply duration-0;
   }
 }
 

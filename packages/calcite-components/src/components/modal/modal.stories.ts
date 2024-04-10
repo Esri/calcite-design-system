@@ -1,18 +1,15 @@
-import { select } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { select } from "../../../.storybook/fake-knobs";
+import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Modal",
   parameters: {
-    notes: readme,
     chromatic: {
       delay: 1000,
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -92,7 +89,7 @@ export const darkModeRTLCustomSizeCSSVars_TestOnly = (): string => html`
   </calcite-modal>
 `;
 
-darkModeRTLCustomSizeCSSVars_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTLCustomSizeCSSVars_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const withTooltips_TestOnly = (): string => html`
   <button id="button">Open</button>

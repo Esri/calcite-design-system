@@ -11,10 +11,10 @@ import {
   State,
   VNode,
 } from "@stencil/core";
-import { CSS } from "./resources";
 import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 import { TabChangeEventDetail } from "./interfaces";
 
 /**

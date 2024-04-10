@@ -1,5 +1,5 @@
-import { TimeZoneItem, TimeZoneMode, TimeZoneName } from "./interfaces";
 import { getDateTimeFormat, SupportedLocale } from "../../utils/locale";
+import { TimeZoneItem, TimeZoneMode, TimeZoneName } from "./interfaces";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
 
 const hourToMinutes = 60;
