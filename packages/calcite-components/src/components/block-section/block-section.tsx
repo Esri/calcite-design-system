@@ -11,7 +11,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-
 import { focusFirstTabbable, getElementDir, toAriaBoolean } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
@@ -23,15 +22,15 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Status } from "../interfaces";
-import { BlockSectionMessages } from "./assets/block-section/t9n";
-import { BlockSectionToggleDisplay } from "./interfaces";
-import { CSS, ICONS, IDS } from "./resources";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { BlockSectionMessages } from "./assets/block-section/t9n";
+import { BlockSectionToggleDisplay } from "./interfaces";
+import { CSS, ICONS, IDS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.

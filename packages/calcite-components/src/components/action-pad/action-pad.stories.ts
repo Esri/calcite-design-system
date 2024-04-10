@@ -1,4 +1,4 @@
-import { boolean, select } from "@storybook/addon-knobs";
+import { boolean, select } from "../../../.storybook/fake-knobs";
 import {
   Attributes,
   Attribute,
@@ -6,20 +6,16 @@ import {
   createComponentHTML as create,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Action Pad",
   parameters: {
-    notes: readme,
     chromatic: {
       delay: 5000,
     },
   },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -30,7 +26,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "expand-disabled",
         commit(): Attribute {
-          this.value = boolean("expandDisabled", false);
+          this.value = boolean("expandDisabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -38,7 +34,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "expanded",
         commit(): Attribute {
-          this.value = boolean("expanded", false);
+          this.value = boolean("expanded", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -112,21 +108,7 @@ export const darkModeRTL_TestOnly = (): string =>
     `,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
-
-export const withTooltip_NoTest = (): string =>
-  create(
-    "calcite-action-pad",
-    createAttributes(),
-    html`
-      <calcite-tooltip placement="bottom" slot="expand-tooltip">Expand</calcite-tooltip>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    `,
-  );
-
-withTooltip_NoTest.parameters = {
-  chromatic: { disableSnapshot: true },
-};
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const hebrewLocale_TestOnly = (): string =>
   html`<div style="width:400px">

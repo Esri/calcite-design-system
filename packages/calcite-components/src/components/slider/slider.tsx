@@ -13,7 +13,6 @@ import {
   Watch,
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,

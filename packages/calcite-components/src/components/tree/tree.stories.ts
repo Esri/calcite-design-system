@@ -1,9 +1,7 @@
-import { select } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { select } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import treeItemReadme from "../tree-item/readme.md";
-import readme from "./readme.md";
 
 const treeItems = html`
   <calcite-tree-item>
@@ -157,12 +155,10 @@ const slottedSmallActionsEnd = html`
 export default {
   title: "Components/Tree",
   parameters: {
-    notes: [readme, treeItemReadme],
     chromatic: {
       delay: 1000,
     },
   },
-  ...storyFilters(),
 };
 
 const selectionModes = ["single", "children", "multichildren", "ancestors", "none", "multiple"];
@@ -263,7 +259,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     ${treeItems}
   </calcite-tree>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const OverflowingSubtree = (): string =>
   html`<div style="width:400px">

@@ -11,8 +11,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { ItemKeyboardEvent } from "./interfaces";
-
 import { focusElement, focusElementInGroup, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -45,6 +43,7 @@ import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
+import { ItemKeyboardEvent } from "./interfaces";
 import { SLOTS } from "./resources";
 
 /**

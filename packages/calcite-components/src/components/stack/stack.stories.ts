@@ -1,15 +1,9 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Support/Stack",
-  parameters: {
-    notes: [readme],
-  },
-  ...storyFilters(),
 };
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
@@ -48,7 +42,7 @@ export const stretchSlottedContent = (): string => html`
 `;
 
 export const simpleDarkMode_TestOnly = (): string => simpleHTML;
-simpleDarkMode_TestOnly.parameters = { modes: modesDarkDefault };
+simpleDarkMode_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string =>
   html`<calcite-stack disabled>

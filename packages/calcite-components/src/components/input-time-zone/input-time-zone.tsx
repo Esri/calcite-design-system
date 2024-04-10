@@ -23,7 +23,6 @@ import {
   LocalizedComponent,
   SupportedLocale,
 } from "../../utils/locale";
-import { TimeZoneItem, TimeZoneMode } from "./interfaces";
 import { Scale, Status } from "../interfaces";
 import {
   connectMessages,
@@ -32,8 +31,6 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
-import { createTimeZoneItems, getUserTimeZoneName, getUserTimeZoneOffset } from "./utils";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import {
   componentFocusable,
@@ -48,6 +45,9 @@ import {
   FormComponent,
   HiddenFormInputSlot,
 } from "../../utils/form";
+import { createTimeZoneItems, getUserTimeZoneName, getUserTimeZoneOffset } from "./utils";
+import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
+import { TimeZoneItem, TimeZoneMode } from "./interfaces";
 
 @Component({
   tag: "calcite-input-time-zone",
