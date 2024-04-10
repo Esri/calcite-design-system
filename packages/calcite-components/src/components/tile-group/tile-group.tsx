@@ -19,6 +19,7 @@ import {
 import { Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { CSS } from "./resources";
 import { createObserver } from "../../utils/observers";
+import { focusElementInGroup } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding `calcite-tile` elements.
@@ -196,6 +197,29 @@ export class TileGroup implements InteractiveComponent {
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
+
+  @Listen("calciteInternalTileKeyEvent")
+  calciteInternalTileKeyEventListener(event: CustomEvent): void {
+    if (event.composedPath().includes(this.el)) {
+      const interactiveItems = this.items?.filter((el) => !el.disabled);
+      switch (event.detail.key) {
+        case "ArrowDown":
+        case "ArrowRight":
+          focusElementInGroup(interactiveItems, event.detail.target, "next");
+          break;
+        case "ArrowUp":
+        case "ArrowLeft":
+          focusElementInGroup(interactiveItems, event.detail.target, "previous");
+          break;
+        case "Home":
+          focusElementInGroup(interactiveItems, event.detail.target, "first");
+          break;
+        case "End":
+          focusElementInGroup(interactiveItems, event.detail.target, "last");
+          break;
+      }
+    }
+  }
 
   @Listen("calciteTileSelect")
   calciteTileSelectHandler(event: CustomEvent): void {

@@ -1,4 +1,14 @@
-import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Listen,
+  Method,
+  Prop,
+  VNode,
+} from "@stencil/core";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -9,6 +19,11 @@ import {
 import { CSS, ICONS, SLOTS } from "./resources";
 import { Alignment, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { toAriaBoolean } from "../../utils/dom";
+import {
+  componentFocusable,
+  setComponentLoaded,
+  setUpLoadableComponent,
+} from "../../utils/loadable";
 
 /**
  * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
@@ -78,8 +93,8 @@ export class Tile implements InteractiveComponent {
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
-   * When true, enables the tile to be focused, and allows the `calciteChipSelect` to emit.
-   * This is set to `true` by a parent Chip Group component.
+   * When true, enables the tile to be focused, and allows the `calciteTileSelect` to emit.
+   * This is set to `true` by a parent Tile Group component.
    *
    * @internal
    */
@@ -121,6 +136,21 @@ export class Tile implements InteractiveComponent {
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    if (!this.disabled && this.interactive) {
+      this.containerEl?.focus();
+    }
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -131,8 +161,11 @@ export class Tile implements InteractiveComponent {
 
   @Listen("click")
   clickHandler(): void {
+    this.setFocus();
     this.handleSelectEvent();
   }
+
+  private containerEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -162,6 +195,10 @@ export class Tile implements InteractiveComponent {
     }
   };
 
+  private setContainerEl = (el): void => {
+    this.containerEl = el;
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -172,12 +209,20 @@ export class Tile implements InteractiveComponent {
     connectInteractive(this);
   }
 
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     disconnectInteractive(this);
   }
 
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
   }
 
   //--------------------------------------------------------------------------
@@ -195,8 +240,10 @@ export class Tile implements InteractiveComponent {
           this.handleSelectEvent();
           event.preventDefault();
           break;
-        case "ArrowRight":
+        case "ArrowDown":
         case "ArrowLeft":
+        case "ArrowRight":
+        case "ArrowUp":
         case "Home":
         case "End":
           this.calciteInternalTileKeyEvent.emit(event);
@@ -234,13 +281,16 @@ export class Tile implements InteractiveComponent {
   }
 
   renderTile(): VNode {
-    const { disabled, icon, heading, description, iconFlipRtl } = this;
+    const { disabled, icon, heading, description, iconFlipRtl, selectionMode } = this;
     const isLargeVisual = heading && icon && !description;
+
+    // TODO: this might have to be smarter to handle standalone href cases
     const disableInteraction = disabled || (!disabled && !this.interactive);
+
     const role =
-      this.selectionMode === "multiple" && this.interactive
+      selectionMode === "multiple" && this.interactive
         ? "checkbox"
-        : this.selectionMode !== "none" && this.interactive
+        : selectionMode !== "none" && this.interactive
           ? "radio"
           : this.interactive
             ? "button"
@@ -248,19 +298,22 @@ export class Tile implements InteractiveComponent {
     return (
       <div
         aria-checked={
-          this.selectionMode !== "none" && this.interactive
-            ? toAriaBoolean(this.selected)
-            : undefined
+          selectionMode !== "none" && this.interactive ? toAriaBoolean(this.selected) : undefined
         }
         aria-disabled={disableInteraction ? toAriaBoolean(disabled) : undefined}
         aria-label={this.label}
         class={{
           [CSS.container]: true,
+          [CSS.focusable]: !disabled,
           [CSS.largeVisual]: isLargeVisual,
           [CSS.row]: true,
+          [CSS.selectable]: selectionMode !== "none",
         }}
+        onClick={this.handleSelectEvent}
         role={role}
         tabIndex={disableInteraction ? -1 : 0}
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={this.setContainerEl}
       >
         {this.renderSelectionIcon()}
         <div class={CSS.column}>

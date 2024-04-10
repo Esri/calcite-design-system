@@ -5050,7 +5050,7 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
-          * When true, enables the tile to be focused, and allows the `calciteChipSelect` to emit. This is set to `true` by a parent Chip Group component.
+          * When true, enables the tile to be focused, and allows the `calciteTileSelect` to emit. This is set to `true` by a parent Tile Group component.
          */
         "interactive": boolean;
         /**
@@ -5073,6 +5073,10 @@ export namespace Components {
           * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).
          */
         "selectionMode": Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode>;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
     }
     interface CalciteTileGroup {
         /**
@@ -12734,7 +12738,7 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
-          * When true, enables the tile to be focused, and allows the `calciteChipSelect` to emit. This is set to `true` by a parent Chip Group component.
+          * When true, enables the tile to be focused, and allows the `calciteTileSelect` to emit. This is set to `true` by a parent Tile Group component.
          */
         "interactive"?: boolean;
         /**
