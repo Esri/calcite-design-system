@@ -472,6 +472,7 @@ export class DatePickerMonth {
             // when moving via keyboard, focus must be updated on active date
             if (ref && active && this.activeFocus) {
               await el?.setFocus();
+              el?.setFocus();
             }
           }}
         />

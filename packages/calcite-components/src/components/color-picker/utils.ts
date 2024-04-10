@@ -1,5 +1,5 @@
-import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./interfaces";
 import Color from "color";
+import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./interfaces";
 
 export const hexChar = /^[0-9A-F]$/i;
 const shorthandHex = /^#[0-9A-F]{3}$/i;

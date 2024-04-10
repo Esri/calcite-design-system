@@ -25,7 +25,6 @@ import {
 import { createObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
-import { CSS, ICONS } from "./resources";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -35,8 +34,9 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { TabTitleMessages } from "./assets/tab-title/t9n";
 import { getIconScale } from "../../utils/component";
+import { TabTitleMessages } from "./assets/tab-title/t9n";
+import { CSS, ICONS } from "./resources";
 
 /**
  * Tab-titles are optionally individually closable.

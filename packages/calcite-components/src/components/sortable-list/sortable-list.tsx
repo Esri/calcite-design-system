@@ -10,7 +10,6 @@ import {
 import { createObserver } from "../../utils/observers";
 import { HandleNudge } from "../handle/interfaces";
 import { Layout } from "../interfaces";
-import { CSS } from "./resources";
 import {
   DragDetail,
   connectSortableComponent,
@@ -19,6 +18,7 @@ import {
   dragActive,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding sortable items.

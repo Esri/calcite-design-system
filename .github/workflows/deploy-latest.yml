@@ -10,7 +10,7 @@ jobs:
   release-please:
     runs-on: ubuntu-20.04
     steps:
-      - uses: google-github-actions/release-please-action@v3.7.9
+      - uses: google-github-actions/release-please-action@v3.7.13
         id: release
         with:
           command: manifest

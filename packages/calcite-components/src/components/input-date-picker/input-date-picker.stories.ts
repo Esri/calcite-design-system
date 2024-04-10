@@ -1,6 +1,5 @@
 import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";

@@ -1,6 +1,5 @@
 import { number, select, text } from "../../../.storybook/fake-knobs";
 import { boolean } from "../../../.storybook/helpers";
-
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { locales, numberingSystems } from "../../utils/locale";
