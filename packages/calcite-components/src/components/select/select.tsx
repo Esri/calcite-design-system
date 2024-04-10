@@ -284,8 +284,8 @@ export class Select
 
     this.clearInternalSelect();
 
-    optionsAndGroups.forEach(
-      (optionOrGroup) => this.selectEl?.append(this.toNativeElement(optionOrGroup)),
+    optionsAndGroups.forEach((optionOrGroup) =>
+      this.selectEl?.append(this.toNativeElement(optionOrGroup)),
     );
   };
 
