@@ -1963,6 +1963,7 @@ export function themed(
 
     // Assert target computedStyle targetProp matches test theme token color
     for (let i = 0; i < testTargets.length; i++) {
+      await page.waitForChanges();
       await assertThemedProps(page, { ...testTargets[i] });
     }
   });
