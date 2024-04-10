@@ -905,7 +905,7 @@ describe("calcite-slider", () => {
     });
   });
 
-  describe("snap + step affect initial value", () => {
+  describe("snap + step interaction", () => {
     let page: E2EPage;
 
     beforeEach(async () => {
