@@ -68,6 +68,57 @@ describe("calcite-carousel", () => {
       const selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("two");
     });
+
+    it("should render arrow items near pagination items as default", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-carousel label="Carousel example">
+          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+        </calcite-carousel>`,
+      );
+
+      await page.waitForChanges();
+      const container = await page.find(`calcite-carousel >>> .${CSS.container}`);
+
+      expect(container).not.toHaveClass(CSS.isEdges);
+    });
+
+    it("should not render arrow items when requested", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-carousel label="Carousel example" arrow-type="none">
+          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+        </calcite-carousel>`,
+      );
+
+      await page.waitForChanges();
+
+      const nextButton = await page.find(`calcite-carousel >>> .${CSS.pageNext}`);
+      const prevButton = await page.find(`calcite-carousel >>> .${CSS.pagePrevious}`);
+
+      expect(nextButton).toBeNull();
+      expect(prevButton).toBeNull();
+    });
+
+    it("should render arrow items at edges when requested", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-carousel label="Carousel example" arrow-type="edges">
+          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+        </calcite-carousel>`,
+      );
+
+      await page.waitForChanges();
+      const container = await page.find(`calcite-carousel >>> .${CSS.container}`);
+
+      expect(container).toHaveClass(CSS.isEdges);
+    });
   });
 
   describe("events", () => {
