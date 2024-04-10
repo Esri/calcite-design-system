@@ -1,15 +1,10 @@
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { text } from "@storybook/addon-knobs";
+import { text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/Navigation/Navigation Logo",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string =>

@@ -1,24 +1,20 @@
-import { number, select } from "@storybook/addon-knobs";
+import { number, select } from "../../../.storybook/fake-knobs";
 import { locales, numberingSystems } from "../../utils/locale";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Pagination",
   parameters: {
-    notes: readme,
     chromatic: {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
   <style>
-    .sb-show-main.sb-main-centered #root {
+    .sb-show-main.sb-main-centered #storybook-root {
       padding: 0 !important;
       flex: 1;
       width: 100%;
@@ -100,7 +96,7 @@ export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): s
   </calcite-pagination>
 `;
 
-darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const arabicNumberingSystemAndRTL_TestOnly = (): string =>
   html`<calcite-pagination

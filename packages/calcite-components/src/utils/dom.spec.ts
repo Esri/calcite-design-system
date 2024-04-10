@@ -18,6 +18,7 @@ import {
   slotChangeHasTextContent,
   slotChangeHasContent,
   isBefore,
+  isKeyboardTriggeredClick,
 } from "./dom";
 import { guidPattern } from "./guid.spec";
 
@@ -592,6 +593,18 @@ describe("dom", () => {
     it("should return false if element A is after element B", () => {
       document.body.append(div2, div1);
       expect(isBefore(div1, div2)).toBe(false);
+    });
+  });
+
+  describe("isKeyboardTriggeredClick", () => {
+    it("should return true if click is triggered by keyboard", () => {
+      const event = new MouseEvent("click", { detail: 0 });
+      expect(isKeyboardTriggeredClick(event)).toBe(true);
+    });
+
+    it("should return false if click is triggered by mouse/pointer", () => {
+      const event = new MouseEvent("click", { detail: 1 });
+      expect(isKeyboardTriggeredClick(event)).toBe(false);
     });
   });
 });

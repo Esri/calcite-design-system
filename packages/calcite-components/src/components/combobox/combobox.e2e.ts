@@ -12,7 +12,6 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
@@ -1959,7 +1958,7 @@ describe("calcite-combobox", () => {
 
     const wrapper = await page.find("calcite-combobox >>> .wrapper");
     const close = await wrapper.find("calcite-chip >>> .close");
-    await close.click();
+    await close.press(" ");
     await page.waitForChanges();
 
     const remainingChips = await page.findAll("calcite-combobox >>> calcite-chip");

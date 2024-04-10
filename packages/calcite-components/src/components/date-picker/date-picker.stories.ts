@@ -1,6 +1,4 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
-
-import { storyFilters } from "../../../.storybook/helpers";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
@@ -12,20 +10,18 @@ import {
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
-import readme from "./readme.md";
+
 const { scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Controls/DatePicker",
   parameters: {
-    notes: readme,
     chromatic: {
       // https://www.chromatic.com/docs/threshold
       diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 const testDate = "2020-02-28";
@@ -84,7 +80,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "range",
         commit(): Attribute {
-          this.value = boolean("range", false);
+          this.value = boolean("range", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -106,7 +102,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         },
       },
     ],
-    exceptions
+    exceptions,
   );
 };
 
@@ -120,7 +116,7 @@ export const range = (): string =>
       createAttributes({ exceptions: ["min", "range"] }).concat([
         { name: "min", value: "2016-08-09" },
         { name: "range", value: "true" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -163,11 +159,11 @@ export const darkModeRTL_TestOnly = (): string =>
       createAttributes({ exceptions: ["class", "dir"] }).concat([
         { name: "dir", value: "rtl" },
         { name: "class", value: "calcite-mode-dark" },
-      ])
+      ]),
     )}
   </div>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const bgLang_TestOnly = (): string =>
   html`<div style="width: 400px">
@@ -178,7 +174,7 @@ export const ptPTLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
-      createAttributes({ exceptions: ["lang"] }).concat([{ name: "lang", value: "pt-PT" }])
+      createAttributes({ exceptions: ["lang"] }).concat([{ name: "lang", value: "pt-PT" }]),
     )}
   </div>`;
 
@@ -189,7 +185,7 @@ export const germanLang_TestOnly = (): string =>
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "de" },
         { name: "value", value: "2022-08-11" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -200,7 +196,7 @@ export const spanishLang_TestOnly = (): string =>
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "es" },
         { name: "value", value: "2023-05-11" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -211,7 +207,7 @@ export const norwegianLang_TestOnly = (): string =>
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "nb" },
         { name: "value", value: "2023-05-11" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -222,7 +218,7 @@ export const britishLang_TestOnly = (): string =>
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "en-gb" },
         { name: "value", value: "2024-01-11" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -233,7 +229,7 @@ export const chineseLang_TestOnly = (): string =>
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "zh-cn" },
         { name: "value", value: "2024-01-11" },
-      ])
+      ]),
     )}
   </div>`;
 
@@ -245,7 +241,7 @@ export const arabLangNumberingSystem_TestOnly = (): string =>
         { name: "lang", value: "ar" },
         { name: "numbering-system", value: "arab" },
         { name: "value", value: "2022-08-11" },
-      ])
+      ]),
     )}
   </div>`;
 

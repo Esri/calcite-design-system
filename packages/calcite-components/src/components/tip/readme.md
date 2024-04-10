@@ -1,6 +1,6 @@
 # calcite-tip
 
-The `calcite-tip` component can comprise of an image, text and hyperlink to give helpful hints to a user about using the platform.
+For comprehensive guidance on using and implementing `calcite-tip`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tip/).
 
 <!-- Auto Generated Below -->
 

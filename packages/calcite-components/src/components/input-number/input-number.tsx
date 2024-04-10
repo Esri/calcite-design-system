@@ -18,7 +18,6 @@ import {
   setRequestedIcon,
 } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
-
 import {
   connectForm,
   disconnectForm,
@@ -66,8 +65,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
-import { InputNumberMessages } from "./assets/input-number/t9n";
-import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import {
@@ -75,6 +72,8 @@ import {
   syncHiddenFormInput,
   TextualInputComponent,
 } from "../input/common/input";
+import { CSS, SLOTS } from "./resources";
+import { InputNumberMessages } from "./assets/input-number/t9n";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -433,21 +432,6 @@ export class InputNumber
     connectLabel(this);
     connectForm(this);
 
-    this.setPreviousEmittedNumberValue(this.value);
-    this.setPreviousNumberValue(this.value);
-
-    this.warnAboutInvalidNumberValue(this.value);
-
-    if (this.value === "Infinity" || this.value === "-Infinity") {
-      this.displayedValue = this.value;
-      this.previousEmittedNumberValue = this.value;
-    } else {
-      this.setNumberValue({
-        origin: "connected",
-        value: isValidNumber(this.value) ? this.value : "",
-      });
-    }
-
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
     this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
@@ -474,6 +458,21 @@ export class InputNumber
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon({}, this.icon, "number");
     await setUpMessages(this);
+
+    this.setPreviousEmittedNumberValue(this.value);
+    this.setPreviousNumberValue(this.value);
+
+    this.warnAboutInvalidNumberValue(this.value);
+
+    if (this.value === "Infinity" || this.value === "-Infinity") {
+      this.displayedValue = this.value;
+      this.previousEmittedNumberValue = this.value;
+    } else {
+      this.setNumberValue({
+        origin: "connected",
+        value: isValidNumber(this.value) ? this.value : "",
+      });
+    }
   }
 
   componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {

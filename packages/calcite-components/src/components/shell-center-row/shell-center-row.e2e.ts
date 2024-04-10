@@ -1,5 +1,4 @@
 import { newE2EPage } from "@stencil/core/testing";
-
 import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 

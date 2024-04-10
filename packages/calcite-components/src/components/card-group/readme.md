@@ -1,5 +1,7 @@
 # calcite-card-group
 
+For comprehensive guidance on using and implementing `calcite-card-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/card-group/).
+
 <!-- Auto Generated Below -->
 
 ## Usage

@@ -1,4 +1,4 @@
-import { boolean, number, select, text } from "@storybook/addon-knobs";
+import { boolean, number, select, text } from "../../../.storybook/fake-knobs";
 import {
   Attribute,
   filterComponentAttributes,
@@ -6,20 +6,10 @@ import {
   createComponentHTML as create,
 } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import blockReadme from "./readme.md";
-import sectionReadme from "../block-section/readme.md";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Block",
-  parameters: {
-    notes: {
-      block: blockReadme,
-      section: sectionReadme,
-    },
-  },
-  ...storyFilters(),
 };
 
 const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes = (
@@ -49,7 +39,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "open",
         commit(): Attribute {
-          this.value = boolean("open", true, group);
+          this.value = boolean("open", true, group, "prop");
           delete this.build;
           return this;
         },
@@ -57,7 +47,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "collapsible",
         commit(): Attribute {
-          this.value = boolean("collapsible", true, group);
+          this.value = boolean("collapsible", true, group, "prop");
           delete this.build;
           return this;
         },
@@ -65,7 +55,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false, group);
+          this.value = boolean("loading", false, group, "prop");
           delete this.build;
           return this;
         },
@@ -73,7 +63,7 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false, group);
+          this.value = boolean("disabled", false, group, "prop");
           delete this.build;
           return this;
         },
@@ -102,7 +92,7 @@ const createSectionAttributes: () => Attributes = () => {
     },
     {
       name: "open",
-      value: boolean("open", true, group),
+      value: boolean("open", true, group, "prop"),
     },
     {
       name: "toggle-display",

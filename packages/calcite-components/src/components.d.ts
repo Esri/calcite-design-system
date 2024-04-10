@@ -595,7 +595,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -980,6 +980,7 @@ export namespace Components {
     interface CalciteColorPicker {
         /**
           * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * @deprecated Use `clearable` instead
          */
         "allowEmpty": boolean;
         /**
@@ -990,6 +991,10 @@ export namespace Components {
           * When `true`, hides the RGB/HSV channel inputs.
          */
         "channelsDisabled": boolean;
+        /**
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable": boolean;
         /**
           * Internal prop for advanced use-cases.
          */
@@ -1306,7 +1311,7 @@ export namespace Components {
          */
         "activeRange": "start" | "end";
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -1419,6 +1424,10 @@ export namespace Components {
           * When `true`, the component is selected.
          */
         "selected": boolean;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
         /**
           * Date is the start of date range.
          */
@@ -1783,7 +1792,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -2156,7 +2165,7 @@ export namespace Components {
          */
         "form": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -3499,7 +3508,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -3569,7 +3578,7 @@ export namespace Components {
          */
         "getSelectedItems": () => Promise<Map<string, HTMLCalcitePickListItemElement>>;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -3599,7 +3608,7 @@ export namespace Components {
          */
         "groupTitle": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
     }
@@ -3693,7 +3702,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -4796,6 +4805,7 @@ export namespace Components {
          */
         "messages": TableCellMessages;
         "numberCell": boolean;
+        "parentRowAlignment": Alignment;
         "parentRowIsSelected": boolean;
         "parentRowPositionLocalized": string;
         "parentRowType": RowType;
@@ -4841,6 +4851,7 @@ export namespace Components {
          */
         "messages": TableHeaderMessages;
         "numberCell": boolean;
+        "parentRowAlignment": Alignment;
         "parentRowIsSelected": boolean;
         "parentRowType": RowType;
         "positionInRow": number;
@@ -4859,6 +4870,10 @@ export namespace Components {
         "setFocus": () => Promise<void>;
     }
     interface CalciteTableRow {
+        /**
+          * Specifies the alignment of the component.
+         */
+        "alignment": Alignment;
         "bodyRowCount": number;
         "cellCount": number;
         /**
@@ -5183,7 +5198,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -5211,7 +5226,7 @@ export namespace Components {
          */
         "closed": boolean;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -7985,7 +8000,7 @@ declare namespace LocalJSX {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -8397,6 +8412,7 @@ declare namespace LocalJSX {
     interface CalciteColorPicker {
         /**
           * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+          * @deprecated Use `clearable` instead
          */
         "allowEmpty"?: boolean;
         /**
@@ -8407,6 +8423,10 @@ declare namespace LocalJSX {
           * When `true`, hides the RGB/HSV channel inputs.
          */
         "channelsDisabled"?: boolean;
+        /**
+          * When `true`, an empty color (`null`) will be allowed as a `value`.  When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable"?: boolean;
         /**
           * Internal prop for advanced use-cases.
          */
@@ -8749,7 +8769,7 @@ declare namespace LocalJSX {
          */
         "activeRange"?: "start" | "end";
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -9255,7 +9275,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -9647,7 +9667,7 @@ declare namespace LocalJSX {
          */
         "form"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -11076,7 +11096,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -11143,7 +11163,7 @@ declare namespace LocalJSX {
          */
         "filteredItems"?: HTMLCalcitePickListItemElement[];
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -11176,7 +11196,7 @@ declare namespace LocalJSX {
          */
         "groupTitle"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
     }
@@ -11285,7 +11305,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -12430,6 +12450,7 @@ declare namespace LocalJSX {
          */
         "messages"?: TableCellMessages;
         "numberCell"?: boolean;
+        "parentRowAlignment"?: Alignment;
         "parentRowIsSelected"?: boolean;
         "parentRowPositionLocalized"?: string;
         "parentRowType"?: RowType;
@@ -12471,6 +12492,7 @@ declare namespace LocalJSX {
          */
         "messages"?: TableHeaderMessages;
         "numberCell"?: boolean;
+        "parentRowAlignment"?: Alignment;
         "parentRowIsSelected"?: boolean;
         "parentRowType"?: RowType;
         "positionInRow"?: number;
@@ -12485,6 +12507,10 @@ declare namespace LocalJSX {
         "selectionMode"?: SelectionMode;
     }
     interface CalciteTableRow {
+        /**
+          * Specifies the alignment of the component.
+         */
+        "alignment"?: Alignment;
         "bodyRowCount"?: number;
         "cellCount"?: number;
         /**
@@ -12813,7 +12839,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -12845,7 +12871,7 @@ declare namespace LocalJSX {
          */
         "closed"?: boolean;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**

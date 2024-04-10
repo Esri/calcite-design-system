@@ -260,7 +260,7 @@ export class DatePickerMonth {
     const endCalendarNextMonDays = this.getNextMonthDays(month + 1, year, startOfWeek);
 
     const days = this.getDays(prevMonDays, curMonDays, nextMonDays);
-    const weeks = this.getWeeks(days);
+    // const weeks = this.getWeeks(days);
 
     const nextMonthDays = this.getDays(
       endCalendarPrevMonDays,
@@ -268,7 +268,7 @@ export class DatePickerMonth {
       endCalendarNextMonDays,
       "end",
     );
-    const nextMonthWeeks = this.getWeeks(nextMonthDays);
+    // const nextMonthWeeks = this.getWeeks(nextMonthDays);
 
     return (
       <Host onFocusOut={this.disableActiveFocus}>
@@ -303,8 +303,8 @@ export class DatePickerMonth {
           )}
         </div>
         <div class="calendar" onKeyDown={this.keyDownHandler} role="grid">
-          {this.renderMonthCalendar(adjustedWeekDays, weeks)}
-          {this.range && this.renderMonthCalendar(adjustedWeekDays, nextMonthWeeks)}
+          {this.renderMonthCalendar(adjustedWeekDays, days)}
+          {this.range && this.renderMonthCalendar(adjustedWeekDays, nextMonthDays)}
         </div>
       </Host>
     );
@@ -502,15 +502,16 @@ export class DatePickerMonth {
    * @param active.day
    * @param active.dayInWeek
    * @param active.ref
+   * @param key
    */
-  private renderDateDay({ active, currentMonth, date, day, dayInWeek, ref }: Day) {
+  private renderDateDay({ active, currentMonth, date, day, dayInWeek, ref }: Day, key: number) {
     const isFocusedOnStart = this.isFocusedOnStart();
     const isHoverInRange =
       this.isHoverInRange() ||
       (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate));
 
     return (
-      <div class="day" key={date.toDateString()} role="gridcell">
+      <div class="day" key={key} role="gridcell">
         <calcite-date-picker-day
           active={active}
           class={{
@@ -539,7 +540,7 @@ export class DatePickerMonth {
           ref={(el: HTMLCalciteDatePickerDayElement) => {
             // when moving via keyboard, focus must be updated on active date
             if (ref && active && this.activeFocus) {
-              el?.focus();
+              el?.setFocus();
             }
           }}
         />
@@ -636,7 +637,7 @@ export class DatePickerMonth {
     return weeks;
   }
 
-  private renderMonthCalendar(weekDays: string[], weeks: Day[][]): VNode {
+  private renderMonthCalendar(weekDays: string[], days: Day[]): VNode {
     return (
       <div class="month">
         <div class="week-headers" role="row">
@@ -646,11 +647,10 @@ export class DatePickerMonth {
             </span>
           ))}
         </div>
-        {weeks.map((days) => (
-          <div class="week-days" role="row">
-            {days.map((day) => this.renderDateDay(day))}
-          </div>
-        ))}
+
+        <div class="week-days" role="row">
+          {days.map((day, index) => this.renderDateDay(day, index))}
+        </div>
       </div>
     );
   }

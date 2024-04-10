@@ -2,7 +2,7 @@
 
 ## Description
 
-The `calcite-action-bar` component is made up of multiple `calcite-action`s in the form of clickable icons. The action bar can be expanded to view actions with descriptive text or made smaller to view with just icons.
+For comprehensive guidance on using and implementing `calcite-action-bar`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/action-bar/).
 
 <!-- Auto Generated Below -->
 

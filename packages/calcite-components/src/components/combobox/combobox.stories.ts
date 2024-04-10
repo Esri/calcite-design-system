@@ -1,16 +1,10 @@
-import { select, number, text } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { select, number, text } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme1 from "./readme.md";
-import readme2 from "../combobox-item/readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/Combobox",
-  parameters: {
-    notes: [readme1, readme2],
-  },
-  ...storyFilters(),
 };
 
 export const single = (): string => html`
@@ -509,7 +503,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-combobox>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const singleLongLabel_TestOnly = (): string => html`
   <calcite-combobox open selection-mode="single" allow-custom-values>
