@@ -42,7 +42,7 @@
     "test:watch": "stencil test --no-docs --spec --e2e --watchAll",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-assets": "npm run util:copy-icons",
-    "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
+    "util:copy-icons": "cpy \"../../node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:generate-t9n-docs-json": "tsx support/generateT9nDocsJSON.ts",
     "util:generate-t9n-types": "tsx support/generateT9nTypes.ts",
     "util:hydration-styles": "tsx support/hydrationStyles.ts",
