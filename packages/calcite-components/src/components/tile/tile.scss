@@ -25,11 +25,13 @@
   box-shadow: 0 0 0 1px var(--calcite-tile-border-color);
   box-sizing: border-box;
   inline-size: var(--calcite-container-size-content-fluid);
-  padding: var(--calcite-spacing-md);
   pointer-events: none;
-  transition-duration: 150ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
+  &:focus {
+    outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-color-brand);
+    position: relative;
+    z-index: var(--calcite-z-index);
+  }
 }
 
 .column,
@@ -117,6 +119,9 @@
 :host([scale="m"]) {
   max-inline-size: 460px;
   min-inline-size: 140px;
+  .container {
+    padding: var(--calcite-spacing-md);
+  }
   .column,
   .row {
     gap: var(--calcite-spacing-md);

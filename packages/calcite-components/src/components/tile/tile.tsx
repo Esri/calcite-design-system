@@ -304,7 +304,6 @@ export class Tile implements InteractiveComponent {
         aria-label={this.label}
         class={{
           [CSS.container]: true,
-          [CSS.focusable]: !disabled,
           [CSS.largeVisual]: isLargeVisual,
           [CSS.row]: true,
           [CSS.selectable]: selectionMode !== "none",
