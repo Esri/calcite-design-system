@@ -19,11 +19,11 @@
   @apply contents;
 }
 
-:host([alignment="center"]) td {
+:host([alignment="center"]) td:not(.selection-cell):not(.number-cell) {
   @apply text-center;
 }
 
-:host([alignment="end"]) td {
+:host([alignment="end"]) td:not(.selection-cell):not(.number-cell) {
   @apply text-end;
 }
 
@@ -32,7 +32,7 @@
 }
 
 td {
-  @apply text-start  align-middle text-color-1 whitespace-normal;
+  @apply text-start align-middle text-color-1 whitespace-normal;
   background-color: var(
     --calcite-internal-table-cell-background-color,
     var(--calcite-table-cell-background-color, transparent)
@@ -48,6 +48,14 @@ td {
       @apply focus-inset;
     }
   }
+}
+
+td.start.content-cell {
+  @apply align-top;
+}
+
+td.end.content-cell {
+  @apply align-bottom;
 }
 
 td.last-cell {
@@ -68,6 +76,7 @@ td.last-cell {
 
 .number-cell,
 .selection-cell {
+  @apply text-center;
   border-inline-end: 1px solid
     var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-3)));
   inline-size: 2rem;

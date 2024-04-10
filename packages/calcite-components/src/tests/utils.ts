@@ -425,3 +425,16 @@ export function toBeNumber(): any {
     },
   };
 }
+
+/**
+ * Evaluate a passed value to determine if it is an array.
+ *
+ * @param value - the value to check
+ * @returns - a type guard to check if the value is an array
+ */
+export const isArray = <T>(value: unknown): value is T[] => {
+  if (value instanceof Array) {
+    return true;
+  }
+  return false;
+};

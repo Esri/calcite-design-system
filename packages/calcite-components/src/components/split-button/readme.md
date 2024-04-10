@@ -1,6 +1,6 @@
 # calcite-split-button
 
-The calcite-split-button control is one that combines a button with a dropdown menu in order to provide a primary action along with one or more related secondary options / actions. It's useful for grouping related actions or options for users, while elevating a commonly-used or default action for easier access. Its inner content populates the control's dropdown menu, and is thus expected to be valid `calcite-dropdown` content.
+For comprehensive guidance on using and implementing `calcite-split-button`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/split-button/).
 
 <!-- Auto Generated Below -->
 
