@@ -468,10 +468,9 @@ export class DatePickerMonth {
           startOfRange={this.isStartOfRange(date)}
           value={date}
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={async (el: HTMLCalciteDatePickerDayElement) => {
+          ref={(el: HTMLCalciteDatePickerDayElement) => {
             // when moving via keyboard, focus must be updated on active date
             if (ref && active && this.activeFocus) {
-              await el?.setFocus();
               el?.setFocus();
             }
           }}
