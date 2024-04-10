@@ -1,5 +1,4 @@
 import { Component, Element, h, Host, Prop, VNode, Method } from "@stencil/core";
-import { CSS } from "./resources";
 import {
   LoadableComponent,
   componentFocusable,
@@ -7,6 +6,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Heading, HeadingLevel } from "../functional/Heading";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-navigation-logo",

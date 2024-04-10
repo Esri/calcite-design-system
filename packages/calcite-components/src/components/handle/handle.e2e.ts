@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, hidden, renders, t9n } from "../../tests/commonTests";
-import { CSS, SUBSTITUTIONS } from "./resources";
 import { HandleMessages } from "../../components";
+import { CSS, SUBSTITUTIONS } from "./resources";
 
 describe("calcite-handle", () => {
   describe("renders", () => {

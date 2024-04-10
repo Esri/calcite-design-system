@@ -18,7 +18,6 @@ import {
   prevMonth,
   formatCalendarYear,
 } from "../../utils/date";
-
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
@@ -26,8 +25,8 @@ import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "../date-picker/utils";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
-import { CSS, ICON } from "./resources";
 import { getIconScale } from "../../utils/component";
+import { CSS, ICON } from "./resources";
 
 @Component({
   tag: "calcite-date-picker-month-header",

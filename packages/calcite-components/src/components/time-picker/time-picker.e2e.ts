@@ -1,8 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
-import { CSS } from "./resources";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils";
+import { CSS } from "./resources";
 
 const letterKeys = [
   "a",

@@ -1,7 +1,7 @@
 import { select, text } from "../../../.storybook/fake-knobs";
 import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
+import * as icons from "../../../../../node_modules/@esri/calcite-ui-icons";
 import { html } from "../../../support/formatting";
 
 // we can get all unique icon names from all size 16 non-filled icons.

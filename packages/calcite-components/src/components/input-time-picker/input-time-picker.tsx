@@ -11,6 +11,13 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { FocusTrap } from "focus-trap";
+import dayjs from "dayjs/esm";
+import customParseFormat from "dayjs/esm/plugin/customParseFormat";
+import localeData from "dayjs/esm/plugin/localeData";
+import localizedFormat from "dayjs/esm/plugin/localizedFormat";
+import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
+import updateLocale from "dayjs/esm/plugin/updateLocale";
 import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -49,7 +56,6 @@ import {
   deactivateFocusTrap,
   FocusTrapComponent,
 } from "../../utils/focusTrapComponent";
-import { FocusTrap } from "focus-trap";
 import {
   formatTimePart,
   formatTimeString,
@@ -61,20 +67,13 @@ import {
 import { Scale, Status } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
-import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
-import { CSS } from "./resources";
-
-import dayjs from "dayjs/esm";
-import customParseFormat from "dayjs/esm/plugin/customParseFormat";
-import localeData from "dayjs/esm/plugin/localeData";
-import localizedFormat from "dayjs/esm/plugin/localizedFormat";
-import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
-import updateLocale from "dayjs/esm/plugin/updateLocale";
 import { getSupportedLocale } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { CSS } from "./resources";
+import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
 const supportedDayjsLocaleToLocaleConfigImport = new Map([

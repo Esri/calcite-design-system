@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "2.7.2-next.4",
+  "version": "2.7.2-next.5",
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
@@ -39,10 +39,10 @@
     "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev -- --serve\"",
     "test": "stencil test --no-docs --no-build --spec --e2e",
     "test:prerender": "npm run build -- --prerender",
-    "test:watch": "npm run build && npm run test -- -- --watchAll",
+    "test:watch": "stencil test --no-docs --spec --e2e --watchAll",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-assets": "npm run util:copy-icons",
-    "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
+    "util:copy-icons": "cpy \"../../node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:generate-t9n-docs-json": "tsx support/generateT9nDocsJSON.ts",
     "util:generate-t9n-types": "tsx support/generateT9nTypes.ts",
     "util:hydration-styles": "tsx support/hydrationStyles.ts",
@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "1.6.3",
-    "@stencil/core": "4.9.0",
+    "@stencil/core": "4.13.0",
     "@types/color": "3.0.6",
     "color": "4.2.3",
     "composed-offset-position": "0.0.4",
@@ -82,7 +82,7 @@
     "@stencil/angular-output-target": "0.8.4",
     "@stencil/react-output-target": "0.5.3",
     "@stencil/sass": "3.0.11",
-    "jsdom": "22.1.0"
+    "jsdom": "24.0.0"
   },
   "license": "SEE LICENSE.md",
   "volta": {

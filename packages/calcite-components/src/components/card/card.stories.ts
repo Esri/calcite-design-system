@@ -1,7 +1,6 @@
 import { boolean, select } from "../../../.storybook/fake-knobs";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
-
 import {
   Attribute,
   Attributes,
@@ -9,7 +8,6 @@ import {
   modesDarkDefault,
   createComponentHTML as create,
 } from "../../../.storybook/utils";
-
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {

@@ -1,7 +1,6 @@
 import { number, select } from "../../../.storybook/fake-knobs";
 import { locales, numberingSystems } from "../../utils/locale";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-
 import { html } from "../../../support/formatting";
 
 export default {
