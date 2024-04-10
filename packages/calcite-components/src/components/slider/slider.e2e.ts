@@ -905,40 +905,68 @@ describe("calcite-slider", () => {
     });
   });
 
-  describe("snapping fixes", () => {
-    it("honors snap value with step on initialization", async () => {
-      const page = await newE2EPage();
+  describe("snap + step affect initial value", () => {
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+    });
+
+    async function dragThumbToMax(): Promise<void> {
+      const trackRect = await getElementRect(page, "calcite-slider", ".track");
+      const thumbRect = await getElementRect(page, "calcite-slider", ".thumb--value");
+      const thumbWidth = thumbRect.width;
+      const trackWidth = trackRect.width;
+      const dragDistance = trackWidth - thumbWidth;
+
+      await page.mouse.move(trackRect.x, trackRect.y);
+      await page.mouse.down();
+      await page.mouse.move(trackRect.x + dragDistance, trackRect.y);
+      await page.mouse.up();
+      await page.waitForChanges();
+    }
+
+    it("honors snap value with step", async () => {
       await page.setContent(html`<calcite-slider max="10" min="1" snap step="2" ticks="2"></calcite-slider>`);
-
       const slider = await page.find("calcite-slider");
+
       expect(await slider.getProperty("value")).toBe(1);
+
+      await dragThumbToMax();
+      expect(await slider.getProperty("value")).toBe(9);
     });
 
-    it("honors snap value with step on initialization (fractional)", async () => {
-      const page = await newE2EPage();
+    it("honors snap value with step (fractional)", async () => {
       await page.setContent(html`<calcite-slider max="10" min="1.5" snap step="1" ticks="1"></calcite-slider>`);
-
       const slider = await page.find("calcite-slider");
+
       expect(await slider.getProperty("value")).toBe(1.5);
+
+      await dragThumbToMax();
+      expect(await slider.getProperty("value")).toBe(9.5);
     });
 
-    it("snaps to max limit on initialization at bounds", async () => {
-      const page = await newE2EPage();
+    it("snaps to max limit beyond upper bound", async () => {
       await page.setContent(
         html`<calcite-slider max="10.5" min="0" snap step="1" ticks="1" value="10.5"></calcite-slider>`,
       );
-
       const slider = await page.find("calcite-slider");
+
+      expect(await slider.getProperty("value")).toBe(10);
+
+      await dragThumbToMax();
       expect(await slider.getProperty("value")).toBe(10);
     });
 
-    it("snaps to max limit on initialization beyond bounds", async () => {
-      const page = await newE2EPage();
+    it("snaps to max limit at upper bound", async () => {
       await page.setContent(
         html`<calcite-slider max="10.4" min="0" snap step="1" ticks="1" value="10.4"></calcite-slider>`,
       );
-
       const slider = await page.find("calcite-slider");
+
+      expect(await slider.getProperty("value")).toBe(10);
+
+      await dragThumbToMax();
       expect(await slider.getProperty("value")).toBe(10);
     });
   });

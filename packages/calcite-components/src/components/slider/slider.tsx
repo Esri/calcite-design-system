@@ -926,8 +926,14 @@ export class Slider
    */
   private getClosestStep(value: number): number {
     const { max, min, step } = this;
-    const snappedValue = Math.floor((value - min) / step) * step + min;
-    return clamp(snappedValue, min, max);
+    let snappedValue = Math.floor((value - min) / step) * step + min;
+    snappedValue = Math.min(Math.max(snappedValue, min), max);
+
+    if (snappedValue > max) {
+      snappedValue -= step;
+    }
+
+    return snappedValue;
   }
 
   private getClosestHandle(valueX: number): HTMLDivElement {
