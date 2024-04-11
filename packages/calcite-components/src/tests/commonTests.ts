@@ -2050,71 +2050,61 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
 
   if (state) {
     if (contextSelector) {
-      const rect = (await page.evaluate(
-        (
-          context:
-            | string
-            | {
-                attribute: string;
-                value: string | RegExp;
-              },
-        ) => {
-          const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
-            const { attribute, value } = context as {
-              attribute: string;
-              value: string | RegExp;
-            };
-            if (node.nodeType === 1) {
-              const attr = (node as Element).getAttribute(attribute);
-              if (typeof value === "string" && attr === value) {
-                return node;
-              }
-              if (value instanceof RegExp && attr && value.test(attr)) {
-                return node ?? undefined;
-              }
-              if (attr === value) {
-                return node;
-              }
-
-              if ((node as Element) && !attribute && !value) {
-                return node;
-              }
+      const rect = (await page.evaluate((context: TestTarget["contextSelector"]) => {
+        const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
+          const { attribute, value } = context as {
+            attribute: string;
+            value: string | RegExp;
+          };
+          if (node.nodeType === 1) {
+            const attr = (node as Element).getAttribute(attribute);
+            if (typeof value === "string" && attr === value) {
+              return node;
+            }
+            if (value instanceof RegExp && attr && value.test(attr)) {
+              return node ?? undefined;
+            }
+            if (attr === value) {
+              return node;
             }
 
-            if (node.nodeType === 1 && (node as Element).shadowRoot) {
-              for (const child of ((node as Element).shadowRoot as ShadowRoot).children) {
-                const result = searchInShadowDom(child);
-                if (result) {
-                  return result;
-                }
-              }
+            if ((node as Element) && !attribute && !value) {
+              return node;
             }
+          }
 
-            for (const child of node.childNodes) {
+          if (node.nodeType === 1 && (node as Element).shadowRoot) {
+            for (const child of ((node as Element).shadowRoot as ShadowRoot).children) {
               const result = searchInShadowDom(child);
               if (result) {
                 return result;
               }
             }
-          };
-          return new Promise<{ width: number; height: number; left: number; top: number } | undefined>((resolve) => {
-            requestAnimationFrame(() => {
-              const foundNode =
-                typeof context === "string"
-                  ? document.querySelector(context)
-                  : (searchInShadowDom(document) as HTMLElement | SVGElement | undefined);
+          }
 
-              if (foundNode?.getBoundingClientRect) {
-                const { width, height, left, top } = foundNode.getBoundingClientRect();
-                resolve({ width, height, left, top });
-              } else {
-                resolve(undefined);
-              }
-            });
+          for (const child of node.childNodes) {
+            const result = searchInShadowDom(child);
+            if (result) {
+              return result;
+            }
+          }
+        };
+        return new Promise<{ width: number; height: number; left: number; top: number } | undefined>((resolve) => {
+          requestAnimationFrame(() => {
+            const foundNode =
+              typeof context === "string"
+                ? document.querySelector(context)
+                : (searchInShadowDom(document) as HTMLElement | SVGElement | undefined);
+
+            if (foundNode?.getBoundingClientRect) {
+              const { width, height, left, top } = foundNode.getBoundingClientRect();
+              resolve({ width, height, left, top });
+            } else {
+              resolve(undefined);
+            }
           });
-        },
-        contextSelector,
-      )) as { width: number; height: number; left: number; top: number } | undefined;
+        });
+      }, contextSelector)) as { width: number; height: number; left: number; top: number } | undefined;
 
       const box = {
         x: rect.left + rect.width / 2,
