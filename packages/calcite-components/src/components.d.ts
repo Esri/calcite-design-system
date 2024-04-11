@@ -1421,6 +1421,10 @@ export namespace Components {
          */
         "selected": boolean;
         /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
+        /**
           * Date is the start of date range.
          */
         "startOfRange": boolean;
