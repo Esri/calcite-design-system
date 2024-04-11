@@ -174,19 +174,12 @@ export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
 `;
 
 export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
-  <style>
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 20px;
-    }
-  </style>
-  <div class="container">
-    <calcite-alert scale="s" icon="rangefinder" kind="brand" open label="A report alert">
-      <div slot="title">Trail Camera Report</div>
-      <div slot="message">We thought you might want to take a look</div>
-      <calcite-link slot="link">Take action</calcite-link>
-    </calcite-alert>
+  <div style="width:600px;max-width:100%;text-align:center;">
+      <calcite-alert icon="rangefinder" kind="brand" open label="A report alert">
+        <div slot="title">Trail Camera Report</div>
+        <div slot="message">We thought you might want to take a look</div>
+        <calcite-link slot="link">Take action</calcite-link>
+      </calcite-alert>
+    </div>
   </div>
 `;
