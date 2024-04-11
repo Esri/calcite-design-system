@@ -304,7 +304,6 @@ export class Tile implements InteractiveComponent {
           [CSS.largeVisual]: isLargeVisual,
           [CSS.row]: true,
           [CSS.selected]: this.selected,
-          [CSS.selectable]: selectionMode !== "none",
         }}
         onClick={this.clickHandler}
         role={role}
