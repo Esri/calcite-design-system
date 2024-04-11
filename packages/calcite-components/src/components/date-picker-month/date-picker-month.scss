@@ -25,8 +25,7 @@
   @apply flex
   min-w-0
   justify-center;
-  inline-size: calc(100% / 7);
-
+  inline-size: 100%;
   calcite-date-picker-day {
     @apply w-full;
   }
@@ -45,9 +44,10 @@
 }
 
 .week-days {
-  @apply flex
-    flex-row
-    py-0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 1fr;
+  padding-block: 0;
   padding-inline: 6px;
   &:focus {
     @apply outline-none;

@@ -1425,6 +1425,10 @@ export namespace Components {
          */
         "selected": boolean;
         /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
+        /**
           * Date is the start of date range.
          */
         "startOfRange": boolean;
@@ -3272,6 +3276,10 @@ export namespace Components {
           * Specifies heading text for the component, such as a product or organization name.
          */
         "heading": string;
+        /**
+          * Specifies the heading level of the component's heading for proper document structure, without affecting visual styling.
+         */
+        "headingLevel": HeadingLevel;
         /**
           * Specifies the URL destination of the component, which can be set as an absolute or relative path.
          */
@@ -10841,6 +10849,10 @@ declare namespace LocalJSX {
           * Specifies heading text for the component, such as a product or organization name.
          */
         "heading"?: string;
+        /**
+          * Specifies the heading level of the component's heading for proper document structure, without affecting visual styling.
+         */
+        "headingLevel"?: HeadingLevel;
         /**
           * Specifies the URL destination of the component, which can be set as an absolute or relative path.
          */
