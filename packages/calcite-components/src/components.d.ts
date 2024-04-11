@@ -3269,6 +3269,10 @@ export namespace Components {
          */
         "heading": string;
         /**
+          * Specifies the heading level of the component's heading for proper document structure, without affecting visual styling.
+         */
+        "headingLevel": HeadingLevel;
+        /**
           * Specifies the URL destination of the component, which can be set as an absolute or relative path.
          */
         "href": string;
@@ -10829,6 +10833,10 @@ declare namespace LocalJSX {
           * Specifies heading text for the component, such as a product or organization name.
          */
         "heading"?: string;
+        /**
+          * Specifies the heading level of the component's heading for proper document structure, without affecting visual styling.
+         */
+        "headingLevel"?: HeadingLevel;
         /**
           * Specifies the URL destination of the component, which can be set as an absolute or relative path.
          */
