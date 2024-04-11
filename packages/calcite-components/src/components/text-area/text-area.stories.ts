@@ -7,7 +7,7 @@ export default {
   parameters: {
     chromatic: {
       modes: {
-        desktop: { name: "large", styles: { width: "1024px", height: "900px" } },
+        desktop: { viewport: { width: "1024px", height: "900px" } },
       },
     },
   },

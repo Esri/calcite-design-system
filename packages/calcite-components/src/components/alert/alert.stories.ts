@@ -9,7 +9,7 @@ export default {
     chromatic: {
       delay: 500,
       modes: {
-        desktop: { name: "large", styles: { width: "1024px", height: "900px" } },
+        desktop: { viewport: { width: "1024px", height: "900px" } },
       },
     },
   },
