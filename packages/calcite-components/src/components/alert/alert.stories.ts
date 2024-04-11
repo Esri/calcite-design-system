@@ -134,48 +134,56 @@ export const darkModeRTL_TestOnly = (): string => html`
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const actionsEndNoQueue_TestOnly = (): string => html`
-  <calcite-alert label="this is a default danger with icon and link" scale="l" kind="danger" icon open>
-    <div slot="title">Hello there!</div>
-    <div slot="message">Do you really want to proceed?</div>
-    <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
-    <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
-  </calcite-alert>
+  <div style="display: flex, flex-grow: 1">
+    <calcite-alert label="this is a default danger with icon and link" scale="l" kind="danger" icon open>
+      <div slot="title">Hello there!</div>
+      <div slot="message">Do you really want to proceed?</div>
+      <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+      <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+    </calcite-alert>
+  </div>
 `;
 
 export const actionsEndQueued_TestOnly = (): string => html`
-  <calcite-alert id="one" label="One" scale="l" kind="danger" icon open>
-    <div slot="title">Hello there, alert one!</div>
-    <div slot="message">Do you really want to proceed?</div>
-    <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
-    <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
-  </calcite-alert>
-  <calcite-alert id="two" label="Two" scale="l" kind="danger" icon>
-    <div slot="title">Hello there, alert two!</div>
-    <div slot="message">Do you really want to proceed?</div>
-    <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
-    <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
-  </calcite-alert>
-  <script>
-    setTimeout(() => {
-      document.querySelector("#two").open = true;
-    }, "1000");
-  </script>
+  <div style="display: flex, flex-grow: 1">
+    <calcite-alert id="one" label="One" scale="l" kind="danger" icon open>
+      <div slot="title">Hello there, alert one!</div>
+      <div slot="message">Do you really want to proceed?</div>
+      <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+      <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+    </calcite-alert>
+    <calcite-alert id="two" label="Two" scale="l" kind="danger" icon>
+      <div slot="title">Hello there, alert two!</div>
+      <div slot="message">Do you really want to proceed?</div>
+      <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
+      <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
+    </calcite-alert>
+    <script>
+      setTimeout(() => {
+        document.querySelector("#two").open = true;
+      }, "1000");
+    </script>
+  </div>
 `;
 
 export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
-  <calcite-alert auto-close auto-close-duration="medium" open scale="m" kind="info">
-    <div slot="title">Here's a general bit of information</div>
-    <div slot="message">Some kind of contextually relevant content</div>
-    <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
-  </calcite-alert>
+  <div style="display: flex, flex-grow: 1">
+    <calcite-alert auto-close auto-close-duration="medium" open scale="m" kind="info">
+      <div slot="title">Here's a general bit of information</div>
+      <div slot="message">Some kind of contextually relevant content</div>
+      <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
+    </calcite-alert>
+  </div>
 `;
 
 export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
-  <div style="text-align:center">
-    <calcite-alert icon="rangefinder" kind="brand" open label="A report alert">
-      <div slot="title">Trail Camera Report</div>
-      <div slot="message">We thought you might want to take a look</div>
-      <calcite-link slot="link">Take action</calcite-link>
-    </calcite-alert>
+  <div style="display: flex, flex-grow: 1">
+    <div style="text-align:center">
+      <calcite-alert icon="rangefinder" kind="brand" open label="A report alert">
+        <div slot="title">Trail Camera Report</div>
+        <div slot="message">We thought you might want to take a look</div>
+        <calcite-link slot="link">Take action</calcite-link>
+      </calcite-alert>
+    </div>
   </div>
 `;
