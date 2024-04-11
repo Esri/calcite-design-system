@@ -12,7 +12,7 @@
  * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the minimum height of the component.
  * @prop --calcite-shell-panel-min-width: Specifies the minimum width of the component.
  * @prop --calcite-shell-panel-shadow: Specifies the shadow of the component.
- * @prop --calcite-shell-panel-width: Specifies the width of the component.
+ * @prop --calcite-shell-panel-content-width: Specifies the width of the component.
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
  *
  */
@@ -158,7 +158,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   --calcite-internal-shell-panel-z-index: calc(theme("zIndex.default") + 1);
 
   .content {
-    inline-size: var(--calcite-shell-panel-width, var(--calcite-internal-shell-panel-width));
+    inline-size: var(--calcite-shell-panel-content-width, var(--calcite-internal-shell-panel-width));
     max-inline-size: var(--calcite-shell-panel-max-width, var(--calcite-internal-shell-panel-max-width));
     min-inline-size: var(--calcite-shell-panel-min-width, var(--calcite-internal-shell-panel-min-width));
   }
