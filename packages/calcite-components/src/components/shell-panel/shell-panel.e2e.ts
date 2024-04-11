@@ -244,7 +244,7 @@ describe("calcite-shell-panel", () => {
         :root {
           --calcite-shell-panel-min-width: ${override};
           --calcite-shell-panel-max-width: ${override};
-          --calcite-shell-panel-width: ${override};
+          --calcite-shell-panel-content-width: ${override};
         }
       </style>
       <calcite-shell-panel>
@@ -605,7 +605,7 @@ describe("calcite-shell-panel", () => {
           targetProp: "minWidth",
           shadowSelector: `.${CSS.content}`,
         },
-        "--calcite-shell-panel-width": {
+        "--calcite-shell-panel-content-width": {
           selector: "calcite-shell-panel",
           targetProp: "width",
           shadowSelector: `.${CSS.content}`,
