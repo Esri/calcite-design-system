@@ -6,10 +6,9 @@ import {
   filterComponentAttributes,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { ICONS } from "./resources";
 import { html } from "../../../support/formatting";
+import { ICONS } from "./resources";
 
 const { scale } = ATTRIBUTES;
 

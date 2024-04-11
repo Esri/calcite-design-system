@@ -6,7 +6,6 @@ import {
   createComponentHTML as create,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -205,6 +204,20 @@ export const indicatorTextEnabledNoIcon_TestOnly = (): string => html`
 export const indicatorNoTextEnabledNoIcon_TestOnly = (): string => html`
   <calcite-action indicator active text="click-me"></calcite-action>
 `;
+
+export const noTextHeight_TestOnly = (): string =>
+  html`<h2>All actions should be the same height</h2>
+    <div style="width: min-content">
+      <div style="border: solid 1px">
+        <calcite-action text="hello" text-enabled icon="home" scale="s"></calcite-action>
+      </div>
+      <div style="border: solid 1px">
+        <calcite-action text="hello" icon="home" scale="s"></calcite-action>
+      </div>
+      <div style="border: solid 1px">
+        <calcite-action icon="home" scale="s"></calcite-action>
+      </div>
+    </div>`;
 
 export const arabicLocale_TestOnly = (): string => html`
   <calcite-action

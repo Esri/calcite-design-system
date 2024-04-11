@@ -1,10 +1,9 @@
 import { newE2EPage } from "@stencil/core/testing";
-
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
-import { CSS } from "./resources";
 import { isElementFocused } from "../../tests/utils";
+import { CSS } from "./resources";
 import { FlowItemLikeElement } from "./interfaces";
 
 describe("calcite-flow", () => {

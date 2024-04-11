@@ -12,7 +12,11 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-
+import {
+  calciteSize24,
+  calciteSize32,
+  calciteSize44,
+} from "@esri/calcite-design-tokens/dist/es6/core";
 import {
   Direction,
   filterDirectChildren,
@@ -24,7 +28,6 @@ import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
-import { CSS, ICON } from "./resources";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -33,13 +36,9 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { TabNavMessages } from "./assets/tab-nav/t9n";
-import {
-  calciteSize24,
-  calciteSize32,
-  calciteSize44,
-} from "@esri/calcite-design-tokens/dist/es6/core";
 import { CSS_UTILITY } from "../../utils/resources";
+import { CSS, ICON } from "./resources";
+import { TabNavMessages } from "./assets/tab-nav/t9n";
 
 /**
  * @slot - A slot for adding `calcite-tab-title`s.

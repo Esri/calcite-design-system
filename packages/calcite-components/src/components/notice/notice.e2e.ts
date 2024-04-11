@@ -1,8 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, focusable, renders, slots, hidden, t9n } from "../../tests/commonTests";
-import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-notice", () => {
   const noticeContent = html`

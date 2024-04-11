@@ -34,8 +34,6 @@ import {
 } from "../../utils/t9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
-import { BlockMessages } from "./assets/block/t9n";
-import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import {
   componentFocusable,
   LoadableComponent,
@@ -44,6 +42,8 @@ import {
 } from "../../utils/loadable";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import { BlockMessages } from "./assets/block/t9n";
 
 /**
  * @slot - A slot for adding custom content.
