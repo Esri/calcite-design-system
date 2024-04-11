@@ -4,13 +4,6 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/TextArea",
-  parameters: {
-    chromatic: {
-      modes: {
-        desktop: { viewport: { width: "1024px", height: "900px" } },
-      },
-    },
-  },
 };
 
 export const simple = (): string => html`
@@ -91,7 +84,7 @@ export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
   html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;
 
 export const validationMessageAllScales_TestOnly = (): string => html`
-  <div style="width:600px;max-width:100%;text-align:center;">
+  <div style="width:800px;height:800px;max-width:100%;">
     <calcite-text-area
       scale="s"
       status="invalid"

@@ -8,9 +8,6 @@ export default {
   parameters: {
     chromatic: {
       delay: 500,
-      modes: {
-        desktop: { viewport: { width: "1024px", height: "900px" } },
-      },
     },
   },
 };
@@ -174,7 +171,7 @@ export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
 `;
 
 export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
-  <div style="width:600px;max-width:100%;text-align:center;">
+  <div style="width:800px;height:800px;max-width:100%;">
       <calcite-alert icon="rangefinder" kind="brand" open label="A report alert">
         <div slot="title">Trail Camera Report</div>
         <div slot="message">We thought you might want to take a look</div>
