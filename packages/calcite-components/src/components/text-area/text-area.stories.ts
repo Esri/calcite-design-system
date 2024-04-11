@@ -88,8 +88,8 @@ export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
   html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;
 
 export const validationMessageAllScales_TestOnly = (): string => html`
-  <div style="width:800px;height:800px;max-width:100%;padding:60px;">
-    <div style="width:200px;height:150px">
+  <div style="display:flex;width:800px;height:800px;max-width:100%;padding:60px;gap:10px;">
+    <div style="width:200px;height:150px;">
       <calcite-text-area
         scale="s"
         status="invalid"
@@ -97,7 +97,7 @@ export const validationMessageAllScales_TestOnly = (): string => html`
         validation-icon="frown"
       ></calcite-text-area>
     </div>
-    <div style="width:200px;height:150px">
+    <div style="width:200px;height:150px;">
       <calcite-text-area
         scale="m"
         status="invalid"
@@ -106,7 +106,7 @@ export const validationMessageAllScales_TestOnly = (): string => html`
         value="Hi"
       ></calcite-text-area>
     </div>
-    <div style="width:200px;height:150px">
+    <div style="width:200px;height:150px;">
       <calcite-text-area
         scale="l"
         status="invalid"
