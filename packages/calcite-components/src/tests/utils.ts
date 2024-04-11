@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import type { JSX } from "../components";
 import { BoundingBox } from "puppeteer";
+import type { JSX } from "../components";
 
 /**
  * Util to help type global props for testing.

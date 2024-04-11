@@ -1,15 +1,9 @@
-import { select } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+import { select } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Chip Group",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

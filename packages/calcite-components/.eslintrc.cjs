@@ -75,6 +75,7 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": "error",
     curly: "error",
     "import/no-dynamic-require": ["error", { esmodule: true }],
+    "import/order": ["error", { "newlines-between": "never" }],
     "jest/expect-expect": "off",
     "jest/no-export": "warn",
     "jsdoc/check-tag-names": "off",

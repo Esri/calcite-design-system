@@ -13,3 +13,5 @@ No config is needed
 ```json
 { "@esri/calcite-components/enforce-ref-last-prop": "error" }
 ```
+
+> Fix included

@@ -12,7 +12,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-
 import { getElementDir } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
