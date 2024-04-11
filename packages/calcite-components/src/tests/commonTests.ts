@@ -2129,7 +2129,7 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
     await page.mouse.reset();
   }
   await page.waitForChanges();
-  expect(Object.is(styles[targetProp], expectedValue)).toBe(true);
+  expect(styles[targetProp]).toBe(expectedValue);
 }
 
 /**
