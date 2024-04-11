@@ -84,15 +84,19 @@ export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
   html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;
 
 export const validationMessageAllScales_TestOnly = (): string => html`
-  <div style="width:800px;height:800px;max-width:100%;">
+  <div style="width:800px;height:800px;max-width:100%;padding:60px;">
     <calcite-text-area
       scale="s"
+      rows="2"
+      columns="20"
       status="invalid"
       validation-message="This field is required."
       validation-icon="frown"
     ></calcite-text-area>
     <calcite-text-area
       scale="m"
+      rows="2"
+      columns="20"
       status="invalid"
       validation-message="Less than the minimum length of 6 characters"
       validation-icon
@@ -100,6 +104,8 @@ export const validationMessageAllScales_TestOnly = (): string => html`
     ></calcite-text-area>
     <calcite-text-area
       scale="l"
+      rows="2"
+      columns="20"
       status="invalid"
       validation-message="Exceeds the maximum length of 9 characters"
       validation-icon

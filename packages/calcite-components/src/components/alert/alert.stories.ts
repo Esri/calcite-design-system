@@ -163,15 +163,17 @@ export const actionsEndQueued_TestOnly = (): string => html`
 `;
 
 export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
-  <calcite-alert auto-close auto-close-duration="medium" open scale="m" kind="info">
-    <div slot="title">Here's a general bit of information</div>
-    <div slot="message">Some kind of contextually relevant content</div>
-    <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
-  </calcite-alert>
+  <div style="width:1000px;height:800px;max-width:100%;padding:60px;">
+    <calcite-alert auto-close auto-close-duration="medium" open scale="m" kind="info">
+      <div slot="title">Here's a general bit of information</div>
+      <div slot="message">Some kind of contextually relevant content</div>
+      <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
+    </calcite-alert>
+  </div>
 `;
 
 export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
-  <div style="width:800px;height:800px;max-width:100%;">
+  <div style="width:1000px;height:800px;max-width:100%;padding:60px">
       <calcite-alert icon="rangefinder" kind="brand" open label="A report alert">
         <div slot="title">Trail Camera Report</div>
         <div slot="message">We thought you might want to take a look</div>
