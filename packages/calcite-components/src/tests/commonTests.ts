@@ -1905,7 +1905,8 @@ export function themed(
 
       // Set up styleTargets and testTargets
       for (let i = 0; i < selectors.length; i++) {
-        const { selector, shadowSelector, targetProp, state } = selectors[i];
+        const { shadowSelector, targetProp, state } = selectors[i];
+        const selector = selectors[i].selector || getTag(componentTagOrHTML);
         const el = await page.find(selector);
         const tokenStyle = `${token}: ${setTokens[token]}`;
         let target = el;
@@ -2012,9 +2013,9 @@ export type TestTarget = {
  */
 export type TestSelectToken = {
   /**
-   * The selector of the target element.
+   * The selector of the target element. When not provided, the component tag is used.
    */
-  selector: string;
+  selector?: string;
 
   /**
    * This selector will be used to find the target element within the shadow DOM of the component.
