@@ -1946,6 +1946,12 @@ export function themed(
           contextSelector = Object.values(state)[0];
         }
 
+        if (!target) {
+          throw new Error(
+            `[${token}] target (${selector}${shadowSelector ? " >>> " + shadowSelector : ""}) not found, make sure test HTML renders the component and expected shadow DOM elements`,
+          );
+        }
+
         testTargets.push({ target, targetProp, contextSelector, state: stateName, expectedValue: setTokens[token] });
       }
     }
