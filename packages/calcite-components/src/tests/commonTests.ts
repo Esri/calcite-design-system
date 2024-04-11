@@ -2000,7 +2000,7 @@ export type TestTarget = {
   /**
    * The state to apply to the target element.
    */
-  state?: string | Record<string, ContextSelectByAttr>;
+  state?: string;
 
   /**
    * The expected value of the targetProp.
