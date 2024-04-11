@@ -284,10 +284,7 @@ export class Tile implements InteractiveComponent {
   renderTile(): VNode {
     const { description, disabled, heading, icon, iconFlipRtl, interactive, selectionMode } = this;
     const isLargeVisual = heading && icon && !description;
-
-    // TODO: this might have to be smarter to handle standalone href cases
-    const disableInteraction = disabled || (!disabled && !interactive);
-
+    const disableInteraction = disabled || Boolean(this.href) || (!disabled && !interactive);
     const role =
       selectionMode === "multiple" && interactive
         ? "checkbox"

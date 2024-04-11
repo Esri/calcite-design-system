@@ -167,6 +167,7 @@
   }
 }
 
+:host([href]:focus:not([disabled])),
 :host([href]:hover:not([disabled])) {
   --calcite-tile-border-color: var(--calcite-color-text-link);
   --calcite-tile-heading-text-color: var(--calcite-color-text-link);
