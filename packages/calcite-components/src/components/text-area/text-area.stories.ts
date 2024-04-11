@@ -4,6 +4,10 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/TextArea",
+  // Enables snapshotting for the component
+  parameters: {
+    chromatic: { disableSnapshot: false },
+  },
 };
 
 export const simple = (): string => html`
@@ -85,31 +89,31 @@ export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
 
 export const validationMessageAllScales_TestOnly = (): string => html`
   <div style="width:800px;height:800px;max-width:100%;padding:60px;">
-    <calcite-text-area
-      scale="s"
-      rows="2"
-      columns="20"
-      status="invalid"
-      validation-message="This field is required."
-      validation-icon="frown"
-    ></calcite-text-area>
-    <calcite-text-area
-      scale="m"
-      rows="2"
-      columns="20"
-      status="invalid"
-      validation-message="Less than the minimum length of 6 characters"
-      validation-icon
-      value="Hi"
-    ></calcite-text-area>
-    <calcite-text-area
-      scale="l"
-      rows="2"
-      columns="20"
-      status="invalid"
-      validation-message="Exceeds the maximum length of 9 characters"
-      validation-icon
-      value="Lorem ipsum"
-    ></calcite-text-area>
+    <div style="width:200px;height:150px">
+      <calcite-text-area
+        scale="s"
+        status="invalid"
+        validation-message="This field is required."
+        validation-icon="frown"
+      ></calcite-text-area>
+    </div>
+    <div style="width:200px;height:150px">
+      <calcite-text-area
+        scale="m"
+        status="invalid"
+        validation-message="Less than the minimum length of 6 characters"
+        validation-icon
+        value="Hi"
+      ></calcite-text-area>
+    </div>
+    <div style="width:200px;height:150px">
+      <calcite-text-area
+        scale="l"
+        status="invalid"
+        validation-message="Exceeds the maximum length of 9 characters"
+        validation-icon
+        value="Lorem ipsum"
+      ></calcite-text-area>
+    </div>
   </div>
 `;
