@@ -1975,24 +1975,60 @@ export function themed(
 
 export type ContextSelectByAttr = { attribute: string; value: string | RegExp };
 
+type CSSProp = keyof CSSStyleDeclaration;
+
 /**
- * Custom type describing a test target for themed components. Use with themed and assertThemedProps.
+ * Describes a test target for themed components.
  */
 export type TestTarget = {
+  /**
+   * The element to get the computed style from.
+   */
   target: E2EElement;
+
+  /**
+   * @todo doc
+   */
   contextSelector?: string | ContextSelectByAttr;
-  targetProp: keyof CSSStyleDeclaration;
-  state?: string;
+
+  /**
+   * The CSSStyleDeclaration property to assert on.
+   */
+  targetProp: CSSProp;
+
+  /**
+   * The state to apply to the target element.
+   */
+  state?: string | Record<string, ContextSelectByAttr>;
+
+  /**
+   * The expected value of the targetProp.
+   */
   expectedValue: string;
 };
 
 /**
- * Custom type describing a test selector for themed components. Use with themed assertThemedProps.
+ * Describes a test selector for themed components.
  */
 export type TestSelectToken = {
+  /**
+   * The selector of the target element.
+   */
   selector: string;
+
+  /**
+   * This selector will be used to find the target element within the shadow DOM of the component.
+   */
   shadowSelector?: string;
-  targetProp: keyof CSSStyleDeclaration;
+
+  /**
+   * The CSSStyleDeclaration property to assert on.
+   */
+  targetProp: CSSProp;
+
+  /**
+   * The state to apply to the target element.
+   */
   state?: string | Record<string, ContextSelectByAttr>;
 };
 
