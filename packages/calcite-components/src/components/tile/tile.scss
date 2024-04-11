@@ -25,8 +25,8 @@
   block-size: var(--calcite-container-size-content-fluid);
   box-shadow: 0 0 0 1px var(--calcite-tile-border-color);
   box-sizing: border-box;
+  cursor: pointer;
   inline-size: var(--calcite-container-size-content-fluid);
-  pointer-events: none;
   user-select: none;
   &.selected {
     outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-color-brand);
