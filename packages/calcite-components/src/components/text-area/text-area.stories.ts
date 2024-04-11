@@ -4,6 +4,13 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/TextArea",
+  parameters: {
+    chromatic: {
+      modes: {
+        desktop: { name: "large", styles: { width: "1024px", height: "900px" } },
+      },
+    },
+  },
 };
 
 export const simple = (): string => html`
