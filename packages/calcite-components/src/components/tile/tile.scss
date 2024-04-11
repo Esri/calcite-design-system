@@ -14,6 +14,7 @@
   --calcite-tile-border-color: var(--calcite-color-border-2);
   --calcite-tile-description-text-color: var(--calcite-color-text-3);
   --calcite-tile-heading-text-color: var(--calcite-color-text-2);
+  --calcite-ui-icon-color: var(--calcite-color-text-3);
 
   box-sizing: border-box;
   display: inline-block;
@@ -166,15 +167,20 @@
   }
 }
 
-:host(:not([href])) {
-  --calcite-ui-icon-color: var(--calcite-color-text-3);
+:host([href]:hover:not([disabled])) {
+  --calcite-tile-border-color: var(--calcite-color-text-link);
+  --calcite-tile-heading-text-color: var(--calcite-color-text-link);
+  --calcite-ui-icon-color: var(--calcite-color-text-link);
+  .container {
+    cursor: pointer;
+    position: relative;
+    z-index: var(--calcite-z-index);
+  }
 }
 
-:host([href]),
-:host([href]:hover) {
-  --calcite-tile-heading-text-color: var(--calcite-color-text-link);
-  .heading {
-    text-decoration-line: underline;
+:host([href]:active:not([disabled])) {
+  .container {
+    box-shadow: 0 0 0 3px var(--calcite-tile-border-color);
   }
 }
 
@@ -185,28 +191,10 @@
   }
 }
 
-:host(:not([embed])[href]:hover),
-:host(:not([embed])[href]:focus) {
-  --calcite-tile-border-color: var(--calcite-color-brand);
-  .container {
-    box-shadow: 0 0 0 2px var(--calcite-tile-border-color);
-    cursor: pointer;
-    position: relative;
-    z-index: var(--calcite-z-index);
-  }
-}
-
-:host(:not([embed])[href]:active) {
-  --calcite-tile-border-color: var(--calcite-color-brand);
-  .container {
-    box-shadow: 0 0 0 3px var(--calcite-tile-border-color);
-  }
-}
-
 @include disabled();
 
-:host(:hover),
-:host([active]) {
+:host(:hover:not([disabled])),
+:host([active]:not([disabled])) {
   --calcite-tile-description-text-color: var(--calcite-color-text-2);
   --calcite-tile-heading-text-color: var(--calcite-color-text-1);
 }
