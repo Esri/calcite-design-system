@@ -1,15 +1,10 @@
-import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { text } from "@storybook/addon-knobs";
+import { boolean } from "../../../.storybook/helpers";
+import { text } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 
 export default {
   title: "Components/Navigation/Navigation User",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

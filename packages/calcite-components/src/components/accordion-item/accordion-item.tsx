@@ -22,8 +22,8 @@ import {
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
-import { SLOTS, CSS, IDS } from "./resources";
 import { FlipContext, Position, Scale, SelectionMode } from "../interfaces";
+import { SLOTS, CSS, IDS } from "./resources";
 import { RequestedItem } from "./interfaces";
 
 /**

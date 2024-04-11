@@ -400,4 +400,28 @@ describe("calcite-panel", () => {
     expect(await panel.getProperty("closed")).toBe(true);
     expect(await container.isVisible()).toBe(false);
   });
+
+  it("should not close when Escape key is prevented and closable is true", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-panel closable>test</calcite-panel>");
+    const panel = await page.find("calcite-panel");
+    const container = await page.find(`calcite-panel >>> .${CSS.container}`);
+
+    expect(await panel.getProperty("closed")).toBe(false);
+    expect(await container.isVisible()).toBe(true);
+
+    await page.$eval("calcite-panel", (panel: HTMLCalcitePanelElement) => {
+      panel.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          event.preventDefault();
+        }
+      });
+    });
+
+    await panel.press("Escape");
+    await page.waitForChanges();
+
+    expect(await panel.getProperty("closed")).toBe(false);
+    expect(await container.isVisible()).toBe(true);
+  });
 });

@@ -40,8 +40,6 @@ import {
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
-import { CSS, ICONS, SLOTS } from "./resources";
-
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -50,9 +48,9 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { ModalMessages } from "./assets/modal/t9n";
-
 import { componentOnReady, getIconScale } from "../../utils/component";
+import { ModalMessages } from "./assets/modal/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 let totalOpenModals: number = 0;
 let initialDocumentOverflowStyle: string = "";

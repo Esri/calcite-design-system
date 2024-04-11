@@ -14,16 +14,13 @@ import {
   Watch,
 } from "@stencil/core";
 import { toAriaBoolean, slotChangeHasAssignedElement } from "../../utils/dom";
-import { CSS, SLOTS, ICONS } from "./resources";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
-
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-
 import {
   connectMessages,
   disconnectMessages,
@@ -40,8 +37,9 @@ import {
 } from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { isActivationKey } from "../../utils/key";
-import { ChipMessages } from "./assets/chip/t9n";
 import { getIconScale } from "../../utils/component";
+import { ChipMessages } from "./assets/chip/t9n";
+import { CSS, SLOTS, ICONS } from "./resources";
 
 /**
  * @slot - A slot for adding text.

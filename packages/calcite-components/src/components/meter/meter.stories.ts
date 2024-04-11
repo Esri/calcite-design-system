@@ -1,15 +1,9 @@
-import { storyFilters, boolean } from "../../../.storybook/helpers";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import { number, select, text } from "@storybook/addon-knobs";
+import { boolean, number, select, text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/Meter",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string =>
@@ -185,7 +179,7 @@ export const darkModeRTL_TestOnly = (): string =>
     range-labels
   ></calcite-meter>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const complexPercentRTL_TestOnly = (): string =>
   html`<calcite-meter

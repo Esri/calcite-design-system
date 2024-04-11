@@ -1,5 +1,5 @@
-import { Scale } from "../components/interfaces";
 import { HTMLStencilElement } from "@stencil/core/internal";
+import { Scale } from "../components/interfaces";
 
 export function getIconScale(componentScale: Scale): Extract<Scale, "s" | "m"> {
   return componentScale === "l" ? "m" : "s";

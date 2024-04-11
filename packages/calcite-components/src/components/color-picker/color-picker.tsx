@@ -11,40 +11,10 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-
 import Color from "color";
-import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
 import { throttle } from "lodash-es";
 import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import {
-  CSS,
-  DEFAULT_COLOR,
-  DEFAULT_STORAGE_KEY_PREFIX,
-  DIMENSIONS,
-  HSV_LIMITS,
-  HUE_LIMIT_CONSTRAINED,
-  OPACITY_LIMITS,
-  RGB_LIMITS,
-  SCOPE_SIZE,
-} from "./resources";
-import {
-  alphaCompatible,
-  alphaToOpacity,
-  colorEqual,
-  CSSColorMode,
-  Format,
-  hexify,
-  normalizeAlpha,
-  normalizeColor,
-  normalizeHex,
-  opacityToAlpha,
-  parseMode,
-  SupportedMode,
-  toAlphaMode,
-  toNonAlphaMode,
-} from "./utils";
-
 import {
   connectInteractive,
   disconnectInteractive,
@@ -73,6 +43,34 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
+import {
+  alphaCompatible,
+  alphaToOpacity,
+  colorEqual,
+  CSSColorMode,
+  Format,
+  hexify,
+  normalizeAlpha,
+  normalizeColor,
+  normalizeHex,
+  opacityToAlpha,
+  parseMode,
+  SupportedMode,
+  toAlphaMode,
+  toNonAlphaMode,
+} from "./utils";
+import {
+  CSS,
+  DEFAULT_COLOR,
+  DEFAULT_STORAGE_KEY_PREFIX,
+  DIMENSIONS,
+  HSV_LIMITS,
+  HUE_LIMIT_CONSTRAINED,
+  OPACITY_LIMITS,
+  RGB_LIMITS,
+  SCOPE_SIZE,
+} from "./resources";
+import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
 import { ColorPickerMessages } from "./assets/color-picker/t9n";
 
 const throttleFor60FpsInMs = 16;

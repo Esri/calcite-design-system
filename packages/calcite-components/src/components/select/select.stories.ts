@@ -6,11 +6,8 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { select, boolean, text } from "@storybook/addon-knobs";
-import selectReadme from "../select/readme.md";
-import optionReadme from "../option/readme.md";
-import optionGroupReadme from "../option-group/readme.md";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { select, boolean, text } from "../../../.storybook/fake-knobs";
+import { iconNames } from "../../../.storybook/helpers";
 
 const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes = (
   { exceptions } = { exceptions: [] },
@@ -22,7 +19,7 @@ const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false, group);
+          this.value = boolean("disabled", false, group, "prop");
           delete this.build;
           return this;
         },
@@ -78,15 +75,15 @@ const createOptionAttributes: () => Attributes = () => {
   return [
     {
       name: "disabled",
-      value: boolean("disabled", false, group),
+      value: boolean("disabled", false, group, "prop"),
     },
     {
       name: "label",
-      value: text("label", "fancy label", group),
+      value: text("label", "fancy label", group, "prop"),
     },
     {
       name: "selected",
-      value: boolean("selected", false, group),
+      value: boolean("selected", false, group, "prop"),
     },
     {
       name: "value",
@@ -107,14 +104,6 @@ const createOptionGroupAttributes: () => Attributes = () => {
 
 export default {
   title: "Components/Controls/Select",
-  parameters: {
-    notes: {
-      select: selectReadme,
-      option: optionReadme,
-      optionGroup: optionGroupReadme,
-    },
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string =>
@@ -190,7 +179,7 @@ export const darkModeRTL_TestOnly = (): string =>
     `,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabledAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
   <calcite-select disabled scale="l">

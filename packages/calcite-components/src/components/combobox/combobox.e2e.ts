@@ -12,7 +12,6 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";

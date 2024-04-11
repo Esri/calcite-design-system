@@ -31,9 +31,9 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Layout, Position, Scale } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 import { ShellPanelMessages } from "./assets/shell-panel/t9n";
 import { CSS, SLOTS } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
 import { DisplayMode } from "./interfaces";
 
 /**

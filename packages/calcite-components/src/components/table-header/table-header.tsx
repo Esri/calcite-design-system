@@ -14,10 +14,10 @@ import {
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
-import { TableHeaderMessages } from "./assets/table-header/t9n";
-import { CSS } from "./resources";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getIconScale } from "../../utils/component";
+import { TableHeaderMessages } from "./assets/table-header/t9n";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-table-header",
