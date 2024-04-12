@@ -304,7 +304,7 @@ export class DatePickerMonth {
         </div>
         <div class="calendar" onKeyDown={this.keyDownHandler} role="grid">
           {this.renderMonthCalendar(adjustedWeekDays, days)}
-          {this.range && this.renderMonthCalendar(adjustedWeekDays, nextMonthDays)}
+          {this.range && this.renderMonthCalendar(adjustedWeekDays, nextMonthDays, true)}
         </div>
       </Host>
     );
@@ -629,15 +629,15 @@ export class DatePickerMonth {
     return days;
   };
 
-  private getWeeks(days: Day[]): Day[][] {
-    const weeks: Day[][] = [];
-    for (let i = 0; i < days.length; i += 7) {
-      weeks.push(days.slice(i, i + 7));
-    }
-    return weeks;
-  }
+  // private getWeeks(days: Day[]): Day[][] {
+  //   const weeks: Day[][] = [];
+  //   for (let i = 0; i < days.length; i += 7) {
+  //     weeks.push(days.slice(i, i + 7));
+  //   }
+  //   return weeks;
+  // }
 
-  private renderMonthCalendar(weekDays: string[], days: Day[]): VNode {
+  private renderMonthCalendar(weekDays: string[], days: Day[], isNextMonth = false): VNode {
     return (
       <div class="month">
         <div class="week-headers" role="row">
@@ -649,7 +649,7 @@ export class DatePickerMonth {
         </div>
 
         <div class="week-days" role="row">
-          {days.map((day, index) => this.renderDateDay(day, index))}
+          {days.map((day, index) => this.renderDateDay(day, isNextMonth ? 50 + index : index))}
         </div>
       </div>
     );
