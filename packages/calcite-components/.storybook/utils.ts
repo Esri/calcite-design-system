@@ -1,10 +1,5 @@
-/* @jsx React.createElement */
-
 import { CSS_UTILITY } from "../src/utils/resources";
-
-import { Description, DocsPage } from "@storybook/addon-docs";
 import { withThemeByClassName } from "@storybook/addon-themes";
-import React from "react";
 import { Scale } from "../src/components/interfaces";
 import { html } from "../support/formatting";
 import { Breakpoints } from "../src/utils/responsive";
@@ -40,11 +35,7 @@ interface DeferredAttribute {
   commit: () => Attribute;
 }
 
-export const createComponentHTML = (
-  tagName: string,
-  attributes: Attributes,
-  contentHTML: string = "",
-): string =>
+export const createComponentHTML = (tagName: string, attributes: Attributes, contentHTML: string = ""): string =>
   `<${tagName} ${attributes
     .map(({ name, value }) => {
       const booleanAttr = typeof value === "boolean";
@@ -55,17 +46,7 @@ export const createComponentHTML = (
     })
     .join(" ")}>${contentHTML}</${tagName}>`;
 
-export const globalDocsPage: typeof DocsPage = () => (
-  <React.Fragment>
-    {/* omit <Title /> as Description includes it (from component READMEs) */}
-    <Description />
-  </React.Fragment>
-);
-
-export const filterComponentAttributes = (
-  attributesList: DeferredAttribute[],
-  exceptions: string[],
-): Attributes => {
+export const filterComponentAttributes = (attributesList: DeferredAttribute[], exceptions: string[]): Attributes => {
   if (!exceptions.length) {
     return attributesList.map((attr) => attr.commit());
   }
