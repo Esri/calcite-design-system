@@ -14,7 +14,7 @@ export default {
 };
 
 export const titleMessageLink = (): string => html`
-  <div style="--calcite-alert-width:200px;width:800px;height:800px;max-width:100%;padding:60px">
+  <div style="width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert
       ${boolean("icon", true)}
       ${boolean("auto-close", false)}
@@ -27,6 +27,7 @@ export const titleMessageLink = (): string => html`
       ${boolean("open", true)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "brand")}"
+      style="--calcite-alert-width:200px;"
     >
       <div slot="title">Here's a general bit of information</div>
       <div slot="message">Some kind of contextually relevant content</div>
@@ -38,7 +39,7 @@ export const titleMessageLink = (): string => html`
 titleMessageLink.storyName = "Title, message, link";
 
 export const titleMessage = (): string => html`
-  <div style="--calcite-alert-width:200px;width:800px;height:800px;max-width:100%;padding:60px">
+  <div style="width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert
       ${boolean("icon", true)}
       ${boolean("auto-close", false)}
@@ -51,6 +52,7 @@ export const titleMessage = (): string => html`
       ${boolean("open", true)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "danger")}"
+      style="--calcite-alert-width:200px;"
     >
       <div slot="title">Something failed</div>
       <div slot="message">That thing you wanted to do didn't work as expected</div>
@@ -61,7 +63,7 @@ export const titleMessage = (): string => html`
 titleMessage.storyName = "Title, message";
 
 export const messageLink = (): string => html`
-  <div style="--calcite-alert-width:200px;width:800px;height:800px;max-width:100%;padding:60px">
+  <div style="width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert
       ${boolean("icon", true)}
       ${boolean("auto-close", false)}
@@ -74,6 +76,7 @@ export const messageLink = (): string => html`
       ${boolean("open", true)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "success")}"
+      style="--calcite-alert-width:200px;"
     >
       <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
       <calcite-link slot="link" title="my action">View layer</calcite-link>
@@ -84,7 +87,7 @@ export const messageLink = (): string => html`
 messageLink.storyName = "Message, link";
 
 export const message = (): string => html`
-  <div style="--calcite-alert-width:200px;width:800px;height:800px;max-width:100%;padding:60px">
+  <div style="width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert
       ${boolean("icon", true)}
       ${boolean("auto-close", false)}
@@ -97,6 +100,7 @@ export const message = (): string => html`
       ${boolean("open", true)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "warning")}"
+      style="--calcite-alert-width:200px;"
     >
       <div slot="message">Network connection interruption detected</div>
     </calcite-alert>
@@ -104,7 +108,7 @@ export const message = (): string => html`
 `;
 
 export const customIcon = (): string => html`
-  <div style="--calcite-alert-width:200px;width:800px;height:800px;max-width:100%;padding:60px">
+  <div style="width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert
       icon="${select("icon", iconNames, iconNames[0])}"
       ${boolean("auto-close", false)}
@@ -117,6 +121,7 @@ export const customIcon = (): string => html`
       ${boolean("open", true)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "success")}"
+      style="--calcite-alert-width:200px;"
     >
       <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
       <calcite-link slot="link" title="my action">View layer</calcite-link>
@@ -125,7 +130,7 @@ export const customIcon = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <div style="--calcite-alert-width:200px;width:800px;height:800px;max-width:100%;padding:60px">
+  <div style="width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert
       class="calcite-mode-dark"
       ${boolean("icon", true)}
@@ -139,6 +144,7 @@ export const darkModeRTL_TestOnly = (): string => html`
       ${boolean("open", true)}
       scale="${select("scale", ["s", "m", "l"], "m")}"
       kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "danger")}"
+      style="--calcite-alert-width:200px;"
     >
       <div slot="title">Something failed</div>
       <div slot="message">That thing you wanted to do didn't work as expected</div>
@@ -150,8 +156,15 @@ export const darkModeRTL_TestOnly = (): string => html`
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const actionsEndNoQueue_TestOnly = (): string => html`
-  <div style="--calcite-alert-width:200px;width:800px;height:800px;max-width:100%;padding:60px">
-    <calcite-alert label="this is a default danger with icon and link" scale="l" kind="danger" icon open>
+  <div style="width:600px;height:800px;max-width:100%;padding:60px">
+    <calcite-alert
+      label="this is a default danger with icon and link"
+      scale="l"
+      kind="danger"
+      icon
+      open
+      style="--calcite-alert-width:200px;"
+    >
       <div slot="title">Hello there!</div>
       <div slot="message">Do you really want to proceed?</div>
       <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
@@ -161,14 +174,14 @@ export const actionsEndNoQueue_TestOnly = (): string => html`
 `;
 
 export const actionsEndQueued_TestOnly = (): string => html`
-  <div style="--calcite-alert-width:200px;width:800px;height:800px;max-width:100%;padding:60px">
-    <calcite-alert id="one" label="One" scale="l" kind="danger" icon open>
+  <div style="width:600px;height:800px;max-width:100%;padding:60px">
+    <calcite-alert id="one" label="One" scale="l" kind="danger" icon open style="--calcite-alert-width:200px;">
       <div slot="title">Hello there, alert one!</div>
       <div slot="message">Do you really want to proceed?</div>
       <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
       <calcite-action scale="l" slot="actions-end" title="Get info" icon="attachment"></calcite-action>
     </calcite-alert>
-    <calcite-alert id="two" label="Two" scale="l" kind="danger" icon>
+    <calcite-alert id="two" label="Two" scale="l" kind="danger" icon style="--calcite-alert-width:200px;">
       <div slot="title">Hello there, alert two!</div>
       <div slot="message">Do you really want to proceed?</div>
       <calcite-action scale="l" slot="actions-end" title="Tips" icon="lightbulb"></calcite-action>
@@ -183,8 +196,8 @@ export const actionsEndQueued_TestOnly = (): string => html`
 `;
 
 export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
-  <div style="--calcite-alert-width:200px;width:600px;height:800px;max-width:100%;padding:60px">
-      <calcite-alert icon="rangefinder" kind="brand" open scale="s" label="A report alert">
+  <div style="width:600px;height:800px;max-width:100%;padding:60px">
+      <calcite-alert icon="rangefinder" kind="brand" open scale="s" label="A report alert"m style="--calcite-alert-width:200px;">
         <div slot="title">Trail Camera Report</div>
         <div slot="message">We thought you might want to take a look</div>
         <calcite-link slot="link">Take action</calcite-link>
