@@ -7,7 +7,7 @@ export default {
   title: "Components/Alert",
   parameters: {
     chromatic: {
-      delay: 500,
+      delay: 800,
       // Enables snapshotting for the component
       disableSnapshot: false,
     },
