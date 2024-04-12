@@ -309,6 +309,11 @@ export class Combobox
    */
   @Prop({ mutable: true }) filteredItems: HTMLCalciteComboboxItemElement[] = [];
 
+  /**
+   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   */
+  @Prop({ reflect: true }) readOnly = false;
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -807,6 +812,10 @@ export class Combobox
   };
 
   clickHandler = (event: MouseEvent): void => {
+    if (this.readOnly) {
+      return;
+    }
+
     const composedPath = event.composedPath();
 
     if (composedPath.some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
