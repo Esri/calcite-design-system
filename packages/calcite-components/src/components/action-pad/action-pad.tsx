@@ -281,6 +281,7 @@ export class ActionPad
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
+        class={CSS.expandToggle}
         collapseText={messages.collapse}
         el={el}
         expandText={messages.expand}
