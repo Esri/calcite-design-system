@@ -2148,6 +2148,9 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
         y: rect.top + rect.height / 2,
       };
 
+      await page.mouse.reset();
+      await page.waitForChanges();
+
       // hover state
       await page.mouse.move(box.x, box.y);
 
@@ -2170,7 +2173,6 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
     }
 
     styles = await target.getComputedStyle();
-    await page.mouse.reset();
   }
 
   await page.waitForChanges();
