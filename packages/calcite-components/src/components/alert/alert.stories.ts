@@ -190,7 +190,7 @@ export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
     </calcite-alert>
   </div>
 `;
-titleMessageLink.parameters = { chromatic: { disableSnapshot: false } };
+autoClosableRetainsCloseButton_TestOnly.parameters = { chromatic: { disableSnapshot: false } };
 
 export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
   <div style="width:1000px;height:800px;max-width:100%;padding:60px">
