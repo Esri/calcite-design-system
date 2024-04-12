@@ -1,6 +1,6 @@
-import { getUserAgentString } from "./browser";
 import { JSXAttributes } from "@stencil/core/internal";
 import { FunctionalComponent, h, VNode } from "@stencil/core";
+import { getUserAgentString } from "./browser";
 
 export interface InteractiveComponent {
   /**

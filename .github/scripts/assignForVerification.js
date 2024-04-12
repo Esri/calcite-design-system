@@ -3,14 +3,25 @@ const { handoff, issueWorkflow } = require("./labels");
 module.exports = async ({ github, context }) => {
   const { ISSUE_VERIFIERS, CALCITE_DESIGNERS } = process.env;
   const { label } = context.payload;
-  if (label && label.name === issueWorkflow.installed) {
-    const assignees = ISSUE_VERIFIERS.split(",").map((v) => v.trim());
 
-    const { data: issue } = await github.rest.issues.get({
+  if (label && label.name === issueWorkflow.installed) {
+    const issueProps = {
       issue_number: context.issue.number,
       owner: context.repo.owner,
       repo: context.repo.repo,
-    });
+    };
+    const { data: issue } = await github.rest.issues.get(issueProps);
+
+    try {
+      await github.rest.issues.removeLabel({
+        ...issueProps,
+        name: "2 - in development",
+      });
+    } catch (err) {
+      console.log("The '2 - in development' label is not associated with the issue", err);
+    }
+
+    const assignees = ISSUE_VERIFIERS.split(",").map((v) => v.trim());
 
     // assign designers if figma updates are required
     if (issue.labels.map((label) => label.name).includes(handoff.figmaChanges)) {
@@ -18,16 +29,12 @@ module.exports = async ({ github, context }) => {
     }
 
     await github.rest.issues.update({
-      issue_number: context.issue.number,
-      owner: context.repo.owner,
-      repo: context.repo.repo,
+      ...issueProps,
       assignees,
     });
 
     await github.rest.issues.createComment({
-      issue_number: context.issue.number,
-      owner: context.repo.owner,
-      repo: context.repo.repo,
+      ...issueProps,
       body: "Installed and assigned for verification.",
     });
   }

@@ -8,9 +8,9 @@ import {
   Listen,
   Prop,
   VNode,
+  Method,
 } from "@stencil/core";
 import { dateToISO } from "../../utils/date";
-
 import { closestElementCrossShadowBoundary, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,
@@ -22,13 +22,19 @@ import {
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
+import {
+  componentFocusable,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent,
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-date-picker-day",
   styleUrl: "date-picker-day.scss",
   shadow: true,
 })
-export class DatePickerDay implements InteractiveComponent {
+export class DatePickerDay implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -139,11 +145,29 @@ export class DatePickerDay implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     this.parentDatePickerEl = closestElementCrossShadowBoundary(
       this.el,
       "calcite-date-picker",
     ) as HTMLCalciteDatePickerElement;
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    this.el.focus();
   }
 
   render(): VNode {

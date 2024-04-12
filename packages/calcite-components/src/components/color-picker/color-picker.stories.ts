@@ -1,4 +1,4 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import {
   Attribute,
   filterComponentAttributes,
@@ -6,17 +6,11 @@ import {
   createComponentHTML as create,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-import colorReadme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/ColorPicker",
-  parameters: {
-    notes: colorReadme,
-  },
-  ...storyFilters(),
 };
 
 const createColorAttributes: (options?: { exceptions: string[] }) => Attributes = (
@@ -29,7 +23,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "channels-disabled",
         commit(): Attribute {
-          this.value = boolean("channels-disabled", false);
+          this.value = boolean("channels-disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -37,7 +31,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "hex-disabled",
         commit(): Attribute {
-          this.value = boolean("hex-disabled", false);
+          this.value = boolean("hex-disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -45,7 +39,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
       {
         name: "saved-disabled",
         commit(): Attribute {
-          this.value = boolean("saved-disabled", false);
+          this.value = boolean("saved-disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -67,7 +61,7 @@ export const simple = (): string =>
   create("calcite-color-picker", [
     {
       name: "clearable",
-      value: boolean("clearable", false),
+      value: boolean("clearable", false, "", "prop"),
     },
     ...createColorAttributes(),
     {
@@ -95,7 +89,7 @@ export const darkModeRTL_TestOnly = (): string =>
     },
   ]);
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const thumbsOnEdgeDoNotOverflowContainer_TestOnly = (): string =>
   html`<div style="overflow: auto; width: 274px;">
