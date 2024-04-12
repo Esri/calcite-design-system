@@ -1,88 +1,30 @@
 /* @jsx React.createElement */
 
-import {
-  array,
-  boolean,
-  button,
-  color,
-  date,
-  files,
-  number,
-  object,
-  optionsKnob as options,
-  radios,
-  select,
-  text,
-} from "@storybook/addon-knobs";
 import { CSS_UTILITY } from "../src/utils/resources";
 
-import { colors } from "../../../node_modules/@esri/calcite-colors/dist/colors";
 import { Description, DocsPage } from "@storybook/addon-docs";
-import { Theme as Mode } from "storybook-addon-themes/dist/models/Theme";
+import { withThemeByClassName } from "@storybook/addon-themes";
 import React from "react";
 import { Scale } from "../src/components/interfaces";
 import { html } from "../support/formatting";
 import { Breakpoints } from "../src/utils/responsive";
 
-const autoValue = {
-  name: "Auto",
-  value: colors["blk-200"],
-};
-
-const lightValue = {
-  name: "Light",
-  value: colors["blk-005"],
-};
-
-const darkValue = {
-  name: "Dark",
-  value: colors["blk-210"],
-};
-
-const list: Mode[] = [
-  {
-    name: lightValue.name,
-    class: CSS_UTILITY.lightMode,
-    color: lightValue.value,
+export const themeDecorator = withThemeByClassName({
+  themes: {
+    auto: CSS_UTILITY.autoMode,
+    light: CSS_UTILITY.lightMode,
+    dark: CSS_UTILITY.darkMode,
   },
-  {
-    name: darkValue.name,
-    class: CSS_UTILITY.darkMode,
-    color: darkValue.value,
-  },
-  {
-    name: autoValue.name,
-    class: CSS_UTILITY.autoMode,
-    color: autoValue.value,
-  },
-];
-
-export const modes = {
-  default: lightValue.name,
-  list,
-};
+  defaultTheme: "light",
+});
 
 export const modesDarkDefault = {
-  default: darkValue.name,
-  list,
+  themeOverride: "dark",
 };
 
 export interface KnobbedAttribute {
   name: string;
-  value: ReturnType<
-    | typeof boolean
-    | typeof color
-    | typeof date
-    | typeof number
-    | typeof array
-    | typeof files
-    | typeof button
-    | typeof object
-    | typeof radios
-    | typeof options
-    | typeof select
-    | typeof text
-  >;
+  value: ReturnType<any>;
 }
 
 export interface SimpleAttribute {

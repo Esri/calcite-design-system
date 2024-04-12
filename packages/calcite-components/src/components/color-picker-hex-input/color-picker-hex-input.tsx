@@ -10,6 +10,9 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import Color from "color";
+import { Scale } from "../interfaces";
+import { Channels, RGB } from "../color-picker/interfaces";
 import {
   alphaToOpacity,
   hexChar,
@@ -20,10 +23,6 @@ import {
   opacityToAlpha,
   rgbToHex,
 } from "../color-picker/utils";
-import { CSS } from "./resources";
-import { Scale } from "../interfaces";
-import { Channels, RGB } from "../color-picker/interfaces";
-import Color from "color";
 import { focusElement } from "../../utils/dom";
 import {
   componentFocusable,
@@ -34,6 +33,7 @@ import {
 import { NumberingSystem } from "../../utils/locale";
 import { OPACITY_LIMITS } from "../color-picker/resources";
 import { ColorPickerMessages } from "../color-picker/assets/color-picker/t9n";
+import { CSS } from "./resources";
 
 const DEFAULT_COLOR = Color();
 

@@ -1,14 +1,12 @@
-import { Meta, Description, Canvas, Story } from "@storybook/addon-docs";
-import { color } from "@storybook/addon-knobs";
+import { color } from "../.storybook/fake-knobs";
 import { placeholderImage } from "../.storybook/placeholderImage";
-import markdown from "./custom-theme.md";
 
-<Meta title="Theming/Custom Theme" />
+export default {
+  title: "Theming/Custom Theme",
+};
 
-<Description markdown={markdown}></Description>
-
-export const Template = () =>
-  `<div
+export const themingInteractive = (): string => {
+  return `<div
     style="
       --calcite-color-brand: ${color("--calcite-color-brand", "#007ac2")};
       --calcite-color-brand-hover: ${color("--calcite-color-brand-hover", "#00619b")};
@@ -191,5 +189,4 @@ export const Template = () =>
       </div>
     </div>
   </div>`;
-
-<Story name="Interactive">{Template.bind({})}</Story>
+};

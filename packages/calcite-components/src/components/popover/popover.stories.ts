@@ -1,8 +1,7 @@
-import { select, number, text } from "@storybook/addon-knobs";
+import { select, number, text } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
-import readme from "./readme.md";
 import { defaultPopoverPlacement } from "../popover/resources";
 import { modesDarkDefault } from "../../../.storybook/utils";
 
@@ -20,12 +19,10 @@ const nestedReferenceElementHTML = `Ut enim ad minim veniam, quis <calcite-butto
 export default {
   title: "Components/Popover",
   parameters: {
-    notes: [readme],
     chromatic: {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -67,7 +64,7 @@ export const darkModeRTL_TestOnly = (): string =>
     </calcite-popover>
   </div>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const nested = (): string => html`
   <div style="width: 400px;">

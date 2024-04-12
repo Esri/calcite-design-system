@@ -12,9 +12,9 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS } from "./resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
+import { CSS } from "./resources";
 const animationDurationInMs = 200;
 
 describe("calcite-input-date-picker", () => {

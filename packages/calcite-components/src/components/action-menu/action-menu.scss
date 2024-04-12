@@ -42,6 +42,10 @@
   flex-col;
 }
 
+.container {
+  display: contents;
+}
+
 calcite-action {
   --calcite-action-background-color: var(--calcite-action-menu-trigger-background-color);
   --calcite-action-text-color: var(--calcite-action-menu-trigger-text-color);

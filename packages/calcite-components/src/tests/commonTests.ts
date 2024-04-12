@@ -3,20 +3,19 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
+import { ElementHandle, KeyInput } from "puppeteer";
 import { config } from "../../stencil.config";
 import { html } from "../../support/formatting";
 import type { JSX } from "../components";
-import { getClearValidationEventName, hiddenFormInputSlotName, componentsWithInputEvent } from "../utils/form";
+import { componentsWithInputEvent, getClearValidationEventName, hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
 import {
   GlobalTestProps,
   IntrinsicElementsWithProp,
-  isArray,
   isElementFocused,
   newProgrammaticE2EPage,
   skipAnimations,
 } from "./utils";
-import { KeyInput } from "puppeteer";
 
 expect.extend(toHaveNoViolations);
 
@@ -1848,32 +1847,38 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
  * @example
  * describe("theme", () => {
  *   const tokens = {
- *     "--calcite-action-bar-trigger-background-color": [{
- *       selector: "calcite-action-bar",
- *       targetProp: "backgroundColor",
- *     }, {
- *       selector: "calcite-action-bar",
- *       shadowSelector: "calcite-action-group calcite-action >>> .button",
- *       targetProp: "backgroundColor",
- *     }],
- *     "--calcite-action-bar-trigger-background-color-active": {
- *       selector: "calcite-action-bar",
- *       shadowSelector: "calcite-action-group calcite-action >>> .button",
- *       targetProp: "backgroundColor",
- *       state: { press: { attribute: "class", value: CSS.expandToggle } },
+ *      "--calcite-action-menu-border-color": [
+ *        {
+ *          targetProp: "borderLeftColor",
+ *        },
+ *        {
+ *          shadowSelector: "calcite-action",
+ *          targetProp: "--calcite-action-border-color",
+ *        },
+ *     ],
+ *     "--calcite-action-menu-background-color": {
+ *          targetProp: "backgroundColor",
+ *          shadowSelector: ".container",
  *     },
- *     "--calcite-action-bar-trigger-background-color-focus": {
- *       selector: "calcite-action-bar",
- *       shadowSelector: "calcite-action-group calcite-action >>> .button",
- *       targetProp: "backgroundColor",
- *       state: "focus",
- *     },
- *     "--calcite-action-bar-trigger-background-color-hover": {
- *       selector: "calcite-action-bar",
- *       shadowSelector: "calcite-action-group calcite-action >>> .button",
- *       targetProp: "backgroundColor",
- *       state: "hover",
- *     },
+ *     "--calcite-action-menu-trigger-background-color-active": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+ *      },
+ *      "--calcite-action-menu-trigger-background-color-focus": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: "focus",
+ *      },
+ *      "--calcite-action-menu-trigger-background-color-hover": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: "hover",
+ *      },
+ *      "--calcite-action-menu-trigger-background-color": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *      },
  *   } as const;
  *   themed(`calcite-action-bar`, tokens);
  * });
@@ -1895,7 +1900,7 @@ export function themed(
     for (const token in tokens) {
       let selectors = tokens[token];
 
-      if (!isArray(selectors)) {
+      if (!Array.isArray(selectors)) {
         selectors = [selectors];
       }
 
@@ -1906,7 +1911,8 @@ export function themed(
 
       // Set up styleTargets and testTargets
       for (let i = 0; i < selectors.length; i++) {
-        const { selector, shadowSelector, targetProp, state } = selectors[i];
+        const { shadowSelector, targetProp, state } = selectors[i];
+        const selector = selectors[i].selector || getTag(componentTagOrHTML);
         const el = await page.find(selector);
         const tokenStyle = `${token}: ${setTokens[token]}`;
         let target = el;
@@ -1947,6 +1953,14 @@ export function themed(
           contextSelector = Object.values(state)[0];
         }
 
+        if (!target) {
+          throw new Error(
+            `[${token}] target (${selector}${
+              shadowSelector ? " >>> " + shadowSelector : ""
+            }) not found, make sure test HTML renders the component and expected shadow DOM elements`,
+          );
+        }
+
         testTargets.push({ target, targetProp, contextSelector, state: stateName, expectedValue: setTokens[token] });
       }
     }
@@ -1970,26 +1984,83 @@ export function themed(
 
 export type ContextSelectByAttr = { attribute: string; value: string | RegExp };
 
+type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
+
 /**
- * Custom type describing a test target for themed components. Use with themed and assertThemedProps.
+ * Describes a test target for themed components.
  */
 export type TestTarget = {
+  /**
+   * The element to get the computed style from.
+   */
   target: E2EElement;
+
+  /**
+   * @todo doc
+   */
   contextSelector?: string | ContextSelectByAttr;
-  targetProp: keyof CSSStyleDeclaration;
+
+  /**
+   * The CSSStyleDeclaration property or mapped sub-component CSS custom prop to assert on.
+   */
+  targetProp: CSSProp | MappedCustomCSSProp;
+
+  /**
+   * The state to apply to the target element.
+   */
   state?: string;
+
+  /**
+   * The expected value of the targetProp.
+   */
   expectedValue: string;
 };
 
+type MappedCustomCSSProp = `--calcite-${string}`;
+
 /**
- * Custom type describing a test selector for themed components. Use with themed assertThemedProps.
+ * Describes a test selector for themed components.
  */
 export type TestSelectToken = {
-  selector: string;
+  /**
+   * The selector of the target element. When not provided, the component tag is used.
+   */
+  selector?: string;
+
+  /**
+   * This selector will be used to find the target element within the shadow DOM of the component.
+   */
   shadowSelector?: string;
-  targetProp: keyof CSSStyleDeclaration;
+
+  /**
+   * The CSSStyleDeclaration property to assert on.
+   */
+  targetProp: CSSProp | MappedCustomCSSProp;
+
+  /**
+   * The state to apply to the target element.
+   */
   state?: string | Record<string, ContextSelectByAttr>;
 };
+
+/**
+ * Returns the computed style of an element's CSS property.
+ *
+ * This is a workaround for Stencil's `E2EElement.getComputedStyle()` not returning computed style of CSS custom properties.
+ *
+ * @param element
+ * @param property
+ */
+async function getComputedStylePropertyValue(element: E2EElement, property: string): Promise<string> {
+  type E2EElementInternal = E2EElement & {
+    _elmHandle: ElementHandle;
+  };
+
+  return await (element as E2EElementInternal)._elmHandle.evaluate(
+    (el, targetProp): string => window.getComputedStyle(el).getPropertyValue(targetProp),
+    property,
+  );
+}
 
 /**
  * Get the computed style of an element and assert that it matches the expected themed token value.
@@ -2005,75 +2076,72 @@ export type TestSelectToken = {
  */
 async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<void> {
   const { target, contextSelector, targetProp, state, expectedValue } = options;
+
+  if (targetProp.startsWith("--calcite-")) {
+    expect(await getComputedStylePropertyValue(target, targetProp)).toBe(expectedValue);
+
+    return;
+  }
+
   let styles = await target.getComputedStyle();
 
   if (state) {
     if (contextSelector) {
-      const rect = (await page.evaluate(
-        (
-          context:
-            | string
-            | {
-                attribute: string;
-                value: string | RegExp;
-              },
-        ) => {
-          const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
-            const { attribute, value } = context as {
-              attribute: string;
-              value: string | RegExp;
-            };
-            if (node.nodeType === 1) {
-              const attr = (node as Element).getAttribute(attribute);
-              if (typeof value === "string" && attr === value) {
-                return node;
-              }
-              if (value instanceof RegExp && attr && value.test(attr)) {
-                return node ?? undefined;
-              }
-              if (attr === value) {
-                return node;
-              }
-
-              if ((node as Element) && !attribute && !value) {
-                return node;
-              }
+      const rect = (await page.evaluate((context: TestTarget["contextSelector"]) => {
+        const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
+          const { attribute, value } = context as {
+            attribute: string;
+            value: string | RegExp;
+          };
+          if (node.nodeType === 1) {
+            const attr = (node as Element).getAttribute(attribute);
+            if (typeof value === "string" && attr === value) {
+              return node;
+            }
+            if (value instanceof RegExp && attr && value.test(attr)) {
+              return node ?? undefined;
+            }
+            if (attr === value) {
+              return node;
             }
 
-            if (node.nodeType === 1 && (node as Element).shadowRoot) {
-              for (const child of ((node as Element).shadowRoot as ShadowRoot).children) {
-                const result = searchInShadowDom(child);
-                if (result) {
-                  return result;
-                }
-              }
+            if ((node as Element) && !attribute && !value) {
+              return node;
             }
+          }
 
-            for (const child of node.childNodes) {
+          if (node.nodeType === 1 && (node as Element).shadowRoot) {
+            for (const child of ((node as Element).shadowRoot as ShadowRoot).children) {
               const result = searchInShadowDom(child);
               if (result) {
                 return result;
               }
             }
-          };
-          return new Promise<{ width: number; height: number; left: number; top: number } | undefined>((resolve) => {
-            requestAnimationFrame(() => {
-              const foundNode =
-                typeof context === "string"
-                  ? document.querySelector(context)
-                  : (searchInShadowDom(document) as HTMLElement | SVGElement | undefined);
+          }
 
-              if (foundNode?.getBoundingClientRect) {
-                const { width, height, left, top } = foundNode.getBoundingClientRect();
-                resolve({ width, height, left, top });
-              } else {
-                resolve(undefined);
-              }
-            });
+          for (const child of node.childNodes) {
+            const result = searchInShadowDom(child);
+            if (result) {
+              return result;
+            }
+          }
+        };
+        return new Promise<{ width: number; height: number; left: number; top: number } | undefined>((resolve) => {
+          requestAnimationFrame(() => {
+            const foundNode =
+              typeof context === "string"
+                ? document.querySelector(context)
+                : (searchInShadowDom(document) as HTMLElement | SVGElement | undefined);
+
+            if (foundNode?.getBoundingClientRect) {
+              const { width, height, left, top } = foundNode.getBoundingClientRect();
+              resolve({ width, height, left, top });
+            } else {
+              resolve(undefined);
+            }
           });
-        },
-        contextSelector,
-      )) as { width: number; height: number; left: number; top: number } | undefined;
+        });
+      }, contextSelector)) as { width: number; height: number; left: number; top: number } | undefined;
 
       const box = {
         x: rect.left + rect.width / 2,
@@ -2097,7 +2165,7 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
     await page.mouse.reset();
   }
   await page.waitForChanges();
-  expect(Object.is(styles[targetProp], expectedValue)).toBe(true);
+  expect(styles[targetProp]).toBe(expectedValue);
 }
 
 /**

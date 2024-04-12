@@ -12,9 +12,9 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
+import { getFocusedElementProp } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
-import { getFocusedElementProp } from "../../tests/utils";
 
 describe("calcite-action-bar", () => {
   describe("renders", () => {

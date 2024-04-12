@@ -1,15 +1,10 @@
-import { select, text } from "@storybook/addon-knobs";
-import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
+import { select, text } from "../../../.storybook/fake-knobs";
+import { iconNames, boolean } from "../../../.storybook/helpers";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Tiles/Tile",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -29,7 +24,7 @@ export const simple = (): string => html`
   </calcite-tile>
 `;
 
-export const allVariants_NoTest = (): string => html`
+export const allVariants = (): string => html`
   <style>
     .parent {
       display: flex;
@@ -818,7 +813,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   >
   </calcite-tile>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const contentTopBotton_TestOnly = (): string => html`
   <calcite-tile
