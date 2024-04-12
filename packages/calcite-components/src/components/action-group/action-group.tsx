@@ -21,10 +21,10 @@ import {
 } from "../../utils/t9n";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Columns, Layout, Scale } from "../interfaces";
-import { ActionGroupMessages } from "./assets/action-group/t9n";
-import { ICONS, SLOTS, CSS } from "./resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { ActionGroupMessages } from "./assets/action-group/t9n";
+import { ICONS, SLOTS, CSS } from "./resources";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
