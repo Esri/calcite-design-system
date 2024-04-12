@@ -1,15 +1,9 @@
-import { storyFilters, boolean } from "../../../.storybook/helpers";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import { number, select, text } from "@storybook/addon-knobs";
+import { boolean, number, select, text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/Table",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string =>
@@ -1433,7 +1427,7 @@ export const darkModeRTL_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const darkModeRTLWithSelection_TestOnly = (): string =>
   html`<calcite-table striped caption="Simple-striped table" dir="rtl" selection-mode="multiple">
@@ -1463,17 +1457,15 @@ export const darkModeRTLWithSelection_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-darkModeRTLWithSelection_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTLWithSelection_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const themingExample_TestOnly = (): string =>
   html`<style>
       calcite-table {
         --calcite-table-corner-radius: var(--calcite-corner-radius-round);
         --calcite-table-shadow: var(--calcite-shadow-sm);
-        --calcite-table-border-color: red;
         --calcite-table-row-background-color: #e6f4e6;
         --calcite-table-row-background-color-striped: green;
-        --calcite-table-row-background-color-selected: orange;
         --calcite-table-border-color: green;
         --calcite-table-row-border-color-selected: pink;
         --calcite-table-row-selected-accent-color: red;

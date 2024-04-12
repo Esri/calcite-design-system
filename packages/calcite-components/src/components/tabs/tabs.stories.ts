@@ -1,19 +1,11 @@
-import { select } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { select } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme3 from "../tab-nav/readme.md";
-import readme4 from "../tab-title/readme.md";
-import readme2 from "../tab/readme.md";
-import readme1 from "./readme.md";
 
 export default {
   title: "Components/Tabs",
-  parameters: {
-    notes: [readme1, readme2, readme3, readme4],
-  },
-  ...storyFilters(),
 };
 
 export const simpleDarkModeRTL_TestOnly = (): string => html`
@@ -37,7 +29,7 @@ export const simpleDarkModeRTL_TestOnly = (): string => html`
   </calcite-tabs>
 `;
 simpleDarkModeRTL_TestOnly.parameters = {
-  modes: modesDarkDefault,
+  themes: modesDarkDefault,
   chromatic: {
     delay: 500,
   },
@@ -104,7 +96,7 @@ export const borderedDarkModeRTL_TestOnly = (): string => html`
     <calcite-tab tab="tab4" selected>Tab 4 Content</calcite-tab>
   </calcite-tabs>
 `;
-borderedDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+borderedDarkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 const selectedIcon = iconNames[0];
 

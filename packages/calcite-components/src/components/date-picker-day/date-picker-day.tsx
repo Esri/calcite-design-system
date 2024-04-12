@@ -10,7 +10,6 @@ import {
   VNode,
 } from "@stencil/core";
 import { dateToISO } from "../../utils/date";
-
 import { closestElementCrossShadowBoundary, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,

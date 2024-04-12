@@ -11,8 +11,8 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
-import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-pad", () => {
   describe("renders", () => {

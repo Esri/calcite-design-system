@@ -1,17 +1,12 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/InputDatePicker",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -191,7 +186,7 @@ export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
     ></calcite-input-date-picker
   </div>
 `;
-arabicLocaleDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+arabicLocaleDarkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(
