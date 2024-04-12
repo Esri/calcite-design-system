@@ -595,7 +595,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -1311,7 +1311,7 @@ export namespace Components {
          */
         "activeRange": "start" | "end";
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -1420,6 +1420,10 @@ export namespace Components {
           * When `true`, the component is selected.
          */
         "selected": boolean;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
         /**
           * Date is the start of date range.
          */
@@ -1771,7 +1775,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -2144,7 +2148,7 @@ export namespace Components {
          */
         "form": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -3265,6 +3269,10 @@ export namespace Components {
          */
         "heading": string;
         /**
+          * Specifies the heading level of the component's heading for proper document structure, without affecting visual styling.
+         */
+        "headingLevel": HeadingLevel;
+        /**
           * Specifies the URL destination of the component, which can be set as an absolute or relative path.
          */
         "href": string;
@@ -3486,7 +3494,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -3556,7 +3564,7 @@ export namespace Components {
          */
         "getSelectedItems": () => Promise<Map<string, HTMLCalcitePickListItemElement>>;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -3586,7 +3594,7 @@ export namespace Components {
          */
         "groupTitle": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
     }
@@ -3680,7 +3688,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -5176,7 +5184,7 @@ export namespace Components {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -5204,7 +5212,7 @@ export namespace Components {
          */
         "closed": boolean;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
         /**
@@ -7974,7 +7982,7 @@ declare namespace LocalJSX {
          */
         "heading": string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -8743,7 +8751,7 @@ declare namespace LocalJSX {
          */
         "activeRange"?: "start" | "end";
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -9225,7 +9233,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -9617,7 +9625,7 @@ declare namespace LocalJSX {
          */
         "form"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -10826,6 +10834,10 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
+          * Specifies the heading level of the component's heading for proper document structure, without affecting visual styling.
+         */
+        "headingLevel"?: HeadingLevel;
+        /**
           * Specifies the URL destination of the component, which can be set as an absolute or relative path.
          */
         "href"?: string;
@@ -11045,7 +11057,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -11112,7 +11124,7 @@ declare namespace LocalJSX {
          */
         "filteredItems"?: HTMLCalcitePickListItemElement[];
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -11145,7 +11157,7 @@ declare namespace LocalJSX {
          */
         "groupTitle"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
     }
@@ -11254,7 +11266,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -12788,7 +12800,7 @@ declare namespace LocalJSX {
          */
         "heading"?: string;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
@@ -12820,7 +12832,7 @@ declare namespace LocalJSX {
          */
         "closed"?: boolean;
         /**
-          * Specifies the number at which section headings should start.
+          * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
         /**
