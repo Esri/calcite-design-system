@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-<link rel="stylesheet" href="./build/calcite.css" />
-<script type="module" src="./build/calcite.esm.js"></script>
+<link rel="stylesheet" href="./calcite/calcite.css" />
 
 <!-- docs fixes for displaying components -->
 <style>
@@ -40,3 +39,7 @@
     margin-top: 1rem;
   }
 </style>
+<script type="module">
+  import { setAssetPath } from "./components";
+  setAssetPath("./calcite/assets");
+</script>
