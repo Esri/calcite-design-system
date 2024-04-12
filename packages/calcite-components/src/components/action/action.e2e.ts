@@ -210,27 +210,22 @@ describe("calcite-action", () => {
     describe("default", () => {
       const tokens = {
         "--calcite-action-background-color": {
-          selector: "calcite-action",
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
         },
         "--calcite-action-text-color": {
-          selector: "calcite-action",
           shadowSelector: `.${CSS.button}`,
           targetProp: "color",
         },
         "--calcite-action-shadow": {
-          selector: "calcite-action",
           shadowSelector: `.${CSS.button}`,
           targetProp: "boxShadow",
         },
         "--calcite-action-icon-color": {
-          selector: "calcite-action",
-          shadowSelector: `.${CSS.icon}`,
-          targetProp: "color",
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
         },
         "--calcite-action-indicator-color": {
-          selector: "calcite-action",
           shadowSelector: `.${CSS.actionIndicator}`,
           targetProp: "color",
         },
@@ -251,11 +246,10 @@ describe("calcite-action", () => {
     describe("loading", () => {
       const tokens = {
         "--calcite-action-loader-color": {
-          selector: "calcite-action",
           shadowSelector: "calcite-loader",
-          targetProp: "color",
+          targetProp: "--calcite-loader-color-start",
         },
-      };
+      } as const;
 
       themed(
         `<calcite-action
