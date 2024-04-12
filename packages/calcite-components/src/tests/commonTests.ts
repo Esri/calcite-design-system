@@ -1949,7 +1949,9 @@ export function themed(
 
         if (!target) {
           throw new Error(
-            `[${token}] target (${selector}${shadowSelector ? " >>> " + shadowSelector : ""}) not found, make sure test HTML renders the component and expected shadow DOM elements`,
+            `[${token}] target (${selector}${
+              shadowSelector ? " >>> " + shadowSelector : ""
+            }) not found, make sure test HTML renders the component and expected shadow DOM elements`,
           );
         }
 
@@ -1957,17 +1959,16 @@ export function themed(
       }
     }
 
-    // set style attribute on styleTargets with the assigned token values
+    // set style attribute on each of the styleTargets with the assigned CSS variable values
     for (const selector in styleTargets) {
       const [el, assignedCSSVars] = styleTargets[selector];
 
-      // Sets the style of each element to a string of CSS token props with themed token values
       el.setAttribute("style", assignedCSSVars.join("; "));
     }
 
     await page.waitForChanges();
 
-    // Assert target computedStyle targetProp matches test theme token color
+    // Assert the targetProp in each testTarget's styles matches the expected value
     for (let i = 0; i < testTargets.length; i++) {
       await assertThemedProps(page, { ...testTargets[i] });
     }
