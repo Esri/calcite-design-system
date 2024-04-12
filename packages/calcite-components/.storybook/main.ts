@@ -46,8 +46,7 @@ module.exports = {
 
     return `
       <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
-      <link rel="stylesheet" href="./build/calcite.css" />
-      <script type="module" src="./build/calcite.esm.js"></script>
+      <link rel="stylesheet" href="./calcite/calcite.css" />
 
       <template id="internalStorybookNotice">
         <calcite-notice
@@ -72,7 +71,10 @@ module.exports = {
         </calcite-notice>
       </template>
 
-      <script>
+      <script type="module">
+        import { setAssetPath } from "./components";
+        setAssetPath("./calcite/assets");
+
         window.addEventListener(
           "load",
           () => document.body.prepend(document.getElementById("internalStorybookNotice").content.cloneNode(true)),
