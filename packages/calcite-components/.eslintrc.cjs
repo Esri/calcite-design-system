@@ -72,7 +72,6 @@ module.exports = {
     curly: "error",
     "import/no-dynamic-require": ["error", { esmodule: true }],
     "import/order": ["error", { "newlines-between": "never" }],
-    "jest/expect-expect": "off",
     "jest/no-export": "warn",
     "jsdoc/check-tag-names": "off",
     "jsdoc/require-jsdoc": "off",
