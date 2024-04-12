@@ -7,12 +7,19 @@
  * @prop --calcite-sheet-scrim-background-color: Specifies the background color of the sheet scrim.
  * @prop --calcite-sheet-background-color: Specifies the background color of the sheet.
  * @prop --calcite-sheet-shadow: Specifies the shadow of the sheet.
- * @prop --calcite-sheet-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
- * @prop --calcite-sheet-max-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the maximum width of the component.
- * @prop --calcite-sheet-min-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the minimum width of the component.
- * @prop --calcite-sheet-height:  When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
- * @prop --calcite-sheet-max-height:  When `position` is `"block-start"` or `"block-end"`, specifies the maximum height of the component.
- * @prop --calcite-sheet-min-height:  When `position` is `"block-start"` or `"block-end"`, specifies the minimum height of the component.
+ * @prop --calcite-sheet-width: [Deprecated] Use `--calcite-sheet-content-width`.
+ * @prop --calcite-sheet-max-width: [Deprecated] Use `--calcite-sheet-content-max-width`.
+ * @prop --calcite-sheet-min-width: [Deprecated] Use `--calcite-sheet-content-min-width`.
+ * @prop --calcite-sheet-height: [Deprecated] Use `--calcite-sheet-content-height`.
+ * @prop --calcite-sheet-max-height: [Deprecated] Use `--calcite-sheet-content-max-height`.
+ * @prop --calcite-sheet-min-height: [Deprecated] Use `--calcite-sheet-content-min-height`.
+ * @prop --calcite-sheet-content-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
+ * @prop --calcite-sheet-content-max-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the maximum width of the component.
+ * @prop --calcite-sheet-content-min-width: When `position` is `"inline-start"` or `"inline-end"`, specifies the minimum width of the component.
+ * @prop --calcite-sheet-content-height:  When `position` is `"block-start"` or `"block-end"`, specifies the height of the component.
+ * @prop --calcite-sheet-content-max-height:  When `position` is `"block-start"` or `"block-end"`, specifies the maximum height of the component.
+ * @prop --calcite-sheet-content-min-height:  When `position` is `"block-start"` or `"block-end"`, specifies the minimum height of the component.
+ * @prop --calcite-sheet-corner-radius: Specifies the corner radius of the sheet.
  *
  */
 
@@ -28,6 +35,10 @@
     opacity-0
     z-overlay
     invisible;
+  border-radius: var(
+    --calcite-sheet-corner-radius,
+    var(--calcite-internal-sheet-corner-radius, var(--calcite-corner-radius))
+  );
   box-shadow: var(--calcite-sheet-shadow, var(--calcite-internal-sheet-shadow));
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-medium),
@@ -36,6 +47,10 @@
 
 .content {
   @apply relative box-border block p-0 z-modal overflow-y-hidden;
+  border-radius: var(
+    --calcite-sheet-corner-radius,
+    var(--calcite-internal-sheet-corner-radius, var(--calcite-corner-radius))
+  );
   max-inline-size: var(--calcite-container-size-content-fluid);
   background-color: var(--calcite-sheet-background-color, var(--calcite-color-foreground-1));
   max-block-size: var(--calcite-container-size-content-fluid);
@@ -134,63 +149,63 @@
 
 :host([position^="inline"]) .container,
 :host([position^="inline"]) .content {
-  inline-size: var(--calcite-sheet-width, var(--calcite-sheet-width-internal));
-  max-inline-size: var(--calcite-sheet-max-width, var(--calcite-sheet-max-width-internal));
-  min-inline-size: var(--calcite-sheet-min-width, var(--calcite-sheet-min-width-internal));
+  inline-size: var(--calcite-sheet-content-width, var(--calcite-internal-sheet-content-width));
+  max-inline-size: var(--calcite-sheet-content-max-width, var(--calcite-internal-sheet-content-max-width));
+  min-inline-size: var(--calcite-sheet-content-min-width, var(--calcite-internal-sheet-content-min-width));
 }
 
 :host([position^="block"]) .container,
 :host([position^="block"]) .content {
-  block-size: var(--calcite-sheet-height, var(--calcite-sheet-height-internal));
-  max-block-size: var(--calcite-sheet-max-height, var(--calcite-sheet-max-height-internal));
-  min-block-size: var(--calcite-sheet-min-height, var(--calcite-sheet-min-height-internal));
+  block-size: var(--calcite-sheet-content-height, var(--calcite-internal-sheet-content-height));
+  max-block-size: var(--calcite-sheet-content-max-height, var(--calcite-internal-sheet-content-max-height));
+  min-block-size: var(--calcite-sheet-content-min-height, var(--calcite-internal-sheet-content-min-height));
 }
 
 :host([display-mode="float"][position^="inline"]) .container {
-  block-size: calc(100% - 1.5rem);
-  max-block-size: calc(100% - 1.5rem);
-  min-block-size: calc(100% - 1.5rem);
+  --calcite-internal-sheet-content-height: calc(100% - 1.5rem);
+  --calcite-internal-sheet-content-max-height: calc(100% - 1.5rem);
+  --calcite-internal-sheet-content-min-height: calc(100% - 1.5rem);
 }
 :host([display-mode="float"][position^="block"]) .container {
-  inline-size: calc(100% - 1.5rem);
-  max-inline-size: calc(100% - 1.5rem);
-  min-inline-size: calc(100% - 1.5rem);
+  --calcite-internal-sheet-content-width: calc(100% - 1.5rem);
+  --calcite-internal-sheet-content-max-width: calc(100% - 1.5rem);
+  --calcite-internal-sheet-content-min-width: calc(100% - 1.5rem);
 }
 
 :host([position^="inline"][width-scale="s"]) {
-  --calcite-sheet-width-internal: 15vw;
-  --calcite-sheet-max-width-internal: 360px;
-  --calcite-sheet-min-width-internal: 260px;
+  --calcite-internal-sheet-content-width: 15vw;
+  --calcite-internal-sheet-content-max-width: 360px;
+  --calcite-internal-sheet-content-min-width: 260px;
 }
 
 :host([position^="inline"][width-scale="m"]) {
-  --calcite-sheet-width-internal: 25vw;
-  --calcite-sheet-max-width-internal: 420px;
-  --calcite-sheet-min-width-internal: 300px;
+  --calcite-internal-sheet-content-width: 25vw;
+  --calcite-internal-sheet-content-max-width: 420px;
+  --calcite-internal-sheet-content-min-width: 300px;
 }
 
 :host([position^="inline"][width-scale="l"]) {
-  --calcite-sheet-width-internal: 45vw;
-  --calcite-sheet-max-width-internal: 680px;
-  --calcite-sheet-min-width-internal: 340px;
+  --calcite-internal-sheet-content-width: 45vw;
+  --calcite-internal-sheet-content-max-width: 680px;
+  --calcite-internal-sheet-content-min-width: 340px;
 }
 
 :host([position^="block"][height-scale="s"]) {
-  --calcite-sheet-min-height-internal: 160px;
-  --calcite-sheet-height-internal: 30vh;
-  --calcite-sheet-max-height-internal: 30vh;
+  --calcite-internal-sheet-content-min-height: 160px;
+  --calcite-internal-sheet-content-height: 30vh;
+  --calcite-internal-sheet-content-max-height: 30vh;
 }
 
 :host([position^="block"][height-scale="m"]) {
-  --calcite-sheet-min-height-internal: 200px;
-  --calcite-sheet-height-internal: 45vh;
-  --calcite-sheet-max-height-internal: 50vh;
+  --calcite-internal-sheet-content-min-height: 200px;
+  --calcite-internal-sheet-content-height: 45vh;
+  --calcite-internal-sheet-content-max-height: 50vh;
 }
 
 :host([position^="block"][height-scale="l"]) {
-  --calcite-sheet-min-height-internal: 240px;
-  --calcite-sheet-height-internal: 60vh;
-  --calcite-sheet-max-height-internal: 70vh;
+  --calcite-internal-sheet-content-min-height: 240px;
+  --calcite-internal-sheet-content-height: 60vh;
+  --calcite-internal-sheet-content-max-height: 70vh;
 }
 
 :host([opened]) {
@@ -199,7 +214,7 @@
 
 :host([display-mode="float"]) .content,
 :host([display-mode="float"]) .container {
-  border-radius: var(--calcite-corner-radius-round);
+  --calcite-internal-sheet-corner-radius: var(--calcite-corner-radius-round);
 }
 
 :host([display-mode="float"]) .container {
@@ -208,12 +223,12 @@
 
 :host([position="inline-start"]) .content,
 :host([position="inline-end"]) .content {
-  block-size: var(--calcite-container-size-content-fluid);
+  --calcite-internal-sheet-content-height: var(--calcite-container-size-content-fluid);
 }
 
 :host([position="block-start"]) .content,
 :host([position="block-end"]) .content {
-  inline-size: var(--calcite-container-size-content-fluid);
+  --calcite-internal-sheet-content-width: var(--calcite-container-size-content-fluid);
 }
 
 /**
