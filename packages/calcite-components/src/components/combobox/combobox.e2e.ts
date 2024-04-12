@@ -2018,6 +2018,7 @@ describe("calcite-combobox", () => {
     const combobox = await page.find("calcite-combobox");
     expect(await combobox.getProperty("open")).toBeFalsy();
     await combobox.click();
+    await page.waitForChanges();
     expect(await combobox.getProperty("open")).toBeFalsy();
   });
 });
