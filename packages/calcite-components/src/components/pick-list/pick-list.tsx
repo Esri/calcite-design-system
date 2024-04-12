@@ -296,7 +296,7 @@ export class PickList<
   //
   // --------------------------------------------------------------------------
 
-  getIconType(): ICON_TYPES {
+  getIconType(): typeof ICON_TYPES {
     return this.multiple ? ICON_TYPES.square : ICON_TYPES.circle;
   }
 
