@@ -181,20 +181,9 @@ export const actionsEndQueued_TestOnly = (): string => html`
   </div>
 `;
 
-export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
-  <div style="width:1000px;height:800px;max-width:100%;padding:60px">
-    <calcite-alert auto-close auto-close-duration="slow" open scale="s" kind="info">
-      <div slot="title">Here's a general bit of information</div>
-      <div slot="message">Some kind of contextually relevant content</div>
-      <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
-    </calcite-alert>
-  </div>
-`;
-autoClosableRetainsCloseButton_TestOnly.parameters = { chromatic: { disableSnapshot: false } };
-
 export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
-  <div style="--calcite-alert-width:200px;height:600px;max-width:100%;padding:60px">
-      <calcite-alert icon="rangefinder" kind="brand" open label="A report alert">
+  <div style="--calcite-alert-width:200px;width:600px;height:600px;max-width:100%;padding:60px">
+      <calcite-alert icon="rangefinder" kind="brand" open scale="s" label="A report alert">
         <div slot="title">Trail Camera Report</div>
         <div slot="message">We thought you might want to take a look</div>
         <calcite-link slot="link">Take action</calcite-link>
