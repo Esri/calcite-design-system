@@ -3,6 +3,7 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
+import { KeyInput } from "puppeteer";
 import { config } from "../../stencil.config";
 import { html } from "../../support/formatting";
 import type { JSX } from "../components";
@@ -15,7 +16,6 @@ import {
   newProgrammaticE2EPage,
   skipAnimations,
 } from "./utils";
-import { KeyInput } from "puppeteer";
 
 expect.extend(toHaveNoViolations);
 

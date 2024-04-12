@@ -11,7 +11,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-
 import { getSlotted, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -28,8 +27,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { LogicalFlowPosition } from "../interfaces";
-import { CardMessages } from "./assets/card/t9n";
-import { CSS, ICONS, SLOTS } from "./resources";
 import { SelectionMode } from "../interfaces";
 import {
   connectInteractive,
@@ -39,6 +36,8 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import { CSS, ICONS, SLOTS } from "./resources";
+import { CardMessages } from "./assets/card/t9n";
 
 /**
  * @slot - A slot for adding content.

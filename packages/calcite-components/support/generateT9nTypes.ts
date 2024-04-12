@@ -1,4 +1,4 @@
-import * as globby from "globby";
+import globby from "globby";
 import { format } from "prettier";
 import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core";
 
@@ -11,7 +11,7 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
   const rootBundlePattern = `src/components/**/t9n/${rootBundleFile}`;
   const rootManifestFilePath = "packages/calcite-components/";
 
-  const rootBundles = await globby.globby([rootBundlePattern]);
+  const rootBundles = await globby([rootBundlePattern]);
   const manifestFilePathSeparator = "\\";
 
   console.log("starting generation of t9n string typings...", rootBundlePattern);
@@ -20,7 +20,7 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
     rootBundles.map(async (bundle) => {
       const splitRootBundlePath = bundle.split("/");
       const componentName = splitRootBundlePath[2];
-      const typeName = `${splitRootBundlePath.pop().replace(rootBundleFile, "")}-${componentName}-messages`;
+      const typeName = `${splitRootBundlePath?.pop()?.replace(rootBundleFile, "")}-${componentName}-messages`;
       const jsonContents = await readFile(bundle, { encoding: "utf-8" });
 
       const jsonInput = jsonInputForTargetLanguage("typescript");
@@ -67,7 +67,7 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
       const componentAName = pathA.split(manifestFilePathSeparator).at(-2);
       const componentBName = pathB.split(manifestFilePathSeparator).at(-2);
 
-      return componentAName.localeCompare(componentBName);
+      return componentAName && componentBName ? componentAName?.localeCompare(componentBName) : 0;
     })
     .join("\n");
   await writeFile("../../t9nmanifest.txt", manifestFileContents);

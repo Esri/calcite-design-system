@@ -46,11 +46,11 @@ import {
 } from "../../utils/t9n";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
-import { InputTextMessages } from "./assets/input-text/t9n";
-import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { CSS, SLOTS } from "./resources";
+import { InputTextMessages } from "./assets/input-text/t9n";
 
 /**
  * @slot action - A slot for positioning a button next to the component.

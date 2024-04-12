@@ -21,8 +21,6 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { CSS } from "./resources";
-import { MenuItemCustomEvent } from "./interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
@@ -31,8 +29,10 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { MenuItemMessages } from "./assets/menu-item/t9n";
 import { LocalizedComponent, connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { CSS } from "./resources";
+import { MenuItemCustomEvent } from "./interfaces";
+import { MenuItemMessages } from "./assets/menu-item/t9n";
 
 type Layout = "horizontal" | "vertical";
 
