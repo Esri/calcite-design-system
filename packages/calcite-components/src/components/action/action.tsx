@@ -255,12 +255,14 @@ export class Action
       <calcite-loader inline label={this.messages.loading} scale={loaderScale} />
     ) : null;
     const calciteIconNode = icon ? (
-      <calcite-icon
-        class={{ [CSS.actionIndicator]: indicator, [CSS.icon]: true }}
-        flipRtl={iconFlipRtl}
-        icon={icon}
-        scale={getIconScale(this.scale)}
-      />
+      <div class={{ [CSS.actionIndicator]: indicator }}>
+        <calcite-icon
+          class={CSS.icon}
+          flipRtl={iconFlipRtl}
+          icon={icon}
+          scale={getIconScale(this.scale)}
+        />
+      </div>
     ) : null;
     const iconNode = calciteLoaderNode || calciteIconNode;
     const hasIconToDisplay = iconNode || el.children?.length;
