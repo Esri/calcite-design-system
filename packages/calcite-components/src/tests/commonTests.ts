@@ -1847,32 +1847,38 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
  * @example
  * describe("theme", () => {
  *   const tokens = {
- *     "--calcite-action-bar-trigger-background-color": [{
- *       selector: "calcite-action-bar",
- *       targetProp: "backgroundColor",
- *     }, {
- *       selector: "calcite-action-bar",
- *       shadowSelector: "calcite-action-group calcite-action >>> .button",
- *       targetProp: "backgroundColor",
- *     }],
- *     "--calcite-action-bar-trigger-background-color-active": {
- *       selector: "calcite-action-bar",
- *       shadowSelector: "calcite-action-group calcite-action >>> .button",
- *       targetProp: "backgroundColor",
- *       state: { press: { attribute: "class", value: CSS.expandToggle } },
+ *      "--calcite-action-menu-border-color": [
+ *        {
+ *          targetProp: "borderLeftColor",
+ *        },
+ *        {
+ *          shadowSelector: "calcite-action",
+ *          targetProp: "--calcite-action-border-color",
+ *        },
+ *     ],
+ *     "--calcite-action-menu-background-color": {
+ *          targetProp: "backgroundColor",
+ *          shadowSelector: ".container",
  *     },
- *     "--calcite-action-bar-trigger-background-color-focus": {
- *       selector: "calcite-action-bar",
- *       shadowSelector: "calcite-action-group calcite-action >>> .button",
- *       targetProp: "backgroundColor",
- *       state: "focus",
- *     },
- *     "--calcite-action-bar-trigger-background-color-hover": {
- *       selector: "calcite-action-bar",
- *       shadowSelector: "calcite-action-group calcite-action >>> .button",
- *       targetProp: "backgroundColor",
- *       state: "hover",
- *     },
+ *     "--calcite-action-menu-trigger-background-color-active": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+ *      },
+ *      "--calcite-action-menu-trigger-background-color-focus": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: "focus",
+ *      },
+ *      "--calcite-action-menu-trigger-background-color-hover": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: "hover",
+ *      },
+ *      "--calcite-action-menu-trigger-background-color": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *      },
  *   } as const;
  *   themed(`calcite-action-bar`, tokens);
  * });
@@ -1949,7 +1955,9 @@ export function themed(
 
         if (!target) {
           throw new Error(
-            `[${token}] target (${selector}${shadowSelector ? " >>> " + shadowSelector : ""}) not found, make sure test HTML renders the component and expected shadow DOM elements`,
+            `[${token}] target (${selector}${
+              shadowSelector ? " >>> " + shadowSelector : ""
+            }) not found, make sure test HTML renders the component and expected shadow DOM elements`,
           );
         }
 
