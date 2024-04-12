@@ -2077,7 +2077,7 @@ async function getComputedStylePropertyValue(element: E2EElement, property: stri
 async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<void> {
   const { target, contextSelector, targetProp, state, expectedValue } = options;
 
-  if (targetProp.startsWith("--calcite-")) {
+  if (!state && targetProp.startsWith("--calcite-")) {
     expect(await getComputedStylePropertyValue(target, targetProp)).toBe(expectedValue);
 
     return;
@@ -2160,10 +2160,19 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
     } else {
       await target[state]();
     }
+
     await page.waitForChanges();
+
+    if (targetProp.startsWith("--calcite-")) {
+      expect(await getComputedStylePropertyValue(target, targetProp)).toBe(expectedValue);
+
+      return;
+    }
+
     styles = await target.getComputedStyle();
     await page.mouse.reset();
   }
+
   await page.waitForChanges();
   expect(styles[targetProp]).toBe(expectedValue);
 }
