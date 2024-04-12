@@ -64,6 +64,7 @@ import { NoticeMessages } from "./components/notice/assets/notice/t9n";
 import { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
 import { PanelMessages } from "./components/panel/assets/panel/t9n";
 import { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
+import { ValueUnion } from "./components/types";
 import { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
 import { PopoverMessages } from "./components/popover/assets/popover/t9n";
 import { RatingMessages } from "./components/rating/assets/rating/t9n";
@@ -150,6 +151,7 @@ export { NoticeMessages } from "./components/notice/assets/notice/t9n";
 export { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
 export { PanelMessages } from "./components/panel/assets/panel/t9n";
 export { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
+export { ValueUnion } from "./components/types";
 export { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
 export { PopoverMessages } from "./components/popover/assets/popover/t9n";
 export { RatingMessages } from "./components/rating/assets/rating/t9n";
@@ -3571,7 +3573,7 @@ export namespace Components {
           * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
           * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
          */
-        "icon": typeof ICON_TYPES | null;
+        "icon": ValueUnion<typeof ICON_TYPES> | null;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -5368,7 +5370,7 @@ export namespace Components {
           * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
           * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
          */
-        "icon"?: typeof ICON_TYPES | null;
+        "icon"?: ValueUnion<typeof ICON_TYPES> | null;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -11084,7 +11086,7 @@ declare namespace LocalJSX {
           * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
           * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
          */
-        "icon"?: typeof ICON_TYPES | null;
+        "icon"?: ValueUnion<typeof ICON_TYPES> | null;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -12953,7 +12955,7 @@ declare namespace LocalJSX {
           * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
           * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
          */
-        "icon"?: typeof ICON_TYPES | null;
+        "icon"?: ValueUnion<typeof ICON_TYPES> | null;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
