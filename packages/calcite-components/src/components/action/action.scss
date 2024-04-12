@@ -107,7 +107,7 @@ calcite-icon {
 }
 
 calcite-loader {
-  color: var(--calcite-action-loader-color, var(--calcite-color-text-3));
+  --calcite-loader-color-start: var(--calcite-action-loader-color, var(--calcite-color-text-3));
   margin-inline-end: theme("spacing.0");
 }
 

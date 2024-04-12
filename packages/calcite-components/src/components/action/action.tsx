@@ -257,7 +257,7 @@ export class Action
     const calciteIconNode = icon ? (
       <div class={{ [CSS.actionIndicator]: indicator }}>
         <calcite-icon
-          class={{ [CSS.icon]: true }}
+          class={CSS.icon}
           flipRtl={iconFlipRtl}
           icon={icon}
           scale={getIconScale(this.scale)}
