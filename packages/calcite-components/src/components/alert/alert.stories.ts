@@ -13,7 +13,7 @@ export default {
 };
 
 export const titleMessageLink = (): string => html`
-  <div style="width:1000px;height:800px;max-width:100%;padding:60px">
+  <div style="width:1000px;height:600px;max-width:100%;padding:60px">
     <calcite-alert
       ${boolean("icon", true)}
       ${boolean("auto-close", false)}
@@ -193,7 +193,7 @@ export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
 autoClosableRetainsCloseButton_TestOnly.parameters = { chromatic: { disableSnapshot: false } };
 
 export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
-  <div style="width:1000px;height:800px;max-width:100%;padding:60px">
+  <div style="--calcite-alert-width:200px;height:600px;max-width:100%;padding:60px">
       <calcite-alert icon="rangefinder" kind="brand" open label="A report alert">
         <div slot="title">Trail Camera Report</div>
         <div slot="message">We thought you might want to take a look</div>
@@ -202,3 +202,4 @@ export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => h
     </div>
   </div>
 `;
+textAlignDoesNotAffectComponentAlignment_TestOnly.parameters = { chromatic: { disableSnapshot: false } };
