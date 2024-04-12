@@ -1,15 +1,10 @@
-import { text, select } from "@storybook/addon-knobs";
-import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
+import { text, select } from "../../../.storybook/fake-knobs";
+import { iconNames, boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Buttons/Button",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -159,7 +154,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-button>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const appearanceAndKindCombinations_TestOnly = (): string => html`
   <calcite-button scale="s" appearance="outline" kind="brand">outline+brand</calcite-button>

@@ -11,8 +11,8 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { CSS } from "./resources";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-text-area", () => {
   describe("renders", () => {

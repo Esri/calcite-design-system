@@ -52,7 +52,7 @@
   --calcite-stack-padding-block: 0;
 }
 
-::slotted(calcite-list-item) {
+::slotted(calcite-list-item:not([filter-hidden], [closed])) {
   border-block-start: var(--calcite-border-width-sm) solid
     var(--calcite-list-border-color, var(--calcite-color-border-3));
 }

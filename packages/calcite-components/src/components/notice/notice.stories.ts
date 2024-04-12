@@ -1,15 +1,10 @@
-import { select } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { select } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Notice",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -93,7 +88,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const theming_TestOnly = (): string => html`
   <calcite-notice
@@ -105,7 +100,6 @@ export const theming_TestOnly = (): string => html`
       --calcite-notice-shadow: var(--calcite-shadow-sm);
       --calcite-notice-corner-radius: 4px;
       --calcite-notice-icon-color: rgb(244, 229, 229);
-      --calcite-notice-close-icon-color: orange;
       --calcite-notice-text-color: rgb(244, 229, 229);
       --calcite-notice-close-icon-color: purple;
       --calcite-notice-close-background-color: rgb(236, 166, 178);"

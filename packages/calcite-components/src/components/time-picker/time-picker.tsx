@@ -14,7 +14,6 @@ import {
 import { numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
 import { Scale } from "../interfaces";
-
 import {
   connectLocalized,
   disconnectLocalized,
@@ -45,10 +44,7 @@ import {
   parseTimeString,
   TimePart,
 } from "../../utils/time";
-import { TimePickerMessages } from "./assets/time-picker/t9n";
-import { CSS } from "./resources";
 import { getIconScale } from "../../utils/component";
-
 import {
   componentFocusable,
   LoadableComponent,
@@ -56,6 +52,8 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { decimalPlaces, getDecimals } from "../../utils/math";
+import { CSS } from "./resources";
+import { TimePickerMessages } from "./assets/time-picker/t9n";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);

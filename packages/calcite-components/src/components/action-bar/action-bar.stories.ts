@@ -1,5 +1,4 @@
-import { boolean, select } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+import { boolean, select } from "../../../.storybook/fake-knobs";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
@@ -9,14 +8,9 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Action Bar",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -27,7 +21,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "expand-disabled",
         commit(): Attribute {
-          this.value = boolean("expandDisabled", false);
+          this.value = boolean("expandDisabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -35,7 +29,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "expanded",
         commit(): Attribute {
-          this.value = boolean("expanded", false);
+          this.value = boolean("expanded", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -179,7 +173,7 @@ export const darkModeRTL_TestOnly = (): string =>
     `,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const adjacentTooltipsOpenQuickly = (): string =>
   html`<div style="display:flex; height:500px; width: 200px;">
@@ -211,20 +205,6 @@ export const adjacentTooltipsOpenQuickly = (): string =>
       >
     </calcite-action-bar>
   </div>`;
-
-export const withTooltip_NoTest = (): string =>
-  create(
-    "calcite-action-bar",
-    createAttributes(),
-    html`
-      <calcite-tooltip placement="bottom" slot="expand-tooltip">Expand</calcite-tooltip>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    `,
-  );
-
-withTooltip_NoTest.parameters = {
-  chromatic: { disableSnapshot: true },
-};
 
 export const hebrewLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="he">
 <calcite-action text="Information" icon="information"></calcite-action>
