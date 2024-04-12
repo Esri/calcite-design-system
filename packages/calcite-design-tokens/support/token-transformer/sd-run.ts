@@ -11,7 +11,7 @@ import { PlatformOptions } from "../types/styleDictionary/platform.js";
 import { File } from "../types/styleDictionary/file.js";
 import { transformations } from "./styleDictionary/transformer/utils.js";
 import { format } from "./styleDictionary/formatter/utils.js";
-import { normalize } from "path";
+import { normalize, sep } from "path";
 
 const destination = (name: string, format: PlatformFormats) => `${name}${fileExtension[format]}`;
 
@@ -64,7 +64,7 @@ export const run = async ({
       const platformConfig: PlatformOptions = {
         options: { ...options, expandFiles, platforms: output.platforms },
         transforms: transformations[platform],
-        buildPath: normalize(`${output.dir}/${platform}/`),
+        buildPath: normalize(`${output.dir}/${platform}/`) + (sep === "\\" ? "/" : ""), // trailing `/` is a workaround for https://github.com/amzn/style-dictionary/issues/1144
         files: files(platform, name),
       };
       acc[platform] = platformConfig;

@@ -58,9 +58,6 @@ import {
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
 import { ListItemAndHandle } from "../value-list-item/interfaces";
-import { ValueListMessages } from "./assets/value-list/t9n";
-import { CSS, ICON_TYPES } from "./resources";
-import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 import {
   DragDetail,
   connectSortableComponent,
@@ -69,6 +66,9 @@ import {
   dragActive,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
+import { ValueListMessages } from "./assets/value-list/t9n";
+import { CSS, ICON_TYPES } from "./resources";
+import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 
 /**
  * @deprecated Use the `list` component instead.

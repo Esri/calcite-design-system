@@ -1,12 +1,13 @@
 import { FunctionalComponent, h, Host, VNode } from "@stencil/core";
 import { JSXBase } from "@stencil/core/internal";
 import { toAriaBoolean } from "../../utils/dom";
+import { InteractiveContainer } from "../../utils/interactive";
 import { CSS, SLOTS } from "./resources";
 import { handleFilter, handleFilterEvent } from "./shared-list-logic";
-import DOMAttributes = JSXBase.DOMAttributes;
-import { InteractiveContainer } from "../../utils/interactive";
 
-interface ListProps extends DOMAttributes<any> {
+type DOMAttributes = JSXBase.DOMAttributes<any>;
+
+interface ListProps extends DOMAttributes {
   disabled: boolean;
   loading: boolean;
   filterEnabled: boolean;
@@ -24,7 +25,7 @@ interface ListProps extends DOMAttributes<any> {
   storeAssistiveEl?: (el: HTMLSpanElement) => void;
 }
 
-export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>> = ({
+export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = ({
   props: {
     disabled,
     loading,

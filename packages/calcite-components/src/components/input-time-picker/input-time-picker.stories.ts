@@ -1,16 +1,11 @@
-import { number, select, text } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { number, select, text } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 
 export default {
   title: "Components/Controls/Time/Input Time Picker",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -60,7 +55,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-input-time-picker>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const open_TestOnly = (): string => html`
   <calcite-input-time-picker value="10:37" open> </calcite-input-time-picker>

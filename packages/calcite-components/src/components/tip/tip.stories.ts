@@ -1,4 +1,4 @@
-import { boolean, text } from "@storybook/addon-knobs";
+import { boolean, text } from "../../../.storybook/fake-knobs";
 import {
   Attribute,
   filterComponentAttributes,
@@ -6,18 +6,11 @@ import {
   createComponentHTML as create,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-import { html } from "../../../support/formatting";
-import readme from "./readme.md";
-import groupReadme from "../tip-group/readme.md";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import { storyFilters } from "../../../.storybook/helpers";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Tips/Tip",
-  parameters: {
-    notes: [readme, groupReadme],
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -26,7 +19,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "closed",
         commit(): Attribute {
-          this.value = boolean("closed", false);
+          this.value = boolean("closed", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -34,7 +27,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "close-disabled",
         commit(): Attribute {
-          this.value = boolean("closeDisabled", false);
+          this.value = boolean("closeDisabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -68,7 +61,7 @@ export const darkModeRTL_TestOnly = (): string =>
     ]),
     htmlSimpleTipContent,
   );
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const themed_TestOnly = (): string => html`
   <calcite-tip

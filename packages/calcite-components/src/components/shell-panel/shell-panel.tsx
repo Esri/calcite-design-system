@@ -31,9 +31,9 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Layout, Position, Scale } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 import { ShellPanelMessages } from "./assets/shell-panel/t9n";
 import { CSS, SLOTS } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
 import { DisplayMode } from "./interfaces";
 
 /**
@@ -663,8 +663,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter(
-      (el) => el?.matches("calcite-action-bar"),
+    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-bar"),
     ) as HTMLCalciteActionBarElement[];
 
     this.actionBars = actionBars;

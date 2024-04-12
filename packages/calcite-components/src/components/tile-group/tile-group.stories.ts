@@ -1,15 +1,11 @@
-import { select, boolean } from "@storybook/addon-knobs";
+import { select, boolean } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Tiles/Tile Group",
   parameters: {
-    notes: readme,
     chromatic: { delay: 10000 },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -42,7 +38,7 @@ export const simple = (): string => html`
   </calcite-tile-group>
 `;
 
-export const allVariants_NoTest = (): string => html`
+export const allVariants = (): string => html`
   <style>
     .parent {
       display: flex;

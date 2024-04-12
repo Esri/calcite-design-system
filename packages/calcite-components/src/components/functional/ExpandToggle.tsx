@@ -3,6 +3,7 @@ import { getElementDir } from "../../utils/dom";
 import { queryActions } from "../action-bar/utils";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { Position, Scale } from "../interfaces";
+import { JSXBase } from "@stencil/core/internal";
 
 interface ExpandToggleProps {
   expanded: boolean;
@@ -62,7 +63,7 @@ const setTooltipReference = ({
   return referenceElement;
 };
 
-export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
+export const ExpandToggle: FunctionalComponent<ExpandToggleProps & JSXBase.HTMLAttributes> = ({
   expanded,
   expandText,
   collapseText,
@@ -72,6 +73,7 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
   tooltip,
   ref,
   scale,
+  ...props
 }) => {
   const rtl = getElementDir(el) === "rtl";
 
@@ -98,6 +100,7 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
       ref={(referenceElement): HTMLCalciteActionElement =>
         setTooltipReference({ tooltip, referenceElement, expanded, ref })
       }
+      {...props}
     />
   );
 
