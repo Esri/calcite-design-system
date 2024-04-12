@@ -49,7 +49,6 @@ module.exports = {
     "@stencil-community/own-props-must-be-private": "off",
     "@stencil-community/prefer-vdom-listener": "warn",
     "@stencil-community/required-jsdoc": "off",
-    "@typescript-eslint/no-duplicate-enum-values": "off",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
