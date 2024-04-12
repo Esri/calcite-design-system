@@ -7,13 +7,14 @@ export default {
   title: "Components/Alert",
   parameters: {
     chromatic: {
-      delay: 1000,
+      delay: 500,
+      disableSnapshot: false,
     },
   },
 };
 
 export const titleMessageLink = (): string => html`
-  <div style="width:1000px;height:600px;max-width:100%;padding:60px">
+  <div style="--calcite-alert-width:200px;width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert
       ${boolean("icon", true)}
       ${boolean("auto-close", false)}
@@ -37,7 +38,7 @@ export const titleMessageLink = (): string => html`
 titleMessageLink.storyName = "Title, message, link";
 
 export const titleMessage = (): string => html`
-  <div style="width:1000px;height:800px;max-width:100%;padding:60px">
+  <div style="--calcite-alert-width:200px;width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert
       ${boolean("icon", true)}
       ${boolean("auto-close", false)}
@@ -60,7 +61,7 @@ export const titleMessage = (): string => html`
 titleMessage.storyName = "Title, message";
 
 export const messageLink = (): string => html`
-  <div style="width:1000px;height:800px;max-width:100%;padding:60px">
+  <div style="--calcite-alert-width:200px;width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert
       ${boolean("icon", true)}
       ${boolean("auto-close", false)}
@@ -83,7 +84,7 @@ export const messageLink = (): string => html`
 messageLink.storyName = "Message, link";
 
 export const message = (): string => html`
-  <div style="width:1000px;height:800px;max-width:100%;padding:60px">
+  <div style="--calcite-alert-width:200px;width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert
       ${boolean("icon", true)}
       ${boolean("auto-close", false)}
@@ -103,7 +104,7 @@ export const message = (): string => html`
 `;
 
 export const customIcon = (): string => html`
-  <div style="width:1000px;height:800px;max-width:100%;padding:60px">
+  <div style="--calcite-alert-width:200px;width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert
       icon="${select("icon", iconNames, iconNames[0])}"
       ${boolean("auto-close", false)}
@@ -124,7 +125,7 @@ export const customIcon = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <div style="width:1000px;height:800px;max-width:100%;padding:60px">
+  <div style="--calcite-alert-width:200px;width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert
       class="calcite-mode-dark"
       ${boolean("icon", true)}
@@ -149,7 +150,7 @@ export const darkModeRTL_TestOnly = (): string => html`
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const actionsEndNoQueue_TestOnly = (): string => html`
-  <div style="width:1000px;height:800px;max-width:100%;padding:60px">
+  <div style="--calcite-alert-width:200px;width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert label="this is a default danger with icon and link" scale="l" kind="danger" icon open>
       <div slot="title">Hello there!</div>
       <div slot="message">Do you really want to proceed?</div>
@@ -160,7 +161,7 @@ export const actionsEndNoQueue_TestOnly = (): string => html`
 `;
 
 export const actionsEndQueued_TestOnly = (): string => html`
-  <div style="width:1000px;height:800px;max-width:100%;padding:60px">
+  <div style="--calcite-alert-width:200px;width:600px;height:800px;max-width:100%;padding:60px">
     <calcite-alert id="one" label="One" scale="l" kind="danger" icon open>
       <div slot="title">Hello there, alert one!</div>
       <div slot="message">Do you really want to proceed?</div>
@@ -182,7 +183,7 @@ export const actionsEndQueued_TestOnly = (): string => html`
 `;
 
 export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
-  <div style="--calcite-alert-width:200px;width:600px;height:600px;max-width:100%;padding:60px">
+  <div style="--calcite-alert-width:200px;width:600px;height:800px;max-width:100%;padding:60px">
       <calcite-alert icon="rangefinder" kind="brand" open scale="s" label="A report alert">
         <div slot="title">Trail Camera Report</div>
         <div slot="message">We thought you might want to take a look</div>
@@ -191,4 +192,4 @@ export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => h
     </div>
   </div>
 `;
-textAlignDoesNotAffectComponentAlignment_TestOnly.parameters = { chromatic: { disableSnapshot: false } };
+// textAlignDoesNotAffectComponentAlignment_TestOnly.parameters = { chromatic: { disableSnapshot: false } };
