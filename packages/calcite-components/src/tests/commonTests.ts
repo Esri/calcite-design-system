@@ -3,11 +3,11 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
-import { KeyInput } from "puppeteer";
+import { ElementHandle, KeyInput } from "puppeteer";
 import { config } from "../../stencil.config";
 import { html } from "../../support/formatting";
 import type { JSX } from "../components";
-import { getClearValidationEventName, hiddenFormInputSlotName, componentsWithInputEvent } from "../utils/form";
+import { componentsWithInputEvent, getClearValidationEventName, hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
 import {
   GlobalTestProps,
@@ -1976,7 +1976,7 @@ export function themed(
 
 export type ContextSelectByAttr = { attribute: string; value: string | RegExp };
 
-type CSSProp = keyof CSSStyleDeclaration;
+type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
 
 /**
  * Describes a test target for themed components.
@@ -1993,9 +1993,9 @@ export type TestTarget = {
   contextSelector?: string | ContextSelectByAttr;
 
   /**
-   * The CSSStyleDeclaration property to assert on.
+   * The CSSStyleDeclaration property or mapped sub-component CSS custom prop to assert on.
    */
-  targetProp: CSSProp;
+  targetProp: CSSProp | MappedCustomCSSProp;
 
   /**
    * The state to apply to the target element.
@@ -2007,6 +2007,8 @@ export type TestTarget = {
    */
   expectedValue: string;
 };
+
+type MappedCustomCSSProp = `--calcite-${string}`;
 
 /**
  * Describes a test selector for themed components.
@@ -2025,13 +2027,32 @@ export type TestSelectToken = {
   /**
    * The CSSStyleDeclaration property to assert on.
    */
-  targetProp: CSSProp;
+  targetProp: CSSProp | MappedCustomCSSProp;
 
   /**
    * The state to apply to the target element.
    */
   state?: string | Record<string, ContextSelectByAttr>;
 };
+
+/**
+ * Returns the computed style of an element's CSS property.
+ *
+ * This is a workaround for Stencil's `E2EElement.getComputedStyle()` not returning computed style of CSS custom properties.
+ *
+ * @param element
+ * @param property
+ */
+async function getComputedStylePropertyValue(element: E2EElement, property: string): Promise<string> {
+  type E2EElementInternal = E2EElement & {
+    _elmHandle: ElementHandle;
+  };
+
+  return await (element as E2EElementInternal)._elmHandle.evaluate(
+    (el, targetProp): string => window.getComputedStyle(el).getPropertyValue(targetProp),
+    property,
+  );
+}
 
 /**
  * Get the computed style of an element and assert that it matches the expected themed token value.
@@ -2047,6 +2068,13 @@ export type TestSelectToken = {
  */
 async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<void> {
   const { target, contextSelector, targetProp, state, expectedValue } = options;
+
+  if (targetProp.startsWith("--calcite-")) {
+    expect(await getComputedStylePropertyValue(target, targetProp)).toBe(expectedValue);
+
+    return;
+  }
+
   let styles = await target.getComputedStyle();
 
   if (state) {
