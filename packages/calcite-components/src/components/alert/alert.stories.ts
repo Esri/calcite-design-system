@@ -8,8 +8,6 @@ export default {
   parameters: {
     chromatic: {
       delay: 1000,
-      // Enables snapshotting for the component
-      disableSnapshot: false,
     },
   },
 };
@@ -185,13 +183,14 @@ export const actionsEndQueued_TestOnly = (): string => html`
 
 export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
   <div style="width:1000px;height:800px;max-width:100%;padding:60px">
-    <calcite-alert auto-close auto-close-duration="medium" open scale="s" kind="info">
+    <calcite-alert auto-close auto-close-duration="slow" open scale="s" kind="info">
       <div slot="title">Here's a general bit of information</div>
       <div slot="message">Some kind of contextually relevant content</div>
       <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
     </calcite-alert>
   </div>
 `;
+titleMessageLink.parameters = { chromatic: { disableSnapshot: false } };
 
 export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
   <div style="width:1000px;height:800px;max-width:100%;padding:60px">
