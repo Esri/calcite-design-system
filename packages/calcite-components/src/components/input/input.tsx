@@ -607,14 +607,15 @@ export class Input
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (this.readOnly || this.disabled) {
+    if (this.readOnly || this.disabled || event.defaultPrevented) {
       return;
     }
+
     if (this.isClearable && event.key === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter" && !event.defaultPrevented) {
+    if (event.key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
       }

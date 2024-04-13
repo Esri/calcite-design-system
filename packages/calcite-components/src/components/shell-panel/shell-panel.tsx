@@ -663,8 +663,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter(
-      (el) => el?.matches("calcite-action-bar"),
+    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-bar"),
     ) as HTMLCalciteActionBarElement[];
 
     this.actionBars = actionBars;
