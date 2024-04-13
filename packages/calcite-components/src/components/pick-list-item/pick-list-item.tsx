@@ -38,7 +38,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { ICON_TYPES } from "../pick-list/resources";
-import type { ValueUnion } from "../types";
 import { PickListItemMessages } from "./assets/pick-list-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
@@ -92,7 +91,7 @@ export class PickListItem
    *
    * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
    */
-  @Prop({ reflect: true }) icon: ValueUnion<typeof ICON_TYPES> | null = null;
+  @Prop({ reflect: true }) icon: ICON_TYPES | null = null;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
