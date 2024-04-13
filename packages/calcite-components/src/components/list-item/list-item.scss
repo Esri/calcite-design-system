@@ -137,7 +137,7 @@ td:focus {
 }
 
 .selection-container {
-  @apply flex px-3;
+  @apply flex px-3 py-0;
   color: theme("borderColor.color.input");
 }
 
@@ -187,6 +187,7 @@ td:focus {
 
 .actions-start,
 .actions-end {
+  @apply p-0;
   ::slotted(calcite-action),
   ::slotted(calcite-action-menu),
   ::slotted(calcite-handle),

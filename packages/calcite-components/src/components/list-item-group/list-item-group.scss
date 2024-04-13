@@ -10,10 +10,11 @@
 @include disabled();
 
 .container {
-  @apply text-n1 text-color-2 m-0 flex flex-1 p-3 font-sans font-normal;
+  @apply text-n1 text-color-2 m-0 flex flex-1 p-3 font-sans font-medium;
 }
 
 .heading {
+  padding: 0;
   padding-inline-start: calc(
     var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
   );
