@@ -18,7 +18,6 @@ import {
   setRequestedIcon,
 } from "../../utils/dom";
 import { Scale, Status, Alignment } from "../interfaces";
-
 import {
   connectForm,
   disconnectForm,
@@ -49,7 +48,6 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
-
 import {
   addLocalizedTrailingDecimalZeros,
   BigDecimal,
@@ -66,11 +64,11 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
+import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
-import { getIconScale } from "../../utils/component";
-import { Validation } from "../functional/Validation";
 import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
 
 /**
@@ -609,14 +607,15 @@ export class Input
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (this.readOnly || this.disabled) {
+    if (this.readOnly || this.disabled || event.defaultPrevented) {
       return;
     }
+
     if (this.isClearable && event.key === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter" && !event.defaultPrevented) {
+    if (event.key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
       }

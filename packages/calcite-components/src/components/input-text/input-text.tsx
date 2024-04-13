@@ -46,11 +46,11 @@ import {
 } from "../../utils/t9n";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
-import { InputTextMessages } from "./assets/input-text/t9n";
-import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { CSS, SLOTS } from "./resources";
+import { InputTextMessages } from "./assets/input-text/t9n";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -415,14 +415,15 @@ export class InputText
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (this.readOnly || this.disabled) {
+    if (this.readOnly || this.disabled || event.defaultPrevented) {
       return;
     }
+
     if (this.isClearable && event.key === "Escape") {
       this.clearInputTextValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter" && !event.defaultPrevented) {
+    if (event.key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
       }

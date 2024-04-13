@@ -7,11 +7,11 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { ScrimMessages } from "./assets/scrim/t9n";
-import { CSS, BREAKPOINTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
+import { CSS, BREAKPOINTS } from "./resources";
+import { ScrimMessages } from "./assets/scrim/t9n";
 
 /**
  * @slot - A slot for adding custom content, primarily loading information.

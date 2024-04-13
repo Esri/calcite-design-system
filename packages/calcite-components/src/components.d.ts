@@ -1180,6 +1180,10 @@ export namespace Components {
          */
         "placeholderIconFlipRtl": boolean;
         /**
+          * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+         */
+        "readOnly": boolean;
+        /**
           * Updates the position of the component.
           * @param delayed Reposition the component after a delay
           * @returns Promise
@@ -1420,6 +1424,10 @@ export namespace Components {
           * When `true`, the component is selected.
          */
         "selected": boolean;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
         /**
           * Date is the start of date range.
          */
@@ -2690,6 +2698,10 @@ export namespace Components {
          */
         "overlayPositioning": OverlayPositioning;
         /**
+          * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+         */
+        "readOnly": boolean;
+        /**
           * This `date` will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
           * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
          */
@@ -3269,6 +3281,10 @@ export namespace Components {
           * Specifies heading text for the component, such as a product or organization name.
          */
         "heading": string;
+        /**
+          * Specifies the heading level of the component's heading for proper document structure, without affecting visual styling.
+         */
+        "headingLevel": HeadingLevel;
         /**
           * Specifies the URL destination of the component, which can be set as an absolute or relative path.
          */
@@ -8623,6 +8639,10 @@ declare namespace LocalJSX {
          */
         "placeholderIconFlipRtl"?: boolean;
         /**
+          * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+         */
+        "readOnly"?: boolean;
+        /**
           * When `true`, the component must have a value in order for the form to submit.
          */
         "required"?: boolean;
@@ -10217,6 +10237,10 @@ declare namespace LocalJSX {
          */
         "overlayPositioning"?: OverlayPositioning;
         /**
+          * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+         */
+        "readOnly"?: boolean;
+        /**
           * This `date` will be used as a reference to Daylight Savings Time when creating time zone item groups.  It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
           * @see [Date.prototype.toISOString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
          */
@@ -10835,6 +10859,10 @@ declare namespace LocalJSX {
           * Specifies heading text for the component, such as a product or organization name.
          */
         "heading"?: string;
+        /**
+          * Specifies the heading level of the component's heading for proper document structure, without affecting visual styling.
+         */
+        "headingLevel"?: HeadingLevel;
         /**
           * Specifies the URL destination of the component, which can be set as an absolute or relative path.
          */

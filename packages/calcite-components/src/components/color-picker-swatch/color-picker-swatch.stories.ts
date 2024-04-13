@@ -1,15 +1,9 @@
-import { boolean, text } from "@storybook/addon-knobs";
+import { boolean, text } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import colorPickerSwatchReadme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/ColorPicker/support/ColorPickerSwatch",
-  parameters: {
-    notes: colorPickerSwatchReadme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string =>
@@ -32,4 +26,4 @@ export const withAlphaActive_TestOnly = (): string =>
 
 export const darkModeRTL_TestOnly = (): string =>
   html`<calcite-color-picker-swatch value="#c00f33"></calcite-color-picker-swatch>`;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

@@ -18,7 +18,6 @@ import {
   setRequestedIcon,
 } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
-
 import {
   connectForm,
   disconnectForm,
@@ -66,8 +65,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
-import { InputNumberMessages } from "./assets/input-number/t9n";
-import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import {
@@ -75,6 +72,8 @@ import {
   syncHiddenFormInput,
   TextualInputComponent,
 } from "../input/common/input";
+import { CSS, SLOTS } from "./resources";
+import { InputNumberMessages } from "./assets/input-number/t9n";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -543,14 +542,15 @@ export class InputNumber
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (this.readOnly || this.disabled) {
+    if (this.readOnly || this.disabled || event.defaultPrevented) {
       return;
     }
+
     if (this.isClearable && event.key === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter" && !event.defaultPrevented) {
+    if (event.key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
       }
