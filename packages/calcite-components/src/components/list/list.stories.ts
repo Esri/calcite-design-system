@@ -1,21 +1,15 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import readme from "./readme.md";
-import itemReadme from "../list-item/readme.md";
-import groupReadme from "../list-item-group/readme.md";
 import { html } from "../../../support/formatting";
-import { storyFilters, boolean } from "../../../.storybook/helpers";
-import { select, text } from "@storybook/addon-knobs";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/List",
   parameters: {
-    notes: [readme, itemReadme, groupReadme],
     chromatic: {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
@@ -402,7 +396,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-list>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string =>
   html`<calcite-list disabled>

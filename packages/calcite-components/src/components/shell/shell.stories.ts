@@ -1,5 +1,4 @@
-import { boolean, select } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+import { boolean, select } from "../../../.storybook/fake-knobs";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
@@ -9,19 +8,14 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import centerRowReadme from "../shell-center-row/readme.md";
-import panelReadme from "../shell-panel/readme.md";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Shell",
   parameters: {
-    notes: [readme, panelReadme, centerRowReadme],
     chromatic: {
       delay: 1000,
     },
   },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -41,7 +35,7 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", re
     },
     {
       name: "collapsed",
-      value: boolean("collapsed", false, group),
+      value: boolean("collapsed", false, group, "prop"),
     },
     {
       name: "displayMode",
@@ -58,7 +52,7 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", re
     },
     {
       name: "resizable",
-      value: boolean("resizable", resizable, group),
+      value: boolean("resizable", resizable, group, "prop"),
     },
   ];
 };
@@ -69,7 +63,7 @@ const createShellCenterRowAttributes: (group: string) => Attributes = (group) =>
   return [
     {
       name: "detached",
-      value: boolean("detached", false, group),
+      value: boolean("detached", false, group, "prop"),
     },
     {
       name: "height-scale",
@@ -356,7 +350,7 @@ export const darkModeRTL_TestOnly = (): string =>
     `,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const closedPanels = (): string =>
   html(`<calcite-shell content-behind>

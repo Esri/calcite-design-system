@@ -32,10 +32,10 @@ import {
 } from "../../utils/t9n";
 import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
-import { NoticeMessages } from "./assets/notice/t9n";
-import { CSS, SLOTS } from "./resources";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
+import { NoticeMessages } from "./assets/notice/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because

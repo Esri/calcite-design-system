@@ -1,6 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-
 import {
   accessible,
   defaults,

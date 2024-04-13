@@ -20,7 +20,6 @@ import {
 } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
-
 import {
   componentFocusable,
   LoadableComponent,
