@@ -6,7 +6,7 @@
 // The secret is formatted like so: person1, person2, person3
 //
 // Note the script automatically adds the "@" character in to notify the project manager(s)
-const { issueWorkflow, planning } = require("./labels");
+const { issueWorkflow, planning } = require("./support/labels");
 const { removeLabel } = require("./support/utils");
 
 module.exports = async ({ github, context }) => {
