@@ -169,8 +169,11 @@ export class AccordionItem implements ConditionalSlotComponent {
         <div
           class={{
             [CSS.container]: true,
-            [CSS.iconPosition(this.iconPosition)]: true,
-            [CSS.iconType(this.iconType)]: true,
+            [CSS.iconPositionStart]: this.iconPosition === "start",
+            [CSS.iconPositionEnd]: this.iconPosition === "end",
+            [CSS.iconTypeCaret]: this.iconType === "caret",
+            [CSS.iconTypeChevron]: this.iconType === "chevron",
+            [CSS.iconTypePlusMinus]: this.iconType === "plus-minus",
           }}
         >
           <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>

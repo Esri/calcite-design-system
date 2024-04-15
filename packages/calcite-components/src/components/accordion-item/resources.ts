@@ -18,8 +18,11 @@ export const CSS = {
   iconStart: "icon--start",
   iconEnd: "icon--end",
   headerContainer: "header-container",
-  iconPosition: (position: string): string => `icon-position--${position}`,
-  iconType: (type: string): string => `icon-type--${type}`,
+  iconPositionStart: "icon-position--start",
+  iconPositionEnd: "icon-position--end",
+  iconTypeChevron: "icon-type--chevron",
+  iconTypeCaret: "icon-type--caret",
+  iconTypePlusMinus: "icon-type--plus-minus",
 };
 
 export const IDS = {
