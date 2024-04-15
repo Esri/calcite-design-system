@@ -3,13 +3,16 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-shell-panel-width: Specifies the width of the component.
- * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
- * @prop --calcite-shell-panel-min-width: Specifies the minimum width of the component.
+ * @prop --calcite-shell-panel-background-color: Specifies the background color of the component.
+ * @prop --calcite-shell-panel-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-shell-panel-detached-max-height: [Deprecated] Use the `heightScale` property instead. When `displayMode` is `float`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the height of the component.
  * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the maximum height of the component.
+ * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
  * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the minimum height of the component.
- * @prop --calcite-shell-panel-detached-max-height: [Deprecated] Use the `heightScale` property instead. When `displayMode` is `float`, specifies the maximum height of the component.
+ * @prop --calcite-shell-panel-min-width: Specifies the minimum width of the component.
+ * @prop --calcite-shell-panel-shadow: Specifies the shadow of the component.
+ * @prop --calcite-shell-panel-content-width: Specifies the width of the component.
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
  *
  */
@@ -20,77 +23,11 @@
     flex
     flex-initial
     items-stretch;
-  z-index: var(--calcite-shell-panel-z-index, theme("zIndex.default"));
-  --calcite-shell-panel-detached-max-height: unset;
-  --calcite-shell-panel-max-height: unset;
-  --calcite-shell-panel-shadow-block-start-internal: 0 4px 8px -1px rgba(0, 0, 0, 0.08),
-    0 2px 4px -1px rgba(0, 0, 0, 0.04);
-  --calcite-shell-panel-shadow-block-end-internal: 0 -4px 8px -1px rgba(0, 0, 0, 0.08),
-    0 -2px 4px -1px rgba(0, 0, 0, 0.04);
-  --calcite-shell-panel-shadow-inline-start-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08),
-    2px 0 4px -1px rgba(0, 0, 0, 0.04);
-  --calcite-shell-panel-shadow-inline-end-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08),
-    -2px 0 4px -1px rgba(0, 0, 0, 0.04);
-}
-
-.calcite--rtl.content--overlay {
-  --calcite-shell-panel-shadow-inline-start-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08),
-    -2px 0 4px -1px rgba(0, 0, 0, 0.04);
-  --calcite-shell-panel-shadow-inline-end-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08),
-    2px 0 4px -1px rgba(0, 0, 0, 0.04);
-}
-
-:host([layout="vertical"]) {
-  z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.default") + 1));
-}
-
-:host([layout="vertical"][display-mode="overlay"]) {
-  z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.header") + 1));
-}
-
-:host([layout="vertical"][width-scale="s"]) .content {
-  --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 12vw);
-  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 300px);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 150px);
-}
-
-:host([layout="vertical"][width-scale="m"]) .content {
-  --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 20vw);
-  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 420px);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 240px);
-}
-
-:host([layout="vertical"][width-scale="l"]) .content {
-  --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 45vw);
-  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 680px);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 340px);
-}
-
-:host([layout="horizontal"][height-scale="s"]) .content {
-  --calcite-shell-panel-max-height-internal: var(
-    --calcite-shell-panel-max-height,
-    var(--calcite-shell-panel-detached-max-height, 20vh)
-  );
-}
-
-:host([layout="horizontal"]) .content {
-  --calcite-shell-panel-min-height-internal: var(--calcite-shell-panel-min-height, 5vh);
-  --calcite-shell-panel-max-height-internal: var(
-    --calcite-shell-panel-max-height,
-    var(--calcite-shell-panel-detached-max-height, 30vh)
-  );
-}
-
-:host([layout="horizontal"][height-scale="l"]) .content {
-  --calcite-shell-panel-max-height-internal: var(
-    --calcite-shell-panel-max-height,
-    var(--calcite-shell-panel-detached-max-height, 40vh)
-  );
+  z-index: var(--calcite-shell-panel-z-index, var(--calcite-internal-shell-panel-z-index, theme("zIndex.default")));
 }
 
 .container {
-  @apply text-color-2
-  text-n1
+  @apply text-n1
   pointer-events-none
   box-border
   flex
@@ -101,17 +38,26 @@
   * {
     @apply box-border;
   }
+
+  color: var(--calcite-shell-panel-text-color, var(--calcite-color-text-2));
 }
 
-:host([layout="horizontal"]) .container {
-  flex-direction: column;
-}
+.content {
+  @apply pointer-events-auto
+  flex
+  flex-col
+  flex-nowrap
+  items-stretch
+  self-stretch
+  p-0;
+  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius));
+  background-color: var(--calcite-shell-panel-background-color, var(--calcite-color-background));
+  transition:
+    max-block-size var(--calcite-animation-timing),
+    max-inline-size var(--calcite-animation-timing);
 
-:host(:hover),
-:host(:focus-within) {
-  .separator:not(:hover):not(:focus) {
-    @apply opacity-100;
-    background-color: var(--calcite-color-border-3);
+  &[hidden] {
+    @apply hidden;
   }
 }
 
@@ -120,89 +66,19 @@
   pointer-events-auto
   absolute
   flex
-  bg-transparent
   opacity-0;
   cursor: col-resize;
   outline: none;
+  background-color: var(--calcite-shell-panel-separator-color, transparent);
+
   &:hover {
-    @apply opacity-100;
-    background-color: var(--calcite-color-border-2);
+    opacity: var(--calcite-opacity-full);
+    background-color: var(--calcite-shell-panel-separator-color-hover, var(--calcite-color-border-2));
   }
   &:focus {
-    @apply bg-brand opacity-100;
+    background-color: var(--calcite-shell-panel-separator-color-focus, var(--calcite-color-brand));
+    opacity: var(--calcite-opacity-full);
   }
-}
-
-:host([layout="vertical"]) .separator {
-  @apply bottom-0
-  top-0 h-full
-  w-0.5;
-  cursor: col-resize;
-}
-
-:host([layout="horizontal"][position="start"]) .separator {
-  @apply bottom-0;
-}
-
-:host([layout="horizontal"][position="end"]) .separator {
-  @apply top-0;
-}
-
-:host([layout="horizontal"]) .separator {
-  @apply right-0 w-full
-  h-0.5;
-  cursor: row-resize;
-}
-
-:host([layout="vertical"][position="start"]) .separator {
-  inset-inline-end: -2px;
-}
-:host([layout="horizontal"][position="start"]) .separator {
-  inset-block-end: -2px;
-}
-
-:host([layout="vertical"][position="end"]) .separator {
-  inset-inline-start: -2px;
-}
-:host([layout="horizontal"][position="end"]) .separator {
-  inset-block-start: -2px;
-}
-
-::slotted(calcite-panel),
-::slotted(calcite-flow) {
-  @apply h-full w-full flex-auto;
-  max-block-size: unset;
-  max-inline-size: unset;
-}
-
-::slotted(.calcite-match-height) {
-  @apply flex flex-auto overflow-hidden;
-}
-
-.content {
-  @apply bg-background
-  pointer-events-auto
-  flex
-  flex-col
-  flex-nowrap
-  items-stretch
-  self-stretch
-  p-0;
-  transition:
-    max-block-size var(--calcite-animation-timing),
-    max-inline-size var(--calcite-animation-timing);
-}
-
-:host([layout="vertical"]) .content {
-  inline-size: var(--calcite-shell-panel-width-internal);
-  max-inline-size: var(--calcite-shell-panel-max-width-internal);
-  min-inline-size: var(--calcite-shell-panel-min-width-internal);
-}
-
-:host([layout="horizontal"]) .content {
-  block-size: var(--calcite-shell-panel-height-internal);
-  max-block-size: var(--calcite-shell-panel-max-height-internal);
-  min-block-size: var(--calcite-shell-panel-min-height-internal);
 }
 
 .content__header {
@@ -220,56 +96,218 @@
   overflow-hidden;
 }
 
+.content--overlay,
+.content--float {
+  --tw-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --tw-shadow-colored: 0 4px 8px -1px var(--tw-shadow-color), 0 2px 4px -1px var(--tw-shadow-color);
+  box-shadow: var(
+    --calcite-shell-panel-shadow,
+    var(
+      --calcite-internal-shell-panel-shadow,
+      var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000),
+      var(--tw-shadow)
+    )
+  );
+}
+
 .content--overlay {
-  @apply absolute
-  shadow-0;
-}
-
-:host([layout="vertical"]) .content--overlay {
-  @apply top-0 h-full;
-}
-
-:host([layout="horizontal"]) .content--overlay {
-  @apply left-0 w-full;
-}
-
-:host([layout="vertical"][position="start"]) .content--overlay {
-  inset-inline-start: 100%;
-  box-shadow: var(--calcite-shell-panel-shadow-inline-start-internal);
-}
-
-:host([layout="vertical"][position="end"]) .content--overlay {
-  inset-inline-end: 100%;
-  box-shadow: var(--calcite-shell-panel-shadow-inline-end-internal);
-}
-
-:host([layout="horizontal"][position="start"]) .content--overlay {
-  inset-block-start: 100%;
-  box-shadow: var(--calcite-shell-panel-shadow-block-start-internal);
-}
-
-:host([layout="horizontal"][position="end"]) .content--overlay {
-  inset-block-end: 100%;
-  box-shadow: var(--calcite-shell-panel-shadow-block-end-internal);
+  @apply absolute;
 }
 
 .content--float {
-  @apply shadow-0
-  mx-2
+  @apply mx-2
   mt-2
   mb-auto
   h-auto
-  overflow-hidden
-  rounded;
-  max-block-size: var(--calcite-shell-panel-max-height-internal, calc(100% - 1rem));
+  overflow-hidden;
+  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+  max-block-size: var(
+    --calcite-shell-panel-detached-max-height,
+    var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem))
+  );
+
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     max-block-size: unset;
   }
 }
 
-:host([layout="horizontal"]) .content--float {
-  @apply my-2;
+slot[name="action-bar"]::slotted(calcite-action-bar),
+.content ::slotted(calcite-flow),
+.content ::slotted(calcite-panel:not([closed])) {
+  border-style: solid;
+  border-color: var(--calcite-shell-panel-border-color, var(--calcite-color-border-3));
+  border-width: var(--calcite-border-width-sm);
+}
+
+::slotted(calcite-panel),
+::slotted(calcite-flow) {
+  @apply flex-auto;
+  block-size: var(--calcite-container-size-content-fluid);
+  inline-size: var(--calcite-container-size-content-fluid);
+  max-block-size: unset;
+  max-inline-size: unset;
+}
+
+::slotted(.calcite-match-height) {
+  @apply flex flex-auto overflow-hidden;
+}
+
+:host([layout="vertical"]) {
+  --calcite-internal-shell-panel-z-index: calc(theme("zIndex.default") + 1);
+
+  .content {
+    inline-size: var(--calcite-shell-panel-content-width, var(--calcite-internal-shell-panel-width));
+    max-inline-size: var(--calcite-shell-panel-max-width, var(--calcite-internal-shell-panel-max-width));
+    min-inline-size: var(--calcite-shell-panel-min-width, var(--calcite-internal-shell-panel-min-width));
+  }
+
+  .separator {
+    @apply bottom-0
+    top-0 h-full
+    w-0.5;
+    cursor: col-resize;
+  }
+
+  .content--overlay {
+    @apply top-0 h-full;
+  }
+
+  &:host([position="start"]) .separator {
+    inset-inline-end: -2px;
+  }
+  &:host([position="end"]) .separator {
+    inset-inline-start: -2px;
+  }
+
+  &:host([display-mode="overlay"]) {
+    --calcite-internal-shell-panel-z-index: calc(theme("zIndex.header") + 1);
+  }
+
+  &:host([width-scale="s"]) {
+    .content {
+      --calcite-internal-shell-panel-width: 12vw;
+      --calcite-internal-shell-panel-max-width: 300px;
+      --calcite-internal-shell-panel-min-width: 150px;
+    }
+  }
+  &:host([width-scale="m"]) {
+    .content {
+      --calcite-internal-shell-panel-width: 20vw;
+      --calcite-internal-shell-panel-max-width: 420px;
+      --calcite-internal-shell-panel-min-width: 240px;
+    }
+  }
+  &:host([width-scale="l"]) {
+    .content {
+      --calcite-internal-shell-panel-width: 45vw;
+      --calcite-internal-shell-panel-max-width: 680px;
+      --calcite-internal-shell-panel-min-width: 340px;
+    }
+  }
+
+  &:host([position="start"]) .content--overlay {
+    inset-inline-start: 100%;
+    --calcite-internal-shell-panel-shadow: 4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
+
+    &.calcite--rtl {
+      --calcite-internal-shell-panel-shadow: -4px 0 8px -1px rgba(0, 0, 0, 0.08), -2px 0 4px -1px rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  &:host([position="end"]) .content--overlay {
+    inset-inline-end: 100%;
+    --calcite-internal-shell-panel-shadow: -4px 0 8px -1px rgba(0, 0, 0, 0.08), -2px 0 4px -1px rgba(0, 0, 0, 0.04);
+
+    &.calcite--rtl {
+      --calcite-internal-shell-panel-shadow: 4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
+    }
+  }
+}
+
+:host([layout="horizontal"]) {
+  .container {
+    flex-direction: column;
+  }
+
+  .content {
+    block-size: var(--calcite-shell-panel-height, var(--calcite-internal-shell-panel-height));
+    max-block-size: var(
+      --calcite-shell-panel-max-height,
+      var(--calcite-shell-panel-detached-max-height, var(--calcite-internal-shell-panel-max-height, 30vh))
+    );
+    min-block-size: var(--calcite-shell-panel-min-height, var(--calcite-internal-shell-panel-min-height, 5vh));
+  }
+
+  .separator {
+    @apply right-0 w-full
+    h-0.5;
+    cursor: row-resize;
+  }
+
+  .content--overlay {
+    @apply left-0 w-full;
+  }
+
+  .content--float {
+    @apply my-2;
+  }
+
+  &:host([height-scale="s"]) .content {
+    --calcite-internal-shell-panel-max-height: 20vh;
+  }
+  &:host([height-scale="l"]) .content {
+    --calcite-internal-shell-panel-max-height: 40vh;
+  }
+
+  &:host([position="start"]) {
+    .separator {
+      @apply bottom-0;
+      inset-block-end: -2px;
+    }
+
+    .content--overlay {
+      --calcite-internal-shell-panel-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+      inset-block-start: 100%;
+    }
+
+    ::slotted(calcite-flow),
+    ::slotted(calcite-panel) {
+      border-inline: 0;
+      border-block-start: 0;
+    }
+  }
+
+  &:host([position="end"]) {
+    .separator {
+      @apply top-0;
+      inset-block-start: -2px;
+    }
+
+    .content--overlay {
+      inset-block-end: 100%;
+      --calcite-internal-shell-panel-shadow: 0 -4px 8px -1px rgba(0, 0, 0, 0.08), 0 -2px 4px -1px rgba(0, 0, 0, 0.04);
+    }
+
+    ::slotted(calcite-flow),
+    ::slotted(calcite-panel) {
+      border-inline: 0;
+      border-block-end: 0;
+    }
+  }
+
+  slot[name="action-bar"]::slotted(calcite-action-bar) {
+    border-inline: 0;
+  }
+}
+
+:host(:hover),
+:host(:focus-within) {
+  .separator:not(:hover, :focus) {
+    opacity: var(--calcite-opacity-full);
+    background-color: var(--calcite-shell-panel-separator-color, var(--calcite-color-border-3));
+  }
 }
 
 :host([position="start"]) .content--float,
@@ -278,16 +316,6 @@
   ::slotted(calcite-flow) {
     @apply border-none;
   }
-}
-
-.content[hidden] {
-  @apply hidden;
-}
-
-slot[name="action-bar"]::slotted(calcite-action-bar),
-.content ::slotted(calcite-flow),
-.content ::slotted(calcite-panel:not([closed])) {
-  @apply border-color-3 border border-solid;
 }
 
 :host([position="start"]:not([slot="panel-end"])),
@@ -306,22 +334,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   .content ::slotted(calcite-panel) {
     border-inline-end: none;
   }
-}
-
-:host([layout="horizontal"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
-  border-inline: 0;
-}
-
-:host([layout="horizontal"][position="start"]) .content ::slotted(calcite-flow),
-:host([layout="horizontal"][position="start"]) .content ::slotted(calcite-panel) {
-  border-inline: 0;
-  border-block-start: 0;
-}
-
-:host([layout="horizontal"][position="end"]) .content ::slotted(calcite-flow),
-:host([layout="horizontal"][position="end"]) .content ::slotted(calcite-panel) {
-  border-inline: 0;
-  border-block-end: 0;
 }
 
 @include base-component();

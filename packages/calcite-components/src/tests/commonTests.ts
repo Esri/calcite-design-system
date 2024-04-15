@@ -1976,6 +1976,7 @@ export function themed(
 
     // Assert the targetProp in each testTarget's styles matches the expected value
     for (let i = 0; i < testTargets.length; i++) {
+      await page.waitForChanges();
       await assertThemedProps(page, { ...testTargets[i] });
     }
   });
