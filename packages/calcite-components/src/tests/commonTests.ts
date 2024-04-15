@@ -2083,6 +2083,8 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
     return;
   }
 
+  await page.waitForChanges();
+
   let styles = await target.getComputedStyle();
 
   if (state) {
