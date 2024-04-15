@@ -1,6 +1,4 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
-
-import { storyFilters } from "../../../.storybook/helpers";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
@@ -12,20 +10,18 @@ import {
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
-import readme from "./readme.md";
+
 const { scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Controls/DatePicker",
   parameters: {
-    notes: readme,
     chromatic: {
       // https://www.chromatic.com/docs/threshold
       diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 const testDate = "2020-02-28";
@@ -84,7 +80,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "range",
         commit(): Attribute {
-          this.value = boolean("range", false);
+          this.value = boolean("range", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -154,7 +150,7 @@ export const darkModeRTL_TestOnly = (): string =>
     )}
   </div>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const bgLang_TestOnly = (): string =>
   html`<div style="width: 400px">

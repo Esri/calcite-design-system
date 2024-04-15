@@ -12,13 +12,13 @@ import {
   Method,
 } from "@stencil/core";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { CSS, ICONS, SLOTS } from "./resources";
 import {
   LoadableComponent,
   componentFocusable,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot logo - A slot for adding a `calcite-logo` component to the primary navigation level.

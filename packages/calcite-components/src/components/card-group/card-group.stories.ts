@@ -1,16 +1,10 @@
-import { select } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+import { select } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 
 export default {
   title: "Components/Card Group",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`

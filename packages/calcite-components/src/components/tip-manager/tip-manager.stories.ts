@@ -1,5 +1,4 @@
-import { boolean } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/fake-knobs";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import {
   Attribute,
@@ -9,14 +8,9 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Tips/Tip Manager",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -25,7 +19,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "closed",
         commit(): Attribute {
-          this.value = boolean("closed", false);
+          this.value = boolean("closed", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -90,7 +84,7 @@ export const darkModeRTL_TestOnly = (): string =>
     ]),
     tipContent,
   );
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const tipWithoutGroup_TestOnly = (): string =>
   html`<calcite-tip-manager>
