@@ -117,37 +117,39 @@
   );
 }
 
-.icon {
+calcite-icon {
+  --calcite-icon-color: var(
+    --calcite-accordion-item-icon-color,
+    var(--calcite-accordion-item-text-color, var(--calcite-color-text-3))
+  );
+
   @apply relative
     m-0
     duration-150
     ease-in-out
     items-center;
-  color: var(
-    --calcite-accordion-item-icon-color,
-    var(--calcite-accordion-item-text-color, var(--calcite-color-text-3))
-  );
+
   margin-inline-end: var(--calcite-internal-accordion-item-icon-space-x-start, 0);
   margin-inline-start: var(--calcite-internal-accordion-item-icon-space-x-end, 0);
-}
 
-.expand-icon {
-  color: var(
-    --calcite-accordion-item-expand-icon-color,
-    var(--calcite-accordion-item-icon-color, var(--calcite-accordion-item-text-color, var(--calcite-color-text-3)))
-  );
-  margin-inline-start: var(--calcite-internal-accordion-item-icon-space-x-start);
-  margin-inline-end: var(--calcite-internal-accordion-item-icon-space-x-end);
-  transform: rotate(var(--calcite-internal-accordion-item-icon-rotation));
-}
+  &.expand-icon {
+    --calcite-icon-color: var(
+      --calcite-accordion-item-expand-icon-color,
+      var(--calcite-accordion-item-icon-color, var(--calcite-accordion-item-text-color, var(--calcite-color-text-3)))
+    );
+    margin-inline-start: var(--calcite-internal-accordion-item-icon-space-x-start);
+    margin-inline-end: var(--calcite-internal-accordion-item-icon-space-x-end);
+    transform: rotate(var(--calcite-internal-accordion-item-icon-rotation));
+  }
 
-.icon--start {
-  margin-inline-end: var(--calcite-internal-accordion-item-icon-space);
-}
+  &.icon--start {
+    margin-inline-end: var(--calcite-internal-accordion-item-icon-space);
+  }
 
-.icon--end {
-  margin-inline-end: var(--calcite-internal-accordion-item-icon-space);
-  margin-inline-start: var(--calcite-internal-accordion-item-icon-space);
+  &.icon--end {
+    margin-inline-end: var(--calcite-internal-accordion-item-icon-space);
+    margin-inline-start: var(--calcite-internal-accordion-item-icon-space);
+  }
 }
 
 .content {
