@@ -1,3 +1,4 @@
+import Color from "color";
 import {
   colorEqual,
   hexToRGB,
@@ -8,7 +9,6 @@ import {
   parseMode,
   rgbToHex,
 } from "./utils";
-import Color from "color";
 
 describe("utils", () => {
   it("can parse supported color modes", () => {

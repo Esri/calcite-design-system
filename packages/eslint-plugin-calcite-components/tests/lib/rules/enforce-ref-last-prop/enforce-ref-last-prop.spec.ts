@@ -9,6 +9,7 @@ describe("enforce-ref-last-prop rule", () => {
   const files = {
     good: path.resolve(__dirname, "enforce-ref-last-prop.good.tsx"),
     wrong: path.resolve(__dirname, "enforce-ref-last-prop.wrong.tsx"),
+    output: path.resolve(__dirname, "enforce-ref-last-prop.output.tsx"),
   };
   ruleTester(projectPath).run("enforce-ref-last-prop", rule, {
     valid: [
@@ -22,7 +23,25 @@ describe("enforce-ref-last-prop rule", () => {
       {
         code: fs.readFileSync(files.wrong, "utf8"),
         filename: files.wrong,
-        errors: 1,
+        errors: [
+          // we include the disabled rule not found error because RuleTester doesn't support multiple rules
+          {
+            message: `"ref" prop should be placed last in JSX to ensure the node attrs/props are in sync.`,
+          },
+          {
+            message: `"ref" prop should be placed last in JSX to ensure the node attrs/props are in sync.`,
+          },
+          {
+            message: `Definition for rule 'react/jsx-sort-props' was not found.`,
+          },
+          {
+            message: `"ref" prop should be placed last in JSX to ensure the node attrs/props are in sync.`,
+          },
+          {
+            message: `Definition for rule 'react/jsx-sort-props' was not found.`,
+          },
+        ],
+        output: fs.readFileSync(files.output, "utf8"),
       },
     ],
   });

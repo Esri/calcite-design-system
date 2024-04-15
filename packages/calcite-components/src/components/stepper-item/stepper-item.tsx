@@ -39,7 +39,6 @@ import {
   LoadableComponent,
   componentFocusable,
 } from "../../utils/loadable";
-import { CSS } from "./resources";
 import {
   connectMessages,
   disconnectMessages,
@@ -47,6 +46,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
+import { CSS } from "./resources";
 import { StepperItemMessages } from "./assets/stepper-item/t9n";
 
 /**
