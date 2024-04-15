@@ -4,10 +4,6 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/TextArea",
-  // Enables snapshotting for the component
-  parameters: {
-    chromatic: { disableSnapshot: false },
-  },
 };
 
 export const simple = (): string => html`
