@@ -87,7 +87,6 @@ describe("calcite-accordion", () => {
   describe("theme", () => {
     const tokens = {
       "--calcite-accordion-border-color": {
-        selector: "calcite-accordion",
         shadowSelector: ".accordion",
         targetProp: "borderColor",
       },
