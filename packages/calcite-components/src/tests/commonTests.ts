@@ -1845,43 +1845,43 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
  * Helper to test custom theming of a component's associated tokens.
  *
  * @example
- * describe("theme", () => {
- *   const tokens = {
- *      "--calcite-action-menu-border-color": [
- *        {
- *          targetProp: "borderLeftColor",
- *        },
- *        {
- *          shadowSelector: "calcite-action",
- *          targetProp: "--calcite-action-border-color",
- *        },
- *     ],
- *     "--calcite-action-menu-background-color": {
- *          targetProp: "backgroundColor",
- *          shadowSelector: ".container",
- *     },
- *     "--calcite-action-menu-trigger-background-color-active": {
- *        shadowSelector: "calcite-action",
- *        targetProp: "--calcite-action-background-color",
- *        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
- *      },
- *      "--calcite-action-menu-trigger-background-color-focus": {
- *        shadowSelector: "calcite-action",
- *        targetProp: "--calcite-action-background-color",
- *        state: "focus",
- *      },
- *      "--calcite-action-menu-trigger-background-color-hover": {
- *        shadowSelector: "calcite-action",
- *        targetProp: "--calcite-action-background-color",
- *        state: "hover",
- *      },
- *      "--calcite-action-menu-trigger-background-color": {
- *        shadowSelector: "calcite-action",
- *        targetProp: "--calcite-action-background-color",
- *      },
- *   } as const;
- *   themed(`calcite-action-bar`, tokens);
- * });
+ // describe("theme", () => {
+ //   const tokens = {
+ //      "--calcite-action-menu-border-color": [
+ //        {
+ //          targetProp: "borderLeftColor",
+ //        },
+ //        {
+ //          shadowSelector: "calcite-action",
+ //          targetProp: "--calcite-action-border-color",
+ //        },
+ //     ],
+ //     "--calcite-action-menu-background-color": {
+ //          targetProp: "backgroundColor",
+ //          shadowSelector: ".container",
+ //     },
+ //     "--calcite-action-menu-trigger-background-color-active": {
+ //        shadowSelector: "calcite-action",
+ //        targetProp: "--calcite-action-background-color",
+ //        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+ //      },
+ //      "--calcite-action-menu-trigger-background-color-focus": {
+ //        shadowSelector: "calcite-action",
+ //        targetProp: "--calcite-action-background-color",
+ //        state: "focus",
+ //      },
+ //      "--calcite-action-menu-trigger-background-color-hover": {
+ //        shadowSelector: "calcite-action",
+ //        targetProp: "--calcite-action-background-color",
+ //        state: "hover",
+ //      },
+ //      "--calcite-action-menu-trigger-background-color": {
+ //        shadowSelector: "calcite-action",
+ //        targetProp: "--calcite-action-background-color",
+ //      },
+ //   } as const;
+ //   themed(`calcite-action-bar`, tokens);
+ // });
  *
  * @param componentTagOrHTML  - The component tag or HTML markup to test against.
  * @param tokens - A record of token names and their associated selectors, shadow selectors, target props, and states.
@@ -1965,17 +1965,16 @@ export function themed(
       }
     }
 
-    // set style attribute on styleTargets with the assigned token values
+    // set style attribute on each of the styleTargets with the assigned CSS variable values
     for (const selector in styleTargets) {
       const [el, assignedCSSVars] = styleTargets[selector];
 
-      // Sets the style of each element to a string of CSS token props with themed token values
       el.setAttribute("style", assignedCSSVars.join("; "));
     }
 
     await page.waitForChanges();
 
-    // Assert target computedStyle targetProp matches test theme token color
+    // Assert the targetProp in each testTarget's styles matches the expected value
     for (let i = 0; i < testTargets.length; i++) {
       await assertThemedProps(page, { ...testTargets[i] });
     }

@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { focusable, renders, hidden, defaults, accessible } from "../../tests/commonTests";
+import { focusable, renders, hidden, defaults, accessible, themed } from "../../tests/commonTests";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 import { CSS } from "./resources";
 
@@ -539,6 +539,61 @@ describe("calcite-sheet properties", () => {
 
       expect(beforeCloseSpy).toHaveReceivedEventTimes(1);
       expect(closeSpy).toHaveReceivedEventTimes(1);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens = {
+        "--calcite-sheet-scrim-background-color": {
+          shadowSelector: "calcite-scrim",
+          targetProp: "--calcite-scrim-background-color",
+        },
+        "--calcite-sheet-background-color": {
+          targetProp: "backgroundColor",
+          shadowSelector: ".content",
+        },
+        "--calcite-sheet-shadow": {
+          targetProp: "boxShadow",
+          shadowSelector: ".container",
+        },
+      } as const;
+
+      themed(html`<calcite-sheet>sheet</calcite-sheet>`, tokens);
+    });
+    describe("inline", () => {
+      const tokens = {
+        "--calcite-sheet-content-width": {
+          targetProp: "width",
+          shadowSelector: ".container",
+        },
+        "--calcite-sheet-content-max-width": {
+          targetProp: "maxWidth",
+          shadowSelector: ".container",
+        },
+        "--calcite-sheet-content-min-width": {
+          targetProp: "minWidth",
+          shadowSelector: ".container",
+        },
+      } as const;
+      themed(html`<calcite-sheet position="inline"></calcite-sheet>`, tokens);
+    });
+    describe("block", () => {
+      const tokens = {
+        "--calcite-sheet-content-height": {
+          targetProp: "height",
+          shadowSelector: ".container",
+        },
+        "--calcite-sheet-content-max-height": {
+          targetProp: "maxHeight",
+          shadowSelector: ".container",
+        },
+        "--calcite-sheet-content-min-height": {
+          targetProp: "minHeight",
+          shadowSelector: ".container",
+        },
+      } as const;
+      themed(`<calcite-sheet position="block"></calcite-sheet>`, tokens);
     });
   });
 });
