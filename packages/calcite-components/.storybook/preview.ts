@@ -22,6 +22,5 @@ export const parameters = {
   chromatic: {
     // https://www.chromatic.com/docs/threshold
     diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.15,
-    disableSnapshot: true,
   },
 };
