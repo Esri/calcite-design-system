@@ -1,7 +1,6 @@
 import { select } from "../../../.storybook/fake-knobs";
 import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import { allModes } from "../../../.storybook/modes";
 import { html } from "../../../support/formatting";
 
 export default {
@@ -10,15 +9,24 @@ export default {
     chromatic: {
       delay: 500,
       disableSnapshot: false,
-      modes: {
-        "padded mobile": allModes["padded mobile"],
-      },
     },
   },
 };
 
+const wrapper = html`
+  <style>
+    .wrapper {
+      width: 640px;
+      height: 800px;
+      padding: 64px;
+      max-width: 100%;
+    }
+  </style>
+`;
+
 export const titleMessageLink = (): string => html`
-  <div style="max-width:100%;">
+  ${wrapper}
+  <div class="wrapper">
     <calcite-alert
       ${boolean("icon", true)}
       ${boolean("auto-close", false)}
@@ -43,7 +51,8 @@ export const titleMessageLink = (): string => html`
 titleMessageLink.storyName = "Title, message, link";
 
 export const titleMessage = (): string => html`
-  <div style="max-width:100%;">
+  ${wrapper}
+  <div class="wrapper">
     <calcite-alert
       ${boolean("icon", true)}
       ${boolean("auto-close", false)}
@@ -67,7 +76,8 @@ export const titleMessage = (): string => html`
 titleMessage.storyName = "Title, message";
 
 export const messageLink = (): string => html`
-  <div style="max-width:100%;">
+  ${wrapper}
+  <div class="wrapper">
     <calcite-alert
       ${boolean("icon", true)}
       ${boolean("auto-close", false)}
@@ -91,7 +101,8 @@ export const messageLink = (): string => html`
 messageLink.storyName = "Message, link";
 
 export const message = (): string => html`
-  <div style="max-width:100%;">
+  ${wrapper}
+  <div class="wrapper">
     <calcite-alert
       ${boolean("icon", true)}
       ${boolean("auto-close", false)}
@@ -112,7 +123,8 @@ export const message = (): string => html`
 `;
 
 export const customIcon = (): string => html`
-  <div style="max-width:100%;">
+  ${wrapper}
+  <div class="wrapper">
     <calcite-alert
       icon="${select("icon", iconNames, iconNames[0])}"
       ${boolean("auto-close", false)}
@@ -134,7 +146,8 @@ export const customIcon = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <div style="max-width:100%;">
+  ${wrapper}
+  <div class="wrapper">
     <calcite-alert
       class="calcite-mode-dark"
       ${boolean("icon", true)}
@@ -160,7 +173,8 @@ export const darkModeRTL_TestOnly = (): string => html`
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const actionsEndNoQueue_TestOnly = (): string => html`
-  <div style="max-width:100%;">
+  ${wrapper}
+  <div class="wrapper">
     <calcite-alert
       label="this is a default danger with icon and link"
       scale="l"
@@ -178,7 +192,8 @@ export const actionsEndNoQueue_TestOnly = (): string => html`
 `;
 
 export const actionsEndQueued_TestOnly = (): string => html`
-  <div style="max-width:100%;">
+  ${wrapper}
+  <div class="wrapper">
     <calcite-alert id="one" label="One" scale="l" kind="danger" icon open style="--calcite-alert-width:450px;">
       <div slot="title">Hello there, alert one!</div>
       <div slot="message">Do you really want to proceed?</div>
@@ -200,12 +215,20 @@ export const actionsEndQueued_TestOnly = (): string => html`
 `;
 
 export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
-  <div style="max-width:100%;">
-      <calcite-alert icon="rangefinder" kind="brand" open scale="s" label="A report alert"m style="--calcite-alert-width:450px;">
-        <div slot="title">Trail Camera Report</div>
-        <div slot="message">We thought you might want to take a look</div>
-        <calcite-link slot="link">Take action</calcite-link>
-      </calcite-alert>
-    </div>
+  ${wrapper}
+  <div class="wrapper">
+    <calcite-alert
+      icon="rangefinder"
+      kind="brand"
+      open
+      scale="s"
+      label="A report alert"
+      m
+      style="--calcite-alert-width:450px;"
+    >
+      <div slot="title">Trail Camera Report</div>
+      <div slot="message">We thought you might want to take a look</div>
+      <calcite-link slot="link">Take action</calcite-link>
+    </calcite-alert>
   </div>
 `;
