@@ -1,9 +1,9 @@
 import { FunctionalComponent, h } from "@stencil/core";
+import { JSXBase } from "@stencil/core/internal";
 import { getElementDir } from "../../utils/dom";
 import { queryActions } from "../action-bar/utils";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { Position, Scale } from "../interfaces";
-import { JSXBase } from "@stencil/core/internal";
 
 interface ExpandToggleProps {
   expanded: boolean;
