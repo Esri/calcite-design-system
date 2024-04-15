@@ -84,7 +84,17 @@ export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
   html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;
 
 export const validationMessageAllScales_TestOnly = (): string => html`
-  <div style="display:flex;width:800px;height:800px;max-width:100%;padding:60px;gap:10px;">
+  <style>
+    .wrapper {
+      display: flex;
+      width: 800px;
+      height: 800px;
+      max-width: 100%;
+      padding: 64px;
+      gap: 10px;
+    }
+  </style>
+  <div class="wrapper">
     <div style="width:200px;height:150px;">
       <calcite-text-area
         scale="s"
