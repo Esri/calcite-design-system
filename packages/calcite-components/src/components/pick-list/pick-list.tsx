@@ -24,6 +24,7 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { HeadingLevel } from "../functional/Heading";
+import type { ValueUnion } from "../types";
 import { ICON_TYPES } from "./resources";
 import {
   calciteInternalListItemValueChangeHandler,
@@ -296,7 +297,7 @@ export class PickList<
   //
   // --------------------------------------------------------------------------
 
-  getIconType(): ICON_TYPES {
+  getIconType(): ValueUnion<typeof ICON_TYPES> {
     return this.multiple ? ICON_TYPES.square : ICON_TYPES.circle;
   }
 
