@@ -127,6 +127,12 @@
   }
 }
 
+:host([selection-appearance="border"]) {
+  .container.selected {
+    border-block-end: var(--calcite-border-width-lg) solid var(--calcite-color-brand);
+  }
+}
+
 :host([scale="m"]) {
   max-inline-size: 460px;
   min-inline-size: 140px;

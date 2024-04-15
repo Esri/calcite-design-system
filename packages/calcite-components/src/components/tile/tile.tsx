@@ -116,7 +116,7 @@ export class Tile implements InteractiveComponent {
    *
    * @internal
    */
-  @Prop() selectionAppearance: SelectionAppearance = null;
+  @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = null;
 
   /**
    * Specifies the selection mode, where:
@@ -128,8 +128,10 @@ export class Tile implements InteractiveComponent {
    *
    * @internal
    */
-  @Prop() selectionMode: Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode> =
-    "none";
+  @Prop({ reflect: true }) selectionMode: Extract<
+    "multiple" | "none" | "single" | "single-persist",
+    SelectionMode
+  > = "none";
 
   /**
    * Specifies the size of the component.
@@ -259,25 +261,25 @@ export class Tile implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   renderSelectionIcon(): VNode {
-    const { selected, selectionMode } = this;
-    if (selectionMode === "none") {
-      return;
+    const { selected, selectionAppearance, selectionMode } = this;
+    if (selectionAppearance === "icon" && selectionMode !== "none") {
+      return (
+        <calcite-icon
+          class={CSS.selectionIcon}
+          icon={
+            selected
+              ? selectionMode === "multiple"
+                ? ICONS.selectedMultiple
+                : ICONS.selectedSingle
+              : selectionMode === "multiple"
+                ? ICONS.unselectedMultiple
+                : ICONS.unselectedSingle
+          }
+          scale="s"
+        />
+      );
     }
-    return (
-      <calcite-icon
-        class={CSS.selectionIcon}
-        icon={
-          selected
-            ? selectionMode === "multiple"
-              ? ICONS.selectedMultiple
-              : ICONS.selectedSingle
-            : selectionMode === "multiple"
-              ? ICONS.unselectedMultiple
-              : ICONS.unselectedSingle
-        }
-        scale="s"
-      />
-    );
+    return;
   }
 
   renderTile(): VNode {
