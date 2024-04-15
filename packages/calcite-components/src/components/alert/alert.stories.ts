@@ -11,7 +11,7 @@ export default {
       delay: 500,
       disableSnapshot: false,
       modes: {
-        mobile: allModes["padded mobile"],
+        "padded mobile": allModes["padded mobile"],
       },
     },
   },
