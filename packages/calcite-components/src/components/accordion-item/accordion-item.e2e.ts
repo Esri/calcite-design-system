@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 import { accessible, renders, slots, hidden, themed } from "../../tests/commonTests";
 import { CSS, IDS, SLOTS } from "./resources";
-import { html } from "../../../support/formatting";
 
 describe("calcite-accordion-item", () => {
   describe("renders", () => {
@@ -22,40 +22,43 @@ describe("calcite-accordion-item", () => {
 
   describe("theme", () => {
     const tokens = {
+      "--calcite-accordion-item-text-color": {
+        selector: "calcite-accordion-item",
+        targetProp: "color",
+      },
       "--calcite-accordion-item-background-color": {
         selector: "calcite-accordion-item",
         targetProp: "backgroundColor",
       },
       "--calcite-accordion-item-border-color": {
         selector: "calcite-accordion-item",
-        shadowSelector: ".content",
+        shadowSelector: `.${CSS.header}`,
         targetProp: "borderBottomColor",
       },
       "--calcite-accordion-item-description-text-color": {
         selector: "calcite-accordion-item",
-        shadowSelector: ".description",
+        shadowSelector: `.${CSS.description}`,
         targetProp: "color",
       },
       "--calcite-accordion-item-heading-text-color": {
         selector: "calcite-accordion-item",
-        shadowSelector: ".heading",
+        shadowSelector: `.${CSS.heading}`,
         targetProp: "color",
       },
       "--calcite-accordion-item-icon-color": {
         selector: "calcite-accordion-item",
         shadowSelector: ".icon",
-        targetProp: "color",
+        targetProp: "--calcite-icon-color",
       },
       "--calcite-accordion-item-expand-icon-color": {
         selector: "calcite-accordion-item",
         shadowSelector: ".expand-icon",
-        targetProp: "color",
+        targetProp: "--calcite-icon-color",
       },
-      "--calcite-accordion-item-text-color": { selector: "calcite-accordion-item", targetProp: "color" },
     } as const;
 
     themed(
-      `<calcite-accordion><calcite-accordion-item description="Accordion Item Description" icon-start="brush-tip" heading="Accordion Title 1" id="2" expanded>Accordion Item Content </calcite-accordion-item></calcite-accordion>`,
+      `<calcite-accordion><calcite-accordion-item description="Accordion Item Description" icon-start="brush-tip" heading="Accordion Title 1" id="2">Accordion Item Content </calcite-accordion-item></calcite-accordion>`,
       tokens,
     );
   });
