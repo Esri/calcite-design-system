@@ -1845,37 +1845,43 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
  * Helper to test custom theming of a component's associated tokens.
  *
  * @example
-// describe("theme", () => {
-//   const tokens = {
-//     "--calcite-action-bar-trigger-background-color": [{
-//       selector: "calcite-action-bar",
-//       targetProp: "backgroundColor",
-//     }, {
-//       selector: "calcite-action-bar",
-//       shadowSelector: "calcite-action-group calcite-action >>> .button",
-//       targetProp: "backgroundColor",
-//     }],
-//     "--calcite-action-bar-trigger-background-color-active": {
-//       selector: "calcite-action-bar",
-//       shadowSelector: "calcite-action-group calcite-action >>> .button",
-//       targetProp: "backgroundColor",
-//       state: { press: { attribute: "class", value: CSS.expandToggle } },
-//     },
-//     "--calcite-action-bar-trigger-background-color-focus": {
-//       selector: "calcite-action-bar",
-//       shadowSelector: "calcite-action-group calcite-action >>> .button",
-//       targetProp: "backgroundColor",
-//       state: "focus",
-//     },
-//     "--calcite-action-bar-trigger-background-color-hover": {
-//       selector: "calcite-action-bar",
-//       shadowSelector: "calcite-action-group calcite-action >>> .button",
-//       targetProp: "backgroundColor",
-//       state: "hover",
-//     },
-//   } as const;
-//   themed(`calcite-action-bar`, tokens);
-// });
+ // describe("theme", () => {
+ //   const tokens = {
+ //      "--calcite-action-menu-border-color": [
+ //        {
+ //          targetProp: "borderLeftColor",
+ //        },
+ //        {
+ //          shadowSelector: "calcite-action",
+ //          targetProp: "--calcite-action-border-color",
+ //        },
+ //     ],
+ //     "--calcite-action-menu-background-color": {
+ //          targetProp: "backgroundColor",
+ //          shadowSelector: ".container",
+ //     },
+ //     "--calcite-action-menu-trigger-background-color-active": {
+ //        shadowSelector: "calcite-action",
+ //        targetProp: "--calcite-action-background-color",
+ //        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+ //      },
+ //      "--calcite-action-menu-trigger-background-color-focus": {
+ //        shadowSelector: "calcite-action",
+ //        targetProp: "--calcite-action-background-color",
+ //        state: "focus",
+ //      },
+ //      "--calcite-action-menu-trigger-background-color-hover": {
+ //        shadowSelector: "calcite-action",
+ //        targetProp: "--calcite-action-background-color",
+ //        state: "hover",
+ //      },
+ //      "--calcite-action-menu-trigger-background-color": {
+ //        shadowSelector: "calcite-action",
+ //        targetProp: "--calcite-action-background-color",
+ //      },
+ //   } as const;
+ //   themed(`calcite-action-bar`, tokens);
+ // });
  *
  * @param componentTagOrHTML  - The component tag or HTML markup to test against.
  * @param tokens - A record of token names and their associated selectors, shadow selectors, target props, and states.
@@ -2070,7 +2076,7 @@ async function getComputedStylePropertyValue(element: E2EElement, property: stri
 async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<void> {
   const { target, contextSelector, targetProp, state, expectedValue } = options;
 
-  if (targetProp.startsWith("--calcite-")) {
+  if (!state && targetProp.startsWith("--calcite-")) {
     expect(await getComputedStylePropertyValue(target, targetProp)).toBe(expectedValue);
 
     return;
@@ -2141,6 +2147,9 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
         y: rect.top + rect.height / 2,
       };
 
+      await page.mouse.reset();
+      await page.waitForChanges();
+
       // hover state
       await page.mouse.move(box.x, box.y);
 
@@ -2153,10 +2162,18 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
     } else {
       await target[state]();
     }
+
     await page.waitForChanges();
+
+    if (targetProp.startsWith("--calcite-")) {
+      expect(await getComputedStylePropertyValue(target, targetProp)).toBe(expectedValue);
+
+      return;
+    }
+
     styles = await target.getComputedStyle();
-    await page.mouse.reset();
   }
+
   await page.waitForChanges();
   expect(styles[targetProp]).toBe(expectedValue);
 }
