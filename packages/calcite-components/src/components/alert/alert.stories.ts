@@ -13,7 +13,8 @@ export default {
   },
 };
 
-const wrapper = html`
+/**  Adds explicit height/width for components using position:fixed per Chromatic doc <https://www.chromatic.com/docs/snapshots/#why-isn%E2%80%99t-my-modal-or-dialog-captured>. */
+const wrapperStyles = html`
   <style>
     .wrapper {
       width: 640px;
@@ -25,7 +26,7 @@ const wrapper = html`
 `;
 
 export const titleMessageLink = (): string => html`
-  ${wrapper}
+  ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
       ${boolean("icon", true)}
@@ -51,7 +52,7 @@ export const titleMessageLink = (): string => html`
 titleMessageLink.storyName = "Title, message, link";
 
 export const titleMessage = (): string => html`
-  ${wrapper}
+  ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
       ${boolean("icon", true)}
@@ -76,7 +77,7 @@ export const titleMessage = (): string => html`
 titleMessage.storyName = "Title, message";
 
 export const messageLink = (): string => html`
-  ${wrapper}
+  ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
       ${boolean("icon", true)}
@@ -101,7 +102,7 @@ export const messageLink = (): string => html`
 messageLink.storyName = "Message, link";
 
 export const message = (): string => html`
-  ${wrapper}
+  ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
       ${boolean("icon", true)}
@@ -123,7 +124,7 @@ export const message = (): string => html`
 `;
 
 export const customIcon = (): string => html`
-  ${wrapper}
+  ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
       icon="${select("icon", iconNames, iconNames[0])}"
@@ -146,7 +147,7 @@ export const customIcon = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  ${wrapper}
+  ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
       class="calcite-mode-dark"
@@ -173,7 +174,7 @@ export const darkModeRTL_TestOnly = (): string => html`
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const actionsEndNoQueue_TestOnly = (): string => html`
-  ${wrapper}
+  ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
       label="this is a default danger with icon and link"
@@ -192,7 +193,7 @@ export const actionsEndNoQueue_TestOnly = (): string => html`
 `;
 
 export const actionsEndQueued_TestOnly = (): string => html`
-  ${wrapper}
+  ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert id="one" label="One" scale="l" kind="danger" icon open style="--calcite-alert-width:450px;">
       <div slot="title">Hello there, alert one!</div>
@@ -215,7 +216,7 @@ export const actionsEndQueued_TestOnly = (): string => html`
 `;
 
 export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
-  ${wrapper}
+  ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
       icon="rangefinder"
@@ -223,7 +224,6 @@ export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => h
       open
       scale="s"
       label="A report alert"
-      m
       style="--calcite-alert-width:450px;"
     >
       <div slot="title">Trail Camera Report</div>
