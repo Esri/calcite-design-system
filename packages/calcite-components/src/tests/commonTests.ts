@@ -1883,12 +1883,12 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
  //   themed(`calcite-action-bar`, tokens);
  // });
  *
- * @param componentTestSetup
+ * @param componentTestSetup - A component tag, html, tag + e2e page or provider for setting up a test.
  * @param tokens - A record of token names and their associated selectors, shadow selectors, target props, and states.
  */
 export function themed(
   componentTestSetup: ComponentTestSetup,
-  tokens: Record<CustomCSSProp, TestSelectToken | TestSelectToken[]>,
+  tokens: Record<CalciteCSSCustomProp, TestSelectToken | TestSelectToken[]>,
 ): void {
   it("is themeable", async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
@@ -1997,7 +1997,7 @@ export type TestTarget = {
   /**
    * The CSSStyleDeclaration property or mapped sub-component CSS custom prop to assert on.
    */
-  targetProp: CSSProp | MappedCustomCSSProp;
+  targetProp: CSSProp | MappedCalciteCSSCustomProp;
 
   /**
    * The state to apply to the target element.
@@ -2010,9 +2010,17 @@ export type TestTarget = {
   expectedValue: string;
 };
 
-type CustomCSSProp = `--calcite-${string}`;
+/**
+ * Represents a Calcite CSS custom prop
+ */
+type CalciteCSSCustomProp = `--calcite-${string}`;
 
-type MappedCustomCSSProp = CustomCSSProp;
+/**
+ * Represents a mapped Calcite CSS custom prop (used for sub-components)
+ *
+ * Note: this shares the same type as `CalciteCSSCustomProp` but is used to differentiate between the two.
+ */
+type MappedCalciteCSSCustomProp = CalciteCSSCustomProp;
 
 /**
  * Describes a test selector for themed components.
@@ -2031,7 +2039,7 @@ export type TestSelectToken = {
   /**
    * The CSSStyleDeclaration property to assert on.
    */
-  targetProp: CSSProp | MappedCustomCSSProp;
+  targetProp: CSSProp | MappedCalciteCSSCustomProp;
 
   /**
    * The state to apply to the target element.
