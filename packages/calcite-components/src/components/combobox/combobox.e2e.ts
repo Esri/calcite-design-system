@@ -1147,10 +1147,11 @@ describe("calcite-combobox", () => {
 
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item#two");
-      const item3 = await page.find("calcite-combobox-item:last-child");
+      const item3 = await page.find("calcite-combobox-item#three");
       await item1.click();
       await item2.click();
       await item3.click();
+      await page.waitForChanges();
 
       await element.click();
       await element.press("Backspace");
@@ -1174,10 +1175,11 @@ describe("calcite-combobox", () => {
 
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item#two");
-      const item3 = await page.find("calcite-combobox-item:last-child");
+      const item3 = await page.find("calcite-combobox-item#three");
       await item1.click();
       await item2.click();
       await item3.click();
+      await page.waitForChanges();
 
       await element.click();
       await element.press("Backspace");
@@ -1205,6 +1207,7 @@ describe("calcite-combobox", () => {
       await item1.click();
       await item2.click();
       await item3.click();
+      await page.waitForChanges();
 
       await element.click();
       await element.press("Backspace");
