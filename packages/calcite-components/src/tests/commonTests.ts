@@ -1883,15 +1883,15 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
  //   themed(`calcite-action-bar`, tokens);
  // });
  *
- * @param componentTagOrHTML  - The component tag or HTML markup to test against.
+ * @param componentTestSetup
  * @param tokens - A record of token names and their associated selectors, shadow selectors, target props, and states.
  */
 export function themed(
-  componentTagOrHTML: TagOrHTML,
+  componentTestSetup: ComponentTestSetup,
   tokens: Record<CustomCSSProp, TestSelectToken | TestSelectToken[]>,
 ): void {
   it("is themeable", async () => {
-    const page = await simplePageSetup(componentTagOrHTML);
+    const { page, tag } = await getTagAndPage(componentTestSetup);
     const setTokens: Record<string, string> = {};
     const styleTargets: Record<string, [E2EElement, string[]]> = {};
     const testTargets: TestTarget[] = [];
@@ -1912,7 +1912,7 @@ export function themed(
       // Set up styleTargets and testTargets
       for (let i = 0; i < selectors.length; i++) {
         const { shadowSelector, targetProp, state } = selectors[i];
-        const selector = selectors[i].selector || getTag(componentTagOrHTML);
+        const selector = selectors[i].selector || tag;
         const el = await page.find(selector);
         const tokenStyle = `${token}: ${setTokens[token]}`;
         let target = el;
