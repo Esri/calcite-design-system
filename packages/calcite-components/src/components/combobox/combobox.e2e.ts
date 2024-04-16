@@ -1187,7 +1187,7 @@ describe("calcite-combobox", () => {
     it("should delete last item on Delete in fit selection-display mode when there are no overflowed chips", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-combobox id="myCombobox" selection-display="fit" style="width:400px">
+        <calcite-combobox id="myCombobox" selection-display="fit" style="width:450px">
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
           <calcite-combobox-item-group text-label="Last Item">
@@ -1201,7 +1201,7 @@ describe("calcite-combobox", () => {
 
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item#two");
-      const item3 = await page.find("calcite-combobox-item:last-child");
+      const item3 = await page.find("calcite-combobox-item#three");
       await item1.click();
       await item2.click();
       await item3.click();
@@ -1956,8 +1956,7 @@ describe("calcite-combobox", () => {
     await combobox.press("Tab");
     await closeEvent;
 
-    const wrapper = await page.find("calcite-combobox >>> .wrapper");
-    const close = await wrapper.find("calcite-chip >>> .close");
+    const close = await page.find("calcite-combobox >>> calcite-chip >>> .close");
     await close.press(" ");
     await page.waitForChanges();
 

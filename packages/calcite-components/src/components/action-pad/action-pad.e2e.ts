@@ -140,7 +140,7 @@ describe("calcite-action-pad", () => {
       await page.setContent("<calcite-action-pad></calcite-action-pad>");
 
       const element = await page.find("calcite-action-pad");
-      const actionElement = await page.find("calcite-action-pad >>> calcite-action");
+      const actionElement = await page.find("calcite-action-pad >>> calcite-action-group calcite-action");
 
       const eventSpy = await element.spyOnEvent("calciteActionPadToggle");
 
