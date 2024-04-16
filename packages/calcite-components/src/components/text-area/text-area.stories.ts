@@ -4,6 +4,11 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/TextArea",
+  parameters: {
+    chromatic: {
+      disableSnapshot: false,
+    },
+  },
 };
 
 export const simple = (): string => html`
@@ -90,6 +95,7 @@ const wrapperStyles = html`
       display: flex;
       width: 800px;
       height: 250px;
+      padding: 64px;
       gap: 10px;
     }
   </style>
