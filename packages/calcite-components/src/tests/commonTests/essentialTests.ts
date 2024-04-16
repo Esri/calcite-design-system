@@ -4,7 +4,7 @@ import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
 import type { JSX } from "../../components";
 import { GlobalTestProps, skipAnimations } from "./../utils";
-import { ComponentTestSetup, getTagAndPage, HYDRATED_ATTR } from "./../commonTestUtils/setupForTests";
+import { ComponentTestSetup, getTagAndPage, HYDRATED_ATTR } from "./setupForTests";
 
 expect.extend(toHaveNoViolations);
 
