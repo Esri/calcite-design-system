@@ -1199,8 +1199,9 @@ describe("calcite-combobox", () => {
       `);
       await page.waitForChanges();
 
-      const element = await page.find("#myCombobox");
-      await element.click();
+      const combobox = await page.find("calcite-combobox");
+      const input = await page.find("calcite-combobox >>> .input");
+      await input.click();
       await page.waitForChanges();
 
       const item1 = await page.find("calcite-combobox-item#one");
@@ -1213,14 +1214,14 @@ describe("calcite-combobox", () => {
       await item3.click();
       await page.waitForChanges();
 
-      expect((await element.getProperty("selectedItems")).length).toBe(3);
+      expect((await combobox.getProperty("selectedItems")).length).toBe(3);
 
-      await element.click();
+      await input.click();
       await page.waitForChanges();
-      await element.press("Backspace");
+      await input.press("Backspace");
       await page.waitForChanges();
 
-      expect((await element.getProperty("selectedItems")).length).toBe(2);
+      expect((await combobox.getProperty("selectedItems")).length).toBe(2);
     });
   });
 
