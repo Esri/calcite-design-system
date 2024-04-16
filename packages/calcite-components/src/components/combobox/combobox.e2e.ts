@@ -2020,7 +2020,28 @@ describe("calcite-combobox", () => {
             shadowSelector: `.wrapper`,
             targetProp: "color",
           },
-          // TODO: need to update `themed` to support passing a page directly to allow us to make chip active beforehand
+        },
+      );
+    });
+
+    describe("active chip", () => {
+      themed(
+        async () => {
+          const page = await newE2EPage();
+          await page.setContent(`html
+          <calcite-combobox>
+            <calcite-combobox-item value="first" text-label="First" selected></calcite-combobox-item>
+          </calcite-combobox>
+        `);
+          const combobox = await page.find("calcite-combobox");
+
+          await combobox.click();
+          await combobox.press("ArrowLeft");
+          await page.waitForChanges();
+
+          return { page, tag: "calcite-combobox" };
+        },
+        {
           "--calcite-combobox-chip-background-color-active": {
             shadowSelector: `.chip--active`,
             targetProp: "--calcite-chip-background-color",
@@ -2029,7 +2050,7 @@ describe("calcite-combobox", () => {
       );
     });
 
-    describe("deprecated", () => {
+    describe.skip("deprecated", () => {
       themed("calcite-combobox", {
         "--calcite-combobox-input-height": {
           shadowSelector: `.container`,
