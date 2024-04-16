@@ -4,11 +4,6 @@ import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/TextArea",
-  parameters: {
-    chromatic: {
-      disableSnapshot: false,
-    },
-  },
 };
 
 export const simple = (): string => html`
