@@ -2093,16 +2093,6 @@ async function getComputedStylePropertyValue(element: E2EElement, property: stri
 async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<void> {
   const { target, contextSelector, targetProp, state, expectedValue, token } = options;
 
-  if (!state && targetProp.startsWith("--calcite-")) {
-    expect(await getComputedStylePropertyValue(target, targetProp)).toBe(expectedValue);
-
-    return;
-  }
-
-  await page.waitForChanges();
-
-  let styles = await target.getComputedStyle();
-
   if (state) {
     if (contextSelector) {
       const rect = (await page.evaluate((context: TestTarget["contextSelector"]) => {
@@ -2183,18 +2173,14 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
     }
 
     await page.waitForChanges();
-
-    if (targetProp.startsWith("--calcite-")) {
-      expect(await getComputedStylePropertyValue(target, targetProp)).toBe(expectedValue);
-
-      return;
-    }
-
-    styles = await target.getComputedStyle();
   }
 
-  await page.waitForChanges();
+  if (targetProp.startsWith("--calcite-")) {
+    expect(await getComputedStylePropertyValue(target, targetProp)).toBe(expectedValue);
+    return;
+  }
 
+  const styles = await target.getComputedStyle();
   const isFakeBorderToken = token.includes("border-color") && targetProp === "boxShadow";
 
   if (isFakeBorderToken) {
