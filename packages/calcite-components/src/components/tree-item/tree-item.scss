@@ -40,6 +40,7 @@
     @apply min-h-[2rem];
     .node-container {
       .checkbox,
+      .chevron,
       .checkmark,
       .bullet-point {
         margin-inline: theme("margin.2");
@@ -48,7 +49,7 @@
         margin-inline: theme("margin.3");
       }
       .chevron {
-        padding: theme("padding.2");
+        // padding: theme("padding.2");
       }
     }
   }
@@ -61,6 +62,7 @@
     @apply min-h-[2.75rem];
     .node-container {
       .checkbox,
+      .chevron,
       .checkmark,
       .bullet-point {
         margin-inline: theme("margin.3");
@@ -69,7 +71,7 @@
         margin-inline: theme("margin.3");
       }
       .chevron {
-        padding: theme("padding.3");
+        //padding: theme("padding.3");
       }
     }
   }
