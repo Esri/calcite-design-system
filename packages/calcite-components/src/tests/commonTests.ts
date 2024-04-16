@@ -1921,8 +1921,8 @@ export function themed(
         const el = await page.find(selector);
         const tokenStyle = `${token}: ${setTokens[token]}`;
         let target = el;
-        let contextSelector = undefined;
-        let stateName = undefined;
+        let contextSelector: ContextSelectByAttr;
+        let stateName: string;
 
         if (state) {
           stateName = typeof state === "string" ? state : Object.keys(state)[0];
@@ -1944,7 +1944,7 @@ export function themed(
           target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : target;
         }
         if (state && typeof state !== "string") {
-          contextSelector = Object.values(state)[0];
+          contextSelector = Object.values(state)[0] as ContextSelectByAttr;
         }
 
         if (!target) {
@@ -1955,7 +1955,14 @@ export function themed(
           );
         }
 
-        testTargets.push({ target, targetProp, contextSelector, state: stateName, expectedValue: setTokens[token] });
+        testTargets.push({
+          target,
+          targetProp,
+          contextSelector,
+          state: stateName,
+          expectedValue: setTokens[token],
+          token: token as CalciteCSSCustomProp,
+        });
       }
     }
 
@@ -2008,6 +2015,11 @@ export type TestTarget = {
    * The expected value of the targetProp.
    */
   expectedValue: string;
+
+  /**
+   * The associated component token.
+   */
+  token: CalciteCSSCustomProp;
 };
 
 /**
@@ -2079,7 +2091,7 @@ async function getComputedStylePropertyValue(element: E2EElement, property: stri
  * @param options.expectedValue - the expected value of the targetProp
  */
 async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<void> {
-  const { target, contextSelector, targetProp, state, expectedValue } = options;
+  const { target, contextSelector, targetProp, state, expectedValue, token } = options;
 
   if (!state && targetProp.startsWith("--calcite-")) {
     expect(await getComputedStylePropertyValue(target, targetProp)).toBe(expectedValue);
@@ -2182,6 +2194,14 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
   }
 
   await page.waitForChanges();
+
+  const isFakeBorderToken = token.includes("border-color") && targetProp === "boxShadow";
+
+  if (isFakeBorderToken) {
+    expect(styles[targetProp]).toMatch(expectedValue);
+    return;
+  }
+
   expect(styles[targetProp]).toBe(expectedValue);
 }
 
