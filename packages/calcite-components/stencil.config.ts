@@ -146,7 +146,6 @@ export const create: () => Config = () => ({
       "^lodash-es$": "lodash",
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
-    testRegex: "(/__tests__/.*|(\\.|/)combobox.e2e)\\.[jt]sx?$",
     transform: {
       "calcite-design-tokens/dist/es6/.*\\.js$":
         "<rootDir>../../node_modules/@stencil/core/testing/jest-preprocessor.js",
