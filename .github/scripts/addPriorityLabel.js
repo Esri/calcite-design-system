@@ -32,7 +32,7 @@ module.exports = async ({ github, context }) => {
     await createLabelIfMissing({
       github,
       context,
-      addPriorityLabel,
+      label: addPriorityLabel,
       color: "bb7fe0",
       description: `User set priority status of ${addPriorityLabel}`,
     });

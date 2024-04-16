@@ -21,7 +21,7 @@ module.exports = async ({ github, context }) => {
     await createLabelIfMissing({
       github,
       context,
-      package,
+      label: package,
       color: "BFBEAF",
       description: `Issues specific to the @esri/${package} package.`,
     });

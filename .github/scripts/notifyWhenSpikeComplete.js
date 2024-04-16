@@ -28,19 +28,19 @@ module.exports = async ({ github, context }) => {
     await removeLabel({
       github,
       context,
-      name: planning.spike,
+      label: planning.spike,
     });
 
     await removeLabel({
       github,
       context,
-      name: issueWorkflow.assigned,
+      label: issueWorkflow.assigned,
     });
 
     await removeLabel({
       github,
       context,
-      name: issueWorkflow.inDevelopment,
+      label: issueWorkflow.inDevelopment,
     });
 
     await github.rest.issues.addLabels({

@@ -13,19 +13,19 @@ module.exports = {
     }
   },
 
-  createLabelIfMissing: async ({ github, context, name, color, description }) => {
+  createLabelIfMissing: async ({ github, context, label, color, description }) => {
     const { owner, repo } = context.repo;
     try {
       await github.rest.issues.getLabel({
         owner,
         repo,
-        name,
+        name: label,
       });
     } catch (e) {
       await github.rest.issues.createLabel({
         owner,
         repo,
-        name,
+        name: label,
         color,
         description,
       });
