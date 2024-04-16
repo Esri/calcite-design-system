@@ -230,7 +230,10 @@ calcite-chip {
 }
 
 .chip--active {
-  background-color: var(--calcite-combobox-chip-background-color-active, var(--calcite-color-foreground-3));
+  --calcite-chip-background-color: var(
+    --calcite-combobox-chip-background-color-active,
+    var(--calcite-color-foreground-3)
+  );
 }
 
 .chip--invisible {

@@ -1888,7 +1888,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
  */
 export function themed(
   componentTagOrHTML: TagOrHTML,
-  tokens: Record<string, TestSelectToken | TestSelectToken[]>,
+  tokens: Record<CustomCSSProp, TestSelectToken | TestSelectToken[]>,
 ): void {
   it("is themeable", async () => {
     const page = await simplePageSetup(componentTagOrHTML);
@@ -2016,7 +2016,9 @@ export type TestTarget = {
   expectedValue: string;
 };
 
-type MappedCustomCSSProp = `--calcite-${string}`;
+type CustomCSSProp = `--calcite-${string}`;
+
+type MappedCustomCSSProp = CustomCSSProp;
 
 /**
  * Describes a test selector for themed components.

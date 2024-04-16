@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, TEXT } from "./resources";
 
@@ -251,5 +251,55 @@ describe("calcite-tip-manager", () => {
 
   describe("translation support", () => {
     t9n("calcite-tip-manager");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`<calcite-tip-manager>
+          <calcite-tip id="one"><p>first</p></calcite-tip>
+          <calcite-tip id="two"><p>second</p></calcite-tip>
+        </calcite-tip-manager>`,
+        {
+          "--calcite-tip-manager-background-color": {
+            targetProp: "backgroundColor",
+          },
+          "--calcite-tip-manager-text-color": {
+            targetProp: "color",
+          },
+          "--calcite-tip-manager-border-color": {
+            shadowSelector: ".header",
+            targetProp: "borderColor",
+          },
+          "--calcite-tip-manager-heading-text-color": {
+            shadowSelector: ".heading",
+            targetProp: "color",
+          },
+          "--calcite-tip-manager-close-background-color": {
+            shadowSelector: ".close",
+            targetProp: "--calcite-action-background-color",
+          },
+          "--calcite-tip-manager-close-background-color-hover": {
+            shadowSelector: ".close",
+            targetProp: "--calcite-action-background-color",
+            state: "hover",
+          },
+          // "--calcite-tip-manager-close-background-color-active": {
+          //   shadowSelector: ".close",
+          //   targetProp: "--calcite-action-background-color",
+          //   state: "press"
+          // },
+          "--calcite-tip-manager-close-text-color": {
+            shadowSelector: ".close",
+            targetProp: "--calcite-action-text-color",
+          },
+          "--calcite-tip-manager-close-text-color-hover": {
+            shadowSelector: ".close",
+            targetProp: "--calcite-action-text-color",
+            state: "hover",
+          },
+        },
+      );
+    });
   });
 });

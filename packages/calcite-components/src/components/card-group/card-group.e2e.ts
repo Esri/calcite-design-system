@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, renders, hidden, disabled } from "../../tests/commonTests";
+import { accessible, renders, hidden, disabled, themed } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { CSS } from "../card/resources";
 
@@ -84,7 +84,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await assertSelectedItems(page, { expectedItemIds: [card2.id] });
 
-      card1CheckAction.click();
+      await card1CheckAction.click();
       await page.waitForChanges();
       expect(await cardGroupSelectSpy).toHaveReceivedEventTimes(1);
       expect(await cardSelectSpy1).toHaveReceivedEventTimes(1);
@@ -94,7 +94,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await assertSelectedItems(page, { expectedItemIds: [card1.id] });
 
-      card2CheckAction.click();
+      await card2CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(2);
       expect(cardSelectSpy1).toHaveReceivedEventTimes(1);
@@ -104,7 +104,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await assertSelectedItems(page, { expectedItemIds: [card2.id] });
 
-      card2CheckAction.click();
+      await card2CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(3);
       expect(cardSelectSpy1).toHaveReceivedEventTimes(1);
@@ -138,7 +138,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await assertSelectedItems(page, { expectedItemIds: [card1.id] });
 
-      card1CheckAction.click();
+      await card1CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(1);
       expect(await card1.getProperty("selected")).toBe(true);
@@ -146,7 +146,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await assertSelectedItems(page, { expectedItemIds: [card1.id] });
 
-      card2CheckAction.click();
+      await card2CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(2);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -154,7 +154,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await assertSelectedItems(page, { expectedItemIds: [card2.id] });
 
-      card2CheckAction.click();
+      await card2CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(3);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -189,7 +189,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toEqual([]);
       await assertSelectedItems(page, { expectedItemIds: [] });
 
-      card1CheckAction.click();
+      await card1CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(1);
       expect(await card1.getProperty("selected")).toBe(true);
@@ -198,7 +198,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await assertSelectedItems(page, { expectedItemIds: [card1.id] });
 
-      card2CheckAction.click();
+      await card2CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(2);
       expect(await card1.getProperty("selected")).toBe(true);
@@ -207,7 +207,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(2);
       await assertSelectedItems(page, { expectedItemIds: [card1.id, card2.id] });
 
-      card3CheckAction.click();
+      await card3CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(3);
       expect(await card1.getProperty("selected")).toBe(true);
@@ -216,7 +216,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(3);
       await assertSelectedItems(page, { expectedItemIds: [card1.id, card2.id, card3.id] });
 
-      card1CheckAction.click();
+      await card1CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(4);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -225,7 +225,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(2);
       await assertSelectedItems(page, { expectedItemIds: [card2.id, card3.id] });
 
-      card2CheckAction.click();
+      await card2CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(5);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -234,7 +234,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await assertSelectedItems(page, { expectedItemIds: [card3.id] });
 
-      card3CheckAction.click();
+      await card3CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(6);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -414,6 +414,17 @@ describe("calcite-card-group", () => {
 
     expect(await element.getProperty("selectedItems")).toHaveLength(2);
     await assertSelectedItems(page, { expectedItemIds: [card4.id, card5.id] });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-group", {
+        "--calcite-card-group-gap": {
+          shadowSelector: `.container`,
+          targetProp: "gap",
+        },
+      });
+    });
   });
 });
 

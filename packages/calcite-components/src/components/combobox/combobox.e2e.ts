@@ -11,6 +11,7 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
@@ -1996,5 +1997,45 @@ describe("calcite-combobox", () => {
     expect(chips.length).toBe(2);
     await combobox.press("Enter");
     expect(chips.length).toBe(2);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`
+          <calcite-combobox>
+            <calcite-combobox-item value="first" text-label="First" selected></calcite-combobox-item>
+          </calcite-combobox>
+        `,
+        {
+          "--calcite-combobox-border-color": {
+            shadowSelector: `.wrapper`,
+            targetProp: "borderColor",
+          },
+          "--calcite-combobox-background-color": {
+            shadowSelector: `.wrapper`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-combobox-text-color": {
+            shadowSelector: `.wrapper`,
+            targetProp: "color",
+          },
+          // TODO: need to update `themed` to support passing a page directly to allow us to make chip active beforehand
+          "--calcite-combobox-chip-background-color-active": {
+            shadowSelector: `.chip--active`,
+            targetProp: "--calcite-chip-background-color",
+          },
+        },
+      );
+    });
+
+    describe("deprecated", () => {
+      themed("calcite-combobox", {
+        "--calcite-combobox-input-height": {
+          shadowSelector: `.container`,
+          targetProp: "marginBlockEnd",
+        },
+      });
+    });
   });
 });
