@@ -154,6 +154,7 @@ export class TileGroup implements InteractiveComponent {
 
     this.items?.forEach((el) => {
       el.interactive = true;
+      el.layout = this.layout;
       el.scale = this.scale;
       el.selectionAppearance = this.selectionAppearance;
       el.selectionMode = this.selectionMode;

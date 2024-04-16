@@ -127,9 +127,15 @@
   }
 }
 
-:host([selection-appearance="border"]) {
+:host([selection-appearance="border"][layout="horizontal"]) {
   .container.selected {
     box-shadow: inset 0px -4px 0px 0px var(--calcite-color-brand);
+  }
+}
+
+:host([selection-appearance="border"][layout="vertical"]) {
+  .container.selected {
+    box-shadow: inset 4px 0px 0px 0px var(--calcite-color-brand);
   }
 }
 

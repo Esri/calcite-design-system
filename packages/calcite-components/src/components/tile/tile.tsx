@@ -17,7 +17,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { Alignment, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
+import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { toAriaBoolean } from "../../utils/dom";
 import {
   componentFocusable,
@@ -102,6 +102,15 @@ export class Tile implements InteractiveComponent {
 
   /** Accessible name for the component. */
   @Prop() label: string;
+
+  /**
+   * Defines the layout of the component.
+   *
+   * Use `"horizontal"` for rows, and `"vertical"` for a single column.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) layout: Exclude<Layout, "grid"> = "horizontal";
 
   /**
    * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.

@@ -5058,6 +5058,10 @@ export namespace Components {
          */
         "label": string;
         /**
+          * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
+         */
+        "layout": Exclude<Layout, "grid">;
+        /**
           * Specifies the size of the component.
          */
         "scale": Scale;
@@ -12748,6 +12752,10 @@ declare namespace LocalJSX {
           * Accessible name for the component.
          */
         "label"?: string;
+        /**
+          * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
+         */
+        "layout"?: Exclude<Layout, "grid">;
         "onCalciteInternalTileKeyEvent"?: (event: CalciteTileCustomEvent<KeyboardEvent>) => void;
         /**
           * Fires when the selected state of the component changes.
