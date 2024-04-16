@@ -1,4 +1,4 @@
-const { issueType } = require("./support/labels");
+const { issueType } = require("./support/resources");
 
 module.exports = async ({ github, context }) => {
   const { title, number } = context.payload.pull_request;

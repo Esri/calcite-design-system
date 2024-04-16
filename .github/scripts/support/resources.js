@@ -1,4 +1,4 @@
-const labels = {
+const resources = {
   bug: {
     regression: "regression",
   },
@@ -38,4 +38,4 @@ const labels = {
   },
 };
 
-module.exports = labels;
+module.exports = resources;

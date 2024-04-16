@@ -1,4 +1,4 @@
-const { bug, priority, risk } = require("./support/labels");
+const { bug, priority, risk } = require("./support/resources");
 
 module.exports = async ({ github, context, core }) => {
   const { data: milestones } = await github.rest.issues.listMilestones({

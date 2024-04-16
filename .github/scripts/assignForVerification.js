@@ -1,4 +1,4 @@
-const { handoff, issueWorkflow } = require("./support/labels");
+const { handoff, issueWorkflow } = require("./support/resources");
 
 module.exports = async ({ github, context }) => {
   const { ISSUE_VERIFIERS, CALCITE_DESIGNERS } = process.env;
