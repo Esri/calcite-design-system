@@ -32,7 +32,7 @@ module.exports = async ({ github, context }) => {
     await createLabelIfMissing({
       github,
       context,
-      product,
+      label: product,
       color: "006B75",
       description: `Issues logged by ${product} team members.`,
     });
