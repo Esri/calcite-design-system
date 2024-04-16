@@ -7,6 +7,7 @@ import {
   HYDRATED_ATTR,
   labelable,
   hidden,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
@@ -276,6 +277,62 @@ describe("calcite-checkbox", () => {
       await page.waitForChanges();
 
       expect(await checkbox.getProperty("checked")).toBe(false);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-checkbox", {
+        "--calcite-checkbox-background-color": {
+          shadowSelector: `.check-svg`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-checkbox-icon-color": {
+          shadowSelector: `.check-svg`,
+          targetProp: "color",
+        },
+        "--calcite-checkbox-border-color": {
+          shadowSelector: `.check-svg`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-checkbox-border-color-hover": {
+          shadowSelector: `.check-svg`,
+          targetProp: "boxShadow",
+          state: "hover",
+        },
+        "--calcite-checkbox-size": [
+          {
+            shadowSelector: `.toggle`,
+            targetProp: "inlineSize",
+          },
+          {
+            shadowSelector: `.toggle`,
+            targetProp: "blockSize",
+          },
+        ],
+      });
+    });
+
+    describe("checked", () => {
+      themed(html`<calcite-checkbox checked></calcite-checkbox>`, {
+        "--calcite-checkbox-background-color-checked": {
+          shadowSelector: `.check-svg`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-checkbox-border-color-checked": {
+          shadowSelector: `.check-svg`,
+          targetProp: "boxShadow",
+        },
+      });
+    });
+
+    describe("invalid", () => {
+      themed(html`<calcite-checkbox status="invalid"></calcite-checkbox>`, {
+        "--calcite-checkbox-border-color-invalid": {
+          shadowSelector: `.check-svg`,
+          targetProp: "boxShadow",
+        },
+      });
     });
   });
 });
