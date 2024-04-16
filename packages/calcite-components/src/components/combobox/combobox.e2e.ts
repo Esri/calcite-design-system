@@ -1197,20 +1197,29 @@ describe("calcite-combobox", () => {
           </calcite-combobox-item-group>
         </calcite-combobox>
       `);
+      await page.waitForChanges();
 
       const element = await page.find("#myCombobox");
       await element.click();
+      await page.waitForChanges();
 
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item#two");
       const item3 = await page.find("calcite-combobox-item#three");
       await item1.click();
+      await page.waitForChanges();
       await item2.click();
+      await page.waitForChanges();
       await item3.click();
       await page.waitForChanges();
 
+      expect((await element.getProperty("selectedItems")).length).toBe(3);
+
       await element.click();
+      await page.waitForChanges();
       await element.press("Backspace");
+      await page.waitForChanges();
+
       expect((await element.getProperty("selectedItems")).length).toBe(2);
     });
   });
