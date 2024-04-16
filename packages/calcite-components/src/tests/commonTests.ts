@@ -1913,6 +1913,11 @@ export function themed(
       for (let i = 0; i < selectors.length; i++) {
         const { shadowSelector, targetProp, state } = selectors[i];
         const selector = selectors[i].selector || getTag(componentTagOrHTML);
+
+        if (selector.includes(">>>")) {
+          throw new Error("Deep piercing via `selector` is not supported, use `shadowSelector` instead");
+        }
+
         const el = await page.find(selector);
         const tokenStyle = `${token}: ${setTokens[token]}`;
         let target = el;
@@ -1930,24 +1935,13 @@ export function themed(
           styleTargets[selector][1].push(tokenStyle);
         }
         if (shadowSelector) {
-          if (shadowSelector.includes(">>>")) {
-            const shadowSelectors = shadowSelector.split(" ");
-
-            for (let i = 0; i < shadowSelectors.length; i++) {
-              const s = shadowSelectors[i];
-
-              if (i === 0) {
-                target = await page.find(`${selector} >>> ${s}`);
-              } else if (target && shadowSelectors[i + 1] === ">>>") {
-                target = await target.find(`${s} >>> ${shadowSelectors[i + 2]}`);
-                i += 2;
-              } else if (target) {
-                target = await target.find(s);
-              }
-            }
-          } else {
-            target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : target;
+          if (selector.includes(">>>")) {
+            throw new Error(
+              "Deep piercing is not allowed. `themed` tests should assert on the host and its direct shadow root",
+            );
           }
+
+          target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : target;
         }
         if (state && typeof state !== "string") {
           contextSelector = Object.values(state)[0];
