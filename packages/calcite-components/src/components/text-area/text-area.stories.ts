@@ -83,43 +83,40 @@ export const chineseLang_TestOnly = (): string => html`
 export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
   html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+/**  Adds explicit height/width for components using position:fixed per Chromatic doc <https://www.chromatic.com/docs/snapshots/#why-isn%E2%80%99t-my-modal-or-dialog-captured>. */
+const wrapperStyles = html`
   <style>
     .wrapper {
       display: flex;
       width: 800px;
-      height: 800px;
-      max-width: 100%;
-      padding: 64px;
+      height: 250px;
       gap: 10px;
     }
   </style>
+`;
+
+export const validationMessageAllScales_TestOnly = (): string => html`
+  ${wrapperStyles}
   <div class="wrapper">
-    <div style="width:200px;height:150px;">
-      <calcite-text-area
-        scale="s"
-        status="invalid"
-        validation-message="This field is required."
-        validation-icon="frown"
-      ></calcite-text-area>
-    </div>
-    <div style="width:200px;height:150px;">
-      <calcite-text-area
-        scale="m"
-        status="invalid"
-        validation-message="Less than the minimum length of 6 characters"
-        validation-icon
-        value="Hi"
-      ></calcite-text-area>
-    </div>
-    <div style="width:200px;height:150px;">
-      <calcite-text-area
-        scale="l"
-        status="invalid"
-        validation-message="Exceeds the maximum length of 9 characters"
-        validation-icon
-        value="Lorem ipsum"
-      ></calcite-text-area>
-    </div>
+    <calcite-text-area
+      scale="s"
+      status="invalid"
+      validation-message="This field is required."
+      validation-icon="frown"
+    ></calcite-text-area>
+    <calcite-text-area
+      scale="m"
+      status="invalid"
+      validation-message="Less than the minimum length of 6 characters"
+      validation-icon
+      value="Hi"
+    ></calcite-text-area>
+    <calcite-text-area
+      scale="l"
+      status="invalid"
+      validation-message="Exceeds the maximum length of 9 characters"
+      validation-icon
+      value="Lorem ipsum"
+    ></calcite-text-area>
   </div>
 `;
