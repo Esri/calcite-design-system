@@ -1997,7 +1997,7 @@ export type TestTarget = {
   /**
    * The CSSStyleDeclaration property or mapped sub-component CSS custom prop to assert on.
    */
-  targetProp: CSSProp | MappedCustomCSSProp;
+  targetProp: CSSProp | MappedCalciteCSSCustomProp;
 
   /**
    * The state to apply to the target element.
@@ -2010,7 +2010,17 @@ export type TestTarget = {
   expectedValue: string;
 };
 
-type MappedCustomCSSProp = `--calcite-${string}`;
+/**
+ * Represents a Calcite CSS custom prop
+ */
+type CalciteCSSCustomProp = `--calcite-${string}`;
+
+/**
+ * Represents a mapped Calcite CSS custom prop (used for sub-components)
+ *
+ * Note: this shares the same type as `CalciteCSSCustomProp` but is used to differentiate between the two.
+ */
+type MappedCalciteCSSCustomProp = CalciteCSSCustomProp;
 
 /**
  * Describes a test selector for themed components.
@@ -2029,7 +2039,7 @@ export type TestSelectToken = {
   /**
    * The CSSStyleDeclaration property to assert on.
    */
-  targetProp: CSSProp | MappedCustomCSSProp;
+  targetProp: CSSProp | MappedCalciteCSSCustomProp;
 
   /**
    * The state to apply to the target element.
