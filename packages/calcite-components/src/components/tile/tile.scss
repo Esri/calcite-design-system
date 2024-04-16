@@ -129,7 +129,7 @@
 
 :host([selection-appearance="border"]) {
   .container.selected {
-    border-block-end: var(--calcite-border-width-lg) solid var(--calcite-color-brand);
+    box-shadow: inset 0px -4px 0px 0px var(--calcite-color-brand);
   }
 }
 

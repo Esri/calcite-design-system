@@ -5072,7 +5072,10 @@ export namespace Components {
         /**
           * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).
          */
-        "selectionMode": Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode>;
+        "selectionMode": Extract<
+    "multiple" | "none" | "single" | "single-persist",
+    SelectionMode
+  >;
         /**
           * Sets focus on the component.
          */
@@ -12765,7 +12768,10 @@ declare namespace LocalJSX {
         /**
           * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).
          */
-        "selectionMode"?: Extract<"multiple" | "none" | "single" | "single-persist", SelectionMode>;
+        "selectionMode"?: Extract<
+    "multiple" | "none" | "single" | "single-persist",
+    SelectionMode
+  >;
     }
     interface CalciteTileGroup {
         /**
