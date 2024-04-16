@@ -1888,7 +1888,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
  */
 export function themed(
   componentTestSetup: ComponentTestSetup,
-  tokens: Record<string, TestSelectToken | TestSelectToken[]>,
+  tokens: Record<CalciteCSSCustomProp, TestSelectToken | TestSelectToken[]>,
 ): void {
   it("is themeable", async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
