@@ -1,5 +1,5 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden, t9n } from "../../tests/commonTests";
+import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden, t9n, themed } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -746,5 +746,75 @@ describe("calcite-button", () => {
     await page.waitForChanges();
     expect(button.getAttribute("aria-expanded")).toBe("true");
     expect(calciteButton.getAttribute("aria-expanded")).toBe("true");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-button", {
+        "--calcite-button-background-color": {
+          shadowSelector: `.button`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-button-border-color": {
+          shadowSelector: `.button`,
+          targetProp: "borderColor",
+        },
+        "--calcite-button-corner-radius": {
+          shadowSelector: `.button`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-button-shadow": {
+          shadowSelector: `.button`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-button-text-color": {
+          shadowSelector: `.button`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("link", () => {
+      themed(html`<calcite-button href="https://www.esri.com">button</calcite-button>`, {
+        "--calcite-button-background-color": {
+          shadowSelector: `.button`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-button-border-color": {
+          shadowSelector: `.button`,
+          targetProp: "borderColor",
+        },
+        "--calcite-button-corner-radius": {
+          shadowSelector: `.button`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-button-shadow": {
+          shadowSelector: `.button`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-button-text-color": {
+          shadowSelector: `.button`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("with icons", () => {
+      themed(html`<calcite-button icon-start="banana">button</calcite-button>`, {
+        "--calcite-button-icon-color": {
+          shadowSelector: `.icon`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("loading", () => {
+      themed(html`<calcite-button loading>button</calcite-button>`, {
+        "--calcite-button-loader-color": {
+          shadowSelector: `calcite-loader`,
+          targetProp: "--calcite-loader-color-start",
+        },
+      });
+    });
   });
 });

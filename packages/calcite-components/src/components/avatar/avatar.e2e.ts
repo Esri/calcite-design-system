@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { html } from "../../../support/formatting";
 
 const placeholderUrl = placeholderImage({
   width: 120,
@@ -72,5 +73,47 @@ describe("calcite-avatar", () => {
     const icon = await page.find("calcite-avatar >>> .icon");
     const visible = await icon.isVisible();
     expect(visible).toBe(true);
+  });
+
+  describe("theme", () => {
+    describe("thumbnail", () => {
+      themed(
+        html`<calcite-avatar
+          thumbnail="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII"
+        ></calcite-avatar>`,
+        {
+          "--calcite-avatar-corner-radius": {
+            shadowSelector: `.thumbnail`,
+            targetProp: "borderRadius",
+          },
+        },
+      );
+    });
+
+    describe("icon", () => {
+      themed(html`<calcite-avatar user-id="umonti"></calcite-avatar>`, {
+        "--calcite-avatar-icon-color": {
+          shadowSelector: `.icon`,
+          targetProp: "color",
+        },
+        "--calcite-avatar-corner-radius": {
+          shadowSelector: `.background`, // needs to support multiple selectors (e.g., host + background), maybe this can be done with existing array args?
+          targetProp: "borderRadius",
+        },
+      });
+    });
+
+    describe("initials", () => {
+      themed(html`<calcite-avatar full-name="Urbano Monti"></calcite-avatar>`, {
+        "--calcite-avatar-text-color": {
+          shadowSelector: `.initials`,
+          targetProp: "color",
+        },
+        "--calcite-avatar-corner-radius": {
+          shadowSelector: `.background`,
+          targetProp: "borderRadius",
+        },
+      });
+    });
   });
 });

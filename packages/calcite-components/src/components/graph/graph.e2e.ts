@@ -1,5 +1,5 @@
 import { newE2EPage, E2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests";
 
 describe("calcite-graph", () => {
   describe("renders", () => {
@@ -90,5 +90,21 @@ describe("calcite-graph", () => {
     const fill = path.getAttribute("fill");
 
     expect(fill).toBe(`url(#${linearGradientId})`);
+  });
+
+  describe("theme", () => {
+    // TODO: need to update util to support passing page
+    themed("calcite-graph", {
+      // "--calcite-graph-background-color": {
+      //     selector: "calcite-graph",
+      //     shadowSelector: `.svg`,
+      //     targetProp: "backgroundColor",
+      // },
+      "--calcite-graph-accent-color": {
+        selector: "calcite-graph",
+        shadowSelector: `calcite-graph >>> .graph-path--highlight`,
+        targetProp: "fill",
+      },
+    });
   });
 });
