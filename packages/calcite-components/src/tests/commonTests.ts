@@ -1933,10 +1933,10 @@ export function themed(
         const tokenStyle = `${token}: ${setTokens[token]}`;
         let target = el;
         let contextSelector: ContextSelectByAttr;
-        let stateName: string;
+        let stateName: State;
 
         if (state) {
-          stateName = typeof state === "string" ? state : Object.keys(state)[0];
+          stateName = (typeof state === "string" ? state : Object.keys(state)[0]) as State;
         }
 
         if (!styleTargets[selector]) {
@@ -1998,6 +1998,8 @@ export type ContextSelectByAttr = { attribute: string; value: string | RegExp };
 
 type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
 
+type State = "press" | "hover" | "focus";
+
 /**
  * Describes a test target for themed components.
  */
@@ -2010,7 +2012,7 @@ export type TestTarget = {
   /**
    * @todo doc
    */
-  contextSelector?: string | ContextSelectByAttr;
+  contextSelector?: ContextSelectByAttr;
 
   /**
    * The CSSStyleDeclaration property or mapped sub-component CSS custom prop to assert on.
@@ -2020,7 +2022,7 @@ export type TestTarget = {
   /**
    * The state to apply to the target element.
    */
-  state?: string;
+  state?: State;
 
   /**
    * The expected value of the targetProp.
@@ -2067,7 +2069,7 @@ export type TestSelectToken = {
   /**
    * The state to apply to the target element.
    */
-  state?: string | Record<string, ContextSelectByAttr>;
+  state?: State | Record<State, ContextSelectByAttr>;
 };
 
 /**
@@ -2107,81 +2109,79 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
   await page.mouse.reset();
   await page.waitForChanges();
 
-  if (state) {
-    if (contextSelector) {
-      const rect = (await page.evaluate((context: TestTarget["contextSelector"]) => {
-        const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
-          const { attribute, value } = context as {
-            attribute: string;
-            value: string | RegExp;
-          };
-          if (node.nodeType === 1) {
-            const attr = (node as Element).getAttribute(attribute);
-            if (typeof value === "string" && attr === value) {
-              return node;
-            }
-            if (value instanceof RegExp && attr && value.test(attr)) {
-              return node ?? undefined;
-            }
-            if (attr === value) {
-              return node;
-            }
-
-            if ((node as Element) && !attribute && !value) {
-              return node;
-            }
+  if (contextSelector) {
+    const rect = (await page.evaluate((context: TestTarget["contextSelector"]) => {
+      const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
+        const { attribute, value } = context as {
+          attribute: string;
+          value: string | RegExp;
+        };
+        if (node.nodeType === 1) {
+          const attr = (node as Element).getAttribute(attribute);
+          if (typeof value === "string" && attr === value) {
+            return node;
+          }
+          if (value instanceof RegExp && attr && value.test(attr)) {
+            return node ?? undefined;
+          }
+          if (attr === value) {
+            return node;
           }
 
-          if (node.nodeType === 1 && (node as Element).shadowRoot) {
-            for (const child of ((node as Element).shadowRoot as ShadowRoot).children) {
-              const result = searchInShadowDom(child);
-              if (result) {
-                return result;
-              }
-            }
+          if ((node as Element) && !attribute && !value) {
+            return node;
           }
+        }
 
-          for (const child of node.childNodes) {
+        if (node.nodeType === 1 && (node as Element).shadowRoot) {
+          for (const child of ((node as Element).shadowRoot as ShadowRoot).children) {
             const result = searchInShadowDom(child);
             if (result) {
               return result;
             }
           }
-        };
-        return new Promise<{ width: number; height: number; left: number; top: number } | undefined>((resolve) => {
-          requestAnimationFrame(() => {
-            const foundNode =
-              typeof context === "string"
-                ? document.querySelector(context)
-                : (searchInShadowDom(document) as HTMLElement | SVGElement | undefined);
+        }
 
-            if (foundNode?.getBoundingClientRect) {
-              const { width, height, left, top } = foundNode.getBoundingClientRect();
-              resolve({ width, height, left, top });
-            } else {
-              resolve(undefined);
-            }
-          });
-        });
-      }, contextSelector)) as { width: number; height: number; left: number; top: number } | undefined;
-
-      const box = {
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2,
+        for (const child of node.childNodes) {
+          const result = searchInShadowDom(child);
+          if (result) {
+            return result;
+          }
+        }
       };
+      return new Promise<{ width: number; height: number; left: number; top: number } | undefined>((resolve) => {
+        requestAnimationFrame(() => {
+          const foundNode =
+            typeof context === "string"
+              ? document.querySelector(context)
+              : (searchInShadowDom(document) as HTMLElement | SVGElement | undefined);
 
-      // hover state
-      await page.mouse.move(box.x, box.y);
+          if (foundNode?.getBoundingClientRect) {
+            const { width, height, left, top } = foundNode.getBoundingClientRect();
+            resolve({ width, height, left, top });
+          } else {
+            resolve(undefined);
+          }
+        });
+      });
+    }, contextSelector)) as { width: number; height: number; left: number; top: number } | undefined;
 
-      if (state === "press") {
-        await page.mouse.down();
-      } else if (state === "focus") {
-        await page.mouse.down();
-        await page.mouse.up();
-      }
-    } else {
-      await target[state]();
+    const box = {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    };
+
+    // hover state
+    await page.mouse.move(box.x, box.y);
+
+    if (state === "press") {
+      await page.mouse.down();
+    } else if (state === "focus") {
+      await page.mouse.down();
+      await page.mouse.up();
     }
+  } else if (state) {
+    await target[state as Exclude<State, "press">]();
   }
 
   await page.waitForChanges();
