@@ -3,7 +3,7 @@ import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
 import type { JSX } from "../../components";
 import { GlobalTestProps } from "./../utils";
-import { ComponentTestSetup, getTagAndPage } from "./setupForTests";
+import { ComponentTestSetup, getTagAndPage } from "./utils";
 
 expect.extend(toHaveNoViolations);
 

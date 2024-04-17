@@ -3,7 +3,7 @@ import { E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import type { JSX } from "../../components";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../utils";
-import { getTag, simplePageSetup } from "./setupForTests";
+import { getTag, simplePageSetup } from "./utils";
 
 expect.extend(toHaveNoViolations);
 
