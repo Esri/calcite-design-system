@@ -104,11 +104,11 @@ describe("calcite-tip", () => {
           targetProp: "--calcite-action-background-color",
           state: "hover",
         },
-        // "--calcite-tip-close-background-color-active": {
-        //   shadowSelector: ".close",
-        //   targetProp: "--calcite-action-background-color",
-        //   state: { press: { attribute: "class", value: CSS.close } }
-        // },
+        "--calcite-tip-close-background-color-active": {
+          shadowSelector: ".close",
+          targetProp: "--calcite-action-background-color",
+          state: { press: { attribute: "class", value: CSS.close } },
+        },
         "--calcite-tip-close-text-color": {
           shadowSelector: ".close",
           targetProp: "--calcite-action-text-color",

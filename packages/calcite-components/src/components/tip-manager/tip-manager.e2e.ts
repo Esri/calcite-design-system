@@ -284,11 +284,11 @@ describe("calcite-tip-manager", () => {
             targetProp: "--calcite-action-background-color",
             state: "hover",
           },
-          // "--calcite-tip-manager-close-background-color-active": {
-          //   shadowSelector: ".close",
-          //   targetProp: "--calcite-action-background-color",
-          //   state: { press: { attribute: "class", value: CSS.close } }
-          // },
+          "--calcite-tip-manager-close-background-color-active": {
+            shadowSelector: ".close",
+            targetProp: "--calcite-action-background-color",
+            state: { press: { attribute: "class", value: CSS.close } },
+          },
           "--calcite-tip-manager-close-text-color": {
             shadowSelector: ".close",
             targetProp: "--calcite-action-text-color",
