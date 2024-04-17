@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { html } from "../../../support/formatting";
 import { accessible, renders, slots, hidden, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS, IDS, SLOTS } from "./resources";
 
 describe("calcite-accordion-item", () => {

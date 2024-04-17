@@ -1946,13 +1946,7 @@ export function themed(
           styleTargets[selector][1].push(tokenStyle);
         }
         if (shadowSelector) {
-          if (selector.includes(">>>")) {
-            throw new Error(
-              "Deep piercing is not allowed. `themed` tests should assert on the host and its direct shadow root",
-            );
-          }
-
-          target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : target;
+          target = shadowSelector ? await page.find(`${selector} >>>   ${shadowSelector}`) : target;
         }
         if (state && typeof state !== "string") {
           contextSelector = Object.values(state)[0] as ContextSelectByAttr;

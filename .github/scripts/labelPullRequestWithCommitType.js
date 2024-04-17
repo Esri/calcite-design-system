@@ -1,3 +1,5 @@
+const { issueType } = require("./support/resources");
+
 module.exports = async ({ github, context }) => {
   const { title, number } = context.payload.pull_request;
 
@@ -34,18 +36,18 @@ module.exports = async ({ github, context }) => {
 function getLabelName(type) {
   switch (type) {
     case "feat":
-      return "enhancement";
+      return issueType.enhancement;
     case "fix":
-      return "bug";
+      return issueType.bug;
     case "docs":
-      return "docs";
+      return issueType.docs;
     case "test":
-      return "testing";
+      return issueType.testing;
     case "refactor":
-      return "refactor";
+      return issueType.refactor;
     case "tooling":
-      return "tooling";
+      return issueType.tooling;
     default:
-      return "chore";
+      return issueType.chore;
   }
 }

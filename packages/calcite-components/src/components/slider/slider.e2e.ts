@@ -1,7 +1,7 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { defaults, disabled, formAssociated, hidden, labelable, renders } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils";
+import { getElementRect, getElementXY, isElementFocused } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-slider", () => {
@@ -184,13 +184,13 @@ describe("calcite-slider", () => {
       `);
       const slider = await page.find("calcite-slider");
       expect(await slider.getProperty("value")).toBe(0);
+      const trackRect = await getElementRect(page, "calcite-slider", ".track");
 
-      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
-      await page.mouse.move(trackX, trackY);
+      await page.mouse.move(trackRect.x, trackRect.y);
       await page.mouse.down();
-      await page.mouse.move(trackX + 4, trackY);
-      await page.waitForChanges();
+      await page.mouse.move(trackRect.x + 5, trackRect.y);
       await page.mouse.up();
+      await page.waitForChanges();
 
       expect(await slider.getProperty("value")).toBe(4.48);
     });
@@ -300,9 +300,8 @@ describe("calcite-slider", () => {
       await page.mouse.up();
       await page.waitForChanges();
 
-      let isThumbFocused = await page.$eval(
-        "calcite-slider",
-        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+      let isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
       );
 
       expect(isThumbFocused).toBe(true);
@@ -313,9 +312,8 @@ describe("calcite-slider", () => {
       await page.mouse.up();
       await page.waitForChanges();
 
-      isThumbFocused = await page.$eval(
-        "calcite-slider",
-        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+      isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
       );
 
       expect(isThumbFocused).toBe(true);
@@ -326,9 +324,8 @@ describe("calcite-slider", () => {
       await page.mouse.up();
       await page.waitForChanges();
 
-      isThumbFocused = await page.$eval(
-        "calcite-slider",
-        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+      isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
       );
 
       expect(isThumbFocused).toBe(true);
@@ -359,9 +356,8 @@ describe("calcite-slider", () => {
       await page.mouse.up();
       await page.waitForChanges();
 
-      const isMinThumbFocused = await page.$eval(
-        "calcite-slider",
-        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--minValue"),
+      const isMinThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--minValue"),
       );
 
       expect(await slider.getProperty("minValue")).toBe(0);
@@ -382,9 +378,8 @@ describe("calcite-slider", () => {
       await page.mouse.up();
       await page.waitForChanges();
 
-      const isMaxThumbFocused = await page.$eval(
-        "calcite-slider",
-        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+      const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
       );
 
       expect(await slider.getProperty("minValue")).toBe(0);
@@ -405,9 +400,8 @@ describe("calcite-slider", () => {
       await page.mouse.up();
       await page.waitForChanges();
 
-      const isMaxThumbFocused = await page.$eval(
-        "calcite-slider",
-        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+      const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
       );
 
       expect(await slider.getProperty("minValue")).toBe(0);
@@ -656,12 +650,16 @@ describe("calcite-slider", () => {
     });
   });
 
-  describe("when range thumbs overlap at min edge", () => {
-    const commonSliderAttrs = `<calcite-slider
+  describe("when range thumbs overlap", () => {
+    let page: E2EPage;
+    let changeEvent: EventSpy;
+    let inputEvent: EventSpy;
+    let element: E2EElement;
+    let trackRect: DOMRect;
+
+    const commonSliderAttrs = `
       min="5"
       max="100"
-      min-value="5"
-      max-value="5"
       step="10"
       ticks="10"
       label-handles
@@ -669,57 +667,83 @@ describe("calcite-slider", () => {
       snap
       style="width:${sliderWidthFor1To1PixelValueTrack}"`;
 
-    it("click/tap should grab the max value thumb", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider ${commonSliderAttrs}></calcite-slider>`,
-      });
-      await page.waitForChanges();
-      const element = await page.find("calcite-slider");
-      const changeEvent = await element.spyOnEvent("calciteSliderChange");
-      const inputEvent = await element.spyOnEvent("calciteSliderInput");
-      expect(await element.getProperty("minValue")).toBe(5);
-      expect(await element.getProperty("maxValue")).toBe(5);
-
-      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
-      await page.mouse.click(trackX, trackY);
-      await page.waitForChanges();
-
-      const isMaxThumbFocused = await page.$eval(
-        "calcite-slider",
-        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
-      );
-
-      expect(isMaxThumbFocused).toBe(true);
-      expect(await element.getProperty("minValue")).toBe(5);
-      expect(await element.getProperty("maxValue")).toBe(5);
+    async function assertValuesUnchanged(minMaxValue: number): Promise<void> {
+      expect(await element.getProperty("minValue")).toBe(minMaxValue);
+      expect(await element.getProperty("maxValue")).toBe(minMaxValue);
       expect(changeEvent).toHaveReceivedEventTimes(0);
       expect(inputEvent).toHaveReceivedEventTimes(0);
+    }
+
+    async function setUpTest(sliderAttrs: string): Promise<void> {
+      page = await newE2EPage();
+      await page.setContent(html`<calcite-slider ${sliderAttrs}></calcite-slider>`);
+
+      element = await page.find("calcite-slider");
+      trackRect = await getElementRect(page, "calcite-slider", `.${CSS.track}`);
+      changeEvent = await element.spyOnEvent("calciteSliderChange");
+      inputEvent = await element.spyOnEvent("calciteSliderInput");
+    }
+
+    describe("at min edge", () => {
+      const expectedValue = 5;
+
+      it("click/tap should grab the max value thumb", async () => {
+        await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}"`);
+
+        await assertValuesUnchanged(5);
+
+        await page.mouse.click(trackRect.x, trackRect.y);
+        await page.waitForChanges();
+
+        const isMaxThumbFocused = await isElementFocused(page, `.${CSS.thumbValue}`, { shadowed: true });
+
+        expect(isMaxThumbFocused).toBe(true);
+        await assertValuesUnchanged(5);
+      });
+
+      it("mirrored: click/tap should grab the max value thumb", async () => {
+        await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}" mirrored`);
+
+        await assertValuesUnchanged(5);
+
+        await page.mouse.click(trackRect.x + trackRect.width, trackRect.y);
+        await page.waitForChanges();
+
+        const isMaxThumbFocused = await isElementFocused(page, `.${CSS.thumbValue}`, { shadowed: true });
+
+        expect(isMaxThumbFocused).toBe(true);
+        await assertValuesUnchanged(5);
+      });
     });
 
-    it("mirrored: click/tap should grab the max value thumb", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider ${commonSliderAttrs} mirrored></calcite-slider>`,
+    describe("at max edge", () => {
+      const expectedValue = 100;
+
+      it("click/tap should grab the min value thumb", async () => {
+        await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}"`);
+
+        await page.mouse.click(trackRect.x + trackRect.width, trackRect.y);
+        await page.waitForChanges();
+
+        const isMinThumbFocused = await isElementFocused(page, `.${CSS.thumbMinValue}`, { shadowed: true });
+
+        expect(isMinThumbFocused).toBe(true);
+        await assertValuesUnchanged(expectedValue);
       });
-      const element = await page.find("calcite-slider");
-      const changeEvent = await element.spyOnEvent("calciteSliderChange");
-      const inputEvent = await element.spyOnEvent("calciteSliderInput");
-      expect(await element.getProperty("minValue")).toBe(5);
-      expect(await element.getProperty("maxValue")).toBe(5);
 
-      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
-      await page.mouse.click(trackX + 100, trackY);
-      await page.waitForChanges();
+      it("mirrored: click/tap should grab the max value thumb", async () => {
+        await setUpTest(`${commonSliderAttrs} min-value="${expectedValue}" max-value="${expectedValue}" mirrored`);
 
-      const isMaxThumbFocused = await page.$eval(
-        "calcite-slider",
-        (slider) => slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
-      );
+        await assertValuesUnchanged(expectedValue);
 
-      expect(isMaxThumbFocused).toBe(true);
-      expect(await element.getProperty("minValue")).toBe(5);
-      expect(await element.getProperty("maxValue")).toBe(5);
-      expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(inputEvent).toHaveReceivedEventTimes(0);
+        await page.mouse.click(trackRect.x, trackRect.y);
+        await page.waitForChanges();
+
+        const isMinThumbFocused = await isElementFocused(page, `.${CSS.thumbMinValue}`, { shadowed: true });
+
+        expect(isMinThumbFocused).toBe(true);
+        await assertValuesUnchanged(expectedValue);
+      });
     });
   });
 
@@ -872,6 +896,72 @@ describe("calcite-slider", () => {
       for (const lang in formattedValuesPerLanguageObject) {
         await testLocalizedGroupSeparator(lang, formattedValuesPerLanguageObject[lang]);
       }
+    });
+  });
+
+  describe("snap + step interaction", () => {
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+    });
+
+    async function dragThumbToMax(): Promise<void> {
+      const trackRect = await getElementRect(page, "calcite-slider", ".track");
+      const thumbRect = await getElementRect(page, "calcite-slider", ".thumb--value");
+      const thumbWidth = thumbRect.width;
+      const trackWidth = trackRect.width;
+      const dragDistance = trackWidth - thumbWidth;
+
+      await page.mouse.move(trackRect.x, trackRect.y);
+      await page.mouse.down();
+      await page.mouse.move(trackRect.x + dragDistance, trackRect.y);
+      await page.mouse.up();
+      await page.waitForChanges();
+    }
+
+    it("honors snap value with step", async () => {
+      await page.setContent(html`<calcite-slider max="10" min="1" snap step="2" ticks="2"></calcite-slider>`);
+      const slider = await page.find("calcite-slider");
+
+      expect(await slider.getProperty("value")).toBe(1);
+
+      await dragThumbToMax();
+      expect(await slider.getProperty("value")).toBe(9);
+    });
+
+    it("honors snap value with step (fractional)", async () => {
+      await page.setContent(html`<calcite-slider max="10" min="1.5" snap step="1" ticks="1"></calcite-slider>`);
+      const slider = await page.find("calcite-slider");
+
+      expect(await slider.getProperty("value")).toBe(1.5);
+
+      await dragThumbToMax();
+      expect(await slider.getProperty("value")).toBe(9.5);
+    });
+
+    it("snaps to max limit beyond upper bound", async () => {
+      await page.setContent(
+        html`<calcite-slider max="10.5" min="0" snap step="1" ticks="1" value="10.5"></calcite-slider>`,
+      );
+      const slider = await page.find("calcite-slider");
+
+      expect(await slider.getProperty("value")).toBe(10);
+
+      await dragThumbToMax();
+      expect(await slider.getProperty("value")).toBe(10);
+    });
+
+    it("snaps to max limit at upper bound", async () => {
+      await page.setContent(
+        html`<calcite-slider max="10.4" min="0" snap step="1" ticks="1" value="10.4"></calcite-slider>`,
+      );
+      const slider = await page.find("calcite-slider");
+
+      expect(await slider.getProperty("value")).toBe(10);
+
+      await dragThumbToMax();
+      expect(await slider.getProperty("value")).toBe(10);
     });
   });
 });

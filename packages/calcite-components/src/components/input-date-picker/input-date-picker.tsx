@@ -893,6 +893,7 @@ export class InputDatePicker
     }
 
     if (key === "Enter") {
+      event.preventDefault();
       this.commitValue();
 
       if (this.shouldFocusRangeEnd()) {
@@ -902,7 +903,6 @@ export class InputDatePicker
       }
 
       if (submitForm(this)) {
-        event.preventDefault();
         this.restoreInputFocus();
       }
     } else if (key === "ArrowDown") {

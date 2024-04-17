@@ -17,6 +17,7 @@ import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
 import { getElementXY, skipAnimations } from "../../tests/utils";
+import { CSS } from "./resources";
 
 const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
 
@@ -1134,7 +1135,7 @@ describe("calcite-combobox", () => {
     it("should not delete any items on Delete in single selection-display mode", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-combobox id="myCombobox" selection-display="single">
+        <calcite-combobox selection-display="single">
           <calcite-combobox-item id="one" value="one" label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" label="two"></calcite-combobox-item>
           <calcite-combobox-item-group label="Last Item">
@@ -1142,26 +1143,26 @@ describe("calcite-combobox", () => {
           </calcite-combobox-item-group>
         </calcite-combobox>
       `);
-
-      const element = await page.find("#myCombobox");
-      await element.click();
-
+      const combobox = await page.find("calcite-combobox");
+      const input = await page.find(`calcite-combobox >>> .${CSS.input}`);
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item#two");
-      const item3 = await page.find("calcite-combobox-item:last-child");
+      const item3 = await page.find("calcite-combobox-item#three");
+
+      await input.click();
       await item1.click();
       await item2.click();
       await item3.click();
+      await input.click();
+      await combobox.press("Backspace");
 
-      await element.click();
-      await element.press("Backspace");
-      expect((await element.getProperty("selectedItems")).length).toBe(3);
+      expect((await combobox.getProperty("selectedItems")).length).toBe(3);
     });
 
     it("should not delete any items on Delete in fit selection-display mode when there are overflowed chips", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-combobox id="myCombobox" selection-display="fit" style="width:350px">
+        <calcite-combobox selection-display="fit" style="width:350px">
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
           <calcite-combobox-item-group text-label="Last Item">
@@ -1169,42 +1170,47 @@ describe("calcite-combobox", () => {
           </calcite-combobox-item-group>
         </calcite-combobox>
       `);
-
-      const element = await page.find("#myCombobox");
-      await element.click();
-
+      const combobox = await page.find("calcite-combobox");
+      const input = await page.find(`calcite-combobox >>> .${CSS.input}`);
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item#two");
-      const item3 = await page.find("calcite-combobox-item:last-child");
+      const item3 = await page.find("calcite-combobox-item#three");
+
+      await input.click();
       await item1.click();
       await item2.click();
       await item3.click();
+      await input.click();
+      await input.press("Backspace");
 
-      await element.click();
-      await element.press("Backspace");
-      expect((await element.getProperty("selectedItems")).length).toBe(3);
+      expect((await combobox.getProperty("selectedItems")).length).toBe(3);
     });
 
     it("should delete last item on Delete in fit selection-display mode when there are no overflowed chips", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-combobox id="myCombobox" selection-display="fit" style="width:400px">
+        <calcite-combobox selection-display="fit" style="width:450px">
           <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item-group text-label="Last Item">
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox-item-group>
         </calcite-combobox>
       `);
-      const element = await page.find("#myCombobox");
-      await element.click();
-
+      const combobox = await page.find("calcite-combobox");
+      const input = await page.find(`calcite-combobox >>> .${CSS.input}`);
       const item1 = await page.find("calcite-combobox-item#one");
       const item2 = await page.find("calcite-combobox-item#two");
+      const item3 = await page.find("calcite-combobox-item#three");
+
+      await input.click();
       await item1.click();
       await item2.click();
+      await item3.click();
+      await input.click();
+      await input.press("Backspace");
 
-      await element.click();
-      await element.press("Delete");
-      expect((await element.getProperty("selectedItems")).length).toBe(1);
+      expect((await combobox.getProperty("selectedItems")).length).toBe(2);
     });
   });
 
@@ -1952,8 +1958,7 @@ describe("calcite-combobox", () => {
     await combobox.press("Tab");
     await closeEvent;
 
-    const wrapper = await page.find("calcite-combobox >>> .wrapper");
-    const close = await wrapper.find("calcite-chip >>> .close");
+    const close = await page.find("calcite-combobox >>> calcite-chip >>> .close");
     await close.press(" ");
     await page.waitForChanges();
 
@@ -2058,5 +2063,24 @@ describe("calcite-combobox", () => {
         },
       });
     });
+  });
+
+  it("prevents opening a readonly combobox", async () => {
+    const page = await newE2EPage({
+      html: html`
+        <calcite-combobox id="myCombobox" read-only="true">
+          <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+          <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
+          <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
+          <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+        </calcite-combobox>
+      `,
+    });
+
+    const combobox = await page.find("calcite-combobox");
+    expect(await combobox.getProperty("open")).toBeFalsy();
+    await combobox.click();
+    await page.waitForChanges();
+    expect(await combobox.getProperty("open")).toBeFalsy();
   });
 });

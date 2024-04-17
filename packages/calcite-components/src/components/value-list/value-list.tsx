@@ -482,7 +482,7 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
-  getIconType(): ICON_TYPES | null {
+  getIconType(): typeof ICON_TYPES | null {
     let type = null;
     if (this.dragEnabled) {
       type = ICON_TYPES.grip;
