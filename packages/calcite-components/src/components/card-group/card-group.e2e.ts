@@ -418,7 +418,7 @@ describe("calcite-card-group", () => {
 
   describe("theme", () => {
     describe("default", () => {
-      themed("calcite-group", {
+      themed("calcite-card-group", {
         "--calcite-card-group-gap": {
           shadowSelector: `.container`,
           targetProp: "gap",
