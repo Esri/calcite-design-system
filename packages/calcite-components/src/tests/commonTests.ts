@@ -1892,6 +1892,17 @@ export function themed(
 ): void {
   it("is themeable", async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
+    await page.evaluate(() => {
+      // we block all clicks to prevent triggering behavior as mouse states are activated between assertions
+      document.addEventListener(
+        "click",
+        (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+        },
+        true,
+      );
+    });
     const setTokens: Record<string, string> = {};
     const styleTargets: Record<string, [E2EElement, string[]]> = {};
     const testTargets: TestTarget[] = [];
@@ -2093,6 +2104,9 @@ async function getComputedStylePropertyValue(element: E2EElement, property: stri
 async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<void> {
   const { target, contextSelector, targetProp, state, expectedValue, token } = options;
 
+  await page.mouse.reset();
+  await page.waitForChanges();
+
   if (state) {
     if (contextSelector) {
       const rect = (await page.evaluate((context: TestTarget["contextSelector"]) => {
@@ -2155,9 +2169,6 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
         x: rect.left + rect.width / 2,
         y: rect.top + rect.height / 2,
       };
-
-      await page.mouse.reset();
-      await page.waitForChanges();
 
       // hover state
       await page.mouse.move(box.x, box.y);
