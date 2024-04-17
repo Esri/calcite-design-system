@@ -244,16 +244,16 @@ export class ActionPad
   }
 
   handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter(
-      (el) => el?.matches("calcite-action-group"),
+    const groups = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-group"),
     ) as HTMLCalciteActionGroupElement[];
 
     this.setGroupLayout(groups);
   };
 
   handleTooltipSlotChange = (event: Event): void => {
-    const tooltips = slotChangeGetAssignedElements(event).filter(
-      (el) => el?.matches("calcite-tooltip"),
+    const tooltips = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-tooltip"),
     ) as HTMLCalciteTooltipElement[];
 
     this.expandTooltip = tooltips[0];
