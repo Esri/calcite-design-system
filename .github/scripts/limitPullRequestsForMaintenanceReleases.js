@@ -1,3 +1,5 @@
+const { bug, priority, risk } = require("./support/resources");
+
 module.exports = async ({ github, context, core }) => {
   const { data: milestones } = await github.rest.issues.listMilestones({
     owner: context.repo.owner,
@@ -19,14 +21,14 @@ module.exports = async ({ github, context, core }) => {
     repo: context.repo.repo,
   });
 
-  const allowedLabels = ["low risk", "p - high", "p - critical", "regression"];
+  const allowedLabels = [risk.low, priority.high, priority.critical, bug.regression];
 
   if (issue.labels.length) {
     console.log("Pull request labels:", issue.labels);
     issue.labels.forEach((label) => {
       if (allowedLabels.includes(label.name)) {
         core.notice(
-          `Pull request has the "${label.name}" label, which allows installs during Maintenance milestones. Ending run.`
+          `Pull request has the "${label.name}" label, which allows installs during Maintenance milestones. Ending run.`,
         );
         process.exit(0);
       }
@@ -49,7 +51,7 @@ module.exports = async ({ github, context, core }) => {
       core.setFailed(
         `Installing this pull request is blocked until the Maintenance milestone ends (${
           milestone?.due_on.split("T")[0]
-        }). Add one of the following labels to prevent this error: ${JSON.stringify(allowedLabels)}.`
+        }). Add one of the following labels to prevent this error: ${JSON.stringify(allowedLabels)}.`,
       );
       process.exit(1);
     } else {

@@ -1,8 +1,8 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS, SLOTS } from "./resources";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-modal", () => {
   describe("renders", () => {

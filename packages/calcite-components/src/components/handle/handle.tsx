@@ -25,15 +25,15 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { HandleMessages } from "./assets/handle/t9n";
-import { HandleChange, HandleNudge } from "./interfaces";
-import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
   updateHostInteraction,
 } from "../../utils/interactive";
+import { HandleMessages } from "./assets/handle/t9n";
+import { HandleChange, HandleNudge } from "./interfaces";
+import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
 
 @Component({
   tag: "calcite-handle",

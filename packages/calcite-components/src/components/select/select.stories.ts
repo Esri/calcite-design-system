@@ -7,7 +7,6 @@ import {
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { select, boolean, text } from "../../../.storybook/fake-knobs";
-
 import { iconNames } from "../../../.storybook/helpers";
 
 const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes = (

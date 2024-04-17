@@ -32,11 +32,11 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
-import { PaginationMessages } from "./assets/pagination/t9n";
-import { CSS, ICONS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getIconScale } from "../../utils/component";
+import { CSS, ICONS } from "./resources";
+import { PaginationMessages } from "./assets/pagination/t9n";
 
 export interface PaginationDetail {
   start: number;

@@ -9,7 +9,6 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { iconNames } from "../../../.storybook/helpers";
 import { select, text } from "../../../.storybook/fake-knobs";
-
 import { html } from "../../../support/formatting";
 
 export default {
