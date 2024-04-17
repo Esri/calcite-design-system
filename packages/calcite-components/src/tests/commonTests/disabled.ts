@@ -3,7 +3,7 @@
 import { E2EElement, E2EPage, EventSpy } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { IntrinsicElementsWithProp, skipAnimations } from "./../utils";
-import { getTagAndPage, ComponentTestSetup } from "./setupForTests";
+import { getTagAndPage, ComponentTestSetup } from "./utils";
 
 expect.extend(toHaveNoViolations);
 

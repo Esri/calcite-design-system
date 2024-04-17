@@ -2,7 +2,7 @@
 /* eslint-disable jest/no-export -- Util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks. */
 import { toHaveNoViolations } from "jest-axe";
 import {} from "./../utils";
-import { getTagAndPage, ComponentTestSetup } from "./setupForTests";
+import { getTagAndPage, ComponentTestSetup } from "./utils";
 
 expect.extend(toHaveNoViolations);
 

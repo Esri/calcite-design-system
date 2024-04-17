@@ -16,5 +16,5 @@ export {
   ComponentTestContent,
   ComponentTestSetup,
   getTagOrHTMLWithBeforeContent,
-} from "./setupForTests";
+} from "./utils";
 export { t9n } from "./t9n";

@@ -4,12 +4,7 @@ import { toHaveNoViolations } from "jest-axe";
 import { html } from "../../../support/formatting";
 import type { JSX } from "../../components";
 import { isElementFocused } from "./../utils";
-import {
-  TagOrHTMLWithBeforeContent,
-  isHTML,
-  getTag,
-  getTagOrHTMLWithBeforeContent,
-} from "./../commonTests/setupForTests";
+import { TagOrHTMLWithBeforeContent, isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
 import { FocusableOptions } from "./focusable";
 
 expect.extend(toHaveNoViolations);

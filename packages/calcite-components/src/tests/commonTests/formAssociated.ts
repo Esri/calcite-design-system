@@ -6,7 +6,7 @@ import { html } from "../../../support/formatting";
 import type { JSX } from "../../components";
 import { getClearValidationEventName, hiddenFormInputSlotName, componentsWithInputEvent } from "../../utils/form";
 import { GlobalTestProps } from "./../utils";
-import { TagOrHTMLWithBeforeContent, isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./setupForTests";
+import { TagOrHTMLWithBeforeContent, isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
 
 expect.extend(toHaveNoViolations);
 
