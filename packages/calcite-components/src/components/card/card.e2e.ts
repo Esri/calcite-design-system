@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots, hidden, t9n } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden, t9n, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
@@ -115,5 +115,113 @@ describe("calcite-card", () => {
 
     const loaderContainer = await page.find("calcite-card >>> .calcite-card-loader-container");
     expect(loaderContainer.getAttribute("aria-live")).toBe("polite");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html` <calcite-card>
+          <span slot="heading">Heading</span>
+          <span slot="description">Description</span>
+        </calcite-card>`,
+        {
+          "--calcite-card-background-color": {
+            shadowSelector: `.content-wrapper`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-card-corner-radius": {
+            shadowSelector: `.content-wrapper`,
+            targetProp: "borderRadius",
+          },
+          "--calcite-card-border-color": {
+            shadowSelector: `.content-wrapper`,
+            targetProp: "borderColor",
+          },
+          "--calcite-card-shadow": {
+            shadowSelector: `.content-wrapper`,
+            targetProp: "boxShadow",
+          },
+        },
+      );
+    });
+
+    describe("selectable", () => {
+      themed(
+        html`<calcite-card selection-mode="single">
+          <span slot="heading">Heading</span>
+          <span slot="description">Description</span>
+        </calcite-card>`,
+        {
+          "--calcite-card-selection-icon-color": {
+            shadowSelector: `calcite-icon`,
+            targetProp: "--calcite-ui-icon-color",
+          },
+          "--calcite-card-selection-background-color": {
+            shadowSelector: `.checkbox-wrapper`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-card-selection-background-color-hover": {
+            shadowSelector: `.checkbox-wrapper`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+        },
+      );
+    });
+
+    describe("selected", () => {
+      themed(
+        html`<calcite-card selected selection-mode="single">
+          <span slot="heading">Heading</span>
+          <span slot="description">Description</span>
+        </calcite-card>`,
+        {
+          "--calcite-card-accent-color-selected": {
+            shadowSelector: `.content-wrapper`,
+            targetProp: "boxShadow",
+          },
+          "--calcite-card-border-color": {
+            shadowSelector: `.content-wrapper`,
+            targetProp: "borderColor",
+          },
+          "--calcite-card-selection-background-color-selected": {
+            shadowSelector: `.checkbox-wrapper`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-card-selection-icon-color-selected": {
+            shadowSelector: `calcite-icon`,
+            targetProp: "--calcite-ui-icon-color",
+          },
+          "--calcite-card-selection-icon-color-hover": {
+            shadowSelector: `calcite-icon`,
+            targetProp: "--calcite-ui-icon-color",
+            state: "hover",
+          },
+        },
+      );
+    });
+
+    describe("loading", () => {
+      themed(
+        html`<calcite-card loading>
+          <span slot="heading">Heading</span>
+          <span slot="description">Description</span>
+        </calcite-card>`,
+        {
+          "--calcite-card-loader-color-start": {
+            shadowSelector: `calcite-loader`,
+            targetProp: "--calcite-loader-color-start",
+          },
+          "--calcite-card-loader-color-middle": {
+            shadowSelector: `calcite-loader`,
+            targetProp: "--calcite-loader-color-middle",
+          },
+          "--calcite-card-loader-color-end": {
+            shadowSelector: `calcite-loader`,
+            targetProp: "--calcite-loader-color-end",
+          },
+        },
+      );
+    });
   });
 });
