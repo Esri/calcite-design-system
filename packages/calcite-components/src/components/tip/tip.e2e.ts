@@ -107,7 +107,7 @@ describe("calcite-tip", () => {
         // "--calcite-tip-close-background-color-active": {
         //   shadowSelector: ".close",
         //   targetProp: "--calcite-action-background-color",
-        //   state: "press"
+        //   state: { press: { attribute: "class", value: CSS.close } }
         // },
         "--calcite-tip-close-text-color": {
           shadowSelector: ".close",
