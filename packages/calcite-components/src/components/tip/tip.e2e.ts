@@ -81,7 +81,7 @@ describe("calcite-tip", () => {
 
   describe("theme", () => {
     describe("default", () => {
-      themed(html`<calcite-tip heading="heading">test</calcite-tip>`, {
+      themed(html`<calcite-tip heading="heading"></calcite-tip>`, {
         "--calcite-tip-background-color": {
           targetProp: "backgroundColor",
         },
