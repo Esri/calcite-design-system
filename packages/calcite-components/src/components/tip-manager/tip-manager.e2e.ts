@@ -287,7 +287,7 @@ describe("calcite-tip-manager", () => {
           // "--calcite-tip-manager-close-background-color-active": {
           //   shadowSelector: ".close",
           //   targetProp: "--calcite-action-background-color",
-          //   state: "press"
+          //   state: { press: { attribute: "class", value: CSS.close } }
           // },
           "--calcite-tip-manager-close-text-color": {
             shadowSelector: ".close",
