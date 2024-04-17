@@ -23,25 +23,25 @@
 .container {
   background-color: var(--calcite-tile-background-color);
   block-size: var(--calcite-container-size-content-fluid);
-  box-shadow: 0 0 0 1px var(--calcite-tile-border-color);
   box-sizing: border-box;
   cursor: pointer;
   inline-size: var(--calcite-container-size-content-fluid);
+  outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-tile-border-color);
   user-select: none;
-  &.selected {
-    outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-color-brand);
-    z-index: var(--calcite-z-index);
-  }
-  &:focus {
-    outline: var(--calcite-border-width-md, 2px) solid var(--calcite-color-brand);
-    z-index: var(--calcite-z-index-sticky);
-  }
   &:focus,
   &.selected {
+    outline-color: var(--calcite-color-brand);
     position: relative;
     .selection-icon {
       --calcite-ui-icon-color: var(--calcite-color-brand);
     }
+  }
+  &.selected {
+    z-index: var(--calcite-z-index);
+  }
+  &:focus {
+    box-shadow: inset 0px 0px 0px 1px var(--calcite-color-brand);
+    z-index: var(--calcite-z-index-sticky);
   }
 }
 
@@ -124,6 +124,20 @@
   .description {
     font-size: var(--calcite-font-size--3);
     line-height: 0.85938rem;
+  }
+}
+
+:host([selection-appearance="border"][layout="horizontal"]),
+:host([selection-appearance="border"][layout="vertical"]) {
+  .container.selected:focus::before {
+    block-size: 100%;
+    box-shadow: inset 0px 0px 0px 1px var(--calcite-color-brand);
+    content: "";
+    display: block;
+    inline-size: 100%;
+    inset-inline-start: 0;
+    position: absolute;
+    inset-block-start: 0;
   }
 }
 
