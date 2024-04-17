@@ -10,6 +10,7 @@ import {
   Method,
   Host,
   State,
+  forceUpdate,
 } from "@stencil/core";
 import { throttle } from "lodash-es";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
@@ -76,16 +77,20 @@ export class TextArea
 {
   //--------------------------------------------------------------------------
   //
-  //  Properties
+  //  Global attributes
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
-   *
-   * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
-   */
-  @Prop({ reflect: true }) autofocus = false;
+  @Watch("autofocus")
+  handleGlobalAttributesChanged(): void {
+    forceUpdate(this);
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
 
   /**
    * Specifies the component's number of columns.
@@ -279,7 +284,7 @@ export class TextArea
             aria-describedby={this.guid}
             aria-invalid={toAriaBoolean(this.isCharacterLimitExceeded())}
             aria-label={getLabelText(this)}
-            autofocus={this.autofocus}
+            autofocus={this.el.autofocus}
             class={{
               [CSS.readOnly]: this.readOnly,
               [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
@@ -293,7 +298,7 @@ export class TextArea
             onChange={this.handleChange}
             onInput={this.handleInput}
             placeholder={this.placeholder}
-            readonly={this.readOnly}
+            readOnly={this.readOnly}
             required={this.required}
             rows={this.rows}
             value={this.value}

@@ -71,6 +71,14 @@ export const withHref_TestOnly = (): string => html`
   </calcite-navigation>
 `;
 
+export const headingLevel_TestOnly = (): string =>
+  html` <calcite-navigation-logo
+    heading="ArcGIS Online"
+    heading-level="1"
+    description="City of AcmeCo"
+    thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+  />`;
+
 export const theming_TestOnly = (): string => html`
   <style>
     calcite-navigation-logo {

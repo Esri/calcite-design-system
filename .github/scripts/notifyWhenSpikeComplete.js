@@ -6,11 +6,14 @@
 // The secret is formatted like so: person1, person2, person3
 //
 // Note the script automatically adds the "@" character in to notify the project manager(s)
+const { issueWorkflow, planning } = require("./support/resources");
+const { removeLabel } = require("./support/utils");
+
 module.exports = async ({ github, context }) => {
   const { managers } = process.env;
   const { label } = context.payload;
 
-  if (label && label.name === "spike complete") {
+  if (label && label.name === planning.spikeComplete) {
     // Add a "@" character to notify the user
     const calcite_managers = managers.split(",").map((v) => " @" + v.trim());
 
@@ -21,37 +24,28 @@ module.exports = async ({ github, context }) => {
     };
 
     /* Modify labels */
-    try {
-      await github.rest.issues.removeLabel({
-        ...issueProps,
-        name: "spike",
-      });
-    } catch (err) {
-      console.log("The 'spike' label is not associated with the issue", err);
-    }
 
-    try {
-      await github.rest.issues.removeLabel({
-        ...issueProps,
-        name: "1 - assigned",
-      });
-    } catch (err) {
-      console.log("The '1 - assigned' label is not associated with the issue", err);
-    }
+    await removeLabel({
+      github,
+      context,
+      label: planning.spike,
+    });
 
-    try {
-      await github.rest.issues.removeLabel({
-        ...issueProps,
-        name: "2 - in development",
-      });
-    } catch (err) {
-      console.log("The '2 - in development' label is not associated with the issue", err);
-    }
+    await removeLabel({
+      github,
+      context,
+      label: issueWorkflow.assigned,
+    });
 
-    // Add labels
+    await removeLabel({
+      github,
+      context,
+      label: issueWorkflow.inDevelopment,
+    });
+
     await github.rest.issues.addLabels({
       ...issueProps,
-      labels: ["0 - new", "needs milestone"],
+      labels: [issueWorkflow.new, planning.needsMilestone],
     });
 
     /* Update issue */

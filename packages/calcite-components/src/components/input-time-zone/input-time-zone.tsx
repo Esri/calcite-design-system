@@ -193,6 +193,11 @@ export class InputTimeZone
     this.selectedTimeZoneItem = timeZoneItem;
   }
 
+  /**
+   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   */
+  @Prop({ reflect: true }) readOnly = false;
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -410,6 +415,7 @@ export class InputTimeZone
             onCalciteComboboxOpen={this.onComboboxOpen}
             open={this.open}
             overlayPositioning={this.overlayPositioning}
+            readOnly={this.readOnly}
             scale={this.scale}
             selectionMode="single-persist"
             status={this.status}

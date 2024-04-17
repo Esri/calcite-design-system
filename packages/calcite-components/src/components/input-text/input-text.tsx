@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  forceUpdate,
   h,
   Host,
   Method,
@@ -73,19 +74,25 @@ export class InputText
 {
   //--------------------------------------------------------------------------
   //
+  //  Global attributes
+  //
+  //--------------------------------------------------------------------------
+
+  @Watch("autofocus")
+  @Watch("enterkeyhint")
+  @Watch("inputmode")
+  handleGlobalAttributesChanged(): void {
+    forceUpdate(this);
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Properties
   //
   //--------------------------------------------------------------------------
 
   /** Specifies the text alignment of the component's value. */
   @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
-
-  /**
-   * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
-   *
-   * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
-   */
-  @Prop({ reflect: true }) autofocus = false;
 
   /**
    * When `true`, a clear button is displayed when the component has a value.
@@ -190,22 +197,6 @@ export class InputText
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
   @Prop() autocomplete: string;
-
-  /**
-   * Specifies the type of content to help devices display an appropriate virtual keyboard.
-   * Read the native attribute's documentation on MDN for more info.
-   *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
-   */
-  @Prop() inputMode = "text";
-
-  /**
-   * Specifies the action label or icon for the Enter key on virtual keyboards.
-   * Read the native attribute's documentation on MDN for more info.
-   *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
-   */
-  @Prop() enterKeyHint: string;
 
   /**
    * Specifies a regex pattern the component's `value` must match for validation.
@@ -415,14 +406,15 @@ export class InputText
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (this.readOnly || this.disabled) {
+    if (this.readOnly || this.disabled || event.defaultPrevented) {
       return;
     }
+
     if (this.isClearable && event.key === "Escape") {
       this.clearInputTextValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter" && !event.defaultPrevented) {
+    if (event.key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
       }
@@ -624,15 +616,15 @@ export class InputText
       <input
         aria-label={getLabelText(this)}
         autocomplete={this.autocomplete}
-        autofocus={this.autofocus ? true : null}
+        autofocus={this.el.autofocus ? true : null}
         class={{
           [CSS.editingEnabled]: this.editingEnabled,
           [CSS.inlineChild]: !!this.inlineEditableEl,
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={this.enterKeyHint}
-        inputMode={this.inputMode}
+        enterKeyHint={this.el.enterKeyHint}
+        inputMode={this.el.inputMode}
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={this.name}

@@ -117,12 +117,10 @@ describe("calcite-action-bar", () => {
 
     it("allows disabling expandable behavior", async () => {
       const page = await newE2EPage();
-
       await page.setContent("<calcite-action-bar expand-disabled></calcite-action-bar>");
-
       await page.waitForChanges();
 
-      const expandAction = await page.find("calcite-action-bar >>> calcite-action");
+      const expandAction = await page.find("calcite-action-bar >>> calcite-action-group calcite-action");
 
       expect(expandAction).toBeNull();
     });
@@ -212,7 +210,7 @@ describe("calcite-action-bar", () => {
         </calcite-action-bar>`,
       );
 
-      const expandAction = await page.find("calcite-action-bar >>> calcite-action");
+      const expandAction = await page.find("calcite-action-bar >>> calcite-action-group calcite-action");
       const action = await page.find("calcite-action");
       const actionBar = await page.find("calcite-action-bar");
       const group = await page.find("calcite-action-group");
