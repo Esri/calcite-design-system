@@ -51,8 +51,6 @@ export async function assertLabelable({
           const shadowRoot = element.shadowRoot;
           const activeElement = shadowRoot!.activeElement;
           return activeElement ? activeElement.matches(selector) : false;
-
-          return false;
         },
         shadowFocusTargetSelector,
       ),
