@@ -22,4 +22,5 @@ export {
   ComponentTestContent,
   ComponentTestSetup,
   getTagOrHTMLWithBeforeContent,
+  HYDRATED_ATTR,
 } from "./utils";
