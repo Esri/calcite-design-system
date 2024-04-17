@@ -96,6 +96,11 @@
 
 :host([width="full"]) {
   @apply w-full;
+
+  a,
+  button {
+    inline-size: 100%;
+  }
 }
 
 // alignment
