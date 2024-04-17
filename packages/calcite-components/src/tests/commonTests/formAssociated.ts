@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-conditional-expect -- Using conditional logic in a confined test helper to handle specific scenarios, reducing duplication, balancing test readability and maintainability. **/
 /* eslint-disable jest/no-export -- Util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks. */
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
@@ -7,12 +6,7 @@ import { html } from "../../../support/formatting";
 import type { JSX } from "../../components";
 import { getClearValidationEventName, hiddenFormInputSlotName, componentsWithInputEvent } from "../../utils/form";
 import { GlobalTestProps } from "./../utils";
-import {
-  TagOrHTMLWithBeforeContent,
-  isHTML,
-  getTag,
-  getTagOrHTMLWithBeforeContent,
-} from "./../commonTestUtils/setupForTests";
+import { TagOrHTMLWithBeforeContent, isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./setupForTests";
 
 expect.extend(toHaveNoViolations);
 
@@ -321,6 +315,7 @@ export function formAssociated(
      *
      * If the input cannot be submitted because it is invalid, undefined will be returned
      */
+
     async function submitAndGetValue(): Promise<SubmitValueResult> {
       return page.$eval(
         "form",

@@ -1,5 +1,5 @@
 export { disabled } from "./disabled";
-export { accessible, renders, reflects, defaults, hidden } from "./essentialTests";
+export { hidden } from "./hidden";
 export { floatingUIOwner, delegatesToFloatingUiOwningComponent } from "./floatingUI";
 export { focusable } from "./focusable";
 export { formAssociated } from "./formAssociated";

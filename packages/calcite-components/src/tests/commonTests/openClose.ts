@@ -1,10 +1,9 @@
-/* eslint-disable jest/no-conditional-expect -- Using conditional logic in a confined test helper to handle specific scenarios, reducing duplication, balancing test readability and maintainability. **/
 /* eslint-disable jest/no-export -- Util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks. */
 import { E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
-import type { JSX } from "../components";
-import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "./utils";
-import { getTag, simplePageSetup } from "./commonTests/setupForTests";
+import type { JSX } from "../../components";
+import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../utils";
+import { getTag, simplePageSetup } from "./setupForTests";
 
 expect.extend(toHaveNoViolations);
 
@@ -98,7 +97,12 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
 
   async function setUpPage(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
     await page.evaluate(
-      (eventSequence: string[], initialToggleValue: boolean, openPropName: string, componentTagOrHTML: string) => {
+      (
+        eventSequence: string[],
+        initialToggleValue: boolean = false,
+        openPropName: string = "",
+        componentTagOrHTML: string,
+      ) => {
         const receivedEvents: string[] = [];
 
         (window as EventOrderWindow).events = receivedEvents;
@@ -140,7 +144,8 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     if (customizedOptions.beforeToggle) {
       await customizedOptions.beforeToggle.open(page);
     } else {
-      element.setProperty(customizedOptions.openPropName, true);
+      const openPropName = customizedOptions.openPropName || "";
+      element.setProperty(openPropName, true);
     }
 
     await page.waitForChanges();
@@ -156,7 +161,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     if (customizedOptions.beforeToggle) {
       await customizedOptions.beforeToggle.close(page);
     } else {
-      element.setProperty(customizedOptions.openPropName, false);
+      element.setProperty(customizedOptions.openPropName || "", false);
     }
 
     await page.waitForChanges();

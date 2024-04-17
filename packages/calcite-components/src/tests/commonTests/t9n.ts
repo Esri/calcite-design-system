@@ -1,10 +1,9 @@
-/* eslint-disable jest/no-conditional-expect -- Using conditional logic in a confined test helper to handle specific scenarios, reducing duplication, balancing test readability and maintainability. **/
 /* eslint-disable jest/no-export -- Util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks. */
 import { E2EElement, E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { MessageBundle } from "../../utils/t9n";
 import { IntrinsicElementsWithProp } from "./../utils";
-import { getTagAndPage, ComponentTestSetup } from "./../commonTestUtils/setupForTests";
+import { getTagAndPage, ComponentTestSetup } from "./setupForTests";
 
 expect.extend(toHaveNoViolations);
 
