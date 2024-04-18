@@ -82,7 +82,7 @@ export function formAssociated(
   it(`supports association via ancestry${inputTypeContext}`, () => testAncestorFormAssociated());
   it(`supports association via form ID${inputTypeContext}`, () => testIdFormAssociated());
 
-  if (options?.validation && !["color", "month", "time"].includes(options?.inputType ?? "")) {
+  if (options?.validation && !["color", "month", "time"].includes(options?.inputType)) {
     it(`supports required property validation${inputTypeContext}`, () => testRequiredPropertyValidation());
   }
 
@@ -214,7 +214,7 @@ export function formAssociated(
           `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`,
         );
 
-        return hiddenFormInput!.type;
+        return hiddenFormInput.type;
       },
       name,
       hiddenFormInputSlotName,
@@ -305,7 +305,7 @@ export function formAssociated(
       expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
     }
 
-    type SubmitValueResult = ReturnType<FormData["get"]> | ReturnType<FormData["getAll"]> | undefined;
+    type SubmitValueResult = ReturnType<FormData["get"]> | ReturnType<FormData["getAll"] | undefined>;
 
     /**
      * This method will submit the form and return the submitted value:
@@ -315,7 +315,6 @@ export function formAssociated(
      *
      * If the input cannot be submitted because it is invalid, undefined will be returned
      */
-
     async function submitAndGetValue(): Promise<SubmitValueResult> {
       return page.$eval(
         "form",
@@ -342,7 +341,7 @@ export function formAssociated(
             }
 
             resolve(formData.get(inputName));
-            hiddenFormInput!.removeEventListener("invalid", handleInvalidInput);
+            hiddenFormInput.removeEventListener("invalid", handleInvalidInput);
           }
 
           function handleInvalidInput(): void {
@@ -351,9 +350,9 @@ export function formAssociated(
           }
 
           form.addEventListener("submit", handleFormSubmit, { once: true });
-          hiddenFormInput!.addEventListener("invalid", handleInvalidInput, { once: true });
+          hiddenFormInput.addEventListener("invalid", handleInvalidInput, { once: true });
 
-          document.querySelector<HTMLInputElement>("#submitter")?.click();
+          document.querySelector<HTMLInputElement>("#submitter").click();
 
           return submitPromise;
         },
