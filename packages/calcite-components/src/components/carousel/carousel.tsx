@@ -85,7 +85,12 @@ export class Carousel
   @Prop({ reflect: true }) rotation = false;
 
   /**
-   * When `true`, and `rotation` is `true`, the carousel will continue automatically rotating.
+   *  When `rotation` is `true`, specifies in seconds the length of time to display each Carousel Item
+   */
+  @Prop({ reflect: true }) rotationDuration = DURATION;
+
+  /**
+   * When `true`, and `rotation` is `true`, the carousel will auto-rotate.
    */
   @Prop({ reflect: true, mutable: true }) rotating = false;
 
@@ -174,6 +179,8 @@ export class Carousel
 
   @State() slideDurationRemaining = 1;
 
+  @State() pausedDueToInteraction = false;
+
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
@@ -184,8 +191,6 @@ export class Carousel
   private container: HTMLDivElement;
 
   private containerId = `calcite-carousel-container-${guid()}`;
-
-  private slideDuration = DURATION;
 
   private slideDurationInterval = null;
 
@@ -296,17 +301,17 @@ export class Carousel
     clearInterval(this.slideInterval);
     if (this.rotation && this.rotating) {
       this.rotationHandler();
-      this.slideInterval = setInterval(this.rotationHandler, this.slideDuration);
+      this.slideInterval = setInterval(this.rotationHandler, this.rotationDuration);
     }
   };
 
   private rotationHandler = (): void => {
     clearInterval(this.slideDurationInterval);
-    this.slideDurationInterval = setInterval(this.timer, DURATION / 100);
+    this.slideDurationInterval = setInterval(this.timer, this.rotationDuration);
   };
 
-  private timer = (): void => {
-    let time = this.slideDurationRemaining;
+  private timer = (time?: number): void => {
+    time = time || this.slideDurationRemaining;
     if (time <= 0.01) {
       time = 1;
       this.nextItem(false);

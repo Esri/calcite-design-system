@@ -110,6 +110,10 @@
               >rotating
               <calcite-switch id="switch-rotating"></calcite-switch>
             </calcite-label>
+            <calcite-label
+              >duration
+              <calcite-input id="input-duration" placeholder="6"></calcite-input>
+            </calcite-label>
           </div>
         </div>
         <div class="parent">
@@ -550,6 +554,7 @@
         const switchOverlay = document.getElementById("switch-overlay");
         const switchRotation = document.getElementById("switch-rotation");
         const switchRotating = document.getElementById("switch-rotating");
+        const durationInput = document.getElementById("input-duration");
 
         const arrowType = document.getElementById("arrow-type");
 
@@ -564,6 +569,11 @@
 
         switchOverlay.addEventListener("calciteSwitchChange", function () {
           carousel.controlOverlay = event.target.checked;
+        });
+
+        durationInput.addEventListener("calciteInputInput", function () {
+          console.log(event.target.value);
+          carousel.rotationDuration = event.target.value;
         });
 
         switchRotation.addEventListener("calciteSwitchChange", function () {

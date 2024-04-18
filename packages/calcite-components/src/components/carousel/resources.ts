@@ -1,4 +1,4 @@
-export const DURATION = 6000;
+export const DURATION = 6;
 
 export const CSS = {
   container: "container",
@@ -22,7 +22,7 @@ export const ICONS = {
   chevronLeft: "chevron-left",
   chevronRight: "chevron-right",
   inactive: "bullet-point-large",
-  active: "circle-f",
+  active: "circle-area",
   pause: "pause-f",
   play: "play-f",
 };

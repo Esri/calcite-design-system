@@ -1,4 +1,4 @@
-import { select, text } from "../../../.storybook/fake-knobs";
+import { select, number, text } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { boolean } from "../../../.storybook/helpers";
@@ -14,6 +14,7 @@ export const simple = (): string =>
       ${boolean("disabled", false)}
       ${boolean("rotation", false)}
       ${boolean("rotating", false)}
+      ${number("rotation-duration", 6000)}
       ${text("label", "Example carousel label")}
       arrow-type="${select("arrow-type", ["inline", "edges", "none"], "inline")}"
     >
@@ -99,7 +100,7 @@ export const carouselFullImageWithOverlay_TestOnly = (): string =>
         line-height: 32px;
       }
     </style>
-    <calcite-carousel control-overlay arrow-type="edges">
+    <calcite-carousel rotation control-overlay arrow-type="edges">
       <calcite-carousel-item label="Carousel Item 1">
         <div class="bg-image-example">Some kind of rich content over a bg using overlay controls</div>
       </calcite-carousel-item>
@@ -201,7 +202,7 @@ export const themed_simple_TestOnly = (): string =>
         --calcite-carousel-rotation-progress-fill-color: pink;
       }
     </style>
-    <calcite-carousel>
+    <calcite-carousel rotation>
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
           <span slot="title">Some kind of carousel item content</span>

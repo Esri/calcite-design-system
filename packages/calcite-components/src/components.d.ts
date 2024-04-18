@@ -856,13 +856,17 @@ export namespace Components {
          */
         "messages": CarouselMessages;
         /**
-          * When `true`, and `rotation` is `true`, the carousel will continue automatically rotating.
+          * When `true`, and `rotation` is `true`, the carousel will auto-rotate.
          */
         "rotating": boolean;
         /**
           * When `true`, the rotation control is displayed.
          */
         "rotation": boolean;
+        /**
+          * When `rotation` is `true`, specifies in seconds the length of time to display each Carousel Item
+         */
+        "rotationDuration": number;
         /**
           * The component's selected `calcite-carousel-item`.
           * @readonly
@@ -8302,13 +8306,17 @@ declare namespace LocalJSX {
          */
         "onCalciteCarouselRotatingChange"?: (event: CalciteCarouselCustomEvent<void>) => void;
         /**
-          * When `true`, and `rotation` is `true`, the carousel will continue automatically rotating.
+          * When `true`, and `rotation` is `true`, the carousel will auto-rotate.
          */
         "rotating"?: boolean;
         /**
           * When `true`, the rotation control is displayed.
          */
         "rotation"?: boolean;
+        /**
+          * When `rotation` is `true`, specifies in seconds the length of time to display each Carousel Item
+         */
+        "rotationDuration"?: number;
         /**
           * The component's selected `calcite-carousel-item`.
           * @readonly
