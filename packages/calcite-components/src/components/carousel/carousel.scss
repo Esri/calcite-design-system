@@ -59,13 +59,17 @@
 }
 
 .container {
-  @apply relative
+  @apply focus-base
+   relative
     flex
     flex-col
     overflow-hidden
     text-color-2
     text-n1h
     w-full;
+  &:focus {
+    @apply focus-inset;
+  }
 }
 
 .container.is-edges:not(.is-overlay) {
@@ -74,8 +78,7 @@
 }
 
 .item-container {
-  @apply focus-base
-    flex
+  @apply flex
     items-start
     justify-center
     overflow-auto
@@ -83,16 +86,10 @@
     p-1;
   animation-name: none;
   animation-duration: var(--calcite-animation-timing);
-  &:focus {
-    @apply focus-inset;
-  }
 }
 
 .container.is-overlay .item-container {
   @apply p-0;
-  &:focus {
-    @apply focus-inset;
-  }
 }
 
 .item-container--advancing {

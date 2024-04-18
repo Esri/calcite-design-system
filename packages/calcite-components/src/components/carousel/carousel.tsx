@@ -495,29 +495,29 @@ export class Carousel
       <Host>
         <InteractiveContainer disabled={this.disabled}>
           <div
+            aria-label={this.label}
+            aria-live={this.rotating ? "off" : "polite"}
+            aria-roledescription="carousel"
             class={{
               [CSS.container]: true,
               [CSS.isOverlay]: this.controlOverlay,
               [CSS.isEdges]: this.arrowType === "edges",
             }}
+            onKeyDown={this.containerKeyDownHandler}
+            onPointerDown={this.handleSwipeStart}
+            onPointerUp={this.handleSwipeEnd}
+            role="group"
+            tabIndex={0}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.storeContainerRef}
           >
             <section
-              aria-label={this.label}
-              aria-live={this.rotating ? "off" : "polite"}
-              aria-roledescription="carousel"
               class={{
                 [CSS.itemContainer]: true,
                 [CSS.itemContainerAdvancing]: direction === "advancing",
                 [CSS.itemContainerRetreating]: direction === "retreating",
               }}
               id={this.containerId}
-              onKeyDown={this.containerKeyDownHandler}
-              onPointerDown={this.handleSwipeStart}
-              onPointerUp={this.handleSwipeEnd}
-              role="group"
-              tabIndex={0}
-              // eslint-disable-next-line react/jsx-sort-props
-              ref={this.storeContainerRef}
             >
               <slot onSlotchange={this.updateItems} />
             </section>
