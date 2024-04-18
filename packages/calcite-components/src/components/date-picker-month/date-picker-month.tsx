@@ -195,11 +195,11 @@ export class DatePickerMonth {
         break;
       case "PageUp":
         event.preventDefault();
-        this.addMonths(-1);
+        this.addMonths(-1, target.value);
         break;
       case "PageDown":
         event.preventDefault();
-        this.addMonths(1);
+        this.addMonths(1, target.value);
         break;
       case "Home":
         event.preventDefault();
@@ -330,14 +330,17 @@ export class DatePickerMonth {
    * Add n months to the current month
    *
    * @param step
+   * @param targetDate
    */
-  private addMonths(step: number) {
-    const nextDate = new Date(this.activeDate);
-    nextDate.setMonth(this.activeDate.getMonth() + step);
+  private addMonths(step: number, targetDate: Date) {
+    const nextDate = new Date(targetDate);
+    nextDate.setMonth(targetDate.getMonth() + step);
     this.calciteInternalDatePickerActiveDateChange.emit(
       dateFromRange(nextDate, this.min, this.max),
     );
+    this.focusedDate = dateFromRange(nextDate, this.min, this.max);
     this.activeFocus = true;
+    this.calciteInternalDatePickerHover.emit(nextDate);
   }
 
   /**
