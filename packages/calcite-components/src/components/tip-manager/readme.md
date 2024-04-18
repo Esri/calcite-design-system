@@ -52,11 +52,11 @@ Renders a tip manager using a group of tips as well as a single tip.
 
 ## Properties
 
-| Property           | Attribute           | Description                                                             | Type                         | Default     |
-| ------------------ | ------------------- | ----------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `closed`           | `closed`            | When `true`, does not display or position the component.                | `boolean`                    | `false`     |
-| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.            | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `TipManagerMessages`         | `undefined` |
+| Property           | Attribute           | Description                                                                                                               | Type                         | Default     |
+| ------------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `closed`           | `closed`            | When `true`, does not display or position the component.                                                                  | `boolean`                    | `false`     |
+| `headingLevel`     | `heading-level`     | Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                                   | `TipManagerMessages`         | `undefined` |
 
 ## Events
 
