@@ -58,19 +58,19 @@ export function floatingUIOwner(
       // need to get the style attribute from the browser context since the E2E element returns null
       return page.$eval(
         tag,
-        (component: HTMLElement, shadowSelector: string = ""): string => {
+        (component: HTMLElement, shadowSelector: string): string => {
           const floatingUIEl = shadowSelector
-            ? component.shadowRoot?.querySelector<HTMLElement>(shadowSelector)
+            ? component.shadowRoot.querySelector<HTMLElement>(shadowSelector)
             : component;
 
-          return floatingUIEl!.getAttribute("style")!;
+          return floatingUIEl.getAttribute("style");
         },
         options?.shadowSelector,
       );
     }
 
     async function scrollTo(x: number, y: number): Promise<void> {
-      await page.evaluate((x: number, y: number) => document.firstElementChild!.scrollTo(x, y), x, y);
+      await page.evaluate((x: number, y: number) => document.firstElementChild.scrollTo(x, y), x, y);
     }
 
     component.setProperty(togglePropName, false);
