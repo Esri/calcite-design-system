@@ -74,7 +74,7 @@ export function slots(
     if (includeDefaultSlot) {
       const hasDefaultSlotted = await page.evaluate(() => {
         const defaultSlotted = document.querySelector(".slotted-into-default-slot");
-        return defaultSlotted?.assignedSlot?.name === "" && defaultSlotted.slot === "";
+        return defaultSlotted.assignedSlot?.name === "" && defaultSlotted.slot === "";
       });
 
       expect(hasDefaultSlotted).toBe(true);

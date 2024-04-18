@@ -33,7 +33,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
 
     component = await page.find(tag);
     getCurrentMessages = async (): Promise<MessageBundle> => {
-      return page.$eval(tag, (component: CalciteComponentsWithMessages) => component.messages!);
+      return page.$eval(tag, (component: CalciteComponentsWithMessages) => component.messages);
     };
   });
 
