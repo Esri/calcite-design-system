@@ -45,7 +45,12 @@ import {
   FormComponent,
   HiddenFormInputSlot,
 } from "../../utils/form";
-import { createTimeZoneItems, getUserTimeZoneName, getUserTimeZoneOffset } from "./utils";
+import {
+  createTimeZoneItems,
+  findTimeZoneItemByProp,
+  getUserTimeZoneName,
+  getUserTimeZoneOffset,
+} from "./utils";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
 import { TimeZoneItem, TimeZoneMode } from "./interfaces";
 
@@ -193,6 +198,11 @@ export class InputTimeZone
     this.selectedTimeZoneItem = timeZoneItem;
   }
 
+  /**
+   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   */
+  @Prop({ reflect: true }) readOnly = false;
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -292,10 +302,10 @@ export class InputTimeZone
   private onComboboxChange = (event: CustomEvent): void => {
     event.stopPropagation();
     const combobox = event.target as HTMLCalciteComboboxElement;
-    const selected = this.findTimeZoneItem(combobox.selectedItems[0].getAttribute("data-value"));
-
+    const selected = this.findTimeZoneItemByLabel(combobox.selectedItems[0].textLabel);
     const selectedValue = `${selected.value}`;
-    if (this.value === selectedValue) {
+
+    if (this.value === selectedValue && selected.label === this.selectedTimeZoneItem.label) {
       return;
     }
 
@@ -317,13 +327,11 @@ export class InputTimeZone
   };
 
   private findTimeZoneItem(value: number | string): TimeZoneItem {
-    const valueToMatch = value;
+    return findTimeZoneItemByProp(this.timeZoneItems, "value", value);
+  }
 
-    return this.timeZoneItems.find(
-      ({ value }) =>
-        // intentional == to match string to number
-        value == valueToMatch,
-    );
+  private findTimeZoneItemByLabel(label: string): TimeZoneItem {
+    return findTimeZoneItemByProp(this.timeZoneItems, "label", label);
   }
 
   private async updateTimeZoneItemsAndSelection(): Promise<void> {
@@ -410,6 +418,7 @@ export class InputTimeZone
             onCalciteComboboxOpen={this.onComboboxOpen}
             open={this.open}
             overlayPositioning={this.overlayPositioning}
+            readOnly={this.readOnly}
             scale={this.scale}
             selectionMode="single-persist"
             status={this.status}

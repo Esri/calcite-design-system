@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  forceUpdate,
   h,
   Host,
   Method,
@@ -93,19 +94,25 @@ export class Input
 {
   //--------------------------------------------------------------------------
   //
+  //  Global attributes
+  //
+  //--------------------------------------------------------------------------
+
+  @Watch("autofocus")
+  @Watch("enterkeyhint")
+  @Watch("inputmode")
+  handleGlobalAttributesChanged(): void {
+    forceUpdate(this);
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Properties
   //
   //--------------------------------------------------------------------------
 
   /** Specifies the text alignment of the component's value. */
   @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
-
-  /**
-   * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
-   *
-   * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
-   */
-  @Prop({ reflect: true }) autofocus = false;
 
   /**
    * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
@@ -287,22 +294,6 @@ export class Input
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
    */
   @Prop() multiple = false;
-
-  /**
-   * Specifies the type of content to help devices display an appropriate virtual keyboard.
-   * Read the native attribute's documentation on MDN for more info.
-   *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
-   */
-  @Prop() inputMode = "text";
-
-  /**
-   * Specifies the action label or icon for the Enter key on virtual keyboards.
-   * Read the native attribute's documentation on MDN for more info.
-   *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
-   */
-  @Prop() enterKeyHint: string;
 
   /** Adds text to the end of the component. */
   @Prop() suffixText: string;
@@ -607,14 +598,15 @@ export class Input
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (this.readOnly || this.disabled) {
+    if (this.readOnly || this.disabled || event.defaultPrevented) {
       return;
     }
+
     if (this.isClearable && event.key === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter" && !event.defaultPrevented) {
+    if (event.key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
       }
@@ -1130,11 +1122,11 @@ export class Input
           accept={this.accept}
           aria-label={getLabelText(this)}
           autocomplete={this.autocomplete}
-          autofocus={this.autofocus ? true : null}
+          autofocus={this.el.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
-          enterKeyHint={this.enterKeyHint}
-          inputMode={this.inputMode}
+          enterKeyHint={this.el.enterKeyHint}
+          inputMode={this.el.inputMode}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
@@ -1162,15 +1154,15 @@ export class Input
               accept={this.accept}
               aria-label={getLabelText(this)}
               autocomplete={this.autocomplete}
-              autofocus={this.autofocus ? true : null}
+              autofocus={this.el.autofocus ? true : null}
               class={{
                 [CSS.editingEnabled]: this.editingEnabled,
                 [CSS.inlineChild]: !!this.inlineEditableEl,
               }}
               defaultValue={this.defaultValue}
               disabled={this.disabled ? true : null}
-              enterKeyHint={this.enterKeyHint}
-              inputMode={this.inputMode}
+              enterKeyHint={this.el.enterKeyHint}
+              inputMode={this.el.inputMode}
               max={this.maxString}
               maxLength={this.maxLength}
               min={this.minString}
