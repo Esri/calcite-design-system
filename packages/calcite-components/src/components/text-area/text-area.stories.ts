@@ -83,17 +83,22 @@ export const chineseLang_TestOnly = (): string => html`
 export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
   html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+/**  Adds explicit height/width for components using position:fixed per Chromatic doc <https://www.chromatic.com/docs/snapshots/#why-isn%E2%80%99t-my-modal-or-dialog-captured>. */
+const wrapperStyles = html`
   <style>
-    .container {
+    .wrapper {
       display: flex;
-      flex-direction: column;
-      width: 420px;
-      height: 80px;
-      gap: 45px;
+      width: 800px;
+      height: 250px;
+      padding: 64px;
+      gap: 10px;
     }
   </style>
-  <div class="container">
+`;
+
+export const validationMessageAllScales_TestOnly = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
     <calcite-text-area
       scale="s"
       status="invalid"
