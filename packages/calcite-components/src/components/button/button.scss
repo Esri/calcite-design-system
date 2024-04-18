@@ -96,10 +96,6 @@
 
 :host([width="full"]) {
   @apply w-full;
-
-  button {
-    inline-size: 100%;
-  }
 }
 
 // alignment
@@ -689,6 +685,16 @@
   @apply text-0h w-11;
   min-block-size: theme("height.11");
 }
+
+:host([scale="s"][width="full"]) button:not(.content--slotted),
+:host([scale="s"][width="full"]) a:not(.content--slotted),
+:host([scale="m"][width="full"]) button:not(.content--slotted),
+:host([scale="m"][width="full"]) a:not(.content--slotted),
+:host([scale="l"][width="full"]) button:not(.content--slotted),
+:host([scale="l"][width="full"]) a:not(.content--slotted) {
+  @apply w-full;
+}
+
 // accommodate for transparent buttons not having borders
 :host([scale="l"][appearance="transparent"]) button:not(.content--slotted),
 :host([scale="l"][appearance="transparent"]) a:not(.content--slotted) {
