@@ -89,9 +89,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
   };
 
   async function getFocusTarget(page: E2EPage, tag: string, focusTarget: FocusTarget): Promise<string> {
-    return focusTarget === "host"
-      ? tag
-      : await page.evaluate(() => document.activeElement?.tagName.toLowerCase() || "");
+    return focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
   }
 
   const getTabAndClickFocusTarget = async (
@@ -103,14 +101,14 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
       return [focusTarget.tab, focusTarget.click];
     }
 
-    const sameClickAndTabFocusTarget = await getFocusTarget(page, tag, focusTarget || "none");
+    const sameClickAndTabFocusTarget = await getFocusTarget(page, tag, focusTarget);
 
     return [sameClickAndTabFocusTarget, sameClickAndTabFocusTarget];
   };
 
   const getShadowFocusableCenterCoordinates = async (page: E2EPage, tabFocusTarget: string): Promise<number[]> => {
-    return await page.$eval(tabFocusTarget, (element: Element) => {
-      const focusTarget = element.shadowRoot?.activeElement || element;
+    return await page.$eval(tabFocusTarget, (element: HTMLElement) => {
+      const focusTarget = element.shadowRoot.activeElement || element;
       const rect = focusTarget.getBoundingClientRect();
 
       return [rect.x + rect.width / 2, rect.y + rect.height / 2];
@@ -121,7 +119,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     const component = await page.find(tag);
-    const ariaAttributeTargetElement = options?.shadowAriaAttributeTargetSelector
+    const ariaAttributeTargetElement = options.shadowAriaAttributeTargetSelector
       ? await page.find(`${tag} >>> ${options.shadowAriaAttributeTargetSelector}`)
       : component;
     await skipAnimations(page);
@@ -131,7 +129,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
     expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBeNull();
 
-    if (options?.focusTarget === "none") {
+    if (options.focusTarget === "none") {
       await page.click(tag);
       await page.waitForChanges();
       await expectToBeFocused(page, "body");
@@ -160,7 +158,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
 
     await page.keyboard.press("Tab");
 
-    const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag, options?.focusTarget);
+    const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag, options.focusTarget);
 
     expect(tabFocusTarget).not.toBe("body");
     await expectToBeFocused(page, tabFocusTarget);
@@ -223,7 +221,7 @@ export function disabled(componentTestSetup: ComponentTestSetup, options?: Disab
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     const component = await page.find(tag);
-    const ariaAttributeTargetElement = options?.shadowAriaAttributeTargetSelector
+    const ariaAttributeTargetElement = options.shadowAriaAttributeTargetSelector
       ? await page.find(`${tag} >>> ${options.shadowAriaAttributeTargetSelector}`)
       : component;
 
