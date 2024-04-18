@@ -50,7 +50,7 @@ export function focusable(componentTestSetup: ComponentTestSetup, options?: Focu
       expect(
         await page.$eval(
           tag,
-          (element: HTMLElement, selector: string) => element.shadowRoot?.activeElement?.matches(selector),
+          (element: HTMLElement, selector: string) => element.shadowRoot.activeElement?.matches(selector),
           options?.shadowFocusTargetSelector,
         ),
       ).toBe(true);
