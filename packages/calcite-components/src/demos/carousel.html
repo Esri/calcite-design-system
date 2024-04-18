@@ -74,6 +74,8 @@
         --calcite-carousel-slide-item-icon-color-selected: pink;
         --calcite-carousel-slide-item-icon-color-active: white;
         --calcite-carousel-slide-item-icon-color: lightgreen;
+        --calcite-carousel-rotation-progress-background-color: purple;
+        --calcite-carousel-rotation-progress-fill-color: pink;
       }
     </style>
     <script src="_assets/head.js"></script>
@@ -547,10 +549,10 @@
 
         document.querySelectorAll("calcite-carousel").forEach((item) => {
           item.addEventListener("calciteCarouselChange", (event) => {
-            console.log(event.target.selectedItem, "selectedItem");
+            console.log(event.target.selectedItem, "selectedItem", "calciteCarouselChange");
           });
           item.addEventListener("calciteCarouselRotatingChange", (event) => {
-            console.log(event.target.rotating, "rotating");
+            console.log(event.target.rotating, "rotating", "calciteCarouselRotatingChange");
           });
         });
 

@@ -144,6 +144,7 @@ export class Carousel
     disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    clearTimeout(this.slideInterval);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -163,8 +164,6 @@ export class Carousel
 
   @State() items: HTMLCalciteCarouselItemElement[];
 
-  @State() containerId = "";
-
   @State() direction: "advancing" | "retreating";
 
   @State() defaultMessages: CarouselMessages;
@@ -172,6 +171,8 @@ export class Carousel
   @State() swipeStartPosition: number;
 
   @State() swipeTolerance = 100;
+
+  @State() slideDurationRemaining = 1;
 
   @State() effectiveLocale = "";
 
@@ -182,16 +183,15 @@ export class Carousel
 
   private container: HTMLDivElement;
 
-  @Watch("container")
-  onContainerRefChange(): void {
-    this.containerId = this.container?.id;
-  }
-
-  private tabList: HTMLDivElement;
+  private containerId = `calcite-carousel-container-${guid()}`;
 
   private slideDuration = DURATION;
 
+  private slideDurationInterval = null;
+
   private slideInterval = null;
+
+  private tabList: HTMLDivElement;
 
   // --------------------------------------------------------------------------
   //
@@ -249,23 +249,94 @@ export class Carousel
   };
 
   private nextItem = (emit: boolean): void => {
+    if (this.rotating && emit) {
+      this.setIsRotating();
+    }
     const nextIndex = this.selectedIndex === this.items?.length - 1 ? 0 : this.selectedIndex + 1;
     this.setSelectedItem(emit, nextIndex);
   };
 
   private previousItem = (): void => {
+    if (this.rotating) {
+      this.setIsRotating();
+    }
     const prevIndex = this.selectedIndex === 0 ? this.items?.length - 1 : this.selectedIndex - 1;
     this.setSelectedItem(true, prevIndex);
   };
 
   private handleItemSelection = (event: MouseEvent): void => {
-    if (this.rotating && event.target) {
-      this.rotating = false;
+    if (this.rotating) {
+      this.setIsRotating();
     }
     const item = event.target as HTMLCalciteActionElement;
     const requestedPosition = parseInt(item.dataset.index);
     this.direction = requestedPosition > this.selectedIndex ? "advancing" : "retreating";
     this.setSelectedItem(true, requestedPosition);
+  };
+
+  private handleSwipeStart = (event: MouseEvent): void => {
+    this.swipeStartPosition = event.pageX;
+  };
+
+  private handleSwipeEnd = (event: MouseEvent): void => {
+    const pagePosition = event.pageX;
+    const diffX = Math.abs(event.pageX - this.swipeStartPosition);
+    const thresholdMet = diffX > this.swipeTolerance;
+
+    if (thresholdMet && pagePosition > this.swipeStartPosition) {
+      this.direction = "retreating";
+      this.previousItem();
+    } else if (thresholdMet) {
+      this.direction = "advancing";
+      this.nextItem(true);
+    }
+  };
+
+  private setRotationInterval = (): void => {
+    clearInterval(this.slideInterval);
+    if (this.rotation && this.rotating) {
+      this.rotationHandler();
+      this.slideInterval = setInterval(this.rotationHandler, this.slideDuration);
+    }
+  };
+
+  private rotationHandler = (): void => {
+    clearInterval(this.slideDurationInterval);
+    this.slideDurationInterval = setInterval(this.timer, DURATION / 100);
+  };
+
+  private timer = (): void => {
+    let time = this.slideDurationRemaining;
+    if (time <= 0.01) {
+      time = 1;
+      this.nextItem(false);
+    } else {
+      time = time - 0.01;
+    }
+    this.slideDurationRemaining = time;
+  };
+
+  private setIsRotating = (): void => {
+    if (this.rotating) {
+      clearInterval(this.slideInterval);
+      clearInterval(this.slideDurationInterval);
+      this.slideDurationRemaining = 1;
+    }
+
+    this.rotating = !this.rotating;
+    this.calciteCarouselRotatingChange.emit();
+  };
+
+  private handleRotationControlClick = (): void => {
+    this.setIsRotating();
+  };
+
+  private storeTabListRef = (el: HTMLDivElement): void => {
+    this.tabList = el;
+  };
+
+  private storeContainerRef = (el: HTMLDivElement): void => {
+    this.container = el;
   };
 
   private containerKeyDownHandler = (event: KeyboardEvent): void => {
@@ -321,56 +392,15 @@ export class Carousel
     }
   };
 
-  private handleSwipeStart = (event: MouseEvent): void => {
-    this.swipeStartPosition = event.pageX;
-  };
-
-  private handleSwipeEnd = (event: MouseEvent): void => {
-    const pagePosition = event.pageX;
-    const diffX = Math.abs(event.pageX - this.swipeStartPosition);
-    const thresholdMet = diffX > this.swipeTolerance;
-
-    if (thresholdMet && pagePosition > this.swipeStartPosition) {
-      this.direction = "retreating";
-      this.previousItem();
-    } else if (thresholdMet) {
-      this.direction = "advancing";
-      this.nextItem(true);
-    }
-  };
-
-  private setRotationInterval = (): void => {
-    clearInterval(this.slideInterval);
-    if (this.rotating) {
-      this.slideInterval = setInterval(() => this.nextItem(false), this.slideDuration);
-    }
-  };
-
-  private setIsRotating = (): void => {
-    this.rotating = !this.rotating;
-    this.calciteCarouselRotatingChange.emit();
-  };
-
-  private handleRotationControlClick = (): void => {
-    this.setIsRotating();
-  };
-
-  private storeTabListRef = (el: HTMLDivElement): void => {
-    this.tabList = el;
-  };
-
-  private storeContainerRef = (el: HTMLDivElement): void => {
-    this.container = el;
-  };
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
 
-  renderRotationControl(): VNode {
+  renderRotationControl = (): VNode => {
     const text = this.rotating ? this.messages.pause : this.messages.play;
+
     return (
       <button
         aria-label={text}
@@ -382,11 +412,18 @@ export class Carousel
         title={text}
       >
         <calcite-icon icon={this.rotating ? ICONS.pause : ICONS.play} scale="s" />
+        {this.rotating && (
+          <calcite-progress
+            class={CSS.rotatingProgress}
+            label={"Slide progress"}
+            value={this.slideDurationRemaining}
+          />
+        )}
       </button>
     );
-  }
+  };
 
-  renderPagination(): VNode {
+  renderPagination = (): VNode => {
     const { selectedIndex } = this;
     return (
       <div
@@ -409,6 +446,7 @@ export class Carousel
                 aria-selected={toAriaBoolean(isMatch)}
                 class={{
                   [CSS.paginationItem]: true,
+                  [CSS.paginationItemIndividual]: true,
                   [CSS.paginationItemSelected]: isMatch,
                 }}
                 data-index={index}
@@ -425,16 +463,17 @@ export class Carousel
         {this.arrowType === "inline" && this.renderArrow("next")}
       </div>
     );
-  }
+  };
 
   renderArrow = (direction: "previous" | "next"): VNode => {
+    const isPrev = direction === "previous";
     const dir = getElementDir(this.el);
     const scale = this.arrowType === "edges" ? "m" : "s";
-    const css = direction === "previous" ? CSS.pagePrevious : CSS.pageNext;
-    const navigateFx = direction === "previous" ? this.previousItem : () => this.nextItem(true);
-    const title = direction === "previous" ? this.messages.previous : this.messages.next;
-    const iconRtl = direction === "previous" ? ICONS.chevronRight : ICONS.chevronLeft;
-    const iconLtr = direction === "previous" ? ICONS.chevronLeft : ICONS.chevronRight;
+    const css = isPrev ? CSS.pagePrevious : CSS.pageNext;
+    const navigateFx = isPrev ? this.previousItem : () => this.nextItem(true);
+    const title = isPrev ? this.messages.previous : this.messages.next;
+    const iconRtl = isPrev ? ICONS.chevronRight : ICONS.chevronLeft;
+    const iconLtr = isPrev ? ICONS.chevronLeft : ICONS.chevronRight;
     return (
       <button
         aria-controls={this.containerId}
@@ -452,7 +491,6 @@ export class Carousel
 
   render(): VNode {
     const { direction } = this;
-    const containerId = `calcite-carousel-container-${guid()}`;
     return (
       <Host>
         <InteractiveContainer disabled={this.disabled}>
@@ -472,7 +510,7 @@ export class Carousel
                 [CSS.itemContainerAdvancing]: direction === "advancing",
                 [CSS.itemContainerRetreating]: direction === "retreating",
               }}
-              id={containerId}
+              id={this.containerId}
               onKeyDown={this.containerKeyDownHandler}
               onPointerDown={this.handleSwipeStart}
               onPointerUp={this.handleSwipeEnd}

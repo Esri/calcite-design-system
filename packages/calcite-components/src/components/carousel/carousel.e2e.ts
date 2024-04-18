@@ -1,6 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
-import { CSS } from "./resources";
+import { CSS, DURATION } from "./resources";
+
+const slideDurationWaitTimer = DURATION + 1000;
 
 describe("calcite-carousel", () => {
   describe("renders", () => {
@@ -174,9 +176,9 @@ describe("calcite-carousel", () => {
 
       const carousel = await page.find("calcite-carousel");
       const eventSpy = await page.spyOnEvent("calciteCarouselChange", "window");
-      const slide1Button = await page.find(`calcite-carousel >>> .pagination-item:nth-child(1)`);
-      const slide2Button = await page.find(`calcite-carousel >>> .pagination-item:nth-child(2)`);
-      const slide3Button = await page.find(`calcite-carousel >>> .pagination-item:nth-child(3)`);
+      const slide1Button = await page.find(`calcite-carousel >>> .${CSS.paginationItemIndividual}:nth-child(1)`);
+      const slide2Button = await page.find(`calcite-carousel >>> .${CSS.paginationItemIndividual}:nth-child(2)`);
+      const slide3Button = await page.find(`calcite-carousel >>> .${CSS.paginationItemIndividual}:nth-child(3)`);
 
       expect(eventSpy).not.toHaveReceivedEvent();
       let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
@@ -249,6 +251,236 @@ describe("calcite-carousel", () => {
       expect(eventSpy).not.toHaveReceivedEvent();
       expect(rotationEventSpy).toHaveReceivedEventTimes(3);
       expect(carousel).toHaveAttribute("rotating");
+    });
+
+    it("when rotating, should stop rotation and emit rotation change event when item clicked", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent(
+        `<calcite-carousel label="Carousel example" rotation>
+          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+        </calcite-carousel>`,
+      );
+
+      const carousel = await page.find("calcite-carousel");
+      const eventSpy = await page.spyOnEvent("calciteCarouselChange", "window");
+
+      const slide1Button = await page.find(`calcite-carousel >>> .${CSS.paginationItemIndividual}:nth-child(1)`);
+      const slide2Button = await page.find(`calcite-carousel >>> .${CSS.paginationItemIndividual}:nth-child(2)`);
+      const slide3Button = await page.find(`calcite-carousel >>> .${CSS.paginationItemIndividual}:nth-child(3)`);
+
+      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange", "window");
+      const rotationControl = await page.find(`calcite-carousel >>> .${CSS.rotationControl}`);
+
+      expect(eventSpy).not.toHaveReceivedEvent();
+      expect(rotationEventSpy).not.toHaveReceivedEvent();
+
+      let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("two");
+
+      await rotationControl.click();
+      await page.waitForChanges();
+      expect(eventSpy).not.toHaveReceivedEvent();
+      expect(rotationEventSpy).toHaveReceivedEventTimes(1);
+      expect(carousel).toHaveAttribute("rotating");
+
+      await page.waitForChanges();
+      await slide1Button.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(rotationEventSpy).toHaveReceivedEventTimes(2);
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("one");
+      expect(carousel).not.toHaveAttribute("rotating");
+
+      await rotationControl.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(rotationEventSpy).toHaveReceivedEventTimes(3);
+      expect(carousel).toHaveAttribute("rotating");
+
+      await slide2Button.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(rotationEventSpy).toHaveReceivedEventTimes(4);
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("two");
+      expect(carousel).not.toHaveAttribute("rotating");
+
+      await rotationControl.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(rotationEventSpy).toHaveReceivedEventTimes(5);
+      expect(carousel).toHaveAttribute("rotating");
+
+      await slide3Button.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(3);
+      expect(rotationEventSpy).toHaveReceivedEventTimes(6);
+      expect(carousel).not.toHaveAttribute("rotating");
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("three");
+
+      await rotationControl.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(3);
+      expect(rotationEventSpy).toHaveReceivedEventTimes(7);
+      expect(carousel).toHaveAttribute("rotating");
+    });
+
+    it("when rotating, should stop rotation and emit rotation change event when arrow clicked", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent(
+        `<calcite-carousel label="Carousel example" rotation>
+          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+        </calcite-carousel>`,
+      );
+
+      const carousel = await page.find("calcite-carousel");
+      const eventSpy = await page.spyOnEvent("calciteCarouselChange", "window");
+
+      const nextButton = await page.find(`calcite-carousel >>> .${CSS.pageNext}`);
+      const prevButton = await page.find(`calcite-carousel >>> .${CSS.pagePrevious}`);
+
+      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange", "window");
+      const rotationControl = await page.find(`calcite-carousel >>> .${CSS.rotationControl}`);
+
+      expect(eventSpy).not.toHaveReceivedEvent();
+      expect(rotationEventSpy).not.toHaveReceivedEvent();
+
+      let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("two");
+
+      await rotationControl.click();
+      await page.waitForChanges();
+      expect(eventSpy).not.toHaveReceivedEvent();
+      expect(rotationEventSpy).toHaveReceivedEventTimes(1);
+      expect(carousel).toHaveAttribute("rotating");
+
+      await page.waitForChanges();
+      await nextButton.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(rotationEventSpy).toHaveReceivedEventTimes(2);
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("three");
+      expect(carousel).not.toHaveAttribute("rotating");
+
+      await rotationControl.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(rotationEventSpy).toHaveReceivedEventTimes(3);
+      expect(carousel).toHaveAttribute("rotating");
+
+      await nextButton.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(rotationEventSpy).toHaveReceivedEventTimes(4);
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("one");
+      expect(carousel).not.toHaveAttribute("rotating");
+
+      await rotationControl.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(rotationEventSpy).toHaveReceivedEventTimes(5);
+      expect(carousel).toHaveAttribute("rotating");
+
+      await prevButton.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(3);
+      expect(rotationEventSpy).toHaveReceivedEventTimes(6);
+      expect(carousel).not.toHaveAttribute("rotating");
+
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("three");
+
+      await rotationControl.click();
+      await page.waitForChanges();
+      expect(eventSpy).toHaveReceivedEventTimes(3);
+      expect(rotationEventSpy).toHaveReceivedEventTimes(7);
+      expect(carousel).toHaveAttribute("rotating");
+    });
+
+    it("correctly rotates to a new slide after duration elapses", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent(
+        `<calcite-carousel label="Carousel example" rotation rotating>
+          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+        </calcite-carousel>`,
+      );
+
+      const carousel = await page.find("calcite-carousel");
+      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange", "window");
+
+      let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("two");
+      expect(rotationEventSpy).not.toHaveReceivedEvent();
+
+      await page.waitForTimeout(slideDurationWaitTimer);
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("three");
+      expect(rotationEventSpy).not.toHaveReceivedEvent();
+
+      await page.waitForTimeout(slideDurationWaitTimer);
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("one");
+      expect(rotationEventSpy).not.toHaveReceivedEvent();
+    });
+
+    it("correctly stops and starts rotation after control clicked", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent(
+        `<calcite-carousel label="Carousel example" rotation rotating>
+          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+        </calcite-carousel>`,
+      );
+
+      const carousel = await page.find("calcite-carousel");
+      const rotationControl = await page.find(`calcite-carousel >>> .${CSS.rotationControl}`);
+      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange", "window");
+
+      let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("two");
+      expect(rotationEventSpy).not.toHaveReceivedEvent();
+      expect(carousel).toHaveAttribute("rotating");
+
+      await page.waitForTimeout(slideDurationWaitTimer);
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("three");
+
+      await rotationControl.click();
+      await page.waitForChanges();
+
+      expect(rotationEventSpy).toHaveReceivedEventTimes(1);
+      expect(carousel).not.toHaveAttribute("rotating");
+      expect(selectedItem.id).toEqual("three");
+
+      await page.waitForTimeout(slideDurationWaitTimer);
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("three");
+
+      await rotationControl.click();
+      await page.waitForChanges();
+
+      expect(rotationEventSpy).toHaveReceivedEventTimes(2);
+      expect(carousel).toHaveAttribute("rotating");
+      expect(selectedItem.id).toEqual("three");
+
+      await page.waitForTimeout(slideDurationWaitTimer);
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("one");
     });
   });
 

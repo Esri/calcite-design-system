@@ -197,6 +197,8 @@ export const themed_simple_TestOnly = (): string =>
         --calcite-carousel-slide-item-icon-color-selected: blue;
         --calcite-carousel-slide-item-icon-color-active: orange;
         --calcite-carousel-slide-item-icon-color: red;
+        --calcite-carousel-rotation-progress-background-color: purple;
+        --calcite-carousel-rotation-progress-fill-color: pink;
       }
     </style>
     <calcite-carousel>
@@ -260,6 +262,8 @@ export const themed_carouselFullImageWithOverlay_TestOnly = (): string =>
         --calcite-carousel-slide-item-icon-color-selected: pink;
         --calcite-carousel-slide-item-icon-color-active: white;
         --calcite-carousel-slide-item-icon-color: lightgreen;
+        --calcite-carousel-rotation-progress-background-color: purple;
+        --calcite-carousel-rotation-progress-fill-color: pink;
       }
     </style>
     <calcite-carousel control-overlay arrow-type="edges">

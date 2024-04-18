@@ -10,6 +10,8 @@
  * @prop --calcite-carousel-slide-item-icon-color-hover: Specifies the icon color of the component's slide item while hovered.
  * @prop --calcite-carousel-slide-item-icon-color-selected: Specifies the icon color of the component's slide item when selected.
  * @prop --calcite-carousel-slide-item-icon-color: Specifies the icon color of the component's slide item.
+ * @prop --calcite-carousel-rotation-progress-background-color: Specifies the background color of the component's progress when `rotating`.
+ * @prop --calcite-carousel-rotation-progress-fill-color: Specifies the fill color of the component's progress when `rotating`.
  *
  */
 
@@ -45,20 +47,25 @@
     --calcite-carousel-slide-item-icon-color,
     var(--calcite-color-border-input)
   );
+  --calcite-internal-carousel-rotation-progress-background-color: var(
+    --calcite-carousel-rotation-progress-background-color,
+    var(--calcite-color-border-3)
+  );
+
+  --calcite-internal-carousel-rotation-progress-fill-color: var(
+    --calcite-carousel-rotation-progress-fill-color,
+    var(--calcite-color-brand)
+  );
 }
 
 .container {
-  @apply focus-base
-    relative
+  @apply relative
     flex
+    flex-col
     overflow-hidden
     text-color-2
     text-n1h
     w-full;
-  flex-direction: column;
-  &:focus {
-    @apply focus-normal;
-  }
 }
 
 .container.is-edges:not(.is-overlay) {
@@ -72,9 +79,17 @@
     items-start
     justify-center
     overflow-auto
-    flex-auto;
+    flex-auto
+    p-1;
   animation-name: none;
   animation-duration: var(--calcite-animation-timing);
+  &:focus {
+    @apply focus-inset;
+  }
+}
+
+.container.is-overlay .item-container {
+  @apply p-0;
   &:focus {
     @apply focus-inset;
   }
@@ -89,7 +104,7 @@
 }
 
 calcite-carousel-item:not([selected]) {
-  opacity: 0.5;
+  opacity: 0;
 }
 
 /* Pagination Styles*/
@@ -134,6 +149,25 @@ calcite-carousel-item:not([selected]) {
   inset-inline: 0;
 }
 
+.rotation-control {
+  position: relative;
+  --calcite-color-brand: var(--calcite-internal-carousel-rotation-progress-fill-color);
+  --calcite-color-border-3: var(--calcite-internal-carousel-rotation-progress-background-color);
+}
+
+.rotation-control:focus .rotating-progress {
+  inset-block-end: 4px;
+  inset-inline: 2px;
+  inline-size: calc(100% - 4px);
+}
+
+.rotating-progress {
+  position: absolute;
+  inset-block-end: 2px;
+  inset-inline: 0;
+  inline-size: 100%;
+}
+
 .pagination-item {
   @apply focus-base
     transition-default
@@ -170,6 +204,11 @@ calcite-carousel-item:not([selected]) {
     --calcite-color-foreground-1: var(--calcite-internal-carousel-item-background-color-selected);
     --calcite-color-foreground-3: var(--calcite-internal-carousel-item-background-color-selected);
     color: var(--calcite-internal-carousel-item-icon-color-selected);
+    & calcite-icon {
+      background-color: var(--calcite-internal-carousel-item-icon-color-selected);
+      border-radius: var(--calcite-corner-radius-pill);
+      margin: 4px;
+    }
   }
 }
 
@@ -185,6 +224,7 @@ calcite-carousel-item:not([selected]) {
     background-color: var(--calcite-internal-carousel-item-background-color-active);
   }
 }
+
 /* @keyframes*/
 @keyframes item-advance {
   0% {
