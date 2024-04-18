@@ -686,13 +686,13 @@
   min-block-size: theme("height.11");
 }
 
-:host([scale="s"][width="full"]) button:not(.content--slotted),
-:host([scale="s"][width="full"]) a:not(.content--slotted),
-:host([scale="m"][width="full"]) button:not(.content--slotted),
-:host([scale="m"][width="full"]) a:not(.content--slotted),
-:host([scale="l"][width="full"]) button:not(.content--slotted),
-:host([scale="l"][width="full"]) a:not(.content--slotted) {
-  @apply w-full;
+:host(:is([scale="s"], [scale="m"], [scale="l"])[width="full"]) {
+  a,
+  button {
+    &:not(.content--slotted) {
+      inline-size: var(--calcite-container-size-content-fluid);
+    }
+  }
 }
 
 // accommodate for transparent buttons not having borders
