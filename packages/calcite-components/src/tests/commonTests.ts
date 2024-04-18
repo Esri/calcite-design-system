@@ -1841,12 +1841,17 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
 }
 
 /**
+ * This object that represents component tokens and their respective test options.
+ */
+export type ComponentTestTokens = Record<CalciteCSSCustomProp, TestSelectToken | TestSelectToken[]>;
+
+/**
  *
  * Helper to test custom theming of a component's associated tokens.
  *
  * @example
  // describe("theme", () => {
- //   const tokens = {
+ //   const tokens: ComponentTestTokens = {
  //      "--calcite-action-menu-border-color": [
  //        {
  //          targetProp: "borderLeftColor",
@@ -1879,17 +1884,14 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
  //        shadowSelector: "calcite-action",
  //        targetProp: "--calcite-action-background-color",
  //      },
- //   } as const;
+ //   };
  //   themed(`calcite-action-bar`, tokens);
  // });
  *
  * @param componentTestSetup - A component tag, html, tag + e2e page or provider for setting up a test.
  * @param tokens - A record of token names and their associated selectors, shadow selectors, target props, and states.
  */
-export function themed(
-  componentTestSetup: ComponentTestSetup,
-  tokens: Record<CalciteCSSCustomProp, TestSelectToken | TestSelectToken[]>,
-): void {
+export function themed(componentTestSetup: ComponentTestSetup, tokens: ComponentTestTokens): void {
   it("is themeable", async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
     await page.evaluate(() => {
