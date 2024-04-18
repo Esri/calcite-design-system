@@ -117,7 +117,7 @@
     &:focus {
       .selection-icon {
         background-color: var(--calcite-color-transparent-hover);
-        box-shadow: 0.5px 0.5px 0px 5px var(--calcite-color-transparent-hover);
+        box-shadow: 0.4px 0.4px 0px 5px var(--calcite-color-transparent-hover);
       }
     }
   }
@@ -144,7 +144,7 @@
     &:focus {
       .selection-icon {
         background-color: var(--calcite-color-transparent-hover);
-        box-shadow: 0px 0px 0px 8px var(--calcite-color-transparent-hover);
+        box-shadow: 0.4px 0.4px 0px 8px var(--calcite-color-transparent-hover);
       }
     }
   }
@@ -171,7 +171,7 @@
     &:focus {
       .selection-icon {
         background-color: var(--calcite-color-transparent-hover);
-        box-shadow: 0px 0px 0px 10px var(--calcite-color-transparent-hover);
+        box-shadow: 0.4px 0.4px 0px 10px var(--calcite-color-transparent-hover);
       }
     }
   }
