@@ -97,12 +97,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
 
   async function setUpPage(componentTagOrHTML: TagOrHTML, page: E2EPage): Promise<void> {
     await page.evaluate(
-      (
-        eventSequence: string[],
-        initialToggleValue: boolean = false,
-        openPropName: string = "",
-        componentTagOrHTML: string,
-      ) => {
+      (eventSequence: string[], initialToggleValue: boolean, openPropName: string, componentTagOrHTML: string) => {
         const receivedEvents: string[] = [];
 
         (window as EventOrderWindow).events = receivedEvents;
@@ -144,8 +139,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     if (customizedOptions.beforeToggle) {
       await customizedOptions.beforeToggle.open(page);
     } else {
-      const openPropName = customizedOptions.openPropName || "";
-      element.setProperty(openPropName, true);
+      element.setProperty(customizedOptions.openPropName, true);
     }
 
     await page.waitForChanges();
@@ -161,7 +155,7 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     if (customizedOptions.beforeToggle) {
       await customizedOptions.beforeToggle.close(page);
     } else {
-      element.setProperty(customizedOptions.openPropName || "", false);
+      element.setProperty(customizedOptions.openPropName, false);
     }
 
     await page.waitForChanges();
