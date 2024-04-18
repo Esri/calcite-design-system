@@ -37,6 +37,17 @@
 
 .input-wrapper {
   @apply relative;
+
+  .chevron-icon {
+    color: var(--calcite-color-text-3);
+  }
+
+  &:hover,
+  &:active {
+    .chevron-icon {
+      color: var(--calcite-color-text-1);
+    }
+  }
 }
 
 .toggle-icon {
@@ -44,15 +55,6 @@
   inset-inline-end: 0;
   inset-block: 0;
   padding-inline: var(--calcite-toggle-spacing);
-}
-
-.chevron-icon {
-  color: var(--calcite-color-text-3);
-
-  &:hover,
-  &:active {
-    color: var(--calcite-color-text-1);
-  }
 }
 
 :host([range]) {
