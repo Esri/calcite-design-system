@@ -1,15 +1,9 @@
-import { storyFilters, boolean } from "../../../.storybook/helpers";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import { number, select, text } from "@storybook/addon-knobs";
+import { boolean, number, select, text } from "../../../.storybook/fake-knobs";
 
 export default {
   title: "Components/Table",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string =>
@@ -188,6 +182,134 @@ export const alignments_TestOnly = (): string =>
       <calcite-table-cell alignment="end">cell</calcite-table-cell>
       <calcite-table-cell alignment="center">cell</calcite-table-cell>
       <calcite-table-cell alignment="end">cell</calcite-table-cell>
+    </calcite-table-row>
+  </calcite-table>`;
+
+export const alignmentsTableRow_TestOnly = (): string =>
+  html`<calcite-table numbered selection-mode="multiple">
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading" description="Row alignment default (start)"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row alignment="start">
+      <calcite-table-header heading="Heading" description="Row alignment start"></calcite-table-header>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell
+        >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+        table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+        depending on the width of table and copy text and cell and longer text that will often wrap here that could be a
+        few lines or more depending on the width of table and copy text and cell and longer text that will often wrap
+        here that could be a few lines or more depending on the width of table and copy.</calcite-table-cell
+      >
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell
+        >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+        table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+        depending on the width of table and copy text and cell and longer text that will often wrap here that could be a
+        few lines or more depending on the width of table and copy text and cell and longer text that will often wrap
+        here that could be a few lines or more depending on the width of table and copy.</calcite-table-cell
+      >
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row alignment="end">
+      <calcite-table-header heading="Heading" description="Row alignment end"></calcite-table-header>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell
+        >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+        table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+        depending on the width of table and copy text and cell and longer text that will often wrap here that could be a
+        few lines or more depending on the width of table and copy text and cell and longer text that will often wrap
+        here that could be a few lines or more depending on the width of table and copy.</calcite-table-cell
+      >
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer" alignment="end">
+      <calcite-table-header heading="Heading" description="Row alignment end"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer" alignment="center">
+      <calcite-table-header heading="Heading" description="Row alignment center"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+  </calcite-table>`;
+
+export const alignmentsTableRowAndHeadersAndCells_TestOnly = (): string =>
+  html`<calcite-table numbered selection-mode="multiple">
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading" description="Row alignment default (start)"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Header center" alignment="center"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row alignment="start">
+      <calcite-table-header heading="Heading" description="Row alignment start"></calcite-table-header>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell
+        >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+        table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+        depending on the width of table and copy text and cell and longer text that will often wrap here that could be a
+        few lines or more depending on the width of table and copy text and cell and longer text that will often wrap
+        here that could be a few lines or more depending on the width of table and copy.</calcite-table-cell
+      >
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-cell alignment="center">cell align center</calcite-table-cell>
+      <calcite-table-cell alignment="end">cell align end</calcite-table-cell>
+      <calcite-table-cell
+        >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+        table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+        depending on the width of table and copy text and cell and longer text that will often wrap here that could be a
+        few lines or more depending on the width of table and copy text and cell and longer text that will often wrap
+        here that could be a few lines or more depending on the width of table and copy.</calcite-table-cell
+      >
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row alignment="end">
+      <calcite-table-header heading="Heading" description="Row alignment end"></calcite-table-header>
+      <calcite-table-cell alignment="center">cell align center</calcite-table-cell>
+      <calcite-table-cell alignment="end">cell align end</calcite-table-cell>
+      <calcite-table-cell alignment="center"
+        >cell and longer text that will often wrap here that could be a few lines or more depending on the width of
+        table and copy text and cell and longer text that will often wrap here that could be a few lines or more
+        depending on the width of table and copy text and cell and longer text that will often wrap here that could be a
+        few lines or more depending on the width of table and copy text and cell and longer text that will often wrap
+        here that could be a few lines or more depending on the width of table and copy.</calcite-table-cell
+      >
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer" alignment="end">
+      <calcite-table-header heading="Heading" description="Row alignment end"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="alignment end" alignment="end"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row slot="table-footer" alignment="center">
+      <calcite-table-header heading="Heading" description="Row alignment center"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="alignment end" alignment="end"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
     </calcite-table-row>
   </calcite-table>`;
 
@@ -1297,7 +1419,7 @@ export const darkModeRTL_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const darkModeRTLWithSelection_TestOnly = (): string =>
   html`<calcite-table striped caption="Simple-striped table" dir="rtl" selection-mode="multiple">
@@ -1327,4 +1449,4 @@ export const darkModeRTLWithSelection_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-darkModeRTLWithSelection_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTLWithSelection_TestOnly.parameters = { themes: modesDarkDefault };

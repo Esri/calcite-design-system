@@ -1,5 +1,7 @@
 # calcite-tile
 
+For comprehensive guidance on using and implementing `calcite-tile`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tile/).
+
 <!-- Auto Generated Below -->
 
 ## Usage
@@ -32,10 +34,12 @@
 
 ## Slots
 
-| Slot              | Description                                                               |
-| ----------------- | ------------------------------------------------------------------------- |
-| `"content-end"`   | A slot for adding non-actionable elements after the component's content.  |
-| `"content-start"` | A slot for adding non-actionable elements before the component's content. |
+| Slot               | Description                                                                                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `"content-bottom"` | A slot for adding non-actionable elements below the component's content.                                                                   |
+| `"content-end"`    | [Deprecated] use `content-bottom` slot instead. A slot for adding non-actionable elements after the component's content.                   |
+| `"content-start"`  | [Deprecated] use `content-top` slot instead. A slot for adding non-actionable elements before the component's content.                     |
+| `"content-top"`    | A slot for adding non-actionable elements above the component's content. Content slotted here will render in place of the `icon` property. |
 
 ## CSS Custom Properties
 

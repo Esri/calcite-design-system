@@ -5,9 +5,9 @@ import autoprefixer from "autoprefixer";
 import { reactOutputTarget } from "@stencil/react-output-target";
 import { angularOutputTarget } from "@stencil/angular-output-target";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
+import stylelint from "stylelint";
 import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
-import stylelint from "stylelint";
 import { version } from "./package.json";
 
 export const create: () => Config = () => ({
@@ -141,7 +141,7 @@ export const create: () => Config = () => ({
     }),
   ],
   testing: {
-    watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
+    browserHeadless: "new",
     moduleNameMapper: {
       "^lodash-es$": "lodash",
     },
@@ -150,6 +150,7 @@ export const create: () => Config = () => ({
       "calcite-design-tokens/dist/es6/.*\\.js$":
         "<rootDir>../../node_modules/@stencil/core/testing/jest-preprocessor.js",
     },
+    watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
   },
   hydratedFlag: {
     selector: "attribute",

@@ -2,9 +2,10 @@ import { E2EPage, E2EElement, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "../tree-item/resources";
-import SpyInstance = jest.SpyInstance;
 import { getFocusedElementProp } from "../../tests/utils";
 import { SelectionMode } from "../interfaces";
+
+type SpyInstance = jest.SpyInstance;
 
 /**
  * Helper to ensure an item is clicked and avoids clicking on any of its children

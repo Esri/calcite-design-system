@@ -1,5 +1,7 @@
 # calcite-combobox-item
 
+For comprehensive guidance on using and implementing `calcite-combobox-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/combobox-item/).
+
 <!-- Auto Generated Below -->
 
 ## Properties

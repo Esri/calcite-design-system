@@ -1,8 +1,6 @@
 # calcite-list-item
 
-A general purpose list that enables users to construct list items that conform to Calcite styling.
-
-If you are looking for a list that handles more advanced usage like selection, see the documentation for 'calcite-pick-list' or 'calcite-value-list'.
+For comprehensive guidance on using and implementing `calcite-list-item`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/list-item/).
 
 <!-- Auto Generated Below -->
 

@@ -1,5 +1,7 @@
 # calcite-input-number
 
+For comprehensive guidance on using and implementing `calcite-input-number`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/input-number/).
+
 <!-- Auto Generated Below -->
 
 ## Usage

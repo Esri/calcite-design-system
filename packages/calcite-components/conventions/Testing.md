@@ -18,7 +18,58 @@ If you are adding or updating shared utilities or shared modules you should make
 
 ### Visual regression tests
 
-You don't have to worry about writing visual regression tests. We cover those automatically using [Chromatic](https://www.chromatic.com/) in our build pipeline.
+Visual regression tests are handled by [Chromatic](https://www.chromatic.com/) in our build pipeline and rely on [Storybook](https://storybook.js.org/).
+
+### Writing stories
+
+For each main component (i.e. one that can be used by itself), there should be a `<component-name>.stories.ts` file (following [Component Story Format (CSF)](https://storybook.js.org/docs/html/api/csf)) in its component folder.
+
+The following shows what a minimal stories file should look like (explained below):
+
+```ts
+import { modesDarkDefault } from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
+
+export default {
+  title: "Components/My Component",
+};
+
+export const simple = (): string => html`<my-component></my-component>`;
+
+simple.parameters = {
+  args: {
+    demoProp: true,
+  },
+};
+
+export const darkModeRTL = (): string =>
+  html`<my-component demo-prop dir="rtl" class="calcite-mode-dark"></my-component>`;
+
+darkModeRTL.parameters = { modes: modesDarkDefault };
+```
+
+#### General guidelines
+
+- Story names should be camelCased
+- Update the [main custom theme](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/custom-theme.stories.ts) story instead of adding a specific story showing how to use a custom CSS prop
+- Should only have HTML for the component or use case itself (e.g., no need to wrap in calcite-label)
+- Update the `simple` story with corresponding [controls](https://storybook.js.org/docs/essentials/controls) instead of adding a story specific to a new prop with its respective control
+- Don't add or update a story if it is covered by an existing one
+
+#### Interactive showcase stories
+
+- Should have controls configured to allow users to toggle different properties available to the component
+- The simplest, base configuration should be named `simple` for consistency
+- This story should have as many controls as possible for users to interact with
+- Should have one story per unique, supported use case
+- New stories that can be covered by adding a new prop/control should instead update an existing playground story
+
+#### Screenshot stories
+
+- Should have the minimal HTML needed to reproduce the test scenario
+- Should not have controls since screenshot tests cannot interact with them
+- The `simple` story and any other significant configurations should have a matching `darkModeRTL` story
+  - **Note**: In order to reduce snapshot count, dark mode and RTL visual tests have been combined
 
 ## Writing Tests
 

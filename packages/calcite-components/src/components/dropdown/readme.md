@@ -1,6 +1,6 @@
 # calcite-dropdown
 
-A `calcite-dropdown` can be used to provide an absolutely positioned set of selectable items. You can combine multiple groups of items and selection modes, and optionally pass a title for each group. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
+For comprehensive guidance on using and implementing `calcite-dropdown`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/dropdown/).
 
 <!-- Auto Generated Below -->
 

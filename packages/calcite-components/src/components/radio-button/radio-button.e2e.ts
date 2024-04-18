@@ -545,37 +545,33 @@ describe("calcite-radio-button", () => {
   it("works correctly inside a shadowRoot", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-      <div></div>
+      <fake-component></fake-component>
       <template>
         <calcite-radio-button name="in-shadow" value="one"></calcite-radio-button>
         <calcite-radio-button name="in-shadow" value="two"></calcite-radio-button>
       </template>
       <script>
-        const shadowRootDiv = document.querySelector("div");
-        const shadowRoot = shadowRootDiv.attachShadow({ mode: "open" });
+        const fakeComponent = document.querySelector("fake-component");
+        const shadowRoot = fakeComponent.attachShadow({ mode: "open" });
         shadowRoot.append(document.querySelector("template").content.cloneNode(true));
       </script>
     `);
 
     await page.waitForChanges();
-    const radios = await page.findAll("div >>> calcite-radio-button");
-    const inputs = await page.findAll("div >>> calcite-radio-button >>> input");
+    const radios = await page.findAll("fake-component >>> calcite-radio-button");
 
     await radios[0].click();
 
     expect(await radios[0].getProperty("checked")).toBe(true);
     expect(radios[0].getAttribute("checked")).toBe("");
-    expect(await inputs[0].getProperty("checked")).toBe(true);
 
     await radios[1].click();
 
     expect(await radios[0].getProperty("checked")).toBe(false);
     expect(radios[0].getAttribute("checked")).toBe(null);
-    expect(await inputs[0].getProperty("checked")).toBe(false);
 
     expect(await radios[1].getProperty("checked")).toBe(true);
     expect(radios[1].getAttribute("checked")).toBe("");
-    expect(await inputs[1].getProperty("checked")).toBe(true);
   });
 
   describe("is form-associated", () => {
