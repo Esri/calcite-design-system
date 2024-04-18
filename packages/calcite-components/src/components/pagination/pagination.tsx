@@ -242,6 +242,34 @@ export class Pagination
     this.startItem = Math.max(1, this.startItem - this.pageSize);
   }
 
+  /**
+   * Set a specified page as active.
+   *
+   * @param page
+   */
+  @Method()
+  async goToPage(page: number): Promise<void> {
+    if (page > this.totalPages) {
+      this.startItem = this.totalPages;
+    } else if (page < 1) {
+      this.startItem = 1;
+    } else {
+      this.startItem = page;
+    }
+  }
+
+  /** Set the first page as active. */
+  @Method()
+  async startPage(): Promise<void> {
+    this.startItem = 1;
+  }
+
+  /** Set the last page as active. */
+  @Method()
+  async endPage(): Promise<void> {
+    this.startItem = this.totalPages;
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods

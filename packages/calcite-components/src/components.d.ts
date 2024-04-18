@@ -3379,6 +3379,15 @@ export namespace Components {
     }
     interface CalcitePagination {
         /**
+          * Set the last page as active.
+         */
+        "endPage": () => Promise<void>;
+        /**
+          * Set a specified page as active.
+          * @param page
+         */
+        "goToPage": (page: number) => Promise<void>;
+        /**
           * When `true`, number values are displayed with a group separator corresponding to the language and country format.
          */
         "groupSeparator": boolean;
@@ -3418,6 +3427,10 @@ export namespace Components {
           * Specifies the starting item number.
          */
         "startItem": number;
+        /**
+          * Set the first page as active.
+         */
+        "startPage": () => Promise<void>;
         /**
           * Specifies the total number of items.
          */
