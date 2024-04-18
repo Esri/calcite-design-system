@@ -47,11 +47,7 @@ export async function assertLabelable({
     expect(
       await page.$eval(
         componentTag,
-        (element: Element, selector: string) => {
-          const shadowRoot = element.shadowRoot;
-          const activeElement = shadowRoot!.activeElement;
-          return activeElement ? activeElement.matches(selector) : false;
-        },
+        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
         shadowFocusTargetSelector,
       ),
     ).toBe(true);
