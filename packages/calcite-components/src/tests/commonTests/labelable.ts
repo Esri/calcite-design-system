@@ -26,10 +26,11 @@ export async function assertLabelable({
   focusTargetSelector?: string;
   shadowFocusTargetSelector?: string;
 }): Promise<void> {
+  let initialPropertyValue: boolean;
   const component = await page.find(componentTag);
 
   if (propertyToToggle) {
-    await component.getProperty(propertyToToggle);
+    initialPropertyValue = await component.getProperty(propertyToToggle);
   }
 
   const label = await page.find("calcite-label");
@@ -54,7 +55,6 @@ export async function assertLabelable({
   }
 
   if (propertyToToggle) {
-    const initialPropertyValue: boolean = await component.getProperty(propertyToToggle);
     const toggledPropertyValue = !initialPropertyValue;
     expect(await component.getProperty(propertyToToggle)).toBe(toggledPropertyValue);
 
@@ -139,7 +139,7 @@ export function labelable(
         const template = document.querySelector("template");
         const labelEl = document.querySelector("calcite-label");
 
-        labelEl!.append(template!.content.cloneNode(true));
+        labelEl.append(template.content.cloneNode(true));
       }, componentHtml);
       await labelFirstWrappedPage.waitForChanges();
 
@@ -161,7 +161,7 @@ export function labelable(
         const componentEl = document.querySelector(`[id='${id}']`);
         const labelEl = document.createElement("calcite-label");
         document.body.append(labelEl);
-        labelEl.append(componentEl!);
+        labelEl.append(componentEl);
       }, id);
       await componentFirstWrappedPage.waitForChanges();
 
@@ -234,8 +234,7 @@ export function labelable(
       await labelFirstSiblingPage.waitForChanges();
       await labelFirstSiblingPage.evaluate(() => {
         const template = document.querySelector("template");
-
-        document.body.append(template!.content.cloneNode(true));
+        document.body.append(template.content.cloneNode(true));
       }, componentHtml);
       await labelFirstSiblingPage.waitForChanges();
 
