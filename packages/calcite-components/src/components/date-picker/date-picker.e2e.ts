@@ -112,22 +112,7 @@ describe("calcite-date-picker", () => {
         shadowSelector: "calcite-date-picker-month",
       },
     } as const;
-    themed(
-      `<calcite-date-picker-month-header active-date="${new Date()}" locale-data"${{
-        "default-calendar": "gregorian",
-        separator: "/",
-        unitOrder: "DD/MM/YYYY",
-        weekStart: 7,
-        placeholder: "DD/MM/YYYY",
-        numerals: "0123456789",
-        months: {
-          abbreviated: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-          narrow: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
-          wide: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        },
-      }}">`,
-      tokens,
-    );
+    themed(html`<calcite-date-picker value="2000-11-27"></calcite-date-picker>`, tokens);
   });
 
   const animationDurationInMs = 200;
