@@ -681,7 +681,7 @@ export class InputDatePicker
       // we set tab index to -1 to prevent delegatesFocus from stealing focus before we can set it
       <span class={CSS.toggleIcon} tabIndex={-1}>
         <calcite-icon
-          class={open ? "chevron-icon-up" : "chevron-icon-down"}
+          class={CSS.chevronIcon}
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
         />

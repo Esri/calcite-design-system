@@ -46,16 +46,13 @@
   padding-inline: var(--calcite-toggle-spacing);
 }
 
-.chevron-icon-down {
+.chevron-icon {
   color: var(--calcite-color-text-3);
 
-  &:hover {
+  &:hover,
+  &:active {
     color: var(--calcite-color-text-1);
   }
-}
-
-.chevron-icon-up {
-  color: var(--calcite-color-text-1);
 }
 
 :host([range]) {
