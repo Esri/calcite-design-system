@@ -174,23 +174,24 @@ export class DatePickerMonth {
     }
 
     const isRTL = this.el.dir === "rtl";
-
+    const target = event.target as HTMLCalciteDatePickerDayElement;
     switch (event.key) {
       case "ArrowUp":
         event.preventDefault();
-        this.addDays(-7);
+        this.addDays(-7, target.value);
         break;
       case "ArrowRight":
         event.preventDefault();
-        this.addDays(isRTL ? -1 : 1);
+        this.addDays(isRTL ? -1 : 1, target.value);
         break;
       case "ArrowDown":
+        console.log(event.target, event.currentTarget);
         event.preventDefault();
-        this.addDays(7);
+        this.addDays(7, target.value);
         break;
       case "ArrowLeft":
         event.preventDefault();
-        this.addDays(isRTL ? 1 : -1);
+        this.addDays(isRTL ? 1 : -1, target.value);
         break;
       case "PageUp":
         event.preventDefault();
@@ -203,14 +204,14 @@ export class DatePickerMonth {
       case "Home":
         event.preventDefault();
         this.activeDate.setDate(1);
-        this.addDays();
+        this.addDays(0, target.value);
         break;
       case "End":
         event.preventDefault();
         this.activeDate.setDate(
           new Date(this.activeDate.getFullYear(), this.activeDate.getMonth() + 1, 0).getDate(),
         );
-        this.addDays();
+        this.addDays(0, target.value);
         break;
       case "Enter":
       case " ":
@@ -271,7 +272,7 @@ export class DatePickerMonth {
     // const nextMonthWeeks = this.getWeeks(nextMonthDays);
 
     return (
-      <Host onFocusOut={this.disableActiveFocus}>
+      <Host onFocusout={this.disableActiveFocus}>
         <div class="month-header">
           <calcite-date-picker-month-header
             activeDate={this.activeDate}
@@ -343,10 +344,11 @@ export class DatePickerMonth {
    * Add n days to the current date
    *
    * @param step
+   * @param targetDate
    */
-  private addDays(step = 0) {
-    const nextDate = new Date(this.focusedDate);
-    nextDate.setDate(this.focusedDate.getDate() + step);
+  private addDays(step = 0, targetDate: Date) {
+    const nextDate = new Date(targetDate);
+    nextDate.setDate(targetDate.getDate() + step);
     this.calciteInternalDatePickerActiveDateChange.emit(
       dateFromRange(nextDate, this.min, this.max),
     );
@@ -606,7 +608,13 @@ export class DatePickerMonth {
       }),
       ...currMonthDays.map((day) => {
         const date = new Date(year, month, day);
-        const active = sameDate(date, this.focusedDate);
+        const active =
+          this.focusedDate &&
+          this.focusedDate !== this.startDate &&
+          this.focusedDate !== this.endDate
+            ? sameDate(date, this.focusedDate)
+            : sameDate(date, this.startDate) || sameDate(date, this.endDate);
+
         return {
           active,
           currentMonth: true,
