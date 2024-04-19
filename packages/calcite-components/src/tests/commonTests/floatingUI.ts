@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-export -- Util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks. */
 import { toHaveNoViolations } from "jest-axe";
 import type { JSX } from "../../components";
 import { getTag, simplePageSetup } from "./utils";

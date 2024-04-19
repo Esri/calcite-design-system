@@ -73,6 +73,10 @@ module.exports = {
     "import/no-dynamic-require": ["error", { esmodule: true }],
     "import/order": ["error", { "newlines-between": "never" }],
     "jest/no-export": "warn",
+    /* Using conditional logic in a confined test helper to handle specific scenarios, reducing duplication, balancing test readability and maintainability. **/
+    "jest/no-conditional-expect": "off",
+    /* Util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks. */
+    "jest/no-export": "off",
     "jsdoc/check-tag-names": "off",
     "jsdoc/require-jsdoc": "off",
     "jsdoc/require-param-type": "off",
@@ -96,7 +100,7 @@ module.exports = {
           {
             group: ["tests/commonTests/*"],
             message:
-              "Import named functions from commonTests instead of direct module imports, eg. import { disabled } from 'tests/commonTests'",
+              "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'",
           },
         ],
       },

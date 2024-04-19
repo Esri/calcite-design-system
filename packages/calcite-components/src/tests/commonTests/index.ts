@@ -11,16 +11,4 @@ export { formAssociated } from "./formAssociated";
 export { slots } from "./slots";
 export { labelable } from "./labelable";
 export { t9n } from "./t9n";
-export {
-  TagAndPage,
-  TagOrHTMLWithBeforeContent,
-  isHTML,
-  getTag,
-  simplePageSetup,
-  getTagAndPage,
-  ComponentTestSetupProvider,
-  ComponentTestContent,
-  ComponentTestSetup,
-  getTagOrHTMLWithBeforeContent,
-  HYDRATED_ATTR,
-} from "./utils";
+export { TagAndPage, HYDRATED_ATTR } from "./utils";
