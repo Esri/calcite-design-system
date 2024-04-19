@@ -42,9 +42,9 @@
     color: var(--calcite-color-text-3);
   }
 
-  &:hover,
+  &:focus-within,
   &:active,
-  &:focus {
+  &:hover {
     .chevron-icon {
       color: var(--calcite-color-text-1);
     }
