@@ -142,7 +142,7 @@ export class TileGroup implements InteractiveComponent {
     }
   };
 
-  private setSlotElRef = (el: HTMLSlotElement): void => {
+  private setSlotEl = (el: HTMLSlotElement): void => {
     this.slotEl = el;
   };
 
@@ -241,7 +241,7 @@ export class TileGroup implements InteractiveComponent {
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div aria-label={this.label} class={CSS.container} role={role}>
-          <slot onSlotchange={this.updateItems} ref={this.setSlotElRef} />
+          <slot onSlotchange={this.updateItems} ref={this.setSlotEl} />
         </div>
       </InteractiveContainer>
     );
