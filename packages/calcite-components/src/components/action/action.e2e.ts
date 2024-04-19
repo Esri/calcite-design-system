@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, hidden, renders, slots, t9n, defaults } from "../../tests/commonTests";
+import { waitForTimeout } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action", () => {
@@ -98,7 +99,7 @@ describe("calcite-action", () => {
 
     const action = await page.find("calcite-action");
 
-    await page.waitForTimeout(1);
+    waitForTimeout(1);
 
     action.innerHTML = `<calcite-icon icon="hamburger" scale="s"></calcite-icon>`;
 

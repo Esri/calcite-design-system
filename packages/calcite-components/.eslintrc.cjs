@@ -89,6 +89,14 @@ module.exports = {
       },
     ],
     "no-new-func": "error",
+    "no-restricted-properties": [
+      "error",
+      {
+        object: "page",
+        property: "waitForTimeout",
+        message: "`E2EPage.waitForTimeout` is deprecated. Find alternative or use `waitForTimeout` util from test utils instead.",
+      },
+    ],
     "no-unneeded-ternary": "error",
     "one-var": ["error", "never"],
     "react/forbid-component-props": [
