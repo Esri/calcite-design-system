@@ -1,4 +1,4 @@
-export const DURATION = 6;
+export const DURATION = 6000;
 
 export const CSS = {
   container: "container",

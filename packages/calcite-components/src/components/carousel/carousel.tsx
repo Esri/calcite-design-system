@@ -85,7 +85,7 @@ export class Carousel
   @Prop({ reflect: true }) rotation = false;
 
   /**
-   *  When `rotation` is `true`, specifies in seconds the length of time to display each Carousel Item
+   *  When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item
    */
   @Prop({ reflect: true }) rotationDuration = DURATION;
 
@@ -307,7 +307,7 @@ export class Carousel
 
   private rotationHandler = (): void => {
     clearInterval(this.slideDurationInterval);
-    this.slideDurationInterval = setInterval(this.timer, this.rotationDuration);
+    this.slideDurationInterval = setInterval(this.timer, this.rotationDuration / 100);
   };
 
   private timer = (time?: number): void => {

@@ -864,7 +864,7 @@ export namespace Components {
          */
         "rotation": boolean;
         /**
-          * When `rotation` is `true`, specifies in seconds the length of time to display each Carousel Item
+          * When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item
          */
         "rotationDuration": number;
         /**
@@ -8314,7 +8314,7 @@ declare namespace LocalJSX {
          */
         "rotation"?: boolean;
         /**
-          * When `rotation` is `true`, specifies in seconds the length of time to display each Carousel Item
+          * When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item
          */
         "rotationDuration"?: number;
         /**

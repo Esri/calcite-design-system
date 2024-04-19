@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS, DURATION } from "./resources";
 
-const slideDurationWaitTimer = DURATION + 1;
+const slideDurationWaitTimer = DURATION + 1000;
 
 describe("calcite-carousel", () => {
   describe("renders", () => {
@@ -440,7 +440,7 @@ describe("calcite-carousel", () => {
       const page = await newE2EPage();
 
       await page.setContent(
-        `<calcite-carousel label="Carousel example" rotation rotating rotation-duration="2">
+        `<calcite-carousel label="Carousel example" rotation rotating rotation-duration="2000">
           <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
           <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
           <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
@@ -449,7 +449,7 @@ describe("calcite-carousel", () => {
 
       const carousel = await page.find("calcite-carousel");
       const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange", "window");
-      const customSlideDurationWaitTimer = parseInt(carousel.getAttribute("rotation-duration")) + 1;
+      const customSlideDurationWaitTimer = parseInt(carousel.getAttribute("rotation-duration")) + 1000;
 
       let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("two");
