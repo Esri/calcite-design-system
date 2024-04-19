@@ -48,6 +48,7 @@
   &:focus {
     @apply focus-inset;
     color: var(--calcite-handle-icon-color-focus, var(--calcite-color-text-1));
+    background-color: var(--calcite-handle-background-color-focus);
   }
   &--selected {
     color: var(--calcite-handle-icon-color-selected, var(--calcite-color-text-1));
