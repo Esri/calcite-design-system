@@ -249,8 +249,9 @@ export class Pagination
    */
   @Method()
   async goToPage(page: number): Promise<void> {
-    if (page > this.totalPages) {
-      this.startItem = this.totalPages;
+    const totalPages = Math.ceil(this.totalPages);
+    if (page > totalPages) {
+      this.startItem = totalPages;
     } else if (page < 1) {
       this.startItem = 1;
     } else {
@@ -267,7 +268,7 @@ export class Pagination
   /** Set the last page as active. */
   @Method()
   async endPage(): Promise<void> {
-    this.startItem = this.totalPages;
+    this.startItem = Math.ceil(this.totalPages);
   }
 
   // --------------------------------------------------------------------------

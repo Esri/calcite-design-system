@@ -313,7 +313,7 @@ describe("calcite-pagination", () => {
 
     it("navigates using goToPage", async () => {
       const element = await page.find("calcite-pagination");
-      await element.callMethod("goToPage", [3]);
+      await element.callMethod("goToPage", 3);
       await page.waitForChanges();
       const button = await page.findAll(`calcite-pagination >>> .selected`);
       const item = await element.getProperty("startItem");
