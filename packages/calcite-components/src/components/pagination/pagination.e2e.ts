@@ -280,7 +280,7 @@ describe("calcite-pagination", () => {
     });
   });
 
-  describe("go to methods", () => {
+  describe("seek methods", () => {
     let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();
