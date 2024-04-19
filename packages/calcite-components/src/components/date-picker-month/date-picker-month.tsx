@@ -185,7 +185,6 @@ export class DatePickerMonth {
         this.addDays(isRTL ? -1 : 1, target.value);
         break;
       case "ArrowDown":
-        console.log(event.target, event.currentTarget);
         event.preventDefault();
         this.addDays(7, target.value);
         break;

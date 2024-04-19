@@ -412,14 +412,15 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   monthActiveDateChange = (event: CustomEvent<Date>): void => {
     const date = new Date(event.detail);
-
     if (!this.range) {
       this.activeDate = date;
     } else {
       const month = date.getMonth();
       if (this.activeRange === "end") {
         if (
-          (this.activeEndDate && month !== prevMonth(this.activeEndDate).getMonth()) ||
+          (this.activeEndDate &&
+            month !== prevMonth(this.activeEndDate).getMonth() &&
+            month !== this.activeEndDate.getMonth()) ||
           !this.activeEndDate
         ) {
           this.activeEndDate = date;
@@ -427,7 +428,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         }
       } else {
         if (
-          (this.activeStartDate && month !== nextMonth(this.activeStartDate).getMonth()) ||
+          (this.activeStartDate &&
+            month !== nextMonth(this.activeStartDate).getMonth() &&
+            month !== this.activeStartDate.getMonth()) ||
           !this.activeStartDate
         ) {
           this.activeStartDate = date;
