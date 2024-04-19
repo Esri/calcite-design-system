@@ -96,7 +96,7 @@ module.exports = {
           {
             group: ["tests/commonTests/*"],
             message:
-              "Direct imports of modules are not allowed. Import named functions from commonTests instead, eg. import { disabled } from 'tests/commonTests'",
+              "Import named functions from commonTests instead of direct module imports, eg. import { disabled } from 'tests/commonTests'",
           },
         ],
       },
