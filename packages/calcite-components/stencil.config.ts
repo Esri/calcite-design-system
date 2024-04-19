@@ -141,7 +141,7 @@ export const create: () => Config = () => ({
     }),
   ],
   testing: {
-    watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
+    browserHeadless: true,
     moduleNameMapper: {
       "^lodash-es$": "lodash",
     },
@@ -150,6 +150,7 @@ export const create: () => Config = () => ({
       "calcite-design-tokens/dist/es6/.*\\.js$":
         "<rootDir>../../node_modules/@stencil/core/testing/jest-preprocessor.js",
     },
+    watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
   },
   hydratedFlag: {
     selector: "attribute",

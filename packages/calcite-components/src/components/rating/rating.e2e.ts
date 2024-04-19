@@ -9,7 +9,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { isElementFocused } from "../../tests/utils";
+import { isElementFocused, waitForTimeout } from "../../tests/utils";
 
 describe("calcite-rating", () => {
   describe("common tests", () => {
@@ -602,7 +602,7 @@ describe("calcite-rating", () => {
       await page.waitForChanges();
       await page.keyboard.press("Tab");
       await page.waitForChanges();
-      await page.waitForTimeout(200);
+      waitForTimeout(200);
 
       const hoveredElements = await page.findAll("calcite-rating >>> .star.hovered");
       const selectedElements = await page.findAll("calcite-rating >>> .star.selected");

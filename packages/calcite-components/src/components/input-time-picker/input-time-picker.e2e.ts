@@ -12,7 +12,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
+import { getFocusedElementProp, skipAnimations, waitForAnimationFrame, waitForTimeout } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 
@@ -874,7 +874,7 @@ describe("calcite-input-time-picker", () => {
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      await page.waitForTimeout(stopgapDelayUntilOpenCloseEventsAreImplemented);
+      waitForTimeout(stopgapDelayUntilOpenCloseEventsAreImplemented);
 
       expect(await popover.isVisible()).toBe(true);
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-TIME-PICKER");
@@ -889,7 +889,7 @@ describe("calcite-input-time-picker", () => {
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
-      await page.waitForTimeout(stopgapDelayUntilOpenCloseEventsAreImplemented);
+      waitForTimeout(stopgapDelayUntilOpenCloseEventsAreImplemented);
 
       expect(await popover.isVisible()).toBe(false);
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");

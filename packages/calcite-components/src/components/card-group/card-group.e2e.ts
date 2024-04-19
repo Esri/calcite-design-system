@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, renders, hidden, disabled } from "../../tests/commonTests";
-import { GlobalTestProps } from "../../tests/utils";
+import { GlobalTestProps, waitForTimeout } from "../../tests/utils";
 import { CSS } from "../card/resources";
 
 describe("calcite-card-group", () => {
@@ -435,7 +435,7 @@ interface SelectedItemsAssertionOptions {
  * @param root0.expectedItemIds
  */
 async function assertSelectedItems(page: E2EPage, { expectedItemIds }: SelectedItemsAssertionOptions): Promise<void> {
-  await page.waitForTimeout(100);
+  await waitForTimeout(100);
   const selectedItemIds = await page.evaluate(() => {
     const cardGroup = document.querySelector<HTMLCalciteCardGroupElement>("calcite-card-group");
     return cardGroup.selectedItems.map((item) => item.id);
