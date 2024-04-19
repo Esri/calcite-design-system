@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, renders, hidden, disabled } from "../../tests/commonTests";
+import { focusable, renders, hidden, disabled, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-dropdown-item", () => {
   describe("renders", () => {
@@ -48,5 +49,39 @@ describe("calcite-dropdown-item", () => {
     await calciteDropdownItemSelectEvent;
 
     expect(itemChangeSpy).toHaveReceivedEventTimes(3);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-dropdown-item", {
+        "--calcite-dropdown-item-background-color": {
+          shadowSelector: `.container`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-dropdown-item-indicator-color": {
+          shadowSelector: `.dropdown-item-icon`,
+          targetProp: "color",
+        },
+        "--calcite-dropdown-item-text-color": {
+          shadowSelector: `.container`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("with start/end icon", () => {
+      themed(html`<calcite-dropdown-item icon-start="banana" icon-end="banana"></calcite-dropdown-item>`, {
+        "--calcite-dropdown-item-icon-color": [
+          {
+            shadowSelector: `.dropdown-item-icon-start`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.dropdown-item-icon-end`,
+            targetProp: "color",
+          },
+        ],
+      });
+    });
   });
 });

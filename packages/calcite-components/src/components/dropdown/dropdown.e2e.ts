@@ -11,6 +11,7 @@ import {
   openClose,
   reflects,
   renders,
+  themed,
 } from "../../tests/commonTests";
 import { GlobalTestProps, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils";
 
@@ -1367,6 +1368,26 @@ describe("calcite-dropdown", () => {
       await page.waitForChanges();
 
       expect(await isElementFocused(page, "#item-3")).toBe(true);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-dropdown", {
+        "--calcite-dropdown-background-color": {
+          shadowSelector: `.calcite-dropdown-content`,
+          targetProp: "backgroundColor",
+        },
+      });
+    });
+
+    describe("deprecated", () => {
+      themed("calcite-dropdown", {
+        "--calcite-dropdown-width": {
+          shadowSelector: `.calcite-dropdown-content`,
+          targetProp: "inlineSize",
+        },
+      });
     });
   });
 });
