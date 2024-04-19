@@ -291,7 +291,7 @@ describe("calcite-pagination", () => {
 
     it("navigates to last page", async () => {
       const element = await page.find("calcite-pagination");
-      await element.callMethod("endPage");
+      await element.callMethod("goToPage", "end");
       await page.waitForChanges();
       const item = await element.getProperty("startItem");
       expect(item).toEqual(7);
@@ -299,11 +299,13 @@ describe("calcite-pagination", () => {
 
     it("navigates to first page", async () => {
       const element = await page.find("calcite-pagination");
-      await element.callMethod("endPage");
+      await element.callMethod("goToPage", "end");
       await page.waitForChanges();
-      await element.callMethod("startPage");
+      let item = await element.getProperty("startItem");
+      expect(item).toEqual(7);
+      await element.callMethod("goToPage", "start");
       await page.waitForChanges();
-      const item = await element.getProperty("startItem");
+      item = await element.getProperty("startItem");
       expect(item).toEqual(1);
     });
 
@@ -311,8 +313,16 @@ describe("calcite-pagination", () => {
       const element = await page.find("calcite-pagination");
       await element.callMethod("goToPage", 3);
       await page.waitForChanges();
-      const item = await element.getProperty("startItem");
+      let item = await element.getProperty("startItem");
       expect(item).toEqual(3);
+      await element.callMethod("goToPage", 10);
+      await page.waitForChanges();
+      item = await element.getProperty("startItem");
+      expect(item).toEqual(7);
+      await element.callMethod("goToPage", 0);
+      await page.waitForChanges();
+      item = await element.getProperty("startItem");
+      expect(item).toEqual(1);
     });
   });
 });

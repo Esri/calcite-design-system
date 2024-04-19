@@ -248,27 +248,27 @@ export class Pagination
    * @param page
    */
   @Method()
-  async goToPage(page: number): Promise<void> {
-    const totalPages = Math.ceil(this.totalPages);
-    if (page > totalPages) {
-      this.startItem = totalPages;
-    } else if (page < 1) {
-      this.startItem = 1;
-    } else {
-      this.startItem = page;
+  async goToPage(page: number | "start" | "end"): Promise<void> {
+    switch (page) {
+      case "start":
+        this.startItem = 1;
+        break;
+      case "end":
+        this.startItem = Math.ceil(this.totalPages);
+        break;
+      default:
+        {
+          const totalPages = Math.ceil(this.totalPages);
+          if (page > totalPages) {
+            this.startItem = totalPages;
+          } else if (page < 1) {
+            this.startItem = 1;
+          } else {
+            this.startItem = page;
+          }
+        }
+        break;
     }
-  }
-
-  /** Set the first page as active. */
-  @Method()
-  async startPage(): Promise<void> {
-    this.startItem = 1;
-  }
-
-  /** Set the last page as active. */
-  @Method()
-  async endPage(): Promise<void> {
-    this.startItem = Math.ceil(this.totalPages);
   }
 
   // --------------------------------------------------------------------------
