@@ -21,8 +21,8 @@ export const CSS = {
 export const ICONS = {
   chevronLeft: "chevron-left",
   chevronRight: "chevron-right",
-  inactive: "bullet-point-large",
-  active: "circle-area",
+  inactive: "bullet-point",
+  active: "bullet-point-large",
   pause: "pause-f",
   play: "play-f",
 };

@@ -45,11 +45,11 @@
   );
   --calcite-internal-carousel-item-icon-color: var(
     --calcite-carousel-slide-item-icon-color,
-    var(--calcite-color-border-input)
+    var(--calcite-color-border-1)
   );
   --calcite-internal-carousel-rotation-progress-background-color: var(
     --calcite-carousel-rotation-progress-background-color,
-    var(--calcite-color-border-3)
+    var(--calcite-color-border-1)
   );
 
   --calcite-internal-carousel-rotation-progress-fill-color: var(
@@ -110,7 +110,7 @@ calcite-carousel-item:not([selected]) {
   flex-row
   items-center
   justify-center
-  p-3;
+  m-3;
   inline-size: auto;
 }
 
@@ -220,7 +220,7 @@ calcite-carousel-item:not([selected]) {
 /* @keyframes*/
 @keyframes item-advance {
   0% {
-    transform: translate3d(50px, 0, 0);
+    transform: translate3d(100px, 0, 0);
   }
   100% {
     transform: translate3d(0, 0, 0);
@@ -228,7 +228,7 @@ calcite-carousel-item:not([selected]) {
 }
 @keyframes item-retreat {
   0% {
-    transform: translate3d(-50px, 0, 0);
+    transform: translate3d(-100px, 0, 0);
   }
   100% {
     transform: translate3d(0, 0, 0);

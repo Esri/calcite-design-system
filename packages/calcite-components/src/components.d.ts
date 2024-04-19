@@ -836,7 +836,7 @@ export namespace Components {
          */
         "arrowType": ArrowType;
         /**
-          * Specifies if the component's controls are placed on top of the content.
+          * Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items.
          */
         "controlOverlay": boolean;
         /**
@@ -864,7 +864,7 @@ export namespace Components {
          */
         "rotation": boolean;
         /**
-          * When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item
+          * When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
          */
         "rotationDuration": number;
         /**
@@ -6000,6 +6000,8 @@ declare global {
     interface HTMLCalciteCarouselElementEventMap {
         "calciteCarouselChange": void;
         "calciteCarouselRotatingChange": void;
+        "calciteCarouselRotatingPause": void;
+        "calciteCarouselRotatingResume": void;
     }
     interface HTMLCalciteCarouselElement extends Components.CalciteCarousel, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteCarouselElementEventMap>(type: K, listener: (this: HTMLCalciteCarouselElement, ev: CalciteCarouselCustomEvent<HTMLCalciteCarouselElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8278,7 +8280,7 @@ declare namespace LocalJSX {
          */
         "arrowType"?: ArrowType;
         /**
-          * Specifies if the component's controls are placed on top of the content.
+          * Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items.
          */
         "controlOverlay"?: boolean;
         /**
@@ -8306,6 +8308,14 @@ declare namespace LocalJSX {
          */
         "onCalciteCarouselRotatingChange"?: (event: CalciteCarouselCustomEvent<void>) => void;
         /**
+          * Fires when the carousel rotation state pauses.
+         */
+        "onCalciteCarouselRotatingPause"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        /**
+          * Fires when the carousel rotation state resumes.
+         */
+        "onCalciteCarouselRotatingResume"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        /**
           * When `true`, and `rotation` is `true`, the carousel will auto-rotate.
          */
         "rotating"?: boolean;
@@ -8314,7 +8324,7 @@ declare namespace LocalJSX {
          */
         "rotation"?: boolean;
         /**
-          * When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item
+          * When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
          */
         "rotationDuration"?: number;
         /**

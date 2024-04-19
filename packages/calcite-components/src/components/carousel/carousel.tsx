@@ -65,7 +65,7 @@ export class Carousel
   @Prop({ reflect: true }) arrowType: ArrowType = "inline";
 
   /**
-   * Specifies if the component's controls are placed on top of the content.
+   * Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items.
    */
   @Prop({ reflect: true }) controlOverlay = false;
 
@@ -85,7 +85,7 @@ export class Carousel
   @Prop({ reflect: true }) rotation = false;
 
   /**
-   *  When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item
+   *  When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
    */
   @Prop({ reflect: true }) rotationDuration = DURATION;
 
@@ -96,7 +96,9 @@ export class Carousel
 
   @Watch("rotating")
   handleIsRotatingChange(): void {
-    this.setRotationInterval();
+    if (this.rotation) {
+      this.setRotationInterval();
+    }
   }
 
   /**
@@ -142,14 +144,17 @@ export class Carousel
 
   componentDidRender(): void {
     updateHostInteraction(this);
-    this.setRotationInterval();
+    if (this.rotation && this.rotating) {
+      this.setRotationInterval();
+    }
   }
 
   disconnectedCallback(): void {
     disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-    clearTimeout(this.slideInterval);
+    clearInterval(this.slideInterval);
+    clearInterval(this.slideDurationRemaining);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -177,15 +182,27 @@ export class Carousel
 
   @State() swipeTolerance = 100;
 
-  @State() slideDurationRemaining = 1;
+  @State() pausedDueToFocus = false;
 
-  @State() pausedDueToInteraction = false;
+  @State() pausedDueToHover = false;
+
+  @State() overridePauseDueToInteraction = false;
 
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
   async effectiveLocaleChange(): Promise<void> {
     await updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() pausedSlideDurationRemaining = 1;
+
+  // TODO refactor from state this re-renders EVERYTHING on change every 0.01s
+  @State() slideDurationRemaining = 1;
+
+  @Watch("slideDurationRemaining")
+  watchSlideDurationRemaining(): void {
+    // console.log(this.slideDurationRemaining);
   }
 
   private container: HTMLDivElement;
@@ -209,6 +226,12 @@ export class Carousel
 
   /** Fires when the carousel rotation state changes. */
   @Event({ cancelable: false }) calciteCarouselRotatingChange: EventEmitter<void>;
+
+  /** Fires when the carousel rotation state pauses. */
+  @Event({ cancelable: false }) calciteCarouselRotatingPause: EventEmitter<void>;
+
+  /** Fires when the carousel rotation state resumes. */
+  @Event({ cancelable: false }) calciteCarouselRotatingResume: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -279,7 +302,109 @@ export class Carousel
     this.setSelectedItem(true, requestedPosition);
   };
 
+  // Rotation timing and control
+  private setRotationInterval = (): void => {
+    clearInterval(this.slideInterval);
+    if (this.rotation && this.rotating) {
+      this.rotationHandler();
+      this.slideInterval = setInterval(this.rotationHandler, this.rotationDuration);
+    }
+  };
+
+  private rotationHandler = (): void => {
+    clearInterval(this.slideDurationInterval);
+    this.slideDurationInterval = setInterval(this.timer, this.rotationDuration / 100);
+  };
+
+  private timer = (): void => {
+    let time = this.slideDurationRemaining;
+
+    if ((!this.pausedDueToFocus && !this.pausedDueToHover) || this.overridePauseDueToInteraction) {
+      if (time <= 0.01) {
+        time = 1;
+        this.nextItem(false);
+      } else {
+        time = time - 0.01;
+      }
+    }
+    if (time > 0) {
+      this.slideDurationRemaining = time;
+    }
+  };
+
+  private setIsRotating = (): void => {
+    if (this.rotating) {
+      clearInterval(this.slideInterval);
+      clearInterval(this.slideDurationInterval);
+      this.slideDurationRemaining = 1;
+      this.pausedSlideDurationRemaining = 1;
+    }
+
+    this.rotating = !this.rotating;
+    this.calciteCarouselRotatingChange.emit();
+  };
+
+  // Rotation pausing due to hover or focus
+  private handleRotationControlClick = (): void => {
+    this.setIsRotating();
+    this.overridePauseDueToInteraction = true;
+    // while we normally pause the rotation when hover or focus of the Carousel occurs, if a user
+    // manually starts the carousel while hover or focus is active, we should not pause the rotation
+  };
+
+  private handleFocusIn = (): void => {
+    if (this.rotation && this.rotating && !this.pausedDueToFocus) {
+      this.pausedDueToFocus = true;
+      this.pauseRotation();
+    }
+  };
+
+  private handleMouseIn = (): void => {
+    if (this.rotation && this.rotating && !this.pausedDueToHover) {
+      this.pausedDueToHover = true;
+      this.pauseRotation();
+    }
+  };
+
+  private handleMouseOut = (event: MouseEvent): void => {
+    // todo handle mouse out and return after starting
+    if (
+      !this.tabList.contains(event.relatedTarget as HTMLElement) &&
+      !this.el.contains(event.relatedTarget as HTMLElement) &&
+      !this.overridePauseDueToInteraction
+    ) {
+      this.pausedDueToHover = false;
+      this.overridePauseDueToInteraction = false;
+
+      this.resumeRotation();
+    }
+  };
+
+  private handleFocusOut = (event: FocusEvent): void => {
+    if (!event.composedPath().includes(event.relatedTarget as HTMLElement)) {
+      this.pausedDueToFocus = false;
+      this.resumeRotation();
+      this.overridePauseDueToInteraction = false;
+    }
+  };
+
+  private pauseRotation = (): void => {
+    this.pausedSlideDurationRemaining = this.slideDurationRemaining;
+    this.overridePauseDueToInteraction = false;
+    this.calciteCarouselRotatingPause.emit();
+  };
+
+  private resumeRotation = (): void => {
+    if (this.rotation && this.rotating) {
+      this.slideDurationRemaining = this.pausedSlideDurationRemaining;
+      this.rotationHandler();
+      this.calciteCarouselRotatingResume.emit();
+    }
+  };
+
+  // Swipe handling
   private handleSwipeStart = (event: MouseEvent): void => {
+    // todo use only touch event if possible, as mouse drag within children can trigger this and that is not desired
     this.swipeStartPosition = event.pageX;
   };
 
@@ -297,53 +422,7 @@ export class Carousel
     }
   };
 
-  private setRotationInterval = (): void => {
-    clearInterval(this.slideInterval);
-    if (this.rotation && this.rotating) {
-      this.rotationHandler();
-      this.slideInterval = setInterval(this.rotationHandler, this.rotationDuration);
-    }
-  };
-
-  private rotationHandler = (): void => {
-    clearInterval(this.slideDurationInterval);
-    this.slideDurationInterval = setInterval(this.timer, this.rotationDuration / 100);
-  };
-
-  private timer = (time?: number): void => {
-    time = time || this.slideDurationRemaining;
-    if (time <= 0.01) {
-      time = 1;
-      this.nextItem(false);
-    } else {
-      time = time - 0.01;
-    }
-    this.slideDurationRemaining = time;
-  };
-
-  private setIsRotating = (): void => {
-    if (this.rotating) {
-      clearInterval(this.slideInterval);
-      clearInterval(this.slideDurationInterval);
-      this.slideDurationRemaining = 1;
-    }
-
-    this.rotating = !this.rotating;
-    this.calciteCarouselRotatingChange.emit();
-  };
-
-  private handleRotationControlClick = (): void => {
-    this.setIsRotating();
-  };
-
-  private storeTabListRef = (el: HTMLDivElement): void => {
-    this.tabList = el;
-  };
-
-  private storeContainerRef = (el: HTMLDivElement): void => {
-    this.container = el;
-  };
-
+  // Keyboard navigation
   private containerKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.target !== this.container) {
       return;
@@ -397,6 +476,15 @@ export class Carousel
     }
   };
 
+  // Ref storage
+  private storeTabListRef = (el: HTMLDivElement): void => {
+    this.tabList = el;
+  };
+
+  private storeContainerRef = (el: HTMLDivElement): void => {
+    this.container = el;
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -405,7 +493,6 @@ export class Carousel
 
   renderRotationControl = (): VNode => {
     const text = this.rotating ? this.messages.pause : this.messages.play;
-
     return (
       <button
         aria-label={text}
@@ -428,47 +515,48 @@ export class Carousel
     );
   };
 
-  renderPagination = (): VNode => {
-    const { selectedIndex } = this;
-    return (
-      <div
-        class={{
-          [CSS.pagination]: true,
-          [CSS.isOverlay]: this.controlOverlay,
-        }}
-        onKeyDown={this.tabListKeyDownHandler}
-        // eslint-disable-next-line react/jsx-sort-props
-        ref={this.storeTabListRef}
-      >
-        {this.rotation && this.renderRotationControl()}
-        {this.arrowType === "inline" && this.renderArrow("previous")}
-        <div aria-label={this.label} class={CSS.paginationItems} role="tablist" tabIndex={-1}>
-          {this.items?.map((item, index) => {
-            const isMatch = index === selectedIndex;
-            return (
-              <button
-                aria-controls={!isMatch ? item.id : undefined}
-                aria-selected={toAriaBoolean(isMatch)}
-                class={{
-                  [CSS.paginationItem]: true,
-                  [CSS.paginationItemIndividual]: true,
-                  [CSS.paginationItemSelected]: isMatch,
-                }}
-                data-index={index}
-                key={item.id}
-                onClick={this.handleItemSelection}
-                role="tab"
-                title={item.label}
-              >
-                <calcite-icon icon={isMatch ? ICONS.active : ICONS.inactive} scale="s" />
-              </button>
-            );
-          })}
-        </div>
-        {this.arrowType === "inline" && this.renderArrow("next")}
-      </div>
-    );
-  };
+  renderPaginationArea = (): VNode => (
+    <div
+      class={{
+        [CSS.pagination]: true,
+        [CSS.isOverlay]: this.controlOverlay,
+      }}
+      onKeyDown={this.tabListKeyDownHandler}
+      // eslint-disable-next-line react/jsx-sort-props
+      ref={this.storeTabListRef}
+    >
+      {this.rotation && this.renderRotationControl()}
+      {this.arrowType === "inline" && this.renderArrow("previous")}
+      {this.renderPaginationItems()}
+      {this.arrowType === "inline" && this.renderArrow("next")}
+    </div>
+  );
+
+  renderPaginationItems = (): VNode => (
+    <div aria-label={this.label} class={CSS.paginationItems} role="tablist" tabIndex={-1}>
+      {this.items?.map((item, index) => {
+        const isMatch = index === this.selectedIndex;
+        return (
+          <button
+            aria-controls={!isMatch ? item.id : undefined}
+            aria-selected={toAriaBoolean(isMatch)}
+            class={{
+              [CSS.paginationItem]: true,
+              [CSS.paginationItemIndividual]: true,
+              [CSS.paginationItemSelected]: isMatch,
+            }}
+            data-index={index}
+            key={item.id}
+            onClick={this.handleItemSelection}
+            role="tab"
+            title={item.label}
+          >
+            <calcite-icon icon={isMatch ? ICONS.active : ICONS.inactive} scale={"l"} />
+          </button>
+        );
+      })}
+    </div>
+  );
 
   renderArrow = (direction: "previous" | "next"): VNode => {
     const isPrev = direction === "previous";
@@ -508,7 +596,11 @@ export class Carousel
               [CSS.isOverlay]: this.controlOverlay,
               [CSS.isEdges]: this.arrowType === "edges",
             }}
+            onFocusin={this.handleFocusIn}
+            onFocusout={this.handleFocusOut}
             onKeyDown={this.containerKeyDownHandler}
+            onMouseEnter={this.handleMouseIn}
+            onMouseLeave={this.handleMouseOut}
             onPointerDown={this.handleSwipeStart}
             onPointerUp={this.handleSwipeEnd}
             role="group"
@@ -526,7 +618,7 @@ export class Carousel
             >
               <slot onSlotchange={this.updateItems} />
             </section>
-            {this.items?.length > 1 && this.renderPagination()}
+            {this.items?.length > 1 && this.renderPaginationArea()}
             {this.arrowType === "edges" && this.renderArrow("previous")}
             {this.arrowType === "edges" && this.renderArrow("next")}
           </div>
