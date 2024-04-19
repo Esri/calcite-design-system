@@ -141,6 +141,7 @@ export const create: () => Config = () => ({
     }),
   ],
   testing: {
+    browserHeadless: true,
     moduleNameMapper: {
       "^lodash-es$": "lodash",
     },
