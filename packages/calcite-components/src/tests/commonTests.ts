@@ -2103,7 +2103,9 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
   await page.mouse.reset();
   await page.waitForChanges();
 
+  // eslint-disable-next-line @stencil-community/strict-boolean-conditions
   if (state) {
+    // eslint-disable-next-line @stencil-community/strict-boolean-conditions
     if (contextSelector) {
       const rect = (await page.evaluate((context: TestTarget["contextSelector"]) => {
         const searchInShadowDom = (node: Node): HTMLElement | SVGElement | Node | undefined => {
