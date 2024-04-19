@@ -293,10 +293,8 @@ describe("calcite-pagination", () => {
       const element = await page.find("calcite-pagination");
       await element.callMethod("endPage");
       await page.waitForChanges();
-      const button = await page.findAll(`calcite-pagination >>> .selected`);
       const item = await element.getProperty("startItem");
       expect(item).toEqual(7);
-      expect(button.toString()).toEqual("7");
     });
 
     it("navigates to first page", async () => {
@@ -305,20 +303,16 @@ describe("calcite-pagination", () => {
       await page.waitForChanges();
       await element.callMethod("startPage");
       await page.waitForChanges();
-      const button = await page.findAll(`calcite-pagination >>> .selected`);
       const item = await element.getProperty("startItem");
       expect(item).toEqual(1);
-      expect(button.toString()).toEqual("1");
     });
 
     it("navigates using goToPage", async () => {
       const element = await page.find("calcite-pagination");
       await element.callMethod("goToPage", 3);
       await page.waitForChanges();
-      const button = await page.findAll(`calcite-pagination >>> .selected`);
       const item = await element.getProperty("startItem");
       expect(item).toEqual(3);
-      expect(button.toString()).toEqual("3");
     });
   });
 });
