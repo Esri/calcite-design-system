@@ -4,6 +4,7 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
 import { ElementHandle, KeyInput } from "puppeteer";
+import type { RequireExactlyOne } from "type-fest";
 import { config } from "../../stencil.config";
 import { html } from "../../support/formatting";
 import type { JSX } from "../components";
@@ -2065,7 +2066,7 @@ export type TestSelectToken = {
   /**
    * The state to apply to the target element.
    */
-  state?: State | Record<State, ContextSelectByAttr>;
+  state?: State | RequireExactlyOne<Record<State, ContextSelectByAttr>, "focus" | "hover" | "press">;
 };
 
 /**
