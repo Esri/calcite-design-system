@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.3...@esri/calcite-components@2.8.0-next.4) (2024-04-18)
+
+### Bug Fixes
+
+- **input-time-zone:** ensure selected item is properly displayed when there are other items with the same offset ([#9134](https://github.com/Esri/calcite-design-system/issues/9134)) ([1f94903](https://github.com/Esri/calcite-design-system/commit/1f94903cf6935c3f70307dbd37202784703bbabb)), closes [#8272](https://github.com/Esri/calcite-design-system/issues/8272)
+
+## [2.8.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.2...@esri/calcite-components@2.8.0-next.3) (2024-04-16)
+
+### Bug Fixes
+
+- **alert, text-area:** improve layout for screenshot diffs ([#9118](https://github.com/Esri/calcite-design-system/issues/9118)) ([4723a48](https://github.com/Esri/calcite-design-system/commit/4723a48069e42ab5220f5ee7bcd3c0c75c08fcca)), closes [#7893](https://github.com/Esri/calcite-design-system/issues/7893)
+
+## [2.8.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.1...@esri/calcite-components@2.8.0-next.2) (2024-04-15)
+
+### Bug Fixes
+
+- **preset:** update the focus outline color ([#9098](https://github.com/Esri/calcite-design-system/issues/9098)) ([725f47c](https://github.com/Esri/calcite-design-system/commit/725f47c36b3a3c7a89ce3980fd9508e656f4914a)), closes [#9099](https://github.com/Esri/calcite-design-system/issues/9099)
+
+## [2.8.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.0...@esri/calcite-components@2.8.0-next.1) (2024-04-13)
+
+### Features
+
+- **input-time-zone:** add readonly support ([#9111](https://github.com/Esri/calcite-design-system/issues/9111)) ([153a122](https://github.com/Esri/calcite-design-system/commit/153a122b31be29d1af32911d96fffad4d74463b7)), closes [#7853](https://github.com/Esri/calcite-design-system/issues/7853)
+
+### Bug Fixes
+
+- **input, input-number, input-text, input-date-picker, input-time-picker, filter, menu-item:** ignore canceled events and enforce cancellations where needed ([#8952](https://github.com/Esri/calcite-design-system/issues/8952)) ([d0fa977](https://github.com/Esri/calcite-design-system/commit/d0fa977bd4a05d6221cb90ed4fefacb933c425ed)), closes [#7686](https://github.com/Esri/calcite-design-system/issues/7686)
+
 ## [2.8.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.2-next.5...@esri/calcite-components@2.8.0-next.0) (2024-04-12)
 
 ### Features
