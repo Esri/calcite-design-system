@@ -14,7 +14,6 @@ import { toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
-import { CSS } from "./resources";
 import {
   componentFocusable,
   LoadableComponent,
@@ -27,6 +26,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding text.

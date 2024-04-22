@@ -7,24 +7,17 @@ import {
 } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
-import { select, text } from "@storybook/addon-knobs";
-import accordionReadme from "./readme.md";
-import accordionItemReadme from "../accordion-item/readme.md";
+import { iconNames } from "../../../.storybook/helpers";
+import { select, text } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Accordion",
   parameters: {
-    notes: {
-      accordion: accordionReadme,
-      accordionItem: accordionItemReadme,
-    },
     backgrounds: {
       values: [{ name: "transparent", value: "#0000ffff" }],
     },
   },
-  ...storyFilters(),
 };
 
 const createAccordionAttributes: (options?: { exceptions: string[] }) => Attributes = (
@@ -187,7 +180,7 @@ export const darkModeRTL_TestOnly = (): string =>
     `,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const transparentAppearance_TestOnly = (): string =>
   create(

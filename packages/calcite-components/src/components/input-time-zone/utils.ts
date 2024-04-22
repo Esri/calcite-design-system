@@ -1,5 +1,5 @@
-import { TimeZoneItem, TimeZoneMode, TimeZoneName } from "./interfaces";
 import { getDateTimeFormat, SupportedLocale } from "../../utils/locale";
+import { TimeZoneItem, TimeZoneMode, TimeZoneName } from "./interfaces";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
 
 const hourToMinutes = 60;
@@ -170,4 +170,16 @@ function getTimeZoneShortOffset(
   const dateTimeFormat = getDateTimeFormat(locale, { timeZone, timeZoneName: "shortOffset" });
   const parts = dateTimeFormat.formatToParts(referenceDateInMs);
   return parts.find(({ type }) => type === "timeZoneName").value;
+}
+
+export function findTimeZoneItemByProp(
+  timeZoneItems: TimeZoneItem[],
+  prop: string,
+  valueToMatch: string | number,
+): TimeZoneItem {
+  return timeZoneItems.find(
+    (item) =>
+      // intentional == to match string to number
+      item[prop] == valueToMatch,
+  );
 }

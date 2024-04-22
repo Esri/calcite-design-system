@@ -26,7 +26,6 @@ import { SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
-import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import {
   connectSortableComponent,
   disconnectSortableComponent,
@@ -34,11 +33,6 @@ import {
   dragActive,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
-
-const listItemSelector = "calcite-list-item";
-const listItemSelectorDirect = `:scope > calcite-list-item`;
-const parentSelector = "calcite-list-item-group, calcite-list-item";
-
 import {
   componentFocusable,
   LoadableComponent,
@@ -53,9 +47,14 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { ListMessages } from "./assets/list/t9n";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
+import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
+import { ListMessages } from "./assets/list/t9n";
 import { ListDragDetail } from "./interfaces";
+
+const listItemSelector = "calcite-list-item";
+const listItemSelectorDirect = `:scope > calcite-list-item`;
+const parentSelector = "calcite-list-item-group, calcite-list-item";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
