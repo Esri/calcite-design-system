@@ -32,7 +32,7 @@
   border-block-start: 1px solid var(--calcite-color-border-3);
 }
 
-::slotted(calcite-list-item:nth-child(1 of :not([filter-hidden], [closed]))) {
+::slotted(calcite-list-item:not([filter-hidden], [closed]):nth-of-type(1)) {
   border-block-start: 0;
 }
 
