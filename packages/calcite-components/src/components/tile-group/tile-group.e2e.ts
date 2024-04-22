@@ -19,6 +19,8 @@ describe("calcite-tile-group", () => {
     defaults("calcite-tile-group", [
       { propertyName: "layout", defaultValue: "horizontal" },
       { propertyName: "scale", defaultValue: "m" },
+      { propertyName: "selectionAppearance", defaultValue: "icon" },
+      { propertyName: "selectionMode", defaultValue: "none" },
     ]);
   });
 
