@@ -460,8 +460,6 @@ export class List
 
   sortable: Sortable;
 
-  private ancestorOfFirstFilteredItem: HTMLCalciteListItemElement;
-
   private lastSelectedInfo: { selectedItem: HTMLCalciteListItemElement; selected: boolean };
 
   // --------------------------------------------------------------------------
@@ -749,10 +747,6 @@ export class List
       this.filterElements({ el: listItem, filteredItems, visibleParents }),
     );
 
-    if (filteredItems.length > 0) {
-      this.findAncestorOfFirstFilteredItem(filteredItems);
-    }
-
     this.filteredItems = filteredItems;
 
     if (emit) {
@@ -810,26 +804,22 @@ export class List
   private updateListItems = debounce((emit = false): void => {
     const { selectionAppearance, selectionMode, dragEnabled } = this;
 
-    if (!!this.parentListEl) {
-      const items = this.queryListItems(true);
-
-      items.forEach((item) => {
-        item.dragHandle = dragEnabled;
-      });
-
-      this.setUpSorting();
-      return;
-    }
-
     const items = this.queryListItems();
     items.forEach((item) => {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
     });
-    const dragItems = this.queryListItems(true);
-    dragItems.forEach((item) => {
+
+    const directItems = this.queryListItems(true);
+    directItems.forEach((item) => {
       item.dragHandle = dragEnabled;
     });
+
+    if (!!this.parentListEl) {
+      this.setUpSorting();
+      return;
+    }
+
     this.listItems = items;
     if (this.filterEnabled) {
       this.dataForFilter = this.getItemData();
@@ -915,35 +905,6 @@ export class List
         this.focusRow(endItem);
       }
     }
-  };
-
-  private findAncestorOfFirstFilteredItem = (filteredItems: HTMLCalciteListItemElement[]): void => {
-    this.ancestorOfFirstFilteredItem?.removeAttribute("data-filter");
-    filteredItems.forEach((item) => {
-      item.removeAttribute("data-filter");
-    });
-
-    this.ancestorOfFirstFilteredItem = this.getTopLevelAncestorItemElement(filteredItems[0]);
-    filteredItems[0].setAttribute("data-filter", "0");
-    this.ancestorOfFirstFilteredItem?.setAttribute("data-filter", "0");
-  };
-
-  private getTopLevelAncestorItemElement = (
-    el: HTMLCalciteListItemElement,
-  ): HTMLCalciteListItemElement | null => {
-    let closestParent = el.parentElement.closest<HTMLCalciteListItemElement>(listItemSelector);
-
-    while (closestParent) {
-      const closestListItemAncestor =
-        closestParent.parentElement.closest<HTMLCalciteListItemElement>(listItemSelector);
-
-      if (closestListItemAncestor) {
-        closestParent = closestListItemAncestor;
-      } else {
-        return closestParent;
-      }
-    }
-    return null;
   };
 
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {

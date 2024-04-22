@@ -29,18 +29,11 @@
 }
 
 ::slotted(calcite-list-item:not([filter-hidden], [closed])) {
-  @apply shadow-border-top;
-  margin-block-start: 1px;
+  border-block-start: 1px solid var(--calcite-color-border-3);
 }
 
-::slotted(calcite-list-item:first-of-type) {
-  @apply shadow-none;
-}
-
-// removes shadow for the first item in filteredItems of the list.
-::slotted(calcite-list-item[data-filter]) {
-  @apply shadow-none;
-  margin-block-start: 0px;
+::slotted(calcite-list-item:nth-child(1 of :not([filter-hidden], [closed]))) {
+  border-block-start: 0;
 }
 
 .sticky-pos {

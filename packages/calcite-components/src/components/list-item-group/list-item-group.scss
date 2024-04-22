@@ -1,6 +1,5 @@
 :host {
   @apply flex flex-col bg-foreground-1;
-  --calcite-list-item-spacing-indent: theme("spacing.4");
 }
 
 :host([filter-hidden]) {
@@ -14,20 +13,15 @@
 }
 
 .heading {
-  padding-inline-start: calc(
-    var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
-  );
+  @apply p-0;
 }
 
-::slotted(calcite-list-item) {
-  @apply shadow-border-top;
-  margin-block-start: 1px;
+::slotted(calcite-list-item:not([filter-hidden], [closed])) {
+  border-block-start: 1px solid var(--calcite-color-border-3);
 }
 
-// removes shadow for the first item of the group for both filtered and unfiltered items.
-::slotted(calcite-list-item:nth-child(1 of :not([hidden]))) {
-  @apply shadow-none;
-  margin-block-start: 0px;
+::slotted(calcite-list-item:nth-child(1 of :not([filter-hidden], [closed]))) {
+  border-block-start: 0;
 }
 
 @include base-component();
