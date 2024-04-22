@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-export -- Util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks. */
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
 import { GlobalTestProps } from "./../utils";
