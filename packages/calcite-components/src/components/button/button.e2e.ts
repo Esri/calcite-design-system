@@ -1,6 +1,6 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden, t9n } from "../../tests/commonTests";
-import { GlobalTestProps } from "../../tests/utils";
+import { GlobalTestProps, waitForTimeout } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -640,7 +640,7 @@ describe("calcite-button", () => {
       const element = await page.find("calcite-button");
       await element.setProperty("loading", false);
       await page.waitForChanges();
-      await page.waitForTimeout(animationDurationInMs);
+      waitForTimeout(animationDurationInMs);
       const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
       expect(loader).toBeNull();
     });

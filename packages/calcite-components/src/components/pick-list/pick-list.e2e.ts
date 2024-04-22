@@ -2,6 +2,7 @@ import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS as PICK_LIST_GROUP_CSS } from "../pick-list-group/resources";
+import { waitForTimeout } from "../../tests/utils";
 import { ICON_TYPES } from "./resources";
 import {
   disabling,
@@ -179,7 +180,7 @@ describe("calcite-pick-list", () => {
           filterInput.value = "numbers";
           filterInput.dispatchEvent(new CustomEvent("calciteInputInput"));
         });
-        await page.waitForTimeout(500);
+        waitForTimeout(500);
 
         const item1Visible = await item1.isVisible();
         const item2Visible = await item2.isVisible();
