@@ -91,6 +91,18 @@ module.exports = {
       },
     ],
     "no-new-func": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: [
+          {
+            group: ["tests/commonTests/*"],
+            message:
+              "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'",
+          },
+        ],
+      },
+    ],
     "no-unneeded-ternary": "error",
     "one-var": ["error", "never"],
     "react/forbid-component-props": [
@@ -155,10 +167,16 @@ module.exports = {
       ignorePrivate: true,
     },
   },
-  overrides: [{
-    files: ["**/*.e2e.ts", "src/tests/**/*"],
-    rules: {
-      "@esri/calcite-components/no-dynamic-createelement": "off",
-    }
-  }]
+  overrides: [
+    {
+      files: ["**/*.e2e.ts", "src/tests/**/*"],
+      rules: {
+        "@esri/calcite-components/no-dynamic-createelement": "off",
+      },
+    },
+    {
+      extends: ["plugin:@typescript-eslint/disable-type-checked"],
+      files: ["*.cjs"],
+    },
+  ],
 };
