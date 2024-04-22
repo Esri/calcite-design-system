@@ -172,5 +172,9 @@ module.exports = {
         "@esri/calcite-components/no-dynamic-createelement": "off",
       },
     },
+    {
+      extends: ["plugin:@typescript-eslint/disable-type-checked"],
+      files: ["*.cjs"],
+    },
   ],
 };
