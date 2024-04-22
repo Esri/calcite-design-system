@@ -28,6 +28,8 @@ describe("calcite-tile-group", () => {
     reflects("calcite-tile-group", [
       { propertyName: "layout", value: "horizontal" },
       { propertyName: "scale", value: "m" },
+      { propertyName: "selectionAppearance", value: "icon" },
+      { propertyName: "selectionMode", value: "none" },
     ]);
   });
 

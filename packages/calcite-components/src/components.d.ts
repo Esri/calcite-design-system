@@ -5036,11 +5036,11 @@ export namespace Components {
          */
         "selected": boolean;
         /**
-          * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).
+          * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).  This property is set by the parent tile-group.
          */
         "selectionAppearance": SelectionAppearance1;
         /**
-          * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).
+          * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).  This property is set by the parent tile-group.
          */
         "selectionMode": Extract<
     "multiple" | "none" | "single" | "single-persist",
@@ -12698,11 +12698,11 @@ declare namespace LocalJSX {
          */
         "selected"?: boolean;
         /**
-          * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).
+          * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).  This property is set by the parent tile-group.
          */
         "selectionAppearance"?: SelectionAppearance1;
         /**
-          * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).
+          * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).  This property is set by the parent tile-group.
          */
         "selectionMode"?: Extract<
     "multiple" | "none" | "single" | "single-persist",

@@ -16,7 +16,6 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { CSS, ICONS, SLOTS } from "./resources";
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { toAriaBoolean } from "../../utils/dom";
 import {
@@ -24,6 +23,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
@@ -113,7 +113,14 @@ export class Tile implements InteractiveComponent {
   @Prop({ reflect: true }) layout: Exclude<Layout, "grid"> = "horizontal";
 
   /**
+   * Specifies the size of the component.
+   */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
+  /**
    * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
+   *
+   * @internal
    */
   @Prop({ reflect: true }) selected = false;
 
@@ -123,9 +130,11 @@ export class Tile implements InteractiveComponent {
    * - `"icon"` (displays a checkmark or dot), or
    * - `"border"` (displays a border).
    *
+   * This property is set by the parent tile-group.
+   *
    * @internal
    */
-  @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = null;
+  @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
 
   /**
    * Specifies the selection mode, where:
@@ -135,17 +144,14 @@ export class Tile implements InteractiveComponent {
    * - `"single-persist"` (allows only one selected item and prevents de-selection),
    * - `"none"` (allows no selected items).
    *
+   * This property is set by the parent tile-group.
+   *
    * @internal
    */
   @Prop({ reflect: true }) selectionMode: Extract<
     "multiple" | "none" | "single" | "single-persist",
     SelectionMode
   > = "none";
-
-  /**
-   * Specifies the size of the component.
-   */
-  @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //

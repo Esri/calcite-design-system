@@ -17,13 +17,19 @@ describe("calcite-tile", () => {
 
   describe("defaults", () => {
     defaults("calcite-tile", [
+      { propertyName: "active", defaultValue: false },
       { propertyName: "alignment", defaultValue: "start" },
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "embed", defaultValue: false },
       { propertyName: "focused", defaultValue: false },
       { propertyName: "hidden", defaultValue: false },
       { propertyName: "iconFlipRtl", defaultValue: false },
+      { propertyName: "interactive", defaultValue: false },
+      { propertyName: "layout", defaultValue: "horizontal" },
       { propertyName: "scale", defaultValue: "m" },
+      { propertyName: "selected", defaultValue: false },
+      { propertyName: "selectionAppearance", defaultValue: "icon" },
+      { propertyName: "selectionMode", defaultValue: "none" },
     ]);
   });
 
@@ -42,7 +48,11 @@ describe("calcite-tile", () => {
       { propertyName: "heading", value: "My test heading" },
       { propertyName: "href", value: "http://www.esri.com" },
       { propertyName: "icon", value: "layers" },
+      { propertyName: "iconFlipRtl", value: true },
       { propertyName: "scale", value: "s" },
+      { propertyName: "selected", value: true },
+      { propertyName: "selectionAppearance", value: "border" },
+      { propertyName: "selectionMode", value: "single-persist" },
     ]);
   });
 
