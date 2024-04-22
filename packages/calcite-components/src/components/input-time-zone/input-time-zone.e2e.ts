@@ -11,8 +11,8 @@ import {
   reflects,
   renders,
   t9n,
-  TagAndPage,
 } from "../../tests/commonTests";
+import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { toUserFriendlyName } from "./utils";
 
 describe("calcite-input-time-zone", () => {
