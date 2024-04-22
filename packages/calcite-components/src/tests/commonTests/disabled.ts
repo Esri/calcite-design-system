@@ -1,30 +1,10 @@
 import { E2EElement, E2EPage, EventSpy } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { IntrinsicElementsWithProp, skipAnimations } from "./../utils";
-import { getTagAndPage, ComponentTestSetup } from "./utils";
+import { getTagAndPage } from "./utils";
+import { ComponentTestSetup, DisabledOptions, FocusTarget } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
-
-interface TabAndClickTargets {
-  tab: string;
-  click: string;
-}
-
-type FocusTarget = "host" | "child" | "none";
-
-interface DisabledOptions {
-  /**
-   *  Use this to specify whether the test should cover focusing.
-   */
-  focusTarget?: FocusTarget | TabAndClickTargets;
-
-  /**
-   *  Use this to specify the main wrapped component in shadow DOM that handles disabling interaction.
-   *
-   *  Note: this should only be used for components that wrap a single component that implements disabled behavior.
-   */
-  shadowAriaAttributeTargetSelector?: string;
-}
 
 /**
  * Helper to test the disabled prop disabling user interaction.

@@ -1,6 +1,7 @@
 import { toHaveNoViolations } from "jest-axe";
 import { skipAnimations } from "./../utils";
-import { ComponentTestSetup, getTagAndPage, propToAttr } from "./utils";
+import { getTagAndPage, propToAttr } from "./utils";
+import { ComponentTestSetup } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 

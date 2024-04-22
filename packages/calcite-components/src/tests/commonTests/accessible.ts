@@ -1,13 +1,12 @@
 /* eslint-disable jest/no-export -- Util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks. */
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
-import type { JSX } from "../../components";
 import { GlobalTestProps } from "./../utils";
-import { ComponentTestSetup, getTagAndPage } from "./utils";
+import { getTagAndPage } from "./utils";
+import { ComponentTestSetup, ComponentTag } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 
-type ComponentTag = keyof JSX.IntrinsicElements;
 type AxeOwningWindow = GlobalTestProps<{ axe: typeof axe }>;
 
 /**

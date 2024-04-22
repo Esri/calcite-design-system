@@ -27,3 +27,24 @@ export type TagOrHTMLWithBeforeContent = {
 export type ComponentTestContent = TagOrHTML | TagAndPage;
 export type ComponentTestSetupProvider = (() => ComponentTestContent) | (() => Promise<ComponentTestContent>);
 export type ComponentTestSetup = ComponentTestContent | ComponentTestSetupProvider;
+
+interface TabAndClickTargets {
+  tab: string;
+  click: string;
+}
+
+export type FocusTarget = "host" | "child" | "none";
+
+export interface DisabledOptions {
+  /**
+   *  Use this to specify whether the test should cover focusing.
+   */
+  focusTarget?: FocusTarget | TabAndClickTargets;
+
+  /**
+   *  Use this to specify the main wrapped component in shadow DOM that handles disabling interaction.
+   *
+   *  Note: this should only be used for components that wrap a single component that implements disabled behavior.
+   */
+  shadowAriaAttributeTargetSelector?: string;
+}

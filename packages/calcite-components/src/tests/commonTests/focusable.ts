@@ -1,6 +1,7 @@
 import { toHaveNoViolations } from "jest-axe";
 import {} from "./../utils";
-import { getTagAndPage, ComponentTestSetup } from "./utils";
+import { getTagAndPage } from "./utils";
+import { ComponentTestSetup } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 

@@ -1,16 +1,13 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { html } from "../../../support/formatting";
-import type { JSX } from "../../components";
 import { isElementFocused } from "./../utils";
-import { TagOrHTMLWithBeforeContent, isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
+import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
+export { TagOrHTMLWithBeforeContent } from "./interfaces";
 import { FocusableOptions } from "./focusable";
+import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
-
-type ComponentTag = keyof JSX.IntrinsicElements;
-type ComponentHTML = string;
-type TagOrHTML = ComponentTag | ComponentHTML;
 
 export async function assertLabelable({
   page,

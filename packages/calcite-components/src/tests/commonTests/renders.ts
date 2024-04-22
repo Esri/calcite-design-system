@@ -1,5 +1,6 @@
 import { toHaveNoViolations } from "jest-axe";
-import { ComponentTestSetup, getTagAndPage, HYDRATED_ATTR } from "./utils";
+import { getTagAndPage, HYDRATED_ATTR } from "./utils";
+import { ComponentTestSetup } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 

@@ -1,12 +1,7 @@
 import { toHaveNoViolations } from "jest-axe";
-import type { JSX } from "../../components";
 import { getTag, simplePageSetup } from "./utils";
-
+import { ComponentTag, TagOrHTML } from "./interfaces";
 expect.extend(toHaveNoViolations);
-
-type ComponentTag = keyof JSX.IntrinsicElements;
-type ComponentHTML = string;
-type TagOrHTML = ComponentTag | ComponentHTML;
 
 /**
  * This helper will test if a floating-ui-owning component has configured the floating-ui correctly.

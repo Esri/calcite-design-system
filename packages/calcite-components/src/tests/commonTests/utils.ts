@@ -1,33 +1,17 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
-import type { JSX } from "../../components";
-expect.extend(toHaveNoViolations);
 import { config } from "../../../stencil.config";
-
-type ComponentTag = keyof JSX.IntrinsicElements;
-type ComponentHTML = string;
-type TagOrHTML = ComponentTag | ComponentHTML;
-type BeforeContent = (page: E2EPage) => Promise<void>;
+import type {
+  ComponentTag,
+  TagOrHTML,
+  ComponentTestSetup,
+  TagAndPage,
+  TagOrHTMLWithBeforeContent,
+  BeforeContent,
+} from "./interfaces";
+expect.extend(toHaveNoViolations);
 
 export const HYDRATED_ATTR = config.hydratedFlag?.name;
-
-export type TagAndPage = {
-  tag: ComponentTag;
-  page: E2EPage;
-};
-
-export type TagOrHTMLWithBeforeContent = {
-  tagOrHTML: TagOrHTML;
-
-  /**
-   * Allows for custom setup of the page.
-   *
-   * This is useful for test helpers that need to create and configure the test page before running tests.
-   *
-   * @param page
-   */
-  beforeContent: BeforeContent;
-};
 
 export function isHTML(tagOrHTML: string): boolean {
   return tagOrHTML.trim().startsWith("<");
@@ -72,10 +56,6 @@ export async function getTagAndPage(componentTestSetup: ComponentTestSetup): Pro
 
   return componentTestSetup;
 }
-
-export type ComponentTestContent = TagOrHTML | TagAndPage;
-export type ComponentTestSetupProvider = (() => ComponentTestContent) | (() => Promise<ComponentTestContent>);
-export type ComponentTestSetup = ComponentTestContent | ComponentTestSetupProvider;
 
 export function getTagOrHTMLWithBeforeContent(componentTestSetup: TagOrHTML | TagOrHTMLWithBeforeContent): {
   tagOrHTML: TagOrHTML;

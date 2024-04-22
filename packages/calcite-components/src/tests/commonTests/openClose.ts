@@ -1,14 +1,10 @@
 import { E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
-import type { JSX } from "../../components";
 import { GlobalTestProps, newProgrammaticE2EPage, skipAnimations } from "../utils";
 import { getTag, simplePageSetup } from "./utils";
+import { TagOrHTML } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
-
-type ComponentTag = keyof JSX.IntrinsicElements;
-type ComponentHTML = string;
-type TagOrHTML = ComponentTag | ComponentHTML;
 
 interface BeforeToggle {
   /**

@@ -1,12 +1,8 @@
 import { toHaveNoViolations } from "jest-axe";
-import type { JSX } from "../../components";
 import { getTag, simplePageSetup } from "./utils";
+import { TagOrHTML } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
-
-type ComponentTag = keyof JSX.IntrinsicElements;
-type ComponentHTML = string;
-type TagOrHTML = ComponentTag | ComponentHTML;
 
 /**
  * Helper for asserting slots.

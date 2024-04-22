@@ -2,16 +2,12 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing
 import { toHaveNoViolations } from "jest-axe";
 import { KeyInput } from "puppeteer";
 import { html } from "../../../support/formatting";
-import type { JSX } from "../../components";
 import { getClearValidationEventName, hiddenFormInputSlotName, componentsWithInputEvent } from "../../utils/form";
 import { GlobalTestProps } from "./../utils";
-import { TagOrHTMLWithBeforeContent, isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
+import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
+import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
-
-type ComponentTag = keyof JSX.IntrinsicElements;
-type ComponentHTML = string;
-type TagOrHTML = ComponentTag | ComponentHTML;
 
 interface FormAssociatedOptions {
   /**
