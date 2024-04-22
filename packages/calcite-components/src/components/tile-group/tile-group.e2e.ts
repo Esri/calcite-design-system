@@ -36,7 +36,7 @@ describe("calcite-tile-group", () => {
         <calcite-tile></calcite-tile>
         <calcite-tile></calcite-tile>
       </calcite-tile-group>`,
-      { focusTarget: "none" },
+      { focusTarget: "child" },
     );
   });
 
