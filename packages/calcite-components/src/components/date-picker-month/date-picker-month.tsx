@@ -561,31 +561,45 @@ export class DatePickerMonth {
       return false;
     }
     const { start, end } = this.hoverRange;
-    return !!(
-      (!this.isFocusedOnStart() && this.startDate && (!this.endDate || end < this.endDate)) ||
-      (this.isFocusedOnStart() && this.startDate && start > this.startDate)
-    );
+    const isStartFocused = this.isFocusedOnStart();
+    const isEndAfterStart = this.startDate && end > this.startDate;
+    const isEndBeforeEnd = this.endDate && end < this.endDate;
+    const isStartAfterStart = this.startDate && start > this.startDate;
+    const isStartBeforeEnd = this.endDate && start < this.endDate;
+
+    const isEndDateAfterStartAndBeforeEnd =
+      !isStartFocused && !!this.startDate && isEndAfterStart && (!this.endDate || isEndBeforeEnd);
+    const isStartDateBeforeEndAndAfterStart =
+      isStartFocused && !!this.startDate && isStartAfterStart && isStartBeforeEnd;
+
+    return !!(isEndDateAfterStartAndBeforeEnd || isStartDateBeforeEndAndAfterStart);
   }
 
-  private isRangeHover(date): boolean {
+  private isRangeHover(date: Date): boolean {
     if (!this.hoverRange) {
       return false;
     }
     const { start, end } = this.hoverRange;
     const isStart = this.isFocusedOnStart();
     const insideRange = this.isHoverInRange();
-    const cond1 =
+
+    const minimizeCurrentRange =
       insideRange &&
-      ((!isStart && date > this.startDate && (date < end || sameDate(date, end))) ||
-        (isStart && date < this.endDate && (date > start || sameDate(date, start))));
-    const cond2 =
+      ((!isStart &&
+        date > this.startDate &&
+        ((date > end && date < this.endDate) || sameDate(date, end))) ||
+        (isStart &&
+          date < this.endDate &&
+          ((date < start && date > this.startDate) || sameDate(date, start))));
+
+    const maximizeCurrentRange =
       !insideRange &&
       ((!isStart && date >= this.endDate && (date < end || sameDate(date, end))) ||
         (isStart &&
-          ((this.startDate && date < this.startDate) ||
-            (this.endDate && sameDate(date, this.startDate))) &&
-          ((start && date > start) || sameDate(date, start))));
-    return cond1 || cond2;
+          ((this.startDate && date < this.startDate && date > start) ||
+            (this.endDate && date > this.endDate && date < end))));
+
+    return minimizeCurrentRange || maximizeCurrentRange;
   }
 
   private getDays = (

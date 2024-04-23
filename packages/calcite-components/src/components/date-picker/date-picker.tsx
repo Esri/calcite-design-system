@@ -445,7 +445,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       this.hoverRange = undefined;
       return;
     }
-
     const { valueAsDate } = this;
     const start = Array.isArray(valueAsDate) && valueAsDate[0];
     const end = Array.isArray(valueAsDate) && valueAsDate[1];
@@ -467,20 +466,22 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           this.hoverRange.focused = "start";
         }
       } else if (start && end) {
-        const startDiff = getDaysDiff(date, start);
-        const endDiff = getDaysDiff(date, end);
-        if (endDiff > 0) {
+        const startDiff = Math.abs(getDaysDiff(date, start));
+        const endDiff = Math.abs(getDaysDiff(date, end));
+        if (date > end) {
           this.hoverRange.end = date;
           this.hoverRange.focused = "end";
-        } else if (startDiff < 0) {
+        } else if (date < start) {
           this.hoverRange.start = date;
           this.hoverRange.focused = "start";
-        } else if (startDiff > endDiff) {
-          this.hoverRange.start = date;
-          this.hoverRange.focused = "start";
-        } else {
-          this.hoverRange.end = date;
-          this.hoverRange.focused = "end";
+        } else if (date > start && date < end) {
+          if (startDiff < endDiff) {
+            this.hoverRange.start = date;
+            this.hoverRange.focused = "start";
+          } else {
+            this.hoverRange.end = date;
+            this.hoverRange.focused = "end";
+          }
         }
       } else {
         if (start) {
