@@ -13,7 +13,6 @@ import {
   Watch,
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
@@ -83,8 +82,7 @@ export class Slider
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
@@ -93,6 +91,13 @@ export class Slider
 
   /** When `true`, indicates a histogram is present. */
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
+
+  /**
+   * Used to configure where the fill is placed along the slider track in relation to the value handle.
+   *
+   * Range mode will always display the fill between the min and max handles.
+   */
+  @Prop({ reflect: true }) highlightPlacement: "start" | "none" | "end" = "start";
 
   /**
    * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
@@ -282,8 +287,26 @@ export class Slider
         mirror,
       });
 
+    const { highlightPlacement } = this;
+    const trackRangePlacementStyles =
+      highlightPlacement === "none"
+        ? {
+            left: `unset`,
+            right: `unset`,
+          }
+        : highlightPlacement === "end"
+          ? {
+              left: `${mirror ? minInterval : maxInterval}%`,
+              right: `${mirror ? maxInterval : minInterval}%`,
+            }
+          : /* default */
+            {
+              left: `${mirror ? 100 - maxInterval : minInterval}%`,
+              right: `${mirror ? minInterval : 100 - maxInterval}%`,
+            };
+
     return (
-      <Host id={id} onTouchStart={this.handleTouchStart}>
+      <Host id={id} onKeyDown={this.handleKeyDown} onTouchStart={this.handleTouchStart}>
         <InteractiveContainer disabled={this.disabled}>
           <div
             aria-label={getLabelText(this)}
@@ -302,10 +325,7 @@ export class Slider
               <div
                 class={CSS.trackRange}
                 onPointerDown={this.onTrackPointerDown}
-                style={{
-                  left: `${mirror ? 100 - maxInterval : minInterval}%`,
-                  right: `${mirror ? minInterval : 100 - maxInterval}%`,
-                }}
+                style={trackRangePlacementStyles}
               />
               <div class={CSS.ticks}>
                 {this.tickValues.map((tick) => {
@@ -476,8 +496,7 @@ export class Slider
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
+  private handleKeyDown = (event: KeyboardEvent): void => {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
     const value = this[activeProp];
@@ -509,15 +528,17 @@ export class Slider
     } else if (key === "End") {
       adjustment = max;
     }
+
     if (isNaN(adjustment)) {
       return;
     }
+
     event.preventDefault();
     const fixedDecimalAdjustment = Number(adjustment.toFixed(decimalPlaces(step)));
     this.setValue({
       [activeProp as SetValueProperty]: this.clamp(fixedDecimalAdjustment, activeProp),
     });
-  }
+  };
 
   @Listen("pointerdown")
   pointerDownHandler(event: PointerEvent): void {
@@ -534,7 +555,7 @@ export class Slider
         prop = "minMaxValue";
       } else {
         const closerToMax = Math.abs(this.maxValue - position) < Math.abs(this.minValue - position);
-        prop = closerToMax || position > this.maxValue ? "maxValue" : "minValue";
+        prop = closerToMax || position >= this.maxValue ? "maxValue" : "minValue";
       }
     }
     this.lastDragPropValue = this[prop];
@@ -752,19 +773,12 @@ export class Slider
   }
 
   private focusActiveHandle(valueX: number): void {
-    switch (this.dragProp) {
-      case "minValue":
-        this.minHandle.focus();
-        break;
-      case "maxValue":
-      case "value":
-        this.maxHandle.focus();
-        break;
-      case "minMaxValue":
-        this.getClosestHandle(valueX).focus();
-        break;
-      default:
-        break;
+    if (this.dragProp === "minValue") {
+      this.minHandle.focus();
+    } else if (this.dragProp === "maxValue" || this.dragProp === "value") {
+      this.maxHandle.focus();
+    } else if (this.dragProp === "minMaxValue") {
+      this.getClosestHandle(valueX).focus();
     }
   }
 
@@ -904,6 +918,7 @@ export class Slider
     if (prop === "minValue") {
       value = Math.min(value, this.maxValue);
     }
+
     return value;
   }
 
@@ -919,26 +934,27 @@ export class Slider
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
-    let value = Number(clampedValue.toFixed(decimalPlaces(this.step)));
-    if (this.snap && this.step) {
-      value = this.getClosestStep(value);
-    }
-    return value;
+    const value = Number(clampedValue.toFixed(decimalPlaces(this.step)));
+
+    return !(this.snap && this.step) ? value : this.getClosestStep(value);
   }
 
   /**
    * Get closest allowed value along stepped values
    *
-   * @param num
+   * @param value
    * @internal
    */
-  private getClosestStep(num: number): number {
-    num = Number(this.clamp(num).toFixed(decimalPlaces(this.step)));
-    if (this.step) {
-      const step = Math.round(num / this.step) * this.step;
-      num = Number(this.clamp(step).toFixed(decimalPlaces(this.step)));
+  private getClosestStep(value: number): number {
+    const { max, min, step } = this;
+    let snappedValue = Math.floor((value - min) / step) * step + min;
+    snappedValue = Math.min(Math.max(snappedValue, min), max);
+
+    if (snappedValue > max) {
+      snappedValue -= step;
     }
-    return num;
+
+    return snappedValue;
   }
 
   private getClosestHandle(valueX: number): HTMLDivElement {

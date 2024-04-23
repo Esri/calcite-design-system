@@ -2,8 +2,8 @@ import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
-import { CSS, DURATIONS } from "./resources";
 import { openClose } from "../../tests/commonTests";
+import { CSS, DURATIONS } from "./resources";
 
 describe("defaults", () => {
   defaults("calcite-alert", [

@@ -11,14 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { ItemKeyboardEvent } from "./interfaces";
-
-import {
-  focusElement,
-  focusElementInGroup,
-  isPrimaryPointerButton,
-  toAriaBoolean,
-} from "../../utils/dom";
+import { focusElement, focusElementInGroup, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -50,6 +43,7 @@ import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
+import { ItemKeyboardEvent } from "./interfaces";
 import { SLOTS } from "./resources";
 
 /**
@@ -331,14 +325,9 @@ export class Dropdown
   /** Fires when the component is open and animation is complete. */
   @Event({ cancelable: false }) calciteDropdownOpen: EventEmitter<void>;
 
-  @Listen("pointerdown", { target: "window" })
+  @Listen("click", { target: "window" })
   closeCalciteDropdownOnClick(event: PointerEvent): void {
-    if (
-      this.disabled ||
-      !isPrimaryPointerButton(event) ||
-      !this.open ||
-      event.composedPath().includes(this.el)
-    ) {
+    if (this.disabled || !this.open || event.composedPath().includes(this.el)) {
       return;
     }
 

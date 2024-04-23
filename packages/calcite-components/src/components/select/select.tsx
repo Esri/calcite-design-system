@@ -35,9 +35,9 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
-import { CSS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { CSS } from "./resources";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -284,8 +284,8 @@ export class Select
 
     this.clearInternalSelect();
 
-    optionsAndGroups.forEach(
-      (optionOrGroup) => this.selectEl?.append(this.toNativeElement(optionOrGroup)),
+    optionsAndGroups.forEach((optionOrGroup) =>
+      this.selectEl?.append(this.toNativeElement(optionOrGroup)),
     );
   };
 

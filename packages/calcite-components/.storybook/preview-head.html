@@ -31,8 +31,8 @@
     max-width: 100%;
   }
 
-  #root > calcite-flow,
-  #root > calcite-panel {
+  #storybook-root > calcite-flow,
+  #storybook-root > calcite-panel {
     height: 400px;
   }
 
@@ -40,21 +40,3 @@
     margin-top: 1rem;
   }
 </style>
-
-<script>
-  window.addEventListener(
-    "load",
-    () => {
-      document.addEventListener("keydown", (event) => {
-        const bubbledFromComponentStory = event
-          .composedPath()
-          .some((element) => element.tagName?.toLowerCase().startsWith("calcite-"));
-
-        if (bubbledFromComponentStory) {
-          event.stopPropagation();
-        }
-      });
-    },
-    { once: true },
-  );
-</script>

@@ -10,8 +10,8 @@ import {
   slots,
   t9n,
 } from "../../tests/commonTests";
-import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-pad", () => {
   describe("renders", () => {
@@ -140,7 +140,7 @@ describe("calcite-action-pad", () => {
       await page.setContent("<calcite-action-pad></calcite-action-pad>");
 
       const element = await page.find("calcite-action-pad");
-      const actionElement = await page.find("calcite-action-pad >>> calcite-action");
+      const actionElement = await page.find("calcite-action-pad >>> calcite-action-group calcite-action");
 
       const eventSpy = await element.spyOnEvent("calciteActionPadToggle");
 

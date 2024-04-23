@@ -13,14 +13,9 @@ import {
   Watch,
 } from "@stencil/core";
 import { debounce } from "lodash-es";
+import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { filter } from "../../utils/filter";
-
-import {
-  getElementWidth,
-  getTextWidth,
-  isPrimaryPointerButton,
-  toAriaBoolean,
-} from "../../utils/dom";
+import { getElementWidth, getTextWidth, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -68,14 +63,13 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale, SelectionMode, Status } from "../interfaces";
+import { XButton, CSS as XButtonCSS } from "../functional/XButton";
+import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } from "./utils";
-import { XButton, CSS as XButtonCSS } from "../functional/XButton";
-import { getIconScale } from "../../utils/component";
-import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
-import { Validation } from "../functional/Validation";
 
 interface ItemData {
   label: string;
@@ -315,15 +309,20 @@ export class Combobox
    */
   @Prop({ mutable: true }) filteredItems: HTMLCalciteComboboxItemElement[] = [];
 
+  /**
+   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   */
+  @Prop({ reflect: true }) readOnly = false;
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
 
-  @Listen("pointerdown", { target: "document" })
+  @Listen("click", { target: "document" })
   documentClickHandler(event: PointerEvent): void {
-    if (this.disabled || !isPrimaryPointerButton(event)) {
+    if (this.disabled) {
       return;
     }
 
@@ -686,15 +685,11 @@ export class Combobox
         }
         break;
       case " ":
-        if (!this.textInput.value) {
+        if (!this.textInput.value && !event.defaultPrevented) {
           if (!this.open) {
             this.open = true;
             this.shiftActiveItemIndex(1);
           }
-          event.preventDefault();
-        }
-
-        if (event.composedPath().find((el: HTMLElement) => el.tagName === "CALCITE-CHIP")) {
           event.preventDefault();
         }
         break;
@@ -817,6 +812,10 @@ export class Combobox
   };
 
   clickHandler = (event: MouseEvent): void => {
+    if (this.readOnly) {
+      return;
+    }
+
     const composedPath = event.composedPath();
 
     if (composedPath.some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
@@ -1563,9 +1562,12 @@ export class Combobox
           aria-activedescendant={this.activeDescendant}
           aria-autocomplete="list"
           aria-controls={`${listboxUidPrefix}${guid}`}
+          aria-expanded={toAriaBoolean(open)}
+          aria-haspopup="listbox"
           aria-label={getLabelText(this)}
+          aria-owns={`${listboxUidPrefix}${guid}`}
           class={{
-            input: true,
+            [CSS.input]: true,
             "input--single": true,
             "input--transparent": this.activeChipIndex > -1,
             "input--hidden": showLabel,
@@ -1577,6 +1579,7 @@ export class Combobox
           onFocus={this.comboboxFocusHandler}
           onInput={this.inputHandler}
           placeholder={placeholder}
+          role="combobox"
           type="text"
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el) => (this.textInput = el as HTMLInputElement)}
@@ -1671,13 +1674,7 @@ export class Combobox
       <Host onClick={this.comboboxFocusHandler}>
         <InteractiveContainer disabled={this.disabled}>
           <div
-            aria-autocomplete="list"
-            aria-controls={`${listboxUidPrefix}${guid}`}
-            aria-expanded={toAriaBoolean(open)}
-            aria-haspopup="listbox"
-            aria-label={getLabelText(this)}
             aria-live="polite"
-            aria-owns={`${listboxUidPrefix}${guid}`}
             class={{
               wrapper: true,
               "wrapper--single": singleSelectionMode || !this.selectedItems.length,
@@ -1685,7 +1682,6 @@ export class Combobox
             }}
             onClick={this.clickHandler}
             onKeyDown={this.keyDownHandler}
-            role="combobox"
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setReferenceEl}
           >
@@ -1697,6 +1693,7 @@ export class Combobox
                 [CSS.selectionDisplaySingle]: singleSelectionDisplay,
               }}
               key="grid"
+              // eslint-disable-next-line react/jsx-sort-props -- auto-generated by @esri/calcite-components/enforce-ref-last-prop
               ref={this.setChipContainerEl}
             >
               {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}

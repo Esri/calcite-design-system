@@ -1,20 +1,16 @@
-import { array, boolean as booleanFn, number, select, text } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { array, boolean, number, select, text } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Slider",
   parameters: {
-    notes: readme,
     chromatic: {
       // https://www.chromatic.com/docs/threshold
       diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -76,7 +72,7 @@ export const darkModeMirroredRange_TestOnly = (): string => html`
 `;
 
 darkModeMirroredRange_TestOnly.story = {
-  parameters: { modes: modesDarkDefault },
+  parameters: { themes: modesDarkDefault },
 };
 
 export const rangeLabeledTicks_TestOnly = (): string => html`
@@ -197,11 +193,11 @@ export const Histogram = (): HTMLCalciteSliderElement => {
     ] as any,
     "  ",
   ) as any;
-  slider.labelHandles = booleanFn("label-handles", false);
-  slider.labelTicks = booleanFn("label-ticks", false);
+  slider.labelHandles = boolean("label-handles", false, "", "prop");
+  slider.labelTicks = boolean("label-ticks", false, "", "prop");
   slider.ticks = number("ticks", 10);
-  slider.precise = booleanFn("precise", false);
-  slider.snap = booleanFn("snap", false);
+  slider.precise = boolean("precise", false, "", "prop");
+  slider.snap = boolean("snap", false, "", "prop");
   slider.scale = select("scale", ["s", "m", "l"], "m");
   slider.style.minWidth = "60vw";
   return slider;
@@ -250,18 +246,18 @@ export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
     [80, 10],
     [100, 0],
   ];
-  slider.labelHandles = booleanFn("label-handles", false);
-  slider.labelTicks = booleanFn("label-ticks", false);
+  slider.labelHandles = boolean("label-handles", false, "", "prop");
+  slider.labelTicks = boolean("label-ticks", false, "", "prop");
   slider.ticks = number("ticks", 10);
-  slider.precise = booleanFn("precise", false);
-  slider.snap = booleanFn("snap", false);
+  slider.precise = boolean("precise", false, "", "prop");
+  slider.snap = boolean("snap", false, "", "prop");
   slider.scale = select("scale", ["s", "m", "l"], "m");
   slider.style.minWidth = "60vw";
   slider.className = "calcite-mode-dark";
   return slider;
 };
 
-darkModeHistogramRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeHistogramRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-slider disabled value="5"></calcite-slider>`;
 
@@ -448,4 +444,21 @@ export const spaceGroupSeparatorNoBreak_TestOnly = (): string => html`
     max="10000"
     ticks="2000"
   ></calcite-slider>
+`;
+
+export const fillPlacements = (): string => html`
+  <label>start (default)</label>
+  <calcite-slider min="0" max="100" value="0" fill-placement="start"></calcite-slider>
+  <calcite-slider min="0" max="100" value="50" fill-placement="start"></calcite-slider>
+  <calcite-slider min="0" max="100" value="100" fill-placement="start"></calcite-slider>
+  <br />
+  <label>none</label>
+  <calcite-slider min="0" max="100" value="0" fill-placement="none"></calcite-slider>
+  <calcite-slider min="0" max="100" value="50" fill-placement="none"></calcite-slider>
+  <calcite-slider min="0" max="100" value="100" fill-placement="none"></calcite-slider>
+  <br />
+  <label>end</label>
+  <calcite-slider min="0" max="100" value="0" fill-placement="end"></calcite-slider>
+  <calcite-slider min="0" max="100" value="50" fill-placement="end"></calcite-slider>
+  <calcite-slider min="0" max="100" value="100" fill-placement="end"></calcite-slider>
 `;

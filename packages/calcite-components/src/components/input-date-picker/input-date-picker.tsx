@@ -13,6 +13,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { FocusTrap } from "focus-trap";
 import {
   dateFromISO,
   dateFromLocalizedString,
@@ -69,21 +70,20 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
-import { CSS } from "./resources";
 import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
-import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
 import {
   activateFocusTrap,
   connectFocusTrap,
   deactivateFocusTrap,
   FocusTrapComponent,
 } from "../../utils/focusTrapComponent";
-import { FocusTrap } from "focus-trap";
 import { guid } from "../../utils/guid";
-import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
+import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
+import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -203,7 +203,7 @@ export class InputDatePicker
   }
 
   /**
-   * Specifies the number at which section headings should start.
+   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
@@ -681,6 +681,7 @@ export class InputDatePicker
       // we set tab index to -1 to prevent delegatesFocus from stealing focus before we can set it
       <span class={CSS.toggleIcon} tabIndex={-1}>
         <calcite-icon
+          class={CSS.chevronIcon}
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
         />
@@ -893,6 +894,7 @@ export class InputDatePicker
     }
 
     if (key === "Enter") {
+      event.preventDefault();
       this.commitValue();
 
       if (this.shouldFocusRangeEnd()) {
@@ -902,7 +904,6 @@ export class InputDatePicker
       }
 
       if (submitForm(this)) {
-        event.preventDefault();
         this.restoreInputFocus();
       }
     } else if (key === "ArrowDown") {

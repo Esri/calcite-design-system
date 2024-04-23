@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, slots, hidden } from "../../tests/commonTests";
-import { CSS, IDS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
+import { CSS, IDS, SLOTS } from "./resources";
 
 describe("calcite-accordion-item", () => {
   describe("renders", () => {
