@@ -684,10 +684,8 @@ export class ListItem
             {this.renderContentContainer()}
             {this.renderActionsEnd()}
           </tr>
-          <div class={CSS.indent}>
-            {this.renderContentBottom()}
-            {this.renderDefaultContainer()}
-          </div>
+          {this.renderContentBottom()}
+          <div class={CSS.indent}>{this.renderDefaultContainer()}</div>
         </InteractiveContainer>
       </Host>
     );
