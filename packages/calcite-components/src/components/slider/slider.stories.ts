@@ -445,3 +445,20 @@ export const spaceGroupSeparatorNoBreak_TestOnly = (): string => html`
     ticks="2000"
   ></calcite-slider>
 `;
+
+export const fillPlacements = (): string => html`
+  <label>start (default)</label>
+  <calcite-slider min="0" max="100" value="0" fill-placement="start"></calcite-slider>
+  <calcite-slider min="0" max="100" value="50" fill-placement="start"></calcite-slider>
+  <calcite-slider min="0" max="100" value="100" fill-placement="start"></calcite-slider>
+  <br />
+  <label>none</label>
+  <calcite-slider min="0" max="100" value="0" fill-placement="none"></calcite-slider>
+  <calcite-slider min="0" max="100" value="50" fill-placement="none"></calcite-slider>
+  <calcite-slider min="0" max="100" value="100" fill-placement="none"></calcite-slider>
+  <br />
+  <label>end</label>
+  <calcite-slider min="0" max="100" value="0" fill-placement="end"></calcite-slider>
+  <calcite-slider min="0" max="100" value="50" fill-placement="end"></calcite-slider>
+  <calcite-slider min="0" max="100" value="100" fill-placement="end"></calcite-slider>
+`;

@@ -9,7 +9,7 @@
 @include disabled();
 
 .container {
-  @apply bg-foreground-2 text-n1 text-color-2 m-0 flex flex-1 p-3 font-sans font-bold;
+  @apply text-n1 text-color-2 m-0 flex flex-1 p-3 font-sans font-medium;
 }
 
 .heading {
