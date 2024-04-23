@@ -1359,9 +1359,7 @@ describe("calcite-input-date-picker", () => {
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-
-      //assert calendar is open once focus issue is fixed.
-      //expect(await isCalendarVisible(page)).toBe(true);
+      expect(await isCalendarVisible(page)).toBe(true);
 
       const value = await inputDatePickerEl.getProperty("value");
       expect(value).toEqual(["2024-03-25", "2024-06-20"]);

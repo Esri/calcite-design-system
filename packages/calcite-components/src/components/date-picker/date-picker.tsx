@@ -470,10 +470,8 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         this.hoverRange = undefined;
       }
     } else {
-      if (start && end) {
-        const startDiff = getDaysDiff(date, start);
-        const endDiff = getDaysDiff(date, end);
-        if (endDiff > 0) {
+      if (this.activeRange) {
+        if (this.activeRange === "end") {
           this.hoverRange.end = date;
           this.hoverRange.focused = "end";
         } else {
