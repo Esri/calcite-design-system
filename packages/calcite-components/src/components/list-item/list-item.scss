@@ -3,6 +3,10 @@
   --calcite-list-item-icon-color: theme("colors.brand");
 }
 
+:host([filter-hidden], [closed]) {
+  @apply hidden;
+}
+
 @include disabled();
 
 .indent {
@@ -203,12 +207,12 @@ td:focus {
   }
 }
 
-::slotted(calcite-list-item:not([filter-hidden], [closed])),
+::slotted(calcite-list-item),
 ::slotted(calcite-list) {
   border-block-start: 1px solid var(--calcite-color-border-3);
 }
 
-::slotted(calcite-list-item:not([filter-hidden], [closed]):nth-of-type(1)) {
+::slotted(calcite-list-item:last-of-type) {
   border-block-start: 0;
 }
 
