@@ -446,19 +446,19 @@ export const spaceGroupSeparatorNoBreak_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
-export const highlightModes = (): string => html`
-  <label>default</label>
-  <calcite-slider min="0" max="100" value="0" highlight-mode="default"></calcite-slider>
-  <calcite-slider min="0" max="100" value="50" highlight-mode="default"></calcite-slider>
-  <calcite-slider min="0" max="100" value="100" highlight-mode="default"></calcite-slider>
+export const fillPlacements = (): string => html`
+  <label>start (default)</label>
+  <calcite-slider min="0" max="100" value="0" fill-placement="start"></calcite-slider>
+  <calcite-slider min="0" max="100" value="50" fill-placement="start"></calcite-slider>
+  <calcite-slider min="0" max="100" value="100" fill-placement="start"></calcite-slider>
   <br />
   <label>none</label>
-  <calcite-slider min="0" max="100" value="0" highlight-mode="none"></calcite-slider>
-  <calcite-slider min="0" max="100" value="50" highlight-mode="none"></calcite-slider>
-  <calcite-slider min="0" max="100" value="100" highlight-mode="none"></calcite-slider>
+  <calcite-slider min="0" max="100" value="0" fill-placement="none"></calcite-slider>
+  <calcite-slider min="0" max="100" value="50" fill-placement="none"></calcite-slider>
+  <calcite-slider min="0" max="100" value="100" fill-placement="none"></calcite-slider>
   <br />
-  <label>mirrored</label>
-  <calcite-slider min="0" max="100" value="0" highlight-mode="mirrored"></calcite-slider>
-  <calcite-slider min="0" max="100" value="50" highlight-mode="mirrored"></calcite-slider>
-  <calcite-slider min="0" max="100" value="100" highlight-mode="mirrored"></calcite-slider>
+  <label>end</label>
+  <calcite-slider min="0" max="100" value="0" fill-placement="end"></calcite-slider>
+  <calcite-slider min="0" max="100" value="50" fill-placement="end"></calcite-slider>
+  <calcite-slider min="0" max="100" value="100" fill-placement="end"></calcite-slider>
 `;

@@ -93,11 +93,11 @@ export class Slider
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
 
   /**
-   * Used to configure where the highlight is placed along the slider track.
+   * Used to configure where the fill is placed along the slider track in relation to the value handle.
    *
-   * **Note**: range mode will always display range between min and max handles.
+   * Range mode will always display the fill between the min and max handles.
    */
-  @Prop({ reflect: true }) highlightMode: "default" | "none" | "mirrored" = "default";
+  @Prop({ reflect: true }) highlightPlacement: "start" | "none" | "end" = "start";
 
   /**
    * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
@@ -287,14 +287,14 @@ export class Slider
         mirror,
       });
 
-    const { highlightMode } = this;
+    const { highlightPlacement } = this;
     const trackRangePlacementStyles =
-      highlightMode === "none"
+      highlightPlacement === "none"
         ? {
             left: `unset`,
             right: `unset`,
           }
-        : highlightMode === "mirrored"
+        : highlightPlacement === "end"
           ? {
               left: `${mirror ? minInterval : maxInterval}%`,
               right: `${mirror ? maxInterval : minInterval}%`,
