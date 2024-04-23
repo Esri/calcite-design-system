@@ -66,6 +66,28 @@ describe("calcite-tile-group", () => {
       { propertyName: "selectionAppearance", defaultValue: "icon" },
       { propertyName: "selectionMode", defaultValue: "none" },
     ]);
+
+    it("selectedItems property is set correctly at load when tiles include the selected attribute in initial HTML", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-tile-group label="test-label" selection-mode="multiple">
+          <calcite-tile label="test-label"></calcite-tile>
+          <calcite-tile label="test-label"></calcite-tile>
+          <calcite-tile label="test-label"></calcite-tile>
+          <calcite-tile id="item-4" selected label="test-label"></calcite-tile>
+          <calcite-tile id="item-5" selected label="test-label"></calcite-tile>
+        </calcite-tile-group>
+      `);
+      const element = await page.find("calcite-tile-group");
+      const item4 = await page.find("#item-4");
+      const item5 = await page.find("#item-5");
+
+      await page.waitForChanges();
+
+      expect(await element.getProperty("selectedItems")).toHaveLength(2);
+
+      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item4.id, item5.id] });
+    });
   });
 
   describe("disabled", () => {
@@ -120,6 +142,93 @@ describe("calcite-tile-group", () => {
 
   describe("renders", () => {
     renders("calcite-tile-group", { display: "inline-block" });
+  });
+
+  describe("keyboard", () => {
+    it("focuses tiles with the tab key and arrow keys", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-tile-group label="test-label" selection-mode="multiple">
+          <calcite-tile id="item-1" label="test-label"></calcite-tile>
+          <calcite-tile id="item-2" label="test-label"></calcite-tile>
+          <calcite-tile id="item-3" label="test-label"></calcite-tile>
+          <calcite-tile id="item-4" label="test-label"></calcite-tile>
+          <calcite-tile id="item-5" label="test-label"></calcite-tile>
+        </calcite-tile-group>`,
+      );
+      await assertSelectedItems.setUpEvents("calciteTileGroupSelect", page);
+
+      const element = await page.find("calcite-tile-group");
+      const groupSelectSpy = await element.spyOnEvent("calciteTileGroupSelect");
+      const item1 = await page.find("#item-1");
+      const item2 = await page.find("#item-2");
+      const item3 = await page.find("#item-3");
+      const item4 = await page.find("#item-4");
+      const item5 = await page.find("#item-5");
+
+      await item1.click();
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item1.id);
+      expect(await element.getProperty("selectedItems")).toHaveLength(1);
+
+      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id] });
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item2.id);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item3.id);
+
+      await page.keyboard.press("End");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item5.id);
+
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+
+      expect(groupSelectSpy).toHaveReceivedEventTimes(2);
+      expect(await element.getProperty("selectedItems")).toHaveLength(2);
+
+      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id, item5.id] });
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item4.id);
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(groupSelectSpy).toHaveReceivedEventTimes(3);
+      expect(await element.getProperty("selectedItems")).toHaveLength(3);
+
+      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id, item4.id, item5.id] });
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+
+      expect(groupSelectSpy).toHaveReceivedEventTimes(4);
+      expect(await element.getProperty("selectedItems")).toHaveLength(2);
+
+      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id, item5.id] });
+      await page.keyboard.press("Home");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item1.id);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item5.id);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item1.id);
+    });
   });
 
   describe("prop passing", () => {
