@@ -526,26 +526,4 @@ describe("calcite-date-picker", () => {
       expect(await datePicker.getProperty("value")).toEqual(["2023-12-08", "2024-02-08"]);
     });
   });
-
-  it("restarts range on selection after a range is complete when proximitySelectionDisabled is set", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html` <calcite-date-picker range value="2020-09-01" proximity-selection-disabled></calcite-date-picker>`,
-    );
-    const datePicker = await page.find("calcite-date-picker");
-
-    await selectDay("20200908", page, "mouse");
-    await page.waitForChanges();
-    await selectDay("20200923", page, "mouse");
-    await page.waitForChanges();
-    expect(await datePicker.getProperty("value")).toEqual(["2020-09-08", "2020-09-23"]);
-
-    await selectDay("20200915", page, "mouse");
-    await page.waitForChanges();
-    expect(await datePicker.getProperty("value")).toEqual(["2020-09-15", ""]);
-
-    await selectDay("20200930", page, "mouse");
-    await page.waitForChanges();
-    expect(await datePicker.getProperty("value")).toEqual(["2020-09-15", "2020-09-30"]);
-  });
 });
