@@ -49,6 +49,7 @@ module.exports = {
     "@stencil-community/own-props-must-be-private": "off",
     "@stencil-community/prefer-vdom-listener": "warn",
     "@stencil-community/required-jsdoc": "off",
+    "@stencil-community/strict-boolean-conditions": "off",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
@@ -72,6 +73,7 @@ module.exports = {
     curly: "error",
     "import/no-dynamic-require": ["error", { esmodule: true }],
     "import/order": ["error", { "newlines-between": "never" }],
+    "jest/expect-expect": "off",
     "jest/no-export": "warn",
     "jsdoc/check-tag-names": "off",
     "jsdoc/require-jsdoc": "off",
@@ -89,6 +91,18 @@ module.exports = {
       },
     ],
     "no-new-func": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: [
+          {
+            group: ["tests/commonTests/*"],
+            message:
+              "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'",
+          },
+        ],
+      },
+    ],
     "no-unneeded-ternary": "error",
     "one-var": ["error", "never"],
     "react/forbid-component-props": [
@@ -153,10 +167,16 @@ module.exports = {
       ignorePrivate: true,
     },
   },
-  overrides: [{
-    files: ["**/*.e2e.ts", "src/tests/**/*"],
-    rules: {
-      "@esri/calcite-components/no-dynamic-createelement": "off",
-    }
-  }]
+  overrides: [
+    {
+      files: ["**/*.e2e.ts", "src/tests/**/*"],
+      rules: {
+        "@esri/calcite-components/no-dynamic-createelement": "off",
+      },
+    },
+    {
+      extends: ["plugin:@typescript-eslint/disable-type-checked"],
+      files: ["*.cjs"],
+    },
+  ],
 };
