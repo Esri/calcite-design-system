@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.4...@esri/calcite-components@2.8.0-next.5) (2024-04-23)
+
+### Bug Fixes
+
+- **input-date-picker:** update the focus and hover chevron icon color ([#9146](https://github.com/Esri/calcite-design-system/issues/9146)) ([ca895e9](https://github.com/Esri/calcite-design-system/commit/ca895e9e130039300ecbcc059933dc87b47e1f5a))
+
 ## [2.8.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.3...@esri/calcite-components@2.8.0-next.4) (2024-04-18)
 
 ### Bug Fixes
