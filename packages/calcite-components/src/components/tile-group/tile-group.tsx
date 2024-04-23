@@ -20,6 +20,7 @@ import { Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces
 import { CSS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { focusElementInGroup } from "../../utils/dom";
+import { SelectableGroupComponent } from "../../utils/selectableComponent";
 
 /**
  * @slot - A slot for adding `calcite-tile` elements.
@@ -29,7 +30,7 @@ import { focusElementInGroup } from "../../utils/dom";
   styleUrl: "tile-group.scss",
   shadow: true,
 })
-export class TileGroup implements InteractiveComponent {
+export class TileGroup implements InteractiveComponent, SelectableGroupComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties

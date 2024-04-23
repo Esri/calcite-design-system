@@ -1809,12 +1809,13 @@
       </div>
     </demo-dom-swapper>
     <script>
+      document.addEventListener("calciteTileGroupSelect", (event) => {
+        console.log("calciteTileGroupSelect", event.target, event.target.selectedItems);
+      });
       document.addEventListener("calciteTileSelect", (event) => {
-        console.clear();
         console.log("calciteTileSelect", event.target, event.target.selected);
       });
       document.addEventListener("calciteInternalTileKeyEvent", (event) => {
-        console.clear();
         console.log("calciteInternalTileKeyEvent", event.target, event.target.selected);
       });
     </script>

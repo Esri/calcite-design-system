@@ -86,8 +86,8 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
  *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
-export function accessible(componentTestSetup: ComponentTestSetup): void {
-  it("is accessible", async () => {
+export function accessible(componentTestSetup: ComponentTestSetup, label?: string): void {
+  it(label ?? "is accessible", async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     await page.addScriptTag({ path: require.resolve("axe-core") });
@@ -1839,3 +1839,46 @@ export function openClose(componentTagOrHTML: TagOrHTML, options?: OpenCloseOpti
     });
   }
 }
+
+interface SelectedItemsAssertionOptions {
+  /**
+   * IDs from items to assert selection
+   */
+  expectedItemIds: string[];
+}
+
+/**
+ * Test helper for selected items. Expects items to have IDs to test against.
+ *
+ * Note: assertSelectedItems.setUpEvents must be called before using this method
+ *
+ * @param page
+ * @param root0
+ * @param root0.expectedItemIds
+ */
+export async function assertSelectedItems(groupElementTagName: string, page: E2EPage, { expectedItemIds }: SelectedItemsAssertionOptions): Promise<void> {
+  await page.waitForTimeout(100);
+  const selectedItemIds = await page.evaluate((groupElementTagName) => {
+    const group = document.querySelector(groupElementTagName);
+    return (group as any).selectedItems.map((item) => item.id);
+  }, groupElementTagName);
+
+  expect(selectedItemIds).toHaveLength(expectedItemIds.length);
+
+  expectedItemIds.forEach((itemId, index) => expect(selectedItemIds[index]).toEqual(itemId));
+}
+
+type SelectionEventTestWindow = GlobalTestProps<{ eventDetail: Selection }>;
+
+/**
+ * Helper to wire up the page to assert on the event detail
+ *
+ * @param page
+ */
+assertSelectedItems.setUpEvents = async (eventName: string, page: E2EPage) => {
+  await page.evaluate((eventName: string) => {
+    document.addEventListener(eventName, ({ detail }: CustomEvent<Selection>) => {
+      (window as SelectionEventTestWindow).eventDetail = detail;
+    });
+  }, eventName);
+};

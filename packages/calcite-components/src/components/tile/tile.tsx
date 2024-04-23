@@ -24,6 +24,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { CSS, ICONS, SLOTS } from "./resources";
+import { SelectableComponent } from "../../utils/selectableComponent";
 
 /**
  * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
@@ -36,7 +37,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
   styleUrl: "tile.scss",
   shadow: true,
 })
-export class Tile implements InteractiveComponent {
+export class Tile implements InteractiveComponent, SelectableComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -206,9 +207,16 @@ export class Tile implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   private handleSelectEvent = (): void => {
-    if (!this.disabled && this.interactive) {
-      this.calciteTileSelect.emit();
+    if (this.disabled) {
+      return;
     }
+    if (!this.interactive) {
+      return;
+    }
+    if (this.selectionMode === "single-persist" && this.selected === true) {
+      return;
+    }
+    this.calciteTileSelect.emit();
   };
 
   private setContainerEl = (el): void => {
