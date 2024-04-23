@@ -729,6 +729,14 @@ export class List
     });
   }
 
+  private borderItems = (): void => {
+    const renderedItems = this.visibleItems.filter((item) => !item.filterHidden);
+
+    renderedItems.forEach(
+      (item) => (item.bordered = item !== renderedItems[renderedItems.length - 1]),
+    );
+  };
+
   private updateFilteredItems = (emit = false): void => {
     const { visibleItems, filteredData, filterText } = this;
 
@@ -748,10 +756,6 @@ export class List
     );
 
     this.filteredItems = filteredItems;
-
-    filteredItems.forEach(
-      (item) => (item.bordered = item !== filteredItems[filteredItems.length - 1]),
-    );
 
     if (emit) {
       this.calciteListFilter.emit();
@@ -833,6 +837,7 @@ export class List
     }
     this.visibleItems = this.listItems.filter((item) => !item.closed && !item.hidden);
     this.updateFilteredItems(emit);
+    this.borderItems();
     this.focusableItems = this.filteredItems.filter((item) => !item.disabled);
     this.setActiveListItem();
     this.updateSelectedItems(emit);
