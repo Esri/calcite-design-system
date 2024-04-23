@@ -82,8 +82,7 @@ export class Slider
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
@@ -92,6 +91,13 @@ export class Slider
 
   /** When `true`, indicates a histogram is present. */
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
+
+  /**
+   * Used to configure where the fill is placed along the slider track in relation to the value handle.
+   *
+   * Range mode will always display the fill between the min and max handles.
+   */
+  @Prop({ reflect: true }) highlightPlacement: "start" | "none" | "end" = "start";
 
   /**
    * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
@@ -281,6 +287,24 @@ export class Slider
         mirror,
       });
 
+    const { highlightPlacement } = this;
+    const trackRangePlacementStyles =
+      highlightPlacement === "none"
+        ? {
+            left: `unset`,
+            right: `unset`,
+          }
+        : highlightPlacement === "end"
+          ? {
+              left: `${mirror ? minInterval : maxInterval}%`,
+              right: `${mirror ? maxInterval : minInterval}%`,
+            }
+          : /* default */
+            {
+              left: `${mirror ? 100 - maxInterval : minInterval}%`,
+              right: `${mirror ? minInterval : 100 - maxInterval}%`,
+            };
+
     return (
       <Host id={id} onKeyDown={this.handleKeyDown} onTouchStart={this.handleTouchStart}>
         <InteractiveContainer disabled={this.disabled}>
@@ -301,10 +325,7 @@ export class Slider
               <div
                 class={CSS.trackRange}
                 onPointerDown={this.onTrackPointerDown}
-                style={{
-                  left: `${mirror ? 100 - maxInterval : minInterval}%`,
-                  right: `${mirror ? minInterval : 100 - maxInterval}%`,
-                }}
+                style={trackRangePlacementStyles}
               />
               <div class={CSS.ticks}>
                 {this.tickValues.map((tick) => {

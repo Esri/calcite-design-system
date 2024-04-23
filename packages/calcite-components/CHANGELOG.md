@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.5...@esri/calcite-components@2.8.0-next.6) (2024-04-23)
+
+### Features
+
+- **slider:** allow configuring fill behavior ([#9170](https://github.com/Esri/calcite-design-system/issues/9170)) ([1b2cdbf](https://github.com/Esri/calcite-design-system/commit/1b2cdbf639029c8a415a8055a31542d5cc089045)), closes [#1631](https://github.com/Esri/calcite-design-system/issues/1631)
+
+### Bug Fixes
+
+- **date-picker:** ensure `proximitySelectionDisabled` resets range on post-range-commit selection ([#9171](https://github.com/Esri/calcite-design-system/issues/9171)) ([f466b14](https://github.com/Esri/calcite-design-system/commit/f466b145f7c59fad143ddf4c980514ad5558f854)), closes [#6223](https://github.com/Esri/calcite-design-system/issues/6223)
+
+## [2.8.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.4...@esri/calcite-components@2.8.0-next.5) (2024-04-23)
+
+### Bug Fixes
+
+- **input-date-picker:** update the focus and hover chevron icon color ([#9146](https://github.com/Esri/calcite-design-system/issues/9146)) ([ca895e9](https://github.com/Esri/calcite-design-system/commit/ca895e9e130039300ecbcc059933dc87b47e1f5a))
+
 ## [2.8.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.3...@esri/calcite-components@2.8.0-next.4) (2024-04-18)
 
 ### Bug Fixes

@@ -96,6 +96,18 @@
 
 .input-wrapper {
   @apply relative;
+
+  .chevron-icon {
+    color: var(--calcite-color-text-3);
+  }
+
+  &:focus-within,
+  &:active,
+  &:hover {
+    .chevron-icon {
+      color: var(--calcite-color-text-1);
+    }
+  }
 }
 
 .toggle-icon {
