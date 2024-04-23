@@ -1,39 +1,62 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, reflects, renders, hidden, assertSelectedItems } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  disabled,
+  reflects,
+  renders,
+  hidden,
+  assertSelectedItems,
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-tile-group", () => {
   describe("accessibility", () => {
-    accessible(html`
-      <calcite-tile-group>
-        <calcite-tile label="item-1"></calcite-tile>
-        <calcite-tile label="item-2"></calcite-tile>
-      </calcite-tile-group>
-    `, "accessible in selection-mode none");
-    accessible(html`
-      <calcite-tile-group selection-mode="single">
-        <calcite-tile label="item-1"></calcite-tile>
-        <calcite-tile label="item-2"></calcite-tile>
-      </calcite-tile-group>
-    `, "accessible in selection-mode single");
-    accessible(html`
-      <calcite-tile-group selection-mode="single-persist">
-        <calcite-tile label="item-1"></calcite-tile>
-        <calcite-tile label="item-2"></calcite-tile>
-      </calcite-tile-group>
-    `, "accessible in selection-mode single-persist");
-    accessible(html`
-      <calcite-tile-group selection-mode="multiple">
-        <calcite-tile label="item-1"></calcite-tile>
-        <calcite-tile label="item-2"></calcite-tile>
-      </calcite-tile-group>
-    `, "accessible in selection-mode multiple");
-    accessible(html`
-      <calcite-tile-group>
-        <calcite-tile label="item-1" href="#"></calcite-tile>
-        <calcite-tile label="item-2" href="#"></calcite-tile>
-      </calcite-tile-group>
-    `, "accessible as links");
+    accessible(
+      html`
+        <calcite-tile-group>
+          <calcite-tile label="item-1"></calcite-tile>
+          <calcite-tile label="item-2"></calcite-tile>
+        </calcite-tile-group>
+      `,
+      "accessible in selection-mode none",
+    );
+    accessible(
+      html`
+        <calcite-tile-group selection-mode="single">
+          <calcite-tile label="item-1"></calcite-tile>
+          <calcite-tile label="item-2"></calcite-tile>
+        </calcite-tile-group>
+      `,
+      "accessible in selection-mode single",
+    );
+    accessible(
+      html`
+        <calcite-tile-group selection-mode="single-persist">
+          <calcite-tile label="item-1"></calcite-tile>
+          <calcite-tile label="item-2"></calcite-tile>
+        </calcite-tile-group>
+      `,
+      "accessible in selection-mode single-persist",
+    );
+    accessible(
+      html`
+        <calcite-tile-group selection-mode="multiple">
+          <calcite-tile label="item-1"></calcite-tile>
+          <calcite-tile label="item-2"></calcite-tile>
+        </calcite-tile-group>
+      `,
+      "accessible in selection-mode multiple",
+    );
+    accessible(
+      html`
+        <calcite-tile-group>
+          <calcite-tile label="item-1" href="#"></calcite-tile>
+          <calcite-tile label="item-2" href="#"></calcite-tile>
+        </calcite-tile-group>
+      `,
+      "accessible as links",
+    );
   });
 
   describe("defaults", () => {
@@ -128,6 +151,55 @@ describe("calcite-tile-group", () => {
   });
 
   describe("selection modes", () => {
+    it("none selection mode (default) allows no item to be selected", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-tile-group label="test-label">
+          <calcite-tile id="item-1" label="test-label"></calcite-tile>
+          <calcite-tile id="item-2" label="test-label"></calcite-tile>
+        </calcite-tile-group>
+      `);
+      await page.waitForChanges();
+      await assertSelectedItems.setUpEvents("calciteTileGroupSelect", page);
+
+      const element = await page.find("calcite-tile-group");
+      const item1 = await page.find("#item-1");
+      const item2 = await page.find("#item-2");
+      const itemGroupSelectSpy = await element.spyOnEvent("calciteTileGroupSelect");
+
+      expect(itemGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("selectedItems")).toEqual([]);
+
+      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [] });
+      await item1.click();
+      await page.waitForChanges();
+
+      expect(itemGroupSelectSpy).toHaveReceivedEventTimes(1);
+      expect(await item1.getProperty("selected")).toBe(false);
+      expect(await item2.getProperty("selected")).toBe(false);
+      expect(await element.getProperty("selectedItems")).toEqual([]);
+
+      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [] });
+      await item2.click();
+      await page.waitForChanges();
+
+      expect(itemGroupSelectSpy).toHaveReceivedEventTimes(2);
+      expect(await item1.getProperty("selected")).toBe(false);
+      expect(await item2.getProperty("selected")).toBe(false);
+      expect(await element.getProperty("selectedItems")).toEqual([]);
+
+      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [] });
+      await item2.click();
+      await page.waitForChanges();
+
+      expect(itemGroupSelectSpy).toHaveReceivedEventTimes(3);
+      expect(await item1.getProperty("selected")).toBe(false);
+      expect(await item2.getProperty("selected")).toBe(false);
+      expect(await element.getProperty("selectedItems")).toEqual([]);
+
+      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [] });
+    });
+
     it("single selection-mode allows only 1 item to be selected and allows deselecting", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
