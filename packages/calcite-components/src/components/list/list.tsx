@@ -749,6 +749,10 @@ export class List
 
     this.filteredItems = filteredItems;
 
+    filteredItems.forEach(
+      (item) => (item.bordered = item !== filteredItems[filteredItems.length - 1]),
+    );
+
     if (emit) {
       this.calciteListFilter.emit();
     }

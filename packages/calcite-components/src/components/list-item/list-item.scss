@@ -8,6 +8,10 @@
   @apply hidden;
 }
 
+.wrapper--bordered {
+  border-block-end: 1px solid var(--calcite-color-border-3);
+}
+
 @include disabled();
 
 .indent {
@@ -206,15 +210,6 @@ td:focus {
 
     color: inherit;
   }
-}
-
-::slotted(calcite-list-item),
-::slotted(calcite-list) {
-  border-block-start: 1px solid var(--calcite-color-border-3);
-}
-
-::slotted(calcite-list-item:first-of-type) {
-  border-block-start: 0;
 }
 
 ::slotted(calcite-list:empty) {

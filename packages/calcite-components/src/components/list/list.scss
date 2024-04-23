@@ -28,14 +28,6 @@
   --calcite-stack-padding-block: 0;
 }
 
-::slotted(calcite-list-item) {
-  border-block-start: 1px solid var(--calcite-color-border-3);
-}
-
-::slotted(calcite-list-item:first-of-type) {
-  border-block-start: 0;
-}
-
 .sticky-pos {
   @apply sticky
   top-0
