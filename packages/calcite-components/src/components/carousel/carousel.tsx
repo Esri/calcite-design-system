@@ -84,6 +84,15 @@ export class Carousel
    */
   @Prop({ reflect: true }) rotation = false;
 
+  @Watch("rotation")
+  handleRotationChange(): void {
+    if (this.rotation && this.rotating) {
+      this.startRotating();
+    } else if (!this.rotation) {
+      this.stopRotating();
+    }
+  }
+
   /**
    *  When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
    */
@@ -95,9 +104,11 @@ export class Carousel
   @Prop({ reflect: true, mutable: true }) rotating = false;
 
   @Watch("rotating")
-  handleIsRotatingChange(): void {
-    if (this.rotation) {
-      this.setRotationInterval();
+  handleRotatingChange(newValue: boolean, oldValue: boolean): void {
+    if (newValue && this.rotation) {
+      this.startRotating();
+    } else if (oldValue && !newValue && this.rotation) {
+      this.stopRotating();
     }
   }
 
@@ -140,13 +151,13 @@ export class Carousel
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    if (this.rotation && this.rotating) {
+      this.startRotating();
+    }
   }
 
   componentDidRender(): void {
     updateHostInteraction(this);
-    if (this.rotation && this.rotating) {
-      this.setRotationInterval();
-    }
   }
 
   disconnectedCallback(): void {
@@ -186,7 +197,17 @@ export class Carousel
 
   @State() pausedDueToHover = false;
 
-  @State() overridePauseDueToInteraction = false;
+  @Watch("pausedDueToFocus")
+  @Watch("pausedDueToHover")
+  pauseWatcher(): void {
+    if (!this.pausedDueToFocus && !this.pausedDueToHover) {
+      this.resumeRotation();
+    } else {
+      this.pauseRotation();
+    }
+  }
+
+  @State() userPreventsPause = false;
 
   @State() effectiveLocale = "";
 
@@ -197,13 +218,8 @@ export class Carousel
 
   @State() pausedSlideDurationRemaining = 1;
 
-  // TODO refactor from state this re-renders EVERYTHING on change every 0.01s
+  // TODO refactor from state this re-renders on change
   @State() slideDurationRemaining = 1;
-
-  @Watch("slideDurationRemaining")
-  watchSlideDurationRemaining(): void {
-    // console.log(this.slideDurationRemaining);
-  }
 
   private container: HTMLDivElement;
 
@@ -267,7 +283,6 @@ export class Carousel
     if (emit) {
       if (this.rotating) {
         this.rotating = false;
-        this.calciteCarouselRotatingChange.emit();
       }
 
       if (previousSelected !== this.selectedIndex) {
@@ -278,7 +293,7 @@ export class Carousel
 
   private nextItem = (emit: boolean): void => {
     if (this.rotating && emit) {
-      this.setIsRotating();
+      this.rotating = false;
     }
     const nextIndex = this.selectedIndex === this.items?.length - 1 ? 0 : this.selectedIndex + 1;
     this.setSelectedItem(emit, nextIndex);
@@ -286,7 +301,7 @@ export class Carousel
 
   private previousItem = (): void => {
     if (this.rotating) {
-      this.setIsRotating();
+      this.rotating = false;
     }
     const prevIndex = this.selectedIndex === 0 ? this.items?.length - 1 : this.selectedIndex - 1;
     this.setSelectedItem(true, prevIndex);
@@ -294,7 +309,7 @@ export class Carousel
 
   private handleItemSelection = (event: MouseEvent): void => {
     if (this.rotating) {
-      this.setIsRotating();
+      this.rotating = false;
     }
     const item = event.target as HTMLCalciteActionElement;
     const requestedPosition = parseInt(item.dataset.index);
@@ -302,24 +317,43 @@ export class Carousel
     this.setSelectedItem(true, requestedPosition);
   };
 
-  // Rotation timing and control
-  private setRotationInterval = (): void => {
+  private toggleRotation = (): void => {
+    this.userPreventsPause = true;
+    this.rotating = !this.rotating;
+  };
+
+  private startRotating = (): void => {
+    this.rotationHandler();
+    this.slideInterval = setInterval(this.rotationHandler, this.rotationDuration);
+    this.calciteCarouselRotatingChange.emit();
+  };
+
+  private stopRotating = (): void => {
+    clearInterval(this.slideDurationInterval);
     clearInterval(this.slideInterval);
-    if (this.rotation && this.rotating) {
-      this.rotationHandler();
-      this.slideInterval = setInterval(this.rotationHandler, this.rotationDuration);
-    }
+    this.slideDurationRemaining = 1;
+    this.pausedSlideDurationRemaining = 1;
+    this.calciteCarouselRotatingChange.emit();
+  };
+
+  private pauseRotation = (): void => {
+    this.pausedSlideDurationRemaining = this.slideDurationRemaining;
+  };
+
+  private resumeRotation = (): void => {
+    this.slideDurationRemaining = this.pausedSlideDurationRemaining;
   };
 
   private rotationHandler = (): void => {
     clearInterval(this.slideDurationInterval);
+    clearInterval(this.slideInterval);
     this.slideDurationInterval = setInterval(this.timer, this.rotationDuration / 100);
   };
 
   private timer = (): void => {
     let time = this.slideDurationRemaining;
-
-    if ((!this.pausedDueToFocus && !this.pausedDueToHover) || this.overridePauseDueToInteraction) {
+    const notPaused = (!this.pausedDueToFocus && !this.pausedDueToHover) || this.userPreventsPause;
+    if (notPaused) {
       if (time <= 0.01) {
         time = 1;
         this.nextItem(false);
@@ -332,77 +366,6 @@ export class Carousel
     }
   };
 
-  private setIsRotating = (): void => {
-    if (this.rotating) {
-      clearInterval(this.slideInterval);
-      clearInterval(this.slideDurationInterval);
-      this.slideDurationRemaining = 1;
-      this.pausedSlideDurationRemaining = 1;
-    }
-
-    this.rotating = !this.rotating;
-    this.calciteCarouselRotatingChange.emit();
-  };
-
-  // Rotation pausing due to hover or focus
-  private handleRotationControlClick = (): void => {
-    this.setIsRotating();
-    this.overridePauseDueToInteraction = true;
-    // while we normally pause the rotation when hover or focus of the Carousel occurs, if a user
-    // manually starts the carousel while hover or focus is active, we should not pause the rotation
-  };
-
-  private handleFocusIn = (): void => {
-    if (this.rotation && this.rotating && !this.pausedDueToFocus) {
-      this.pausedDueToFocus = true;
-      this.pauseRotation();
-    }
-  };
-
-  private handleMouseIn = (): void => {
-    if (this.rotation && this.rotating && !this.pausedDueToHover) {
-      this.pausedDueToHover = true;
-      this.pauseRotation();
-    }
-  };
-
-  private handleMouseOut = (event: MouseEvent): void => {
-    // todo handle mouse out and return after starting
-    if (
-      !this.tabList.contains(event.relatedTarget as HTMLElement) &&
-      !this.el.contains(event.relatedTarget as HTMLElement) &&
-      !this.overridePauseDueToInteraction
-    ) {
-      this.pausedDueToHover = false;
-      this.overridePauseDueToInteraction = false;
-
-      this.resumeRotation();
-    }
-  };
-
-  private handleFocusOut = (event: FocusEvent): void => {
-    if (!event.composedPath().includes(event.relatedTarget as HTMLElement)) {
-      this.pausedDueToFocus = false;
-      this.resumeRotation();
-      this.overridePauseDueToInteraction = false;
-    }
-  };
-
-  private pauseRotation = (): void => {
-    this.pausedSlideDurationRemaining = this.slideDurationRemaining;
-    this.overridePauseDueToInteraction = false;
-    this.calciteCarouselRotatingPause.emit();
-  };
-
-  private resumeRotation = (): void => {
-    if (this.rotation && this.rotating) {
-      this.slideDurationRemaining = this.pausedSlideDurationRemaining;
-      this.rotationHandler();
-      this.calciteCarouselRotatingResume.emit();
-    }
-  };
-
-  // Swipe handling
   private handleSwipeStart = (event: MouseEvent): void => {
     // todo use only touch event if possible, as mouse drag within children can trigger this and that is not desired
     this.swipeStartPosition = event.pageX;
@@ -422,7 +385,54 @@ export class Carousel
     }
   };
 
-  // Keyboard navigation
+  private handleFocusIn = (): void => {
+    const isRotating = this.rotation && this.rotating;
+
+    if (isRotating) {
+      this.pausedDueToFocus = true;
+    }
+    if ((!this.pausedDueToFocus || !this.pausedDueToHover) && isRotating) {
+      this.calciteCarouselRotatingPause.emit();
+    }
+  };
+
+  private handleMouseIn = (): void => {
+    const isRotating = this.rotation && this.rotating;
+
+    if (isRotating) {
+      this.pausedDueToHover = true;
+    }
+    if ((!this.pausedDueToFocus || !this.pausedDueToHover) && isRotating) {
+      this.calciteCarouselRotatingPause.emit();
+    }
+  };
+
+  private handleMouseOut = (event: MouseEvent): void => {
+    const leavingComponent = !this.el.contains(event.relatedTarget as HTMLElement);
+    const isRotating = this.rotation && this.rotating;
+
+    if (leavingComponent && isRotating) {
+      this.pausedDueToHover = false;
+    }
+    if (leavingComponent && isRotating && !this.pausedDueToFocus) {
+      this.userPreventsPause = false;
+      this.calciteCarouselRotatingResume.emit();
+    }
+  };
+
+  private handleFocusOut = (event: FocusEvent): void => {
+    const leavingComponent = !event.composedPath().includes(event.relatedTarget as HTMLElement);
+    const isRotating = this.rotation && this.rotating;
+
+    if (leavingComponent && isRotating) {
+      this.pausedDueToFocus = false;
+    }
+    if (leavingComponent && isRotating && !this.pausedDueToHover) {
+      this.userPreventsPause = false;
+      this.calciteCarouselRotatingResume.emit();
+    }
+  };
+
   private containerKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.target !== this.container) {
       return;
@@ -432,7 +442,7 @@ export class Carousel
       case " ":
       case "Enter":
         event.preventDefault();
-        this.setIsRotating();
+        this.toggleRotation();
         break;
       case "ArrowRight":
         this.direction = "advancing";
@@ -476,7 +486,6 @@ export class Carousel
     }
   };
 
-  // Ref storage
   private storeTabListRef = (el: HTMLDivElement): void => {
     this.tabList = el;
   };
@@ -500,11 +509,11 @@ export class Carousel
           [CSS.paginationItem]: true,
           [CSS.rotationControl]: true,
         }}
-        onClick={this.handleRotationControlClick}
+        onClick={this.toggleRotation}
         title={text}
       >
         <calcite-icon icon={this.rotating ? ICONS.pause : ICONS.play} scale="s" />
-        {this.rotating && (
+        {(this.rotating || (!this.rotating && this.slideDurationRemaining < 1)) && (
           <calcite-progress
             class={CSS.rotatingProgress}
             label={"Slide progress"}

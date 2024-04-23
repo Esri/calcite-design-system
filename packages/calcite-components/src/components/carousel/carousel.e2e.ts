@@ -2,7 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS, DURATION } from "./resources";
 
-const slideDurationWaitTimer = DURATION + 1000;
+const slideDurationWaitTimer = DURATION + 250;
 
 describe("calcite-carousel", () => {
   describe("renders", () => {
@@ -449,7 +449,7 @@ describe("calcite-carousel", () => {
 
       const carousel = await page.find("calcite-carousel");
       const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange", "window");
-      const customSlideDurationWaitTimer = parseInt(carousel.getAttribute("rotation-duration")) + 1000;
+      const customSlideDurationWaitTimer = parseInt(carousel.getAttribute("rotation-duration")) + 250;
 
       let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("two");
