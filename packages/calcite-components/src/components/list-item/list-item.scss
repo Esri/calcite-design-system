@@ -3,7 +3,8 @@
   --calcite-list-item-icon-color: theme("colors.brand");
 }
 
-:host([filter-hidden], [closed]) {
+:host([filter-hidden]),
+:host([closed]) {
   @apply hidden;
 }
 
