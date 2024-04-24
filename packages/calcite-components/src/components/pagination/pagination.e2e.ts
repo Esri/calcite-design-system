@@ -291,37 +291,45 @@ describe("calcite-pagination", () => {
 
     it("navigates to last page", async () => {
       const element = await page.find("calcite-pagination");
-      await element.callMethod("goToPage", "end");
+      await element.callMethod("goTo", "end");
       await page.waitForChanges();
       const item = await element.getProperty("startItem");
-      expect(item).toEqual(7);
+      expect(item).toEqual(121);
     });
 
     it("navigates to first page", async () => {
       const element = await page.find("calcite-pagination");
-      await element.callMethod("goToPage", "end");
+      await element.callMethod("goTo", "end");
       await page.waitForChanges();
       let item = await element.getProperty("startItem");
-      expect(item).toEqual(7);
-      await element.callMethod("goToPage", "start");
+      expect(item).toEqual(121);
+      await element.callMethod("goTo", "start");
       await page.waitForChanges();
       item = await element.getProperty("startItem");
       expect(item).toEqual(1);
     });
 
-    it("navigates using goToPage", async () => {
+    it("navigates middle page", async () => {
       const element = await page.find("calcite-pagination");
-      await element.callMethod("goToPage", 3);
+      await element.callMethod("goTo", 3);
       await page.waitForChanges();
-      let item = await element.getProperty("startItem");
-      expect(item).toEqual(3);
-      await element.callMethod("goToPage", 10);
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(41);
+    });
+
+    it("navigates beyond last page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", 20);
       await page.waitForChanges();
-      item = await element.getProperty("startItem");
-      expect(item).toEqual(7);
-      await element.callMethod("goToPage", 0);
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(121);
+    });
+
+    it("navigates before first page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", -1);
       await page.waitForChanges();
-      item = await element.getProperty("startItem");
+      const item = await element.getProperty("startItem");
       expect(item).toEqual(1);
     });
   });
