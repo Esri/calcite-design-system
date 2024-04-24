@@ -634,7 +634,7 @@ describe("calcite-action-menu", () => {
         },
       } as const;
       themed(
-        `<calcite-action-menu open>
+        html`<calcite-action-menu open>
           <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action>
           <calcite-action text="Add" icon="plus"></calcite-action
