@@ -41,49 +41,25 @@ describe("calcite-radio-button-group", () => {
   });
 
   describe("is form-associated", () => {
-    describe("unselected value", () => {
-      formAssociated(
-        html`
-          <calcite-radio-button-group name="using" required>
-            <calcite-label layout="inline">
-              Yes
-              <calcite-radio-button value="yes"></calcite-radio-button>
-            </calcite-label>
-            <calcite-label layout="inline">
-              No
-              <calcite-radio-button value="no"></calcite-radio-button>
-            </calcite-label>
-            <calcite-label layout="inline">
-              Maybe
-              <calcite-radio-button value="maybe"></calcite-radio-button>
-            </calcite-label>
-          </calcite-radio-button-group>
-        `,
-        { testValue: "yes", validation: true },
-      );
-    });
-
-    describe("selected-value", () => {
-      formAssociated(
-        html`
-          <calcite-radio-button-group name="using" required>
-            <calcite-label layout="inline">
-              Yes
-              <calcite-radio-button checked value="yes"></calcite-radio-button>
-            </calcite-label>
-            <calcite-label layout="inline">
-              No
-              <calcite-radio-button value="no"></calcite-radio-button>
-            </calcite-label>
-            <calcite-label layout="inline">
-              Maybe
-              <calcite-radio-button value="maybe"></calcite-radio-button>
-            </calcite-label>
-          </calcite-radio-button-group>
-        `,
-        { testValue: "yes" },
-      );
-    });
+    formAssociated(
+      html`
+        <calcite-radio-button-group name="answer">
+          <calcite-label layout="inline">
+            Yes
+            <calcite-radio-button checked value="yes"></calcite-radio-button>
+          </calcite-label>
+          <calcite-label layout="inline">
+            No
+            <calcite-radio-button value="no"></calcite-radio-button>
+          </calcite-label>
+          <calcite-label layout="inline">
+            Maybe
+            <calcite-radio-button value="maybe"></calcite-radio-button>
+          </calcite-label>
+        </calcite-radio-button-group>
+      `,
+      { testValue: "yes", validation: true, changeValueKeys: ["Space"] },
+    );
   });
 
   describe("honors hidden attribute", () => {

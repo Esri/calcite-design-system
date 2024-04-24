@@ -106,6 +106,22 @@ export class RadioButtonGroup implements LoadableComponent, FormComponent {
     this.passPropsToRadioButtons();
   }
 
+  @Watch("value")
+  onValueChange(newValue: any): void {
+    /* intentional loose equality check to handle both undefined and null */
+    if (newValue == undefined) {
+      this.getRadioButtons();
+      this.getSelectedItem();
+      this.selectedItem = null;
+
+      if (this.radioButtons.length > 0) {
+        this.radioButtons.forEach((radioButton) => {
+          radioButton.checked = false;
+        });
+      }
+    }
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -153,10 +169,18 @@ export class RadioButtonGroup implements LoadableComponent, FormComponent {
   //
   //--------------------------------------------------------------------------
 
-  private passPropsToRadioButtons = (): void => {
+  private getRadioButtons = (): void => {
     this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
+  };
+
+  private getSelectedItem = (): void => {
     this.selectedItem =
       Array.from(this.radioButtons).find((radioButton) => radioButton.checked) || null;
+  };
+
+  private passPropsToRadioButtons = (): void => {
+    this.getRadioButtons();
+    this.getSelectedItem();
     this.value = this.selectedItem?.value;
 
     if (this.radioButtons.length > 0) {

@@ -3379,6 +3379,11 @@ export namespace Components {
     }
     interface CalcitePagination {
         /**
+          * Set a specified page as active.
+          * @param page
+         */
+        "goTo": (page: number | "start" | "end") => Promise<void>;
+        /**
           * When `true`, number values are displayed with a group separator corresponding to the language and country format.
          */
         "groupSeparator": boolean;
@@ -3755,6 +3760,7 @@ export namespace Components {
         "focused": boolean;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * @deprecated Set the `form` property on the `calcite-radio-button-group` instead.
          */
         "form": string;
         /**
@@ -3775,6 +3781,7 @@ export namespace Components {
         "name": string;
         /**
           * When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.
+          * @deprecated Set the `required` property on the `calcite-radio-button-group` instead.
          */
         "required": boolean;
         /**
@@ -3795,6 +3802,10 @@ export namespace Components {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
+        /**
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+         */
+        "form": string;
         /**
           * Defines the layout of the component.
          */
@@ -3832,6 +3843,10 @@ export namespace Components {
           * Specifies the validation message to display under the component.
          */
         "validationMessage": string;
+        /**
+          * The value of the selected `calcite-radio-button`.
+         */
+        "value": any;
     }
     interface CalciteRating {
         /**
@@ -11305,6 +11320,7 @@ declare namespace LocalJSX {
         "focused"?: boolean;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+          * @deprecated Set the `form` property on the `calcite-radio-button-group` instead.
          */
         "form"?: string;
         /**
@@ -11341,6 +11357,7 @@ declare namespace LocalJSX {
         "onCalciteRadioButtonChange"?: (event: CalciteRadioButtonCustomEvent<void>) => void;
         /**
           * When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.
+          * @deprecated Set the `required` property on the `calcite-radio-button-group` instead.
          */
         "required"?: boolean;
         /**
@@ -11357,6 +11374,10 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        /**
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+         */
+        "form"?: string;
         /**
           * Defines the layout of the component.
          */
@@ -11394,6 +11415,10 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
+        /**
+          * The value of the selected `calcite-radio-button`.
+         */
+        "value"?: any;
     }
     interface CalciteRating {
         /**
