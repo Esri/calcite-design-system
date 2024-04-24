@@ -169,8 +169,7 @@
 }
 
 .selection-container {
-  display: flex;
-  padding-inline: var(--calcite-spacing-md);
+  @apply flex px-3 py-0;
   color: var(--calcite-list-item-icon-color, var(--calcite-color-border-input));
 }
 
@@ -226,6 +225,7 @@
 
 .actions-start,
 .actions-end {
+  @apply p-0;
   ::slotted(calcite-action),
   ::slotted(calcite-action-menu),
   ::slotted(calcite-handle),

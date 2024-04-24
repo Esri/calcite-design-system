@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.6...@esri/calcite-components@2.8.0-next.7) (2024-04-23)
+
+### Features
+
+- **list-item-group:** update list item group styles ([#9072](https://github.com/Esri/calcite-design-system/issues/9072)) ([c734849](https://github.com/Esri/calcite-design-system/commit/c734849ded8626b0d93916622eeb7e80c4fbe97b)), closes [#8039](https://github.com/Esri/calcite-design-system/issues/8039)
+
 ## [2.8.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.5...@esri/calcite-components@2.8.0-next.6) (2024-04-23)
 
 ### Features
