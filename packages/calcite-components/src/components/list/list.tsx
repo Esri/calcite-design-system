@@ -254,6 +254,15 @@ export class List
    */
   @Event({ cancelable: false }) calciteInternalListDefaultSlotChange: EventEmitter<void>;
 
+  @Listen("calciteListItemToggle")
+  handleCalciteListItemToggle(): void {
+    if (this.parentListEl) {
+      return;
+    }
+
+    this.borderItems();
+  }
+
   @Listen("calciteInternalFocusPreviousItem")
   handleCalciteInternalFocusPreviousItem(event: CustomEvent): void {
     if (this.parentListEl) {
@@ -729,11 +738,25 @@ export class List
     });
   }
 
-  private borderItems = (): void => {
-    const renderedItems = this.visibleItems.filter((item) => !item.filterHidden);
+  private allParentListItemsOpen(item: HTMLCalciteListItemElement): boolean {
+    const parentItem = item.parentElement?.closest(listItemSelector);
 
-    renderedItems.forEach(
-      (item) => (item.bordered = item !== renderedItems[renderedItems.length - 1]),
+    if (!parentItem) {
+      return true;
+    } else if (parentItem.open === false) {
+      return false;
+    }
+
+    return this.allParentListItemsOpen(parentItem);
+  }
+
+  private borderItems = (): void => {
+    const visibleItems = this.visibleItems.filter(
+      (item) => !item.filterHidden && this.allParentListItemsOpen(item),
+    );
+
+    visibleItems.forEach(
+      (item) => (item.bordered = item !== visibleItems[visibleItems.length - 1]),
     );
   };
 
