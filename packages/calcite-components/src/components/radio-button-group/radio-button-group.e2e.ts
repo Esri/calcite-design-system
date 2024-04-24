@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, formAssociated, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils";
 
@@ -38,6 +38,52 @@ describe("calcite-radio-button-group", () => {
       </calcite-radio-button-group>`,
       { focusTargetSelector: "calcite-radio-button" },
     );
+  });
+
+  describe("is form-associated", () => {
+    describe("unselected value", () => {
+      formAssociated(
+        html`
+          <calcite-radio-button-group name="using" required>
+            <calcite-label layout="inline">
+              Yes
+              <calcite-radio-button value="yes"></calcite-radio-button>
+            </calcite-label>
+            <calcite-label layout="inline">
+              No
+              <calcite-radio-button value="no"></calcite-radio-button>
+            </calcite-label>
+            <calcite-label layout="inline">
+              Maybe
+              <calcite-radio-button value="maybe"></calcite-radio-button>
+            </calcite-label>
+          </calcite-radio-button-group>
+        `,
+        { testValue: "yes", validation: true },
+      );
+    });
+
+    describe("selected-value", () => {
+      formAssociated(
+        html`
+          <calcite-radio-button-group name="using" required>
+            <calcite-label layout="inline">
+              Yes
+              <calcite-radio-button checked value="yes"></calcite-radio-button>
+            </calcite-label>
+            <calcite-label layout="inline">
+              No
+              <calcite-radio-button value="no"></calcite-radio-button>
+            </calcite-label>
+            <calcite-label layout="inline">
+              Maybe
+              <calcite-radio-button value="maybe"></calcite-radio-button>
+            </calcite-label>
+          </calcite-radio-button-group>
+        `,
+        { testValue: "yes" },
+      );
+    });
   });
 
   describe("honors hidden attribute", () => {

@@ -94,9 +94,10 @@ export class RadioButton
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
+   *
+   * @deprecated Set the `form` property on the `calcite-radio-button-group` instead.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /** The `id` of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
@@ -127,7 +128,11 @@ export class RadioButton
     this.checkLastRadioButton();
   }
 
-  /** When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit. */
+  /**
+   * When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.
+   *
+   * @deprecated Set the `required` property on the `calcite-radio-button-group` instead.
+   */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component inherited from the `calcite-radio-button-group`. */
