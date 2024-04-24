@@ -26,7 +26,7 @@ jobs:
             echo "SKIP=false" >> $GITHUB_OUTPUT
           fi
       - if: steps.markdown-check.outputs.SKIP == 'false'
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: package.json
       - if: steps.markdown-check.outputs.SKIP == 'false'
