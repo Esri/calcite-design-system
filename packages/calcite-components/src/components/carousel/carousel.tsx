@@ -516,7 +516,7 @@ export class Carousel
         {(this.rotating || (!this.rotating && this.slideDurationRemaining < 1)) && (
           <calcite-progress
             class={CSS.rotatingProgress}
-            label={"Slide progress"}
+            label={this.messages.carouselItemProgress}
             value={this.slideDurationRemaining}
           />
         )}
@@ -560,7 +560,7 @@ export class Carousel
             role="tab"
             title={item.label}
           >
-            <calcite-icon icon={isMatch ? ICONS.active : ICONS.inactive} scale={"l"} />
+            <calcite-icon icon={isMatch ? ICONS.active : ICONS.inactive} scale="l" />
           </button>
         );
       })}
@@ -599,7 +599,7 @@ export class Carousel
           <div
             aria-label={this.label}
             aria-live={this.rotating ? "off" : "polite"}
-            aria-roledescription="carousel"
+            aria-roledescription={this.messages.carousel}
             class={{
               [CSS.container]: true,
               [CSS.isOverlay]: this.controlOverlay,

@@ -2,5 +2,7 @@
   "previous": "前へ",
   "next": "次へ",
   "play": "Play",
-  "pause": "Pause"
+  "pause": "Pause",
+  "carousel": "Carousel",
+  "carouselItemProgress": "Progress indicator for Carousel Item"
 }

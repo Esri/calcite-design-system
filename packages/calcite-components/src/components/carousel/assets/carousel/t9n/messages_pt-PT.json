@@ -2,5 +2,7 @@
   "previous": "Anterior",
   "next": "Seguinte",
   "play": "Play",
-  "pause": "Pause"
+  "pause": "Pause",
+  "carousel": "Carousel",
+  "carouselItemProgress": "Progress indicator for Carousel Item"
 }

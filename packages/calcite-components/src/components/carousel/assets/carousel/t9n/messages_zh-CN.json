@@ -2,5 +2,7 @@
   "previous": "上一步",
   "next": "下一步",
   "play": "Play",
-  "pause": "Pause"
+  "pause": "Pause",
+  "carousel": "Carousel",
+  "carouselItemProgress": "Progress indicator for Carousel Item"
 }
