@@ -796,6 +796,11 @@ export const allVariants = (): string => html`
   </div>
 `;
 
+allVariants.decorators = [
+  (storyFn: () => string) =>
+    html` <div style="width: 1200px; height: 6000px;">This is a decorator for modals and such ${storyFn()}</div>`,
+];
+
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-tile
     ${boolean("active", false)}
