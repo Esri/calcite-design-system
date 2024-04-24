@@ -359,7 +359,7 @@ export class InputTimeZone
   private async updateTimeZoneItemsAndSelection(): Promise<void> {
     this.timeZoneItems = await this.createTimeZoneItems();
 
-    if (!this.value && this.clearable) {
+    if ((this.value === null || this.value === "") && this.clearable) {
       this.selectedTimeZoneItem = null;
       return;
     }

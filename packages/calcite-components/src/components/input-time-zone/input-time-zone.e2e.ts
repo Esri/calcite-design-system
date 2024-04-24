@@ -304,7 +304,7 @@ describe("calcite-input-time-zone", () => {
     });
   });
 
-  describe("selection behavior", () => {
+  describe("clearable", () => {
     it("does not allow users to deselect a time zone value by default", async () => {
       const page = await newE2EPage();
       await page.emulateTimezone(testTimeZoneItems[0].name);
@@ -362,6 +362,17 @@ describe("calcite-input-time-zone", () => {
 
       const input = await page.find("calcite-input-time-zone");
       expect(await input.getProperty("value")).toBe(null);
+    });
+
+    it("selects user time zone value when value is not set and clearable is enabled", async () => {
+      const page = await newE2EPage();
+      await page.emulateTimezone(testTimeZoneItems[0].name);
+      await page.setContent(
+        addTimeZoneNamePolyfill(html`<calcite-input-time-zone clearable></calcite-input-time-zone>`),
+      );
+
+      const input = await page.find("calcite-input-time-zone");
+      expect(await input.getProperty("value")).toBe(`${testTimeZoneItems[0].offset}`);
     });
   });
 
