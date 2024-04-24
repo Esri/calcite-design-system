@@ -11,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { focusFirstTabbable, getElementDir, toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -199,13 +199,8 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   }
 
   render(): VNode {
-    const { el, messages, open, text, toggleDisplay } = this;
-    const dir = getElementDir(el);
-    const arrowIcon = open
-      ? ICONS.menuOpen
-      : dir === "rtl"
-        ? ICONS.menuClosedLeft
-        : ICONS.menuClosedRight;
+    const { messages, open, text, toggleDisplay } = this;
+    const arrowIcon = open ? ICONS.menuOpen : ICONS.menuClosed;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 
