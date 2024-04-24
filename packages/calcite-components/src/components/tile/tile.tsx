@@ -321,6 +321,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
         aria-label={this.label}
         class={{
           [CSS.container]: true,
+          // [Deprecated] Use the content-top slot for rendering icon with alignment="center" instead
           [CSS.largeVisual]: isLargeVisual,
           [CSS.row]: true,
           [CSS.selected]: this.selected,
