@@ -803,6 +803,14 @@ allVariants.parameters = {
   chromatic: {
     delay: 1000,
   },
+  modes: {
+    default: {
+      viewport: {
+        height: 6000,
+        width: 1400,
+      },
+    },
+  },
 };
 
 export const darkModeRTL_TestOnly = (): string => html`
