@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -325,12 +325,42 @@ describe("calcite-input-time-zone", () => {
       expect(await input.getProperty("value")).toBe(`${testTimeZoneItems[1].offset}`);
       expect(await selectedTimeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[1].label);
 
-      input.setProperty("value", null);
+      input.setProperty("value", "");
       await page.waitForChanges();
 
       selectedTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
       expect(await input.getProperty("value")).toBe(`${testTimeZoneItems[1].offset}`);
       expect(await selectedTimeZoneItem.getProperty("textLabel")).toMatch(testTimeZoneItems[1].label);
+    });
+
+    describe("clearing by value", () => {
+      let page: E2EPage;
+      let input: E2EElement;
+
+      beforeEach(async () => {
+        page = await newE2EPage();
+        await page.emulateTimezone(testTimeZoneItems[0].name);
+        await page.setContent(
+          addTimeZoneNamePolyfill(
+            html` <calcite-input-time-zone value="${testTimeZoneItems[1].offset}" clearable></calcite-input-time-zone>`,
+          ),
+        );
+        input = await page.find("calcite-input-time-zone");
+      });
+
+      it("empty string", async () => {
+        await input.setProperty("value", "");
+        await page.waitForChanges();
+
+        expect(await input.getProperty("value")).toBe("");
+      });
+
+      it("null", async () => {
+        await input.setProperty("value", null);
+        await page.waitForChanges();
+
+        expect(await input.getProperty("value")).toBe("");
+      });
     });
 
     it("allows users to deselect a time zone value when clearable is enabled", async () => {
@@ -350,7 +380,7 @@ describe("calcite-input-time-zone", () => {
       await input.press("Escape");
       await page.waitForChanges();
 
-      expect(await input.getProperty("value")).toBe(null);
+      expect(await input.getProperty("value")).toBe("");
     });
 
     it("can be cleared on initialization when clearable is enabled", async () => {
@@ -361,7 +391,7 @@ describe("calcite-input-time-zone", () => {
       );
 
       const input = await page.find("calcite-input-time-zone");
-      expect(await input.getProperty("value")).toBe(null);
+      expect(await input.getProperty("value")).toBe("");
     });
 
     it("selects user time zone value when value is not set and clearable is enabled", async () => {
@@ -443,21 +473,21 @@ describe("calcite-input-time-zone", () => {
     const inputTimeZone = await page.find("calcite-input-time-zone");
 
     let prevComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
-    await inputTimeZone.setProperty("lang", "es");
+    inputTimeZone.setProperty("lang", "es");
     await page.waitForChanges();
 
     let currComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
     expect(currComboboxItem).not.toBe(prevComboboxItem);
 
     prevComboboxItem = currComboboxItem;
-    await inputTimeZone.setProperty("referenceDate", "2021-01-01");
+    inputTimeZone.setProperty("referenceDate", "2021-01-01");
     await page.waitForChanges();
 
     currComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
     expect(currComboboxItem).not.toBe(prevComboboxItem);
 
     prevComboboxItem = currComboboxItem;
-    await inputTimeZone.setProperty("mode", "list");
+    inputTimeZone.setProperty("mode", "list");
     await page.waitForChanges();
 
     currComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");

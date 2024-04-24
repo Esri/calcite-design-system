@@ -195,7 +195,10 @@ export class InputTimeZone
 
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {
+    value = this.normalizeValue(value);
+
     if (!value && this.clearable) {
+      this.value = value;
       this.selectedTimeZoneItem = null;
       return;
     }
@@ -359,7 +362,7 @@ export class InputTimeZone
   private async updateTimeZoneItemsAndSelection(): Promise<void> {
     this.timeZoneItems = await this.createTimeZoneItems();
 
-    if ((this.value === null || this.value === "") && this.clearable) {
+    if (this.value === "" && this.clearable) {
       this.selectedTimeZoneItem = null;
       return;
     }
@@ -406,9 +409,14 @@ export class InputTimeZone
     disconnectMessages(this);
   }
 
+  private normalizeValue(value: string | null): string {
+    return value === null ? "" : value;
+  }
+
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await setUpMessages(this);
+    this.value = this.normalizeValue(this.value);
 
     await this.updateTimeZoneItemsAndSelection();
 
