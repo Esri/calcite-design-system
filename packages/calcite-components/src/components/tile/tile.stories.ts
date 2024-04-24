@@ -804,6 +804,7 @@ allVariants.parameters = {
     delay: 1000,
   },
 };
+
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-tile
     ${boolean("active", false)}
