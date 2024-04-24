@@ -507,7 +507,6 @@ export const customLabelsAndTicks = (): string => html`
     const minMaxValueSlider = document.getElementById("minMaxFormattedLabelSlider");
 
     minMaxValueSlider.labelFormatter = function (value, type) {
-      console.log("yo");
       if (type === "min" || type === "max") {
         const status = value < 60 ? "🥶" : value > 80 ? "🥵" : "😎";
         return type === "min" ? value + "ºF" + " " + status : status + " " + value + "ºF";
