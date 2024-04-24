@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Component,
   Element,
   Event,
@@ -14,13 +15,6 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-} from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -59,14 +53,10 @@ function isRange(value: number | number[]): value is number[] {
   shadow: {
     delegatesFocus: true,
   },
+  formAssociated: true,
 })
 export class Slider
-  implements
-    LabelableComponent,
-    FormComponent,
-    InteractiveComponent,
-    LocalizedComponent,
-    LoadableComponent
+  implements LabelableComponent, InteractiveComponent, LocalizedComponent, LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -199,12 +189,18 @@ export class Slider
   @Watch("value")
   valueHandler(): void {
     this.setMinMaxFromValue();
+    if (!isRange(this.value)) {
+      this.internals.setFormValue(`${this.value}`);
+    }
   }
 
   @Watch("minValue")
   @Watch("maxValue")
   minMaxValueHandler(): void {
     this.setValueFromMinMax();
+    if (!isRange(this.value)) {
+      this.internals.setFormValue(`${this.value}`);
+    }
   }
 
   /**
@@ -224,13 +220,11 @@ export class Slider
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
     connectLabel(this);
-    connectForm(this);
   }
 
   disconnectedCallback(): void {
     disconnectInteractive(this);
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectLocalized(this);
     this.removeDragListeners();
   }
@@ -242,7 +236,6 @@ export class Slider
     }
     this.ticksWatcher();
     this.histogramWatcher(this.histogram);
-    afterConnectDefaultValueSet(this, this.value);
   }
 
   componentDidLoad(): void {
@@ -364,7 +357,6 @@ export class Slider
             <div class={CSS.thumbContainer}>
               {minThumb}
               {thumb}
-              <HiddenFormInputSlot component={this} />
             </div>
           </div>
         </InteractiveContainer>
@@ -630,6 +622,8 @@ export class Slider
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteSliderElement;
+
+  @AttachInternals() internals: ElementInternals;
 
   labelEl: HTMLCalciteLabelElement;
 

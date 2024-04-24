@@ -1,16 +1,20 @@
-import { Component, Element, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
+import {
+  AttachInternals,
+  Component,
+  Element,
+  h,
+  Host,
+  Prop,
+  State,
+  VNode,
+  Watch,
+} from "@stencil/core";
 import { Appearance, Scale } from "../interfaces";
 import {
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-} from "../../utils/form";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -29,8 +33,9 @@ import { MeterLabelType } from "./interfaces";
   tag: "calcite-meter",
   styleUrl: "meter.scss",
   shadow: true,
+  formAssociated: true,
 })
-export class Meter implements FormComponent, LoadableComponent, LocalizedComponent {
+export class Meter implements LoadableComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -131,7 +136,6 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     this.calculateValues();
-    afterConnectDefaultValueSet(this, this.value);
   }
 
   componentDidLoad(): void {
@@ -141,13 +145,11 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
 
   connectedCallback(): void {
     connectLocalized(this);
-    connectForm(this);
     this.resizeObserver?.observe(this.el);
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
-    disconnectForm(this);
     this.resizeObserver?.disconnect();
   }
 
@@ -158,6 +160,8 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteMeterElement;
+
+  @AttachInternals() internals: ElementInternals;
 
   defaultValue: Meter["value"];
 

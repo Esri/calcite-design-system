@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Component,
   Element,
   Event,
@@ -19,14 +20,6 @@ import {
   setRequestedIcon,
 } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  internalHiddenInputInputEvent,
-  submitForm,
-} from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -68,11 +61,7 @@ import {
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
-import {
-  NumericInputComponent,
-  syncHiddenFormInput,
-  TextualInputComponent,
-} from "../input/common/input";
+import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
 import { CSS, SLOTS } from "./resources";
 import { InputNumberMessages } from "./assets/input-number/t9n";
 
@@ -83,12 +72,12 @@ import { InputNumberMessages } from "./assets/input-number/t9n";
   tag: "calcite-input-number",
   styleUrl: "input-number.scss",
   shadow: true,
+  formAssociated: true,
   assetsDirs: ["assets"],
 })
 export class InputNumber
   implements
     LabelableComponent,
-    FormComponent,
     InteractiveComponent,
     LocalizedComponent,
     NumericInputComponent,
@@ -406,6 +395,8 @@ export class InputNumber
 
   @State() slottedActionElDisabledInternally = false;
 
+  @AttachInternals() internals: ElementInternals;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -421,11 +412,9 @@ export class InputNumber
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
     connectLabel(this);
-    connectForm(this);
 
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
-    this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   componentDidLoad(): void {
@@ -435,12 +424,10 @@ export class InputNumber
   disconnectedCallback(): void {
     disconnectInteractive(this);
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectLocalized(this);
     disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
-    this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -542,9 +529,8 @@ export class InputNumber
       event.preventDefault();
     }
     if (event.key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-      }
+      this.internals.form.submit();
+      event.preventDefault();
     }
   };
 
@@ -797,21 +783,6 @@ export class InputNumber
     if (!this.disabled) {
       this.nudgeNumberValue(direction, event);
     }
-  };
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("number", this, input);
-  }
-
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.setNumberValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
-    }
-    this.setFocus();
-    event.stopPropagation();
   };
 
   private setChildNumberElRef = (el: HTMLInputElement) => {
@@ -1078,7 +1049,6 @@ export class InputNumber
             {this.numberButtonType === "horizontal" && !this.readOnly
               ? numberButtonsHorizontalUp
               : null}
-            <HiddenFormInputSlot component={this} />
           </div>
           {this.validationMessage && this.status === "invalid" ? (
             <Validation

@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Build,
   Component,
   Element,
@@ -13,13 +14,6 @@ import {
   Watch,
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-} from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -46,9 +40,10 @@ import { CSS } from "./resources";
   tag: "calcite-segmented-control",
   styleUrl: "segmented-control.scss",
   shadow: true,
+  formAssociated: true,
 })
 export class SegmentedControl
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+  implements LabelableComponent, InteractiveComponent, LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -152,14 +147,12 @@ export class SegmentedControl
   }
 
   componentDidLoad(): void {
-    afterConnectDefaultValueSet(this, this.value);
     setComponentLoaded(this);
   }
 
   connectedCallback(): void {
     connectInteractive(this);
     connectLabel(this);
-    connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
 
     this.handleItemPropChange();
@@ -168,7 +161,6 @@ export class SegmentedControl
   disconnectedCallback(): void {
     disconnectInteractive(this);
     disconnectLabel(this);
-    disconnectForm(this);
     this.mutationObserver?.unobserve(this.el);
   }
 
@@ -182,7 +174,6 @@ export class SegmentedControl
         <div class={CSS.itemWrapper}>
           <InteractiveContainer disabled={this.disabled}>
             <slot />
-            <HiddenFormInputSlot component={this} />
           </InteractiveContainer>
         </div>
         {this.validationMessage && this.status === "invalid" ? (
@@ -302,6 +293,8 @@ export class SegmentedControl
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteSegmentedControlElement;
+
+  @AttachInternals() internals: ElementInternals;
 
   labelEl: HTMLCalciteLabelElement;
 

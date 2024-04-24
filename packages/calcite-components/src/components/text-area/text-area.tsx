@@ -11,9 +11,9 @@ import {
   Host,
   State,
   forceUpdate,
+  AttachInternals,
 } from "@stencil/core";
 import { throttle } from "lodash-es";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
@@ -48,7 +48,7 @@ import {
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
-import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { TextualInputComponent } from "../input/common/input";
 import { CharacterLengthObj } from "./interfaces";
 import { TextAreaMessages } from "./assets/text-area/t9n";
 import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
@@ -63,11 +63,11 @@ import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
   tag: "calcite-text-area",
   styleUrl: "text-area.scss",
   shadow: true,
+  formAssociated: true,
   assetsDirs: ["assets"],
 })
 export class TextArea
   implements
-    FormComponent,
     LabelableComponent,
     LocalizedComponent,
     LoadableComponent,
@@ -111,8 +111,7 @@ export class TextArea
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
@@ -225,6 +224,14 @@ export class TextArea
 
   //--------------------------------------------------------------------------
   //
+  //  State
+  //
+  //--------------------------------------------------------------------------
+
+  @AttachInternals() internals: ElementInternals;
+
+  //--------------------------------------------------------------------------
+  //
   //  Event Emitters
   //
   //--------------------------------------------------------------------------
@@ -247,7 +254,6 @@ export class TextArea
   connectedCallback(): void {
     connectInteractive(this);
     connectLabel(this);
-    connectForm(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -269,7 +275,6 @@ export class TextArea
   disconnectedCallback(): void {
     disconnectInteractive(this);
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.resizeObserver?.disconnect();
@@ -339,7 +344,6 @@ export class TextArea
             </div>
             {this.renderCharacterLimit()}
           </footer>
-          <HiddenFormInputSlot component={this} />
           {this.isCharacterLimitExceeded() && (
             <span aria-hidden={true} aria-live="polite" class={CSS.assistiveText} id={this.guid}>
               {this.replacePlaceHoldersInMessages()}
@@ -425,6 +429,12 @@ export class TextArea
   handleInput = (event: InputEvent): void => {
     this.value = event.target["value"];
     this.calciteTextAreaInput.emit();
+
+    if (this.isCharacterLimitExceeded()) {
+      this.internals.setValidity({ tooLong: true }, this.replacePlaceHoldersInMessages());
+    } else {
+      this.internals.setValidity({ tooLong: false }, "");
+    }
   };
 
   handleChange = (): void => {
@@ -488,15 +498,6 @@ export class TextArea
       this.setHeightAndWidthToAuto();
     }
   });
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    input.setCustomValidity("");
-    if (this.isCharacterLimitExceeded()) {
-      input.setCustomValidity(this.replacePlaceHoldersInMessages());
-    }
-
-    syncHiddenFormInput("textarea", this, input);
-  }
 
   setTextAreaEl = (el: HTMLTextAreaElement): void => {
     this.textAreaEl = el;

@@ -1,8 +1,7 @@
-import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
 import { KeyInput } from "puppeteer";
 import { html } from "../../../support/formatting";
-import { getClearValidationEventName, hiddenFormInputSlotName, componentsWithInputEvent } from "../../utils/form";
 import { GlobalTestProps } from "./../utils";
 import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
 import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
@@ -101,7 +100,6 @@ export function formAssociated(
     await page.waitForChanges();
     const component = await page.find(tag);
 
-    await assertValueSubmissionType(page, component, options);
     await assertValueResetOnFormReset(page, component, options);
     await assertValueSubmittedOnFormSubmit(page, component, options);
 
@@ -129,7 +127,6 @@ export function formAssociated(
     await page.waitForChanges();
     const component = await page.find(tag);
 
-    await assertValueSubmissionType(page, component, options);
     await assertValueResetOnFormReset(page, component, options);
     await assertValueSubmittedOnFormSubmit(page, component, options);
 
@@ -161,10 +158,8 @@ export function formAssociated(
     const component = await page.find(tag);
 
     const submitButton = await page.find("#submitButton");
-    const spyEvent = await page.spyOnEvent(getClearValidationEventName(tag));
 
     await assertPreventsFormSubmission(page, component, submitButton, requiredValidationMessage);
-    await assertClearsValidationOnValueChange(page, component, options, spyEvent, tag);
     await assertUserMessageNotOverridden(page, component, submitButton);
   }
 
@@ -193,33 +188,6 @@ export function formAssociated(
 
   function stringifyTestValue(value: any): string | string[] {
     return Array.isArray(value) ? value.map((value) => value.toString()) : value.toString();
-  }
-
-  async function assertValueSubmissionType(
-    page: E2EPage,
-    component: E2EElement,
-    options: FormAssociatedOptions,
-  ): Promise<void> {
-    const name = await component.getProperty("name");
-    const inputType = options.inputType ?? "text";
-
-    const hiddenFormInputType = await page.evaluate(
-      async (inputName: string, hiddenFormInputSlotName: string): Promise<string> => {
-        const hiddenFormInput = document.querySelector<HTMLInputElement>(
-          `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`,
-        );
-
-        return hiddenFormInput.type;
-      },
-      name,
-      hiddenFormInputSlotName,
-    );
-
-    if (await isCheckable(page, component, options)) {
-      expect(hiddenFormInputType).toMatch(/radio|checkbox/);
-    } else {
-      expect(hiddenFormInputType).toMatch(inputType);
-    }
   }
 
   async function assertValueResetOnFormReset(
@@ -313,15 +281,7 @@ export function formAssociated(
     async function submitAndGetValue(): Promise<SubmitValueResult> {
       return page.$eval(
         "form",
-        async (
-          form: HTMLFormElement,
-          inputName: string,
-          hiddenFormInputSlotName: string,
-        ): Promise<SubmitValueResult> => {
-          const hiddenFormInput = document.querySelector(
-            `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`,
-          );
-
+        async (form: HTMLFormElement, inputName: string): Promise<SubmitValueResult> => {
           let resolve: (value: SubmitValueResult) => void;
           const submitPromise = new Promise<SubmitValueResult>((yes) => (resolve = yes));
 
@@ -336,23 +296,14 @@ export function formAssociated(
             }
 
             resolve(formData.get(inputName));
-            hiddenFormInput.removeEventListener("invalid", handleInvalidInput);
-          }
-
-          function handleInvalidInput(): void {
-            resolve(undefined);
-            form.removeEventListener("submit", handleFormSubmit);
           }
 
           form.addEventListener("submit", handleFormSubmit, { once: true });
-          hiddenFormInput.addEventListener("invalid", handleInvalidInput, { once: true });
-
           document.querySelector<HTMLInputElement>("#submitter").click();
 
           return submitPromise;
         },
         name,
-        hiddenFormInputSlotName,
       );
     }
   }
@@ -395,34 +346,6 @@ export function formAssociated(
     await expectValidationInvalid(component, message);
   }
 
-  async function assertClearsValidationOnValueChange(
-    page: E2EPage,
-    component: E2EElement,
-    options: FormAssociatedOptions,
-    event: EventSpy,
-    tag: string,
-  ) {
-    if (options?.changeValueKeys) {
-      for (const key of options.changeValueKeys) {
-        await page.keyboard.press(key);
-      }
-    } else {
-      await page.keyboard.type(options?.validUserInputTestValue ?? options.testValue);
-      await page.keyboard.press("Tab");
-    }
-
-    await page.waitForChanges();
-
-    // components with an Input event will emit multiple times depending on the length of testValue
-    if (componentsWithInputEvent.includes(tag)) {
-      expect(event.length).toBeGreaterThanOrEqual(1);
-    } else {
-      expect(event).toHaveReceivedEventTimes(1);
-    }
-
-    await expectValidationIdle(component);
-  }
-
   async function assertUserMessageNotOverridden(page: E2EPage, component: E2EElement, submitButton: E2EElement) {
     const customValidationMessage = "This is a custom message.";
     const customValidationIcon = "banana";
@@ -437,12 +360,6 @@ export function formAssociated(
     await page.waitForChanges();
 
     await expectValidationInvalid(component, customValidationMessage, customValidationIcon);
-  }
-
-  async function expectValidationIdle(element: E2EElement) {
-    expect(await element.getProperty("status")).toBe("idle");
-    expect(await element.getProperty("validationMessage")).toBe("");
-    expect(await element.getProperty("validationIcon")).toBe(false);
   }
 
   async function expectValidationInvalid(element: E2EElement, message: string, icon: string = "") {

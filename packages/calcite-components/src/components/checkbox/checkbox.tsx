@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Component,
   Element,
   Event,
@@ -10,12 +11,6 @@ import {
   VNode,
 } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
-import {
-  CheckableFormComponent,
-  connectForm,
-  disconnectForm,
-  HiddenFormInputSlot,
-} from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
@@ -37,11 +32,10 @@ import { Scale, Status } from "../interfaces";
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "checkbox.scss",
+  formAssociated: true,
   shadow: true,
 })
-export class Checkbox
-  implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
-{
+export class Checkbox implements LabelableComponent, InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -59,8 +53,7 @@ export class Checkbox
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
@@ -110,6 +103,8 @@ export class Checkbox
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteCheckboxElement;
+
+  @AttachInternals() internals: ElementInternals;
 
   readonly checkedPath = "M5.5 12L2 8.689l.637-.636L5.5 10.727l8.022-7.87.637.637z";
 
@@ -227,13 +222,11 @@ export class Checkbox
     this.guid = this.el.id || `calcite-checkbox-${guid()}`;
     connectInteractive(this);
     connectLabel(this);
-    connectForm(this);
   }
 
   disconnectedCallback(): void {
     disconnectInteractive(this);
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   componentWillLoad(): void {
@@ -274,7 +267,6 @@ export class Checkbox
             </svg>
             <slot />
           </div>
-          <HiddenFormInputSlot component={this} />
         </InteractiveContainer>
       </Host>
     );

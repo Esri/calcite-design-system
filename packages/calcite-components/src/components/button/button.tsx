@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Build,
   Component,
   Element,
@@ -10,7 +11,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -49,13 +49,13 @@ import { CSS } from "./resources";
   tag: "calcite-button",
   styleUrl: "button.scss",
   shadow: true,
+  formAssociated: true,
   assetsDirs: ["assets"],
 })
 export class Button
   implements
     LabelableComponent,
     InteractiveComponent,
-    FormOwner,
     LoadableComponent,
     LocalizedComponent,
     T9nComponent
@@ -101,8 +101,7 @@ export class Button
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
@@ -210,7 +209,6 @@ export class Button
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
-    this.formEl = findAssociatedForm(this);
   }
 
   disconnectedCallback(): void {
@@ -220,7 +218,6 @@ export class Button
     disconnectLocalized(this);
     disconnectMessages(this);
     this.resizeObserver?.disconnect();
-    this.formEl = null;
   }
 
   async componentWillLoad(): Promise<void> {
@@ -343,7 +340,7 @@ export class Button
 
   @Element() el: HTMLCalciteButtonElement;
 
-  formEl: HTMLFormElement;
+  @AttachInternals() internals: ElementInternals;
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -409,9 +406,9 @@ export class Button
 
     // this.type refers to type attribute, not child element type
     if (type === "submit") {
-      submitForm(this);
+      this.internals.form.requestSubmit();
     } else if (type === "reset") {
-      resetForm(this);
+      this.internals.form.reset();
     }
   };
 

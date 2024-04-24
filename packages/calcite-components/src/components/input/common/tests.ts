@@ -2,7 +2,6 @@
 
 import { newE2EPage } from "@stencil/core/testing";
 import { isElementFocused } from "../../../tests/utils";
-import { hiddenFormInputSlotName } from "../../../utils/form";
 import { html } from "../../../../support/formatting";
 import { JSX } from "../../../components";
 
@@ -31,10 +30,8 @@ export function testPostValidationFocusing(
     await input.press("Enter");
     await page.waitForChanges();
 
-    const hiddenInputSelector = `input[slot=${hiddenFormInputSlotName}]`;
     const inputSelector = `${inputTag}[name=${inputName}]`;
 
-    expect(await isElementFocused(page, hiddenInputSelector)).toBe(false);
     expect(await isElementFocused(page, inputSelector)).toBe(true);
     expect(await input.getProperty("value")).toBe("");
 
@@ -43,7 +40,6 @@ export function testPostValidationFocusing(
     await page.keyboard.type(expectedValue);
     await page.waitForChanges();
 
-    expect(await isElementFocused(page, hiddenInputSelector)).toBe(false);
     expect(await isElementFocused(page, inputSelector)).toBe(true);
     expect(await input.getProperty("value")).toBe(expectedValue);
   });
@@ -63,7 +59,6 @@ export function testHiddenInputSyncing(
       </form>
       `);
     const input = await page.find(inputTag);
-    const hiddenInput = await page.find(`input[slot=${hiddenFormInputSlotName}]`);
 
     // intentionally setting all props regardless of type for testing purposes
     input.setProperty("min", 0);
@@ -74,44 +69,20 @@ export function testHiddenInputSyncing(
     input.setProperty("maxLength", 10);
     await page.waitForChanges();
 
-    async function assertTextProps(): Promise<void> {
-      expect(await hiddenInput.getProperty("type")).toBe("text");
-      expect(await hiddenInput.getProperty("min")).toBe("");
-      expect(await hiddenInput.getProperty("max")).toBe("");
-      expect(await hiddenInput.getProperty("pattern")).toBe("test");
-      expect(await hiddenInput.getProperty("minLength")).toBe(0);
-      expect(await hiddenInput.getProperty("maxLength")).toBe(10);
-    }
-
-    async function assertNumericProps(): Promise<void> {
-      expect(await hiddenInput.getProperty("type")).toBe("number");
-      expect(await hiddenInput.getProperty("min")).toBe("0");
-      expect(await hiddenInput.getProperty("max")).toBe("10");
-      expect(await hiddenInput.getProperty("pattern")).toBe("");
-      expect(await hiddenInput.getProperty("minLength")).toBe(-1);
-      expect(await hiddenInput.getProperty("maxLength")).toBe(-1);
-    }
-
     if (inputTag === "calcite-input") {
       // testing subset of types
 
       await input.setProperty("type", "text");
       await page.waitForChanges();
 
-      await assertTextProps();
-
       await input.setProperty("type", "number");
       await page.waitForChanges();
 
-      await assertNumericProps();
       return;
     }
 
     if (inputTag === "calcite-input-text" || inputTag === "calcite-text-area") {
-      await assertTextProps();
       return;
     }
-
-    await assertNumericProps();
   });
 }

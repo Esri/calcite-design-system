@@ -1,0 +1,312 @@
+<!doctype html>
+<!--  updated version of https://codepen.io/jcfranco/pen/vYmoKYq -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Form</title>
+    <script src="./_assets/head.js"></script>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      body {
+        font-family: var(--calcite-font-family-primary);
+        font-size: var(--calcite-font-size-xl);
+        color: var(--calcite-color-text-1);
+        max-width: 1024px;
+        min-width: 280px;
+        width: 70vw;
+        padding: 0 var(--calcite-spacing-xxl);
+        margin: 0 auto;
+        background-color: var(--calcite-color-background);
+      }
+
+      /* Form */
+      ol {
+        margin: var(--calcite-spacing-xl) 0;
+        padding: 0 var(--calcite-spacing-xxxl);
+      }
+
+      ol li {
+        padding: 0 0 var(--calcite-spacing-xxl) 0;
+      }
+
+      fieldset {
+        padding: var(--calcite-spacing-xl);
+        margin: var(--calcite-spacing-xxxl) 0;
+        border-collapse: collapse;
+        border: var(--calcite-border-width-sm) solid;
+        border-color: var(--calcite-color-border-1);
+        border-radius: var(--calcite-corner-radius-round);
+      }
+
+      #submit {
+        padding: 0 var(--calcite-spacing-sm);
+      }
+
+      /* custom styling of invalid elements */
+      [status="invalid"] {
+        --calcite-color-foreground-1: rgb(255 0 0 / 5%);
+      }
+    </style>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Form Validation</h1>
+
+      <!-- Form -->
+      <form id="form">
+        <fieldset>
+          <legend>Questionnaire</legend>
+          <ol>
+            <!-- Text input, icon, tooltip -->
+            <li>
+              <calcite-label>
+                <span>
+                  Your name
+                  <calcite-icon tabindex="0" id="name-help" icon="question" scale="s"></calcite-icon>
+                </span>
+                <calcite-input-text
+                  pattern="^\w+\s\w+$"
+                  minlength="3"
+                  maxlength="69"
+                  placeholder="John Doe"
+                  name="fullName"
+                  id="fullName"
+                  validation-message="Please enter your name."
+                  required
+                ></calcite-input-text>
+              </calcite-label>
+              <calcite-tooltip reference-element="name-help">
+                It's a pleasure to meet you! Let us know your name incase we have any further questions.
+              </calcite-tooltip>
+            </li>
+
+            <!-- Select -->
+            <li>
+              <calcite-label>
+                Where did you hear about Calcite components?
+                <calcite-select name="where" required>
+                  <calcite-option label="Please select&hellip;"></calcite-option>
+                  <calcite-option value="Esri DevSummit" label="Esri DevSummit"></calcite-option>
+                  <calcite-option value="Search engine" label="Search engine"></calcite-option>
+                  <calcite-option value="Social media" label="Social media"></calcite-option>
+                  <calcite-option value="A little bird told me" label="A little bird told me"></calcite-option>
+                </calcite-select>
+              </calcite-label>
+            </li>
+
+            <!-- Date picker -->
+            <li>
+              <calcite-label>
+                When did you hear about Calcite components?
+                <calcite-input-date-picker id="when" name="when" required></calcite-input-date-picker>
+              </calcite-label>
+            </li>
+
+            <!-- Segmented control -->
+            <li>
+              <calcite-label>
+                How useful is the Calcite Design System?
+                <calcite-segmented-control layout="horizontal" name="usefulness">
+                  <calcite-segmented-control-item value="0">😴&nbsp;Very useless</calcite-segmented-control-item>
+                  <calcite-segmented-control-item value="1">🥱&nbsp;Somewhat useless</calcite-segmented-control-item>
+                  <calcite-segmented-control-item value="2" checked>🤔&nbsp;Undecided</calcite-segmented-control-item>
+                  <calcite-segmented-control-item value="3">😀&nbsp;Somewhat useful</calcite-segmented-control-item>
+                  <calcite-segmented-control-item value="5">🥳&nbsp;Very useful</calcite-segmented-control-item>
+                </calcite-segmented-control>
+              </calcite-label>
+            </li>
+
+            <!-- Radio group -->
+            <li>
+              <calcite-label>
+                Will you be using Calcite components in an upcoming project?
+                <calcite-radio-button-group name="using">
+                  <calcite-label layout="inline">
+                    Yes
+                    <calcite-radio-button value="yes"></calcite-radio-button>
+                  </calcite-label>
+                  <calcite-label layout="inline">
+                    No
+                    <calcite-radio-button value="no"></calcite-radio-button>
+                  </calcite-label>
+                  <calcite-label layout="inline">
+                    Maybe
+                    <calcite-radio-button value="maybe"></calcite-radio-button>
+                  </calcite-label>
+                </calcite-radio-button-group>
+              </calcite-label>
+            </li>
+
+            <!-- Combobox -->
+            <li>
+              <calcite-label>
+                What are your favorite component(s)?
+                <calcite-combobox
+                  id="favoriteComponents"
+                  name="favoriteComponents"
+                  placeholder="Select favorites&hellip;"
+                  max-items="6"
+                  required
+                ></calcite-combobox>
+              </calcite-label>
+            </li>
+
+            <!-- Text input -->
+            <li>
+              <calcite-label>
+                What is the URL of your favorite application that uses Calcite components?
+                <calcite-input-text
+                  name="favoriteApp"
+                  id="favoriteApp"
+                  pattern="^https:\/\/.+"
+                  minlength="3"
+                  required
+                ></calcite-input-text>
+              </calcite-label>
+            </li>
+
+            <!-- Slider -->
+            <li>
+              <calcite-label>
+                How many components will you be using in your project?
+                <calcite-slider
+                  id="usage"
+                  name="usage"
+                  snap
+                  label-handles
+                  label-ticks
+                  ticks="2"
+                  label="Number of components"
+                  value="0"
+                  min="0"
+                  max="10"
+                  step="1"
+                ></calcite-slider>
+              </calcite-label>
+            </li>
+
+            <!-- Checkbox -->
+            <li>
+              <calcite-label>
+                What are the most important aspect(s) of a component?
+                <div>
+                  <calcite-label layout="inline">
+                    <calcite-checkbox name="configurability"></calcite-checkbox>
+                    Configurability
+                  </calcite-label>
+                  <calcite-label layout="inline">
+                    <calcite-checkbox name="accessibility"></calcite-checkbox>
+                    Accessibility
+                  </calcite-label>
+                  <calcite-label layout="inline">
+                    <calcite-checkbox name="easy"></calcite-checkbox>
+                    Ease of use
+                  </calcite-label>
+                </div>
+              </calcite-label>
+            </li>
+
+            <!-- Number input -->
+            <li>
+              <calcite-label>
+                How many Calcite components have you seen in the wild?
+                <calcite-input-number
+                  id="numberSeen"
+                  name="numberSeen"
+                  min="0"
+                  max="100"
+                  required
+                ></calcite-input-number>
+              </calcite-label>
+            </li>
+
+            <!-- Rating -->
+            <li>
+              <calcite-label>
+                How many stars would you give Calcite components?
+                <calcite-rating name="rating" value="1"></calcite-rating>
+              </calcite-label>
+            </li>
+          </ol>
+
+          <!-- Button -->
+          <calcite-button id="submit" type="submit">Submit</calcite-button>
+        </fieldset>
+      </form>
+    </demo-dom-swapper>
+  </body>
+
+  <script>
+    window.onload = () => {
+      const form = document.getElementById("form");
+      console.log(form.elements);
+
+      document.addEventListener("invalid", (event) => {
+        console.log(event);
+      });
+
+      // Combobox
+      const comboboxItems = [
+        "Accordion",
+        "Alert",
+        "Avatar",
+        "Button",
+        "Card",
+        "Chip",
+        "Combobox",
+        "Dropdown",
+        "Flow",
+        "Icon",
+        "Label",
+        "List",
+        "Loader",
+        "Menu",
+        "Meter",
+        "Modal",
+        "Navigation",
+        "Notice",
+        "Pagination",
+        "Panel",
+        "Popover",
+        "Progress",
+        "Rating",
+        "Shell",
+        "Slider",
+        "Switch",
+        "Table",
+        "Tabs",
+        "Tooltip",
+        "Tree",
+      ];
+
+      const combobox = document.getElementById("favoriteComponents");
+      comboboxItems.forEach((item, index) => {
+        const comboboxItem = document.createElement("calcite-combobox-item");
+        comboboxItem.textLabel = item;
+        comboboxItem.value = index;
+        combobox.appendChild(comboboxItem);
+      });
+
+      // Date picker
+      const datePicker = document.getElementById("when");
+      datePicker.maxAsDate = new Date();
+      datePicker.min = "2021-01-01";
+
+      form.onsubmit = (event) => {
+        event.preventDefault();
+        console.log(new FormData(form));
+      };
+    };
+  </script>
+</html>

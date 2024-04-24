@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Component,
   Element,
   Event,
@@ -19,13 +20,6 @@ import localizedFormat from "dayjs/esm/plugin/localizedFormat";
 import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
 import updateLocale from "dayjs/esm/plugin/updateLocale";
 import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  submitForm,
-} from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
@@ -148,13 +142,13 @@ interface DayjsTimeParts {
   shadow: {
     delegatesFocus: true,
   },
+  formAssociated: true,
   assetsDirs: ["assets"],
 })
 export class InputTimePicker
   implements
     FloatingUIComponent,
     FocusTrapComponent,
-    FormComponent,
     InteractiveComponent,
     LabelableComponent,
     LoadableComponent,
@@ -377,6 +371,8 @@ export class InputTimePicker
       }),
     );
   }
+
+  @AttachInternals() internals: ElementInternals;
 
   //--------------------------------------------------------------------------
   //
@@ -664,10 +660,9 @@ export class InputTimePicker
     }
 
     if (key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-        this.calciteInputEl.setFocus();
-      }
+      this.internals.form.submit();
+      event.preventDefault();
+      this.calciteInputEl.setFocus();
 
       if (event.composedPath().includes(this.calciteTimePickerEl)) {
         return;
@@ -856,6 +851,7 @@ export class InputTimePicker
 
     this.userChangedValue = true;
     this.value = newValue || "";
+    this.internals.setFormValue(newValue);
 
     const changeEvent = this.calciteInputTimePickerChange.emit();
 
@@ -921,7 +917,6 @@ export class InputTimePicker
     }
 
     connectLabel(this);
-    connectForm(this);
     connectMessages(this);
   }
 
@@ -951,7 +946,6 @@ export class InputTimePicker
   disconnectedCallback() {
     disconnectInteractive(this);
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectLocalized(this);
     deactivateFocusTrap(this);
     disconnectMessages(this);
@@ -1020,7 +1014,6 @@ export class InputTimePicker
               ref={this.setCalciteTimePickerEl}
             />
           </calcite-popover>
-          <HiddenFormInputSlot component={this} />
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}

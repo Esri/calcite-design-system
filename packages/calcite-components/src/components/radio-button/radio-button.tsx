@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Component,
   Element,
   Event,
@@ -14,12 +15,6 @@ import {
 } from "@stencil/core";
 import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, getElementDir, toAriaBoolean } from "../../utils/dom";
-import {
-  CheckableFormComponent,
-  connectForm,
-  disconnectForm,
-  HiddenFormInputSlot,
-} from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
@@ -42,10 +37,9 @@ import { CSS } from "./resources";
   tag: "calcite-radio-button",
   styleUrl: "radio-button.scss",
   shadow: true,
+  formAssociated: true,
 })
-export class RadioButton
-  implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
-{
+export class RadioButton implements LabelableComponent, InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Global attributes
@@ -150,6 +144,8 @@ export class RadioButton
 
   @Element() el: HTMLCalciteRadioButtonElement;
 
+  @AttachInternals() internals: ElementInternals;
+
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
@@ -183,10 +179,6 @@ export class RadioButton
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    input.type = "radio";
-  }
 
   selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
     items[selectedIndex].click();
@@ -471,7 +463,6 @@ export class RadioButton
     }
     connectInteractive(this);
     connectLabel(this);
-    connectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
   }
 
@@ -490,7 +481,6 @@ export class RadioButton
   disconnectedCallback(): void {
     disconnectInteractive(this);
     disconnectLabel(this);
-    disconnectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
   }
 
@@ -522,7 +512,6 @@ export class RadioButton
           >
             <div class="radio" />
           </div>
-          <HiddenFormInputSlot component={this} />
         </InteractiveContainer>
       </Host>
     );

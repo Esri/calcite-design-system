@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Build,
   Component,
   Element,
@@ -36,13 +37,6 @@ import {
   OverlayPositioning,
   reposition,
 } from "../../utils/floating-ui";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  submitForm,
-} from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -91,13 +85,13 @@ import { CSS } from "./resources";
   shadow: {
     delegatesFocus: true,
   },
+  formAssociated: true,
   assetsDirs: ["assets"],
 })
 export class InputDatePicker
   implements
     FloatingUIComponent,
     FocusTrapComponent,
-    FormComponent,
     InteractiveComponent,
     LabelableComponent,
     LoadableComponent,
@@ -469,7 +463,6 @@ export class InputDatePicker
     }
 
     connectLabel(this);
-    connectForm(this);
     connectMessages(this);
 
     this.setFilteredPlacements();
@@ -504,7 +497,6 @@ export class InputDatePicker
     deactivateFocusTrap(this);
     disconnectInteractive(this);
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -512,6 +504,12 @@ export class InputDatePicker
 
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  formResetCallback(): void {
+    this.internals.setValidity({});
+    this.internals.setFormValue("");
+    this.setValue("");
   }
 
   render(): VNode {
@@ -662,7 +660,6 @@ export class InputDatePicker
               )}
             </div>
           )}
-          <HiddenFormInputSlot component={this} />
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
@@ -696,6 +693,8 @@ export class InputDatePicker
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteInputDatePickerElement;
+
+  @AttachInternals() internals: ElementInternals;
 
   private currentOpenInput: "start" | "end";
 
@@ -901,10 +900,6 @@ export class InputDatePicker
         this.endInput?.setFocus();
       } else if (this.shouldFocusRangeStart()) {
         this.startInput?.setFocus();
-      }
-
-      if (submitForm(this)) {
-        this.restoreInputFocus();
       }
     } else if (key === "ArrowDown") {
       this.open = true;
@@ -1117,6 +1112,7 @@ export class InputDatePicker
     this.userChangedValue = true;
     this.valueAsDate = newValue ? dateFromISO(newValue) : undefined;
     this.value = newValue || "";
+    this.internals.setFormValue(newValue);
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
 

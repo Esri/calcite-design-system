@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Component,
   Element,
   Event,
@@ -12,13 +13,6 @@ import {
   Watch,
 } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-} from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -59,10 +53,9 @@ function isOptionGroup(
   tag: "calcite-select",
   styleUrl: "select.scss",
   shadow: true,
+  formAssociated: true,
 })
-export class Select
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
-{
+export class Select implements LabelableComponent, InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -130,6 +123,7 @@ export class Select
   @Watch("selectedOption")
   selectedOptionHandler(selectedOption: HTMLCalciteOptionElement): void {
     this.value = selectedOption?.value;
+    this.internals.setFormValue(selectedOption?.value);
   }
 
   /**
@@ -144,6 +138,8 @@ export class Select
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteSelectElement;
+
+  @AttachInternals() internals: ElementInternals;
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -173,14 +169,12 @@ export class Select
 
     connectInteractive(this);
     connectLabel(this);
-    connectForm(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     disconnectInteractive(this);
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   componentWillLoad(): void {
@@ -189,7 +183,6 @@ export class Select
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
   }
 
   componentDidRender(): void {
@@ -399,7 +392,6 @@ export class Select
               <slot />
             </select>
             {this.renderChevron()}
-            <HiddenFormInputSlot component={this} />
           </div>
           {this.validationMessage && this.status === "invalid" ? (
             <Validation

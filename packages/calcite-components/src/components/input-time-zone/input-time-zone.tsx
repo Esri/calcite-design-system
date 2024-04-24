@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Component,
   Element,
   Event,
@@ -39,13 +40,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-} from "../../utils/form";
-import {
   createTimeZoneItems,
   findTimeZoneItemByProp,
   getUserTimeZoneName,
@@ -61,10 +55,10 @@ import { TimeZoneItem, TimeZoneMode } from "./interfaces";
   shadow: {
     delegatesFocus: true,
   },
+  formAssociated: true,
 })
 export class InputTimeZone
   implements
-    FormComponent,
     InteractiveComponent,
     LabelableComponent,
     LoadableComponent,
@@ -254,6 +248,8 @@ export class InputTimeZone
 
   @Element() el: HTMLCalciteInputTimeZoneElement;
 
+  @AttachInternals() internals: ElementInternals;
+
   private comboboxEl: HTMLCalciteComboboxElement;
 
   @State() defaultMessages: InputTimeZoneMessages;
@@ -369,14 +365,12 @@ export class InputTimeZone
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectForm(this);
     connectLabel(this);
     connectLocalized(this);
     connectMessages(this);
   }
 
   disconnectedCallback(): void {
-    disconnectForm(this);
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -389,7 +383,6 @@ export class InputTimeZone
     await this.updateTimeZoneItemsAndSelection();
 
     const selectedValue = `${this.selectedTimeZoneItem.value}`;
-    afterConnectDefaultValueSet(this, selectedValue);
     this.value = selectedValue;
   }
 
@@ -442,7 +435,6 @@ export class InputTimeZone
               );
             })}
           </calcite-combobox>
-          <HiddenFormInputSlot component={this} />
         </InteractiveContainer>
       </Host>
     );

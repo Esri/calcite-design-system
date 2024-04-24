@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Component,
   Element,
   Event,
@@ -10,12 +11,6 @@ import {
   VNode,
 } from "@stencil/core";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
-import {
-  CheckableFormComponent,
-  connectForm,
-  disconnectForm,
-  HiddenFormInputSlot,
-} from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -37,10 +32,9 @@ import { Scale } from "../interfaces";
   tag: "calcite-switch",
   styleUrl: "switch.scss",
   shadow: true,
+  formAssociated: true,
 })
-export class Switch
-  implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
-{
+export class Switch implements LabelableComponent, InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -55,8 +49,7 @@ export class Switch
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /** Accessible name for the component. */
   @Prop() label: string;
@@ -84,6 +77,8 @@ export class Switch
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteSwitchElement;
+
+  @AttachInternals() internals: ElementInternals;
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -114,10 +109,6 @@ export class Switch
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    input.type = "checkbox";
-  }
 
   keyDownHandler = (event: KeyboardEvent): void => {
     if (!this.disabled && isActivationKey(event.key)) {
@@ -170,7 +161,6 @@ export class Switch
   connectedCallback(): void {
     connectInteractive(this);
     connectLabel(this);
-    connectForm(this);
   }
 
   componentWillLoad(): void {
@@ -184,7 +174,6 @@ export class Switch
   disconnectedCallback(): void {
     disconnectInteractive(this);
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   componentDidRender(): void {
@@ -213,7 +202,6 @@ export class Switch
             <div class="track">
               <div class="handle" />
             </div>
-            <HiddenFormInputSlot component={this} />
           </div>
         </InteractiveContainer>
       </Host>

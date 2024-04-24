@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Component,
   Element,
   Event,
@@ -28,14 +29,6 @@ import {
   OverlayPositioning,
   reposition,
 } from "../../utils/floating-ui";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  submitForm,
-} from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
@@ -92,12 +85,12 @@ const inputUidPrefix = "combobox-input-";
   tag: "calcite-combobox",
   styleUrl: "combobox.scss",
   shadow: true,
+  formAssociated: true,
   assetsDirs: ["assets"],
 })
 export class Combobox
   implements
     LabelableComponent,
-    FormComponent,
     InteractiveComponent,
     OpenCloseComponent,
     FloatingUIComponent,
@@ -439,7 +432,6 @@ export class Combobox
     connectLocalized(this);
     connectMessages(this);
     connectLabel(this);
-    connectForm(this);
 
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
@@ -464,7 +456,6 @@ export class Combobox
   }
 
   componentDidLoad(): void {
-    afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
     setComponentLoaded(this);
   }
@@ -487,7 +478,6 @@ export class Combobox
     this.resizeObserver?.disconnect();
     disconnectInteractive(this);
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -502,6 +492,8 @@ export class Combobox
   private allSelectedIndicatorChipEl: HTMLCalciteChipElement;
 
   @Element() el: HTMLCalciteComboboxElement;
+
+  @AttachInternals() internals: ElementInternals;
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
@@ -734,9 +726,8 @@ export class Combobox
           this.addCustomChip(this.text, true);
           event.preventDefault();
         } else if (!event.defaultPrevented) {
-          if (submitForm(this)) {
-            event.preventDefault();
-          }
+          this.internals.form.submit();
+          event.preventDefault();
         }
         break;
       case "Delete":
@@ -1735,7 +1726,6 @@ export class Combobox
             {this.renderListBoxOptions()}
           </ul>
           {this.renderFloatingUIContainer()}
-          <HiddenFormInputSlot component={this} />
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}

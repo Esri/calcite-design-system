@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Component,
   Element,
   Event,
@@ -10,7 +11,6 @@ import {
   State,
   Watch,
 } from "@stencil/core";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
@@ -49,7 +49,6 @@ import { Star } from "./interfaces";
 export class Rating
   implements
     LabelableComponent,
-    FormComponent,
     InteractiveComponent,
     LoadableComponent,
     LocalizedComponent,
@@ -125,6 +124,7 @@ export class Rating
   @Watch("value")
   handleValueUpdate(newValue: number): void {
     this.hoverValue = newValue;
+    this.internals.setFormValue(`${newValue}`);
     if (this.emit) {
       this.calciteRatingChange.emit();
     }
@@ -171,7 +171,6 @@ export class Rating
     connectLocalized(this);
     connectMessages(this);
     connectLabel(this);
-    connectForm(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -213,7 +212,6 @@ export class Rating
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   componentDidRender(): void {
@@ -295,7 +293,6 @@ export class Rating
                 </calcite-chip>
               ) : null}
             </fieldset>
-            <HiddenFormInputSlot component={this} />
           </span>
         </InteractiveContainer>
       </Host>
@@ -384,7 +381,7 @@ export class Rating
   };
 
   private handleLabelClick = (event: Event) => {
-    //preventing pointerdown event will supress any compatability mouse events except for click event.
+    //preventing pointerdown event will suppress any compatibility mouse events except for click event.
     event.preventDefault();
   };
 
@@ -442,6 +439,8 @@ export class Rating
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteRatingElement;
+
+  @AttachInternals() internals: ElementInternals;
 
   labelEl: HTMLCalciteLabelElement;
 

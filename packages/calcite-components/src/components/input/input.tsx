@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Component,
   Element,
   Event,
@@ -19,14 +20,6 @@ import {
   setRequestedIcon,
 } from "../../utils/dom";
 import { Scale, Status, Alignment } from "../interfaces";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  internalHiddenInputInputEvent,
-  submitForm,
-} from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -70,7 +63,7 @@ import { Validation } from "../functional/Validation";
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
-import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
+import { NumericInputComponent, TextualInputComponent } from "./common/input";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
@@ -79,12 +72,12 @@ import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } fro
   tag: "calcite-input",
   styleUrl: "input.scss",
   shadow: true,
+  formAssociated: true,
   assetsDirs: ["assets"],
 })
 export class Input
   implements
     LabelableComponent,
-    FormComponent,
     InteractiveComponent,
     T9nComponent,
     LocalizedComponent,
@@ -439,6 +432,8 @@ export class Input
 
   private userChangedValue = false;
 
+  @AttachInternals() internals: ElementInternals;
+
   //--------------------------------------------------------------------------
   //
   //  State
@@ -474,23 +469,19 @@ export class Input
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
     connectLabel(this);
-    connectForm(this);
 
     this.mutationObserver?.observe(this.el, { childList: true });
 
     this.setDisabledAction();
-    this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   disconnectedCallback(): void {
     disconnectInteractive(this);
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectLocalized(this);
     disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
-    this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -607,9 +598,8 @@ export class Input
       event.preventDefault();
     }
     if (event.key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-      }
+      this.internals.form.submit();
+      event.preventDefault();
     }
   };
 
@@ -876,21 +866,6 @@ export class Input
     }
   };
 
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput(this.type, this, input);
-  }
-
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.setValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
-    }
-    this.setFocus();
-    event.stopPropagation();
-  };
-
   private setChildElRef = (el: HTMLInputElement | HTMLTextAreaElement) => {
     this.childEl = el;
   };
@@ -1018,6 +993,8 @@ export class Input
         this.emitChangeIfUserModified();
       }
     }
+
+    this.internals.setFormValue(this.value);
   };
 
   private inputKeyUpHandler = (): void => {
@@ -1221,7 +1198,6 @@ export class Input
             {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
               ? numberButtonsHorizontalUp
               : null}
-            <HiddenFormInputSlot component={this} />
           </div>
           {this.validationMessage && this.status === "invalid" ? (
             <Validation

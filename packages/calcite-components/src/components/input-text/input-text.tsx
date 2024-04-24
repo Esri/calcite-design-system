@@ -1,4 +1,5 @@
 import {
+  AttachInternals,
   Component,
   Element,
   Event,
@@ -13,14 +14,6 @@ import {
   Watch,
 } from "@stencil/core";
 import { getElementDir, getSlotted, setRequestedIcon } from "../../utils/dom";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  internalHiddenInputInputEvent,
-  submitForm,
-} from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -49,7 +42,7 @@ import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
-import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { TextualInputComponent } from "../input/common/input";
 import { CSS, SLOTS } from "./resources";
 import { InputTextMessages } from "./assets/input-text/t9n";
 
@@ -60,12 +53,12 @@ import { InputTextMessages } from "./assets/input-text/t9n";
   tag: "calcite-input-text",
   styleUrl: "input-text.scss",
   shadow: true,
+  formAssociated: true,
   assetsDirs: ["assets"],
 })
 export class InputText
   implements
     LabelableComponent,
-    FormComponent,
     InteractiveComponent,
     LoadableComponent,
     LocalizedComponent,
@@ -116,8 +109,7 @@ export class InputText
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * Specifies an icon to display.
@@ -300,6 +292,8 @@ export class InputText
 
   @State() slottedActionElDisabledInternally = false;
 
+  @AttachInternals() internals: ElementInternals;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -317,21 +311,17 @@ export class InputText
     }
 
     connectLabel(this);
-    connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
-    this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   disconnectedCallback(): void {
     disconnectInteractive(this);
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectLocalized(this);
     disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
-    this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -415,9 +405,8 @@ export class InputText
       event.preventDefault();
     }
     if (event.key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-      }
+      this.internals.form.submit();
+      event.preventDefault();
     }
   };
 
@@ -488,22 +477,7 @@ export class InputText
     }
   };
 
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("text", this, input);
-  }
-
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.setValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
-    }
-    this.setFocus();
-    event.stopPropagation();
-  };
-
-  private setChildElRef = (el) => {
+  private setChildElRef = (el: HTMLInputElement | null) => {
     this.childEl = el;
   };
 
@@ -557,6 +531,7 @@ export class InputText
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && value !== this.value;
     this.value = value;
+    this.internals.setFormValue(value);
 
     if (origin === "direct") {
       this.setInputValue(value);
@@ -659,7 +634,6 @@ export class InputText
               <slot name={SLOTS.action} />
             </div>
             {this.suffixText ? suffixText : null}
-            <HiddenFormInputSlot component={this} />
           </div>
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
