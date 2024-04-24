@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.7...@esri/calcite-components@2.8.0-next.8) (2024-04-24)
+
+### Features
+
+- **pagination:** add navigation methods ([#9154](https://github.com/Esri/calcite-design-system/issues/9154)) ([5ca6a5f](https://github.com/Esri/calcite-design-system/commit/5ca6a5fdd58c4ce20085dacb71d8ae50941345ab)), closes [#6344](https://github.com/Esri/calcite-design-system/issues/6344)
+
 ## [2.8.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.6...@esri/calcite-components@2.8.0-next.7) (2024-04-23)
 
 ### Features
