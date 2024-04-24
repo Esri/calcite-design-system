@@ -4207,6 +4207,14 @@ export namespace Components {
          */
         "histogramStops": ColorStop[];
         /**
+          * When specified, allows users to customize handle labels.
+         */
+        "labelFormatter": (
+    value: number,
+    type: "value" | "min" | "max" | "tick",
+    defaultFormatter: (value: number) => string,
+  ) => string | undefined;
+        /**
           * When `true`, displays label handles with their numeric value.
          */
         "labelHandles": boolean;
@@ -11774,6 +11782,14 @@ declare namespace LocalJSX {
           * A set of single color stops for a histogram, sorted by offset ascending.
          */
         "histogramStops"?: ColorStop[];
+        /**
+          * When specified, allows users to customize handle labels.
+         */
+        "labelFormatter"?: (
+    value: number,
+    type: "value" | "min" | "max" | "tick",
+    defaultFormatter: (value: number) => string,
+  ) => string | undefined;
         /**
           * When `true`, displays label handles with their numeric value.
          */
