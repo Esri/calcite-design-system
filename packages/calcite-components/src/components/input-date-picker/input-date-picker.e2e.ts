@@ -74,11 +74,8 @@ describe("calcite-input-date-picker", () => {
   it.skip("supports t9n", () => t9n("calcite-input-date-picker"));
 
   async function navigateMonth(page: E2EPage, direction: "previous" | "next", range = false): Promise<void> {
-    const datePicker = await page.find("calcite-input-date-picker >>> .menu-container");
-    const datePickerContainer = await datePicker.find("calcite-date-picker >>> .container");
-    const datePickerMonth = await datePickerContainer.find("calcite-date-picker-month >>> .month-header");
-    const [datePickerMonthHeaderStart, datePickerMonthHeaderEnd] = await datePickerMonth.findAll(
-      "calcite-date-picker-month-header >>> .header ",
+    const [datePickerMonthHeaderStart, datePickerMonthHeaderEnd] = await page.findAll(
+      "calcite-input-date-picker >>> calcite-date-picker-month-header >>> .header",
     );
 
     let prevMonth: E2EElement;
@@ -96,12 +93,7 @@ describe("calcite-input-date-picker", () => {
 
   async function selectDayInMonth(page: E2EPage, day: number): Promise<void> {
     const dayIndex = day - 1;
-
-    const datePicker = await page.find("calcite-input-date-picker >>> .menu-container");
-    const datePickerContainer = await datePicker.find("calcite-date-picker >>> .container");
-    const datePickerMonth = await datePickerContainer.find("calcite-date-picker-month >>> .calendar");
-    const days = await datePickerMonth.findAll("calcite-date-picker-day[current-month]");
-
+    const days = await page.findAll("calcite-input-date-picker >>> calcite-date-picker-day[current-month]");
     await days[dayIndex].click();
     await page.waitForChanges();
   }
