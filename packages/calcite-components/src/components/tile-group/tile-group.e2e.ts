@@ -431,13 +431,13 @@ describe("calcite-tile-group", () => {
 
     it("multiple selection-mode allows multiple items to be selected and allows deselecting", async () => {
       const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-tile-group label="test-label" selection-mode="multiple">
+      await page.setContent(html`
+        <calcite-tile-group label="test-label" selection-mode="multiple">
           <calcite-tile id="item-1" label="test-label"></calcite-tile>
           <calcite-tile id="item-2" label="test-label"></calcite-tile>
           <calcite-tile id="item-3" label="test-label"></calcite-tile>
-        </calcite-tile-group>`,
-      );
+        </calcite-tile-group>
+      `);
       await page.waitForChanges();
       await assertSelectedItems.setUpEvents("calciteTileSelect", page);
 

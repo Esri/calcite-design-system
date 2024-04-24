@@ -302,7 +302,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
   renderTile(): VNode {
     const { description, disabled, heading, icon, iconFlipRtl, interactive, selectionMode } = this;
-    const isLargeVisual = heading && icon && !description;
+    const isLargeVisual = heading && icon && !Boolean(description);
     const disableInteraction = disabled || Boolean(this.href) || (!disabled && !interactive);
     const role =
       selectionMode === "multiple" && interactive
@@ -318,7 +318,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
           selectionMode !== "none" && interactive ? toAriaBoolean(this.selected) : undefined
         }
         aria-disabled={disableInteraction ? toAriaBoolean(disabled) : undefined}
-        aria-label={this.label}
+        aria-label={role && this.label}
         class={{
           [CSS.container]: true,
           // [Deprecated] Use the content-top slot for rendering icon with alignment="center" instead
@@ -355,7 +355,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
     return (
       <InteractiveContainer disabled={disabled}>
-        {this.href ? (
+        {Boolean(this.href) ? (
           <calcite-link disabled={disabled} href={this.href}>
             {this.renderTile()}
           </calcite-link>

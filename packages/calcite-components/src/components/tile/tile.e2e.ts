@@ -1,18 +1,49 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, reflects, renders, slots, hidden } from "../../tests/commonTests";
+import { accessible, defaults, disabled, reflects, renders, slots, hidden, focusable } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { SLOTS } from "./resources";
 
 describe("calcite-tile", () => {
-  describe("renders", () => {
-    renders("calcite-tile", { display: "inline-block" });
+  describe("accessibility", () => {
+    accessible(html` <calcite-tile></calcite-tile> `, "accessible without label");
+    accessible(html` <calcite-tile label="my-tile"></calcite-tile> `, "accessible with label only");
+    accessible(
+      html` <calcite-tile label="my-tile" selection-mode="single"></calcite-tile> `,
+      "accessible in single selection-mode",
+    );
+    accessible(
+      html` <calcite-tile label="my-tile" selection-mode="single-persist"></calcite-tile> `,
+      "accessible in single-persist selection-mode",
+    );
+    accessible(
+      html` <calcite-tile label="my-tile" selection-mode="multiple"></calcite-tile> `,
+      "accessible in multiple selection-mode",
+    );
+    accessible(html` <calcite-tile href="#" heading="My link"></calcite-tile> `, "accessible as link with heading");
+    accessible(
+      html` <calcite-tile href="#" description="My link"></calcite-tile> `,
+      "accessible as link with description",
+    );
+    accessible(
+      html` <calcite-tile label="my-tile" href="#" heading="My link"></calcite-tile> `,
+      "accessible as link with heading and label",
+    );
+    accessible(
+      html` <calcite-tile label="my-tile" href="#" description="My link"></calcite-tile> `,
+      "accessible as link with description and label",
+    );
   });
 
-  describe("honors hidden attribute", () => {
-    hidden("calcite-tile");
-  });
+  describe("click", () => {
+    it("should receive focus when clicked", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-tile id="tile-1"></calcite-tile> `);
+      const tile1 = await page.find("#tile-1");
+      await tile1.click();
+      await page.waitForChanges();
 
-  describe("accessible.", () => {
-    accessible(`<calcite-tile></calcite-tile>`);
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(tile1.id);
+    });
   });
 
   describe("defaults", () => {
@@ -30,6 +61,50 @@ describe("calcite-tile", () => {
       { propertyName: "selectionAppearance", defaultValue: "icon" },
       { propertyName: "selectionMode", defaultValue: "none" },
     ]);
+  });
+
+  describe("disabled", () => {
+    disabled(html` <calcite-tile heading="test" href="http://www.esri.com"></calcite-tile> `);
+  });
+
+  describe("disabled when interactive", () => {
+    disabled(html` <calcite-tile interactive></calcite-tile> `);
+  });
+
+  describe("events", () => {
+    it("should not emit select event after the tile is clicked if interactive is not set", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-tile id="tile-1"></calcite-tile> `);
+
+      const eventSpy = await page.spyOnEvent("calciteTileSelect", "window");
+
+      const tile1 = await page.find("#tile-1");
+      await tile1.click();
+      await page.waitForChanges();
+
+      expect(eventSpy).not.toHaveReceivedEvent();
+    });
+
+    it("should emit select event after the tile is clicked when interactive", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-tile id="tile-1" interactive></calcite-tile> `);
+
+      const eventSpy = await page.spyOnEvent("calciteTileSelect", "window");
+
+      const tile1 = await page.find("#tile-1");
+      await tile1.click();
+      await page.waitForChanges();
+
+      expect(eventSpy).toHaveReceivedEvent();
+    });
+  });
+
+  describe("focusable", () => {
+    focusable(html` <calcite-tile interactive></calcite-tile> `);
+  });
+
+  describe("hidden", () => {
+    hidden("calcite-tile");
   });
 
   describe("slots", () => {
@@ -54,73 +129,73 @@ describe("calcite-tile", () => {
     ]);
   });
 
-  describe("disabled", () => {
-    disabled("<calcite-tile heading='test' href='http://www.esri.com'></calcite-tile>");
-  });
+  describe("renders", () => {
+    renders("calcite-tile", { display: "inline-block" });
 
-  it("renders without a link by default", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-tile></calcite-tile>");
-    const link = await page.find("calcite-tile >>> calcite-link");
-    expect(link).toBeNull();
-  });
+    it("renders without a link by default", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-tile></calcite-tile> `);
+      const link = await page.find("calcite-tile >>> calcite-link");
+      expect(link).toBeNull();
+    });
 
-  it("renders a link when href attribute is supplied", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-tile href='http://www.esri.com'></calcite-tile>");
+    it("renders a link when href attribute is supplied", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-tile href="http://www.esri.com"></calcite-tile> `);
 
-    const link = await page.find("calcite-tile >>> calcite-link");
-    const anchor = await page.find("calcite-tile >>> calcite-link >>> a");
-    expect(link).toEqualAttribute("href", "http://www.esri.com");
-    expect(anchor).toEqualAttribute("href", "http://www.esri.com");
-  });
+      const link = await page.find("calcite-tile >>> calcite-link");
+      const anchor = await page.find("calcite-tile >>> calcite-link >>> a");
+      expect(link).toEqualAttribute("href", "http://www.esri.com");
+      expect(anchor).toEqualAttribute("href", "http://www.esri.com");
+    });
 
-  it("renders heading only when supplied", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-tile heading='My Calcite Tile'></calcite-tile>");
+    it("renders heading only when supplied", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-tile heading="My Calcite Tile"></calcite-tile> `);
 
-    const icon = await page.find("calcite-tile >>> .icon");
-    const heading = await page.find("calcite-tile >>> .heading");
-    const description = await page.find("calcite-tile >>> .description");
-    expect(icon).toBeNull();
-    expect(heading).toEqualText("My Calcite Tile");
-    expect(description).toBeNull();
-  });
+      const icon = await page.find("calcite-tile >>> .icon");
+      const heading = await page.find("calcite-tile >>> .heading");
+      const description = await page.find("calcite-tile >>> .description");
+      expect(icon).toBeNull();
+      expect(heading).toEqualText("My Calcite Tile");
+      expect(description).toBeNull();
+    });
 
-  it("renders icon only when supplied", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-tile icon='layers'></calcite-tile>");
+    it("renders icon only when supplied", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-tile icon="layers"></calcite-tile> `);
 
-    const icon = await page.find("calcite-tile >>> .icon");
-    const heading = await page.find("calcite-tile >>> .heading");
-    const description = await page.find("calcite-tile >>> .description");
-    expect(icon).toBeDefined();
-    expect(heading).toBeNull();
-    expect(description).toBeNull();
-  });
+      const icon = await page.find("calcite-tile >>> .icon");
+      const heading = await page.find("calcite-tile >>> .heading");
+      const description = await page.find("calcite-tile >>> .description");
+      expect(icon).toBeDefined();
+      expect(heading).toBeNull();
+      expect(description).toBeNull();
+    });
 
-  it("renders description only when supplied", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-tile description='My Calcite Tile Description.'></calcite-tile>");
+    it("renders description only when supplied", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-tile description="My Calcite Tile Description."></calcite-tile> `);
 
-    const icon = await page.find("calcite-tile >>> .icon");
-    const heading = await page.find("calcite-tile >>> .heading");
-    const description = await page.find("calcite-tile >>> .description");
-    expect(icon).toBeNull();
-    expect(heading).toBeNull();
-    expect(description).toEqualText("My Calcite Tile Description.");
-  });
+      const icon = await page.find("calcite-tile >>> .icon");
+      const heading = await page.find("calcite-tile >>> .heading");
+      const description = await page.find("calcite-tile >>> .description");
+      expect(icon).toBeNull();
+      expect(heading).toBeNull();
+      expect(description).toEqualText("My Calcite Tile Description.");
+    });
 
-  it("renders large icon when only icon and heading are supplied", async () => {
-    const page = await newE2EPage();
-    await page.setContent('<calcite-tile icon="layers" heading="My Large Visual Calcite Tile"></calcite-tile>');
+    it("renders large icon when only icon and heading are supplied", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-tile icon="layers" heading="My Large Visual Calcite Tile"></calcite-tile> `);
 
-    const icon = await page.find("calcite-tile >>> calcite-icon");
-    const heading = await page.find("calcite-tile >>> .heading");
-    const description = await page.find("calcite-tile >>> .description");
-    expect(icon).toEqualAttribute("icon", "layers");
-    expect(icon).toEqualAttribute("scale", "l");
-    expect(heading).toEqualText("My Large Visual Calcite Tile");
-    expect(description).toBeNull();
+      const icon = await page.find("calcite-tile >>> calcite-icon");
+      const heading = await page.find("calcite-tile >>> .heading");
+      const description = await page.find("calcite-tile >>> .description");
+      expect(icon).toEqualAttribute("icon", "layers");
+      expect(icon).toEqualAttribute("scale", "l");
+      expect(heading).toEqualText("My Large Visual Calcite Tile");
+      expect(description).toBeNull();
+    });
   });
 });
