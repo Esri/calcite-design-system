@@ -445,3 +445,80 @@ export const spaceGroupSeparatorNoBreak_TestOnly = (): string => html`
     ticks="2000"
   ></calcite-slider>
 `;
+
+export const fillPlacements = (): string => html`
+  <label>start (default)</label>
+  <calcite-slider min="0" max="100" value="0" fill-placement="start"></calcite-slider>
+  <calcite-slider min="0" max="100" value="50" fill-placement="start"></calcite-slider>
+  <calcite-slider min="0" max="100" value="100" fill-placement="start"></calcite-slider>
+  <br />
+  <label>none</label>
+  <calcite-slider min="0" max="100" value="0" fill-placement="none"></calcite-slider>
+  <calcite-slider min="0" max="100" value="50" fill-placement="none"></calcite-slider>
+  <calcite-slider min="0" max="100" value="100" fill-placement="none"></calcite-slider>
+  <br />
+  <label>end</label>
+  <calcite-slider min="0" max="100" value="0" fill-placement="end"></calcite-slider>
+  <calcite-slider min="0" max="100" value="50" fill-placement="end"></calcite-slider>
+  <calcite-slider min="0" max="100" value="100" fill-placement="end"></calcite-slider>
+`;
+
+export const customLabelsAndTicks = (): string => html`
+  <label>Label formatter (single value)</label>
+  <calcite-slider
+    id="singleFormattedLabelSlider"
+    label-handles
+    label-ticks
+    ticks="100"
+    min="0"
+    max="100"
+    value="50"
+    step="1"
+    min-label="Temperature"
+  ></calcite-slider>
+
+  <label>Label formatter (min/max value)</label>
+  <calcite-slider
+    id="minMaxFormattedLabelSlider"
+    label-handles
+    label-ticks
+    ticks="10"
+    min="0"
+    max="100"
+    min-value="25"
+    max-value="75"
+    step="1"
+    min-label="Temperature"
+  ></calcite-slider>
+
+  <script>
+    const singleValueSlider = document.getElementById("singleFormattedLabelSlider");
+
+    singleValueSlider.labelFormatter = function (value, type) {
+      if (type === "value") {
+        return value < 60 ? "🥶" : value > 80 ? "🥵" : "😎";
+      }
+
+      if (type === "tick") {
+        return value === singleValueSlider.min ? "Cold" : value === singleValueSlider.max ? "Hot" : undefined;
+      }
+    };
+
+    const minMaxValueSlider = document.getElementById("minMaxFormattedLabelSlider");
+
+    minMaxValueSlider.labelFormatter = function (value, type) {
+      if (type === "min" || type === "max") {
+        const status = value < 60 ? "🥶" : value > 80 ? "🥵" : "😎";
+        return type === "min" ? value + "ºF" + " " + status : status + " " + value + "ºF";
+      }
+
+      if (type === "tick") {
+        return value === minMaxValueSlider.max ? value + "ºF" : value + "º";
+      }
+    };
+  </script>
+`;
+
+customLabelsAndTicks.parameters = {
+  chromatic: { delay: 500 },
+};

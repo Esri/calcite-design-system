@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, reflects, renders, slots, hidden, focusable } from "../../tests/commonTests";
+import { accessible, defaults, disabled, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "./resources";
 
