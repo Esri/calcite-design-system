@@ -53,7 +53,7 @@
     "@storybook/test": "8.0.8",
     "@tokens-studio/sd-transforms": "0.12.2",
     "@types/dedent": "0.7.2",
-    "@types/eslint": "8.56.9",
+    "@types/eslint": "8.56.10",
     "@types/estree": "1.0.5",
     "@types/jest": "29.5.12",
     "@types/jest-axe": "3.5.9",
