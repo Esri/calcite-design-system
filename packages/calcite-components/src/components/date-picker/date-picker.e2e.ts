@@ -1,4 +1,4 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
@@ -138,6 +138,14 @@ describe("calcite-date-picker", () => {
     await selectSelectedDay(page, "keyboard");
     expect(changedEvent).toHaveReceivedEventTimes(0);
   });
+
+  async function setActiveDate(page: E2EPage, date: string): Promise<void> {
+    await page.evaluate((date) => {
+      const datePicker = document.querySelector("calcite-date-picker");
+      datePicker.activeDate = new Date(date);
+    }, date);
+    await page.waitForChanges();
+  }
 
   async function selectDay(id: string, page: E2EPage, method: "mouse" | "keyboard"): Promise<void> {
     await page.$eval(
@@ -316,14 +324,6 @@ describe("calcite-date-picker", () => {
   });
 
   describe("ArrowKeys and PageKeys", () => {
-    async function setActiveDate(page: E2EPage, date: string): Promise<void> {
-      await page.evaluate((date) => {
-        const datePicker = document.querySelector("calcite-date-picker");
-        datePicker.activeDate = new Date(date);
-      }, date);
-      await page.waitForChanges();
-    }
-
     it("should be able to navigate between months and select date using arrow keys and page keys", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
@@ -544,5 +544,91 @@ describe("calcite-date-picker", () => {
     await selectDay("20200930", page, "mouse");
     await page.waitForChanges();
     expect(await datePicker.getProperty("value")).toEqual(["2020-09-15", "2020-09-30"]);
+  });
+
+  //todo: refactor to storybook tests
+  describe("hover range", () => {
+    async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
+      return await page.find(
+        `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
+      );
+    }
+
+    it("should toggle range-hover attribute when date falls outside of range", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
+      const datePicker = await page.find("calcite-date-picker");
+      datePicker.setProperty("value", ["2024-01-01", "2024-02-10"]);
+
+      await page.waitForChanges();
+      await page.waitForChanges();
+      let dateInsideRange = await getDayById(page, "20240109");
+
+      await dateInsideRange.hover();
+      await page.waitForChanges();
+      expect(await (await getDayById(page, "20240108")).getProperty("rangeHover")).toBe(true);
+      expect(await (await getDayById(page, "20240208")).getProperty("rangeHover")).toBe(false);
+
+      dateInsideRange = await getDayById(page, "20240205");
+      await dateInsideRange.hover();
+      expect(await (await getDayById(page, "20240108")).getProperty("rangeHover")).toBe(false);
+      expect(await (await getDayById(page, "20240208")).getProperty("rangeHover")).toBe(true);
+    });
+
+    it("should add range-hover attribute to dates falls outside of current range when extending", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
+      const datePicker = await page.find("calcite-date-picker");
+      datePicker.setProperty("value", ["2024-01-05", "2024-02-15"]);
+
+      await page.waitForChanges();
+      expect(await (await getDayById(page, "20240108")).getProperty("rangeHover")).toBe(false);
+      expect(await (await getDayById(page, "20240208")).getProperty("rangeHover")).toBe(false);
+
+      let dateInsideRange = await getDayById(page, "20240101");
+      await dateInsideRange.hover();
+      await page.waitForChanges();
+      expect(await (await getDayById(page, "20240102")).getProperty("rangeHover")).toBe(true);
+      expect(await (await getDayById(page, "20240108")).getProperty("rangeHover")).toBe(false);
+      expect(await (await getDayById(page, "20240208")).getProperty("rangeHover")).toBe(false);
+
+      dateInsideRange = await getDayById(page, "20240225");
+      await dateInsideRange.hover();
+      await page.waitForChanges();
+      expect(await (await getDayById(page, "20240102")).getProperty("rangeHover")).toBe(false);
+      expect(await (await getDayById(page, "20240108")).getProperty("rangeHover")).toBe(false);
+      expect(await (await getDayById(page, "20240208")).getProperty("rangeHover")).toBe(false);
+      expect(await (await getDayById(page, "20240224")).getProperty("rangeHover")).toBe(true);
+    });
+
+    it("should not add range-hover attribute to dates before startDate and after endDate during initial selection", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
+
+      await setActiveDate(page, "01-01-2024");
+      await page.waitForChanges();
+
+      const startDate = await getDayById(page, "20240108");
+      await startDate.hover();
+      await page.waitForChanges();
+
+      await selectDay("20240108", page, "mouse");
+      await page.waitForChanges();
+      expect(await (await getDayById(page, "20240107")).getProperty("rangeHover")).toBeFalsy();
+      expect(await (await getDayById(page, "20240209")).getProperty("rangeHover")).toBeFalsy();
+
+      const endDate = await getDayById(page, "20240205");
+      await endDate.hover();
+      await page.waitForChanges();
+      expect(await (await getDayById(page, "20240107")).getProperty("rangeHover")).toBeFalsy();
+      expect(await (await getDayById(page, "20240209")).getProperty("rangeHover")).toBeFalsy();
+      expect(await (await getDayById(page, "20240201")).getProperty("rangeHover")).toBe(true);
+
+      await selectDay("20240205", page, "mouse");
+      await page.waitForChanges();
+      expect(await (await getDayById(page, "20240107")).getProperty("rangeHover")).toBeFalsy();
+      expect(await (await getDayById(page, "20240209")).getProperty("rangeHover")).toBeFalsy();
+      expect(await (await getDayById(page, "20240201")).getProperty("rangeHover")).toBe(false);
+    });
   });
 });

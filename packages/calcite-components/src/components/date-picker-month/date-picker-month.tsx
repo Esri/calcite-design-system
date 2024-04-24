@@ -583,23 +583,29 @@ export class DatePickerMonth {
     const isStart = this.isFocusedOnStart();
     const insideRange = this.isHoverInRange();
 
-    const minimizeCurrentRange =
-      insideRange &&
-      ((!isStart &&
-        date > this.startDate &&
-        ((date > end && date < this.endDate) || sameDate(date, end))) ||
-        (isStart &&
-          date < this.endDate &&
-          ((date < start && date > this.startDate) || sameDate(date, start))));
+    const isDateBeforeStartDateAndAfterStart = date > start && date < this.startDate;
+    const isDateAfterEndDateAndBeforeEnd = date < end && date > this.endDate;
+    const isDateBeforeEndDateAndAfterEnd = date > end && date < this.endDate;
+    const isDateAfterStartDateAndBeforeStart = date < start && date > this.startDate;
+    const isDateAfterStartDateAndBeforeEnd = date < end && date > this.startDate;
+    const isDateBeforeEndDateAndAfterStart = date > start && date < this.endDate;
 
-    const maximizeCurrentRange =
-      !insideRange &&
-      ((!isStart && date >= this.endDate && (date < end || sameDate(date, end))) ||
-        (isStart &&
-          ((this.startDate && date < this.startDate && date > start) ||
-            (this.endDate && date > this.endDate && date < end))));
-
-    return minimizeCurrentRange || maximizeCurrentRange;
+    if (insideRange) {
+      if (!!this.startDate && !!this.endDate) {
+        return isStart
+          ? date < this.endDate &&
+              (isDateAfterStartDateAndBeforeStart || isDateBeforeStartDateAndAfterStart)
+          : isDateBeforeEndDateAndAfterEnd || isDateAfterEndDateAndBeforeEnd;
+      } else if (!!this.startDate && !this.endDate) {
+        return isStart ? isDateBeforeStartDateAndAfterStart : isDateAfterStartDateAndBeforeEnd;
+      } else if (!this.startDate && !!this.endDate) {
+        return isStart ? isDateBeforeEndDateAndAfterStart : isDateAfterEndDateAndBeforeEnd;
+      }
+    } else {
+      if (!!this.startDate && !!this.endDate) {
+        return isStart ? isDateBeforeStartDateAndAfterStart : isDateAfterEndDateAndBeforeEnd;
+      }
+    }
   }
 
   private getDays = (
