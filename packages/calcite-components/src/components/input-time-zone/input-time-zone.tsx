@@ -442,6 +442,9 @@ export class InputTimeZone
             onCalciteComboboxOpen={this.onComboboxOpen}
             open={this.open}
             overlayPositioning={this.overlayPositioning}
+            placeholder={
+              this.mode === "name" ? this.messages.namePlaceholder : this.messages.offsetPlaceholder
+            }
             readOnly={this.readOnly}
             scale={this.scale}
             selectionMode={this.clearable ? "single" : "single-persist"}
