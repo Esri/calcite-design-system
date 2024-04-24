@@ -4207,6 +4207,10 @@ export namespace Components {
          */
         "hasHistogram": boolean;
         /**
+          * Used to configure where the fill is placed along the slider track in relation to the value handle.  Range mode will always display the fill between the min and max handles.
+         */
+        "highlightPlacement": "start" | "none" | "end";
+        /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
           * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
          */
@@ -11770,6 +11774,10 @@ declare namespace LocalJSX {
           * When `true`, indicates a histogram is present.
          */
         "hasHistogram"?: boolean;
+        /**
+          * Used to configure where the fill is placed along the slider track in relation to the value handle.  Range mode will always display the fill between the min and max handles.
+         */
+        "highlightPlacement"?: "start" | "none" | "end";
         /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
           * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
