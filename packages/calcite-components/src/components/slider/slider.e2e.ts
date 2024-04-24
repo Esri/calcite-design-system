@@ -30,6 +30,10 @@ describe("calcite-slider", () => {
         defaultValue: false,
       },
       {
+        propertyName: "labelFormatter",
+        defaultValue: undefined,
+      },
+      {
         propertyName: "max",
         defaultValue: 100,
       },
@@ -962,6 +966,45 @@ describe("calcite-slider", () => {
 
       await dragThumbToMax();
       expect(await slider.getProperty("value")).toBe(10);
+    });
+  });
+
+  describe("labelFormat", () => {
+    describe("single value", () => {
+      it("should format the label value", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html` <calcite-slider min="0" max="100" value="50" label-handles></calcite-slider>`);
+
+        await page.$eval(
+          "calcite-slider",
+          (slider: HTMLCalciteSliderElement) => (slider.labelFormatter = (value) => `${value}%`),
+        );
+        await page.waitForChanges();
+
+        const labelValue = await page.find(`calcite-slider >>> .${CSS.handleLabelValue}`);
+        expect(labelValue.innerText).toBe("50%");
+      });
+    });
+
+    describe("min/max value", () => {
+      it("should format the min/max value", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html` <calcite-slider min="0" max="100" min-value="25" max-value="75" label-handles></calcite-slider>`,
+        );
+
+        await page.$eval(
+          "calcite-slider",
+          (slider: HTMLCalciteSliderElement) =>
+            (slider.labelFormatter = (value, type) => (type === "min" ? `-${value}%` : `+${value}%`)),
+        );
+        await page.waitForChanges();
+
+        const labelMinValue = await page.find(`calcite-slider >>> .${CSS.handleLabelMinValue}`);
+        const labelMaxValue = await page.find(`calcite-slider >>> .${CSS.handleLabelValue}`);
+        expect(labelMinValue.innerText).toBe("-25%");
+        expect(labelMaxValue.innerText).toBe("+75%");
+      });
     });
   });
 });
