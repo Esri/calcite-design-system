@@ -3419,10 +3419,6 @@ export namespace Components {
          */
         "startItem": number;
         /**
-          * Set the first page as active.
-         */
-        "startPage": () => Promise<void>;
-        /**
           * Specifies the total number of items.
          */
         "totalItems": number;
