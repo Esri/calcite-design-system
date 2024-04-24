@@ -14,6 +14,7 @@ import {
 } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale, Status } from "../interfaces";
+import { FormComponent, connectForm, disconnectForm, HiddenFormInputSlot } from "../../utils/form";
 import {
   componentFocusable,
   LoadableComponent,
@@ -31,7 +32,7 @@ import { CSS } from "./resources";
   styleUrl: "radio-button-group.scss",
   shadow: true,
 })
-export class RadioButtonGroup implements LoadableComponent {
+export class RadioButtonGroup implements LoadableComponent, FormComponent {
   //--------------------------------------------------------------------------
   //
   //  Global attributes
@@ -68,6 +69,13 @@ export class RadioButtonGroup implements LoadableComponent {
   /** Specifies the name of the component on form submission. Must be unique to other component instances. */
   @Prop({ reflect: true }) name!: string;
 
+  /**
+   * The `id` of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true }) form: string;
+
   /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
@@ -90,6 +98,9 @@ export class RadioButtonGroup implements LoadableComponent {
   /** Specifies the validation icon to display under the component. */
   @Prop({ reflect: true }) validationIcon: string | boolean;
 
+  /** The value of the selected `calcite-radio-button`. */
+  @Prop({ mutable: true }) value: any;
+
   @Watch("scale")
   onScaleChange(): void {
     this.passPropsToRadioButtons();
@@ -107,6 +118,10 @@ export class RadioButtonGroup implements LoadableComponent {
 
   @State() radioButtons: HTMLCalciteRadioButtonElement[] = [];
 
+  formEl: HTMLFormElement;
+
+  defaultValue: RadioButtonGroup["value"];
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -115,6 +130,7 @@ export class RadioButtonGroup implements LoadableComponent {
 
   connectedCallback(): void {
     this.passPropsToRadioButtons();
+    connectForm(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
@@ -128,6 +144,7 @@ export class RadioButtonGroup implements LoadableComponent {
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    disconnectForm(this);
   }
 
   //--------------------------------------------------------------------------
@@ -140,12 +157,13 @@ export class RadioButtonGroup implements LoadableComponent {
     this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
     this.selectedItem =
       Array.from(this.radioButtons).find((radioButton) => radioButton.checked) || null;
+    this.value = this.selectedItem?.value;
+
     if (this.radioButtons.length > 0) {
       this.radioButtons.forEach((radioButton) => {
         radioButton.disabled = this.disabled || radioButton.disabled;
         radioButton.hidden = this.el.hidden;
         radioButton.name = this.name;
-        radioButton.required = this.required;
         radioButton.scale = this.scale;
       });
     }
@@ -208,6 +226,7 @@ export class RadioButtonGroup implements LoadableComponent {
         <div class={CSS.itemWrapper}>
           <slot />
         </div>
+        <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}
