@@ -403,8 +403,6 @@ describe("calcite-segmented-control", () => {
   });
 
   describe("is form-associated", () => {
-    const formAssociatedOptions = { testValue: "2" };
-
     describe("unselected value", () => {
       formAssociated(
         html`
@@ -414,7 +412,7 @@ describe("calcite-segmented-control", () => {
             <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>
           </calcite-segmented-control>
         `,
-        formAssociatedOptions,
+        { testValue: "2", validation: true },
       );
     });
 
@@ -427,7 +425,7 @@ describe("calcite-segmented-control", () => {
             <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>
           </calcite-segmented-control>
         `,
-        formAssociatedOptions,
+        { testValue: "2" },
       );
     });
   });

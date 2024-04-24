@@ -3421,6 +3421,11 @@ export namespace Components {
     }
     interface CalcitePagination {
         /**
+          * Set a specified page as active.
+          * @param page
+         */
+        "goTo": (page: number | "start" | "end") => Promise<void>;
+        /**
           * When `true`, number values are displayed with a group separator corresponding to the language and country format.
          */
         "groupSeparator": boolean;
@@ -3838,6 +3843,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+         */
+        "form": string;
+        /**
           * Defines the layout of the component.
          */
         "layout": Layout;
@@ -3880,6 +3889,10 @@ export namespace Components {
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": ValidityState;
+        /**
+          * The value of the selected `calcite-radio-button`.
+         */
+        "value": any;
     }
     interface CalciteRating {
         /**
@@ -3999,6 +4012,12 @@ export namespace Components {
           * Specifies the validation message to display under the component.
          */
         "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": ValidityState;
         /**
           * The component's `selectedItem` value.
          */
@@ -11460,6 +11479,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
+         */
+        "form"?: string;
+        /**
           * Defines the layout of the component.
          */
         "layout"?: Layout;
@@ -11502,6 +11525,10 @@ declare namespace LocalJSX {
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: ValidityState;
+        /**
+          * The value of the selected `calcite-radio-button`.
+         */
+        "value"?: any;
     }
     interface CalciteRating {
         /**
@@ -11621,6 +11648,12 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: ValidityState;
         /**
           * The component's `selectedItem` value.
          */

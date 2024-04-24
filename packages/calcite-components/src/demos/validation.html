@@ -160,7 +160,7 @@
             <li>
               <calcite-label>
                 How useful is the Calcite Design System?
-                <calcite-segmented-control layout="horizontal" name="usefulness">
+                <calcite-segmented-control layout="horizontal" name="usefulness" required>
                   <calcite-segmented-control-item value="0">😴&nbsp;Very useless</calcite-segmented-control-item>
                   <calcite-segmented-control-item value="1">🥱&nbsp;Somewhat useless</calcite-segmented-control-item>
                   <calcite-segmented-control-item value="2" checked>🤔&nbsp;Undecided</calcite-segmented-control-item>
@@ -174,7 +174,7 @@
             <li>
               <calcite-label>
                 Will you be using Calcite components in an upcoming project?
-                <calcite-radio-button-group name="using">
+                <calcite-radio-button-group name="using" required>
                   <calcite-label layout="inline">
                     Yes
                     <calcite-radio-button value="yes"></calcite-radio-button>
