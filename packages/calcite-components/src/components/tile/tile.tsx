@@ -23,8 +23,8 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { CSS, ICONS, SLOTS } from "./resources";
 import { SelectableComponent } from "../../utils/selectableComponent";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
@@ -46,6 +46,8 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
   /**
    * When `true`, the component is active.
+   *
+   * @deprecated
    */
   @Prop({ reflect: true }) active = false;
 
@@ -72,13 +74,6 @@ export class Tile implements InteractiveComponent, SelectableComponent {
    * @deprecated No longer necessary.
    */
   @Prop({ reflect: true }) embed = false;
-
-  /**
-   * The focused state of the component.
-   *
-   * @internal
-   */
-  @Prop({ reflect: true }) focused = false;
 
   /** The component header text, which displays between the icon and description. */
   @Prop({ reflect: true }) heading: string;

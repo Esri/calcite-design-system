@@ -92,7 +92,7 @@ describe("calcite-tile-group", () => {
 
   describe("disabled", () => {
     disabled(
-      html`<calcite-tile-group>
+      html` <calcite-tile-group>
         <calcite-tile></calcite-tile>
         <calcite-tile></calcite-tile>
         <calcite-tile></calcite-tile>
@@ -103,7 +103,7 @@ describe("calcite-tile-group", () => {
 
   describe("disabled links", () => {
     disabled(
-      html`<calcite-tile-group>
+      html` <calcite-tile-group>
         <calcite-tile
           heading="Tile heading lorem ipsum"
           href="/"
@@ -147,15 +147,15 @@ describe("calcite-tile-group", () => {
   describe("keyboard", () => {
     it("focuses tiles with the tab key and arrow keys", async () => {
       const page = await newE2EPage();
-      await page.setContent(
-        html` <calcite-tile-group label="test-label" selection-mode="multiple">
+      await page.setContent(html`
+        <calcite-tile-group label="test-label" selection-mode="multiple">
           <calcite-tile id="item-1" label="test-label"></calcite-tile>
           <calcite-tile id="item-2" label="test-label"></calcite-tile>
           <calcite-tile id="item-3" label="test-label"></calcite-tile>
           <calcite-tile id="item-4" label="test-label"></calcite-tile>
           <calcite-tile id="item-5" label="test-label"></calcite-tile>
-        </calcite-tile-group>`,
-      );
+        </calcite-tile-group>
+      `);
       await assertSelectedItems.setUpEvents("calciteTileGroupSelect", page);
 
       const element = await page.find("calcite-tile-group");

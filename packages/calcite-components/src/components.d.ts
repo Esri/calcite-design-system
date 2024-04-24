@@ -4976,6 +4976,7 @@ export namespace Components {
     interface CalciteTile {
         /**
           * When `true`, the component is active.
+          * @deprecated
          */
         "active": boolean;
         /**
@@ -4995,10 +4996,6 @@ export namespace Components {
           * @deprecated No longer necessary.
          */
         "embed": boolean;
-        /**
-          * The focused state of the component.
-         */
-        "focused": boolean;
         /**
           * The component header text, which displays between the icon and description.
          */
@@ -12633,6 +12630,7 @@ declare namespace LocalJSX {
     interface CalciteTile {
         /**
           * When `true`, the component is active.
+          * @deprecated
          */
         "active"?: boolean;
         /**
@@ -12652,10 +12650,6 @@ declare namespace LocalJSX {
           * @deprecated No longer necessary.
          */
         "embed"?: boolean;
-        /**
-          * The focused state of the component.
-         */
-        "focused"?: boolean;
         /**
           * The component header text, which displays between the icon and description.
          */
