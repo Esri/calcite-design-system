@@ -119,6 +119,15 @@ export class Slider
   /** When `true`, displays label handles with their numeric value. */
   @Prop({ reflect: true }) labelHandles = false;
 
+  /**
+   * When specified, allows users to customize handle labels.
+   */
+  @Prop() labelFormatter: (
+    value: number,
+    type: "value" | "min" | "max" | "tick",
+    defaultFormatter: (value: number) => string,
+  ) => string | undefined;
+
   /** When `true` and `ticks` is specified, displays label tick marks with their numeric value. */
   @Prop({ reflect: true }) labelTicks = false;
 
@@ -389,7 +398,12 @@ export class Slider
     const valueProp = isMinThumb ? "minValue" : valueIsRange ? "maxValue" : "value";
     const ariaLabel = isMinThumb ? this.minLabel : valueIsRange ? this.maxLabel : this.minLabel;
     const ariaValuenow = isMinThumb ? this.minValue : value;
-    const displayedValue = isMinThumb ? this.formatValue(this.minValue) : this.formatValue(value);
+    const displayedValue =
+      valueProp === "minValue"
+        ? this.internalLabelFormatter(this.minValue, "min")
+        : valueProp === "maxValue"
+          ? this.internalLabelFormatter(this.maxValue, "max")
+          : this.internalLabelFormatter(value, "value");
     const thumbStyle: SideOffset = isMinThumb
       ? { left: `${mirror ? 100 - minInterval : minInterval}%` }
       : { right: `${mirror ? maxInterval : 100 - maxInterval}%` };
@@ -486,7 +500,7 @@ export class Slider
           [CSS.tickMax]: isMaxTickLabel,
         }}
       >
-        {this.formatValue(tick)}
+        {this.internalLabelFormatter(tick, "tick")}
       </span>
     ) : null;
   }
@@ -1247,4 +1261,20 @@ export class Slider
 
     return numberStringFormatter.localize(value.toString());
   };
+
+  private internalLabelFormatter(value: number, type: "max" | "min" | "value" | "tick"): string {
+    const customFormatter = this.labelFormatter;
+
+    if (!customFormatter) {
+      return this.formatValue(value);
+    }
+
+    const formattedValue = customFormatter(value, type, this.formatValue);
+
+    if (formattedValue == null) {
+      return this.formatValue(value);
+    }
+
+    return formattedValue;
+  }
 }
