@@ -797,19 +797,12 @@ export const allVariants = (): string => html`
 `;
 
 allVariants.decorators = [
-  (storyFn: () => string) => html` <div style="width: 1400px; height: 6000px;">${storyFn()}</div>`,
+  (storyFn: () => string) => html` <div style="width: 1800px; display: flex;">${storyFn()}</div>`,
 ];
 allVariants.parameters = {
   chromatic: {
     delay: 1000,
-  },
-  modes: {
-    default: {
-      viewport: {
-        height: 6000,
-        width: 1400,
-      },
-    },
+    viewports: [1800],
   },
 };
 
