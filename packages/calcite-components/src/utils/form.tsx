@@ -109,6 +109,15 @@ export interface FormComponent<T = any> extends FormOwner {
    */
   defaultValue: T;
 
+  /** The validity state of the form component. */
+  validity?: ValidityState;
+
+  /** The validation message to display. */
+  validationMessage?: string;
+
+  /** The validation icon to display. */
+  validationIcon?: string | boolean;
+
   /**
    * Hook for components to provide custom form reset behavior.
    */
@@ -480,6 +489,7 @@ function defaultSyncHiddenFormInput(
   }
 
   component.syncHiddenFormInput?.(input);
+  "validity" in component && (component.validity = input.validity);
 }
 
 interface HiddenFormInputSlotProps {

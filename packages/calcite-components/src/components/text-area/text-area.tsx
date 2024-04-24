@@ -153,6 +153,14 @@ export class TextArea
   @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  @Prop() validity: ValidityState;
+
+  /**
    * Specifies the name of the component.
    *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
@@ -377,6 +385,7 @@ export class TextArea
     await componentLoaded(this);
     this.textAreaEl.select();
   }
+
   //--------------------------------------------------------------------------
   //
   //  Private Properties/ State

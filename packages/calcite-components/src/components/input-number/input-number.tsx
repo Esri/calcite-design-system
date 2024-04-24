@@ -229,6 +229,14 @@ export class InputNumber
   @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  @Prop() validity: ValidityState;
+
+  /**
    * Specifies the name of the component.
    *
    * Required to pass the component's `value` on form submission.
@@ -526,6 +534,7 @@ export class InputNumber
   async selectText(): Promise<void> {
     this.childNumberEl?.select();
   }
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods

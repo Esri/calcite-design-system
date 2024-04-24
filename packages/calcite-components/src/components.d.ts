@@ -1230,6 +1230,12 @@ export namespace Components {
          */
         "validationMessage": string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": ValidityState;
+        /**
           * The component's value(s) from the selected `calcite-combobox-item`(s).
          */
         "value": string | string[];
@@ -2115,6 +2121,12 @@ export namespace Components {
          */
         "validationMessage": string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": ValidityState;
+        /**
           * The component's value.
          */
         "value": string;
@@ -2231,6 +2243,12 @@ export namespace Components {
           * Specifies the validation message to display under the component.
          */
         "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": ValidityState;
         /**
           * Selected date as a string in ISO format (`"yyyy-mm-dd"`).
          */
@@ -2406,6 +2424,12 @@ export namespace Components {
          */
         "validationMessage": string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": ValidityState;
+        /**
           * The component's value.
          */
         "value": string;
@@ -2526,6 +2550,12 @@ export namespace Components {
          */
         "validationMessage": string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": ValidityState;
+        /**
           * The component's value.
          */
         "value": string;
@@ -2610,6 +2640,12 @@ export namespace Components {
          */
         "validationMessage": string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": ValidityState;
+        /**
           * The time value in ISO (24-hour) format.
          */
         "value": string;
@@ -2682,6 +2718,12 @@ export namespace Components {
           * Specifies the validation message to display under the component.
          */
         "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": ValidityState;
         /**
           * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.  If no value is provided, the user's time zone offset will be selected by default.
           * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
@@ -3832,6 +3874,12 @@ export namespace Components {
           * Specifies the validation message to display under the component.
          */
         "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": ValidityState;
     }
     interface CalciteRating {
         /**
@@ -4040,6 +4088,12 @@ export namespace Components {
           * Specifies the validation message to display under the component.
          */
         "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": ValidityState;
         /**
           * The component's `selectedOption` value.
          */
@@ -4975,6 +5029,12 @@ export namespace Components {
           * Specifies the validation message to display under the component.
          */
         "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": ValidityState;
         /**
           * The component's value.
          */
@@ -8636,6 +8696,12 @@ declare namespace LocalJSX {
          */
         "validationMessage"?: string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: ValidityState;
+        /**
           * The component's value(s) from the selected `calcite-combobox-item`(s).
          */
         "value"?: string | string[];
@@ -9562,6 +9628,12 @@ declare namespace LocalJSX {
          */
         "validationMessage"?: string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: ValidityState;
+        /**
           * The component's value.
          */
         "value"?: string;
@@ -9689,6 +9761,12 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: ValidityState;
         /**
           * Selected date as a string in ISO format (`"yyyy-mm-dd"`).
          */
@@ -9866,6 +9944,12 @@ declare namespace LocalJSX {
          */
         "validationMessage"?: string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: ValidityState;
+        /**
           * The component's value.
          */
         "value"?: string;
@@ -9991,6 +10075,12 @@ declare namespace LocalJSX {
          */
         "validationMessage"?: string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: ValidityState;
+        /**
           * The component's value.
          */
         "value"?: string;
@@ -10086,6 +10176,12 @@ declare namespace LocalJSX {
          */
         "validationMessage"?: string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: ValidityState;
+        /**
           * The time value in ISO (24-hour) format.
          */
         "value"?: string;
@@ -10177,6 +10273,12 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: ValidityState;
         /**
           * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.  If no value is provided, the user's time zone offset will be selected by default.
           * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
@@ -11394,6 +11496,12 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: ValidityState;
     }
     interface CalciteRating {
         /**
@@ -11606,6 +11714,12 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: ValidityState;
         /**
           * The component's `selectedOption` value.
          */
@@ -12562,6 +12676,12 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: ValidityState;
         /**
           * The component's value.
          */
