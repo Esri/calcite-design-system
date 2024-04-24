@@ -213,7 +213,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
       toggleDisplay === "switch" ? (
         <div
           class={{
-            [CSS.toggleSwitchContainer]: true,
+            [CSS.toggleContainer]: true,
           }}
         >
           <div
@@ -241,20 +241,28 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
           </calcite-label>
         </div>
       ) : (
-        <button
-          aria-controls={IDS.content}
-          aria-expanded={toAriaBoolean(open)}
+        <div
           class={{
-            [CSS.sectionHeader]: true,
-            [CSS.toggle]: true,
+            [CSS.toggleContainer]: true,
           }}
-          id={IDS.toggle}
-          onClick={this.toggleSection}
         >
-          <calcite-icon icon={arrowIcon} scale="s" />
-          <span class={CSS.sectionHeaderText}>{text}</span>
-          {this.renderStatusIcon()}
-        </button>
+          <button
+            aria-controls={IDS.content}
+            aria-expanded={toAriaBoolean(open)}
+            class={{
+              [CSS.sectionHeader]: true,
+              [CSS.toggle]: true,
+            }}
+            id={IDS.toggle}
+            onClick={this.toggleSection}
+          >
+            <span class={CSS.sectionHeaderText}>{text}</span>
+            {this.renderStatusIcon()}
+            <div class={CSS.focusGuard}>
+              <calcite-icon icon={arrowIcon} scale="s" />
+            </div>
+          </button>
+        </div>
       );
 
     return (

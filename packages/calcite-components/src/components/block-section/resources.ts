@@ -12,7 +12,7 @@ export const CSS = {
   statusIcon: "status-icon",
   toggle: "toggle",
   toggleSwitch: "toggle--switch",
-  toggleSwitchContainer: "toggle--switch-container",
+  toggleContainer: "toggle-container",
   toggleSwitchContent: "toggle--switch__content",
   toggleSwitchText: "toggle--switch__text",
   valid: "valid",

@@ -3379,6 +3379,11 @@ export namespace Components {
     }
     interface CalcitePagination {
         /**
+          * Set a specified page as active.
+          * @param page
+         */
+        "goTo": (page: number | "start" | "end") => Promise<void>;
+        /**
           * When `true`, number values are displayed with a group separator corresponding to the language and country format.
          */
         "groupSeparator": boolean;
