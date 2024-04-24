@@ -797,12 +797,11 @@ export const allVariants = (): string => html`
 `;
 
 allVariants.decorators = [
-  (storyFn: () => string) =>
-    html` <div style="width: 1200px; height: 6000px;">This is a decorator for modals and such ${storyFn()}</div>`,
+  (storyFn: () => string) => html` <div style="width: 1400px; height: 6000px;">${storyFn()}</div>`,
 ];
 allVariants.parameters = {
   chromatic: {
-    delay: 500
+    delay: 1000,
   },
 };
 export const darkModeRTL_TestOnly = (): string => html`
