@@ -2846,6 +2846,10 @@ export namespace Components {
          */
         "active": boolean;
         /**
+          * Sets the item to display a border.
+         */
+        "bordered": boolean;
+        /**
           * When `true`, a close button is added to the component.
          */
         "closable": boolean;
@@ -10362,6 +10366,10 @@ declare namespace LocalJSX {
           * Sets the item as focusable. Only one item should be focusable within a list.
          */
         "active"?: boolean;
+        /**
+          * Sets the item to display a border.
+         */
+        "bordered"?: boolean;
         /**
           * When `true`, a close button is added to the component.
          */
