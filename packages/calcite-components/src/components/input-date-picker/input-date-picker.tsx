@@ -681,6 +681,7 @@ export class InputDatePicker
       // we set tab index to -1 to prevent delegatesFocus from stealing focus before we can set it
       <span class={CSS.toggleIcon} tabIndex={-1}>
         <calcite-icon
+          class={CSS.chevronIcon}
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
         />
@@ -893,6 +894,7 @@ export class InputDatePicker
     }
 
     if (key === "Enter") {
+      event.preventDefault();
       this.commitValue();
 
       if (this.shouldFocusRangeEnd()) {
@@ -902,7 +904,6 @@ export class InputDatePicker
       }
 
       if (submitForm(this)) {
-        event.preventDefault();
         this.restoreInputFocus();
       }
     } else if (key === "ArrowDown") {

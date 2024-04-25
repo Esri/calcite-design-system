@@ -1567,7 +1567,7 @@ export class Combobox
           aria-label={getLabelText(this)}
           aria-owns={`${listboxUidPrefix}${guid}`}
           class={{
-            input: true,
+            [CSS.input]: true,
             "input--single": true,
             "input--transparent": this.activeChipIndex > -1,
             "input--hidden": showLabel,
@@ -1656,6 +1656,7 @@ export class Combobox
     return (
       <span class="icon-end" key="chevron">
         <calcite-icon
+          class={CSS.icon}
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
         />

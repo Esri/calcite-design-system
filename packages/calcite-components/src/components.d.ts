@@ -1951,11 +1951,6 @@ export namespace Components {
          */
         "autocomplete": string;
         /**
-          * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
-          * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
-         */
-        "autofocus": boolean;
-        /**
           * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
          */
         "clearable": boolean;
@@ -1965,11 +1960,6 @@ export namespace Components {
          */
         "disabled": boolean;
         "editingEnabled": boolean;
-        /**
-          * Specifies the action label or icon for the Enter key on virtual keyboards. Read the native attribute's documentation on MDN for more info.
-          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
-         */
-        "enterKeyHint": string;
         /**
           * When `type` is `"file"`, specifies the component's selected files.
           * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
@@ -1991,11 +1981,6 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
-        /**
-          * Specifies the type of content to help devices display an appropriate virtual keyboard. Read the native attribute's documentation on MDN for more info.
-          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
-         */
-        "inputMode": string;
         /**
           * Accessible name for the component.
          */
@@ -2284,11 +2269,6 @@ export namespace Components {
          */
         "autocomplete": string;
         /**
-          * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
-          * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
-         */
-        "autofocus": boolean;
-        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable": boolean;
@@ -2298,11 +2278,6 @@ export namespace Components {
          */
         "disabled": boolean;
         "editingEnabled": boolean;
-        /**
-          * Specifies the action label or icon for the Enter key on virtual keyboards. Read the native attribute's documentation on MDN for more info.
-          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
-         */
-        "enterKeyHint": string;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -2320,11 +2295,6 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
-        /**
-          * Specifies the type of content to help devices display an appropriate virtual keyboard. Read the native attribute's documentation on MDN for more info.
-          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
-         */
-        "inputMode": string;
         /**
           * When `true`, restricts the component to integer numbers only and disables exponential notation.
          */
@@ -2451,11 +2421,6 @@ export namespace Components {
          */
         "autocomplete": string;
         /**
-          * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
-          * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
-         */
-        "autofocus": boolean;
-        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable": boolean;
@@ -2465,11 +2430,6 @@ export namespace Components {
          */
         "disabled": boolean;
         "editingEnabled": boolean;
-        /**
-          * Specifies the action label or icon for the Enter key on virtual keyboards. Read the native attribute's documentation on MDN for more info.
-          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
-         */
-        "enterKeyHint": string;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -2483,11 +2443,6 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
-        /**
-          * Specifies the type of content to help devices display an appropriate virtual keyboard. Read the native attribute's documentation on MDN for more info.
-          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
-         */
-        "inputMode": string;
         /**
           * Accessible name for the component's button or hyperlink.
          */
@@ -2660,6 +2615,10 @@ export namespace Components {
         "value": string;
     }
     interface CalciteInputTimeZone {
+        /**
+          * When `true`, an empty value (`null`) will be allowed as a `value`.  When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable": boolean;
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
@@ -2886,6 +2845,10 @@ export namespace Components {
           * Sets the item as focusable. Only one item should be focusable within a list.
          */
         "active": boolean;
+        /**
+          * Sets the item to display a border.
+         */
+        "bordered": boolean;
         /**
           * When `true`, a close button is added to the component.
          */
@@ -4239,6 +4202,10 @@ export namespace Components {
          */
         "hasHistogram": boolean;
         /**
+          * Used to configure where the fill is placed along the slider track in relation to the value handle.  Range mode will always display the fill between the min and max handles.
+         */
+        "highlightPlacement": "start" | "none" | "end";
+        /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
           * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
          */
@@ -4247,6 +4214,14 @@ export namespace Components {
           * A set of single color stops for a histogram, sorted by offset ascending.
          */
         "histogramStops": ColorStop[];
+        /**
+          * When specified, allows users to customize handle labels.
+         */
+        "labelFormatter": (
+    value: number,
+    type: "value" | "min" | "max" | "tick",
+    defaultFormatter: (value: number) => string,
+  ) => string | undefined;
         /**
           * When `true`, displays label handles with their numeric value.
          */
@@ -4910,11 +4885,6 @@ export namespace Components {
         "scale": Scale;
     }
     interface CalciteTextArea {
-        /**
-          * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
-          * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
-         */
-        "autofocus": boolean;
         /**
           * Specifies the component's number of columns.
           * @mdn [cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
@@ -9434,11 +9404,6 @@ declare namespace LocalJSX {
          */
         "autocomplete"?: string;
         /**
-          * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
-          * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
-         */
-        "autofocus"?: boolean;
-        /**
           * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
          */
         "clearable"?: boolean;
@@ -9448,11 +9413,6 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
-        /**
-          * Specifies the action label or icon for the Enter key on virtual keyboards. Read the native attribute's documentation on MDN for more info.
-          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
-         */
-        "enterKeyHint"?: string;
         /**
           * When `type` is `"file"`, specifies the component's selected files.
           * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
@@ -9474,11 +9434,6 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
-        /**
-          * Specifies the type of content to help devices display an appropriate virtual keyboard. Read the native attribute's documentation on MDN for more info.
-          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
-         */
-        "inputMode"?: string;
         /**
           * Accessible name for the component.
          */
@@ -9780,11 +9735,6 @@ declare namespace LocalJSX {
          */
         "autocomplete"?: string;
         /**
-          * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
-          * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
-         */
-        "autofocus"?: boolean;
-        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable"?: boolean;
@@ -9794,11 +9744,6 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
-        /**
-          * Specifies the action label or icon for the Enter key on virtual keyboards. Read the native attribute's documentation on MDN for more info.
-          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
-         */
-        "enterKeyHint"?: string;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -9816,11 +9761,6 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
-        /**
-          * Specifies the type of content to help devices display an appropriate virtual keyboard. Read the native attribute's documentation on MDN for more info.
-          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
-         */
-        "inputMode"?: string;
         /**
           * When `true`, restricts the component to integer numbers only and disables exponential notation.
          */
@@ -9949,11 +9889,6 @@ declare namespace LocalJSX {
          */
         "autocomplete"?: string;
         /**
-          * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
-          * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
-         */
-        "autofocus"?: boolean;
-        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable"?: boolean;
@@ -9963,11 +9898,6 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
-        /**
-          * Specifies the action label or icon for the Enter key on virtual keyboards. Read the native attribute's documentation on MDN for more info.
-          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
-         */
-        "enterKeyHint"?: string;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -9981,11 +9911,6 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
-        /**
-          * Specifies the type of content to help devices display an appropriate virtual keyboard. Read the native attribute's documentation on MDN for more info.
-          * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
-         */
-        "inputMode"?: string;
         /**
           * Accessible name for the component's button or hyperlink.
          */
@@ -10174,6 +10099,10 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface CalciteInputTimeZone {
+        /**
+          * When `true`, an empty value (`null`) will be allowed as a `value`.  When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable"?: boolean;
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
@@ -10437,6 +10366,10 @@ declare namespace LocalJSX {
           * Sets the item as focusable. Only one item should be focusable within a list.
          */
         "active"?: boolean;
+        /**
+          * Sets the item to display a border.
+         */
+        "bordered"?: boolean;
         /**
           * When `true`, a close button is added to the component.
          */
@@ -11853,6 +11786,10 @@ declare namespace LocalJSX {
          */
         "hasHistogram"?: boolean;
         /**
+          * Used to configure where the fill is placed along the slider track in relation to the value handle.  Range mode will always display the fill between the min and max handles.
+         */
+        "highlightPlacement"?: "start" | "none" | "end";
+        /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
           * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
          */
@@ -11861,6 +11798,14 @@ declare namespace LocalJSX {
           * A set of single color stops for a histogram, sorted by offset ascending.
          */
         "histogramStops"?: ColorStop[];
+        /**
+          * When specified, allows users to customize handle labels.
+         */
+        "labelFormatter"?: (
+    value: number,
+    type: "value" | "min" | "max" | "tick",
+    defaultFormatter: (value: number) => string,
+  ) => string | undefined;
         /**
           * When `true`, displays label handles with their numeric value.
          */
@@ -12535,11 +12480,6 @@ declare namespace LocalJSX {
         "scale"?: Scale;
     }
     interface CalciteTextArea {
-        /**
-          * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
-          * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
-         */
-        "autofocus"?: boolean;
         /**
           * Specifies the component's number of columns.
           * @mdn [cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
