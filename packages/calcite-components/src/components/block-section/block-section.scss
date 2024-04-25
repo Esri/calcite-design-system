@@ -1,3 +1,14 @@
+/**
+* CSS Custom Properties
+*
+* These properties can be overridden using the component's tag as selector.
+*
+* @prop --calcite-block-section-icon-end-color: defines the icon-end color of the component.
+* @prop --calcite-block-section-icon-end-color-hover: defines the icon-end color of the component when hovered.
+* @prop --calcite-block-section-icon-start-color: defines the icon-start color of the component.
+* @prop --calcite-block-section-icon-start-color-hover: defines the icon-start color of the component when hovered.
+*/
+
 :host {
   @apply bg-foreground-1
     text-color-2
@@ -98,6 +109,22 @@
 
   margin-inline: theme("spacing.3");
   margin-block: theme("spacing.2");
+}
+
+.icon--start {
+  color: var(--calcite-block-section-icon-start-color, var(--calcite-color-text-3));
+
+  &:hover {
+    color: var(--calcite-block-section-icon-start-color-hover, var(--calcite-color-text-1));
+  }
+}
+
+.icon--end {
+  color: var(--calcite-block-section-icon-end-color, var(--calcite-color-text-3));
+
+  &:hover {
+    color: var(--calcite-block-section-icon-end-color-hover, var(--calcite-color-text-1));
+  }
 }
 
 .chevron-icon {
