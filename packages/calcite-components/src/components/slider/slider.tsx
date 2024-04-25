@@ -339,9 +339,17 @@ export class Slider
               <div class={CSS.ticks}>
                 {this.tickValues.map((tick) => {
                   const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
-                  let activeTicks = tick >= min && tick <= value;
-                  if (useMinValue) {
-                    activeTicks = tick >= this.minValue && tick <= this.maxValue;
+
+                  let activeTicks: boolean = false;
+
+                  if (fillPlacement === "start" || fillPlacement === "end") {
+                    if (useMinValue) {
+                      activeTicks = tick >= this.minValue && tick <= this.maxValue;
+                    } else {
+                      const rangeStart = fillPlacement === "start" ? min : value;
+                      const rangeEnd = fillPlacement === "start" ? value : this.max;
+                      activeTicks = tick >= rangeStart && tick <= rangeEnd;
+                    }
                   }
 
                   return (
