@@ -452,15 +452,27 @@ export const fillPlacements = (): string => html`
   <calcite-slider min="0" max="100" value="50" fill-placement="start"></calcite-slider>
   <calcite-slider min="0" max="100" value="100" fill-placement="start"></calcite-slider>
   <br />
+  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="0" fill-placement="start"></calcite-slider>
+  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="50" fill-placement="start"></calcite-slider>
+  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="100" fill-placement="start"></calcite-slider>
+  <br />
   <label>none</label>
   <calcite-slider min="0" max="100" value="0" fill-placement="none"></calcite-slider>
   <calcite-slider min="0" max="100" value="50" fill-placement="none"></calcite-slider>
   <calcite-slider min="0" max="100" value="100" fill-placement="none"></calcite-slider>
   <br />
+  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="0" fill-placement="none"></calcite-slider>
+  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="50" fill-placement="none"></calcite-slider>
+  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="100" fill-placement="none"></calcite-slider>
+  <br />
   <label>end</label>
   <calcite-slider min="0" max="100" value="0" fill-placement="end"></calcite-slider>
   <calcite-slider min="0" max="100" value="50" fill-placement="end"></calcite-slider>
   <calcite-slider min="0" max="100" value="100" fill-placement="end"></calcite-slider>
+  <br />
+  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="0" fill-placement="end"></calcite-slider>
+  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="50" fill-placement="end"></calcite-slider>
+  <calcite-slider ticks="10" handle-ticks min="0" max="100" value="100" fill-placement="end"></calcite-slider>
 `;
 
 export const customLabelsAndTicks = (): string => html`
