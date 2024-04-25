@@ -3383,6 +3383,11 @@ export namespace Components {
     }
     interface CalcitePagination {
         /**
+          * Set a specified page as active.
+          * @param page
+         */
+        "goTo": (page: number | "start" | "end") => Promise<void>;
+        /**
           * When `true`, number values are displayed with a group separator corresponding to the language and country format.
          */
         "groupSeparator": boolean;
@@ -4200,7 +4205,7 @@ export namespace Components {
         /**
           * Used to configure where the fill is placed along the slider track in relation to the value handle.  Range mode will always display the fill between the min and max handles.
          */
-        "highlightPlacement": "start" | "none" | "end";
+        "fillPlacement": "start" | "none" | "end";
         /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
           * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
@@ -11780,7 +11785,7 @@ declare namespace LocalJSX {
         /**
           * Used to configure where the fill is placed along the slider track in relation to the value handle.  Range mode will always display the fill between the min and max handles.
          */
-        "highlightPlacement"?: "start" | "none" | "end";
+        "fillPlacement"?: "start" | "none" | "end";
         /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
           * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
