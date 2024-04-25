@@ -56,6 +56,8 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
 
   /**
    * Displays a status-related indicator icon.
+   *
+   * @deprecated Use `icon-start` instead.
    */
   @Prop({ reflect: true }) status: Status;
 

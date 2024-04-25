@@ -658,6 +658,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * Displays a status-related indicator icon.
+          * @deprecated Use `icon-start` instead.
          */
         "status": Status;
         /**
@@ -8041,6 +8042,7 @@ declare namespace LocalJSX {
         "open"?: boolean;
         /**
           * Displays a status-related indicator icon.
+          * @deprecated Use `icon-start` instead.
          */
         "status"?: Status;
         /**
