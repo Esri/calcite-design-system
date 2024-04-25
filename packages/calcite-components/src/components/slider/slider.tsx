@@ -78,6 +78,13 @@ export class Slider
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * Used to configure where the fill is placed along the slider track in relation to the value handle.
+   *
+   * Range mode will always display the fill between the min and max handles.
+   */
+  @Prop({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
+
+  /**
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
@@ -91,13 +98,6 @@ export class Slider
 
   /** When `true`, indicates a histogram is present. */
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
-
-  /**
-   * Used to configure where the fill is placed along the slider track in relation to the value handle.
-   *
-   * Range mode will always display the fill between the min and max handles.
-   */
-  @Prop({ reflect: true }) highlightPlacement: "start" | "none" | "end" = "start";
 
   /**
    * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
@@ -296,14 +296,14 @@ export class Slider
         mirror,
       });
 
-    const { highlightPlacement } = this;
+    const { fillPlacement } = this;
     const trackRangePlacementStyles =
-      highlightPlacement === "none"
+      fillPlacement === "none"
         ? {
             left: `unset`,
             right: `unset`,
           }
-        : highlightPlacement === "end"
+        : fillPlacement === "end"
           ? {
               left: `${mirror ? minInterval : maxInterval}%`,
               right: `${mirror ? maxInterval : minInterval}%`,
