@@ -2673,6 +2673,10 @@ export namespace Components {
     }
     interface CalciteInputTimeZone {
         /**
+          * When `true`, an empty value (`null`) will be allowed as a `value`.  When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable": boolean;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
@@ -2898,6 +2902,10 @@ export namespace Components {
           * Sets the item as focusable. Only one item should be focusable within a list.
          */
         "active": boolean;
+        /**
+          * Sets the item to display a border.
+         */
+        "bordered": boolean;
         /**
           * When `true`, a close button is added to the component.
          */
@@ -4263,6 +4271,14 @@ export namespace Components {
           * A set of single color stops for a histogram, sorted by offset ascending.
          */
         "histogramStops": ColorStop[];
+        /**
+          * When specified, allows users to customize handle labels.
+         */
+        "labelFormatter": (
+    value: number,
+    type: "value" | "min" | "max" | "tick",
+    defaultFormatter: (value: number) => string,
+  ) => string | undefined;
         /**
           * When `true`, displays label handles with their numeric value.
          */
@@ -10242,6 +10258,10 @@ declare namespace LocalJSX {
     }
     interface CalciteInputTimeZone {
         /**
+          * When `true`, an empty value (`null`) will be allowed as a `value`.  When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable"?: boolean;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
@@ -10504,6 +10524,10 @@ declare namespace LocalJSX {
           * Sets the item as focusable. Only one item should be focusable within a list.
          */
         "active"?: boolean;
+        /**
+          * Sets the item to display a border.
+         */
+        "bordered"?: boolean;
         /**
           * When `true`, a close button is added to the component.
          */
@@ -11932,6 +11956,14 @@ declare namespace LocalJSX {
           * A set of single color stops for a histogram, sorted by offset ascending.
          */
         "histogramStops"?: ColorStop[];
+        /**
+          * When specified, allows users to customize handle labels.
+         */
+        "labelFormatter"?: (
+    value: number,
+    type: "value" | "min" | "max" | "tick",
+    defaultFormatter: (value: number) => string,
+  ) => string | undefined;
         /**
           * When `true`, displays label handles with their numeric value.
          */
