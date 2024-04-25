@@ -95,7 +95,7 @@ export class RadioButton
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    *
-   * @deprecated Set the `form` property on the `calcite-radio-button-group` instead.
+   * @deprecated Use the `form` property on the parent  `calcite-radio-button-group` instead.
    */
   @Prop({ reflect: true }) form: string;
 
@@ -131,7 +131,7 @@ export class RadioButton
   /**
    * When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.
    *
-   * @deprecated Set the `required` property on the `calcite-radio-button-group` instead.
+   * @deprecated Use the `required` property on the parent `calcite-radio-button-group` instead.
    */
   @Prop({ reflect: true }) required = false;
 

@@ -3760,7 +3760,7 @@ export namespace Components {
         "focused": boolean;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
-          * @deprecated Set the `form` property on the `calcite-radio-button-group` instead.
+          * @deprecated Use the `form` property on the parent  `calcite-radio-button-group` instead.
          */
         "form": string;
         /**
@@ -3781,7 +3781,7 @@ export namespace Components {
         "name": string;
         /**
           * When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.
-          * @deprecated Set the `required` property on the `calcite-radio-button-group` instead.
+          * @deprecated Use the `required` property on the parent `calcite-radio-button-group` instead.
          */
         "required": boolean;
         /**
@@ -11320,7 +11320,7 @@ declare namespace LocalJSX {
         "focused"?: boolean;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
-          * @deprecated Set the `form` property on the `calcite-radio-button-group` instead.
+          * @deprecated Use the `form` property on the parent  `calcite-radio-button-group` instead.
          */
         "form"?: string;
         /**
@@ -11357,7 +11357,7 @@ declare namespace LocalJSX {
         "onCalciteRadioButtonChange"?: (event: CalciteRadioButtonCustomEvent<void>) => void;
         /**
           * When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.
-          * @deprecated Set the `required` property on the `calcite-radio-button-group` instead.
+          * @deprecated Use the `required` property on the parent `calcite-radio-button-group` instead.
          */
         "required"?: boolean;
         /**
