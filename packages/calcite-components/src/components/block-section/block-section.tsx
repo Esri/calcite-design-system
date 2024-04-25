@@ -256,15 +256,19 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
             tabIndex={0}
             title={toggleLabel}
           >
+            {iconStartEl}
             <div class={CSS.toggleSwitchContent}>
               <span class={CSS.toggleSwitchText}>{text}</span>
             </div>
           </div>
-          {this.renderStatusIcon()}
-          {/* we use calcite-label to use a simple component that will allow us to prevent keyboard focus by setting tabindex="-1" on the host */}
-          <calcite-label class={CSS.focusGuard} layout="inline" tabIndex={-1}>
-            <calcite-switch checked={open} label={toggleLabel} scale="s" />
-          </calcite-label>
+          <div class={CSS.focusGuard}>
+            {iconEndEl}
+            {this.renderStatusIcon()}
+            {/* we use calcite-label to use a simple component that will allow us to prevent keyboard focus by setting tabindex="-1" on the host */}
+            <calcite-label layout="inline" tabIndex={-1}>
+              <calcite-switch checked={open} class={CSS.switch} label={toggleLabel} scale="s" />
+            </calcite-label>
+          </div>
         </div>
       ) : (
         <div

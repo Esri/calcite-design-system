@@ -13,6 +13,7 @@ export const CSS = {
   sectionHeader: "section-header",
   sectionHeaderText: "section-header__text",
   statusIcon: "status-icon",
+  switch: "switch",
   toggle: "toggle",
   toggleSwitch: "toggle--switch",
   toggleContainer: "toggle-container",
