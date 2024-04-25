@@ -2616,6 +2616,10 @@ export namespace Components {
     }
     interface CalciteInputTimeZone {
         /**
+          * When `true`, an empty value (`null`) will be allowed as a `value`.  When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable": boolean;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
@@ -10091,6 +10095,10 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface CalciteInputTimeZone {
+        /**
+          * When `true`, an empty value (`null`) will be allowed as a `value`.  When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable"?: boolean;
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
