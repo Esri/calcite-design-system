@@ -83,24 +83,14 @@
     inset-inline-end: 0;
     margin-inline-start: theme("margin.1");
   }
-}
 
-.toggle--switch {
-  .status-icon {
-    margin-inline-start: theme("margin.2");
+  &.icon--end {
+    color: var(--calcite-block-section-icon-end-color, var(--calcite-color-text-3));
+
+    &:hover {
+      color: var(--calcite-block-section-icon-end-color-hover, var(--calcite-color-text-1));
+    }
   }
-}
-
-.toggle--switch__content {
-  @apply flex flex-auto items-center;
-}
-
-.status-icon.valid {
-  color: theme("colors.success");
-}
-
-.status-icon.invalid {
-  color: theme("colors.danger");
 }
 
 .icon--start,
@@ -119,12 +109,22 @@
   }
 }
 
-.icon--end {
-  color: var(--calcite-block-section-icon-end-color, var(--calcite-color-text-3));
-
-  &:hover {
-    color: var(--calcite-block-section-icon-end-color-hover, var(--calcite-color-text-1));
+.toggle--switch {
+  .status-icon {
+    margin-inline-start: theme("margin.2");
   }
+}
+
+.toggle--switch__content {
+  @apply flex flex-auto items-center;
+}
+
+.status-icon.valid {
+  color: theme("colors.success");
+}
+
+.status-icon.invalid {
+  color: theme("colors.danger");
 }
 
 .chevron-icon {
