@@ -743,7 +743,7 @@ export class List
 
     if (!parentItem) {
       return true;
-    } else if (parentItem.open === false) {
+    } else if (!parentItem.open) {
       return false;
     }
 
