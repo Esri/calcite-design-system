@@ -69,7 +69,8 @@
         margin-inline: theme("margin.3");
       }
       .chevron {
-        padding: 0.75rem;
+        padding-inline: 0.75rem;
+        padding-block: 10px;
       }
     }
   }
