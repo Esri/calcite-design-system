@@ -175,11 +175,13 @@ function getTimeZoneShortOffset(
 export function findTimeZoneItemByProp(
   timeZoneItems: TimeZoneItem[],
   prop: string,
-  valueToMatch: string | number,
-): TimeZoneItem {
-  return timeZoneItems.find(
-    (item) =>
-      // intentional == to match string to number
-      item[prop] == valueToMatch,
-  );
+  valueToMatch: string | number | null,
+): TimeZoneItem | null {
+  return valueToMatch == null
+    ? null
+    : timeZoneItems.find(
+        (item) =>
+          // intentional == to match string to number
+          item[prop] == valueToMatch,
+      );
 }
