@@ -3387,6 +3387,11 @@ export namespace Components {
     }
     interface CalcitePagination {
         /**
+          * Set a specified page as active.
+          * @param page
+         */
+        "goTo": (page: number | "start" | "end") => Promise<void>;
+        /**
           * When `true`, number values are displayed with a group separator corresponding to the language and country format.
          */
         "groupSeparator": boolean;
@@ -4190,6 +4195,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Used to configure where the fill is placed along the slider track in relation to the value handle.  Range mode will always display the fill between the min and max handles.
+         */
+        "fillPlacement": "start" | "none" | "end";
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
@@ -4201,10 +4210,6 @@ export namespace Components {
           * When `true`, indicates a histogram is present.
          */
         "hasHistogram": boolean;
-        /**
-          * Used to configure where the fill is placed along the slider track in relation to the value handle.  Range mode will always display the fill between the min and max handles.
-         */
-        "highlightPlacement": "start" | "none" | "end";
         /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
           * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
@@ -11774,6 +11779,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Used to configure where the fill is placed along the slider track in relation to the value handle.  Range mode will always display the fill between the min and max handles.
+         */
+        "fillPlacement"?: "start" | "none" | "end";
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
@@ -11785,10 +11794,6 @@ declare namespace LocalJSX {
           * When `true`, indicates a histogram is present.
          */
         "hasHistogram"?: boolean;
-        /**
-          * Used to configure where the fill is placed along the slider track in relation to the value handle.  Range mode will always display the fill between the min and max handles.
-         */
-        "highlightPlacement"?: "start" | "none" | "end";
         /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
           * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
