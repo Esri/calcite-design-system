@@ -1,7 +1,7 @@
 import { html } from "../../../support/formatting";
 
 export default {
-  title: "Components/Block",
+  title: "Components/Block Section",
 };
 
 export const themed_TestOnly = (): string => html`

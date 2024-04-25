@@ -72,7 +72,7 @@
 }
 
 .toggle-container {
-  @apply flex items-center relative bg-transparent w-full;
+  @apply flex items-center relative bg-transparent;
   word-break: break-word;
 
   .focus-guard {
@@ -109,12 +109,6 @@
   }
 }
 
-.toggle--switch {
-  .status-icon {
-    margin-inline-start: theme("margin.2");
-  }
-}
-
 .toggle--switch__content {
   @apply flex flex-auto items-center;
 }
@@ -131,6 +125,12 @@
   @apply flex items-center;
 
   margin-block: theme("spacing.2");
+}
+.status-icon {
+  @apply flex items-center;
+
+  margin-block: theme("spacing.2");
+  margin-inline-end: theme("spacing.3");
 }
 
 :host([toggle-display="switch"]) .toggle {
