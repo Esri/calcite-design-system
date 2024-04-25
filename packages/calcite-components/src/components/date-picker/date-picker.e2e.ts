@@ -554,16 +554,14 @@ describe("calcite-date-picker", () => {
       );
     }
 
-    it("should toggle range-hover attribute when date falls outside of range", async () => {
+    it("should toggle range-hover attribute when updating the range", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
       const datePicker = await page.find("calcite-date-picker");
       datePicker.setProperty("value", ["2024-01-01", "2024-02-10"]);
 
       await page.waitForChanges();
-      await page.waitForChanges();
       let dateInsideRange = await getDayById(page, "20240109");
-
       await dateInsideRange.hover();
       await page.waitForChanges();
       expect(await (await getDayById(page, "20240108")).getProperty("rangeHover")).toBe(true);
