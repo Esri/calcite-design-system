@@ -44,6 +44,18 @@ describe("calcite-tile", () => {
 
       expect(await page.evaluate(() => document.activeElement.id)).toEqual(tile1.id);
     });
+
+    it("should support listening to click events in selection-mode=none", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-tile id="tile-1"></calcite-tile> `);
+      const clickSpy = await page.spyOnEvent("click");
+      const tile1 = await page.find("#tile-1");
+
+      await tile1.click();
+      await page.waitForChanges();
+
+      expect(clickSpy).toHaveReceivedEventTimes(1);
+    });
   });
 
   describe("defaults", () => {
