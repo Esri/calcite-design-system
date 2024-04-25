@@ -877,6 +877,12 @@ export namespace Components {
          */
         "status": Status;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": ValidityState;
+        /**
           * The component's value.
          */
         "value": any;
@@ -3843,10 +3849,6 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
-         */
-        "form": string;
-        /**
           * Defines the layout of the component.
          */
         "layout": Layout;
@@ -3889,10 +3891,6 @@ export namespace Components {
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity": ValidityState;
-        /**
-          * The value of the selected `calcite-radio-button`.
-         */
-        "value": any;
     }
     interface CalciteRating {
         /**
@@ -8335,6 +8333,12 @@ declare namespace LocalJSX {
          */
         "status"?: Status;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: ValidityState;
+        /**
           * The component's value.
          */
         "value"?: any;
@@ -11479,10 +11483,6 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
-         */
-        "form"?: string;
-        /**
           * Defines the layout of the component.
          */
         "layout"?: Layout;
@@ -11525,10 +11525,6 @@ declare namespace LocalJSX {
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
         "validity"?: ValidityState;
-        /**
-          * The value of the selected `calcite-radio-button`.
-         */
-        "value"?: any;
     }
     interface CalciteRating {
         /**

@@ -412,7 +412,7 @@ describe("calcite-segmented-control", () => {
             <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>
           </calcite-segmented-control>
         `,
-        { testValue: "2", validation: true },
+        { testValue: "2", validation: true, changeValueKeys: ["Space"] },
       );
     });
 
