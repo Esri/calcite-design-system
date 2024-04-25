@@ -29,15 +29,13 @@ module.exports = async ({ github, context }) => {
   const addPriorityLabel = (addPriorityRegexMatch && addPriorityRegexMatch[0] ? addPriorityRegexMatch[0] : "").trim();
 
   if (addPriorityLabel && addPriorityLabel !== "N/A") {
-    if (!addPriorityLabel.includes("p -")) {
-      await createLabelIfMissing({
-        github,
-        context,
-        label: addPriorityLabel,
-        color: "bb7fe0",
-        description: `User set priority status of ${addPriorityLabel}`,
-      });
-    }
+    await createLabelIfMissing({
+      github,
+      context,
+      label: addPriorityLabel,
+      color: "bb7fe0",
+      description: `User set priority status of ${addPriorityLabel}`,
+    });
 
     await github.rest.issues.addLabels({
       issue_number,
