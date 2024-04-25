@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.9...@esri/calcite-components@2.8.0-next.10) (2024-04-25)
+
+### Features
+
+- **input-time-zone:** allow clearing value ([#9168](https://github.com/Esri/calcite-design-system/issues/9168)) ([193bb7d](https://github.com/Esri/calcite-design-system/commit/193bb7d99f17c7efd580fd713f2377da0c7f6f4a)), closes [#9020](https://github.com/Esri/calcite-design-system/issues/9020)
+
+### Bug Fixes
+
+- **list, list-item, list-item-group:** improve drag experience by indenting items ([#9169](https://github.com/Esri/calcite-design-system/issues/9169)) ([88aab49](https://github.com/Esri/calcite-design-system/commit/88aab49d9c6d83e2ae6e5681c000829257109076)), closes [#8242](https://github.com/Esri/calcite-design-system/issues/8242) [#8667](https://github.com/Esri/calcite-design-system/issues/8667) [#9058](https://github.com/Esri/calcite-design-system/issues/9058)
+
 ## [2.8.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.8...@esri/calcite-components@2.8.0-next.9) (2024-04-24)
 
 ### Features

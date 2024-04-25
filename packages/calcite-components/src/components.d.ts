@@ -2616,6 +2616,10 @@ export namespace Components {
     }
     interface CalciteInputTimeZone {
         /**
+          * When `true`, an empty value (`null`) will be allowed as a `value`.  When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable": boolean;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
@@ -2841,6 +2845,10 @@ export namespace Components {
           * Sets the item as focusable. Only one item should be focusable within a list.
          */
         "active": boolean;
+        /**
+          * Sets the item to display a border.
+         */
+        "bordered": boolean;
         /**
           * When `true`, a close button is added to the component.
          */
@@ -10107,6 +10115,10 @@ declare namespace LocalJSX {
     }
     interface CalciteInputTimeZone {
         /**
+          * When `true`, an empty value (`null`) will be allowed as a `value`.  When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable"?: boolean;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
@@ -10369,6 +10381,10 @@ declare namespace LocalJSX {
           * Sets the item as focusable. Only one item should be focusable within a list.
          */
         "active"?: boolean;
+        /**
+          * Sets the item to display a border.
+         */
+        "bordered"?: boolean;
         /**
           * When `true`, a close button is added to the component.
          */
