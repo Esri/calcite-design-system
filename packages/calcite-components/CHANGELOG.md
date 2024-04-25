@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.11...@esri/calcite-components@2.8.0-next.12) (2024-04-25)
+
+### Bug Fixes
+
+- **tree-item:** do not select when chevron clicked ([#9115](https://github.com/Esri/calcite-design-system/issues/9115)) ([99ad8f1](https://github.com/Esri/calcite-design-system/commit/99ad8f114ba79c8dc0cdef420d3ef57166650709)), closes [#7901](https://github.com/Esri/calcite-design-system/issues/7901)
+
 ## [2.8.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.10...@esri/calcite-components@2.8.0-next.11) (2024-04-25)
 
 ### Bug Fixes
