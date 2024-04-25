@@ -4,8 +4,11 @@ export const IDS = {
 };
 
 export const CSS = {
+  chevronIcon: "chevron-icon",
   content: "content",
   focusGuard: "focus-guard",
+  iconStart: "icon--start",
+  iconEnd: "icon--end",
   invalid: "invalid",
   sectionHeader: "section-header",
   sectionHeaderText: "section-header__text",
@@ -19,9 +22,8 @@ export const CSS = {
 };
 
 export const ICONS = {
-  menuOpen: "chevron-down",
-  menuClosedLeft: "chevron-left",
-  menuClosedRight: "chevron-right",
+  menuOpen: "chevron-up",
+  menuClosed: "chevron-down",
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
 };

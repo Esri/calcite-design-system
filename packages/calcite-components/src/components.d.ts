@@ -629,6 +629,18 @@ export namespace Components {
     }
     interface CalciteBlockSection {
         /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd": string;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl": FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart": string;
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides": Partial<BlockSectionMessages>;
@@ -7999,6 +8011,18 @@ declare namespace LocalJSX {
         "status"?: Status;
     }
     interface CalciteBlockSection {
+        /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd"?: string;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl"?: FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart"?: string;
         /**
           * Use this property to override individual strings used by the component.
          */

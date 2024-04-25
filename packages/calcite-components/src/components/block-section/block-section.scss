@@ -52,10 +52,10 @@
 }
 
 .section-header__text {
-  @apply mx-3
-    my-0
+  @apply my-0
     flex-auto;
 
+  margin-inline-end: theme("margin.3");
   text-align: initial;
   word-wrap: anywhere;
 }
@@ -65,6 +65,8 @@
   word-break: break-word;
 
   .focus-guard {
+    @apply flex flex-row;
+
     --calcite-label-margin-bottom: 0;
     @apply absolute pointer-events-none;
     inset-inline-end: 0;
@@ -88,6 +90,20 @@
 
 .status-icon.invalid {
   color: theme("colors.danger");
+}
+
+.icon--start,
+.icon--end {
+  @apply flex items-center;
+
+  margin-inline: theme("spacing.3");
+  margin-block: theme("spacing.2");
+}
+
+.chevron-icon {
+  @apply flex items-center;
+
+  margin-block: theme("spacing.2");
 }
 
 :host([toggle-display="switch"]) .toggle {

@@ -14,6 +14,7 @@ import {
 import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { FlipContext } from "../interfaces";
 import {
   connectMessages,
   disconnectMessages,
@@ -57,6 +58,15 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
    * Displays a status-related indicator icon.
    */
   @Prop({ reflect: true }) status: Status;
+
+  /** Specifies an icon to display at the start of the component. */
+  @Prop({ reflect: true }) iconStart: string;
+
+  /** Specifies an icon to display at the end of the component. */
+  @Prop({ reflect: true }) iconEnd: string;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /**
    * The component header text.
@@ -199,8 +209,27 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   }
 
   render(): VNode {
-    const { messages, open, text, toggleDisplay } = this;
+    const { messages, open, text, toggleDisplay, iconFlipRtl } = this;
     const arrowIcon = open ? ICONS.menuOpen : ICONS.menuClosed;
+
+    const iconStartEl = this.iconStart ? (
+      <calcite-icon
+        class={CSS.iconStart}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
+        icon={this.iconStart}
+        key="icon-start"
+        scale="s"
+      />
+    ) : null;
+    const iconEndEl = this.iconEnd ? (
+      <calcite-icon
+        class={CSS.iconEnd}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
+        icon={this.iconEnd}
+        key="icon-end"
+        scale="s"
+      />
+    ) : null;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 
@@ -241,6 +270,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
             [CSS.toggleContainer]: true,
           }}
         >
+          {iconStartEl}
           <button
             aria-controls={IDS.content}
             aria-expanded={toAriaBoolean(open)}
@@ -253,8 +283,10 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
           >
             <span class={CSS.sectionHeaderText}>{text}</span>
             {this.renderStatusIcon()}
+
             <div class={CSS.focusGuard}>
-              <calcite-icon icon={arrowIcon} scale="s" />
+              {iconEndEl}
+              <calcite-icon class={CSS.chevronIcon} icon={arrowIcon} scale="s" />
             </div>
           </button>
         </div>
