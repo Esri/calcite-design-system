@@ -282,7 +282,8 @@ export class InputDatePicker
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @Prop() validity: ValidityState;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: ValidityState;
 
   /**
    * Specifies the name of the component.
