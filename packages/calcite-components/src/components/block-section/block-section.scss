@@ -59,6 +59,8 @@
 
   .label {
     @apply flex items-center justify-center;
+
+    margin-inline-start: theme("margin.1");
   }
 }
 
