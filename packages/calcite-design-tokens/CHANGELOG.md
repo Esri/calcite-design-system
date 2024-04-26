@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.3-next.1...@esri/calcite-design-tokens@2.2.0-next.0) (2024-04-26)
+
+### Features
+
+- ensure all components inherit font-family ([#8388](https://github.com/Esri/calcite-design-system/issues/8388)) ([90f8923](https://github.com/Esri/calcite-design-system/commit/90f8923336cc23a4241894b48a5ff91d62ebb0ac)), closes [#7175](https://github.com/Esri/calcite-design-system/issues/7175) [#9205](https://github.com/Esri/calcite-design-system/issues/9205)
+
 ## [2.1.3-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@2.1.3-next.0...@esri/calcite-design-tokens@2.1.3-next.1) (2024-04-03)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens
