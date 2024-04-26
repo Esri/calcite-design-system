@@ -230,6 +230,11 @@ function displayValidationMessage(event: Event) {
   // prevent the browser from showing the native validation popover
   event?.preventDefault();
 
+  // dispatch a "calciteFormAssociatedInvalid" so users can set custom validation messages
+  formComponent.dispatchEvent(
+    new CustomEvent("calciteFormAssociatedInvalid", { bubbles: true, composed: true }),
+  );
+
   setInvalidFormValidation(formComponent, hiddenInput?.validationMessage);
 
   if (formComponent?.validationMessage !== hiddenInput?.validationMessage) {
