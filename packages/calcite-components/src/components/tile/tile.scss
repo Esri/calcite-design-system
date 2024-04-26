@@ -240,6 +240,16 @@
   }
 }
 
+:host([selection-mode="none"]) {
+  .container {
+    outline-color: var(--calcite-tile-border-color);
+    &:focus {
+      outline-color: var(--calcite-color-brand);
+      position: relative;
+    }
+  }
+}
+
 @include disabled();
 
 :host(:hover:not([disabled])),
