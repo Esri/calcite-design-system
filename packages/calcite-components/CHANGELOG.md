@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.12...@esri/calcite-components@2.8.0-next.13) (2024-04-26)
+
+### Bug Fixes
+
+- **combobox:** update the focused chevron icon color ([#9202](https://github.com/Esri/calcite-design-system/issues/9202)) ([27ac02d](https://github.com/Esri/calcite-design-system/commit/27ac02d31dc3d7aadf6279ef4669a3efe82b9ed6)), closes [#7711](https://github.com/Esri/calcite-design-system/issues/7711)
+- **slider:** fix fill placement and tick styling when ranged ([#9204](https://github.com/Esri/calcite-design-system/issues/9204)) ([a84d831](https://github.com/Esri/calcite-design-system/commit/a84d831ba11165938840e16a0645b1fed542ad87)), closes [#1631](https://github.com/Esri/calcite-design-system/issues/1631)
+
 ## [2.8.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.11...@esri/calcite-components@2.8.0-next.12) (2024-04-25)
 
 ### Bug Fixes
