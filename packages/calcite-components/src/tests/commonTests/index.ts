@@ -8,7 +8,6 @@ export { hidden } from "./hidden";
 export { floatingUIOwner, delegatesToFloatingUiOwningComponent } from "./floatingUI";
 export { focusable } from "./focusable";
 export { formAssociated } from "./formAssociated";
-export { selectable } from "./selectable";
 export { slots } from "./slots";
 export { labelable } from "./labelable";
 export { t9n } from "./t9n";
