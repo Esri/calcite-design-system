@@ -29,11 +29,11 @@
 }
 
 .toggle {
-  @apply text-color-2
+  @apply font-sans
+    text-color-2
     w-full
     border-0
     bg-transparent
-    font-sans
     font-medium;
 
   gap: theme("margin.3");
@@ -68,7 +68,6 @@
   @apply my-0
     flex-auto;
 
-  margin-inline-end: theme("margin.3");
   text-align: initial;
   word-wrap: anywhere;
 }

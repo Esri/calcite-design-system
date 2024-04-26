@@ -10,7 +10,7 @@
         display: flex;
         align-items: center;
         color: var(--calcite-color-text-3);
-        font-family: var(--calcite-sans-family);
+        font-family: var(--calcite-font-family);
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
       }
@@ -59,6 +59,21 @@
 
         <div class="child">
           <calcite-input-time-zone scale="l"></calcite-input-time-zone>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Basic (offset mode, clearable)</div>
+        <div class="child">
+          <calcite-input-time-zone scale="s" clearable></calcite-input-time-zone>
+        </div>
+
+        <div class="child">
+          <calcite-input-time-zone scale="m" clearable></calcite-input-time-zone>
+        </div>
+
+        <div class="child">
+          <calcite-input-time-zone scale="l" clearable></calcite-input-time-zone>
         </div>
       </div>
 
@@ -134,6 +149,21 @@
 
         <div class="child">
           <calcite-input-time-zone scale="l" mode="name"></calcite-input-time-zone>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">name mode (clearable)</div>
+        <div class="child">
+          <calcite-input-time-zone scale="s" mode="name" clearable></calcite-input-time-zone>
+        </div>
+
+        <div class="child">
+          <calcite-input-time-zone scale="m" mode="name" clearable></calcite-input-time-zone>
+        </div>
+
+        <div class="child">
+          <calcite-input-time-zone scale="l" mode="name" clearable></calcite-input-time-zone>
         </div>
       </div>
     </demo-dom-swapper>
