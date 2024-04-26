@@ -60,8 +60,6 @@
   padding-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 
-  &:focus-within,
-  &:active,
   &:hover {
     .icon {
       color: var(--calcite-color-text-1);

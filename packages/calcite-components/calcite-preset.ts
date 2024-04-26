@@ -74,8 +74,8 @@ export default {
     },
     fontFamily: {
       // assets/styles/_type
-      sans: "var(--calcite-sans-family)",
-      mono: "var(--calcite-code-family)",
+      sans: "var(--calcite-font-family)",
+      mono: "var(--calcite-font-family-code)",
       inherit: "inherit",
     },
     fontSize: {
