@@ -12,7 +12,6 @@
  * @prop --calcite-carousel-slide-item-icon-color: Specifies the icon color of the component's slide item.
  * @prop --calcite-carousel-rotation-progress-background-color: Specifies the background color of the component's progress when `rotating`.
  * @prop --calcite-carousel-rotation-progress-fill-color: Specifies the fill color of the component's progress when `rotating`.
- *
  */
 
 :host {
@@ -45,13 +44,12 @@
   );
   --calcite-internal-carousel-item-icon-color: var(
     --calcite-carousel-slide-item-icon-color,
-    var(--calcite-color-border-input)
+    var(--calcite-color-border-1)
   );
   --calcite-internal-carousel-rotation-progress-background-color: var(
     --calcite-carousel-rotation-progress-background-color,
     var(--calcite-color-border-3)
   );
-
   --calcite-internal-carousel-rotation-progress-fill-color: var(
     --calcite-carousel-rotation-progress-fill-color,
     var(--calcite-color-brand)
@@ -72,7 +70,7 @@
   }
 }
 
-.container.is-edges:not(.is-overlay) {
+.container.edged:not(.overlaid) {
   padding-inline: var(--calcite-internal-carousel-item-space-wide);
   inline-size: calc(100% - var(--calcite-internal-carousel-item-space-wide) * 2);
 }
@@ -88,7 +86,7 @@
   animation-duration: var(--calcite-animation-timing);
 }
 
-.container.is-overlay .item-container {
+.container.overlaid .item-container {
   @apply p-0;
 }
 
@@ -118,11 +116,11 @@ calcite-carousel-item:not([selected]) {
   @apply flex flex-row items-center;
 }
 
-.is-overlay .pagination {
+.overlaid .pagination {
   position: absolute;
 }
 
-.is-edges {
+.edged {
   .page-next,
   .page-previous {
     @apply h-12 w-12;
@@ -140,7 +138,7 @@ calcite-carousel-item:not([selected]) {
   }
 }
 
-.is-overlay .pagination {
+.overlaid .pagination {
   inset-block-start: unset;
   inset-block-end: 0;
   inset-inline: 0;
@@ -204,7 +202,7 @@ calcite-carousel-item:not([selected]) {
   }
 }
 
-.is-overlay .pagination-item {
+.overlaid .pagination-item {
   background-color: var(--calcite-internal-carousel-item-background-color);
   &:hover {
     background-color: var(--calcite-internal-carousel-item-background-color-hover);

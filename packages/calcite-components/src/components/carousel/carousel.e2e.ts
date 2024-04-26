@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS, DURATION } from "./resources";
 
 const slideDurationWaitTimer = DURATION + 250;
@@ -7,7 +8,10 @@ const slideDurationWaitTimer = DURATION + 250;
 describe("calcite-carousel", () => {
   describe("renders", () => {
     renders(
-      `<calcite-carousel label="Carousel example"><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel>`,
+      html`<calcite-carousel label="Carousel example"
+        ><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item
+        ><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel
+      >`,
       {
         display: "flex",
       },
@@ -16,25 +20,37 @@ describe("calcite-carousel", () => {
 
   describe("honors hidden attribute", () => {
     hidden(
-      `<calcite-carousel hidden label="Carousel example"><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel>`,
+      html`<calcite-carousel hidden label="Carousel example"
+        ><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item
+        ><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel
+      >`,
     );
   });
 
   describe("accessible", () => {
     accessible(
-      `<calcite-carousel label="Carousel example"><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel>`,
+      html`<calcite-carousel label="Carousel example"
+        ><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item
+        ><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel
+      >`,
     );
   });
 
   describe("accessible with rotation", () => {
     accessible(
-      `<calcite-carousel rotation label="Carousel example"><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel>`,
+      html`<calcite-carousel rotation label="Carousel example"
+        ><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item
+        ><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel
+      >`,
     );
   });
 
   describe("accessible with rotation when rotating", () => {
     accessible(
-      `<calcite-carousel rotation rotating label="Carousel example"><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel>`,
+      html`<calcite-carousel rotation rotating label="Carousel example"
+        ><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item
+        ><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel
+      >`,
     );
   });
 
@@ -547,7 +563,11 @@ describe("calcite-carousel", () => {
     it("pagination should be hidden if there is 1 or fewer items", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        `<calcite-carousel label="Carousel example"><calcite-carousel-item label="Slide 1" id="one"><p>first item default selected</p></calcite-carousel-item></calcite-carousel>`,
+        html`<calcite-carousel label="Carousel example"
+          ><calcite-carousel-item label="Slide 1" id="one"
+            ><p>first item default selected</p></calcite-carousel-item
+          ></calcite-carousel
+        >`,
       );
 
       const pagination = await page.find(`calcite-carousel >>> .${CSS.pagination}`);

@@ -12,8 +12,8 @@ export const CSS = {
   paginationItemSelected: "pagination-item--selected",
   pageNext: "page-next",
   pagePrevious: "page-previous",
-  isOverlay: "is-overlay",
-  isEdges: "is-edges",
+  isOverlay: "overlaid",
+  isEdges: "edged",
   rotationControl: "rotation-control",
   rotatingProgress: "rotating-progress",
 };

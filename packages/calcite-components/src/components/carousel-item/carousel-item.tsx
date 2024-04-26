@@ -1,9 +1,4 @@
 import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
-import {
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent,
-} from "../../utils/loadable";
 import { guid } from "../../utils/guid";
 import { CSS } from "./resources";
 
@@ -15,7 +10,7 @@ import { CSS } from "./resources";
   styleUrl: "carousel-item.scss",
   shadow: true,
 })
-export class CarouselItem implements LoadableComponent {
+export class CarouselItem {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -23,14 +18,14 @@ export class CarouselItem implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When `true`, the component is selected.
-   */
-  @Prop({ reflect: true }) selected = false;
-
-  /**
    * Accessible name for the component.
    */
   @Prop() label!: string;
+
+  /**
+   * When `true`, the component is selected.
+   */
+  @Prop({ reflect: true }) selected = false;
 
   // --------------------------------------------------------------------------
   //
@@ -41,20 +36,6 @@ export class CarouselItem implements LoadableComponent {
   @Element() el: HTMLCalciteCarouselItemElement;
 
   private guid = `calcite-carousel-item-${guid()}`;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-  }
 
   // --------------------------------------------------------------------------
   //

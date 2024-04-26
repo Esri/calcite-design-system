@@ -2,13 +2,13 @@
   @apply flex;
 }
 
-:host([selected]) .container {
-  display: block;
-}
-
 .container {
   display: none;
   inline-size: var(--calcite-container-size-content-fluid);
+}
+
+:host([selected]) .container {
+  display: block;
 }
 
 @include base-component();
