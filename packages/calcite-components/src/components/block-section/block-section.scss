@@ -83,7 +83,6 @@
     @apply flex items-center;
 
     margin-inline: theme("spacing.3");
-    margin-block: theme("spacing.2");
     color: var(--calcite-block-section-icon-end-color, var(--calcite-color-text-3));
 
     &:hover {
@@ -111,7 +110,6 @@
   @apply flex items-center;
 
   margin-inline: theme("spacing.3");
-  margin-block: theme("spacing.2");
 }
 
 .icon--start {
@@ -132,8 +130,6 @@
 
 .chevron-icon {
   @apply flex items-center;
-
-  margin-block: theme("spacing.2");
 }
 
 @include base-component();
