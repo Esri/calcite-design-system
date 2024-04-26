@@ -83,7 +83,7 @@
     @apply flex flex-row;
 
     --calcite-label-margin-bottom: 0;
-    @apply absolute pointer-events-none;
+    @apply pointer-events-none;
     inset-inline-end: 0;
     margin-inline-start: theme("margin.1");
 
@@ -136,12 +136,6 @@
   @apply flex items-center;
 
   margin-block: theme("spacing.2");
-}
-
-:host([toggle-display="switch"]) .toggle {
-  .toggle--switch__content {
-    @apply me-7;
-  }
 }
 
 @include base-component();
