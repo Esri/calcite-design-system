@@ -203,25 +203,6 @@ function hasRegisteredFormComponentParent(
   return hasRegisteredFormComponentParent;
 }
 
-function clearFormValidation(component: HTMLCalciteInputElement | FormComponent): void {
-  "status" in component && (component.status = "idle");
-  "validationIcon" in component && (component.validationIcon = false);
-  "validationMessage" in component && (component.validationMessage = "");
-}
-
-function setInvalidFormValidation(
-  component: HTMLCalciteInputElement | FormComponent,
-  message: string,
-): void {
-  "status" in component && (component.status = "invalid");
-
-  "validationIcon" in component && !component.validationIcon && (component.validationIcon = true);
-
-  "validationMessage" in component &&
-    !component.validationMessage &&
-    (component.validationMessage = message);
-}
-
 function displayValidationMessage(event: Event) {
   // target is the hidden input, which is slotted in the actual form component
   const hiddenInput = event?.target as HTMLInputElement;
@@ -239,16 +220,30 @@ function displayValidationMessage(event: Event) {
   // prevent the browser from showing the native validation popover
   event?.preventDefault();
 
-  setInvalidFormValidation(formComponent, hiddenInput?.validationMessage);
+  "validity" in formComponent && (formComponent.validity = hiddenInput?.validity);
+  "validationMessage" in formComponent &&
+    !formComponent.validationMessage &&
+    (formComponent.validationMessage = hiddenInput?.validationMessage);
 
-  if (formComponent?.validationMessage !== hiddenInput?.validationMessage) {
-    return;
-  }
+  "status" in formComponent && (formComponent.status = "invalid");
 
   const clearValidationEvent = getClearValidationEventName(componentTag);
-  formComponent.addEventListener(clearValidationEvent, () => clearFormValidation(formComponent), {
-    once: true,
-  });
+
+  formComponent.addEventListener(
+    clearValidationEvent,
+    () => {
+      // setting the status to "idle" hides the validation message
+      "status" in formComponent && (formComponent.status = "idle");
+
+      // only clear the validation message if it was internally set to the hidden input's message
+      "validationMessage" in formComponent &&
+        formComponent?.validationMessage === hiddenInput?.validationMessage &&
+        (formComponent.validationMessage = "");
+    },
+    {
+      once: true,
+    },
+  );
 }
 
 /**
@@ -332,13 +327,13 @@ export function findAssociatedForm(component: FormOwner): HTMLFormElement | null
 }
 
 function onFormReset<T>(this: FormComponent<T>): void {
-  clearFormValidation(this);
   if (isCheckable(this)) {
     this.checked = this.defaultChecked;
     return;
   }
 
   this.value = this.defaultValue;
+  "status" in this && (this.status = "idle");
 }
 
 /**

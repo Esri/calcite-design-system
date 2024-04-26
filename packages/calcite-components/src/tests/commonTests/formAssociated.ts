@@ -162,13 +162,12 @@ export function formAssociated(
 
     const submitButton = await page.find("#submitButton");
     const spyEvent = await page.spyOnEvent(getClearValidationEventName(tag));
-    const validity: ValidityState = await component.getProperty("validity");
 
     await assertPreventsFormSubmission(page, component, submitButton, requiredValidationMessage);
-    expect(validity.valueMissing).toBe(true);
+    expect(await component.getProperty("validity")).toHaveProperty("valueMissing", true);
 
     await assertClearsValidationOnValueChange(page, component, options, spyEvent, tag);
-    expect(validity.valueMissing).toBe(false);
+    expect(await component.getProperty("validity")).toHaveProperty("valueMissing", false);
 
     await assertUserMessageNotOverridden(page, component, submitButton);
   }
@@ -450,9 +449,9 @@ export function formAssociated(
     expect(await element.getProperty("validationIcon")).toBe(false);
   }
 
-  async function expectValidationInvalid(element: E2EElement, message: string, icon: string = "") {
+  async function expectValidationInvalid(element: E2EElement, message: string, icon?: string | boolean) {
     expect(await element.getProperty("status")).toBe("invalid");
     expect(await element.getProperty("validationMessage")).toBe(message);
-    expect(element.getAttribute("validation-icon")).toBe(icon);
+    expect(await element.getProperty("validationIcon")).toBe(icon);
   }
 }
