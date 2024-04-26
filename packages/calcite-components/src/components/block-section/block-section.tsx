@@ -260,12 +260,11 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
             <div class={CSS.toggleSwitchContent}>
               <span class={CSS.toggleSwitchText}>{text}</span>
             </div>
-          </div>
-          <div class={CSS.focusGuard}>
+
             {iconEndEl}
             {this.renderStatusIcon()}
             {/* we use calcite-label to use a simple component that will allow us to prevent keyboard focus by setting tabindex="-1" on the host */}
-            <calcite-label layout="inline" tabIndex={-1}>
+            <calcite-label class="label" layout="inline" tabIndex={-1}>
               <calcite-switch checked={open} class={CSS.switch} label={toggleLabel} scale="s" />
             </calcite-label>
           </div>
@@ -276,7 +275,6 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
             [CSS.toggleContainer]: true,
           }}
         >
-          {iconStartEl}
           <button
             aria-controls={IDS.content}
             aria-expanded={toAriaBoolean(open)}
@@ -287,14 +285,12 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
             id={IDS.toggle}
             onClick={this.toggleSection}
           >
+            {iconStartEl}
             <span class={CSS.sectionHeaderText}>{text}</span>
-          </button>
-
-          <div class={CSS.focusGuard}>
             {iconEndEl}
             {this.renderStatusIcon()}
             <calcite-icon class={CSS.chevronIcon} icon={arrowIcon} scale="s" />
-          </div>
+          </button>
         </div>
       );
 
