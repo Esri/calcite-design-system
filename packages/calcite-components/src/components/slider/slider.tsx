@@ -296,7 +296,7 @@ export class Slider
         mirror,
       });
 
-    const { fillPlacement } = this;
+    const fillPlacement = valueIsRange ? "start" : this.fillPlacement;
     const trackRangePlacementStyles =
       fillPlacement === "none"
         ? {
