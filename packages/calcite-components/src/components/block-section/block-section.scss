@@ -93,9 +93,7 @@
 
   .switch {
     @apply flex items-center;
-  }
 
-  .switch {
     inset-block-start: 50%;
     transform: translate(0, 50%);
   }
@@ -107,9 +105,7 @@
 
 .icon--start {
   @apply flex items-center;
-}
 
-.icon--start {
   color: var(--calcite-block-section-icon-start-color, var(--calcite-color-text-3));
 
   &:hover {
