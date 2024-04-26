@@ -105,9 +105,13 @@ export class Carousel
 
   @Watch("rotating")
   handleRotatingChange(newValue: boolean, oldValue: boolean): void {
-    if (newValue && this.rotation) {
+    if (!this.rotation) {
+      return;
+    }
+
+    if (newValue) {
       this.startRotating();
-    } else if (oldValue && !newValue && this.rotation) {
+    } else if (oldValue) {
       this.stopRotating();
     }
   }
@@ -143,6 +147,7 @@ export class Carousel
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
+
   connectedCallback(): void {
     connectInteractive(this);
     connectLocalized(this);
@@ -183,7 +188,7 @@ export class Carousel
 
   @State() selectedIndex: number;
 
-  @State() items: HTMLCalciteCarouselItemElement[];
+  @State() items: HTMLCalciteCarouselItemElement[] = [];
 
   @State() direction: "advancing" | "retreating";
 
@@ -262,14 +267,14 @@ export class Carousel
       return;
     }
 
-    const activeItemIndex = items?.findIndex((item) => item.selected);
+    const activeItemIndex = items.findIndex((item) => item.selected);
     const requestedSelectedIndex = activeItemIndex > -1 ? activeItemIndex : 0;
 
     this.items = items;
-    this.setSelectedItem(false, requestedSelectedIndex);
+    this.setSelectedItem(requestedSelectedIndex, false);
   };
 
-  private setSelectedItem = (emit: boolean, requestedIndex: number): void => {
+  private setSelectedItem = (requestedIndex: number, emit: boolean): void => {
     const previousSelected = this.selectedIndex;
     this.items?.forEach((el, index) => {
       const isMatch = requestedIndex === index;
@@ -296,7 +301,7 @@ export class Carousel
       this.rotating = false;
     }
     const nextIndex = this.selectedIndex === this.items?.length - 1 ? 0 : this.selectedIndex + 1;
-    this.setSelectedItem(emit, nextIndex);
+    this.setSelectedItem(nextIndex, emit);
   };
 
   private previousItem = (): void => {
@@ -304,7 +309,7 @@ export class Carousel
       this.rotating = false;
     }
     const prevIndex = this.selectedIndex === 0 ? this.items?.length - 1 : this.selectedIndex - 1;
-    this.setSelectedItem(true, prevIndex);
+    this.setSelectedItem(prevIndex, true);
   };
 
   private handleItemSelection = (event: MouseEvent): void => {
@@ -314,7 +319,7 @@ export class Carousel
     const item = event.target as HTMLCalciteActionElement;
     const requestedPosition = parseInt(item.dataset.index);
     this.direction = requestedPosition > this.selectedIndex ? "advancing" : "retreating";
-    this.setSelectedItem(true, requestedPosition);
+    this.setSelectedItem(requestedPosition, true);
   };
 
   private toggleRotation = (): void => {
@@ -455,12 +460,12 @@ export class Carousel
       case "Home":
         event.preventDefault();
         this.direction = "retreating";
-        this.setSelectedItem(true, 0);
+        this.setSelectedItem(0, true);
         break;
       case "End":
         event.preventDefault();
         this.direction = "advancing";
-        this.setSelectedItem(true, this.items?.length - 1);
+        this.setSelectedItem(this.items?.length - 1, true);
         break;
     }
   };
