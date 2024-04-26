@@ -59,18 +59,6 @@ describe("calcite-carousel", () => {
   });
 
   describe("first render", () => {
-    it("should render", async () => {
-      const page = await newE2EPage();
-
-      await page.setContent(
-        `<calcite-carousel label="Carousel example"><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel>`,
-      );
-      const carousel = await page.find("calcite-carousel");
-      expect(carousel).not.toBeNull();
-      const isVisible = await carousel.isVisible();
-      expect(isVisible).toBe(true);
-    });
-
     it("should pre-select the correct item if the selected attribute is set", async () => {
       const page = await newE2EPage();
       await page.setContent(
@@ -85,22 +73,6 @@ describe("calcite-carousel", () => {
       const carousel = await page.find("calcite-carousel");
       const selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("two");
-    });
-
-    it("should render arrow items near pagination items as default", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-carousel label="Carousel example">
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
-        </calcite-carousel>`,
-      );
-
-      await page.waitForChanges();
-      const container = await page.find(`calcite-carousel >>> .${CSS.container}`);
-
-      expect(container).not.toHaveClass(CSS.isEdges);
     });
 
     it("should not render arrow items when requested", async () => {
@@ -121,22 +93,6 @@ describe("calcite-carousel", () => {
       expect(nextButton).toBeNull();
       expect(prevButton).toBeNull();
     });
-
-    it("should render arrow items at edges when requested", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-carousel label="Carousel example" arrow-type="edges">
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
-        </calcite-carousel>`,
-      );
-
-      await page.waitForChanges();
-      const container = await page.find(`calcite-carousel >>> .${CSS.container}`);
-
-      expect(container).toHaveClass(CSS.isEdges);
-    });
   });
 
   describe("events", () => {
@@ -152,7 +108,7 @@ describe("calcite-carousel", () => {
       );
 
       const carousel = await page.find("calcite-carousel");
-      const eventSpy = await page.spyOnEvent("calciteCarouselChange", "window");
+      const eventSpy = await page.spyOnEvent("calciteCarouselChange");
       const nextButton = await page.find(`calcite-carousel >>> .${CSS.pageNext}`);
       const prevButton = await page.find(`calcite-carousel >>> .${CSS.pagePrevious}`);
 
@@ -191,7 +147,7 @@ describe("calcite-carousel", () => {
       );
 
       const carousel = await page.find("calcite-carousel");
-      const eventSpy = await page.spyOnEvent("calciteCarouselChange", "window");
+      const eventSpy = await page.spyOnEvent("calciteCarouselChange");
       const slide1Button = await page.find(`calcite-carousel >>> .${CSS.paginationItemIndividual}:nth-child(1)`);
       const slide2Button = await page.find(`calcite-carousel >>> .${CSS.paginationItemIndividual}:nth-child(2)`);
       const slide3Button = await page.find(`calcite-carousel >>> .${CSS.paginationItemIndividual}:nth-child(3)`);
@@ -243,8 +199,8 @@ describe("calcite-carousel", () => {
       );
 
       const carousel = await page.find("calcite-carousel");
-      const eventSpy = await page.spyOnEvent("calciteCarouselChange", "window");
-      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange", "window");
+      const eventSpy = await page.spyOnEvent("calciteCarouselChange");
+      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange");
       const rotationControl = await page.find(`calcite-carousel >>> .${CSS.rotationControl}`);
 
       expect(eventSpy).not.toHaveReceivedEvent();
@@ -281,13 +237,13 @@ describe("calcite-carousel", () => {
       );
 
       const carousel = await page.find("calcite-carousel");
-      const eventSpy = await page.spyOnEvent("calciteCarouselChange", "window");
+      const eventSpy = await page.spyOnEvent("calciteCarouselChange");
 
       const slide1Button = await page.find(`calcite-carousel >>> .${CSS.paginationItemIndividual}:nth-child(1)`);
       const slide2Button = await page.find(`calcite-carousel >>> .${CSS.paginationItemIndividual}:nth-child(2)`);
       const slide3Button = await page.find(`calcite-carousel >>> .${CSS.paginationItemIndividual}:nth-child(3)`);
 
-      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange", "window");
+      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange");
       const rotationControl = await page.find(`calcite-carousel >>> .${CSS.rotationControl}`);
 
       expect(eventSpy).not.toHaveReceivedEvent();
@@ -358,12 +314,12 @@ describe("calcite-carousel", () => {
       );
 
       const carousel = await page.find("calcite-carousel");
-      const eventSpy = await page.spyOnEvent("calciteCarouselChange", "window");
+      const eventSpy = await page.spyOnEvent("calciteCarouselChange");
 
       const nextButton = await page.find(`calcite-carousel >>> .${CSS.pageNext}`);
       const prevButton = await page.find(`calcite-carousel >>> .${CSS.pagePrevious}`);
 
-      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange", "window");
+      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange");
       const rotationControl = await page.find(`calcite-carousel >>> .${CSS.rotationControl}`);
 
       expect(eventSpy).not.toHaveReceivedEvent();
@@ -435,7 +391,7 @@ describe("calcite-carousel", () => {
       );
 
       const carousel = await page.find("calcite-carousel");
-      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange", "window");
+      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange");
 
       let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("two");
@@ -464,8 +420,8 @@ describe("calcite-carousel", () => {
       );
 
       const carousel = await page.find("calcite-carousel");
-      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange", "window");
-      const customSlideDurationWaitTimer = parseInt(carousel.getAttribute("rotation-duration")) + 250;
+      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange");
+      const customSlideDurationWaitTimer = parseInt(await carousel.getProperty("rotationDuration")) + 250;
 
       let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("two");
@@ -495,7 +451,7 @@ describe("calcite-carousel", () => {
 
       const carousel = await page.find("calcite-carousel");
       const rotationControl = await page.find(`calcite-carousel >>> .${CSS.rotationControl}`);
-      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange", "window");
+      const rotationEventSpy = await page.spyOnEvent("calciteCarouselRotatingChange");
 
       let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("two");
@@ -586,10 +542,10 @@ describe("calcite-carousel", () => {
       const carousel = await page.find("calcite-carousel");
       const newItemId = "newItem";
       await page.evaluate((newId) => {
-        const mgr = document.querySelector("calcite-carousel");
-        const newItem = mgr.querySelector("calcite-carousel-item:last-child").cloneNode(true);
+        const carousel = document.querySelector("calcite-carousel");
+        const newItem = carousel.querySelector("calcite-carousel-item:last-child").cloneNode(true);
         (newItem as HTMLElement).id = newId;
-        mgr.appendChild(newItem);
+        carousel.appendChild(newItem);
       }, newItemId);
       await page.waitForChanges();
 

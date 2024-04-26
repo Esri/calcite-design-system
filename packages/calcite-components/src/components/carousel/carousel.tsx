@@ -547,7 +547,7 @@ export class Carousel
   );
 
   renderPaginationItems = (): VNode => (
-    <div aria-label={this.label} class={CSS.paginationItems} role="tablist" tabIndex={-1}>
+    <div aria-label={this.label} class={CSS.paginationItems} role="tablist">
       {this.items?.map((item, index) => {
         const isMatch = index === this.selectedIndex;
         return (
@@ -579,19 +579,15 @@ export class Carousel
     const css = isPrev ? CSS.pagePrevious : CSS.pageNext;
     const navigateFx = isPrev ? this.previousItem : () => this.nextItem(true);
     const title = isPrev ? this.messages.previous : this.messages.next;
-    const iconRtl = isPrev ? ICONS.chevronRight : ICONS.chevronLeft;
-    const iconLtr = isPrev ? ICONS.chevronLeft : ICONS.chevronRight;
+    const icon = isPrev ? ICONS.chevronLeft : ICONS.chevronRight;
     return (
       <button
         aria-controls={this.containerId}
-        class={{
-          [CSS.paginationItem]: true,
-          [css]: true,
-        }}
+        class={{ [CSS.paginationItem]: true, [css]: true }}
         onClick={navigateFx}
         title={title}
       >
-        <calcite-icon icon={dir === "rtl" ? iconRtl : iconLtr} scale={scale} />
+        <calcite-icon flipRtl={dir === "rtl"} icon={icon} scale={scale} />
       </button>
     );
   };
