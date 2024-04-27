@@ -3,12 +3,12 @@
 }
 
 .container {
-  display: none;
+  @apply hidden;
   inline-size: var(--calcite-container-size-content-fluid);
 }
 
 :host([selected]) .container {
-  display: block;
+  @apply block;
 }
 
 @include base-component();

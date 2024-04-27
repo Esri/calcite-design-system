@@ -516,7 +516,7 @@ export class Carousel
     <div
       class={{
         [CSS.pagination]: true,
-        [CSS.containerEdged]: this.controlOverlay,
+        [CSS.containerOverlaid]: this.controlOverlay,
       }}
       onKeyDown={this.tabListKeyDownHandler}
       // eslint-disable-next-line react/jsx-sort-props

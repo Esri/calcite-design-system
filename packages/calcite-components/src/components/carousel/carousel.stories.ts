@@ -214,10 +214,10 @@ export const themed_simple = (): string =>
         line-height: 32px;
       }
       calcite-carousel {
-        --calcite-carousel-slide-item-icon-color-hover: green;
-        --calcite-carousel-slide-item-icon-color-selected: blue;
-        --calcite-carousel-slide-item-icon-color-active: orange;
-        --calcite-carousel-slide-item-icon-color: red;
+        --calcite-carousel-item-icon-color-hover: green;
+        --calcite-carousel-item-icon-color-selected: blue;
+        --calcite-carousel-item-icon-color-active: orange;
+        --calcite-carousel-item-icon-color: red;
         --calcite-carousel-rotation-progress-background-color: purple;
         --calcite-carousel-rotation-progress-fill-color: pink;
       }
@@ -275,14 +275,14 @@ export const themed_carouselFullImageWithOverlay = (): string =>
         line-height: 32px;
       }
       calcite-carousel {
-        --calcite-carousel-slide-item-background-color-active: orange;
-        --calcite-carousel-slide-item-background-color-hover: yellow;
-        --calcite-carousel-slide-item-background-color-selected: red;
-        --calcite-carousel-slide-item-background-color: rgba(20, 180, 200, 0.8);
-        --calcite-carousel-slide-item-icon-color-hover: white;
-        --calcite-carousel-slide-item-icon-color-selected: pink;
-        --calcite-carousel-slide-item-icon-color-active: white;
-        --calcite-carousel-slide-item-icon-color: lightgreen;
+        --calcite-carousel-item-background-color-active: orange;
+        --calcite-carousel-item-background-color-hover: yellow;
+        --calcite-carousel-item-background-color-selected: red;
+        --calcite-carousel-item-background-color: rgba(20, 180, 200, 0.8);
+        --calcite-carousel-item-icon-color-hover: white;
+        --calcite-carousel-item-icon-color-selected: pink;
+        --calcite-carousel-item-icon-color-active: white;
+        --calcite-carousel-item-icon-color: lightgreen;
         --calcite-carousel-rotation-progress-background-color: purple;
         --calcite-carousel-rotation-progress-fill-color: pink;
       }
