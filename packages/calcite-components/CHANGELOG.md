@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.14...@esri/calcite-components@2.8.0-next.15) (2024-04-27)
+
+### Bug Fixes
+
+- fix memory leak affecting components using conditionally-rendered slots ([#9208](https://github.com/Esri/calcite-design-system/issues/9208)) ([28701b6](https://github.com/Esri/calcite-design-system/commit/28701b623bdfb6c2f9071667b9ab14b3175dcdbb)), closes [#9177](https://github.com/Esri/calcite-design-system/issues/9177)
+
 ## [2.8.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.13...@esri/calcite-components@2.8.0-next.14) (2024-04-26)
 
 ### Features
