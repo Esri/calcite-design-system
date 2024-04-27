@@ -16,7 +16,7 @@ export const simple = (): string =>
       ${boolean("rotating", false)}
       ${number("rotation-duration", 6000)}
       ${text("label", "Example carousel label")}
-      arrow-type="${select("arrow-type", ["inline", "edges", "none"], "inline")}"
+      arrow-type="${select("arrow-type", ["inline", "edge", "none"], "inline")}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -56,7 +56,7 @@ export const simple = (): string =>
     </calcite-carousel>
   </div>`;
 
-export const carouselRotationFullImageWithOverlayAndEdges = (): string =>
+export const carouselRotationFullImageWithOverlayAndEdge = (): string =>
   html` <div style="width:600px;height:400px;">
     <style>
       .bg-image-example {
@@ -70,7 +70,7 @@ export const carouselRotationFullImageWithOverlayAndEdges = (): string =>
         line-height: 32px;
       }
     </style>
-    <calcite-carousel control-overlay arrow-type="edges" rotation>
+    <calcite-carousel control-overlay arrow-type="edge" rotation>
       <calcite-carousel-item label="Carousel Item 1">
         <div class="bg-image-example">Some kind of rich content over a bg using overlay controls</div>
       </calcite-carousel-item>
@@ -130,7 +130,7 @@ export const carouselFullImageWithOverlay = (): string =>
         line-height: 32px;
       }
     </style>
-    <calcite-carousel control-overlay arrow-type="edges">
+    <calcite-carousel control-overlay arrow-type="edge">
       <calcite-carousel-item label="Carousel Item 1">
         <div class="bg-image-example">Some kind of rich content over a bg using overlay controls</div>
       </calcite-carousel-item>
@@ -287,7 +287,7 @@ export const themed_carouselFullImageWithOverlay = (): string =>
         --calcite-carousel-rotation-progress-fill-color: pink;
       }
     </style>
-    <calcite-carousel control-overlay arrow-type="edges">
+    <calcite-carousel control-overlay arrow-type="edge">
       <calcite-carousel-item label="Carousel Item 1">
         <div class="bg-image-example">Some kind of rich content over a bg using overlay controls</div>
       </calcite-carousel-item>

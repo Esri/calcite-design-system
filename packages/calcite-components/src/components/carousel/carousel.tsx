@@ -80,6 +80,24 @@ export class Carousel
   @Prop() label!: string;
 
   /**
+   * When `true`, and `rotation` is `true`, the carousel will auto-rotate.
+   */
+  @Prop({ reflect: true, mutable: true }) rotating = false;
+
+  @Watch("rotating")
+  handleRotatingChange(newValue: boolean, oldValue: boolean): void {
+    if (!this.rotation) {
+      return;
+    }
+
+    if (newValue) {
+      this.startRotating();
+    } else if (oldValue) {
+      this.stopRotating();
+    }
+  }
+
+  /**
    * When `true`, the rotation control is displayed.
    */
   @Prop({ reflect: true }) rotation = false;
@@ -97,24 +115,6 @@ export class Carousel
    *  When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
    */
   @Prop({ reflect: true }) rotationDuration = DURATION;
-
-  /**
-   * When `true`, and `rotation` is `true`, the carousel will auto-rotate.
-   */
-  @Prop({ reflect: true, mutable: true }) rotating = false;
-
-  @Watch("rotating")
-  handleRotatingChange(newValue: boolean, oldValue: boolean): void {
-    if (!this.rotation) {
-      return;
-    }
-
-    if (newValue) {
-      this.startRotating();
-    } else if (oldValue) {
-      this.stopRotating();
-    }
-  }
 
   /**
    * Made into a prop for testing purposes only
@@ -169,8 +169,7 @@ export class Carousel
     disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-    clearInterval(this.slideInterval);
-    clearInterval(this.slideDurationRemaining);
+    this.clearIntervals();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -190,13 +189,9 @@ export class Carousel
 
   @State() items: HTMLCalciteCarouselItemElement[] = [];
 
-  @State() direction: "advancing" | "retreating";
+  @State() direction: "forward" | "backward";
 
   @State() defaultMessages: CarouselMessages;
-
-  @State() swipeStartPosition: number;
-
-  @State() swipeTolerance = 100;
 
   @State() pausedDueToFocus = false;
 
@@ -223,7 +218,6 @@ export class Carousel
 
   @State() pausedSlideDurationRemaining = 1;
 
-  // TODO refactor from state this re-renders on change
   @State() slideDurationRemaining = 1;
 
   private container: HTMLDivElement;
@@ -260,6 +254,67 @@ export class Carousel
   //
   // --------------------------------------------------------------------------
 
+  private clearIntervals() {
+    clearInterval(this.slideDurationInterval);
+    clearInterval(this.slideInterval);
+  }
+
+  private nextItem(emit: boolean) {
+    if (this.rotating && emit) {
+      this.rotating = false;
+    }
+    const nextIndex = this.selectedIndex === this.items?.length - 1 ? 0 : this.selectedIndex + 1;
+    this.setSelectedItem(nextIndex, emit);
+  }
+
+  private previousItem() {
+    this.rotating = false;
+    const prevIndex = this.selectedIndex === 0 ? this.items?.length - 1 : this.selectedIndex - 1;
+    this.setSelectedItem(prevIndex, true);
+  }
+
+  private startRotating() {
+    this.rotationHandler();
+    this.slideInterval = setInterval(this.rotationHandler, this.rotationDuration);
+    this.calciteCarouselRotatingChange.emit();
+  }
+
+  private stopRotating() {
+    this.clearIntervals();
+    this.slideDurationRemaining = 1;
+    this.pausedSlideDurationRemaining = 1;
+    this.calciteCarouselRotatingChange.emit();
+  }
+
+  private pauseRotation() {
+    this.pausedSlideDurationRemaining = this.slideDurationRemaining;
+  }
+
+  private resumeRotation() {
+    this.slideDurationRemaining = this.pausedSlideDurationRemaining;
+  }
+
+  private rotationHandler = (): void => {
+    this.clearIntervals();
+    this.slideDurationInterval = setInterval(this.timer, this.rotationDuration / 100);
+  };
+
+  private timer = (): void => {
+    let time = this.slideDurationRemaining;
+    const notPaused = (!this.pausedDueToFocus && !this.pausedDueToHover) || this.userPreventsPause;
+    if (notPaused) {
+      if (time <= 0.01) {
+        time = 1;
+        this.nextItem(false);
+      } else {
+        time = time - 0.01;
+      }
+    }
+    if (time > 0) {
+      this.slideDurationRemaining = time;
+    }
+  };
+
   private updateItems = (event: Event): void => {
     const items = slotChangeGetAssignedElements(event) as HTMLCalciteCarouselItemElement[];
 
@@ -286,9 +341,7 @@ export class Carousel
     });
 
     if (emit) {
-      if (this.rotating) {
-        this.rotating = false;
-      }
+      this.rotating = false;
 
       if (previousSelected !== this.selectedIndex) {
         this.calciteCarouselChange.emit();
@@ -296,20 +349,13 @@ export class Carousel
     }
   };
 
-  private nextItem = (emit: boolean): void => {
-    if (this.rotating && emit) {
-      this.rotating = false;
+  private handleArrowClick = (event: MouseEvent): void => {
+    const direction = (event.target as HTMLDivElement).dataset.direction;
+    if (direction === "next") {
+      this.nextItem(true);
+    } else if (direction === "previous") {
+      this.previousItem();
     }
-    const nextIndex = this.selectedIndex === this.items?.length - 1 ? 0 : this.selectedIndex + 1;
-    this.setSelectedItem(nextIndex, emit);
-  };
-
-  private previousItem = (): void => {
-    if (this.rotating) {
-      this.rotating = false;
-    }
-    const prevIndex = this.selectedIndex === 0 ? this.items?.length - 1 : this.selectedIndex - 1;
-    this.setSelectedItem(prevIndex, true);
   };
 
   private handleItemSelection = (event: MouseEvent): void => {
@@ -318,76 +364,13 @@ export class Carousel
     }
     const item = event.target as HTMLCalciteActionElement;
     const requestedPosition = parseInt(item.dataset.index);
-    this.direction = requestedPosition > this.selectedIndex ? "advancing" : "retreating";
+    this.direction = requestedPosition > this.selectedIndex ? "forward" : "backward";
     this.setSelectedItem(requestedPosition, true);
   };
 
   private toggleRotation = (): void => {
     this.userPreventsPause = true;
     this.rotating = !this.rotating;
-  };
-
-  private startRotating = (): void => {
-    this.rotationHandler();
-    this.slideInterval = setInterval(this.rotationHandler, this.rotationDuration);
-    this.calciteCarouselRotatingChange.emit();
-  };
-
-  private stopRotating = (): void => {
-    clearInterval(this.slideDurationInterval);
-    clearInterval(this.slideInterval);
-    this.slideDurationRemaining = 1;
-    this.pausedSlideDurationRemaining = 1;
-    this.calciteCarouselRotatingChange.emit();
-  };
-
-  private pauseRotation = (): void => {
-    this.pausedSlideDurationRemaining = this.slideDurationRemaining;
-  };
-
-  private resumeRotation = (): void => {
-    this.slideDurationRemaining = this.pausedSlideDurationRemaining;
-  };
-
-  private rotationHandler = (): void => {
-    clearInterval(this.slideDurationInterval);
-    clearInterval(this.slideInterval);
-    this.slideDurationInterval = setInterval(this.timer, this.rotationDuration / 100);
-  };
-
-  private timer = (): void => {
-    let time = this.slideDurationRemaining;
-    const notPaused = (!this.pausedDueToFocus && !this.pausedDueToHover) || this.userPreventsPause;
-    if (notPaused) {
-      if (time <= 0.01) {
-        time = 1;
-        this.nextItem(false);
-      } else {
-        time = time - 0.01;
-      }
-    }
-    if (time > 0) {
-      this.slideDurationRemaining = time;
-    }
-  };
-
-  private handleSwipeStart = (event: MouseEvent): void => {
-    // todo use only touch event if possible, as mouse drag within children can trigger this and that is not desired
-    this.swipeStartPosition = event.pageX;
-  };
-
-  private handleSwipeEnd = (event: MouseEvent): void => {
-    const pagePosition = event.pageX;
-    const diffX = Math.abs(event.pageX - this.swipeStartPosition);
-    const thresholdMet = diffX > this.swipeTolerance;
-
-    if (thresholdMet && pagePosition > this.swipeStartPosition) {
-      this.direction = "retreating";
-      this.previousItem();
-    } else if (thresholdMet) {
-      this.direction = "advancing";
-      this.nextItem(true);
-    }
   };
 
   private handleFocusIn = (): void => {
@@ -450,21 +433,21 @@ export class Carousel
         this.toggleRotation();
         break;
       case "ArrowRight":
-        this.direction = "advancing";
+        this.direction = "forward";
         this.nextItem(true);
         break;
       case "ArrowLeft":
-        this.direction = "retreating";
+        this.direction = "backward";
         this.previousItem();
         break;
       case "Home":
         event.preventDefault();
-        this.direction = "retreating";
+        this.direction = "backward";
         this.setSelectedItem(0, true);
         break;
       case "End":
         event.preventDefault();
-        this.direction = "advancing";
+        this.direction = "forward";
         this.setSelectedItem(this.items?.length - 1, true);
         break;
     }
@@ -533,7 +516,7 @@ export class Carousel
     <div
       class={{
         [CSS.pagination]: true,
-        [CSS.isOverlay]: this.controlOverlay,
+        [CSS.containerEdged]: this.controlOverlay,
       }}
       onKeyDown={this.tabListKeyDownHandler}
       // eslint-disable-next-line react/jsx-sort-props
@@ -575,16 +558,16 @@ export class Carousel
   renderArrow = (direction: "previous" | "next"): VNode => {
     const isPrev = direction === "previous";
     const dir = getElementDir(this.el);
-    const scale = this.arrowType === "edges" ? "m" : "s";
+    const scale = this.arrowType === "edge" ? "m" : "s";
     const css = isPrev ? CSS.pagePrevious : CSS.pageNext;
-    const navigateFx = isPrev ? this.previousItem : () => this.nextItem(true);
     const title = isPrev ? this.messages.previous : this.messages.next;
     const icon = isPrev ? ICONS.chevronLeft : ICONS.chevronRight;
     return (
       <button
         aria-controls={this.containerId}
         class={{ [CSS.paginationItem]: true, [css]: true }}
-        onClick={navigateFx}
+        data-direction={direction}
+        onClick={this.handleArrowClick}
         title={title}
       >
         <calcite-icon flipRtl={dir === "rtl"} icon={icon} scale={scale} />
@@ -603,16 +586,14 @@ export class Carousel
             aria-roledescription={this.messages.carousel}
             class={{
               [CSS.container]: true,
-              [CSS.isOverlay]: this.controlOverlay,
-              [CSS.isEdges]: this.arrowType === "edges",
+              [CSS.containerOverlaid]: this.controlOverlay,
+              [CSS.containerEdged]: this.arrowType === "edge",
             }}
             onFocusin={this.handleFocusIn}
             onFocusout={this.handleFocusOut}
             onKeyDown={this.containerKeyDownHandler}
             onMouseEnter={this.handleMouseIn}
             onMouseLeave={this.handleMouseOut}
-            onPointerDown={this.handleSwipeStart}
-            onPointerUp={this.handleSwipeEnd}
             role="group"
             tabIndex={0}
             // eslint-disable-next-line react/jsx-sort-props
@@ -621,16 +602,16 @@ export class Carousel
             <section
               class={{
                 [CSS.itemContainer]: true,
-                [CSS.itemContainerAdvancing]: direction === "advancing",
-                [CSS.itemContainerRetreating]: direction === "retreating",
+                [CSS.itemContainerForward]: direction === "forward",
+                [CSS.itemContainerBackward]: direction === "backward",
               }}
               id={this.containerId}
             >
               <slot onSlotchange={this.updateItems} />
             </section>
             {this.items?.length > 1 && this.renderPaginationArea()}
-            {this.arrowType === "edges" && this.renderArrow("previous")}
-            {this.arrowType === "edges" && this.renderArrow("next")}
+            {this.arrowType === "edge" && this.renderArrow("previous")}
+            {this.arrowType === "edge" && this.renderArrow("next")}
           </div>
         </InteractiveContainer>
       </Host>

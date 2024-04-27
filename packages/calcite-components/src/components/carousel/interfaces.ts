@@ -1,1 +1,1 @@
-export type ArrowType = "inline" | "edges" | "none";
+export type ArrowType = "inline" | "edge" | "none";

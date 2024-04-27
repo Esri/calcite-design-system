@@ -2,9 +2,11 @@ export const DURATION = 6000;
 
 export const CSS = {
   container: "container",
+  containerOverlaid: "container--overlaid",
+  containerEdged: "container--edged",
   itemContainer: "item-container",
-  itemContainerAdvancing: "item-container--advancing",
-  itemContainerRetreating: "item-container--retreating",
+  itemContainerForward: "item-container--forward",
+  itemContainerBackward: "item-container--backward",
   pagination: "pagination",
   paginationItems: "pagination-items",
   paginationItem: "pagination-item",
@@ -12,8 +14,6 @@ export const CSS = {
   paginationItemSelected: "pagination-item--selected",
   pageNext: "page-next",
   pagePrevious: "page-previous",
-  isOverlay: "overlaid",
-  isEdges: "edged",
   rotationControl: "rotation-control",
   rotatingProgress: "rotating-progress",
 };
