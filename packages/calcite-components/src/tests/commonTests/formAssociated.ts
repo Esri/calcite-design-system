@@ -164,12 +164,26 @@ export function formAssociated(
     const spyEvent = await page.spyOnEvent(getClearValidationEventName(tag));
 
     await assertPreventsFormSubmission(page, component, submitButton, requiredValidationMessage);
-    expect(await component.getProperty("validity")).toHaveProperty("valueMissing", true);
+    expect(await serializeValidityProperty(page, tag)).toHaveProperty("valueMissing", true);
 
     await assertClearsValidationOnValueChange(page, component, options, spyEvent, tag);
-    expect(await component.getProperty("validity")).toHaveProperty("valueMissing", false);
+    expect(await serializeValidityProperty(page, tag)).toHaveProperty("valueMissing", false);
 
     await assertUserMessageNotOverridden(page, component, submitButton);
+    expect(await serializeValidityProperty(page, tag)).toHaveProperty("valueMissing", true);
+  }
+
+  // puppeteer wasn't properly serializing the validity object, so we have to do it manually
+  async function serializeValidityProperty(page: E2EPage, tag: string): Promise<ValidityState> {
+    return await page.$eval(tag, (component: HTMLElement) => {
+      const validity = {};
+
+      for (const key in (component as HTMLInputElement).validity) {
+        validity[key] = (component as HTMLInputElement).validity[key];
+      }
+
+      return validity as ValidityState;
+    });
   }
 
   function ensureName(html: string, componentTag: string): string {
@@ -446,7 +460,7 @@ export function formAssociated(
   async function expectValidationIdle(element: E2EElement) {
     expect(await element.getProperty("status")).toBe("idle");
     expect(await element.getProperty("validationMessage")).toBe("");
-    expect(await element.getProperty("validationIcon")).toBe(false);
+    expect(await element.getProperty("validationIcon")).toBe(undefined);
   }
 
   async function expectValidationInvalid(element: E2EElement, message: string, icon?: string | boolean) {
