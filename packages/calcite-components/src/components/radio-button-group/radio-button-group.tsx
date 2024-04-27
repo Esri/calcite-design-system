@@ -90,15 +90,6 @@ export class RadioButtonGroup implements LoadableComponent {
   /** Specifies the validation icon to display under the component. */
   @Prop({ reflect: true }) validationIcon: string | boolean;
 
-  /**
-   * The current validation state of the component.
-   *
-   * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
-  @Prop({ mutable: true }) validity: ValidityState;
-
   @Watch("scale")
   onScaleChange(): void {
     this.passPropsToRadioButtons();
