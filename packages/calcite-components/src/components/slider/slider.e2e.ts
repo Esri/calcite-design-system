@@ -30,6 +30,10 @@ describe("calcite-slider", () => {
         defaultValue: false,
       },
       {
+        propertyName: "fillPlacement",
+        defaultValue: "start",
+      },
+      {
         propertyName: "labelFormatter",
         defaultValue: undefined,
       },
