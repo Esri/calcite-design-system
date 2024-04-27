@@ -14,10 +14,10 @@ import {
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
-import { TableHeaderMessages } from "./assets/table-header/t9n";
-import { CSS } from "./resources";
 import { RowType, TableInteractionMode } from "../table/interfaces";
 import { getIconScale } from "../../utils/component";
+import { TableHeaderMessages } from "./assets/table-header/t9n";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-table-header",
@@ -55,6 +55,9 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
 
   /** @internal */
   @Prop() numberCell = false;
+
+  /** @internal */
+  @Prop() parentRowAlignment: Alignment = "start";
 
   /** @internal */
   @Prop() parentRowIsSelected: boolean;
@@ -223,12 +226,15 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
           class={{
             [CSS.bodyRow]: this.parentRowType === "body",
             [CSS.footerRow]: this.parentRowType === "foot",
+            [CSS.contentCell]: !this.numberCell && !this.selectionCell,
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
             [CSS.selectedCell]: this.parentRowIsSelected,
             [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
             [CSS.staticCell]: staticCell,
             [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
+            [this.parentRowAlignment]:
+              this.parentRowAlignment === "center" || this.parentRowAlignment === "end",
           }}
           colSpan={this.colSpan}
           onBlur={this.onContainerBlur}
@@ -249,13 +255,15 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
               scale={getIconScale(this.scale)}
             />
           )}
-          <span
-            aria-hidden={true}
-            aria-live={this.focused ? "polite" : "off"}
-            class={CSS.assistiveText}
-          >
-            {(this.selectionCell || this.numberCell) && this.screenReaderText}
-          </span>
+          {(this.selectionCell || this.numberCell) && (
+            <span
+              aria-hidden={true}
+              aria-live={this.focused ? "polite" : "off"}
+              class={CSS.assistiveText}
+            >
+              {this.screenReaderText}
+            </span>
+          )}
         </th>
       </Host>
     );

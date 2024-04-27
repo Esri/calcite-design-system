@@ -1,8 +1,8 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden, t9n } from "../../tests/commonTests";
-import { CSS } from "./resources";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-button", () => {
   describe("defaults", () => {
@@ -25,6 +25,10 @@ describe("calcite-button", () => {
       },
       {
         propertyName: "disabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "download",
         defaultValue: false,
       },
       {
@@ -215,6 +219,39 @@ describe("calcite-button", () => {
     expect(iconStart).toBeNull();
     expect(iconEnd).toBeNull();
     expect(loader).toBeNull();
+  });
+
+  it("sets download attribute", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button href="/">Continue</calcite-button>`);
+
+    const elementAsLink = await page.find("calcite-button >>> a");
+
+    expect(elementAsLink).not.toBeNull();
+    expect(await elementAsLink.getProperty("download")).toBe("");
+    expect(elementAsLink).not.toHaveAttribute("download");
+
+    const element = await page.find("calcite-button");
+
+    element.setProperty("download", true);
+    await page.waitForChanges();
+
+    expect(await elementAsLink.getProperty("download")).toBe("");
+    expect(elementAsLink).toHaveAttribute("download");
+    expect(elementAsLink.getAttribute("download")).toBe("");
+
+    const newFilename = "my-cool-file.jpg";
+    element.setProperty("download", newFilename);
+    await page.waitForChanges();
+
+    expect(await elementAsLink.getProperty("download")).toBe(newFilename);
+    expect(elementAsLink.getAttribute("download")).toBe(newFilename);
+
+    element.setProperty("download", false);
+    await page.waitForChanges();
+
+    expect(await elementAsLink.getProperty("download")).toBe("");
+    expect(elementAsLink).not.toHaveAttribute("download");
   });
 
   it("renders as a button with requested props", async () => {

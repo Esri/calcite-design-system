@@ -1,13 +1,13 @@
 import { Component, Element, h, Listen, Method, Prop, State, VNode } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
-import { FlowDirection, FlowItemLikeElement } from "./interfaces";
-import { CSS } from "./resources";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { FlowDirection, FlowItemLikeElement } from "./interfaces";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-flow-item` elements to the component.

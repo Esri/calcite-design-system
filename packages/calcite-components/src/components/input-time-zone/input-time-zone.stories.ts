@@ -1,20 +1,17 @@
-import { select, text } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { select, text } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/InputTimeZone",
   parameters: {
     chromatic: { delay: 1500 },
-    notes: readme,
     options: {
       // for stability, we use a timezone unaffected by daylight savings time
       timezone: "America/Mexico_City",
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -27,6 +24,18 @@ export const simple = (): string => html`
     validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
   ></calcite-input-time-zone>
 `;
+
+export const clearable = (): string => html`
+  <label>default</label>
+  <calcite-input-time-zone mode="offset" clearable></calcite-input-time-zone>
+  <calcite-input-time-zone mode="name" clearable></calcite-input-time-zone>
+  <br />
+  <label>initialized as empty</label>
+  <calcite-input-time-zone mode="offset" clearable value=""></calcite-input-time-zone>
+  <calcite-input-time-zone mode="name" clearable value=""></calcite-input-time-zone>
+`;
+
+clearable.parameters = { chromatic: { delay: 500 } };
 
 export const timeZoneNameMode_TestOnly = (): string => html`
   <calcite-input-time-zone mode="name" open></calcite-input-time-zone>
@@ -64,7 +73,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   <calcite-input-time-zone dir="rtl" class="calcite-mode-dark"></calcite-input-time-zone>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const validationMessageAllScales_TestOnly = (): string => html`
   <style>

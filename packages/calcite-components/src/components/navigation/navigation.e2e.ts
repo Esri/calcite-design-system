@@ -37,7 +37,9 @@ describe("calcite-navigation", () => {
 
   describe("accessible", () => {
     accessible(
-      html`<calcite-navigation navigation-action><calcite-navigation-logo heading="Test" /></calcite-navigation>`,
+      html`<calcite-navigation label="test" navigation-action
+        ><calcite-navigation-logo heading="Test"
+      /></calcite-navigation>`,
     );
   });
 

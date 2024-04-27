@@ -3,14 +3,14 @@
   & .button {
     background-color: transparent;
     border: none;
-    @apply flex
+    @apply font-sans
+      flex
       m-0
       items-center
       justify-center
       cursor-pointer
 
       focus-base
-      font-sans
       text-0h;
     @include transition-default();
     border-block-end: 2px solid transparent;
@@ -30,14 +30,6 @@
   @apply bg-foreground-3 text-color-1;
 }
 
-calcite-avatar {
-  @apply px-4;
-}
-
-calcite-avatar ~ .text-container {
-  @apply ps-0;
-}
-
 :host([active]) .button {
   @apply text-color-1 border-color-brand;
   --calcite-ui-icon-color: var(--calcite-color-brand);
@@ -49,6 +41,14 @@ calcite-avatar ~ .text-container {
   text-start
   px-4
   mt-0.5;
+}
+
+calcite-avatar {
+  @apply px-4;
+}
+
+calcite-avatar ~ .text-container {
+  @apply ps-0;
 }
 
 .full-name {

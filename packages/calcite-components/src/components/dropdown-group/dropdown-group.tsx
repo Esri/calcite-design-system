@@ -11,9 +11,9 @@ import {
   Watch,
 } from "@stencil/core";
 import { Scale, SelectionMode } from "../interfaces";
-import { RequestedItem } from "./interfaces";
 import { createObserver } from "../../utils/observers";
 import { CSS } from "../dropdown-item/resources";
+import { RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-item`s.

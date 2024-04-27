@@ -1,4 +1,4 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import {
   Attribute,
   Attributes,
@@ -6,19 +6,14 @@ import {
   filterComponentAttributes,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { ICONS } from "./resources";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
+import { ICONS } from "./resources";
+
 const { scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Buttons/FAB",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -35,7 +30,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false);
+          this.value = boolean("disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -59,7 +54,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false);
+          this.value = boolean("loading", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -75,7 +70,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "text-enabled",
         commit(): Attribute {
-          this.value = boolean("text-enabled", true);
+          this.value = boolean("text-enabled", true, "", "prop");
           delete this.build;
           return this;
         },
@@ -115,4 +110,4 @@ export const darkModeRTL_TestOnly = (): string =>
     ]),
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

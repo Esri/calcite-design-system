@@ -1,7 +1,6 @@
-import { boolean, select } from "@storybook/addon-knobs";
+import { boolean, select } from "../../../.storybook/fake-knobs";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 import {
   Attribute,
   Attributes,
@@ -9,15 +8,10 @@ import {
   modesDarkDefault,
   createComponentHTML as create,
 } from "../../../.storybook/utils";
-import { storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
   title: "Components/Card",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -27,7 +21,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false);
+          this.value = boolean("loading", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -35,7 +29,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "selected",
         commit(): Attribute {
-          this.value = boolean("selected", false);
+          this.value = boolean("selected", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -88,11 +82,6 @@ const footerEndButtonsHtml = html`
   </div>
 `;
 
-const tooltipHtml = html`
-  <calcite-tooltip placement="top-start" reference-element="card-icon-test-6">Configure</calcite-tooltip>
-  <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-7">Delete</calcite-tooltip>
-`;
-
 export const simple = (): string =>
   html` <div style="width: 260px">${create("calcite-card", createAttributes(), titleHtml)}</div>`;
 
@@ -103,16 +92,6 @@ export const simpleWithFooterLinks = (): string => html`
 export const simpleWithFooterButton = (): string => html`
   <div style="width:260px">${create("calcite-card", createAttributes(), html`${titleHtml}${footerButtonHtml}`)}</div>
 `;
-
-export const simpleWithFooterTextButtonTooltip_NoTest = (): string => html`
-  <div style="width:260px">
-    ${create("calcite-card", createAttributes(), html`${titleHtml}${footerStartTextHtml}${footerEndButtonsHtml}`)}
-  </div>
-  ${tooltipHtml}
-`;
-simpleWithFooterTextButtonTooltip_NoTest.parameters = {
-  chromatic: { disableSnapshot: true },
-};
 
 export const thumbnail = (): string => html`
   <div style="width:260px">
@@ -231,10 +210,32 @@ export const deprecatedSlotsSelectable_TestOnly = (): string => html`
   </calcite-card>
 `;
 
+export const slottedFooterItems_TestOnly = (): string => html`
+  <div id="card-container" style="width:260px;">
+    <calcite-card>
+      ${thumbnailHtml}
+      <h3 slot="heading">Portland Businesses</h3>
+      <span slot="description"
+        >by
+        <calcite-link href="">example_user</calcite-link>
+      </span>
+      <div>
+        Created: Apr 22, 2019
+        <br />
+        Updated: Dec 9, 2019
+        <br />
+        View Count: 0
+      </div>
+      <calcite-chip slot="footer-start" value="calcite chip" kind="brand" icon="clock-forward">Recent</calcite-chip>
+      <calcite-chip slot="footer-end" value="calcite chip" icon="walking">Recreation</calcite-chip>
+    </calcite-card>
+  </div>
+`;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:260px;">
     <calcite-card>${thumbnailHtml}${titleHtml}${footerStartTextHtml}${footerEndButtonsHtml}</calcite-card>
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

@@ -34,14 +34,11 @@ import {
   FocusTrapComponent,
   updateFocusTrapElements,
 } from "../../utils/focusTrapComponent";
-import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
-
 import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
-
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -50,9 +47,6 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { PopoverMessages } from "./assets/popover/t9n";
-import PopoverManager from "./PopoverManager";
-
 import {
   componentFocusable,
   LoadableComponent,
@@ -62,6 +56,9 @@ import {
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { getIconScale } from "../../utils/component";
+import PopoverManager from "./PopoverManager";
+import { PopoverMessages } from "./assets/popover/t9n";
+import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
 
 const manager = new PopoverManager();
 
@@ -138,7 +135,7 @@ export class Popover
   @Prop() heading: string;
 
   /**
-   * Specifies the number at which section headings should start.
+   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
@@ -313,7 +310,7 @@ export class Popover
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.reposition();
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.hasLoaded = true;
   }
 

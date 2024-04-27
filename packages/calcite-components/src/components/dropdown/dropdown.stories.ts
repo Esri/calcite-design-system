@@ -1,21 +1,16 @@
-import { number, select } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { number, select } from "../../../.storybook/fake-knobs";
+import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
-import readme2 from "../dropdown-group/readme.md";
-import readme3 from "../dropdown-item/readme.md";
-import readme1 from "./readme.md";
 
 export default {
   title: "Components/Buttons/Dropdown",
   parameters: {
-    notes: [readme1, readme2, readme3],
     chromatic: {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -223,7 +218,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-dropdown>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const itemsAsLinksDarkMode = (): string => html`
   <calcite-dropdown
@@ -257,7 +252,7 @@ export const itemsAsLinksDarkMode = (): string => html`
   </calcite-dropdown>
 `;
 
-itemsAsLinksDarkMode.parameters = { modes: modesDarkDefault };
+itemsAsLinksDarkMode.parameters = { themes: modesDarkDefault };
 
 export const scrollingAfterCertainItems_TestOnly = (): string => html`
   <calcite-dropdown

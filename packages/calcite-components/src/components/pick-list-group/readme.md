@@ -1,6 +1,6 @@
 # calcite-pick-list-group
 
-`calcite-pick-list-group` is a wrapper for multiple `calcite-pick-list-item`s and lives in `calcite-pick-list`.
+For comprehensive guidance on using and implementing `calcite-pick-list-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/pick-list-group/).
 
 <!-- Auto Generated Below -->
 
@@ -8,10 +8,10 @@
 
 ## Properties
 
-| Property       | Attribute       | Description                                                   | Type                         | Default     |
-| -------------- | --------------- | ------------------------------------------------------------- | ---------------------------- | ----------- |
-| `groupTitle`   | `group-title`   | Specifies the title for all nested `calcite-pick-list-item`s. | `string`                     | `undefined` |
-| `headingLevel` | `heading-level` | Specifies the number at which section headings should start.  | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| Property       | Attribute       | Description                                                                                                               | Type                         | Default     |
+| -------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `groupTitle`   | `group-title`   | Specifies the title for all nested `calcite-pick-list-item`s.                                                             | `string`                     | `undefined` |
+| `headingLevel` | `heading-level` | Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 
 ## Slots
 
