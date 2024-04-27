@@ -142,6 +142,12 @@ There are a few ways to add event listeners within our components:
 
 Private/internal properties should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
 
+### Property values
+
+Property values should be meaningful. Avoid using values such as "default" for default values. Instead, use a more descriptive value.
+
+For instance: `placement: "start" | "end" = "start";` is preferred to `placement: "default" | "end" = "default";`
+
 ### Reflecting to attributes
 
 It is recommended to reflect properties that fit the following criteria:
