@@ -37,6 +37,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
+import { getRoundRobinIndex } from "../../utils/array";
 import { CSS, DURATION, ICONS } from "./resources";
 import { CarouselMessages } from "./assets/carousel/t9n";
 import { ArrowType } from "./interfaces";
@@ -263,13 +264,13 @@ export class Carousel
     if (this.rotating && emit) {
       this.rotating = false;
     }
-    const nextIndex = this.selectedIndex === this.items?.length - 1 ? 0 : this.selectedIndex + 1;
+    const nextIndex = getRoundRobinIndex(this.selectedIndex + 1, this.items.length);
     this.setSelectedItem(nextIndex, emit);
   }
 
   private previousItem() {
     this.rotating = false;
-    const prevIndex = this.selectedIndex === 0 ? this.items?.length - 1 : this.selectedIndex - 1;
+    const prevIndex = getRoundRobinIndex(Math.max(this.selectedIndex - 1, -1), this.items.length);
     this.setSelectedItem(prevIndex, true);
   }
 
@@ -331,7 +332,7 @@ export class Carousel
 
   private setSelectedItem = (requestedIndex: number, emit: boolean): void => {
     const previousSelected = this.selectedIndex;
-    this.items?.forEach((el, index) => {
+    this.items.forEach((el, index) => {
       const isMatch = requestedIndex === index;
       el.selected = isMatch;
       if (isMatch) {
@@ -448,7 +449,7 @@ export class Carousel
       case "End":
         event.preventDefault();
         this.direction = "forward";
-        this.setSelectedItem(this.items?.length - 1, true);
+        this.setSelectedItem(this.items.length - 1, true);
         break;
     }
   };
@@ -531,7 +532,7 @@ export class Carousel
 
   renderPaginationItems = (): VNode => (
     <div aria-label={this.label} class={CSS.paginationItems} role="tablist">
-      {this.items?.map((item, index) => {
+      {this.items.map((item, index) => {
         const isMatch = index === this.selectedIndex;
         return (
           <button
@@ -609,7 +610,7 @@ export class Carousel
             >
               <slot onSlotchange={this.updateItems} />
             </section>
-            {this.items?.length > 1 && this.renderPaginationArea()}
+            {this.items.length > 1 && this.renderPaginationArea()}
             {this.arrowType === "edge" && this.renderArrow("previous")}
             {this.arrowType === "edge" && this.renderArrow("next")}
           </div>

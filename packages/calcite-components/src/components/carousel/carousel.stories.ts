@@ -305,6 +305,19 @@ export const themed_carouselFullImageWithOverlay = (): string =>
 
 export const darkModeRTL = (): string =>
   html` <div style="width:600px;height:400px;" dir="rtl">
+    <style>
+      calcite-carousel-item calcite-icon {
+        margin: 2rem auto 1rem;
+        display: block;
+      }
+      calcite-carousel {
+        width: 400px;
+      }
+      calcite-carousel-item p {
+        text-align: center;
+        margin: 0 auto 1rem;
+      }
+    </style>
     <calcite-carousel>
       <calcite-carousel-item label="Carousel Item 1">
         <p>
