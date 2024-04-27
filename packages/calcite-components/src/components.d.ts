@@ -3885,12 +3885,6 @@ export namespace Components {
           * Specifies the validation message to display under the component.
          */
         "validationMessage": string;
-        /**
-          * The current validation state of the component.
-          * @readonly 
-          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
-         */
-        "validity": ValidityState;
     }
     interface CalciteRating {
         /**
@@ -11519,12 +11513,6 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
-        /**
-          * The current validation state of the component.
-          * @readonly 
-          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
-         */
-        "validity"?: ValidityState;
     }
     interface CalciteRating {
         /**
