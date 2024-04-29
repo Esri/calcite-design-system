@@ -277,15 +277,7 @@ function invalidHandler(event: Event) {
     status: "invalid",
   });
 
-  displayValidationMessage(formComponent as HTMLCalciteInputElement, {
-    message: hiddenInput?.validationMessage,
-    icon: true,
-    status: "invalid",
-  });
-
-  if (
-    (formComponent as HTMLCalciteInputElement).validationMessage !== hiddenInput?.validationMessage
-  ) {
+  if (formComponent?.validationMessage !== hiddenInput?.validationMessage) {
     return;
   }
 
@@ -535,7 +527,12 @@ function defaultSyncHiddenFormInput(
   }
 
   component.syncHiddenFormInput?.(input);
-  "validity" in component && (component.validity = input.validity);
+
+  const validationComponent = getValidationComponent(
+    input.parentElement as HTMLCalciteInputElement,
+  );
+
+  "validity" in validationComponent && (validationComponent.validity = input.validity);
 }
 
 interface HiddenFormInputSlotProps {
