@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.15...@esri/calcite-components@2.8.0-next.16) (2024-04-29)
+
+### Bug Fixes
+
+- **chip-group:** Improve programmatic Chip selection behavior ([#9213](https://github.com/Esri/calcite-design-system/issues/9213)) ([b7a4c77](https://github.com/Esri/calcite-design-system/commit/b7a4c7780b3ff1f62ad2705873b296ba9cc20ec9)), closes [#8801](https://github.com/Esri/calcite-design-system/issues/8801)
+
 ## [2.8.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.14...@esri/calcite-components@2.8.0-next.15) (2024-04-27)
 
 ### Bug Fixes

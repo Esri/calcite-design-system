@@ -233,27 +233,27 @@ function displayValidationMessage(
 }
 
 function getValidationComponent(
-  formComponent: HTMLCalciteInputElement,
-  // TODO: create an HTMLCalciteFormElement base type
+  el: HTMLCalciteInputElement,
+  // TODO: create an HTMLCalciteFormAssociatedElement base type
 ): HTMLCalciteInputElement | HTMLCalciteRadioButtonGroupElement {
   // radio-button is formAssociated, but the validation props are on the parent group
-  if (formComponent.nodeName === "CALCITE-RADIO-BUTTON") {
+  if (el.nodeName === "CALCITE-RADIO-BUTTON") {
     return closestElementCrossShadowBoundary<HTMLCalciteRadioButtonGroupElement>(
-      formComponent,
+      el,
       "calcite-radio-button-group",
     );
   }
-  return formComponent;
+  return el;
 }
 
 function invalidHandler(event: Event) {
   // target is the hidden input, which is slotted in the actual form component
   const hiddenInput = event?.target as HTMLInputElement;
 
-  // not necessarily a calcite-input, but we don't have an HTMLCalciteFormElement type
+  // not necessarily a calcite-input, but we don't have an HTMLCalciteFormAssociatedElement type
   const formComponent = getValidationComponent(
     hiddenInput?.parentElement as HTMLCalciteInputElement,
-  );
+  ) as HTMLCalciteInputElement;
 
   if (!formComponent) {
     return;
@@ -271,6 +271,12 @@ function invalidHandler(event: Event) {
 
   "validity" in formComponent && (formComponent.validity = hiddenInput?.validity);
 
+  displayValidationMessage(formComponent, {
+    message: hiddenInput?.validationMessage,
+    icon: true,
+    status: "invalid",
+  });
+
   displayValidationMessage(formComponent as HTMLCalciteInputElement, {
     message: hiddenInput?.validationMessage,
     icon: true,
@@ -286,7 +292,7 @@ function invalidHandler(event: Event) {
   const clearValidationEvent = getClearValidationEventName(componentTag);
   formComponent.addEventListener(
     clearValidationEvent,
-    () => clearValidationMessage(formComponent as HTMLCalciteInputElement),
+    () => clearValidationMessage(formComponent),
     { once: true },
   );
 }

@@ -472,6 +472,7 @@ export function formAssociated(
   async function expectValidationProps(page: E2EPage, element: E2EElement, validationProps?: ValidationProps) {
     let testProps = validationProps;
 
+    // radio-button is formAssociated, but the validation props are on the parent group
     if (element.nodeName === "CALCITE-RADIO-BUTTON") {
       element.setProperty("id", "radio-button");
       await page.waitForChanges();
