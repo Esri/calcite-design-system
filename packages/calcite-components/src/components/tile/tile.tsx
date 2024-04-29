@@ -202,13 +202,11 @@ export class Tile implements InteractiveComponent, SelectableComponent {
   // --------------------------------------------------------------------------
 
   private handleSelectEvent = (): void => {
-    if (this.disabled) {
-      return;
-    }
-    if (!this.interactive) {
-      return;
-    }
-    if (this.selectionMode === "single-persist" && this.selected === true) {
+    if (
+      this.disabled ||
+      !this.interactive ||
+      (this.selectionMode === "single-persist" && this.selected === true)
+    ) {
       return;
     }
     this.calciteTileSelect.emit();
