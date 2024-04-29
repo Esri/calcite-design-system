@@ -439,26 +439,289 @@ describe("calcite-chip-group", () => {
       await page.waitForChanges();
       expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip4.id);
     });
+
+    it("selectedItems property is correctly populated at load when property is set on chips in DOM", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-chip-group label="test-label" selection-mode="multiple">
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip id="chip-4" selected label="test-label"></calcite-chip>
+          <calcite-chip id="chip-5" selected label="test-label"></calcite-chip>
+        </calcite-chip-group>`,
+      );
+      const element = await page.find("calcite-chip-group");
+      const chip4 = await page.find("#chip-4");
+      const chip5 = await page.find("#chip-5");
+      await assertSelectedItems.setUpEvents(page);
+      await page.waitForChanges();
+
+      expect(await element.getProperty("selectedItems")).toHaveLength(2);
+      await assertSelectedItems(page, { expectedItemIds: [chip4.id, chip5.id] });
+    });
   });
 
-  it("selectedItems property is correctly populated at load when property is set on chips in DOM", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-chip-group label="test-label" selection-mode="multiple">
-        <calcite-chip label="test-label"></calcite-chip>
-        <calcite-chip label="test-label"></calcite-chip>
-        <calcite-chip label="test-label"></calcite-chip>
-        <calcite-chip id="chip-4" selected label="test-label"></calcite-chip>
-        <calcite-chip id="chip-5" selected label="test-label"></calcite-chip>
-      </calcite-chip-group>`,
-    );
-    const element = await page.find("calcite-chip-group");
-    const chip4 = await page.find("#chip-4");
-    const chip5 = await page.find("#chip-5");
-    await page.waitForChanges();
+  describe("programmatically selecting Chips", () => {
+    it("programmatically setting selected on a chip should update the component but not emit public events", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-chip-group label="test-label" selection-mode="single">
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip id="chip-4" selected label="test-label"></calcite-chip>
+          <calcite-chip id="chip-5" label="test-label"></calcite-chip>
+        </calcite-chip-group>`,
+      );
+      const element = await page.find("calcite-chip-group");
+      const chip4 = await page.find("#chip-4");
+      const chip5 = await page.find("#chip-5");
+      const chipGroupSelectSpy = await element.spyOnEvent("calciteChipGroupSelect");
+      await assertSelectedItems.setUpEvents(page);
 
-    expect(await element.getProperty("selectedItems")).toHaveLength(2);
-    await assertSelectedItems(page, { expectedItemIds: [chip4.id, chip5.id] });
+      const chipSelectSpy1 = await chip4.spyOnEvent("calciteChipSelect");
+      const chipSelectSpy2 = await chip5.spyOnEvent("calciteChipSelect");
+      await page.waitForChanges();
+
+      expect(await element.getProperty("selectedItems")).toHaveLength(1);
+      await assertSelectedItems(page, { expectedItemIds: [chip4.id] });
+
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
+
+      await chip5.setAttribute("selected", true);
+      await page.waitForChanges();
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("selectedItems")).toHaveLength(1);
+      await assertSelectedItems(page, { expectedItemIds: [chip5.id] });
+    });
+
+    it("programmatically setting selected on a chip in single-persist should update the component but not emit public events", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-chip-group label="test-label" selection-mode="single-persist">
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip id="chip-4" selected label="test-label"></calcite-chip>
+          <calcite-chip id="chip-5" label="test-label"></calcite-chip>
+        </calcite-chip-group>`,
+      );
+      const element = await page.find("calcite-chip-group");
+      const chip4 = await page.find("#chip-4");
+      const chip5 = await page.find("#chip-5");
+      const chipGroupSelectSpy = await element.spyOnEvent("calciteChipGroupSelect");
+      await assertSelectedItems.setUpEvents(page);
+
+      const chipSelectSpy1 = await chip4.spyOnEvent("calciteChipSelect");
+      const chipSelectSpy2 = await chip5.spyOnEvent("calciteChipSelect");
+      await page.waitForChanges();
+
+      expect(await element.getProperty("selectedItems")).toHaveLength(1);
+      await assertSelectedItems(page, { expectedItemIds: [chip4.id] });
+
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
+
+      chip4.removeAttribute("selected");
+      await page.waitForChanges();
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("selectedItems")).toHaveLength(0);
+      await assertSelectedItems(page, { expectedItemIds: [] });
+
+      chip5.setAttribute("selected", true);
+      await page.waitForChanges();
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("selectedItems")).toHaveLength(1);
+      await assertSelectedItems(page, { expectedItemIds: [chip5.id] });
+
+      chip4.setAttribute("selected", true);
+      await page.waitForChanges();
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("selectedItems")).toHaveLength(1);
+      await assertSelectedItems(page, { expectedItemIds: [chip4.id] });
+    });
+    it("programmatically setting selected on a chip in multiple should update the component but not emit public events", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-chip-group label="test-label" selection-mode="multiple">
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip id="chip-4" selected label="test-label"></calcite-chip>
+          <calcite-chip id="chip-5" label="test-label"></calcite-chip>
+        </calcite-chip-group>`,
+      );
+      const element = await page.find("calcite-chip-group");
+      const chip4 = await page.find("#chip-4");
+      const chip5 = await page.find("#chip-5");
+      const chipGroupSelectSpy = await element.spyOnEvent("calciteChipGroupSelect");
+      await assertSelectedItems.setUpEvents(page);
+
+      const chipSelectSpy1 = await chip4.spyOnEvent("calciteChipSelect");
+      const chipSelectSpy2 = await chip5.spyOnEvent("calciteChipSelect");
+      await page.waitForChanges();
+
+      expect(await element.getProperty("selectedItems")).toHaveLength(1);
+      await assertSelectedItems(page, { expectedItemIds: [chip4.id] });
+
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
+
+      chip5.setAttribute("selected", true);
+      await page.waitForChanges();
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("selectedItems")).toHaveLength(2);
+      await assertSelectedItems(page, { expectedItemIds: [chip4.id, chip5.id] });
+    });
+  });
+
+  describe("updating component after page load", () => {
+    it("should update selected items without emitting event if chips are added after page load in multiple", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-chip-group label="test-label" selection-mode="multiple">
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip id="chip-4" selected label="test-label"></calcite-chip>
+          <calcite-chip id="chip-5" selected label="test-label"></calcite-chip>
+        </calcite-chip-group>`,
+      );
+      const element = await page.find("calcite-chip-group");
+      const chip4 = await page.find("#chip-4");
+      const chip5 = await page.find("#chip-5");
+      const chipGroupSelectSpy = await element.spyOnEvent("calciteChipGroupSelect");
+      await assertSelectedItems.setUpEvents(page);
+
+      const chipSelectSpy1 = await chip4.spyOnEvent("calciteChipSelect");
+      const chipSelectSpy2 = await chip5.spyOnEvent("calciteChipSelect");
+      await page.waitForChanges();
+
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("selectedItems")).toHaveLength(2);
+      await assertSelectedItems(page, { expectedItemIds: [chip4.id, chip5.id] });
+
+      await page.evaluate(() => {
+        const group = document.querySelector("calcite-chip-group");
+        const newChip = document.createElement("calcite-chip");
+        newChip.id = "chip-6";
+        newChip.selected = true;
+        group.appendChild(newChip);
+      });
+
+      await page.waitForChanges();
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("selectedItems")).toHaveLength(3);
+      await assertSelectedItems(page, { expectedItemIds: [chip4.id, chip5.id, "chip-6"] });
+    });
+
+    it("should update selected items without emitting event if chips are added after page load in single", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-chip-group label="test-label" selection-mode="single">
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip id="chip-4" selected label="test-label"></calcite-chip>
+          <calcite-chip id="chip-5" label="test-label"></calcite-chip>
+        </calcite-chip-group>`,
+      );
+      const element = await page.find("calcite-chip-group");
+      const chip4 = await page.find("#chip-4");
+      const chipGroupSelectSpy = await element.spyOnEvent("calciteChipGroupSelect");
+      await assertSelectedItems.setUpEvents(page);
+
+      const chipSelectSpy1 = await chip4.spyOnEvent("calciteChipSelect");
+      await page.waitForChanges();
+
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("selectedItems")).toHaveLength(1);
+      await assertSelectedItems(page, { expectedItemIds: [chip4.id] });
+
+      await page.evaluate(() => {
+        const group = document.querySelector("calcite-chip-group");
+        const newChip = document.createElement("calcite-chip");
+        newChip.id = "chip-6";
+        newChip.selected = true;
+        group.appendChild(newChip);
+      });
+
+      await page.waitForChanges();
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("selectedItems")).toHaveLength(1);
+      await assertSelectedItems(page, { expectedItemIds: ["chip-6"] });
+    });
+
+    it("should update selected items without emitting event if chips are removed after page load", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-chip-group label="test-label" selection-mode="multiple">
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip id="chip-4" selected label="test-label"></calcite-chip>
+          <calcite-chip id="chip-5" selected label="test-label"></calcite-chip>
+        </calcite-chip-group>`,
+      );
+      const element = await page.find("calcite-chip-group");
+      const chip4 = await page.find("#chip-4");
+      const chip5 = await page.find("#chip-5");
+      const chipGroupSelectSpy = await element.spyOnEvent("calciteChipGroupSelect");
+      await assertSelectedItems.setUpEvents(page);
+
+      const chipSelectSpy1 = await chip4.spyOnEvent("calciteChipSelect");
+      const chipSelectSpy2 = await chip5.spyOnEvent("calciteChipSelect");
+      await page.waitForChanges();
+
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("selectedItems")).toHaveLength(2);
+      await assertSelectedItems(page, { expectedItemIds: [chip4.id, chip5.id] });
+
+      await page.evaluate(() => {
+        document.querySelector("calcite-chip:last-child").remove();
+      });
+
+      await page.waitForChanges();
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("selectedItems")).toHaveLength(1);
+      await assertSelectedItems(page, { expectedItemIds: [chip4.id] });
+
+      await page.evaluate(() => {
+        document.querySelector("calcite-chip:last-child").remove();
+      });
+
+      await page.waitForChanges();
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
+      expect(await element.getProperty("selectedItems")).toHaveLength(0);
+      await assertSelectedItems(page, { expectedItemIds: [] });
+    });
   });
 });
 
