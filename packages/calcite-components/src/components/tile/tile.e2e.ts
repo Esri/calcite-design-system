@@ -6,33 +6,33 @@ import { SLOTS } from "./resources";
 
 describe("calcite-tile", () => {
   describe("accessibility", () => {
-    accessible(html` <calcite-tile></calcite-tile> `, "accessible without label");
-    accessible(html` <calcite-tile label="my-tile"></calcite-tile> `, "accessible with label only");
-    accessible(
-      html` <calcite-tile label="my-tile" selection-mode="single"></calcite-tile> `,
-      "accessible in single selection-mode",
-    );
-    accessible(
-      html` <calcite-tile label="my-tile" selection-mode="single-persist"></calcite-tile> `,
-      "accessible in single-persist selection-mode",
-    );
-    accessible(
-      html` <calcite-tile label="my-tile" selection-mode="multiple"></calcite-tile> `,
-      "accessible in multiple selection-mode",
-    );
-    accessible(html` <calcite-tile href="#" heading="My link"></calcite-tile> `, "accessible as link with heading");
-    accessible(
-      html` <calcite-tile href="#" description="My link"></calcite-tile> `,
-      "accessible as link with description",
-    );
-    accessible(
-      html` <calcite-tile label="my-tile" href="#" heading="My link"></calcite-tile> `,
-      "accessible as link with heading and label",
-    );
-    accessible(
-      html` <calcite-tile label="my-tile" href="#" description="My link"></calcite-tile> `,
-      "accessible as link with description and label",
-    );
+    describe("accessible without label", () => {
+      accessible(html` <calcite-tile></calcite-tile> `);
+    });
+    describe("accessible with label only", () => {
+      accessible(html` <calcite-tile label="my-tile"></calcite-tile> `);
+    });
+    describe("accessible in single selection-mode", () => {
+      accessible(html` <calcite-tile label="my-tile" selection-mode="single"></calcite-tile> `);
+    });
+    describe("accessible in single-persist selection-mode", () => {
+      accessible(html` <calcite-tile label="my-tile" selection-mode="single-persist"></calcite-tile> `);
+    });
+    describe("accessible in multiple selection-mode", () => {
+      accessible(html` <calcite-tile label="my-tile" selection-mode="multiple"></calcite-tile> `);
+    });
+    describe("accessible as link with heading", () => {
+      accessible(html` <calcite-tile href="#" heading="My link"></calcite-tile> `);
+    });
+    describe("accessible as link with description", () => {
+      accessible(html` <calcite-tile href="#" description="My link"></calcite-tile> `);
+    });
+    describe("accessible as link with heading and label", () => {
+      accessible(html` <calcite-tile label="my-tile" href="#" heading="My link"></calcite-tile> `);
+    });
+    describe("accessible as link with description and label", () => {
+      accessible(html` <calcite-tile label="my-tile" href="#" description="My link"></calcite-tile> `);
+    });
   });
 
   describe("click", () => {

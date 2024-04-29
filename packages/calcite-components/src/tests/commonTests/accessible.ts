@@ -19,10 +19,9 @@ type AxeOwningWindow = GlobalTestProps<{ axe: typeof axe }>;
  * });
  *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
- * @param {label} string - A custom name for the test
  */
-export function accessible(componentTestSetup: ComponentTestSetup, label?: string): void {
-  it(label ?? "is accessible", async () => {
+export function accessible(componentTestSetup: ComponentTestSetup): void {
+  it("is accessible", async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     await page.addScriptTag({ path: require.resolve("axe-core") });

@@ -5,51 +5,46 @@ import { assertSelectedItems, isElementFocused } from "../../tests/utils";
 
 describe("calcite-tile-group", () => {
   describe("accessibility", () => {
-    accessible(
-      html`
+    describe("accessible in selection-mode none", () => {
+      accessible(html`
         <calcite-tile-group>
           <calcite-tile label="item-1"></calcite-tile>
           <calcite-tile label="item-2"></calcite-tile>
         </calcite-tile-group>
-      `,
-      "accessible in selection-mode none",
-    );
-    accessible(
-      html`
+      `);
+    });
+    describe("accessible in selection-mode single", () => {
+      accessible(html`
         <calcite-tile-group selection-mode="single">
           <calcite-tile label="item-1"></calcite-tile>
           <calcite-tile label="item-2"></calcite-tile>
         </calcite-tile-group>
-      `,
-      "accessible in selection-mode single",
-    );
-    accessible(
-      html`
+      `);
+    });
+    describe("accessible in selection-mode single-persist", () => {
+      accessible(html`
         <calcite-tile-group selection-mode="single-persist">
           <calcite-tile label="item-1"></calcite-tile>
           <calcite-tile label="item-2"></calcite-tile>
         </calcite-tile-group>
-      `,
-      "accessible in selection-mode single-persist",
-    );
-    accessible(
-      html`
+      `);
+    });
+    describe("accessible in selection-mode multiple", () => {
+      accessible(html`
         <calcite-tile-group selection-mode="multiple">
           <calcite-tile label="item-1"></calcite-tile>
           <calcite-tile label="item-2"></calcite-tile>
         </calcite-tile-group>
-      `,
-      "accessible in selection-mode multiple",
-    );
-    accessible(
-      html`
+      `);
+    });
+    describe("accessible as links", () => {
+      accessible(html`
         <calcite-tile-group>
           <calcite-tile label="item-1" href="#"></calcite-tile>
           <calcite-tile label="item-2" href="#"></calcite-tile>
         </calcite-tile-group>
-      `,
-      "accessible as links",
-    );
+      `);
+    });
   });
 
   describe("defaults", () => {
