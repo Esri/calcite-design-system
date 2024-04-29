@@ -316,7 +316,7 @@ export class Carousel
     }
   };
 
-  private updateItems = (event: Event): void => {
+  private handleSlotChange = (event: Event): void => {
     const items = slotChangeGetAssignedElements(event) as HTMLCalciteCarouselItemElement[];
 
     if (items.length < 1) {
@@ -608,7 +608,7 @@ export class Carousel
               }}
               id={this.containerId}
             >
-              <slot onSlotchange={this.updateItems} />
+              <slot onSlotchange={this.handleSlotChange} />
             </section>
             {this.items.length > 1 && this.renderPaginationArea()}
             {this.arrowType === "edge" && this.renderArrow("previous")}

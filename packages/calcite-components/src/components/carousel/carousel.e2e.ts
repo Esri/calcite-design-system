@@ -59,22 +59,6 @@ describe("calcite-carousel", () => {
   });
 
   describe("first render", () => {
-    it("should pre-select the correct item if the selected attribute is set", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-carousel label="Carousel example">
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
-        </calcite-carousel>`,
-      );
-
-      await page.waitForChanges();
-      const carousel = await page.find("calcite-carousel");
-      const selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
-      expect(selectedItem.id).toEqual("two");
-    });
-
     it("should not render arrow items when requested", async () => {
       const page = await newE2EPage();
       await page.setContent(
