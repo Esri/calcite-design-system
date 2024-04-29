@@ -232,23 +232,31 @@ function displayValidationMessage(
     (component.validationMessage = message);
 }
 
+function getValidationComponent(
+  formComponent: HTMLCalciteInputElement,
+  // TODO: create an HTMLCalciteFormElement base type
+): HTMLCalciteInputElement | HTMLCalciteRadioButtonGroupElement {
+  // radio-button is formAssociated, but the validation props are on the parent group
+  if (formComponent.nodeName === "CALCITE-RADIO-BUTTON") {
+    return closestElementCrossShadowBoundary<HTMLCalciteRadioButtonGroupElement>(
+      formComponent,
+      "calcite-radio-button-group",
+    );
+  }
+  return formComponent;
+}
+
 function invalidHandler(event: Event) {
   // target is the hidden input, which is slotted in the actual form component
   const hiddenInput = event?.target as HTMLInputElement;
 
   // not necessarily a calcite-input, but we don't have an HTMLCalciteFormElement type
-  let formComponent = hiddenInput?.parentElement;
+  const formComponent = getValidationComponent(
+    hiddenInput?.parentElement as HTMLCalciteInputElement,
+  );
 
-  // radio-button is formAssociated, but the validation props are on the parent group
-  if (hiddenInput?.parentElement.nodeName === "CALCITE-RADIO-BUTTON") {
-    formComponent = closestElementCrossShadowBoundary<HTMLCalciteRadioButtonGroupElement>(
-      hiddenInput?.parentElement,
-      "calcite-radio-button-group",
-    );
-
-    if (!formComponent) {
-      return;
-    }
+  if (!formComponent) {
+    return;
   }
 
   const componentTag = formComponent?.nodeName?.toLowerCase();
@@ -260,6 +268,8 @@ function invalidHandler(event: Event) {
 
   // prevent the browser from showing the native validation popover
   event?.preventDefault();
+
+  "validity" in formComponent && (formComponent.validity = hiddenInput?.validity);
 
   displayValidationMessage(formComponent as HTMLCalciteInputElement, {
     message: hiddenInput?.validationMessage,
@@ -369,7 +379,6 @@ function onFormReset<T>(this: FormComponent<T>): void {
   }
 
   this.value = this.defaultValue;
-  "status" in this && (this.status = "idle");
 }
 
 /**
