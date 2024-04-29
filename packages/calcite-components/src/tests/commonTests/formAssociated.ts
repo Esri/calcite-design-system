@@ -162,7 +162,7 @@ export function formAssociated(
 
     const submitButton = await page.find("#submitButton");
     const spyEvent = await page.spyOnEvent(getClearValidationEventName(tag));
-    const spyInvalidEvent = await page.spyOnEvent("calciteFormAssociatedInvalid");
+    const spyInvalidEvent = await page.spyOnEvent("calciteInvalid");
 
     await assertPreventsFormSubmission(page, component, submitButton, requiredValidationMessage);
     expect(spyInvalidEvent).toHaveReceivedEventTimes(1);
