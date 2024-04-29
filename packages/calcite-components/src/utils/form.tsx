@@ -277,14 +277,17 @@ function invalidHandler(event: Event) {
     status: "invalid",
   });
 
-  if (formComponent?.validationMessage !== hiddenInput?.validationMessage) {
-    return;
-  }
-
   const clearValidationEvent = getClearValidationEventName(componentTag);
   formComponent.addEventListener(
     clearValidationEvent,
-    () => clearValidationMessage(formComponent),
+    () => {
+      "status" in formComponent && (formComponent.status = "idle");
+      "validationIcon" in formComponent && (formComponent.validationIcon = false);
+      "validity" in formComponent && (formComponent.validity = hiddenInput?.validity);
+      "validationMessage" in formComponent &&
+        formComponent?.validationMessage === hiddenInput?.validationMessage &&
+        (formComponent.validationMessage = "");
+    },
     { once: true },
   );
 }
@@ -528,10 +531,7 @@ function defaultSyncHiddenFormInput(
 
   component.syncHiddenFormInput?.(input);
 
-  const validationComponent = getValidationComponent(
-    input.parentElement as HTMLCalciteInputElement,
-  );
-
+  const validationComponent = getValidationComponent(component.el as HTMLCalciteInputElement);
   "validity" in validationComponent && (validationComponent.validity = input.validity);
 }
 
