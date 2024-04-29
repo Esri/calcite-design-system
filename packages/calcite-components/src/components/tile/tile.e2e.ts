@@ -86,7 +86,7 @@ describe("calcite-tile", () => {
       const page = await newE2EPage();
       await page.setContent(html` <calcite-tile id="tile-1"></calcite-tile> `);
 
-      const eventSpy = await page.spyOnEvent("calciteTileSelect", "window");
+      const eventSpy = await page.spyOnEvent("calciteTileSelect");
 
       await page.click("#tile-1");
       await page.waitForChanges();
@@ -98,7 +98,7 @@ describe("calcite-tile", () => {
       const page = await newE2EPage();
       await page.setContent(html` <calcite-tile id="tile-1" interactive></calcite-tile> `);
 
-      const eventSpy = await page.spyOnEvent("calciteTileSelect", "window");
+      const eventSpy = await page.spyOnEvent("calciteTileSelect");
 
       await page.click("#tile-1");
       await page.waitForChanges();
