@@ -460,7 +460,9 @@ describe("calcite-chip-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(2);
       await assertSelectedItems(page, { expectedItemIds: [chip4.id, chip5.id] });
     });
+  });
 
+  describe("programmatically selecting Chips", () => {
     it("programmatically setting selected on a chip should update the component but not emit public events", async () => {
       const page = await newE2EPage();
       await page.setContent(
