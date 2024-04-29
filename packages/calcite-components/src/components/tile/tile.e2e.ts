@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { isElementFocused } from "../../tests/utils";
 import { SLOTS } from "./resources";
 
 describe("calcite-tile", () => {
@@ -38,20 +39,17 @@ describe("calcite-tile", () => {
     it("should receive focus when clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(html` <calcite-tile id="tile-1"></calcite-tile> `);
-      const tile1 = await page.find("#tile-1");
-      await tile1.click();
+      await page.click("#tile-1");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(tile1.id);
+      expect(await isElementFocused(page, "#tile-1")).toBe(true);
     });
 
     it("should support listening to click events in selection-mode=none", async () => {
       const page = await newE2EPage();
       await page.setContent(html` <calcite-tile id="tile-1"></calcite-tile> `);
       const clickSpy = await page.spyOnEvent("click");
-      const tile1 = await page.find("#tile-1");
-
-      await tile1.click();
+      await page.click("#tile-1");
       await page.waitForChanges();
 
       expect(clickSpy).toHaveReceivedEventTimes(1);
@@ -90,8 +88,7 @@ describe("calcite-tile", () => {
 
       const eventSpy = await page.spyOnEvent("calciteTileSelect", "window");
 
-      const tile1 = await page.find("#tile-1");
-      await tile1.click();
+      await page.click("#tile-1");
       await page.waitForChanges();
 
       expect(eventSpy).not.toHaveReceivedEvent();
@@ -103,8 +100,7 @@ describe("calcite-tile", () => {
 
       const eventSpy = await page.spyOnEvent("calciteTileSelect", "window");
 
-      const tile1 = await page.find("#tile-1");
-      await tile1.click();
+      await page.click("#tile-1");
       await page.waitForChanges();
 
       expect(eventSpy).toHaveReceivedEvent();
