@@ -75,8 +75,6 @@ describe("calcite-tile-group", () => {
       const item4 = await page.find("#item-4");
       const item5 = await page.find("#item-5");
 
-      await page.waitForChanges();
-
       expect(await element.getProperty("selectedItems")).toHaveLength(2);
 
       await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item4.id, item5.id] });

@@ -355,7 +355,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
     return (
       <InteractiveContainer disabled={disabled}>
-        {Boolean(this.href) ? (
+        {!!this.href ? (
           <calcite-link disabled={disabled} href={this.href}>
             {this.renderTile()}
           </calcite-link>
