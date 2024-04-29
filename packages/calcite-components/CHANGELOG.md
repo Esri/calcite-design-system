@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.16...@esri/calcite-components@2.8.0-next.17) (2024-04-29)
+
+### Bug Fixes
+
+- **radio-button:** display validation message in parent group ([#9218](https://github.com/Esri/calcite-design-system/issues/9218)) ([b1e869f](https://github.com/Esri/calcite-design-system/commit/b1e869fe7a0b703b5edc6286026a982fcc778c5d)), closes [#9220](https://github.com/Esri/calcite-design-system/issues/9220)
+
 ## [2.8.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.15...@esri/calcite-components@2.8.0-next.16) (2024-04-29)
 
 ### Bug Fixes
