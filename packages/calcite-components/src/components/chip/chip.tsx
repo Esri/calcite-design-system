@@ -212,6 +212,9 @@ export class Chip
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    if (this.selectionMode !== "none") {
+      this.handleSelectionPropertyChange(this.selected);
+    }
   }
 
   componentDidRender(): void {
