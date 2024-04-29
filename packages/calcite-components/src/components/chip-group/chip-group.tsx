@@ -144,6 +144,7 @@ export class ChipGroup implements InteractiveComponent {
           break;
       }
     }
+    event.stopPropagation();
   }
 
   @Listen("calciteChipClose")
@@ -159,6 +160,7 @@ export class ChipGroup implements InteractiveComponent {
       }
     }
     this.items = this.items?.filter((el) => el !== item);
+    event.stopPropagation();
   }
 
   @Listen("calciteChipSelect")
@@ -166,6 +168,7 @@ export class ChipGroup implements InteractiveComponent {
     if (event.composedPath().includes(this.el)) {
       this.setSelectedItems(true, event.target as HTMLCalciteChipElement);
     }
+    event.stopPropagation();
   }
 
   @Listen("calciteInternalChipSelect")
@@ -173,6 +176,7 @@ export class ChipGroup implements InteractiveComponent {
     if (event.composedPath().includes(this.el)) {
       this.setSelectedItems(false, event.target as HTMLCalciteChipElement);
     }
+    event.stopPropagation();
   }
 
   @Listen("calciteInternalSyncSelectedChips")
@@ -183,6 +187,7 @@ export class ChipGroup implements InteractiveComponent {
         this.setSelectedItems(false, event.target as HTMLCalciteChipElement);
       }
     }
+    event.stopPropagation();
   }
 
   // --------------------------------------------------------------------------
