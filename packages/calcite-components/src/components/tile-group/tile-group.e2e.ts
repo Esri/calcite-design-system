@@ -133,7 +133,7 @@ describe("calcite-tile-group", () => {
   });
 
   describe("keyboard", () => {
-    it("focuses tiles with the tab key and arrow keys", async () => {
+    it("focuses tiles with the tab key and arrow keys and allows selection with the enter and space key", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-tile-group label="test-label" selection-mode="multiple">
