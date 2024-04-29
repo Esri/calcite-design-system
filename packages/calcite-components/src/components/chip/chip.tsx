@@ -102,6 +102,14 @@ export class Chip
   /** When `true`, the component is selected.  */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
+  @Watch("selected")
+  watchSelected(selected: boolean): void {
+    if (this.selectionMode === "none") {
+      return;
+    }
+    this.handleSelectionPropertyChange(selected);
+  }
+
   /**
    * Use this property to override individual strings used by the component.
    */
@@ -128,6 +136,11 @@ export class Chip
    * @internal
    */
   @Prop() interactive = false;
+
+  /**
+   * @internal
+   */
+  @Prop() parentChipGroup: HTMLCalciteChipGroupElement;
 
   //--------------------------------------------------------------------------
   //
@@ -174,6 +187,16 @@ export class Chip
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalChipKeyEvent: EventEmitter<KeyboardEvent>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalChipSelect: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalSyncSelectedChips: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -295,6 +318,19 @@ export class Chip
     }
   };
 
+  private handleSelectionPropertyChange(selected: boolean): void {
+    if (this.selectionMode === "single") {
+      this.calciteInternalSyncSelectedChips.emit();
+    }
+    const selectedInParent = this.parentChipGroup.selectedItems.includes(this.el);
+
+    if (!selectedInParent && selected && this.selectionMode !== "multiple") {
+      this.calciteInternalChipSelect.emit();
+    }
+    if (this.selectionMode !== "single") {
+      this.calciteInternalSyncSelectedChips.emit();
+    }
+  }
   //--------------------------------------------------------------------------
   //
   //  Render Methods

@@ -10,7 +10,7 @@ import {
   Method,
   Watch,
 } from "@stencil/core";
-import { focusElementInGroup, toAriaBoolean } from "../../utils/dom";
+import { focusElementInGroup, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -18,7 +18,6 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { createObserver } from "../../utils/observers";
 import { Scale, SelectionMode } from "../interfaces";
 import {
   componentFocusable,
@@ -85,8 +84,6 @@ export class ChipGroup implements InteractiveComponent {
 
   @Element() el: HTMLCalciteChipGroupElement;
 
-  mutationObserver = createObserver("mutation", () => this.updateItems());
-
   private items: HTMLCalciteChipElement[] = [];
 
   private slotRefEl: HTMLSlotElement;
@@ -108,7 +105,6 @@ export class ChipGroup implements InteractiveComponent {
 
   connectedCallback(): void {
     connectInteractive(this);
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   componentDidRender(): void {
@@ -118,10 +114,6 @@ export class ChipGroup implements InteractiveComponent {
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -176,6 +168,23 @@ export class ChipGroup implements InteractiveComponent {
     }
   }
 
+  @Listen("calciteInternalChipSelect")
+  calciteInternalChipSelectListener(event: CustomEvent): void {
+    if (event.composedPath().includes(this.el)) {
+      this.setSelectedItems(false, event.target as HTMLCalciteChipElement);
+    }
+  }
+
+  @Listen("calciteInternalSyncSelectedChips")
+  calciteInternalSyncSelectedChips(event: CustomEvent): void {
+    if (event.composedPath().includes(this.el)) {
+      this.updateSelectedItems();
+      if (this.selectionMode === "single" && this.selectedItems.length > 1) {
+        this.setSelectedItems(false, event.target as HTMLCalciteChipElement);
+      }
+    }
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -200,18 +209,30 @@ export class ChipGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   private updateItems = (event?: Event): void => {
-    const target = event ? (event.target as HTMLSlotElement) : this.slotRefEl;
-    this.items = target
+    const itemsFromSlot = this.slotRefEl
       ?.assignedElements({ flatten: true })
       .filter((el) => el?.matches("calcite-chip")) as HTMLCalciteChipElement[];
+
+    this.items = !event
+      ? itemsFromSlot
+      : (slotChangeGetAssignedElements(event) as HTMLCalciteChipElement[]);
+
+    if (this.items?.length < 1) {
+      return;
+    }
 
     this.items?.forEach((el) => {
       el.interactive = true;
       el.scale = this.scale;
       el.selectionMode = this.selectionMode;
+      el.parentChipGroup = this.el;
     });
 
     this.setSelectedItems(false);
+  };
+
+  private updateSelectedItems = (): void => {
+    this.selectedItems = this.items?.filter((el) => el.selected);
   };
 
   private setSelectedItems = (emit: boolean, elToMatch?: HTMLCalciteChipElement): void => {
@@ -236,7 +257,7 @@ export class ChipGroup implements InteractiveComponent {
       });
     }
 
-    this.selectedItems = this.items?.filter((el) => el.selected);
+    this.updateSelectedItems();
 
     if (emit) {
       this.calciteChipGroupSelect.emit();
