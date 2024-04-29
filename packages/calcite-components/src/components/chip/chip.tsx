@@ -212,7 +212,7 @@ export class Chip
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    if (this.selectionMode !== "none") {
+    if (this.selectionMode !== "none" && this.interactive && this.selected) {
       this.handleSelectionPropertyChange(this.selected);
     }
   }
