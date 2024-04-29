@@ -75,7 +75,7 @@ describe("calcite-tile", () => {
     ]);
   });
 
-  describe("disabled", () => {
+  describe("disabled link", () => {
     disabled(html` <calcite-tile heading="test" href="http://www.esri.com"></calcite-tile> `);
   });
 
