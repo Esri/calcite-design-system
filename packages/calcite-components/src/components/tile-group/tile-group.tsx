@@ -120,37 +120,38 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
 
   private mutationObserver = createObserver("mutation", () => this.updateTiles());
 
-  private setSelectedItems = (emit: boolean, elToMatch?: HTMLCalciteTileElement): void => {
-    if (elToMatch) {
-      this.items?.forEach((el) => {
-        const matchingEl = elToMatch === el;
-        switch (this.selectionMode) {
-          case "multiple":
-            if (matchingEl) {
-              el.selected = !el.selected;
-            }
-            break;
-
-          case "single":
-            el.selected = matchingEl ? !el.selected : false;
-            break;
-
-          case "single-persist":
-            el.selected = !!matchingEl;
-            break;
-        }
-      });
+  private selectItem = (item: HTMLCalciteTileElement): void => {
+    if (!item) {
+      return;
     }
+    this.items?.forEach((el) => {
+      const matchingEl = item === el;
+      switch (this.selectionMode) {
+        case "multiple":
+          if (matchingEl) {
+            el.selected = !el.selected;
+          }
+          break;
 
-    this.selectedItems = this.items?.filter((el) => el.selected);
+        case "single":
+          el.selected = matchingEl ? !el.selected : false;
+          break;
 
-    if (emit) {
-      this.calciteTileGroupSelect.emit();
-    }
+        case "single-persist":
+          el.selected = !!matchingEl;
+          break;
+      }
+    });
+    this.updateSelectedItems();
+    this.calciteTileGroupSelect.emit();
   };
 
   private setSlotEl = (el: HTMLSlotElement): void => {
     this.slotEl = el;
+  };
+
+  private updateSelectedItems = (): void => {
+    this.selectedItems = this.items?.filter((el) => el.selected);
   };
 
   private updateTiles = (): void => {
@@ -162,7 +163,7 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
       el.selectionAppearance = this.selectionAppearance;
       el.selectionMode = this.selectionMode;
     });
-    this.setSelectedItems(false);
+    this.updateSelectedItems();
   };
 
   //--------------------------------------------------------------------------
@@ -229,7 +230,7 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
   @Listen("calciteTileSelect")
   calciteTileSelectHandler(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
-      this.setSelectedItems(true, event.target as HTMLCalciteTileElement);
+      this.selectItem(event.target as HTMLCalciteTileElement);
     }
   }
 
