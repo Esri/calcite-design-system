@@ -223,23 +223,31 @@ function displayValidationMessage(
     (component.validationMessage = message);
 }
 
+function getValidationComponent(
+  el: HTMLCalciteInputElement,
+  // TODO: create an HTMLCalciteFormAssociatedElement base type
+): HTMLCalciteInputElement | HTMLCalciteRadioButtonGroupElement {
+  // radio-button is formAssociated, but the validation props are on the parent group
+  if (el.nodeName === "CALCITE-RADIO-BUTTON") {
+    return closestElementCrossShadowBoundary<HTMLCalciteRadioButtonGroupElement>(
+      el,
+      "calcite-radio-button-group",
+    );
+  }
+  return el;
+}
+
 function invalidHandler(event: Event) {
   // target is the hidden input, which is slotted in the actual form component
   const hiddenInput = event?.target as HTMLInputElement;
 
-  // not necessarily a calcite-input, but we don't have an HTMLCalciteFormElement type
-  let formComponent = hiddenInput?.parentElement;
+  // not necessarily a calcite-input, but we don't have an HTMLCalciteFormAssociatedElement type
+  const formComponent = getValidationComponent(
+    hiddenInput?.parentElement as HTMLCalciteInputElement,
+  ) as HTMLCalciteInputElement;
 
-  // radio-button is formAssociated, but the validation props are on the parent group
-  if (hiddenInput?.parentElement.nodeName === "CALCITE-RADIO-BUTTON") {
-    formComponent = closestElementCrossShadowBoundary<HTMLCalciteRadioButtonGroupElement>(
-      hiddenInput?.parentElement,
-      "calcite-radio-button-group",
-    );
-
-    if (!formComponent) {
-      return;
-    }
+  if (!formComponent) {
+    return;
   }
 
   const componentTag = formComponent?.nodeName?.toLowerCase();
@@ -252,22 +260,20 @@ function invalidHandler(event: Event) {
   // prevent the browser from showing the native validation popover
   event?.preventDefault();
 
-  displayValidationMessage(formComponent as HTMLCalciteInputElement, {
+  displayValidationMessage(formComponent, {
     message: hiddenInput?.validationMessage,
     icon: true,
     status: "invalid",
   });
 
-  if (
-    (formComponent as HTMLCalciteInputElement).validationMessage !== hiddenInput?.validationMessage
-  ) {
+  if (formComponent?.validationMessage !== hiddenInput?.validationMessage) {
     return;
   }
 
   const clearValidationEvent = getClearValidationEventName(componentTag);
   formComponent.addEventListener(
     clearValidationEvent,
-    () => clearValidationMessage(formComponent as HTMLCalciteInputElement),
+    () => clearValidationMessage(formComponent),
     { once: true },
   );
 }
