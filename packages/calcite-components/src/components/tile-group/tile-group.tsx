@@ -204,6 +204,7 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
   @Listen("calciteInternalTileKeyEvent")
   calciteInternalTileKeyEventListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
+      event.preventDefault();
       event.stopPropagation();
       const interactiveItems = this.items?.filter((el) => !el.disabled);
       switch (event.detail.key) {
