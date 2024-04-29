@@ -2,7 +2,13 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing
 import { toHaveNoViolations } from "jest-axe";
 import { KeyInput } from "puppeteer";
 import { html } from "../../../support/formatting";
-import { getClearValidationEventName, hiddenFormInputSlotName, componentsWithInputEvent } from "../../utils/form";
+import {
+  getClearValidationEventName,
+  hiddenFormInputSlotName,
+  componentsWithInputEvent,
+  ValidationProps,
+} from "../../utils/form";
+import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { GlobalTestProps } from "./../utils";
 import { isHTML, getTag, getTagOrHTMLWithBeforeContent } from "./utils";
 import { TagOrHTMLWithBeforeContent, TagOrHTML } from "./interfaces";
@@ -139,7 +145,6 @@ export function formAssociated(
   }
 
   async function testRequiredPropertyValidation(): Promise<void> {
-    const requiredValidationMessage = "Please fill out this field.";
     const { beforeContent, tagOrHTML } = getTagOrHTMLWithBeforeContent(componentTagOrHtml);
     const tag = getTag(tagOrHTML);
     const componentHtml = ensureUnchecked(
@@ -162,6 +167,9 @@ export function formAssociated(
 
     const submitButton = await page.find("#submitButton");
     const spyEvent = await page.spyOnEvent(getClearValidationEventName(tag));
+
+    const requiredValidationMessage =
+      options?.inputType === "radio" ? "Please select one of these options." : "Please fill out this field.";
 
     await assertPreventsFormSubmission(page, component, submitButton, requiredValidationMessage);
     expect(await serializeValidityProperty(page, tag)).toHaveProperty("valueMissing", true);
@@ -410,7 +418,7 @@ export function formAssociated(
     await submitButton.click();
     await page.waitForChanges();
 
-    await expectValidationInvalid(component, message);
+    await expectValidationProps(page, component, { message, icon: "", status: "invalid" });
   }
 
   async function assertClearsValidationOnValueChange(
@@ -438,7 +446,7 @@ export function formAssociated(
       expect(event).toHaveReceivedEventTimes(1);
     }
 
-    await expectValidationIdle(component);
+    await expectValidationProps(page, component);
   }
 
   async function assertUserMessageNotOverridden(page: E2EPage, component: E2EElement, submitButton: E2EElement) {
@@ -454,18 +462,35 @@ export function formAssociated(
     await submitButton.click();
     await page.waitForChanges();
 
-    await expectValidationInvalid(component, customValidationMessage, customValidationIcon);
+    await expectValidationProps(page, component, {
+      message: customValidationMessage,
+      icon: customValidationIcon,
+      status: "invalid",
+    });
   }
 
-  async function expectValidationIdle(element: E2EElement) {
-    expect(await element.getProperty("status")).toBe("idle");
-    expect(await element.getProperty("validationMessage")).toBe("");
-    expect(await element.getProperty("validationIcon")).toBe(undefined);
-  }
+  async function expectValidationProps(page: E2EPage, element: E2EElement, validationProps?: ValidationProps) {
+    let testProps = validationProps;
 
-  async function expectValidationInvalid(element: E2EElement, message: string, icon?: string | boolean) {
-    expect(await element.getProperty("status")).toBe("invalid");
-    expect(await element.getProperty("validationMessage")).toBe(message);
-    expect(await element.getProperty("validationIcon")).toBe(icon);
+    if (element.nodeName === "CALCITE-RADIO-BUTTON") {
+      element.setProperty("id", "radio-button");
+      await page.waitForChanges();
+      testProps = await page.evaluate(() => {
+        const groupEl = closestElementCrossShadowBoundary<HTMLCalciteRadioButtonGroupElement>(
+          document.querySelector("#radio-button"),
+          "calcite-radio-button-group",
+        );
+
+        return {
+          message: groupEl.validationMessage,
+          icon: groupEl.validationIcon,
+          status: groupEl.status,
+        };
+      });
+    }
+
+    expect(await element.getProperty("status")).toBe(testProps?.status ?? "idle");
+    expect(await element.getProperty("validationMessage")).toBe(testProps?.message ?? "");
+    expect(element.getAttribute("validation-icon")).toBe(testProps?.icon ?? null);
   }
 }
