@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, reflects, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { assertSelectedItems } from "../../tests/utils";
+import { assertSelectedItems, isElementFocused } from "../../tests/utils";
 
 describe("calcite-tile-group", () => {
   describe("accessibility", () => {
@@ -149,31 +149,29 @@ describe("calcite-tile-group", () => {
       const element = await page.find("calcite-tile-group");
       const groupSelectSpy = await element.spyOnEvent("calciteTileGroupSelect");
       const item1 = await page.find("#item-1");
-      const item2 = await page.find("#item-2");
-      const item3 = await page.find("#item-3");
       const item4 = await page.find("#item-4");
       const item5 = await page.find("#item-5");
 
       await item1.click();
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item1.id);
+      expect(await isElementFocused(page, "#item-1")).toBe(true);
 
       await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id] });
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item2.id);
+      expect(await isElementFocused(page, "#item-2")).toBe(true);
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item3.id);
+      expect(await isElementFocused(page, "#item-3")).toBe(true);
 
       await page.keyboard.press("End");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item5.id);
+      expect(await isElementFocused(page, "#item-5")).toBe(true);
 
       await page.keyboard.press("Space");
       await page.waitForChanges();
@@ -184,7 +182,7 @@ describe("calcite-tile-group", () => {
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item4.id);
+      expect(await isElementFocused(page, "#item-4")).toBe(true);
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
@@ -201,17 +199,17 @@ describe("calcite-tile-group", () => {
       await page.keyboard.press("Home");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item1.id);
+      expect(await isElementFocused(page, "#item-1")).toBe(true);
 
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item5.id);
+      expect(await isElementFocused(page, "#item-5")).toBe(true);
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.activeElement.id)).toEqual(item1.id);
+      expect(await isElementFocused(page, "#item-1")).toBe(true);
     });
   });
 
