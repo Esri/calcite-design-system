@@ -532,7 +532,9 @@ function defaultSyncHiddenFormInput(
   component.syncHiddenFormInput?.(input);
 
   const validationComponent = getValidationComponent(component.el as HTMLCalciteInputElement);
-  "validity" in validationComponent && (validationComponent.validity = input.validity);
+  validationComponent &&
+    "validity" in validationComponent &&
+    (validationComponent.validity = input.validity);
 }
 
 interface HiddenFormInputSlotProps {
