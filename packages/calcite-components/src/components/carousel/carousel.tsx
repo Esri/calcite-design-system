@@ -70,7 +70,7 @@ export class Carousel
   @Watch("autoplay")
   autoplayWatcher(autoplay: boolean): void {
     if (!autoplay) {
-      this.handlePause();
+      this.handlePause(false);
     }
   }
 
@@ -162,7 +162,7 @@ export class Carousel
 
   async componentWillLoad(): Promise<void> {
     if ((this.autoplay === "" || this.autoplay) && this.autoplay !== "paused") {
-      this.handlePlay();
+      this.handlePlay(false);
     } else if (this.autoplay === "paused") {
       this.paused = true;
     }
@@ -184,16 +184,22 @@ export class Carousel
     this.container?.focus();
   }
 
-  /** Play the carousel. */
+  /** Play the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
   @Method()
   async play(): Promise<void> {
-    this.handlePlay();
+    if (this.playing || (this.autoplay !== "" && !this.autoplay && this.autoplay !== "paused")) {
+      return;
+    }
+    this.handlePlay(true);
   }
 
-  /** Stop the carousel */
+  /** Stop the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
   @Method()
   async stop(): Promise<void> {
-    this.handlePause();
+    if (!this.playing) {
+      return;
+    }
+    this.handlePause(true);
   }
 
   // --------------------------------------------------------------------------
@@ -302,19 +308,23 @@ export class Carousel
     this.setSelectedItem(prevIndex, true);
   }
 
-  private handlePlay() {
+  private handlePlay(emit: boolean) {
     this.playing = true;
     this.autoplayHandler();
     this.slideInterval = setInterval(this.autoplayHandler, this.autoplayDuration);
-    this.calciteCarouselPlay.emit();
+    if (emit) {
+      this.calciteCarouselPlay.emit();
+    }
   }
 
-  private handlePause() {
+  private handlePause(emit: boolean) {
     this.playing = false;
     this.clearIntervals();
     this.slideDurationRemaining = 1;
     this.suspendedSlideDurationRemaining = 1;
-    this.calciteCarouselStop.emit();
+    if (emit) {
+      this.calciteCarouselStop.emit();
+    }
   }
 
   private suspendStart() {
@@ -391,7 +401,7 @@ export class Carousel
 
   private handleItemSelection = (event: MouseEvent): void => {
     if (this.playing) {
-      this.handlePause();
+      this.handlePause(true);
     }
     const item = event.target as HTMLCalciteActionElement;
     const requestedPosition = parseInt(item.dataset.index);
@@ -402,9 +412,9 @@ export class Carousel
   private toggleRotation = (): void => {
     this.userPreventsSuspend = true;
     if (this.playing) {
-      this.handlePause();
+      this.handlePause(true);
     } else {
-      this.handlePlay();
+      this.handlePlay(true);
     }
   };
 

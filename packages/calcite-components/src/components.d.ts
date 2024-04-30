@@ -868,7 +868,7 @@ export namespace Components {
          */
         "paused": boolean;
         /**
-          * Play the carousel.
+          * Play the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect.
          */
         "play": () => Promise<void>;
         /**
@@ -881,7 +881,7 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * Stop the carousel
+          * Stop the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect.
          */
         "stop": () => Promise<void>;
     }
