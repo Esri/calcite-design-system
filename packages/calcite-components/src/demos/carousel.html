@@ -241,7 +241,7 @@
               </calcite-carousel-item>
             </calcite-carousel>
             <h3>autoplay</h3>
-            <calcite-carousel autoplay="true">
+            <calcite-carousel autoplay>
               <calcite-carousel-item label="The Red Rocks and Blue Water">
                 <calcite-card>
                   <div slot="title">1 ArcGIS Online: Gallery and Organization pages</div>
@@ -471,10 +471,9 @@
           if (event.target.value === "false") {
             carousel.removeAttribute("autoplay");
           } else if (event.target.value === "paused") {
-            carousel.removeAttribute("autoplay");
-            carousel.setAttribute("autoplay", true);
-          } else {
             carousel.setAttribute("autoplay", "paused");
+          } else if (event.target.value === "true") {
+            carousel.autoplay = true;
           }
         });
 
