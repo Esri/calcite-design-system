@@ -7,6 +7,7 @@ packages\calcite-components\src\components\block\assets\block\t9n
 packages\calcite-components\src\components\block-section\assets\block-section\t9n
 packages\calcite-components\src\components\button\assets\button\t9n
 packages\calcite-components\src\components\card\assets\card\t9n
+packages\calcite-components\src\components\carousel\assets\carousel\t9n
 packages\calcite-components\src\components\chip\assets\chip\t9n
 packages\calcite-components\src\components\color-picker\assets\color-picker\t9n
 packages\calcite-components\src\components\combobox\assets\combobox\t9n

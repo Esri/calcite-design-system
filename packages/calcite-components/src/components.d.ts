@@ -23,6 +23,8 @@ import { BlockSectionMessages } from "./components/block-section/assets/block-se
 import { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
 import { ButtonMessages } from "./components/button/assets/button/t9n";
 import { CardMessages } from "./components/card/assets/card/t9n";
+import { ArrowType, AutoplayType } from "./components/carousel/interfaces";
+import { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 import { ChipMessages } from "./components/chip/assets/chip/t9n";
 import { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 import { Format } from "./components/color-picker/utils";
@@ -110,6 +112,8 @@ export { BlockSectionMessages } from "./components/block-section/assets/block-se
 export { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
 export { ButtonMessages } from "./components/button/assets/button/t9n";
 export { CardMessages } from "./components/card/assets/card/t9n";
+export { ArrowType, AutoplayType } from "./components/carousel/interfaces";
+export { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 export { ChipMessages } from "./components/chip/assets/chip/t9n";
 export { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 export { Format } from "./components/color-picker/utils";
@@ -825,6 +829,71 @@ export namespace Components {
           * Sets focus on the component's first focusable element.
          */
         "setFocus": () => Promise<void>;
+    }
+    interface CalciteCarousel {
+        /**
+          * Specifies how and if the "previous" and "next" arrows are displayed.
+         */
+        "arrowType": ArrowType;
+        /**
+          * When `true`, the carousel will autoplay and controls will be displayed. When "paused" at time of initialization, the carousel will not autoplay, but controls will be displayed.
+         */
+        "autoplay": AutoplayType;
+        /**
+          * When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
+         */
+        "autoplayDuration": number;
+        /**
+          * Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items.
+         */
+        "controlOverlay": boolean;
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides": Partial<CarouselMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": CarouselMessages;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "paused": boolean;
+        /**
+          * Play the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect.
+         */
+        "play": () => Promise<void>;
+        /**
+          * The component's selected `calcite-carousel-item`.
+          * @readonly
+         */
+        "selectedItem": HTMLCalciteCarouselItemElement;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * Stop the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect.
+         */
+        "stop": () => Promise<void>;
+    }
+    interface CalciteCarouselItem {
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
+        /**
+          * When `true`, the component is selected.
+         */
+        "selected": boolean;
     }
     interface CalciteCheckbox {
         /**
@@ -5484,6 +5553,10 @@ export interface CalciteCardGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteCardGroupElement;
 }
+export interface CalciteCarouselCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteCarouselElement;
+}
 export interface CalciteCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteCheckboxElement;
@@ -5961,6 +6034,33 @@ declare global {
     var HTMLCalciteCardGroupElement: {
         prototype: HTMLCalciteCardGroupElement;
         new (): HTMLCalciteCardGroupElement;
+    };
+    interface HTMLCalciteCarouselElementEventMap {
+        "calciteCarouselChange": void;
+        "calciteCarouselPlay": void;
+        "calciteCarouselStop": void;
+        "calciteCarouselPause": void;
+        "calciteCarouselResume": void;
+    }
+    interface HTMLCalciteCarouselElement extends Components.CalciteCarousel, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteCarouselElementEventMap>(type: K, listener: (this: HTMLCalciteCarouselElement, ev: CalciteCarouselCustomEvent<HTMLCalciteCarouselElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteCarouselElementEventMap>(type: K, listener: (this: HTMLCalciteCarouselElement, ev: CalciteCarouselCustomEvent<HTMLCalciteCarouselElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCalciteCarouselElement: {
+        prototype: HTMLCalciteCarouselElement;
+        new (): HTMLCalciteCarouselElement;
+    };
+    interface HTMLCalciteCarouselItemElement extends Components.CalciteCarouselItem, HTMLStencilElement {
+    }
+    var HTMLCalciteCarouselItemElement: {
+        prototype: HTMLCalciteCarouselItemElement;
+        new (): HTMLCalciteCarouselItemElement;
     };
     interface HTMLCalciteCheckboxElementEventMap {
         "calciteInternalCheckboxBlur": boolean;
@@ -7445,6 +7545,8 @@ declare global {
         "calcite-button": HTMLCalciteButtonElement;
         "calcite-card": HTMLCalciteCardElement;
         "calcite-card-group": HTMLCalciteCardGroupElement;
+        "calcite-carousel": HTMLCalciteCarouselElement;
+        "calcite-carousel-item": HTMLCalciteCarouselItemElement;
         "calcite-checkbox": HTMLCalciteCheckboxElement;
         "calcite-chip": HTMLCalciteChipElement;
         "calcite-chip-group": HTMLCalciteChipGroupElement;
@@ -8212,6 +8314,79 @@ declare namespace LocalJSX {
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
   >;
+    }
+    interface CalciteCarousel {
+        /**
+          * Specifies how and if the "previous" and "next" arrows are displayed.
+         */
+        "arrowType"?: ArrowType;
+        /**
+          * When `true`, the carousel will autoplay and controls will be displayed. When "paused" at time of initialization, the carousel will not autoplay, but controls will be displayed.
+         */
+        "autoplay"?: AutoplayType;
+        /**
+          * When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
+         */
+        "autoplayDuration"?: number;
+        /**
+          * Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items.
+         */
+        "controlOverlay"?: boolean;
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled"?: boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
+        /**
+          * Use this property to override individual strings used by the component.
+         */
+        "messageOverrides"?: Partial<CarouselMessages>;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: CarouselMessages;
+        /**
+          * Fires when the selected `calcite-carousel-item` changes.
+         */
+        "onCalciteCarouselChange"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        /**
+          * Fires when the carousel autoplay state pauses due to a user hovering over the component or focusing on the component or slotted content
+         */
+        "onCalciteCarouselPause"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        /**
+          * Fires when the carousel autoplay is invoked by the user.
+         */
+        "onCalciteCarouselPlay"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        /**
+          * Fires when the carousel autoplay state resumes due to a user no longer hovering over the component or focusing on the component or slotted content
+         */
+        "onCalciteCarouselResume"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        /**
+          * Fires when the carousel autoplay state is stopped by a user.
+         */
+        "onCalciteCarouselStop"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        /**
+          * Made into a prop for testing purposes only
+         */
+        "paused"?: boolean;
+        /**
+          * The component's selected `calcite-carousel-item`.
+          * @readonly
+         */
+        "selectedItem"?: HTMLCalciteCarouselItemElement;
+    }
+    interface CalciteCarouselItem {
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
+        /**
+          * When `true`, the component is selected.
+         */
+        "selected"?: boolean;
     }
     interface CalciteCheckbox {
         /**
@@ -13081,6 +13256,8 @@ declare namespace LocalJSX {
         "calcite-button": CalciteButton;
         "calcite-card": CalciteCard;
         "calcite-card-group": CalciteCardGroup;
+        "calcite-carousel": CalciteCarousel;
+        "calcite-carousel-item": CalciteCarouselItem;
         "calcite-checkbox": CalciteCheckbox;
         "calcite-chip": CalciteChip;
         "calcite-chip-group": CalciteChipGroup;
@@ -13195,6 +13372,8 @@ declare module "@stencil/core" {
             "calcite-button": LocalJSX.CalciteButton & JSXBase.HTMLAttributes<HTMLCalciteButtonElement>;
             "calcite-card": LocalJSX.CalciteCard & JSXBase.HTMLAttributes<HTMLCalciteCardElement>;
             "calcite-card-group": LocalJSX.CalciteCardGroup & JSXBase.HTMLAttributes<HTMLCalciteCardGroupElement>;
+            "calcite-carousel": LocalJSX.CalciteCarousel & JSXBase.HTMLAttributes<HTMLCalciteCarouselElement>;
+            "calcite-carousel-item": LocalJSX.CalciteCarouselItem & JSXBase.HTMLAttributes<HTMLCalciteCarouselItemElement>;
             "calcite-checkbox": LocalJSX.CalciteCheckbox & JSXBase.HTMLAttributes<HTMLCalciteCheckboxElement>;
             "calcite-chip": LocalJSX.CalciteChip & JSXBase.HTMLAttributes<HTMLCalciteChipElement>;
             "calcite-chip-group": LocalJSX.CalciteChipGroup & JSXBase.HTMLAttributes<HTMLCalciteChipGroupElement>;

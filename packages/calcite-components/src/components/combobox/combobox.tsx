@@ -635,6 +635,10 @@ export class Combobox
   }
 
   private keyDownHandler = (event: KeyboardEvent): void => {
+    if (this.readOnly) {
+      return;
+    }
+
     const { key } = event;
 
     switch (key) {
@@ -1348,7 +1352,7 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   renderChips(): VNode[] {
-    const { activeChipIndex, scale, selectionMode, messages } = this;
+    const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
         chip: true,
@@ -1357,10 +1361,12 @@ export class Combobox
       const ancestors = [...getItemAncestors(item)].reverse();
       const pathLabel = [...ancestors, item].map((el) => el.textLabel);
       const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
+
       return (
         <calcite-chip
+          appearance={readOnly ? "outline" : "solid"}
           class={chipClasses}
-          closable
+          closable={!readOnly}
           icon={item.icon}
           iconFlipRtl={item.iconFlipRtl}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
@@ -1579,6 +1585,7 @@ export class Combobox
           onFocus={this.comboboxFocusHandler}
           onInput={this.inputHandler}
           placeholder={placeholder}
+          readOnly={this.readOnly}
           role="combobox"
           type="text"
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
@@ -1665,12 +1672,13 @@ export class Combobox
   }
 
   render(): VNode {
-    const { selectionDisplay, guid, label, open } = this;
+    const { selectionDisplay, guid, label, open, readOnly } = this;
     const singleSelectionMode = isSingleLike(this.selectionMode);
     const allSelectionDisplay = selectionDisplay === "all";
     const singleSelectionDisplay = selectionDisplay === "single";
     const fitSelectionDisplay = !singleSelectionMode && selectionDisplay === "fit";
     const isClearable = !this.clearDisabled && this.value?.length > 0;
+
     return (
       <Host onClick={this.comboboxFocusHandler}>
         <InteractiveContainer disabled={this.disabled}>
@@ -1714,7 +1722,7 @@ export class Combobox
               </label>
               {this.renderInput()}
             </div>
-            {isClearable ? (
+            {!readOnly && isClearable ? (
               <XButton
                 disabled={this.disabled}
                 key="close-button"
@@ -1722,7 +1730,7 @@ export class Combobox
                 scale={this.scale}
               />
             ) : null}
-            {this.renderChevronIcon()}
+            {!readOnly && this.renderChevronIcon()}
           </div>
           <ul
             aria-labelledby={`${labelUidPrefix}${guid}`}
