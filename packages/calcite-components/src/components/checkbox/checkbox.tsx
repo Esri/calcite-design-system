@@ -15,6 +15,7 @@ import {
   connectForm,
   disconnectForm,
   HiddenFormInputSlot,
+  MutableValidityState,
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
@@ -59,8 +60,7 @@ export class Checkbox
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
@@ -99,6 +99,27 @@ export class Checkbox
 
   /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ reflect: true }) status: Status = "idle";
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
 
   /** The component's value. */
   @Prop() value: any;

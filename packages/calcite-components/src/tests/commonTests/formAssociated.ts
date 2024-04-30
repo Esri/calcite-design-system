@@ -7,6 +7,7 @@ import {
   hiddenFormInputSlotName,
   componentsWithInputEvent,
   ValidationProps,
+  MutableValidityState,
 } from "../../utils/form";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { GlobalTestProps } from "./../utils";
@@ -174,12 +175,28 @@ export function formAssociated(
 
     await assertPreventsFormSubmission(page, component, submitButton, requiredValidationMessage);
     expect(spyInvalidEvent).toHaveReceivedEventTimes(1);
+    expect(await serializeValidityProperty(page, tag)).toHaveProperty("valueMissing", true);
 
     await assertClearsValidationOnValueChange(page, component, options, spyEvent, tag);
     expect(spyInvalidEvent).toHaveReceivedEventTimes(1);
+    expect(await serializeValidityProperty(page, tag)).toHaveProperty("valueMissing", false);
 
     await assertUserMessageNotOverridden(page, component, submitButton);
     expect(spyInvalidEvent).toHaveReceivedEventTimes(2);
+    expect(await serializeValidityProperty(page, tag)).toHaveProperty("valueMissing", true);
+  }
+
+  // puppeteer wasn't properly serializing the validity object, so we have to do it manually
+  async function serializeValidityProperty(page: E2EPage, tag: string): Promise<MutableValidityState> {
+    return await page.$eval(tag, (component: HTMLElement) => {
+      const validity = {};
+
+      for (const key in (component as HTMLInputElement).validity) {
+        validity[key] = (component as HTMLInputElement).validity[key];
+      }
+
+      return validity as MutableValidityState;
+    });
   }
 
   function ensureName(html: string, componentTag: string): string {
