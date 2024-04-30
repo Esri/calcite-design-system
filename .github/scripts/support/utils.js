@@ -1,6 +1,8 @@
 module.exports = {
   removeLabel: async ({ github, context, label }) => {
-    const { issue_number, owner, repo } = context;
+    const { owner, repo } = context.repo;
+    const issue_number = context.issue.number;
+
     try {
       await github.rest.issues.removeLabel({
         issue_number,
