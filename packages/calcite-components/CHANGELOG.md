@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.17...@esri/calcite-components@2.8.0-next.18) (2024-04-30)
+
+### Features
+
+- add calciteInvalid event for form validation ([#9211](https://github.com/Esri/calcite-design-system/issues/9211)) ([a504508](https://github.com/Esri/calcite-design-system/commit/a504508f3e7c3e2676486d3978116e5680c86dc9)), closes [#9210](https://github.com/Esri/calcite-design-system/issues/9210) [#9210](https://github.com/Esri/calcite-design-system/issues/9210)
+
 ## [2.8.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.16...@esri/calcite-components@2.8.0-next.17) (2024-04-29)
 
 ### Bug Fixes
