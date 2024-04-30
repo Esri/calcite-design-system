@@ -1352,7 +1352,7 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   renderChips(): VNode[] {
-    const { activeChipIndex, scale, selectionMode, messages } = this;
+    const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
         chip: true,
@@ -1361,10 +1361,12 @@ export class Combobox
       const ancestors = [...getItemAncestors(item)].reverse();
       const pathLabel = [...ancestors, item].map((el) => el.textLabel);
       const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
+
       return (
         <calcite-chip
+          appearance={readOnly ? "outline" : "solid"}
           class={chipClasses}
-          closable={!this.readOnly}
+          closable={!readOnly}
           icon={item.icon}
           iconFlipRtl={item.iconFlipRtl}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
