@@ -755,7 +755,7 @@ describe("calcite-button", () => {
     const elementAsButton = await page.find("calcite-button >>> button");
     expect(elementHost).not.toBeNull();
     expect(elementAsButton).not.toBeNull();
-    expect(await elementAsButton.getProperty("width")).toEqual("100%");
+    expect(await elementAsButton.getAttribute("width")).toEqual("100%");
     expect(await elementAsButton.getComputedStyle("width")).toEqual(await elementHost.getComputedStyle("width"));
   });
 });
