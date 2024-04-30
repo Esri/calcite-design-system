@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   VNode,
@@ -220,20 +219,6 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown", { target: "window" })
-  handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.open = false;
-      event.preventDefault();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Events
   //
   //--------------------------------------------------------------------------
@@ -296,6 +281,10 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   onClose(): void {
     this.calciteSheetClose.emit();
     deactivateFocusTrap(this);
+  }
+
+  onFocusTrapDeactivate(): void {
+    this.open = false;
   }
 
   private setTransitionEl = (el: HTMLDivElement): void => {

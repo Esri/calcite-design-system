@@ -11,6 +11,10 @@ export interface FocusTrapComponent {
    */
   el: HTMLElement;
 
+  escapeDisabled?: boolean;
+
+  outsideCloseDisabled?: boolean;
+
   /**
    * When `true`, prevents focus trapping.
    */
@@ -27,6 +31,8 @@ export interface FocusTrapComponent {
    * This should be implemented for components that allow user content and/or have conditionally-rendered focusable elements within the trap.
    */
   updateFocusTrapElements?: () => Promise<void>;
+
+  onFocusTrapDeactivate?(): void;
 }
 
 export type FocusTrap = _FocusTrap;
@@ -58,9 +64,13 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
   }
 
   const focusTrapOptions: FocusTrapOptions = {
-    clickOutsideDeactivates: true,
-    escapeDeactivates: true,
+    clickOutsideDeactivates: !component.outsideCloseDisabled ?? true,
+    escapeDeactivates: !component.escapeDisabled ?? true,
     fallbackFocus: focusTrapNode,
+    onDeactivate: () => {
+      component.onFocusTrapDeactivate();
+      console.log("focus trap deactivated");
+    },
     setReturnFocus: (el) => {
       focusElement(el as FocusableElement);
       return false;

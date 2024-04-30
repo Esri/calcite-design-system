@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -395,20 +394,6 @@ export class Modal
 
   //--------------------------------------------------------------------------
   //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("keydown", { target: "window" })
-  handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.open = false;
-      event.preventDefault();
-    }
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Events
   //
   //--------------------------------------------------------------------------
@@ -496,6 +481,10 @@ export class Modal
     this.transitionEl.classList.remove(CSS.closingIdle, CSS.closingActive);
     this.calciteModalClose.emit();
     deactivateFocusTrap(this);
+  }
+
+  onFocusTrapDeactivate(): void {
+    this.open = false;
   }
 
   @Watch("open")
