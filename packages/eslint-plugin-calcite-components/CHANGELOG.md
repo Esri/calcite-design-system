@@ -5,35 +5,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.1.0...@esri/eslint-plugin-calcite-components@1.2.0) (2024-04-30)
 
-
 ### Features
 
-* **enforce-ref-last-prop:** Add fixer ([#8671](https://github.com/Esri/calcite-design-system/issues/8671)) ([688bc51](https://github.com/Esri/calcite-design-system/commit/688bc51bb06163a0b6b4b1a3c6685c8bed3f235b))
-
+- **enforce-ref-last-prop:** Add fixer ([#8671](https://github.com/Esri/calcite-design-system/issues/8671)) ([688bc51](https://github.com/Esri/calcite-design-system/commit/688bc51bb06163a0b6b4b1a3c6685c8bed3f235b))
 
 ### Bug Fixes
 
-* **slider:** Improve snapping + step logic ([#8169](https://github.com/Esri/calcite-design-system/issues/8169)) ([8b83042](https://github.com/Esri/calcite-design-system/commit/8b83042179b92e580fa4551fe4fcc8d3582aeb95))
-
-## [1.2.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.2.0-next.0...@esri/eslint-plugin-calcite-components@1.2.0-next.1) (2024-04-12)
-
-### Bug Fixes
-
-- **slider:** improve snapping + step logic ([#8169](https://github.com/Esri/calcite-design-system/issues/8169)) ([8b83042](https://github.com/Esri/calcite-design-system/commit/8b83042179b92e580fa4551fe4fcc8d3582aeb95)), closes [#6229](https://github.com/Esri/calcite-design-system/issues/6229)
-
-## [1.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.1.1-next.1...@esri/eslint-plugin-calcite-components@1.2.0-next.0) (2024-04-06)
-
-### Features
-
-- **enforce-ref-last-prop:** add fixer ([#8671](https://github.com/Esri/calcite-design-system/issues/8671)) ([688bc51](https://github.com/Esri/calcite-design-system/commit/688bc51bb06163a0b6b4b1a3c6685c8bed3f235b)), closes [#8080](https://github.com/Esri/calcite-design-system/issues/8080)
-
-## [1.1.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.1.1-next.0...@esri/eslint-plugin-calcite-components@1.1.1-next.1) (2024-03-06)
-
-**Note:** Version bump only for package @esri/eslint-plugin-calcite-components
-
-## [1.1.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.1.0...@esri/eslint-plugin-calcite-components@1.1.1-next.0) (2024-02-07)
-
-**Note:** Version bump only for package @esri/eslint-plugin-calcite-components
+- **slider:** Improve snapping + step logic ([#8169](https://github.com/Esri/calcite-design-system/issues/8169)) ([8b83042](https://github.com/Esri/calcite-design-system/commit/8b83042179b92e580fa4551fe4fcc8d3582aeb95))
 
 ## [1.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@1.0.0...@esri/eslint-plugin-calcite-components@1.1.0) (2024-01-30)
 
