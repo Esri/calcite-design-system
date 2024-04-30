@@ -80,6 +80,11 @@ export class Carousel
   @Prop({ reflect: true }) arrowType: ArrowType = "inline";
 
   /**
+   *  When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
+   */
+  @Prop({ reflect: true }) autoplayDuration = DURATION;
+
+  /**
    * Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items.
    */
   @Prop({ reflect: true }) controlOverlay = false;
@@ -93,11 +98,6 @@ export class Carousel
    * Accessible name for the component.
    */
   @Prop() label!: string;
-
-  /**
-   *  When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
-   */
-  @Prop({ reflect: true }) autoplayDuration = DURATION;
 
   /**
    * Made into a prop for testing purposes only
@@ -123,7 +123,6 @@ export class Carousel
    *
    * @internal
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) paused: boolean;
 
   /**
@@ -161,6 +160,7 @@ export class Carousel
   }
 
   async componentWillLoad(): Promise<void> {
+    /* When the 'autoplay' property of type 'boolean | string' is set to true, the value is "". */
     if ((this.autoplay === "" || this.autoplay) && this.autoplay !== "paused") {
       this.handlePlay(false);
     } else if (this.autoplay === "paused") {
@@ -187,6 +187,7 @@ export class Carousel
   /** Play the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
   @Method()
   async play(): Promise<void> {
+    /* When the 'autoplay' property of type 'boolean | string' is set to true, the value is "". */
     if (this.playing || (this.autoplay !== "" && !this.autoplay && this.autoplay !== "paused")) {
       return;
     }

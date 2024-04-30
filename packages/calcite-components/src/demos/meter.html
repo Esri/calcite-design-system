@@ -817,7 +817,7 @@
         const switchvalueLabel = document.getElementById("switch-label");
         const switchStepLabels = document.getElementById("switch-step-labels");
 
-        const controlAppearance = document.getElementById("control-appearance");
+        const controlType = document.getElementById("control-type");
         const controlScale = document.getElementById("control-scale");
         const controlValueLabelType = document.getElementById("control-value-label-type");
         const controlValueRangeType = document.getElementById("control-range-label-type");
@@ -860,7 +860,7 @@
           meter.rangeLabels = event.target.checked;
         });
 
-        controlAppearance.addEventListener("calciteSegmentedControlChange", function (event) {
+        controlType.addEventListener("calciteSegmentedControlChange", function (event) {
           meter.fillType = event.target.value;
         });
 

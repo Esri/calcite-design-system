@@ -9,8 +9,10 @@ describe("calcite-carousel", () => {
   describe("renders", () => {
     renders(
       html`<calcite-carousel label="Carousel example"
-        ><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item
-        ><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel
+        ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
+        ><calcite-carousel-item label="Carousel Item 2"
+          ><p>carousel item content</p></calcite-carousel-item
+        ></calcite-carousel
       >`,
       {
         display: "flex",
@@ -21,8 +23,10 @@ describe("calcite-carousel", () => {
   describe("honors hidden attribute", () => {
     hidden(
       html`<calcite-carousel hidden label="Carousel example"
-        ><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item
-        ><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel
+        ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
+        ><calcite-carousel-item label="Carousel Item 2"
+          ><p>carousel item content</p></calcite-carousel-item
+        ></calcite-carousel
       >`,
     );
   });
@@ -30,8 +34,10 @@ describe("calcite-carousel", () => {
   describe("accessible", () => {
     accessible(
       html`<calcite-carousel label="Carousel example"
-        ><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item
-        ><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel
+        ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
+        ><calcite-carousel-item label="Carousel Item 2"
+          ><p>carousel item content</p></calcite-carousel-item
+        ></calcite-carousel
       >`,
     );
   });
@@ -39,8 +45,10 @@ describe("calcite-carousel", () => {
   describe("accessible with autoplay paused", () => {
     accessible(
       html`<calcite-carousel autoplay="paused" label="Carousel example"
-        ><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item
-        ><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel
+        ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
+        ><calcite-carousel-item label="Carousel Item 2"
+          ><p>carousel item content</p></calcite-carousel-item
+        ></calcite-carousel
       >`,
     );
   });
@@ -48,8 +56,10 @@ describe("calcite-carousel", () => {
   describe("accessible with autoplay when autoplay", () => {
     accessible(
       html`<calcite-carousel autoplay label="Carousel example"
-        ><calcite-carousel-item label="Slide 1"><p>slide content</p></calcite-carousel-item
-        ><calcite-carousel-item label="Slide 2"><p>slide content</p></calcite-carousel-item></calcite-carousel
+        ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
+        ><calcite-carousel-item label="Carousel Item 2"
+          ><p>carousel item content</p></calcite-carousel-item
+        ></calcite-carousel
       >`,
     );
   });
@@ -63,9 +73,9 @@ describe("calcite-carousel", () => {
       const page = await newE2EPage();
       await page.setContent(
         `<calcite-carousel label="Carousel example" arrow-type="none">
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
@@ -85,9 +95,9 @@ describe("calcite-carousel", () => {
 
       await page.setContent(
         `<calcite-carousel label="Carousel example">
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
@@ -124,9 +134,9 @@ describe("calcite-carousel", () => {
 
       await page.setContent(
         `<calcite-carousel label="Carousel example">
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
@@ -182,9 +192,9 @@ describe("calcite-carousel", () => {
 
       await page.setContent(
         `<calcite-carousel label="Carousel example" arrow-type="none">
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
@@ -228,15 +238,17 @@ describe("calcite-carousel", () => {
       selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("two");
     });
+  });
 
+  describe("autoplay", () => {
     it("emit autoplay change event but not carousel change on autoplay button click", async () => {
       const page = await newE2EPage();
 
       await page.setContent(
         `<calcite-carousel label="Carousel example" autoplay>
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
@@ -279,9 +291,9 @@ describe("calcite-carousel", () => {
 
       await page.setContent(
         `<calcite-carousel label="Carousel example" autoplay>
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
@@ -366,9 +378,9 @@ describe("calcite-carousel", () => {
 
       await page.setContent(
         `<calcite-carousel label="Carousel example" autoplay>
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
@@ -447,14 +459,14 @@ describe("calcite-carousel", () => {
       expect(await carousel.getProperty("paused")).toBe(false);
     });
 
-    it("correctly rotates to a new slide after duration elapses", async () => {
+    it("correctly rotates to a new carousel item after duration elapses", async () => {
       const page = await newE2EPage();
 
       await page.setContent(
         `<calcite-carousel label="Carousel example" autoplay>
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
@@ -480,14 +492,14 @@ describe("calcite-carousel", () => {
       expect(stopSpy).not.toHaveReceivedEvent();
     });
 
-    it("correctly rotates to a new slide after custom duration elapses", async () => {
+    it("correctly rotates to a new carousel item after custom duration elapses", async () => {
       const page = await newE2EPage();
 
       await page.setContent(
         `<calcite-carousel label="Carousel example" autoplay autoplay-duration="2000">
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
@@ -519,9 +531,9 @@ describe("calcite-carousel", () => {
 
       await page.setContent(
         `<calcite-carousel label="Carousel example" autoplay>
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
@@ -569,9 +581,9 @@ describe("calcite-carousel", () => {
 
       await page.setContent(
         `<calcite-carousel label="Carousel example" autoplay="paused" id="example-carousel>
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
 
@@ -672,8 +684,8 @@ describe("calcite-carousel", () => {
     it("should select the first item by default and change the selectedIndex when the previous or next buttons are clicked", async () => {
       const page = await newE2EPage({
         html: `<calcite-carousel label="Carousel example">
-      <calcite-carousel-item label="Slide 1" id="one"><p>first item default selected</p></calcite-carousel-item>
-      <calcite-carousel-item label="Slide 2" id="two"><p>next/prev behavior</p></calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 1" id="one"><p>first item default selected</p></calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 2" id="two"><p>next/prev behavior</p></calcite-carousel-item>
     </calcite-carousel>`,
       });
 
@@ -702,7 +714,7 @@ describe("calcite-carousel", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-carousel label="Carousel example"
-          ><calcite-carousel-item label="Slide 1" id="one"
+          ><calcite-carousel-item label="Carousel Item 1" id="one"
             ><p>first item default selected</p></calcite-carousel-item
           ></calcite-carousel
         >`,
@@ -717,7 +729,7 @@ describe("calcite-carousel", () => {
     it("should update if items are added after initial load", async () => {
       const page = await newE2EPage({
         html: `<calcite-carousel label="Carousel example">
-      <calcite-carousel-item label="Slide 1"><p>dynamically adding/removing items</p></calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 1"><p>dynamically adding/removing items</p></calcite-carousel-item>
     </calcite-carousel>`,
       });
 
@@ -766,9 +778,9 @@ describe("calcite-carousel", () => {
       const page = await newE2EPage();
       await page.setContent(
         `<calcite-carousel label="Carousel example" autoplay>
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
       const carousel = await page.find("calcite-carousel");
@@ -830,9 +842,9 @@ describe("calcite-carousel", () => {
       const page = await newE2EPage();
       await page.setContent(
         `<calcite-carousel label="Carousel example" autoplay="paused">
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
       const carousel = await page.find("calcite-carousel");
@@ -869,9 +881,9 @@ describe("calcite-carousel", () => {
       const page = await newE2EPage();
       await page.setContent(
         `<calcite-carousel label="Carousel example">
-          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
-          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
         </calcite-carousel>`,
       );
       const carousel = await page.find("calcite-carousel");
