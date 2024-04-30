@@ -4,8 +4,7 @@ export const CSS = {
   contentContainer: "content-container",
   description: "description",
   heading: "heading",
-  // [Deprecated] Use the content-top slot for rendering icon with alignment="center" instead
-  largeVisual: "large-visual",
+  largeVisualDeprecated: "large-visual-deprecated",
   row: "row",
   selected: "selected",
   selectionIcon: "selection-icon",
