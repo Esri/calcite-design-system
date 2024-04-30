@@ -761,4 +761,44 @@ describe("calcite-carousel", () => {
       expect(selectedItem.id).toEqual("two");
     });
   });
+  describe("public methods", () => {
+    it("plays and stops correctly", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-carousel label="Carousel example" >
+          <calcite-carousel-item label="Slide 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Slide 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+        </calcite-carousel>`,
+      );
+      const carousel = await page.find("calcite-carousel");
+
+      const playSpy = await page.spyOnEvent("calciteCarouselPlay");
+      const stopSpy = await page.spyOnEvent("calciteCarouselStop");
+      let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("two");
+      expect(playSpy).not.toHaveReceivedEvent();
+      expect(stopSpy).not.toHaveReceivedEvent();
+
+      await carousel.callMethod("play");
+      await page.waitForChanges();
+      expect(playSpy).toHaveReceivedEventTimes(1);
+      expect(stopSpy).not.toHaveReceivedEvent();
+      expect(await carousel.getProperty("paused")).toBe(false);
+
+      await page.waitForTimeout(slideDurationWaitTimer);
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("three");
+
+      await carousel.callMethod("stop");
+      await page.waitForChanges();
+      expect(playSpy).toHaveReceivedEventTimes(1);
+      expect(stopSpy).toHaveReceivedEventTimes(1);
+      expect(await carousel.getProperty("paused")).toBe(true);
+
+      await page.waitForTimeout(slideDurationWaitTimer);
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("three");
+    });
+  });
 });
