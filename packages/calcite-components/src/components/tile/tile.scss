@@ -30,22 +30,16 @@
   &.interactive {
     cursor: pointer;
     &:hover,
-    &:focus {
-      .selection-icon {
-        background-color: var(--calcite-color-transparent-hover);
-      }
-    }
-    &:hover,
     &:focus,
     &.selected {
       outline-color: var(--calcite-color-brand);
       position: relative;
-    }
-    &.selected {
-      z-index: var(--calcite-z-index);
       .selection-icon {
         --calcite-ui-icon-color: var(--calcite-color-brand);
       }
+    }
+    &.selected {
+      z-index: var(--calcite-z-index);
     }
     &:focus {
       box-shadow: inset 0px 0px 0px 1px var(--calcite-color-brand);
@@ -122,14 +116,6 @@
   min-inline-size: 100px;
   .container {
     padding: var(--calcite-spacing-sm);
-    &.interactive {
-      &:hover,
-      &:focus {
-        .selection-icon {
-          box-shadow: 0.4px 0.4px 0px 5px var(--calcite-color-transparent-hover);
-        }
-      }
-    }
   }
   .column,
   .row {
@@ -150,14 +136,6 @@
   min-inline-size: 140px;
   .container {
     padding: var(--calcite-spacing-md);
-    &.interactive {
-      &:hover,
-      &:focus {
-        .selection-icon {
-          box-shadow: 0.4px 0.4px 0px 8px var(--calcite-color-transparent-hover);
-        }
-      }
-    }
   }
   .column,
   .row {
@@ -178,14 +156,6 @@
   min-inline-size: 160px;
   .container {
     padding: var(--calcite-spacing-xl);
-    &.interactive {
-      &:hover,
-      &:focus {
-        .selection-icon {
-          box-shadow: 0.4px 0.4px 0px 10px var(--calcite-color-transparent-hover);
-        }
-      }
-    }
   }
   .column,
   .row {
