@@ -393,6 +393,13 @@
           ?.addEventListener("blur", ({ target }) => checkElementConstraints(target, data));
       });
 
+      /** use `calciteInvalid` if you only want to set custom messages on form submission */
+
+      // document.addEventListener("calciteInvalid", ({ target }) => {
+      //   const constraints = ELEMENT_CONSTRAINTS.find((x) => x.id === target.id);
+      //   checkElementConstraints(target, constraints);
+      // });
+
       // Mode Switcher
       document.getElementById("mode")?.addEventListener("calciteSwitchChange", () => {
         document.body.classList.toggle("calcite-mode-dark");
