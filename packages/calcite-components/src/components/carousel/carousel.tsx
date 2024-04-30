@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  Method,
   h,
   Host,
   Prop,
@@ -27,6 +28,7 @@ import {
 } from "../../utils/interactive";
 import {
   LoadableComponent,
+  componentFocusable,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
@@ -40,7 +42,7 @@ import {
 import { getRoundRobinIndex } from "../../utils/array";
 import { CSS, DURATION, ICONS } from "./resources";
 import { CarouselMessages } from "./assets/carousel/t9n";
-import { ArrowType } from "./interfaces";
+import { ArrowType, AutoplayType } from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-carousel-item`s.
@@ -59,6 +61,18 @@ export class Carousel
   //  Properties
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * When `true`, the carousel will autoplay and controls will be displayed. When "paused" at time of initialization, the carousel will not autoplay, but controls will be displayed.
+   */
+  @Prop({ reflect: true }) autoplay: AutoplayType = false;
+
+  @Watch("autoplay")
+  autoplayWatcher(autoplay: boolean): void {
+    if (!autoplay) {
+      this.handlePause();
+    }
+  }
 
   /**
    * Specifies how and if the "previous" and "next" arrows are displayed.
@@ -81,41 +95,9 @@ export class Carousel
   @Prop() label!: string;
 
   /**
-   * When `true`, and `rotation` is `true`, the carousel will auto-rotate.
+   *  When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
    */
-  @Prop({ reflect: true, mutable: true }) rotating = false;
-
-  @Watch("rotating")
-  handleRotatingChange(newValue: boolean, oldValue: boolean): void {
-    if (!this.rotation) {
-      return;
-    }
-
-    if (newValue) {
-      this.play();
-    } else if (oldValue) {
-      this.pause();
-    }
-  }
-
-  /**
-   * When `true`, the rotation control is displayed.
-   */
-  @Prop({ reflect: true }) rotation = false;
-
-  @Watch("rotation")
-  handleRotationChange(): void {
-    if (this.rotation && this.rotating) {
-      this.play();
-    } else if (!this.rotation) {
-      this.pause();
-    }
-  }
-
-  /**
-   *  When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
-   */
-  @Prop({ reflect: true }) rotationDuration = DURATION;
+  @Prop({ reflect: true }) autoplayDuration = DURATION;
 
   /**
    * Made into a prop for testing purposes only
@@ -135,6 +117,14 @@ export class Carousel
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) paused: boolean;
 
   /**
    * The component's selected `calcite-carousel-item`.
@@ -157,9 +147,6 @@ export class Carousel
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    if (this.rotation && this.rotating) {
-      this.play();
-    }
   }
 
   componentDidRender(): void {
@@ -174,8 +161,39 @@ export class Carousel
   }
 
   async componentWillLoad(): Promise<void> {
+    if (this.autoplay && this.autoplay !== "paused") {
+      this.handlePlay();
+    } else if (this.autoplay === "paused") {
+      this.paused = true;
+    }
     setUpLoadableComponent(this);
+
     await setUpMessages(this);
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    this.container?.focus();
+  }
+
+  /** Play the carousel. */
+  @Method()
+  async play(): Promise<void> {
+    this.handlePlay();
+  }
+
+  /** Stop the carousel */
+  @Method()
+  async stop(): Promise<void> {
+    this.handlePause();
   }
 
   // --------------------------------------------------------------------------
@@ -193,6 +211,13 @@ export class Carousel
   @State() direction: "forward" | "backward";
 
   @State() defaultMessages: CarouselMessages;
+
+  @State() playing = false;
+
+  @Watch("playing")
+  playingWatcher(): void {
+    this.paused = !this.playing;
+  }
 
   @State() suspendedDueToFocus = false;
 
@@ -240,16 +265,16 @@ export class Carousel
   /** Fires when the selected `calcite-carousel-item` changes. */
   @Event({ cancelable: false }) calciteCarouselChange: EventEmitter<void>;
 
-  /** Fires when the carousel rotation is started by the user. */
+  /** Fires when the carousel autoplay is invoked by the user. */
   @Event({ cancelable: false }) calciteCarouselPlay: EventEmitter<void>;
 
-  /** Fires when the carousel rotation state is paused by a user. */
+  /** Fires when the carousel autoplay state is stopped by a user. */
   @Event({ cancelable: false }) calciteCarouselStop: EventEmitter<void>;
 
-  /** Fires when the carousel rotation state suspends due to a user hovering over the component or focusing on the component or slotted content */
+  /** Fires when the carousel autoplay state pauses due to a user hovering over the component or focusing on the component or slotted content */
   @Event({ cancelable: false }) calciteCarouselPause: EventEmitter<void>;
 
-  /** Fires when the carousel rotation state suspension ends due to a user no longer hovering over the component or focusing on the component or slotted content */
+  /** Fires when the carousel autoplay state resumes due to a user no longer hovering over the component or focusing on the component or slotted content */
   @Event({ cancelable: false }) calciteCarouselResume: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
@@ -264,26 +289,28 @@ export class Carousel
   }
 
   private nextItem(emit: boolean) {
-    if (this.rotating && emit) {
-      this.rotating = false;
+    if (this.playing && emit) {
+      this.playing = false;
     }
     const nextIndex = getRoundRobinIndex(this.selectedIndex + 1, this.items.length);
     this.setSelectedItem(nextIndex, emit);
   }
 
   private previousItem() {
-    this.rotating = false;
+    this.playing = false;
     const prevIndex = getRoundRobinIndex(Math.max(this.selectedIndex - 1, -1), this.items.length);
     this.setSelectedItem(prevIndex, true);
   }
 
-  private play() {
-    this.rotationHandler();
-    this.slideInterval = setInterval(this.rotationHandler, this.rotationDuration);
+  private handlePlay() {
+    this.playing = true;
+    this.autoplayHandler();
+    this.slideInterval = setInterval(this.autoplayHandler, this.autoplayDuration);
     this.calciteCarouselPlay.emit();
   }
 
-  private pause() {
+  private handlePause() {
+    this.playing = false;
     this.clearIntervals();
     this.slideDurationRemaining = 1;
     this.suspendedSlideDurationRemaining = 1;
@@ -298,9 +325,9 @@ export class Carousel
     this.slideDurationRemaining = this.suspendedSlideDurationRemaining;
   }
 
-  private rotationHandler = (): void => {
+  private autoplayHandler = (): void => {
     this.clearIntervals();
-    this.slideDurationInterval = setInterval(this.timer, this.rotationDuration / 100);
+    this.slideDurationInterval = setInterval(this.timer, this.autoplayDuration / 100);
   };
 
   private timer = (): void => {
@@ -346,8 +373,7 @@ export class Carousel
     });
 
     if (emit) {
-      this.rotating = false;
-
+      this.playing = false;
       if (previousSelected !== this.selectedIndex) {
         this.calciteCarouselChange.emit();
       }
@@ -364,8 +390,8 @@ export class Carousel
   };
 
   private handleItemSelection = (event: MouseEvent): void => {
-    if (this.rotating) {
-      this.rotating = false;
+    if (this.playing) {
+      this.handlePause();
     }
     const item = event.target as HTMLCalciteActionElement;
     const requestedPosition = parseInt(item.dataset.index);
@@ -375,11 +401,15 @@ export class Carousel
 
   private toggleRotation = (): void => {
     this.userPreventsSuspend = true;
-    this.rotating = !this.rotating;
+    if (this.playing) {
+      this.handlePause();
+    } else {
+      this.handlePlay();
+    }
   };
 
   private handleFocusIn = (): void => {
-    const isRotating = this.rotation && this.rotating;
+    const isRotating = this.playing;
 
     if (isRotating) {
       this.suspendedDueToFocus = true;
@@ -390,7 +420,7 @@ export class Carousel
   };
 
   private handleMouseIn = (): void => {
-    const isRotating = this.rotation && this.rotating;
+    const isRotating = this.playing;
 
     if (isRotating) {
       this.suspendedDueToHover = true;
@@ -402,7 +432,7 @@ export class Carousel
 
   private handleMouseOut = (event: MouseEvent): void => {
     const leavingComponent = !this.el.contains(event.relatedTarget as HTMLElement);
-    const isRotating = this.rotation && this.rotating;
+    const isRotating = this.playing;
 
     if (leavingComponent && isRotating) {
       this.suspendedDueToHover = false;
@@ -415,7 +445,7 @@ export class Carousel
 
   private handleFocusOut = (event: FocusEvent): void => {
     const leavingComponent = !event.composedPath().includes(event.relatedTarget as HTMLElement);
-    const isRotating = this.rotation && this.rotating;
+    const isRotating = this.playing;
 
     if (leavingComponent && isRotating) {
       this.suspendedDueToFocus = false;
@@ -494,21 +524,21 @@ export class Carousel
   // --------------------------------------------------------------------------
 
   renderRotationControl = (): VNode => {
-    const text = this.rotating ? this.messages.pause : this.messages.play;
+    const text = this.playing ? this.messages.pause : this.messages.play;
     return (
       <button
         aria-label={text}
         class={{
           [CSS.paginationItem]: true,
-          [CSS.rotationControl]: true,
+          [CSS.autoplayControl]: true,
         }}
         onClick={this.toggleRotation}
         title={text}
       >
-        <calcite-icon icon={this.rotating ? ICONS.pause : ICONS.play} scale="s" />
-        {(this.rotating || (!this.rotating && this.slideDurationRemaining < 1)) && (
+        <calcite-icon icon={this.playing ? ICONS.pause : ICONS.play} scale="s" />
+        {this.playing && (
           <calcite-progress
-            class={CSS.rotatingProgress}
+            class={CSS.autoplayProgress}
             label={this.messages.carouselItemProgress}
             value={this.slideDurationRemaining}
           />
@@ -527,7 +557,8 @@ export class Carousel
       // eslint-disable-next-line react/jsx-sort-props
       ref={this.storeTabListRef}
     >
-      {this.rotation && this.renderRotationControl()}
+      {(this.playing || this.autoplay || this.autoplay === "paused") &&
+        this.renderRotationControl()}
       {this.arrowType === "inline" && this.renderArrow("previous")}
       {this.renderPaginationItems()}
       {this.arrowType === "inline" && this.renderArrow("next")}
@@ -587,7 +618,7 @@ export class Carousel
         <InteractiveContainer disabled={this.disabled}>
           <div
             aria-label={this.label}
-            aria-live={this.rotating ? "off" : "polite"}
+            aria-live={this.playing ? "off" : "polite"}
             aria-roledescription={this.messages.carousel}
             class={{
               [CSS.container]: true,

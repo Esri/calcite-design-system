@@ -56,7 +56,7 @@
       .bg-image-example {
         background-image: url("https://placebear.com/3000/2000");
         background-size: cover;
-        padding: 1rem;
+        padding: 1.5rem 3rem;
         height: 300px;
         margin: 0;
         font-size: 32px;
@@ -74,8 +74,8 @@
         --calcite-internal-carousel-item-icon-color-selected: pink;
         --calcite-internal-carousel-item-icon-color-active: white;
         --calcite-internal-carousel-item-icon-color: lightgreen;
-        --calcite-internal-carousel-rotation-progress-background-color: purple;
-        --calcite-internal-carousel-rotation-progress-fill-color: pink;
+        --calcite-internal-carousel-autoplay-progress-background-color: purple;
+        --calcite-internal-carousel-autoplay-progress-fill-color: pink;
       }
     </style>
     <script src="_assets/head.js"></script>
@@ -99,6 +99,14 @@
               <calcite-switch id="switch-overlay"></calcite-switch>
             </calcite-label>
             <calcite-label
+              >autoplay
+              <calcite-segmented-control id="autoplay-control">
+                <calcite-segmented-control-item value="false" checked>false</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="true">true</calcite-segmented-control-item>
+                <calcite-segmented-control-item value="paused">paused</calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </calcite-label>
+            <calcite-label
               >arrowType
               <calcite-segmented-control id="arrow-type">
                 <calcite-segmented-control-item value="inline" checked>inline</calcite-segmented-control-item>
@@ -107,16 +115,16 @@
               </calcite-segmented-control>
             </calcite-label>
             <calcite-label
-              >rotation
-              <calcite-switch id="switch-rotation"></calcite-switch>
-            </calcite-label>
-            <calcite-label
-              >rotating
-              <calcite-switch id="switch-rotating"></calcite-switch>
-            </calcite-label>
-            <calcite-label
               >duration
               <calcite-input id="input-duration" placeholder="6000"></calcite-input>
+            </calcite-label>
+            <calcite-label
+              >play()
+              <calcite-button id="method-play">myCarouselEl.play()</calcite-button>
+            </calcite-label>
+            <calcite-label
+              >stop()
+              <calcite-button id="method-stop">myCarouselEl.stop()</calcite-button>
             </calcite-label>
           </div>
         </div>
@@ -166,7 +174,7 @@
           <div class="child">
             <hr />
             <h3>Themed</h3>
-            <calcite-carousel id="example-carousel" class="themed">
+            <calcite-carousel class="themed">
               <calcite-carousel-item label="The Red Rocks and Blue Water">
                 <calcite-card>
                   <div slot="title">1 ArcGIS Online: Gallery and Organization pages</div>
@@ -224,8 +232,8 @@
                 </calcite-card>
               </calcite-carousel-item>
             </calcite-carousel>
-            <h3>rotation</h3>
-            <calcite-carousel id="example-carousel" rotation>
+            <h3>autoplay paused at load</h3>
+            <calcite-carousel autoplay="paused">
               <calcite-carousel-item label="The Red Rocks and Blue Water">
                 <calcite-card>
                   <div slot="title">1 ArcGIS Online: Gallery and Organization pages</div>
@@ -281,8 +289,8 @@
                 </calcite-card>
               </calcite-carousel-item>
             </calcite-carousel>
-            <h3>rotation and rotating</h3>
-            <calcite-carousel id="example-carousel" rotation rotating>
+            <h3>autoplay</h3>
+            <calcite-carousel autoplay="true">
               <calcite-carousel-item label="The Red Rocks and Blue Water">
                 <calcite-card>
                   <div slot="title">1 ArcGIS Online: Gallery and Organization pages</div>
@@ -347,7 +355,7 @@
                 <calcite-block open style="height: 400px">
                   <calcite-button style="margin: 1rem" id="example-popover">Launch onboarding</calcite-button>
                   <calcite-popover open reference-element="example-popover" heading="Welcome to the show!" closable>
-                    <calcite-carousel id="example-carousel">
+                    <calcite-carousel>
                       <calcite-carousel-item label="The Red Rocks and Blue Water">
                         <p>
                           <calcite-icon scale="l" icon="layer"></calcite-icon>
@@ -401,7 +409,7 @@
               <calcite-shell-panel slot="panel-start" width-scale="l">
                 <calcite-panel heading="Carousel in context">
                   <calcite-block open heading="Carousel in block ">
-                    <calcite-carousel id="example-carousel" control-overlay>
+                    <calcite-carousel control-overlay>
                       <calcite-carousel-item label="The Red Rocks and Blue Water">
                         <p class="bg-image-example">1 Some kind of rich content over a bg using overlay controls</p>
                       </calcite-carousel-item>
@@ -429,7 +437,7 @@
                     </calcite-carousel>
                   </calcite-block>
                   <calcite-block open heading="Carousel in block themed auto rotate">
-                    <calcite-carousel id="example-carousel" control-overlay arrow-type="edge" class="themed" rotation>
+                    <calcite-carousel control-overlay arrow-type="edge" class="themed" autoplay="paused">
                       <calcite-carousel-item label="The Red Rocks and Blue Water">
                         <p class="bg-image-example">1 Some kind of rich content over a bg using overlay controls</p>
                       </calcite-carousel-item>
@@ -457,7 +465,7 @@
                     </calcite-carousel>
                   </calcite-block>
                   <calcite-block open heading="Carousel in block">
-                    <calcite-carousel id="example-carousel" arrow-type="edge">
+                    <calcite-carousel arrow-type="edge">
                       <calcite-carousel-item label="The Red Rocks and Blue Water">
                         <p class="bg-image-example">1 Some kind of rich content over a bg using overlay controls</p>
                       </calcite-carousel-item>
@@ -487,7 +495,7 @@
                   <calcite-block open>
                     <calcite-button style="margin: 1rem" id="example-popover-2">Launch onboarding</calcite-button>
                     <calcite-popover open reference-element="example-popover-2" heading="Welcome to the show!" closable>
-                      <calcite-carousel id="example-carousel">
+                      <calcite-carousel>
                         <calcite-carousel-item label="The Red Rocks and Blue Water">
                           <p>
                             <calcite-icon scale="l" icon="number-circle-1"></calcite-icon>
@@ -539,28 +547,36 @@
         const carousel = document.getElementById("example-carousel");
         const switchOverlay = document.getElementById("switch-overlay");
         const switchDisabled = document.getElementById("switch-disabled");
-        const switchRotation = document.getElementById("switch-rotation");
-        const switchRotating = document.getElementById("switch-rotating");
         const durationInput = document.getElementById("input-duration");
-
+        const buttonMethodPlay = document.getElementById("method-play");
+        const buttonMethodStop = document.getElementById("method-stop");
         const arrowType = document.getElementById("arrow-type");
+        const autoplay = document.getElementById("autoplay-control");
 
         document.querySelectorAll("calcite-carousel").forEach((el) => {
           el.addEventListener("calciteCarouselChange", (event) => {
             console.log(event.target.selectedItem, "selectedItem", "calciteCarouselChange");
           });
           el.addEventListener("calciteCarouselPlay", (event) => {
-            console.log(event.target.rotating, "rotating", "calciteCarouselPlay");
+            console.log("play", "calciteCarouselPlay");
           });
           el.addEventListener("calciteCarouselStop", (event) => {
-            console.log(event.target.rotating, "rotating", "calciteCarouselStop");
+            console.log("stop", "calciteCarouselStop");
           });
           el.addEventListener("calciteCarouselPause", (event) => {
-            console.log("calciteCarouselPause");
+            console.log("pause", "calciteCarouselPause");
           });
           el.addEventListener("calciteCarouselResume", (event) => {
-            console.log("calciteCarouselResume");
+            console.log("resume", "calciteCarouselResume");
           });
+        });
+
+        buttonMethodPlay.addEventListener("click", function () {
+          carousel.play();
+        });
+
+        buttonMethodStop.addEventListener("click", function () {
+          carousel.stop();
         });
 
         switchOverlay.addEventListener("calciteSwitchChange", function () {
@@ -569,19 +585,18 @@
 
         durationInput.addEventListener("calciteInputInput", function () {
           console.log(event.target.value);
-          carousel.rotationDuration = event.target.value;
+          carousel.autoplayDuration = event.target.value;
         });
 
-        switchRotation.addEventListener("calciteSwitchChange", function () {
-          carousel.rotation = event.target.checked;
-        });
-
-        switchDisabled.addEventListener("calciteSwitchChange", function () {
-          carousel.disabled = event.target.checked;
-        });
-
-        switchRotating.addEventListener("calciteSwitchChange", function () {
-          carousel.rotating = event.target.checked;
+        autoplay.addEventListener("calciteSegmentedControlChange", function () {
+          if (event.target.value === "false") {
+            carousel.removeAttribute("autoplay");
+          } else if (event.target.value === "paused") {
+            carousel.removeAttribute("autoplay");
+            carousel.setAttribute("autoplay", true);
+          } else {
+            carousel.setAttribute("autoplay", "paused");
+          }
         });
 
         arrowType.addEventListener("calciteSegmentedControlChange", function () {

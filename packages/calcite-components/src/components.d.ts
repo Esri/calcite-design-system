@@ -23,7 +23,7 @@ import { BlockSectionMessages } from "./components/block-section/assets/block-se
 import { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
 import { ButtonMessages } from "./components/button/assets/button/t9n";
 import { CardMessages } from "./components/card/assets/card/t9n";
-import { ArrowType } from "./components/carousel/interfaces";
+import { ArrowType, AutoplayType } from "./components/carousel/interfaces";
 import { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 import { ChipMessages } from "./components/chip/assets/chip/t9n";
 import { ColorValue, InternalColor } from "./components/color-picker/interfaces";
@@ -112,7 +112,7 @@ export { BlockSectionMessages } from "./components/block-section/assets/block-se
 export { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
 export { ButtonMessages } from "./components/button/assets/button/t9n";
 export { CardMessages } from "./components/card/assets/card/t9n";
-export { ArrowType } from "./components/carousel/interfaces";
+export { ArrowType, AutoplayType } from "./components/carousel/interfaces";
 export { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 export { ChipMessages } from "./components/chip/assets/chip/t9n";
 export { ColorValue, InternalColor } from "./components/color-picker/interfaces";
@@ -836,6 +836,14 @@ export namespace Components {
          */
         "arrowType": ArrowType;
         /**
+          * When `true`, the carousel will autoplay and controls will be displayed. When "paused" at time of initialization, the carousel will not autoplay, but controls will be displayed.
+         */
+        "autoplay": AutoplayType;
+        /**
+          * When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
+         */
+        "autoplayDuration": number;
+        /**
           * Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items.
          */
         "controlOverlay": boolean;
@@ -856,22 +864,26 @@ export namespace Components {
          */
         "messages": CarouselMessages;
         /**
-          * When `true`, and `rotation` is `true`, the carousel will auto-rotate.
+          * Made into a prop for testing purposes only
          */
-        "rotating": boolean;
+        "paused": boolean;
         /**
-          * When `true`, the rotation control is displayed.
+          * Play the carousel.
          */
-        "rotation": boolean;
-        /**
-          * When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
-         */
-        "rotationDuration": number;
+        "play": () => Promise<void>;
         /**
           * The component's selected `calcite-carousel-item`.
           * @readonly
          */
         "selectedItem": HTMLCalciteCarouselItemElement;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * Stop the carousel
+         */
+        "stop": () => Promise<void>;
     }
     interface CalciteCarouselItem {
         /**
@@ -8306,6 +8318,14 @@ declare namespace LocalJSX {
          */
         "arrowType"?: ArrowType;
         /**
+          * When `true`, the carousel will autoplay and controls will be displayed. When "paused" at time of initialization, the carousel will not autoplay, but controls will be displayed.
+         */
+        "autoplay"?: AutoplayType;
+        /**
+          * When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
+         */
+        "autoplayDuration"?: number;
+        /**
           * Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items.
          */
         "controlOverlay"?: boolean;
@@ -8330,33 +8350,25 @@ declare namespace LocalJSX {
          */
         "onCalciteCarouselChange"?: (event: CalciteCarouselCustomEvent<void>) => void;
         /**
-          * Fires when the carousel rotation state suspends due to a user hovering over the component or focusing on the component or slotted content
+          * Fires when the carousel autoplay state pauses due to a user hovering over the component or focusing on the component or slotted content
          */
         "onCalciteCarouselPause"?: (event: CalciteCarouselCustomEvent<void>) => void;
         /**
-          * Fires when the carousel rotation is started by the user.
+          * Fires when the carousel autoplay is invoked by the user.
          */
         "onCalciteCarouselPlay"?: (event: CalciteCarouselCustomEvent<void>) => void;
         /**
-          * Fires when the carousel rotation state suspension ends due to a user no longer hovering over the component or focusing on the component or slotted content
+          * Fires when the carousel autoplay state resumes due to a user no longer hovering over the component or focusing on the component or slotted content
          */
         "onCalciteCarouselResume"?: (event: CalciteCarouselCustomEvent<void>) => void;
         /**
-          * Fires when the carousel rotation state is paused by a user.
+          * Fires when the carousel autoplay state is stopped by a user.
          */
         "onCalciteCarouselStop"?: (event: CalciteCarouselCustomEvent<void>) => void;
         /**
-          * When `true`, and `rotation` is `true`, the carousel will auto-rotate.
+          * Made into a prop for testing purposes only
          */
-        "rotating"?: boolean;
-        /**
-          * When `true`, the rotation control is displayed.
-         */
-        "rotation"?: boolean;
-        /**
-          * When `rotation` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
-         */
-        "rotationDuration"?: number;
+        "paused"?: boolean;
         /**
           * The component's selected `calcite-carousel-item`.
           * @readonly

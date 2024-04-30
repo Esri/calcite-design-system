@@ -14,8 +14,8 @@ export const CSS = {
   paginationItemSelected: "pagination-item--selected",
   pageNext: "page-next",
   pagePrevious: "page-previous",
-  rotationControl: "rotation-control",
-  rotatingProgress: "rotating-progress",
+  autoplayControl: "autoplay-control",
+  autoplayProgress: "autoplay-progress",
 };
 
 export const ICONS = {

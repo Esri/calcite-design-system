@@ -12,9 +12,7 @@ export const simple = (): string =>
     <calcite-carousel
       ${boolean("control-overlay", false)}
       ${boolean("disabled", false)}
-      ${boolean("rotation", false)}
-      ${boolean("rotating", false)}
-      ${number("rotation-duration", 6000)}
+      ${number("autoplay-duration", 6000)}
       ${text("label", "Example carousel label")}
       arrow-type="${select("arrow-type", ["inline", "edge", "none"], "inline")}"
     >
@@ -70,7 +68,7 @@ export const carouselRotationFullImageWithOverlayAndEdge = (): string =>
         line-height: 32px;
       }
     </style>
-    <calcite-carousel control-overlay arrow-type="edge" rotation>
+    <calcite-carousel control-overlay arrow-type="edge" autoplay="true">
       <calcite-carousel-item label="Carousel Item 1">
         <div class="bg-image-example">Some kind of rich content over a bg using overlay controls</div>
       </calcite-carousel-item>
@@ -100,7 +98,7 @@ export const carouselRotationFullImageWithNoOverlay = (): string =>
         line-height: 32px;
       }
     </style>
-    <calcite-carousel control-overlay rotation>
+    <calcite-carousel control-overlay autoplay>
       <calcite-carousel-item label="Carousel Item 1">
         <div class="bg-image-example">Some kind of rich content over a bg using overlay controls</div>
       </calcite-carousel-item>
@@ -161,7 +159,7 @@ export const carouselWithRotationNoOverlay = (): string =>
         margin: 0 auto 1rem;
       }
     </style>
-    <calcite-carousel rotation>
+    <calcite-carousel autoplay="paused">
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
           <span slot="title">Some kind of carousel item content</span>
@@ -218,11 +216,11 @@ export const themed_simple = (): string =>
         --calcite-internal-carousel-item-icon-color-selected: blue;
         --calcite-internal-carousel-item-icon-color-active: orange;
         --calcite-internal-carousel-item-icon-color: red;
-        --calcite-internal-carousel-rotation-progress-background-color: purple;
-        --calcite-internal-carousel-rotation-progress-fill-color: pink;
+        --calcite-internal-carousel-autoplay-progress-background-color: purple;
+        --calcite-internal-carousel-autoplay-progress-fill-color: pink;
       }
     </style>
-    <calcite-carousel rotation>
+    <calcite-carousel autoplay="true">
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
           <span slot="title">Some kind of carousel item content</span>
@@ -283,8 +281,8 @@ export const themed_carouselFullImageWithOverlay = (): string =>
         --calcite-internal-carousel-item-icon-color-selected: pink;
         --calcite-internal-carousel-item-icon-color-active: white;
         --calcite-internal-carousel-item-icon-color: lightgreen;
-        --calcite-internal-carousel-rotation-progress-background-color: purple;
-        --calcite-internal-carousel-rotation-progress-fill-color: pink;
+        --calcite-internal-carousel-autoplay-progress-background-color: purple;
+        --calcite-internal-carousel-autoplay-progress-fill-color: pink;
       }
     </style>
     <calcite-carousel control-overlay arrow-type="edge">

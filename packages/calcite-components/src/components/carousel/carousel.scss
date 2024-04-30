@@ -10,10 +10,10 @@
   * --calcite-internal-carousel-item-icon-color-hover: Specifies the icon color of the component's slide item while hovered.
   * --calcite-internal-carousel-item-icon-color-selected: Specifies the icon color of the component's slide item when selected.
   * --calcite-internal-carousel-item-icon-color: Specifies the icon color of the component's slide item.
-  * --calcite-internal-carousel-control-color-hover: Specifies the icon color of the component's slide slide arrow and rotation button while hovered.
-  * --calcite-internal-carousel-control-color: Specifies the icon color of the component's slide arrow and rotation button.
-  * --calcite-internal-carousel-rotation-progress-background-color: Specifies the background color of the component's progress when `rotating`.
-  * --calcite-internal-carousel-rotation-progress-fill-color: Specifies the fill color of the component's progress when `rotating`.
+  * --calcite-internal-carousel-control-color-hover: Specifies the icon color of the component's slide slide arrow and autoplay button while hovered.
+  * --calcite-internal-carousel-control-color: Specifies the icon color of the component's slide arrow and autoplay button.
+  * --calcite-internal-carousel-autoplay-progress-background-color: Specifies the background color of the component's progress when `autoplay`.
+  * --calcite-internal-carousel-autoplay-progress-fill-color: Specifies the fill color of the component's progress when `autoplay`.
   *
 */
 
@@ -57,12 +57,12 @@
     --calcite-internal-carousel-item-icon-color,
     var(--calcite-color-border-input)
   );
-  --calcite-internal-internal-carousel-rotation-progress-background-color: var(
-    --calcite-internal-carousel-rotation-progress-background-color,
+  --calcite-internal-internal-carousel-autoplay-progress-background-color: var(
+    --calcite-internal-carousel-autoplay-progress-background-color,
     var(--calcite-color-border-3)
   );
-  --calcite-internal-internal-carousel-rotation-progress-fill-color: var(
-    --calcite-internal-carousel-rotation-progress-fill-color,
+  --calcite-internal-internal-carousel-autoplay-progress-fill-color: var(
+    --calcite-internal-carousel-autoplay-progress-fill-color,
     var(--calcite-color-brand)
   );
 }
@@ -162,20 +162,20 @@ calcite-carousel-item:not([selected]) {
   inset-inline: 0;
 }
 
-.pagination-item.rotation-control {
+.pagination-item.autoplay-control {
   position: relative;
   color: var(--calcite-internal-internal-carousel-control-color);
-  --calcite-color-brand: var(--calcite-internal-internal-carousel-rotation-progress-fill-color);
-  --calcite-color-border-3: var(--calcite-internal-internal-carousel-rotation-progress-background-color);
+  --calcite-color-brand: var(--calcite-internal-internal-carousel-autoplay-progress-fill-color);
+  --calcite-color-border-3: var(--calcite-internal-internal-carousel-autoplay-progress-background-color);
 }
 
-.rotation-control:focus .rotating-progress {
+.autoplay-control:focus .autoplay-progress {
   inset-block-end: 4px;
   inset-inline: 2px;
   inline-size: calc(100% - 4px);
 }
 
-.rotating-progress {
+.autoplay-progress {
   position: absolute;
   inset-block-end: 2px;
   inset-inline: 0;
