@@ -409,35 +409,35 @@ export class Carousel
   };
 
   private handleFocusIn = (): void => {
-    const isRotating = this.playing;
+    const isPlaying = this.playing;
 
-    if (isRotating) {
+    if (isPlaying) {
       this.suspendedDueToFocus = true;
     }
-    if ((!this.suspendedDueToFocus || !this.suspendedDueToHover) && isRotating) {
+    if ((!this.suspendedDueToFocus || !this.suspendedDueToHover) && isPlaying) {
       this.calciteCarouselPause.emit();
     }
   };
 
   private handleMouseIn = (): void => {
-    const isRotating = this.playing;
+    const isPlaying = this.playing;
 
-    if (isRotating) {
+    if (isPlaying) {
       this.suspendedDueToHover = true;
     }
-    if ((!this.suspendedDueToFocus || !this.suspendedDueToHover) && isRotating) {
+    if ((!this.suspendedDueToFocus || !this.suspendedDueToHover) && isPlaying) {
       this.calciteCarouselPause.emit();
     }
   };
 
   private handleMouseOut = (event: MouseEvent): void => {
     const leavingComponent = !this.el.contains(event.relatedTarget as HTMLElement);
-    const isRotating = this.playing;
+    const isPlaying = this.playing;
 
-    if (leavingComponent && isRotating) {
+    if (leavingComponent && isPlaying) {
       this.suspendedDueToHover = false;
     }
-    if (leavingComponent && isRotating && !this.suspendedDueToFocus) {
+    if (leavingComponent && isPlaying && !this.suspendedDueToFocus) {
       this.userPreventsSuspend = false;
       this.calciteCarouselResume.emit();
     }
@@ -445,12 +445,12 @@ export class Carousel
 
   private handleFocusOut = (event: FocusEvent): void => {
     const leavingComponent = !event.composedPath().includes(event.relatedTarget as HTMLElement);
-    const isRotating = this.playing;
+    const isPlaying = this.playing;
 
-    if (leavingComponent && isRotating) {
+    if (leavingComponent && isPlaying) {
       this.suspendedDueToFocus = false;
     }
-    if (leavingComponent && isRotating && !this.suspendedDueToHover) {
+    if (leavingComponent && isPlaying && !this.suspendedDueToHover) {
       this.userPreventsSuspend = false;
       this.calciteCarouselResume.emit();
     }
