@@ -54,7 +54,7 @@ export const simple = (): string =>
     </calcite-carousel>
   </div>`;
 
-export const carouselRotationFullImageWithOverlayAndEdge = (): string =>
+export const carouselAutoplayFullImageWithOverlayAndEdge = (): string =>
   html` <div style="width:600px;height:400px;">
     <style>
       .bg-image-example {
@@ -68,7 +68,7 @@ export const carouselRotationFullImageWithOverlayAndEdge = (): string =>
         line-height: 32px;
       }
     </style>
-    <calcite-carousel control-overlay arrow-type="edge" autoplay="true">
+    <calcite-carousel control-overlay arrow-type="edge" autoplay="paused">
       <calcite-carousel-item label="Carousel Item 1">
         <div class="bg-image-example">Some kind of rich content over a bg using overlay controls</div>
       </calcite-carousel-item>
@@ -84,7 +84,7 @@ export const carouselRotationFullImageWithOverlayAndEdge = (): string =>
       </calcite-carousel-item>
   </div>`;
 
-export const carouselRotationFullImageWithNoOverlay = (): string =>
+export const carouselAutoplayFullImageWithNoOverlay = (): string =>
   html` <div style="width:600px;height:400px;">
     <style>
       .bg-image-example {
@@ -98,7 +98,7 @@ export const carouselRotationFullImageWithNoOverlay = (): string =>
         line-height: 32px;
       }
     </style>
-    <calcite-carousel control-overlay autoplay>
+    <calcite-carousel control-overlay autoplay="paused">
       <calcite-carousel-item label="Carousel Item 1">
         <div class="bg-image-example">Some kind of rich content over a bg using overlay controls</div>
       </calcite-carousel-item>
@@ -144,7 +144,7 @@ export const carouselFullImageWithOverlay = (): string =>
       </calcite-carousel-item>
   </div>`;
 
-export const carouselWithRotationNoOverlay = (): string =>
+export const carouselWithAutoplayNoOverlay = (): string =>
   html`<div style="width:600px;height:400px;">
     <style>
       calcite-carousel-item calcite-icon {
@@ -220,7 +220,7 @@ export const themed_simple = (): string =>
         --calcite-internal-carousel-autoplay-progress-fill-color: pink;
       }
     </style>
-    <calcite-carousel autoplay="true">
+    <calcite-carousel autoplay="paused">
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
           <span slot="title">Some kind of carousel item content</span>
