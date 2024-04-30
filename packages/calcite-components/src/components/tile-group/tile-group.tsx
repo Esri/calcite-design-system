@@ -134,7 +134,7 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
           break;
 
         case "single":
-          el.selected = matchingEl ? !el.selected : false;
+          el.selected = matchingEl && !el.selected;
           break;
 
         case "single-persist":
