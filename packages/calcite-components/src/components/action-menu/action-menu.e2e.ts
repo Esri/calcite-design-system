@@ -1,4 +1,4 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import {
   accessible,
@@ -9,6 +9,7 @@ import {
   reflects,
   renders,
   slots,
+  themed,
 } from "../../tests/commonTests";
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS, activeAttr } from "./resources";
@@ -527,49 +528,119 @@ describe("calcite-action-menu", () => {
     });
   });
 
-  describe("Theme-ing", () => {
-    let page: E2EPage;
-    const customTheme = {
-      "--calcite-action-menu-group-separator-border-color": "rgb(192, 255, 238)",
-    };
-
-    beforeEach(async () => {
-      page = await newE2EPage({
-        html: `
-        <calcite-action-menu open>
-          <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
-          <calcite-action-group>
-            <calcite-action text="Plus" icon="plus" text-enabled></calcite-action
-            ><calcite-action text="Minus" icon="minus" text-enabled></calcite-action>
-          </calcite-action-group>
-          <calcite-action-group>
-            <calcite-action text="Table" icon="table" text-enabled></calcite-action
-          ></calcite-action-group>
-          <calcite-action-group>
-            <calcite-action text="Save" icon="save" text-enabled></calcite-action>
-          </calcite-action-group>
-        </calcite-action-menu>
-      `,
-      });
-      await page.waitForChanges();
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens = {
+        "--calcite-action-menu-trigger-background-color-active": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-background-color",
+          state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+        },
+        "--calcite-action-menu-trigger-background-color-focus": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-background-color",
+          state: "focus",
+        },
+        "--calcite-action-menu-trigger-background-color-hover": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-background-color",
+          state: "hover",
+        },
+        "--calcite-action-menu-trigger-background-color": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-action-menu-trigger-icon-color-active": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-icon-color",
+          state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+        },
+        "--calcite-action-menu-trigger-icon-color-focus": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-icon-color",
+          state: "focus",
+        },
+        "--calcite-action-menu-trigger-icon-color-hover": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-icon-color",
+          state: "hover",
+        },
+        "--calcite-action-menu-trigger-icon-color": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-icon-color",
+        },
+        "--calcite-action-menu-trigger-shadow-active": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-shadow",
+          state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+        },
+        "--calcite-action-menu-trigger-shadow-focus": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-shadow",
+          state: "focus",
+        },
+        "--calcite-action-menu-trigger-shadow-hover": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-shadow",
+          state: "hover",
+        },
+        "--calcite-action-menu-trigger-shadow": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-shadow",
+        },
+        "--calcite-action-menu-trigger-text-color-active": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-text-color",
+          state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+        },
+        "--calcite-action-menu-trigger-text-color-focus": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-text-color",
+          state: "focus",
+        },
+        "--calcite-action-menu-trigger-text-color-hover": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-text-color",
+          state: "hover",
+        },
+        "--calcite-action-menu-trigger-text-color": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-text-color",
+        },
+      } as const;
+      themed("calcite-action-menu", tokens);
     });
-
-    it("should allow theme-ing of the border-color", async () => {
-      const actionMenu = await page.find("calcite-action-menu");
-      const slottedActionGroup = await page.find("calcite-action-group");
-      const defaultStyle = await slottedActionGroup.getComputedStyle();
-
-      await actionMenu.setAttribute(
-        "style",
-        `--calcite-action-menu-group-separator-border-color: ${customTheme["--calcite-action-menu-group-separator-border-color"]}`,
+    describe("popover", () => {
+      const tokens = {
+        "--calcite-action-menu-popover-background-color": {
+          shadowSelector: "calcite-popover",
+          targetProp: "--calcite-popover-background-color",
+        },
+        "--calcite-action-menu-popover-border-color": {
+          shadowSelector: "calcite-popover",
+          targetProp: "--calcite-popover-border-color",
+        },
+        "--calcite-action-menu-popover-corner-radius": {
+          shadowSelector: "calcite-popover",
+          targetProp: "--calcite-popover-corner-radius",
+        },
+        "--calcite-action-menu-popover-shadow": {
+          shadowSelector: "calcite-popover",
+          targetProp: "--calcite-popover-shadow",
+        },
+        "--calcite-action-menu-popover-text-color": {
+          shadowSelector: "calcite-popover",
+          targetProp: "--calcite-popover-text-color",
+        },
+      } as const;
+      themed(
+        html`<calcite-action-menu open>
+          <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action
+        ></calcite-action-menu>`,
+        tokens,
       );
-      await page.waitForChanges();
-
-      const styles = await slottedActionGroup.getComputedStyle();
-      expect(defaultStyle.borderBlockEndColor).not.toBe(
-        customTheme["--calcite-action-menu-group-separator-border-color"],
-      );
-      expect(styles.borderBlockEndColor).toBe(customTheme["--calcite-action-menu-group-separator-border-color"]);
     });
   });
 });
