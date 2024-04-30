@@ -38,6 +38,20 @@ export function getClearValidationEventName(componentTag: string): string {
   return clearValidationEvent;
 }
 
+export interface MutableValidityState {
+  valid: boolean;
+  badInput: boolean;
+  customError: boolean;
+  patternMismatch: boolean;
+  rangeOverflow: boolean;
+  rangeUnderflow: boolean;
+  stepMismatch: boolean;
+  tooLong: boolean;
+  tooShort: boolean;
+  typeMismatch: boolean;
+  valueMissing: boolean;
+}
+
 /**
  * Exported for testing purposes.
  */
@@ -111,7 +125,7 @@ export interface FormComponent<T = any> extends FormOwner {
   defaultValue: T;
 
   /** The validity state of the form component. */
-  validity?: ValidityState;
+  validity?: MutableValidityState;
 
   /** The validation message to display. */
   validationMessage?: string;
@@ -269,7 +283,9 @@ function invalidHandler(event: Event) {
   // prevent the browser from showing the native validation popover
   event?.preventDefault();
 
-  "validity" in formComponent && (formComponent.validity = hiddenInput?.validity);
+  if ("validity" in formComponent) {
+    formComponent.validity = hiddenInput?.validity;
+  }
 
   displayValidationMessage(formComponent, {
     message: hiddenInput?.validationMessage,
@@ -531,10 +547,17 @@ function defaultSyncHiddenFormInput(
 
   component.syncHiddenFormInput?.(input);
 
-  const validationComponent = getValidationComponent(component.el as HTMLCalciteInputElement);
-  validationComponent &&
-    "validity" in validationComponent &&
-    (validationComponent.validity = input.validity);
+  const validationComponent = getValidationComponent(
+    component.el as HTMLCalciteInputElement,
+  ) as HTMLCalciteInputElement;
+
+  if (validationComponent && "validity" in validationComponent) {
+    // mutate the component's validity object to prevent a rerender
+    // https://stenciljs.com/docs/properties#mutable-arrays-and-objects
+    for (const key in { ...input?.validity }) {
+      validationComponent.validity[key] = input?.validity[key];
+    }
+  }
 }
 
 interface HiddenFormInputSlotProps {

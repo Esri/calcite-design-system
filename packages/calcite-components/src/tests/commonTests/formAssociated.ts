@@ -7,6 +7,7 @@ import {
   hiddenFormInputSlotName,
   componentsWithInputEvent,
   ValidationProps,
+  MutableValidityState,
 } from "../../utils/form";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { GlobalTestProps } from "./../utils";
@@ -182,7 +183,7 @@ export function formAssociated(
   }
 
   // puppeteer wasn't properly serializing the validity object, so we have to do it manually
-  async function serializeValidityProperty(page: E2EPage, tag: string): Promise<ValidityState> {
+  async function serializeValidityProperty(page: E2EPage, tag: string): Promise<MutableValidityState> {
     return await page.$eval(tag, (component: HTMLElement) => {
       const validity = {};
 
@@ -190,7 +191,7 @@ export function formAssociated(
         validity[key] = (component as HTMLInputElement).validity[key];
       }
 
-      return validity as ValidityState;
+      return validity as MutableValidityState;
     });
   }
 

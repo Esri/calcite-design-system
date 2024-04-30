@@ -881,7 +881,7 @@ export namespace Components {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity": ValidityState;
+        "validity": { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value.
          */
@@ -1241,7 +1241,7 @@ export namespace Components {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity": ValidityState;
+        "validity": { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value(s) from the selected `calcite-combobox-item`(s).
          */
@@ -2132,7 +2132,7 @@ export namespace Components {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity": ValidityState;
+        "validity": { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value.
          */
@@ -2255,7 +2255,7 @@ export namespace Components {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity": ValidityState;
+        "validity": { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * Selected date as a string in ISO format (`"yyyy-mm-dd"`).
          */
@@ -2435,7 +2435,7 @@ export namespace Components {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity": ValidityState;
+        "validity": { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value.
          */
@@ -2561,7 +2561,7 @@ export namespace Components {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity": ValidityState;
+        "validity": { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value.
          */
@@ -2651,7 +2651,7 @@ export namespace Components {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity": ValidityState;
+        "validity": { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The time value in ISO (24-hour) format.
          */
@@ -2734,7 +2734,7 @@ export namespace Components {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity": ValidityState;
+        "validity": { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.  If no value is provided, the user's time zone offset will be selected by default.
           * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
@@ -4018,7 +4018,7 @@ export namespace Components {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity": ValidityState;
+        "validity": { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's `selectedItem` value.
          */
@@ -4113,7 +4113,7 @@ export namespace Components {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity": ValidityState;
+        "validity": { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's `selectedOption` value.
          */
@@ -5054,7 +5054,7 @@ export namespace Components {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity": ValidityState;
+        "validity": { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value.
          */
@@ -8342,7 +8342,7 @@ declare namespace LocalJSX {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity"?: ValidityState;
+        "validity"?: { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value.
          */
@@ -8731,7 +8731,7 @@ declare namespace LocalJSX {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity"?: ValidityState;
+        "validity"?: { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value(s) from the selected `calcite-combobox-item`(s).
          */
@@ -9663,7 +9663,7 @@ declare namespace LocalJSX {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity"?: ValidityState;
+        "validity"?: { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value.
          */
@@ -9797,7 +9797,7 @@ declare namespace LocalJSX {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity"?: ValidityState;
+        "validity"?: { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * Selected date as a string in ISO format (`"yyyy-mm-dd"`).
          */
@@ -9979,7 +9979,7 @@ declare namespace LocalJSX {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity"?: ValidityState;
+        "validity"?: { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value.
          */
@@ -10110,7 +10110,7 @@ declare namespace LocalJSX {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity"?: ValidityState;
+        "validity"?: { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value.
          */
@@ -10211,7 +10211,7 @@ declare namespace LocalJSX {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity"?: ValidityState;
+        "validity"?: { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The time value in ISO (24-hour) format.
          */
@@ -10313,7 +10313,7 @@ declare namespace LocalJSX {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity"?: ValidityState;
+        "validity"?: { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.  If no value is provided, the user's time zone offset will be selected by default.
           * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
@@ -11659,7 +11659,7 @@ declare namespace LocalJSX {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity"?: ValidityState;
+        "validity"?: { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's `selectedItem` value.
          */
@@ -11758,7 +11758,7 @@ declare namespace LocalJSX {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity"?: ValidityState;
+        "validity"?: { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's `selectedOption` value.
          */
@@ -12720,7 +12720,7 @@ declare namespace LocalJSX {
           * @readonly 
           * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
          */
-        "validity"?: ValidityState;
+        "validity"?: { valid: boolean; badInput: boolean; customError: boolean; patternMismatch: boolean; rangeOverflow: boolean; rangeUnderflow: boolean; stepMismatch: boolean; tooLong: boolean; tooShort: boolean; typeMismatch: boolean; valueMissing: boolean; };
         /**
           * The component's value.
          */
