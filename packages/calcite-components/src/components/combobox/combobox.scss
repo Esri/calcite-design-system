@@ -60,8 +60,6 @@
   padding-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
 
-  &:focus-within,
-  &:active,
   &:hover {
     .icon {
       color: var(--calcite-color-text-1);
@@ -72,6 +70,16 @@
 :host(:focus-within) .wrapper,
 .wrapper--active {
   @apply focus-inset;
+}
+
+:host([read-only]) {
+  .wrapper {
+    background-color: var(--calcite-color-background);
+  }
+
+  .label {
+    font-weight: var(--calcite-font-weight-medium);
+  }
 }
 
 :host([status="invalid"]) .wrapper {
