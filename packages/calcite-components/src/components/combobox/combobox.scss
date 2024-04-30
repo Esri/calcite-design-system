@@ -74,6 +74,12 @@
   @apply focus-inset;
 }
 
+:host([read-only]) {
+  .wrapper {
+    @apply bg-background font-medium;
+  }
+}
+
 :host([status="invalid"]) .wrapper {
   @apply border-color-danger;
 }
