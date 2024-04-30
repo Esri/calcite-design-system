@@ -105,6 +105,17 @@ describe("calcite-tile", () => {
     hidden("calcite-tile");
   });
 
+  describe("keyboard", () => {
+    it("should receive focus when tabbed to with keyboard", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-tile interactive id="tile-1"></calcite-tile> `);
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(await isElementFocused(page, "#tile-1")).toBe(true);
+    });
+  });
+
   describe("slots", () => {
     slots("calcite-tile", SLOTS);
   });
