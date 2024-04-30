@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.7.1...@esri/calcite-components-react@2.8.0) (2024-04-30)
+
+
+### Miscellaneous Chores
+
+* **@esri/calcite-components-react:** Synchronize components versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @esri/calcite-components bumped from ^2.8.0-next.20 to ^2.8.0
+
 ## [2.8.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@2.8.0-next.19...@esri/calcite-components-react@2.8.0-next.20) (2024-04-30)
 
 **Note:** Version bump only for package @esri/calcite-components-react
