@@ -291,8 +291,9 @@ $alertDurations:
   $duration: nth($alertDuration, 2);
 
   :host([auto-close-duration="#{$name}"]) .dismiss-progress:after {
-    animation: dismissProgress $duration ease-out;
+    animation: dismissProgress calc($duration * var(--calcite-internal-duration-factor)) ease-out;
   }
+
   :host(:hover[auto-close-duration="#{$name}"]) .dismiss-progress:after {
     animation-play-state: paused;
   }

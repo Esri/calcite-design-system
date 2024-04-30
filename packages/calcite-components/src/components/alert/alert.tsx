@@ -151,10 +151,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Watch("autoCloseDuration")
   updateDuration(): void {
     if (this.autoClose && this.autoCloseTimeoutId) {
+      const durationFactor = getComputedStyle(this.el).getPropertyValue(
+        "--calcite-internal-duration-factor",
+      );
       window.clearTimeout(this.autoCloseTimeoutId);
       this.autoCloseTimeoutId = window.setTimeout(
         () => this.closeAlert(),
-        DURATIONS[this.autoCloseDuration],
+        DURATIONS[this.autoCloseDuration] * parseFloat(durationFactor),
       );
     }
   }
@@ -463,9 +466,12 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       this.openAlert();
       if (this.autoClose && !this.autoCloseTimeoutId) {
         this.initialOpenTime = Date.now();
+        const durationFactor = getComputedStyle(this.el).getPropertyValue(
+          "--calcite-internal-duration-factor",
+        );
         this.autoCloseTimeoutId = window.setTimeout(
           () => this.closeAlert(),
-          DURATIONS[this.autoCloseDuration],
+          DURATIONS[this.autoCloseDuration] * parseFloat(durationFactor),
         );
       }
     } else {
@@ -517,8 +523,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private handleMouseLeave = (): void => {
     const hoverDuration = Date.now() - this.lastMouseOverBegin;
+    const durationFactor = getComputedStyle(this.el).getPropertyValue(
+      "--calcite-internal-duration-factor",
+    );
     const timeRemaining =
-      DURATIONS[this.autoCloseDuration] - this.totalOpenTime + this.totalHoverTime;
+      DURATIONS[this.autoCloseDuration] * parseFloat(durationFactor) -
+      this.totalOpenTime +
+      this.totalHoverTime;
     this.totalHoverTime = this.totalHoverTime ? hoverDuration + this.totalHoverTime : hoverDuration;
     this.autoCloseTimeoutId = window.setTimeout(() => this.closeAlert(), timeRemaining);
   };
