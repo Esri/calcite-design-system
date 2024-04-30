@@ -341,6 +341,12 @@
     --calcite-icon-color: var(--calcite-input-icon-color, var(--calcite-color-text-3));
   }
 
+  calcite-progress {
+    --calcite-progress-background-color: var(--calcite-input-progress-background-color);
+    --calcite-progress-fill-color: var(--calcite-input-progress-fill-color);
+    --calcite-progress-text-color: var(--calcite-input-progress-text-color);
+  }
+
   button {
     @apply focus-base
       m-0
