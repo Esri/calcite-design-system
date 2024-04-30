@@ -24,6 +24,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  MutableValidityState,
   submitForm,
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
@@ -255,7 +256,7 @@ export class InputTimePicker
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
-  @Prop({ mutable: true }) validity = {
+  @Prop({ mutable: true }) validity: MutableValidityState = {
     valid: false,
     badInput: false,
     customError: false,

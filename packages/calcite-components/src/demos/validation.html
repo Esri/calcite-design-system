@@ -386,19 +386,20 @@
     }
 
     window.onload = () => {
-      // blur event listeners to check validation constraints of elements with custom messages
-      ELEMENT_CONSTRAINTS.forEach((data) => {
-        document
-          .querySelector(`#${data.id}`)
-          ?.addEventListener("blur", ({ target }) => checkElementConstraints(target, data));
-      });
-
-      /** use `calciteInvalid` if you only want to set custom messages on form submission */
-
-      // document.addEventListener("calciteInvalid", ({ target }) => {
-      //   const constraints = ELEMENT_CONSTRAINTS.find((x) => x.id === target.id);
-      //   checkElementConstraints(target, constraints);
-      // });
+      if (SHOW_VALIDATION_MESSAGES_ON_BLUR) {
+        /* blur event listeners to check validation constraints of elements with custom messages */
+        ELEMENT_CONSTRAINTS.forEach((data) => {
+          document
+            .querySelector(`#${data.id}`)
+            ?.addEventListener("blur", ({ target }) => checkElementConstraints(target, data));
+        });
+      } else {
+        /* use `calciteInvalid` if you only want to set custom messages on form submission */
+        document.addEventListener("calciteInvalid", ({ target }) => {
+          const constraints = ELEMENT_CONSTRAINTS.find((x) => x.id === target.id);
+          checkElementConstraints(target, constraints);
+        });
+      }
 
       // Mode Switcher
       document.getElementById("mode")?.addEventListener("calciteSwitchChange", () => {

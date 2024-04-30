@@ -18,6 +18,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  MutableValidityState,
 } from "../../utils/form";
 import {
   connectInteractive,
@@ -100,7 +101,7 @@ export class Select
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
-  @Prop({ mutable: true }) validity = {
+  @Prop({ mutable: true }) validity: MutableValidityState = {
     valid: false,
     badInput: false,
     customError: false,
