@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.18...@esri/calcite-components@2.8.0-next.19) (2024-04-30)
+
+### Features
+
+- add validity property to form components ([#9210](https://github.com/Esri/calcite-design-system/issues/9210)) ([e49902b](https://github.com/Esri/calcite-design-system/commit/e49902b6404600eda6aff7b00d209ce37ca97df6)), closes [#9229](https://github.com/Esri/calcite-design-system/issues/9229)
+- **carousel:** Add Carousel and Carousel Item components ([#8995](https://github.com/Esri/calcite-design-system/issues/8995)) ([b1ba428](https://github.com/Esri/calcite-design-system/commit/b1ba428da116cd0e3b44ae17b7eee6d5d19407ca)), closes [#6536](https://github.com/Esri/calcite-design-system/issues/6536)
+
+### Bug Fixes
+
+- **combobox, input-time-zone:** improve readOnly behavior and styling ([#9222](https://github.com/Esri/calcite-design-system/issues/9222)) ([606d80f](https://github.com/Esri/calcite-design-system/commit/606d80fcb65ec167f13801ee6a41d0882643d8b6)), closes [#7853](https://github.com/Esri/calcite-design-system/issues/7853) [#8666](https://github.com/Esri/calcite-design-system/issues/8666)
+
 ## [2.8.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0-next.17...@esri/calcite-components@2.8.0-next.18) (2024-04-30)
 
 ### Features
