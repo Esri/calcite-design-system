@@ -4,7 +4,7 @@ import { html } from "../../../support/formatting";
 export default {
   title: "Components/Tiles/Tile Group",
   parameters: {
-    chromatic: { delay: 10000 },
+    chromatic: { delay: 10000, viewports: [1728] },
   },
 };
 
