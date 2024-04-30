@@ -24,25 +24,33 @@
   background-color: var(--calcite-tile-background-color);
   block-size: var(--calcite-container-size-content-fluid);
   box-sizing: border-box;
-  cursor: pointer;
   inline-size: var(--calcite-container-size-content-fluid);
   outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-tile-border-color);
   user-select: none;
-  &:hover,
-  &:focus,
-  &.selected {
-    outline-color: var(--calcite-color-brand);
-    position: relative;
-  }
-  &.selected {
-    z-index: var(--calcite-z-index);
-    .selection-icon {
-      --calcite-ui-icon-color: var(--calcite-color-brand);
+  &.interactive {
+    cursor: pointer;
+    &:hover,
+    &:focus {
+      .selection-icon {
+        background-color: var(--calcite-color-transparent-hover);
+      }
     }
-  }
-  &:focus {
-    box-shadow: inset 0px 0px 0px 1px var(--calcite-color-brand);
-    z-index: var(--calcite-z-index-sticky);
+    &:hover,
+    &:focus,
+    &.selected {
+      outline-color: var(--calcite-color-brand);
+      position: relative;
+    }
+    &.selected {
+      z-index: var(--calcite-z-index);
+      .selection-icon {
+        --calcite-ui-icon-color: var(--calcite-color-brand);
+      }
+    }
+    &:focus {
+      box-shadow: inset 0px 0px 0px 1px var(--calcite-color-brand);
+      z-index: var(--calcite-z-index-sticky);
+    }
   }
 }
 
@@ -114,11 +122,12 @@
   min-inline-size: 100px;
   .container {
     padding: var(--calcite-spacing-sm);
-    &:hover,
-    &:focus {
-      .selection-icon {
-        background-color: var(--calcite-color-transparent-hover);
-        box-shadow: 0.4px 0.4px 0px 5px var(--calcite-color-transparent-hover);
+    &.interactive {
+      &:hover,
+      &:focus {
+        .selection-icon {
+          box-shadow: 0.4px 0.4px 0px 5px var(--calcite-color-transparent-hover);
+        }
       }
     }
   }
@@ -141,11 +150,12 @@
   min-inline-size: 140px;
   .container {
     padding: var(--calcite-spacing-md);
-    &:hover,
-    &:focus {
-      .selection-icon {
-        background-color: var(--calcite-color-transparent-hover);
-        box-shadow: 0.4px 0.4px 0px 8px var(--calcite-color-transparent-hover);
+    &.interactive {
+      &:hover,
+      &:focus {
+        .selection-icon {
+          box-shadow: 0.4px 0.4px 0px 8px var(--calcite-color-transparent-hover);
+        }
       }
     }
   }
@@ -168,11 +178,12 @@
   min-inline-size: 160px;
   .container {
     padding: var(--calcite-spacing-xl);
-    &:hover,
-    &:focus {
-      .selection-icon {
-        background-color: var(--calcite-color-transparent-hover);
-        box-shadow: 0.4px 0.4px 0px 10px var(--calcite-color-transparent-hover);
+    &.interactive {
+      &:hover,
+      &:focus {
+        .selection-icon {
+          box-shadow: 0.4px 0.4px 0px 10px var(--calcite-color-transparent-hover);
+        }
       }
     }
   }

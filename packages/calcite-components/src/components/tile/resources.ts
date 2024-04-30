@@ -4,6 +4,7 @@ export const CSS = {
   contentContainer: "content-container",
   description: "description",
   heading: "heading",
+  interactive: "interactive",
   largeVisualDeprecated: "large-visual-deprecated",
   row: "row",
   selected: "selected",
