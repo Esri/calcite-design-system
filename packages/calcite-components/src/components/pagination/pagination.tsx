@@ -242,6 +242,32 @@ export class Pagination
     this.startItem = Math.max(1, this.startItem - this.pageSize);
   }
 
+  /**
+   * Set a specified page as active.
+   *
+   * @param page
+   */
+  @Method()
+  async goTo(page: number | "start" | "end"): Promise<void> {
+    switch (page) {
+      case "start":
+        this.startItem = 1;
+        break;
+      case "end":
+        this.startItem = this.lastStartItem;
+        break;
+      default: {
+        if (page >= Math.ceil(this.totalPages)) {
+          this.startItem = this.lastStartItem;
+        } else if (page <= 0) {
+          this.startItem = 1;
+        } else {
+          this.startItem = (page - 1) * this.pageSize + 1;
+        }
+      }
+    }
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Methods

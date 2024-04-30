@@ -926,6 +926,7 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": ChipMessages;
+        "parentChipGroup": HTMLCalciteChipGroupElement;
         /**
           * Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value.
          */
@@ -2616,6 +2617,10 @@ export namespace Components {
     }
     interface CalciteInputTimeZone {
         /**
+          * When `true`, an empty value (`null`) will be allowed as a `value`.  When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable": boolean;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
@@ -2841,6 +2846,10 @@ export namespace Components {
           * Sets the item as focusable. Only one item should be focusable within a list.
          */
         "active": boolean;
+        /**
+          * Sets the item to display a border.
+         */
+        "bordered": boolean;
         /**
           * When `true`, a close button is added to the component.
          */
@@ -3378,6 +3387,11 @@ export namespace Components {
         "label": string;
     }
     interface CalcitePagination {
+        /**
+          * Set a specified page as active.
+          * @param page
+         */
+        "goTo": (page: number | "start" | "end") => Promise<void>;
         /**
           * When `true`, number values are displayed with a group separator corresponding to the language and country format.
          */
@@ -4182,6 +4196,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Used to configure where the fill is placed along the slider track in relation to the value handle.  Range mode will always display the fill between the min and max handles.
+         */
+        "fillPlacement": "start" | "none" | "end";
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
@@ -4202,6 +4220,14 @@ export namespace Components {
           * A set of single color stops for a histogram, sorted by offset ascending.
          */
         "histogramStops": ColorStop[];
+        /**
+          * When specified, allows users to customize handle labels.
+         */
+        "labelFormatter": (
+    value: number,
+    type: "value" | "min" | "max" | "tick",
+    defaultFormatter: (value: number) => string,
+  ) => string | undefined;
         /**
           * When `true`, displays label handles with their numeric value.
          */
@@ -5959,6 +5985,8 @@ declare global {
         "calciteChipClose": void;
         "calciteChipSelect": void;
         "calciteInternalChipKeyEvent": KeyboardEvent;
+        "calciteInternalChipSelect": void;
+        "calciteInternalSyncSelectedChips": void;
     }
     interface HTMLCalciteChipElement extends Components.CalciteChip, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteChipElementEventMap>(type: K, listener: (this: HTMLCalciteChipElement, ev: CalciteChipCustomEvent<HTMLCalciteChipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8302,6 +8330,9 @@ declare namespace LocalJSX {
          */
         "onCalciteChipSelect"?: (event: CalciteChipCustomEvent<void>) => void;
         "onCalciteInternalChipKeyEvent"?: (event: CalciteChipCustomEvent<KeyboardEvent>) => void;
+        "onCalciteInternalChipSelect"?: (event: CalciteChipCustomEvent<void>) => void;
+        "onCalciteInternalSyncSelectedChips"?: (event: CalciteChipCustomEvent<void>) => void;
+        "parentChipGroup"?: HTMLCalciteChipGroupElement;
         /**
           * Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value.
          */
@@ -10080,6 +10111,10 @@ declare namespace LocalJSX {
     }
     interface CalciteInputTimeZone {
         /**
+          * When `true`, an empty value (`null`) will be allowed as a `value`.  When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+         */
+        "clearable"?: boolean;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
@@ -10342,6 +10377,10 @@ declare namespace LocalJSX {
           * Sets the item as focusable. Only one item should be focusable within a list.
          */
         "active"?: boolean;
+        /**
+          * Sets the item to display a border.
+         */
+        "bordered"?: boolean;
         /**
           * When `true`, a close button is added to the component.
          */
@@ -11746,6 +11785,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Used to configure where the fill is placed along the slider track in relation to the value handle.  Range mode will always display the fill between the min and max handles.
+         */
+        "fillPlacement"?: "start" | "none" | "end";
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
@@ -11766,6 +11809,14 @@ declare namespace LocalJSX {
           * A set of single color stops for a histogram, sorted by offset ascending.
          */
         "histogramStops"?: ColorStop[];
+        /**
+          * When specified, allows users to customize handle labels.
+         */
+        "labelFormatter"?: (
+    value: number,
+    type: "value" | "min" | "max" | "tick",
+    defaultFormatter: (value: number) => string,
+  ) => string | undefined;
         /**
           * When `true`, displays label handles with their numeric value.
          */

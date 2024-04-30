@@ -59,6 +59,12 @@
     border-solid;
   padding-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+
+  &:hover {
+    .icon {
+      color: var(--calcite-color-text-1);
+    }
+  }
 }
 
 :host(:focus-within) .wrapper,
@@ -178,6 +184,10 @@
 
 .icon-end {
   @apply flex-none;
+
+  .icon {
+    color: var(--calcite-color-text-3);
+  }
 }
 
 .floating-ui-container {
