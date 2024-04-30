@@ -995,6 +995,7 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": ChipMessages;
+        "parentChipGroup": HTMLCalciteChipGroupElement;
         /**
           * Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value.
          */
@@ -6084,6 +6085,8 @@ declare global {
         "calciteChipClose": void;
         "calciteChipSelect": void;
         "calciteInternalChipKeyEvent": KeyboardEvent;
+        "calciteInternalChipSelect": void;
+        "calciteInternalSyncSelectedChips": void;
     }
     interface HTMLCalciteChipElement extends Components.CalciteChip, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteChipElementEventMap>(type: K, listener: (this: HTMLCalciteChipElement, ev: CalciteChipCustomEvent<HTMLCalciteChipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8502,6 +8505,9 @@ declare namespace LocalJSX {
          */
         "onCalciteChipSelect"?: (event: CalciteChipCustomEvent<void>) => void;
         "onCalciteInternalChipKeyEvent"?: (event: CalciteChipCustomEvent<KeyboardEvent>) => void;
+        "onCalciteInternalChipSelect"?: (event: CalciteChipCustomEvent<void>) => void;
+        "onCalciteInternalSyncSelectedChips"?: (event: CalciteChipCustomEvent<void>) => void;
+        "parentChipGroup"?: HTMLCalciteChipGroupElement;
         /**
           * Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value.
          */

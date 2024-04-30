@@ -138,7 +138,42 @@
       <div class="child">
         <h2>Chip group and selection mode examples</h2>
       </div>
-
+      <div class="parent">
+        <div class="child">Single programmatic</div>
+        <calcite-chip-group label="demo-group-label" selection-mode="single" id="single-programmatic">
+          <calcite-chip kind="inverse" value="calcite chip">Research</calcite-chip>
+          <calcite-chip kind="inverse" value="calcite chip">Findings</calcite-chip>
+          <calcite-chip selected kind="inverse" value="calcite chip">Hypothesis</calcite-chip>
+          <calcite-chip id="chip-to-change-single" kind="inverse" value="calcite chip">Supplies</calcite-chip>
+          <calcite-chip kind="inverse" value="calcite chip">Employees</calcite-chip>
+        </calcite-chip-group>
+        <calcite-button onClick="{selectChipProgrammaticallySingle()}">Programmatically select chip</calcite-button>
+      </div>
+      <div class="parent">
+        <div class="child">Single-persist programmatic</div>
+        <calcite-chip-group label="demo-group-label" selection-mode="single-persist" id="single-persist-programmatic">
+          <calcite-chip kind="inverse" value="calcite chip">Findings</calcite-chip>
+          <calcite-chip selected kind="inverse" value="calcite chip">Hypothesis</calcite-chip>
+          <calcite-chip id="chip-to-change-single-persist" kind="inverse" value="calcite chip">Supplies</calcite-chip>
+          <calcite-chip kind="inverse" value="calcite chip">Employees</calcite-chip>
+        </calcite-chip-group>
+        <calcite-button onClick="{selectChipProgrammaticallySinglePersist()}"
+          >Programmatically select chip</calcite-button
+        >
+      </div>
+      <div class="parent">
+        <div class="child">Multiple programmatic</div>
+        <calcite-chip-group label="demo-group-label" selection-mode="multiple" id="multiple-programmatic">
+          <calcite-chip selected kind="inverse" value="calcite chip">Research</calcite-chip>
+          <calcite-chip kind="inverse" value="calcite chip">Findings</calcite-chip>
+          <calcite-chip selected kind="inverse" value="calcite chip">Hypothesis</calcite-chip>
+          <calcite-chip selected id="chip-to-change-multiple" kind="inverse" value="calcite chip"
+            >Supplies</calcite-chip
+          >
+          <calcite-chip kind="inverse" value="calcite chip">Employees</calcite-chip>
+        </calcite-chip-group>
+        <calcite-button onClick="{selectChipProgrammaticallyMultiple()}">Programmatically select chip</calcite-button>
+      </div>
       <!-- Neutral (default) -->
       <div class="parent">
         <div class="child">None</div>
@@ -623,6 +658,21 @@
       <hr />
     </demo-dom-swapper>
     <script>
+      function selectChipProgrammaticallySingle() {
+        const chipToChange = document.getElementById("chip-to-change-single");
+        chipToChange.selected = !chipToChange.selected;
+      }
+
+      function selectChipProgrammaticallySinglePersist() {
+        const chipToChange = document.getElementById("chip-to-change-single-persist");
+        chipToChange.selected = !chipToChange.selected;
+      }
+
+      function selectChipProgrammaticallyMultiple() {
+        const chipToChange = document.getElementById("chip-to-change-multiple");
+        chipToChange.selected = !chipToChange.selected;
+      }
+
       document.querySelectorAll("calcite-chip-group").forEach((item) => {
         item.addEventListener("calciteChipGroupSelect", (event) => {
           console.log(event.target.selectedItems);
