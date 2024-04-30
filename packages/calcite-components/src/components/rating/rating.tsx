@@ -349,7 +349,6 @@ export class Rating
           break;
         case "Tab":
           this.hoverValue = null;
-        default:
           break;
       }
     } else {

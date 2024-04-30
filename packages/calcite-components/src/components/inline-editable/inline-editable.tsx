@@ -415,6 +415,7 @@ export class InlineEditable
         this.enableEditingButton.setFocus();
       }
     } catch (error) {
+      // we handle error in finally block
     } finally {
       this.loading = false;
     }
