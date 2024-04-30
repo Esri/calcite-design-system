@@ -798,16 +798,10 @@ export const allVariants = (): string => html`
 
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-tile
-    ${boolean("active", false)}
-    description="${text(
-      "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
-    )}"
-    ${boolean("disabled", false)}
-    heading="${text("heading", "Tile heading lorem ipsum")}"
-    ${boolean("hidden", false)}
-    href="${text("href", "#")}"
-    icon="${select("icon", iconNames, "layer")}"
+    description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+    heading="Tile heading lorem ipsum"
+    href="#"
+    icon="layer"
     class="calcite-mode-dark"
     dir="rtl"
   >
@@ -816,22 +810,14 @@ export const darkModeRTL_TestOnly = (): string => html`
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const contentTopBotton_TestOnly = (): string => html`
-  <calcite-tile
-    description="${text("description", "polygon layer")}"
-    heading="${text("heading", "Percent of population that carpool to work")}"
-    icon="layers"
-  >
+  <calcite-tile description="polygon layer" heading="Percent of population that carpool to work" icon="layers">
     <calcite-icon slot="content-top" icon="polygon"></calcite-icon>
     <calcite-icon slot="content-bottom" icon="launch"></calcite-icon>
   </calcite-tile>
 `;
 
 export const contentStartRTL_TestOnly = (): string => html`
-  <calcite-tile
-    description="${text("description", "polygon layer")}"
-    heading="${text("heading", "Percent of population that carpool to work")}"
-    dir="rtl"
-  >
+  <calcite-tile description="polygon layer" heading="Percent of population that carpool to work" dir="rtl">
     <calcite-icon scale="s" slot="content-start" icon="polygon"></calcite-icon>
     <calcite-icon scale="s" slot="content-end" icon="launch"></calcite-icon>
   </calcite-tile>
@@ -848,16 +834,10 @@ export const overflowingContent_TestOnly = (): string => html`
 
 export const disabled_TestOnly = (): string => html`
   <calcite-tile
-    ${boolean("active", false)}
-    description="${text(
-      "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
-    )}"
-    ${boolean("disabled", false)}
-    heading="${text("heading", "Tile heading lorem ipsum")}"
-    ${boolean("hidden", false)}
-    href="${text("href", "#")}"
-    icon="${select("icon", iconNames, "layer")}"
+    description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+    disabled
+    heading="Tile heading lorem ipsum"
+    icon="layer"
   >
   </calcite-tile>
 `;
