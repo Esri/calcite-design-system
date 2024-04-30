@@ -36,9 +36,17 @@ describe("calcite-tile", () => {
   });
 
   describe("click", () => {
-    it("should receive focus when clicked", async () => {
+    it("should not receive focus when clicked", async () => {
       const page = await newE2EPage();
       await page.setContent(html` <calcite-tile id="tile-1"></calcite-tile> `);
+      await page.click("#tile-1");
+      await page.waitForChanges();
+
+      expect(await isElementFocused(page, "#tile-1")).toBe(false);
+    });
+    it("should receive focus when clicked and interactive", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-tile interactive id="tile-1"></calcite-tile> `);
       await page.click("#tile-1");
       await page.waitForChanges();
 
@@ -61,10 +69,6 @@ describe("calcite-tile", () => {
       { propertyName: "selectionAppearance", defaultValue: "icon" },
       { propertyName: "selectionMode", defaultValue: "none" },
     ]);
-  });
-
-  describe("disabled link", () => {
-    disabled(html` <calcite-tile heading="test" href="http://www.esri.com"></calcite-tile> `);
   });
 
   describe("disabled when interactive", () => {

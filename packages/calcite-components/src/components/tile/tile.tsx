@@ -173,8 +173,10 @@ export class Tile implements InteractiveComponent, SelectableComponent {
   @Element() el: HTMLCalciteTileElement;
 
   private clickHandler = (): void => {
-    this.setFocus();
-    this.handleSelectEvent();
+    if (this.interactive) {
+      this.setFocus();
+      this.handleSelectEvent();
+    }
   };
 
   private containerEl: HTMLDivElement;
@@ -326,7 +328,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
         }}
         onClick={this.clickHandler}
         role={role}
-        tabIndex={disableInteraction ? -1 : 0}
+        tabIndex={disableInteraction ? undefined : 0}
         // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setContainerEl}
       >
