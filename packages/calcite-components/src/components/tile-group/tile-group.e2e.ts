@@ -4,7 +4,7 @@ import { html } from "../../../support/formatting";
 import { assertSelectedItems, isElementFocused } from "../../tests/utils";
 
 describe("calcite-tile-group", () => {
-  describe("accessibility", () => {
+  describe("accessible", () => {
     describe("accessible in selection-mode none", () => {
       accessible(html`
         <calcite-tile-group>
