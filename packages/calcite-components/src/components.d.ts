@@ -6024,9 +6024,10 @@ declare global {
     };
     interface HTMLCalciteCarouselElementEventMap {
         "calciteCarouselChange": void;
-        "calciteCarouselRotatingChange": void;
-        "calciteCarouselRotatingPause": void;
-        "calciteCarouselRotatingResume": void;
+        "calciteCarouselPlay": void;
+        "calciteCarouselStop": void;
+        "calciteCarouselPause": void;
+        "calciteCarouselResume": void;
     }
     interface HTMLCalciteCarouselElement extends Components.CalciteCarousel, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteCarouselElementEventMap>(type: K, listener: (this: HTMLCalciteCarouselElement, ev: CalciteCarouselCustomEvent<HTMLCalciteCarouselElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8329,17 +8330,21 @@ declare namespace LocalJSX {
          */
         "onCalciteCarouselChange"?: (event: CalciteCarouselCustomEvent<void>) => void;
         /**
-          * Fires when the carousel rotation state changes.
+          * Fires when the carousel rotation state suspends due to a user hovering over the component or focusing on the component or slotted content
          */
-        "onCalciteCarouselRotatingChange"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        "onCalciteCarouselPause"?: (event: CalciteCarouselCustomEvent<void>) => void;
         /**
-          * Fires when the carousel rotation state pauses.
+          * Fires when the carousel rotation is started by the user.
          */
-        "onCalciteCarouselRotatingPause"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        "onCalciteCarouselPlay"?: (event: CalciteCarouselCustomEvent<void>) => void;
         /**
-          * Fires when the carousel rotation state resumes.
+          * Fires when the carousel rotation state suspension ends due to a user no longer hovering over the component or focusing on the component or slotted content
          */
-        "onCalciteCarouselRotatingResume"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        "onCalciteCarouselResume"?: (event: CalciteCarouselCustomEvent<void>) => void;
+        /**
+          * Fires when the carousel rotation state is paused by a user.
+         */
+        "onCalciteCarouselStop"?: (event: CalciteCarouselCustomEvent<void>) => void;
         /**
           * When `true`, and `rotation` is `true`, the carousel will auto-rotate.
          */

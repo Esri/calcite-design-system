@@ -549,14 +549,17 @@
           el.addEventListener("calciteCarouselChange", (event) => {
             console.log(event.target.selectedItem, "selectedItem", "calciteCarouselChange");
           });
-          el.addEventListener("calciteCarouselRotatingChange", (event) => {
-            console.log(event.target.rotating, "rotating", "calciteCarouselRotatingChange");
+          el.addEventListener("calciteCarouselPlay", (event) => {
+            console.log(event.target.rotating, "rotating", "calciteCarouselPlay");
           });
-          el.addEventListener("calciteCarouselRotatingPause", (event) => {
-            console.log("calciteCarouselRotatingPause");
+          el.addEventListener("calciteCarouselStop", (event) => {
+            console.log(event.target.rotating, "rotating", "calciteCarouselStop");
           });
-          el.addEventListener("calciteCarouselRotatingResume", (event) => {
-            console.log("calciteCarouselRotatingResume");
+          el.addEventListener("calciteCarouselPause", (event) => {
+            console.log("calciteCarouselPause");
+          });
+          el.addEventListener("calciteCarouselResume", (event) => {
+            console.log("calciteCarouselResume");
           });
         });
 

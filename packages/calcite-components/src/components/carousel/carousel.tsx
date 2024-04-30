@@ -92,9 +92,9 @@ export class Carousel
     }
 
     if (newValue) {
-      this.startRotating();
+      this.play();
     } else if (oldValue) {
-      this.stopRotating();
+      this.pause();
     }
   }
 
@@ -106,9 +106,9 @@ export class Carousel
   @Watch("rotation")
   handleRotationChange(): void {
     if (this.rotation && this.rotating) {
-      this.startRotating();
+      this.play();
     } else if (!this.rotation) {
-      this.stopRotating();
+      this.pause();
     }
   }
 
@@ -158,7 +158,7 @@ export class Carousel
   componentDidLoad(): void {
     setComponentLoaded(this);
     if (this.rotation && this.rotating) {
-      this.startRotating();
+      this.play();
     }
   }
 
@@ -194,21 +194,21 @@ export class Carousel
 
   @State() defaultMessages: CarouselMessages;
 
-  @State() pausedDueToFocus = false;
+  @State() suspendedDueToFocus = false;
 
-  @State() pausedDueToHover = false;
+  @State() suspendedDueToHover = false;
 
-  @Watch("pausedDueToFocus")
-  @Watch("pausedDueToHover")
-  pauseWatcher(): void {
-    if (!this.pausedDueToFocus && !this.pausedDueToHover) {
-      this.resumeRotation();
+  @Watch("suspendedDueToFocus")
+  @Watch("suspendedDueToHover")
+  suspendWatcher(): void {
+    if (!this.suspendedDueToFocus && !this.suspendedDueToHover) {
+      this.suspendEnd();
     } else {
-      this.pauseRotation();
+      this.suspendStart();
     }
   }
 
-  @State() userPreventsPause = false;
+  @State() userPreventsSuspend = false;
 
   @State() effectiveLocale = "";
 
@@ -217,7 +217,7 @@ export class Carousel
     await updateMessages(this, this.effectiveLocale);
   }
 
-  @State() pausedSlideDurationRemaining = 1;
+  @State() suspendedSlideDurationRemaining = 1;
 
   @State() slideDurationRemaining = 1;
 
@@ -240,14 +240,17 @@ export class Carousel
   /** Fires when the selected `calcite-carousel-item` changes. */
   @Event({ cancelable: false }) calciteCarouselChange: EventEmitter<void>;
 
-  /** Fires when the carousel rotation state changes. */
-  @Event({ cancelable: false }) calciteCarouselRotatingChange: EventEmitter<void>;
+  /** Fires when the carousel rotation is started by the user. */
+  @Event({ cancelable: false }) calciteCarouselPlay: EventEmitter<void>;
 
-  /** Fires when the carousel rotation state pauses. */
-  @Event({ cancelable: false }) calciteCarouselRotatingPause: EventEmitter<void>;
+  /** Fires when the carousel rotation state is paused by a user. */
+  @Event({ cancelable: false }) calciteCarouselStop: EventEmitter<void>;
 
-  /** Fires when the carousel rotation state resumes. */
-  @Event({ cancelable: false }) calciteCarouselRotatingResume: EventEmitter<void>;
+  /** Fires when the carousel rotation state suspends due to a user hovering over the component or focusing on the component or slotted content */
+  @Event({ cancelable: false }) calciteCarouselPause: EventEmitter<void>;
+
+  /** Fires when the carousel rotation state suspension ends due to a user no longer hovering over the component or focusing on the component or slotted content */
+  @Event({ cancelable: false }) calciteCarouselResume: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -274,25 +277,25 @@ export class Carousel
     this.setSelectedItem(prevIndex, true);
   }
 
-  private startRotating() {
+  private play() {
     this.rotationHandler();
     this.slideInterval = setInterval(this.rotationHandler, this.rotationDuration);
-    this.calciteCarouselRotatingChange.emit();
+    this.calciteCarouselPlay.emit();
   }
 
-  private stopRotating() {
+  private pause() {
     this.clearIntervals();
     this.slideDurationRemaining = 1;
-    this.pausedSlideDurationRemaining = 1;
-    this.calciteCarouselRotatingChange.emit();
+    this.suspendedSlideDurationRemaining = 1;
+    this.calciteCarouselStop.emit();
   }
 
-  private pauseRotation() {
-    this.pausedSlideDurationRemaining = this.slideDurationRemaining;
+  private suspendStart() {
+    this.suspendedSlideDurationRemaining = this.slideDurationRemaining;
   }
 
-  private resumeRotation() {
-    this.slideDurationRemaining = this.pausedSlideDurationRemaining;
+  private suspendEnd() {
+    this.slideDurationRemaining = this.suspendedSlideDurationRemaining;
   }
 
   private rotationHandler = (): void => {
@@ -302,8 +305,9 @@ export class Carousel
 
   private timer = (): void => {
     let time = this.slideDurationRemaining;
-    const notPaused = (!this.pausedDueToFocus && !this.pausedDueToHover) || this.userPreventsPause;
-    if (notPaused) {
+    const notSuspended =
+      (!this.suspendedDueToFocus && !this.suspendedDueToHover) || this.userPreventsSuspend;
+    if (notSuspended) {
       if (time <= 0.01) {
         time = 1;
         this.nextItem(false);
@@ -370,7 +374,7 @@ export class Carousel
   };
 
   private toggleRotation = (): void => {
-    this.userPreventsPause = true;
+    this.userPreventsSuspend = true;
     this.rotating = !this.rotating;
   };
 
@@ -378,10 +382,10 @@ export class Carousel
     const isRotating = this.rotation && this.rotating;
 
     if (isRotating) {
-      this.pausedDueToFocus = true;
+      this.suspendedDueToFocus = true;
     }
-    if ((!this.pausedDueToFocus || !this.pausedDueToHover) && isRotating) {
-      this.calciteCarouselRotatingPause.emit();
+    if ((!this.suspendedDueToFocus || !this.suspendedDueToHover) && isRotating) {
+      this.calciteCarouselPause.emit();
     }
   };
 
@@ -389,10 +393,10 @@ export class Carousel
     const isRotating = this.rotation && this.rotating;
 
     if (isRotating) {
-      this.pausedDueToHover = true;
+      this.suspendedDueToHover = true;
     }
-    if ((!this.pausedDueToFocus || !this.pausedDueToHover) && isRotating) {
-      this.calciteCarouselRotatingPause.emit();
+    if ((!this.suspendedDueToFocus || !this.suspendedDueToHover) && isRotating) {
+      this.calciteCarouselPause.emit();
     }
   };
 
@@ -401,11 +405,11 @@ export class Carousel
     const isRotating = this.rotation && this.rotating;
 
     if (leavingComponent && isRotating) {
-      this.pausedDueToHover = false;
+      this.suspendedDueToHover = false;
     }
-    if (leavingComponent && isRotating && !this.pausedDueToFocus) {
-      this.userPreventsPause = false;
-      this.calciteCarouselRotatingResume.emit();
+    if (leavingComponent && isRotating && !this.suspendedDueToFocus) {
+      this.userPreventsSuspend = false;
+      this.calciteCarouselResume.emit();
     }
   };
 
@@ -414,11 +418,11 @@ export class Carousel
     const isRotating = this.rotation && this.rotating;
 
     if (leavingComponent && isRotating) {
-      this.pausedDueToFocus = false;
+      this.suspendedDueToFocus = false;
     }
-    if (leavingComponent && isRotating && !this.pausedDueToHover) {
-      this.userPreventsPause = false;
-      this.calciteCarouselRotatingResume.emit();
+    if (leavingComponent && isRotating && !this.suspendedDueToHover) {
+      this.userPreventsSuspend = false;
+      this.calciteCarouselResume.emit();
     }
   };
 
