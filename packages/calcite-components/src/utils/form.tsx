@@ -263,6 +263,7 @@ function getValidationComponent(
 function invalidHandler(event: Event) {
   // target is the hidden input, which is slotted in the actual form component
   const hiddenInput = event?.target as HTMLInputElement;
+  const hiddenInputMessage = hiddenInput?.validationMessage;
 
   // not necessarily a calcite-input, but we don't have an HTMLCalciteFormAssociatedElement type
   const formComponent = getValidationComponent(
@@ -288,7 +289,7 @@ function invalidHandler(event: Event) {
   }
 
   displayValidationMessage(formComponent, {
-    message: hiddenInput?.validationMessage,
+    message: hiddenInputMessage,
     icon: true,
     status: "invalid",
   });
@@ -301,7 +302,7 @@ function invalidHandler(event: Event) {
       "validationIcon" in formComponent && (formComponent.validationIcon = false);
       "validity" in formComponent && (formComponent.validity = hiddenInput?.validity);
       "validationMessage" in formComponent &&
-        formComponent?.validationMessage === hiddenInput?.validationMessage &&
+        formComponent?.validationMessage === hiddenInputMessage &&
         (formComponent.validationMessage = "");
     },
     { once: true },
@@ -547,9 +548,7 @@ function defaultSyncHiddenFormInput(
 
   component.syncHiddenFormInput?.(input);
 
-  const validationComponent = getValidationComponent(
-    component.el as HTMLCalciteInputElement,
-  ) as HTMLCalciteInputElement;
+  const validationComponent = getValidationComponent(component.el as HTMLCalciteInputElement);
 
   if (validationComponent && "validity" in validationComponent) {
     // mutate the component's validity object to prevent a rerender
