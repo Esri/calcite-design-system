@@ -10,13 +10,13 @@ import {
   renders,
   hidden,
   t9n,
-  ComponentTestTokens,
   themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementRect, getElementXY, selectText } from "../../tests/utils";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { testHiddenInputSyncing, testPostValidationFocusing } from "./common/tests";
 import { CSS } from "./resources";
 
@@ -2128,11 +2128,11 @@ describe("calcite-input", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-input-progress-background-color": {
           shadowSelector: "calcite-progress",
-          targetProp: "--calcite-progress-text-color",
+          targetProp: "--calcite-progress-background-color",
         },
         "--calcite-input-progress-fill-color": {
           shadowSelector: "calcite-progress",
-          targetProp: "--calcite-progress-text-color",
+          targetProp: "--calcite-progress-fill-color",
         },
         "--calcite-input-progress-text-color": {
           shadowSelector: "calcite-progress",
