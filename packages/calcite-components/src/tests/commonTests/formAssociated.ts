@@ -168,17 +168,21 @@ export function formAssociated(
 
     const submitButton = await page.find("#submitButton");
     const spyEvent = await page.spyOnEvent(getClearValidationEventName(tag));
+    const spyInvalidEvent = await page.spyOnEvent("calciteInvalid");
 
     const requiredValidationMessage =
       options?.inputType === "radio" ? "Please select one of these options." : "Please fill out this field.";
 
     await assertPreventsFormSubmission(page, component, submitButton, requiredValidationMessage);
+    expect(spyInvalidEvent).toHaveReceivedEventTimes(1);
     expect(await serializeValidityProperty(page, tag)).toHaveProperty("valueMissing", true);
 
     await assertClearsValidationOnValueChange(page, component, options, spyEvent, tag);
+    expect(spyInvalidEvent).toHaveReceivedEventTimes(1);
     expect(await serializeValidityProperty(page, tag)).toHaveProperty("valueMissing", false);
 
     await assertUserMessageNotOverridden(page, component, submitButton);
+    expect(spyInvalidEvent).toHaveReceivedEventTimes(2);
     expect(await serializeValidityProperty(page, tag)).toHaveProperty("valueMissing", true);
   }
 
