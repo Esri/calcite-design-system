@@ -161,7 +161,7 @@ export class Carousel
   }
 
   async componentWillLoad(): Promise<void> {
-    if (this.autoplay === "") {
+    if ((this.autoplay === "" || this.autoplay) && this.autoplay !== "paused") {
       this.handlePlay();
     } else if (this.autoplay === "paused") {
       this.paused = true;
@@ -557,7 +557,7 @@ export class Carousel
       // eslint-disable-next-line react/jsx-sort-props
       ref={this.storeTabListRef}
     >
-      {(this.playing || this.autoplay === "" || this.autoplay === "paused") &&
+      {(this.playing || this.autoplay === "" || this.autoplay || this.autoplay === "paused") &&
         this.renderRotationControl()}
       {this.arrowType === "inline" && this.renderArrow("previous")}
       {this.renderPaginationItems()}
