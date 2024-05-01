@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionMode, Status, Width } from "./components/interfaces";
+import { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 import { ActionMessages } from "./components/action/assets/action/t9n";
@@ -25,6 +25,7 @@ import { ButtonMessages } from "./components/button/assets/button/t9n";
 import { CardMessages } from "./components/card/assets/card/t9n";
 import { ArrowType, AutoplayType } from "./components/carousel/interfaces";
 import { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
+import { MutableValidityState } from "./utils/form";
 import { ChipMessages } from "./components/chip/assets/chip/t9n";
 import { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 import { Format } from "./components/color-picker/utils";
@@ -94,7 +95,7 @@ import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
 import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
-export { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionMode, Status, Width } from "./components/interfaces";
+export { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 export { ActionMessages } from "./components/action/assets/action/t9n";
@@ -114,6 +115,7 @@ export { ButtonMessages } from "./components/button/assets/button/t9n";
 export { CardMessages } from "./components/card/assets/card/t9n";
 export { ArrowType, AutoplayType } from "./components/carousel/interfaces";
 export { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
+export { MutableValidityState } from "./utils/form";
 export { ChipMessages } from "./components/chip/assets/chip/t9n";
 export { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 export { Format } from "./components/color-picker/utils";
@@ -946,6 +948,12 @@ export namespace Components {
          */
         "status": Status;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
+        /**
           * The component's value.
          */
         "value": any;
@@ -1299,6 +1307,12 @@ export namespace Components {
           * Specifies the validation message to display under the component.
          */
         "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
         /**
           * The component's value(s) from the selected `calcite-combobox-item`(s).
          */
@@ -2185,6 +2199,12 @@ export namespace Components {
          */
         "validationMessage": string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
+        /**
           * The component's value.
          */
         "value": string;
@@ -2301,6 +2321,12 @@ export namespace Components {
           * Specifies the validation message to display under the component.
          */
         "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
         /**
           * Selected date as a string in ISO format (`"yyyy-mm-dd"`).
          */
@@ -2476,6 +2502,12 @@ export namespace Components {
          */
         "validationMessage": string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
+        /**
           * The component's value.
          */
         "value": string;
@@ -2596,6 +2628,12 @@ export namespace Components {
          */
         "validationMessage": string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
+        /**
           * The component's value.
          */
         "value": string;
@@ -2680,6 +2718,12 @@ export namespace Components {
          */
         "validationMessage": string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
+        /**
           * The time value in ISO (24-hour) format.
          */
         "value": string;
@@ -2756,6 +2800,12 @@ export namespace Components {
           * Specifies the validation message to display under the component.
          */
         "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
         /**
           * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.  If no value is provided, the user's time zone offset will be selected by default.
           * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
@@ -4035,6 +4085,12 @@ export namespace Components {
          */
         "validationMessage": string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
+        /**
           * The component's `selectedItem` value.
          */
         "value": string;
@@ -4123,6 +4179,12 @@ export namespace Components {
           * Specifies the validation message to display under the component.
          */
         "validationMessage": string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
         /**
           * The component's `selectedOption` value.
          */
@@ -5059,6 +5121,12 @@ export namespace Components {
          */
         "validationMessage": string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity": MutableValidityState;
+        /**
           * The component's value.
          */
         "value": string;
@@ -5071,6 +5139,7 @@ export namespace Components {
     interface CalciteTile {
         /**
           * When `true`, the component is active.
+          * @deprecated
          */
         "active": boolean;
         /**
@@ -5091,10 +5160,6 @@ export namespace Components {
          */
         "embed": boolean;
         /**
-          * The focused state of the component.
-         */
-        "focused": boolean;
-        /**
           * The component header text, which displays between the icon and description.
          */
         "heading": string;
@@ -5111,15 +5176,13 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
-          * Specifies the size of the component.
+          * When true, enables the tile to be focused, and allows the `calciteTileSelect` to emit. This is set to `true` by a parent Tile Group component.
          */
-        "scale": Scale;
-    }
-    interface CalciteTileGroup {
+        "interactive": boolean;
         /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+          * Accessible name for the component.
          */
-        "disabled": boolean;
+        "label": string;
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
@@ -5128,6 +5191,59 @@ export namespace Components {
           * Specifies the size of the component.
          */
         "scale": Scale;
+        /**
+          * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
+         */
+        "selected": boolean;
+        /**
+          * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).  This property is set by the parent tile-group.
+         */
+        "selectionAppearance": SelectionAppearance1;
+        /**
+          * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).  This property is set by the parent tile-group.
+         */
+        "selectionMode": Extract<
+    "multiple" | "none" | "single" | "single-persist",
+    SelectionMode
+  >;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
+    }
+    interface CalciteTileGroup {
+        /**
+          * When `true`, interaction is prevented and the component is displayed with lower opacity.
+         */
+        "disabled": boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label": string;
+        /**
+          * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
+         */
+        "layout": Exclude<Layout, "grid">;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
+        /**
+          * Specifies the component's selected items.
+          * @readonly
+         */
+        "selectedItems": HTMLCalciteTileElement[];
+        /**
+          * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).
+         */
+        "selectionAppearance": SelectionAppearance1;
+        /**
+          * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).
+         */
+        "selectionMode": Extract<
+    "multiple" | "none" | "single" | "single-persist",
+    SelectionMode
+  >;
     }
     interface CalciteTileSelect {
         /**
@@ -5792,6 +5908,14 @@ export interface CalciteTableRowCustomEvent<T> extends CustomEvent<T> {
 export interface CalciteTextAreaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCalciteTextAreaElement;
+}
+export interface CalciteTileCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteTileElement;
+}
+export interface CalciteTileGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCalciteTileGroupElement;
 }
 export interface CalciteTileSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -7333,13 +7457,36 @@ declare global {
         prototype: HTMLCalciteTextAreaElement;
         new (): HTMLCalciteTextAreaElement;
     };
+    interface HTMLCalciteTileElementEventMap {
+        "calciteInternalTileKeyEvent": KeyboardEvent;
+        "calciteTileSelect": void;
+    }
     interface HTMLCalciteTileElement extends Components.CalciteTile, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteTileElementEventMap>(type: K, listener: (this: HTMLCalciteTileElement, ev: CalciteTileCustomEvent<HTMLCalciteTileElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteTileElementEventMap>(type: K, listener: (this: HTMLCalciteTileElement, ev: CalciteTileCustomEvent<HTMLCalciteTileElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCalciteTileElement: {
         prototype: HTMLCalciteTileElement;
         new (): HTMLCalciteTileElement;
     };
+    interface HTMLCalciteTileGroupElementEventMap {
+        "calciteTileGroupSelect": void;
+    }
     interface HTMLCalciteTileGroupElement extends Components.CalciteTileGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCalciteTileGroupElementEventMap>(type: K, listener: (this: HTMLCalciteTileGroupElement, ev: CalciteTileGroupCustomEvent<HTMLCalciteTileGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCalciteTileGroupElementEventMap>(type: K, listener: (this: HTMLCalciteTileGroupElement, ev: CalciteTileGroupCustomEvent<HTMLCalciteTileGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCalciteTileGroupElement: {
         prototype: HTMLCalciteTileGroupElement;
@@ -8447,6 +8594,12 @@ declare namespace LocalJSX {
          */
         "status"?: Status;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
+        /**
           * The component's value.
          */
         "value"?: any;
@@ -8829,6 +8982,12 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
         /**
           * The component's value(s) from the selected `calcite-combobox-item`(s).
          */
@@ -9756,6 +9915,12 @@ declare namespace LocalJSX {
          */
         "validationMessage"?: string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
+        /**
           * The component's value.
          */
         "value"?: string;
@@ -9883,6 +10048,12 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
         /**
           * Selected date as a string in ISO format (`"yyyy-mm-dd"`).
          */
@@ -10060,6 +10231,12 @@ declare namespace LocalJSX {
          */
         "validationMessage"?: string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
+        /**
           * The component's value.
          */
         "value"?: string;
@@ -10185,6 +10362,12 @@ declare namespace LocalJSX {
          */
         "validationMessage"?: string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
+        /**
           * The component's value.
          */
         "value"?: string;
@@ -10279,6 +10462,12 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
         /**
           * The time value in ISO (24-hour) format.
          */
@@ -10375,6 +10564,12 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
         /**
           * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.  If no value is provided, the user's time zone offset will be selected by default.
           * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
@@ -11716,6 +11911,12 @@ declare namespace LocalJSX {
          */
         "validationMessage"?: string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
+        /**
           * The component's `selectedItem` value.
          */
         "value"?: string;
@@ -11808,6 +12009,12 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
+        /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
         /**
           * The component's `selectedOption` value.
          */
@@ -12765,6 +12972,12 @@ declare namespace LocalJSX {
          */
         "validationMessage"?: string;
         /**
+          * The current validation state of the component.
+          * @readonly 
+          * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+         */
+        "validity"?: MutableValidityState;
+        /**
           * The component's value.
          */
         "value"?: string;
@@ -12777,6 +12990,7 @@ declare namespace LocalJSX {
     interface CalciteTile {
         /**
           * When `true`, the component is active.
+          * @deprecated
          */
         "active"?: boolean;
         /**
@@ -12797,10 +13011,6 @@ declare namespace LocalJSX {
          */
         "embed"?: boolean;
         /**
-          * The focused state of the component.
-         */
-        "focused"?: boolean;
-        /**
           * The component header text, which displays between the icon and description.
          */
         "heading"?: string;
@@ -12817,9 +13027,41 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
+          * When true, enables the tile to be focused, and allows the `calciteTileSelect` to emit. This is set to `true` by a parent Tile Group component.
+         */
+        "interactive"?: boolean;
+        /**
+          * Accessible name for the component.
+         */
+        "label"?: string;
+        /**
+          * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
+         */
+        "layout"?: Exclude<Layout, "grid">;
+        "onCalciteInternalTileKeyEvent"?: (event: CalciteTileCustomEvent<KeyboardEvent>) => void;
+        /**
+          * Fires when the selected state of the component changes.
+         */
+        "onCalciteTileSelect"?: (event: CalciteTileCustomEvent<void>) => void;
+        /**
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        /**
+          * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
+         */
+        "selected"?: boolean;
+        /**
+          * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).  This property is set by the parent tile-group.
+         */
+        "selectionAppearance"?: SelectionAppearance1;
+        /**
+          * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).  This property is set by the parent tile-group.
+         */
+        "selectionMode"?: Extract<
+    "multiple" | "none" | "single" | "single-persist",
+    SelectionMode
+  >;
     }
     interface CalciteTileGroup {
         /**
@@ -12827,13 +13069,37 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Accessible name for the component.
+         */
+        "label": string;
+        /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
         "layout"?: Exclude<Layout, "grid">;
         /**
+          * Fires when the component's selection changes.
+         */
+        "onCalciteTileGroupSelect"?: (event: CalciteTileGroupCustomEvent<void>) => void;
+        /**
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        /**
+          * Specifies the component's selected items.
+          * @readonly
+         */
+        "selectedItems"?: HTMLCalciteTileElement[];
+        /**
+          * Specifies the selection appearance, where:  - `"icon"` (displays a checkmark or dot), or - `"border"` (displays a border).
+         */
+        "selectionAppearance"?: SelectionAppearance1;
+        /**
+          * Specifies the selection mode, where:  - `"multiple"` (allows any number of selected items), - `"single"` (allows only one selected item), - `"single-persist"` (allows only one selected item and prevents de-selection), - `"none"` (allows no selected items).
+         */
+        "selectionMode"?: Extract<
+    "multiple" | "none" | "single" | "single-persist",
+    SelectionMode
+  >;
     }
     interface CalciteTileSelect {
         /**

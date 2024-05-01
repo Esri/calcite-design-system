@@ -302,7 +302,105 @@
   </body>
 
   <script>
+    // Set this to false to only show validation messages after submitting the form
+    const SHOW_VALIDATION_MESSAGES_ON_BLUR = true;
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/ValidityState
+    const VALIDITY_STATES = [
+      "badInput",
+      "customError",
+      "patternMismatch",
+      "rangeOverflow",
+      "rangeUnderflow",
+      "stepMismatch",
+      "tooLong",
+      "tooShort",
+      "typeMismatch",
+      "valueMissing",
+    ];
+
+    // extension of the pattern used in MDN's constraint validation tutorials for use with multiple elements and constraints:
+    // https://developer.mozilla.org/en-US/docs/Web/HTML/Constraint_validation#complex_constraints_using_the_constraint_validation_api
+    const ELEMENT_CONSTRAINTS = [
+      {
+        id: "fullName",
+        patternMismatch: {
+          message: "First and last name are required.",
+        },
+        tooShort: {
+          message: "Please enter at least 3 characters.",
+        },
+        tooLong: {
+          message: "Please enter no more than 69 characters.",
+        },
+        valueMissing: {
+          message: "Please enter your name.",
+        },
+      },
+      {
+        id: "numberSeen",
+        rangeUnderflow: {
+          message: "There are 21 Calcite components used in this form, which is the minimum number you've seen.",
+          icon: "minimum",
+        },
+        rangeOverflow: {
+          message: "There are 108 Calcite components, which is the maximum number you've seen.",
+          icon: "maximum",
+        },
+      },
+      {
+        id: "favoriteApp",
+        patternMismatch: {
+          message: "The URL must start with https://",
+          icon: "web",
+        },
+        tooShort: {
+          message: "The URL must contain least 11 characters.",
+          icon: "arrow-right-left",
+        },
+      },
+    ];
+
+    function checkElementConstraints(el, constraints) {
+      // clear custom validation message if all constraints are met
+      if (el?.validity?.valid) {
+        el.validationMessage = "";
+        el.validationIcon = false;
+        el.status = "idle";
+        return;
+      }
+
+      // iterate through the validity states and set the custom validation message/icon
+      for (const state of VALIDITY_STATES) {
+        if (el?.validity[state] && Object.hasOwn(constraints, state)) {
+          el.validationMessage = constraints[state]?.message ?? "";
+          el.validationIcon = constraints[state]?.icon ?? true;
+
+          if (SHOW_VALIDATION_MESSAGES_ON_BLUR) {
+            el.status = "invalid";
+          }
+
+          return;
+        }
+      }
+    }
+
     window.onload = () => {
+      if (SHOW_VALIDATION_MESSAGES_ON_BLUR) {
+        /* blur event listeners to check validation constraints of elements with custom messages */
+        ELEMENT_CONSTRAINTS.forEach((data) => {
+          document
+            .querySelector(`#${data.id}`)
+            ?.addEventListener("blur", ({ target }) => checkElementConstraints(target, data));
+        });
+      } else {
+        /* use `calciteInvalid` if you only want to set custom messages on form submission */
+        document.addEventListener("calciteInvalid", ({ target }) => {
+          const constraints = ELEMENT_CONSTRAINTS.find((x) => x.id === target.id);
+          checkElementConstraints(target, constraints);
+        });
+      }
+
       // Mode Switcher
       document.getElementById("mode")?.addEventListener("calciteSwitchChange", () => {
         document.body.classList.toggle("calcite-mode-dark");

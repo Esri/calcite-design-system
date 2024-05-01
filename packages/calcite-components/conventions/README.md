@@ -144,7 +144,7 @@ Private/internal properties should be annotated accordingly to avoid exposing th
 
 ### Property values
 
-Property values should be meaningful. Avoid using values such as "default" for default values. Instead, use a more descriptive value. 
+Property values should be meaningful. Avoid using values such as "default" for default values. Instead, use a more descriptive value.
 
 For instance: `placement: "start" | "end" = "start";` is preferred to `placement: "default" | "end" = "default";`
 
