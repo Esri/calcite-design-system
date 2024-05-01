@@ -10,7 +10,6 @@ import {
   Method,
   Host,
   State,
-  forceUpdate,
 } from "@stencil/core";
 import { throttle } from "lodash-es";
 import {
@@ -83,20 +82,16 @@ export class TextArea
 {
   //--------------------------------------------------------------------------
   //
-  //  Global attributes
-  //
-  //--------------------------------------------------------------------------
-
-  @Watch("autofocus")
-  handleGlobalAttributesChanged(): void {
-    forceUpdate(this);
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Properties
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
+   *
+   * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
+   */
+  @Prop({ reflect: true }) autofocus = false;
 
   /**
    * Specifies the component's number of columns.
@@ -311,7 +306,7 @@ export class TextArea
             aria-describedby={this.guid}
             aria-invalid={toAriaBoolean(this.isCharacterLimitExceeded())}
             aria-label={getLabelText(this)}
-            autofocus={this.el.autofocus}
+            autofocus={this.autofocus}
             class={{
               [CSS.readOnly]: this.readOnly,
               [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),

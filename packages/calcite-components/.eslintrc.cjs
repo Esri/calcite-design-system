@@ -48,6 +48,7 @@ module.exports = {
     "@stencil-community/own-methods-must-be-private": "off",
     "@stencil-community/own-props-must-be-private": "off",
     "@stencil-community/prefer-vdom-listener": "warn",
+    "@stencil-community/reserved-member-names": "off",
     "@stencil-community/required-jsdoc": "off",
     "@stencil-community/strict-boolean-conditions": "off",
     "@typescript-eslint/ban-types": "warn",
