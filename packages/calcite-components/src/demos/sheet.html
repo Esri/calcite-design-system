@@ -144,7 +144,7 @@
               </calcite-segmented-control>
             </calcite-label>
           </calcite-block>
-          <calcite-button onClick="openModal('example-modal')"> Open Modal from Sheet</calcite-button>
+          <calcite-button onClick="openComponent('example-modal')"> Open Modal from Sheet</calcite-button>
         </calcite-panel>
       </calcite-sheet>
 
@@ -158,7 +158,7 @@
           scale="s"
           kind="neutral"
           appearance="outline"
-          onClick="openAnotherModal('another-modal')"
+          onClick="openComponent('another-modal')"
           >Open Another Modal</calcite-button
         >
       </calcite-modal>
@@ -215,34 +215,12 @@
         </div>
       </calcite-modal>
 
-      <calcite-button onClick="openSheet('example-sheet')"> Open Sheet </calcite-button>
+      <calcite-button onClick="openComponent('example-sheet')"> Open Sheet </calcite-button>
 
       <script>
-        function openSheet(id) {
-          const sheet = document.getElementById(id);
-          sheet.open = true;
-
-          sheet.addEventListener("deactivate", () => {
-            sheet.open = false;
-          });
-        }
-
-        function openModal(id) {
-          const modal = document.getElementById(id);
-          modal.open = true;
-
-          modal.addEventListener("deactivate", () => {
-            modal.open = false;
-          });
-        }
-
-        function openAnotherModal(id) {
-          const anotherModal = document.getElementById(id);
-          anotherModal.open = true;
-
-          anotherModal.addEventListener("deactivate", () => {
-            anotherModal.open = false;
-          });
+        function openComponent(id) {
+          const component = document.getElementById(id);
+          component.open = true;
         }
       </script>
     </demo-dom-swapper>
