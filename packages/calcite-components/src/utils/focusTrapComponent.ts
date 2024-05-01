@@ -11,8 +11,10 @@ export interface FocusTrapComponent {
    */
   el: HTMLElement;
 
+  /** When `true`, disables the default close on escape behavior. */
   escapeDisabled?: boolean;
 
+  /** When `true`, disables the closing of the component when clicked outside. */
   outsideCloseDisabled?: boolean;
 
   /**
