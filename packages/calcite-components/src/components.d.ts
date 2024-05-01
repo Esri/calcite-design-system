@@ -2045,6 +2045,11 @@ export namespace Components {
         "disabled": boolean;
         "editingEnabled": boolean;
         /**
+          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+         */
+        "enterKeyHint": string;
+        /**
           * When `type` is `"file"`, specifies the component's selected files.
           * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
          */
@@ -2065,6 +2070,11 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+         */
+        "inputMode": string;
         /**
           * Accessible name for the component.
          */
@@ -2375,6 +2385,11 @@ export namespace Components {
         "disabled": boolean;
         "editingEnabled": boolean;
         /**
+          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+         */
+        "enterKeyHint": string;
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
@@ -2391,6 +2406,11 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+         */
+        "inputMode": string;
         /**
           * When `true`, restricts the component to integer numbers only and disables exponential notation.
          */
@@ -2533,6 +2553,11 @@ export namespace Components {
         "disabled": boolean;
         "editingEnabled": boolean;
         /**
+          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+         */
+        "enterKeyHint": string;
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form": string;
@@ -2545,6 +2570,11 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+         */
+        "inputMode": string;
         /**
           * Accessible name for the component's button or hyperlink.
          */
@@ -9759,6 +9789,11 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
         /**
+          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+         */
+        "enterKeyHint"?: string;
+        /**
           * When `type` is `"file"`, specifies the component's selected files.
           * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
          */
@@ -9779,6 +9814,11 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+         */
+        "inputMode"?: string;
         /**
           * Accessible name for the component.
          */
@@ -10102,6 +10142,11 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
         /**
+          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+         */
+        "enterKeyHint"?: string;
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
@@ -10118,6 +10163,11 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+         */
+        "inputMode"?: string;
         /**
           * When `true`, restricts the component to integer numbers only and disables exponential notation.
          */
@@ -10262,6 +10312,11 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
         /**
+          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+         */
+        "enterKeyHint"?: string;
+        /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
         "form"?: string;
@@ -10274,6 +10329,11 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+         */
+        "inputMode"?: string;
         /**
           * Accessible name for the component's button or hyperlink.
          */

@@ -133,6 +133,15 @@ export class Input
   }
 
   /**
+   * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+   *
+   * @futureBreaking kebab-case of this attribute will not be supported in a future release
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() enterKeyHint: string;
+
+  /**
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
@@ -151,6 +160,15 @@ export class Input
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
+
+  /**
+   * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+   *
+   * @futureBreaking kebab-case of this attribute will not be supported in a future release
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() inputMode: string;
 
   /** Accessible name for the component. */
   @Prop() label: string;
@@ -1147,8 +1165,8 @@ export class Input
           autofocus={this.el.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
-          enterKeyHint={this.el.enterKeyHint}
-          inputMode={this.el.inputMode}
+          enterKeyHint={this.el.enterKeyHint || this.el.getAttribute("enter-key-hint")}
+          inputMode={this.el.inputMode || this.el.getAttribute("input-mode")}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
@@ -1183,8 +1201,8 @@ export class Input
               }}
               defaultValue={this.defaultValue}
               disabled={this.disabled ? true : null}
-              enterKeyHint={this.el.enterKeyHint}
-              inputMode={this.el.inputMode}
+              enterKeyHint={this.el.enterKeyHint || this.el.getAttribute("enter-key-hint")}
+              inputMode={this.el.inputMode || this.el.getAttribute("input-mode")}
               max={this.maxString}
               maxLength={this.maxLength}
               min={this.minString}
