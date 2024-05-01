@@ -1,4 +1,14 @@
-import { Component, Element, h, Prop, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Listen,
+  Method,
+  Prop,
+  VNode,
+} from "@stencil/core";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -6,8 +16,15 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { CSS, SLOTS } from "./resources";
-import { Alignment, Scale } from "../interfaces";
+import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
+import { toAriaBoolean } from "../../utils/dom";
+import {
+  componentFocusable,
+  setComponentLoaded,
+  setUpLoadableComponent,
+} from "../../utils/loadable";
+import { SelectableComponent } from "../../utils/selectableComponent";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
@@ -20,7 +37,7 @@ import { Alignment, Scale } from "../interfaces";
   styleUrl: "tile.scss",
   shadow: true,
 })
-export class Tile implements InteractiveComponent {
+export class Tile implements InteractiveComponent, SelectableComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -29,6 +46,8 @@ export class Tile implements InteractiveComponent {
 
   /**
    * When `true`, the component is active.
+   *
+   * @deprecated
    */
   @Prop({ reflect: true }) active = false;
 
@@ -56,13 +75,6 @@ export class Tile implements InteractiveComponent {
    */
   @Prop({ reflect: true }) embed = false;
 
-  /**
-   * The focused state of the component.
-   *
-   * @internal
-   */
-  @Prop({ reflect: true }) focused = false;
-
   /** The component header text, which displays between the icon and description. */
   @Prop({ reflect: true }) heading: string;
 
@@ -77,9 +89,80 @@ export class Tile implements InteractiveComponent {
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
+   * When true, enables the tile to be focused, and allows the `calciteTileSelect` to emit.
+   * This is set to `true` by a parent Tile Group component.
+   *
+   * @internal
+   */
+  @Prop() interactive = false;
+
+  /** Accessible name for the component. */
+  @Prop() label: string;
+
+  /**
+   * Defines the layout of the component.
+   *
+   * Use `"horizontal"` for rows, and `"vertical"` for a single column.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) layout: Exclude<Layout, "grid"> = "horizontal";
+
+  /**
    * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) selected = false;
+
+  /**
+   * Specifies the selection appearance, where:
+   *
+   * - `"icon"` (displays a checkmark or dot), or
+   * - `"border"` (displays a border).
+   *
+   * This property is set by the parent tile-group.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
+
+  /**
+   * Specifies the selection mode, where:
+   *
+   * - `"multiple"` (allows any number of selected items),
+   * - `"single"` (allows only one selected item),
+   * - `"single-persist"` (allows only one selected item and prevents de-selection),
+   * - `"none"` (allows no selected items).
+   *
+   * This property is set by the parent tile-group.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) selectionMode: Extract<
+    "multiple" | "none" | "single" | "single-persist",
+    SelectionMode
+  > = "none";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    if (!this.disabled && this.interactive) {
+      this.containerEl?.focus();
+    }
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -88,6 +171,52 @@ export class Tile implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteTileElement;
+
+  private clickHandler = (): void => {
+    if (this.interactive) {
+      this.setFocus();
+      this.handleSelectEvent();
+    }
+  };
+
+  private containerEl: HTMLDivElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalTileKeyEvent: EventEmitter<KeyboardEvent>;
+
+  /**
+   * Fires when the selected state of the component changes.
+   */
+  @Event() calciteTileSelect: EventEmitter<void>;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  private handleSelectEvent = (): void => {
+    if (
+      this.disabled ||
+      !this.interactive ||
+      (this.selectionMode === "single-persist" && this.selected === true)
+    ) {
+      return;
+    }
+    this.calciteTileSelect.emit();
+  };
+
+  private setContainerEl = (el): void => {
+    this.containerEl = el;
+  };
 
   // --------------------------------------------------------------------------
   //
@@ -99,6 +228,10 @@ export class Tile implements InteractiveComponent {
     connectInteractive(this);
   }
 
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     disconnectInteractive(this);
   }
@@ -107,29 +240,113 @@ export class Tile implements InteractiveComponent {
     updateHostInteraction(this);
   }
 
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("keydown")
+  keyDownHandler(event: KeyboardEvent): void {
+    if (event.target === this.el) {
+      switch (event.key) {
+        case " ":
+        case "Enter":
+          this.handleSelectEvent();
+          event.preventDefault();
+          break;
+        case "ArrowDown":
+        case "ArrowLeft":
+        case "ArrowRight":
+        case "ArrowUp":
+        case "Home":
+        case "End":
+          this.calciteInternalTileKeyEvent.emit(event);
+          event.preventDefault();
+          break;
+      }
+    }
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
 
-  renderTile(): VNode {
-    const { icon, heading, description, iconFlipRtl } = this;
-    const isLargeVisual = heading && icon && !description;
+  renderSelectionIcon(): VNode {
+    const { selected, selectionAppearance, selectionMode } = this;
+    if (selectionAppearance === "icon" && selectionMode !== "none") {
+      return (
+        <calcite-icon
+          class={CSS.selectionIcon}
+          icon={
+            selected
+              ? selectionMode === "multiple"
+                ? ICONS.selectedMultiple
+                : ICONS.selectedSingle
+              : selectionMode === "multiple"
+                ? ICONS.unselectedMultiple
+                : ICONS.unselectedSingle
+          }
+          scale="s"
+        />
+      );
+    }
+    return;
+  }
 
+  renderTile(): VNode {
+    const { description, disabled, heading, icon, iconFlipRtl, interactive, selectionMode } = this;
+    const isLargeVisual = heading && icon && !Boolean(description);
+    const disableInteraction = Boolean(this.href) || !interactive;
+    const role =
+      selectionMode === "multiple" && interactive
+        ? "checkbox"
+        : selectionMode !== "none" && interactive
+          ? "radio"
+          : interactive
+            ? "button"
+            : undefined;
     return (
-      <div class={{ [CSS.container]: true, [CSS.largeVisual]: isLargeVisual }}>
-        <slot name={SLOTS.contentTop} />
-        {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
-        <div class={CSS.contentContainer}>
-          <slot name={SLOTS.contentStart} />
-          <div class={CSS.content}>
-            {heading && <div class={CSS.heading}>{heading}</div>}
-            {description && <div class={CSS.description}>{description}</div>}
+      <div
+        aria-checked={
+          selectionMode !== "none" && interactive ? toAriaBoolean(this.selected) : undefined
+        }
+        aria-disabled={disableInteraction ? toAriaBoolean(disabled) : undefined}
+        aria-label={role && this.label}
+        class={{
+          [CSS.container]: true,
+          [CSS.interactive]: interactive,
+          // [Deprecated] Use the content-top slot for rendering icon with alignment="center" instead
+          [CSS.largeVisualDeprecated]: isLargeVisual,
+          [CSS.row]: true,
+          [CSS.selected]: this.selected,
+        }}
+        onClick={this.clickHandler}
+        role={role}
+        tabIndex={disableInteraction ? undefined : 0}
+        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
+        ref={this.setContainerEl}
+      >
+        {this.renderSelectionIcon()}
+        <div class={CSS.column}>
+          <slot name={SLOTS.contentTop} />
+          {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
+          <div class={{ [CSS.contentContainer]: true, [CSS.row]: true }}>
+            <slot name={SLOTS.contentStart} />
+            <div class={CSS.textContent}>
+              {heading && <div class={CSS.heading}>{heading}</div>}
+              {description && <div class={CSS.description}>{description}</div>}
+            </div>
+            <slot name={SLOTS.contentEnd} />
           </div>
-          <slot name={SLOTS.contentEnd} />
+          <slot name={SLOTS.contentBottom} />
         </div>
-        <slot name={SLOTS.contentBottom} />
       </div>
     );
   }
@@ -139,7 +356,7 @@ export class Tile implements InteractiveComponent {
 
     return (
       <InteractiveContainer disabled={disabled}>
-        {this.href ? (
+        {!!this.href ? (
           <calcite-link disabled={disabled} href={this.href}>
             {this.renderTile()}
           </calcite-link>

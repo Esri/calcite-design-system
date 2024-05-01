@@ -1,3 +1,5 @@
+import { JSDOM } from "jsdom";
+import { GlobalTestProps } from "../tests/utils";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -5,10 +7,7 @@ import {
   FocusTrapComponent,
   updateFocusTrapElements,
 } from "./focusTrapComponent";
-
-import { JSDOM } from "jsdom";
 import { CalciteConfig } from "./config";
-import { GlobalTestProps } from "../tests/utils";
 
 describe("focusTrapComponent", () => {
   it("focusTrapComponent lifecycle", () => {

@@ -1,10 +1,22 @@
 export const CSS = {
+  column: "column",
   container: "container",
-  content: "content",
   contentContainer: "content-container",
   description: "description",
   heading: "heading",
-  largeVisual: "large-visual",
+  interactive: "interactive",
+  largeVisualDeprecated: "large-visual-deprecated",
+  row: "row",
+  selected: "selected",
+  selectionIcon: "selection-icon",
+  textContent: "text-content",
+};
+
+export const ICONS = {
+  selectedMultiple: "check-square-f",
+  selectedSingle: "circle-f",
+  unselectedMultiple: "square",
+  unselectedSingle: "circle",
 };
 
 export const SLOTS = {

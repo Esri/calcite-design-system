@@ -1,5 +1,4 @@
 import { select, text } from "../../../.storybook/fake-knobs";
-
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 

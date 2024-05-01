@@ -1,5 +1,4 @@
 import { number } from "../../../.storybook/fake-knobs";
-
 import { modesDarkDefault } from "../../../.storybook/utils";
 
 export default {

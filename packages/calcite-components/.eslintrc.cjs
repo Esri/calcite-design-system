@@ -43,7 +43,7 @@ module.exports = {
       },
     ],
     "@esri/calcite-components/enforce-ref-last-prop": "off",
-    "@stencil-community/decorators-context": "off",
+    "@esri/calcite-components/strict-boolean-attributes": "off",
     "@stencil-community/decorators-style": "warn",
     "@stencil-community/no-unused-watch": "off",
     "@stencil-community/own-methods-must-be-private": "off",
@@ -51,9 +51,6 @@ module.exports = {
     "@stencil-community/prefer-vdom-listener": "warn",
     "@stencil-community/required-jsdoc": "off",
     "@stencil-community/strict-boolean-conditions": "off",
-    "@stencil-community/reserved-member-names": "off",
-    "@stencil-community/ban-exported-const-enums": "off",
-    "@typescript-eslint/no-duplicate-enum-values": "off",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
@@ -95,6 +92,18 @@ module.exports = {
       },
     ],
     "no-new-func": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: [
+          {
+            group: ["tests/commonTests/*"],
+            message:
+              "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'",
+          },
+        ],
+      },
+    ],
     "no-unneeded-ternary": "error",
     "one-var": ["error", "never"],
     "react/forbid-component-props": [
@@ -159,10 +168,16 @@ module.exports = {
       ignorePrivate: true,
     },
   },
-  overrides: [{
-    files: ["**/*.e2e.ts", "src/tests/**/*"],
-    rules: {
-      "@esri/calcite-components/no-dynamic-createelement": "off",
-    }
-  }]
+  overrides: [
+    {
+      files: ["**/*.e2e.ts", "src/tests/**/*"],
+      rules: {
+        "@esri/calcite-components/no-dynamic-createelement": "off",
+      },
+    },
+    {
+      extends: ["plugin:@typescript-eslint/disable-type-checked"],
+      files: ["*.cjs"],
+    },
+  ],
 };

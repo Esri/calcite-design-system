@@ -1,5 +1,8 @@
 export const CSS = {
+  wrapper: "wrapper",
+  wrapperBordered: "wrapper--bordered",
   container: "container",
+  indent: "indent",
   containerHover: "container--hover",
   containerBorder: "container--border",
   containerBorderSelected: "container--border-selected",

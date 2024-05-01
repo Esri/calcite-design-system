@@ -7,9 +7,8 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-
-import { SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
+import { SLOTS } from "./resources";
 
 export default {
   title: "Components/Flow Item",

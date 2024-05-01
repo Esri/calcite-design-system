@@ -21,12 +21,7 @@ module.exports = {
   babel: async (options) => {
     return {
       ...options,
-      presets: [
-        // we need to set this up to enable custom Storybook doc components
-        // https://storybook.js.org/docs/html/writing-docs/docs-page#with-a-custom-component
-        "@babel/preset-react",
-        "@babel/preset-typescript",
-      ],
+      presets: ["@babel/preset-typescript"],
     };
   },
 
@@ -61,7 +56,7 @@ module.exports = {
           closable
           kind="warning"
           scale="l"
-          style="font-family: var(--calcite-sans-family)"
+          style="font-family: var(--calcite-font-family)"
         >
           <div slot="title">
             This storybook is on the current @next version and is meant for internal, testing purposes only.

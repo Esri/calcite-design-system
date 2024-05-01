@@ -6,7 +6,6 @@ import {
   createComponentHTML as create,
 } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-
 import { html } from "../../../support/formatting";
 
 export default {

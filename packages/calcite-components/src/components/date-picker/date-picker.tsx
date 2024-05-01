@@ -409,7 +409,21 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       start,
       end,
     };
-    if (!this.proximitySelectionDisabled) {
+
+    if (this.proximitySelectionDisabled) {
+      if ((end && start) || (!end && date >= start)) {
+        this.hoverRange.focused = "end";
+        this.hoverRange.end = date;
+      } else if (!end && date < start) {
+        this.hoverRange = {
+          focused: "start",
+          start: date,
+          end: start,
+        };
+      } else {
+        this.hoverRange = undefined;
+      }
+    } else {
       if (start && end) {
         const startDiff = getDaysDiff(date, start);
         const endDiff = getDaysDiff(date, end);
@@ -439,21 +453,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
             this.hoverRange.focused = "end";
           }
         }
-      }
-    } else {
-      if (!end) {
-        if (date < start) {
-          this.hoverRange = {
-            focused: "start",
-            start: date,
-            end: start,
-          };
-        } else {
-          this.hoverRange.end = date;
-          this.hoverRange.focused = "end";
-        }
-      } else {
-        this.hoverRange = undefined;
       }
     }
     event.stopPropagation();
@@ -594,7 +593,10 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     } else if (!end) {
       this.setEndDate(date);
     } else {
-      if (!this.proximitySelectionDisabled) {
+      if (this.proximitySelectionDisabled) {
+        this.setStartDate(date);
+        this.setEndDate(null);
+      } else {
         if (this.activeRange) {
           if (this.activeRange == "end") {
             this.setEndDate(date);
@@ -614,8 +616,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
             this.setEndDate(date);
           }
         }
-      } else {
-        this.setStartDate(date);
       }
     }
     this.calciteDatePickerChange.emit();

@@ -78,12 +78,18 @@ export class Slider
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * Used to configure where the fill is placed along the slider track in relation to the value handle.
+   *
+   * Range mode will always display the fill between the min and max handles.
+   */
+  @Prop({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
+
+  /**
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
@@ -112,6 +118,15 @@ export class Slider
 
   /** When `true`, displays label handles with their numeric value. */
   @Prop({ reflect: true }) labelHandles = false;
+
+  /**
+   * When specified, allows users to customize handle labels.
+   */
+  @Prop() labelFormatter: (
+    value: number,
+    type: "value" | "min" | "max" | "tick",
+    defaultFormatter: (value: number) => string,
+  ) => string | undefined;
 
   /** When `true` and `ticks` is specified, displays label tick marks with their numeric value. */
   @Prop({ reflect: true }) labelTicks = false;
@@ -281,8 +296,26 @@ export class Slider
         mirror,
       });
 
+    const fillPlacement = valueIsRange ? "start" : this.fillPlacement;
+    const trackRangePlacementStyles =
+      fillPlacement === "none"
+        ? {
+            left: `unset`,
+            right: `unset`,
+          }
+        : fillPlacement === "end"
+          ? {
+              left: `${mirror ? minInterval : maxInterval}%`,
+              right: `${mirror ? maxInterval : minInterval}%`,
+            }
+          : /* default */
+            {
+              left: `${mirror ? 100 - maxInterval : minInterval}%`,
+              right: `${mirror ? minInterval : 100 - maxInterval}%`,
+            };
+
     return (
-      <Host id={id} onTouchStart={this.handleTouchStart}>
+      <Host id={id} onKeyDown={this.handleKeyDown} onTouchStart={this.handleTouchStart}>
         <InteractiveContainer disabled={this.disabled}>
           <div
             aria-label={getLabelText(this)}
@@ -297,17 +330,22 @@ export class Slider
               <div
                 class={CSS.trackRange}
                 onPointerDown={this.onTrackPointerDown}
-                style={{
-                  left: `${mirror ? 100 - maxInterval : minInterval}%`,
-                  right: `${mirror ? minInterval : 100 - maxInterval}%`,
-                }}
+                style={trackRangePlacementStyles}
               />
               <div class={CSS.ticks}>
                 {this.tickValues.map((tick) => {
                   const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
-                  let activeTicks = tick >= min && tick <= value;
-                  if (useMinValue) {
-                    activeTicks = tick >= this.minValue && tick <= this.maxValue;
+
+                  let activeTicks: boolean = false;
+
+                  if (fillPlacement === "start" || fillPlacement === "end") {
+                    if (useMinValue) {
+                      activeTicks = tick >= this.minValue && tick <= this.maxValue;
+                    } else {
+                      const rangeStart = fillPlacement === "start" ? min : value;
+                      const rangeEnd = fillPlacement === "start" ? value : this.max;
+                      activeTicks = tick >= rangeStart && tick <= rangeEnd;
+                    }
                   }
 
                   return (
@@ -364,7 +402,12 @@ export class Slider
     const valueProp = isMinThumb ? "minValue" : valueIsRange ? "maxValue" : "value";
     const ariaLabel = isMinThumb ? this.minLabel : valueIsRange ? this.maxLabel : this.minLabel;
     const ariaValuenow = isMinThumb ? this.minValue : value;
-    const displayedValue = isMinThumb ? this.formatValue(this.minValue) : this.formatValue(value);
+    const displayedValue =
+      valueProp === "minValue"
+        ? this.internalLabelFormatter(this.minValue, "min")
+        : valueProp === "maxValue"
+          ? this.internalLabelFormatter(this.maxValue, "max")
+          : this.internalLabelFormatter(value, "value");
     const thumbStyle: SideOffset = isMinThumb
       ? { left: `${mirror ? 100 - minInterval : minInterval}%` }
       : { right: `${mirror ? maxInterval : 100 - maxInterval}%` };
@@ -460,7 +503,7 @@ export class Slider
           [CSS.tickMax]: isMaxTickLabel,
         }}
       >
-        {this.formatValue(tick)}
+        {this.internalLabelFormatter(tick, "tick")}
       </span>
     ) : null;
   }
@@ -470,8 +513,7 @@ export class Slider
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
+  private handleKeyDown = (event: KeyboardEvent): void => {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
     const value = this[activeProp];
@@ -503,15 +545,17 @@ export class Slider
     } else if (key === "End") {
       adjustment = max;
     }
+
     if (isNaN(adjustment)) {
       return;
     }
+
     event.preventDefault();
     const fixedDecimalAdjustment = Number(adjustment.toFixed(decimalPlaces(step)));
     this.setValue({
       [activeProp as SetValueProperty]: this.clamp(fixedDecimalAdjustment, activeProp),
     });
-  }
+  };
 
   @Listen("pointerdown")
   pointerDownHandler(event: PointerEvent): void {
@@ -528,7 +572,7 @@ export class Slider
         prop = "minMaxValue";
       } else {
         const closerToMax = Math.abs(this.maxValue - position) < Math.abs(this.minValue - position);
-        prop = closerToMax || position > this.maxValue ? "maxValue" : "minValue";
+        prop = closerToMax || position >= this.maxValue ? "maxValue" : "minValue";
       }
     }
     this.lastDragPropValue = this[prop];
@@ -746,19 +790,12 @@ export class Slider
   }
 
   private focusActiveHandle(valueX: number): void {
-    switch (this.dragProp) {
-      case "minValue":
-        this.minHandle.focus();
-        break;
-      case "maxValue":
-      case "value":
-        this.maxHandle.focus();
-        break;
-      case "minMaxValue":
-        this.getClosestHandle(valueX).focus();
-        break;
-      default:
-        break;
+    if (this.dragProp === "minValue") {
+      this.minHandle.focus();
+    } else if (this.dragProp === "maxValue" || this.dragProp === "value") {
+      this.maxHandle.focus();
+    } else if (this.dragProp === "minMaxValue") {
+      this.getClosestHandle(valueX).focus();
     }
   }
 
@@ -898,6 +935,7 @@ export class Slider
     if (prop === "minValue") {
       value = Math.min(value, this.maxValue);
     }
+
     return value;
   }
 
@@ -913,26 +951,27 @@ export class Slider
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
-    let value = Number(clampedValue.toFixed(decimalPlaces(this.step)));
-    if (this.snap && this.step) {
-      value = this.getClosestStep(value);
-    }
-    return value;
+    const value = Number(clampedValue.toFixed(decimalPlaces(this.step)));
+
+    return !(this.snap && this.step) ? value : this.getClosestStep(value);
   }
 
   /**
    * Get closest allowed value along stepped values
    *
-   * @param num
+   * @param value
    * @internal
    */
-  private getClosestStep(num: number): number {
-    num = Number(this.clamp(num).toFixed(decimalPlaces(this.step)));
-    if (this.step) {
-      const step = Math.round(num / this.step) * this.step;
-      num = Number(this.clamp(step).toFixed(decimalPlaces(this.step)));
+  private getClosestStep(value: number): number {
+    const { max, min, step } = this;
+    let snappedValue = Math.floor((value - min) / step) * step + min;
+    snappedValue = Math.min(Math.max(snappedValue, min), max);
+
+    if (snappedValue > max) {
+      snappedValue -= step;
     }
-    return num;
+
+    return snappedValue;
   }
 
   private getClosestHandle(valueX: number): HTMLDivElement {
@@ -1225,4 +1264,20 @@ export class Slider
 
     return numberStringFormatter.localize(value.toString());
   };
+
+  private internalLabelFormatter(value: number, type: "max" | "min" | "value" | "tick"): string {
+    const customFormatter = this.labelFormatter;
+
+    if (!customFormatter) {
+      return this.formatValue(value);
+    }
+
+    const formattedValue = customFormatter(value, type, this.formatValue);
+
+    if (formattedValue == null) {
+      return this.formatValue(value);
+    }
+
+    return formattedValue;
+  }
 }

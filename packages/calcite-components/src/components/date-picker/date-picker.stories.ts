@@ -1,5 +1,4 @@
 import { boolean, select, text } from "../../../.storybook/fake-knobs";
-
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,

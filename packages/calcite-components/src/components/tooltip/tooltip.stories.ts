@@ -1,5 +1,4 @@
 import { select, number } from "../../../.storybook/fake-knobs";
-
 import { html } from "../../../support/formatting";
 import { boolean } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
