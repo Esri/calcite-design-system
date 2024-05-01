@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, reflects, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { assertSelectedItems, isElementFocused } from "../../tests/utils";
+import { createSelectedItemsAsserter, isElementFocused } from "../../tests/utils";
 
 describe("calcite-tile-group", () => {
   describe("accessible", () => {
@@ -68,8 +68,13 @@ describe("calcite-tile-group", () => {
       `);
       const item4 = await page.find("#item-4");
       const item5 = await page.find("#item-5");
+      const selectedItemAsserter = await createSelectedItemsAsserter(
+        page,
+        "calcite-tile-group",
+        "calciteTileGroupSelect",
+      );
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item4.id, item5.id] });
+      await selectedItemAsserter([item4.id, item5.id]);
     });
   });
 
@@ -113,7 +118,11 @@ describe("calcite-tile-group", () => {
           <calcite-tile id="item-5" label="test-label"></calcite-tile>
         </calcite-tile-group>
       `);
-      await assertSelectedItems.setUpEvents("calciteTileGroupSelect", page);
+      const selectedItemAsserter = await createSelectedItemsAsserter(
+        page,
+        "calcite-tile-group",
+        "calciteTileGroupSelect",
+      );
 
       const element = await page.find("calcite-tile-group");
       const groupSelectSpy = await element.spyOnEvent("calciteTileGroupSelect");
@@ -126,7 +135,8 @@ describe("calcite-tile-group", () => {
 
       expect(await isElementFocused(page, "#item-1")).toBe(true);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id] });
+      await selectedItemAsserter([item1.id]);
+
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
 
@@ -147,7 +157,8 @@ describe("calcite-tile-group", () => {
 
       expect(groupSelectSpy).toHaveReceivedEventTimes(2);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id, item5.id] });
+      await selectedItemAsserter([item1.id, item5.id]);
+
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
 
@@ -158,13 +169,15 @@ describe("calcite-tile-group", () => {
 
       expect(groupSelectSpy).toHaveReceivedEventTimes(3);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id, item4.id, item5.id] });
+      await selectedItemAsserter([item1.id, item4.id, item5.id]);
+
       await page.keyboard.press("Space");
       await page.waitForChanges();
 
       expect(groupSelectSpy).toHaveReceivedEventTimes(4);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id, item5.id] });
+      await selectedItemAsserter([item1.id, item5.id]);
+
       await page.keyboard.press("Home");
       await page.waitForChanges();
 
@@ -220,7 +233,11 @@ describe("calcite-tile-group", () => {
         </calcite-tile-group>
       `);
       await page.waitForChanges();
-      await assertSelectedItems.setUpEvents("calciteTileGroupSelect", page);
+      const selectedItemAsserter = await createSelectedItemsAsserter(
+        page,
+        "calcite-tile-group",
+        "calciteTileGroupSelect",
+      );
 
       const element = await page.find("calcite-tile-group");
       const item1 = await page.find("#item-1");
@@ -230,7 +247,7 @@ describe("calcite-tile-group", () => {
       expect(itemGroupSelectSpy).toHaveReceivedEventTimes(0);
       expect(await element.getProperty("selectedItems")).toEqual([]);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [] });
+      await selectedItemAsserter([]);
       await item1.click();
       await page.waitForChanges();
 
@@ -239,7 +256,8 @@ describe("calcite-tile-group", () => {
       expect(await item2.getProperty("selected")).toBe(false);
       expect(await element.getProperty("selectedItems")).toEqual([]);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [] });
+      await selectedItemAsserter([]);
+
       await item2.click();
       await page.waitForChanges();
 
@@ -248,7 +266,8 @@ describe("calcite-tile-group", () => {
       expect(await item2.getProperty("selected")).toBe(false);
       expect(await element.getProperty("selectedItems")).toEqual([]);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [] });
+      await selectedItemAsserter([]);
+
       await item2.click();
       await page.waitForChanges();
 
@@ -257,7 +276,7 @@ describe("calcite-tile-group", () => {
       expect(await item2.getProperty("selected")).toBe(false);
       expect(await element.getProperty("selectedItems")).toEqual([]);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [] });
+      await selectedItemAsserter([]);
     });
 
     it("single selection-mode allows only 1 item to be selected and allows deselecting", async () => {
@@ -270,7 +289,11 @@ describe("calcite-tile-group", () => {
         </calcite-tile-group>
       `);
       await page.waitForChanges();
-      await assertSelectedItems.setUpEvents("calciteTileSelect", page);
+      const selectedItemAsserter = await createSelectedItemsAsserter(
+        page,
+        "calcite-tile-group",
+        "calciteTileGroupSelect",
+      );
 
       const element = await page.find("calcite-tile-group");
       const item1 = await page.find("#item-1");
@@ -283,7 +306,8 @@ describe("calcite-tile-group", () => {
       expect(tileSelectSpy1).toHaveReceivedEventTimes(0);
       expect(tileSelectSpy2).toHaveReceivedEventTimes(0);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item2.id] });
+      await selectedItemAsserter([item2.id]);
+
       await item1.click();
       await page.waitForChanges();
 
@@ -293,7 +317,8 @@ describe("calcite-tile-group", () => {
       expect(await item1.getProperty("selected")).toBe(true);
       expect(await item2.getProperty("selected")).toBe(false);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id] });
+      await selectedItemAsserter([item1.id]);
+
       await item2.click();
       await page.waitForChanges();
 
@@ -303,7 +328,8 @@ describe("calcite-tile-group", () => {
       expect(await item1.getProperty("selected")).toBe(false);
       expect(await item2.getProperty("selected")).toBe(true);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item2.id] });
+      await selectedItemAsserter([item2.id]);
+
       await item2.click();
       await page.waitForChanges();
 
@@ -313,7 +339,7 @@ describe("calcite-tile-group", () => {
       expect(await item1.getProperty("selected")).toBe(false);
       expect(await item2.getProperty("selected")).toBe(false);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [] });
+      await selectedItemAsserter([]);
     });
 
     it("single-persist selection-mode allows only 1 item to be selected and disallows deselecting", async () => {
@@ -326,7 +352,11 @@ describe("calcite-tile-group", () => {
         </calcite-tile-group>
       `);
       await page.waitForChanges();
-      await assertSelectedItems.setUpEvents("calciteTileSelect", page);
+      const selectedItemAsserter = await createSelectedItemsAsserter(
+        page,
+        "calcite-tile-group",
+        "calciteTileGroupSelect",
+      );
 
       const element = await page.find("calcite-tile-group");
       const item1 = await page.find("#item-1");
@@ -339,7 +369,8 @@ describe("calcite-tile-group", () => {
       expect(tileSelectSpy1).toHaveReceivedEventTimes(0);
       expect(tileSelectSpy2).toHaveReceivedEventTimes(0);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item2.id] });
+      await selectedItemAsserter([item2.id]);
+
       await item1.click();
       await page.waitForChanges();
 
@@ -349,7 +380,8 @@ describe("calcite-tile-group", () => {
       expect(await item1.getProperty("selected")).toBe(true);
       expect(await item2.getProperty("selected")).toBe(false);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id] });
+      await selectedItemAsserter([item1.id]);
+
       await item2.click();
       await page.waitForChanges();
 
@@ -359,7 +391,8 @@ describe("calcite-tile-group", () => {
       expect(await item1.getProperty("selected")).toBe(false);
       expect(await item2.getProperty("selected")).toBe(true);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item2.id] });
+      await selectedItemAsserter([item2.id]);
+
       await item2.click();
       await page.waitForChanges();
 
@@ -369,7 +402,7 @@ describe("calcite-tile-group", () => {
       expect(await item1.getProperty("selected")).toBe(false);
       expect(await item2.getProperty("selected")).toBe(true);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item2.id] });
+      await selectedItemAsserter([item2.id]);
     });
 
     it("multiple selection-mode allows multiple items to be selected and allows deselecting", async () => {
@@ -382,7 +415,11 @@ describe("calcite-tile-group", () => {
         </calcite-tile-group>
       `);
       await page.waitForChanges();
-      await assertSelectedItems.setUpEvents("calciteTileSelect", page);
+      const selectedItemAsserter = await createSelectedItemsAsserter(
+        page,
+        "calcite-tile-group",
+        "calciteTileGroupSelect",
+      );
 
       const element = await page.find("calcite-tile-group");
       const item1 = await page.find("#item-1");
@@ -392,7 +429,8 @@ describe("calcite-tile-group", () => {
 
       expect(groupSelectSpy).toHaveReceivedEventTimes(0);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [] });
+      await selectedItemAsserter([]);
+
       await item1.click();
       await page.waitForChanges();
 
@@ -401,7 +439,8 @@ describe("calcite-tile-group", () => {
       expect(await item2.getProperty("selected")).toBe(false);
       expect(await item3.getProperty("selected")).toBe(false);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id] });
+      await selectedItemAsserter([item1.id]);
+
       await item2.click();
       await page.waitForChanges();
 
@@ -410,7 +449,8 @@ describe("calcite-tile-group", () => {
       expect(await item2.getProperty("selected")).toBe(true);
       expect(await item3.getProperty("selected")).toBe(false);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id, item2.id] });
+      await selectedItemAsserter([item1.id, item2.id]);
+
       await item3.click();
       await page.waitForChanges();
 
@@ -419,7 +459,8 @@ describe("calcite-tile-group", () => {
       expect(await item2.getProperty("selected")).toBe(true);
       expect(await item3.getProperty("selected")).toBe(true);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item1.id, item2.id, item3.id] });
+      await selectedItemAsserter([item1.id, item2.id, item3.id]);
+
       await item1.click();
       await page.waitForChanges();
 
@@ -428,7 +469,8 @@ describe("calcite-tile-group", () => {
       expect(await item2.getProperty("selected")).toBe(true);
       expect(await item3.getProperty("selected")).toBe(true);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item2.id, item3.id] });
+      await selectedItemAsserter([item2.id, item3.id]);
+
       await item2.click();
       await page.waitForChanges();
 
@@ -437,7 +479,8 @@ describe("calcite-tile-group", () => {
       expect(await item2.getProperty("selected")).toBe(false);
       expect(await item3.getProperty("selected")).toBe(true);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [item3.id] });
+      await selectedItemAsserter([item3.id]);
+
       await item3.click();
       await page.waitForChanges();
 
@@ -447,7 +490,7 @@ describe("calcite-tile-group", () => {
       expect(await item3.getProperty("selected")).toBe(false);
       expect(await element.getProperty("selectedItems")).toEqual([]);
 
-      await assertSelectedItems("calcite-tile-group", page, { expectedItemIds: [] });
+      await selectedItemAsserter([]);
     });
   });
 });

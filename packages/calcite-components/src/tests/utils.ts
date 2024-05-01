@@ -1,6 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { BoundingBox } from "puppeteer";
 import type { JSX } from "../components";
+import { ComponentTag } from "./commonTests/interfaces";
 
 /**
  * Util to help type global props for testing.
@@ -426,6 +427,8 @@ export function toBeNumber(): any {
   };
 }
 
+type HTMLSelectableElement = HTMLElement & { selectedItems: HTMLElement[] };
+
 interface SelectedItemsAssertionOptions {
   /**
    * IDs from items to assert selection
@@ -444,18 +447,19 @@ interface SelectedItemsAssertionOptions {
  * @param SelectedItemsAssertionOptions.expectedItemIds - An array of ids to expect to be selected from an interaction
  */
 export async function assertSelectedItems(
-  groupElementTagName: string,
+  groupElementTagName: ComponentTag,
   page: E2EPage,
   { expectedItemIds }: SelectedItemsAssertionOptions,
 ): Promise<void> {
-  await page.waitForTimeout(100);
-  const selectedItemIds = await page.evaluate((groupElementTagName) => {
-    const group = document.querySelector(groupElementTagName);
-    return (group as any).selectedItems.map((item) => item.id);
-  }, groupElementTagName);
+  await page.waitForChanges();
+
+  const selectedItemIds = await page.evaluate(
+    (groupElementTagName) =>
+      document.querySelector<HTMLSelectableElement>(groupElementTagName).selectedItems.map((item) => item.id),
+    groupElementTagName,
+  );
 
   expect(selectedItemIds).toHaveLength(expectedItemIds.length);
-
   expectedItemIds.forEach((itemId, index) => expect(selectedItemIds[index]).toEqual(itemId));
 }
 
@@ -474,3 +478,21 @@ assertSelectedItems.setUpEvents = async (eventName: string, page: E2EPage) => {
     });
   }, eventName);
 };
+
+export async function createSelectedItemsAsserter(
+  page: E2EPage,
+  groupElementTagName: ComponentTag,
+  eventName: string,
+): Promise<(expectedItemIds: SelectedItemsAssertionOptions["expectedItemIds"]) => Promise<void>> {
+  await page.evaluate((eventName) => {
+    document.addEventListener(eventName as any, ({ detail }: CustomEvent<Selection>) => {
+      (window as SelectionEventTestWindow).eventDetail = detail;
+    });
+  }, eventName);
+
+  return async (expectedItemIds: SelectedItemsAssertionOptions["expectedItemIds"]) => {
+    await page.waitForChanges();
+
+    await assertSelectedItems(groupElementTagName, page, { expectedItemIds });
+  };
+}
