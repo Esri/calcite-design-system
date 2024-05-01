@@ -62,7 +62,7 @@
     "directory": "packages/calcite-components"
   },
   "dependencies": {
-    "@floating-ui/dom": "1.6.3",
+    "@floating-ui/dom": "1.6.4",
     "@stencil/core": "4.17.1",
     "@types/color": "3.0.6",
     "color": "4.2.3",
