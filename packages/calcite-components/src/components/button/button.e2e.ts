@@ -756,8 +756,6 @@ describe("calcite-button", () => {
     expect(elementHost).not.toBeNull();
     expect(elementAsButton).not.toBeNull();
     expect(elementHost).toEqualAttribute("width", "full");
-    console.log(await elementAsButton.getComputedStyle("width"));
-    console.log(await elementHost.getComputedStyle("width"));
-    expect(await elementAsButton.getComputedStyle("width")).toEqual(await elementHost.getComputedStyle("width"));
+    expect(await elementAsButton.getComputedStyle()["width"]).toEqual(await elementHost.getComputedStyle()["width"]);
   });
 });
