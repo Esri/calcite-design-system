@@ -186,11 +186,6 @@ export class Chip
   /**
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalChipKeyEvent: EventEmitter<KeyboardEvent>;
-
-  /**
-   * @internal
-   */
   @Event({ cancelable: false }) calciteInternalChipSelect: EventEmitter<void>;
 
   /**
@@ -247,13 +242,6 @@ export class Chip
         case " ":
         case "Enter":
           this.handleEmittingEvent();
-          event.preventDefault();
-          break;
-        case "ArrowRight":
-        case "ArrowLeft":
-        case "Home":
-        case "End":
-          this.calciteInternalChipKeyEvent.emit(event);
           event.preventDefault();
           break;
       }

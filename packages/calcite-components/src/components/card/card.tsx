@@ -124,11 +124,6 @@ export class Card
   /** Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected. */
   @Event({ cancelable: false }) calciteCardSelect: EventEmitter<void>;
 
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalCardKeyEvent: EventEmitter<KeyboardEvent>;
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -211,16 +206,6 @@ export class Card
       if (isActivationKey(event.key) && this.selectionMode !== "none") {
         this.calciteCardSelect.emit();
         event.preventDefault();
-      } else {
-        switch (event.key) {
-          case "ArrowRight":
-          case "ArrowLeft":
-          case "Home":
-          case "End":
-            this.calciteInternalCardKeyEvent.emit(event);
-            event.preventDefault();
-            break;
-        }
       }
     }
   };

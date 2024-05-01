@@ -188,11 +188,6 @@ export class Tile implements InteractiveComponent, SelectableComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalTileKeyEvent: EventEmitter<KeyboardEvent>;
-
-  /**
    * Fires when the selected state of the component changes.
    */
   @Event() calciteTileSelect: EventEmitter<void>;
@@ -257,15 +252,6 @@ export class Tile implements InteractiveComponent, SelectableComponent {
         case " ":
         case "Enter":
           this.handleSelectEvent();
-          event.preventDefault();
-          break;
-        case "ArrowDown":
-        case "ArrowLeft":
-        case "ArrowRight":
-        case "ArrowUp":
-        case "Home":
-        case "End":
-          this.calciteInternalTileKeyEvent.emit(event);
           event.preventDefault();
           break;
       }

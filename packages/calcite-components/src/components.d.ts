@@ -36,7 +36,6 @@ import { DatePickerMessages } from "./components/date-picker/assets/date-picker/
 import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
-import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 import { FilterMessages } from "./components/filter/assets/filter/t9n";
 import { FlowItemLikeElement } from "./components/flow/interfaces";
 import { FlowItemMessages } from "./components/flow-item/assets/flow-item/t9n";
@@ -60,7 +59,6 @@ import { SelectionAppearance } from "./components/list/resources";
 import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 import { MenuMessages } from "./components/menu/assets/menu/t9n";
 import { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
-import { MenuItemCustomEvent } from "./components/menu-item/interfaces";
 import { MeterLabelType } from "./components/meter/interfaces";
 import { ModalMessages } from "./components/modal/assets/modal/t9n";
 import { NoticeMessages } from "./components/notice/assets/notice/t9n";
@@ -76,7 +74,7 @@ import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 import { DragDetail } from "./utils/sortableComponent";
-import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
+import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperLayout } from "./components/stepper/interfaces";
 import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
@@ -126,7 +124,6 @@ export { DatePickerMessages } from "./components/date-picker/assets/date-picker/
 export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
-export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 export { FilterMessages } from "./components/filter/assets/filter/t9n";
 export { FlowItemLikeElement } from "./components/flow/interfaces";
 export { FlowItemMessages } from "./components/flow-item/assets/flow-item/t9n";
@@ -150,7 +147,6 @@ export { SelectionAppearance } from "./components/list/resources";
 export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 export { MenuMessages } from "./components/menu/assets/menu/t9n";
 export { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
-export { MenuItemCustomEvent } from "./components/menu-item/interfaces";
 export { MeterLabelType } from "./components/meter/interfaces";
 export { ModalMessages } from "./components/modal/assets/modal/t9n";
 export { NoticeMessages } from "./components/notice/assets/notice/t9n";
@@ -166,7 +162,7 @@ export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
 export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 export { DragDetail } from "./utils/sortableComponent";
-export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
+export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperLayout } from "./components/stepper/interfaces";
 export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
 export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
@@ -6126,7 +6122,6 @@ declare global {
     };
     interface HTMLCalciteCardElementEventMap {
         "calciteCardSelect": void;
-        "calciteInternalCardKeyEvent": KeyboardEvent;
     }
     interface HTMLCalciteCardElement extends Components.CalciteCard, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteCardElementEventMap>(type: K, listener: (this: HTMLCalciteCardElement, ev: CalciteCardCustomEvent<HTMLCalciteCardElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6208,7 +6203,6 @@ declare global {
     interface HTMLCalciteChipElementEventMap {
         "calciteChipClose": void;
         "calciteChipSelect": void;
-        "calciteInternalChipKeyEvent": KeyboardEvent;
         "calciteInternalChipSelect": void;
         "calciteInternalSyncSelectedChips": void;
     }
@@ -6444,7 +6438,6 @@ declare global {
     interface HTMLCalciteDropdownItemElementEventMap {
         "calciteDropdownItemSelect": void;
         "calciteInternalDropdownItemSelect": RequestedItem2;
-        "calciteInternalDropdownItemKeyEvent": ItemKeyboardEvent;
         "calciteInternalDropdownCloseRequest": void;
     }
     interface HTMLCalciteDropdownItemElement extends Components.CalciteDropdownItem, HTMLStencilElement {
@@ -6799,7 +6792,6 @@ declare global {
         new (): HTMLCalciteMenuElement;
     };
     interface HTMLCalciteMenuItemElementEventMap {
-        "calciteInternalMenuItemKeyEvent": MenuItemCustomEvent;
         "calciteMenuItemSelect": void;
     }
     interface HTMLCalciteMenuItemElement extends Components.CalciteMenuItem, HTMLStencilElement {
@@ -7287,7 +7279,6 @@ declare global {
         new (): HTMLCalciteStepperElement;
     };
     interface HTMLCalciteStepperItemElementEventMap {
-        "calciteInternalStepperItemKeyEvent": StepperItemKeyEventDetail;
         "calciteInternalStepperItemSelect": StepperItemEventDetail;
         "calciteInternalUserRequestedStepperItemSelect": StepperItemChangeEventDetail;
         "calciteInternalStepperItemRegister": StepperItemEventDetail;
@@ -7458,7 +7449,6 @@ declare global {
         new (): HTMLCalciteTextAreaElement;
     };
     interface HTMLCalciteTileElementEventMap {
-        "calciteInternalTileKeyEvent": KeyboardEvent;
         "calciteTileSelect": void;
     }
     interface HTMLCalciteTileElement extends Components.CalciteTile, HTMLStencilElement {
@@ -8417,7 +8407,6 @@ declare namespace LocalJSX {
           * Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected.
          */
         "onCalciteCardSelect"?: (event: CalciteCardCustomEvent<void>) => void;
-        "onCalciteInternalCardKeyEvent"?: (event: CalciteCardCustomEvent<KeyboardEvent>) => void;
         /**
           * When `true`, the component is selectable.
           * @deprecated use `selectionMode` property on a parent `calcite-card-group` instead.
@@ -8657,7 +8646,6 @@ declare namespace LocalJSX {
           * Fires when the selected state of the component changes.
          */
         "onCalciteChipSelect"?: (event: CalciteChipCustomEvent<void>) => void;
-        "onCalciteInternalChipKeyEvent"?: (event: CalciteChipCustomEvent<KeyboardEvent>) => void;
         "onCalciteInternalChipSelect"?: (event: CalciteChipCustomEvent<void>) => void;
         "onCalciteInternalSyncSelectedChips"?: (event: CalciteChipCustomEvent<void>) => void;
         "parentChipGroup"?: HTMLCalciteChipGroupElement;
@@ -9411,7 +9399,6 @@ declare namespace LocalJSX {
          */
         "onCalciteDropdownItemSelect"?: (event: CalciteDropdownItemCustomEvent<void>) => void;
         "onCalciteInternalDropdownCloseRequest"?: (event: CalciteDropdownItemCustomEvent<void>) => void;
-        "onCalciteInternalDropdownItemKeyEvent"?: (event: CalciteDropdownItemCustomEvent<ItemKeyboardEvent>) => void;
         "onCalciteInternalDropdownItemSelect"?: (event: CalciteDropdownItemCustomEvent<RequestedItem2>) => void;
         /**
           * Specifies the relationship to the linked document defined in `href`.
@@ -10955,7 +10942,6 @@ declare namespace LocalJSX {
           * Made into a prop for testing purposes only.
          */
         "messages"?: MenuItemMessages;
-        "onCalciteInternalMenuItemKeyEvent"?: (event: CalciteMenuItemCustomEvent<MenuItemCustomEvent>) => void;
         /**
           * Emits when the component is selected.
          */
@@ -12490,7 +12476,6 @@ declare namespace LocalJSX {
          */
         "numbered"?: boolean;
         "numberingSystem"?: NumberingSystem;
-        "onCalciteInternalStepperItemKeyEvent"?: (event: CalciteStepperItemCustomEvent<StepperItemKeyEventDetail>) => void;
         "onCalciteInternalStepperItemRegister"?: (event: CalciteStepperItemCustomEvent<StepperItemEventDetail>) => void;
         "onCalciteInternalStepperItemSelect"?: (event: CalciteStepperItemCustomEvent<StepperItemEventDetail>) => void;
         "onCalciteInternalUserRequestedStepperItemSelect"?: (event: CalciteStepperItemCustomEvent<StepperItemChangeEventDetail>) => void;
@@ -13038,7 +13023,6 @@ declare namespace LocalJSX {
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
         "layout"?: Exclude<Layout, "grid">;
-        "onCalciteInternalTileKeyEvent"?: (event: CalciteTileCustomEvent<KeyboardEvent>) => void;
         /**
           * Fires when the selected state of the component changes.
          */

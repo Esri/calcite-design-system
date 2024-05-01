@@ -43,7 +43,6 @@ import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
-import { ItemKeyboardEvent } from "./interfaces";
 import { SLOTS } from "./resources";
 
 /**
@@ -231,13 +230,12 @@ export class Dropdown
   render(): VNode {
     const { open, guid } = this;
     return (
-      <Host>
+      <Host onKeyDown={this.keyDownHandler}>
         <InteractiveContainer disabled={this.disabled}>
           <div
             class="calcite-trigger-container"
             id={`${guid}-menubutton`}
             onClick={this.openCalciteDropdown}
-            onKeyDown={this.keyDownHandler}
             // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setReferenceEl}
           >
@@ -369,34 +367,6 @@ export class Dropdown
 
   private getTraversableItems(): HTMLCalciteDropdownItemElement[] {
     return this.items.filter((item) => !item.disabled && !item.hidden);
-  }
-
-  @Listen("calciteInternalDropdownItemKeyEvent")
-  calciteInternalDropdownItemKeyEvent(event: CustomEvent<ItemKeyboardEvent>): void {
-    const { keyboardEvent } = event.detail;
-    const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
-    const traversableItems = this.getTraversableItems();
-
-    switch (keyboardEvent.key) {
-      case "Tab":
-        this.open = false;
-        this.updateTabIndexOfItems(target);
-        break;
-      case "ArrowDown":
-        focusElementInGroup(traversableItems, target, "next");
-        break;
-      case "ArrowUp":
-        focusElementInGroup(traversableItems, target, "previous");
-        break;
-      case "Home":
-        focusElementInGroup(traversableItems, target, "first");
-        break;
-      case "End":
-        focusElementInGroup(traversableItems, target, "last");
-        break;
-    }
-
-    event.stopPropagation();
   }
 
   @Listen("calciteInternalDropdownItemSelect")
@@ -569,9 +539,9 @@ export class Dropdown
   };
 
   private keyDownHandler = (event: KeyboardEvent): void => {
-    if (!event.composedPath().includes(this.referenceEl)) {
-      return;
-    }
+    // if (!event.composedPath().includes(this.referenceEl)) {
+    //   return;
+    // }
 
     const { defaultPrevented, key } = event;
 
@@ -597,6 +567,34 @@ export class Dropdown
     } else if (key === "Escape") {
       this.closeCalciteDropdown();
       event.preventDefault();
+    }
+
+    const keyboardEvent = event;
+    const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
+    const traversableItems = this.getTraversableItems();
+
+    switch (keyboardEvent.key) {
+      case "Tab":
+        this.open = false;
+        this.updateTabIndexOfItems(target);
+        break;
+      case "ArrowDown":
+        console.log("loggg");
+        focusElementInGroup(traversableItems, target, "next");
+        event.preventDefault();
+        break;
+      case "ArrowUp":
+        focusElementInGroup(traversableItems, target, "previous");
+        event.preventDefault();
+        break;
+      case "Home":
+        focusElementInGroup(traversableItems, target, "first");
+        event.preventDefault();
+        break;
+      case "End":
+        focusElementInGroup(traversableItems, target, "last");
+        event.preventDefault();
+        break;
     }
   };
 

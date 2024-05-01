@@ -11,7 +11,6 @@ import {
   VNode,
 } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
-import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import {
@@ -89,10 +88,6 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalDropdownItemSelect: EventEmitter<RequestedItem>;
-
-  /** @internal */
-  @Event({ cancelable: false })
-  calciteInternalDropdownItemKeyEvent: EventEmitter<ItemKeyboardEvent>;
 
   /** @internal */
   @Event({ cancelable: false }) calciteInternalDropdownCloseRequest: EventEmitter<void>;
@@ -268,16 +263,6 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
       case "Escape":
         this.calciteInternalDropdownCloseRequest.emit();
         event.preventDefault();
-        break;
-      case "Tab":
-        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: event });
-        break;
-      case "ArrowUp":
-      case "ArrowDown":
-      case "Home":
-      case "End":
-        event.preventDefault();
-        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: event });
         break;
     }
   }

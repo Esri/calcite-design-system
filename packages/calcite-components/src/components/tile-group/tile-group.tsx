@@ -202,28 +202,31 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInternalTileKeyEvent")
-  calciteInternalTileKeyEventListener(event: CustomEvent): void {
+  @Listen("keydown")
+  keyDownEventListener(event: KeyboardEvent): void {
     if (event.composedPath().includes(this.el)) {
       event.preventDefault();
       event.stopPropagation();
       const interactiveItems = this.items?.filter((el) => !el.disabled);
-      switch (event.detail.key) {
-        case "ArrowDown":
-        case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.detail.target, "next");
-          break;
-        case "ArrowUp":
-        case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.detail.target, "previous");
-          break;
-        case "Home":
-          focusElementInGroup(interactiveItems, event.detail.target, "first");
-          break;
-        case "End":
-          focusElementInGroup(interactiveItems, event.detail.target, "last");
-          break;
+
+      const key = event.key;
+      const toDirection =
+        key === "ArrowRight" || key === "ArrowDown"
+          ? "next"
+          : key === "ArrowLeft" || key === "ArrowUp"
+            ? "previous"
+            : key === "Home"
+              ? "first"
+              : key === "End"
+                ? "last"
+                : null;
+
+      if (!toDirection) {
+        return;
       }
+
+      event.preventDefault();
+      focusElementInGroup(interactiveItems, event.target as HTMLCalciteCardElement, toDirection);
     }
   }
 

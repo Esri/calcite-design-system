@@ -31,7 +31,6 @@ import {
 } from "../../utils/t9n";
 import { LocalizedComponent, connectLocalized, disconnectLocalized } from "../../utils/locale";
 import { CSS } from "./resources";
-import { MenuItemCustomEvent } from "./interfaces";
 import { MenuItemMessages } from "./assets/menu-item/t9n";
 
 type Layout = "horizontal" | "vertical";
@@ -172,8 +171,6 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   //  Events
   //
   //--------------------------------------------------------------------------
-  /** @internal */
-  @Event({ cancelable: true }) calciteInternalMenuItemKeyEvent: EventEmitter<MenuItemCustomEvent>;
 
   /** Emits when the component is selected.*/
   @Event() calciteMenuItemSelect: EventEmitter<void>;
@@ -266,7 +263,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   };
 
   private keyDownHandler = async (event: KeyboardEvent): Promise<void> => {
-    const { hasSubmenu, href, layout, open, submenuItems } = this;
+    const { hasSubmenu, href, layout, open } = this;
     const key = event.key;
     const targetIsDropdown = event.target === this.dropdownActionEl;
 
@@ -287,39 +284,21 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     } else if (key === "Escape") {
       if (open) {
         this.open = false;
+        event.preventDefault();
         return;
       }
-      this.calciteInternalMenuItemKeyEvent.emit({ event });
-      event.preventDefault();
     } else if (key === "ArrowDown" || key === "ArrowUp") {
-      event.preventDefault();
       if ((targetIsDropdown || !href) && hasSubmenu && !open && layout === "horizontal") {
         this.open = true;
+        event.preventDefault();
         return;
       }
-      this.calciteInternalMenuItemKeyEvent.emit({
-        event,
-        children: submenuItems,
-        isSubmenuOpen: open && hasSubmenu,
-      });
-    } else if (key === "ArrowLeft") {
-      event.preventDefault();
-      this.calciteInternalMenuItemKeyEvent.emit({
-        event,
-        children: submenuItems,
-        isSubmenuOpen: true,
-      });
     } else if (key === "ArrowRight") {
-      event.preventDefault();
       if ((targetIsDropdown || !href) && hasSubmenu && !open && layout === "vertical") {
         this.open = true;
+        event.preventDefault();
         return;
       }
-      this.calciteInternalMenuItemKeyEvent.emit({
-        event,
-        children: submenuItems,
-        isSubmenuOpen: open && hasSubmenu,
-      });
     }
   };
 

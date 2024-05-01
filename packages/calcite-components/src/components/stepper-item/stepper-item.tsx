@@ -23,7 +23,6 @@ import {
 import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
-  StepperItemKeyEventDetail,
   StepperLayout,
 } from "../stepper/interfaces";
 import {
@@ -187,12 +186,6 @@ export class StepperItem
    * @internal
    */
   @Event({ cancelable: false })
-  calciteInternalStepperItemKeyEvent: EventEmitter<StepperItemKeyEventDetail>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false })
   calciteInternalStepperItemSelect: EventEmitter<StepperItemEventDetail>;
 
   /**
@@ -347,15 +340,6 @@ export class StepperItem
         case " ":
         case "Enter":
           this.emitUserRequestedItem();
-          event.preventDefault();
-          break;
-        case "ArrowUp":
-        case "ArrowDown":
-        case "ArrowLeft":
-        case "ArrowRight":
-        case "Home":
-        case "End":
-          this.calciteInternalStepperItemKeyEvent.emit({ item: event });
           event.preventDefault();
           break;
       }

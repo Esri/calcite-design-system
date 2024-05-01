@@ -32,11 +32,7 @@ import {
 } from "../../utils/t9n";
 import { CSS } from "./resources";
 import { StepBar } from "./functional/step-bar";
-import {
-  StepperItemChangeEventDetail,
-  StepperItemKeyEventDetail,
-  StepperLayout,
-} from "./interfaces";
+import { StepperItemChangeEventDetail, StepperLayout } from "./interfaces";
 import { StepperMessages } from "./assets/stepper/t9n";
 
 /**
@@ -209,28 +205,27 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInternalStepperItemKeyEvent")
-  calciteInternalStepperItemKeyEvent(event: CustomEvent<StepperItemKeyEventDetail>): void {
-    const item = event.detail.item;
-    const itemToFocus = event.target as HTMLCalciteStepperItemElement;
+  @Listen("keydown")
+  keyDownEvent(event: KeyboardEvent): void {
+    const key = event.key;
+    const interactiveItems = this.enabledItems;
+    const toDirection =
+      key === "ArrowRight" || key === "ArrowDown"
+        ? "next"
+        : key === "ArrowLeft" || key === "ArrowUp"
+          ? "previous"
+          : key === "Home"
+            ? "first"
+            : key === "End"
+              ? "last"
+              : null;
 
-    switch (item.key) {
-      case "ArrowDown":
-      case "ArrowRight":
-        focusElementInGroup(this.enabledItems, itemToFocus, "next");
-        break;
-      case "ArrowUp":
-      case "ArrowLeft":
-        focusElementInGroup(this.enabledItems, itemToFocus, "previous");
-        break;
-      case "Home":
-        focusElementInGroup(this.enabledItems, itemToFocus, "first");
-        break;
-      case "End":
-        focusElementInGroup(this.enabledItems, itemToFocus, "last");
-        break;
+    if (!toDirection) {
+      return;
     }
-    event.stopPropagation();
+
+    event.preventDefault();
+    focusElementInGroup(interactiveItems, event.target as HTMLCalciteCardElement, toDirection);
   }
 
   @Listen("calciteInternalStepperItemRegister")

@@ -153,49 +153,55 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInternalMenuItemKeyEvent")
-  calciteInternalNavMenuItemKeyEvent(event: CustomEvent): void {
+  @Listen("keydown")
+  calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const target = event.target as HTMLCalciteMenuItemElement;
-    const submenuItems = event.detail.children;
-    const key = event.detail.event.key;
-    event.stopPropagation();
+    const submenuItems = Array.from(target.children) as HTMLCalciteMenuItemElement[];
+    const isSubmenuOpen = submenuItems.some((item) => item.open);
+    const key = event.key;
 
     if (key === "ArrowDown") {
       if (target.layout === "vertical") {
         focusElementInGroup(this.menuItems, target, "next", false);
       } else {
-        if (event.detail.isSubmenuOpen) {
+        if (isSubmenuOpen) {
           submenuItems[0].setFocus();
         }
       }
+      event.preventDefault();
     } else if (key === "ArrowUp") {
       if (this.layout === "vertical") {
         focusElementInGroup(this.menuItems, target, "previous", false);
       } else {
-        if (event.detail.isSubmenuOpen) {
+        if (isSubmenuOpen) {
           submenuItems[submenuItems.length - 1].setFocus();
         }
       }
+      event.preventDefault();
     } else if (key === "ArrowRight") {
       if (this.layout === "horizontal") {
         focusElementInGroup(this.menuItems, target, "next", false);
       } else {
-        if (event.detail.isSubmenuOpen) {
+        if (isSubmenuOpen) {
           submenuItems[0].setFocus();
         }
       }
+      event.preventDefault();
     } else if (key === "ArrowLeft") {
       if (this.layout === "horizontal") {
         focusElementInGroup(this.menuItems, target, "previous", false);
       } else {
-        if (event.detail.isSubmenuOpen) {
-          this.focusParentElement(event.target as HTMLCalciteMenuItemElement);
-        }
+        this.focusParentElement(target);
       }
+      event.preventDefault();
     } else if (key === "Escape") {
-      this.focusParentElement(event.target as HTMLCalciteMenuItemElement);
+      this.focusParentElement(target);
+      event.preventDefault();
     }
-    event.preventDefault();
   }
 
   //--------------------------------------------------------------------------

@@ -125,24 +125,29 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInternalCardKeyEvent")
-  calciteInternalCardKeyEventListener(event: KeyboardEvent): void {
+  @Listen("keydown")
+  keyDownEventListener(event: KeyboardEvent): void {
     if (event.composedPath().includes(this.el)) {
       const interactiveItems = this.items.filter((el) => !el.disabled);
-      switch (event.detail["key"]) {
-        case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.target as HTMLCalciteCardElement, "next");
-          break;
-        case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.target as HTMLCalciteCardElement, "previous");
-          break;
-        case "Home":
-          focusElementInGroup(interactiveItems, event.target as HTMLCalciteCardElement, "first");
-          break;
-        case "End":
-          focusElementInGroup(interactiveItems, event.target as HTMLCalciteCardElement, "last");
-          break;
+
+      const key = event.key;
+      const toDirection =
+        key === "ArrowRight"
+          ? "next"
+          : key === "ArrowLeft"
+            ? "previous"
+            : key === "Home"
+              ? "first"
+              : key === "End"
+                ? "last"
+                : null;
+
+      if (!toDirection) {
+        return;
       }
+
+      event.preventDefault();
+      focusElementInGroup(interactiveItems, event.target as HTMLCalciteCardElement, toDirection);
     }
   }
 
