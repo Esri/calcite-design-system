@@ -126,44 +126,23 @@
         });
       </script> -->
 
-      <calcite-sheet
-        width-scale="l"
-        id="example-sheet"
-        label="libero nunc"
-        position="inline-start"
-        display-mode="overlay"
-      >
-        <calcite-panel closable heading="Ultrices neque">
-          <calcite-block open heading="Preview Sheet options">
-            <calcite-label
-              >width-scale
-              <calcite-segmented-control id="control-width">
-                <calcite-segmented-control-item value="s">s</calcite-segmented-control-item>
-                <calcite-segmented-control-item value="m" checked>m</calcite-segmented-control-item>
-                <calcite-segmented-control-item value="l">l</calcite-segmented-control-item>
-              </calcite-segmented-control>
-            </calcite-label>
-          </calcite-block>
+      <calcite-sheet id="example-sheet" label="libero nunc" position="inline-start" display-mode="overlay">
+        <calcite-panel closable>
+          <calcite-block open heading="Preview Sheet options"> </calcite-block>
           <calcite-button onClick="openComponent('example-modal')"> Open Modal from Sheet</calcite-button>
         </calcite-panel>
       </calcite-sheet>
 
-      <calcite-modal id="example-modal" class="js-modal-s-s" width-scale="s" scale="s">
+      <calcite-modal id="example-modal">
         <div slot="content">
           <p>This is an example modal that opens from a Sheet.</p>
         </div>
-        <calcite-button
-          slot="back"
-          width="full"
-          scale="s"
-          kind="neutral"
-          appearance="outline"
-          onClick="openComponent('another-modal')"
+        <calcite-button slot="back" width="full" onClick="openComponent('another-modal')"
           >Open Another Modal</calcite-button
         >
       </calcite-modal>
 
-      <calcite-modal id="another-modal" width-scale="s" scale="s">
+      <calcite-modal id="another-modal">
         <div slot="content" style="display: flex; flex-direction: column; gap: 12px">
           <p>
             This is an example of a another modal that opens from a modal. This modal an input date picker, a combobox,
@@ -171,7 +150,7 @@
           </p>
           <calcite-label>
             Input Date Picker
-            <calcite-input-date-picker scale="s" value="2023-03-07" id="input-date-picker"></calcite-input-date-picker>
+            <calcite-input-date-picker value="2023-03-07" id="input-date-picker"></calcite-input-date-picker>
           </calcite-label>
           <calcite-label>
             Input Time Picker
@@ -182,7 +161,6 @@
             placeholder="placeholder"
             max-items="8"
             selection-mode="ancestors"
-            scale="m"
             style="width: 200px"
             id="combobox"
           >
