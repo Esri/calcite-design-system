@@ -7,8 +7,10 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
 } from "@stencil/core";
+import { camelCase } from "lodash-es";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -17,7 +19,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
-import { toAriaBoolean } from "../../utils/dom";
+import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
   componentFocusable,
   setComponentLoaded,
@@ -181,6 +183,10 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
   private containerEl: HTMLDivElement;
 
+  @State() hasContentEnd = false;
+
+  @State() hasContentStart = false;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -212,6 +218,12 @@ export class Tile implements InteractiveComponent, SelectableComponent {
       return;
     }
     this.calciteTileSelect.emit();
+  };
+
+  private handleSlotChange = (event: Event): void => {
+    const slotNameCamelCased = camelCase((event.target as HTMLSlotElement).name);
+    const slotName = slotNameCamelCased.charAt(0).toUpperCase() + slotNameCamelCased.slice(1);
+    this[`has${slotName}`] = slotChangeHasAssignedElement(event);
   };
 
   private setContainerEl = (el): void => {
@@ -301,7 +313,17 @@ export class Tile implements InteractiveComponent, SelectableComponent {
   }
 
   renderTile(): VNode {
-    const { description, disabled, heading, icon, iconFlipRtl, interactive, selectionMode } = this;
+    const {
+      description,
+      disabled,
+      hasContentEnd,
+      hasContentStart,
+      heading,
+      icon,
+      iconFlipRtl,
+      interactive,
+      selectionMode,
+    } = this;
     const isLargeVisual = heading && icon && !Boolean(description);
     const disableInteraction = Boolean(this.href) || !interactive;
     const role =
@@ -312,6 +334,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
           : interactive
             ? "button"
             : undefined;
+    const hasContent = Boolean(description || hasContentEnd || hasContentStart || heading || icon);
     return (
       <div
         aria-checked={
@@ -334,16 +357,16 @@ export class Tile implements InteractiveComponent, SelectableComponent {
         ref={this.setContainerEl}
       >
         {this.renderSelectionIcon()}
-        <div class={CSS.column}>
+        <div class={{ [CSS.column]: true, [CSS.hasContent]: hasContent }}>
           <slot name={SLOTS.contentTop} />
           {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
           <div class={{ [CSS.contentContainer]: true, [CSS.row]: true }}>
-            <slot name={SLOTS.contentStart} />
+            <slot name={SLOTS.contentStart} onSlotchange={this.handleSlotChange} />
             <div class={CSS.textContent}>
-              {heading && <div class={CSS.heading}>{heading}</div>}
-              {description && <div class={CSS.description}>{description}</div>}
+              <div class={CSS.heading}>{heading}</div>
+              <div class={CSS.description}>{description}</div>
             </div>
-            <slot name={SLOTS.contentEnd} />
+            <slot name={SLOTS.contentEnd} onSlotchange={this.handleSlotChange} />
           </div>
           <slot name={SLOTS.contentBottom} />
         </div>

@@ -117,7 +117,7 @@
   .container {
     padding: var(--calcite-spacing-sm);
   }
-  .column,
+  .column.has-content,
   .row {
     gap: var(--calcite-spacing-sm);
   }
@@ -137,7 +137,7 @@
   .container {
     padding: var(--calcite-spacing-md);
   }
-  .column,
+  .column.has-content,
   .row {
     gap: var(--calcite-spacing-md);
   }
@@ -157,7 +157,7 @@
   .container {
     padding: var(--calcite-spacing-xl);
   }
-  .column,
+  .column.has-content,
   .row {
     gap: var(--calcite-spacing-xl);
   }

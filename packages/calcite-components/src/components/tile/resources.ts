@@ -3,6 +3,7 @@ export const CSS = {
   container: "container",
   contentContainer: "content-container",
   description: "description",
+  hasContent: "has-content",
   heading: "heading",
   interactive: "interactive",
   largeVisualDeprecated: "large-visual-deprecated",
