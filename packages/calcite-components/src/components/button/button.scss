@@ -685,6 +685,16 @@
   @apply text-0h w-11;
   min-block-size: theme("height.11");
 }
+
+:host(:is([scale="s"], [scale="m"], [scale="l"])[width="full"]) {
+  a,
+  button {
+    &:not(.content--slotted) {
+      inline-size: var(--calcite-container-size-content-fluid);
+    }
+  }
+}
+
 // accommodate for transparent buttons not having borders
 :host([scale="l"][appearance="transparent"]) button:not(.content--slotted),
 :host([scale="l"][appearance="transparent"]) a:not(.content--slotted) {
