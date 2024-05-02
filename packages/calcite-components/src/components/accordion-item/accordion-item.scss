@@ -192,6 +192,10 @@
   @apply flex items-center;
 }
 
+slot[name="actions-start"] {
+  block-size: 100%;
+}
+
 @media (forced-colors: active) {
   :host([expanded]) {
     & .header {
