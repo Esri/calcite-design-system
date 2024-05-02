@@ -340,7 +340,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
           : interactive
             ? "button"
             : undefined;
-    const hasContent = Boolean(description || hasContentEnd || hasContentStart || heading || icon);
+    const hasContent = !!(description || hasContentEnd || hasContentStart || heading || icon);
     const hasOnlyContentTopAndBottom = !hasContent && hasContentTop && hasContentBottom;
     return (
       <div
