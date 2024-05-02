@@ -373,7 +373,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
         >
           <slot name={SLOTS.contentTop} onSlotchange={this.handleSlotChange} />
           {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
-          <div class={{ [CSS.contentContainer]: true, [CSS.row]: true }}>
+          <div class={{ [CSS.textContentContainer]: true, [CSS.row]: true }}>
             <slot name={SLOTS.contentStart} onSlotchange={this.handleSlotChange} />
             <div class={CSS.textContent}>
               {heading && <div class={CSS.heading}>{heading}</div>}
