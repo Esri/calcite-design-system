@@ -4,6 +4,7 @@ export const CSS = {
   contentContainer: "content-container",
   description: "description",
   hasContent: "has-content",
+  hasOnlyContentTopAndBottom: "has-only-content-top-and-bottom",
   heading: "heading",
   interactive: "interactive",
   largeVisualDeprecated: "large-visual-deprecated",

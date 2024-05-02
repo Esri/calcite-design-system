@@ -183,9 +183,13 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
   private containerEl: HTMLDivElement;
 
+  @State() hasContentBottom = false;
+
   @State() hasContentEnd = false;
 
   @State() hasContentStart = false;
+
+  @State() hasContentTop = false;
 
   //--------------------------------------------------------------------------
   //
@@ -316,8 +320,10 @@ export class Tile implements InteractiveComponent, SelectableComponent {
     const {
       description,
       disabled,
+      hasContentBottom,
       hasContentEnd,
       hasContentStart,
+      hasContentTop,
       heading,
       icon,
       iconFlipRtl,
@@ -335,6 +341,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
             ? "button"
             : undefined;
     const hasContent = Boolean(description || hasContentEnd || hasContentStart || heading || icon);
+    const hasOnlyContentTopAndBottom = !hasContent && hasContentTop && hasContentBottom;
     return (
       <div
         aria-checked={
@@ -357,8 +364,14 @@ export class Tile implements InteractiveComponent, SelectableComponent {
         ref={this.setContainerEl}
       >
         {this.renderSelectionIcon()}
-        <div class={{ [CSS.column]: true, [CSS.hasContent]: hasContent }}>
-          <slot name={SLOTS.contentTop} />
+        <div
+          class={{
+            [CSS.column]: true,
+            [CSS.hasContent]: hasContent,
+            [CSS.hasOnlyContentTopAndBottom]: hasOnlyContentTopAndBottom,
+          }}
+        >
+          <slot name={SLOTS.contentTop} onSlotchange={this.handleSlotChange} />
           {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
           <div class={{ [CSS.contentContainer]: true, [CSS.row]: true }}>
             <slot name={SLOTS.contentStart} onSlotchange={this.handleSlotChange} />
@@ -368,7 +381,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
             </div>
             <slot name={SLOTS.contentEnd} onSlotchange={this.handleSlotChange} />
           </div>
-          <slot name={SLOTS.contentBottom} />
+          <slot name={SLOTS.contentBottom} onSlotchange={this.handleSlotChange} />
         </div>
       </div>
     );

@@ -129,6 +129,9 @@
     font-size: var(--calcite-font-size--3);
     line-height: 0.85938rem;
   }
+  .has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
+    margin-block-end: var(--calcite-spacing-sm);
+  }
 }
 
 :host([scale="m"]) {
@@ -149,6 +152,9 @@
     font-size: var(--calcite-font-size--2);
     line-height: 1.03125rem;
   }
+  .has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
+    margin-block-end: var(--calcite-spacing-md);
+  }
 }
 
 :host([scale="l"]) {
@@ -168,6 +174,9 @@
   .description {
     font-size: var(--calcite-font-size--1);
     line-height: 1.20313rem;
+  }
+  .has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
+    margin-block-end: var(--calcite-spacing-xl);
   }
 }
 
