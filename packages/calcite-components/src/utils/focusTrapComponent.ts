@@ -35,7 +35,7 @@ export interface FocusTrapComponent {
   updateFocusTrapElements?: () => Promise<void>;
 
   /**
-   * Method that gets called when the focus trap is deactivated.
+   * Method that will be called before returning focus to the node that had focus prior to activation upon deactivation.
    */
   onFocusTrapDeactivate?(): void;
 }
