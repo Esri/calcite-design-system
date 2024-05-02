@@ -368,7 +368,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
           class={{
             [CSS.contentContainer]: true,
             [CSS.contentContainerHasContent]: hasContent,
-            [CSS.hasOnlyContentTopAndBottom]: hasOnlyContentTopAndBottom,
+            [CSS.contentContainerHasOnlyContentTopAndBottom]: hasOnlyContentTopAndBottom,
           }}
         >
           <slot name={SLOTS.contentTop} onSlotchange={this.handleSlotChange} />
