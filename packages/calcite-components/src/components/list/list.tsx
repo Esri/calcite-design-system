@@ -254,7 +254,7 @@ export class List
    */
   @Event({ cancelable: false }) calciteInternalListDefaultSlotChange: EventEmitter<void>;
 
-  @Listen("calciteListItemToggle")
+  @Listen("calciteInternalListItemToggle")
   handleCalciteListItemToggle(): void {
     if (this.parentListEl) {
       return;
