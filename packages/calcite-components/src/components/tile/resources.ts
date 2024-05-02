@@ -1,6 +1,6 @@
 export const CSS = {
-  column: "column",
   container: "container",
+  contentContainer: "content-container",
   textContentContainer: "text-content-container",
   description: "description",
   hasContent: "has-content",

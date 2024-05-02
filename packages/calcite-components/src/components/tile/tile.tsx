@@ -366,7 +366,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
         {this.renderSelectionIcon()}
         <div
           class={{
-            [CSS.column]: true,
+            [CSS.contentContainer]: true,
             [CSS.hasContent]: hasContent,
             [CSS.hasOnlyContentTopAndBottom]: hasOnlyContentTopAndBottom,
           }}
