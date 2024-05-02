@@ -483,7 +483,6 @@ export class Modal
     deactivateFocusTrap(this);
   }
 
-  /** Leverage the `focus-trap` builtin stack to handle closing a sequence of open components, instead of components handling own `escape`. */
   onFocusTrapDeactivate(): void {
     this.open = false;
   }

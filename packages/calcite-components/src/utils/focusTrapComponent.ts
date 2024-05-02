@@ -34,6 +34,9 @@ export interface FocusTrapComponent {
    */
   updateFocusTrapElements?: () => Promise<void>;
 
+  /**
+   * Method that gets called when the focus trap is deactivated.
+   */
   onFocusTrapDeactivate?(): void;
 }
 
@@ -69,10 +72,7 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
     clickOutsideDeactivates: !component.outsideCloseDisabled ?? true,
     escapeDeactivates: !component.escapeDisabled ?? true,
     fallbackFocus: focusTrapNode,
-    onDeactivate: () => {
-      component.onFocusTrapDeactivate();
-      console.log("focus trap deactivated");
-    },
+    onDeactivate: () => component.onFocusTrapDeactivate(),
     setReturnFocus: (el) => {
       focusElement(el as FocusableElement);
       return false;
