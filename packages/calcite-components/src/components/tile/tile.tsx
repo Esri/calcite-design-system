@@ -367,7 +367,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
         <div
           class={{
             [CSS.contentContainer]: true,
-            [CSS.hasContent]: hasContent,
+            [CSS.contentContainerHasContent]: hasContent,
             [CSS.hasOnlyContentTopAndBottom]: hasOnlyContentTopAndBottom,
           }}
         >

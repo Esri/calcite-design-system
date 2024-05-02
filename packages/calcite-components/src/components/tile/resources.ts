@@ -1,9 +1,9 @@
 export const CSS = {
   container: "container",
   contentContainer: "content-container",
+  contentContainerHasContent: "content-container--has-content",
   textContentContainer: "text-content-container",
   description: "description",
-  hasContent: "has-content",
   hasOnlyContentTopAndBottom: "has-only-content-top-and-bottom",
   heading: "heading",
   interactive: "interactive",
