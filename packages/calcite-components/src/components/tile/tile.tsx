@@ -376,8 +376,8 @@ export class Tile implements InteractiveComponent, SelectableComponent {
           <div class={{ [CSS.contentContainer]: true, [CSS.row]: true }}>
             <slot name={SLOTS.contentStart} onSlotchange={this.handleSlotChange} />
             <div class={CSS.textContent}>
-              <div class={CSS.heading}>{heading}</div>
-              <div class={CSS.description}>{description}</div>
+              {heading && <div class={CSS.heading}>{heading}</div>}
+              {description && <div class={CSS.description}>{description}</div>}
             </div>
             <slot name={SLOTS.contentEnd} onSlotchange={this.handleSlotChange} />
           </div>
