@@ -23,6 +23,8 @@ export const CSS = {
 };
 
 export const ICONS = {
+  iconStart: "icon-start",
+  iconEnd: "icon-end",
   menuOpen: "chevron-up",
   menuClosed: "chevron-down",
   valid: "check-circle",

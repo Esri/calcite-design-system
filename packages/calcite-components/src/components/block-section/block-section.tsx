@@ -49,6 +49,15 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   //
   // --------------------------------------------------------------------------
 
+  /** Specifies an icon to display at the end of the component. */
+  @Prop({ reflect: true }) iconEnd: string;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /** Specifies an icon to display at the start of the component. */
+  @Prop({ reflect: true }) iconStart: string;
+
   /**
    * When `true`, expands the component and its contents.
    */
@@ -60,15 +69,6 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
    * @deprecated Use `icon-start` instead.
    */
   @Prop({ reflect: true }) status: Status;
-
-  /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
-
-  /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
-
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /**
    * The component header text.
@@ -210,28 +210,29 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
     ) : null;
   }
 
-  render(): VNode {
-    const { messages, open, text, toggleDisplay, iconFlipRtl } = this;
-    const arrowIcon = open ? ICONS.menuOpen : ICONS.menuClosed;
+  renderIcon(icon: string): VNode {
+    const { iconFlipRtl } = this;
 
-    const iconStartEl = this.iconStart ? (
+    const flipRtlStart = iconFlipRtl === "both" || iconFlipRtl === "start";
+    const flipRtlEnd = iconFlipRtl === "both" || iconFlipRtl === "end";
+
+    const isIconStart = icon === ICONS.iconStart;
+
+    /** Icon scale is not variable as the component does not have a scale property */
+    return (
       <calcite-icon
-        class={CSS.iconStart}
-        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
-        icon={this.iconStart}
-        key="icon-start"
+        class={isIconStart ? CSS.iconStart : CSS.iconEnd}
+        flipRtl={isIconStart ? flipRtlStart : flipRtlEnd}
+        icon={isIconStart ? ICONS.iconStart : ICONS.iconEnd}
+        key={isIconStart ? CSS.iconStart : CSS.iconEnd}
         scale="s"
       />
-    ) : null;
-    const iconEndEl = this.iconEnd ? (
-      <calcite-icon
-        class={CSS.iconEnd}
-        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
-        icon={this.iconEnd}
-        key="icon-end"
-        scale="s"
-      />
-    ) : null;
+    );
+  }
+
+  render(): VNode {
+    const { messages, open, text, toggleDisplay, renderIcon } = this;
+    const arrowIcon = open ? ICONS.menuOpen : ICONS.menuClosed;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 
@@ -256,12 +257,12 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
             tabIndex={0}
             title={toggleLabel}
           >
-            {iconStartEl}
+            {renderIcon(ICONS.iconStart)}
             <div class={CSS.toggleSwitchContent}>
               <span class={CSS.toggleSwitchText}>{text}</span>
             </div>
 
-            {iconEndEl}
+            {renderIcon(ICONS.iconEnd)}
             {this.renderStatusIcon()}
             {/* we use calcite-label to use a simple component that will allow us to prevent keyboard focus by setting tabindex="-1" on the host */}
             <calcite-label class="label" layout="inline" tabIndex={-1}>
@@ -285,9 +286,9 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
             id={IDS.toggle}
             onClick={this.toggleSection}
           >
-            {iconStartEl}
+            {renderIcon(ICONS.iconStart)}
             <span class={CSS.sectionHeaderText}>{text}</span>
-            {iconEndEl}
+            {renderIcon(ICONS.iconEnd)}
             {this.renderStatusIcon()}
             <calcite-icon class={CSS.chevronIcon} icon={arrowIcon} scale="s" />
           </button>
