@@ -23,22 +23,19 @@
 calcite-icon {
   @apply transition-default pointer-events-none inline-flex flex-shrink-0;
   margin-inline-end: theme("margin.2");
+  --calcite-icon-color: var(--calcite-input-message-icon-color, var(--calcite-internal-input-message-icon-color));
 }
 
-:host([status="invalid"]) calcite-icon {
-  --calcite-icon-color: var(--calcite-input-message-icon-color, var(--calcite-color-status-danger));
+:host([status="invalid"]) {
+  --calcite-internal-input-message-icon-color: var(--calcite-color-status-danger);
 }
 
-:host([status="warning"]) calcite-icon {
-  --calcite-icon-color: var(--calcite-input-message-icon-color, var(--calcite-color-status-warning));
+:host([status="valid"]) {
+  --calcite-internal-input-message-icon-color: var(--calcite-color-status-success);
 }
 
-:host([status="valid"]) calcite-icon {
-  --calcite-icon-color: var(--calcite-input-message-icon-color, var(--calcite-color-status-success));
-}
-
-:host([status="idle"]) calcite-icon {
-  --calcite-icon-color: var(--calcite-input-message-icon-color, var(--calcite-color-brand));
+:host([status="idle"]) {
+  --calcite-internal-input-message-icon-color: var(--calcite-color-brand);
 }
 
 :host([scale="s"]) {
