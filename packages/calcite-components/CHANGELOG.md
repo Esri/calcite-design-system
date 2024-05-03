@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.1-next.2...@esri/calcite-components@2.8.1-next.3) (2024-05-03)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** restore `autofocus`, `enter-key-mode` and `input-mode` attributes ([#9245](https://github.com/Esri/calcite-design-system/issues/9245)) ([a493664](https://github.com/Esri/calcite-design-system/commit/a493664019bae4881ba7af6509a08fb00ad07690)), closes [#9235](https://github.com/Esri/calcite-design-system/issues/9235) [#9123](https://github.com/Esri/calcite-design-system/issues/9123)
+
 ## [2.8.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.1-next.1...@esri/calcite-components@2.8.1-next.2) (2024-05-03)
 
 ### Bug Fixes
