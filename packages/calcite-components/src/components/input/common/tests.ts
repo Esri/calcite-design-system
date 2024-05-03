@@ -58,7 +58,9 @@ export function testHiddenInputSyncing(
   it("syncs hidden input with the input component", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
-      <${inputTag} name="form-name"></${inputTag}>
+      <form>
+        <${inputTag} name="form-name"></${inputTag}>
+      </form>
     `);
     const input = await page.find(inputTag);
     const hiddenInput = await page.find(`input[slot=${hiddenFormInputSlotName}]`);
