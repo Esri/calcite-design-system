@@ -59,9 +59,9 @@ export function testHiddenInputSyncing(
     const page = await newE2EPage();
     await page.setContent(html`
       <form>
-          <${inputTag} name="form-name"></${inputTag}>
+        <${inputTag} name="form-name"></${inputTag}>
       </form>
-      `);
+    `);
     const input = await page.find(inputTag);
     const hiddenInput = await page.find(`input[slot=${hiddenFormInputSlotName}]`);
 
@@ -113,5 +113,55 @@ export function testHiddenInputSyncing(
     }
 
     await assertNumericProps();
+  });
+}
+
+export function testWorkaroundForGlobalPropRemoval(
+  inputTag: Extract<keyof JSX.IntrinsicElements, "calcite-input" | "calcite-input-text" | "calcite-input-number">,
+): void {
+  const testInputMode = "tel";
+  const testEnterKeyHint = "done";
+
+  it("supports global attribute kebab-casing (deprecated)", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+        <${inputTag} autofocus input-mode="${testInputMode}" enter-key-hint="${testEnterKeyHint}"></${inputTag}>
+    `);
+
+    const input = await page.find(`${inputTag} >>> input`);
+
+    expect(input.getAttribute("autofocus")).toBe("");
+    expect(input.getAttribute("inputmode")).toBe(testInputMode);
+    expect(input.getAttribute("enterkeyhint")).toBe(testEnterKeyHint);
+  });
+
+  it("supports global attribute casing", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+        <${inputTag} autofocus inputmode="${testInputMode}" enterkeyhint="${testEnterKeyHint}"></${inputTag}>
+    `);
+
+    const input = await page.find(`${inputTag} >>> input`);
+
+    expect(input.getAttribute("autofocus")).toBe("");
+    expect(input.getAttribute("inputmode")).toBe(testInputMode);
+    expect(input.getAttribute("enterkeyhint")).toBe(testEnterKeyHint);
+  });
+
+  it("supports global props", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<${inputTag}></${inputTag}>`);
+
+    const input = await page.find(inputTag);
+    const internalInput = await page.find(`${inputTag} >>> input`);
+
+    input.setProperty("autofocus", true);
+    input.setProperty("inputMode", testInputMode);
+    input.setProperty("enterKeyHint", testEnterKeyHint);
+    await page.waitForChanges();
+
+    expect(internalInput.getAttribute("autofocus")).toBe("");
+    expect(internalInput.getAttribute("inputmode")).toBe(testInputMode);
+    expect(internalInput.getAttribute("enterkeyhint")).toBe(testEnterKeyHint);
   });
 }
