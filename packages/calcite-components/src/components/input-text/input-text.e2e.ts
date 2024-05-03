@@ -10,9 +10,12 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils";
 import { testHiddenInputSyncing, testPostValidationFocusing } from "../input/common/tests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-input-text", () => {
   describe("labelable", () => {
@@ -471,5 +474,110 @@ describe("calcite-input-text", () => {
 
   describe("translation support", () => {
     t9n("calcite-input-text");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-input-background-color": {
+          shadowSelector: "input",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-border-color": {
+          shadowSelector: "input",
+          targetProp: "borderColor",
+        },
+        "--calcite-input-corner-radius": {
+          shadowSelector: "input",
+          targetProp: "borderRadius",
+        },
+        "--calcite-input-shadow": {
+          targetProp: "boxShadow",
+        },
+        "--calcite-input-text-color": {
+          shadowSelector: "input",
+          targetProp: "color",
+        },
+      };
+      themed(`calcite-input-text`, tokens);
+    });
+    describe("clearable", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-input-button-background-color-hover": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-input-button-background-color": {
+          shadowSelector: "button",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-border-color": {
+          shadowSelector: "button",
+          targetProp: "borderColor",
+        },
+        "--calcite-input-icon-color-active": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-input-icon-color-hover": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-input-icon-color": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+      };
+      themed(html`<calcite-input-text value="test" clearable />`, tokens);
+    });
+    describe("loading", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-input-progress-background-color": {
+          shadowSelector: "calcite-progress",
+          targetProp: "--calcite-progress-background-color",
+        },
+        "--calcite-input-progress-fill-color": {
+          shadowSelector: "calcite-progress",
+          targetProp: "--calcite-progress-fill-color",
+        },
+        "--calcite-input-progress-text-color": {
+          shadowSelector: "calcite-progress",
+          targetProp: "--calcite-progress-text-color",
+        },
+      };
+      themed(html`<calcite-input-text loading />`, tokens);
+    });
+    describe("prefix and suffix", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-input-border-color": [
+          {
+            shadowSelector: `.${CSS.prefix}`,
+            targetProp: "borderColor",
+          },
+          {
+            shadowSelector: `.${CSS.suffix}`,
+            targetProp: "borderColor",
+          },
+        ],
+        "--calcite-input-prefix-background-color": {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-prefix-text-color": {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "color",
+        },
+        "--calcite-input-suffix-background-color": {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-suffix-text-color": {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "color",
+        },
+      };
+      themed(html`<calcite-input-text prefix-text="prefix" suffix-text="suffix" />`, tokens);
+    });
   });
 });

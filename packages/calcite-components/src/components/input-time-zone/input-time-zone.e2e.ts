@@ -11,8 +11,10 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { TagAndPage } from "../../tests/commonTests/interfaces";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { toUserFriendlyName } from "./utils";
 
 describe("calcite-input-time-zone", () => {
@@ -411,6 +413,62 @@ describe("calcite-input-time-zone", () => {
 
     currComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
     expect(currComboboxItem).not.toBe(prevComboboxItem);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-input-combobox-border-color": {
+          shadowSelector: "calcite-combobox",
+          targetProp: "--calcite-combobox-border-color",
+        },
+        "--calcite-input-combobox-background-color": {
+          shadowSelector: "calcite-combobox",
+          targetProp: "--calcite-combobox-background-color",
+        },
+        "--calcite-input-combobox-text-color": {
+          shadowSelector: "calcite-combobox",
+          targetProp: "--calcite-combobox-text-color",
+        },
+        "--calcite-input-combobox-chip-background-color-active": {
+          shadowSelector: "calcite-combobox",
+          targetProp: "--calcite-combobox-chip-background-color-active",
+        },
+        "--calcite-input-combobox-item-background-color-active": {
+          shadowSelector: "calcite-combobox-item",
+          targetProp: "--calcite-input-combobox-item-background-color-active",
+        },
+        "--calcite-input-combobox-item-background-color": {
+          shadowSelector: "calcite-combobox-item",
+          targetProp: "--calcite-input-combobox-item-background-color",
+        },
+        "--calcite-input-combobox-item-icon-color": {
+          shadowSelector: "calcite-combobox-item",
+          targetProp: "--calcite-combobox-item-icon-color",
+        },
+        "--calcite-input-combobox-item-indicator-icon-color-active": {
+          shadowSelector: "calcite-combobox-item",
+          targetProp: "--calcite-combobox-item-indicator-icon-color-active",
+        },
+        "--calcite-input-combobox-item-indicator-icon-color": {
+          shadowSelector: "calcite-combobox-item",
+          targetProp: "--calcite-combobox-item-indicator-icon-color",
+        },
+        "--calcite-input-combobox-item-shadow": {
+          shadowSelector: "calcite-combobox-item",
+          targetProp: "--calcite-combobox-item-shadow",
+        },
+        "--calcite-input-combobox-item-text-color-active": {
+          shadowSelector: "calcite-combobox-item",
+          targetProp: "--calcite-input-combobox-item-text-color-active",
+        },
+        "--calcite-input-combobox-item-text-color": {
+          shadowSelector: "calcite-combobox-item",
+          targetProp: "--calcite-input-combobox-item-text-color",
+        },
+      };
+      themed(`calcite-input-time-zone`, tokens);
+    });
   });
 });
 
