@@ -10,7 +10,6 @@ import {
   State,
   VNode,
 } from "@stencil/core";
-import { camelCase } from "lodash-es";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -225,8 +224,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
   };
 
   private handleSlotChange = (event: Event): void => {
-    const slotNameCamelCased = camelCase((event.target as HTMLSlotElement).name);
-    const slotName = slotNameCamelCased.charAt(0).toUpperCase() + slotNameCamelCased.slice(1);
+    const slotName = (event.target as HTMLSlotElement).dataset.name;
     this[`has${slotName}`] = slotChangeHasAssignedElement(event);
   };
 
@@ -371,17 +369,33 @@ export class Tile implements InteractiveComponent, SelectableComponent {
             [CSS.contentContainerHasOnlyContentTopAndBottom]: hasOnlyContentTopAndBottom,
           }}
         >
-          <slot name={SLOTS.contentTop} onSlotchange={this.handleSlotChange} />
+          <slot
+            data-name="ContentTop"
+            name={SLOTS.contentTop}
+            onSlotchange={this.handleSlotChange}
+          />
           {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
           <div class={{ [CSS.textContentContainer]: true, [CSS.row]: true }}>
-            <slot name={SLOTS.contentStart} onSlotchange={this.handleSlotChange} />
+            <slot
+              data-name="ContentStart"
+              name={SLOTS.contentStart}
+              onSlotchange={this.handleSlotChange}
+            />
             <div class={CSS.textContent}>
               {heading && <div class={CSS.heading}>{heading}</div>}
               {description && <div class={CSS.description}>{description}</div>}
             </div>
-            <slot name={SLOTS.contentEnd} onSlotchange={this.handleSlotChange} />
+            <slot
+              data-name="ContentEnd"
+              name={SLOTS.contentEnd}
+              onSlotchange={this.handleSlotChange}
+            />
           </div>
-          <slot name={SLOTS.contentBottom} onSlotchange={this.handleSlotChange} />
+          <slot
+            data-name="ContentBottom"
+            name={SLOTS.contentBottom}
+            onSlotchange={this.handleSlotChange}
+          />
         </div>
       </div>
     );
