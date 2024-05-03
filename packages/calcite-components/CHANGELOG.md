@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.1-next.1...@esri/calcite-components@2.8.1-next.2) (2024-05-03)
+
+### Bug Fixes
+
+- **list:** border items when an item is programmatically opened. ([#9247](https://github.com/Esri/calcite-design-system/issues/9247)) ([02183bb](https://github.com/Esri/calcite-design-system/commit/02183bb671c276a21f68e4e295dca59d9a88d99c)), closes [#9248](https://github.com/Esri/calcite-design-system/issues/9248)
+
 ## [2.8.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.1-next.0...@esri/calcite-components@2.8.1-next.1) (2024-05-03)
 
 ### Bug Fixes
