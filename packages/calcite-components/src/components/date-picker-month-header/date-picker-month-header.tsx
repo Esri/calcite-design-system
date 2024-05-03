@@ -74,10 +74,17 @@ export class DatePickerMonthHeader {
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: DatePickerMessages;
 
-  /** @internal */
-  @Prop() position: "start" | "end";
-
+  /**
+   * When `true`, month will be abbreviated.
+   */
   @Prop() monthAbbreviations: boolean;
+
+  /**
+   * Specifies the position of the component in a range date-picker.
+   * @internal
+   *
+   */
+  @Prop() position: "start" | "end";
 
   //--------------------------------------------------------------------------
   //
@@ -113,7 +120,7 @@ export class DatePickerMonthHeader {
   }
 
   renderContent(): VNode {
-    const { messages, localeData, activeDate } = this;
+    const { localeData, activeDate } = this;
     if (!activeDate || !localeData) {
       return null;
     }
@@ -135,45 +142,16 @@ export class DatePickerMonthHeader {
 
     return (
       <Fragment>
-        {this.position !== "end" && (
-          <div class="chevron-container">
-            <a
-              aria-disabled={`${
-                this.prevMonthDate.getMonth() === activeMonth || this.min > this.activeDate
-              }`}
-              aria-label={messages.prevMonth}
-              class={CSS.chevron}
-              href="#"
-              onClick={this.prevMonthClick}
-              onKeyDown={this.prevMonthKeydown}
-              role="button"
-              tabindex={
-                this.prevMonthDate.getMonth() === activeMonth || this.min > this.activeDate ? -1 : 0
-              }
-            >
-              <calcite-icon flip-rtl icon={ICON.chevronLeft} scale={getIconScale(this.scale)} />
-            </a>
-          </div>
+        {this.position === "start" && (
+          <div class="chevron-container">{this.renderChevron("left")}</div>
         )}
         <div class={{ text: true, [CSS.textReverse]: reverse }}>
           {this.renderMonthPicker(months, activeMonth)}
           {this.renderYearPicker()}
         </div>
+        {!this.position && <div class="chevron-container">{this.renderChevron("left")}</div>}
         {this.position !== "start" && (
-          <div class="chevron-container">
-            <a
-              aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
-              aria-label={messages.nextMonth}
-              class={CSS.chevron}
-              href="#"
-              onClick={this.nextMonthClick}
-              onKeyDown={this.nextMonthKeydown}
-              role="button"
-              tabindex={this.nextMonthDate.getMonth() === activeMonth ? -1 : 0}
-            >
-              <calcite-icon flip-rtl icon={ICON.chevronRight} scale={getIconScale(this.scale)} />
-            </a>
-          </div>
+          <div class="chevron-container">{this.renderChevron("right")}</div>
         )}
       </Fragment>
     );
@@ -214,6 +192,28 @@ export class DatePickerMonthHeader {
           );
         })}
       </calcite-select>
+    );
+  }
+
+  private renderChevron(direction: "left" | "right"): VNode {
+    const activeMonth = this.activeDate.getMonth();
+    return (
+      <a
+        aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
+        aria-label={this.messages.nextMonth}
+        class={CSS.chevron}
+        href="#"
+        onClick={direction === "right" ? this.nextMonthClick : this.prevMonthClick}
+        onKeyDown={direction === "right" ? this.nextMonthKeydown : this.prevMonthKeydown}
+        role="button"
+        tabindex={this.nextMonthDate.getMonth() === activeMonth ? -1 : 0}
+      >
+        <calcite-icon
+          flip-rtl
+          icon={direction === "right" ? ICON.chevronRight : ICON.chevronLeft}
+          scale={getIconScale(this.scale)}
+        />
+      </a>
     );
   }
 
@@ -345,7 +345,6 @@ export class DatePickerMonthHeader {
     commit?: boolean;
     offset?: number;
   }): void {
-    const { activeDate } = this;
     const inRangeDate = this.getInRangeDate({ localizedYear, offset });
 
     // if you've supplied a year and it's in range, update active date
@@ -355,7 +354,7 @@ export class DatePickerMonthHeader {
 
     if (commit) {
       this.yearPickerEl.value = formatCalendarYear(
-        (inRangeDate || activeDate).getFullYear(),
+        (inRangeDate || this.activeDate).getFullYear(),
         this.localeData,
       ).toString();
     }

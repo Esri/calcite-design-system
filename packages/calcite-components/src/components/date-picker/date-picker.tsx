@@ -104,7 +104,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
       this.valueAsDate = getValueAsDateRange(value);
-      // avoids updating activeDates after every selection. Update of activeDate's happen when user parses value programmatically
+      // avoids updating activeDates after every selection. Only updates when value is set programmatically.
       if (!this.userChangeRangeValue) {
         this.resetActiveDates();
       }
@@ -131,8 +131,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   }
 
   /** Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
-  @Prop({ mutable: true })
-  minAsDate: Date;
+  @Prop({ mutable: true }) minAsDate: Date;
 
   /** Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
   @Prop({ mutable: true }) maxAsDate: Date;
@@ -282,7 +281,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       this.maxAsDate,
     );
     const activeDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
-
     const endDate =
       this.range && Array.isArray(this.valueAsDate)
         ? dateFromRange(this.valueAsDate[1], this.minAsDate, this.maxAsDate)
@@ -381,7 +379,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   monthHeaderSelectChange = (event: CustomEvent<{ date: Date; position: string }>): void => {
     const date = new Date(event.detail.date);
     const position = event.detail.position;
-
     if (!this.range) {
       this.activeDate = date;
     } else {
@@ -536,11 +533,11 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
             messages={this.messages}
             min={minDate}
             monthAbbreviations={this.monthAbbreviations}
-            onCalciteInternalDatePickerActiveDateChange={this.monthActiveDateChange}
-            onCalciteInternalDatePickerHover={this.monthHoverChange}
+            onCalciteInternalDatePickerDayHover={this.monthHoverChange}
+            onCalciteInternalDatePickerDaySelect={this.monthDateChange}
+            onCalciteInternalDatePickerMonthActiveDateChange={this.monthActiveDateChange}
             onCalciteInternalDatePickerMonthChange={this.monthHeaderSelectChange}
-            onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
-            onCalciteInternalDatePickerSelect={this.monthDateChange}
+            onCalciteInternalDatePickerMonthMouseOut={this.monthMouseOutChange}
             range={this.range}
             scale={this.scale}
             selectedDate={this.activeRange === "end" ? endDate || date : date}
@@ -601,6 +598,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   private monthDateChange = (event: CustomEvent<Date>): void => {
     const date = new Date(event.detail);
     const isoDate = dateToISO(date);
+
     if (!this.range && isoDate === dateToISO(this.valueAsDate as Date)) {
       return;
     }

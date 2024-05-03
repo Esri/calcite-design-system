@@ -256,6 +256,9 @@ export class InputDatePicker
     }
   }
 
+  /**
+   * When `true`, month will be abbreviated.
+   */
   @Prop() monthAbbreviations: boolean = false;
 
   /** When `true`, displays the `calcite-date-picker` component. */
@@ -364,11 +367,7 @@ export class InputDatePicker
 
   @Listen("calciteDaySelect")
   calciteDaySelectHandler(): void {
-    if (
-      this.shouldFocusRangeStart() ||
-      // this.shouldFocusRangeEnd() ||
-      this.rangeStartValueChangedByUser
-    ) {
+    if (this.shouldFocusRangeStart() || this.rangeStartValueChangedByUser) {
       return;
     }
 
@@ -768,8 +767,6 @@ export class InputDatePicker
   transitionEl: HTMLDivElement;
 
   @Watch("layout")
-  // no need for re-opening of the date-picker. closes only on espace or value/end-value selection in range.
-  // @Watch("focusedInput")
   setReferenceEl(): void {
     const { focusedInput, layout, endWrapper, startWrapper } = this;
 
@@ -851,8 +848,6 @@ export class InputDatePicker
   onClose(): void {
     this.calciteInputDatePickerClose.emit();
     deactivateFocusTrap(this);
-    //should we restore the focus when user clicks outside?
-    //this.restoreInputFocus();
     this.focusOnOpen = false;
     this.datePickerEl.reset();
   }
@@ -1052,12 +1047,6 @@ export class InputDatePicker
       const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
       focusedInput.setFocus();
     }
-
-    // const focusedInput = restore && this.focusedInput === "start" ? this.startInput : this.endInput;
-    // focusedInput.setFocus();
-
-    //avoids delay in updating focusedInput value while the `blur` handler in `date-picker` causing update in activeDate's.
-    // this.focusedInput = restore && this.focusedInput === "start" ? "start" : "end";
   }
 
   private localizeInputValues(): void {

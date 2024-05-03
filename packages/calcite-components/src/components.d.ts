@@ -24,6 +24,7 @@ import { ButtonAlignment, DropdownIconType } from "./components/button/interface
 import { ButtonMessages } from "./components/button/assets/button/t9n";
 import { CardMessages } from "./components/card/assets/card/t9n";
 import { ArrowType, AutoplayType } from "./components/carousel/interfaces";
+import { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 import { MutableValidityState } from "./utils/form";
 import { ChipMessages } from "./components/chip/assets/chip/t9n";
 import { ColorValue, InternalColor } from "./components/color-picker/interfaces";
@@ -113,6 +114,7 @@ export { ButtonAlignment, DropdownIconType } from "./components/button/interface
 export { ButtonMessages } from "./components/button/assets/button/t9n";
 export { CardMessages } from "./components/card/assets/card/t9n";
 export { ArrowType, AutoplayType } from "./components/carousel/interfaces";
+export { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 export { MutableValidityState } from "./utils/form";
 export { ChipMessages } from "./components/chip/assets/chip/t9n";
 export { ColorValue, InternalColor } from "./components/color-picker/interfaces";
@@ -1560,8 +1562,13 @@ export namespace Components {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        /**
+          * When `true`, month will be abbreviated.
+         */
         "monthAbbreviations": boolean;
-        "position": "start" | "end";
+        /**
+          * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
+         */
         "range": boolean;
         /**
           * Specifies the size of the component.
@@ -1602,7 +1609,13 @@ export namespace Components {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        /**
+          * When `true`, month will be abbreviated.
+         */
         "monthAbbreviations": boolean;
+        /**
+          * Specifies the position of the component in a range date-picker.
+         */
         "position": "start" | "end";
         /**
           * Specifies the size of the component.
@@ -2273,6 +2286,9 @@ export namespace Components {
           * Specifies the earliest allowed date as a full date object.
          */
         "minAsDate": Date;
+        /**
+          * When `true`, month will be abbreviated.
+         */
         "monthAbbreviations": boolean;
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
@@ -6383,10 +6399,10 @@ declare global {
         new (): HTMLCalciteDatePickerDayElement;
     };
     interface HTMLCalciteDatePickerMonthElementEventMap {
-        "calciteInternalDatePickerSelect": Date;
-        "calciteInternalDatePickerHover": Date;
-        "calciteInternalDatePickerActiveDateChange": Date;
-        "calciteInternalDatePickerMouseOut": void;
+        "calciteInternalDatePickerDaySelect": Date;
+        "calciteInternalDatePickerDayHover": Date;
+        "calciteInternalDatePickerMonthActiveDateChange": Date;
+        "calciteInternalDatePickerMonthMouseOut": void;
         "calciteInternalDatePickerMonthChange": {
     date: Date;
     position: string;
@@ -9265,15 +9281,22 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min"?: Date;
-        "monthAbbreviations"?: boolean;
         /**
-          * Active date for the user keyboard access.
+          * When `true`, month will be abbreviated.
          */
-        "onCalciteInternalDatePickerActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        "monthAbbreviations"?: boolean;
         /**
           * Fires when user hovers the date.
          */
-        "onCalciteInternalDatePickerHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        "onCalciteInternalDatePickerDayHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        /**
+          * Fires when user selects the date.
+         */
+        "onCalciteInternalDatePickerDaySelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        /**
+          * Active date for the user keyboard access.
+         */
+        "onCalciteInternalDatePickerMonthActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         /**
           * Emits when user updates month or year using `calcite-date-picker-month-header` component.
          */
@@ -9281,12 +9304,10 @@ declare namespace LocalJSX {
     date: Date;
     position: string;
   }>) => void;
-        "onCalciteInternalDatePickerMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
+        "onCalciteInternalDatePickerMonthMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
         /**
-          * Fires when user selects the date.
+          * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
          */
-        "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
-        "position"?: "start" | "end";
         "range"?: boolean;
         /**
           * Specifies the size of the component.
@@ -9327,11 +9348,17 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min"?: Date;
+        /**
+          * When `true`, month will be abbreviated.
+         */
         "monthAbbreviations"?: boolean;
         /**
           * Fires to active date
          */
         "onCalciteInternalDatePickerMonthHeaderSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        /**
+          * Specifies the position of the component in a range date-picker.
+         */
         "position"?: "start" | "end";
         /**
           * Specifies the size of the component.
@@ -10018,6 +10045,9 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date as a full date object.
          */
         "minAsDate"?: Date;
+        /**
+          * When `true`, month will be abbreviated.
+         */
         "monthAbbreviations"?: boolean;
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.

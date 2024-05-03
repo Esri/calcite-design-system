@@ -85,9 +85,9 @@ export class DatePickerMonth {
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
   @Prop() max: Date;
 
-  /** @internal */
-  @Prop() position: "start" | "end";
-
+  /**
+   * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
+   */
   @Prop({ reflect: true }) range: boolean;
 
   /** Specifies the size of the component. */
@@ -111,6 +111,9 @@ export class DatePickerMonth {
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: DatePickerMessages;
 
+  /**
+   * When `true`, month will be abbreviated.
+   */
   @Prop() monthAbbreviations: boolean;
 
   /**
@@ -129,26 +132,26 @@ export class DatePickerMonth {
    *
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalDatePickerSelect: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteInternalDatePickerDaySelect: EventEmitter<Date>;
 
   /**
    * Fires when user hovers the date.
    *
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalDatePickerHover: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteInternalDatePickerDayHover: EventEmitter<Date>;
 
   /**
    * Active date for the user keyboard access.
    *
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalDatePickerActiveDateChange: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteInternalDatePickerMonthActiveDateChange: EventEmitter<Date>;
 
   /**
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalDatePickerMouseOut: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalDatePickerMonthMouseOut: EventEmitter<void>;
 
   /**
    * Emits when user updates month or year using `calcite-date-picker-month-header` component.
@@ -160,8 +163,15 @@ export class DatePickerMonth {
     position: string;
   }>;
 
-  /** The currently focused Date. */
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  /**current focused date */
   @State() focusedDate: Date;
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -174,43 +184,43 @@ export class DatePickerMonth {
     }
 
     const isRTL = this.el.dir === "rtl";
-    const target = event.target as HTMLCalciteDatePickerDayElement;
+    const dateValue = (event.target as HTMLCalciteDatePickerDayElement).value;
     switch (event.key) {
       case "ArrowUp":
         event.preventDefault();
-        this.addDays(-7, target.value);
+        this.addDays(-7, dateValue);
         break;
       case "ArrowRight":
         event.preventDefault();
-        this.addDays(isRTL ? -1 : 1, target.value);
+        this.addDays(isRTL ? -1 : 1, dateValue);
         break;
       case "ArrowDown":
         event.preventDefault();
-        this.addDays(7, target.value);
+        this.addDays(7, dateValue);
         break;
       case "ArrowLeft":
         event.preventDefault();
-        this.addDays(isRTL ? 1 : -1, target.value);
+        this.addDays(isRTL ? 1 : -1, dateValue);
         break;
       case "PageUp":
         event.preventDefault();
-        this.addMonths(-1, target.value);
+        this.addMonths(-1, dateValue);
         break;
       case "PageDown":
         event.preventDefault();
-        this.addMonths(1, target.value);
+        this.addMonths(1, dateValue);
         break;
       case "Home":
         event.preventDefault();
         this.activeDate.setDate(1);
-        this.addDays(0, target.value);
+        this.addDays(0, dateValue);
         break;
       case "End":
         event.preventDefault();
         this.activeDate.setDate(
           new Date(this.activeDate.getFullYear(), this.activeDate.getMonth() + 1, 0).getDate(),
         );
-        this.addDays(0, target.value);
+        this.addDays(0, dateValue);
         break;
       case "Enter":
       case " ":
@@ -231,7 +241,7 @@ export class DatePickerMonth {
 
   @Listen("pointerout")
   pointerOutHandler(): void {
-    this.calciteInternalDatePickerMouseOut.emit();
+    this.calciteInternalDatePickerMonthMouseOut.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -258,9 +268,7 @@ export class DatePickerMonth {
     const endCalendarPrevMonDays = this.getPreviousMonthDays(month + 1, year, startOfWeek);
     const endCalendarCurrMonDays = this.getCurrentMonthDays(month + 1, year);
     const endCalendarNextMonDays = this.getNextMonthDays(month + 1, year, startOfWeek);
-
     const days = this.getDays(prevMonDays, curMonDays, nextMonDays);
-    // const weeks = this.getWeeks(days);
 
     const nextMonthDays = this.getDays(
       endCalendarPrevMonDays,
@@ -268,7 +276,6 @@ export class DatePickerMonth {
       endCalendarNextMonDays,
       "end",
     );
-    // const nextMonthWeeks = this.getWeeks(nextMonthDays);
 
     return (
       <Host onFocusout={this.disableActiveFocus}>
@@ -334,12 +341,12 @@ export class DatePickerMonth {
   private addMonths(step: number, targetDate: Date) {
     const nextDate = new Date(targetDate);
     nextDate.setMonth(targetDate.getMonth() + step);
-    this.calciteInternalDatePickerActiveDateChange.emit(
+    this.calciteInternalDatePickerMonthActiveDateChange.emit(
       dateFromRange(nextDate, this.min, this.max),
     );
     this.focusedDate = dateFromRange(nextDate, this.min, this.max);
     this.activeFocus = true;
-    this.calciteInternalDatePickerHover.emit(nextDate);
+    this.calciteInternalDatePickerDayHover.emit(nextDate);
   }
 
   /**
@@ -351,14 +358,13 @@ export class DatePickerMonth {
   private addDays(step = 0, targetDate: Date) {
     const nextDate = new Date(targetDate);
     nextDate.setDate(targetDate.getDate() + step);
-    this.calciteInternalDatePickerActiveDateChange.emit(
+    this.calciteInternalDatePickerMonthActiveDateChange.emit(
       dateFromRange(nextDate, this.min, this.max),
     );
 
     this.focusedDate = dateFromRange(nextDate, this.min, this.max);
     this.activeFocus = true;
-    // adds hover effect on keyboard navigation
-    this.calciteInternalDatePickerHover.emit(nextDate);
+    this.calciteInternalDatePickerDayHover.emit(nextDate);
   }
 
   /**
@@ -477,18 +483,17 @@ export class DatePickerMonth {
   dayHover = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteDatePickerDayElement;
     if (target.disabled) {
-      this.calciteInternalDatePickerMouseOut.emit();
+      this.calciteInternalDatePickerMonthMouseOut.emit();
     } else {
-      this.calciteInternalDatePickerHover.emit(target.value);
+      this.calciteInternalDatePickerDayHover.emit(target.value);
     }
     event.stopPropagation();
   };
 
   daySelect = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteDatePickerDayElement;
-    // below line needs to be commented out to focus on active date on based on focused input
     this.activeFocus = false;
-    this.calciteInternalDatePickerSelect.emit(target.value);
+    this.calciteInternalDatePickerDaySelect.emit(target.value);
   };
 
   /**
@@ -539,7 +544,6 @@ export class DatePickerMonth {
           selected={this.isSelected(date)}
           startOfRange={this.isStartOfRange(date)}
           value={date}
-          // focusing in ref is creating diff UX for keyboard compared to click where in click the focus only shifts after selection where in keyboard while navigating the focus is updated.
           // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={(el: HTMLCalciteDatePickerDayElement) => {
             // when moving via keyboard, focus must be updated on active date
@@ -659,14 +663,6 @@ export class DatePickerMonth {
     return days;
   };
 
-  // private getWeeks(days: Day[]): Day[][] {
-  //   const weeks: Day[][] = [];
-  //   for (let i = 0; i < days.length; i += 7) {
-  //     weeks.push(days.slice(i, i + 7));
-  //   }
-  //   return weeks;
-  // }
-
   private renderMonthCalendar(weekDays: string[], days: Day[], isNextMonth = false): VNode {
     return (
       <div class="month">
@@ -692,7 +688,6 @@ export class DatePickerMonth {
     this.calciteInternalDatePickerMonthChange.emit({ date, position: target.position });
   };
 
-  // updates focusable date on monthHeaderSelectChange
   private updateFocusableDate(date: Date): void {
     if (!this.selectedDate || !this.range) {
       this.focusedDate = date;
