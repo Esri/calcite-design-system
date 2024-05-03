@@ -7,6 +7,7 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
 } from "@stencil/core";
 import {
@@ -17,7 +18,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
-import { toAriaBoolean } from "../../utils/dom";
+import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
   componentFocusable,
   setComponentLoaded,
@@ -181,6 +182,14 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
   private containerEl: HTMLDivElement;
 
+  @State() hasContentBottom = false;
+
+  @State() hasContentEnd = false;
+
+  @State() hasContentStart = false;
+
+  @State() hasContentTop = false;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -212,6 +221,11 @@ export class Tile implements InteractiveComponent, SelectableComponent {
       return;
     }
     this.calciteTileSelect.emit();
+  };
+
+  private handleSlotChange = (event: Event): void => {
+    const slotName = (event.target as HTMLSlotElement).dataset.name;
+    this[`has${slotName}`] = slotChangeHasAssignedElement(event);
   };
 
   private setContainerEl = (el): void => {
@@ -301,7 +315,19 @@ export class Tile implements InteractiveComponent, SelectableComponent {
   }
 
   renderTile(): VNode {
-    const { description, disabled, heading, icon, iconFlipRtl, interactive, selectionMode } = this;
+    const {
+      description,
+      disabled,
+      hasContentBottom,
+      hasContentEnd,
+      hasContentStart,
+      hasContentTop,
+      heading,
+      icon,
+      iconFlipRtl,
+      interactive,
+      selectionMode,
+    } = this;
     const isLargeVisual = heading && icon && !Boolean(description);
     const disableInteraction = Boolean(this.href) || !interactive;
     const role =
@@ -312,6 +338,8 @@ export class Tile implements InteractiveComponent, SelectableComponent {
           : interactive
             ? "button"
             : undefined;
+    const hasContent = !!(description || hasContentEnd || hasContentStart || heading || icon);
+    const hasOnlyContentTopAndBottom = !hasContent && hasContentTop && hasContentBottom;
     return (
       <div
         aria-checked={
@@ -334,18 +362,40 @@ export class Tile implements InteractiveComponent, SelectableComponent {
         ref={this.setContainerEl}
       >
         {this.renderSelectionIcon()}
-        <div class={CSS.column}>
-          <slot name={SLOTS.contentTop} />
+        <div
+          class={{
+            [CSS.contentContainer]: true,
+            [CSS.contentContainerHasContent]: hasContent,
+            [CSS.contentContainerHasOnlyContentTopAndBottom]: hasOnlyContentTopAndBottom,
+          }}
+        >
+          <slot
+            data-name="ContentTop"
+            name={SLOTS.contentTop}
+            onSlotchange={this.handleSlotChange}
+          />
           {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
-          <div class={{ [CSS.contentContainer]: true, [CSS.row]: true }}>
-            <slot name={SLOTS.contentStart} />
+          <div class={{ [CSS.textContentContainer]: true, [CSS.row]: true }}>
+            <slot
+              data-name="ContentStart"
+              name={SLOTS.contentStart}
+              onSlotchange={this.handleSlotChange}
+            />
             <div class={CSS.textContent}>
               {heading && <div class={CSS.heading}>{heading}</div>}
               {description && <div class={CSS.description}>{description}</div>}
             </div>
-            <slot name={SLOTS.contentEnd} />
+            <slot
+              data-name="ContentEnd"
+              name={SLOTS.contentEnd}
+              onSlotchange={this.handleSlotChange}
+            />
           </div>
-          <slot name={SLOTS.contentBottom} />
+          <slot
+            data-name="ContentBottom"
+            name={SLOTS.contentBottom}
+            onSlotchange={this.handleSlotChange}
+          />
         </div>
       </div>
     );

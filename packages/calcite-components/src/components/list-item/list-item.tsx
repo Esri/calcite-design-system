@@ -169,6 +169,11 @@ export class ListItem
    */
   @Prop({ mutable: true, reflect: true }) open = false;
 
+  @Watch("open")
+  handleOpenChange(): void {
+    this.emitCalciteInternalListItemToggle();
+  }
+
   /**
    * Used to specify the aria-setsize attribute to define the number of items in the current set of list for accessibility.
    *
@@ -292,6 +297,12 @@ export class ListItem
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalListItemChange: EventEmitter<void>;
+
+  /**
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalListItemToggle: EventEmitter<void>;
 
   @Listen("calciteInternalListItemGroupDefaultSlotChange")
   @Listen("calciteInternalListDefaultSlotChange")
@@ -733,6 +744,10 @@ export class ListItem
   private focusCellActionsEnd = (): void => {
     this.handleCellFocusIn(this.actionsEndEl);
   };
+
+  private emitCalciteInternalListItemToggle(): void {
+    this.calciteInternalListItemToggle.emit();
+  }
 
   private emitCalciteInternalListItemChange(): void {
     this.calciteInternalListItemChange.emit();

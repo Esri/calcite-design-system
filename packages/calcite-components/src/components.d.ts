@@ -6656,6 +6656,7 @@ declare global {
         "calciteInternalListItemActive": void;
         "calciteInternalFocusPreviousItem": void;
         "calciteInternalListItemChange": void;
+        "calciteInternalListItemToggle": void;
     }
     interface HTMLCalciteListItemElement extends Components.CalciteListItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteListItemElementEventMap>(type: K, listener: (this: HTMLCalciteListItemElement, ev: CalciteListItemCustomEvent<HTMLCalciteListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -10708,6 +10709,7 @@ declare namespace LocalJSX {
         "onCalciteInternalListItemSelectMultiple"?: (event: CalciteListItemCustomEvent<{
     selectMultiple: boolean;
   }>) => void;
+        "onCalciteInternalListItemToggle"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Fires when the close button is clicked.
          */
