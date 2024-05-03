@@ -18,7 +18,6 @@ import {
   dateFromRange,
   dateToISO,
   getDaysDiff,
-  hasSameMonthAndYear,
   HoverRange,
   inRange,
   nextMonth,
@@ -95,14 +94,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
    * When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date.
    */
   @Prop({ reflect: true }) activeRange: "start" | "end";
-
-  @Watch("activeRange")
-  handleActiveRangeChange(newValue: string): void {
-    //preserve activeEndDate when user selects startDate and focus shifts on to endDate
-    if (newValue && Array.isArray(this.valueAsDate) && this.valueAsDate[0] && this.valueAsDate[1]) {
-      this.resetActiveDates();
-    }
-  }
 
   /**
    * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`).
@@ -304,13 +295,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           : date
         : this.minAsDate;
 
-    const startCalendarActiveDate = this.range
-      ? this.activeRange === "end" &&
-        this.activeEndDate &&
-        !hasSameMonthAndYear(this.activeStartDate, this.activeEndDate)
-        ? prevMonth(this.activeEndDate)
-        : this.activeStartDate || prevMonth(this.activeEndDate)
-      : activeDate;
+    const startCalendarActiveDate = this.range ? this.activeStartDate : activeDate;
 
     return (
       <Host onKeyDown={this.keyDownHandler}>
