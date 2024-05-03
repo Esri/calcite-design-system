@@ -1438,7 +1438,7 @@ describe("calcite-input-date-picker", () => {
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-      expect(await calendar.isVisible()).toBe(false);
+      expect(await calendar.isVisible()).toBe(true);
       expect(await getActiveMonth(page)).toBe("February");
     });
 
@@ -1454,13 +1454,19 @@ describe("calcite-input-date-picker", () => {
       });
 
       const inputDatePicker = await page.find("calcite-input-date-picker");
-      const [inputStart, inputEnd] = await page.findAll("calcite-input-date-picker >>> calcite-input-text");
+      const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
       const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
       expect(await calendar.isVisible()).toBe(false);
 
-      await inputStart.click();
+      await input.click();
       expect(await calendar.isVisible()).toBe(true);
 
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
       await page.keyboard.press("Tab");
       await page.waitForChanges();
       await page.keyboard.press("Tab");
@@ -1477,20 +1483,9 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      expect(await calendar.isVisible()).toBe(false);
+      expect(await calendar.isVisible()).toBe(true);
       expect(await inputDatePicker.getProperty("value")).toEqual(["2023-11-25", "2024-02-10"]);
 
-      await inputEnd.click();
-      expect(await calendar.isVisible()).toBe(true);
-
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
       expect(await calendar.isVisible()).toBe(true);

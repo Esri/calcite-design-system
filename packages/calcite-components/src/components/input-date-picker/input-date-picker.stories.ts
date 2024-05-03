@@ -27,6 +27,12 @@ export const simple = (): string => html`
 
 export const range = (): string => html`
   <div style="width: 400px">
+  <calcite-input-date-picker range></calcite-input-date-picker
+  </div>
+`;
+
+export const rangeWithMinMax = (): string => html`
+  <div style="width: 400px">
     <calcite-input-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
