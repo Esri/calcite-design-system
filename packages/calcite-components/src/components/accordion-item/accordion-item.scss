@@ -99,7 +99,7 @@
 
 :host .header * {
   @apply inline-flex
-    items-stretch
+    items-center
     duration-150
     ease-in-out;
   @include word-break();
