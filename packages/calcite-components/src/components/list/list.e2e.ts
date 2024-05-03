@@ -169,6 +169,57 @@ describe("calcite-list", () => {
     });
   });
 
+  it("should border nested list items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-list>
+        <calcite-list-item
+          id="firstItem"
+          label="Hiking trails"
+          description="Designated routes for hikers to use."
+          value="hiking-trails"
+        >
+          <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+          <calcite-list>
+            <calcite-list-item
+              id="firstChildItem"
+              label="Hiking trails"
+              description="Designated routes for hikers to use."
+              value="hiking-trails"
+            >
+              <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+            </calcite-list-item>
+            <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+              <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
+            </calcite-list-item>
+            <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
+              <calcite-action slot="actions-end" icon="layer" text="Rivers layer"></calcite-action>
+            </calcite-list-item>
+          </calcite-list>
+        </calcite-list-item>
+        <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+          <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
+        </calcite-list-item>
+        <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
+          <calcite-action slot="actions-end" icon="layer" text="Rivers layer"></calcite-action>
+        </calcite-list-item>
+      </calcite-list>`,
+    );
+    await page.waitForChanges();
+
+    const firstItem = await page.find("#firstItem");
+    const firstChildItem = await page.find("#firstChildItem");
+
+    expect(await firstItem.getProperty("bordered")).toBe(true);
+    expect(await firstChildItem.getProperty("bordered")).toBe(false);
+
+    firstItem.setProperty("open", true);
+    await page.waitForChanges();
+
+    expect(await firstItem.getProperty("bordered")).toBe(true);
+    expect(await firstChildItem.getProperty("bordered")).toBe(true);
+  });
+
   it("navigating items after filtering", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
