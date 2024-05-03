@@ -292,17 +292,17 @@ describe("calcite-dropdown", () => {
     const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
     const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-dropdown", "calciteDropdownSelect");
     expect(group1).toEqualAttribute("selection-mode", "single");
-    selectedItemAsserter(["item-2"]);
+    await selectedItemAsserter(["item-2"]);
     await trigger.click();
     await page.waitForChanges();
     await item1.click();
     await page.waitForChanges();
-    selectedItemAsserter(["item-1"]);
+    await selectedItemAsserter(["item-1"]);
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
-    selectedItemAsserter(["item-3"]);
+    await selectedItemAsserter(["item-3"]);
 
     expect(item1).not.toHaveAttribute("selected");
     expect(item2).not.toHaveAttribute("selected");
