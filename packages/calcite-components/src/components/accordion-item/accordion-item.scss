@@ -99,7 +99,7 @@
 
 :host .header * {
   @apply inline-flex
-    items-center
+    items-stretch
     duration-150
     ease-in-out;
   @include word-break();
@@ -190,10 +190,10 @@
 .actions-start,
 .actions-end {
   @apply flex items-center;
-}
 
-slot[name="actions-start"] {
-  block-size: 100%;
+  ::slotted(*) {
+    @apply self-stretch;
+  }
 }
 
 @media (forced-colors: active) {
