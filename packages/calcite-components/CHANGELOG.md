@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.1-next.0...@esri/calcite-components@2.8.1-next.1) (2024-05-03)
+
+### Bug Fixes
+
+- **tile:** fix spacing between content-top and content-bottom slots ([#9241](https://github.com/Esri/calcite-design-system/issues/9241)) ([0b9443d](https://github.com/Esri/calcite-design-system/commit/0b9443dd90abdf17768a7e2bad6fb2426f4c00e4)), closes [#4701](https://github.com/Esri/calcite-design-system/issues/4701)
+
 ## [2.8.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0...@esri/calcite-components@2.8.1-next.0) (2024-05-01)
 
 ### Bug Fixes
