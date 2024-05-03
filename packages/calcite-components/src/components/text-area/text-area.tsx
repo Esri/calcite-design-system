@@ -13,7 +13,13 @@ import {
   forceUpdate,
 } from "@stencil/core";
 import { throttle } from "lodash-es";
-import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import {
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  MutableValidityState,
+} from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
@@ -151,6 +157,27 @@ export class TextArea
 
   /** Specifies the validation icon to display under the component. */
   @Prop({ reflect: true }) validationIcon: string | boolean;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
 
   /**
    * Specifies the name of the component.
@@ -377,6 +404,7 @@ export class TextArea
     await componentLoaded(this);
     this.textAreaEl.select();
   }
+
   //--------------------------------------------------------------------------
   //
   //  Private Properties/ State

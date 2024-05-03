@@ -747,4 +747,15 @@ describe("calcite-button", () => {
     expect(button.getAttribute("aria-expanded")).toBe("true");
     expect(calciteButton.getAttribute("aria-expanded")).toBe("true");
   });
+
+  it("renders child element with same width as host", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button width="full">Continue</calcite-button>`);
+    const elementHost = await page.find("calcite-button");
+    const elementAsButton = await page.find("calcite-button >>> button");
+    expect(elementHost).not.toBeNull();
+    expect(elementAsButton).not.toBeNull();
+    expect(elementHost).toEqualAttribute("width", "full");
+    expect(await elementAsButton.getComputedStyle()["width"]).toEqual(await elementHost.getComputedStyle()["width"]);
+  });
 });

@@ -1,0 +1,8 @@
+{
+  "previous": "이전",
+  "next": "다음",
+  "play": "Play",
+  "pause": "Pause",
+  "carousel": "Carousel",
+  "carouselItemProgress": "Progress indicator for Carousel Item"
+}
