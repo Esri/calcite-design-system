@@ -96,6 +96,14 @@ export class InputText
   @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
+   * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() autofocus: boolean;
+
+  /**
    * When `true`, a clear button is displayed when the component has a value.
    */
   @Prop({ reflect: true }) clearable = false;
@@ -113,9 +121,9 @@ export class InputText
   }
 
   /**
-   * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
    *
-   * @futureBreaking kebab-case of this attribute will not be supported in a future release
+   * @futureBreaking kebab-cased attribute will not be supported in a future release
    * @internal
    */
   // eslint-disable-next-line @stencil-community/reserved-member-names
@@ -140,9 +148,9 @@ export class InputText
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
-   * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
+   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
    *
-   * @futureBreaking kebab-case of this attribute will not be supported in a future release
+   * @futureBreaking kebab-cased attribute will not be supported in a future release
    * @internal
    */
   // eslint-disable-next-line @stencil-community/reserved-member-names
@@ -650,7 +658,6 @@ export class InputText
       />
     );
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
-
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
     const childEl = (
@@ -664,8 +671,8 @@ export class InputText
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={this.el.enterKeyHint || this.el.getAttribute("enter-key-hint")}
-        inputMode={this.el.inputMode || this.el.getAttribute("input-mode")}
+        enterKeyHint={this.el.enterKeyHint || this.el.getAttribute("enterkeyhint")}
+        inputMode={this.el.inputMode || this.el.getAttribute("inputmode")}
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={this.name}

@@ -2035,6 +2035,10 @@ export namespace Components {
          */
         "autocomplete": string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus": boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
          */
         "clearable": boolean;
@@ -2045,8 +2049,8 @@ export namespace Components {
         "disabled": boolean;
         "editingEnabled": boolean;
         /**
-          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
-          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
          */
         "enterKeyHint": string;
         /**
@@ -2071,8 +2075,8 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
-          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
-          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
          */
         "inputMode": string;
         /**
@@ -2375,6 +2379,10 @@ export namespace Components {
          */
         "autocomplete": string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus": boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable": boolean;
@@ -2385,8 +2393,8 @@ export namespace Components {
         "disabled": boolean;
         "editingEnabled": boolean;
         /**
-          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
-          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
          */
         "enterKeyHint": string;
         /**
@@ -2407,8 +2415,8 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
-          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
-          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
          */
         "inputMode": string;
         /**
@@ -2543,6 +2551,10 @@ export namespace Components {
          */
         "autocomplete": string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus": boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable": boolean;
@@ -2553,8 +2565,8 @@ export namespace Components {
         "disabled": boolean;
         "editingEnabled": boolean;
         /**
-          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
-          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
          */
         "enterKeyHint": string;
         /**
@@ -2571,8 +2583,8 @@ export namespace Components {
          */
         "iconFlipRtl": boolean;
         /**
-          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
-          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
          */
         "inputMode": string;
         /**
@@ -9779,6 +9791,10 @@ declare namespace LocalJSX {
          */
         "autocomplete"?: string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus"?: boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
          */
         "clearable"?: boolean;
@@ -9789,8 +9805,8 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
         /**
-          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
-          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
          */
         "enterKeyHint"?: string;
         /**
@@ -9815,8 +9831,8 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
-          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
-          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
          */
         "inputMode"?: string;
         /**
@@ -10132,6 +10148,10 @@ declare namespace LocalJSX {
          */
         "autocomplete"?: string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus"?: boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable"?: boolean;
@@ -10142,8 +10162,8 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
         /**
-          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
-          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
          */
         "enterKeyHint"?: string;
         /**
@@ -10164,8 +10184,8 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
-          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
-          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
          */
         "inputMode"?: string;
         /**
@@ -10302,6 +10322,10 @@ declare namespace LocalJSX {
          */
         "autocomplete"?: string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus"?: boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable"?: boolean;
@@ -10312,8 +10336,8 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
         /**
-          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
-          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
          */
         "enterKeyHint"?: string;
         /**
@@ -10330,8 +10354,8 @@ declare namespace LocalJSX {
          */
         "iconFlipRtl"?: boolean;
         /**
-          * Custom global prop added to support kebab-cased attribute from custom global prop removed in https://github.com/Esri/calcite-design-system/pull/9123
-          * @futureBreaking kebab-case of this attribute will not be supported in a future release
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
          */
         "inputMode"?: string;
         /**
