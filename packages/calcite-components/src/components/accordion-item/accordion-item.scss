@@ -190,10 +190,10 @@
 .actions-start,
 .actions-end {
   @apply flex items-center;
+}
 
-  ::slotted(*) {
-    @apply self-stretch;
-  }
+slot[name="actions-start"] {
+  block-size: 100%;
 }
 
 @media (forced-colors: active) {
