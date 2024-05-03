@@ -436,63 +436,59 @@ interface SelectedItemsAssertionOptions {
   expectedItemIds: string[];
 }
 
-/**
- * Test helper for selected items. Expects items to have IDs to test against.
- *
- * Note: assertSelectedItems.setUpEvents must be called before using this method
- *
- * @param groupElementTagName - The custom element tag name
- * @param page - The E2EPage instance
- * @param SelectedItemsAssertionOptions - Object containing selectable test assertion options
- * @param SelectedItemsAssertionOptions.expectedItemIds - An array of ids to expect to be selected from an interaction
- */
-export async function assertSelectedItems(
-  groupElementTagName: ComponentTag,
-  page: E2EPage,
-  { expectedItemIds }: SelectedItemsAssertionOptions,
-): Promise<void> {
-  await page.waitForChanges();
-
-  const selectedItemIds = await page.evaluate(
-    (groupElementTagName) =>
-      document.querySelector<HTMLSelectableElement>(groupElementTagName).selectedItems.map((item) => item.id),
-    groupElementTagName,
-  );
-
-  expect(selectedItemIds).toHaveLength(expectedItemIds.length);
-  expectedItemIds.forEach((itemId, index) => expect(selectedItemIds[index]).toEqual(itemId));
-}
-
 type SelectionEventTestWindow = GlobalTestProps<{ eventDetail: Selection }>;
 
-/**
- * Helper to wire up the page to assert on the event detail
- *
- * @param eventName - The name of the CustomEvent
- * @param page - The E2EPage instance
- */
-assertSelectedItems.setUpEvents = async (eventName: string, page: E2EPage) => {
-  await page.evaluate((eventName) => {
-    document.addEventListener(eventName as any, ({ detail }: CustomEvent<Selection>) => {
-      (window as SelectionEventTestWindow).eventDetail = detail;
-    });
-  }, eventName);
-};
+interface SelectedItemsAsserter {
+  (expectedItemIds: SelectedItemsAssertionOptions["expectedItemIds"]): Promise<void>;
+}
 
+/**
+ * Creates a selected items asserter for a selectable component.
+ *
+ * @example
+ *
+ * const page = await newE2EPage();
+ * await page.setContent(
+ *   html`<calcite-dropdown open>
+ *     <calcite-button id="trigger" slot="trigger">Open dropdown</calcite-button>
+ *     <calcite-dropdown-group id="group-1" selection-mode="single">
+ *       <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+ *       <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+ *       <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+ *     </calcite-dropdown-group>
+ *   </calcite-dropdown>`,
+ * );
+ *
+ * const assertSelectedItems = await createSelectedItemsAsserter(page, "calcite-dropdown", "calciteDropdownSelect");
+ * await page.click("#item-2");
+ * await assertSelectedItems({ expectedItemIds: ["item-2"] });
+ *
+ * @param page - the e2e page
+ * @param selectableComponentTagName - the tag name of the selectable group element
+ * @param selectionEventName - the name of the selection event
+ */
 export async function createSelectedItemsAsserter(
   page: E2EPage,
-  groupElementTagName: ComponentTag,
-  eventName: string,
-): Promise<(expectedItemIds: SelectedItemsAssertionOptions["expectedItemIds"]) => Promise<void>> {
+  selectableComponentTagName: ComponentTag,
+  selectionEventName: string,
+): Promise<SelectedItemsAsserter> {
   await page.evaluate((eventName) => {
-    document.addEventListener(eventName as any, ({ detail }: CustomEvent<Selection>) => {
-      (window as SelectionEventTestWindow).eventDetail = detail;
-    });
-  }, eventName);
+    document.addEventListener(
+      eventName as any,
+      ({ detail }: CustomEvent<Selection>) => ((window as SelectionEventTestWindow).eventDetail = detail),
+    );
+  }, selectionEventName);
 
   return async (expectedItemIds: SelectedItemsAssertionOptions["expectedItemIds"]) => {
     await page.waitForChanges();
 
-    await assertSelectedItems(groupElementTagName, page, { expectedItemIds });
+    const selectedItemIds = await page.evaluate(
+      (groupElementTagName) =>
+        document.querySelector<HTMLSelectableElement>(groupElementTagName).selectedItems.map((item) => item.id),
+      selectableComponentTagName,
+    );
+
+    expect(selectedItemIds).toHaveLength(expectedItemIds.length);
+    expectedItemIds.forEach((itemId, index) => expect(selectedItemIds[index]).toEqual(itemId));
   };
 }
