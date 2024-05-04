@@ -284,7 +284,7 @@ export class List
 
   @Listen("calciteInternalListItemActive")
   handleCalciteInternalListItemActive(event: CustomEvent): void {
-    if (!!this.parentListEl) {
+    if (this.parentListEl) {
       return;
     }
 
@@ -299,7 +299,7 @@ export class List
 
   @Listen("calciteListItemSelect")
   handleCalciteListItemSelect(): void {
-    if (!!this.parentListEl) {
+    if (this.parentListEl) {
       return;
     }
 
@@ -314,7 +314,7 @@ export class List
 
   @Listen("calciteHandleNudge")
   handleCalciteHandleNudge(event: CustomEvent<HandleNudge>): void {
-    if (!!this.parentListEl) {
+    if (this.parentListEl) {
       return;
     }
 
@@ -323,7 +323,7 @@ export class List
 
   @Listen("calciteInternalListItemSelect")
   handleCalciteInternalListItemSelect(event: CustomEvent): void {
-    if (!!this.parentListEl) {
+    if (this.parentListEl) {
       return;
     }
 
@@ -344,7 +344,7 @@ export class List
       selectMultiple: boolean;
     }>,
   ): void {
-    if (!!this.parentListEl) {
+    if (this.parentListEl) {
       return;
     }
 
@@ -369,7 +369,7 @@ export class List
 
   @Listen("calciteInternalListItemChange")
   handleCalciteInternalListItemChange(event: CustomEvent): void {
-    if (!!this.parentListEl) {
+    if (this.parentListEl) {
       return;
     }
 
@@ -847,7 +847,7 @@ export class List
       item.dragHandle = dragEnabled;
     });
 
-    if (!!this.parentListEl) {
+    if (this.parentListEl) {
       this.setUpSorting();
       return;
     }

@@ -549,7 +549,7 @@ export class TextArea
     const { height: textAreaHeight, width: textAreaWidth } =
       this.textAreaEl.getBoundingClientRect();
     const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
-    const { height: footerHeight, width: footerWidth } = this.footerEl?.getBoundingClientRect();
+    const { height: footerHeight, width: footerWidth } = this.footerEl.getBoundingClientRect();
 
     return {
       textAreaHeight,

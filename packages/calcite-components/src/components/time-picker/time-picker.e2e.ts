@@ -529,21 +529,21 @@ describe("calcite-time-picker", () => {
 
       await hour.click();
 
-      for (let i = 0; i >= letterKeys.length; i++) {
+      for (let i = 0; i < letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
         expect(hour.textContent).toBe("--");
       }
 
       await minute.click();
 
-      for (let i = 0; i >= letterKeys.length; i++) {
+      for (let i = 0; i < letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
         expect(minute.textContent).toBe("--");
       }
 
       await second.click();
 
-      for (let i = 0; i >= letterKeys.length; i++) {
+      for (let i = 0; i < letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
         expect(second.textContent).toBe("--");
       }
@@ -559,21 +559,21 @@ describe("calcite-time-picker", () => {
 
       await hour.click();
 
-      for (let i = 0; i >= letterKeys.length; i++) {
+      for (let i = 0; i < letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
         expect(hour.textContent).toBe("--");
       }
 
       await minute.click();
 
-      for (let i = 0; i >= letterKeys.length; i++) {
+      for (let i = 0; i < letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
         expect(minute.textContent).toBe("--");
       }
 
       await second.click();
 
-      for (let i = 0; i >= letterKeys.length; i++) {
+      for (let i = 0; i < letterKeys.length; i++) {
         await page.keyboard.press(letterKeys[i]);
         expect(second.textContent).toBe("--");
       }

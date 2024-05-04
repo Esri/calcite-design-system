@@ -766,7 +766,7 @@ export class Combobox
         }
         break;
       case "Delete":
-      case "Backspace":
+      case "Backspace": {
         const notDeletable =
           this.selectionDisplay === "single" ||
           (this.selectionDisplay === "fit" && this.selectedHiddenChipsCount > 0);
@@ -781,6 +781,7 @@ export class Combobox
           this.removeLastChip();
         }
         break;
+      }
     }
   };
 

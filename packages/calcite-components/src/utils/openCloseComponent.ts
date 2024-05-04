@@ -106,58 +106,54 @@ function emitImmediately(component: OpenCloseComponent, nonOpenCloseComponent = 
  */
 export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpenCloseComponent = false): void {
   readTask((): void => {
-    if (component.transitionEl) {
-      const { transitionDuration: allDurations, transitionProperty: allProps } = getComputedStyle(
-        component.transitionEl,
-      );
-      const allTransitionDurationsArray = allDurations.split(",");
-      const allTransitionPropsArray = allProps.split(",");
-      const openTransitionPropIndex = allTransitionPropsArray.indexOf(component.openTransitionProp);
+    if (!component.transitionEl) {
+      return;
+    }
 
-      const transitionDuration =
-        allTransitionDurationsArray[openTransitionPropIndex] ??
-        /* Safari will have a single transition value if multiple props share it,
-        so we fall back to it if there's no matching prop duration */
-        allTransitionDurationsArray[0];
-
-      if (transitionDuration === "0s") {
+    const { transitionDuration: allDurations, transitionProperty: allProps } = getComputedStyle(component.transitionEl);
+    const allTransitionDurationsArray = allDurations.split(",");
+    const allTransitionPropsArray = allProps.split(",");
+    const openTransitionPropIndex = allTransitionPropsArray.indexOf(component.openTransitionProp);
+    const transitionDuration =
+      allTransitionDurationsArray[openTransitionPropIndex] ??
+      /* Safari will have a single transition value if multiple props share it,
+            so we fall back to it if there's no matching prop duration */
+      allTransitionDurationsArray[0];
+    if (transitionDuration === "0s") {
+      emitImmediately(component, nonOpenCloseComponent);
+      return;
+    }
+    const fallbackTimeoutId = setTimeout(
+      (): void => {
+        component.transitionEl.removeEventListener("transitionstart", onStart);
+        component.transitionEl.removeEventListener("transitionend", onEndOrCancel);
+        component.transitionEl.removeEventListener("transitioncancel", onEndOrCancel);
         emitImmediately(component, nonOpenCloseComponent);
-        return;
+      },
+      parseFloat(transitionDuration) * 1000,
+    );
+    component.transitionEl.addEventListener("transitionstart", onStart);
+    component.transitionEl.addEventListener("transitionend", onEndOrCancel);
+    component.transitionEl.addEventListener("transitioncancel", onEndOrCancel);
+
+    function onStart(event: TransitionEvent): void {
+      if (event.propertyName === component.openTransitionProp && event.target === component.transitionEl) {
+        clearTimeout(fallbackTimeoutId);
+        component.transitionEl.removeEventListener("transitionstart", onStart);
+        (nonOpenCloseComponent ? component[component.transitionProp] : isOpen(component))
+          ? component.onBeforeOpen()
+          : component.onBeforeClose();
       }
+    }
 
-      const fallbackTimeoutId = setTimeout(
-        (): void => {
-          component.transitionEl.removeEventListener("transitionstart", onStart);
-          component.transitionEl.removeEventListener("transitionend", onEndOrCancel);
-          component.transitionEl.removeEventListener("transitioncancel", onEndOrCancel);
-          emitImmediately(component, nonOpenCloseComponent);
-        },
-        parseFloat(transitionDuration) * 1000,
-      );
+    function onEndOrCancel(event: TransitionEvent): void {
+      if (event.propertyName === component.openTransitionProp && event.target === component.transitionEl) {
+        (nonOpenCloseComponent ? component[component.transitionProp] : isOpen(component))
+          ? component.onOpen()
+          : component.onClose();
 
-      component.transitionEl.addEventListener("transitionstart", onStart);
-      component.transitionEl.addEventListener("transitionend", onEndOrCancel);
-      component.transitionEl.addEventListener("transitioncancel", onEndOrCancel);
-
-      function onStart(event: TransitionEvent): void {
-        if (event.propertyName === component.openTransitionProp && event.target === component.transitionEl) {
-          clearTimeout(fallbackTimeoutId);
-          component.transitionEl.removeEventListener("transitionstart", onStart);
-          (nonOpenCloseComponent ? component[component.transitionProp] : isOpen(component))
-            ? component.onBeforeOpen()
-            : component.onBeforeClose();
-        }
-      }
-
-      function onEndOrCancel(event: TransitionEvent): void {
-        if (event.propertyName === component.openTransitionProp && event.target === component.transitionEl) {
-          (nonOpenCloseComponent ? component[component.transitionProp] : isOpen(component))
-            ? component.onOpen()
-            : component.onClose();
-
-          component.transitionEl.removeEventListener("transitionend", onEndOrCancel);
-          component.transitionEl.removeEventListener("transitioncancel", onEndOrCancel);
-        }
+        component.transitionEl.removeEventListener("transitionend", onEndOrCancel);
+        component.transitionEl.removeEventListener("transitioncancel", onEndOrCancel);
       }
     }
   });

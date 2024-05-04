@@ -303,7 +303,7 @@ export class Block
       <div class={CSS.icon} key="loader">
         <calcite-loader inline label={messages.loading} />
       </div>
-    ) : !!status ? (
+    ) : status ? (
       <div class={CSS.icon} key="status-icon">
         <calcite-icon
           class={{
