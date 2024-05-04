@@ -8,84 +8,182 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
+import { ActionMessages } from "./components/action/assets/action/t9n";
 import { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
+import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
+import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 import { AlertDuration, Sync } from "./components/alert/interfaces";
 import { NumberingSystem } from "./utils/locale";
+import { AlertMessages } from "./components/alert/assets/alert/t9n";
 import { HeadingLevel } from "./components/functional/Heading";
+import { BlockMessages } from "./components/block/assets/block/t9n";
 import { BlockSectionToggleDisplay } from "./components/block-section/interfaces";
+import { BlockSectionMessages } from "./components/block-section/assets/block-section/t9n";
 import { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
+import { ButtonMessages } from "./components/button/assets/button/t9n";
+import { CardMessages } from "./components/card/assets/card/t9n";
 import { ArrowType, AutoplayType } from "./components/carousel/interfaces";
+import { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 import { MutableValidityState } from "./utils/form";
+import { ChipMessages } from "./components/chip/assets/chip/t9n";
 import { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 import { Format } from "./components/color-picker/utils";
+import { ColorPickerMessages } from "./components/color-picker/assets/color-picker/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
+import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
+import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
+import { FilterMessages } from "./components/filter/assets/filter/t9n";
 import { FlowItemLikeElement } from "./components/flow/interfaces";
+import { FlowItemMessages } from "./components/flow-item/assets/flow-item/t9n";
 import { ColorStop, DataSeries } from "./components/graph/interfaces";
+import { HandleMessages } from "./components/handle/assets/handle/t9n";
 import { HandleChange, HandleNudge } from "./components/handle/interfaces";
+import { InlineEditableMessages } from "./components/inline-editable/assets/inline-editable/t9n";
 import { InputPlacement } from "./components/input/interfaces";
+import { InputMessages } from "./components/input/assets/input/t9n";
+import { InputDatePickerMessages } from "./components/input-date-picker/assets/input-date-picker/t9n";
+import { InputNumberMessages } from "./components/input-number/assets/input-number/t9n";
+import { InputTextMessages } from "./components/input-text/assets/input-text/t9n";
+import { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
+import { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
+import { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
 import { TimeZoneMode } from "./components/input-time-zone/interfaces";
 import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
+import { ListMessages } from "./components/list/assets/list/t9n";
 import { SelectionAppearance } from "./components/list/resources";
+import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
+import { MenuMessages } from "./components/menu/assets/menu/t9n";
+import { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 import { MenuItemCustomEvent } from "./components/menu-item/interfaces";
 import { MeterLabelType } from "./components/meter/interfaces";
+import { ModalMessages } from "./components/modal/assets/modal/t9n";
+import { NoticeMessages } from "./components/notice/assets/notice/t9n";
+import { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
+import { PanelMessages } from "./components/panel/assets/panel/t9n";
 import { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
 import { ICON_TYPES } from "./components/pick-list/resources";
+import { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
+import { PopoverMessages } from "./components/popover/assets/popover/t9n";
+import { RatingMessages } from "./components/rating/assets/rating/t9n";
+import { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 import { DisplayMode } from "./components/sheet/interfaces";
 import { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
+import { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 import { DragDetail } from "./utils/sortableComponent";
 import { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
+import { StepperMessages } from "./components/stepper/assets/stepper/t9n";
+import { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
+import { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
+import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
+import { TableMessages } from "./components/table/assets/table/t9n";
+import { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
+import { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
+import { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
 import { TileSelectType } from "./components/tile-select/interfaces";
 import { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
+import { TipMessages } from "./components/tip/assets/tip/t9n";
+import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
+import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
 export { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
+export { ActionMessages } from "./components/action/assets/action/t9n";
 export { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
+export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
+export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 export { AlertDuration, Sync } from "./components/alert/interfaces";
 export { NumberingSystem } from "./utils/locale";
+export { AlertMessages } from "./components/alert/assets/alert/t9n";
 export { HeadingLevel } from "./components/functional/Heading";
+export { BlockMessages } from "./components/block/assets/block/t9n";
 export { BlockSectionToggleDisplay } from "./components/block-section/interfaces";
+export { BlockSectionMessages } from "./components/block-section/assets/block-section/t9n";
 export { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
+export { ButtonMessages } from "./components/button/assets/button/t9n";
+export { CardMessages } from "./components/card/assets/card/t9n";
 export { ArrowType, AutoplayType } from "./components/carousel/interfaces";
+export { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 export { MutableValidityState } from "./utils/form";
+export { ChipMessages } from "./components/chip/assets/chip/t9n";
 export { ColorValue, InternalColor } from "./components/color-picker/interfaces";
 export { Format } from "./components/color-picker/utils";
+export { ColorPickerMessages } from "./components/color-picker/assets/color-picker/t9n";
 export { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
+export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
+export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
 export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
+export { FilterMessages } from "./components/filter/assets/filter/t9n";
 export { FlowItemLikeElement } from "./components/flow/interfaces";
+export { FlowItemMessages } from "./components/flow-item/assets/flow-item/t9n";
 export { ColorStop, DataSeries } from "./components/graph/interfaces";
+export { HandleMessages } from "./components/handle/assets/handle/t9n";
 export { HandleChange, HandleNudge } from "./components/handle/interfaces";
+export { InlineEditableMessages } from "./components/inline-editable/assets/inline-editable/t9n";
 export { InputPlacement } from "./components/input/interfaces";
+export { InputMessages } from "./components/input/assets/input/t9n";
+export { InputDatePickerMessages } from "./components/input-date-picker/assets/input-date-picker/t9n";
+export { InputNumberMessages } from "./components/input-number/assets/input-number/t9n";
+export { InputTextMessages } from "./components/input-text/assets/input-text/t9n";
+export { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
+export { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
+export { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
 export { TimeZoneMode } from "./components/input-time-zone/interfaces";
 export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
+export { ListMessages } from "./components/list/assets/list/t9n";
 export { SelectionAppearance } from "./components/list/resources";
+export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
+export { MenuMessages } from "./components/menu/assets/menu/t9n";
+export { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 export { MenuItemCustomEvent } from "./components/menu-item/interfaces";
 export { MeterLabelType } from "./components/meter/interfaces";
+export { ModalMessages } from "./components/modal/assets/modal/t9n";
+export { NoticeMessages } from "./components/notice/assets/notice/t9n";
+export { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
+export { PanelMessages } from "./components/panel/assets/panel/t9n";
 export { ItemData as ItemData1, ListFocusId } from "./components/pick-list/shared-list-logic";
 export { ICON_TYPES } from "./components/pick-list/resources";
+export { PickListItemMessages } from "./components/pick-list-item/assets/pick-list-item/t9n";
+export { PopoverMessages } from "./components/popover/assets/popover/t9n";
+export { RatingMessages } from "./components/rating/assets/rating/t9n";
+export { ScrimMessages } from "./components/scrim/assets/scrim/t9n";
 export { DisplayMode } from "./components/sheet/interfaces";
 export { DisplayMode as DisplayMode1 } from "./components/shell-panel/interfaces";
+export { ShellPanelMessages } from "./components/shell-panel/assets/shell-panel/t9n";
 export { DragDetail } from "./utils/sortableComponent";
 export { StepperItemChangeEventDetail, StepperItemEventDetail, StepperItemKeyEventDetail, StepperLayout } from "./components/stepper/interfaces";
+export { StepperMessages } from "./components/stepper/assets/stepper/t9n";
+export { StepperItemMessages } from "./components/stepper-item/assets/stepper-item/t9n";
 export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
+export { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
+export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
 export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
+export { TableMessages } from "./components/table/assets/table/t9n";
+export { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
+export { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
+export { TextAreaMessages } from "./components/text-area/assets/text-area/t9n";
 export { TileSelectType } from "./components/tile-select/interfaces";
 export { TileSelectGroupLayout } from "./components/tile-select-group/interfaces";
+export { TipMessages } from "./components/tip/assets/tip/t9n";
+export { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/t9n";
 export { TreeItemSelectDetail } from "./components/tree-item/interfaces";
+export { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 export { ListItemAndHandle } from "./components/value-list-item/interfaces";
 export namespace Components {
     interface CalciteAccordion {
@@ -112,6 +210,7 @@ export namespace Components {
     "single" | "single-persist" | "multiple",
     SelectionMode
   >;
+        "version": string;
     }
     interface CalciteAccordionItem {
         /**
@@ -154,6 +253,7 @@ export namespace Components {
           * Specifies the size of the component inherited from the `calcite-accordion`.
          */
         "scale": Scale;
+        "version": string;
     }
     interface CalciteAction {
         /**
@@ -220,6 +320,7 @@ export namespace Components {
           * Indicates whether the text is displayed.
          */
         "textEnabled": boolean;
+        "version": string;
     }
     interface CalciteActionBar {
         /**
@@ -270,6 +371,7 @@ export namespace Components {
           * Sets focus on the component's first focusable element.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteActionGroup {
         /**
@@ -313,6 +415,7 @@ export namespace Components {
           * Sets focus on the component's first focusable element.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteActionMenu {
         /**
@@ -351,6 +454,7 @@ export namespace Components {
           * Sets focus on the component.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteActionPad {
         /**
@@ -393,6 +497,7 @@ export namespace Components {
           * Sets focus on the component's first focusable element.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteAlert {
         /**
@@ -454,6 +559,7 @@ export namespace Components {
           * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
          */
         "slottedInShell": boolean;
+        "version": string;
     }
     interface CalciteAvatar {
         /**
@@ -480,6 +586,7 @@ export namespace Components {
           * Specifies the username of the user.
          */
         "username": string;
+        "version": string;
     }
     interface CalciteBlock {
         /**
@@ -534,6 +641,7 @@ export namespace Components {
           * Displays a status-related indicator icon.
          */
         "status": Status;
+        "version": string;
     }
     interface CalciteBlockSection {
         /**
@@ -564,6 +672,7 @@ export namespace Components {
           * Specifies how the component's toggle is displayed, where:  `"button"` sets the toggle to a selectable header, and  `"switch"` sets the toggle to a switch.
          */
         "toggleDisplay": BlockSectionToggleDisplay;
+        "version": string;
     }
     interface CalciteButton {
         /**
@@ -660,6 +769,7 @@ export namespace Components {
           * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
          */
         "type": string;
+        "version": string;
         /**
           * Specifies the width of the component.
          */
@@ -707,6 +817,7 @@ export namespace Components {
           * Sets the placement of the thumbnail defined in the `thumbnail` slot.
          */
         "thumbnailPosition": LogicalFlowPosition;
+        "version": string;
     }
     interface CalciteCardGroup {
         /**
@@ -733,6 +844,7 @@ export namespace Components {
           * Sets focus on the component's first focusable element.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteCarousel {
         /**
@@ -788,6 +900,7 @@ export namespace Components {
           * Stop the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect.
          */
         "stop": () => Promise<void>;
+        "version": string;
     }
     interface CalciteCarouselItem {
         /**
@@ -798,6 +911,7 @@ export namespace Components {
           * When `true`, the component is selected.
          */
         "selected": boolean;
+        "version": string;
     }
     interface CalciteCheckbox {
         /**
@@ -859,6 +973,7 @@ export namespace Components {
           * The component's value.
          */
         "value": any;
+        "version": string;
     }
     interface CalciteChip {
         /**
@@ -926,6 +1041,7 @@ export namespace Components {
           * The component's value.
          */
         "value": any;
+        "version": string;
     }
     interface CalciteChipGroup {
         /**
@@ -956,6 +1072,7 @@ export namespace Components {
           * Sets focus on the component's first focusable element.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteColorPicker {
         /**
@@ -1042,6 +1159,7 @@ export namespace Components {
           * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
          */
         "value": ColorValue | null;
+        "version": string;
     }
     interface CalciteColorPickerHexInput {
         /**
@@ -1077,6 +1195,7 @@ export namespace Components {
           * The hex value.
          */
         "value": string;
+        "version": string;
     }
     interface CalciteColorPickerSwatch {
         /**
@@ -1092,6 +1211,7 @@ export namespace Components {
           * Specifies the size of the component.
          */
         "scale": Scale;
+        "version": string;
     }
     interface CalciteCombobox {
         /**
@@ -1219,6 +1339,7 @@ export namespace Components {
           * The component's value(s) from the selected `calcite-combobox-item`(s).
          */
         "value": string | string[];
+        "version": string;
     }
     interface CalciteComboboxItem {
         /**
@@ -1272,6 +1393,7 @@ export namespace Components {
           * The component's value.
          */
         "value": any;
+        "version": string;
     }
     interface CalciteComboboxItemGroup {
         /**
@@ -1290,6 +1412,7 @@ export namespace Components {
           * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
          */
         "scale": Scale;
+        "version": string;
     }
     interface CalciteDatePicker {
         /**
@@ -1360,6 +1483,7 @@ export namespace Components {
           * Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`).
          */
         "valueAsDate": Date | Date[];
+        "version": string;
     }
     interface CalciteDatePickerDay {
         /**
@@ -1422,6 +1546,7 @@ export namespace Components {
           * The component's value.
          */
         "value": Date;
+        "version": string;
     }
     interface CalciteDatePickerMonth {
         /**
@@ -1464,6 +1589,7 @@ export namespace Components {
           * Start date currently active.
          */
         "startDate"?: Date;
+        "version": string;
     }
     interface CalciteDatePickerMonthHeader {
         /**
@@ -1499,6 +1625,7 @@ export namespace Components {
           * Already selected date.
          */
         "selectedDate": Date;
+        "version": string;
     }
     interface CalciteDropdown {
         /**
@@ -1552,6 +1679,7 @@ export namespace Components {
           * Specifies the action to open the component from the container element.
          */
         "type": "hover" | "click";
+        "version": string;
         /**
           * Specifies the width of the component.
          */
@@ -1570,6 +1698,7 @@ export namespace Components {
           * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"none"` does not allow any selections.
          */
         "selectionMode": Extract<"none" | "single" | "multiple", SelectionMode>;
+        "version": string;
     }
     interface CalciteDropdownItem {
         /**
@@ -1620,6 +1749,7 @@ export namespace Components {
           * Specifies the frame or window to open the linked document.
          */
         "target": string;
+        "version": string;
     }
     interface CalciteFab {
         /**
@@ -1667,6 +1797,7 @@ export namespace Components {
           * When `true`, displays the `text` value in the component.
          */
         "textEnabled": boolean;
+        "version": string;
     }
     interface CalciteFilter {
         /**
@@ -1712,6 +1843,7 @@ export namespace Components {
           * The component's value.
          */
         "value": string;
+        "version": string;
     }
     interface CalciteFlow {
         /**
@@ -1726,6 +1858,7 @@ export namespace Components {
           * Sets focus on the component.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteFlowItem {
         /**
@@ -1804,6 +1937,7 @@ export namespace Components {
           * When `true`, displays a back button in the component's header.
          */
         "showBackButton": boolean;
+        "version": string;
     }
     interface CalciteGraph {
         /**
@@ -1830,6 +1964,7 @@ export namespace Components {
           * Lowest point of the range.
          */
         "min": number;
+        "version": string;
     }
     interface CalciteHandle {
         /**
@@ -1863,6 +1998,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         "setPosition": number;
         "setSize": number;
+        "version": string;
     }
     interface CalciteIcon {
         /**
@@ -1882,6 +2018,7 @@ export namespace Components {
           * Accessible name for the component.  It is recommended to set this value if your icon is semantic.
          */
         "textLabel": string;
+        "version": string;
     }
     interface CalciteInlineEditable {
         /**
@@ -1920,6 +2057,7 @@ export namespace Components {
           * Sets focus on the component.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteInput {
         /**
@@ -2110,6 +2248,7 @@ export namespace Components {
           * The component's value.
          */
         "value": string;
+        "version": string;
     }
     interface CalciteInputDatePicker {
         /**
@@ -2237,6 +2376,7 @@ export namespace Components {
           * The component's value as a full date object.
          */
         "valueAsDate": Date | Date[];
+        "version": string;
     }
     interface CalciteInputMessage {
         /**
@@ -2255,6 +2395,7 @@ export namespace Components {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status": Status;
+        "version": string;
     }
     interface CalciteInputNumber {
         /**
@@ -2413,6 +2554,7 @@ export namespace Components {
           * The component's value.
          */
         "value": string;
+        "version": string;
     }
     interface CalciteInputText {
         /**
@@ -2539,6 +2681,7 @@ export namespace Components {
           * The component's value.
          */
         "value": string;
+        "version": string;
     }
     interface CalciteInputTimePicker {
         /**
@@ -2629,6 +2772,7 @@ export namespace Components {
           * The time value in ISO (24-hour) format.
          */
         "value": string;
+        "version": string;
     }
     interface CalciteInputTimeZone {
         /**
@@ -2713,6 +2857,7 @@ export namespace Components {
           * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
          */
         "value": string;
+        "version": string;
     }
     interface CalciteLabel {
         /**
@@ -2731,6 +2876,7 @@ export namespace Components {
           * Specifies the size of the component.
          */
         "scale": Scale;
+        "version": string;
     }
     interface CalciteLink {
         /**
@@ -2769,6 +2915,7 @@ export namespace Components {
           * Specifies the frame or window to open the linked document.
          */
         "target": string;
+        "version": string;
     }
     /**
      * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -2861,6 +3008,7 @@ export namespace Components {
           * @returns
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteListItem {
         /**
@@ -2954,6 +3102,7 @@ export namespace Components {
           * The component's value.
          */
         "value": any;
+        "version": string;
     }
     interface CalciteListItemGroup {
         /**
@@ -2968,6 +3117,7 @@ export namespace Components {
           * The header text for all nested `calcite-list-item` rows.
          */
         "heading": string;
+        "version": string;
     }
     interface CalciteLoader {
         /**
@@ -2994,6 +3144,7 @@ export namespace Components {
           * The component's value. Valid only for `"determinate"` indicators. Percent complete of 100.
          */
         "value": number;
+        "version": string;
     }
     interface CalciteMenu {
         /**
@@ -3016,6 +3167,7 @@ export namespace Components {
           * Sets focus on the component's first focusable element.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteMenuItem {
         /**
@@ -3079,6 +3231,7 @@ export namespace Components {
          */
         "text": string;
         "topLevelMenuLayout": Layout;
+        "version": string;
     }
     interface CalciteMeter {
         /**
@@ -3157,6 +3310,7 @@ export namespace Components {
           * When `valueLabel` is `true`, specifies the format of displayed label.
          */
         "valueLabelType": MeterLabelType;
+        "version": string;
     }
     interface CalciteModal {
         /**
@@ -3229,6 +3383,7 @@ export namespace Components {
           * Updates the element(s) that are used within the focus-trap of the component.
          */
         "updateFocusTrapElements": () => Promise<void>;
+        "version": string;
         /**
           * Specifies the width of the component.
          */
@@ -3247,6 +3402,7 @@ export namespace Components {
           * When `navigationAction` is `true`, sets focus on the component's action element.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteNavigationLogo {
         /**
@@ -3299,6 +3455,7 @@ export namespace Components {
           * Specifies the `src` to an image.
          */
         "thumbnail": string;
+        "version": string;
     }
     interface CalciteNavigationUser {
         /**
@@ -3333,6 +3490,7 @@ export namespace Components {
           * Specifies the username of the user.
          */
         "username": string;
+        "version": string;
     }
     interface CalciteNotice {
         /**
@@ -3374,6 +3532,7 @@ export namespace Components {
           * Sets focus on the component's first focusable element.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
         /**
           * Specifies the width of the component.
          */
@@ -3396,6 +3555,7 @@ export namespace Components {
           * The component's value.
          */
         "value": any;
+        "version": string;
     }
     interface CalciteOptionGroup {
         /**
@@ -3406,6 +3566,7 @@ export namespace Components {
           * Accessible name for the component.
          */
         "label": string;
+        "version": string;
     }
     interface CalcitePagination {
         /**
@@ -3457,6 +3618,7 @@ export namespace Components {
           * Specifies the total number of items.
          */
         "totalItems": number;
+        "version": string;
     }
     interface CalcitePanel {
         /**
@@ -3526,6 +3688,7 @@ export namespace Components {
           * Sets focus on the component's first focusable element.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     /**
      * @deprecated Use the `list` component instead.
@@ -3582,6 +3745,7 @@ export namespace Components {
           * @param focusId
          */
         "setFocus": (focusId?: ListFocusId) => Promise<void>;
+        "version": string;
     }
     /**
      * @deprecated Use the `list` component instead.
@@ -3595,6 +3759,7 @@ export namespace Components {
           * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel": HeadingLevel;
+        "version": string;
     }
     /**
      * @deprecated Use the `list` component instead.
@@ -3659,6 +3824,7 @@ export namespace Components {
           * The component's value.
          */
         "value": any;
+        "version": string;
     }
     interface CalcitePopover {
         /**
@@ -3751,6 +3917,7 @@ export namespace Components {
           * Updates the element(s) that are used within the focus-trap of the component.
          */
         "updateFocusTrapElements": () => Promise<void>;
+        "version": string;
     }
     interface CalciteProgress {
         /**
@@ -3773,6 +3940,7 @@ export namespace Components {
           * When `type` is `"determinate"`, the component's progress value with a range of 0.0 - 1.0.
          */
         "value": number;
+        "version": string;
     }
     interface CalciteRadioButton {
         /**
@@ -3824,6 +3992,7 @@ export namespace Components {
           * The component's value.
          */
         "value": any;
+        "version": string;
     }
     interface CalciteRadioButtonGroup {
         /**
@@ -3867,6 +4036,7 @@ export namespace Components {
           * Specifies the validation message to display under the component.
          */
         "validationMessage": string;
+        "version": string;
     }
     interface CalciteRating {
         /**
@@ -3921,6 +4091,7 @@ export namespace Components {
           * The component's value.
          */
         "value": number;
+        "version": string;
     }
     interface CalciteScrim {
         /**
@@ -3935,6 +4106,7 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": ScrimMessages;
+        "version": string;
     }
     interface CalciteSegmentedControl {
         /**
@@ -3996,6 +4168,7 @@ export namespace Components {
           * The component's `selectedItem` value.
          */
         "value": string;
+        "version": string;
         /**
           * Specifies the width of the component.
          */
@@ -4034,6 +4207,7 @@ export namespace Components {
           * The component's value.
          */
         "value": any | null;
+        "version": string;
     }
     interface CalciteSelect {
         /**
@@ -4091,6 +4265,7 @@ export namespace Components {
           * The component's `selectedOption` value.
          */
         "value": string;
+        "version": string;
         /**
           * Specifies the width of the component.
          */
@@ -4150,6 +4325,7 @@ export namespace Components {
           * Updates the element(s) that are used within the focus-trap of the component.
          */
         "updateFocusTrapElements": () => Promise<void>;
+        "version": string;
         /**
           * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
          */
@@ -4160,6 +4336,7 @@ export namespace Components {
           * Positions the center content behind any `calcite-shell-panel`s.
          */
         "contentBehind": boolean;
+        "version": string;
     }
     interface CalciteShellCenterRow {
         /**
@@ -4174,6 +4351,7 @@ export namespace Components {
           * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "position": Position;
+        "version": string;
     }
     interface CalciteShellPanel {
         /**
@@ -4218,6 +4396,7 @@ export namespace Components {
           * When `true` and `displayMode` is not `float`, the component's content area is resizable.
          */
         "resizable": boolean;
+        "version": string;
         /**
           * When `layout` is `vertical`, specifies the width of the component.
          */
@@ -4341,6 +4520,7 @@ export namespace Components {
           * The component's value.
          */
         "value": null | number | number[];
+        "version": string;
     }
     interface CalciteSortableList {
         /**
@@ -4375,6 +4555,7 @@ export namespace Components {
           * When true, content is waiting to be loaded. This state shows a busy indicator.
          */
         "loading": boolean;
+        "version": string;
     }
     interface CalciteSplitButton {
         /**
@@ -4440,6 +4621,7 @@ export namespace Components {
           * Sets focus on the component's first focusable element.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
         /**
           * Specifies the width of the component.
          */
@@ -4450,6 +4632,7 @@ export namespace Components {
           * When `true`, content interaction is prevented and displayed with lower opacity.
          */
         "disabled": boolean;
+        "version": string;
     }
     interface CalciteStepper {
         /**
@@ -4506,6 +4689,7 @@ export namespace Components {
           * Set the first `calcite-stepper-item` as active.
          */
         "startStep": () => Promise<void>;
+        "version": string;
     }
     interface CalciteStepperItem {
         /**
@@ -4565,6 +4749,7 @@ export namespace Components {
           * Sets focus on the component.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteSwitch {
         /**
@@ -4599,6 +4784,7 @@ export namespace Components {
           * The component's value.
          */
         "value": any;
+        "version": string;
     }
     interface CalciteTab {
         /**
@@ -4622,6 +4808,7 @@ export namespace Components {
           * @param titleIds
          */
         "updateAriaInfo": (tabIds?: string[], titleIds?: string[]) => Promise<void>;
+        "version": string;
     }
     interface CalciteTabNav {
         "bordered": boolean;
@@ -4657,6 +4844,7 @@ export namespace Components {
           * Specifies text to update multiple components to keep in sync if one changes.
          */
         "syncId": string;
+        "version": string;
     }
     interface CalciteTabTitle {
         /**
@@ -4724,6 +4912,7 @@ export namespace Components {
           * @param titleIds
          */
         "updateAriaInfo": (tabIds?: string[], titleIds?: string[]) => Promise<void>;
+        "version": string;
     }
     interface CalciteTable {
         /**
@@ -4783,6 +4972,7 @@ export namespace Components {
           * When `true`, displays striped styling in the component.
          */
         "striped": boolean;
+        "version": string;
         /**
           * When `true`, displays striped styling in the component.
           * @deprecated Use the `striped` property instead.
@@ -4829,6 +5019,7 @@ export namespace Components {
           * Sets focus on the component.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteTableHeader {
         /**
@@ -4876,6 +5067,7 @@ export namespace Components {
           * Sets focus on the component.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteTableRow {
         /**
@@ -4904,6 +5096,7 @@ export namespace Components {
         "selectedRowCount": number;
         "selectedRowCountLocalized": string;
         "selectionMode": Extract<"multiple" | "single" | "none", SelectionMode>;
+        "version": string;
     }
     interface CalciteTabs {
         /**
@@ -4922,6 +5115,7 @@ export namespace Components {
           * Specifies the size of the component.
          */
         "scale": Scale;
+        "version": string;
     }
     interface CalciteTextArea {
         /**
@@ -5032,6 +5226,7 @@ export namespace Components {
           * The component's value.
          */
         "value": string;
+        "version": string;
         /**
           * Specifies the wrapping mechanism for the text.
           * @mdn [wrap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-wrap)
@@ -5112,6 +5307,7 @@ export namespace Components {
           * Sets focus on the component.
          */
         "setFocus": () => Promise<void>;
+        "version": string;
     }
     interface CalciteTileGroup {
         /**
@@ -5146,6 +5342,7 @@ export namespace Components {
     "multiple" | "none" | "single" | "single-persist",
     SelectionMode
   >;
+        "version": string;
     }
     interface CalciteTileSelect {
         /**
@@ -5196,6 +5393,7 @@ export namespace Components {
           * The component's value.
          */
         "value": any;
+        "version": string;
         /**
           * Specifies the width of the component.
          */
@@ -5210,6 +5408,7 @@ export namespace Components {
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
         "layout": TileSelectGroupLayout;
+        "version": string;
     }
     interface CalciteTimePicker {
         /**
@@ -5240,6 +5439,7 @@ export namespace Components {
           * The component's value in UTC (always 24-hour format).
          */
         "value": string;
+        "version": string;
     }
     interface CalciteTip {
         /**
@@ -5270,12 +5470,14 @@ export namespace Components {
           * When `true`, the component is selected if it has a parent `calcite-tip-manager`.  Only one tip can be selected within the `calcite-tip-manager` parent.
          */
         "selected": boolean;
+        "version": string;
     }
     interface CalciteTipGroup {
         /**
           * The component header text for all nested `calcite-tip`s.
          */
         "groupTitle": string;
+        "version": string;
     }
     interface CalciteTipManager {
         /**
@@ -5302,6 +5504,7 @@ export namespace Components {
           * Selects the previous `calcite-tip` to display.
          */
         "previousTip": () => Promise<void>;
+        "version": string;
     }
     interface CalciteTooltip {
         /**
@@ -5343,6 +5546,7 @@ export namespace Components {
           * @param delayed
          */
         "reposition": (delayed?: boolean) => Promise<void>;
+        "version": string;
     }
     interface CalciteTree {
         "child": boolean;
@@ -5364,6 +5568,7 @@ export namespace Components {
           * @default "single"
          */
         "selectionMode": SelectionMode;
+        "version": string;
     }
     interface CalciteTreeItem {
         "depth": number;
@@ -5396,6 +5601,7 @@ export namespace Components {
          */
         "selected": boolean;
         "selectionMode": SelectionMode;
+        "version": string;
     }
     /**
      * @deprecated Use the `list` component instead.
@@ -5472,6 +5678,7 @@ export namespace Components {
           * @param focusId
          */
         "setFocus": (focusId?: ListFocusId) => Promise<void>;
+        "version": string;
     }
     /**
      * @deprecated Use the `list` component instead.
@@ -5529,6 +5736,7 @@ export namespace Components {
           * The component's value.
          */
         "value": any;
+        "version": string;
     }
 }
 export interface CalciteAccordionCustomEvent<T> extends CustomEvent<T> {
@@ -7719,6 +7927,7 @@ declare namespace LocalJSX {
     "single" | "single-persist" | "multiple",
     SelectionMode
   >;
+        "version"?: string;
     }
     interface CalciteAccordionItem {
         /**
@@ -7763,6 +7972,7 @@ declare namespace LocalJSX {
           * Specifies the size of the component inherited from the `calcite-accordion`.
          */
         "scale"?: Scale;
+        "version"?: string;
     }
     interface CalciteAction {
         /**
@@ -7825,6 +8035,7 @@ declare namespace LocalJSX {
           * Indicates whether the text is displayed.
          */
         "textEnabled"?: boolean;
+        "version"?: string;
     }
     interface CalciteActionBar {
         /**
@@ -7871,6 +8082,7 @@ declare namespace LocalJSX {
           * Specifies the size of the expand `calcite-action`.
          */
         "scale"?: Scale;
+        "version"?: string;
     }
     interface CalciteActionGroup {
         /**
@@ -7910,6 +8122,7 @@ declare namespace LocalJSX {
           * Specifies the size of the `calcite-action-menu`.
          */
         "scale"?: Scale;
+        "version"?: string;
     }
     interface CalciteActionMenu {
         /**
@@ -7948,6 +8161,7 @@ declare namespace LocalJSX {
           * Specifies the size of the component's trigger `calcite-action`.
          */
         "scale"?: Scale;
+        "version"?: string;
     }
     interface CalciteActionPad {
         /**
@@ -7990,6 +8204,7 @@ declare namespace LocalJSX {
           * Specifies the size of the expand `calcite-action`.
          */
         "scale"?: Scale;
+        "version"?: string;
     }
     interface CalciteAlert {
         /**
@@ -8071,6 +8286,7 @@ declare namespace LocalJSX {
           * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
          */
         "slottedInShell"?: boolean;
+        "version"?: string;
     }
     interface CalciteAvatar {
         /**
@@ -8097,6 +8313,7 @@ declare namespace LocalJSX {
           * Specifies the username of the user.
          */
         "username"?: string;
+        "version"?: string;
     }
     interface CalciteBlock {
         /**
@@ -8168,6 +8385,7 @@ declare namespace LocalJSX {
           * Displays a status-related indicator icon.
          */
         "status"?: Status;
+        "version"?: string;
     }
     interface CalciteBlockSection {
         /**
@@ -8198,6 +8416,7 @@ declare namespace LocalJSX {
           * Specifies how the component's toggle is displayed, where:  `"button"` sets the toggle to a selectable header, and  `"switch"` sets the toggle to a switch.
          */
         "toggleDisplay"?: BlockSectionToggleDisplay;
+        "version"?: string;
     }
     interface CalciteButton {
         /**
@@ -8290,6 +8509,7 @@ declare namespace LocalJSX {
           * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
          */
         "type"?: string;
+        "version"?: string;
         /**
           * Specifies the width of the component.
          */
@@ -8338,6 +8558,7 @@ declare namespace LocalJSX {
           * Sets the placement of the thumbnail defined in the `thumbnail` slot.
          */
         "thumbnailPosition"?: LogicalFlowPosition;
+        "version"?: string;
     }
     interface CalciteCardGroup {
         /**
@@ -8364,6 +8585,7 @@ declare namespace LocalJSX {
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
   >;
+        "version"?: string;
     }
     interface CalciteCarousel {
         /**
@@ -8427,6 +8649,7 @@ declare namespace LocalJSX {
           * @readonly
          */
         "selectedItem"?: HTMLCalciteCarouselItemElement;
+        "version"?: string;
     }
     interface CalciteCarouselItem {
         /**
@@ -8437,6 +8660,7 @@ declare namespace LocalJSX {
           * When `true`, the component is selected.
          */
         "selected"?: boolean;
+        "version"?: string;
     }
     interface CalciteCheckbox {
         /**
@@ -8506,6 +8730,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: any;
+        "version"?: string;
     }
     interface CalciteChip {
         /**
@@ -8580,6 +8805,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value": any;
+        "version"?: string;
     }
     interface CalciteChipGroup {
         /**
@@ -8610,6 +8836,7 @@ declare namespace LocalJSX {
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
   >;
+        "version"?: string;
     }
     interface CalciteColorPicker {
         /**
@@ -8700,6 +8927,7 @@ declare namespace LocalJSX {
           * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
          */
         "value"?: ColorValue | null;
+        "version"?: string;
     }
     interface CalciteColorPickerHexInput {
         /**
@@ -8735,6 +8963,7 @@ declare namespace LocalJSX {
           * The hex value.
          */
         "value"?: string;
+        "version"?: string;
     }
     interface CalciteColorPickerSwatch {
         /**
@@ -8750,6 +8979,7 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        "version"?: string;
     }
     interface CalciteCombobox {
         /**
@@ -8895,6 +9125,7 @@ declare namespace LocalJSX {
           * The component's value(s) from the selected `calcite-combobox-item`(s).
          */
         "value"?: string | string[];
+        "version"?: string;
     }
     interface CalciteComboboxItem {
         /**
@@ -8952,6 +9183,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value": any;
+        "version"?: string;
     }
     interface CalciteComboboxItemGroup {
         /**
@@ -8970,6 +9202,7 @@ declare namespace LocalJSX {
           * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
          */
         "scale"?: Scale;
+        "version"?: string;
     }
     interface CalciteDatePicker {
         /**
@@ -9040,6 +9273,7 @@ declare namespace LocalJSX {
           * Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`).
          */
         "valueAsDate"?: Date | Date[];
+        "version"?: string;
     }
     interface CalciteDatePickerDay {
         /**
@@ -9106,6 +9340,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: Date;
+        "version"?: string;
     }
     interface CalciteDatePickerMonth {
         /**
@@ -9161,6 +9396,7 @@ declare namespace LocalJSX {
           * Start date currently active.
          */
         "startDate"?: Date;
+        "version"?: string;
     }
     interface CalciteDatePickerMonthHeader {
         /**
@@ -9200,6 +9436,7 @@ declare namespace LocalJSX {
           * Already selected date.
          */
         "selectedDate"?: Date;
+        "version"?: string;
     }
     interface CalciteDropdown {
         /**
@@ -9264,6 +9501,7 @@ declare namespace LocalJSX {
           * Specifies the action to open the component from the container element.
          */
         "type"?: "hover" | "click";
+        "version"?: string;
         /**
           * Specifies the width of the component.
          */
@@ -9283,6 +9521,7 @@ declare namespace LocalJSX {
           * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"none"` does not allow any selections.
          */
         "selectionMode"?: Extract<"none" | "single" | "multiple", SelectionMode>;
+        "version"?: string;
     }
     interface CalciteDropdownItem {
         /**
@@ -9336,6 +9575,7 @@ declare namespace LocalJSX {
           * Specifies the frame or window to open the linked document.
          */
         "target"?: string;
+        "version"?: string;
     }
     interface CalciteFab {
         /**
@@ -9379,6 +9619,7 @@ declare namespace LocalJSX {
           * When `true`, displays the `text` value in the component.
          */
         "textEnabled"?: boolean;
+        "version"?: string;
     }
     interface CalciteFilter {
         /**
@@ -9418,12 +9659,14 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: string;
+        "version"?: string;
     }
     interface CalciteFlow {
         /**
           * This property enables the component to consider other custom elements implementing flow-item's interface.
          */
         "customItemSelectors"?: string;
+        "version"?: string;
     }
     interface CalciteFlowItem {
         /**
@@ -9506,6 +9749,7 @@ declare namespace LocalJSX {
           * When `true`, displays a back button in the component's header.
          */
         "showBackButton"?: boolean;
+        "version"?: string;
     }
     interface CalciteGraph {
         /**
@@ -9532,6 +9776,7 @@ declare namespace LocalJSX {
           * Lowest point of the range.
          */
         "min": number;
+        "version"?: string;
     }
     interface CalciteHandle {
         /**
@@ -9573,6 +9818,7 @@ declare namespace LocalJSX {
         "selected"?: boolean;
         "setPosition"?: number;
         "setSize"?: number;
+        "version"?: string;
     }
     interface CalciteIcon {
         /**
@@ -9592,6 +9838,7 @@ declare namespace LocalJSX {
           * Accessible name for the component.  It is recommended to set this value if your icon is semantic.
          */
         "textLabel"?: string;
+        "version"?: string;
     }
     interface CalciteInlineEditable {
         /**
@@ -9635,6 +9882,7 @@ declare namespace LocalJSX {
           * Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale.
          */
         "scale"?: Scale;
+        "version"?: string;
     }
     interface CalciteInput {
         /**
@@ -9827,6 +10075,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: string;
+        "version"?: string;
     }
     interface CalciteInputDatePicker {
         /**
@@ -9965,6 +10214,7 @@ declare namespace LocalJSX {
           * The component's value as a full date object.
          */
         "valueAsDate"?: Date | Date[];
+        "version"?: string;
     }
     interface CalciteInputMessage {
         /**
@@ -9983,6 +10233,7 @@ declare namespace LocalJSX {
           * Specifies the status of the input field, which determines message and icons.
          */
         "status"?: Status;
+        "version"?: string;
     }
     interface CalciteInputNumber {
         /**
@@ -10143,6 +10394,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: string;
+        "version"?: string;
     }
     interface CalciteInputText {
         /**
@@ -10274,6 +10526,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: string;
+        "version"?: string;
     }
     interface CalciteInputTimePicker {
         /**
@@ -10375,6 +10628,7 @@ declare namespace LocalJSX {
           * The time value in ISO (24-hour) format.
          */
         "value"?: string;
+        "version"?: string;
     }
     interface CalciteInputTimeZone {
         /**
@@ -10478,6 +10732,7 @@ declare namespace LocalJSX {
           * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
          */
         "value"?: string;
+        "version"?: string;
     }
     interface CalciteLabel {
         /**
@@ -10499,6 +10754,7 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        "version"?: string;
     }
     interface CalciteLink {
         /**
@@ -10533,6 +10789,7 @@ declare namespace LocalJSX {
           * Specifies the frame or window to open the linked document.
          */
         "target"?: string;
+        "version"?: string;
     }
     /**
      * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -10644,6 +10901,7 @@ declare namespace LocalJSX {
     "none" | "multiple" | "single" | "single-persist",
     SelectionMode
   >;
+        "version"?: string;
     }
     interface CalciteListItem {
         /**
@@ -10757,6 +11015,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: any;
+        "version"?: string;
     }
     interface CalciteListItemGroup {
         /**
@@ -10775,6 +11034,7 @@ declare namespace LocalJSX {
           * Fires when changes occur in the default slot, notifying parent lists of the changes.
          */
         "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<DragEvent>) => void;
+        "version"?: string;
     }
     interface CalciteLoader {
         /**
@@ -10801,6 +11061,7 @@ declare namespace LocalJSX {
           * The component's value. Valid only for `"determinate"` indicators. Percent complete of 100.
          */
         "value"?: number;
+        "version"?: string;
     }
     interface CalciteMenu {
         /**
@@ -10819,6 +11080,7 @@ declare namespace LocalJSX {
           * Made into a prop for testing purposes only.
          */
         "messages"?: MenuMessages;
+        "version"?: string;
     }
     interface CalciteMenuItem {
         /**
@@ -10883,6 +11145,7 @@ declare namespace LocalJSX {
          */
         "text"?: string;
         "topLevelMenuLayout"?: Layout;
+        "version"?: string;
     }
     interface CalciteMeter {
         /**
@@ -10961,6 +11224,7 @@ declare namespace LocalJSX {
           * When `valueLabel` is `true`, specifies the format of displayed label.
          */
         "valueLabelType"?: MeterLabelType;
+        "version"?: string;
     }
     interface CalciteModal {
         /**
@@ -11035,6 +11299,7 @@ declare namespace LocalJSX {
           * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
          */
         "slottedInShell"?: boolean;
+        "version"?: string;
         /**
           * Specifies the width of the component.
          */
@@ -11053,6 +11318,7 @@ declare namespace LocalJSX {
           * When `navigationAction` is `true`, emits when the displayed action selection changes.
          */
         "onCalciteNavigationActionSelect"?: (event: CalciteNavigationCustomEvent<void>) => void;
+        "version"?: string;
     }
     interface CalciteNavigationLogo {
         /**
@@ -11101,6 +11367,7 @@ declare namespace LocalJSX {
           * Specifies the `src` to an image.
          */
         "thumbnail"?: string;
+        "version"?: string;
     }
     interface CalciteNavigationUser {
         /**
@@ -11131,6 +11398,7 @@ declare namespace LocalJSX {
           * Specifies the username of the user.
          */
         "username"?: string;
+        "version"?: string;
     }
     interface CalciteNotice {
         /**
@@ -11184,6 +11452,7 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        "version"?: string;
         /**
           * Specifies the width of the component.
          */
@@ -11207,6 +11476,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: any;
+        "version"?: string;
     }
     interface CalciteOptionGroup {
         /**
@@ -11218,6 +11488,7 @@ declare namespace LocalJSX {
          */
         "label": string;
         "onCalciteInternalOptionGroupChange"?: (event: CalciteOptionGroupCustomEvent<void>) => void;
+        "version"?: string;
     }
     interface CalcitePagination {
         /**
@@ -11256,6 +11527,7 @@ declare namespace LocalJSX {
           * Specifies the total number of items.
          */
         "totalItems"?: number;
+        "version"?: string;
     }
     interface CalcitePanel {
         /**
@@ -11326,6 +11598,7 @@ declare namespace LocalJSX {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning"?: OverlayPositioning;
+        "version"?: string;
     }
     /**
      * @deprecated Use the `list` component instead.
@@ -11381,6 +11654,7 @@ declare namespace LocalJSX {
           * When `true` and single selection is enabled, the selection changes when navigating `calcite-pick-list-item`s via keyboard.
          */
         "selectionFollowsFocus"?: boolean;
+        "version"?: string;
     }
     /**
      * @deprecated Use the `list` component instead.
@@ -11394,6 +11668,7 @@ declare namespace LocalJSX {
           * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
          */
         "headingLevel"?: HeadingLevel;
+        "version"?: string;
     }
     /**
      * @deprecated Use the `list` component instead.
@@ -11473,6 +11748,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value": any;
+        "version"?: string;
     }
     interface CalcitePopover {
         /**
@@ -11568,6 +11844,7 @@ declare namespace LocalJSX {
           * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered.  This property can be set to `true` to manage when the component is open.
          */
         "triggerDisabled"?: boolean;
+        "version"?: string;
     }
     interface CalciteProgress {
         /**
@@ -11590,6 +11867,7 @@ declare namespace LocalJSX {
           * When `type` is `"determinate"`, the component's progress value with a range of 0.0 - 1.0.
          */
         "value"?: number;
+        "version"?: string;
     }
     interface CalciteRadioButton {
         /**
@@ -11652,6 +11930,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value": any;
+        "version"?: string;
     }
     interface CalciteRadioButtonGroup {
         /**
@@ -11695,6 +11974,7 @@ declare namespace LocalJSX {
           * Specifies the validation message to display under the component.
          */
         "validationMessage"?: string;
+        "version"?: string;
     }
     interface CalciteRating {
         /**
@@ -11749,6 +12029,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: number;
+        "version"?: string;
     }
     interface CalciteScrim {
         /**
@@ -11763,6 +12044,7 @@ declare namespace LocalJSX {
           * Made into a prop for testing purposes only
          */
         "messages"?: ScrimMessages;
+        "version"?: string;
     }
     interface CalciteSegmentedControl {
         /**
@@ -11824,6 +12106,7 @@ declare namespace LocalJSX {
           * The component's `selectedItem` value.
          */
         "value"?: string;
+        "version"?: string;
         /**
           * Specifies the width of the component.
          */
@@ -11866,6 +12149,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: any | null;
+        "version"?: string;
     }
     interface CalciteSelect {
         /**
@@ -11923,6 +12207,7 @@ declare namespace LocalJSX {
           * The component's `selectedOption` value.
          */
         "value"?: string;
+        "version"?: string;
         /**
           * Specifies the width of the component.
          */
@@ -11990,6 +12275,7 @@ declare namespace LocalJSX {
           * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
          */
         "slottedInShell"?: boolean;
+        "version"?: string;
         /**
           * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
          */
@@ -12000,6 +12286,7 @@ declare namespace LocalJSX {
           * Positions the center content behind any `calcite-shell-panel`s.
          */
         "contentBehind"?: boolean;
+        "version"?: string;
     }
     interface CalciteShellCenterRow {
         /**
@@ -12014,6 +12301,7 @@ declare namespace LocalJSX {
           * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "position"?: Position;
+        "version"?: string;
     }
     interface CalciteShellPanel {
         /**
@@ -12060,6 +12348,7 @@ declare namespace LocalJSX {
           * When `true` and `displayMode` is not `float`, the component's content area is resizable.
          */
         "resizable"?: boolean;
+        "version"?: string;
         /**
           * When `layout` is `vertical`, specifies the width of the component.
          */
@@ -12187,6 +12476,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: null | number | number[];
+        "version"?: string;
     }
     interface CalciteSortableList {
         /**
@@ -12225,6 +12515,7 @@ declare namespace LocalJSX {
           * Emitted when the order of the list has changed.
          */
         "onCalciteListOrderChange"?: (event: CalciteSortableListCustomEvent<void>) => void;
+        "version"?: string;
     }
     interface CalciteSplitButton {
         /**
@@ -12294,6 +12585,7 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        "version"?: string;
         /**
           * Specifies the width of the component.
          */
@@ -12304,6 +12596,7 @@ declare namespace LocalJSX {
           * When `true`, content interaction is prevented and displayed with lower opacity.
          */
         "disabled"?: boolean;
+        "version"?: string;
     }
     interface CalciteStepper {
         /**
@@ -12347,6 +12640,7 @@ declare namespace LocalJSX {
           * @readonly
          */
         "selectedItem"?: HTMLCalciteStepperItemElement;
+        "version"?: string;
     }
     interface CalciteStepperItem {
         /**
@@ -12406,6 +12700,7 @@ declare namespace LocalJSX {
           * When `true`, the component is selected.
          */
         "selected"?: boolean;
+        "version"?: string;
     }
     interface CalciteSwitch {
         /**
@@ -12440,6 +12735,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: any;
+        "version"?: string;
     }
     interface CalciteTab {
         "onCalciteInternalTabRegister"?: (event: CalciteTabCustomEvent<void>) => void;
@@ -12455,6 +12751,7 @@ declare namespace LocalJSX {
           * Specifies a unique name for the component.  When specified, use the same value on the `calcite-tab-title`.
          */
         "tab"?: string;
+        "version"?: string;
     }
     interface CalciteTabNav {
         "bordered"?: boolean;
@@ -12495,6 +12792,7 @@ declare namespace LocalJSX {
           * Specifies text to update multiple components to keep in sync if one changes.
          */
         "syncId"?: string;
+        "version"?: string;
     }
     interface CalciteTabTitle {
         "bordered"?: boolean;
@@ -12571,6 +12869,7 @@ declare namespace LocalJSX {
           * Specifies a unique name for the component.  When specified, use the same value on the `calcite-tab`.
          */
         "tab"?: string;
+        "version"?: string;
     }
     interface CalciteTable {
         /**
@@ -12639,6 +12938,7 @@ declare namespace LocalJSX {
           * When `true`, displays striped styling in the component.
          */
         "striped"?: boolean;
+        "version"?: string;
         /**
           * When `true`, displays striped styling in the component.
           * @deprecated Use the `striped` property instead.
@@ -12681,6 +12981,7 @@ declare namespace LocalJSX {
         "rowSpan"?: number;
         "scale"?: Scale;
         "selectionCell"?: boolean;
+        "version"?: string;
     }
     interface CalciteTableHeader {
         /**
@@ -12724,6 +13025,7 @@ declare namespace LocalJSX {
         "selectedRowCountLocalized"?: string;
         "selectionCell"?: boolean;
         "selectionMode"?: SelectionMode;
+        "version"?: string;
     }
     interface CalciteTableRow {
         /**
@@ -12757,6 +13059,7 @@ declare namespace LocalJSX {
         "selectedRowCount"?: number;
         "selectedRowCountLocalized"?: string;
         "selectionMode"?: Extract<"multiple" | "single" | "none", SelectionMode>;
+        "version"?: string;
     }
     interface CalciteTabs {
         /**
@@ -12775,6 +13078,7 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
+        "version"?: string;
     }
     interface CalciteTextArea {
         /**
@@ -12885,6 +13189,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: string;
+        "version"?: string;
         /**
           * Specifies the wrapping mechanism for the text.
           * @mdn [wrap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-wrap)
@@ -12966,6 +13271,7 @@ declare namespace LocalJSX {
     "multiple" | "none" | "single" | "single-persist",
     SelectionMode
   >;
+        "version"?: string;
     }
     interface CalciteTileGroup {
         /**
@@ -13004,6 +13310,7 @@ declare namespace LocalJSX {
     "multiple" | "none" | "single" | "single-persist",
     SelectionMode
   >;
+        "version"?: string;
     }
     interface CalciteTileSelect {
         /**
@@ -13054,6 +13361,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value"?: any;
+        "version"?: string;
         /**
           * Specifies the width of the component.
          */
@@ -13068,6 +13376,7 @@ declare namespace LocalJSX {
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
         "layout"?: TileSelectGroupLayout;
+        "version"?: string;
     }
     interface CalciteTimePicker {
         /**
@@ -13097,6 +13406,7 @@ declare namespace LocalJSX {
           * The component's value in UTC (always 24-hour format).
          */
         "value"?: string;
+        "version"?: string;
     }
     interface CalciteTip {
         /**
@@ -13131,12 +13441,14 @@ declare namespace LocalJSX {
           * When `true`, the component is selected if it has a parent `calcite-tip-manager`.  Only one tip can be selected within the `calcite-tip-manager` parent.
          */
         "selected"?: boolean;
+        "version"?: string;
     }
     interface CalciteTipGroup {
         /**
           * The component header text for all nested `calcite-tip`s.
          */
         "groupTitle"?: string;
+        "version"?: string;
     }
     interface CalciteTipManager {
         /**
@@ -13159,6 +13471,7 @@ declare namespace LocalJSX {
           * Emits when the component has been closed.
          */
         "onCalciteTipManagerClose"?: (event: CalciteTipManagerCustomEvent<void>) => void;
+        "version"?: string;
     }
     interface CalciteTooltip {
         /**
@@ -13211,6 +13524,7 @@ declare namespace LocalJSX {
           * The `referenceElement` to position the component according to its `"placement"` value.  Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`.  However, a string ID of the reference element can be used.
          */
         "referenceElement"?: ReferenceElement | string;
+        "version"?: string;
     }
     interface CalciteTree {
         "child"?: boolean;
@@ -13236,6 +13550,7 @@ declare namespace LocalJSX {
           * @default "single"
          */
         "selectionMode"?: SelectionMode;
+        "version"?: string;
     }
     interface CalciteTreeItem {
         "depth"?: number;
@@ -13269,6 +13584,7 @@ declare namespace LocalJSX {
          */
         "selected"?: boolean;
         "selectionMode"?: SelectionMode;
+        "version"?: string;
     }
     /**
      * @deprecated Use the `list` component instead.
@@ -13348,6 +13664,7 @@ declare namespace LocalJSX {
           * When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
          */
         "selectionFollowsFocus"?: boolean;
+        "version"?: string;
     }
     /**
      * @deprecated Use the `list` component instead.
@@ -13410,6 +13727,7 @@ declare namespace LocalJSX {
           * The component's value.
          */
         "value": any;
+        "version"?: string;
     }
     interface IntrinsicElements {
         "calcite-accordion": CalciteAccordion;

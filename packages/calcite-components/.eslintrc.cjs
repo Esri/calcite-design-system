@@ -42,6 +42,7 @@ module.exports = {
         message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
       },
     ],
+    "@esri/calcite-components/require-version-prop": "error",
     "@esri/calcite-components/strict-boolean-attributes": "off",
     "@stencil-community/decorators-style": "warn",
     "@stencil-community/no-unused-watch": "off",

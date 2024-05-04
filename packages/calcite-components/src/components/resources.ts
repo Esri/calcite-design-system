@@ -5,3 +5,5 @@ export const KindIcons = {
   success: "checkCircle",
   warning: "exclamationMarkTriangle",
 };
+
+export const CalciteVersion = "CALCITE_VERSION"; // dynamically replaced by build
