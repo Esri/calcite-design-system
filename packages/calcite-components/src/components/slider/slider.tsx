@@ -12,6 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import {
@@ -211,6 +212,8 @@ export class Slider
    *  Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

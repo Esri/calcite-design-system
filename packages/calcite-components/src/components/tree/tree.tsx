@@ -9,6 +9,7 @@ import {
   Prop,
   VNode,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { focusElement, nodeListToArray } from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
 import { TreeItemSelectDetail } from "../tree-item/interfaces";
@@ -67,6 +68,8 @@ export class Tree {
    * @readonly
    */
   @Prop({ mutable: true }) selectedItems: HTMLCalciteTreeItemElement[] = [];
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

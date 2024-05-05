@@ -12,6 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   getSlotted,
   setRequestedIcon,
@@ -147,6 +148,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    * @internal
    */
   @Prop({ mutable: true }) slottedInShell: boolean;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("autoCloseDuration")
   updateDuration(): void {

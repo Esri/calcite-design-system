@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -124,6 +125,8 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
    * However, a string ID of the reference element can be used.
    */
   @Prop() referenceElement: ReferenceElement | string;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("referenceElement")
   referenceElementHandler(): void {

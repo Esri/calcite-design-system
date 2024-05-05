@@ -9,6 +9,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -87,6 +88,8 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
     "multiple" | "none" | "single" | "single-persist",
     SelectionMode
   > = "none";
+
+  @Prop() version = CalciteVersion;
 
   @Watch("selectionMode")
   @Watch("selectionAppearance")

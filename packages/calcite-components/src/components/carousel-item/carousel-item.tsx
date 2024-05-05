@@ -1,4 +1,5 @@
 import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { guid } from "../../utils/guid";
 import { CSS } from "./resources";
 
@@ -26,6 +27,8 @@ export class CarouselItem {
    * When `true`, the component is selected.
    */
   @Prop({ reflect: true }) selected = false;
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

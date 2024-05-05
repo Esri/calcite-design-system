@@ -11,6 +11,7 @@ import {
   Watch,
   Host,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { focusElement, focusElementInGroup, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,
@@ -74,6 +75,8 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
    * @readonly
    */
   @Prop({ mutable: true }) selectedItems: HTMLCalciteCardElement[] = [];
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

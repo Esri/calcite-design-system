@@ -1,4 +1,5 @@
 import { Component, Element, h, Listen, Method, Prop, State, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { createObserver } from "../../utils/observers";
 import {
   componentFocusable,
@@ -78,6 +79,8 @@ export class Flow implements LoadableComponent {
    * @internal
    */
   @Prop() customItemSelectors: string;
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

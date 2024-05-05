@@ -9,6 +9,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { toAriaBoolean } from "../../utils/dom";
 import { Appearance, Layout, Scale } from "../interfaces";
 import { CSS, SLOTS } from "./resources";
@@ -70,6 +71,8 @@ export class SegmentedControlItem {
    * @internal
    */
   @Prop() scale: Scale = "m";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

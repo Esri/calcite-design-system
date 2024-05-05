@@ -10,6 +10,7 @@ import {
   Watch,
 } from "@stencil/core";
 import { Fragment, VNode } from "@stencil/core/internal";
+import { CalciteVersion } from "../resources";
 import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { EffectivePlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
@@ -123,6 +124,8 @@ export class ActionMenu implements LoadableComponent {
    * Specifies the size of the component's trigger `calcite-action`.
    */
   @Prop({ reflect: true }) scale: Scale;
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

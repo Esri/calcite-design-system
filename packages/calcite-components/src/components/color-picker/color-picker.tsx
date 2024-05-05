@@ -13,6 +13,7 @@ import {
 } from "@stencil/core";
 import Color from "color";
 import { throttle } from "lodash-es";
+import { CalciteVersion } from "../resources";
 import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import {
@@ -352,6 +353,8 @@ export class ColorPicker
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ColorPickerMessages;
+
+  @Prop() version = CalciteVersion;
 
   @State() savedColors: string[] = [];
 

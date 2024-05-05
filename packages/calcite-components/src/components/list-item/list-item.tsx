@@ -12,6 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   getElementDir,
   getFirstTabbable,
@@ -233,6 +234,8 @@ export class ListItem
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ListItemMessages;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

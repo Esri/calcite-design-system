@@ -1,4 +1,5 @@
 import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -38,6 +39,8 @@ export class ShellCenterRow implements ConditionalSlotComponent {
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    */
   @Prop({ reflect: true }) position: Position = "end";
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

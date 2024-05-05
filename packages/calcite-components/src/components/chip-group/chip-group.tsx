@@ -10,6 +10,7 @@ import {
   Method,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { focusElementInGroup, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,
@@ -75,6 +76,8 @@ export class ChipGroup implements InteractiveComponent {
    * @readonly
    */
   @Prop({ mutable: true }) selectedItems: HTMLCalciteChipElement[] = [];
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

@@ -1,4 +1,5 @@
 import { Component, Element, h, Prop, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
@@ -39,6 +40,8 @@ export class ComboboxItemGroup {
    * @internal
    */
   @Prop() scale: Scale = "m";
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

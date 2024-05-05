@@ -1,4 +1,5 @@
 import { Component, Element, h, Prop, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 @Component({
@@ -28,6 +29,8 @@ export class Progress {
 
   /** When `true` and for `"indeterminate"` progress bars, reverses the animation direction. */
   @Prop({ reflect: true }) reversed = false;
+
+  @Prop() version = CalciteVersion;
 
   render(): VNode {
     const isDeterminate = this.type === "determinate";

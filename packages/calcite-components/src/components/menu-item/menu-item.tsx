@@ -13,6 +13,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { FlipContext } from "../interfaces";
 import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
@@ -126,6 +127,8 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
    * @internal
    */
   @Prop() topLevelMenuLayout: Layout;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

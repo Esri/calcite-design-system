@@ -1,4 +1,5 @@
 import { Component, Element, forceUpdate, h, Prop, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { ColorStop, DataSeries, Point } from "./interfaces";
@@ -39,6 +40,8 @@ export class Graph {
 
   /** Highest point of the range. */
   @Prop({ reflect: true }) max!: number;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

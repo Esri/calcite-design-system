@@ -11,6 +11,7 @@ import {
   Watch,
 } from "@stencil/core";
 import Color from "color";
+import { CalciteVersion } from "../resources";
 import { Scale } from "../interfaces";
 import { Channels, RGB } from "../color-picker/interfaces";
 import {
@@ -121,6 +122,8 @@ export class ColorPickerHexInput implements LoadableComponent {
     this.alphaChannel,
     true,
   );
+
+  @Prop() version = CalciteVersion;
 
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {

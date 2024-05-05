@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { LocalizedComponent } from "../../utils/locale";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
@@ -91,6 +92,8 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
 
   /** @internal */
   @Prop() bodyRowCount: number;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("bodyRowCount")
   @Watch("scale")

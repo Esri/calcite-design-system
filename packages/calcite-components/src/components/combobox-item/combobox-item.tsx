@@ -9,6 +9,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -107,6 +108,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
    * @internal
    */
   @Prop() scale: Scale = "m";
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

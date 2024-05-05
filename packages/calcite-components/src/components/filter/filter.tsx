@@ -11,6 +11,7 @@ import {
   Watch,
 } from "@stencil/core";
 import { debounce } from "lodash-es";
+import { CalciteVersion } from "../resources";
 import { filter } from "../../utils/filter";
 import {
   connectInteractive,
@@ -109,6 +110,8 @@ export class Filter
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<FilterMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

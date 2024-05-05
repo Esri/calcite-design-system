@@ -1,4 +1,5 @@
 import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 
@@ -36,6 +37,8 @@ export class Loader {
 
   /** Text that displays under the component's indicator. */
   @Prop() text = "";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

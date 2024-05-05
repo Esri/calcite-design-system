@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
 import { Scale } from "../interfaces";
@@ -114,6 +115,8 @@ export class TimePicker
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<TimePickerMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

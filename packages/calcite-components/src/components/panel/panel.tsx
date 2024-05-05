@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   focusFirstTabbable,
   slotChangeGetAssignedElements,
@@ -150,6 +151,8 @@ export class Panel
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

@@ -12,6 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   getElementDir,
   getSlotted,
@@ -327,6 +328,8 @@ export class InputNumber
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<InputNumberMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

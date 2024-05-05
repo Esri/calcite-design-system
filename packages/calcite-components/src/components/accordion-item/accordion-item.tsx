@@ -9,6 +9,7 @@ import {
   Prop,
   VNode,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -87,6 +88,8 @@ export class AccordionItem implements ConditionalSlotComponent {
    * @internal
    */
   @Prop() scale: Scale;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

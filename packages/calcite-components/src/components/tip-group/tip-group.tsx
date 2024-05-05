@@ -1,4 +1,5 @@
 import { Component, h, Prop, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 
 /**
  * @slot - A slot for adding `calcite-tip`s.
@@ -20,6 +21,8 @@ export class TipGroup {
    *
    */
   @Prop() groupTitle: string;
+
+  @Prop() version = CalciteVersion;
 
   render(): VNode {
     return <slot />;

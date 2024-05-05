@@ -10,6 +10,7 @@ import {
   State,
   VNode,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -149,6 +150,8 @@ export class Tile implements InteractiveComponent, SelectableComponent {
     "multiple" | "none" | "single" | "single-persist",
     SelectionMode
   > = "none";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

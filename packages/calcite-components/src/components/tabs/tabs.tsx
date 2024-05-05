@@ -1,4 +1,5 @@
 import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { TabLayout, TabPosition } from "./interfaces";
@@ -45,6 +46,8 @@ export class Tabs {
    * When `true`, the component will display with a folder style menu.
    */
   @Prop() bordered = false;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

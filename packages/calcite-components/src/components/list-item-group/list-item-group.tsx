@@ -1,4 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -40,6 +41,8 @@ export class ListItemGroup implements InteractiveComponent {
    *
    */
   @Prop({ reflect: true }) heading: string;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

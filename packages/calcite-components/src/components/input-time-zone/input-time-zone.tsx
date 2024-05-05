@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   InteractiveComponent,
@@ -239,6 +240,8 @@ export class InputTimeZone
    * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
    */
   @Prop({ reflect: true }) readOnly = false;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

@@ -13,6 +13,7 @@ import {
   Watch,
   readTask,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Position, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -106,6 +107,8 @@ export class Stepper implements LocalizedComponent, T9nComponent {
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<StepperMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

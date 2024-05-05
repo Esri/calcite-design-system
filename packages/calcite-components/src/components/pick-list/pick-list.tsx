@@ -10,6 +10,7 @@ import {
   State,
   VNode,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -129,6 +130,8 @@ export class PickList<
    * When `true` and single selection is enabled, the selection changes when navigating `calcite-pick-list-item`s via keyboard.
    */
   @Prop({ reflect: true }) selectionFollowsFocus = false;
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

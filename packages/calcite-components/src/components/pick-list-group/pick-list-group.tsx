@@ -1,4 +1,5 @@
 import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -34,6 +35,8 @@ export class PickListGroup implements ConditionalSlotComponent {
    * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

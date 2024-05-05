@@ -1,5 +1,6 @@
 import { Component, Element, Fragment, h, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
+import { CalciteVersion } from "../resources";
 import { getModeName } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hexify } from "../color-picker/utils";
@@ -45,6 +46,8 @@ export class ColorPickerSwatch {
     reflect: true,
   })
   scale: Scale = "m";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

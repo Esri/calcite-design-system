@@ -1,4 +1,5 @@
 import { Component, h, Host, Prop, State, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
 
@@ -23,6 +24,8 @@ export class Stack {
 
   /**  When `true`, content interaction is prevented and displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

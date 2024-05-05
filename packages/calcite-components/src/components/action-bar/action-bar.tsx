@@ -12,6 +12,7 @@ import {
   Watch,
 } from "@stencil/core";
 import { debounce } from "lodash-es";
+import { CalciteVersion } from "../resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -157,6 +158,8 @@ export class ActionBar
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ActionBarMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

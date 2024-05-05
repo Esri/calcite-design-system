@@ -1,5 +1,6 @@
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 import { Build, Component, Element, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
@@ -52,6 +53,8 @@ export class Icon {
    */
   @Prop()
   textLabel: string;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

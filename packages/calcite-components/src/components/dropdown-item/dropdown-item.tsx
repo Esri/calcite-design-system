@@ -10,6 +10,7 @@ import {
   Prop,
   VNode,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { RequestedItem } from "../dropdown-group/interfaces";
@@ -126,6 +127,8 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
    * @internal
    */
   @Prop() scale: Scale = "m";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

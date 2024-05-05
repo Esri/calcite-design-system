@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { focusElement } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
@@ -158,6 +159,8 @@ export class Select
    * Specifies the width of the component.
    */
   @Prop({ reflect: true }) width: Width = "auto";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

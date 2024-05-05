@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { ensureId, focusFirstTabbable, getElementDir } from "../../utils/dom";
 import {
   activateFocusTrap,
@@ -131,6 +132,8 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
    */
   @Prop({ reflect: true }) widthScale: Scale = "m";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

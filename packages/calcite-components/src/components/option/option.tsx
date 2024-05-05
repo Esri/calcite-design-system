@@ -1,4 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { createObserver } from "../../utils/observers";
 
 @Component({
@@ -40,6 +41,8 @@ export class Option {
    */
   @Prop({ mutable: true })
   value: any;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("disabled")
   @Watch("label")

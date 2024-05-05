@@ -1,4 +1,5 @@
 import { Component, Element, h, Prop, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -32,6 +33,8 @@ export class TileSelectGroup implements InteractiveComponent {
    * Use `"horizontal"` for rows, and `"vertical"` for a single column.
    */
   @Prop({ reflect: true }) layout: TileSelectGroupLayout = "horizontal";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

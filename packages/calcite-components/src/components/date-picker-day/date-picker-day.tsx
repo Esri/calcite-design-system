@@ -10,6 +10,7 @@ import {
   VNode,
   Method,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { dateToISO } from "../../utils/date";
 import { closestElementCrossShadowBoundary, toAriaBoolean } from "../../utils/dom";
 import {
@@ -90,6 +91,8 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
 
   /** The component's value. */
   @Prop() value: Date;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

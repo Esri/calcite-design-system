@@ -10,6 +10,7 @@ import {
   State,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
@@ -121,6 +122,8 @@ export class Rating
 
   /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value = 0;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("value")
   handleValueUpdate(newValue: number): void {

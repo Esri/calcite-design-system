@@ -1,4 +1,5 @@
 import { Component, Element, h, Host, Method, Prop, State, VNode, Watch } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { Alignment, Scale } from "../interfaces";
 import {
   componentFocusable,
@@ -108,6 +109,8 @@ export class TableCell
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<TableCellMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

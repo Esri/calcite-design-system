@@ -10,6 +10,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { Scale, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { CSS } from "../dropdown-item/resources";
@@ -53,6 +54,8 @@ export class DropdownGroup {
    */
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> =
     "single";
+
+  @Prop() version = CalciteVersion;
 
   @Watch("selectionMode")
   handlePropsChange(): void {

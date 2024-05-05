@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { focusFirstTabbable, getElementDir, toAriaBoolean } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
@@ -85,6 +86,8 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<BlockSectionMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

@@ -11,6 +11,7 @@ import {
   VNode,
   forceUpdate,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentFocusable,
@@ -90,6 +91,8 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: MenuMessages;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

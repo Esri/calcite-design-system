@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -127,6 +128,8 @@ export class ActionPad
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

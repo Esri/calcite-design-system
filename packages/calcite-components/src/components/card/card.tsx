@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { getSlotted, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -109,6 +110,8 @@ export class Card
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<CardMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

@@ -13,6 +13,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { toAriaBoolean, slotChangeHasAssignedElement } from "../../utils/dom";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
 import {
@@ -141,6 +142,8 @@ export class Chip
    * @internal
    */
   @Prop() parentChipGroup: HTMLCalciteChipGroupElement;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

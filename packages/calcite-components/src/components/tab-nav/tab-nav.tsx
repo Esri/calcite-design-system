@@ -17,6 +17,7 @@ import {
   calciteSize32,
   calciteSize44,
 } from "@esri/calcite-design-tokens/dist/es6/core";
+import { CalciteVersion } from "../resources";
 import {
   Direction,
   filterDirectChildren,
@@ -120,6 +121,8 @@ export class TabNav implements LocalizedComponent, T9nComponent {
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<TabNavMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   componentFocusable,
   LoadableComponent,
@@ -112,6 +113,8 @@ export class Pagination
 
   /** Specifies the total number of items. */
   @Prop({ reflect: true }) totalItems = 0;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("totalItems")
   @Watch("pageSize")

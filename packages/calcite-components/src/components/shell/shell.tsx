@@ -1,4 +1,5 @@
 import { Component, Element, Fragment, h, Listen, Prop, State, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -37,6 +38,8 @@ export class Shell implements ConditionalSlotComponent {
    * Positions the center content behind any `calcite-shell-panel`s.
    */
   @Prop({ reflect: true }) contentBehind = false;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

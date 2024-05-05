@@ -18,6 +18,7 @@ import localeData from "dayjs/esm/plugin/localeData";
 import localizedFormat from "dayjs/esm/plugin/localizedFormat";
 import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
 import updateLocale from "dayjs/esm/plugin/updateLocale";
+import { CalciteVersion } from "../resources";
 import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -330,6 +331,8 @@ export class InputTimePicker
 
   /** The time value in ISO (24-hour) format. */
   @Prop({ mutable: true }) value: string = null;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("value")
   valueWatcher(newValue: string): void {

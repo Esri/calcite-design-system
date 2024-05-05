@@ -1,5 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
 import Sortable from "sortablejs";
+import { CalciteVersion } from "../resources";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -76,6 +77,8 @@ export class SortableList implements InteractiveComponent, SortableComponent {
    * When true, content is waiting to be loaded. This state shows a busy indicator.
    */
   @Prop({ reflect: true }) loading = false;
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

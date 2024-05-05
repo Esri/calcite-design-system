@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { Scale, SelectionMode } from "../interfaces";
 import {
   LoadableComponent,
@@ -136,6 +137,8 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<TableMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

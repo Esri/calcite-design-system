@@ -1,4 +1,5 @@
 import { Component, Element, h, Method, Prop, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { focusElement } from "../../utils/dom";
 import {
   connectInteractive,
@@ -78,6 +79,8 @@ export class Fab implements InteractiveComponent, LoadableComponent {
    * When `true`, displays the `text` value in the component.
    */
   @Prop({ reflect: true }) textEnabled = false;
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

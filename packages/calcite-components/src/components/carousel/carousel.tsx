@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   focusElementInGroup,
   getElementDir,
@@ -131,6 +132,8 @@ export class Carousel
    * @readonly
    */
   @Prop({ mutable: true }) selectedItem: HTMLCalciteCarouselItemElement;
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

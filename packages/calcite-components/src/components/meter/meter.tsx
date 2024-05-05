@@ -1,4 +1,5 @@
 import { Component, Element, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { Appearance, Scale } from "../interfaces";
 import {
   LoadableComponent,
@@ -112,6 +113,8 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
 
   /** When `valueLabel` is `true`, specifies the format of displayed label. */
   @Prop({ reflect: true }) valueLabelType: MeterLabelType = "percent";
+
+  @Prop() version = CalciteVersion;
 
   @Watch("rangeLabels")
   @Watch("rangeLabelType")

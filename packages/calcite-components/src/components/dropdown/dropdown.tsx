@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { focusElement, focusElementInGroup, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -171,6 +172,8 @@ export class Dropdown
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  @Prop() version = CalciteVersion;
 
   @Watch("scale")
   handlePropsChange(): void {

@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
@@ -95,6 +96,8 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
 
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

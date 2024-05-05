@@ -12,6 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   connectFloatingUI,
   defaultOffsetDistance,
@@ -240,6 +241,8 @@ export class Popover
    * This property can be set to `true` to manage when the component is open.
    */
   @Prop({ reflect: true }) triggerDisabled = false;
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

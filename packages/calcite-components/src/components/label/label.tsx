@@ -9,6 +9,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   associateExplicitLabelToUnlabeledComponent,
   labelConnectedEvent,
@@ -48,6 +49,8 @@ export class Label {
 
   /** Defines the layout of the label in relation to the component. Use `"inline"` positions to wrap the label and component on the same line. */
   @Prop({ reflect: true }) layout: "inline" | "inline-space-between" | "default" = "default";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

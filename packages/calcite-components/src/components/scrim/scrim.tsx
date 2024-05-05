@@ -1,4 +1,5 @@
 import { Component, Element, h, Prop, State, VNode, Watch } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -47,6 +48,8 @@ export class Scrim implements LocalizedComponent, T9nComponent {
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ScrimMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

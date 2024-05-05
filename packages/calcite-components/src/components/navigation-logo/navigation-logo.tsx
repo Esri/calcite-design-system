@@ -1,4 +1,5 @@
 import { Component, Element, h, Host, Prop, VNode, Method } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   LoadableComponent,
   componentFocusable,
@@ -64,6 +65,8 @@ export class CalciteNavigationLogo implements LoadableComponent {
    * Specifies the heading level of the component's heading for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

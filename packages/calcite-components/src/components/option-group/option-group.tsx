@@ -1,4 +1,5 @@
 import { Component, Event, EventEmitter, Fragment, h, Prop, VNode, Watch } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 
 /**
  * @slot - A slot for adding `calcite-option`s.
@@ -28,6 +29,8 @@ export class OptionGroup {
    */
   @Prop()
   label!: string;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("disabled")
   @Watch("label")

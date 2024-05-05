@@ -14,6 +14,7 @@ import {
   Watch,
 } from "@stencil/core";
 import { FocusTrap } from "focus-trap";
+import { CalciteVersion } from "../resources";
 import {
   dateFromISO,
   dateFromLocalizedString,
@@ -353,6 +354,8 @@ export class InputDatePicker
 
   /** Defines the layout of the component. */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

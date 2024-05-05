@@ -12,6 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { getElementDir } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
@@ -161,6 +162,8 @@ export class SegmentedControl
 
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

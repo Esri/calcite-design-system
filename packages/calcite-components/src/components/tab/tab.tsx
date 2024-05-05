@@ -11,6 +11,7 @@ import {
   State,
   VNode,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
@@ -52,6 +53,8 @@ export class Tab {
    * @internal
    */
   @Prop() scale: Scale = "m";
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

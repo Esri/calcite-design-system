@@ -1,4 +1,5 @@
 import { Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { CalciteActionMenuCustomEvent } from "../../components";
 import {
   ConditionalSlotComponent,
@@ -107,6 +108,8 @@ export class ActionGroup
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ActionGroupMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

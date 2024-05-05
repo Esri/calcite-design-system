@@ -9,6 +9,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { Appearance, Position, Scale, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { RequestedItem } from "./interfaces";
@@ -52,6 +53,8 @@ export class Accordion {
     "single" | "single-persist" | "multiple",
     SelectionMode
   > = "multiple";
+
+  @Prop() version = CalciteVersion;
 
   @Watch("iconPosition")
   @Watch("iconType")

@@ -13,6 +13,7 @@ import {
 } from "@stencil/core";
 import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
+import { CalciteVersion } from "../resources";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,
@@ -208,6 +209,8 @@ export class List
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
    */
   @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
+
+  @Prop() version = CalciteVersion;
 
   @Watch("filterEnabled")
   @Watch("group")

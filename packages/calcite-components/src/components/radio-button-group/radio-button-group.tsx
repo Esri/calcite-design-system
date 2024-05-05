@@ -12,6 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale, Status } from "../interfaces";
 import {
@@ -89,6 +90,8 @@ export class RadioButtonGroup implements LoadableComponent {
 
   /** Specifies the validation icon to display under the component. */
   @Prop({ reflect: true }) validationIcon: string | boolean;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("scale")
   onScaleChange(): void {

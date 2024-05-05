@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   filterDirectChildren,
   getElementDir,
@@ -124,6 +125,8 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    * @internal
    */
   @Prop({ mutable: true, reflect: true }) selectionMode: SelectionMode;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("selectionMode")
   getSelectionMode(): void {

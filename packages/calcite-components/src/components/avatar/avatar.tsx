@@ -1,4 +1,5 @@
 import { Component, Element, h, Prop, State } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { getModeName } from "../../utils/dom";
 import { isValidHex } from "../color-picker/utils";
 import { Scale } from "../interfaces";
@@ -33,6 +34,8 @@ export class Avatar {
 
   /** Specifies alternative text when `thumbnail` is defined, otherwise specifies an accessible label.*/
   @Prop() label: string;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

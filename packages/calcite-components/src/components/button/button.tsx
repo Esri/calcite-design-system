@@ -10,6 +10,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import {
   connectInteractive,
@@ -179,6 +180,8 @@ export class Button
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ButtonMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("loading")
   loadingChanged(newValue: boolean, oldValue: boolean): void {

@@ -1,4 +1,5 @@
 import { Component, Element, h, Host, Prop, VNode, Method } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   LoadableComponent,
   componentFocusable,
@@ -41,6 +42,8 @@ export class CalciteNavigationUser implements LoadableComponent {
 
   /** Specifies the username of the user.*/
   @Prop() username: string;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

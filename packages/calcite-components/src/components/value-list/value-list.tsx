@@ -12,6 +12,7 @@ import {
   Watch,
 } from "@stencil/core";
 import Sortable from "sortablejs";
+import { CalciteVersion } from "../resources";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -191,6 +192,8 @@ export class ValueList<
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ValueListMessages;
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

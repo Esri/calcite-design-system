@@ -12,6 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -163,6 +164,8 @@ export class Modal
    * @internal
    */
   @Prop({ mutable: true }) slottedInShell: boolean;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

@@ -13,6 +13,7 @@ import {
   forceUpdate,
 } from "@stencil/core";
 import { throttle } from "lodash-es";
+import { CalciteVersion } from "../resources";
 import {
   connectForm,
   disconnectForm,
@@ -244,6 +245,8 @@ export class TextArea
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<TextAreaMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

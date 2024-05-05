@@ -1,4 +1,5 @@
 import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { focusElement, getElementDir } from "../../utils/dom";
 import {
   connectInteractive,
@@ -60,6 +61,8 @@ export class Link implements InteractiveComponent, LoadableComponent {
 
   /** Specifies the frame or window to open the linked document. */
   @Prop() target: string;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

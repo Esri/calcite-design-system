@@ -10,6 +10,7 @@ import {
   Prop,
   VNode,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -113,6 +114,8 @@ export class ValueListItem
    * The component's value.
    */
   @Prop() value!: any;
+
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

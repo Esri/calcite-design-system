@@ -9,6 +9,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectInteractive,
@@ -119,6 +120,8 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
 
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
+
+  @Prop() version = CalciteVersion;
 
   /**
    * Fires when the primary button is clicked.

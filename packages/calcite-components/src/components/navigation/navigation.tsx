@@ -11,6 +11,7 @@ import {
   VNode,
   Method,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   LoadableComponent,
@@ -52,6 +53,8 @@ export class CalciteNavigation implements LoadableComponent {
    * When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change.
    */
   @Prop({ reflect: true }) navigationAction = false;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

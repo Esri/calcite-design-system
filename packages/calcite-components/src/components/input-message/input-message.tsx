@@ -1,4 +1,5 @@
 import { Component, Element, h, Host, Prop, VNode, Watch } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { setRequestedIcon } from "../../utils/dom";
 import { Scale, Status } from "../interfaces";
 import { StatusIconDefaults } from "./interfaces";
@@ -29,6 +30,8 @@ export class InputMessage {
 
   /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ reflect: true }) status: Status = "idle";
+
+  @Prop() version = CalciteVersion;
 
   @Watch("status")
   @Watch("icon")

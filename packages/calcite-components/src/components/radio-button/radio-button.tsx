@@ -12,6 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, getElementDir, toAriaBoolean } from "../../utils/dom";
 import {
@@ -136,6 +137,8 @@ export class RadioButton
   /** The component's value. */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by form module
   @Prop({ mutable: true }) value!: any;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

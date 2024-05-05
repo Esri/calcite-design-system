@@ -14,6 +14,7 @@ import {
 } from "@stencil/core";
 import { debounce } from "lodash-es";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
+import { CalciteVersion } from "../resources";
 import { filter } from "../../utils/filter";
 import { getElementWidth, getTextWidth, toAriaBoolean } from "../../utils/dom";
 import {
@@ -335,6 +336,8 @@ export class Combobox
    * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
    */
   @Prop({ reflect: true }) readOnly = false;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

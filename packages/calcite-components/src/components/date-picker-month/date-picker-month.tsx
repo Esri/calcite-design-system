@@ -9,6 +9,7 @@ import {
   Prop,
   VNode,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { dateFromRange, HoverRange, inRange, sameDate } from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
@@ -74,6 +75,8 @@ export class DatePickerMonth {
 
   /** The range of dates currently being hovered. */
   @Prop() hoverRange: HoverRange;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

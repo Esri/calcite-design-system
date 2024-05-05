@@ -11,6 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { getElementDir } from "../../utils/dom";
 import {
   connectInteractive,
@@ -156,6 +157,8 @@ export class FlowItem
    * @internal
    */
   @Prop() showBackButton = false;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

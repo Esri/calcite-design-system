@@ -10,6 +10,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { toAriaBoolean } from "../../utils/dom";
 import {
   componentFocusable,
@@ -117,6 +118,8 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
    * Use this property to override individual strings used by the component.
    */
   @Prop() messageOverrides: Partial<HandleMessages>;
+
+  @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {

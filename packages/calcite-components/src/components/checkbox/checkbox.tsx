@@ -9,6 +9,7 @@ import {
   Prop,
   VNode,
 } from "@stencil/core";
+import { CalciteVersion } from "../resources";
 import { toAriaBoolean } from "../../utils/dom";
 import {
   CheckableFormComponent,
@@ -123,6 +124,8 @@ export class Checkbox
 
   /** The component's value. */
   @Prop() value: any;
+
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //
