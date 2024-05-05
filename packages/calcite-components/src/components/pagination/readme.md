@@ -45,6 +45,20 @@ For example, after querying the search API, you'll get back a response similar t
 
 ## Methods
 
+### `goTo(page: number | "start" | "end") => Promise<void>`
+
+Set a specified page as active.
+
+#### Parameters
+
+| Name   | Type                         | Description |
+| ------ | ---------------------------- | ----------- |
+| `page` | `number \| "start" \| "end"` |             |
+
+#### Returns
+
+Type: `Promise<void>`
+
 ### `nextPage() => Promise<void>`
 
 Go to the next page of results.

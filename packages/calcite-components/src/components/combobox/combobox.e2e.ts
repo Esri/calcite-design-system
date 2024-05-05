@@ -2004,21 +2004,20 @@ describe("calcite-combobox", () => {
   });
 
   it("prevents opening a readonly combobox", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-combobox id="myCombobox" read-only="true">
-          <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
-          <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
-          <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
-          <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
-        </calcite-combobox>
-      `,
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox id="myCombobox" read-only>
+        <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+        <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
+        <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
+        <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
 
     const combobox = await page.find("calcite-combobox");
-    expect(await combobox.getProperty("open")).toBeFalsy();
     await combobox.click();
     await page.waitForChanges();
-    expect(await combobox.getProperty("open")).toBeFalsy();
+
+    expect(await combobox.getProperty("open")).toBe(false);
   });
 });

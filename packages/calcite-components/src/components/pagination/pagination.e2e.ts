@@ -279,4 +279,58 @@ describe("calcite-pagination", () => {
       }
     });
   });
+
+  describe("navigation methods", () => {
+    let page: E2EPage;
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        `<calcite-pagination start-item="1" total-items="124" page-size="20"></calcite-pagination>`,
+      );
+    });
+
+    it("navigates to last page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", "end");
+      await page.waitForChanges();
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(121);
+    });
+
+    it("navigates to first page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", "end");
+      await page.waitForChanges();
+      let item = await element.getProperty("startItem");
+      expect(item).toEqual(121);
+      await element.callMethod("goTo", "start");
+      await page.waitForChanges();
+      item = await element.getProperty("startItem");
+      expect(item).toEqual(1);
+    });
+
+    it("navigates middle page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", 3);
+      await page.waitForChanges();
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(41);
+    });
+
+    it("navigates beyond last page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", 20);
+      await page.waitForChanges();
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(121);
+    });
+
+    it("navigates before first page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", -1);
+      await page.waitForChanges();
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(1);
+    });
+  });
 });

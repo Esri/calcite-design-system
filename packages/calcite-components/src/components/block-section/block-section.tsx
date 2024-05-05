@@ -193,7 +193,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
       [CSS.invalid]: status == "invalid",
     };
 
-    return !!statusIcon ? (
+    return statusIcon ? (
       <calcite-icon class={statusIconClasses} icon={statusIcon} scale="s" />
     ) : null;
   }

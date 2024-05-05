@@ -115,7 +115,7 @@ export function parseNumberString(numberString?: string): string {
           containsDecimal = true;
           return true;
         }
-        if (value.match(/\-/g) && i === 0) {
+        if (value.match(/-/g) && i === 0) {
           return true;
         }
         return numberKeys.includes(value);
