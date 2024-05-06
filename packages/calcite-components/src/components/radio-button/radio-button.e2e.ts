@@ -427,11 +427,12 @@ describe("calcite-radio-button", () => {
     expect(blurEvent).toHaveReceivedEventTimes(1);
   });
 
-  it.skip("appropriately triggers the custom internal focus and blur events with keyboard", async () => {
+  it("appropriately triggers the custom internal focus and blur events with keyboard", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-radio-button name="example"></calcite-radio-button><calcite-radio-button name="example"></calcite-radio-button>`,
-    );
+    await page.setContent(html`
+      <calcite-radio-button name="example"></calcite-radio-button>
+      <calcite-radio-button name="example"></calcite-radio-button>
+    `);
 
     const radio = await page.find("calcite-radio-button");
 
@@ -442,11 +443,13 @@ describe("calcite-radio-button", () => {
     expect(blurEvent).toHaveReceivedEventTimes(0);
 
     await page.keyboard.press("Tab");
+    await page.waitForChanges();
 
     expect(focusEvent).toHaveReceivedEventTimes(1);
     expect(blurEvent).toHaveReceivedEventTimes(0);
 
     await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
 
     expect(focusEvent).toHaveReceivedEventTimes(1);
     expect(blurEvent).toHaveReceivedEventTimes(1);
