@@ -437,9 +437,10 @@ describe("calcite-action-bar", () => {
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
     });
 
-    it.skip("should slot 'menu-actions' on resize of component", async () => {
-      const page = await newE2EPage({
-        html: html`<div style="width:500px; height:500px;">
+    it("should slot 'menu-actions' on resize of component", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<div style="width:500px; height:500px;">
           <calcite-action-bar style="height: 290px">
             <calcite-action-group id="dynamic-group"
               ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
@@ -458,7 +459,7 @@ describe("calcite-action-bar", () => {
             <calcite-action slot="actions-end" text="Tips" icon="lightbulb"></calcite-action>
           </calcite-action-bar>
         </div>`,
-      });
+      );
       await page.waitForTimeout(overflowActionsDebounceInMs + 10);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
