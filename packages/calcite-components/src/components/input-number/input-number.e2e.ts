@@ -20,9 +20,10 @@ import {
   testHiddenInputSyncing,
   testPostValidationFocusing,
 } from "../input/common/tests";
+import { valueNudgeDelayInMs } from "../input/common/input";
 
 describe("calcite-input-number", () => {
-  const delayFor2UpdatesInMs = 200;
+  const delayFor2UpdatesInMs = valueNudgeDelayInMs * 2;
 
   /**
    * This helper wraps number typing to work around test instability
@@ -219,7 +220,7 @@ describe("calcite-input-number", () => {
     });
   });
 
-  describe.skip("increment/decrement functionality", () => {
+  describe("increment/decrement functionality", () => {
     let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();
@@ -571,16 +572,16 @@ describe("calcite-input-number", () => {
       });
 
       describe("data-adjustment='up'", () => {
-        let buttonUpLocation;
+        let buttonUpLocation: [number, number];
 
         beforeEach(async () => {
           const [x, y] = await getElementXY(page, "calcite-input-number", ".number-button-item[data-adjustment='up']");
           buttonUpLocation = [x, y];
         });
 
-        it.skip("should emit an event regularly on mousedown", async () => {
+        it("should emit an event regularly on mousedown", async () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
-          await page.mouse.move(buttonUpLocation.x, buttonUpLocation.y);
+          await page.mouse.move(buttonUpLocation[0], buttonUpLocation[1]);
           await page.mouse.down();
           await page.waitForTimeout(delayFor2UpdatesInMs);
           await page.mouse.up();
@@ -589,12 +590,12 @@ describe("calcite-input-number", () => {
           expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
         });
 
-        it.skip("should stop emitting an event on mouseleave", async () => {
+        it("should stop emitting an event on mouseleave", async () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
-          await page.mouse.move(buttonUpLocation.x, buttonUpLocation.y);
+          await page.mouse.move(buttonUpLocation[0], buttonUpLocation[1]);
           await page.mouse.down();
           await page.waitForTimeout(delayFor2UpdatesInMs);
-          await page.mouse.move(buttonUpLocation.x - 1, buttonUpLocation.y - 1);
+          await page.mouse.move(buttonUpLocation[0] - 1, buttonUpLocation[1] - 1);
 
           const totalNudgesUp = calciteInputNumberInput.length;
           // assert changes no longer emitted after moving away from stepper
@@ -605,7 +606,7 @@ describe("calcite-input-number", () => {
       });
 
       describe("data-adjustment='down'", () => {
-        let buttonDownLocation;
+        let buttonDownLocation: [number, number];
 
         beforeEach(async () => {
           const [x, y] = await getElementXY(
@@ -616,29 +617,30 @@ describe("calcite-input-number", () => {
           buttonDownLocation = [x, y];
         });
 
-        it.skip("should emit an event regularly on mousedown", async () => {
+        it("should emit an event regularly on mousedown", async () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
-          await page.mouse.move(buttonDownLocation.x, buttonDownLocation.y);
+          await page.mouse.move(buttonDownLocation[0], buttonDownLocation[1]);
           await page.mouse.down();
           await page.waitForTimeout(delayFor2UpdatesInMs);
           await page.mouse.up();
           await page.waitForChanges();
-          const totalNudgesUp = calciteInputNumberInput.length;
-          expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+          const totalNudgesDown = calciteInputNumberInput.length;
+          expect(await input.getProperty("value")).toBe(`${-totalNudgesDown}`);
         });
 
-        it.skip("should stop emitting an event on mouseleave", async () => {
+        it("should stop emitting an event on mouseleave", async () => {
           expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
-          await page.mouse.move(buttonDownLocation.x, buttonDownLocation.y);
+          await page.mouse.move(buttonDownLocation[0], buttonDownLocation[1]);
           await page.mouse.down();
           await page.waitForTimeout(delayFor2UpdatesInMs);
-          await page.mouse.move(buttonDownLocation.x - 1, buttonDownLocation.y - 1);
+          await page.mouse.move(buttonDownLocation[0] - 1, buttonDownLocation[1] - 1);
 
-          const totalNudgesUp = calciteInputNumberInput.length;
+          const totalNudgesDown = calciteInputNumberInput.length;
           // assert changes no longer emitted after moving away from stepper
           await page.waitForTimeout(delayFor2UpdatesInMs);
           await page.mouse.up(); // mouseleave assertion done, we release
-          expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`${-totalNudgesDown}`);
         });
       });
     });

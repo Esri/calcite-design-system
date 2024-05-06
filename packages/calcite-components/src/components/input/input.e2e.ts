@@ -16,9 +16,10 @@ import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementRect, getElementXY, selectText } from "../../tests/utils";
 import { testHiddenInputSyncing, testPostValidationFocusing, testWorkaroundForGlobalPropRemoval } from "./common/tests";
+import { valueNudgeDelayInMs } from "./common/input";
 
 describe("calcite-input", () => {
-  const delayFor2UpdatesInMs = 200;
+  const delayFor2UpdatesInMs = valueNudgeDelayInMs * 2;
 
   /**
    * This helper wraps number typing to work around test instability

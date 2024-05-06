@@ -13,6 +13,11 @@ export interface TextualInputComponent {
 }
 
 /**
+ * Delay for adjusting the input value up or down during a prolonged stepper press.
+ */
+export const valueNudgeDelayInMs = 150;
+
+/**
  * Exported for testing purposes only
  */
 export const minMaxStepTypes = ["date", "datetime-local", "month", "number", "range", "time", "week"];

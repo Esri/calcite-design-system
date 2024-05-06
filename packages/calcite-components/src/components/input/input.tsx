@@ -71,7 +71,12 @@ import { Validation } from "../functional/Validation";
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
-import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
+import {
+  NumericInputComponent,
+  syncHiddenFormInput,
+  TextualInputComponent,
+  valueNudgeDelayInMs,
+} from "./common/input";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
@@ -890,7 +895,6 @@ export class Input
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 150;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 

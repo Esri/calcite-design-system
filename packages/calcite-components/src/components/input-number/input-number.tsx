@@ -73,6 +73,7 @@ import {
   NumericInputComponent,
   syncHiddenFormInput,
   TextualInputComponent,
+  valueNudgeDelayInMs,
 } from "../input/common/input";
 import { CSS, SLOTS } from "./resources";
 import { InputNumberMessages } from "./assets/input-number/t9n";
@@ -807,7 +808,6 @@ export class InputNumber
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 150;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
