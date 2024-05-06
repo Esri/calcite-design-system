@@ -327,7 +327,7 @@ describe("calcite-tab-title", () => {
     });
   });
 
-  it.skip("emits active event on user interaction only", async () => {
+  it("emits active event on user interaction only", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-tab-title>Title</calcite-tab-title>`);
     const activeEventSpy = await page.spyOnEvent("calciteTabsActivate");
