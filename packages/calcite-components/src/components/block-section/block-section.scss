@@ -47,10 +47,12 @@
   &:hover {
     @apply text-color-1;
   }
+}
 
-  .label {
-    @apply flex items-center justify-center;
-  }
+.label {
+  @apply flex items-center justify-center my-1;
+
+  margin-inline-start: theme("margin.3");
 }
 
 .section-header__text {
