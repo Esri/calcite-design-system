@@ -316,7 +316,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
-    this.loadLocaleData();
   }
 
   @State() endAsDate: Date;
@@ -350,6 +349,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     }
   }
 
+  @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;

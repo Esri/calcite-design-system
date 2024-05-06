@@ -137,7 +137,10 @@ export class Pagination
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
+  }
 
+  @Watch("effectiveLocale")
+  effectiveLocaleWatcher(): void {
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
