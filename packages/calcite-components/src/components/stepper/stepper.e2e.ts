@@ -121,8 +121,7 @@ describe("calcite-stepper", () => {
     });
   });
 
-  // eslint-disable-next-line jest/no-disabled-tests
-  describe.skip("honors hidden attribute", () => {
+  describe("honors hidden attribute", () => {
     hidden("calcite-stepper");
   });
 
