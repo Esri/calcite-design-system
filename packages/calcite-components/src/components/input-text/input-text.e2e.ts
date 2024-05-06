@@ -126,50 +126,40 @@ describe("calcite-input-text", () => {
     expect(changeEventSpy).not.toHaveReceivedEvent();
   });
 
-  it.skip("emits events when value is modified", async () => {
+  it("emits events when value is modified", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-text></calcite-input-text>`);
 
     const element = await page.find("calcite-input-text");
     const calciteInputTextInput = await element.spyOnEvent("calciteInputTextInput");
     const calciteInputTextChange = await element.spyOnEvent("calciteInputTextChange");
+    await element.callMethod("setFocus");
 
     const inputFirstPart = "12345";
-    await element.callMethod("setFocus");
     await page.waitForChanges();
     await page.keyboard.type(inputFirstPart);
     expect(await element.getProperty("value")).toBe(inputFirstPart);
     expect(calciteInputTextInput).toHaveReceivedEventTimes(5);
     expect(calciteInputTextChange).toHaveReceivedEventTimes(0);
 
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
     await page.keyboard.press("Enter");
     expect(calciteInputTextInput).toHaveReceivedEventTimes(5);
     expect(calciteInputTextChange).toHaveReceivedEventTimes(1);
 
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
     await page.keyboard.press("Enter");
     expect(calciteInputTextInput).toHaveReceivedEventTimes(5);
     expect(calciteInputTextChange).toHaveReceivedEventTimes(1);
 
     const textSecondPart = "67890";
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
     await page.keyboard.type(textSecondPart);
     expect(calciteInputTextInput).toHaveReceivedEventTimes(10);
     expect(calciteInputTextChange).toHaveReceivedEventTimes(1);
 
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
     await page.keyboard.press("Tab");
     expect(calciteInputTextInput).toHaveReceivedEventTimes(10);
     expect(calciteInputTextChange).toHaveReceivedEventTimes(2);
     expect(await element.getProperty("value")).toBe(`${inputFirstPart}${textSecondPart}`);
 
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
     await page.keyboard.press("Tab");
     expect(calciteInputTextInput).toHaveReceivedEventTimes(10);
     expect(calciteInputTextChange).toHaveReceivedEventTimes(2);
@@ -183,8 +173,6 @@ describe("calcite-input-text", () => {
     expect(calciteInputTextInput).toHaveReceivedEventTimes(10);
     expect(calciteInputTextChange).toHaveReceivedEventTimes(2);
 
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
     await selectText(element);
     await page.keyboard.press("Backspace");
     await page.keyboard.press("Tab");
