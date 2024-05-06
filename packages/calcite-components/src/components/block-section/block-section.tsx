@@ -231,7 +231,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   }
 
   render(): VNode {
-    const { messages, open, text, toggleDisplay, renderIcon } = this;
+    const { messages, open, text, toggleDisplay } = this;
     const arrowIcon = open ? ICONS.menuOpen : ICONS.menuClosed;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
@@ -257,12 +257,12 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
             tabIndex={0}
             title={toggleLabel}
           >
-            {renderIcon(ICONS.iconStart)}
+            {this.renderIcon(ICONS.iconStart)}
             <div class={CSS.toggleSwitchContent}>
               <span class={CSS.toggleSwitchText}>{text}</span>
             </div>
 
-            {renderIcon(ICONS.iconEnd)}
+            {this.renderIcon(ICONS.iconEnd)}
             {this.renderStatusIcon()}
             {/* we use calcite-label to use a simple component that will allow us to prevent keyboard focus by setting tabindex="-1" on the host */}
             <calcite-label class="label" layout="inline" tabIndex={-1}>
@@ -286,9 +286,9 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
             id={IDS.toggle}
             onClick={this.toggleSection}
           >
-            {renderIcon(ICONS.iconStart)}
+            {this.renderIcon(ICONS.iconStart)}
             <span class={CSS.sectionHeaderText}>{text}</span>
-            {renderIcon(ICONS.iconEnd)}
+            {this.renderIcon(ICONS.iconEnd)}
             {this.renderStatusIcon()}
             <calcite-icon class={CSS.chevronIcon} icon={arrowIcon} scale="s" />
           </button>
