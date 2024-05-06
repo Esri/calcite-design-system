@@ -176,12 +176,9 @@ export class TipManager {
   setUpTips(): void {
     const tips = Array.from(this.el.querySelectorAll("calcite-tip"));
     this.total = tips.length;
-    if (this.total === 0) {
-      return;
-    }
-    const selectedTip = this.el.querySelector<HTMLCalciteTipElement>("calcite-tip[selected]");
-
     this.tips = tips;
+
+    const selectedTip = this.el.querySelector<HTMLCalciteTipElement>("calcite-tip[selected]");
     this.selectedIndex = selectedTip ? tips.indexOf(selectedTip) : 0;
 
     tips.forEach((tip: HTMLCalciteTipElement) => {
