@@ -80,7 +80,7 @@ export class TipManager {
 
   @Element() el: HTMLCalciteTipManagerElement;
 
-  @State() selectedIndex: number;
+  @State() selectedIndex = 0;
 
   @Watch("selectedIndex")
   selectedChangeHandler(): void {
@@ -176,9 +176,12 @@ export class TipManager {
   setUpTips(): void {
     const tips = Array.from(this.el.querySelectorAll("calcite-tip"));
     this.total = tips.length;
-    this.tips = tips;
-
+    if (this.total === 0) {
+      return;
+    }
     const selectedTip = this.el.querySelector<HTMLCalciteTipElement>("calcite-tip[selected]");
+
+    this.tips = tips;
     this.selectedIndex = selectedTip ? tips.indexOf(selectedTip) : 0;
 
     tips.forEach((tip: HTMLCalciteTipElement) => {
