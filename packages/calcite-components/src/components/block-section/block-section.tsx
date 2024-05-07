@@ -218,6 +218,10 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
 
     const isIconStart = icon === this.iconStart;
 
+    if (icon === undefined) {
+      return null;
+    }
+
     /** Icon scale is not variable as the component does not have a scale property */
     return (
       <calcite-icon
