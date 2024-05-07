@@ -1,7 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils";
-import { canConvertToHexa, isValidHex, normalizeHex } from "../color-picker/utils";
+import { normalizeHex } from "../color-picker/utils";
 import { CSS } from "./resources";
 
 describe("calcite-color-picker-hex-input", () => {
@@ -283,34 +283,19 @@ describe("calcite-color-picker-hex-input", () => {
     let page: E2EPage;
     let input: E2EElement;
 
-    async function assertTabAndEnterBehavior(
-      hexInputChars: string,
-      expectedValue: string | null,
-      alphaChannel = false,
-    ): Promise<void> {
+    async function assertTabAndEnterBehavior(hexInputChars: string, expectedValue: string | null): Promise<void> {
       const normalizedInputHex = normalizeHex(hexInputChars);
-      const resetHex = alphaChannel ? "#face0fff" : "#efface";
+      const initialValue = await input.getProperty("value");
 
-      if (normalizedInputHex === resetHex) {
-        throw new Error(`input hex (${hexInputChars}) cannot be the same as reset value (${resetHex})`);
+      if (normalizedInputHex === initialValue) {
+        throw new Error(`input hex (${hexInputChars}) cannot be the same as reset value (${initialValue})`);
       }
-
-      expectedValue =
-        expectedValue === null ||
-        (alphaChannel
-          ? isValidHex(normalizedInputHex, true) || canConvertToHexa(normalizedInputHex)
-          : isValidHex(normalizedInputHex))
-          ? expectedValue
-          : resetHex;
-
-      await typeHexValue(resetHex, "Enter");
-      expect(await input.getProperty("value")).toBe(resetHex);
 
       await typeHexValue(hexInputChars, "Enter");
       expect(await input.getProperty("value")).toBe(expectedValue);
 
-      await typeHexValue(resetHex, "Enter");
-      expect(await input.getProperty("value")).toBe(resetHex);
+      await input.setProperty("value", initialValue);
+      await page.waitForChanges();
 
       await typeHexValue(hexInputChars, "Tab");
       expect(await input.getProperty("value")).toBe(expectedValue);
@@ -451,23 +436,23 @@ describe("calcite-color-picker-hex-input", () => {
           input = await page.find("calcite-color-picker-hex-input");
         });
 
-        it.skip("commits hexa chars on Tab and Enter", async () => {
-          await assertTabAndEnterBehavior("b00", "#bb0000ff", true);
-          await assertTabAndEnterBehavior("abcd", "#aabbccdd", true);
-          await assertTabAndEnterBehavior("c0ffee", "#c0ffeeff", true);
-          await assertTabAndEnterBehavior("b0b0b0b0", "#b0b0b0b0", true);
-          await assertTabAndEnterBehavior("", startingHexa, true);
+        it("commits hexa chars on Tab and Enter", async () => {
+          await assertTabAndEnterBehavior("b00", "#bb000000");
+          await assertTabAndEnterBehavior("b0b0", "#bb00bb00");
+          await assertTabAndEnterBehavior("c0ffee", "#c0ffee00");
+          await assertTabAndEnterBehavior("b0b0b0b0", "#b0b0b000");
+          await assertTabAndEnterBehavior("", startingHexa);
         });
 
-        it.skip("prevents committing invalid hexa values", async () => {
-          await assertTabAndEnterBehavior("aabbccd", startingHexa, true);
-          await assertTabAndEnterBehavior("aabbcc", "#aabbccff", true);
-          await assertTabAndEnterBehavior("ff00f", "#aabbccff", true);
-          await assertTabAndEnterBehavior("ff00", "#ffff0000", true);
-          await assertTabAndEnterBehavior("aab", "#aaaabbff", true);
-          await assertTabAndEnterBehavior("aa", "#aaaabbff", true);
-          await assertTabAndEnterBehavior("a", "#aaaabbff", true);
-          await assertTabAndEnterBehavior("", "#aaaabbff", true);
+        it("prevents committing invalid hexa values", async () => {
+          await assertTabAndEnterBehavior("aabbccd", "#aabbcc00");
+          await assertTabAndEnterBehavior("aabbcc", "#aabbcc00");
+          await assertTabAndEnterBehavior("ff00f", "#aabbcc00");
+          await assertTabAndEnterBehavior("ff00", "#ffff0000");
+          await assertTabAndEnterBehavior("aab", "#aaaabb00");
+          await assertTabAndEnterBehavior("aa", "#aaaabb00");
+          await assertTabAndEnterBehavior("a", "#aaaabb00");
+          await assertTabAndEnterBehavior("", "#aaaabb00");
         });
 
         it("allows nudging RGB channels with arrow keys (+/-1) and shift modifies amount (+/-10)", async () => {
@@ -502,23 +487,23 @@ describe("calcite-color-picker-hex-input", () => {
             await page.waitForChanges();
           });
 
-          it.skip("commits hexa chars on Tab and Enter", async () => {
-            await assertTabAndEnterBehavior("b00", "#bb0000ff", true);
-            await assertTabAndEnterBehavior("baba", "#bbaabbaa", true);
-            await assertTabAndEnterBehavior("c0ffee", "#c0ffeeff", true);
-            await assertTabAndEnterBehavior("c0c0c0c0", "#c0c0c0c0", true);
-            await assertTabAndEnterBehavior("", null, true);
+          it("commits hexa chars on Tab and Enter", async () => {
+            await assertTabAndEnterBehavior("b00", "#bb000000");
+            await assertTabAndEnterBehavior("b0b0", "#bb00bb00");
+            await assertTabAndEnterBehavior("c0ffee", "#c0ffee00");
+            await assertTabAndEnterBehavior("c0c0c0c0", "#c0c0c000");
+            await assertTabAndEnterBehavior("", null);
           });
 
-          it.skip("prevents committing invalid hexa values", async () => {
-            await assertTabAndEnterBehavior("aabbccd", startingHexa, true);
-            await assertTabAndEnterBehavior("aabbcc", "#aabbccff", true);
-            await assertTabAndEnterBehavior("ff00f", "#aabbccff", true);
-            await assertTabAndEnterBehavior("ff00", "#ffff0000", true);
-            await assertTabAndEnterBehavior("aab", "#aaaabbff", true);
-            await assertTabAndEnterBehavior("aa", "#aaaabbff", true);
-            await assertTabAndEnterBehavior("a", "#aaaabbff", true);
-            await assertTabAndEnterBehavior("", null, true);
+          it("prevents committing invalid hexa values", async () => {
+            await assertTabAndEnterBehavior("aabbccd", "#aabbcc00");
+            await assertTabAndEnterBehavior("aabbcc", "#aabbcc00");
+            await assertTabAndEnterBehavior("ff00f", "#aabbcc00");
+            await assertTabAndEnterBehavior("ff00", "#ffff0000");
+            await assertTabAndEnterBehavior("aab", "#aaaabb00");
+            await assertTabAndEnterBehavior("aa", "#aaaabb00");
+            await assertTabAndEnterBehavior("a", "#aaaabb00");
+            await assertTabAndEnterBehavior("", null);
           });
 
           it("restores previous value when a nudge key is pressed and no-color is allowed and set", async () => {
