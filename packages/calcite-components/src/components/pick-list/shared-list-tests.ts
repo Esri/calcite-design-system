@@ -178,30 +178,28 @@ export function keyboardNavigation(listType: ListType): void {
       });
     });
 
-    it.skip("should honor filterText", async () => {
-      const page = await newE2EPage({
-        html: `
+    it("should honor filterText", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
         <calcite-${listType}-list filter-enabled filter-text="one">
           <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-      `,
-      });
+      `);
       const list = await page.find(`calcite-${listType}-list`);
       expect(await list.getProperty("filteredItems")).toHaveLength(1);
       expect(await list.getProperty("filteredData")).toHaveLength(1);
       expect(await list.getProperty("filterText")).toBe("one");
     });
 
-    it.skip("navigating items after filtering", async () => {
-      const page = await newE2EPage({
-        html: `
+    it("navigating items after filtering", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
         <calcite-${listType}-list filter-enabled>
           <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-      `,
-      });
+      `);
       const list = await page.find(`calcite-${listType}-list`);
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
       expect(await list.getProperty("filteredData")).toHaveLength(2);
@@ -247,12 +245,12 @@ export function keyboardNavigation(listType: ListType): void {
 
       const calciteFilterChangeEvent3 = filter.waitForEvent("calciteFilterChange");
       const calciteListFilterEvent3 = page.waitForEvent("calciteListFilter");
-      await page.keyboard.type("blah");
+      await page.keyboard.type("no-match");
       await calciteFilterChangeEvent3;
       await calciteListFilterEvent3;
       expect(await list.getProperty("filteredItems")).toHaveLength(0);
       expect(await list.getProperty("filteredData")).toHaveLength(0);
-      expect(await list.getProperty("filterText")).toBe("twoblah");
+      expect(await list.getProperty("filterText")).toBe("no-match");
     });
 
     it("resets tabindex to selected item when focusing out of list", async () => {
