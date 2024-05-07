@@ -65,7 +65,7 @@ describe("calcite-avatar", () => {
       const background = document.querySelector("calcite-avatar").shadowRoot.querySelector(".background");
       return background.getAttribute("style");
     });
-    expect(style).toEqual("background-color: rgb(245, 219, 214);");
+    expect(style).toEqual("background-color: rgb(245, 214, 236);");
   });
 
   it("renders default icon when no information is passed", async () => {
