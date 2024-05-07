@@ -88,7 +88,7 @@ export class DatePickerMonth {
   /**
    * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
    */
-  @Prop({ reflect: true }) range: boolean;
+  @Prop({ reflect: true }) range: boolean = false;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale;
@@ -624,14 +624,16 @@ export class DatePickerMonth {
     const getDayInWeek = () => dayInWeek++ % 7;
     month = position === "end" ? month + 1 : month;
     const days: Day[] = [
-      ...prevMonthDays.map((day) => {
-        return {
-          active: false,
-          day,
-          dayInWeek: getDayInWeek(),
-          date: new Date(year, month - 1, day),
-        };
-      }),
+      ...(!this.range
+        ? prevMonthDays.map((day) => {
+            return {
+              active: false,
+              day,
+              dayInWeek: getDayInWeek(),
+              date: new Date(year, month - 1, day),
+            };
+          })
+        : []),
       ...currMonthDays.map((day) => {
         const date = new Date(year, month, day);
         const active =
@@ -650,14 +652,16 @@ export class DatePickerMonth {
           ref: true,
         };
       }),
-      ...nextMonthDays.map((day) => {
-        return {
-          active: false,
-          day,
-          dayInWeek: getDayInWeek(),
-          date: new Date(year, month + 1, day),
-        };
-      }),
+      ...(!this.range
+        ? nextMonthDays.map((day) => {
+            return {
+              active: false,
+              day,
+              dayInWeek: getDayInWeek(),
+              date: new Date(year, month + 1, day),
+            };
+          })
+        : []),
     ];
 
     return days;
