@@ -42,7 +42,7 @@ import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
- * @slot tooltip - [Deprecated] use `id` instead. A reference to a `calcite-tooltip`.
+ * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
 @Component({
   tag: "calcite-action",
