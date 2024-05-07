@@ -164,15 +164,15 @@ export class PickListItem
    */
   @Prop() value!: any;
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("value")
   valueWatchHandler(newValue: any, oldValue: any): void {
     this.calciteInternalListItemValueChange.emit({ oldValue, newValue });
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

@@ -373,11 +373,6 @@ export class Input
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<InputMessages>;
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -414,6 +409,11 @@ export class Input
   updateRequestedIcon(): void {
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

@@ -93,11 +93,6 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
   /** @internal */
   @Prop() bodyRowCount: number;
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("bodyRowCount")
   @Watch("scale")
   @Watch("selected")
@@ -116,6 +111,11 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
       requestAnimationFrame(() => this.updateCells());
     }
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

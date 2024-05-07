@@ -194,6 +194,28 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) hideSaved = false;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: ColorPickerMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<ColorPickerMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
+
   /** When `true`, hides the saved colors section. */
   @Prop({ reflect: true }) savedDisabled = false;
 
@@ -209,20 +231,6 @@ export class ColorPicker
 
   /** Specifies the storage ID for colors. */
   @Prop({ reflect: true }) storageId: string;
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<ColorPickerMessages>;
-
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
-
-  /** Specifies the Unicode numeral system used by the component for localization. */
-  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /**
    * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.
@@ -290,6 +298,11 @@ export class ColorPicker
     }
   }
 
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
+
   //--------------------------------------------------------------------------
   //
   //  Internal State/Props
@@ -345,19 +358,6 @@ export class ColorPicker
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
   }
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: ColorPickerMessages;
-
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
 
   @State() savedColors: string[] = [];
 

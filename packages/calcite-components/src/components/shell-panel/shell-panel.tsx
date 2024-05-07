@@ -153,15 +153,15 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ShellPanelMessages>;
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
   //--------------------------------------------------------------------------
   //
   //  Lifecycle

@@ -42,11 +42,6 @@ export class Option {
   @Prop({ mutable: true })
   value: any;
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("disabled")
   @Watch("label")
   @Watch("selected")
@@ -58,6 +53,11 @@ export class Option {
 
     this.calciteInternalOptionChange.emit();
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

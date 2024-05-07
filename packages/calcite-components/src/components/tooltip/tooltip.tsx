@@ -126,15 +126,15 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
    */
   @Prop() referenceElement: ReferenceElement | string;
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("referenceElement")
   referenceElementHandler(): void {
     this.setUpReferenceElement();
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

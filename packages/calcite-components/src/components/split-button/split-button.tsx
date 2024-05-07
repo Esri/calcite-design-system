@@ -126,17 +126,21 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
    */
   @Prop() version = CalciteVersion;
 
+  // --------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
   /**
    * Fires when the primary button is clicked.
    */
-  @Event({ cancelable: false })
-  calciteSplitButtonPrimaryClick: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteSplitButtonPrimaryClick: EventEmitter<void>;
 
   /**
    * Fires when the dropdown menu is clicked.
    */
-  @Event({ cancelable: false })
-  calciteSplitButtonSecondaryClick: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteSplitButtonSecondaryClick: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

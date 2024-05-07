@@ -210,11 +210,6 @@ export class List
    */
   @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("filterEnabled")
   @Watch("group")
   @Watch("dragEnabled")
@@ -223,6 +218,11 @@ export class List
   handleListItemChange(): void {
     this.updateListItems();
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

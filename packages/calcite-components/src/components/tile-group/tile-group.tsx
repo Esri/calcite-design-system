@@ -89,16 +89,16 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
     SelectionMode
   > = "none";
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("selectionMode")
   @Watch("selectionAppearance")
   handleSelectionModeOrAppearanceChange(): void {
     this.updateTiles();
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

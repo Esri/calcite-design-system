@@ -111,11 +111,6 @@ export class Filter
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<FilterMessages>;
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -125,6 +120,11 @@ export class Filter
   valueHandler(value: string): void {
     this.filterDebounced(value);
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

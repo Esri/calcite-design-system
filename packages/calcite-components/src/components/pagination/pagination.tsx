@@ -114,11 +114,6 @@ export class Pagination
   /** Specifies the total number of items. */
   @Prop({ reflect: true }) totalItems = 0;
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("totalItems")
   @Watch("pageSize")
   handleTotalPages(): void {
@@ -127,6 +122,11 @@ export class Pagination
     }
     this.totalPages = this.totalItems / this.pageSize;
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------
   //

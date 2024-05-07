@@ -181,11 +181,6 @@ export class Button
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ButtonMessages>;
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("loading")
   loadingChanged(newValue: boolean, oldValue: boolean): void {
     if (!!newValue && !oldValue) {
@@ -202,6 +197,11 @@ export class Button
   onMessagesChange(): void {
     /** referred in t9n util */
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

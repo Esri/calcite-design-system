@@ -35,6 +35,12 @@ export class Progress {
    */
   @Prop() version = CalciteVersion;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  //--------------------------------------------------------------------------
+
   render(): VNode {
     const isDeterminate = this.type === "determinate";
     const barStyles = isDeterminate ? { width: `${this.value * 100}%` } : {};

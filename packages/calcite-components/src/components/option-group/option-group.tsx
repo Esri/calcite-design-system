@@ -30,16 +30,16 @@ export class OptionGroup {
   @Prop()
   label!: string;
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("disabled")
   @Watch("label")
   protected handlePropChange(): void {
     this.calciteInternalOptionGroupChange.emit();
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

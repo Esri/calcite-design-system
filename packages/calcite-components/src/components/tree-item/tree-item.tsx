@@ -126,16 +126,16 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
    */
   @Prop({ mutable: true, reflect: true }) selectionMode: SelectionMode;
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("selectionMode")
   getSelectionMode(): void {
     this.isSelectionMultiLike =
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //

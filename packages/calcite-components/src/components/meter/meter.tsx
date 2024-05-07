@@ -114,11 +114,6 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   /** When `valueLabel` is `true`, specifies the format of displayed label. */
   @Prop({ reflect: true }) valueLabelType: MeterLabelType = "percent";
 
-  /**
-   * The component's version.
-   */
-  @Prop() version = CalciteVersion;
-
   @Watch("rangeLabels")
   @Watch("rangeLabelType")
   @Watch("unitLabel")
@@ -127,6 +122,11 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   handleLabelChange(): void {
     this.updateLabels();
   }
+
+  /**
+   * The component's version.
+   */
+  @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
   //
