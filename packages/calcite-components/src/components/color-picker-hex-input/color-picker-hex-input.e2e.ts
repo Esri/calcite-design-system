@@ -330,7 +330,7 @@ describe("calcite-color-picker-hex-input", () => {
         it("commits hex chars on Tab and Enter", async () => {
           await assertTabAndEnterBehavior("b00", "#bb0000");
           await assertTabAndEnterBehavior("c0ffee", "#c0ffee");
-          await assertTabAndEnterBehavior("", startingHex);
+          await assertTabAndEnterBehavior("", "#c0ffee");
         });
 
         it("prevents committing invalid hex values", async () => {
@@ -441,7 +441,7 @@ describe("calcite-color-picker-hex-input", () => {
           await assertTabAndEnterBehavior("b0b0", "#bb00bb00");
           await assertTabAndEnterBehavior("c0ffee", "#c0ffee00");
           await assertTabAndEnterBehavior("b0b0b0b0", "#b0b0b000");
-          await assertTabAndEnterBehavior("", startingHexa);
+          await assertTabAndEnterBehavior("", "#b0b0b000");
         });
 
         it("prevents committing invalid hexa values", async () => {
