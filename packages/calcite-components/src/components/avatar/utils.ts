@@ -32,13 +32,8 @@ export function stringToHex(string: string): string {
  */
 function mixStringDeterministically(string: string): string {
   const midPoint = Math.floor(string.length / 2);
-  let mixedString = "";
-
-  for (let i = 0; i < string.length; i++) {
-    mixedString += i < midPoint ? string[midPoint - i - 1] : string[string.length + midPoint - i - 1];
-  }
-
-  return mixedString;
+  const reversed = string.split("").reverse().join("");
+  return reversed.substring(midPoint) + reversed.slice(0, midPoint);
 }
 
 /**
