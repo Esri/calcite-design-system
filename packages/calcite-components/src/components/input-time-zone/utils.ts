@@ -171,3 +171,15 @@ function getTimeZoneShortOffset(
   const parts = dateTimeFormat.formatToParts(referenceDateInMs);
   return parts.find(({ type }) => type === "timeZoneName").value;
 }
+
+export function findTimeZoneItemByProp(
+  timeZoneItems: TimeZoneItem[],
+  prop: string,
+  valueToMatch: string | number,
+): TimeZoneItem {
+  return timeZoneItems.find(
+    (item) =>
+      // intentional == to match string to number
+      item[prop] == valueToMatch,
+  );
+}
