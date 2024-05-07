@@ -1,26 +1,37 @@
 :host {
-  @apply flex flex-col;
+  @apply flex flex-col bg-foreground-1;
   --calcite-list-item-icon-color: theme("colors.brand");
-  --calcite-list-item-spacing-indent: theme("spacing.4");
 }
 
-:host([filter-hidden]) {
+:host([filter-hidden]),
+:host([closed]) {
   @apply hidden;
 }
 
+.wrapper--bordered {
+  border-block-end: 1px solid var(--calcite-color-border-3);
+}
+
 @include disabled();
+
+.indent {
+  @apply flex
+    flex-col
+    border-solid
+    border-0
+    border-color-3;
+
+  margin-inline-start: var(--calcite-list-item-spacing-indent, theme("spacing.6"));
+}
 
 .container {
   @apply bg-foreground-1
   box-border
   flex
-  flex-1 font-sans;
+  flex-1;
   * {
     @apply box-border;
   }
-  padding-inline-start: calc(
-    var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
-  );
 }
 
 .container--hover:hover {
@@ -51,7 +62,7 @@
 }
 
 .nested-container {
-  @apply bg-foreground-1 flex flex-col;
+  @apply flex flex-col;
 }
 
 .nested-container--hidden {
@@ -63,7 +74,6 @@
     select-none
     flex
     flex-auto
-    font-sans
     font-normal
     items-stretch
     p-0;
@@ -126,13 +136,14 @@ td:focus {
 .content-start,
 .content-end {
   @apply flex-auto;
+
+  ::slotted(calcite-icon) {
+    @apply self-center mx-3;
+  }
 }
 
 .content-bottom {
-  @apply bg-foreground-1 flex flex-col;
-  padding-inline-start: calc(
-    var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
-  );
+  @apply flex flex-col;
 }
 
 .content-container--has-center-content .content-start,
@@ -141,7 +152,7 @@ td:focus {
 }
 
 .selection-container {
-  @apply flex px-3;
+  @apply flex px-3 py-0;
   color: theme("borderColor.color.input");
 }
 
@@ -175,6 +186,11 @@ td:focus {
 .drag-container,
 .open-container {
   @apply flex items-center;
+
+  calcite-action,
+  calcite-handle {
+    @apply self-stretch;
+  }
 }
 
 .open-container,
@@ -182,15 +198,9 @@ td:focus {
   @apply cursor-pointer;
 }
 
-.content-start,
-.content-end {
-  ::slotted(calcite-icon) {
-    @apply self-center mx-3;
-  }
-}
-
 .actions-start,
 .actions-end {
+  @apply p-0;
   ::slotted(calcite-action),
   ::slotted(calcite-action-menu),
   ::slotted(calcite-handle),
@@ -201,13 +211,8 @@ td:focus {
   }
 }
 
-::slotted(calcite-list-item),
-::slotted(calcite-list) {
-  @apply border-solid border-0 border-t border-color-3;
-}
-
 ::slotted(calcite-list:empty) {
-  @apply py-3;
+  @apply border-t-0;
 }
 
 @include base-component();

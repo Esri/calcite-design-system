@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  forceUpdate,
   h,
   Host,
   Method,
@@ -18,13 +19,13 @@ import {
   setRequestedIcon,
 } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
-
 import {
   connectForm,
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
   internalHiddenInputInputEvent,
+  MutableValidityState,
   submitForm,
 } from "../../utils/form";
 import {
@@ -66,8 +67,6 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
-import { InputNumberMessages } from "./assets/input-number/t9n";
-import { CSS, SLOTS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import {
@@ -75,6 +74,8 @@ import {
   syncHiddenFormInput,
   TextualInputComponent,
 } from "../input/common/input";
+import { CSS, SLOTS } from "./resources";
+import { InputNumberMessages } from "./assets/input-number/t9n";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -98,6 +99,19 @@ export class InputNumber
 {
   //--------------------------------------------------------------------------
   //
+  //  Global attributes
+  //
+  //--------------------------------------------------------------------------
+
+  @Watch("autofocus")
+  @Watch("enterkeyhint")
+  @Watch("inputmode")
+  handleGlobalAttributesChanged(): void {
+    forceUpdate(this);
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -106,11 +120,12 @@ export class InputNumber
   @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
-   * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
+   * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
    *
-   * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
+   * @internal
    */
-  @Prop({ reflect: true }) autofocus = false;
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() autofocus: boolean;
 
   /**
    * When `true`, a clear button is displayed when the component has a value.
@@ -128,6 +143,15 @@ export class InputNumber
   disabledWatcher(): void {
     this.setDisabledAction();
   }
+
+  /**
+   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+   *
+   * @futureBreaking kebab-cased attribute will not be supported in a future release
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() enterKeyHint: string;
 
   /**
    * The `id` of the form that will be associated with the component.
@@ -150,6 +174,15 @@ export class InputNumber
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
+
+  /**
+   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+   *
+   * @futureBreaking kebab-cased attribute will not be supported in a future release
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() inputMode: string;
 
   /** When `true`, restricts the component to integer numbers only and disables exponential notation. */
   @Prop() integer = false;
@@ -223,6 +256,27 @@ export class InputNumber
   @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
+
+  /**
    * Specifies the name of the component.
    *
    * Required to pass the component's `value` on form submission.
@@ -274,22 +328,6 @@ export class InputNumber
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
   @Prop() autocomplete: string;
-
-  /**
-   * Specifies the type of content to help devices display an appropriate virtual keyboard.
-   * Read the native attribute's documentation on MDN for more info.
-   *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
-   */
-  @Prop() inputMode = "decimal";
-
-  /**
-   * Specifies the action label or icon for the Enter key on virtual keyboards.
-   * Read the native attribute's documentation on MDN for more info.
-   *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
-   */
-  @Prop() enterKeyHint: string;
 
   /** Adds text to the end of the component.  */
   @Prop() suffixText: string;
@@ -536,6 +574,7 @@ export class InputNumber
   async selectText(): Promise<void> {
     this.childNumberEl?.select();
   }
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -543,14 +582,15 @@ export class InputNumber
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (this.readOnly || this.disabled) {
+    if (this.readOnly || this.disabled || event.defaultPrevented) {
       return;
     }
+
     if (this.isClearable && event.key === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter" && !event.defaultPrevented) {
+    if (event.key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
       }
@@ -1042,11 +1082,11 @@ export class InputNumber
       <input
         aria-label={getLabelText(this)}
         autocomplete={this.autocomplete}
-        autofocus={this.autofocus ? true : null}
+        autofocus={this.el.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={this.enterKeyHint}
-        inputMode={this.inputMode}
+        enterKeyHint={this.el.enterKeyHint || this.el.getAttribute("enterkeyhint")}
+        inputMode={this.el.inputMode || this.el.getAttribute("inputmode")}
         key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}

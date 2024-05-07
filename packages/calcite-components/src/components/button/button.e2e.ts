@@ -1,8 +1,8 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden, t9n } from "../../tests/commonTests";
-import { CSS } from "./resources";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-button", () => {
   describe("defaults", () => {
@@ -746,5 +746,16 @@ describe("calcite-button", () => {
     await page.waitForChanges();
     expect(button.getAttribute("aria-expanded")).toBe("true");
     expect(calciteButton.getAttribute("aria-expanded")).toBe("true");
+  });
+
+  it("renders child element with same width as host", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-button width="full">Continue</calcite-button>`);
+    const elementHost = await page.find("calcite-button");
+    const elementAsButton = await page.find("calcite-button >>> button");
+    expect(elementHost).not.toBeNull();
+    expect(elementAsButton).not.toBeNull();
+    expect(elementHost).toEqualAttribute("width", "full");
+    expect(await elementAsButton.getComputedStyle()["width"]).toEqual(await elementHost.getComputedStyle()["width"]);
   });
 });

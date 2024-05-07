@@ -1,14 +1,8 @@
-import { number } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+import { number } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Slider/support/Graph",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 const data: HTMLCalciteGraphElement["data"] = [
@@ -84,4 +78,4 @@ export const darkModeRTL_TestOnly = (): HTMLDivElement => {
   return div;
 };
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

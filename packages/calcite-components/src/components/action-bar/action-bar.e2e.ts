@@ -11,9 +11,9 @@ import {
   slots,
   t9n,
 } from "../../tests/commonTests";
+import { getFocusedElementProp } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
-import { getFocusedElementProp } from "../../tests/utils";
 
 describe("calcite-action-bar", () => {
   describe("renders", () => {
@@ -116,12 +116,10 @@ describe("calcite-action-bar", () => {
 
     it("allows disabling expandable behavior", async () => {
       const page = await newE2EPage();
-
       await page.setContent("<calcite-action-bar expand-disabled></calcite-action-bar>");
-
       await page.waitForChanges();
 
-      const expandAction = await page.find("calcite-action-bar >>> calcite-action");
+      const expandAction = await page.find("calcite-action-bar >>> calcite-action-group calcite-action");
 
       expect(expandAction).toBeNull();
     });
@@ -211,7 +209,7 @@ describe("calcite-action-bar", () => {
         </calcite-action-bar>`,
       );
 
-      const expandAction = await page.find("calcite-action-bar >>> calcite-action");
+      const expandAction = await page.find("calcite-action-bar >>> calcite-action-group calcite-action");
       const action = await page.find("calcite-action");
       const actionBar = await page.find("calcite-action-bar");
       const group = await page.find("calcite-action-group");

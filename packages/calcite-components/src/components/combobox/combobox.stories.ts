@@ -1,16 +1,10 @@
-import { select, number, text } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { select, number, text } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme1 from "./readme.md";
-import readme2 from "../combobox-item/readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/Combobox",
-  parameters: {
-    notes: [readme1, readme2],
-  },
-  ...storyFilters(),
 };
 
 export const single = (): string => html`
@@ -509,7 +503,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-combobox>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const singleLongLabel_TestOnly = (): string => html`
   <calcite-combobox open selection-mode="single" allow-custom-values>
@@ -811,4 +805,37 @@ export const validationMessageInAllScales_TestOnly = (): string => html`
       <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
     </calcite-combobox>
   </div>
+`;
+
+export const readOnlyAllModes = (): string => html`
+  <h1>read-only</h1>
+
+  <h2>single</h2>
+  <calcite-combobox read-only selection-mode="single">
+    <calcite-combobox-item value="one" text-label="one" selected></calcite-combobox-item>
+    <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+    <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+  </calcite-combobox>
+
+  <h2>single-persist</h2>
+  <calcite-combobox read-only selection-mode="single-persist">
+    <calcite-combobox-item value="one" text-label="one" selected></calcite-combobox-item>
+    <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+    <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+  </calcite-combobox>
+
+  <h2>multiple</h2>
+  <calcite-combobox read-only selection-mode="multiple">
+    <calcite-combobox-item value="one" text-label="one" selected></calcite-combobox-item>
+    <calcite-combobox-item value="two" text-label="two" selected></calcite-combobox-item>
+    <calcite-combobox-item value="three" text-label="three"></calcite-combobox-item>
+  </calcite-combobox>
+
+  <h2>ancestors</h2>
+  <calcite-combobox read-only selection-mode="ancestors">
+    <calcite-combobox-item value="parent" text-label="parent">
+      <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
+      <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
+    </calcite-combobox-item>
+  </calcite-combobox>
 `;

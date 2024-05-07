@@ -1,0 +1,8 @@
+{
+  "previous": "Forrige",
+  "next": "Næste",
+  "play": "Play",
+  "pause": "Pause",
+  "carousel": "Carousel",
+  "carouselItemProgress": "Progress indicator for Carousel Item"
+}

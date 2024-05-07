@@ -1,5 +1,7 @@
-import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 import { FunctionalComponent, h } from "@stencil/core";
+import { Writable } from "type-fest";
+import { Status } from "../components";
+import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 
 /**
  * Any form <Component> with a `calcite<Component>Input` event needs to be included in this array.
@@ -36,6 +38,8 @@ export function getClearValidationEventName(componentTag: string): string {
 
   return clearValidationEvent;
 }
+
+export type MutableValidityState = Writable<ValidityState>;
 
 /**
  * Exported for testing purposes.
@@ -108,6 +112,15 @@ export interface FormComponent<T = any> extends FormOwner {
    * When the form is reset, the value will be set to this property.
    */
   defaultValue: T;
+
+  /** The validation icon to display. */
+  validationIcon?: string | boolean;
+
+  /** The validation message to display. */
+  validationMessage?: string;
+
+  /** The validity state of the form component. */
+  validity?: MutableValidityState;
 
   /**
    * Hook for components to provide custom form reset behavior.
@@ -194,31 +207,59 @@ function hasRegisteredFormComponentParent(
   return hasRegisteredFormComponentParent;
 }
 
-function clearFormValidation(component: HTMLCalciteInputElement | FormComponent): void {
-  "status" in component && (component.status = "idle");
-  "validationIcon" in component && (component.validationIcon = false);
-  "validationMessage" in component && (component.validationMessage = "");
+// exported for test purposes only
+export interface ValidationProps {
+  status: Status;
+  message: string;
+  icon: string | boolean;
 }
 
-function setInvalidFormValidation(
+function displayValidationMessage(
   component: HTMLCalciteInputElement | FormComponent,
-  message: string,
+  { status, message, icon }: ValidationProps,
 ): void {
-  "status" in component && (component.status = "invalid");
+  if ("status" in component) {
+    component.status = status;
+  }
 
-  "validationIcon" in component && !component.validationIcon && (component.validationIcon = true);
+  if ("validationIcon" in component && typeof component.validationIcon !== "string") {
+    component.validationIcon = icon;
+  }
 
-  "validationMessage" in component &&
-    !component.validationMessage &&
-    (component.validationMessage = message);
+  if ("validationMessage" in component && !component.validationMessage) {
+    component.validationMessage = message;
+  }
 }
 
-function displayValidationMessage(event: Event) {
+function getValidationComponent(
+  el: HTMLCalciteInputElement,
+  // TODO: create an HTMLCalciteFormAssociatedElement base type
+): HTMLCalciteInputElement | HTMLCalciteRadioButtonGroupElement {
+  // radio-button is formAssociated, but the validation props are on the parent group
+  if (el.nodeName === "CALCITE-RADIO-BUTTON") {
+    return closestElementCrossShadowBoundary<HTMLCalciteRadioButtonGroupElement>(
+      el,
+      "calcite-radio-button-group",
+    );
+  }
+  return el;
+}
+
+const invalidEvent = new CustomEvent("calciteInvalid", { bubbles: true, composed: true });
+
+function invalidHandler(event: Event) {
   // target is the hidden input, which is slotted in the actual form component
   const hiddenInput = event?.target as HTMLInputElement;
+  const hiddenInputMessage = hiddenInput?.validationMessage;
 
-  // not necessarily a calcite-input, but we don't have an HTMLCalciteFormElement type
-  const formComponent = hiddenInput?.parentElement as HTMLCalciteInputElement;
+  // not necessarily a calcite-input, but we don't have an HTMLCalciteFormAssociatedElement type
+  const formComponent = getValidationComponent(
+    hiddenInput?.parentElement as HTMLCalciteInputElement,
+  ) as HTMLCalciteInputElement;
+
+  if (!formComponent) {
+    return;
+  }
 
   const componentTag = formComponent?.nodeName?.toLowerCase();
   const componentTagParts = componentTag?.split("-");
@@ -230,16 +271,44 @@ function displayValidationMessage(event: Event) {
   // prevent the browser from showing the native validation popover
   event?.preventDefault();
 
-  setInvalidFormValidation(formComponent, hiddenInput?.validationMessage);
-
-  if (formComponent?.validationMessage !== hiddenInput?.validationMessage) {
-    return;
+  if ("validity" in formComponent) {
+    formComponent.validity = hiddenInput?.validity;
   }
 
-  const clearValidationEvent = getClearValidationEventName(componentTag);
-  formComponent.addEventListener(clearValidationEvent, () => clearFormValidation(formComponent), {
-    once: true,
+  // dispatch a "calciteInvalid" so users can set custom validation messages
+  formComponent.dispatchEvent(invalidEvent);
+
+  displayValidationMessage(formComponent, {
+    message: hiddenInputMessage,
+    icon: true,
+    status: "invalid",
   });
+
+  const clearValidationEvent = getClearValidationEventName(componentTag);
+  formComponent.addEventListener(
+    clearValidationEvent,
+    () => {
+      if ("status" in formComponent) {
+        formComponent.status = "idle";
+      }
+
+      if ("validationIcon" in formComponent && !formComponent.validationIcon) {
+        formComponent.validationIcon = false;
+      }
+
+      if (
+        "validationMessage" in formComponent &&
+        formComponent.validationMessage === hiddenInputMessage
+      ) {
+        formComponent.validationMessage = "";
+      }
+
+      if ("validity" in formComponent) {
+        formComponent.validity = hiddenInput?.validity;
+      }
+    },
+    { once: true },
+  );
 }
 
 /**
@@ -255,9 +324,9 @@ export function submitForm(component: FormOwner): boolean {
     return false;
   }
 
-  formEl.addEventListener("invalid", displayValidationMessage, true);
+  formEl.addEventListener("invalid", invalidHandler, true);
   formEl.requestSubmit();
-  formEl.removeEventListener("invalid", displayValidationMessage, true);
+  formEl.removeEventListener("invalid", invalidHandler, true);
 
   requestAnimationFrame(() => {
     const invalidEls = formEl.querySelectorAll("[status=invalid]");
@@ -323,7 +392,18 @@ export function findAssociatedForm(component: FormOwner): HTMLFormElement | null
 }
 
 function onFormReset<T>(this: FormComponent<T>): void {
-  clearFormValidation(this);
+  if ("status" in this) {
+    this.status = "idle";
+  }
+
+  if ("validationIcon" in this) {
+    this.validationIcon = false;
+  }
+
+  if ("validationMessage" in this) {
+    this.validationMessage = "";
+  }
+
   if (isCheckable(this)) {
     this.checked = this.defaultChecked;
     return;
@@ -480,6 +560,16 @@ function defaultSyncHiddenFormInput(
   }
 
   component.syncHiddenFormInput?.(input);
+
+  const validationComponent = getValidationComponent(component.el as HTMLCalciteInputElement);
+
+  if (validationComponent && "validity" in validationComponent) {
+    // mutate the component's validity object to prevent a rerender
+    // https://stenciljs.com/docs/properties#mutable-arrays-and-objects
+    for (const key in { ...input?.validity }) {
+      validationComponent.validity[key] = input.validity[key];
+    }
+  }
 }
 
 interface HiddenFormInputSlotProps {

@@ -18,6 +18,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  MutableValidityState,
 } from "../../utils/form";
 import {
   connectInteractive,
@@ -35,9 +36,9 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
-import { CSS } from "./resources";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { CSS } from "./resources";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -92,6 +93,27 @@ export class Select
 
   /** Specifies the validation icon to display under the component. */
   @Prop({ reflect: true }) validationIcon: string | boolean;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
 
   /**
    * Specifies the name of the component.
@@ -284,8 +306,8 @@ export class Select
 
     this.clearInternalSelect();
 
-    optionsAndGroups.forEach(
-      (optionOrGroup) => this.selectEl?.append(this.toNativeElement(optionOrGroup)),
+    optionsAndGroups.forEach((optionOrGroup) =>
+      this.selectEl?.append(this.toNativeElement(optionOrGroup)),
     );
   };
 

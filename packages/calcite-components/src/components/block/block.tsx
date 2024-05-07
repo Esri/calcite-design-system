@@ -34,8 +34,6 @@ import {
 } from "../../utils/t9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
-import { BlockMessages } from "./assets/block/t9n";
-import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import {
   componentFocusable,
   LoadableComponent,
@@ -44,6 +42,8 @@ import {
 } from "../../utils/loadable";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import { BlockMessages } from "./assets/block/t9n";
 
 /**
  * @slot - A slot for adding custom content.
@@ -93,7 +93,7 @@ export class Block
   @Prop() heading!: string;
 
   /**
-   * Specifies the number at which section headings should start.
+   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
@@ -303,7 +303,7 @@ export class Block
       <div class={CSS.icon} key="loader">
         <calcite-loader inline label={messages.loading} />
       </div>
-    ) : !!status ? (
+    ) : status ? (
       <div class={CSS.icon} key="status-icon">
         <calcite-icon
           class={{
