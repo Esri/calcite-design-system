@@ -140,6 +140,8 @@ export class RadioButton
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

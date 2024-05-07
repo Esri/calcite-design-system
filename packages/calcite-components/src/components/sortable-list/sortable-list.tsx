@@ -80,6 +80,8 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

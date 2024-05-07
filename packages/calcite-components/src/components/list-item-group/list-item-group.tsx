@@ -44,6 +44,8 @@ export class ListItemGroup implements InteractiveComponent {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

@@ -97,6 +97,8 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

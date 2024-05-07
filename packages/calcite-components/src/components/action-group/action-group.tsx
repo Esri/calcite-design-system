@@ -116,6 +116,8 @@ export class ActionGroup
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

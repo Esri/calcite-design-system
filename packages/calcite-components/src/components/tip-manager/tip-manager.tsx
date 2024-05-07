@@ -75,6 +75,8 @@ export class TipManager {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

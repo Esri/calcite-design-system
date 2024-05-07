@@ -71,6 +71,8 @@ export class Tree {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

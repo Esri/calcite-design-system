@@ -49,6 +49,8 @@ export class Tabs {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

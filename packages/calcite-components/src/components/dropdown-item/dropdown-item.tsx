@@ -130,6 +130,8 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

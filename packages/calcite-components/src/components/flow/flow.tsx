@@ -82,6 +82,8 @@ export class Flow implements LoadableComponent {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

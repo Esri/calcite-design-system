@@ -145,6 +145,8 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

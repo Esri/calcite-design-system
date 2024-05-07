@@ -135,6 +135,8 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

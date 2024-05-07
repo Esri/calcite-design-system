@@ -93,6 +93,8 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

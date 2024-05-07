@@ -135,6 +135,8 @@ export class Carousel
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

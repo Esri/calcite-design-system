@@ -98,6 +98,8 @@ export class RadioButtonGroup implements LoadableComponent {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

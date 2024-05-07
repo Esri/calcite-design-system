@@ -243,6 +243,8 @@ export class InputTimeZone
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

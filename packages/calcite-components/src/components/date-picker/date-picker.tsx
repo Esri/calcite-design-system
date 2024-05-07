@@ -165,6 +165,8 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

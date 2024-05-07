@@ -152,6 +152,8 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

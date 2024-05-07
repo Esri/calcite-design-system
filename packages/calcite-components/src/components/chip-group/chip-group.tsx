@@ -79,6 +79,8 @@ export class ChipGroup implements InteractiveComponent {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

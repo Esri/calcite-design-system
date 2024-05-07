@@ -143,6 +143,8 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

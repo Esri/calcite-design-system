@@ -133,6 +133,8 @@ export class PickList<
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

@@ -111,6 +111,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

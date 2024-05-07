@@ -130,6 +130,8 @@ export class Notice
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

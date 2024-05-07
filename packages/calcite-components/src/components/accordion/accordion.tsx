@@ -64,6 +64,8 @@ export class Accordion {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

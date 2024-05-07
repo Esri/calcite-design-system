@@ -126,6 +126,8 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

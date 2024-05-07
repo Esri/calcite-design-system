@@ -125,6 +125,8 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

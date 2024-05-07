@@ -115,6 +115,8 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

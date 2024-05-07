@@ -114,6 +114,8 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

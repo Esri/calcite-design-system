@@ -253,6 +253,8 @@ export class TextArea
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

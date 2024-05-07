@@ -64,6 +64,8 @@ export class Link implements InteractiveComponent, LoadableComponent {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

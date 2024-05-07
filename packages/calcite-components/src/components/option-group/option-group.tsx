@@ -38,6 +38,8 @@ export class OptionGroup {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

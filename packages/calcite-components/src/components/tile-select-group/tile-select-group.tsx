@@ -36,6 +36,8 @@ export class TileSelectGroup implements InteractiveComponent {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

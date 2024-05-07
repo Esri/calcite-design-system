@@ -160,6 +160,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
   //--------------------------------------------------------------------------

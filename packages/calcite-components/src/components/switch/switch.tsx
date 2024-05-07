@@ -80,6 +80,8 @@ export class Switch
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

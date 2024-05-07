@@ -130,6 +130,8 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

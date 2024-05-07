@@ -162,6 +162,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

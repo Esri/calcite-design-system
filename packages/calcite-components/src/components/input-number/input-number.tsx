@@ -365,6 +365,8 @@ export class InputNumber
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

@@ -94,6 +94,8 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

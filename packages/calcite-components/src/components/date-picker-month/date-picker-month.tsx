@@ -78,6 +78,8 @@ export class DatePickerMonth {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

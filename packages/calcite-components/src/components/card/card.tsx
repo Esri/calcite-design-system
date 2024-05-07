@@ -118,6 +118,8 @@ export class Card
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

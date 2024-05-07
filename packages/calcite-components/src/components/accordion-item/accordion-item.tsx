@@ -91,6 +91,8 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */ @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

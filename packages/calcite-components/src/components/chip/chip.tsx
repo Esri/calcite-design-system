@@ -145,6 +145,8 @@ export class Chip
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

@@ -24,6 +24,8 @@ export class TipGroup {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

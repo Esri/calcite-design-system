@@ -244,6 +244,8 @@ export class Popover
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

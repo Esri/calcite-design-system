@@ -123,6 +123,8 @@ export class TimePicker
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

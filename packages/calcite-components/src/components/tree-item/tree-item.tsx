@@ -134,6 +134,8 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

@@ -342,6 +342,8 @@ export class InputTimePicker
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

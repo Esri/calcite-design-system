@@ -242,6 +242,8 @@ export class ListItem
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

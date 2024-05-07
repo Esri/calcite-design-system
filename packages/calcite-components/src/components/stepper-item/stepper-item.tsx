@@ -158,6 +158,8 @@ export class StepperItem
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

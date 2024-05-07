@@ -212,6 +212,7 @@ export namespace Components {
   >;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -258,6 +259,7 @@ export namespace Components {
         "scale": Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -328,6 +330,7 @@ export namespace Components {
         "textEnabled": boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -382,6 +385,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -429,6 +433,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -471,6 +476,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -517,6 +523,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -582,6 +589,7 @@ export namespace Components {
         "slottedInShell": boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -612,6 +620,7 @@ export namespace Components {
         "username": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -670,6 +679,7 @@ export namespace Components {
         "status": Status;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -704,6 +714,7 @@ export namespace Components {
         "toggleDisplay": BlockSectionToggleDisplay;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -804,6 +815,7 @@ export namespace Components {
         "type": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
         /**
@@ -855,6 +867,7 @@ export namespace Components {
         "thumbnailPosition": LogicalFlowPosition;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -885,6 +898,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -944,6 +958,7 @@ export namespace Components {
         "stop": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -958,6 +973,7 @@ export namespace Components {
         "selected": boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1023,6 +1039,7 @@ export namespace Components {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1094,6 +1111,7 @@ export namespace Components {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1128,6 +1146,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1218,6 +1237,7 @@ export namespace Components {
         "value": ColorValue | null;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1257,6 +1277,7 @@ export namespace Components {
         "value": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1276,6 +1297,7 @@ export namespace Components {
         "scale": Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1407,6 +1429,7 @@ export namespace Components {
         "value": string | string[];
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1464,6 +1487,7 @@ export namespace Components {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1486,6 +1510,7 @@ export namespace Components {
         "scale": Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1560,6 +1585,7 @@ export namespace Components {
         "valueAsDate": Date | Date[];
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1626,6 +1652,7 @@ export namespace Components {
         "value": Date;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1672,6 +1699,7 @@ export namespace Components {
         "startDate"?: Date;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1711,6 +1739,7 @@ export namespace Components {
         "selectedDate": Date;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1768,6 +1797,7 @@ export namespace Components {
         "type": "hover" | "click";
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
         /**
@@ -1790,6 +1820,7 @@ export namespace Components {
         "selectionMode": Extract<"none" | "single" | "multiple", SelectionMode>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1844,6 +1875,7 @@ export namespace Components {
         "target": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1895,6 +1927,7 @@ export namespace Components {
         "textEnabled": boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1944,6 +1977,7 @@ export namespace Components {
         "value": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -1962,6 +1996,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -2044,6 +2079,7 @@ export namespace Components {
         "showBackButton": boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -2074,6 +2110,7 @@ export namespace Components {
         "min": number;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -2111,6 +2148,7 @@ export namespace Components {
         "setSize": number;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -2134,6 +2172,7 @@ export namespace Components {
         "textLabel": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -2176,6 +2215,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -2370,6 +2410,7 @@ export namespace Components {
         "value": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -2501,6 +2542,7 @@ export namespace Components {
         "valueAsDate": Date | Date[];
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -2523,6 +2565,7 @@ export namespace Components {
         "status": Status;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -2685,6 +2728,7 @@ export namespace Components {
         "value": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -2815,6 +2859,7 @@ export namespace Components {
         "value": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -2909,6 +2954,7 @@ export namespace Components {
         "value": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -2997,6 +3043,7 @@ export namespace Components {
         "value": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3019,6 +3066,7 @@ export namespace Components {
         "scale": Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3061,6 +3109,7 @@ export namespace Components {
         "target": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3157,6 +3206,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3254,6 +3304,7 @@ export namespace Components {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3272,6 +3323,7 @@ export namespace Components {
         "heading": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3302,6 +3354,7 @@ export namespace Components {
         "value": number;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3328,6 +3381,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3395,6 +3449,7 @@ export namespace Components {
         "topLevelMenuLayout": Layout;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3477,6 +3532,7 @@ export namespace Components {
         "valueLabelType": MeterLabelType;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3553,6 +3609,7 @@ export namespace Components {
         "updateFocusTrapElements": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
         /**
@@ -3575,6 +3632,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3631,6 +3689,7 @@ export namespace Components {
         "thumbnail": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3669,6 +3728,7 @@ export namespace Components {
         "username": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3714,6 +3774,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
         /**
@@ -3740,6 +3801,7 @@ export namespace Components {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3754,6 +3816,7 @@ export namespace Components {
         "label": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3809,6 +3872,7 @@ export namespace Components {
         "totalItems": number;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3882,6 +3946,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3942,6 +4007,7 @@ export namespace Components {
         "setFocus": (focusId?: ListFocusId) => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -3959,6 +4025,7 @@ export namespace Components {
         "headingLevel": HeadingLevel;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4027,6 +4094,7 @@ export namespace Components {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4123,6 +4191,7 @@ export namespace Components {
         "updateFocusTrapElements": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4149,6 +4218,7 @@ export namespace Components {
         "value": number;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4204,6 +4274,7 @@ export namespace Components {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4251,6 +4322,7 @@ export namespace Components {
         "validationMessage": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4309,6 +4381,7 @@ export namespace Components {
         "value": number;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4327,6 +4400,7 @@ export namespace Components {
         "messages": ScrimMessages;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4392,6 +4466,7 @@ export namespace Components {
         "value": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
         /**
@@ -4434,6 +4509,7 @@ export namespace Components {
         "value": any | null;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4495,6 +4571,7 @@ export namespace Components {
         "value": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
         /**
@@ -4558,6 +4635,7 @@ export namespace Components {
         "updateFocusTrapElements": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
         /**
@@ -4572,6 +4650,7 @@ export namespace Components {
         "contentBehind": boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4590,6 +4669,7 @@ export namespace Components {
         "position": Position;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4638,6 +4718,7 @@ export namespace Components {
         "resizable": boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
         /**
@@ -4765,6 +4846,7 @@ export namespace Components {
         "value": null | number | number[];
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4803,6 +4885,7 @@ export namespace Components {
         "loading": boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4872,6 +4955,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
         /**
@@ -4886,6 +4970,7 @@ export namespace Components {
         "disabled": boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -4946,6 +5031,7 @@ export namespace Components {
         "startStep": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5009,6 +5095,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5047,6 +5134,7 @@ export namespace Components {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5074,6 +5162,7 @@ export namespace Components {
         "updateAriaInfo": (tabIds?: string[], titleIds?: string[]) => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5113,6 +5202,7 @@ export namespace Components {
         "syncId": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5184,6 +5274,7 @@ export namespace Components {
         "updateAriaInfo": (tabIds?: string[], titleIds?: string[]) => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5247,6 +5338,7 @@ export namespace Components {
         "striped": boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
         /**
@@ -5297,6 +5389,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5348,6 +5441,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5380,6 +5474,7 @@ export namespace Components {
         "selectionMode": Extract<"multiple" | "single" | "none", SelectionMode>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5402,6 +5497,7 @@ export namespace Components {
         "scale": Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5516,6 +5612,7 @@ export namespace Components {
         "value": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
         /**
@@ -5600,6 +5697,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5638,6 +5736,7 @@ export namespace Components {
   >;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5692,6 +5791,7 @@ export namespace Components {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
         /**
@@ -5710,6 +5810,7 @@ export namespace Components {
         "layout": TileSelectGroupLayout;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5744,6 +5845,7 @@ export namespace Components {
         "value": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5778,6 +5880,7 @@ export namespace Components {
         "selected": boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5788,6 +5891,7 @@ export namespace Components {
         "groupTitle": string;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5818,6 +5922,7 @@ export namespace Components {
         "previousTip": () => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5863,6 +5968,7 @@ export namespace Components {
         "reposition": (delayed?: boolean) => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5888,6 +5994,7 @@ export namespace Components {
         "selectionMode": SelectionMode;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -5924,6 +6031,7 @@ export namespace Components {
         "selectionMode": SelectionMode;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -6004,6 +6112,7 @@ export namespace Components {
         "setFocus": (focusId?: ListFocusId) => Promise<void>;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -6065,6 +6174,7 @@ export namespace Components {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version": string;
     }
@@ -8259,6 +8369,7 @@ declare namespace LocalJSX {
   >;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -8307,6 +8418,7 @@ declare namespace LocalJSX {
         "scale"?: Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -8373,6 +8485,7 @@ declare namespace LocalJSX {
         "textEnabled"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -8423,6 +8536,7 @@ declare namespace LocalJSX {
         "scale"?: Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -8466,6 +8580,7 @@ declare namespace LocalJSX {
         "scale"?: Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -8508,6 +8623,7 @@ declare namespace LocalJSX {
         "scale"?: Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -8554,6 +8670,7 @@ declare namespace LocalJSX {
         "scale"?: Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -8639,6 +8756,7 @@ declare namespace LocalJSX {
         "slottedInShell"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -8669,6 +8787,7 @@ declare namespace LocalJSX {
         "username"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -8744,6 +8863,7 @@ declare namespace LocalJSX {
         "status"?: Status;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -8778,6 +8898,7 @@ declare namespace LocalJSX {
         "toggleDisplay"?: BlockSectionToggleDisplay;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -8874,6 +8995,7 @@ declare namespace LocalJSX {
         "type"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
         /**
@@ -8926,6 +9048,7 @@ declare namespace LocalJSX {
         "thumbnailPosition"?: LogicalFlowPosition;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -8956,6 +9079,7 @@ declare namespace LocalJSX {
   >;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9023,6 +9147,7 @@ declare namespace LocalJSX {
         "selectedItem"?: HTMLCalciteCarouselItemElement;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9037,6 +9162,7 @@ declare namespace LocalJSX {
         "selected"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9110,6 +9236,7 @@ declare namespace LocalJSX {
         "value"?: any;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9188,6 +9315,7 @@ declare namespace LocalJSX {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9222,6 +9350,7 @@ declare namespace LocalJSX {
   >;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9316,6 +9445,7 @@ declare namespace LocalJSX {
         "value"?: ColorValue | null;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9355,6 +9485,7 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9374,6 +9505,7 @@ declare namespace LocalJSX {
         "scale"?: Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9523,6 +9655,7 @@ declare namespace LocalJSX {
         "value"?: string | string[];
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9584,6 +9717,7 @@ declare namespace LocalJSX {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9606,6 +9740,7 @@ declare namespace LocalJSX {
         "scale"?: Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9680,6 +9815,7 @@ declare namespace LocalJSX {
         "valueAsDate"?: Date | Date[];
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9750,6 +9886,7 @@ declare namespace LocalJSX {
         "value"?: Date;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9809,6 +9946,7 @@ declare namespace LocalJSX {
         "startDate"?: Date;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9852,6 +9990,7 @@ declare namespace LocalJSX {
         "selectedDate"?: Date;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -9920,6 +10059,7 @@ declare namespace LocalJSX {
         "type"?: "hover" | "click";
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
         /**
@@ -9943,6 +10083,7 @@ declare namespace LocalJSX {
         "selectionMode"?: Extract<"none" | "single" | "multiple", SelectionMode>;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10000,6 +10141,7 @@ declare namespace LocalJSX {
         "target"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10047,6 +10189,7 @@ declare namespace LocalJSX {
         "textEnabled"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10090,6 +10233,7 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10100,6 +10244,7 @@ declare namespace LocalJSX {
         "customItemSelectors"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10186,6 +10331,7 @@ declare namespace LocalJSX {
         "showBackButton"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10216,6 +10362,7 @@ declare namespace LocalJSX {
         "min": number;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10261,6 +10408,7 @@ declare namespace LocalJSX {
         "setSize"?: number;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10284,6 +10432,7 @@ declare namespace LocalJSX {
         "textLabel"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10331,6 +10480,7 @@ declare namespace LocalJSX {
         "scale"?: Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10527,6 +10677,7 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10669,6 +10820,7 @@ declare namespace LocalJSX {
         "valueAsDate"?: Date | Date[];
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10691,6 +10843,7 @@ declare namespace LocalJSX {
         "status"?: Status;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10855,6 +11008,7 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -10990,6 +11144,7 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11095,6 +11250,7 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11202,6 +11358,7 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11227,6 +11384,7 @@ declare namespace LocalJSX {
         "scale"?: Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11265,6 +11423,7 @@ declare namespace LocalJSX {
         "target"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11380,6 +11539,7 @@ declare namespace LocalJSX {
   >;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11497,6 +11657,7 @@ declare namespace LocalJSX {
         "value"?: any;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11519,6 +11680,7 @@ declare namespace LocalJSX {
         "onCalciteInternalListItemGroupDefaultSlotChange"?: (event: CalciteListItemGroupCustomEvent<DragEvent>) => void;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11549,6 +11711,7 @@ declare namespace LocalJSX {
         "value"?: number;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11571,6 +11734,7 @@ declare namespace LocalJSX {
         "messages"?: MenuMessages;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11639,6 +11803,7 @@ declare namespace LocalJSX {
         "topLevelMenuLayout"?: Layout;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11721,6 +11886,7 @@ declare namespace LocalJSX {
         "valueLabelType"?: MeterLabelType;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11799,6 +11965,7 @@ declare namespace LocalJSX {
         "slottedInShell"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
         /**
@@ -11821,6 +11988,7 @@ declare namespace LocalJSX {
         "onCalciteNavigationActionSelect"?: (event: CalciteNavigationCustomEvent<void>) => void;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11873,6 +12041,7 @@ declare namespace LocalJSX {
         "thumbnail"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11907,6 +12076,7 @@ declare namespace LocalJSX {
         "username"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -11964,6 +12134,7 @@ declare namespace LocalJSX {
         "scale"?: Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
         /**
@@ -11991,6 +12162,7 @@ declare namespace LocalJSX {
         "value"?: any;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12006,6 +12178,7 @@ declare namespace LocalJSX {
         "onCalciteInternalOptionGroupChange"?: (event: CalciteOptionGroupCustomEvent<void>) => void;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12048,6 +12221,7 @@ declare namespace LocalJSX {
         "totalItems"?: number;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12122,6 +12296,7 @@ declare namespace LocalJSX {
         "overlayPositioning"?: OverlayPositioning;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12181,6 +12356,7 @@ declare namespace LocalJSX {
         "selectionFollowsFocus"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12198,6 +12374,7 @@ declare namespace LocalJSX {
         "headingLevel"?: HeadingLevel;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12281,6 +12458,7 @@ declare namespace LocalJSX {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12380,6 +12558,7 @@ declare namespace LocalJSX {
         "triggerDisabled"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12406,6 +12585,7 @@ declare namespace LocalJSX {
         "value"?: number;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12472,6 +12652,7 @@ declare namespace LocalJSX {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12519,6 +12700,7 @@ declare namespace LocalJSX {
         "validationMessage"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12577,6 +12759,7 @@ declare namespace LocalJSX {
         "value"?: number;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12595,6 +12778,7 @@ declare namespace LocalJSX {
         "messages"?: ScrimMessages;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12660,6 +12844,7 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
         /**
@@ -12706,6 +12891,7 @@ declare namespace LocalJSX {
         "value"?: any | null;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12767,6 +12953,7 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
         /**
@@ -12838,6 +13025,7 @@ declare namespace LocalJSX {
         "slottedInShell"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
         /**
@@ -12852,6 +13040,7 @@ declare namespace LocalJSX {
         "contentBehind"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12870,6 +13059,7 @@ declare namespace LocalJSX {
         "position"?: Position;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -12920,6 +13110,7 @@ declare namespace LocalJSX {
         "resizable"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
         /**
@@ -13051,6 +13242,7 @@ declare namespace LocalJSX {
         "value"?: null | number | number[];
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13093,6 +13285,7 @@ declare namespace LocalJSX {
         "onCalciteListOrderChange"?: (event: CalciteSortableListCustomEvent<void>) => void;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13166,6 +13359,7 @@ declare namespace LocalJSX {
         "scale"?: Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
         /**
@@ -13180,6 +13374,7 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13227,6 +13422,7 @@ declare namespace LocalJSX {
         "selectedItem"?: HTMLCalciteStepperItemElement;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13290,6 +13486,7 @@ declare namespace LocalJSX {
         "selected"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13328,6 +13525,7 @@ declare namespace LocalJSX {
         "value"?: any;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13347,6 +13545,7 @@ declare namespace LocalJSX {
         "tab"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13391,6 +13590,7 @@ declare namespace LocalJSX {
         "syncId"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13471,6 +13671,7 @@ declare namespace LocalJSX {
         "tab"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13543,6 +13744,7 @@ declare namespace LocalJSX {
         "striped"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
         /**
@@ -13589,6 +13791,7 @@ declare namespace LocalJSX {
         "selectionCell"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13636,6 +13839,7 @@ declare namespace LocalJSX {
         "selectionMode"?: SelectionMode;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13673,6 +13877,7 @@ declare namespace LocalJSX {
         "selectionMode"?: Extract<"multiple" | "single" | "none", SelectionMode>;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13695,6 +13900,7 @@ declare namespace LocalJSX {
         "scale"?: Scale;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13809,6 +14015,7 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
         /**
@@ -13894,6 +14101,7 @@ declare namespace LocalJSX {
   >;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13936,6 +14144,7 @@ declare namespace LocalJSX {
   >;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -13990,6 +14199,7 @@ declare namespace LocalJSX {
         "value"?: any;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
         /**
@@ -14008,6 +14218,7 @@ declare namespace LocalJSX {
         "layout"?: TileSelectGroupLayout;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -14041,6 +14252,7 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -14079,6 +14291,7 @@ declare namespace LocalJSX {
         "selected"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -14089,6 +14302,7 @@ declare namespace LocalJSX {
         "groupTitle"?: string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -14115,6 +14329,7 @@ declare namespace LocalJSX {
         "onCalciteTipManagerClose"?: (event: CalciteTipManagerCustomEvent<void>) => void;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -14171,6 +14386,7 @@ declare namespace LocalJSX {
         "referenceElement"?: ReferenceElement | string;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -14200,6 +14416,7 @@ declare namespace LocalJSX {
         "selectionMode"?: SelectionMode;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -14237,6 +14454,7 @@ declare namespace LocalJSX {
         "selectionMode"?: SelectionMode;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -14320,6 +14538,7 @@ declare namespace LocalJSX {
         "selectionFollowsFocus"?: boolean;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }
@@ -14386,6 +14605,7 @@ declare namespace LocalJSX {
         "value": any;
         /**
           * The component's version.
+          * @readonly
          */
         "version"?: string;
     }

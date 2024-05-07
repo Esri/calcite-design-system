@@ -123,6 +123,8 @@ export class Filter
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

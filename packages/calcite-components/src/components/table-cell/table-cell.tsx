@@ -117,6 +117,8 @@ export class TableCell
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

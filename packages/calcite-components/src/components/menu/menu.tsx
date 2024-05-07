@@ -94,6 +94,8 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

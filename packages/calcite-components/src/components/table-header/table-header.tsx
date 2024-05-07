@@ -114,6 +114,8 @@ export class TableHeader implements LocalizedComponent, LoadableComponent, T9nCo
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 

@@ -74,6 +74,8 @@ export class SegmentedControlItem {
 
   /**
    * The component's version.
+   *
+   * @readonly
    */
   @Prop() version = CalciteVersion;
 
