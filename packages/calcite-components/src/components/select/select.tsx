@@ -27,7 +27,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentFocusable,
   LoadableComponent,
@@ -138,8 +138,7 @@ export class Select
 
   @Watch("value")
   valueHandler(value: string): void {
-    const items = this.el.querySelectorAll("calcite-option");
-    items.forEach((item) => (item.selected = item.value === value));
+    this.updateItemsFromValue(value);
   }
 
   /**
@@ -207,6 +206,10 @@ export class Select
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
+
+    if (typeof this.value === "string") {
+      this.updateItemsFromValue(this.value);
+    }
   }
 
   componentDidLoad(): void {
@@ -277,6 +280,12 @@ export class Select
 
   onLabelClick(): void {
     this.setFocus();
+  }
+
+  private updateItemsFromValue(value: string): void {
+    this.el
+      .querySelectorAll("calcite-option")
+      .forEach((item) => (item.selected = item.value === value));
   }
 
   private updateNativeElement(
