@@ -74,10 +74,10 @@
   .icon--end {
     @apply flex items-center;
 
-    color: var(--calcite-internal-block-section-icon-end-color, var(--calcite-color-text-3));
+    color: var(--calcite-color-text-3);
 
     &:hover {
-      color: var(--calcite-internal-block-section-icon-end-color-hover, var(--calcite-color-text-1));
+      color: var(--calcite-color-text-1);
     }
   }
 
@@ -96,10 +96,10 @@
 .icon--start {
   @apply flex items-center;
 
-  color: var(--calcite-internal-block-section-icon-start-color, var(--calcite-color-text-3));
+  color: var(--calcite-color-text-3);
 
   &:hover {
-    color: var(--calcite-internal-block-section-icon-start-color-hover, var(--calcite-color-text-1));
+    color: var(--calcite-color-text-1);
   }
 }
 

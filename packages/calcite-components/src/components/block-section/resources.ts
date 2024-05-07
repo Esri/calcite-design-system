@@ -10,6 +10,7 @@ export const CSS = {
   iconStart: "icon--start",
   iconEnd: "icon--end",
   invalid: "invalid",
+  label: "label",
   sectionHeader: "section-header",
   sectionHeaderText: "section-header__text",
   statusIcon: "status-icon",
