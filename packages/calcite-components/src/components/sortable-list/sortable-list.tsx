@@ -78,6 +78,9 @@ export class SortableList implements InteractiveComponent, SortableComponent {
    */
   @Prop({ reflect: true }) loading = false;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------

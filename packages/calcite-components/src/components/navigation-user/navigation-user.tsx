@@ -43,6 +43,9 @@ export class CalciteNavigationUser implements LoadableComponent {
   /** Specifies the username of the user.*/
   @Prop() username: string;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

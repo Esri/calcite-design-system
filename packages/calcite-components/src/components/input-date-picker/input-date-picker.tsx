@@ -355,6 +355,9 @@ export class InputDatePicker
   /** Defines the layout of the component. */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

@@ -76,6 +76,9 @@ export class DatePickerMonth {
   /** The range of dates currently being hovered. */
   @Prop() hoverRange: HoverRange;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

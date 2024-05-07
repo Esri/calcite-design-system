@@ -91,6 +91,9 @@ export class RadioButtonGroup implements LoadableComponent {
   /** Specifies the validation icon to display under the component. */
   @Prop({ reflect: true }) validationIcon: string | boolean;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("scale")

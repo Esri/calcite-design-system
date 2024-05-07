@@ -123,6 +123,9 @@ export class ColorPickerHexInput implements LoadableComponent {
     true,
   );
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("value")

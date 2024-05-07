@@ -92,6 +92,9 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: MenuMessages;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

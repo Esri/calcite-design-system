@@ -54,6 +54,9 @@ export class CalciteNavigation implements LoadableComponent {
    */
   @Prop({ reflect: true }) navigationAction = false;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

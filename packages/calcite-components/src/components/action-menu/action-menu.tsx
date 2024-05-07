@@ -125,6 +125,9 @@ export class ActionMenu implements LoadableComponent {
    */
   @Prop({ reflect: true }) scale: Scale;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------

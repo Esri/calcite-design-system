@@ -173,6 +173,9 @@ export class Dropdown
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("scale")

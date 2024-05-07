@@ -109,6 +109,9 @@ export class ActionGroup
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ActionGroupMessages>;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")

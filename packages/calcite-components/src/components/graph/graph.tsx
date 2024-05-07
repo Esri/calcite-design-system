@@ -41,6 +41,9 @@ export class Graph {
   /** Highest point of the range. */
   @Prop({ reflect: true }) max!: number;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

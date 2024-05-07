@@ -54,6 +54,9 @@ export class Accordion {
     SelectionMode
   > = "multiple";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("iconPosition")

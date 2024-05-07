@@ -151,6 +151,9 @@ export class Tile implements InteractiveComponent, SelectableComponent {
     SelectionMode
   > = "none";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

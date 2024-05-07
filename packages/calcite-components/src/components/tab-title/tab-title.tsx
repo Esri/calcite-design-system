@@ -136,6 +136,9 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<TabTitleMessages>;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")

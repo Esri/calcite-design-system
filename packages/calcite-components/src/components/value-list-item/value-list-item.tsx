@@ -115,6 +115,9 @@ export class ValueListItem
    */
   @Prop() value!: any;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------

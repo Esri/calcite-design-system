@@ -133,6 +133,9 @@ export class Carousel
    */
   @Prop({ mutable: true }) selectedItem: HTMLCalciteCarouselItemElement;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------

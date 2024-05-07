@@ -38,6 +38,9 @@ export class Loader {
   /** Text that displays under the component's indicator. */
   @Prop() text = "";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

@@ -31,6 +31,9 @@ export class InputMessage {
   /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ reflect: true }) status: Status = "idle";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("status")

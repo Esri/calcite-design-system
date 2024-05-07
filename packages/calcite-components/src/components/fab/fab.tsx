@@ -80,6 +80,9 @@ export class Fab implements InteractiveComponent, LoadableComponent {
    */
   @Prop({ reflect: true }) textEnabled = false;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------

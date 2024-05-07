@@ -160,6 +160,9 @@ export class Select
    */
   @Prop({ reflect: true }) width: Width = "auto";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

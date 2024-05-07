@@ -54,6 +54,9 @@ export class Icon {
   @Prop()
   textLabel: string;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

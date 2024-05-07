@@ -241,6 +241,9 @@ export class InputTimeZone
    */
   @Prop({ reflect: true }) readOnly = false;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

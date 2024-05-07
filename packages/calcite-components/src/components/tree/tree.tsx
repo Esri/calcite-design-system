@@ -69,6 +69,9 @@ export class Tree {
    */
   @Prop({ mutable: true }) selectedItems: HTMLCalciteTreeItemElement[] = [];
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

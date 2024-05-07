@@ -40,6 +40,9 @@ export class ShellCenterRow implements ConditionalSlotComponent {
    */
   @Prop({ reflect: true }) position: Position = "end";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------

@@ -121,6 +121,9 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   /**

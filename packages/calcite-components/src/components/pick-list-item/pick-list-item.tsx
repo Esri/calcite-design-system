@@ -164,6 +164,9 @@ export class PickListItem
    */
   @Prop() value!: any;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("value")

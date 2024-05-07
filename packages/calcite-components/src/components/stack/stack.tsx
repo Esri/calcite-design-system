@@ -25,6 +25,9 @@ export class Stack {
   /**  When `true`, content interaction is prevented and displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------

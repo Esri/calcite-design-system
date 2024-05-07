@@ -138,6 +138,9 @@ export class RadioButton
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by form module
   @Prop({ mutable: true }) value!: any;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

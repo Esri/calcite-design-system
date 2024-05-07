@@ -36,6 +36,9 @@ export class PickListGroup implements ConditionalSlotComponent {
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------

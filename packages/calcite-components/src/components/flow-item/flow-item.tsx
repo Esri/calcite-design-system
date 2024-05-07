@@ -158,6 +158,9 @@ export class FlowItem
    */
   @Prop() showBackButton = false;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

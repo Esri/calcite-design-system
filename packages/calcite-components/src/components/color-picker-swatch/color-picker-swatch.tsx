@@ -47,6 +47,9 @@ export class ColorPickerSwatch {
   })
   scale: Scale = "m";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

@@ -210,6 +210,9 @@ export class List
    */
   @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("filterEnabled")

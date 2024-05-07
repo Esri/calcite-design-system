@@ -123,6 +123,9 @@ export class Rating
   /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value = 0;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("value")

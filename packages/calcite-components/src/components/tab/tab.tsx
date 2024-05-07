@@ -54,6 +54,9 @@ export class Tab {
    */
   @Prop() scale: Scale = "m";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

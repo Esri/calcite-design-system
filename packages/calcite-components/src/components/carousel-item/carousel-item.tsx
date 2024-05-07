@@ -28,6 +28,9 @@ export class CarouselItem {
    */
   @Prop({ reflect: true }) selected = false;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------

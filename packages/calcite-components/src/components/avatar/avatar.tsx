@@ -35,6 +35,9 @@ export class Avatar {
   /** Specifies alternative text when `thumbnail` is defined, otherwise specifies an accessible label.*/
   @Prop() label: string;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

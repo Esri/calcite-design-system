@@ -76,6 +76,9 @@ export class CardGroup implements InteractiveComponent, LoadableComponent {
    */
   @Prop({ mutable: true }) selectedItems: HTMLCalciteCardElement[] = [];
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

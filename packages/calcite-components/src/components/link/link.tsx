@@ -62,6 +62,9 @@ export class Link implements InteractiveComponent, LoadableComponent {
   /** Specifies the frame or window to open the linked document. */
   @Prop() target: string;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

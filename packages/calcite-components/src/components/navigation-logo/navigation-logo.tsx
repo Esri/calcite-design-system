@@ -66,6 +66,9 @@ export class CalciteNavigationLogo implements LoadableComponent {
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

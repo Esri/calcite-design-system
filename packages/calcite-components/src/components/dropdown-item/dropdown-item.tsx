@@ -128,6 +128,9 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
    */
   @Prop() scale: Scale = "m";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

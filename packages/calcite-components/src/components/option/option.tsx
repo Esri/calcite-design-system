@@ -42,6 +42,9 @@ export class Option {
   @Prop({ mutable: true })
   value: any;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("disabled")

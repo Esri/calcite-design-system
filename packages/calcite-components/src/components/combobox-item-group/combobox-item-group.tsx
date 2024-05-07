@@ -41,6 +41,9 @@ export class ComboboxItemGroup {
    */
   @Prop() scale: Scale = "m";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------

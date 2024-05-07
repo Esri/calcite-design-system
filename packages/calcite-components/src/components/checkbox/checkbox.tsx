@@ -125,6 +125,9 @@ export class Checkbox
   /** The component's value. */
   @Prop() value: any;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

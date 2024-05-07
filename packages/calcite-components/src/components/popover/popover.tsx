@@ -242,6 +242,9 @@ export class Popover
    */
   @Prop({ reflect: true }) triggerDisabled = false;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------

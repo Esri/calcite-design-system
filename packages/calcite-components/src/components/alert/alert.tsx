@@ -149,6 +149,9 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    */
   @Prop({ mutable: true }) slottedInShell: boolean;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("autoCloseDuration")

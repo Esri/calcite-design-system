@@ -213,6 +213,9 @@ export class Slider
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

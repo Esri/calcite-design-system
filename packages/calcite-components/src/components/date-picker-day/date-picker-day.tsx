@@ -92,6 +92,9 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
   /** The component's value. */
   @Prop() value: Date;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

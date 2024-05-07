@@ -133,6 +133,9 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
    */
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

@@ -80,6 +80,9 @@ export class Flow implements LoadableComponent {
    */
   @Prop() customItemSelectors: string;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------

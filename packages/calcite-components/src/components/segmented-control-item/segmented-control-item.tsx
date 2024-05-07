@@ -72,6 +72,9 @@ export class SegmentedControlItem {
    */
   @Prop() scale: Scale = "m";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

@@ -332,6 +332,9 @@ export class InputTimePicker
   /** The time value in ISO (24-hour) format. */
   @Prop({ mutable: true }) value: string = null;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("value")

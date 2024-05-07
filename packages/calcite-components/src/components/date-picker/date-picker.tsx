@@ -158,6 +158,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: DatePickerMessages;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   @Watch("messageOverrides")

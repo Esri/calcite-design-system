@@ -39,6 +39,9 @@ export class Shell implements ConditionalSlotComponent {
    */
   @Prop({ reflect: true }) contentBehind = false;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

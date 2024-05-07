@@ -143,6 +143,9 @@ export class Chip
    */
   @Prop() parentChipGroup: HTMLCalciteChipGroupElement;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

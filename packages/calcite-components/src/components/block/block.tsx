@@ -152,6 +152,9 @@ export class Block
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

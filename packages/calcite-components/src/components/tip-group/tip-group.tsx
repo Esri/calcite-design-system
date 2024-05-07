@@ -22,6 +22,9 @@ export class TipGroup {
    */
   @Prop() groupTitle: string;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   render(): VNode {

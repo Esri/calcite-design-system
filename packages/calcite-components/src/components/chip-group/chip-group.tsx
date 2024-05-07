@@ -77,6 +77,9 @@ export class ChipGroup implements InteractiveComponent {
    */
   @Prop({ mutable: true }) selectedItems: HTMLCalciteChipElement[] = [];
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

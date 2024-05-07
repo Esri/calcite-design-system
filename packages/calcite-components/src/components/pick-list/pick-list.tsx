@@ -131,6 +131,9 @@ export class PickList<
    */
   @Prop({ reflect: true }) selectionFollowsFocus = false;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   // --------------------------------------------------------------------------

@@ -34,6 +34,9 @@ export class TileSelectGroup implements InteractiveComponent {
    */
   @Prop({ reflect: true }) layout: TileSelectGroupLayout = "horizontal";
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------

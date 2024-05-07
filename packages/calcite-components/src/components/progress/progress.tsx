@@ -30,6 +30,9 @@ export class Progress {
   /** When `true` and for `"indeterminate"` progress bars, reverses the animation direction. */
   @Prop({ reflect: true }) reversed = false;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   render(): VNode {

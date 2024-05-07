@@ -165,6 +165,9 @@ export class Modal
    */
   @Prop({ mutable: true }) slottedInShell: boolean;
 
+  /**
+   * The component's version.
+   */
   @Prop() version = CalciteVersion;
 
   //--------------------------------------------------------------------------
