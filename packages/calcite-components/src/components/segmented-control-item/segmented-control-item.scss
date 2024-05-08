@@ -95,29 +95,38 @@
     m-0
     inline-flex;
   line-height: inherit;
+
+  margin-inline-start: var(--calcite-internal-segmented-control-icon-margin-start);
+  margin-inline-end: var(--calcite-internal-segmented-control-icon-margin-end);
 }
 
-:host([icon-start]) .label--scale-s .segmented-control-item-icon {
-  margin-inline-end: theme("margin.2");
+:host([icon-start]) .label--scale-s {
+  --calcite-internal-segmented-control-icon-margin-end: theme("margin.2");
 }
 
-:host([icon-end]) .label--scale-s .segmented-control-item-icon {
-  margin-inline-start: theme("margin.2");
+:host([icon-end]) .label--scale-s {
+  --calcite-internal-segmented-control-icon-margin-start: theme("margin.2");
 }
 
-:host([icon-start]) .label--scale-m .segmented-control-item-icon {
-  margin-inline-end: theme("margin.3");
+:host([icon-start]) .label--scale-m {
+  --calcite-internal-segmented-control-icon-margin-end: theme("margin.3");
 }
 
-:host([icon-end]) .label--scale-m .segmented-control-item-icon {
-  margin-inline-start: theme("margin.3");
+:host([icon-end]) .label--scale-m {
+  --calcite-internal-segmented-control-icon-margin-start: theme("margin.3");
 }
 
-:host([icon-start]) .label--scale-l .segmented-control-item-icon {
-  margin-inline-end: theme("margin.4");
+:host([icon-start]) .label--scale-l {
+  --calcite-internal-segmented-control-icon-margin-end: theme("margin.4");
 }
-:host([icon-end]) .label--scale-l .segmented-control-item-icon {
-  margin-inline-start: theme("margin.4");
+
+:host([icon-end]) .label--scale-l {
+  --calcite-internal-segmented-control-icon-margin-start: theme("margin.4");
+}
+
+:host(:is([icon-start], [icon-end])) .label {
+  --calcite-internal-segmented-control-icon-margin-start: 0;
+  --calcite-internal-segmented-control-icon-margin-end: 0;
 }
 
 @include base-component();

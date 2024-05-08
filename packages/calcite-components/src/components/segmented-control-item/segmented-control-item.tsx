@@ -44,6 +44,13 @@ export class SegmentedControlItem {
   @Prop({ reflect: true }) iconEnd: string;
 
   /**
+   * Indicates whether the text is displayed.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) textDisabled = false;
+
+  /**
    * The component's value.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by form module
@@ -77,48 +84,54 @@ export class SegmentedControlItem {
   //
   //--------------------------------------------------------------------------
 
+  private renderIcon(icon: string): VNode {
+    return icon ? (
+      <calcite-icon
+        class={CSS.segmentedControlItemIcon}
+        flipRtl={this.iconFlipRtl}
+        icon={icon}
+        scale="s"
+      />
+    ) : null;
+  }
+
   render(): VNode {
     const { appearance, checked, layout, scale, value } = this;
-
-    const iconStartEl = this.iconStart ? (
-      <calcite-icon
-        class={CSS.segmentedControlItemIcon}
-        flipRtl={this.iconFlipRtl}
-        icon={this.iconStart}
-        key="icon-start"
-        scale="s"
-      />
-    ) : null;
-
-    const iconEndEl = this.iconEnd ? (
-      <calcite-icon
-        class={CSS.segmentedControlItemIcon}
-        flipRtl={this.iconFlipRtl}
-        icon={this.iconEnd}
-        key="icon-end"
-        scale="s"
-      />
-    ) : null;
 
     return (
       <Host aria-checked={toAriaBoolean(checked)} aria-label={value} role="radio">
         <label
           class={{
-            "label--scale-s": scale === "s",
-            "label--scale-m": scale === "m",
-            "label--scale-l": scale === "l",
-            "label--horizontal": layout === "horizontal",
-            "label--outline": appearance === "outline",
-            "label--outline-fill": appearance === "outline-fill",
+            [CSS.label]: true,
+            [CSS.labelScaleS]: scale === "s",
+            [CSS.labelScaleM]: scale === "m",
+            [CSS.labelScaleL]: scale === "l",
+            [CSS.labelHorizontal]: layout === "horizontal",
+            [CSS.labelOutline]: appearance === "outline",
+            [CSS.labelOutlineFill]: appearance === "outline-fill",
           }}
         >
-          {this.iconStart ? iconStartEl : null}
-          <slot>{value}</slot>
-          <slot name={SLOTS.input} />
-          {this.iconEnd ? iconEndEl : null}
+          {this.renderContent()}
         </label>
       </Host>
     );
+  }
+
+  private renderContent(): VNode | VNode[] {
+    const { iconEnd, iconStart, textDisabled, value } = this;
+    const effectiveIcon = iconStart || iconEnd;
+    const canRenderIconOnly = textDisabled && effectiveIcon;
+
+    if (canRenderIconOnly) {
+      return this.renderIcon(effectiveIcon);
+    }
+
+    return [
+      this.renderIcon(iconStart),
+      <slot>{value}</slot>,
+      <slot name={SLOTS.input} />,
+      this.renderIcon(iconEnd),
+    ];
   }
 
   //--------------------------------------------------------------------------
