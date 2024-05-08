@@ -1,4 +1,4 @@
-import { Alignment, Appearance, LogicalFlowPosition, Position, Scale } from "../src/components/interfaces";
+import { Alignment, Appearance, LogicalFlowPosition, Position, Scale, Status } from "../src/components/interfaces";
 
 interface AttributeMetadata<T> {
   values: T[];
@@ -11,6 +11,7 @@ interface CommonAttributes {
   scale: AttributeMetadata<Scale>;
   logicalFlowPosition: AttributeMetadata<LogicalFlowPosition>;
   position: AttributeMetadata<Position>;
+  status: AttributeMetadata<Status>;
 }
 
 const logicalFlowPositionOptions: LogicalFlowPosition[] = ["inline-start", "inline-end", "block-start", "block-end"];
@@ -18,6 +19,7 @@ const positionOptions: Position[] = ["start", "end"];
 const scaleOptions: Scale[] = ["s", "m", "l"];
 const alignmentOptions: Alignment[] = ["start", "center", "end"];
 const appearanceOptions: Appearance[] = ["solid", "transparent", "outline"];
+const statusOptions: Status[] = ["invalid", "valid", "idle"];
 
 export const ATTRIBUTES: CommonAttributes = {
   alignment: {
@@ -39,5 +41,9 @@ export const ATTRIBUTES: CommonAttributes = {
   scale: {
     values: scaleOptions,
     defaultValue: scaleOptions[1],
+  },
+  status: {
+    values: statusOptions,
+    defaultValue: statusOptions[2],
   },
 };
