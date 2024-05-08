@@ -59,8 +59,12 @@
 }
 
 :host([range]) {
-  .input-container {
+  .container {
     @apply flex;
+  }
+
+  .input-container {
+    @apply flex flex-auto;
   }
 
   .input-wrapper {
@@ -88,8 +92,7 @@
   }
 
   .input-container {
-    @apply flex-col
-      items-start;
+    @apply flex-col items-start;
   }
 
   .calendar-wrapper--end {
@@ -118,9 +121,11 @@
   @apply mt-0;
 }
 
-:host([range][layout="vertical"][scale="m"]) .vertical-arrow-container {
-  inset-block-start: theme("spacing.6");
-  padding-inline-start: theme("spacing.3");
+.vertical-arrow-container {
+  @apply flex items-center border border-solid border-color-input border-l-0;
+  inline-size: 16px;
+  block-size: 62px;
+  background-color: #ffffff;
 
   calcite-icon {
     @apply h-3
@@ -129,15 +134,12 @@
   }
 }
 
-:host([range][layout="vertical"][scale="l"]) .vertical-arrow-container {
-  inset-block-start: theme("spacing.9");
-  @apply px-3.5;
+:host([range][layout="vertical"][scale="m"]) .vertical-arrow-container {
+  padding-inline: theme("spacing.3");
 }
 
-:host([range][layout="vertical"][open]) {
-  .vertical-arrow-container {
-    @apply hidden;
-  }
+:host([range][layout="vertical"][scale="l"]) .vertical-arrow-container {
+  @apply px-3.5;
 }
 
 @include form-validation-message();

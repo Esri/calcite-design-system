@@ -2,6 +2,7 @@ export const CSS = {
   assistiveText: "assistive-text",
   calendarWrapper: "calendar-wrapper",
   calendarWrapperEnd: "calendar-wrapper--end",
+  container: "container",
   dividerContainer: "divider-container",
   divider: "divider",
   horizontalArrowContainer: "horizontal-arrow-container",
