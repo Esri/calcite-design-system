@@ -35,38 +35,23 @@
   }
 }
 
-:host(:hover) .button,
-:host(:focus) .button {
-  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-2);
-}
-
-:host(:focus) .button {
-  @apply focus-inset;
-}
-
-:host(:active) .button {
-  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-3);
+.text-container {
+  @apply flex
+  flex-col
+  text-start
+  px-4
+  mt-0.5;
 }
 
 calcite-avatar {
-  padding-inline: var(--calcite-spacing-xl);
+  --calcite-avatar-corner-radius: var(--calcite-navigation-user-avatar-corner-radius);
+  --calcite-avatar-text-color: var(--calcite-navigation-user-avatar-text-color);
+
+  padding-inline: 1rem;
 }
 
 calcite-avatar ~ .text-container {
   @apply ps-0;
-}
-
-:host([active]) .button {
-  --calcite-ui-icon-color: var(--calcite-color-brand);
-  --calcite-internal-navigation-user-border-color: var(--calcite-color-brand);
-}
-
-.text-container {
-  @apply flex
-  flex-col
-  text-start;
-  padding-inline: var(--calcite-spacing-xl);
-  margin-block-start: var(--calcite-spacing-base);
 }
 
 .full-name {
@@ -81,9 +66,22 @@ calcite-avatar ~ .text-container {
   color: var(--calcite-navigation-user-name-text-color, var(--calcite-color-text-2));
 }
 
-calcite-avatar {
-  --calcite-avatar-corner-radius: var(--calcite-navigation-user-avatar-corner-radius);
-  --calcite-avatar-text-color: var(--calcite-navigation-user-avatar-text-color);
+:host(:hover) .button,
+:host(:focus) .button {
+  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-2);
+}
+
+:host(:focus) .button {
+  @apply focus-inset;
+}
+
+:host(:active) .button {
+  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-3);
+}
+
+:host([active]) .button {
+  --calcite-ui-icon-color: var(--calcite-color-brand);
+  --calcite-internal-navigation-user-border-color: var(--calcite-color-brand);
 }
 
 @include base-component();

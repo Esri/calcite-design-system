@@ -14,8 +14,67 @@
 
 :host {
   @apply flex flex-col;
-
   inline-size: var(--calcite-internal-select-size);
+}
+
+.wrapper {
+  @apply relative flex items-stretch;
+  block-size: var(--calcite-internal-select-wrapper-size);
+
+  &:focus-within,
+  &:active,
+  &:hover {
+    --calcite-internal-select-icon-color-hover: var(--calcite-color-text-1);
+  }
+}
+
+.select {
+  @apply font-inherit focus-base box-border cursor-pointer appearance-none truncate border-solid;
+  background-color: var(--calcite-select-background-color, var(--calcite-color-foreground-1));
+  border-width: var(--calcite-border-width-sm);
+  padding-inline: var(--calcite-internal-select-spacing-inline);
+  border-inline-end-width: var(--calcite-border-width-none);
+  inline-size: var(--calcite-container-size-content-fluid);
+
+  &:focus {
+    @apply focus-inset;
+
+    & ~ .icon-container {
+      border-color: none;
+    }
+  }
+
+  // override user agent stylesheet disabled styling
+  &:disabled {
+    border-color: var(--calcite-select-border-color-disabled, var(--calcite-color-border-input));
+  }
+}
+
+.select,
+.icon-container {
+  border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
+}
+
+.select {
+  color: var(--calcite-select-text-color, var(--calcite-color-text-2));
+}
+
+.icon-container {
+  color: var(--calcite-select-icon-color, var(--calcite-color-text-2));
+}
+
+.icon-container {
+  @apply pointer-events-none absolute inset-y-0 flex items-center border-solid;
+  background-color: var(--calcite-color-background-none);
+  border-width: var(--calcite-border-width-none);
+  border-inline-end-width: var(--calcite-border-width-none);
+  inset-inline-end: theme("inset.0");
+  border-inline-width: var(--calcite-border-width-none) var(--calcite-border-width-sm);
+  padding-inline: var(--calcite-internal-select-icon-space-inline);
+
+  .icon {
+    color: var(--calcite-select-icon-color, var(--calcite-color-text-3));
+  }
 }
 
 :host([scale="s"]) {
@@ -63,56 +122,10 @@
   --calcite-internal-select-size: var(--calcite-container-size-content-fluid);
 }
 
-.wrapper {
-  @apply relative flex items-stretch;
-  block-size: var(--calcite-internal-select-wrapper-size);
-}
-
-.select {
-  @apply font-inherit focus-base box-border cursor-pointer appearance-none truncate border-solid;
-  background-color: var(--calcite-select-background-color, var(--calcite-color-foreground-1));
-  border-width: var(--calcite-border-width-sm);
-  padding-inline: var(--calcite-internal-select-spacing-inline);
-  border-inline-end-width: var(--calcite-border-width-none);
-  inline-size: var(--calcite-container-size-content-fluid);
-
-  &:focus {
-    @apply focus-inset;
-  }
-
-  // override user agent stylesheet disabled styling
-  &:disabled {
-    background-color: var(--calcite-opacity-100);
-  }
-}
-
 :host(:hover) {
   .select {
     background-color: var(--calcite-select-background-color, var(--calcite-color-foreground-2));
   }
-}
-
-.select,
-.icon-container {
-  border-color: var(--calcite-select-border-color, var(--calcite-color-border-input));
-}
-
-.select {
-  color: var(--calcite-select-text-color, var(--calcite-color-text-2));
-}
-
-.icon-container {
-  color: var(--calcite-select-icon-color, var(--calcite-color-text-2));
-}
-
-.icon-container {
-  @apply pointer-events-none absolute inset-y-0 flex items-center border-solid;
-  background-color: var(--calcite-color-background-none);
-  border-width: var(--calcite-border-width-none);
-  border-inline-end-width: var(--calcite-border-width-none);
-  inset-inline-end: theme("inset.0");
-  border-inline-width: var(--calcite-border-width-none) var(--calcite-border-width-sm);
-  padding-inline: var(--calcite-internal-select-icon-space-inline);
 }
 
 :host([status="invalid"]) {
@@ -124,10 +137,6 @@
       @apply focus-inset-danger;
     }
   }
-}
-
-.select:focus ~ .icon-container {
-  border-color: var(--calcite-color-background-none);
 }
 
 @include base-component();

@@ -19,6 +19,7 @@ import {
   FormComponent,
   HiddenFormInputSlot,
   internalHiddenInputInputEvent,
+  MutableValidityState,
   submitForm,
 } from "../../utils/form";
 import {
@@ -95,6 +96,14 @@ export class InputText
   @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
+   * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() autofocus: boolean;
+
+  /**
    * When `true`, a clear button is displayed when the component has a value.
    */
   @Prop({ reflect: true }) clearable = false;
@@ -110,6 +119,15 @@ export class InputText
   disabledWatcher(): void {
     this.setDisabledAction();
   }
+
+  /**
+   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+   *
+   * @futureBreaking kebab-cased attribute will not be supported in a future release
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() enterKeyHint: string;
 
   /**
    * The `id` of the form that will be associated with the component.
@@ -128,6 +146,15 @@ export class InputText
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
+
+  /**
+   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+   *
+   * @futureBreaking kebab-cased attribute will not be supported in a future release
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() inputMode: string;
 
   /** Accessible name for the component's button or hyperlink. */
   @Prop() label: string;
@@ -154,6 +181,27 @@ export class InputText
 
   /** Specifies the validation icon to display under the component. */
   @Prop({ reflect: true }) validationIcon: string | boolean;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
 
   /**
    * Specifies the name of the component.
@@ -399,6 +447,7 @@ export class InputText
   async selectText(): Promise<void> {
     this.childEl?.select();
   }
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -609,7 +658,6 @@ export class InputText
       />
     );
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
-
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
     const childEl = (
@@ -623,8 +671,8 @@ export class InputText
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={this.el.enterKeyHint}
-        inputMode={this.el.inputMode}
+        enterKeyHint={this.el.enterKeyHint || this.el.getAttribute("enterkeyhint")}
+        inputMode={this.el.inputMode || this.el.getAttribute("inputmode")}
         maxLength={this.maxLength}
         minLength={this.minLength}
         name={this.name}

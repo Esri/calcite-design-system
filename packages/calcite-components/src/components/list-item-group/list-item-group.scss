@@ -20,7 +20,7 @@
 @include disabled();
 
 .container {
-  @apply text-n1 m-0 flex flex-1 p-3 font-sans font-medium;
+  @apply text-n1 m-0 flex flex-1 p-3 font-medium;
 
   color: var(--calcite-list-item-group-heading-text-color, var(--calcite-color-text-2));
 }
