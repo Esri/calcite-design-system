@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.1-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.1-next.3...@esri/calcite-components@2.8.1-next.4) (2024-05-08)
+
+### Bug Fixes
+
+- **input-date-picker, input-time-picker, list:** ensure lang change updates messages ([#9265](https://github.com/Esri/calcite-design-system/issues/9265)) ([0213d35](https://github.com/Esri/calcite-design-system/commit/0213d358cf60831feb8ae9a16ca9bfe07b0003e1)), closes [#9268](https://github.com/Esri/calcite-design-system/issues/9268) [/github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/utils/t9n.ts#L105](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/utils/t9n.ts/issues/L105)
+
 ## [2.8.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.1-next.2...@esri/calcite-components@2.8.1-next.3) (2024-05-03)
 
 ### Bug Fixes
