@@ -1,66 +1,36 @@
-import { boolean, select } from "../../../.storybook/fake-knobs";
-import { ATTRIBUTES } from "../../../.storybook/resources";
-import {
-  Attribute,
-  Attributes,
-  createComponentHTML as create,
-  filterComponentAttributes,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { position } = ATTRIBUTES;
+
+interface Args {
+  position: string;
+}
 
 export default {
   title: "Components/Action Bar",
+  args: {
+    position: position.defaultValue,
+  },
+  argTypes: {
+    position: {
+      options: position.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const { position } = ATTRIBUTES;
-
-  return filterComponentAttributes(
-    [
-      {
-        name: "expand-disabled",
-        commit(): Attribute {
-          this.value = boolean("expandDisabled", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "expanded",
-        commit(): Attribute {
-          this.value = boolean("expanded", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "position",
-        commit(): Attribute {
-          this.value = select("position", position.values, position.defaultValue);
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
-};
-
-export const simple = (): string =>
-  create(
-    "calcite-action-bar",
-    createAttributes(),
-    html`
-      <calcite-action-group>
-        <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
-        <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
-      </calcite-action-group>
-      <calcite-action-group>
-        <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
-      </calcite-action-group>
-    `,
-  );
+export const simple = (args: Args): string => html`
+  <calcite-action-bar position="${args.position}">
+    <calcite-action-group>
+      <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
+      <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>
+`;
 
 export const horizontal = (): string => html`
   <div style="width: 500px;">
@@ -149,34 +119,22 @@ export const withDefinedWidths = (): string => html`
   </calcite-action-bar>
 `;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create(
-    "calcite-action-bar",
-    createAttributes({ exceptions: ["dir", "class"] }).concat([
-      {
-        name: "dir",
-        value: "rtl",
-      },
-      {
-        name: "class",
-        value: "calcite-mode-dark",
-      },
-    ]),
-    html`
-      <calcite-action-group>
-        <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
-        <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
-      </calcite-action-group>
-      <calcite-action-group>
-        <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
-      </calcite-action-group>
-    `,
-  );
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-action-bar position="start" dir="rtl" class="calcite-mode-dark">
+    <calcite-action-group>
+      <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
+      <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>
+`;
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
-export const adjacentTooltipsOpenQuickly = (): string =>
-  html`<div style="display:flex; height:500px; width: 200px;">
+export const adjacentTooltipsOpenQuickly = (): string => html`
+  <div style="display:flex; height:500px; width: 200px;">
     <calcite-action-bar>
       <calcite-action-group>
         <calcite-action text="Add" icon="plus">
@@ -204,7 +162,8 @@ export const adjacentTooltipsOpenQuickly = (): string =>
         ><calcite-tooltip placement="right" slot="tooltip">hello world</calcite-tooltip></calcite-action
       >
     </calcite-action-bar>
-  </div>`;
+  </div>
+`;
 
 export const hebrewLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="he">
 <calcite-action text="Information" icon="information"></calcite-action>

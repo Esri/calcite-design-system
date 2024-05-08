@@ -39,7 +39,7 @@ export const disabled_TestOnly = (): string => html`<calcite-checkbox checked di
 
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-label dir="rtl" layout="inline" class="calcite-mode-dark">
-    <calcite-checkbox checked></calcite-checkbox>
+    <calcite-checkbox checked scale="m"></calcite-checkbox>
     Checkbox
   </calcite-label>
 `;

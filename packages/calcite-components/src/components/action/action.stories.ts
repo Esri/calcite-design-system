@@ -43,21 +43,22 @@ export default {
   },
 };
 
-export const simple = (args: Args): string =>
-  html`<div>
+export const simple = (args: Args): string => html`
+  <div>
     <calcite-action
-      alignment=${args.alignment}
-      appearance=${args.appearance}
-      icon=${args.icon}
-      label=${args.label}
-      scale=${args.scale}
+      alignment="${args.alignment}"
+      appearance="${args.appearance}"
+      icon="${args.icon}"
+      label="${args.label}"
+      scale="${args.scale}"
       text-enabled
-      text=${args.text}
+      text="${args.text}"
     ></calcite-action>
-  </div>`;
+  </div>
+`;
 
-export const disabledAndCompactAndTextOnly_TestOnly = (): string =>
-  html`<div>
+export const disabledAndCompactAndTextOnly_TestOnly = (): string => html`
+  <div>
     <calcite-action
       icon="banana"
       alignment="start"
@@ -67,10 +68,11 @@ export const disabledAndCompactAndTextOnly_TestOnly = (): string =>
       text="Text"
       text-enabled
     ></calcite-action>
-  </div>`;
+  </div>
+`;
 
-export const activeAndAppearanceTransparent_TestOnly = (): string =>
-  html`<div>
+export const activeAndAppearanceTransparent_TestOnly = (): string => html`
+  <div>
     <calcite-action
       icon="banana"
       alignment="start"
@@ -81,10 +83,11 @@ export const activeAndAppearanceTransparent_TestOnly = (): string =>
       text="Text"
       text-enabled
     ></calcite-action>
-  </div>`;
+  </div>
+`;
 
-export const alignmentEndAndSmallScaleAndIndicator_TestOnly = (): string =>
-  html`<div style="width: 300px">
+export const alignmentEndAndSmallScaleAndIndicator_TestOnly = (): string => html`
+  <div style="width: 300px">
     <calcite-action
       icon="banana"
       alignment="end"
@@ -94,10 +97,11 @@ export const alignmentEndAndSmallScaleAndIndicator_TestOnly = (): string =>
       text="Text"
       text-enabled
     ></calcite-action>
-  </div>`;
+  </div>
+`;
 
-export const alignmentStartAndLargeScaleAndTextOverflow_TestOnly = (): string =>
-  html`<div style="width: 150px">
+export const alignmentStartAndLargeScaleAndTextOverflow_TestOnly = (): string => html`
+  <div style="width: 150px">
     <calcite-action
       icon="banana"
       alignment="start"
@@ -106,7 +110,8 @@ export const alignmentStartAndLargeScaleAndTextOverflow_TestOnly = (): string =>
       text="Blah blah blah blah blah blah blah blah blah blah"
       text-enabled
     ></calcite-action>
-  </div>`;
+  </div>
+`;
 
 export const indicatorTextEnabled_TestOnly = (): string => html`
   <calcite-action indicator scale="m" active text="click-me" text-enabled icon="gear"></calcite-action>
@@ -120,19 +125,20 @@ export const indicatorNoTextEnabledNoIcon_TestOnly = (): string => html`
   <calcite-action indicator active text="click-me"></calcite-action>
 `;
 
-export const noTextHeight_TestOnly = (): string =>
-  html`<h2>All actions should be the same height</h2>
-    <div style="width: min-content">
-      <div style="border: solid 1px">
-        <calcite-action text="hello" text-enabled icon="home" scale="s"></calcite-action>
-      </div>
-      <div style="border: solid 1px">
-        <calcite-action text="hello" icon="home" scale="s"></calcite-action>
-      </div>
-      <div style="border: solid 1px">
-        <calcite-action icon="home" scale="s"></calcite-action>
-      </div>
-    </div>`;
+export const noTextHeight_TestOnly = (): string => html`
+  <h2>All actions should be the same height</h2>
+  <div style="width: min-content">
+    <div style="border: solid 1px">
+      <calcite-action text="hello" text-enabled icon="home" scale="s"></calcite-action>
+    </div>
+    <div style="border: solid 1px">
+      <calcite-action text="hello" icon="home" scale="s"></calcite-action>
+    </div>
+    <div style="border: solid 1px">
+      <calcite-action icon="home" scale="s"></calcite-action>
+    </div>
+  </div>
+`;
 
 export const arabicLocale_TestOnly = (): string => html`
   <calcite-action
@@ -145,8 +151,8 @@ export const arabicLocale_TestOnly = (): string => html`
   ></calcite-action>
 `;
 
-export const darkModeRTL_TestOnly = (): string =>
-  html`<div>
+export const darkModeRTL_TestOnly = (): string => html`
+  <div>
     <calcite-action
       icon="banana"
       alignment="start"
@@ -155,6 +161,7 @@ export const darkModeRTL_TestOnly = (): string =>
       text="Text"
       text-enabled
     ></calcite-action>
-  </div>`;
+  </div>
+`;
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

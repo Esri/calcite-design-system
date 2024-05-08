@@ -1,21 +1,26 @@
-import { select, number, text } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { boolean } from "../../../.storybook/helpers";
+
+interface Args {
+  arrowType: string;
+}
 
 export default {
   title: "Components/Carousel",
+  args: {
+    arrowType: "inline",
+  },
+  argTypes: {
+    arrowType: {
+      options: ["inline", "edge", "none"],
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string =>
+export const simple = (args: Args): string =>
   html` <div style="width:600px;height:400px;">
-    <calcite-carousel
-      ${boolean("control-overlay", false)}
-      ${boolean("disabled", false)}
-      ${number("autoplay-duration", 6000)}
-      ${text("label", "Example carousel label")}
-      arrow-type="${select("arrow-type", ["inline", "edge", "none"], "inline")}"
-    >
+    <calcite-carousel 6000="" label="" arrow-type="${args.arrowType}">
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
           <span slot="title">Some kind of carousel item content</span>

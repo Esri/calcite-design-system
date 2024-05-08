@@ -1,25 +1,33 @@
-import { select } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 
+interface Args {
+  selectionMode: string;
+  src: string;
+}
+
 export default {
   title: "Components/Card Group",
+  args: {
+    selectionMode: "multiple",
+    src: placeholderImage({
+      width: 280,
+      height: 150,
+    }),
+  },
+  argTypes: {
+    selectionMode: {
+      options: ["single", "single-persist", "multiple", "none"],
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
-  <calcite-card-group
-    selection-mode="${select("selection-mode", ["single", "single-persist", "multiple", "none"], "multiple")}"
-  >
+export const simple = (args: Args): string => html`
+  <calcite-card-group selection-mode="${args.selectionMode}">
     <calcite-card label="test card">
-      <img
-        slot="thumbnail"
-        alt="Sample image alt"
-        src="${placeholderImage({
-          width: 280,
-          height: 150,
-        })}"
-      />
+      <img slot="thumbnail" alt="Sample image alt" src="${args.src}" />
       <h3 slot="heading">Portland Businesses</h3>
       <span slot="description"
         >by
@@ -57,14 +65,7 @@ export const simple = (): string => html`
       </div>
     </calcite-card>
     <calcite-card label="test card">
-      <img
-        slot="thumbnail"
-        alt="Sample image alt"
-        src="${placeholderImage({
-          width: 280,
-          height: 150,
-        })}"
-      />
+      <img slot="thumbnail" alt="Sample image alt" src="${args.src}" />
       <h3 slot="heading">Portland Businesses</h3>
       <span slot="description"
         >by
@@ -92,14 +93,7 @@ export const simple = (): string => html`
       </div>
     </calcite-card>
     <calcite-card label="test card">
-      <img
-        slot="thumbnail"
-        alt="Sample image alt"
-        src="${placeholderImage({
-          width: 280,
-          height: 150,
-        })}"
-      />
+      <img slot="thumbnail" alt="Sample image alt" src="${args.src}" />
       <span slot="description"
         >by
         <calcite-link href="">example_user</calcite-link>
