@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "選擇時區。",
+  "offsetPlaceholder": "Search by city, region or offset",
+  "namePlaceholder": "Search by time zone",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "阿必尚",
   "Africa/Accra": "阿克拉",

@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "Elija la zona horaria.",
+  "offsetPlaceholder": "Search by city, region or offset",
+  "namePlaceholder": "Search by time zone",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abiyán",
   "Africa/Accra": "Accra",
