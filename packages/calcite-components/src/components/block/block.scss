@@ -68,6 +68,17 @@
   grid-row: 1 / 2;
 }
 
+.toggle-icon {
+  @apply duration-150
+  ease-in-out
+  justify-self-end
+  my-3
+  self-center
+  transition-color;
+  margin-inline-end: theme("spacing.3");
+  margin-inline-start: auto;
+}
+
 .toggle {
   @apply font-sans
     focus-base
@@ -146,17 +157,6 @@ calcite-handle {
   &.invalid {
     --calcite-icon-color: var(--calcite-block-status-icon-color-invalid, var(--calcite-color-status-danger));
   }
-}
-
-.toggle-icon {
-  @apply duration-150
-  ease-in-out
-  justify-self-end
-  my-3
-  self-center
-  transition-color;
-  margin-inline-end: theme("spacing.3");
-  margin-inline-start: auto;
 }
 
 .container {
