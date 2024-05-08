@@ -328,7 +328,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
       interactive,
       selectionMode,
     } = this;
-    const isLargeVisual = heading && icon && !Boolean(description);
+    const isLargeVisual = heading && icon && !description;
     const disableInteraction = Boolean(this.href) || !interactive;
     const role =
       selectionMode === "multiple" && interactive
@@ -374,7 +374,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
             name={SLOTS.contentTop}
             onSlotchange={this.handleSlotChange}
           />
-          {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
+          {icon && <calcite-icon class={CSS.icon} flipRtl={iconFlipRtl} icon={icon} scale="l" />}
           <div class={{ [CSS.textContentContainer]: true, [CSS.row]: true }}>
             <slot
               data-name="ContentStart"
@@ -406,7 +406,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
     return (
       <InteractiveContainer disabled={disabled}>
-        {!!this.href ? (
+        {this.href ? (
           <calcite-link disabled={disabled} href={this.href}>
             {this.renderTile()}
           </calcite-link>

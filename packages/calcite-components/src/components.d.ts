@@ -5255,6 +5255,10 @@ export namespace Components {
     }
     interface CalciteTileGroup {
         /**
+          * Specifies the alignment of each Tile's content.
+         */
+        "alignment": Exclude<Alignment, "end">;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
@@ -13150,6 +13154,10 @@ declare namespace LocalJSX {
   >;
     }
     interface CalciteTileGroup {
+        /**
+          * Specifies the alignment of each Tile's content.
+         */
+        "alignment"?: Exclude<Alignment, "end">;
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
