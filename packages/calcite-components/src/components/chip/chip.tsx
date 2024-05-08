@@ -351,9 +351,9 @@ export class Chip
   renderSelectionIcon(): VNode {
     const icon =
       this.selectionMode === "multiple" && this.selected
-        ? ICONS.checked
+        ? ICONS.checkedMultiple
         : this.selectionMode === "multiple"
-          ? ICONS.unchecked
+          ? ICONS.uncheckedMultiple
           : this.selected
             ? ICONS.checkedSingle
             : undefined;
