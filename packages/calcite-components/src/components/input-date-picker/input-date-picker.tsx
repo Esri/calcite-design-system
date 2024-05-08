@@ -573,6 +573,7 @@ export class InputDatePicker
                   class={{
                     [CSS.input]: true,
                     [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
+                    [CSS.inputNoRightBorder]: this.layout === "horizontal" && this.range,
                   }}
                   disabled={disabled}
                   icon="calendar"
@@ -641,10 +642,9 @@ export class InputDatePicker
                   />
                 </div>
               </div>
-
-              {this.range && this.layout === "vertical" && this.scale !== "s" && (
-                <div class={CSS.verticalArrowContainer}>
-                  <calcite-icon icon="arrow-down" scale={getIconScale(this.scale)} />
+              {this.range && this.layout === "horizontal" && (
+                <div class={CSS.dividerContainer}>
+                  <div class={CSS.divider} />
                 </div>
               )}
               {this.range && (
@@ -664,6 +664,7 @@ export class InputDatePicker
                     class={{
                       [CSS.input]: true,
                       [CSS.inputBorderTopColorOne]: this.layout === "vertical" && this.range,
+                      [CSS.inputNoLeftBorder]: this.layout === "horizontal" && this.range,
                     }}
                     disabled={disabled}
                     icon="calendar"
@@ -678,7 +679,9 @@ export class InputDatePicker
                     // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                     ref={this.setEndInput}
                   />
-                  {!this.readOnly && this.renderToggleIcon(this.open)}
+                  {!this.readOnly &&
+                    this.layout === "horizontal" &&
+                    this.renderToggleIcon(this.open)}
                 </div>
               )}
             </div>

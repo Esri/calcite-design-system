@@ -66,19 +66,20 @@
   .input-wrapper {
     @apply flex-auto;
   }
+}
 
-  .horizontal-arrow-container {
-    @apply bg-background
-      border-color-input
-      flex
-      items-center
-      border
-      border-l-0
-      border-r-0
-      border-solid
-      py-0
-      px-1;
-  }
+.divider-container {
+  @apply flex w-px items-stretch border-color-input
+  border
+  border-l-0
+  border-r-0
+  border-solid;
+  background-color: #ffffff;
+}
+
+.divider {
+  @apply my-1 inline-block w-px;
+  background-color: #d9d9d9;
 }
 
 :host([range][layout="vertical"]) {
@@ -93,16 +94,6 @@
 
   .calendar-wrapper--end {
     transform: translate3d(0, 0, 0);
-  }
-
-  .vertical-arrow-container {
-    inset-block-start: theme("spacing.6");
-    @apply bg-foreground-1
-      absolute
-      z-default
-      mx-px
-      px-2.5;
-    inset-inline-start: 0;
   }
 }
 

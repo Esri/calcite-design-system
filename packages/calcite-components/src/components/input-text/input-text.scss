@@ -322,6 +322,14 @@ input[type="text"]::-ms-reveal {
   @apply border-b-0;
 }
 
+:host(.no-right-border) input {
+  border-inline-end: 0;
+}
+
+:host(.no-left-border) input {
+  border-inline-start: 0;
+}
+
 :host(.border-top-color-one) input {
   @apply border-t-color-1;
 }
