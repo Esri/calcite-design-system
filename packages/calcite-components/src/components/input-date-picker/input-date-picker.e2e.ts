@@ -72,7 +72,9 @@ describe("calcite-input-date-picker", () => {
     openClose(`<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker>`);
   });
 
-  it.skip("supports t9n", () => t9n("calcite-input-date-picker"));
+  describe("translation support", () => {
+    t9n("calcite-input-date-picker");
+  });
 
   async function navigateMonth(page: E2EPage, direction: "previous" | "next"): Promise<void> {
     const linkIndex = direction === "previous" ? 0 : 1;
