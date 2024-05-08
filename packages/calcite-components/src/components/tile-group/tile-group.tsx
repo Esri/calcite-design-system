@@ -152,6 +152,17 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
 
   private updateSelectedItems = (): void => {
     this.selectedItems = this.items?.filter((el) => el.selected);
+    if (
+      (this.selectionMode === "single" || this.selectionMode === "single-persist") &&
+      this.selectedItems?.length > 1
+    ) {
+      this.selectedItems = [this.selectedItems.pop()];
+      this.items?.forEach((el) => {
+        if (this.selectedItems.indexOf(el) === -1) {
+          el.selected = false;
+        }
+      });
+    }
   };
 
   private updateTiles = (): void => {
