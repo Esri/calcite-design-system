@@ -29,6 +29,7 @@ import { TipMessages } from "./assets/tip/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
+ * @deprecated Use the `carousel` component instead.
  * @slot - A slot for adding text and a hyperlink.
  * @slot thumbnail - A slot for adding an HTML image element.
  */
