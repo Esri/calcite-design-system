@@ -1,15 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import {
-  TestSelectToken,
-  accessible,
-  defaults,
-  focusable,
-  hidden,
-  renders,
-  slots,
-  t9n,
-  themed,
-} from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS, SLOTS } from "./resources";
 
 const actionGroupHTML = `<calcite-action-group scale="l">
@@ -84,7 +75,7 @@ describe("calcite-action-group", () => {
   });
 
   describe("theme", () => {
-    const tokens = {
+    const tokens: ComponentTestTokens = {
       "--calcite-action-group-border-color": [
         {
           targetProp: "borderLeftColor",
@@ -93,7 +84,7 @@ describe("calcite-action-group", () => {
           shadowSelector: "calcite-action-menu",
           targetProp: "--calcite-action-menu-popover-border-color",
         },
-      ] as TestSelectToken[],
+      ],
       "--calcite-action-group-popover-background-color": {
         shadowSelector: "calcite-action-menu",
         targetProp: "--calcite-action-menu-popover-background-color",
@@ -194,7 +185,7 @@ describe("calcite-action-group", () => {
         shadowSelector: "calcite-action",
         targetProp: "--calcite-action-text-color",
       },
-    } as const;
+    };
     themed(`calcite-action-group`, tokens);
   });
 });

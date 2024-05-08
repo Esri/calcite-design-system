@@ -10,10 +10,12 @@ import {
   openClose,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 const animationDurationInMs = 200;
 
@@ -1256,6 +1258,55 @@ describe("calcite-input-date-picker", () => {
       await page.waitForChanges();
       expect(await calendar.isVisible()).toBe(false);
       expect(await inputDatePicker.getProperty("value")).not.toEqual(["2024-01-01", "2024-03-17"]);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-input-background-color": {
+          shadowSelector: "input",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-border-color": {
+          shadowSelector: "input",
+          targetProp: "borderColor",
+        },
+        "--calcite-input-corner-radius": {
+          shadowSelector: "input",
+          targetProp: "borderRadius",
+        },
+        "--calcite-input-shadow": {
+          shadowSelector: "calcite-input-text",
+          targetProp: "boxShadow",
+        },
+        "--calcite-input-text-color": {
+          shadowSelector: "input",
+          targetProp: "color",
+        },
+        "--calcite-input-button-background-color-hover": {
+          shadowSelector: ".toggle-icon",
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-input-button-background-color": {
+          shadowSelector: ".toggle-icon",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-icon-color-active": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-input-icon-color-hover": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-input-icon-color": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+      };
+      themed(`calcite-input-date-picker`, tokens);
     });
   });
 });

@@ -1,8 +1,9 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { TestSelectToken, defaults, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
+import { defaults, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
 import { formatTimePart } from "../../utils/time";
+import { TestSelectToken } from "../../tests/commonTests/themed";
 
 describe("calcite-date-picker", () => {
   describe("renders", () => {
