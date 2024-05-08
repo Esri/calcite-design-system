@@ -1,7 +1,7 @@
 import { Component, h, Prop, VNode } from "@stencil/core";
 
 /**
- * @deprecated Use the `carousel` component instead.
+ * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
  * @slot - A slot for adding `calcite-tip`s.
  */
 @Component({

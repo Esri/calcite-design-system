@@ -29,7 +29,7 @@ import { TipMessages } from "./assets/tip/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
- * @deprecated Use the `carousel` component instead.
+ * @deprecated Use the `calcite-card`, `calcite-notice`, or `calcite-tile` component instead.
  * @slot - A slot for adding text and a hyperlink.
  * @slot thumbnail - A slot for adding an HTML image element.
  */
