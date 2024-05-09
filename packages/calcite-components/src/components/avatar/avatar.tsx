@@ -2,6 +2,7 @@ import { Component, Element, h, Prop, State } from "@stencil/core";
 import { getModeName } from "../../utils/dom";
 import { isValidHex } from "../color-picker/utils";
 import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 import { hexToHue, stringToHex } from "./utils";
 
 @Component({
@@ -65,7 +66,7 @@ export class Avatar {
       return (
         <img
           alt={this.label || ""}
-          class="thumbnail"
+          class={CSS.thumbnail}
           onError={() => (this.thumbnailFailedToLoad = true)}
           src={this.thumbnail}
         />
@@ -76,16 +77,16 @@ export class Avatar {
     return (
       <span
         aria-label={this.label || this.fullName}
-        class="background"
+        class={CSS.background}
         role="figure"
         style={{ backgroundColor }}
       >
         {initials ? (
-          <span aria-hidden="true" class="initials">
+          <span aria-hidden="true" class={CSS.initials}>
             {initials}
           </span>
         ) : (
-          <calcite-icon class="icon" icon="user" scale={this.scale} />
+          <calcite-icon class={CSS.icon} icon="user" scale={this.scale} />
         )}
       </span>
     );
