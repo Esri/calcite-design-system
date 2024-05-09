@@ -98,6 +98,7 @@
 :host([appearance="outline"]) {
   .divider-container {
     border-block: 1px solid var(--calcite-split-button-divider);
+    background-color: initial;
   }
   &:hover .divider-container {
     background-color: var(--calcite-split-button-divider);
