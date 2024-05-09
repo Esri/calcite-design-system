@@ -32,6 +32,8 @@ import { CSS } from "./resources";
 /**
  * @slot - A slot for adding custom content.
  */
+
+/** @deprecated  Use the `tile` component instead.*/
 @Component({
   tag: "calcite-tile-select",
   styleUrl: "tile-select.scss",
