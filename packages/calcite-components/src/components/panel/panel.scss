@@ -18,6 +18,25 @@
 
 @import "../../assets/styles/header";
 
+:host([scale="s"]) .content-top {
+  padding: theme("spacing.2");
+}
+
+:host([scale="m"]) .content-top {
+  padding: theme("spacing.3");
+}
+
+:host([scale="l"]) .content-top {
+  padding: theme("spacing.4");
+}
+
+.content-top {
+  @apply flex justify-center self-stretch;
+
+  border-block-start: 1px solid var(--calcite-color-border-3);
+  padding: theme("spacing.3");
+}
+
 .container {
   @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
@@ -28,11 +47,6 @@
 
 .container[hidden] {
   @apply hidden;
-}
-
-.content-top {
-  @apply flex w-full justify-center px-3 py-3.5;
-  border-block-start: 1px solid var(--calcite-color-border-3);
 }
 
 .header {
