@@ -440,3 +440,24 @@ export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
   html`<calcite-panel style="--calcite-panel-header-border-block-end:none;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-panel
   >`;
+
+export const contentTopSlot_TestOnly = (): string => html`
+  <div style="height: 300px; width: 400px; display: flex">
+    <calcite-panel height-scale="s">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"> </calcite-action>
+          <calcite-action text="Save" icon="save"> </calcite-action>
+          <calcite-action text="Layers" icon="layers"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <div slot="content-top" id="content-top">Slot for a content-top.</div>
+      <div slot="header-content">Header!</div>
+      <p>Slotted content!</p>
+      <p style="height: 400px">Hello first!</p>
+      <p style="height: 400px">Hello second!</p>
+      <p style="height: 400px">Hello third!</p>
+      <p slot="footer">Slotted content!</p>
+    </calcite-panel>
+  </div>
+`;
