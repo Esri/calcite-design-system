@@ -103,9 +103,7 @@ export class SegmentedControlItem {
         <label
           class={{
             [CSS.label]: true,
-            [CSS.labelScaleS]: scale === "s",
-            [CSS.labelScaleM]: scale === "m",
-            [CSS.labelScaleL]: scale === "l",
+            [CSS.labelScale(scale)]: true,
             [CSS.labelHorizontal]: layout === "horizontal",
             [CSS.labelOutline]: appearance === "outline",
             [CSS.labelOutlineFill]: appearance === "outline-fill",
