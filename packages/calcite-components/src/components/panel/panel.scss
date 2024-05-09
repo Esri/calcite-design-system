@@ -30,9 +30,13 @@
   @apply hidden;
 }
 
+.content-top {
+  @apply flex w-full justify-center px-3 py-3.5;
+  border-block-start: 1px solid var(--calcite-color-border-3);
+}
+
 .header {
-  @apply bg-foreground-1 flex flex-col
-    z-header;
+  @apply bg-foreground-1 flex flex-col z-header;
   border-block-end: var(--calcite-panel-header-border-block-end, 1px solid var(--calcite-color-border-3));
 }
 

@@ -63,9 +63,9 @@
 
       <!-- with action bar -->
       <div class="parent">
-        <div class="child right-aligned-text">Slotted Action Bar</div>
+        <div class="child right-aligned-text">Slotted Action Bar + Content Top</div>
         <div class="child">
-          <div style="height: 200px; display: flex">
+          <div style="height: 400px; display: flex">
             <calcite-panel height-scale="s">
               <calcite-action-bar slot="action-bar">
                 <calcite-action-group>
@@ -74,6 +74,7 @@
                   <calcite-action text="Layers" icon="layers"> </calcite-action>
                 </calcite-action-group>
               </calcite-action-bar>
+              <div slot="content-top">Slot for a content-top.</div>
               <div slot="header-content">Header!</div>
               <p>Slotted content!</p>
               <p style="height: 400px">Hello world!</p>
