@@ -9,10 +9,9 @@ import {
 import { TileSelectGroupLayout } from "./interfaces";
 
 /**
+ * @deprecated  Use the `tile-group` component instead.
  * @slot - A slot for adding `calcite-tile-select` elements.
  */
-
-/** @deprecated  Use the `tile-group` component instead.*/
 @Component({
   tag: "calcite-tile-select-group",
   styleUrl: "tile-select-group.scss",
