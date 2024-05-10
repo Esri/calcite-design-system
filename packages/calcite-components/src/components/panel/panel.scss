@@ -19,22 +19,22 @@
 @import "../../assets/styles/header";
 
 :host([scale="s"]) .content-top {
-  padding: theme("spacing.2");
+  padding: var(--calcite-spacing-sm);
 }
 
 :host([scale="m"]) .content-top {
-  padding: theme("spacing.3");
+  padding: var(--calcite-spacing-md);
 }
 
 :host([scale="l"]) .content-top {
-  padding: theme("spacing.4");
+  padding: var(--calcite-spacing-lg);
 }
 
 .content-top {
-  @apply flex justify-center self-stretch;
+  @apply flex items-start self-stretch;
 
+  padding: var(--calcite-spacing-md);
   border-block-start: 1px solid var(--calcite-color-border-3);
-  padding: theme("spacing.3");
 }
 
 .container {
