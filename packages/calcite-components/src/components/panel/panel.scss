@@ -18,6 +18,25 @@
 
 @import "../../assets/styles/header";
 
+:host([scale="s"]) .content-bottom {
+  padding: var(--calcite-spacing-sm);
+}
+
+:host([scale="m"]) .content-bottom {
+  padding: var(--calcite-spacing-md);
+}
+
+:host([scale="l"]) .content-bottom {
+  padding: var(--calcite-spacing-xl);
+}
+
+.content-bottom {
+  @apply flex items-start self-stretch bg-foreground-1;
+
+  padding: var(--calcite-spacing-md);
+  border-block-start: 1px solid var(--calcite-color-border-3);
+}
+
 .container {
   @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
