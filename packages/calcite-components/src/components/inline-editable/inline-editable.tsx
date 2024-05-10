@@ -132,7 +132,6 @@ export class InlineEditable
     connectLabel(this);
     connectLocalized(this);
     connectMessages(this);
-    this.mutationObserverCallback();
   }
 
   async componentWillLoad(): Promise<void> {
