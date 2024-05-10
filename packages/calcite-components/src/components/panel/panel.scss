@@ -31,10 +31,11 @@
 }
 
 .content-bottom {
-  @apply flex items-start self-stretch bg-foreground-1;
+  @apply flex items-start self-stretch;
 
   padding: var(--calcite-spacing-md);
   border-block-start: 1px solid var(--calcite-color-border-3);
+  background-color: var(--calcite-color-foreground-1);
 }
 
 .container {
