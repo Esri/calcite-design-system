@@ -87,15 +87,15 @@ export class SegmentedControl
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The component's `selectedItem` value. */
-  @Prop({ mutable: true }) value: string = null;
-
   @Watch("appearance")
   @Watch("layout")
   @Watch("scale")
   handlePropsChange(): void {
     this.handleItemPropChange();
   }
+
+  /** The component's `selectedItem` value. */
+  @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
   valueHandler(value: string): void {

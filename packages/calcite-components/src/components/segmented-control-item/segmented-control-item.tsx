@@ -77,12 +77,12 @@ export class SegmentedControlItem {
   //
   //--------------------------------------------------------------------------
 
-  private renderIcon(icon: string, lone: boolean = false): VNode {
+  private renderIcon(icon: string, solo: boolean = false): VNode {
     return icon ? (
       <calcite-icon
         class={{
           [CSS.icon]: true,
-          [CSS.iconSolo]: lone,
+          [CSS.iconSolo]: solo,
         }}
         flipRtl={this.iconFlipRtl}
         icon={icon}
