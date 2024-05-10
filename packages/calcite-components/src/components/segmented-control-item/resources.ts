@@ -10,6 +10,6 @@ export const CSS = {
   labelHorizontal: "label--horizontal",
   labelOutline: "label--outline",
   labelOutlineFill: "label--outline-fill",
-  segmentedControlItemIcon: "segmented-control-item-icon",
-  segmentedControlItemIconLone: "segmented-control-item-icon--lone",
+  icon: "icon",
+  iconSolo: "icon--solo",
 };

@@ -81,8 +81,8 @@ export class SegmentedControlItem {
     return icon ? (
       <calcite-icon
         class={{
-          [CSS.segmentedControlItemIcon]: true,
-          [CSS.segmentedControlItemIconLone]: lone,
+          [CSS.icon]: true,
+          [CSS.iconSolo]: lone,
         }}
         flipRtl={this.iconFlipRtl}
         icon={icon}

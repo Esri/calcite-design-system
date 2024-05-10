@@ -84,13 +84,12 @@
   :host([checked]) .label--outline-fill {
     @apply outline-none;
   }
-  :host([checked]) label:not([class~="label--outline"]) .segmented-control-item-icon {
+  :host([checked]) label:not([class~="label--outline"]) .icon {
     color: highlightText;
   }
 }
 
-// icon
-.segmented-control-item-icon {
+.icon {
   @apply relative
     m-0
     inline-flex;
@@ -124,7 +123,7 @@
   --calcite-internal-segmented-control-icon-margin-start: theme("margin.4");
 }
 
-:host(:is([icon-start], [icon-end])) .segmented-control-item-icon--lone {
+.label .icon--solo {
   --calcite-internal-segmented-control-icon-margin-start: 0;
   --calcite-internal-segmented-control-icon-margin-end: 0;
 }
