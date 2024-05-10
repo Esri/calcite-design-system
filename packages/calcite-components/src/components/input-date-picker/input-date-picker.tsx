@@ -71,7 +71,13 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
-import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -743,6 +749,12 @@ export class InputDatePicker
 
   @State() effectiveLocale = "";
 
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+    this.loadLocaleData();
+  }
+
   @State() focusedInput: "start" | "end" = "start";
 
   @State() private localeData: DateLocaleData;
@@ -973,7 +985,6 @@ export class InputDatePicker
     });
   };
 
-  @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;
