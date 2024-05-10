@@ -532,10 +532,9 @@ export class Popover
           appearance="transparent"
           class={CSS.closeButton}
           onClick={this.hide}
+          ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
           scale={this.scale}
           text={messages.close}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
         >
           <calcite-icon icon="x" scale={getIconScale(this.scale)} />
         </calcite-action>
@@ -565,12 +564,7 @@ export class Popover
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
     const arrowNode = !pointerDisabled ? (
-      <FloatingArrow
-        floatingLayout={floatingLayout}
-        key="floating-arrow"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.storeArrowEl}
-      />
+      <FloatingArrow floatingLayout={floatingLayout} key="floating-arrow" ref={this.storeArrowEl} />
     ) : null;
 
     return (
@@ -587,7 +581,6 @@ export class Popover
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed,
           }}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
           {arrowNode}

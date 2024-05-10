@@ -356,10 +356,9 @@ export class Tile implements InteractiveComponent, SelectableComponent {
           [CSS.selected]: this.selected,
         }}
         onClick={this.clickHandler}
+        ref={this.setContainerEl}
         role={role}
         tabIndex={disableInteraction ? undefined : 0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setContainerEl}
       >
         {this.renderSelectionIcon()}
         <div
