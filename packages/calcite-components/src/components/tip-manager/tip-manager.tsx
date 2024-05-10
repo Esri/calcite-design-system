@@ -298,9 +298,8 @@ export class TipManager {
         class={CSS.container}
         hidden={closed}
         onKeyDown={this.tipManagerKeyDownHandler}
-        tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.storeContainerRef}
+        tabIndex={0}
       >
         <header class={CSS.header}>
           <Heading class={CSS.heading} level={headingLevel}>

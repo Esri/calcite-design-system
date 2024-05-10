@@ -238,7 +238,6 @@ export class Dropdown
             id={`${guid}-menubutton`}
             onClick={this.openCalciteDropdown}
             onKeyDown={this.keyDownHandler}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setReferenceEl}
           >
             <slot
@@ -252,7 +251,6 @@ export class Dropdown
           <div
             aria-hidden={toAriaBoolean(!open)}
             class="calcite-dropdown-wrapper"
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setFloatingEl}
           >
             <div
@@ -263,9 +261,8 @@ export class Dropdown
                 [FloatingCSS.animationActive]: open,
               }}
               id={`${guid}-menu`}
-              role="menu"
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.setScrollerAndTransitionEl}
+              role="menu"
             >
               <slot onSlotchange={this.updateGroups} />
             </div>
