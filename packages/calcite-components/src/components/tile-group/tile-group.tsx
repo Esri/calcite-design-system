@@ -17,7 +17,6 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
-import { createObserver } from "../../utils/observers";
 import { focusElementInGroup } from "../../utils/dom";
 import { SelectableGroupComponent } from "../../utils/selectableComponent";
 import { CSS } from "./resources";
@@ -62,7 +61,7 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
 
   @Watch("scale")
   scaleWatcher(): void {
-    this.updateTiles();
+    this.updateItems();
   }
 
   /**
@@ -96,7 +95,7 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
   @Watch("selectionMode")
   @Watch("selectionAppearance")
   handleSelectionModeOrAppearanceChange(): void {
-    this.updateTiles();
+    this.updateItems();
   }
 
   //--------------------------------------------------------------------------
@@ -119,11 +118,9 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
 
   private getSlottedTiles = (): HTMLCalciteTileElement[] => {
     return this.slotEl
-      ?.assignedElements({ flatten: true })
-      .filter((el) => el?.matches("calcite-tile")) as HTMLCalciteTileElement[];
+      .assignedElements({ flatten: true })
+      .filter((el) => el.matches("calcite-tile")) as HTMLCalciteTileElement[];
   };
-
-  private mutationObserver = createObserver("mutation", () => this.updateTiles());
 
   private selectItem = (item: HTMLCalciteTileElement): void => {
     if (!item) {
@@ -172,9 +169,9 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
     }
   };
 
-  private updateTiles = (): void => {
+  private updateItems = (): void => {
     this.items = this.getSlottedTiles();
-    this.items?.forEach((el) => {
+    this.items.forEach((el) => {
       el.alignment = this.alignment;
       el.interactive = true;
       el.layout = this.layout;
@@ -184,6 +181,8 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
     });
     this.updateSelectedItems();
   };
+
+  private handleSlotChange = (): void => this.updateItems();
 
   //--------------------------------------------------------------------------
   //
@@ -202,8 +201,6 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
 
   connectedCallback(): void {
     connectInteractive(this);
-    this.mutationObserver?.observe(this.el, { childList: true });
-    this.updateTiles();
   }
 
   componentDidRender(): void {
@@ -212,7 +209,6 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
 
   disconnectedCallback(): void {
     disconnectInteractive(this);
-    this.mutationObserver?.disconnect();
   }
 
   //--------------------------------------------------------------------------
@@ -265,7 +261,7 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
     return (
       <InteractiveContainer disabled={this.disabled}>
         <div aria-label={this.label} class={CSS.container} role={role}>
-          <slot onSlotchange={this.updateTiles} ref={this.setSlotEl} />
+          <slot onSlotchange={this.handleSlotChange} ref={this.setSlotEl} />
         </div>
       </InteractiveContainer>
     );

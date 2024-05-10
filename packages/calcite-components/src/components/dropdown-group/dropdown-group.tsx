@@ -11,7 +11,6 @@ import {
   Watch,
 } from "@stencil/core";
 import { Scale, SelectionMode } from "../interfaces";
-import { createObserver } from "../../utils/observers";
 import { CSS } from "../dropdown-item/resources";
 import { RequestedItem } from "./interfaces";
 
@@ -76,17 +75,8 @@ export class DropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    this.updateItems();
-    this.mutationObserver?.observe(this.el, { childList: true });
-  }
-
   componentWillLoad(): void {
     this.groupPosition = this.getGroupPosition();
-  }
-
-  disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {
@@ -109,7 +99,7 @@ export class DropdownGroup {
         >
           {dropdownSeparator}
           {groupTitle}
-          <slot />
+          <slot onSlotchange={this.handleSlotChange} />
         </div>
       </Host>
     );
@@ -148,19 +138,17 @@ export class DropdownGroup {
   /** the requested item */
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
-  private updateItems = (): void => {
-    Array.from(this.el.querySelectorAll("calcite-dropdown-item")).forEach(
-      (item) => (item.selectionMode = this.selectionMode),
-    );
-  };
-
-  mutationObserver = createObserver("mutation", () => this.updateItems());
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private updateItems = (): void => {
+    Array.from(this.el.querySelectorAll("calcite-dropdown-item")).forEach(
+      (item) => (item.selectionMode = this.selectionMode),
+    );
+  };
 
   private getGroupPosition(): number {
     return Array.prototype.indexOf.call(
@@ -168,4 +156,6 @@ export class DropdownGroup {
       this.el,
     );
   }
+
+  private handleSlotChange = (): void => this.updateItems();
 }

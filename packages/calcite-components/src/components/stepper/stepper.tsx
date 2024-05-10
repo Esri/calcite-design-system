@@ -15,7 +15,6 @@ import {
 } from "@stencil/core";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Position, Scale } from "../interfaces";
-import { createObserver } from "../../utils/observers";
 import { guid } from "../../utils/guid";
 import {
   connectLocalized,
@@ -139,8 +138,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, { childList: true });
-    this.updateItems();
     connectMessages(this);
     connectLocalized(this);
   }
@@ -167,7 +164,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   disconnectedCallback(): void {
     disconnectMessages(this);
     disconnectLocalized(this);
-    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {
@@ -360,8 +356,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
   private items: HTMLCalciteStepperItemElement[] = [];
 
-  private mutationObserver = createObserver("mutation", () => this.updateItems());
-
   /** Specifies if the user is viewing one `stepper-item` at a time when the page width is less than sum of min-width of each item. */
   private multipleViewMode = false;
 
@@ -376,7 +370,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   private updateItems(): void {
-    this.el.querySelectorAll("calcite-stepper-item").forEach((item) => {
+    this.items.forEach((item) => {
       item.icon = this.icon;
       item.numbered = this.numbered;
       item.layout = this.layout;
@@ -503,5 +497,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     this.containerEl.style.gridTemplateAreas = spacing;
     this.containerEl.style.gridTemplateColumns = spacing;
     this.setStepperItemNumberingSystem();
+    this.updateItems();
   };
 }

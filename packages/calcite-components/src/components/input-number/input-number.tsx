@@ -57,7 +57,6 @@ import {
   parseNumberString,
   sanitizeNumberString,
 } from "../../utils/number";
-import { createObserver } from "../../utils/observers";
 import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
@@ -426,8 +425,6 @@ export class InputNumber
 
   private nudgeNumberValueIntervalId: number;
 
-  mutationObserver = createObserver("mutation", () => this.setDisabledAction());
-
   private userChangedValue = false;
 
   //--------------------------------------------------------------------------
@@ -470,8 +467,6 @@ export class InputNumber
     }
     connectLabel(this);
     connectForm(this);
-
-    this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
     this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
@@ -487,7 +482,6 @@ export class InputNumber
     disconnectLocalized(this);
     disconnectMessages(this);
 
-    this.mutationObserver?.disconnect();
     this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
@@ -992,6 +986,8 @@ export class InputNumber
     }
   }
 
+  private handleSlotChange = (): void => this.setDisabledAction();
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -1119,7 +1115,7 @@ export class InputNumber
               {this.loading ? loader : null}
             </div>
             <div class={CSS.actionWrapper}>
-              <slot name={SLOTS.action} />
+              <slot name={SLOTS.action} onSlotchange={this.handleSlotChange} />
             </div>
             {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}
             {this.suffixText ? suffixText : null}

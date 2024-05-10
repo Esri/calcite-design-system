@@ -36,7 +36,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
-import { createObserver } from "../../utils/observers";
 import { Validation } from "../functional/Validation";
 import { CSS } from "./resources";
 
@@ -182,7 +181,6 @@ export class SegmentedControl
     connectInteractive(this);
     connectLabel(this);
     connectForm(this);
-    this.mutationObserver?.observe(this.el, { childList: true });
 
     this.handleItemPropChange();
   }
@@ -203,7 +201,7 @@ export class SegmentedControl
       <Host onClick={this.handleClick} role="radiogroup">
         <div class={CSS.itemWrapper}>
           <InteractiveContainer disabled={this.disabled}>
-            <slot />
+            <slot onSlotchange={this.handleSlotChange} />
             <HiddenFormInputSlot component={this} />
           </InteractiveContainer>
         </div>
@@ -333,8 +331,6 @@ export class SegmentedControl
 
   defaultValue: SegmentedControl["value"];
 
-  private mutationObserver = createObserver("mutation", () => this.setUpItems());
-
   private handleItemPropChange(): void {
     const items = this.getItems();
 
@@ -401,4 +397,6 @@ export class SegmentedControl
       items[0].tabIndex = 0;
     }
   }
+
+  private handleSlotChange = (): void => this.setUpItems();
 }
