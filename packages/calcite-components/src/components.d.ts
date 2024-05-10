@@ -5255,7 +5255,7 @@ export namespace Components {
     }
     interface CalciteTileGroup {
         /**
-          * Specifies the alignment of each Tile's content.
+          * Specifies the alignment of each `calcite-tile`'s content.
          */
         "alignment": Exclude<Alignment, "end">;
         /**
@@ -13155,7 +13155,7 @@ declare namespace LocalJSX {
     }
     interface CalciteTileGroup {
         /**
-          * Specifies the alignment of each Tile's content.
+          * Specifies the alignment of each `calcite-tile`'s content.
          */
         "alignment"?: Exclude<Alignment, "end">;
         /**
