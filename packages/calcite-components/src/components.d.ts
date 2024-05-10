@@ -4119,10 +4119,6 @@ export namespace Components {
          */
         "status": Status;
         /**
-          * Indicates whether the text is displayed.
-         */
-        "textDisabled": boolean;
-        /**
           * Specifies the validation icon to display under the component.
          */
         "validationIcon": string | boolean;
@@ -4174,10 +4170,6 @@ export namespace Components {
           * Specifies the size of the component inherited from the `calcite-segmented-control`, defaults to `m`.
          */
         "scale": Scale;
-        /**
-          * Indicates whether the text is displayed.
-         */
-        "textDisabled": boolean;
         /**
           * The component's value.
          */
@@ -11997,10 +11989,6 @@ declare namespace LocalJSX {
          */
         "status"?: Status;
         /**
-          * Indicates whether the text is displayed.
-         */
-        "textDisabled"?: boolean;
-        /**
           * Specifies the validation icon to display under the component.
          */
         "validationIcon"?: string | boolean;
@@ -12056,10 +12044,6 @@ declare namespace LocalJSX {
           * Specifies the size of the component inherited from the `calcite-segmented-control`, defaults to `m`.
          */
         "scale"?: Scale;
-        /**
-          * Indicates whether the text is displayed.
-         */
-        "textDisabled"?: boolean;
         /**
           * The component's value.
          */

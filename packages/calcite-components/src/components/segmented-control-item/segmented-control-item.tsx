@@ -6,10 +6,11 @@ import {
   h,
   Host,
   Prop,
+  State,
   VNode,
   Watch,
 } from "@stencil/core";
-import { toAriaBoolean } from "../../utils/dom";
+import { slotChangeHasContent, toAriaBoolean } from "../../utils/dom";
 import { Appearance, Layout, Scale } from "../interfaces";
 import { CSS, SLOTS } from "./resources";
 
@@ -44,18 +45,10 @@ export class SegmentedControlItem {
   @Prop({ reflect: true }) iconEnd: string;
 
   /**
-   * Indicates whether the text is displayed.
-   *
-   * @internal
-   */
-  @Prop({ reflect: true }) textDisabled = false;
-
-  /**
    * The component's value.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by form module
-  @Prop({ mutable: true })
-  value: any | null;
+  @Prop({ mutable: true }) value: any | null;
 
   /**
    * Specifies the appearance style of the component inherited from parent `calcite-segmented-control`, defaults to `solid`.
@@ -84,10 +77,13 @@ export class SegmentedControlItem {
   //
   //--------------------------------------------------------------------------
 
-  private renderIcon(icon: string): VNode {
+  private renderIcon(icon: string, lone: boolean = false): VNode {
     return icon ? (
       <calcite-icon
-        class={CSS.segmentedControlItemIcon}
+        class={{
+          [CSS.segmentedControlItemIcon]: true,
+          [CSS.segmentedControlItemIconLone]: lone,
+        }}
         flipRtl={this.iconFlipRtl}
         icon={icon}
         scale="s"
@@ -116,21 +112,31 @@ export class SegmentedControlItem {
   }
 
   private renderContent(): VNode | VNode[] {
-    const { iconEnd, iconStart, textDisabled, value } = this;
+    const { hasSlottedContent, iconEnd, iconStart } = this;
     const effectiveIcon = iconStart || iconEnd;
-    const canRenderIconOnly = textDisabled && effectiveIcon;
+    const canRenderIconOnly = !hasSlottedContent && effectiveIcon;
 
     if (canRenderIconOnly) {
-      return this.renderIcon(effectiveIcon);
+      return [this.renderIcon(effectiveIcon, true), <slot onSlotchange={this.handleSlotChange} />];
     }
 
     return [
       this.renderIcon(iconStart),
-      <slot>{value}</slot>,
+      <slot onSlotchange={this.handleSlotChange} />,
       <slot name={SLOTS.input} />,
       this.renderIcon(iconEnd),
     ];
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private handleSlotChange = (event: Event): void => {
+    this.hasSlottedContent = slotChangeHasContent(event);
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -139,6 +145,8 @@ export class SegmentedControlItem {
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteSegmentedControlItemElement;
+
+  @State() hasSlottedContent = false;
 
   //--------------------------------------------------------------------------
   //

@@ -124,7 +124,7 @@
   --calcite-internal-segmented-control-icon-margin-start: theme("margin.4");
 }
 
-:host(:is([icon-start], [icon-end])) .label {
+:host(:is([icon-start], [icon-end])) .segmented-control-item-icon--lone {
   --calcite-internal-segmented-control-icon-margin-start: 0;
   --calcite-internal-segmented-control-icon-margin-end: 0;
 }

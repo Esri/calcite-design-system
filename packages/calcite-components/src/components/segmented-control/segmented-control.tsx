@@ -87,18 +87,12 @@ export class SegmentedControl
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /**
-   * Indicates whether the text is displayed.
-   */
-  @Prop({ reflect: true }) textDisabled = false;
-
   /** The component's `selectedItem` value. */
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("appearance")
   @Watch("layout")
   @Watch("scale")
-  @Watch("textDisabled")
   handlePropsChange(): void {
     this.handleItemPropChange();
   }
@@ -348,7 +342,6 @@ export class SegmentedControl
       item.appearance = this.appearance;
       item.layout = this.layout;
       item.scale = this.scale;
-      item.textDisabled = this.textDisabled;
     });
   }
 

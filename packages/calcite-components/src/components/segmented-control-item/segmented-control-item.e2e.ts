@@ -35,16 +35,6 @@ describe("calcite-segmented-control-item", () => {
     expect(value).toBe("test-value");
   });
 
-  it("uses value as fallback label", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      "<calcite-segmented-control-item value='test-value' checked></calcite-segmented-control-item>",
-    );
-
-    const label = await page.find("calcite-segmented-control-item >>> label");
-    expect(label).toEqualText("test-value");
-  });
-
   it("renders icon at start if requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
