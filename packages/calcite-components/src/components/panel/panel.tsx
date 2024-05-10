@@ -48,7 +48,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
 /**
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
- * @slot content-top - A slot for adding the component's content header.
+ * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
  * @slot header-content - A slot for adding custom content to the header.
