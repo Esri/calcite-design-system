@@ -38,7 +38,7 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
   //--------------------------------------------------------------------------
 
   /**
-   * Specifies the alignment of each Tile's content.
+   * Specifies the alignment of each `calcite-tile`'s content.
    */
   @Prop({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
