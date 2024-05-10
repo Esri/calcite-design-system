@@ -192,7 +192,9 @@ Examples:
 - [`calcite-color`](https://github.com/Esri/calcite-design-system/blob/78a70a805324689d516130816a69f031e39c5338/src/components/color/color.tsx#L409-L413)
 - [`calcite-panel` (supports `focusId`)](https://github.com/Esri/calcite-design-system/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/components/panel/panel.tsx#L298-L311)
 
-## CSS Class Names
+## CSS
+
+### Class Names
 
 Because most components utilize shadow DOM, there is far less concern over naming collisions in a global CSS namespace. In addition, it's better for file transfer times and easier to write if class names are shorter. For these reasons, full BEM is not necessary. Instead, we can omit the "Block", and use the host instead. Consider the following BEM markup:
 
@@ -240,6 +242,65 @@ This builds a nice symmetry between the styling and the public API of a componen
 - <https://github.com/ArcGIS/calcite-components/pull/24#discussion_r287462934>
 - <https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-495788683>
 - <https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-497962263>
+
+### CSS lookup object
+
+To enhance maintainability and facilitate easier refactoring, it's beneficial to use a CSS lookup object for storing class names instead of hardcoding them within components.
+This approach not only helps prevent errors, such as typos in class names but also simplifies global updates to styling by centralizing class names in one location.
+Additionally, it proves useful in testing scenarios involving shadow DOM selectors.
+
+Here’s how you can implement a CSS lookup object:
+
+```tsx
+// resources.ts
+export const CSS = {
+  card: "card",
+  title: "title",
+  titleLarge: "title--large",
+  text: "text",
+};
+```
+
+Usage in a component:
+
+```tsx
+<div class={CSS.card}>
+  <h3 class={{ [CSS.title]: true, [CSS.titleLarge]: this.largeTitle }}>Title</h3>
+  <p class={CSS.text}>Text</p>
+</div>
+```
+
+For dynamic class generation, useful for mutually exclusive classes (e.g., `scale`), the object can also include functions:
+
+```tsx
+// resources.ts
+export const CSS = {
+  card: "card",
+  title: "title",
+  titleLarge: "title--large",
+  text: "text",
+  titleScale: (scale: Scale) => `title--scale-${scale}` as const,
+};
+```
+
+Using dynamic classes:
+
+```tsx
+<div class={CSS.card}>
+  <h3
+    class={{
+      [CSS.title]: true,
+      [CSS.titleLarge]: this.largeTitle,
+      [CSS.titleScale(this.scale)]: true,
+    }}
+  >
+    Title
+  </h3>
+  <p class={CSS.text}>Text</p>
+</div>
+```
+
+**Note**: Ensure that class-generating functions are strongly typed to avoid runtime errors.
 
 ## assets
 
