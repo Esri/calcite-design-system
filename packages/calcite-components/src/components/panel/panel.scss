@@ -18,6 +18,25 @@
 
 @import "../../assets/styles/header";
 
+:host([scale="s"]) .content-top {
+  padding: var(--calcite-spacing-sm);
+}
+
+:host([scale="m"]) .content-top {
+  padding: var(--calcite-spacing-md);
+}
+
+:host([scale="l"]) .content-top {
+  padding: var(--calcite-spacing-xl);
+}
+
+.content-top {
+  @apply flex items-start self-stretch;
+
+  padding: var(--calcite-spacing-md);
+  border-block-start: 1px solid var(--calcite-color-border-3);
+}
+
 .container {
   @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
@@ -31,8 +50,7 @@
 }
 
 .header {
-  @apply bg-foreground-1 flex flex-col
-    z-header;
+  @apply bg-foreground-1 flex flex-col z-header;
   border-block-end: var(--calcite-panel-header-border-block-end, 1px solid var(--calcite-color-border-3));
 }
 
