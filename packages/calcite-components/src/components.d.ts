@@ -2035,6 +2035,10 @@ export namespace Components {
          */
         "autocomplete": string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus": boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
          */
         "clearable": boolean;
@@ -2044,6 +2048,11 @@ export namespace Components {
          */
         "disabled": boolean;
         "editingEnabled": boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "enterKeyHint": string;
         /**
           * When `type` is `"file"`, specifies the component's selected files.
           * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
@@ -2065,6 +2074,11 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "inputMode": string;
         /**
           * Accessible name for the component.
          */
@@ -2365,6 +2379,10 @@ export namespace Components {
          */
         "autocomplete": string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus": boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable": boolean;
@@ -2374,6 +2392,11 @@ export namespace Components {
          */
         "disabled": boolean;
         "editingEnabled": boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "enterKeyHint": string;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -2391,6 +2414,11 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "inputMode": string;
         /**
           * When `true`, restricts the component to integer numbers only and disables exponential notation.
          */
@@ -2523,6 +2551,10 @@ export namespace Components {
          */
         "autocomplete": string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus": boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable": boolean;
@@ -2532,6 +2564,11 @@ export namespace Components {
          */
         "disabled": boolean;
         "editingEnabled": boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "enterKeyHint": string;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -2545,6 +2582,11 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "inputMode": string;
         /**
           * Accessible name for the component's button or hyperlink.
          */
@@ -9749,6 +9791,10 @@ declare namespace LocalJSX {
          */
         "autocomplete"?: string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus"?: boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
          */
         "clearable"?: boolean;
@@ -9758,6 +9804,11 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "enterKeyHint"?: string;
         /**
           * When `type` is `"file"`, specifies the component's selected files.
           * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
@@ -9779,6 +9830,11 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "inputMode"?: string;
         /**
           * Accessible name for the component.
          */
@@ -10092,6 +10148,10 @@ declare namespace LocalJSX {
          */
         "autocomplete"?: string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus"?: boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable"?: boolean;
@@ -10101,6 +10161,11 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "enterKeyHint"?: string;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -10118,6 +10183,11 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "inputMode"?: string;
         /**
           * When `true`, restricts the component to integer numbers only and disables exponential notation.
          */
@@ -10252,6 +10322,10 @@ declare namespace LocalJSX {
          */
         "autocomplete"?: string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus"?: boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable"?: boolean;
@@ -10261,6 +10335,11 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "enterKeyHint"?: string;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -10274,6 +10353,11 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "inputMode"?: string;
         /**
           * Accessible name for the component's button or hyperlink.
          */
