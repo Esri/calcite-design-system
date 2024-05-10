@@ -442,18 +442,20 @@ export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
   >`;
 
 export const contentTopSlot = (): string => html`
-  <calcite-panel height-scale="s">
-    <calcite-action-bar slot="action-bar">
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"> </calcite-action>
-      </calcite-action-group>
-    </calcite-action-bar>
-    <div slot="content-top">Slot for a content-top.</div>
-    <div slot="header-content">Header!</div>
-    <p>Slotted content!</p>
-    <p>Hello world!</p>
-    <p>Hello world!</p>
-    <p style="height: 400px">Hello world!</p>
-    <p slot="footer">Slotted content!</p>
-  </calcite-panel>
+  <div style="height: 300px; width: 400px; display: flex">
+    <calcite-panel height-scale="s">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <div slot="content-top">Slot for a content-top.</div>
+      <div slot="header-content">Header!</div>
+      <p>Slotted content!</p>
+      <p>Hello world!</p>
+      <p>Hello world!</p>
+      <p style="height: 400px">Hello world!</p>
+      <p slot="footer">Slotted content!</p>
+    </calcite-panel>
+  </div>
 `;
