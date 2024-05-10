@@ -16,7 +16,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
+import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { focusElementInGroup } from "../../utils/dom";
 import { SelectableGroupComponent } from "../../utils/selectableComponent";
@@ -36,6 +36,11 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
   //  Properties
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * Specifies the alignment of each `calcite-tile`'s content.
+   */
+  @Prop({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
@@ -170,6 +175,7 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
   private updateTiles = (): void => {
     this.items = this.getSlottedTiles();
     this.items?.forEach((el) => {
+      el.alignment = this.alignment;
       el.interactive = true;
       el.layout = this.layout;
       el.scale = this.scale;
