@@ -1,6 +1,5 @@
 import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
 import { Scale } from "../interfaces";
-import { createObserver } from "../../utils/observers";
 import { TabLayout, TabPosition } from "./interfaces";
 import { SLOTS } from "./resources";
 
@@ -52,25 +51,12 @@ export class Tabs {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    this.mutationObserver.observe(this.el, { childList: true });
-    this.updateItems();
-  }
-
-  async componentWillLoad(): Promise<void> {
-    this.updateItems();
-  }
-
-  disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
-  }
-
   render(): VNode {
     return (
       <Fragment>
-        <slot name={SLOTS.titleGroup} />
+        <slot name={SLOTS.titleGroup} onSlotchange={this.handleTitleGroupSlotChange} />
         <section>
-          <slot />
+          <slot onSlotchange={this.handleSlotChange} />
         </section>
       </Fragment>
     );
@@ -153,19 +139,6 @@ export class Tabs {
    */
   @State() tabs: HTMLCalciteTabElement[] = [];
 
-  mutationObserver = createObserver("mutation", (mutationsList: MutationRecord[]) => {
-    for (const mutation of mutationsList) {
-      const target = mutation.target as HTMLElement;
-      if (
-        target.nodeName === "CALCITE-TAB-NAV" ||
-        target.nodeName === "CALCITE-TAB-TITLE" ||
-        target.nodeName === "CALCITE-TAB"
-      ) {
-        this.updateItems();
-      }
-    }
-  });
-
   private updateItems(): void {
     const { position, scale } = this;
 
@@ -240,4 +213,8 @@ export class Tabs {
     this.tabs.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
     this.titles.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
   }
+
+  private handleSlotChange = (): void => this.updateItems();
+
+  private handleTitleGroupSlotChange = (): void => this.updateItems();
 }

@@ -27,7 +27,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import {
   connectMessages,
@@ -147,8 +146,6 @@ export class Action
 
   buttonEl: HTMLButtonElement;
 
-  mutationObserver = createObserver("mutation", () => forceUpdate(this));
-
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
@@ -174,7 +171,6 @@ export class Action
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   async componentWillLoad(): Promise<void> {
@@ -192,7 +188,6 @@ export class Action
     disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-    this.mutationObserver?.disconnect();
   }
 
   componentDidRender(): void {
@@ -272,16 +267,16 @@ export class Action
           [CSS.slotContainerHidden]: loading,
         }}
       >
-        <slot />
+        <slot onSlotchange={this.handleSlotChange} />
       </div>
     );
 
-    return hasIconToDisplay ? (
-      <div aria-hidden="true" class={CSS.iconContainer} key="icon-container">
+    return (
+      <div class={CSS.iconContainer} hidden={!hasIconToDisplay} key="icon-container">
         {iconNode}
         {slotContainerNode}
       </div>
-    ) : null;
+    );
   }
 
   render(): VNode {
@@ -354,4 +349,6 @@ export class Action
       tooltip.referenceElement = this.buttonEl;
     }
   };
+
+  private handleSlotChange = (): void => forceUpdate(this);
 }

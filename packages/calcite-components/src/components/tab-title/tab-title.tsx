@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   Element,
   Event,
@@ -13,7 +12,12 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
+import {
+  getElementDir,
+  nodeListToArray,
+  slotChangeHasTextContent,
+  toAriaBoolean,
+} from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
@@ -22,7 +26,6 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { createObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
@@ -35,6 +38,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { getIconScale } from "../../utils/component";
+import { createObserver } from "../../utils/observers";
 import { TabTitleMessages } from "./assets/tab-title/t9n";
 import { CSS, ICONS } from "./resources";
 
@@ -150,13 +154,11 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
-    this.setupTextContentObserver();
     this.parentTabNavEl = this.el.closest("calcite-tab-nav");
     this.parentTabsEl = this.el.closest("calcite-tabs");
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
     // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
     document.body?.dispatchEvent(
       new CustomEvent("calciteTabTitleUnregister", {
@@ -171,9 +173,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
-    if (Build.isBrowser) {
-      this.updateHasText();
-    }
     if (this.tab && this.selected) {
       this.activateTab(false);
     }
@@ -228,7 +227,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
           >
             <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
               {this.iconStart ? iconStartEl : null}
-              <slot />
+              <slot onSlotchange={this.handleSlotChange} />
               {this.iconEnd ? iconEndEl : null}
             </div>
             {this.renderCloseButton()}
@@ -463,6 +462,10 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     this.closeTabTitleAndNotify();
   };
 
+  private handleSlotChange = (event: Event): void => {
+    this.hasText = slotChangeHasTextContent(event);
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -470,9 +473,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteTabTitleElement;
-
-  /** watches for changing text content */
-  mutationObserver: MutationObserver = createObserver("mutation", () => this.updateHasText());
 
   @State() controls: string;
 
@@ -499,14 +499,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   resizeObserver = createObserver("resize", () => {
     this.calciteInternalTabIconChanged.emit();
   });
-
-  updateHasText(): void {
-    this.hasText = this.el.textContent.trim().length > 0;
-  }
-
-  setupTextContentObserver(): void {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-  }
 
   closeTabTitleAndNotify(): void {
     this.closed = true;

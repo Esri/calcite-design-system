@@ -36,7 +36,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { toAriaBoolean } from "../../utils/dom";
+import { slotChangeHasContent, toAriaBoolean } from "../../utils/dom";
 import { ButtonMessages } from "./assets/button/t9n";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
@@ -208,13 +208,11 @@ export class Button
     connectLocalized(this);
     connectMessages(this);
     this.hasLoader = this.loading;
-    this.setupTextContentObserver();
     connectLabel(this);
     this.formEl = findAssociatedForm(this);
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
     disconnectInteractive(this);
     disconnectLabel(this);
     disconnectLocalized(this);
@@ -226,7 +224,6 @@ export class Button
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     if (Build.isBrowser) {
-      this.updateHasContent();
       await setUpMessages(this);
     }
   }
@@ -274,8 +271,11 @@ export class Button
     );
 
     const contentEl = (
-      <span class={CSS.content} ref={(el) => (this.contentEl = el)}>
-        <slot />
+      <span
+        class={CSS.content}
+        ref={(el) => (this.contentEl = el)}
+      >
+        <slot onSlotchange={this.handleSlotChange} />
       </span>
     );
 
@@ -342,9 +342,6 @@ export class Button
 
   labelEl: HTMLCalciteLabelElement;
 
-  /** watches for changing text content */
-  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
-
   /** the rendered child element */
   private childEl?: HTMLElement;
 
@@ -362,18 +359,6 @@ export class Button
   }
 
   @State() defaultMessages: ButtonMessages;
-
-  private updateHasContent() {
-    const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
-    this.hasContent =
-      this.el.childNodes.length === 1 && this.el.childNodes[0]?.nodeName === "#text"
-        ? this.el.textContent?.trim().length > 0
-        : slottedContent;
-  }
-
-  private setupTextContentObserver() {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-  }
 
   /** keeps track of the tooltipText */
   @State() tooltipText: string;
@@ -424,5 +409,9 @@ export class Button
     if (el) {
       this.resizeObserver?.observe(el);
     }
+  };
+
+  private handleSlotChange = (event: Event): void => {
+    this.hasContent = slotChangeHasContent(event);
   };
 }

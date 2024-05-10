@@ -12,7 +12,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { createObserver } from "../../utils/observers";
 import { Layout, Scale, Status } from "../interfaces";
 import {
   componentFocusable,
@@ -103,8 +102,6 @@ export class RadioButtonGroup implements LoadableComponent {
 
   @Element() el!: HTMLCalciteRadioButtonGroupElement;
 
-  mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
-
   @State() radioButtons: HTMLCalciteRadioButtonElement[] = [];
 
   //--------------------------------------------------------------------------
@@ -113,21 +110,12 @@ export class RadioButtonGroup implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    this.passPropsToRadioButtons();
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-  }
-
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
   }
 
   //--------------------------------------------------------------------------
@@ -154,6 +142,8 @@ export class RadioButtonGroup implements LoadableComponent {
   private getFocusableRadioButton(): HTMLCalciteRadioButtonElement | null {
     return this.radioButtons.find((radiobutton) => !radiobutton.disabled) ?? null;
   }
+
+  private handleSlotChange = (): void => this.passPropsToRadioButtons();
 
   //--------------------------------------------------------------------------
   //
@@ -206,7 +196,7 @@ export class RadioButtonGroup implements LoadableComponent {
     return (
       <Host role="radiogroup">
         <div class={CSS.itemWrapper}>
-          <slot />
+          <slot onSlotchange={this.handleSlotChange} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation

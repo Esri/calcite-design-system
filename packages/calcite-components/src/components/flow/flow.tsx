@@ -1,5 +1,4 @@
 import { Component, Element, h, Listen, Method, Prop, State, VNode } from "@stencil/core";
-import { createObserver } from "../../utils/observers";
 import {
   componentFocusable,
   LoadableComponent,
@@ -93,18 +92,11 @@ export class Flow implements LoadableComponent {
 
   @State() items: FlowItemLikeElement[] = [];
 
-  itemMutationObserver = createObserver("mutation", () => this.updateFlowProps());
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    this.itemMutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.updateFlowProps();
-  }
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
@@ -112,10 +104,6 @@ export class Flow implements LoadableComponent {
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-  }
-
-  disconnectedCallback(): void {
-    this.itemMutationObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -179,6 +167,8 @@ export class Flow implements LoadableComponent {
     }
   };
 
+  private handleSlotChange = (): void => this.updateFlowProps();
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -196,7 +186,7 @@ export class Flow implements LoadableComponent {
 
     return (
       <div class={frameDirectionClasses}>
-        <slot />
+        <slot onSlotchange={this.handleSlotChange} />
       </div>
     );
   }
