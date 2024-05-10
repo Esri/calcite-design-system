@@ -229,7 +229,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
           onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
           ref={this.setTransitionEl}
         >
           {effectiveIcon && this.renderIcon(effectiveIcon)}
@@ -254,9 +253,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         class={CSS.close}
         key="close"
         onClick={this.closeAlert}
-        type="button"
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButton = el)}
+        type="button"
       >
         <calcite-icon icon="x" scale={getIconScale(this.scale)} />
       </button>

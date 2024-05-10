@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.0...@esri/calcite-components@2.9.0-next.1) (2024-05-10)
+
+### Bug Fixes
+
+- **tile:** apply center alignment only to x-axis ([#9288](https://github.com/Esri/calcite-design-system/issues/9288)) ([75df0ba](https://github.com/Esri/calcite-design-system/commit/75df0ba75096917cf17eba22b847ae02f2714c51)), closes [#9252](https://github.com/Esri/calcite-design-system/issues/9252)
+
+### Performance Improvements
+
+- **icon:** render icon sooner if already visible or loaded ([#9197](https://github.com/Esri/calcite-design-system/issues/9197)) ([d603ca9](https://github.com/Esri/calcite-design-system/commit/d603ca9c2263561adbf7cc11fb2301cef877c6f1))
+
+## [2.9.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.1-next.5...@esri/calcite-components@2.9.0-next.0) (2024-05-09)
+
+### Features
+
+- **avatar:** ensure different backgrounds are generated for similar usernames, full names and user IDs ([#9277](https://github.com/Esri/calcite-design-system/issues/9277)) ([bab77b5](https://github.com/Esri/calcite-design-system/commit/bab77b5faec6489dab12d9dab8951056d82be8a7)), closes [#6497](https://github.com/Esri/calcite-design-system/issues/6497)
+
+## [2.8.1-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.1-next.4...@esri/calcite-components@2.8.1-next.5) (2024-05-09)
+
+### Bug Fixes
+
+- **tile-group:** disallow multiple selected attributes on single selection modes ([#9284](https://github.com/Esri/calcite-design-system/issues/9284)) ([885909e](https://github.com/Esri/calcite-design-system/commit/885909e26f36126c4c6dc8fe9e3e648f74081b74)), closes [#9271](https://github.com/Esri/calcite-design-system/issues/9271)
+
 ## [2.8.1-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.1-next.3...@esri/calcite-components@2.8.1-next.4) (2024-05-08)
 
 ### Bug Fixes
