@@ -2,7 +2,7 @@ name: Deploy Latest
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [main, hotfix]
 permissions:
   contents: write
   pull-requests: write
@@ -15,7 +15,7 @@ jobs:
         with:
           command: manifest
           token: ${{ secrets.ADMIN_TOKEN }}
-          default-branch: main
+          default-branch: ${{ github.ref_name }}
           extra-files: |
             packages/calcite-components/readme.md
       - name: Checkout Repository
@@ -24,7 +24,6 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
-          ref: main
       - name: Setup Node
         if: ${{ steps.release.outputs.releases_created }}
         uses: actions/setup-node@v4
