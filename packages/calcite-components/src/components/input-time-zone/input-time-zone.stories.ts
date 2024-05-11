@@ -109,3 +109,5 @@ export const validationMessageAllScales_TestOnly = (): string => html`
     ></calcite-input-time-zone>
   </div>
 `;
+
+export const readOnly = (): string => html` <calcite-input-time-zone read-only></calcite-input-time-zone> `;

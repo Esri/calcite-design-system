@@ -72,6 +72,16 @@
   @apply focus-inset;
 }
 
+:host([read-only]) {
+  .wrapper {
+    background-color: var(--calcite-color-background);
+  }
+
+  .label {
+    font-weight: var(--calcite-font-weight-medium);
+  }
+}
+
 :host([status="invalid"]) .wrapper {
   @apply border-color-danger;
 }
