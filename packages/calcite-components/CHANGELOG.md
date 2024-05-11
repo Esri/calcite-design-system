@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.2...@esri/calcite-components@2.9.0-next.3) (2024-05-11)
+
+### Features
+
+- **panel:** add content-bottom slot ([#9311](https://github.com/Esri/calcite-design-system/issues/9311)) ([87da591](https://github.com/Esri/calcite-design-system/commit/87da59140a67bf5ee503d6545b30c6bd90a800a8)), closes [#8979](https://github.com/Esri/calcite-design-system/issues/8979)
+
 ## [2.9.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.1...@esri/calcite-components@2.9.0-next.2) (2024-05-10)
 
 ### Features
