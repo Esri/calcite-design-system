@@ -25,7 +25,7 @@
     bg-transparent
     font-medium;
 
-  gap: theme("margin.3");
+  gap: var(--calcite-spacing-md);
 }
 
 .toggle--switch,
@@ -52,7 +52,7 @@
 .label {
   @apply flex items-center justify-center my-1;
 
-  margin-inline-start: theme("margin.3");
+  margin-inline-start: var(--calcite-spacing-md);
 }
 
 .section-header__text {
@@ -71,7 +71,8 @@
     @apply flex flex-auto items-center;
   }
 
-  .icon--end {
+  .icon--end,
+  .icon--start {
     @apply flex items-center;
 
     color: var(--calcite-color-text-3);
@@ -91,16 +92,6 @@
 
 .status-icon {
   @apply flex items-center;
-}
-
-.icon--start {
-  @apply flex items-center;
-
-  color: var(--calcite-color-text-3);
-
-  &:hover {
-    color: var(--calcite-color-text-1);
-  }
 }
 
 .status-icon.valid {
