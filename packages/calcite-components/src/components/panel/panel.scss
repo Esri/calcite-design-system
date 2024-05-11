@@ -3,6 +3,9 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-panel-content-background: Specifies the background color of content placed in the component's `content` slot.
+ * @prop --calcite-panel-content-bottom-padding: Specifies the padding of the component's `content-bottom` slot.
+ * @prop --calcite-panel-content-top-padding: Specifies the padding of the component's `content-top` slot.
  * @prop --calcite-panel-footer-padding: Specifies the padding of the component's footer.
  * @prop --calcite-panel-header-border-block-end: Specifies the component header's block end border.
  */
@@ -18,26 +21,38 @@
 
 @import "../../assets/styles/header";
 
-:host([scale="s"]) .content-top,
-.content-bottom {
-  padding: var(--calcite-spacing-sm);
+:host([scale="s"]) {
+  &.content-bottom {
+    padding: var(--calcite-panel-content-bottom-padding, var(--calcite-spacing-sm));
+  }
+  &.content-top {
+    padding: var(--calcite-panel-content-top-padding, var(--calcite-spacing-sm));
+  }
 }
 
-:host([scale="m"]) .content-top,
-.content-bottom {
-  padding: var(--calcite-spacing-md);
+:host,
+:host([scale="m"]) {
+  &.content-bottom {
+    padding: var(--calcite-panel-content-bottom-padding, var(--calcite-spacing-md));
+  }
+  &.content-top {
+    padding: var(--calcite-panel-content-top-padding, var(--calcite-spacing-md));
+  }
 }
 
-:host([scale="l"]) .content-top,
-.content-bottom {
-  padding: var(--calcite-spacing-xl);
+:host([scale="l"]) {
+  &.content-bottom {
+    padding: var(--calcite-panel-content-bottom-padding, var(--calcite-spacing-xl));
+  }
+  &.content-top {
+    padding: var(--calcite-panel-content-top-padding, var(--calcite-spacing-xl));
+  }
 }
 
 .content-top,
 .content-bottom {
   @apply flex items-start self-stretch;
 
-  padding: var(--calcite-spacing-md);
   border-block-start: 1px solid var(--calcite-color-border-3);
   background-color: var(--calcite-color-foreground-1);
 }
@@ -126,9 +141,10 @@
   flex-col
   flex-nowrap
   items-stretch
-  bg-background
   overflow-auto
   h-full;
+
+  background-color: var(--calcite-panel-content-background, var(--calcite-color-background));
 }
 
 .footer {
