@@ -48,6 +48,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
 /**
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
+ * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
@@ -208,6 +209,8 @@ export class Panel
 
   @State() hasActionBar = false;
 
+  @State() hasContentBottom = false;
+
   @State() hasContentTop = false;
 
   @State() hasFooterContent = false;
@@ -329,6 +332,10 @@ export class Panel
 
   handleFabSlotChange = (event: Event): void => {
     this.hasFab = slotChangeHasAssignedElement(event);
+  };
+
+  private contentBottomSlotChangeHandler = (event: Event): void => {
+    this.hasContentBottom = slotChangeHasAssignedElement(event);
   };
 
   private contentTopSlotChangeHandler = (event: Event): void => {
@@ -593,6 +600,14 @@ export class Panel
     );
   }
 
+  renderContentBottom(): VNode {
+    return (
+      <div class={CSS.contentBottom} hidden={!this.hasContentBottom}>
+        <slot name={SLOTS.contentBottom} onSlotchange={this.contentBottomSlotChangeHandler} />
+      </div>
+    );
+  }
+
   renderContentTop(): VNode {
     return (
       <div class={CSS.contentTop} hidden={!this.hasContentTop}>
@@ -622,6 +637,7 @@ export class Panel
       >
         {this.renderHeaderNode()}
         {this.renderContent()}
+        {this.renderContentBottom()}
         {this.renderFooterNode()}
       </article>
     );

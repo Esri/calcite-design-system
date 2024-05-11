@@ -127,13 +127,19 @@
 
       <!-- footer -->
       <div class="parent">
-        <div class="child right-aligned-text">footer</div>
+        <div class="child right-aligned-text">footer and content bottom</div>
         <div class="child">
-          <calcite-panel>
-            <div slot="header-content">header-content slot</div>
-            <p>I have a footer.</p>
-            <div slot="footer">panel Footer</div>
-          </calcite-panel>
+          <div style="height: 200px; display: flex">
+            <calcite-panel>
+              <div slot="header-content">header-content slot</div>
+              <p>Slotted content!</p>
+              <p>Hello world!</p>
+              <p>Hello world!</p>
+              <p>Hello world!</p>
+              <div slot="content-bottom">Slot for a content-bottom.</div>
+              <div slot="footer">panel Footer</div>
+            </calcite-panel>
+          </div>
         </div>
       </div>
 

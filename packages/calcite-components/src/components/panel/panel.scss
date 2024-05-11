@@ -18,23 +18,28 @@
 
 @import "../../assets/styles/header";
 
-:host([scale="s"]) .content-top {
+:host([scale="s"]) .content-top,
+.content-bottom {
   padding: var(--calcite-spacing-sm);
 }
 
-:host([scale="m"]) .content-top {
+:host([scale="m"]) .content-top,
+.content-bottom {
   padding: var(--calcite-spacing-md);
 }
 
-:host([scale="l"]) .content-top {
+:host([scale="l"]) .content-top,
+.content-bottom {
   padding: var(--calcite-spacing-xl);
 }
 
-.content-top {
+.content-top,
+.content-bottom {
   @apply flex items-start self-stretch;
 
   padding: var(--calcite-spacing-md);
   border-block-start: 1px solid var(--calcite-color-border-3);
+  background-color: var(--calcite-color-foreground-1);
 }
 
 .container {
