@@ -149,3 +149,36 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+
+export const multiPadding = (): string => html`
+  <div style="display: flex; flex-direction: row; gap: 50px;">
+    <div>
+      <calcite-chip-group label="demo-group-label" selection-mode="multiple" scale="s">
+        <calcite-chip kind="inverse" selected closable value="KML"> KML </calcite-chip>
+      </calcite-chip-group>
+      <calcite-chip-group label="demo-group-label" selection-mode="multiple" scale="m" style="padding-top: 16px">
+        <calcite-chip kind="inverse" selected closable value="KML"> KML </calcite-chip>
+      </calcite-chip-group>
+      <calcite-chip-group label="demo-group-label" selection-mode="multiple" scale="l" style="padding-top: 16px">
+        <calcite-chip kind="inverse" selected closable value="KML"> KML </calcite-chip>
+      </calcite-chip-group>
+    </div>
+    <div>
+      <calcite-chip-group label="demo-group-label" selection-mode="multiple" scale="s">
+        <calcite-chip kind="inverse" selected icon="file-kml" closable value="KML">
+          KML <calcite-avatar slot="image" full-name="Alluvial"></calcite-avatar
+        ></calcite-chip>
+      </calcite-chip-group>
+      <calcite-chip-group label="demo-group-label" selection-mode="multiple" scale="m" style="padding-top: 16px">
+        <calcite-chip kind="inverse" selected icon="file-kml" closable value="KML">
+          KML<calcite-avatar slot="image" full-name="Alluvial"></calcite-avatar>
+        </calcite-chip>
+      </calcite-chip-group>
+      <calcite-chip-group label="demo-group-label" selection-mode="multiple" scale="l" style="padding-top: 16px">
+        <calcite-chip kind="inverse" selected closable value="KML">
+          KML<calcite-avatar slot="image" full-name="Alluvial"></calcite-avatar>
+        </calcite-chip>
+      </calcite-chip-group>
+    </div>
+  </div>
+`;
