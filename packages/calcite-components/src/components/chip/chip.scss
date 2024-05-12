@@ -14,6 +14,19 @@
   .container.is-circle {
     @apply w-6 h-6;
   }
+
+  .multiple {
+    .select-icon {
+      padding-inline: var(--calcite-spacing-xxs);
+    }
+  }
+
+  .image--slotted {
+    .select-icon {
+      padding-inline-start: var(--calcite-spacing-xs);
+      padding-inline-end: var(--calcite-spacing-sm);
+    }
+  }
 }
 
 :host([scale="m"]) {
@@ -30,6 +43,19 @@
   .container.is-circle {
     @apply w-8 h-8;
   }
+
+  .multiple {
+    .select-icon {
+      padding-inline: var(--calcite-spacing-xs);
+    }
+  }
+
+  .image--slotted {
+    .select-icon {
+      padding-inline-start: var(--calcite-spacing-sm);
+      padding-inline-end: var(--calcite-spacing-md);
+    }
+  }
 }
 
 :host([scale="l"]) {
@@ -44,6 +70,19 @@
 
   .container.is-circle {
     @apply w-11 h-11;
+  }
+
+  .multiple {
+    .select-icon {
+      padding-inline: var(--calcite-spacing-sm);
+    }
+  }
+
+  .image--slotted {
+    .select-icon {
+      padding-inline-start: var(--calcite-spacing-md);
+      padding-inline-end: var(--calcite-spacing-xl);
+    }
   }
 }
 
@@ -77,9 +116,9 @@
   }
 }
 
-:host([scale="s"]) .container.image--slotted {
-  padding-inline-start: calc(theme("spacing[0.5]") / 2);
-}
+// :host([scale="s"]) .container.image--slotted {
+//   // padding-inline-start: calc(theme("spacing[0.5]") / 2);
+// }
 
 :host([scale="s"]) .container.is-circle {
   padding-inline: 0;
@@ -103,40 +142,40 @@
 }
 
 .container:not(.is-circle) {
-  &.image--slotted {
-    padding-inline-start: calc(var(--calcite-chip-spacing-l-internal) / 2);
-  }
+  // &.image--slotted {
+  //   padding-inline-start: calc(var(--calcite-chip-spacing-l-internal) / 2);
+  // }
 
-  &.image--slotted .image-container {
-    margin-inline-end: var(--calcite-chip-spacing-s-internal);
-  }
+  // &.image--slotted .image-container {
+  //   margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  // }
 
-  &.image--slotted .image-container ~ .chip-icon {
-    margin-inline-start: var(--calcite-chip-spacing-s-internal);
-  }
+  // &.image--slotted .image-container ~ .chip-icon {
+  //   margin-inline-start: var(--calcite-chip-spacing-s-internal);
+  // }
 
-  &.selectable:not(.text--slotted) .chip-icon {
-    margin-inline-end: var(--calcite-chip-spacing-s-internal);
-  }
+  // &.selectable:not(.text--slotted) .chip-icon {
+  //   margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  // }
 
-  &:not(.selectable):not(.text--slotted) .chip-icon {
-    margin-inline-start: var(--calcite-chip-spacing-s-internal);
-  }
+  // &:not(.selectable):not(.text--slotted) .chip-icon {
+  //   margin-inline-start: var(--calcite-chip-spacing-s-internal);
+  // }
 
-  &:not(.text--slotted) .chip-icon {
-    margin-inline-end: var(--calcite-chip-spacing-s-internal);
-  }
+  // &:not(.text--slotted) .chip-icon {
+  //   margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  // }
 
-  &:not(.text-slotted).image--slotted .image-container {
-    margin-inline-end: var(--calcite-chip-spacing-s-internal);
-  }
+  // &:not(.text-slotted).image--slotted .image-container {
+  //   margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  // }
 
-  &:not(.closable):not(.text--slotted).image--slotted.selectable .image-container {
-    margin-inline-end: 0;
-    ~ .chip-icon {
-      margin-inline-start: calc(var(--calcite-chip-spacing-s-internal) * 2);
-    }
-  }
+  // &:not(.closable):not(.text--slotted).image--slotted.selectable .image-container {
+  //   margin-inline-end: 0;
+  //   ~ .chip-icon {
+  //     margin-inline-start: calc(var(--calcite-chip-spacing-s-internal) * 2);
+  //   }
+  // }
 }
 
 .chip-icon {
@@ -200,9 +239,9 @@
     opacity: 0.5;
   }
 }
-.container:not(.is-circle).image--slotted .select-icon.select-icon--active {
-  margin-inline-end: var(--calcite-chip-spacing-s-internal);
-}
+// .container:not(.is-circle).image--slotted .select-icon.select-icon--active {
+//   margin-inline-end: var(--calcite-chip-spacing-s-internal);
+// }
 
 :host([selected]) .select-icon {
   opacity: 1;
@@ -210,6 +249,10 @@
 
 .container:hover .select-icon--active {
   opacity: 1;
+}
+
+.multiple .select-icon {
+  @apply flex justify-center items-center;
 }
 
 slot[name="image"]::slotted(*) {
