@@ -3,9 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-panel-spacing: Specifies padding of the component's `content` slot.
- * @prop --calcite-panel-bottom-spacing: Specifies the padding of the component's `content-bottom` slot.
- * @prop --calcite-panel-top-spacing: Specifies the padding of the component's `content-top` slot.
+ * @prop --calcite-panel-spacing-block-end: Specifies the padding of the component's `content-bottom` slot.
+ * @prop --calcite-panel-spacing-block-start: Specifies the padding of the component's `content-top` slot.
  * @prop --calcite-panel-height: Specifies the height of the component, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` is set.
  * @prop --calcite-panel-width: Specifies the width of the component, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the width of the viewport. Will not apply if `fullscreen` is set.
  * @prop --calcite-panel-action-background-color: defines the background color of an action sub-component inside the component.
@@ -44,29 +43,29 @@
 
 :host([scale="s"]) {
   .content-bottom {
-    padding: var(--calcite-panel-bottom-spacing, var(--calcite-spacing-sm));
+    padding: var(--calcite-panel-spacing-block-end, var(--calcite-spacing-sm));
   }
   .content-top {
-    padding: var(--calcite-panel-content-top-spacing, var(--calcite-spacing-sm));
+    padding: var(--calcite-panel-spacing-block-start, var(--calcite-spacing-sm));
   }
 }
 
 :host,
 :host([scale="m"]) {
   .content-bottom {
-    padding: var(--calcite-panel-bottom-spacing, var(--calcite-spacing-md));
+    padding: var(--calcite-panel-spacing-block-end, var(--calcite-spacing-md));
   }
   .content-top {
-    padding: var(--calcite-panel-top-spacing, var(--calcite-spacing-md));
+    padding: var(--calcite-panel-spacing-block-start, var(--calcite-spacing-md));
   }
 }
 
 :host([scale="l"]) {
   .content-bottom {
-    padding: var(--calcite-panel-bottom-spacing, var(--calcite-spacing-xl));
+    padding: var(--calcite-panel-spacing-block-end, var(--calcite-spacing-xl));
   }
   .content-top {
-    padding: var(--calcite-panel-content-top-spacing, var(--calcite-spacing-xl));
+    padding: var(--calcite-panel-content-spacing-block-start, var(--calcite-spacing-xl));
   }
 }
 
