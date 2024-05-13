@@ -274,24 +274,25 @@ export class Filter
     return (
       <InteractiveContainer disabled={disabled}>
         <div class={CSS.container}>
-          <calcite-input
-            class={CSS.input}
-            clearable={true}
-            disabled={disabled}
-            icon={ICONS.search}
-            label={this.messages.label}
-            messageOverrides={{ clear: this.messages.clear }}
-            onCalciteInputInput={this.inputHandler}
-            onKeyDown={this.keyDownHandler}
-            placeholder={this.placeholder}
-            scale={scale}
-            type="text"
-            value={this.value}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(el): void => {
-              this.textInput = el;
-            }}
-          />
+          <label>
+            <calcite-input
+              class={CSS.input}
+              clearable={true}
+              disabled={disabled}
+              icon={ICONS.search}
+              label={this.messages.label}
+              messageOverrides={{ clear: this.messages.clear }}
+              onCalciteInputInput={this.inputHandler}
+              onKeyDown={this.keyDownHandler}
+              placeholder={this.placeholder}
+              ref={(el): void => {
+                this.textInput = el;
+              }}
+              scale={scale}
+              type="text"
+              value={this.value}
+            />
+          </label>
         </div>
       </InteractiveContainer>
     );

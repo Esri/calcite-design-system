@@ -33,34 +33,30 @@
   overflow: hidden;
 }
 
-@include disabled();
+@import "../../assets/styles/header";
 
-.header {
-  color: var(--calcite-panel-heading-text-color, var(--calcite-color-text-2));
-  margin: 0;
-  align-content: space-between;
-  align-items: center;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  z-index: var(--calcite-panel-header-z-index, var(--calcite-z-index-header));
-  background-color: var(--calcite-panel-header-background-color, var(--calcite-color-foreground-1));
-  border-block-end: var(
-    --calcite-panel-header-border-block-end,
-    var(--calcite-panel-header-border-width, var(--calcite-border-width-sm)) solid
-      var(--calcite-panel-border-color, var(--calcite-color-border-3))
-  );
+:host([scale="s"]) .content-top,
+.content-bottom {
+  padding: var(--calcite-spacing-sm);
 }
 
-.heading {
-  margin: 0;
-  padding: 0;
-  font-weight: var(--calcite-font-weight-medium);
+:host([scale="m"]) .content-top,
+.content-bottom {
+  padding: var(--calcite-spacing-md);
 }
 
-.header .heading {
-  flex: 1 1 auto;
-  padding: var(--calcite-spacing-xxs);
+:host([scale="l"]) .content-top,
+.content-bottom {
+  padding: var(--calcite-spacing-xl);
+}
+
+.content-top,
+.content-bottom {
+  @apply flex items-start self-stretch;
+
+  padding: var(--calcite-spacing-md);
+  border-block-start: 1px solid var(--calcite-color-border-3);
+  background-color: var(--calcite-color-foreground-1);
 }
 
 .container {
@@ -78,7 +74,25 @@
 }
 
 .container[hidden] {
-  display: none;
+  @apply hidden;
+}
+
+.header {
+  @apply flex flex-col z-header;
+  color: var(--calcite-panel-heading-text-color, var(--calcite-color-text-2));
+  margin: 0;
+  align-content: space-between;
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  z-index: var(--calcite-panel-header-z-index, var(--calcite-z-index-header));
+  background-color: var(--calcite-panel-header-background-color, var(--calcite-color-foreground-1));
+  border-block-end: var(
+    --calcite-panel-header-border-block-end,
+    var(--calcite-panel-header-border-width, var(--calcite-border-width-sm)) solid
+      var(--calcite-panel-border-color, var(--calcite-color-border-3))
+  );
 }
 
 .header-container {
@@ -204,3 +218,4 @@ calcite-action-menu {
 }
 
 @include base-component();
+@include disabled();

@@ -262,11 +262,10 @@ export class ActionMenu implements LoadableComponent {
           appearance={appearance}
           class={CSS.defaultTrigger}
           icon={ICONS.menu}
+          ref={this.setDefaultMenuButtonEl}
           scale={scale}
           text={label}
           textEnabled={expanded}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setDefaultMenuButtonEl}
         />
       </slot>
     );

@@ -560,9 +560,8 @@ export class List
                         items={dataForFilter}
                         onCalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
-                        value={filterText}
-                        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                         ref={this.setFilterEl}
+                        value={filterText}
                       />
                       <slot
                         name={SLOTS.filterActionsEnd}

@@ -129,9 +129,10 @@ calcite-icon {
 }
 
 :host([alignment="center"]) {
-  .row,
-  .content-container {
-    align-items: center;
+  .icon {
+    align-self: center;
+  }
+  .text-content {
     text-align: center;
   }
   slot[name="content-start"]::slotted(*),

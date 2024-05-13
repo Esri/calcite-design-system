@@ -790,7 +790,6 @@ export class ColorPicker
             <canvas
               class={CSS.colorField}
               onPointerDown={this.handleColorFieldPointerDown}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.initColorField}
             />
             <div
@@ -800,14 +799,13 @@ export class ColorPicker
               aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
               class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
               onKeyDown={this.handleColorFieldScopeKeyDown}
+              ref={this.storeColorFieldScope}
               role="slider"
               style={{
                 top: `${adjustedColorFieldScopeTop || 0}px`,
                 left: `${adjustedColorFieldScopeLeft || 0}px`,
               }}
               tabindex="0"
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.storeColorFieldScope}
             />
           </div>
           <div class={CSS.previewAndSliders}>
@@ -817,7 +815,6 @@ export class ColorPicker
                 <canvas
                   class={{ [CSS.slider]: true, [CSS.hueSlider]: true }}
                   onPointerDown={this.handleHueSliderPointerDown}
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                   ref={this.initHueSlider}
                 />
                 <div
@@ -827,14 +824,13 @@ export class ColorPicker
                   aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
                   class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
                   onKeyDown={this.handleHueScopeKeyDown}
+                  ref={this.storeHueScope}
                   role="slider"
                   style={{
                     top: `${adjustedHueScopeTop}px`,
                     left: `${adjustedHueScopeLeft}px`,
                   }}
                   tabindex="0"
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                  ref={this.storeHueScope}
                 />
               </div>
               {alphaChannel ? (
@@ -842,7 +838,6 @@ export class ColorPicker
                   <canvas
                     class={{ [CSS.slider]: true, [CSS.opacitySlider]: true }}
                     onPointerDown={this.handleOpacitySliderPointerDown}
-                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                     ref={this.initOpacitySlider}
                   />
                   <div
@@ -852,14 +847,13 @@ export class ColorPicker
                     aria-valuenow={(color || DEFAULT_COLOR).round().alpha()}
                     class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
                     onKeyDown={this.handleOpacityScopeKeyDown}
+                    ref={this.storeOpacityScope}
                     role="slider"
                     style={{
                       top: `${adjustedOpacityScopeTop}px`,
                       left: `${adjustedOpacityScopeLeft}px`,
                     }}
                     tabindex="0"
-                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                    ref={this.storeOpacityScope}
                   />
                 </div>
               ) : null}
