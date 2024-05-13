@@ -64,16 +64,19 @@
 :host([appearance="outline-fill"]) {
   &:host([kind="brand"]) {
     --calcite-split-button-divider: theme("colors.brand");
+    --calcite-split-button-background: transparent;
   }
   &:host([kind="danger"]) {
     --calcite-split-button-divider: theme("colors.danger");
+    --calcite-split-button-background: transparent;
   }
   &:host([kind="neutral"]) {
     --calcite-split-button-divider: theme("borderColor.color.1");
-    --calcite-split-button-background: theme("borderColor.color.1");
+    --calcite-split-button-background: transparent;
   }
   &:host([kind="inverse"]) {
     --calcite-split-button-divider: var(--calcite-color-inverse);
+    --calcite-split-button-background: transparent;
   }
 }
 
@@ -98,7 +101,6 @@
 :host([appearance="outline"]) {
   .divider-container {
     border-block: 1px solid var(--calcite-split-button-divider);
-    background-color: initial;
   }
   &:hover .divider-container {
     background-color: var(--calcite-split-button-divider);
@@ -126,12 +128,14 @@
 }
 
 @include disabled() {
-  .divider-container {
-    @apply opacity-disabled;
-  }
-
   calcite-dropdown > calcite-button {
     @apply pointer-events-none;
+  }
+  &:host([appearance="outline-fill"]),
+  &:host([appearance="outline"]) {
+    .divider-container {
+      background-color: transparent;
+    }
   }
 }
 
