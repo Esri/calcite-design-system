@@ -2,26 +2,38 @@ import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-const { alignment, scale } = ATTRIBUTES;
+const { alignment, appearance, scale } = ATTRIBUTES;
 
-interface Args {
+interface ActionArgs {
+  active: boolean;
   alignment: string;
   appearance: string;
+  compact: boolean;
+  disabled: boolean;
   icon: string;
+  indicator: boolean;
   label: string;
+  loading: boolean;
   scale: string;
   text: string;
+  textEnabled: boolean;
 }
 
 export default {
   title: "Components/Buttons/Action",
   args: {
+    active: false,
     alignment: alignment.defaultValue,
-    appearance: "solid",
+    appearance: appearance.defaultValue,
+    compact: false,
+    disabled: false,
     icon: "banana",
+    indicator: false,
     label: "Label",
+    loading: false,
     scale: scale.defaultValue,
     text: "",
+    textEnabled: true,
   },
   argTypes: {
     alignment: {
@@ -29,7 +41,7 @@ export default {
       control: { type: "select" },
     },
     appearance: {
-      options: ["solid", "transparent"],
+      options: appearance.values.filter((option) => option !== "outline" && option !== "outline-fill"),
       control: { type: "select" },
     },
     icon: {
@@ -43,16 +55,21 @@ export default {
   },
 };
 
-export const simple = (args: Args): string => html`
+export const simple = (args: ActionArgs): string => html`
   <div>
     <calcite-action
+      ${args.active && "active"}
       alignment="${args.alignment}"
       appearance="${args.appearance}"
+      ${args.compact && "compact"}
+      ${args.disabled && "disabled"}
       icon="${args.icon}"
+      ${args.indicator && "indicator"}
       label="${args.label}"
+      ${args.loading && "loading"}
       scale="${args.scale}"
-      text-enabled
       text="${args.text}"
+      ${args.textEnabled && "text-enabled style"}
     ></calcite-action>
   </div>
 `;
@@ -62,7 +79,9 @@ export const disabledAndCompactAndTextOnly_TestOnly = (): string => html`
     <calcite-action
       icon="banana"
       alignment="start"
+      appearance="solid"
       label="Label"
+      scale="m"
       compact
       disabled
       text="Text"
@@ -89,6 +108,7 @@ export const activeAndAppearanceTransparent_TestOnly = (): string => html`
 export const alignmentEndAndSmallScaleAndIndicator_TestOnly = (): string => html`
   <div style="width: 300px">
     <calcite-action
+      appearance="solid"
       icon="banana"
       alignment="end"
       label="Label"
@@ -103,6 +123,7 @@ export const alignmentEndAndSmallScaleAndIndicator_TestOnly = (): string => html
 export const alignmentStartAndLargeScaleAndTextOverflow_TestOnly = (): string => html`
   <div style="width: 150px">
     <calcite-action
+      appearance="solid"
       icon="banana"
       alignment="start"
       label="Label"
@@ -114,7 +135,15 @@ export const alignmentStartAndLargeScaleAndTextOverflow_TestOnly = (): string =>
 `;
 
 export const indicatorTextEnabled_TestOnly = (): string => html`
-  <calcite-action indicator scale="m" active text="click-me" text-enabled icon="gear"></calcite-action>
+  <calcite-action
+    appearance="solid"
+    indicator
+    scale="m"
+    active
+    text="click-me"
+    text-enabled
+    icon="gear"
+  ></calcite-action>
 `;
 
 export const indicatorTextEnabledNoIcon_TestOnly = (): string => html`
@@ -154,6 +183,9 @@ export const arabicLocale_TestOnly = (): string => html`
 export const darkModeRTL_TestOnly = (): string => html`
   <div>
     <calcite-action
+      appearance="solid"
+      label="Label"
+      scale="m"
       icon="banana"
       alignment="start"
       class="calcite-mode-dark"

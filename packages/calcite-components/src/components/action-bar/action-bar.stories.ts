@@ -3,13 +3,17 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { position } = ATTRIBUTES;
 
-interface Args {
+interface ActionBarArgs {
+  expandDisabled: boolean;
+  expanded: boolean;
   position: string;
 }
 
 export default {
   title: "Components/Action Bar",
   args: {
+    expandDisabled: false,
+    expanded: false,
     position: position.defaultValue,
   },
   argTypes: {
@@ -20,8 +24,12 @@ export default {
   },
 };
 
-export const simple = (args: Args): string => html`
-  <calcite-action-bar position="${args.position}">
+export const simple = (args: ActionBarArgs): string => html`
+  <calcite-action-bar
+    ${args.expandDisabled && "expand-disabled"}
+    ${args.expanded && "expanded"}
+    position="${args.position}"
+  >
     <calcite-action-group>
       <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
       <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>

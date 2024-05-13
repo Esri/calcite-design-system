@@ -1,8 +1,10 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { selectionMode } = ATTRIBUTES;
 
-interface Args {
+interface CardGroupArgs {
   selectionMode: string;
   src: string;
 }
@@ -10,7 +12,7 @@ interface Args {
 export default {
   title: "Components/Card Group",
   args: {
-    selectionMode: "multiple",
+    selectionMode: selectionMode.defaultValue,
     src: placeholderImage({
       width: 280,
       height: 150,
@@ -18,13 +20,15 @@ export default {
   },
   argTypes: {
     selectionMode: {
-      options: ["single", "single-persist", "multiple", "none"],
+      options: selectionMode.values.filter(
+        (option) => option !== "children" && option !== "multichildren" && option !== "ancestors",
+      ),
       control: { type: "select" },
     },
   },
 };
 
-export const simple = (args: Args): string => html`
+export const simple = (args: CardGroupArgs): string => html`
   <calcite-card-group selection-mode="${args.selectionMode}">
     <calcite-card label="test card">
       <img slot="thumbnail" alt="Sample image alt" src="${args.src}" />

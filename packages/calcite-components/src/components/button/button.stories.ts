@@ -1,13 +1,17 @@
+import { iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-const { scale } = ATTRIBUTES;
+const { appearance, kind, scale, width } = ATTRIBUTES;
 
-interface Args {
+interface ButtonArgs {
   appearance: string;
   kind: string;
   scale: string;
+  round: boolean;
   href: string;
+  loading: boolean;
+  disabled: boolean;
   width: string;
   text: string;
 }
@@ -15,20 +19,23 @@ interface Args {
 export default {
   title: "Components/Buttons/Button",
   args: {
-    appearance: "solid",
-    kind: "brand",
+    appearance: appearance.defaultValue,
+    kind: kind.defaultValue,
     scale: scale.defaultValue,
+    round: false,
     href: "",
-    width: "auto",
+    loading: false,
+    disabled: false,
+    width: width.defaultValue,
     text: "button text here",
   },
   argTypes: {
     appearance: {
-      options: ["solid", "outline", "outline-fill", "transparent"],
+      options: appearance.values,
       control: { type: "select" },
     },
     kind: {
-      options: ["brand", "danger", "inverse", "neutral"],
+      options: kind.values.filter((option) => option !== "info" && option !== "warning" && option !== "success"),
       control: { type: "select" },
     },
     scale: {
@@ -36,18 +43,21 @@ export default {
       control: { type: "select" },
     },
     width: {
-      options: ["auto", "half", "full"],
+      options: width.values,
       control: { type: "select" },
     },
   },
 };
 
-export const simple = (args: Args): string => html`
+export const simple = (args: ButtonArgs): string => html`
   <calcite-button
     appearance="${args.appearance}"
     kind="${args.kind}"
     scale="${args.scale}"
+    ${args.round && "round"}
     href="${args.href}"
+    ${args.loading && "loading"}
+    ${args.disabled && "disabled"}
     width="${args.width}"
   >
     ${args.text}
@@ -59,7 +69,7 @@ export const withIconStart = (): string => html`
     alignment="center"
     appearance="solid"
     kind="brand"
-    icon-start="i12X"
+    icon-start="${iconNames[0]}"
     scale="m"
     href=""
     type="button"
@@ -72,7 +82,15 @@ export const withIconStart = (): string => html`
 withIconStart.storyName = "With icon-start";
 
 export const withIconEnd = (): string => html`
-  <calcite-button alignment="center" appearance="solid" icon-end="i12X" kind="brand" scale="m" href="" width="auto">
+  <calcite-button
+    alignment="center"
+    appearance="solid"
+    icon-end="${iconNames[0]}"
+    kind="brand"
+    scale="m"
+    href=""
+    width="auto"
+  >
     button text here
   </calcite-button>
 `;
@@ -84,8 +102,8 @@ export const withIconStartAndIconEnd = (): string => html`
     alignment="center"
     appearance="solid"
     kind="brand"
-    icon-start="i12X"
-    icon-end="i12X"
+    icon-start="${iconNames[0]}"
+    icon-end="${iconNames[0]}"
     scale="m"
     href=""
     width="auto"
@@ -101,7 +119,7 @@ export const setWidthContainer = (): string => html`
   <div style="width: 480px; max-width: 100%; background-color: #fff">
     <calcite-button
       width="auto"
-      icon-start="i12X"
+      icon-start="${iconNames[0]}"
       alignment="center"
       appearance="solid"
       kind="brand"
@@ -144,7 +162,7 @@ export const sideBySide_TestOnly = (): string => html`
       width="half"
       appearance="solid"
       kind="brand"
-      icon-start="i12X"
+      icon-start="${iconNames[0]}"
       alignment="center"
       scale="m"
       type="button"
@@ -162,8 +180,8 @@ export const darkModeRTL_TestOnly = (): string => html`
     kind="brand"
     scale="m"
     href=""
-    icon-start="i12X"
-    icon-end="i12X"
+    icon-start="${iconNames[0]}"
+    icon-end="${iconNames[0]}"
     alignment="center"
     type="button"
     width="auto"

@@ -1,6 +1,6 @@
 /* Note: using `.d.ts` file extension will exclude it from the output build */
 export type Alignment = "start" | "center" | "end";
-export type Appearance = "outline" | "outline-fill" | "solid" | "transparent";
+export type Appearance = "solid" | "outline" | "outline-fill" | "transparent";
 export type Columns = 1 | 2 | 3 | 4 | 5 | 6;
 export type FlipContext = "both" | "start" | "end";
 export type Kind = "brand" | "danger" | "info" | "inverse" | "neutral" | "warning" | "success";
@@ -21,3 +21,5 @@ export type SelectionMode =
 export type Scale = "s" | "m" | "l";
 export type Status = "invalid" | "valid" | "idle";
 export type Width = "auto" | "half" | "full";
+export type ArrowType = "inline" | "edge" | "none";
+export type DisplayMode = "dock" | "float" | "overlay";

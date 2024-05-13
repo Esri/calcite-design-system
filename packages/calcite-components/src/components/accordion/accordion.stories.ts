@@ -3,9 +3,9 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-const { scale } = ATTRIBUTES;
+const { scale, appearance, selectionMode } = ATTRIBUTES;
 
-interface Args {
+interface AccordionArgs {
   scale: string;
   appearance: string;
   selectionMode: string;
@@ -19,8 +19,8 @@ export default {
   title: "Components/Accordion",
   args: {
     scale: scale.defaultValue,
-    appearance: "solid",
-    selectionMode: "multiple",
+    appearance: appearance.defaultValue,
+    selectionMode: selectionMode.defaultValue,
     heading: "Heading",
     description: "Description for item",
     iconStart: "",
@@ -32,11 +32,13 @@ export default {
       control: { type: "select" },
     },
     appearance: {
-      options: ["solid", "transparent"],
+      options: appearance.values.filter((option) => option !== "outline" && option !== "outline-fill"),
       control: { type: "select" },
     },
     selectionMode: {
-      options: ["single", "single-persist", "multiple"],
+      options: selectionMode.values.filter(
+        (option) => option !== "none" && option !== "children" && option !== "multichildren" && option !== "ancestors",
+      ),
       control: { type: "select" },
     },
     iconStart: {
@@ -60,7 +62,7 @@ const accordionItemContent = `Custom content here<br/><img src="${placeholderIma
   height: 133,
 })}"><br/>More custom content here`;
 
-export const simple = (args: Args): string => html`
+export const simple = (args: AccordionArgs): string => html`
   <calcite-accordion scale="${args.scale}" appearance="${args.appearance}" selection-mode="${args.selectionMode}">
     <calcite-accordion-item
       heading="${args.heading}"

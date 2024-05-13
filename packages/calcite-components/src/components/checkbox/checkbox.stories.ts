@@ -3,7 +3,10 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale, status } = ATTRIBUTES;
 
-interface Args {
+interface CheckboxArgs {
+  checked: boolean;
+  disabled: boolean;
+  indeterminate: boolean;
   scale: string;
   status: string;
   label: string;
@@ -12,9 +15,12 @@ interface Args {
 export default {
   title: "Components/Controls/Checkbox",
   args: {
-    label: "Checkbox",
+    checked: true,
+    disabled: false,
+    indeterminate: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
+    label: "Checkbox",
   },
   argTypes: {
     scale: {
@@ -28,9 +34,15 @@ export default {
   },
 };
 
-export const simple = (args: Args): string => html`
+export const simple = (args: CheckboxArgs): string => html`
   <calcite-label layout="inline">
-    <calcite-checkbox checked scale="${args.scale}" status="${args.status}"></calcite-checkbox>
+    <calcite-checkbox
+      ${args.checked && "checked"}
+      ${args.disabled && "disabled"}
+      ${args.indeterminate && "indeterminate"}
+      scale="${args.scale}"
+      status="${args.status}"
+    ></calcite-checkbox>
     ${args.label}
   </calcite-label>
 `;

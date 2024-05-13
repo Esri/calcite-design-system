@@ -1,26 +1,45 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { arrowType } = ATTRIBUTES;
 
-interface Args {
+interface CarouselArgs {
+  controlOverlay: boolean;
+  disabled: boolean;
+  autoPlayDuration: number;
+  autoPlay: boolean;
+  label: string;
   arrowType: string;
 }
 
 export default {
   title: "Components/Carousel",
   args: {
-    arrowType: "inline",
+    controlOverlay: false,
+    disabled: false,
+    autoPlayDuration: 6000,
+    autoPlay: false,
+    label: "Example carousel label",
+    arrowType: arrowType.defaultValue,
   },
   argTypes: {
     arrowType: {
-      options: ["inline", "edge", "none"],
+      options: arrowType.values,
       control: { type: "select" },
     },
   },
 };
 
-export const simple = (args: Args): string =>
+export const simple = (args: CarouselArgs): string =>
   html` <div style="width:600px;height:400px;">
-    <calcite-carousel 6000="" label="" arrow-type="${args.arrowType}">
+    <calcite-carousel
+      control-overlay="${args.controlOverlay}"
+      ${args.disabled && "disabled"}
+      autoplay-duration="${args.autoPlayDuration}"
+      ${args.autoPlay && "autoplay"}
+      label="${args.label}"
+      arrow-type="${args.arrowType}"
+    >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
           <span slot="title">Some kind of carousel item content</span>

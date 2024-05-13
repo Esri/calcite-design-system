@@ -3,7 +3,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale } = ATTRIBUTES;
 
-interface Args {
+interface AvatarArgs {
   scale: string;
   fullName: string;
   label: string;
@@ -30,7 +30,7 @@ export default {
   },
 };
 
-export const simple = (args: Args): string => html`
+export const simple = (args: AvatarArgs): string => html`
   <calcite-avatar
     scale="${args.scale}"
     full-name="${args.fullName}"

@@ -1,83 +1,59 @@
-import { boolean, select } from "../../../.storybook/fake-knobs";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import { ATTRIBUTES } from "../../../.storybook/resources";
-import {
-  Attributes,
-  createComponentHTML as create,
-  filterComponentAttributes,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { displayMode, position, scale } = ATTRIBUTES;
+
+interface ShellArgs {
+  collapsed: boolean;
+  displayMode: string;
+  leadingPanelPosition: string;
+  trailingPanelPosition: string;
+  resizable: boolean;
+  detached: boolean;
+  heightScale: string;
+  shellCenterRowPosition: string;
+}
 
 export default {
   title: "Components/Shell",
+  args: {
+    collapsed: false,
+    displayMode: displayMode.defaultValue,
+    leadingPanelPosition: position.values[0],
+    trailingPanelPosition: position.values[1],
+    resizable: true,
+    detached: false,
+    heightScale: scale.values[0],
+    shellCenterRowPosition: position.values[1],
+  },
+  argTypes: {
+    displayMode: {
+      options: displayMode.values,
+      control: { type: "select" },
+    },
+    leadingPanelPosition: {
+      options: position.values,
+      control: { type: "select" },
+    },
+    trailingPanelPosition: {
+      options: position.values,
+      control: { type: "select" },
+    },
+    heightScale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    shellCenterRowPosition: {
+      options: position.values,
+      control: { type: "select" },
+    },
+  },
   parameters: {
     chromatic: {
       delay: 1000,
     },
   },
-};
-
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  return filterComponentAttributes([], exceptions);
-};
-
-const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", resizable?: boolean) => Attributes = (
-  group,
-  resizable = false,
-) => {
-  const { position } = ATTRIBUTES;
-
-  return [
-    {
-      name: "slot",
-      value: group === "Leading Panel" ? "panel-start" : "panel-end",
-    },
-    {
-      name: "collapsed",
-      value: boolean("collapsed", false, group, "prop"),
-    },
-    {
-      name: "displayMode",
-      value: select("displayMode", ["dock", "float", "overlay"], "dock"),
-    },
-    {
-      name: "position",
-      value: select(
-        "position",
-        position.values,
-        group === "Leading Panel" ? position.values[0] : position.values[1],
-        group,
-      ),
-    },
-    {
-      name: "resizable",
-      value: boolean("resizable", resizable, group, "prop"),
-    },
-  ];
-};
-
-const createShellCenterRowAttributes: (group: string) => Attributes = (group) => {
-  const { position, scale } = ATTRIBUTES;
-
-  return [
-    {
-      name: "detached",
-      value: boolean("detached", false, group, "prop"),
-    },
-    {
-      name: "height-scale",
-      value: select("heightScale", scale.values, scale.values[0], group),
-    },
-    {
-      name: "position",
-      value: select("position", position.values, position.values[1], group),
-    },
-    {
-      name: "slot",
-      value: "center-row",
-    },
-  ];
 };
 
 const actionBarStartContentHTML = html`
@@ -319,36 +295,58 @@ const advancedTrailingPanelHTMl = html(`
   </calcite-flow>
 `);
 
-export const simple = (): string =>
-  create(
-    "calcite-shell",
-    createAttributes(),
-    html`
-      ${headerHTML}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel", true), advancedLeadingPanelHTML)}
-      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
-      ${centerRowAdvancedHTML}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel", true), advancedTrailingPanelHTMl)}
-      ${footerHTML}
-    `,
-  );
+export const simple = (args: ShellArgs): string => html`
+  <calcite-shell>
+    ${headerHTML}
+    <calcite-shell-panel
+      slot="panel-start"
+      collapsed="${args.collapsed}"
+      displayMode="${args.displayMode}"
+      position="${args.leadingPanelPosition}"
+      resizable="${args.resizable}"
+    >
+      ${advancedLeadingPanelHTML}
+    </calcite-shell-panel>
+    ${contentHTML}
+    <calcite-shell-center-row
+      detached="${args.detached}"
+      height-scale="${args.heightScale}"
+      position="${args.shellCenterRowPosition}"
+      slot="center-row"
+    >
+      ${centerRowHTML}
+    </calcite-shell-center-row>
+    ${centerRowAdvancedHTML}
+    <calcite-shell-panel
+      slot="panel-end"
+      collapsed="${args.collapsed}"
+      displayMode="${args.displayMode}"
+      position="${args.trailingPanelPosition}"
+      resizable="${args.resizable}"
+    >
+      ${advancedTrailingPanelHTMl}
+    </calcite-shell-panel>
+    ${footerHTML}
+  </calcite-shell>
+`;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create(
-    "calcite-shell",
-    createAttributes({ exceptions: ["dir", "class"] }).concat(
-      { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-mode-dark" },
-    ),
-    html`
-      ${headerHTML}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}
-      ${contentHTML} ${create("calcite-shell-center-row", createShellCenterRowAttributes("Center Row"), centerRowHTML)}
-      ${contentHTML} ${centerRowAdvancedHTML}
-      ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), advancedTrailingPanelHTMl)}
-      ${footerHTML}
-    `,
-  );
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-shell dir="rtl" class="calcite-mode-dark">
+    ${headerHTML}
+    <calcite-shell-panel slot="panel-start" displayMode="dock" position="start">
+      ${advancedLeadingPanelHTML}
+    </calcite-shell-panel>
+    ${contentHTML}
+    <calcite-shell-center-row height-scale="s" position="end" slot="center-row">
+      ${centerRowHTML}
+    </calcite-shell-center-row>
+    ${contentHTML} ${centerRowAdvancedHTML}
+    <calcite-shell-panel slot="panel-end" displayMode="dock" position="end">
+      ${advancedTrailingPanelHTMl}
+    </calcite-shell-panel>
+    ${footerHTML}
+  </calcite-shell>
+`;
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
@@ -915,8 +913,26 @@ export const slottedPanelTopAndBottomAndSides = (): string =>
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
     <div class="gnav" slot="header">Header Example</div>
-    ${create("calcite-shell-panel", createShellPanelAttributes("Leading Panel"), advancedLeadingPanelHTML)}
-    ${create("calcite-shell-panel", createShellPanelAttributes("Trailing Panel"), advancedTrailingPanelHTMl)}
+    <calcite-shell-panel
+      slot="panel-start"
+      displayMode="dock"
+      position="start"
+      display-mode="dock"
+      width-scale="m"
+      layout="vertical"
+    >
+      ${advancedLeadingPanelHTML}
+    </calcite-shell-panel>
+    <calcite-shell-panel
+      slot="panel-end"
+      displayMode="dock"
+      position="end"
+      display-mode="dock"
+      width-scale="m"
+      layout="vertical"
+    >
+      ${advancedTrailingPanelHTMl}
+    </calcite-shell-panel>
     <calcite-shell-center-row slot="panel-top">${centerRowHTML}</calcite-shell-center-row>
     <calcite-shell-center-row slot="panel-bottom">${centerRowHTML}</calcite-shell-center-row>
     <footer slot="footer">Footer Example</footer>
