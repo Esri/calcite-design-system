@@ -1,4 +1,5 @@
 import { FunctionalComponent, h } from "@stencil/core";
+import { JSXBase } from "@stencil/core/internal";
 import { getElementDir } from "../../utils/dom";
 import { queryActions } from "../action-bar/utils";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
@@ -62,7 +63,7 @@ const setTooltipReference = ({
   return referenceElement;
 };
 
-export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
+export const ExpandToggle: FunctionalComponent<ExpandToggleProps & JSXBase.HTMLAttributes> = ({
   expanded,
   expandText,
   collapseText,

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders, slots, t9n, defaults } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, slots, t9n, defaults, themed } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action", () => {
@@ -204,5 +204,66 @@ describe("calcite-action", () => {
     expect(liveRegion.getAttribute("aria-live")).toBe("polite");
     expect(liveRegion.getAttribute("role")).toBe("region");
     expect(liveRegion.textContent).toBe("Indicator present");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens = {
+        "--calcite-action-background-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-action-text-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "color",
+        },
+        "--calcite-action-shadow": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-action-icon-color": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-action-indicator-color": {
+          shadowSelector: `.${CSS.actionIndicator}`,
+          targetProp: "color",
+        },
+      } as const;
+      themed(
+        `<calcite-action
+          scale="s"
+          indicator
+          active
+          text="click-me"
+          label="hello world"
+          text-enabled
+          icon="configure-popup"
+        ></calcite-action>`,
+        tokens,
+      );
+    });
+    describe("loading", () => {
+      const tokens = {
+        "--calcite-action-loader-color": {
+          shadowSelector: "calcite-loader",
+          targetProp: "--calcite-loader-color-start",
+        },
+      } as const;
+
+      themed(
+        `<calcite-action
+            scale="s"
+            indicator
+            active
+            text="click-me"
+            label="hello world"
+            text-enabled
+            icon="configure-popup"
+            loading
+          ></calcite-action>`,
+        tokens,
+      );
+    });
   });
 });

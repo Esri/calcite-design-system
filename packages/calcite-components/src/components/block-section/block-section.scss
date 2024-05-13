@@ -1,14 +1,36 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-block-section-background-color: Specifies the background color of the component.
+ * @prop --calcite-block-section-border-color: Specifies the border color of the component. Applicable on bottom border when open.
+ * @prop --calcite-block-section-heading-text-color-hover: Specifies the component's heading text color on hover.
+ * @prop --calcite-block-section-heading-text-color: Specifies the component's heading text color.
+ * @prop --calcite-block-section-status-icon-color: Specifies the status icon color of the component.
+ * @prop --calcite-block-section-switch-corner-radius: Specifies the border radius of the switch.
+ * @prop --calcite-block-section-switch-handle-background-color: Specifies the background color of the switch handle.
+ * @prop --calcite-block-section-switch-handle-border-color-hover: Specifies the border color of the switch handle on hover.
+ * @prop --calcite-block-section-switch-handle-border-color: Specifies the border color of the switch handle.
+ * @prop --calcite-block-section-switch-track-background-color-checked: Specifies the background color of the switch track when checked.
+ * @prop --calcite-block-section-switch-track-background-color: Specifies the background color of the switch track.
+ * @prop --calcite-block-section-switch-track-border-color-checked: Specifies the border color of the switch track when checked.
+ * @prop --calcite-block-section-switch-track-border-color: Specifies the border color of the switch track.
+ * @prop --calcite-block-section-toggle-icon-color: Specifies the icon color of the toggle.
+ */
+
 :host {
-  @apply bg-foreground-1
-    text-color-2
-    text-n1
+  @apply block
     box-border
-    block;
+    text-n1;
+
+  background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
 }
 
 :host([open]) {
-  @apply border-b-color-3
-    border-0
+  border-color: var(--calcite-block-section-border-color, var(--calcite-color-border-3));
+
+  @apply border-0
     border-b
     border-solid;
 }
@@ -18,34 +40,55 @@
 }
 
 .toggle {
-  @apply font-sans
-    text-color-2
-    w-full
-    border-0
-    bg-transparent
-    font-medium;
+  @apply border-0
+    font-medium
+    font-sans
+    w-full;
+
+  background-color: var(--calcite-color-transparent);
+
+  calcite-icon {
+    --calcite-icon-color: var(--calcite-block-section-toggle-icon-color);
+  }
+}
+
+.status-icon {
+  --calcite-icon-color: var(
+    --calcite-block-section-status-icon-color,
+    var(--calcite-internal-block-section-icon-color)
+  );
 
   gap: var(--calcite-spacing-md);
 }
 
+.status-icon.valid {
+  --calcite-internal-block-section-icon-color: var(--calcite-color-status-success);
+}
+
+.status-icon.invalid {
+  --calcite-internal-block-section-icon-color: var(--calcite-color-status-danger);
+}
+
 .toggle--switch,
 .section-header {
-  @apply text-n1
+  @apply cursor-pointer
+    flex
     focus-base
+    items-center
     mx-0
     my-1
-    flex
-    cursor-pointer
-    select-none
-    items-center
     px-0
-    py-2;
+    py-2
+    select-none
+    text-n1;
+
+  color: var(--calcite-block-section-heading-text-color, var(--calcite-color-text-2));
 
   &:focus {
     @apply focus-outset;
   }
   &:hover {
-    @apply text-color-1;
+    color: var(--calcite-block-section-heading-text-color, var(--calcite-color-text-1));
   }
 }
 
@@ -63,8 +106,8 @@
   word-wrap: anywhere;
 }
 
-.toggle-container {
-  @apply flex items-center relative bg-transparent;
+.toggle--switch-container {
+  @apply flex items-center relative w-full;
   word-break: break-word;
 
   .toggle--switch__content {
@@ -94,6 +137,14 @@
   @apply flex items-center;
 }
 
+.chevron-icon {
+  @apply flex items-center;
+}
+
+.toggle--switch__content {
+  @apply flex flex-auto items-center;
+}
+
 .status-icon.valid {
   color: theme("colors.success");
 }
@@ -104,6 +155,24 @@
 
 .chevron-icon {
   @apply flex items-center;
+}
+
+calcite-switch {
+  --calcite-switch-corner-radius: var(--calcite-block-section-switch-corner-radius);
+  --calcite-switch-handle-background-color: var(--calcite-block-section-switch-handle-background-color);
+  --calcite-switch-handle-border-color: var(--calcite-block-section-switch-handle-border-color);
+  --calcite-switch-track-background-color: var(--calcite-block-section-switch-track-background-color);
+  --calcite-switch-track-border-color: var(--calcite-block-section-switch-track-border-color);
+
+  &:focus,
+  &:hover {
+    --calcite-switch-handle-border-color: var(--calcite-block-section-switch-handle-border-color-hover);
+  }
+
+  &[checked] {
+    --calcite-switch-track-background-color: var(--calcite-block-section-switch-track-background-color-checked);
+    --calcite-switch-track-border-color: var(--calcite-block-section-switch-track-border-color-checked);
+  }
 }
 
 @include base-component();

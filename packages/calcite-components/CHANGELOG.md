@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.3...@esri/calcite-components@2.9.0-next.4) (2024-05-11)
+
+### Features
+
+- **block-section:** add `icon` property (deprecates `status`) ([#9194](https://github.com/Esri/calcite-design-system/issues/9194)) ([c31bf36](https://github.com/Esri/calcite-design-system/commit/c31bf360d867798824db21adbdfac776ee3b035f)), closes [#8110](https://github.com/Esri/calcite-design-system/issues/8110)
+
 ## [2.9.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.2...@esri/calcite-components@2.9.0-next.3) (2024-05-11)
 
 ### Features

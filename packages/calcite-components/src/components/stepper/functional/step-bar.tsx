@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from "@stencil/core";
 
 interface StepBarProps {
-  active: boolean;
+  selected: boolean;
   complete: boolean;
   error: boolean;
   disabled: boolean;
@@ -10,16 +10,15 @@ interface StepBarProps {
 
 export const CSS = {
   stepBar: "step-bar",
-  stepBarActive: "step-bar--active",
+  stepBarActive: "step-bar--selected",
   stepBarComplete: "step-bar--complete",
   stepBarDisabled: "step-bar--disabled",
   stepBarError: "step-bar--error",
-  stepBarInActive: "step-bar--inactive",
 };
 
 export const StepBar: FunctionalComponent<StepBarProps> = ({
   disabled,
-  active,
+  selected,
   complete,
   error,
   key,
@@ -32,11 +31,10 @@ export const StepBar: FunctionalComponent<StepBarProps> = ({
   >
     <rect
       class={{
-        [CSS.stepBarActive]: active,
+        [CSS.stepBarActive]: selected,
         [CSS.stepBarComplete]: complete,
         [CSS.stepBarDisabled]: disabled,
         [CSS.stepBarError]: error,
-        [CSS.stepBarInActive]: true,
       }}
       width="100%"
       x="0"

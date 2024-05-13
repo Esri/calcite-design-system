@@ -255,12 +255,14 @@ export class Action
       <calcite-loader inline label={this.messages.loading} scale={loaderScale} />
     ) : null;
     const calciteIconNode = icon ? (
-      <calcite-icon
-        class={{ [CSS.indicatorWithIcon]: indicator }}
-        flipRtl={iconFlipRtl}
-        icon={icon}
-        scale={getIconScale(this.scale)}
-      />
+      <div class={{ [CSS.actionIndicator]: indicator }}>
+        <calcite-icon
+          class={CSS.icon}
+          flipRtl={iconFlipRtl}
+          icon={icon}
+          scale={getIconScale(this.scale)}
+        />
+      </div>
     ) : null;
     const iconNode = calciteLoaderNode || calciteIconNode;
     const hasIconToDisplay = iconNode || el.children?.length;
@@ -326,7 +328,12 @@ export class Action
           >
             {this.renderIconContainer()}
             {this.renderTextContainer()}
-            {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
+            {!icon && indicator && (
+              <div
+                class={{ [CSS.indicatorWithoutIcon]: true, [CSS.actionIndicator]: true }}
+                key="indicator-no-icon"
+              />
+            )}
           </button>
           <slot name={SLOTS.tooltip} onSlotchange={this.handleTooltipSlotChange} />
           {this.renderIndicatorText()}

@@ -545,9 +545,9 @@ export class List
             role="treegrid"
           >
             {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
-              <thead class={CSS.sticky}>
-                <tr>
-                  <th colSpan={MAX_COLUMNS}>
+              <thead>
+                <tr class={{ [CSS.sticky]: true }}>
+                  <th class={CSS.tableHeader} colSpan={MAX_COLUMNS}>
                     <calcite-stack class={CSS.stack}>
                       <slot
                         name={SLOTS.filterActionsStart}

@@ -81,6 +81,24 @@
   }
 }
 
+.container--edged {
+  .page-next,
+  .page-previous {
+    @apply h-12 w-12;
+    position: absolute;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+  }
+
+  .page-next {
+    inset-inline-end: 0;
+  }
+
+  .page-previous {
+    inset-inline-start: 0;
+  }
+}
+
 .container--edged:not(.container--overlaid) {
   padding-inline: var(--calcite-internal-internal-carousel-item-space-wide);
   inline-size: calc(100% - var(--calcite-internal-internal-carousel-item-space-wide) * 2);
@@ -127,6 +145,9 @@ calcite-carousel-item:not([selected]) {
 }
 
 .container--overlaid .pagination {
+  inset-block-end: 0;
+  inset-block-start: unset;
+  inset-inline: 0;
   position: absolute;
 }
 
@@ -138,30 +159,6 @@ calcite-carousel-item:not([selected]) {
   }
 }
 
-.container--edged {
-  .page-next,
-  .page-previous {
-    @apply h-12 w-12;
-    position: absolute;
-    inset-block-start: 50%;
-    transform: translateY(-50%);
-  }
-
-  .page-next {
-    inset-inline-end: 0;
-  }
-
-  .page-previous {
-    inset-inline-start: 0;
-  }
-}
-
-.container--overlaid .pagination {
-  inset-block-start: unset;
-  inset-block-end: 0;
-  inset-inline: 0;
-}
-
 .pagination-item.autoplay-control {
   position: relative;
   color: var(--calcite-internal-internal-carousel-control-color);
@@ -169,17 +166,17 @@ calcite-carousel-item:not([selected]) {
   --calcite-color-border-3: var(--calcite-internal-internal-carousel-autoplay-progress-background-color);
 }
 
-.autoplay-control:focus .autoplay-progress {
-  inset-block-end: 4px;
-  inset-inline: 2px;
-  inline-size: calc(100% - 4px);
-}
-
 .autoplay-progress {
   position: absolute;
   inset-block-end: 2px;
   inset-inline: 0;
   inline-size: 100%;
+}
+
+.autoplay-control:focus .autoplay-progress {
+  inset-block-end: 4px;
+  inset-inline: 2px;
+  inline-size: calc(100% - 4px);
 }
 
 .pagination-item {

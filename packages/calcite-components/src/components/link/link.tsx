@@ -93,7 +93,7 @@ export class Link implements InteractiveComponent, LoadableComponent {
     const childElType = this.href ? "a" : "span";
     const iconStartEl = (
       <calcite-icon
-        class="calcite-link--icon icon-start"
+        class="icon-start"
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale="s"
@@ -102,7 +102,7 @@ export class Link implements InteractiveComponent, LoadableComponent {
 
     const iconEndEl = (
       <calcite-icon
-        class="calcite-link--icon icon-end"
+        class="icon-end"
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale="s"

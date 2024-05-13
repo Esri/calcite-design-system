@@ -276,6 +276,7 @@ export class Filter
         <div class={CSS.container}>
           <label>
             <calcite-input
+              class={CSS.input}
               clearable={true}
               disabled={disabled}
               icon={ICONS.search}

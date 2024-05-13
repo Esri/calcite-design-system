@@ -156,8 +156,8 @@ export const themingInteractive = (): string => {
           <calcite-chip kind="brand">Brand</calcite-chip>
         </div>
         <div>
-          <calcite-chip appearance="transparent">Neutral</calcite-chip>
-          <calcite-chip appearance="transparent" kind="inverse">Inverse</calcite-chip>
+          <calcite-chip appearance="outline-fill">Neutral</calcite-chip>
+          <calcite-chip appearance="outline-fill" kind="inverse">Inverse</calcite-chip>
           <calcite-chip appearance="outline-fill" kind="brand">Brand</calcite-chip>
         </div>
         <calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>

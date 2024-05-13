@@ -1,6 +1,7 @@
 export const CSS = {
   container: "container",
   table: "table",
+  tableHeader: "table-header",
   scrim: "scrim",
   stack: "stack",
   tableContainer: "table-container",

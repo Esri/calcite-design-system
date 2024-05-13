@@ -90,7 +90,10 @@ export class ListItemGroup implements InteractiveComponent {
     return (
       <Host>
         <InteractiveContainer disabled={disabled}>
-          <tr class={CSS.container}>
+          <tr
+            class={CSS.container}
+            style={{ "--calcite-internal-list-item-spacing-indent-multiplier": `${visualLevel}` }}
+          >
             <td class={CSS.heading} colSpan={MAX_COLUMNS}>
               {heading}
             </td>

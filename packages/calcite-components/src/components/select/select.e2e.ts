@@ -1,14 +1,14 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import {
   accessible,
-  disabled,
   defaults,
+  disabled,
   focusable,
   formAssociated,
+  hidden,
   labelable,
   reflects,
   renders,
-  hidden,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -400,6 +400,19 @@ describe("calcite-select", () => {
 
     expect(selectedOptionId).toBe("2");
     expect(await (await page.find("calcite-select")).getProperty("value")).toBe("");
+  });
+
+  it("selects initial value", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-select value="">
+        <calcite-option value="uno">One</calcite-option>
+        <calcite-option value="dos">Two</calcite-option>
+        <calcite-option value="">Three</calcite-option>
+      </calcite-select>
+    `);
+
+    await assertSelectedOption(page, await page.find("calcite-option[value='']"));
   });
 
   describe("is form-associated", () => {
