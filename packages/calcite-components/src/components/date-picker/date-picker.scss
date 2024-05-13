@@ -21,38 +21,33 @@
 }
 
 :host([scale="s"][range]) {
-  inline-size: 480px;
+  inline-size: 476px;
   min-inline-size: 432px;
   max-inline-size: 772px;
 }
 
 :host([scale="m"]) {
-  inline-size: 304px;
+  inline-size: 296px;
   min-inline-size: 272px;
   max-inline-size: 480px;
 }
 
 :host([scale="m"][range]) {
-  inline-size: 620px;
+  inline-size: 604px;
   min-inline-size: 544px;
   max-inline-size: 972px;
 }
 
 :host([scale="l"]) {
-  inline-size: 370px;
+  inline-size: 332px;
   min-inline-size: 320px;
   max-inline-size: 600px;
 }
 
 :host([scale="l"][range]) {
-  inline-size: 752px;
+  inline-size: 680px;
   min-inline-size: 640px;
   max-inline-size: 1212px;
-}
-
-.container {
-  display: flex;
-  inline-size: 100%;
 }
 
 @include base-component();

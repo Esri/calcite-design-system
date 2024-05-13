@@ -2,6 +2,8 @@
   @apply block;
   --calcite-select-internal-border-width: 0px;
   --calcite-select-internal-icon-border-inline-end-width: 0px;
+  --calcite-select-font-size: var(--calcite-ui-font-size-0);
+  --calcite-select-font-weight: 500;
 }
 
 :host([scale="s"]) {
@@ -24,7 +26,7 @@
 
 .header {
   @apply flex justify-between;
-  @apply py-0 px-1;
+  @apply py-0;
 }
 
 :host([scale="s"]) {
@@ -48,6 +50,14 @@
 .chevron-container {
   display: flex;
   inline-size: 80px;
+}
+
+.chevron-container--left {
+  padding-inline-end: 4px;
+}
+
+.chevron-container--right {
+  padding-inline-start: 4px;
 }
 
 .chevron {

@@ -8,42 +8,6 @@
   gap: 12px;
 }
 
-:host([scale="s"]) .calendar {
-  inline-size: 234px;
-  min-inline-size: 216px;
-  max-inline-size: 380px;
-}
-
-:host([scale="m"]) .calendar {
-  inline-size: 304px;
-  min-inline-size: 272px;
-  max-inline-size: 480px;
-}
-
-:host([scale="l"]) .calendar {
-  inline-size: 370px;
-  min-inline-size: 320px;
-  max-inline-size: 600px;
-}
-
-:host([scale="s"][range]) .calendar {
-  inline-size: 480px;
-  min-inline-size: 432px;
-  max-inline-size: 772px;
-}
-
-:host([scale="m"][range]) .calendar {
-  inline-size: 620px;
-  min-inline-size: 544px;
-  max-inline-size: 972px;
-}
-
-:host([scale="l"][range]) .calendar {
-  inline-size: 752px;
-  min-inline-size: 640px;
-  max-inline-size: 1212px;
-}
-
 .week-headers {
   @apply border-color-3
     flex
@@ -86,12 +50,20 @@
   @apply text-n1h pt-4 pb-5;
 }
 
+:host([scale="s"]) .week-days {
+  padding-inline: 6px;
+}
+
+:host([scale="l"]) .week-days {
+  padding-inline: 12px;
+}
+
 .week-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-auto-rows: 1fr;
   padding-block: 0;
-  padding-inline: 6px;
+  padding-inline: 8px;
   &:focus {
     @apply outline-none;
   }

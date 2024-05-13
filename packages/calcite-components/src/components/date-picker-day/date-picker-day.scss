@@ -1,34 +1,31 @@
 :host {
   @apply cursor-pointer flex relative text-color-3;
+  outline: none;
 }
 
 @include disabled();
-
-.day-v-wrapper {
-  @apply flex-auto;
-}
 
 .day-wrapper {
   @apply flex
     flex-col
     items-center
-    relative;
+    justify-center
+    relative
+    w-full;
 }
 
 .day {
   @apply text-n2h
     text-color-3
     flex
-    focus-base
     items-center
     justify-center
     leading-none
     transition-default
-    z-default;
+    w-full;
   background: none;
-  box-shadow: 0 0 0 2px transparent;
   block-size: var(--calcite-internal-day-size);
-  inline-size: var(--calcite-internal-day-size);
+  outline-color: transparent;
 }
 
 .text {
@@ -39,9 +36,6 @@
 :host([scale="s"]) {
   --calcite-internal-day-size: 27px;
 
-  .day-v-wrapper {
-    // @apply py-0.5;
-  }
   .day-wrapper {
     @apply p-0;
   }
@@ -53,9 +47,6 @@
 :host([scale="m"]) {
   --calcite-internal-day-size: 40px;
 
-  .day-v-wrapper {
-    // @apply py-1;
-  }
   .day-wrapper {
     @apply p-0;
   }
@@ -67,9 +58,6 @@
 :host([scale="l"]) {
   --calcite-internal-day-size: 43px;
 
-  .day-v-wrapper {
-    // @apply py-1;
-  }
   .day-wrapper {
     @apply px-1;
   }
@@ -89,27 +77,14 @@
   }
 }
 
-:host(:focus),
-:host([active]) {
-  @apply outline-none;
-}
-
 :host(:focus:not([disabled])) .day {
-  @apply focus-outset;
+  @apply focus-inset;
 }
 
 :host([selected]) .day {
   @apply font-medium;
   background-color: var(--calcite-color-brand);
   color: var(--calcite-color-foreground-1);
-}
-
-:host(:focus:not([disabled])),
-:host([start-of-range]:not(:focus)),
-:host([end-of-range]:not(:focus)) {
-  .day {
-    box-shadow: 0 0 0 2px var(--calcite-color-foreground-1);
-  }
 }
 
 :host([range-hover]:not([selected])),

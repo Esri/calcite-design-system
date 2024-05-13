@@ -297,9 +297,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
     return (
       <Host onKeyDown={this.keyDownHandler}>
-        <div class="container">
-          {this.renderCalendar(startCalendarActiveDate, this.maxAsDate, minDate, date, endDate)}
-        </div>
+        {this.renderCalendar(startCalendarActiveDate, this.maxAsDate, minDate, date, endDate)}
       </Host>
     );
   }

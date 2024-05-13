@@ -142,17 +142,21 @@ export class DatePickerMonthHeader {
 
     return (
       <Fragment>
-        {this.position === "start" && (
-          <div class="chevron-container">{this.renderChevron("left")}</div>
-        )}
+        <div class={{ [CSS.chevronContainer]: true, [CSS.chevronContainerLeft]: true }}>
+          {this.position === "start" && this.renderChevron("left")}
+        </div>
         <div class={{ text: true, [CSS.textReverse]: reverse }}>
           {this.renderMonthPicker(months, activeMonth)}
           {this.renderYearPicker()}
         </div>
-        {!this.position && <div class="chevron-container">{this.renderChevron("left")}</div>}
-        {this.position !== "start" && (
-          <div class="chevron-container">{this.renderChevron("right")}</div>
+        {!this.position && (
+          <div class={{ [CSS.chevronContainer]: true, [CSS.chevronContainerLeft]: true }}>
+            {this.renderChevron("left")}
+          </div>
         )}
+        <div class={{ [CSS.chevronContainer]: true, [CSS.chevronContainerRight]: true }}>
+          {this.position !== "start" && this.renderChevron("right")}
+        </div>
       </Fragment>
     );
   }
@@ -219,7 +223,7 @@ export class DatePickerMonthHeader {
 
   private getYearList(): void {
     this.yearList = [];
-    for (let i = this.min?.getFullYear() || 1900; i <= (this.max?.getFullYear() || 2100); i++) {
+    for (let i = this.min?.getFullYear() || 1950; i <= (this.max?.getFullYear() || 2050); i++) {
       this.yearList.push(i);
     }
   }

@@ -96,7 +96,7 @@
   font-size: var(--calcite-select-font-size);
   padding-inline: var(--calcite-select-spacing-inline);
   border-inline-end-width: theme("borderWidth.0");
-
+  font-weight: var(--calcite-select-font-weight, 400);
   &:focus {
     @apply focus-inset;
   }
@@ -115,7 +115,6 @@ select:disabled {
   .icon {
     color: var(--calcite-color-text-3);
   }
-
 }
 
 :host([status="invalid"]) {
