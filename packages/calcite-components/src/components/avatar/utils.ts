@@ -5,12 +5,15 @@ import { hexToRGB } from "../color-picker/utils";
  * Convert a string to a valid hex by hashing its contents
  * and using the hash as a seed for three distinct color values
  *
- * @param str
+ * @param string
  */
-export function stringToHex(str: string): string {
+export function stringToHex(string: string): string {
+  // improve random color generation for similar strings.
+  string = mixStringDeterministically(string);
+
   let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  for (let i = 0; i < string.length; i++) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
   }
 
   let hex = "#";
@@ -19,6 +22,18 @@ export function stringToHex(str: string): string {
     hex += ("00" + value.toString(16)).substr(-2);
   }
   return hex;
+}
+
+/**
+ * The function splits the string into two halves, reverses each half, and then concatenates them.
+ *
+ * @param {string} string - The input string to be mixed.
+ * @returns {string} - The mixed string.
+ */
+function mixStringDeterministically(string: string): string {
+  const midPoint = Math.floor(string.length / 2);
+  const reversed = string.split("").reverse().join("");
+  return reversed.substring(midPoint) + reversed.slice(0, midPoint);
 }
 
 /**
