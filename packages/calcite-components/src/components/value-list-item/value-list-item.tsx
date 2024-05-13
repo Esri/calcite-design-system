@@ -274,10 +274,9 @@ export class ValueListItem
           data-js-handle
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
+          ref={(el) => (this.handleEl = el as HTMLSpanElement)}
           role="button"
           tabindex="0"
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.handleEl = el as HTMLSpanElement)}
         >
           <calcite-icon flipRtl={iconFlipRtl} icon={ICONS.drag} scale="s" />
         </span>
@@ -298,11 +297,10 @@ export class ValueListItem
             metadata={this.metadata}
             nonInteractive={this.nonInteractive}
             onCalciteListItemChange={this.handleSelectChange}
+            ref={this.getPickListRef}
             removable={this.removable}
             selected={this.selected}
             value={this.value}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.getPickListRef}
           >
             {this.renderActionsStart()}
             {this.renderActionsEnd()}

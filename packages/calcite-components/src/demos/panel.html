@@ -61,11 +61,11 @@
         </div>
       </div>
 
-      <!-- with action bar -->
+      <!-- with action bar and content top-->
       <div class="parent">
-        <div class="child right-aligned-text">Slotted Action Bar</div>
+        <div class="child right-aligned-text">Slotted Action Bar + Slotted Content Top</div>
         <div class="child">
-          <div style="height: 200px; display: flex">
+          <div style="height: 300px; width: 400px; display: flex">
             <calcite-panel height-scale="s">
               <calcite-action-bar slot="action-bar">
                 <calcite-action-group>
@@ -74,6 +74,7 @@
                   <calcite-action text="Layers" icon="layers"> </calcite-action>
                 </calcite-action-group>
               </calcite-action-bar>
+              <div slot="content-top">Slot for a content-top.</div>
               <div slot="header-content">Header!</div>
               <p>Slotted content!</p>
               <p style="height: 400px">Hello world!</p>
@@ -126,13 +127,19 @@
 
       <!-- footer -->
       <div class="parent">
-        <div class="child right-aligned-text">footer</div>
+        <div class="child right-aligned-text">footer and content bottom</div>
         <div class="child">
-          <calcite-panel>
-            <div slot="header-content">header-content slot</div>
-            <p>I have a footer.</p>
-            <div slot="footer">panel Footer</div>
-          </calcite-panel>
+          <div style="height: 200px; display: flex">
+            <calcite-panel>
+              <div slot="header-content">header-content slot</div>
+              <p>Slotted content!</p>
+              <p>Hello world!</p>
+              <p>Hello world!</p>
+              <p>Hello world!</p>
+              <div slot="content-bottom">Slot for a content-bottom.</div>
+              <div slot="footer">panel Footer</div>
+            </calcite-panel>
+          </div>
         </div>
       </div>
 

@@ -55,22 +55,6 @@ export interface OpenCloseComponent {
   onClose: () => void;
 }
 
-const componentToTransitionListeners = new WeakMap<
-  OpenCloseComponent,
-  [HTMLElement, typeof transitionStart, typeof transitionEnd]
->();
-
-function transitionStart(this: OpenCloseComponent, event: TransitionEvent): void {
-  if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
-    isOpen(this) ? this.onBeforeOpen() : this.onBeforeClose();
-  }
-}
-function transitionEnd(this: OpenCloseComponent, event: TransitionEvent): void {
-  if (event.propertyName === this.openTransitionProp && event.target === this.transitionEl) {
-    isOpen(this) ? this.onOpen() : this.onClose();
-  }
-}
-
 function isOpen(component: OpenCloseComponent): boolean {
   return "opened" in component ? component.opened : component.open;
 }
@@ -157,45 +141,4 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
       }
     }
   });
-}
-
-/**
- * Helper to keep track of transition listeners on setTransitionEl and connectedCallback on OpenCloseComponent components.
- *
- * For component which do not have open prop, use `onToggleOpenCloseComponent` implementation.
- *
- * @param component
- * @deprecated Call `onToggleOpenClose` in `componentWillLoad` and `open` property watchers instead.
- */
-export function connectOpenCloseComponent(component: OpenCloseComponent): void {
-  disconnectOpenCloseComponent(component);
-  if (component.transitionEl) {
-    const boundOnTransitionStart: (event: TransitionEvent) => void = transitionStart.bind(component);
-    const boundOnTransitionEnd: (event: TransitionEvent) => void = transitionEnd.bind(component);
-
-    componentToTransitionListeners.set(component, [
-      component.transitionEl,
-      boundOnTransitionStart,
-      boundOnTransitionEnd,
-    ]);
-
-    component.transitionEl.addEventListener("transitionstart", boundOnTransitionStart);
-    component.transitionEl.addEventListener("transitionend", boundOnTransitionEnd);
-  }
-}
-/**
- * Helper to tear down transition listeners on disconnectedCallback on OpenCloseComponent components.
- *
- * @param component
- * @deprecated Call `onToggleOpenClose` in `componentWillLoad` and `open` property watchers instead.
- */
-export function disconnectOpenCloseComponent(component: OpenCloseComponent): void {
-  if (!componentToTransitionListeners.has(component)) {
-    return;
-  }
-  const [transitionEl, start, end] = componentToTransitionListeners.get(component);
-  transitionEl.removeEventListener("transitionstart", start);
-  transitionEl.removeEventListener("transitionend", end);
-
-  componentToTransitionListeners.delete(component);
 }
