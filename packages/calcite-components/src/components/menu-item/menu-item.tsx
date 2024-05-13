@@ -403,9 +403,8 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
         key={CSS.dropdownAction}
         onClick={this.clickHandler}
         onKeyDown={this.keyDownHandler}
-        text={this.messages.open}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.dropdownActionEl = el)}
+        text={this.messages.open}
       />
     );
   }
@@ -477,12 +476,11 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
               href={this.href}
               onClick={this.clickHandler}
               onKeyDown={this.keyDownHandler}
+              ref={(el) => (this.anchorEl = el)}
               rel={this.rel}
               role="menuitem"
               tabIndex={this.isTopLevelItem ? 0 : -1}
               target={this.target}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={(el) => (this.anchorEl = el)}
             >
               {this.renderItemContent(dir)}
             </a>

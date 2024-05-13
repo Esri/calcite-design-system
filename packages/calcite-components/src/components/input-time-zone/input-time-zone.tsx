@@ -476,13 +476,12 @@ export class InputTimeZone
               this.mode === "name" ? this.messages.namePlaceholder : this.messages.offsetPlaceholder
             }
             readOnly={this.readOnly}
+            ref={this.setComboboxRef}
             scale={this.scale}
             selectionMode={this.clearable ? "single" : "single-persist"}
             status={this.status}
             validation-icon={this.validationIcon}
             validation-message={this.validationMessage}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setComboboxRef}
           >
             {this.timeZoneItems.map((group) => {
               const selected = this.selectedTimeZoneItem === group;
