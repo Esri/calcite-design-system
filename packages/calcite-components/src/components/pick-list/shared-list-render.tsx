@@ -46,12 +46,7 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
       <InteractiveContainer disabled={disabled}>
         <section>
           {dragEnabled ? (
-            <span
-              aria-live="assertive"
-              class="assistive-text"
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={storeAssistiveEl}
-            />
+            <span aria-live="assertive" class="assistive-text" ref={storeAssistiveEl} />
           ) : null}
           <header class={{ [CSS.sticky]: true }}>
             {filterEnabled ? (
@@ -61,9 +56,8 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes> = (
                 items={dataForFilter}
                 onCalciteFilterChange={handleFilterEvent}
                 placeholder={filterPlaceholder}
-                value={filterText}
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={setFilterEl}
+                value={filterText}
               />
             ) : null}
             <slot name={SLOTS.menuActions} />

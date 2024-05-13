@@ -29,10 +29,9 @@ export function XButton({
       disabled={disabled}
       key={key}
       onClick={onClick}
+      ref={ref}
       tabIndex={-1}
       type="button"
-      // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-      ref={ref}
     >
       <calcite-icon icon="x" scale={getIconScale(scale)} />
     </button>

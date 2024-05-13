@@ -560,7 +560,6 @@ export class InputDatePicker
                 data-position="start"
                 onClick={this.onInputWrapperClick}
                 onPointerDown={this.onInputWrapperPointerDown}
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={this.setStartWrapper}
               >
                 <calcite-input-text
@@ -580,11 +579,10 @@ export class InputDatePicker
                   onCalciteInternalInputTextFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
+                  ref={this.setStartInput}
                   role="combobox"
                   scale={this.scale}
                   status={this.status}
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                  ref={this.setStartInput}
                 />
                 {!this.readOnly &&
                   this.renderToggleIcon(this.open && this.focusedInput === "start")}
@@ -602,9 +600,8 @@ export class InputDatePicker
                   [CSS.menuActive]: this.open,
                 }}
                 id={this.dialogId}
-                role="dialog"
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={this.setFloatingEl}
+                role="dialog"
               >
                 <div
                   class={{
@@ -613,7 +610,6 @@ export class InputDatePicker
                     [FloatingCSS.animation]: true,
                     [FloatingCSS.animationActive]: this.open,
                   }}
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                   ref={this.setTransitionEl}
                 >
                   <calcite-date-picker
@@ -630,11 +626,10 @@ export class InputDatePicker
                     onCalciteDatePickerRangeChange={this.handleDateRangeChange}
                     proximitySelectionDisabled={this.proximitySelectionDisabled}
                     range={this.range}
+                    ref={this.setDatePickerRef}
                     scale={this.scale}
                     tabIndex={this.open ? undefined : -1}
                     valueAsDate={this.valueAsDate}
-                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                    ref={this.setDatePickerRef}
                   />
                 </div>
               </div>
@@ -659,7 +654,6 @@ export class InputDatePicker
                   data-position="end"
                   onClick={this.onInputWrapperClick}
                   onPointerDown={this.onInputWrapperPointerDown}
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                   ref={this.setEndWrapper}
                 >
                   <calcite-input-text
@@ -678,11 +672,10 @@ export class InputDatePicker
                     onCalciteInternalInputTextFocus={this.endInputFocus}
                     placeholder={this.localeData?.placeholder}
                     readOnly={readOnly}
+                    ref={this.setEndInput}
                     role="combobox"
                     scale={this.scale}
                     status={this.status}
-                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                    ref={this.setEndInput}
                   />
                   {!this.readOnly &&
                     this.renderToggleIcon(this.open && this.focusedInput === "end")}
