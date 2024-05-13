@@ -24,6 +24,7 @@ import { TipManagerMessages } from "./assets/tip-manager/t9n";
 import { CSS, ICONS } from "./resources";
 
 /**
+ * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
  * @slot - A slot for adding `calcite-tip`s.
  */
 @Component({
