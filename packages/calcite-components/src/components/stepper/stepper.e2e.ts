@@ -501,12 +501,13 @@ describe("calcite-stepper", () => {
     });
   });
 
-  describe("should emit calciteStepperItemChange on user interaction", () => {
+  describe("should emit calciteStepperChange/calciteStepperItemChange on user interaction", () => {
     let layout: HTMLCalciteStepperElement["layout"];
 
     async function assertEmitting(page: E2EPage, hasContent: boolean): Promise<void> {
       const element = await page.find("calcite-stepper");
-      const eventSpy = await element.spyOnEvent("calciteStepperItemChange");
+      const itemChangeSpy = await element.spyOnEvent("calciteStepperItemChange");
+      const changeSpy = await element.spyOnEvent("calciteStepperChange");
       const firstItem = await page.find("#step-1");
 
       const getSelectedItemId = async (): Promise<string> => {
@@ -520,10 +521,12 @@ describe("calcite-stepper", () => {
       // non user interaction
       firstItem.setProperty("selected", true);
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
 
       await page.$eval("#step-2", itemClicker);
-      expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(++expectedEvents);
+      expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
       expect(await getSelectedItemId()).toBe("step-2");
 
       if (hasContent) {
@@ -532,29 +535,35 @@ describe("calcite-stepper", () => {
         );
 
         if (layout === "vertical") {
-          expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
+          expect(itemChangeSpy).toHaveReceivedEventTimes(++expectedEvents);
+          expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
           expect(await getSelectedItemId()).toBe("step-1");
         } else {
           // no events since horizontal layout moves content outside of item selection hit area
-          expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
+          expect(itemChangeSpy).toHaveReceivedEventTimes(expectedEvents);
+          expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
         }
       }
 
       // disabled item
       await page.$eval("#step-3", itemClicker);
-      expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
 
       await page.$eval("#step-4", itemClicker);
-      expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(++expectedEvents);
+      expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
       expect(await getSelectedItemId()).toBe("step-4");
 
       await element.callMethod("prevStep");
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
 
       await element.callMethod("nextStep");
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
     }
 
     describe("horizontal layout", () => {
