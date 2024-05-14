@@ -52,14 +52,6 @@
   }
 }
 
-:host([appearance="outline"]) {
-  --calcite-split-button-background: transparent;
-}
-
-:host([appearance="outline-fill"]) {
-  --calcite-split-button-background: theme("colors.background.foreground.1");
-}
-
 :host([appearance="outline"]),
 :host([appearance="outline-fill"]) {
   &:host([kind="brand"]) {
