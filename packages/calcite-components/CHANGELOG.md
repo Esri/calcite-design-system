@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.1-hotfix.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0...@esri/calcite-components@2.8.1-hotfix.0) (2024-05-14)
+
+### Bug Fixes
+
+- build: add `type-fest` as a dependency to resolve a build error ([#9317](https://github.com/Esri/calcite-design-system/issues/9317)) ([3819688](https://github.com/Esri/calcite-design-system/commit/38196883cb33f16915d4537affce63441bd316a4)), closes [#9307](https://github.com/Esri/calcite-design-system/issues/9307)
+- **carousel:** animate items with the same direction ([#9325](https://github.com/Esri/calcite-design-system/issues/9325)) ([6bf7b74](https://github.com/Esri/calcite-design-system/commit/6bf7b740641d0bff366ae109405468f80bf87852)), closes [#9232](https://github.com/Esri/calcite-design-system/issues/9232)
+- **input, input-number, input-text:** restore `autofocus`, `enter-key-mode` and `input-mode` attributes ([#9245](https://github.com/Esri/calcite-design-system/issues/9245)) ([#9306](https://github.com/Esri/calcite-design-system/issues/9306)) ([0498c6e](https://github.com/Esri/calcite-design-system/commit/0498c6ecf3b881e2fec9e18aa5b28211b44b654a)), closes [#9235](https://github.com/Esri/calcite-design-system/issues/9235) [#9123](https://github.com/Esri/calcite-design-system/issues/9123)
+- **list-item:** decrease horizontal spacing between selection icon and content ([#9304](https://github.com/Esri/calcite-design-system/issues/9304)) ([0e828b6](https://github.com/Esri/calcite-design-system/commit/0e828b64905818feb65d153e37d44650ebebf9f6)), closes [#9290](https://github.com/Esri/calcite-design-system/issues/9290)
+
 ## [2.8.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.7.1...@esri/calcite-components@2.8.0) (2024-04-30)
 
 ### Features
