@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.6...@esri/calcite-components@2.9.0-next.7) (2024-05-14)
+
+### Features
+
+- **split-button:** Make dividers consistent ([#9298](https://github.com/Esri/calcite-design-system/issues/9298)) ([2fa432d](https://github.com/Esri/calcite-design-system/commit/2fa432d49fb57e9d20da2cbc2dc6eed12fafa8cd)), closes [#8142](https://github.com/Esri/calcite-design-system/issues/8142)
+
 ## [2.9.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.5...@esri/calcite-components@2.9.0-next.6) (2024-05-13)
 
 ### Features
