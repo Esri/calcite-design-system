@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
+set -e
 
 help() {
-    if [ -n "$1" ]; then
-        printf "Error: %s" "$1"
-    fi
+    [ -n "$1" ] && printf "%s\n" "$@"
     echo "Usage: ./release.sh <version | publish> [<pre-release-tag>]"
     exit 1
 }
@@ -22,11 +21,12 @@ working_tree_clean() {
 
 sanity_checks() {
     if ! correct_branch_checked_out; then
-        help "the '$branch' branch must be checked out before deploying $dist_tag"
+        help "The '$branch' branch must be checked out before deploying $dist_tag"
     elif ! in_sync_with_origin; then
-        help "the repository must be in sync with 'origin/$branch'"
+        help "The repository must be in sync with 'origin/$branch'"
     elif ! working_tree_clean; then
-        help "the working tree must be clean before running this script. Use 'git stash push' to save your changes for later"
+        help "The working tree must be clean before running this script." \
+            "Use 'git stash push' to save your changes for later."
     fi
 }
 

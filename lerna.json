@@ -5,7 +5,7 @@
   "command": {
     "version": {
       "conventionalCommits": true,
-      "allowBranch": ["main", "rc"]
+      "allowBranch": ["main", "rc", "hotfix"]
     }
   }
 }

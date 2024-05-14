@@ -36,7 +36,7 @@ jobs:
 
               # version the packages with lerna before building to ensure
               # the version in the CC source code preamble is correct for deployment
-              npm run version:prerelease
+              npm run version:next
               npm run build
               npm test
 
@@ -48,7 +48,7 @@ jobs:
 
               # remove the built docs after storybook deploys to gh-pages
               git reset --hard
-              npm run publish:prerelease
+              npm run publish:next
               npm run util:push-tags
             fi
           else

@@ -8,7 +8,7 @@
     const exec = promisify(childProcess.exec);
 
     const releaseTarget = process.argv[2];
-    if (!["latest", "next", "rc"].includes(releaseTarget)) {
+    if (!["latest", "next", "rc", "hotfix"].includes(releaseTarget)) {
       throw new Error(`Invalid release target: "${releaseTarget}"`);
     }
 
