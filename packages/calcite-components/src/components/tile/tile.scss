@@ -43,7 +43,9 @@
   inline-size: var(--calcite-container-size-content-fluid);
   outline: var(--calcite-border-width-sm, 1px) solid var(--calcite-internal-tile-outline-color);
   user-select: none;
-  box-shadow: var(--calcite-tile-shadow, var(--calcite-internal-tile-shadow, none)) &.interactive {
+  box-shadow: var(--calcite-tile-shadow, var(--calcite-internal-tile-shadow, none));
+
+  &.interactive {
     cursor: pointer;
 
     &:hover,

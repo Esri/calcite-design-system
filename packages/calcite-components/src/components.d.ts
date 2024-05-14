@@ -5398,6 +5398,9 @@ export namespace Components {
          */
         "value": string;
     }
+    /**
+     * @deprecated Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
+     */
     interface CalciteTip {
         /**
           * When `true`, the close button is not present on the component.
@@ -5428,12 +5431,18 @@ export namespace Components {
          */
         "selected": boolean;
     }
+    /**
+     * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+     */
     interface CalciteTipGroup {
         /**
           * The component header text for all nested `calcite-tip`s.
          */
         "groupTitle": string;
     }
+    /**
+     * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+     */
     interface CalciteTipManager {
         /**
           * When `true`, does not display or position the component.
@@ -7597,6 +7606,9 @@ declare global {
     interface HTMLCalciteTipElementEventMap {
         "calciteTipDismiss": void;
     }
+    /**
+     * @deprecated Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
+     */
     interface HTMLCalciteTipElement extends Components.CalciteTip, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTipElementEventMap>(type: K, listener: (this: HTMLCalciteTipElement, ev: CalciteTipCustomEvent<HTMLCalciteTipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7611,6 +7623,9 @@ declare global {
         prototype: HTMLCalciteTipElement;
         new (): HTMLCalciteTipElement;
     };
+    /**
+     * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+     */
     interface HTMLCalciteTipGroupElement extends Components.CalciteTipGroup, HTMLStencilElement {
     }
     var HTMLCalciteTipGroupElement: {
@@ -7620,6 +7635,9 @@ declare global {
     interface HTMLCalciteTipManagerElementEventMap {
         "calciteTipManagerClose": void;
     }
+    /**
+     * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+     */
     interface HTMLCalciteTipManagerElement extends Components.CalciteTipManager, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTipManagerElementEventMap>(type: K, listener: (this: HTMLCalciteTipManagerElement, ev: CalciteTipManagerCustomEvent<HTMLCalciteTipManagerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -13314,6 +13332,9 @@ declare namespace LocalJSX {
          */
         "value"?: string;
     }
+    /**
+     * @deprecated Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
+     */
     interface CalciteTip {
         /**
           * When `true`, the close button is not present on the component.
@@ -13348,12 +13369,18 @@ declare namespace LocalJSX {
          */
         "selected"?: boolean;
     }
+    /**
+     * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+     */
     interface CalciteTipGroup {
         /**
           * The component header text for all nested `calcite-tip`s.
          */
         "groupTitle"?: string;
     }
+    /**
+     * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+     */
     interface CalciteTipManager {
         /**
           * When `true`, does not display or position the component.
@@ -13858,8 +13885,17 @@ declare module "@stencil/core" {
             "calcite-tile-select": LocalJSX.CalciteTileSelect & JSXBase.HTMLAttributes<HTMLCalciteTileSelectElement>;
             "calcite-tile-select-group": LocalJSX.CalciteTileSelectGroup & JSXBase.HTMLAttributes<HTMLCalciteTileSelectGroupElement>;
             "calcite-time-picker": LocalJSX.CalciteTimePicker & JSXBase.HTMLAttributes<HTMLCalciteTimePickerElement>;
+            /**
+             * @deprecated Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
+             */
             "calcite-tip": LocalJSX.CalciteTip & JSXBase.HTMLAttributes<HTMLCalciteTipElement>;
+            /**
+             * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+             */
             "calcite-tip-group": LocalJSX.CalciteTipGroup & JSXBase.HTMLAttributes<HTMLCalciteTipGroupElement>;
+            /**
+             * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+             */
             "calcite-tip-manager": LocalJSX.CalciteTipManager & JSXBase.HTMLAttributes<HTMLCalciteTipManagerElement>;
             "calcite-tooltip": LocalJSX.CalciteTooltip & JSXBase.HTMLAttributes<HTMLCalciteTooltipElement>;
             "calcite-tree": LocalJSX.CalciteTree & JSXBase.HTMLAttributes<HTMLCalciteTreeElement>;
