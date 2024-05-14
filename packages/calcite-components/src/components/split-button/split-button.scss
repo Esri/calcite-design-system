@@ -52,7 +52,7 @@
 
 :host([appearance="outline"]),
 :host([appearance="outline-fill"]) {
-  --calcite-split-button-background: red;
+  --calcite-split-button-background: transparent;
   &:host([kind="brand"]) {
     --calcite-split-button-divider: theme("colors.brand");
   }
