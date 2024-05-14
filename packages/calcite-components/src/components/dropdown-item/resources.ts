@@ -1,9 +1,12 @@
 export const CSS = {
   container: "container",
   containerNone: "container--none-selection",
-  iconSelection: "dropdown-item-icon-selection",
-  iconEnd: "dropdown-item-icon--end",
-  iconStart: "dropdown-item-icon--start",
+  containerLink: "container--link",
+  containerMulti: "container--multi-selection",
+  containerSingle: "container--single-selection",
+  icon: "dropdown-item-icon",
+  iconEnd: "dropdown-item-icon-end",
+  iconStart: "dropdown-item-icon-start",
   itemContent: "dropdown-item-content",
   link: "dropdown-link",
 };

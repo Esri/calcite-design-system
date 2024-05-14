@@ -222,12 +222,15 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
           <div
             class={{
               [CSS.container]: true,
+              [CSS.containerLink]: !!href,
+              [CSS.containerMulti]: selectionMode === "multiple",
+              [CSS.containerSingle]: selectionMode === "single",
               [CSS.containerNone]: selectionMode === "none",
             }}
           >
             {selectionMode !== "none" ? (
               <calcite-icon
-                class={CSS.iconSelection}
+                class={CSS.icon}
                 icon={selectionMode === "multiple" ? "check" : "bullet-point"}
                 scale={getIconScale(this.scale)}
               />

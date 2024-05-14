@@ -21,12 +21,6 @@
 .container {
   @include itemStyling;
   @apply text-start;
-
-  // when used as link remove styling anchor
-  & a {
-    @include itemStyling;
-    @apply focus-base;
-  }
 }
 
 .dropdown-item-content {
@@ -34,7 +28,7 @@
 }
 
 // item icon
-.dropdown-item-icon-selection {
+.dropdown-item-icon {
   @apply relative
     opacity-0
     duration-150
@@ -42,12 +36,18 @@
   transform: scale(0.9);
 }
 
+// when used as link remove styling anchor
+.container--link a {
+  @include itemStyling;
+  @apply focus-base;
+}
+
 :host([scale="s"]) {
   .container {
     @apply text-n2h py-1 px-2;
   }
 
-  .dropdown-item-icon-selection,
+  .dropdown-item-icon,
   .dropdown-item-icon--start {
     padding-inline-end: var(--calcite-spacing-sm);
   }
@@ -62,7 +62,7 @@
     @apply text-n1h py-2 px-3;
   }
 
-  .dropdown-item-icon-selection,
+  .dropdown-item-icon,
   .dropdown-item-icon--start {
     padding-inline-end: var(--calcite-spacing-md);
   }
@@ -77,7 +77,7 @@
     @apply text-0h py-2.5 px-4;
   }
 
-  .dropdown-item-icon-selection,
+  .dropdown-item-icon,
   .dropdown-item-icon--start {
     padding-inline-end: var(--calcite-spacing-xl);
   }
@@ -102,7 +102,7 @@
     @apply bg-foreground-2 text-color-1 no-underline;
   }
 
-  .dropdown-link {
+  .container--link.dropdown-link {
     @apply text-color-1;
   }
 }
@@ -111,20 +111,20 @@
   @apply bg-foreground-3;
 }
 
-:host([selected]) .container:not(.container--none-selection),
-:host([selected]) .dropdown-link {
+:host([selected]) .container:not(.container--none),
+:host([selected]) .container--link.dropdown-link {
   @apply text-color-1 font-medium;
   & calcite-icon {
     color: theme("backgroundColor.brand");
   }
 }
 
-:host(:hover:not([disabled])) .dropdown-item-icon-selection {
+:host(:hover:not([disabled])) .dropdown-item-icon {
   color: theme("borderColor.color.1");
   @apply opacity-100;
 }
 
-:host([selected]) .dropdown-item-icon-selection {
+:host([selected]) .dropdown-item-icon {
   color: theme("backgroundColor.brand");
   @apply opacity-100;
 }
