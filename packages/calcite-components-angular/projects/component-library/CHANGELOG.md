@@ -15,6 +15,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
   - dependencies
     - @esri/calcite-components bumped from ^2.8.1-hotfix.0 to ^2.8.1
 
+## [2.9.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.9.0-next.8...@esri/calcite-components-angular@2.9.0-next.9) (2024-05-14)
+
+**Note:** Version bump only for package @esri/calcite-components-angular
+
+## [2.9.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.9.0-next.7...@esri/calcite-components-angular@2.9.0-next.8) (2024-05-14)
+
+**Note:** Version bump only for package @esri/calcite-components-angular
+
 ## [2.9.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.9.0-next.6...@esri/calcite-components-angular@2.9.0-next.7) (2024-05-14)
 
 **Note:** Version bump only for package @esri/calcite-components-angular
