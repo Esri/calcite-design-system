@@ -76,7 +76,7 @@
   },
   "devDependencies": {
     "@esri/calcite-design-tokens": "^2.2.1-next.0",
-    "@esri/calcite-ui-icons": "3.27.9",
+    "@esri/calcite-ui-icons": "3.28.1",
     "@esri/eslint-plugin-calcite-components": "^1.2.1-next.0",
     "@stencil-community/eslint-plugin": "0.7.2",
     "@stencil-community/postcss": "2.2.0",
