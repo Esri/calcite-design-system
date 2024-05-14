@@ -3681,7 +3681,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalcitePickList {
         /**
@@ -3737,7 +3737,7 @@ export namespace Components {
         "setFocus": (focusId?: ListFocusId) => Promise<void>;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalcitePickListGroup {
         /**
@@ -3750,7 +3750,7 @@ export namespace Components {
         "headingLevel": HeadingLevel;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalcitePickListItem {
         /**
@@ -5304,6 +5304,9 @@ export namespace Components {
     SelectionMode
   >;
     }
+    /**
+     * @deprecated Use the `calcite-tile` component instead.
+     */
     interface CalciteTileSelect {
         /**
           * When `true`, the component is checked.
@@ -5358,6 +5361,9 @@ export namespace Components {
          */
         "width": Extract<"auto" | "full", Width>;
     }
+    /**
+     * @deprecated Use the `calcite-tile-group` component instead.
+     */
     interface CalciteTileSelectGroup {
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -5564,7 +5570,7 @@ export namespace Components {
         "selectionMode": SelectionMode;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalciteValueList {
         /**
@@ -5640,7 +5646,7 @@ export namespace Components {
         "setFocus": (focusId?: ListFocusId) => Promise<void>;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalciteValueListItem {
         /**
@@ -7035,7 +7041,7 @@ declare global {
         "calciteListFilter": void;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface HTMLCalcitePickListElement extends Components.CalcitePickList, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalcitePickListElementEventMap>(type: K, listener: (this: HTMLCalcitePickListElement, ev: CalcitePickListCustomEvent<HTMLCalcitePickListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7052,7 +7058,7 @@ declare global {
         new (): HTMLCalcitePickListElement;
     };
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface HTMLCalcitePickListGroupElement extends Components.CalcitePickListGroup, HTMLStencilElement {
     }
@@ -7075,7 +7081,7 @@ declare global {
   };
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface HTMLCalcitePickListItemElement extends Components.CalcitePickListItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalcitePickListItemElementEventMap>(type: K, listener: (this: HTMLCalcitePickListItemElement, ev: CalcitePickListItemCustomEvent<HTMLCalcitePickListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7564,6 +7570,9 @@ declare global {
     interface HTMLCalciteTileSelectElementEventMap {
         "calciteTileSelectChange": void;
     }
+    /**
+     * @deprecated Use the `calcite-tile` component instead.
+     */
     interface HTMLCalciteTileSelectElement extends Components.CalciteTileSelect, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTileSelectElementEventMap>(type: K, listener: (this: HTMLCalciteTileSelectElement, ev: CalciteTileSelectCustomEvent<HTMLCalciteTileSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7578,6 +7587,9 @@ declare global {
         prototype: HTMLCalciteTileSelectElement;
         new (): HTMLCalciteTileSelectElement;
     };
+    /**
+     * @deprecated Use the `calcite-tile-group` component instead.
+     */
     interface HTMLCalciteTileSelectGroupElement extends Components.CalciteTileSelectGroup, HTMLStencilElement {
     }
     var HTMLCalciteTileSelectGroupElement: {
@@ -7712,7 +7724,7 @@ declare global {
         "calciteListFilter": void;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface HTMLCalciteValueListElement extends Components.CalciteValueList, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteValueListElementEventMap>(type: K, listener: (this: HTMLCalciteValueListElement, ev: CalciteValueListCustomEvent<HTMLCalciteValueListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7739,7 +7751,7 @@ declare global {
         "calciteValueListItemDragHandleBlur": ListItemAndHandle;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface HTMLCalciteValueListItemElement extends Components.CalciteValueListItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteValueListItemElementEventMap>(type: K, listener: (this: HTMLCalciteValueListItemElement, ev: CalciteValueListItemCustomEvent<HTMLCalciteValueListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -11558,7 +11570,7 @@ declare namespace LocalJSX {
         "overlayPositioning"?: OverlayPositioning;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalcitePickList {
         /**
@@ -11613,7 +11625,7 @@ declare namespace LocalJSX {
         "selectionFollowsFocus"?: boolean;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalcitePickListGroup {
         /**
@@ -11626,7 +11638,7 @@ declare namespace LocalJSX {
         "headingLevel"?: HeadingLevel;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalcitePickListItem {
         /**
@@ -13239,6 +13251,9 @@ declare namespace LocalJSX {
     SelectionMode
   >;
     }
+    /**
+     * @deprecated Use the `calcite-tile` component instead.
+     */
     interface CalciteTileSelect {
         /**
           * When `true`, the component is checked.
@@ -13293,6 +13308,9 @@ declare namespace LocalJSX {
          */
         "width"?: Extract<"auto" | "full", Width>;
     }
+    /**
+     * @deprecated Use the `calcite-tile-group` component instead.
+     */
     interface CalciteTileSelectGroup {
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -13514,7 +13532,7 @@ declare namespace LocalJSX {
         "selectionMode"?: SelectionMode;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalciteValueList {
         /**
@@ -13593,7 +13611,7 @@ declare namespace LocalJSX {
         "selectionFollowsFocus"?: boolean;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalciteValueListItem {
         /**
@@ -13840,15 +13858,15 @@ declare module "@stencil/core" {
             "calcite-pagination": LocalJSX.CalcitePagination & JSXBase.HTMLAttributes<HTMLCalcitePaginationElement>;
             "calcite-panel": LocalJSX.CalcitePanel & JSXBase.HTMLAttributes<HTMLCalcitePanelElement>;
             /**
-             * @deprecated Use the `list` component instead.
+             * @deprecated Use the `calcite-list` component instead.
              */
             "calcite-pick-list": LocalJSX.CalcitePickList & JSXBase.HTMLAttributes<HTMLCalcitePickListElement>;
             /**
-             * @deprecated Use the `list` component instead.
+             * @deprecated Use the `calcite-list` component instead.
              */
             "calcite-pick-list-group": LocalJSX.CalcitePickListGroup & JSXBase.HTMLAttributes<HTMLCalcitePickListGroupElement>;
             /**
-             * @deprecated Use the `list` component instead.
+             * @deprecated Use the `calcite-list` component instead.
              */
             "calcite-pick-list-item": LocalJSX.CalcitePickListItem & JSXBase.HTMLAttributes<HTMLCalcitePickListItemElement>;
             "calcite-popover": LocalJSX.CalcitePopover & JSXBase.HTMLAttributes<HTMLCalcitePopoverElement>;
@@ -13882,7 +13900,13 @@ declare module "@stencil/core" {
             "calcite-text-area": LocalJSX.CalciteTextArea & JSXBase.HTMLAttributes<HTMLCalciteTextAreaElement>;
             "calcite-tile": LocalJSX.CalciteTile & JSXBase.HTMLAttributes<HTMLCalciteTileElement>;
             "calcite-tile-group": LocalJSX.CalciteTileGroup & JSXBase.HTMLAttributes<HTMLCalciteTileGroupElement>;
+            /**
+             * @deprecated Use the `calcite-tile` component instead.
+             */
             "calcite-tile-select": LocalJSX.CalciteTileSelect & JSXBase.HTMLAttributes<HTMLCalciteTileSelectElement>;
+            /**
+             * @deprecated Use the `calcite-tile-group` component instead.
+             */
             "calcite-tile-select-group": LocalJSX.CalciteTileSelectGroup & JSXBase.HTMLAttributes<HTMLCalciteTileSelectGroupElement>;
             "calcite-time-picker": LocalJSX.CalciteTimePicker & JSXBase.HTMLAttributes<HTMLCalciteTimePickerElement>;
             /**
@@ -13901,11 +13925,11 @@ declare module "@stencil/core" {
             "calcite-tree": LocalJSX.CalciteTree & JSXBase.HTMLAttributes<HTMLCalciteTreeElement>;
             "calcite-tree-item": LocalJSX.CalciteTreeItem & JSXBase.HTMLAttributes<HTMLCalciteTreeItemElement>;
             /**
-             * @deprecated Use the `list` component instead.
+             * @deprecated Use the `calcite-list` component instead.
              */
             "calcite-value-list": LocalJSX.CalciteValueList & JSXBase.HTMLAttributes<HTMLCalciteValueListElement>;
             /**
-             * @deprecated Use the `list` component instead.
+             * @deprecated Use the `calcite-list` component instead.
              */
             "calcite-value-list-item": LocalJSX.CalciteValueListItem & JSXBase.HTMLAttributes<HTMLCalciteValueListItemElement>;
         }

@@ -9,7 +9,7 @@ import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Head
 import { CSS, SLOTS } from "./resources";
 
 /**
- * @deprecated Use the `list` component instead.
+ * @deprecated Use the `calcite-list` component instead.
  * @slot - A slot for adding `calcite-pick-list-item` elements.
  */
 @Component({

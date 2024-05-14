@@ -110,45 +110,48 @@
   :host([checked]) .label--outline-fill {
     @include outlineNone();
   }
-  :host([checked]) label:not([class~="label--outline"]) .segmented-control-item-icon {
+  :host([checked]) label:not([class~="label--outline"]) .icon {
     color: highlightText;
   }
 }
 
-// icon
-.segmented-control-item-icon {
-  position: relative;
-  margin: 0px;
-  display: inline-flex;
+.icon {
+  @apply relative
+    m-0
+    inline-flex;
   line-height: inherit;
+
+  margin-inline-start: var(--calcite-internal-segmented-control-icon-margin-start);
+  margin-inline-end: var(--calcite-internal-segmented-control-icon-margin-end);
 }
 
-:host([icon-start]) .label--scale-s .segmented-control-item-icon {
-  margin-inline-end: var(--calcite-spacing-sm);
+:host([icon-start]) .label--scale-s {
+  --calcite-internal-segmented-control-icon-margin-end: theme("margin.2");
 }
 
-:host([icon-end]) .label--scale-s .segmented-control-item-icon {
-  margin-inline-start: var(--calcite-spacing-sm);
+:host([icon-end]) .label--scale-s {
+  --calcite-internal-segmented-control-icon-margin-start: theme("margin.2");
 }
 
-:host([icon-start]) .label--scale-m .segmented-control-item-icon {
-  margin-inline-end: var(--calcite-spacing-md);
+:host([icon-start]) .label--scale-m {
+  --calcite-internal-segmented-control-icon-margin-end: theme("margin.3");
 }
 
-:host([icon-end]) .label--scale-m .segmented-control-item-icon {
-  margin-inline-start: var(--calcite-spacing-md);
+:host([icon-end]) .label--scale-m {
+  --calcite-internal-segmented-control-icon-margin-start: theme("margin.3");
 }
 
-:host([icon-start]) .label--scale-l .segmented-control-item-icon {
-  margin-inline-end: var(--calcite-spacing-xl);
+:host([icon-start]) .label--scale-l {
+  --calcite-internal-segmented-control-icon-margin-end: theme("margin.4");
 }
 
-:host([icon-end]) .label--scale-l .segmented-control-item-icon {
-  margin-inline-start: var(--calcite-spacing-xl);
+:host([icon-end]) .label--scale-l {
+  --calcite-internal-segmented-control-icon-margin-start: theme("margin.4");
 }
 
-calcite-icon {
-  --calcite-icon-color: var(--calcite-segmented-control-item-icon-color);
+.label .icon--solo {
+  --calcite-internal-segmented-control-icon-margin-start: 0;
+  --calcite-internal-segmented-control-icon-margin-end: 0;
 }
 
 @include base-component();
