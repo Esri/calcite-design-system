@@ -54,21 +54,23 @@
 
 :host([appearance="outline"]),
 :host([appearance="outline-fill"]) {
+  &:host([kind="brand"]),
+  &:host([kind="danger"]),
+  &:host([kind="neutral"]),
+  &:host([kind="inverse"]) {
+    --calcite-split-button-background: transparent;
+  }
   &:host([kind="brand"]) {
     --calcite-split-button-divider: theme("colors.brand");
-    --calcite-split-button-background: transparent;
   }
   &:host([kind="danger"]) {
     --calcite-split-button-divider: theme("colors.danger");
-    --calcite-split-button-background: transparent;
   }
   &:host([kind="neutral"]) {
     --calcite-split-button-divider: theme("borderColor.color.1");
-    --calcite-split-button-background: transparent;
   }
   &:host([kind="inverse"]) {
     --calcite-split-button-divider: var(--calcite-color-inverse);
-    --calcite-split-button-background: transparent;
   }
 }
 
