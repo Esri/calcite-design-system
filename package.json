@@ -27,7 +27,7 @@
     "test": "turbo run test --log-order=stream",
     "util:is-next-deployable": "tsx support/isNextDeployable.ts",
     "util:push-tags": "git push origin main --follow-tags",
-    "util:remove-next-changelog-entries": "tsx support/removeNextChangelogEntries.ts",
+    "util:remove-prerelease-changelog-entries": "tsx support/removePrereleaseChangelogEntries.ts",
     "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
   },
   "devDependencies": {
