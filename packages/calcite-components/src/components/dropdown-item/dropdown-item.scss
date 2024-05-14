@@ -1,19 +1,22 @@
-.container--s {
-  @apply text-n2h py-1;
-  padding-inline-end: theme("padding.2");
-  padding-inline-start: theme("padding.6");
+:host([scale="s"]) {
+  .container {
+    @apply text-n2h py-1;
+    padding-inline: 8px;
+  }
 }
 
-.container--m {
-  @apply text-n1h py-2;
-  padding-inline-end: theme("padding.3");
-  padding-inline-start: theme("padding.8");
+:host([scale="m"]) {
+  .container {
+    @apply text-n1h py-2;
+    padding-inline: 12px;
+  }
 }
 
-.container--l {
-  @apply text-0h py-2.5;
-  padding-inline-end: theme("padding.4");
-  padding-inline-start: theme("padding.10");
+:host([scale="l"]) {
+  .container {
+    @apply text-0h py-2.5;
+    padding-inline: 16px;
+  }
 }
 
 // none-selection mode
@@ -64,8 +67,6 @@
 
 .dropdown-item-content {
   @apply flex-auto py-0.5;
-  padding-inline-end: theme("margin.auto");
-  padding-inline-start: theme("margin.1");
 }
 
 //focus
@@ -132,7 +133,7 @@
 
 // item icon
 .dropdown-item-icon {
-  @apply absolute
+  @apply relative
     opacity-0
     duration-150
     ease-in-out;
@@ -140,15 +141,15 @@
 }
 
 .container--s .dropdown-item-icon {
-  inset-inline-start: theme("spacing.1");
+  padding-inline-end: 8px;
 }
 
 .container--m .dropdown-item-icon {
-  inset-inline-start: theme("spacing.2");
+  padding-inline-end: 12px;
 }
 
 .container--l .dropdown-item-icon {
-  inset-inline-start: theme("spacing.3");
+  padding-inline-end: 16px;
 }
 
 :host(:hover:not([disabled])) .dropdown-item-icon {
@@ -164,31 +165,28 @@
 // icon start & end
 .container--s {
   .dropdown-item-icon-start {
-    margin-inline-end: theme("margin.2");
-    margin-inline-start: theme("margin.1");
+    padding-inline-end: 8px;
   }
   .dropdown-item-icon-end {
-    margin-inline-start: theme("margin.2");
+    padding-inline-start: 8px;
   }
 }
 
 .container--m {
   .dropdown-item-icon-start {
-    margin-inline-end: theme("margin.3");
-    margin-inline-start: theme("margin.1");
+    padding-inline-end: 12px;
   }
   .dropdown-item-icon-end {
-    margin-inline-start: theme("margin.3");
+    padding-inline-start: 12px;
   }
 }
 
 .container--l {
   .dropdown-item-icon-start {
-    margin-inline-end: theme("margin.4");
-    margin-inline-start: theme("margin.1");
+    padding-inline-end: 16px;
   }
   .dropdown-item-icon-end {
-    margin-inline-start: theme("margin.4");
+    padding-inline-start: 16px;
   }
 }
 

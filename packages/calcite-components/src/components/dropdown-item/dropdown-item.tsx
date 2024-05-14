@@ -125,7 +125,7 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
    *
    * @internal
    */
-  @Prop() scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
