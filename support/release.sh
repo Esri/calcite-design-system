@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
+# This script is used to version and publish releases and pre-releases. 
+#
+# @arg1 The deployment step to run, must be either "version" or "publish".
+# @arg2 [optional] The pre-release tag, e.g., "next", "hotfix", or "rc". 
+#                  Omit this optional argument for a "latest" release
+
 help() {
     [ -n "$1" ] && printf "%s\n" "$@"
     echo "Usage: ./release.sh <version | publish> [<pre-release-tag>]"
@@ -43,10 +49,12 @@ version() {
             --preid "$dist_tag"
     fi
 
+    # default to latest if no dist tag was provided in the second argument
     npm run util:sync-linked-package-versions -- "${dist_tag:-latest}"
 }
 
 publish() {
+    # only add the dist-tag flag if the second argument was provided
     lerna publish from-package --yes ${dist_tag:+--dist-tag $dist_tag}
 }
 
