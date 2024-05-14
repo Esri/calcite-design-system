@@ -46,14 +46,14 @@
 
   .multiple {
     .select-icon {
-      padding-inline: var(--calcite-spacing-xs);
+      padding-inline: var(--calcite-spacing-xxxs);
     }
   }
 
   .multiple.image--slotted {
     .select-icon {
-      padding-inline-start: var(--calcite-spacing-sm);
-      padding-inline-end: var(--calcite-spacing-md);
+      padding-inline-start: var(--calcite-spacing-xxs);
+      padding-inline-end: var(--calcite-spacing-sm);
     }
   }
 }
@@ -74,14 +74,14 @@
 
   .multiple {
     .select-icon {
-      padding-inline: var(--calcite-spacing-sm);
+      padding-inline: var(--calcite-spacing-xxs);
     }
   }
 
   .multiple.image--slotted {
     .select-icon {
-      padding-inline-start: var(--calcite-spacing-md);
-      padding-inline-end: var(--calcite-spacing-xl);
+      padding-inline-start: var(--calcite-spacing-xs);
+      padding-inline-end: var(--calcite-spacing-md);
     }
   }
 }
