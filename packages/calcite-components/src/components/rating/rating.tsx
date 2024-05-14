@@ -259,9 +259,8 @@ export class Rating
                       onKeyDown={this.handleLabelKeyDown}
                       onPointerDown={this.handleLabelPointerDown}
                       onPointerOver={this.handleLabelPointerOver}
-                      tabIndex={tabIndex}
-                      // eslint-disable-next-line react/jsx-sort-props
                       ref={this.setLabelEl}
+                      tabIndex={tabIndex}
                     >
                       <input
                         checked={checked}
@@ -349,7 +348,6 @@ export class Rating
           break;
         case "Tab":
           this.hoverValue = null;
-        default:
           break;
       }
     } else {

@@ -114,9 +114,8 @@ export class Scrim implements LocalizedComponent, T9nComponent {
         {loading ? (
           <calcite-loader
             label={messages.loading}
-            scale={this.loaderScale}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.storeLoaderEl}
+            scale={this.loaderScale}
           />
         ) : null}
         <div class={CSS.content} hidden={!hasContent}>

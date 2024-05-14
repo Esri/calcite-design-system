@@ -128,7 +128,9 @@ describe("calcite-input-date-picker", () => {
     openClose(`<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker>`);
   });
 
-  it.skip("supports t9n", () => t9n("calcite-input-date-picker"));
+  describe("translation support", () => {
+    t9n("calcite-input-date-picker");
+  });
 
   describe("event emitting when the value changes", () => {
     it("emits change event when value is committed for single date", async () => {

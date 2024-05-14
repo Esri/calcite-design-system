@@ -635,6 +635,18 @@ export namespace Components {
     }
     interface CalciteBlockSection {
         /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd": string;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl": FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart": string;
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides": Partial<BlockSectionMessages>;
@@ -652,6 +664,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * Displays a status-related indicator icon.
+          * @deprecated Use `icon-start` instead.
          */
         "status": Status;
         /**
@@ -2063,6 +2076,10 @@ export namespace Components {
          */
         "autocomplete": string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus": boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
          */
         "clearable": boolean;
@@ -2072,6 +2089,11 @@ export namespace Components {
          */
         "disabled": boolean;
         "editingEnabled": boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "enterKeyHint": string;
         /**
           * When `type` is `"file"`, specifies the component's selected files.
           * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
@@ -2093,6 +2115,11 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "inputMode": string;
         /**
           * Accessible name for the component.
          */
@@ -2397,6 +2424,10 @@ export namespace Components {
          */
         "autocomplete": string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus": boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable": boolean;
@@ -2406,6 +2437,11 @@ export namespace Components {
          */
         "disabled": boolean;
         "editingEnabled": boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "enterKeyHint": string;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -2423,6 +2459,11 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "inputMode": string;
         /**
           * When `true`, restricts the component to integer numbers only and disables exponential notation.
          */
@@ -2555,6 +2596,10 @@ export namespace Components {
          */
         "autocomplete": string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus": boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable": boolean;
@@ -2564,6 +2609,11 @@ export namespace Components {
          */
         "disabled": boolean;
         "editingEnabled": boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "enterKeyHint": string;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -2577,6 +2627,11 @@ export namespace Components {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl": boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "inputMode": string;
         /**
           * Accessible name for the component's button or hyperlink.
          */
@@ -3658,7 +3713,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalcitePickList {
         /**
@@ -3714,7 +3769,7 @@ export namespace Components {
         "setFocus": (focusId?: ListFocusId) => Promise<void>;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalcitePickListGroup {
         /**
@@ -3727,7 +3782,7 @@ export namespace Components {
         "headingLevel": HeadingLevel;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalcitePickListItem {
         /**
@@ -5245,6 +5300,10 @@ export namespace Components {
     }
     interface CalciteTileGroup {
         /**
+          * Specifies the alignment of each `calcite-tile`'s content.
+         */
+        "alignment": Exclude<Alignment, "end">;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
@@ -5277,6 +5336,9 @@ export namespace Components {
     SelectionMode
   >;
     }
+    /**
+     * @deprecated Use the `calcite-tile` component instead.
+     */
     interface CalciteTileSelect {
         /**
           * When `true`, the component is checked.
@@ -5331,6 +5393,9 @@ export namespace Components {
          */
         "width": Extract<"auto" | "full", Width>;
     }
+    /**
+     * @deprecated Use the `calcite-tile-group` component instead.
+     */
     interface CalciteTileSelectGroup {
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -5371,6 +5436,9 @@ export namespace Components {
          */
         "value": string;
     }
+    /**
+     * @deprecated Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
+     */
     interface CalciteTip {
         /**
           * When `true`, the close button is not present on the component.
@@ -5401,12 +5469,18 @@ export namespace Components {
          */
         "selected": boolean;
     }
+    /**
+     * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+     */
     interface CalciteTipGroup {
         /**
           * The component header text for all nested `calcite-tip`s.
          */
         "groupTitle": string;
     }
+    /**
+     * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+     */
     interface CalciteTipManager {
         /**
           * When `true`, does not display or position the component.
@@ -5528,7 +5602,7 @@ export namespace Components {
         "selectionMode": SelectionMode;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalciteValueList {
         /**
@@ -5604,7 +5678,7 @@ export namespace Components {
         "setFocus": (focusId?: ListFocusId) => Promise<void>;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalciteValueListItem {
         /**
@@ -6790,6 +6864,7 @@ declare global {
         "calciteInternalListItemActive": void;
         "calciteInternalFocusPreviousItem": void;
         "calciteInternalListItemChange": void;
+        "calciteInternalListItemToggle": void;
     }
     interface HTMLCalciteListItemElement extends Components.CalciteListItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteListItemElementEventMap>(type: K, listener: (this: HTMLCalciteListItemElement, ev: CalciteListItemCustomEvent<HTMLCalciteListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7002,7 +7077,7 @@ declare global {
         "calciteListFilter": void;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface HTMLCalcitePickListElement extends Components.CalcitePickList, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalcitePickListElementEventMap>(type: K, listener: (this: HTMLCalcitePickListElement, ev: CalcitePickListCustomEvent<HTMLCalcitePickListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7019,7 +7094,7 @@ declare global {
         new (): HTMLCalcitePickListElement;
     };
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface HTMLCalcitePickListGroupElement extends Components.CalcitePickListGroup, HTMLStencilElement {
     }
@@ -7042,7 +7117,7 @@ declare global {
   };
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface HTMLCalcitePickListItemElement extends Components.CalcitePickListItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalcitePickListItemElementEventMap>(type: K, listener: (this: HTMLCalcitePickListItemElement, ev: CalcitePickListItemCustomEvent<HTMLCalcitePickListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7531,6 +7606,9 @@ declare global {
     interface HTMLCalciteTileSelectElementEventMap {
         "calciteTileSelectChange": void;
     }
+    /**
+     * @deprecated Use the `calcite-tile` component instead.
+     */
     interface HTMLCalciteTileSelectElement extends Components.CalciteTileSelect, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTileSelectElementEventMap>(type: K, listener: (this: HTMLCalciteTileSelectElement, ev: CalciteTileSelectCustomEvent<HTMLCalciteTileSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7545,6 +7623,9 @@ declare global {
         prototype: HTMLCalciteTileSelectElement;
         new (): HTMLCalciteTileSelectElement;
     };
+    /**
+     * @deprecated Use the `calcite-tile-group` component instead.
+     */
     interface HTMLCalciteTileSelectGroupElement extends Components.CalciteTileSelectGroup, HTMLStencilElement {
     }
     var HTMLCalciteTileSelectGroupElement: {
@@ -7573,6 +7654,9 @@ declare global {
     interface HTMLCalciteTipElementEventMap {
         "calciteTipDismiss": void;
     }
+    /**
+     * @deprecated Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
+     */
     interface HTMLCalciteTipElement extends Components.CalciteTip, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTipElementEventMap>(type: K, listener: (this: HTMLCalciteTipElement, ev: CalciteTipCustomEvent<HTMLCalciteTipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7587,6 +7671,9 @@ declare global {
         prototype: HTMLCalciteTipElement;
         new (): HTMLCalciteTipElement;
     };
+    /**
+     * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+     */
     interface HTMLCalciteTipGroupElement extends Components.CalciteTipGroup, HTMLStencilElement {
     }
     var HTMLCalciteTipGroupElement: {
@@ -7596,6 +7683,9 @@ declare global {
     interface HTMLCalciteTipManagerElementEventMap {
         "calciteTipManagerClose": void;
     }
+    /**
+     * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+     */
     interface HTMLCalciteTipManagerElement extends Components.CalciteTipManager, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteTipManagerElementEventMap>(type: K, listener: (this: HTMLCalciteTipManagerElement, ev: CalciteTipManagerCustomEvent<HTMLCalciteTipManagerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7670,7 +7760,7 @@ declare global {
         "calciteListFilter": void;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface HTMLCalciteValueListElement extends Components.CalciteValueList, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteValueListElementEventMap>(type: K, listener: (this: HTMLCalciteValueListElement, ev: CalciteValueListCustomEvent<HTMLCalciteValueListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7697,7 +7787,7 @@ declare global {
         "calciteValueListItemDragHandleBlur": ListItemAndHandle;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface HTMLCalciteValueListItemElement extends Components.CalciteValueListItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteValueListItemElementEventMap>(type: K, listener: (this: HTMLCalciteValueListItemElement, ev: CalciteValueListItemCustomEvent<HTMLCalciteValueListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8304,6 +8394,18 @@ declare namespace LocalJSX {
     }
     interface CalciteBlockSection {
         /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd"?: string;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl"?: FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart"?: string;
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides"?: Partial<BlockSectionMessages>;
@@ -8321,6 +8423,7 @@ declare namespace LocalJSX {
         "open"?: boolean;
         /**
           * Displays a status-related indicator icon.
+          * @deprecated Use `icon-start` instead.
          */
         "status"?: Status;
         /**
@@ -9820,6 +9923,10 @@ declare namespace LocalJSX {
          */
         "autocomplete"?: string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus"?: boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
          */
         "clearable"?: boolean;
@@ -9829,6 +9936,11 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "enterKeyHint"?: string;
         /**
           * When `type` is `"file"`, specifies the component's selected files.
           * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
@@ -9850,6 +9962,11 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "inputMode"?: string;
         /**
           * Accessible name for the component.
          */
@@ -10167,6 +10284,10 @@ declare namespace LocalJSX {
          */
         "autocomplete"?: string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus"?: boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable"?: boolean;
@@ -10176,6 +10297,11 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "enterKeyHint"?: string;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -10193,6 +10319,11 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "inputMode"?: string;
         /**
           * When `true`, restricts the component to integer numbers only and disables exponential notation.
          */
@@ -10327,6 +10458,10 @@ declare namespace LocalJSX {
          */
         "autocomplete"?: string;
         /**
+          * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+         */
+        "autofocus"?: boolean;
+        /**
           * When `true`, a clear button is displayed when the component has a value.
          */
         "clearable"?: boolean;
@@ -10336,6 +10471,11 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         "editingEnabled"?: boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "enterKeyHint"?: string;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -10349,6 +10489,11 @@ declare namespace LocalJSX {
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
         "iconFlipRtl"?: boolean;
+        /**
+          * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+          * @futureBreaking kebab-cased attribute will not be supported in a future release
+         */
+        "inputMode"?: string;
         /**
           * Accessible name for the component's button or hyperlink.
          */
@@ -10881,6 +11026,7 @@ declare namespace LocalJSX {
         "onCalciteInternalListItemSelectMultiple"?: (event: CalciteListItemCustomEvent<{
     selectMultiple: boolean;
   }>) => void;
+        "onCalciteInternalListItemToggle"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Fires when the close button is clicked.
          */
@@ -11499,7 +11645,7 @@ declare namespace LocalJSX {
         "overlayPositioning"?: OverlayPositioning;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalcitePickList {
         /**
@@ -11554,7 +11700,7 @@ declare namespace LocalJSX {
         "selectionFollowsFocus"?: boolean;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalcitePickListGroup {
         /**
@@ -11567,7 +11713,7 @@ declare namespace LocalJSX {
         "headingLevel"?: HeadingLevel;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalcitePickListItem {
         /**
@@ -13140,6 +13286,10 @@ declare namespace LocalJSX {
     }
     interface CalciteTileGroup {
         /**
+          * Specifies the alignment of each `calcite-tile`'s content.
+         */
+        "alignment"?: Exclude<Alignment, "end">;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
@@ -13176,6 +13326,9 @@ declare namespace LocalJSX {
     SelectionMode
   >;
     }
+    /**
+     * @deprecated Use the `calcite-tile` component instead.
+     */
     interface CalciteTileSelect {
         /**
           * When `true`, the component is checked.
@@ -13230,6 +13383,9 @@ declare namespace LocalJSX {
          */
         "width"?: Extract<"auto" | "full", Width>;
     }
+    /**
+     * @deprecated Use the `calcite-tile-group` component instead.
+     */
     interface CalciteTileSelectGroup {
         /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -13269,6 +13425,9 @@ declare namespace LocalJSX {
          */
         "value"?: string;
     }
+    /**
+     * @deprecated Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
+     */
     interface CalciteTip {
         /**
           * When `true`, the close button is not present on the component.
@@ -13303,12 +13462,18 @@ declare namespace LocalJSX {
          */
         "selected"?: boolean;
     }
+    /**
+     * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+     */
     interface CalciteTipGroup {
         /**
           * The component header text for all nested `calcite-tip`s.
          */
         "groupTitle"?: string;
     }
+    /**
+     * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+     */
     interface CalciteTipManager {
         /**
           * When `true`, does not display or position the component.
@@ -13442,7 +13607,7 @@ declare namespace LocalJSX {
         "selectionMode"?: SelectionMode;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalciteValueList {
         /**
@@ -13521,7 +13686,7 @@ declare namespace LocalJSX {
         "selectionFollowsFocus"?: boolean;
     }
     /**
-     * @deprecated Use the `list` component instead.
+     * @deprecated Use the `calcite-list` component instead.
      */
     interface CalciteValueListItem {
         /**
@@ -13768,15 +13933,15 @@ declare module "@stencil/core" {
             "calcite-pagination": LocalJSX.CalcitePagination & JSXBase.HTMLAttributes<HTMLCalcitePaginationElement>;
             "calcite-panel": LocalJSX.CalcitePanel & JSXBase.HTMLAttributes<HTMLCalcitePanelElement>;
             /**
-             * @deprecated Use the `list` component instead.
+             * @deprecated Use the `calcite-list` component instead.
              */
             "calcite-pick-list": LocalJSX.CalcitePickList & JSXBase.HTMLAttributes<HTMLCalcitePickListElement>;
             /**
-             * @deprecated Use the `list` component instead.
+             * @deprecated Use the `calcite-list` component instead.
              */
             "calcite-pick-list-group": LocalJSX.CalcitePickListGroup & JSXBase.HTMLAttributes<HTMLCalcitePickListGroupElement>;
             /**
-             * @deprecated Use the `list` component instead.
+             * @deprecated Use the `calcite-list` component instead.
              */
             "calcite-pick-list-item": LocalJSX.CalcitePickListItem & JSXBase.HTMLAttributes<HTMLCalcitePickListItemElement>;
             "calcite-popover": LocalJSX.CalcitePopover & JSXBase.HTMLAttributes<HTMLCalcitePopoverElement>;
@@ -13810,21 +13975,36 @@ declare module "@stencil/core" {
             "calcite-text-area": LocalJSX.CalciteTextArea & JSXBase.HTMLAttributes<HTMLCalciteTextAreaElement>;
             "calcite-tile": LocalJSX.CalciteTile & JSXBase.HTMLAttributes<HTMLCalciteTileElement>;
             "calcite-tile-group": LocalJSX.CalciteTileGroup & JSXBase.HTMLAttributes<HTMLCalciteTileGroupElement>;
+            /**
+             * @deprecated Use the `calcite-tile` component instead.
+             */
             "calcite-tile-select": LocalJSX.CalciteTileSelect & JSXBase.HTMLAttributes<HTMLCalciteTileSelectElement>;
+            /**
+             * @deprecated Use the `calcite-tile-group` component instead.
+             */
             "calcite-tile-select-group": LocalJSX.CalciteTileSelectGroup & JSXBase.HTMLAttributes<HTMLCalciteTileSelectGroupElement>;
             "calcite-time-picker": LocalJSX.CalciteTimePicker & JSXBase.HTMLAttributes<HTMLCalciteTimePickerElement>;
+            /**
+             * @deprecated Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
+             */
             "calcite-tip": LocalJSX.CalciteTip & JSXBase.HTMLAttributes<HTMLCalciteTipElement>;
+            /**
+             * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+             */
             "calcite-tip-group": LocalJSX.CalciteTipGroup & JSXBase.HTMLAttributes<HTMLCalciteTipGroupElement>;
+            /**
+             * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+             */
             "calcite-tip-manager": LocalJSX.CalciteTipManager & JSXBase.HTMLAttributes<HTMLCalciteTipManagerElement>;
             "calcite-tooltip": LocalJSX.CalciteTooltip & JSXBase.HTMLAttributes<HTMLCalciteTooltipElement>;
             "calcite-tree": LocalJSX.CalciteTree & JSXBase.HTMLAttributes<HTMLCalciteTreeElement>;
             "calcite-tree-item": LocalJSX.CalciteTreeItem & JSXBase.HTMLAttributes<HTMLCalciteTreeItemElement>;
             /**
-             * @deprecated Use the `list` component instead.
+             * @deprecated Use the `calcite-list` component instead.
              */
             "calcite-value-list": LocalJSX.CalciteValueList & JSXBase.HTMLAttributes<HTMLCalciteValueListElement>;
             /**
-             * @deprecated Use the `list` component instead.
+             * @deprecated Use the `calcite-list` component instead.
              */
             "calcite-value-list-item": LocalJSX.CalciteValueListItem & JSXBase.HTMLAttributes<HTMLCalciteValueListItemElement>;
         }

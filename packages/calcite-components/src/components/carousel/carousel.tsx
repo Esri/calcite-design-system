@@ -565,7 +565,6 @@ export class Carousel
         [CSS.containerOverlaid]: this.controlOverlay,
       }}
       onKeyDown={this.tabListKeyDownHandler}
-      // eslint-disable-next-line react/jsx-sort-props
       ref={this.storeTabListRef}
     >
       {(this.playing || this.autoplay === "" || this.autoplay || this.autoplay === "paused") &&
@@ -641,10 +640,9 @@ export class Carousel
             onKeyDown={this.containerKeyDownHandler}
             onMouseEnter={this.handleMouseIn}
             onMouseLeave={this.handleMouseOut}
+            ref={this.storeContainerRef}
             role="group"
             tabIndex={0}
-            // eslint-disable-next-line react/jsx-sort-props
-            ref={this.storeContainerRef}
           >
             <section
               class={{

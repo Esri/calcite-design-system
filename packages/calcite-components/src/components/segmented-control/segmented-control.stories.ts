@@ -137,3 +137,29 @@ export const validationMessage_TestOnly = (): string => html`
     </calcite-segmented-control>
   </div>
 `;
+
+export const iconOnly = (): string => html`
+  <h1>small</h1>
+  <calcite-segmented-control scale="s">
+    <calcite-segmented-control-item icon-start="banana" value="react" checked></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-start="gear" value="ember"></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-start="3d-glasses" value="angular"></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-start="effects" value="vue"></calcite-segmented-control-item>
+  </calcite-segmented-control>
+
+  <h1>medium</h1>
+  <calcite-segmented-control scale="m">
+    <calcite-segmented-control-item icon-end="banana" value="react" checked></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-end="gear" value="ember"></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-end="3d-glasses" value="angular"></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-end="effects" value="vue"></calcite-segmented-control-item>
+  </calcite-segmented-control>
+
+  <h1>medium</h1>
+  <calcite-segmented-control scale="l">
+    <calcite-segmented-control-item icon-end="banana" value="react" checked></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-end="gear" value="ember"></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-end="3d-glasses" value="angular"></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-end="effects" value="vue"></calcite-segmented-control-item>
+  </calcite-segmented-control>
+`;

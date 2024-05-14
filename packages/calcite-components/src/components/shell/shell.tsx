@@ -193,7 +193,7 @@ export class Shell implements ConditionalSlotComponent {
 
     const contentContainerKey = "content-container";
 
-    const content = !!this.contentBehind
+    const content = this.contentBehind
       ? [
           <div
             class={{
