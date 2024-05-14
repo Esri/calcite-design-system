@@ -74,13 +74,13 @@ git checkout main
 npm run clean
 npm install
 npm test
-npm run version:next
+npm run version:prerelease
 # verify the changelog and package versions look correct
-npm run publish:next
+npm run publish:prerelease
 npm run util:push-tags
 ```
 
-**IMPORTANT:** If you need to change anything after running `version:next` (e.g., a changelog entry), make sure to amend the previous commit and recreate all of the tags using the new SHA (or `HEAD`) before continuing. For example:
+**IMPORTANT:** If you need to change anything after running `version:prerelease` (e.g., a changelog entry), make sure to amend the previous commit and recreate all of the tags using the new SHA (or `HEAD`) before continuing. For example:
 
 ```sh
 # manual changelog entry updates were required after versioning...
