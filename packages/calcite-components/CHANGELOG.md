@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.8...@esri/calcite-components@2.9.0-next.9) (2024-05-14)
+
+### Bug Fixes
+
+- add type-fest as dependency due to build error ([#9334](https://github.com/Esri/calcite-design-system/issues/9334)) ([6647d18](https://github.com/Esri/calcite-design-system/commit/6647d18f77051073871c37458b4088e1bad77af8)), closes [#9307](https://github.com/Esri/calcite-design-system/issues/9307) [/github.com/Esri/calcite-design-system/blob/27a82dcaf8b091c609b3bf765d8c8617c447d8e7/packages/calcite-components/support/preact.ts#L8](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/27a82dcaf8b091c609b3bf765d8c8617c447d8e7/packages/calcite-components/support/preact.ts/issues/L8)
+
 ## [2.9.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.7...@esri/calcite-components@2.9.0-next.8) (2024-05-14)
 
 ### Bug Fixes
