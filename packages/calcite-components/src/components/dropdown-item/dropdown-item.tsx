@@ -151,7 +151,7 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
   }
 
   render(): VNode {
-    const { href, selectionMode, label, iconFlipRtl, scale } = this;
+    const { href, selectionMode, label, iconFlipRtl } = this;
 
     const iconStartEl = (
       <calcite-icon
@@ -222,16 +222,12 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
           <div
             class={{
               [CSS.container]: true,
-              [CSS.containerLink]: !!href,
-              [`${CSS.container}--${scale}`]: true,
-              [CSS.containerMulti]: selectionMode === "multiple",
-              [CSS.containerSingle]: selectionMode === "single",
               [CSS.containerNone]: selectionMode === "none",
             }}
           >
             {selectionMode !== "none" ? (
               <calcite-icon
-                class={CSS.icon}
+                class={CSS.iconSelection}
                 icon={selectionMode === "multiple" ? "check" : "bullet-point"}
                 scale={getIconScale(this.scale)}
               />
