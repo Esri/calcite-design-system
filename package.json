@@ -115,7 +115,6 @@
     "ts-jest": "29.1.2",
     "tsx": "4.7.2",
     "turbo": "1.13.2",
-    "type-fest": "4.16.0",
     "typescript": "5.4.4",
     "updtr": "4.0.0",
     "workbox-build": "7.0.0"
