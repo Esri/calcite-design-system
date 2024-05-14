@@ -48,11 +48,11 @@
   }
 
   .dropdown-item-icon,
-  .dropdown-item-icon--start {
+  .dropdown-item-icon-start {
     padding-inline-end: var(--calcite-spacing-sm);
   }
 
-  .dropdown-item-icon--end {
+  .dropdown-item-icon-end {
     padding-inline-start: var(--calcite-spacing-sm);
   }
 }
@@ -63,11 +63,11 @@
   }
 
   .dropdown-item-icon,
-  .dropdown-item-icon--start {
+  .dropdown-item-icon-start {
     padding-inline-end: var(--calcite-spacing-md);
   }
 
-  .dropdown-item-icon--end {
+  .dropdown-item-icon-end {
     padding-inline-start: var(--calcite-spacing-md);
   }
 }
@@ -78,11 +78,11 @@
   }
 
   .dropdown-item-icon,
-  .dropdown-item-icon--start {
+  .dropdown-item-icon-start {
     padding-inline-end: var(--calcite-spacing-xl);
   }
 
-  .dropdown-item-icon--end {
+  .dropdown-item-icon-end {
     padding-inline-start: var(--calcite-spacing-xl);
   }
 }
