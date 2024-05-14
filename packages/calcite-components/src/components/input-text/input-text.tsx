@@ -97,8 +97,6 @@ export class InputText
 
   /**
    * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
-   *
-   * @internal
    */
   // eslint-disable-next-line @stencil-community/reserved-member-names
   @Prop() autofocus: boolean;
