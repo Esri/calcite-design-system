@@ -1,5 +1,6 @@
 export const CSS = {
   backButton: "back-button",
+  contentTop: "content-top",
 };
 
 export const ICONS = {
@@ -9,6 +10,7 @@ export const ICONS = {
 
 export const SLOTS = {
   actionBar: "action-bar",
+  contentTop: "content-top",
   headerActionsStart: "header-actions-start",
   headerActionsEnd: "header-actions-end",
   headerMenuActions: "header-menu-actions",

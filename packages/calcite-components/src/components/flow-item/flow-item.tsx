@@ -11,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { getElementDir, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -42,6 +42,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
 /**
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
+ * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  * @slot header-actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot header-content - A slot for adding custom content to the component's header.
@@ -235,6 +236,8 @@ export class FlowItem
     updateMessages(this, this.effectiveLocale);
   }
 
+  @State() hasContentTop = false;
+
   // --------------------------------------------------------------------------
   //
   //  Methods
@@ -310,6 +313,10 @@ export class FlowItem
     this.containerEl = node;
   };
 
+  private contentTopSlotChangeHandler = (event: Event): void => {
+    this.hasContentTop = slotChangeHasAssignedElement(event);
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -338,6 +345,14 @@ export class FlowItem
         title={label}
       />
     ) : null;
+  }
+
+  renderContentTop(): VNode {
+    return (
+      <div class={CSS.contentTop} hidden={!this.hasContentTop}>
+        <slot name={SLOTS.contentTop} onSlotchange={this.contentTopSlotChangeHandler} />
+      </div>
+    );
   }
 
   render(): VNode {
@@ -379,6 +394,7 @@ export class FlowItem
             ref={this.setContainerRef}
           >
             {this.renderBackButton()}
+            {this.renderContentTop()}
             <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
             <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
             <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
