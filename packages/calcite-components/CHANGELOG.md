@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.11...@esri/calcite-components@2.9.0-next.12) (2024-05-15)
+
+### Features
+
+- **flow-item:** add content-bottom slot ([#9346](https://github.com/Esri/calcite-design-system/issues/9346)) ([9d3b1af](https://github.com/Esri/calcite-design-system/commit/9d3b1afa187c9239eca77cc4d3dae8bdd24a125a)), closes [#8979](https://github.com/Esri/calcite-design-system/issues/8979)
+
+## [2.9.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.10...@esri/calcite-components@2.9.0-next.11) (2024-05-15)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** ensure autofocus is available on HTMLElement ([#9343](https://github.com/Esri/calcite-design-system/issues/9343)) ([#9347](https://github.com/Esri/calcite-design-system/issues/9347)) ([27ad10e](https://github.com/Esri/calcite-design-system/commit/27ad10ed82bc69c5ed62a2b4f2ea24e86f83c01c)), closes [#9235](https://github.com/Esri/calcite-design-system/issues/9235)
+
+## [2.9.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.9...@esri/calcite-components@2.9.0-next.10) (2024-05-14)
+
+### Bug Fixes
+
+- **carousel:** animate items with the same direction ([#9335](https://github.com/Esri/calcite-design-system/issues/9335)) ([af43d15](https://github.com/Esri/calcite-design-system/commit/af43d153523cb7a121b440ed56e2f92a493e1f39)), closes [#9232](https://github.com/Esri/calcite-design-system/issues/9232) [/github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/utils/openCloseComponent.ts#L91](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/utils/openCloseComponent.ts/issues/L91)
+
 ## [2.8.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0...@esri/calcite-components@2.8.1) (2024-05-14)
 
 ### Bug Fixes
