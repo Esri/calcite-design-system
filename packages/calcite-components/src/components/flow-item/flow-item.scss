@@ -12,16 +12,6 @@
   @apply relative flex w-full flex-auto overflow-hidden;
 }
 
-.content-top {
-  @apply flex items-start self-stretch;
-
-  padding: var(--calcite-spacing-md);
-  background-color: var(--calcite-color-foreground-1);
-  border-block-end: 1px solid var(--calcite-color-border-3);
-  padding-inline: var(--calcite-spacing-md);
-  padding-block: var(--calcite-spacing-lg);
-}
-
 @include disabled();
 
 .back-button {

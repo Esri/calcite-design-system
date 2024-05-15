@@ -11,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir, slotChangeHasAssignedElement } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -236,8 +236,6 @@ export class FlowItem
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() hasContentTop = false;
-
   // --------------------------------------------------------------------------
   //
   //  Methods
@@ -313,10 +311,6 @@ export class FlowItem
     this.containerEl = node;
   };
 
-  private contentTopSlotChangeHandler = (event: Event): void => {
-    this.hasContentTop = slotChangeHasAssignedElement(event);
-  };
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -345,14 +339,6 @@ export class FlowItem
         title={label}
       />
     ) : null;
-  }
-
-  renderContentTop(): VNode {
-    return (
-      <div class={CSS.contentTop} hidden={!this.hasContentTop}>
-        <slot name={SLOTS.contentTop} onSlotchange={this.contentTopSlotChangeHandler} />
-      </div>
-    );
   }
 
   render(): VNode {
@@ -394,13 +380,13 @@ export class FlowItem
             ref={this.setContainerRef}
           >
             {this.renderBackButton()}
-            {this.renderContentTop()}
             <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
             <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
             <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
             <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
             <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
             <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
+            <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
             <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
             <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
             <slot />

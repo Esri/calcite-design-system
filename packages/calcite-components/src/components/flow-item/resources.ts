@@ -1,6 +1,5 @@
 export const CSS = {
   backButton: "back-button",
-  contentTop: "content-top",
 };
 
 export const ICONS = {
