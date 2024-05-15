@@ -263,7 +263,7 @@ export const overflowContent_TestOnly = (): string =>
       </calcite-flow>
     </div>`;
 
-export const withActionBar_TestOnly = (): string =>
+export const withActionBarAndContentBottom_TestOnly = (): string =>
   html`<div style="width: 300px;">
     <calcite-flow-item height-scale="s">
       <calcite-action-bar slot="action-bar">
@@ -275,6 +275,7 @@ export const withActionBar_TestOnly = (): string =>
       </calcite-action-bar>
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
+      <div slot="content-bottom">Content bottom!</div>
     </calcite-flow-item>
   </div>`;
 
