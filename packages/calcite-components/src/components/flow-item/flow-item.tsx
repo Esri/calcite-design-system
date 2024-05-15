@@ -11,7 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { getElementDir, slotChangeHasAssignedElement } from "../../utils/dom";
+import { getElementDir } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -279,10 +279,6 @@ export class FlowItem
     await this.containerEl?.scrollContentTo(options);
   }
 
-  private contentBottomSlotChangeHandler = (event: Event): void => {
-    this.hasContentBottom = slotChangeHasAssignedElement(event);
-  };
-
   // --------------------------------------------------------------------------
   //
   //  Private Methods
@@ -347,14 +343,6 @@ export class FlowItem
     ) : null;
   }
 
-  renderContentBottom(): VNode {
-    return (
-      <div class={CSS.contentBottom} hidden={!this.hasContentBottom}>
-        <slot name={SLOTS.contentBottom} onSlotchange={this.contentBottomSlotChangeHandler} />
-      </div>
-    );
-  }
-
   render(): VNode {
     const {
       collapsed,
@@ -400,10 +388,10 @@ export class FlowItem
             <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
             <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
             <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
+            <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
             <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
             <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
             <slot />
-            {this.renderContentBottom()}
           </calcite-panel>
         </InteractiveContainer>
       </Host>

@@ -27,13 +27,3 @@ calcite-panel {
 }
 
 @include base-component();
-
-.content-bottom {
-  @apply flex items-start self-stretch;
-
-  padding: var(--calcite-spacing-md);
-  background-color: var(--calcite-color-foreground-1);
-  border-block-start: 1px solid var(--calcite-color-border-3);
-  padding-inline: var(--calcite-spacing-md);
-  padding-block: var(--calcite-spacing-lg);
-}
