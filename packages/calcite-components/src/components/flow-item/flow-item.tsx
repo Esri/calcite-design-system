@@ -236,8 +236,6 @@ export class FlowItem
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() hasContentBottom = false;
-
   // --------------------------------------------------------------------------
   //
   //  Methods
