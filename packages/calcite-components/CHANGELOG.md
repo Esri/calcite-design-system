@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.9...@esri/calcite-components@2.9.0-next.10) (2024-05-14)
+
+### Bug Fixes
+
+- **carousel:** animate items with the same direction ([#9335](https://github.com/Esri/calcite-design-system/issues/9335)) ([af43d15](https://github.com/Esri/calcite-design-system/commit/af43d153523cb7a121b440ed56e2f92a493e1f39)), closes [#9232](https://github.com/Esri/calcite-design-system/issues/9232) [/github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/utils/openCloseComponent.ts#L91](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/src/utils/openCloseComponent.ts/issues/L91)
+
+## [2.8.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.0...@esri/calcite-components@2.8.1) (2024-05-14)
+
+### Bug Fixes
+
+- Add type-fest as dependency due to build error ([3819688](https://github.com/Esri/calcite-design-system/commit/38196883cb33f16915d4537affce63441bd316a4))
+- **carousel:** Animate items with the same direction ([#9325](https://github.com/Esri/calcite-design-system/issues/9325)) ([6bf7b74](https://github.com/Esri/calcite-design-system/commit/6bf7b740641d0bff366ae109405468f80bf87852))
+- **input, input-number, input-text:** Restore `autofocus`, `enter-key-mode` and `input-mode` attributes ([#9245](https://github.com/Esri/calcite-design-system/issues/9245)) ([#9306](https://github.com/Esri/calcite-design-system/issues/9306)) ([0498c6e](https://github.com/Esri/calcite-design-system/commit/0498c6ecf3b881e2fec9e18aa5b28211b44b654a))
+- **list-item:** Decrease horizontal spacing between selection icon and content ([#9304](https://github.com/Esri/calcite-design-system/issues/9304)) ([0e828b6](https://github.com/Esri/calcite-design-system/commit/0e828b64905818feb65d153e37d44650ebebf9f6))
+
+## [2.9.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.8...@esri/calcite-components@2.9.0-next.9) (2024-05-14)
+
+### Bug Fixes
+
+- add type-fest as dependency due to build error ([#9334](https://github.com/Esri/calcite-design-system/issues/9334)) ([6647d18](https://github.com/Esri/calcite-design-system/commit/6647d18f77051073871c37458b4088e1bad77af8)), closes [#9307](https://github.com/Esri/calcite-design-system/issues/9307) [/github.com/Esri/calcite-design-system/blob/27a82dcaf8b091c609b3bf765d8c8617c447d8e7/packages/calcite-components/support/preact.ts#L8](https://github.com/Esri//github.com/Esri/calcite-design-system/blob/27a82dcaf8b091c609b3bf765d8c8617c447d8e7/packages/calcite-components/support/preact.ts/issues/L8)
+
+## [2.9.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.7...@esri/calcite-components@2.9.0-next.8) (2024-05-14)
+
+### Bug Fixes
+
+- **block:** update text hierarchy and spacing ([#9329](https://github.com/Esri/calcite-design-system/issues/9329)) ([796372e](https://github.com/Esri/calcite-design-system/commit/796372ee8432ed731e3a49405b153ef05c41a8b3)), closes [#9323](https://github.com/Esri/calcite-design-system/issues/9323)
+
 ## [2.9.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.6...@esri/calcite-components@2.9.0-next.7) (2024-05-14)
 
 ### Features
