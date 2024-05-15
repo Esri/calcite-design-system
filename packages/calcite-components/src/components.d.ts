@@ -2049,6 +2049,7 @@ export namespace Components {
         "autocomplete": string;
         /**
           * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+          * @ignore
          */
         "autofocus": boolean;
         /**
@@ -2393,6 +2394,7 @@ export namespace Components {
         "autocomplete": string;
         /**
           * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+          * @ignore
          */
         "autofocus": boolean;
         /**
@@ -2565,6 +2567,7 @@ export namespace Components {
         "autocomplete": string;
         /**
           * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+          * @ignore
          */
         "autofocus": boolean;
         /**
@@ -9853,6 +9856,7 @@ declare namespace LocalJSX {
         "autocomplete"?: string;
         /**
           * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+          * @ignore
          */
         "autofocus"?: boolean;
         /**
@@ -10210,6 +10214,7 @@ declare namespace LocalJSX {
         "autocomplete"?: string;
         /**
           * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+          * @ignore
          */
         "autofocus"?: boolean;
         /**
@@ -10384,6 +10389,7 @@ declare namespace LocalJSX {
         "autocomplete"?: string;
         /**
           * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
+          * @ignore
          */
         "autofocus"?: boolean;
         /**
