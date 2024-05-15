@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.12...@esri/calcite-components@2.9.0-next.13) (2024-05-15)
+
+### Features
+
+- **flow-item:** add content-top slot ([#9344](https://github.com/Esri/calcite-design-system/issues/9344)) ([e932f3d](https://github.com/Esri/calcite-design-system/commit/e932f3d44b4ba5a76d4651ab25d3dcd6980168b9)), closes [#8980](https://github.com/Esri/calcite-design-system/issues/8980)
+
 ## [2.9.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.11...@esri/calcite-components@2.9.0-next.12) (2024-05-15)
 
 ### Features
