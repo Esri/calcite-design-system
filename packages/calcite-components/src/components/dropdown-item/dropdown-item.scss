@@ -37,9 +37,11 @@
 }
 
 // when used as link remove styling anchor
-.container--link a {
-  @include itemStyling;
-  @apply focus-base;
+.container--link {
+  & a {
+    @include itemStyling;
+    @apply focus-base;
+  }
 }
 
 :host([scale="s"]) {
@@ -102,7 +104,7 @@
     @apply bg-foreground-2 text-color-1 no-underline;
   }
 
-  .container--link.dropdown-link {
+  .container--link .dropdown-link {
     @apply text-color-1;
   }
 }
@@ -112,7 +114,7 @@
 }
 
 :host([selected]) .container:not(.container--none),
-:host([selected]) .container--link.dropdown-link {
+:host([selected]) .container--link .dropdown-link {
   @apply text-color-1 font-medium;
   & calcite-icon {
     color: theme("backgroundColor.brand");
