@@ -400,10 +400,10 @@ export class FlowItem
             <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
             <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
             <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
-            {this.renderContentBottom()}
             <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
             <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
             <slot />
+            {this.renderContentBottom()}
           </calcite-panel>
         </InteractiveContainer>
       </Host>
