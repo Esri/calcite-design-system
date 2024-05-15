@@ -46,7 +46,7 @@
 
   .multiple {
     .select-icon {
-      padding-inline: var(--calcite-spacing-xxxs);
+      padding-inline: var(--calcite-spacing-base);
     }
   }
 
@@ -106,7 +106,8 @@
   box-border
   font-medium;
   &:not(.is-circle) {
-    padding-inline: var(--calcite-chip-spacing-s-internal);
+    padding-inline-start: var(--calcite-spacing-px);
+    padding-inline-end: var(--calcite-spacing-xxs);
   }
   &.selectable {
     @apply cursor-pointer;
@@ -142,10 +143,6 @@
 }
 
 .container:not(.is-circle) {
-  &.image--slotted {
-    padding-inline-start: calc(var(--calcite-chip-spacing-l-internal) / 2);
-  }
-
   &.image--slotted .image-container {
     margin-inline-end: var(--calcite-chip-spacing-s-internal);
   }
