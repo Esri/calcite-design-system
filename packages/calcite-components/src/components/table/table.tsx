@@ -32,7 +32,12 @@ import {
   NumberingSystem,
 } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
-import { TableInteractionMode, TableLayout, TableRowFocusEvent } from "./interfaces";
+import {
+  TableInteractionMode,
+  TableLayout,
+  TableRowFocusEvent,
+  TableSelectionDisplay,
+} from "./interfaces";
 import { CSS, SLOTS } from "./resources";
 import { TableMessages } from "./assets/table/t9n";
 
@@ -94,6 +99,10 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
    */
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
     "none";
+
+  /** Specifies the display of the selection interface when `selection-mode` is not "none". When `"none"`, content slotted the `selection-actions` slot will not be displayed. */
+
+  @Prop({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
 
   /**
    * When `true`, displays striped styling in the component.
@@ -517,7 +526,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     return (
       <Host>
         <div class={CSS.container}>
-          {this.selectionMode !== "none" && this.renderSelectionArea()}
+          {this.selectionMode !== "none" &&
+            this.selectionDisplay !== "none" &&
+            this.renderSelectionArea()}
           <div
             class={{
               [CSS.bordered]: this.bordered,

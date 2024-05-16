@@ -11,6 +11,7 @@ export const simple = (): string =>
     page-size="${number("page-size", 0)}"
     interaction-mode="${select("interaction-mode", ["interactive", "static"], "interactive")}"
     selection-mode="${select("selection-mode", ["none", "single", "multiple"], "none")}"
+    selection-display="${select("selection-display", ["none", "top"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["auto", "fixed"], "auto")}"
     caption="${text("caption", "Simple table")}"
@@ -710,6 +711,74 @@ export const selectionModeMultipleAndSelectedOnLoad_TestOnly = (): string =>
   html` <calcite-table
     page-size="4"
     selection-mode="multiple"
+    numbered
+    caption="selection-mode multiple with selected at load"
+  >
+    <calcite-action slot="selection-actions" icon="layer"></calcite-action>
+    <calcite-action slot="selection-actions" icon="send"></calcite-action>
+    <calcite-action slot="selection-actions" icon="copy"></calcite-action>
+    <calcite-action slot="selection-actions" icon="plus"></calcite-action>
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+  </calcite-table>`;
+
+export const selectionModeMultipleAndSelectedSelectionDisplayNoneOnLoad_TestOnly = (): string =>
+  html` <calcite-table
+    page-size="4"
+    selection-mode="multiple"
+    selection-display="none"
     numbered
     caption="selection-mode multiple with selected at load"
   >
