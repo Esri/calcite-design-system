@@ -1,6 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, HYDRATED_ATTR, renders, t9n, themed } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { getElementXY } from "../../tests/utils";
 import { openClose } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
@@ -41,6 +42,107 @@ describe("calcite-alert", () => {
 
   describe("openClose", () => {
     openClose("calcite-alert");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-alert-accent-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBlockStartColor",
+        },
+        "--calcite-alert-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-alert-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineColor",
+        },
+        "--calcite-alert-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-alert-shadow": {
+          targetProp: "boxShadow",
+          shadowSelector: `.${CSS.container}`,
+        },
+        "--calcite-alert-icon-color": {
+          shadowSelector: `.${CSS.icon} >>> calcite-icon`,
+          targetProp: "color",
+        },
+        "--calcite-alert-close-background-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-alert-close-background-color-hover": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: { hover: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-alert-close-background-color-active": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-alert-close-background-color-focus": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: { focus: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-alert-close-icon-color-hover": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "color",
+          state: { hover: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-alert-close-icon-color-active": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "color",
+          state: { press: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-alert-close-icon-color-focus": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "color",
+          state: { focus: { attribute: "class", value: CSS.close } },
+        },
+      };
+      themed(
+        html`<calcite-alert open icon closable>
+          <div slot="title">Title Text</div>
+          <div slot="message">Message Text</div>
+        </calcite-alert>`,
+        tokens,
+      );
+    });
+    describe.skip("queued Alerts", () => {
+      /* Currently we cannot programmatically simulate a queued Alert in a `themed` test */
+      /* https://github.com/Esri/calcite-design-system/issues/9340 */
+      const tokens: ComponentTestTokens = {
+        "--calcite-alert-chip-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-alert-chip-border-color": {
+          targetProp: "borderColor",
+          shadowSelector: `.${CSS.queueCount} >>> calcite-chip`,
+        },
+        "--calcite-alert-chip-corner-radius": {
+          targetProp: "borderRadius",
+          shadowSelector: `.${CSS.queueCount} >>> calcite-chip`,
+        },
+        "--calcite-alert-chip-text-color": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.queueCount} >>> calcite-chip`,
+        },
+      };
+      themed(
+        html`<calcite-alert open icon closable>
+          <div slot="title">Title Text</div>
+          <div slot="message">Message Text</div>
+        </calcite-alert>`,
+        tokens,
+      );
+    });
   });
 
   it("renders default props when none are provided", async () => {
