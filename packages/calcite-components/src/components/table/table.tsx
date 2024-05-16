@@ -45,7 +45,7 @@ import { TableMessages } from "./assets/table/t9n";
  * @slot - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
  * @slot table-header - A slot for adding `calcite-table-row` elements containing `calcite-table-header` elements.
  * @slot table-footer - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
- * @slot selection-actions - A slot for adding a `calcite-action-bar` or other elements to display when `selectionMode` is not `"none"`.
+ * @slot selection-actions - A slot for adding `calcite-actions` or other elements to display when `selectionMode` is not `"none"` and `selectionDisplay` is not `"none"`.
  */
 
 @Component({
@@ -100,7 +100,7 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
     "none";
 
-  /** Specifies the display of the selection interface when `selection-mode` is not "none". When `"none"`, content slotted the `selection-actions` slot will not be displayed. */
+  /** Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed. */
 
   @Prop({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
 

@@ -4932,7 +4932,7 @@ export namespace Components {
          */
         "selectedItems": HTMLCalciteTableRowElement[];
         /**
-          * Specifies the display of the selection interface when `selection-mode` is not "none". When `"none"`, content slotted the `selection-actions` slot will not be displayed.
+          * Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed.
          */
         "selectionDisplay": TableSelectionDisplay;
         /**
@@ -12884,7 +12884,7 @@ declare namespace LocalJSX {
          */
         "selectedItems"?: HTMLCalciteTableRowElement[];
         /**
-          * Specifies the display of the selection interface when `selection-mode` is not "none". When `"none"`, content slotted the `selection-actions` slot will not be displayed.
+          * Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed.
          */
         "selectionDisplay"?: TableSelectionDisplay;
         /**
