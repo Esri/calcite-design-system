@@ -1,7 +1,7 @@
 {
   "chooseTimeZone": "Selecione o fuso horário.",
-  "offsetPlaceholder": "Search by city, region or offset",
-  "namePlaceholder": "Search by time zone",
+  "offsetPlaceholder": "Pesquisar por cidade, região ou offset",
+  "namePlaceholder": "Pesquisar por fuso horário",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidjan",
   "Africa/Accra": "Accra",

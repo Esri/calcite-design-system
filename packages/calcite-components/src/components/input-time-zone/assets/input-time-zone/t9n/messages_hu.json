@@ -1,7 +1,7 @@
 {
   "chooseTimeZone": "Időzóna kiválasztása",
-  "offsetPlaceholder": "Search by city, region or offset",
-  "namePlaceholder": "Search by time zone",
+  "offsetPlaceholder": "Keresés város, régió vagy eltolás szerint",
+  "namePlaceholder": "Keresés időzóna szerint",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidzsán",
   "Africa/Accra": "Accra",

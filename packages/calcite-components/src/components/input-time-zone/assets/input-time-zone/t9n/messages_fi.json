@@ -1,7 +1,7 @@
 {
   "chooseTimeZone": "Valitse aikavyöhyke.",
-  "offsetPlaceholder": "Search by city, region or offset",
-  "namePlaceholder": "Search by time zone",
+  "offsetPlaceholder": "Hae kaupungin, alueen tai siirtymän mukaan",
+  "namePlaceholder": "Hae aikavyöhykkeen mukaan",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidjan",
   "Africa/Accra": "Accra",

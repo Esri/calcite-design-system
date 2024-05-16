@@ -1,7 +1,7 @@
 {
   "chooseTimeZone": "Wybierz strefę czasową",
-  "offsetPlaceholder": "Search by city, region or offset",
-  "namePlaceholder": "Search by time zone",
+  "offsetPlaceholder": "Szukaj według miejscowości, regionu lub przesunięcia",
+  "namePlaceholder": "Wyszukaj według strefy czasowej",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidżan",
   "Africa/Accra": "Akra",

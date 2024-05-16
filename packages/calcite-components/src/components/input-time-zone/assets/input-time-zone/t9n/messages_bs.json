@@ -1,7 +1,7 @@
 {
   "chooseTimeZone": "Odaberite vremensku zonu.",
-  "offsetPlaceholder": "Search by city, region or offset",
-  "namePlaceholder": "Search by time zone",
+  "offsetPlaceholder": "Pretraživanje po gradu, regiji ili pomaku",
+  "namePlaceholder": "Pretraživanje po vremenskoj zoni",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidjan",
   "Africa/Accra": "Accra",

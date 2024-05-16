@@ -1,7 +1,7 @@
 {
   "chooseTimeZone": "タイム ゾーンを選択します。",
-  "offsetPlaceholder": "Search by city, region or offset",
-  "namePlaceholder": "Search by time zone",
+  "offsetPlaceholder": "都市、地区、オフセットで検索",
+  "namePlaceholder": "タイムゾーンで検索",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "アビジャン",
   "Africa/Accra": "アクラ",

@@ -1,7 +1,7 @@
 {
   "chooseTimeZone": "בחר אזור זמן.",
-  "offsetPlaceholder": "Search by city, region or offset",
-  "namePlaceholder": "Search by time zone",
+  "offsetPlaceholder": "חפש לפי עיר, אזור או היסט",
+  "namePlaceholder": "חפש לפי אזור זמן",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "אביג'אן",
   "Africa/Accra": "אקרה",

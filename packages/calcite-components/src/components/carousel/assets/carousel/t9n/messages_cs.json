@@ -1,8 +1,8 @@
 {
-  "previous": "Previous",
-  "next": "Next",
-  "play": "Play",
-  "pause": "Pause",
-  "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "previous": "Předchozí",
+  "next": "Další",
+  "play": "Přehrát",
+  "pause": "Pozastavit",
+  "carousel": "Karusel",
+  "carouselItemProgress": "Ukazatel průběhu pro položku karuselu"
 }
