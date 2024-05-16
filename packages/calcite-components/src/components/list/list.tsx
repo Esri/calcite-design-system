@@ -47,7 +47,13 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+  numberStringFormatter,
+} from "../../utils/locale";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import { ListMessages } from "./assets/list/t9n";
 import { ListDragDetail } from "./interfaces";
@@ -71,7 +77,12 @@ const parentSelector = "calcite-list-item-group, calcite-list-item";
   assetsDirs: ["assets"],
 })
 export class List
-  implements InteractiveComponent, LoadableComponent, SortableComponent, T9nComponent
+  implements
+    InteractiveComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    SortableComponent,
+    T9nComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -393,6 +404,7 @@ export class List
       return;
     }
 
+    connectLocalized(this);
     connectMessages(this);
     this.connectObserver();
     this.updateListItems();
@@ -422,6 +434,7 @@ export class List
     this.disconnectObserver();
     disconnectSortableComponent(this);
     disconnectInteractive(this);
+    disconnectLocalized(this);
     disconnectMessages(this);
   }
 
@@ -547,9 +560,8 @@ export class List
                         items={dataForFilter}
                         onCalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
-                        value={filterText}
-                        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                         ref={this.setFilterEl}
+                        value={filterText}
                       />
                       <slot
                         name={SLOTS.filterActionsEnd}

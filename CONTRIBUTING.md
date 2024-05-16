@@ -253,11 +253,3 @@ By default, the PR body will be used for the commit message when squash merging,
 If the PR includes visual changes, once you are ready to run Chromatic to create visual snapshots, add the `pr ready for visual snapshots` label to the PR. Removing and re-adding the label is required to re-run snapshots, e.g. when pushing additional updates.
 
 If visual snapshots are not necessary for the PR (e.g. changes to doc, ci, storybook, etc.), you can add the `skip visual snapshots` label instead. The `skip visual snapshots` label can also be used to prevent re-running Chromatic after pushing minor cleanup changes before merging.
-
-### Low risk issues and Maintenance releases
-
-Sometimes a maintenance release and sprint may be added to address regressions and bug fixes. During maintenance releases, besides critical changes and regressions, new features and bug fixes can be added where PRs are identified as "low risk" to ensure stability of the upcoming release. Breaking changes should not be included in maintenance releases, and must be coordinated and communicated with Calcite team owners.
-
-When a maintenance release is listed as the current milestone and sprint, the associated PR should have a `low risk` label so reviewers can verify if the change is low risk. There is an action that checks if the current milestone is a maintenance release, and developers can also check by [sorting the open milestones by due date](https://github.com/Esri/calcite-design-system/milestones?direction=asc&sort=due_date&state=open).
-
-Once the proposed changes are accepted and the low risk is confirmed by Calcite's reviewers, the PR can be merged into the maintenance release.

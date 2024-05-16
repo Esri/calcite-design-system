@@ -71,10 +71,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot        | Description                            |
-| ----------- | -------------------------------------- |
-|             | A slot for adding a `calcite-icon`.    |
-| `"tooltip"` | A slot for adding a `calcite-tooltip`. |
+| Slot        | Description                                               |
+| ----------- | --------------------------------------------------------- |
+|             | A slot for adding a `calcite-icon`.                       |
+| `"tooltip"` | [Deprecated] Use the `calcite-tooltip` component instead. |
 
 ## CSS Custom Properties
 
