@@ -23,7 +23,6 @@
     leading-none
     transition-default
     w-full
-    z-default
     relative;
   background: none;
   block-size: var(--calcite-internal-day-size);
@@ -80,7 +79,7 @@
 }
 
 :host(:focus[selected]) .day {
-  @apply focus-outset;
+  @apply focus-outset z-default;
   box-shadow: 0 0 0 2px var(--calcite-color-foreground-1);
 }
 
