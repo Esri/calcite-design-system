@@ -22,7 +22,9 @@
     justify-center
     leading-none
     transition-default
-    w-full;
+    w-full
+    z-default
+    relative;
   background: none;
   block-size: var(--calcite-internal-day-size);
   outline-color: transparent;
@@ -77,7 +79,12 @@
   }
 }
 
-:host(:focus:not([disabled])) .day {
+:host(:focus[selected]) .day {
+  @apply focus-outset;
+  box-shadow: 0 0 0 2px var(--calcite-color-foreground-1);
+}
+
+:host(:focus:not([disabled]):not([selected])) .day {
   @apply focus-inset;
 }
 
