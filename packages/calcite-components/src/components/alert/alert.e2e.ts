@@ -45,6 +45,11 @@ describe("calcite-alert", () => {
   });
 
   describe("theme", () => {
+    const alertHtml = html`<calcite-alert open icon closable>
+      <div slot="title">Title Text</div>
+      <div slot="message">Message Text</div>
+    </calcite-alert>`;
+
     describe("default", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-alert-accent-color": {
@@ -106,13 +111,7 @@ describe("calcite-alert", () => {
           state: { focus: { attribute: "class", value: CSS.close } },
         },
       };
-      themed(
-        html`<calcite-alert open icon closable>
-          <div slot="title">Title Text</div>
-          <div slot="message">Message Text</div>
-        </calcite-alert>`,
-        tokens,
-      );
+      themed(alertHtml, tokens);
     });
     describe.skip("queued Alerts", () => {
       /* Currently we cannot programmatically simulate a queued Alert in a `themed` test */
@@ -135,13 +134,7 @@ describe("calcite-alert", () => {
           shadowSelector: `.${CSS.queueCount} >>> calcite-chip`,
         },
       };
-      themed(
-        html`<calcite-alert open icon closable>
-          <div slot="title">Title Text</div>
-          <div slot="message">Message Text</div>
-        </calcite-alert>`,
-        tokens,
-      );
+      themed(alertHtml, tokens);
     });
   });
 
