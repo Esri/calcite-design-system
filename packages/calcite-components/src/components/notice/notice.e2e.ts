@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, renders, slots, hidden, t9n } from "../../tests/commonTests";
+import { accessible, focusable, renders, slots, hidden, t9n, themed } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
@@ -41,6 +42,68 @@ describe("calcite-notice", () => {
 
   describe("slots", () => {
     slots("calcite-notice", SLOTS);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-notice-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-notice-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-notice-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-notice-shadow": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-notice-icon-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "color",
+        },
+        "--calcite-notice-close-icon-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "color",
+        },
+        "--calcite-notice-close-background-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-notice-close-background-color-hover": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: { hover: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-notice-close-background-color-active": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-notice-close-background-color-focus": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: { focus: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-notice-close-focus-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "outlineColor",
+          state: { focus: { attribute: "class", value: CSS.close } },
+        },
+      };
+      themed(
+        html`<calcite-notice open icon closable>
+          <div slot="title">Title Text</div>
+          <div slot="message">Message Text</div>
+        </calcite-notice>`,
+        tokens,
+      );
+    });
   });
 
   it("renders default props when none are provided", async () => {
