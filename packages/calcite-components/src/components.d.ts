@@ -12583,7 +12583,7 @@ declare namespace LocalJSX {
         "onCalciteStepperChange"?: (event: CalciteStepperCustomEvent<void>) => void;
         /**
           * Fires when the active `calcite-stepper-item` changes.
-          * @deprecated use `calciteStepperChange` instead.
+          * @deprecated use `calciteStepperChange` instead or `calciteStepperItemChange` on items instead.
          */
         "onCalciteStepperItemChange"?: (event: CalciteStepperCustomEvent<void>) => void;
         /**
