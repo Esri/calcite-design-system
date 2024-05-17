@@ -222,9 +222,6 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
           <div
             class={{
               [CSS.container]: true,
-              [CSS.containerLink]: !!href,
-              [CSS.containerMulti]: selectionMode === "multiple",
-              [CSS.containerSingle]: selectionMode === "single",
               [CSS.containerNone]: selectionMode === "none",
             }}
           >
