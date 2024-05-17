@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.13...@esri/calcite-components@2.9.0-next.14) (2024-05-17)
+
+### Features
+
+- **dropdown-item:** update spacing of icons ([#9330](https://github.com/Esri/calcite-design-system/issues/9330)) ([c2e5a99](https://github.com/Esri/calcite-design-system/commit/c2e5a99fa037d596b65261610a8c85a9370c4f79)), closes [#7095](https://github.com/Esri/calcite-design-system/issues/7095)
+
 ## [2.9.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.12...@esri/calcite-components@2.9.0-next.13) (2024-05-15)
 
 ### Features
