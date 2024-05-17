@@ -1,25 +1,62 @@
-import { select } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { iconNames } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { selectionMode, scale } = ATTRIBUTES;
+
+interface TreeArgs {
+  lines: boolean;
+  selectionMode: string;
+  scale: string;
+  iconStart: string;
+}
+
+export default {
+  title: "Components/Tree",
+  args: {
+    lines: false,
+    selectionMode: selectionMode.values[0],
+    scale: scale.defaultValue,
+    iconStart: "palette",
+  },
+  argTypes: {
+    selectionMode: {
+      options: selectionMode.values.filter((option) => option !== "single-persist"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    iconStart: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
+  parameters: {
+    chromatic: {
+      delay: 1000,
+    },
+  },
+};
 
 const treeItems = html`
   <calcite-tree-item>
     <a>Child 1</a>
   </calcite-tree-item>
-  <calcite-tree-item icon-start="${select("icon-start", iconNames, "palette")}">
+  <calcite-tree-item icon-start="palette">
     <a>Child 2</a>
-    <calcite-tree slot="children" icon-start="${select("icon-start", iconNames, "palette")}">
+    <calcite-tree slot="children" icon-start="palette">
       <calcite-tree-item>
         <a>Grandchild 1</a>
       </calcite-tree-item>
-      <calcite-tree-item icon-start="${select("icon-start", iconNames, "palette")}">
+      <calcite-tree-item icon-start="palette">
         <a>Grandchild 2</a>
-        <calcite-tree slot="children" icon-start="${select("icon-start", iconNames, "palette")}">
+        <calcite-tree slot="children" icon-start="palette">
           <calcite-tree-item>
             <a>Great-Grandchild 1</a>
           </calcite-tree-item>
-          <calcite-tree-item icon-start="${select("icon-start", iconNames, "palette")}">
+          <calcite-tree-item icon-start="palette">
             <a>Great-Grandchild 2</a>
           </calcite-tree-item>
         </calcite-tree>
@@ -79,7 +116,7 @@ const slottedSmallDropdown = html`
 `;
 
 const iconStartLargeActionsEnd = html`
-  <calcite-tree-item icon-start="${select("icon-start", iconNames, "palette")}" expanded>
+  <calcite-tree-item icon-start="palette" expanded>
     <a>Child 1</a>
     ${slottedLargeDropdown} ${slottedLargeDropdown}
   </calcite-tree-item>
@@ -89,7 +126,7 @@ const iconStartLargeActionsEnd = html`
       <calcite-tree-item expanded>
         <a>Grandchild 1</a>
         <calcite-tree slot="children" expanded>
-          <calcite-tree-item icon-start="${select("icon-start", iconNames, "palette")}" expanded>
+          <calcite-tree-item icon-start="palette" expanded>
             <a>Great-Grandchild 1</a>
             ${slottedLargeDropdown}${slottedLargeDropdown}
           </calcite-tree-item>
@@ -97,11 +134,11 @@ const iconStartLargeActionsEnd = html`
       </calcite-tree-item>
     </calcite-tree>
   </calcite-tree-item>
-  <calcite-tree-item icon-start="${select("icon-start", iconNames, "palette")}" expanded>
+  <calcite-tree-item icon-start="palette" expanded>
     <a>Child 3</a>
     ${slottedLargeDropdown}
     <calcite-tree slot="children" expanded>
-      <calcite-tree-item icon-start="${select("icon-start", iconNames, "palette")}">
+      <calcite-tree-item icon-start="palette">
         <a>Grandchild 1</a>
       </calcite-tree-item>
       <calcite-tree-item expanded>
@@ -152,32 +189,45 @@ const slottedSmallActionsEnd = html`
   </calcite-tree-item>
 `;
 
-export default {
-  title: "Components/Tree",
-  parameters: {
-    chromatic: {
-      delay: 1000,
-    },
-  },
-};
-
-const selectionModes = ["single", "children", "multichildren", "ancestors", "none", "multiple"];
-
-export const simple = (): string => html`
-  <calcite-tree
-    ${boolean("lines", false)}
-    selection-mode="${select("selection-mode", selectionModes, "single")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  >
-    ${treeItems}
+export const simple = (args: TreeArgs): string => html`
+  <calcite-tree ${args.lines ? "lines" : ""} selection-mode="${args.selectionMode}" scale="${args.scale}">
+    <calcite-tree-item>
+      <a>Child 1</a>
+    </calcite-tree-item>
+    <calcite-tree-item icon-start="${args.iconStart}">
+      <a>Child 2</a>
+      <calcite-tree slot="children" icon-start="${args.iconStart}">
+        <calcite-tree-item>
+          <a>Grandchild 1</a>
+        </calcite-tree-item>
+        <calcite-tree-item icon-start="${args.iconStart}">
+          <a>Grandchild 2</a>
+          <calcite-tree slot="children" icon-start="${args.iconStart}">
+            <calcite-tree-item>
+              <a>Great-Grandchild 1</a>
+            </calcite-tree-item>
+            <calcite-tree-item icon-start="${args.iconStart}">
+              <a>Great-Grandchild 2</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    </calcite-tree-item>
+    <calcite-tree-item>
+      <a>Child 3</a>
+      <calcite-tree slot="children">
+        <calcite-tree-item>
+          <a>Grandchild 1</a>
+        </calcite-tree-item>
+        <calcite-tree-item>
+          <a>Grandchild 2</a>
+        </calcite-tree-item>
+      </calcite-tree>
+    </calcite-tree-item>
   </calcite-tree>
 `;
 
-export const selectionModeNone = (): string => html`
-  <calcite-tree ${boolean("lines", false)} selection-mode="${select("selection-mode", selectionModes, "none")}"
-    >${treeItems}</calcite-tree
-  >
-`;
+export const selectionModeNone = (): string => html` <calcite-tree selection-mode="none">${treeItems}</calcite-tree> `;
 
 export const withLines_TestOnly = (): string => html`
   <calcite-tree lines>
@@ -249,15 +299,7 @@ export const treeItemContentIsNotClipped_TestOnly = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-tree
-    class="calcite-mode-dark"
-    dir="rtl"
-    ${boolean("lines", false)}
-    selection-mode="${select("selection-mode", selectionModes, "single")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  >
-    ${treeItems}
-  </calcite-tree>
+  <calcite-tree class="calcite-mode-dark" dir="rtl" selection-mode="single" scale="m"> ${treeItems} </calcite-tree>
 `;
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 

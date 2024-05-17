@@ -34,9 +34,9 @@ export const simple = (args: CarouselArgs): string =>
   html` <div style="width:600px;height:400px;">
     <calcite-carousel
       control-overlay="${args.controlOverlay}"
-      ${args.disabled && "disabled"}
+      ${args.disabled ? "disabled" : ""}
       autoplay-duration="${args.autoPlayDuration}"
-      ${args.autoPlay && "autoplay"}
+      ${args.autoPlay ? "autoplay" : ""}
       label="${args.label}"
       arrow-type="${args.arrowType}"
     >

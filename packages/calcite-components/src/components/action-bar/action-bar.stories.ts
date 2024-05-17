@@ -18,7 +18,7 @@ export default {
   },
   argTypes: {
     position: {
-      options: position.values,
+      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
       control: { type: "select" },
     },
   },
@@ -26,8 +26,8 @@ export default {
 
 export const simple = (args: ActionBarArgs): string => html`
   <calcite-action-bar
-    ${args.expandDisabled && "expand-disabled"}
-    ${args.expanded && "expanded"}
+    ${args.expandDisabled ? "expand-disabled" : ""}
+    ${args.expanded ? "expanded" : ""}
     position="${args.position}"
   >
     <calcite-action-group>

@@ -10,6 +10,17 @@ import {
   SelectionMode,
   ArrowType,
   DisplayMode,
+  ToggleDisplay,
+  Layout,
+  Dir,
+  ButtonType,
+  InteractionMode,
+  IconType,
+  DeterminateType,
+  FillType,
+  LabelType,
+  ClickType,
+  CollapseDirection,
 } from "../src/components/interfaces";
 
 interface AttributeMetadata<T> {
@@ -29,10 +40,21 @@ interface CommonAttributes {
   selectionMode: AttributeMetadata<SelectionMode>;
   arrowType: AttributeMetadata<ArrowType>;
   displayMode: AttributeMetadata<DisplayMode>;
+  toggleDisplay: AttributeMetadata<ToggleDisplay>;
+  layout: AttributeMetadata<Layout>;
+  dir: AttributeMetadata<Dir>;
+  buttonType: AttributeMetadata<ButtonType>;
+  interactionMode: AttributeMetadata<InteractionMode>;
+  iconType: AttributeMetadata<IconType>;
+  determinateType: AttributeMetadata<DeterminateType>;
+  fillType: AttributeMetadata<FillType>;
+  labelType: AttributeMetadata<LabelType>;
+  clickType: AttributeMetadata<ClickType>;
+  collapseDirection: AttributeMetadata<CollapseDirection>;
 }
 
 const logicalFlowPositionOptions: LogicalFlowPosition[] = ["inline-start", "inline-end", "block-start", "block-end"];
-const positionOptions: Position[] = ["start", "end"];
+const positionOptions: Position[] = ["start", "end", "top", "bottom"];
 const scaleOptions: Scale[] = ["s", "m", "l"];
 const alignmentOptions: Alignment[] = ["start", "center", "end"];
 const appearanceOptions: Appearance[] = ["solid", "outline", "outline-fill", "transparent"];
@@ -50,6 +72,17 @@ const selectionModeOptions: SelectionMode[] = [
 ];
 const arrowTypeOptions: ArrowType[] = ["inline", "edge", "none"];
 const displayModeOptions: DisplayMode[] = ["dock", "float", "overlay"];
+const toggleDisplayOptions: ToggleDisplay[] = ["button", "switch"];
+const layoutOptions: Layout[] = ["horizontal", "vertical", "grid", "inline", "center", "auto", "fixed"];
+const dirOptions: Dir[] = ["ltr", "rtl"];
+const buttonTypeOptions: ButtonType[] = ["radio", "checkbox"];
+const interactionModeOptions: InteractionMode[] = ["interactive", "static"];
+const iconTypeOptions: IconType[] = ["chevron", "caret", "ellipsis", "overflow"];
+const determinateTypeOptions: DeterminateType[] = ["determinate", "indeterminate"];
+const fillTypeOptions: FillType[] = ["single", "range"];
+const labelTypeOptions: LabelType[] = ["percent", "units"];
+const clickTypeOptions: ClickType[] = ["click", "hover"];
+const collapseDirectionptions: CollapseDirection[] = ["down", "up"];
 
 export const ATTRIBUTES: CommonAttributes = {
   alignment: {
@@ -95,5 +128,49 @@ export const ATTRIBUTES: CommonAttributes = {
   displayMode: {
     values: displayModeOptions,
     defaultValue: displayModeOptions[0],
+  },
+  toggleDisplay: {
+    values: toggleDisplayOptions,
+    defaultValue: toggleDisplayOptions[0],
+  },
+  layout: {
+    values: layoutOptions,
+    defaultValue: layoutOptions[0],
+  },
+  dir: {
+    values: dirOptions,
+    defaultValue: dirOptions[0],
+  },
+  buttonType: {
+    values: buttonTypeOptions,
+    defaultValue: buttonTypeOptions[0],
+  },
+  interactionMode: {
+    values: interactionModeOptions,
+    defaultValue: interactionModeOptions[0],
+  },
+  iconType: {
+    values: iconTypeOptions,
+    defaultValue: iconTypeOptions[0],
+  },
+  determinateType: {
+    values: determinateTypeOptions,
+    defaultValue: determinateTypeOptions[0],
+  },
+  fillType: {
+    values: fillTypeOptions,
+    defaultValue: fillTypeOptions[1],
+  },
+  labelType: {
+    values: labelTypeOptions,
+    defaultValue: labelTypeOptions[0],
+  },
+  clickType: {
+    values: clickTypeOptions,
+    defaultValue: clickTypeOptions[0],
+  },
+  collapseDirection: {
+    values: collapseDirectionptions,
+    defaultValue: collapseDirectionptions[0],
   },
 };

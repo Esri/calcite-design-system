@@ -1,24 +1,66 @@
-import { select, text, number } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { scale, status } = ATTRIBUTES;
+
+interface TextAreaArgs {
+  scale: string;
+  status: string;
+  placeholder: string;
+  disabled: boolean;
+  columns: number;
+  resize: string;
+  rows: number;
+  label: string;
+  name: string;
+  validationMessage: string;
+  validationIcon: string;
+}
 
 export default {
   title: "Components/TextArea",
+  args: {
+    scale: scale.defaultValue,
+    status: status.defaultValue,
+    placeholder: "Add Notes",
+    disabled: false,
+    columns: 20,
+    resize: "both",
+    rows: 2,
+    label: "",
+    name: "",
+    validationMessage: "",
+    validationIcon: "",
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: TextAreaArgs): string => html`
   <calcite-text-area
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-    placeholder="${text("placeholder", "Add Notes")}"
-    ${boolean("disabled", false)}
-    columns="${number("columns", 20)}"
-    resize="${text("resize", "both")}"
-    rows="${number("rows", 2)}"
-    label="${text("label", "")}"
-    name="${text("name", "")}"
-    validation-message="${text("validation-message", "")}"
-    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+    scale="${args.scale}"
+    status="${args.status}"
+    placeholder="${args.placeholder}"
+    ${args.disabled ? "disabled" : ""}
+    columns="${args.columns}"
+    resize="${args.resize}"
+    rows="${args.rows}"
+    label="${args.label}"
+    name="${args.name}"
+    validation-message="${args.validationMessage}"
+    validation-icon="${args.validationIcon}"
   >
   </calcite-text-area>
 `;
@@ -34,29 +76,26 @@ export const darkModeRTL_TestOnly = (): string => html`
 
 export const withSlottedElements = (): string => html`
   <calcite-text-area
-    placeholder="${text("placeholder", "Add Notes")}"
-    max-length="${number("max-length", 50)}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    placeholder="${text("placeholder", "Add Notes")}"
-    ${boolean("disabled", false)}
-    columns="${number("columns", 20)}"
-    rows="${number("rows", 2)}"
-    ${boolean("required", false)}
-    ${boolean("readonly", false)}
-    label="${text("label", "")}"
-    name="${text("name", "")}"
-    validation-message="${text("validation-message", "")}"
-    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+    placeholder="Add Notes"
+    max-length="50"
+    scale="m"
+    placeholder="Add Notes"
+    columns="20"
+    rows="2"
+    label=""
+    name=""
+    validation-message=""
+    validation-icon=""
   >
-    <calcite-button slot="${text("slot", "footer-start")}">RESET</calcite-button>
-    <calcite-action icon="code" slot="${text("slot", "footer-end")}"></calcite-action>
+    <calcite-button slot="footer-start">RESET</calcite-button>
+    <calcite-action icon="code" slot="footer-end"></calcite-action>
   </calcite-text-area>
 `;
 
 export const withSlottedElementsDarkModeRTL_TestOnly = (): string => html`
   <calcite-text-area max-length="50" placeholder="Add Notes" dir="rtl" class="calcite-mode-dark">
-    <calcite-button slot="${text("slot", "footer-start")}">RESET</calcite-button>
-    <calcite-action icon="code" slot="${text("slot", "footer-end")}"></calcite-action>
+    <calcite-button slot="footer-start">RESET</calcite-button>
+    <calcite-action icon="code" slot="footer-end"></calcite-action>
   </calcite-text-area>
 `;
 

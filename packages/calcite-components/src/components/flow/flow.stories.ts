@@ -1,39 +1,23 @@
-import { boolean, text } from "../../../.storybook/fake-knobs";
-import { Attributes, createComponentHTML as create, filterComponentAttributes } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../panel/resources";
 
+interface FlowArgs {
+  disabled: boolean;
+  heading: string;
+  loading: boolean;
+  menuOpen: boolean;
+  description: string;
+}
+
 export default {
   title: "Components/Flow",
-};
-
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  return filterComponentAttributes([], exceptions);
-};
-
-const createFlowItemAttributes: (group: string) => Attributes = (group) => {
-  return [
-    {
-      name: "disabled",
-      value: boolean("disabled", false, group, "prop"),
-    },
-    {
-      name: "heading",
-      value: text("heading", "Heading", group),
-    },
-    {
-      name: "loading",
-      value: boolean("loading", false, group, "prop"),
-    },
-    {
-      name: "menu-open",
-      value: boolean("menuOpen", false, group, "prop"),
-    },
-    {
-      name: "description",
-      value: text("description", "Description", group),
-    },
-  ];
+  args: {
+    disabled: false,
+    heading: "Heading",
+    loading: false,
+    menuOpen: false,
+    description: "Description",
+  },
 };
 
 const menuActionsHTML = html`
@@ -129,27 +113,35 @@ const item2HTML = html`
   </ul>
 `;
 
-export const simple = (): string =>
-  create(
-    "calcite-flow",
-    createAttributes(),
-    `${create("calcite-flow-item", createFlowItemAttributes("Flow Item 1"), createItemHTML(item1HTML))}
-    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`,
-  );
+export const simple = (args: FlowArgs): string => html`
+  <calcite-flow>
+    <calcite-flow-item
+      ${args.disabled ? "disabled" : ""}
+      heading="${args.heading}"
+      ${args.loading ? "loading" : ""}
+      ${args.menuOpen ? "menu-open" : ""}
+      description="${args.description}"
+    >
+      ${createItemHTML(item1HTML)}
+    </calcite-flow-item>
+    <calcite-flow-item
+      ${args.disabled ? "disabled" : ""}
+      heading="${args.heading}"
+      ${args.loading ? "loading" : ""}
+      ${args.menuOpen ? "menu-open" : ""}
+      description="${args.description}"
+    >
+      ${createItemHTML(item2HTML)}
+    </calcite-flow-item>
+  </calcite-flow>
+`;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create(
-    "calcite-flow",
-    createAttributes({ exceptions: ["dir"] }).concat(
-      {
-        name: "class",
-        value: "calcite-mode-dark",
-      },
-      { name: "dir", value: "rtl" },
-    ),
-    `${create("calcite-flow-item", createFlowItemAttributes("Flow Item 1"), createItemHTML(item1HTML))}
-    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`,
-  );
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-flow class="calcite-mode-dark" dir="rtl">
+    <calcite-flow-item heading="Heading" description="Description"> ${createItemHTML(item1HTML)} </calcite-flow-item>
+    <calcite-flow-item heading="Heading" description="Description"> ${createItemHTML(item2HTML)} </calcite-flow-item>
+  </calcite-flow>
+`;
 
 export const noDoubleScrollbars_TestOnly = (): string => html`
   <style>

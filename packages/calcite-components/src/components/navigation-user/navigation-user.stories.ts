@@ -1,21 +1,36 @@
-import { boolean } from "../../../.storybook/helpers";
-import { text } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 
+interface NavigationUserArgs {
+  fullName: string;
+  userName: string;
+  thumbnail: string;
+  userId: string;
+  textDisabled: boolean;
+  active: boolean;
+}
+
 export default {
   title: "Components/Navigation/Navigation User",
+  args: {
+    fullName: "Edward Abbey",
+    userName: "eabbey_123",
+    thumbnail: "",
+    userId: "",
+    textDisabled: false,
+    active: true,
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: NavigationUserArgs): string => html`
   <calcite-navigation-user
     slot="user"
-    full-name="${text("full-name", "Edward Abbey")}"
-    username="${text("username", "eabbey_123")}"
-    thumbnail="${text("thumbnail", "")}"
-    user-id="${text("user-id", "")}"
-    ${boolean("text-disabled", false)}
-    ${boolean("active", true)}
+    full-name="${args.fullName}"
+    username="${args.userName}"
+    thumbnail="${args.thumbnail}"
+    user-id="${args.userId}"
+    ${args.textDisabled ? "text-disabled" : ""}
+    ${args.active ? "active" : ""}
   />
 `;
 

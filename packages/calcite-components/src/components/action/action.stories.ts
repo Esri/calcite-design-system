@@ -58,18 +58,18 @@ export default {
 export const simple = (args: ActionArgs): string => html`
   <div>
     <calcite-action
-      ${args.active && "active"}
+      ${args.active ? "active" : ""}
       alignment="${args.alignment}"
       appearance="${args.appearance}"
-      ${args.compact && "compact"}
-      ${args.disabled && "disabled"}
+      ${args.compact ? "compact" : ""}
+      ${args.disabled ? "disabled" : ""}
       icon="${args.icon}"
-      ${args.indicator && "indicator"}
+      ${args.indicator ? "indicator" : ""}
       label="${args.label}"
-      ${args.loading && "loading"}
+      ${args.loading ? "loading" : ""}
       scale="${args.scale}"
       text="${args.text}"
-      ${args.textEnabled && "text-enabled style"}
+      ${args.textEnabled ? "text-enabled style" : ""}
     ></calcite-action>
   </div>
 `;

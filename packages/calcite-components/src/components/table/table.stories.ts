@@ -1,23 +1,74 @@
 import { html } from "../../../support/formatting";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import { boolean, number, select, text } from "../../../.storybook/fake-knobs";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { interactionMode, selectionMode, scale, layout } = ATTRIBUTES;
+
+interface TableArgs {
+  pageSize: number;
+  interactionMode: string;
+  selectionMode: string;
+  scale: string;
+  layout: string;
+  caption: string;
+  numbered: boolean;
+  bordered: boolean;
+  striped: boolean;
+}
 
 export default {
   title: "Components/Table",
+  args: {
+    pageSize: 0,
+    interactionMode: interactionMode.defaultValue,
+    selectionMode: selectionMode.values[1],
+    scale: scale.defaultValue,
+    layout: layout.values[5],
+    caption: "Simple table",
+    numbered: false,
+    bordered: false,
+    striped: false,
+  },
+  argTypes: {
+    interactionMode: {
+      options: interactionMode.values,
+      control: { type: "select" },
+    },
+    selectionMode: {
+      options: selectionMode.values.filter(
+        (option) =>
+          option !== "children" && option !== "single-persist" && option !== "multichildren" && option !== "ancestors",
+      ),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    layout: {
+      options: layout.values.filter(
+        (option) =>
+          option !== "horizontal" &&
+          option !== "vertical" &&
+          option !== "grid" &&
+          option !== "inline" &&
+          option !== "center",
+      ),
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string =>
+export const simple = (args: TableArgs): string =>
   html`<calcite-table
-    page-size="${number("page-size", 0)}"
-    interaction-mode="${select("interaction-mode", ["interactive", "static"], "interactive")}"
-    selection-mode="${select("selection-mode", ["none", "single", "multiple"], "none")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    layout="${select("layout", ["auto", "fixed"], "auto")}"
-    caption="${text("caption", "Simple table")}"
-    ${boolean("numbered", false)}
-    ${boolean("bordered", false)}
-    ${boolean("striped", false)}
-    caption="Simple table"
+    page-size="${args.pageSize}"
+    interaction-mode="${args.interactionMode}"
+    selection-mode="${args.selectionMode}"
+    scale="${args.scale}"
+    layout="${args.layout}"
+    caption="${args.caption}"
+    ${args.numbered ? "numbered" : ""}
+    ${args.bordered ? "bordered" : ""}
+    ${args.striped ? "striped" : ""}
   >
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>

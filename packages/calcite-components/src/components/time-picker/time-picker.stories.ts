@@ -1,24 +1,65 @@
-import { number, select, text } from "../../../.storybook/fake-knobs";
-import { boolean } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
-import { locales, numberingSystems } from "../../utils/locale";
+import { locales, numberingSystems, defaultLocale, defaultNumberingSystem } from "../../utils/locale";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { scale } = ATTRIBUTES;
+
+interface TimePicker {
+  disabled: boolean;
+  hidden: boolean;
+  lang: string;
+  name: string;
+  numberingSystem: string;
+  placement: string;
+  scale: string;
+  step: number;
+  value: string;
+}
 
 export default {
   title: "Components/Controls/Time/Time Picker",
+  args: {
+    disabled: false,
+    hidden: false,
+    lang: defaultLocale,
+    name: "simple",
+    numberingSystem: defaultNumberingSystem,
+    placement: defaultMenuPlacement,
+    scale: scale.defaultValue,
+    step: 0.001,
+    value: "10:37:09.023",
+  },
+  argTypes: {
+    lang: {
+      options: locales,
+      control: { type: "select" },
+    },
+    numberingSystem: {
+      options: numberingSystems,
+      control: { type: "select" },
+    },
+    placement: {
+      options: menuPlacements,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: TimePicker): string => html`
   <calcite-time-picker
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    lang="${select("lang", locales, "en")}"
-    name="${text("name", "simple")}"
-    numbering-system="${select("numbering-system", numberingSystems, "latn")}"
-    placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    step="${number("step", 0.001)}"
-    value="${text("value", "10:37:09.023")}"
+    ${args.disabled ? "disabled" : ""}
+    ${args.hidden ? "hidden" : ""}
+    lang="${args.lang}"
+    name="${args.name}"
+    numbering-system="${args.numberingSystem}"
+    placement="${args.placement}"
+    scale="${args.scale}"
+    step="${args.step}"
+    value="${args.value}"
   >
   </calcite-time-picker>
 `;

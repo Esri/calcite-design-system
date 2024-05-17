@@ -37,9 +37,9 @@ export default {
 export const simple = (args: CheckboxArgs): string => html`
   <calcite-label layout="inline">
     <calcite-checkbox
-      ${args.checked && "checked"}
-      ${args.disabled && "disabled"}
-      ${args.indeterminate && "indeterminate"}
+      ${args.checked ? "checked" : ""}
+      ${args.disabled ? "disabled" : ""}
+      ${args.indeterminate ? "indeterminate" : ""}
       scale="${args.scale}"
       status="${args.status}"
     ></calcite-checkbox>

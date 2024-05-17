@@ -1,8 +1,20 @@
-import { number } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
+
+interface GraphArgs {
+  width: number;
+  height: number;
+  min: number;
+  max: number;
+}
 
 export default {
   title: "Components/Controls/Slider/support/Graph",
+  args: {
+    width: 300,
+    height: 100,
+    min: 0,
+    max: 100,
+  },
 };
 
 const data: HTMLCalciteGraphElement["data"] = [
@@ -22,13 +34,13 @@ const data: HTMLCalciteGraphElement["data"] = [
 const rainbow = ["red", "orange", "yellow", "green", "cyan", "blue", "violet"];
 const colorStops = rainbow.map((color, i) => ({ offset: (1 / (rainbow.length - 1)) * i, color }));
 
-export const simple = (): HTMLDivElement => {
+export const simple = (args: GraphArgs): HTMLDivElement => {
   const div = document.createElement("div");
-  div.style.width = `${number("width", 300)}px`;
-  div.style.height = `${number("height", 100)}px`;
+  div.style.width = `${args.width}px`;
+  div.style.height = `${args.height}px`;
   const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
-  graph.min = number("min", 0);
-  graph.max = number("max", 100);
+  graph.min = args.min;
+  graph.max = args.max;
   graph.data = data;
   div.appendChild(graph);
   return div;
@@ -36,13 +48,13 @@ export const simple = (): HTMLDivElement => {
 
 export const highlightRange = (): HTMLDivElement => {
   const div = document.createElement("div");
-  div.style.width = `${number("width", 300)}px`;
-  div.style.height = `${number("height", 100)}px`;
+  div.style.width = "300px";
+  div.style.height = "100px";
   const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
-  graph.min = number("min", 0);
-  graph.max = number("max", 100);
-  graph.highlightMin = number("highlightMin", 25);
-  graph.highlightMax = number("highlightMax", 75);
+  graph.min = 0;
+  graph.max = 100;
+  graph.highlightMin = 25;
+  graph.highlightMax = 75;
   graph.data = data;
   div.appendChild(graph);
   return div;
@@ -50,11 +62,11 @@ export const highlightRange = (): HTMLDivElement => {
 
 export const withColorStops = (): HTMLDivElement => {
   const div = document.createElement("div");
-  div.style.width = `${number("width", 300)}px`;
-  div.style.height = `${number("height", 100)}px`;
+  div.style.width = "300px";
+  div.style.height = "100px";
   const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
-  graph.min = number("min", 0);
-  graph.max = number("max", 100);
+  graph.min = 0;
+  graph.max = 100;
   graph.colorStops = colorStops;
   graph.data = data;
   div.appendChild(graph);
@@ -63,15 +75,15 @@ export const withColorStops = (): HTMLDivElement => {
 
 export const darkModeRTL_TestOnly = (): HTMLDivElement => {
   const div = document.createElement("div");
-  div.style.width = `${number("width", 300)}px`;
-  div.style.height = `${number("height", 100)}px`;
+  div.style.width = "300px";
+  div.style.height = "100px";
   div.dir = "rtl";
   div.classList.add("calcite-mode-dark");
   const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
-  graph.min = number("min", 0);
-  graph.max = number("max", 100);
-  graph.highlightMin = number("highlightMin", 25);
-  graph.highlightMax = number("highlightMax", 75);
+  graph.min = 0;
+  graph.max = 100;
+  graph.highlightMin = 25;
+  graph.highlightMax = 75;
   graph.colorStops = colorStops;
   graph.data = data;
   div.appendChild(graph);

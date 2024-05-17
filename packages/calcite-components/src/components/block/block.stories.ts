@@ -1,139 +1,84 @@
-import { boolean, number, select, text } from "../../../.storybook/fake-knobs";
-import {
-  Attribute,
-  filterComponentAttributes,
-  Attributes,
-  createComponentHTML as create,
-} from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { toggleDisplay } = ATTRIBUTES;
+
+interface BlockArgs {
+  heading: string;
+  description: string;
+  blockOpen: boolean;
+  collapsible: boolean;
+  loading: boolean;
+  disabled: boolean;
+  headingLevel: number;
+  text: string;
+  sectionOpen: boolean;
+  toggleDisplay: string;
+}
 
 export default {
   title: "Components/Block",
+  args: {
+    heading: "Heading",
+    description: "description",
+    blockOpen: true,
+    collapsible: true,
+    loading: false,
+    disabled: false,
+    headingLevel: 2,
+    text: "Animals",
+    sectionOpen: true,
+    toggleDisplay: toggleDisplay.defaultValue,
+  },
+  argTypes: {
+    headingLevel: {
+      control: { type: "number", min: 1, max: 6, step: 1 },
+    },
+    toggleDisplay: {
+      options: toggleDisplay.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes = (
-  { exceptions } = { exceptions: [] },
-) => {
-  const group = "block";
-
-  return filterComponentAttributes(
-    [
-      {
-        name: "heading",
-        commit(): Attribute {
-          this.value = text("heading", "Heading", group);
-          delete this.build;
-          return this;
-        },
-      },
-
-      {
-        name: "description",
-        commit(): Attribute {
-          this.value = text("description", "description", group);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "open",
-        commit(): Attribute {
-          this.value = boolean("open", true, group, "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "collapsible",
-        commit(): Attribute {
-          this.value = boolean("collapsible", true, group, "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "loading",
-        commit(): Attribute {
-          this.value = boolean("loading", false, group, "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "disabled",
-        commit(): Attribute {
-          this.value = boolean("disabled", false, group, "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "heading-level",
-        commit(): Attribute {
-          this.value = number("heading-level", 2, { min: 1, max: 6, step: 1 }, group);
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
-};
-
-const createSectionAttributes: () => Attributes = () => {
-  const group = "section (animals)";
-  const toggleDisplayOptions = ["button", "switch"];
-
-  return [
-    {
-      name: "text",
-      value: text("text", "Animals", group),
-    },
-    {
-      name: "open",
-      value: boolean("open", true, group, "prop"),
-    },
-    {
-      name: "toggle-display",
-      value: select("toggleDisplay", toggleDisplayOptions, toggleDisplayOptions[0], group),
-    },
-  ];
-};
-
-export const simple = (): string =>
-  create(
-    "calcite-block",
-    createBlockAttributes(),
-    html`
-      ${create(
-        "calcite-block-section",
-        createSectionAttributes(),
-        `<img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />`,
-      )}
-
-      <calcite-block-section text="Nature" open>
-        <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
-      </calcite-block-section>
-    `,
-  );
-
-export const withHeaderControl = (): string =>
-  create(
-    "calcite-block",
-    createBlockAttributes({ exceptions: ["open"] }),
-    html`<label slot="control">test <input placeholder="I'm a header control" /></label>`,
-  );
-
-export const withIconAndHeader = (): string =>
-  create("calcite-block", createBlockAttributes({ exceptions: ["open"] }), html`<div slot="icon">✅</div>`);
-
-export const disabled_TestOnly = (): string =>
-  html`<calcite-block heading="heading" description="description" open collapsible disabled>
+export const simple = (args: BlockArgs): string => html`
+  <calcite-block
+    heading="${args.heading}"
+    description="${args.description}"
+    ${args.blockOpen ? "open" : ""}
+    ${args.collapsible ? "collapsible" : ""}
+    ${args.loading ? "loading" : ""}
+    ${args.disabled ? "disabled" : ""}
+    heading-level="${args.headingLevel}"
+  >
+    <calcite-block-section text="${args.text}" ${args.sectionOpen ? "open" : ""} toggle-display="${args.toggleDisplay}">
+      <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
+    </calcite-block-section>
     <calcite-block-section text="Nature" open>
       <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
     </calcite-block-section>
-  </calcite-block>`;
+  </calcite-block>
+`;
+
+export const withHeaderControl = (): string => html`
+  <calcite-block heading="Heading" description="description" collapsible heading-level="2">
+    <label slot="control">test <input placeholder="I'm a header control" /></label>
+  </calcite-block>
+`;
+
+export const withIconAndHeader = (): string => html`
+  <calcite-block heading="Heading" description="description" collapsible heading-level="2">
+    <div slot="icon">✅</div>
+  </calcite-block>
+`;
+
+export const disabled_TestOnly = (): string => html`
+  <calcite-block heading="heading" description="description" open collapsible disabled>
+    <calcite-block-section text="Nature" open>
+      <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
+    </calcite-block-section>
+  </calcite-block>
+`;
 
 export const paddingDisabled_TestOnly = (): string =>
   html` <calcite-panel heading="Properties">
@@ -148,28 +93,24 @@ export const paddingDisabled_TestOnly = (): string =>
     </calcite-block>
   </calcite-panel>`;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create(
-    "calcite-block",
-    createBlockAttributes({ exceptions: ["dir"] }).concat(
-      {
-        name: "class",
-        value: "calcite-mode-dark",
-      },
-      { name: "dir", value: "rtl" },
-    ),
-    html`
-      ${create(
-        "calcite-block-section",
-        createSectionAttributes(),
-        `<img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />`,
-      )}
-
-      <calcite-block-section text="Nature" open>
-        <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
-      </calcite-block-section>
-    `,
-  );
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-block
+    heading="Heading"
+    description="description"
+    open
+    collapsible
+    heading-level="2"
+    class="calcite-mode-dark"
+    dir="rtl"
+  >
+    <calcite-block-section text="Animals" open toggle-display="button">
+      <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
+    </calcite-block-section>
+    <calcite-block-section text="Nature" open>
+      <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
+    </calcite-block-section>
+  </calcite-block>
+`;
 
 export const contentCanTakeFullHeight_TestOnly = (): string =>
   html`<calcite-block open heading="Heading" description="description" style="height: 250px">

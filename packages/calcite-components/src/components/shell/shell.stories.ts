@@ -33,11 +33,11 @@ export default {
       control: { type: "select" },
     },
     leadingPanelPosition: {
-      options: position.values,
+      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
       control: { type: "select" },
     },
     trailingPanelPosition: {
-      options: position.values,
+      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
       control: { type: "select" },
     },
     heightScale: {
@@ -45,7 +45,7 @@ export default {
       control: { type: "select" },
     },
     shellCenterRowPosition: {
-      options: position.values,
+      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
       control: { type: "select" },
     },
   },
@@ -300,16 +300,16 @@ export const simple = (args: ShellArgs): string => html`
     ${headerHTML}
     <calcite-shell-panel
       slot="panel-start"
-      collapsed="${args.collapsed}"
+      ${args.collapsed ? "collapsed" : ""}
       displayMode="${args.displayMode}"
       position="${args.leadingPanelPosition}"
-      resizable="${args.resizable}"
+      ${args.resizable ? "resizable" : ""}
     >
       ${advancedLeadingPanelHTML}
     </calcite-shell-panel>
     ${contentHTML}
     <calcite-shell-center-row
-      detached="${args.detached}"
+      ${args.detached ? "detached" : ""}
       height-scale="${args.heightScale}"
       position="${args.shellCenterRowPosition}"
       slot="center-row"
@@ -319,10 +319,10 @@ export const simple = (args: ShellArgs): string => html`
     ${centerRowAdvancedHTML}
     <calcite-shell-panel
       slot="panel-end"
-      collapsed="${args.collapsed}"
+      ${args.collapsed ? "collapsed" : ""}
       displayMode="${args.displayMode}"
       position="${args.trailingPanelPosition}"
-      resizable="${args.resizable}"
+      ${args.resizable ? "resizable" : ""}
     >
       ${advancedTrailingPanelHTMl}
     </calcite-shell-panel>

@@ -1,25 +1,55 @@
-import { select, text } from "../../../.storybook/fake-knobs";
-import { iconNames, boolean } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { scale } = ATTRIBUTES;
+
+interface TileArgs {
+  active: boolean;
+  description: string;
+  disabled: boolean;
+  heading: string;
+  hidden: boolean;
+  href: string;
+  icon: string;
+  scale: string;
+}
 
 export default {
   title: "Components/Tiles/Tile",
+  args: {
+    active: false,
+    description:
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
+    disabled: false,
+    heading: "Tile heading lorem ipsum",
+    hidden: false,
+    href: "#",
+    icon: "layer",
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    icon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: TileArgs): string => html`
   <calcite-tile
-    ${boolean("active", false)}
-    description="${text(
-      "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
-    )}"
-    ${boolean("disabled", false)}
-    heading="${text("heading", "Tile heading lorem ipsum")}"
-    ${boolean("hidden", false)}
-    href="${text("href", "#")}"
-    icon="${select("icon", iconNames, "layer")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
+    ${args.active ? "active" : ""}
+    description="${args.description}"
+    ${args.disabled ? "disabled" : ""}
+    heading="${args.heading}"
+    ${args.hidden ? "hidden" : ""}
+    href="${args.href}"
+    icon="${args.icon}"
+    scale="${args.scale}"
   >
   </calcite-tile>
 `;

@@ -1,30 +1,41 @@
-import { select } from "../../../.storybook/fake-knobs";
-import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { scale } = ATTRIBUTES;
+
+interface SwitchArgs {
+  checked: boolean;
+  disabled: boolean;
+  scale: string;
+}
 
 export default {
   title: "Components/Controls/Switch",
+  args: {
+    checked: true,
+    disabled: false,
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: SwitchArgs): string => html`
   <calcite-switch
     name="setting"
     value="enabled"
-    ${boolean("checked", true)}
-    ${boolean("disabled", false)}
-    scale="${select("scale", ["s", "m", "l"], "m")}"
+    ${args.checked ? "checked" : ""}
+    ${args.disabled ? "disabled" : ""}
+    scale="${args.scale}"
   ></calcite-switch>
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-switch
-    class="calcite-mode-dark"
-    name="setting"
-    value="enabled"
-    ${boolean("checked", true)}
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  ></calcite-switch>
+  <calcite-switch class="calcite-mode-dark" name="setting" value="enabled" checked scale="m"></calcite-switch>
 `;
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };

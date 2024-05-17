@@ -1,5 +1,3 @@
-import { select, text } from "../../../.storybook/fake-knobs";
-import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 
 export default {
@@ -20,31 +18,10 @@ export const honorsFlexGrow = (): string =>
 
 export const gridCenteringOfActionsInAGroup = (): string => html`
   <div style="width:400px">
-    <calcite-action-group layout="${select("layout", ["horizontal", "vertical", "grid"], "grid")}">
-      <calcite-action
-        alignment="${select("alignment", ["start", "center", "end"], "center")}"
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "transparent", "outline"], "solid")}"
-        icon="${select("icon", iconNames, "polygon")}"
-        ${text("text", "polygon")}
-      >
-      </calcite-action>
-      <calcite-action
-        alignment="${select("alignment", ["start", "center", "end"], "center")}"
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "transparent", "outline"], "solid")}"
-        icon="${select("icon", iconNames, "rectangle")}"
-        ${text("text", "rectangle")}
-      >
-      </calcite-action>
-      <calcite-action
-        alignment="${select("alignment", ["start", "center", "end"], "center")}"
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "transparent", "outline"], "solid")}"
-        icon="${select("icon", iconNames, "trash")}"
-        ${text("text", "trash")}
-      >
-      </calcite-action>
+    <calcite-action-group layout="grid">
+      <calcite-action alignment="center" scale="m" appearance="solid" icon="polygon" polygon=""> </calcite-action>
+      <calcite-action alignment="center" scale="m" appearance="solid" icon="rectangle" rectangle=""> </calcite-action>
+      <calcite-action alignment="center" scale="m" appearance="solid" icon="trash" trash=""> </calcite-action>
     </calcite-action-group>
   </div>
 `;

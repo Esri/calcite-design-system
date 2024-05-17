@@ -1,4 +1,3 @@
-import { color } from "../.storybook/fake-knobs";
 import { placeholderImage } from "../.storybook/placeholderImage";
 
 export default {
@@ -8,29 +7,29 @@ export default {
 export const themingInteractive = (): string => {
   return `<div
     style="
-      --calcite-color-brand: ${color("--calcite-color-brand", "#007ac2")};
-      --calcite-color-brand-hover: ${color("--calcite-color-brand-hover", "#00619b")};
-      --calcite-color-brand-press: ${color("--calcite-color-brand-press", "#004874")};
-      --calcite-color-status-info: ${color("--calcite-color-status-info", "#00619b")};
-      --calcite-color-status-success: ${color("--calcite-color-status-success", "#35ac46")};
-      --calcite-color-status-warning: ${color("--calcite-color-status-warning", "#edd317")};
-      --calcite-color-status-danger: ${color("--calcite-color-status-danger", "#d83020")};
-      --calcite-color-status-danger-hover: ${color("--calcite-color-status-danger-hover", "#a82b1e")};
-      --calcite-color-status-danger-press: ${color("--calcite-color-status-danger-press", "#7c1d13")};
-      --calcite-color-background: ${color("--calcite-color-background", "#f8f8f8")};
-      --calcite-color-foreground-1: ${color("--calcite-color-foreground-1", "#ffffff")};
-      --calcite-color-foreground-2: ${color("--calcite-color-foreground-2", "#f3f3f3")};
-      --calcite-color-foreground-3: ${color("--calcite-color-foreground-3", "#eaeaea")};
-      --calcite-color-text-1: ${color("--calcite-color-text-1", "#151515")};
-      --calcite-color-text-2: ${color("--calcite-color-text-2", "#4a4a4a")};
-      --calcite-color-text-3: ${color("--calcite-color-text-3", "#6a6a6a")};
-      --calcite-color-text-inverse: ${color("--calcite-color-text-inverse", "#ffffff")};
-      --calcite-color-text-link: ${color("--calcite-color-text-link", "#00619b")};
-      --calcite-color-border-1: ${color("--calcite-color-border-1", "#cacaca")};
-      --calcite-color-border-2: ${color("--calcite-color-border-2", "#d4d4d4")};
-      --calcite-color-border-3: ${color("--calcite-color-border-3", "#dfdfdf")};
-      --calcite-color-border-input: ${color("--calcite-color-border-input", "#949494")};
-      --calcite-ui-icon-color: ${color("--calcite-ui-icon-color", "currentColor")};
+      --calcite-color-brand: ${"#007ac2"};
+      --calcite-color-brand-hover: ${"#00619b"};
+      --calcite-color-brand-press: ${"#004874"};
+      --calcite-color-status-info: ${"#00619b"};
+      --calcite-color-status-success: ${"#35ac46"};
+      --calcite-color-status-warning: ${"#edd317"};
+      --calcite-color-status-danger: ${"#d83020"};
+      --calcite-color-status-danger-hover: ${"#a82b1e"};
+      --calcite-color-status-danger-press: ${"#7c1d13"};
+      --calcite-color-background: ${"#f8f8f8"};
+      --calcite-color-foreground-1: ${"#ffffff"};
+      --calcite-color-foreground-2: ${"#f3f3f3"};
+      --calcite-color-foreground-3: ${"#eaeaea"};
+      --calcite-color-text-1: ${"#151515"};
+      --calcite-color-text-2: ${"#4a4a4a"};
+      --calcite-color-text-3: ${"#6a6a6a"};
+      --calcite-color-text-inverse: ${"#ffffff"};
+      --calcite-color-text-link: ${"#00619b"};
+      --calcite-color-border-1: ${"#cacaca"};
+      --calcite-color-border-2: ${"#d4d4d4"};
+      --calcite-color-border-3: ${"#dfdfdf"};
+      --calcite-color-border-input: ${"#949494"};
+      --calcite-ui-icon-color: ${"currentColor"};
     "
   >
     <style>

@@ -54,10 +54,10 @@ export const simple = (args: ButtonArgs): string => html`
     appearance="${args.appearance}"
     kind="${args.kind}"
     scale="${args.scale}"
-    ${args.round && "round"}
+    ${args.round ? "round" : ""}
     href="${args.href}"
-    ${args.loading && "loading"}
-    ${args.disabled && "disabled"}
+    ${args.loading ? "loading" : ""}
+    ${args.disabled ? "disabled" : ""}
     width="${args.width}"
   >
     ${args.text}

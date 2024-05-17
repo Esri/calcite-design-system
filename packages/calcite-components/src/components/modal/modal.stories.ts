@@ -1,10 +1,43 @@
-import { select } from "../../../.storybook/fake-knobs";
-import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { kind, scale } = ATTRIBUTES;
+
+interface ModalArgs {
+  open: boolean;
+  kind: string;
+  scale: string;
+  widthScale: string;
+  fullscreen: boolean;
+  docked: boolean;
+  escapeDisabled: boolean;
+}
 
 export default {
   title: "Components/Modal",
+  args: {
+    open: true,
+    kind: "",
+    scale: scale.defaultValue,
+    widthScale: scale.values[0],
+    fullscreen: false,
+    docked: false,
+    escapeDisabled: false,
+  },
+  argTypes: {
+    kind: {
+      options: kind.values.filter((option) => option !== "inverse" && option !== "neutral"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    widthScale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
   parameters: {
     chromatic: {
       delay: 1000,
@@ -12,15 +45,15 @@ export default {
   },
 };
 
-export const simple = (): string => html`
+export const simple = (args: ModalArgs): string => html`
   <calcite-modal
-    ${boolean("open", true)}
-    kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    width-scale="${select("width-scale", ["s", "m", "l"], "s")}"
-    ${boolean("fullscreen", false)}
-    ${boolean("docked", false)}
-    ${boolean("escape-disabled", false)}
+    ${args.open ? "open" : ""}
+    kind="${args.kind}"
+    scale="${args.scale}"
+    width-scale="${args.widthScale}"
+    ${args.fullscreen ? "fullscreen" : ""}
+    ${args.docked ? "docked" : ""}
+    ${args.escapeDisabled ? "escape-disabled" : ""}
   >
     <h3 slot="header">Small Modal</h3>
     <div slot="content">
@@ -45,15 +78,7 @@ const mightyLongTextToScroll = html`
 `;
 
 export const slots = (): string => html`
-  <calcite-modal
-    ${boolean("open", true)}
-    kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    width-scale="${select("width-scale", ["s", "m", "l"], "s")}"
-    ${boolean("fullscreen", false)}
-    ${boolean("docked", false)}
-    ${boolean("escape-disabled", false)}
-  >
+  <calcite-modal open kind="" scale="m" width-scale="s">
     <h3 slot="header">Slot for a header.</h3>
     <div slot="content-top">Slot for a content-top.</div>
     <div slot="content" style="height: 100px">${mightyLongTextToScroll}</div>
@@ -66,12 +91,9 @@ export const darkModeRTLCustomSizeCSSVars_TestOnly = (): string => html`
   <calcite-modal
     class="calcite-mode-dark"
     dir="rtl"
-    ${boolean("open", true)}
-    kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("fullscreen", false)}
-    ${boolean("docked", false)}
-    ${boolean("escape-disabled", false)}
+    open
+    kind=""
+    scale="m"
     style="--calcite-modal-height: 500px; --calcite-modal-width: 600px;"
   >
     <h3 slot="header">Small Modal</h3>

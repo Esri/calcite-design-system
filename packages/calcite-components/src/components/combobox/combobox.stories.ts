@@ -1,5 +1,3 @@
-import { select, number, text } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
@@ -10,16 +8,15 @@ export default {
 export const single = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
-      ${boolean("disabled", false)}
-      selection-display="${select("selection-display", ["all", "fit", "single"], "all")}"
-      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "single")}"
-      label="${text("label (for screen readers)", "demo")}"
-      max-items="${number("max-items", 0)}"
-      placeholder="${text("placeholder", "placeholder")}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-      validation-message="${text("validation-message", "")}"
-      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+      selection-display="all"
+      selection-mode="single"
+      label="demo"
+      max-items="0"
+      placeholder="placeholder"
+      scale="m"
+      status="idle"
+      validation-message=""
+      validation-icon=""
     >
       <calcite-combobox-item icon="altitude" value="altitude" text-label="Altitude" selected></calcite-combobox-item>
       <calcite-combobox-item icon="article" value="article" text-label="Article"></calcite-combobox-item>
@@ -286,16 +283,14 @@ export const nestedItems = (): string => html`
     <calcite-combobox
       open
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
-      placeholder="${text("placeholder", "placeholder")}"
-      label="${text("label (for screen readers)", "demo")}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      ${boolean("disabled", false)}
-      ${boolean("allow-custom-values", false)}
-      max-items="${number("max-items", 0)}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-      validation-message="${text("validation-message", "")}"
-      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+      selection-mode="multiple"
+      placeholder="placeholder"
+      label="demo"
+      scale="m"
+      max-items="0"
+      status="idle"
+      validation-message=""
+      validation-icon=""
     >
       <calcite-combobox-item value="ITEM-0-0" text-label="Level 1">
         <calcite-combobox-item value="ITEM-0-1" text-label="Level 2"></calcite-combobox-item>
@@ -437,16 +432,7 @@ export const flipPlacements_TestOnly = (): string => html`
 
 export const flipPositioning_TestOnly = (): string => html`
   <div style="position: absolute; bottom: 10px; left: 10px;">
-    <calcite-combobox
-      max-items="${number("max-items", 6)}"
-      placeholder="${text("placeholder", "placeholder")}"
-      label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      ${boolean("disabled", false)}
-      ${boolean("allow-custom-values", false)}
-      open
-    >
+    <calcite-combobox max-items="6" placeholder="placeholder" label="demo" selection-mode="multiple" scale="m" open>
       <calcite-combobox-item value="Trees" text-label="Trees">
         <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
         <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
@@ -523,8 +509,8 @@ export const withPlaceholderIcon_TestOnly = (): string =>
   html` <calcite-combobox
     id="labelFour"
     label="test"
-    placeholder="${text("placeholder", "select folder")}"
-    placeholder-icon="${text("placeholder-icon", "select")}"
+    placeholder="folder"
+    placeholder-icon="select"
     max-items="6"
     selection-mode="single"
     scale="s"
@@ -536,7 +522,7 @@ export const withPlaceholderIcon_TestOnly = (): string =>
 
 export const withoutPlaceholderIcon_TestOnly = (): string =>
   html` <div style="width:400px;max-width:100%;background-color:white;padding:100px">
-    <calcite-combobox placeholder="${text("placeholder", "select folder")}" selection-mode="multiple" open>
+    <calcite-combobox placeholder="folder" selection-mode="multiple" open>
       <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
       <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
       <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>

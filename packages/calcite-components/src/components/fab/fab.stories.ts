@@ -1,113 +1,73 @@
-import { boolean, select, text } from "../../../.storybook/fake-knobs";
-import {
-  Attribute,
-  Attributes,
-  createComponentHTML as create,
-  filterComponentAttributes,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
-import { ATTRIBUTES } from "../../../.storybook/resources";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ICONS } from "./resources";
+const { appearance, scale } = ATTRIBUTES;
 
-const { scale } = ATTRIBUTES;
+interface FabArgs {
+  appearance: string;
+  disabled: boolean;
+  icon: string;
+  label: string;
+  loading: boolean;
+  text: string;
+  textEnabled: boolean;
+  scale: boolean;
+}
 
 export default {
   title: "Components/Buttons/FAB",
+  args: {
+    appearance: appearance.values[2],
+    disabled: false,
+    icon: ICONS.plus,
+    label: "Label",
+    loading: false,
+    text: "Text",
+    textEnabled: true,
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    appearance: {
+      options: appearance.values.filter((option) => option !== "outline" && option !== "transparent"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  return filterComponentAttributes(
-    [
-      {
-        name: "appearance",
-        commit(): Attribute {
-          this.value = select("appearance", ["solid", "outline-fill"], "outline-fill");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "disabled",
-        commit(): Attribute {
-          this.value = boolean("disabled", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "icon",
-        commit(): Attribute {
-          this.value = text("icon", ICONS.plus);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "label",
-        commit(): Attribute {
-          this.value = text("label", "Label");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "loading",
-        commit(): Attribute {
-          this.value = boolean("loading", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "text",
-        commit(): Attribute {
-          this.value = text("text", "Text");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "text-enabled",
-        commit(): Attribute {
-          this.value = boolean("text-enabled", true, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "scale",
-        commit(): Attribute {
-          this.value = select("scale", scale.values, scale.defaultValue);
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
-};
-
-export const simple = (): string => create("calcite-fab", createAttributes());
+export const simple = (args: FabArgs): string => html`
+  <calcite-fab
+    appearance="${args.appearance}"
+    ${args.disabled ? "disabled" : ""}
+    icon="${args.icon}"
+    label="${args.label}"
+    ${args.loading ? "loading" : ""}
+    text="${args.text}"
+    ${args.textEnabled ? "text-enabled" : ""}
+    scale="${args.scale}"
+  ></calcite-fab>
+`;
 export const disabled_TestOnly = (): string => html`
   <calcite-fab disabled icon="plus"></calcite-fab>
   <br />
   <calcite-fab disabled loading icon="plus"></calcite-fab>
 `;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create(
-    "calcite-fab",
-    createAttributes({ exceptions: ["dir", "class"] }).concat([
-      {
-        name: "dir",
-        value: "rtl",
-      },
-      {
-        name: "class",
-        value: "calcite-mode-dark",
-      },
-    ]),
-  );
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-fab
+    appearance="outline-fill"
+    icon="plus"
+    label="Label"
+    text="Text"
+    text-enabled
+    scale="m"
+    dir="rtl"
+    class="calcite-mode-dark"
+  ></calcite-fab>
+`;
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
