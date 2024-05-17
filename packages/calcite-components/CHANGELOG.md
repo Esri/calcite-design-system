@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.14...@esri/calcite-components@2.9.0-next.15) (2024-05-17)
+
+### Features
+
+- **table:** Add `selection-display` property ([#9355](https://github.com/Esri/calcite-design-system/issues/9355)) ([7b52870](https://github.com/Esri/calcite-design-system/commit/7b528703041c3a9e2f484ac7f952c79929ec5103)), closes [#9353](https://github.com/Esri/calcite-design-system/issues/9353)
+
+## [2.9.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.13...@esri/calcite-components@2.9.0-next.14) (2024-05-17)
+
+### Features
+
+- **dropdown-item:** update spacing of icons ([#9330](https://github.com/Esri/calcite-design-system/issues/9330)) ([c2e5a99](https://github.com/Esri/calcite-design-system/commit/c2e5a99fa037d596b65261610a8c85a9370c4f79)), closes [#7095](https://github.com/Esri/calcite-design-system/issues/7095)
+
+## [2.9.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.12...@esri/calcite-components@2.9.0-next.13) (2024-05-15)
+
+### Features
+
+- **flow-item:** add content-top slot ([#9344](https://github.com/Esri/calcite-design-system/issues/9344)) ([e932f3d](https://github.com/Esri/calcite-design-system/commit/e932f3d44b4ba5a76d4651ab25d3dcd6980168b9)), closes [#8980](https://github.com/Esri/calcite-design-system/issues/8980)
+
+## [2.9.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.11...@esri/calcite-components@2.9.0-next.12) (2024-05-15)
+
+### Features
+
+- **flow-item:** add content-bottom slot ([#9346](https://github.com/Esri/calcite-design-system/issues/9346)) ([9d3b1af](https://github.com/Esri/calcite-design-system/commit/9d3b1afa187c9239eca77cc4d3dae8bdd24a125a)), closes [#8979](https://github.com/Esri/calcite-design-system/issues/8979)
+
+## [2.9.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.10...@esri/calcite-components@2.9.0-next.11) (2024-05-15)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** ensure autofocus is available on HTMLElement ([#9343](https://github.com/Esri/calcite-design-system/issues/9343)) ([#9347](https://github.com/Esri/calcite-design-system/issues/9347)) ([27ad10e](https://github.com/Esri/calcite-design-system/commit/27ad10ed82bc69c5ed62a2b4f2ea24e86f83c01c)), closes [#9235](https://github.com/Esri/calcite-design-system/issues/9235)
+
 ## [2.8.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.1...@esri/calcite-components@2.8.2) (2024-05-15)
 
 ### Bug Fixes
