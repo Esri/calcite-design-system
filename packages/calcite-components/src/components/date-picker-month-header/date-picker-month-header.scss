@@ -2,69 +2,73 @@
   @apply block;
   --calcite-select-internal-border-width: 0px;
   --calcite-select-internal-icon-border-inline-end-width: 0px;
-  --calcite-select-font-size: var(--calcite-ui-font-size-0);
   --calcite-select-font-weight: 500;
 }
 
-:host([scale="s"]) {
-  inline-size: 234px;
-  min-inline-size: 216px;
-  max-inline-size: 380px;
-}
-
-:host([scale="m"]) {
-  inline-size: 304px;
-  min-inline-size: 272px;
-  max-inline-size: 480px;
-}
-
-:host([scale="l"]) {
-  inline-size: 370px;
-  min-inline-size: 320px;
-  max-inline-size: 600px;
+:host {
+  @apply w-full;
 }
 
 .header {
-  @apply flex justify-between;
-  @apply py-0;
+  @apply flex justify-between items-center;
+}
+
+.chevron-container {
+  @apply flex items-center;
 }
 
 :host([scale="s"]) {
-  .text {
-    @apply text-n1h my-2;
+  block-size: #{$calcite-size-24};
+  margin: var(--calcite-spacing-xs);
+  margin-inline-start: var(--calcite-spacing-sm);
+
+  calcite-select {
+    --calcite-select-font-size: var(--calcite-font-size);
+    --calcite-select-line-height: var(--calcite-font-line-height-fixed-base);
+  }
+
+  .chevron-container {
+    inline-size: #{$calcite-size-24};
+    block-size: #{$calcite-size-24};
   }
 }
 
 :host([scale="m"]) {
-  .text {
-    @apply text-0h my-3;
+  block-size: #{$calcite-size-32};
+  margin: var(--calcite-spacing-sm);
+  margin-inline-start: 10px;
+
+  calcite-select {
+    --calcite-select-font-size: var(--calcite-font-size-md);
+    --calcite-select-line-height: var(--calcite-font-line-height-fixed-lg);
+  }
+
+  .chevron-container {
+    inline-size: #{$calcite-size-28};
+    block-size: #{$calcite-size-32};
   }
 }
 
 :host([scale="l"]) {
-  .text {
-    @apply text-1h my-4;
+  block-size: #{$calcite-size-44};
+  margin: var(--calcite-spacing-xs);
+  margin-inline-start: var(--calcite-spacing-sm);
+
+  calcite-select {
+    --calcite-select-font-size: var(--calcite-font-size-lg);
+    --calcite-select-line-height: var(--calcite-font-line-height-fixed-xl);
   }
-}
 
-.chevron-container {
-  display: flex;
-  inline-size: 80px;
-}
-
-.chevron-container--left {
-  padding-inline-end: 4px;
-}
-
-.chevron-container--right {
-  padding-inline-start: 4px;
+  .chevron-container {
+    min-inline-size: #{$calcite-size-36};
+    min-block-size: #{$calcite-size-44};
+  }
 }
 
 .chevron {
   @apply text-color-3
     bg-foreground-1
     focus-base
-    mx-1
     box-content
     flex
     flex-grow-0
@@ -72,10 +76,10 @@
     items-center
     justify-center
     border-none
-    px-1
     outline-none
-    transition-default;
-  inline-size: 40px;
+    transition-default 
+    w-full 
+    h-full;
 
   &:focus {
     @apply focus-inset;
@@ -96,8 +100,7 @@
 }
 
 .text {
-  @apply my-auto
-    w-full
+  @apply w-full h-full
     flex
     flex-auto
     items-center
