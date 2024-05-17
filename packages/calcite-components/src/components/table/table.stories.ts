@@ -774,7 +774,7 @@ export const selectionModeMultipleAndSelectedOnLoad_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const selectionModeMultipleAndSelectedSelectionDisplayNoneOnLoad_TestOnly = (): string =>
+export const selectionModeMultipleAndSelectedSelectionDisplayNoneOnLoad = (): string =>
   html` <calcite-table
     page-size="4"
     selection-mode="multiple"
