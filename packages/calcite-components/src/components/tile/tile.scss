@@ -250,3 +250,7 @@
 }
 
 @include base-component();
+
+::slotted(*) {
+  max-inline-size: 100%;
+}
