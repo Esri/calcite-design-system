@@ -38,7 +38,7 @@ export const simple = (): string => html`
   </calcite-tile-group>
 `;
 
-export const allVariants = (): string => html`
+export const allVariantsHorizontal = (): string => html`
   <style>
     .parent {
       display: flex;
@@ -1617,9 +1617,46 @@ export const allVariants = (): string => html`
       </calcite-tile-group>
     </div>
   </div>
+`;
 
-  <!-- A horizonal line-->
-  <hr />
+export const allVariantsVertical = (): string => html`
+  <style>
+    .parent {
+      display: flex;
+      color: var(--calcite-color-text-3);
+      font-family: var(--calcite-sans-family);
+      font-size: var(--calcite-font-size-0);
+      font-weight: var(--calcite-font-weight-medium);
+    }
+
+    .child {
+      display: inline-flex;
+      flex-direction: column;
+      flex: 0 1 50%;
+      padding: 15px;
+    }
+
+    .right-aligned-text {
+      text-align: right;
+      flex: 0 0 21%;
+    }
+
+    .screenshot-test {
+      gap: 1em;
+      padding: 0 1em;
+    }
+
+    .spaced-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+    }
+
+    hr {
+      margin: 25px 0;
+      border-top: 1px solid var(--calcite-color-border-2);
+    }
+  </style>
 
   <!-- Vertical -->
   <div class="parent">
