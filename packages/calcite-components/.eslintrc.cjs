@@ -9,6 +9,7 @@ module.exports = {
     "plugin:@esri/calcite-components/recommended",
     "plugin:@stencil-community/recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:barrel-files/recommended",
     "plugin:jest/recommended",
     "plugin:jsdoc/recommended",
     "prettier",
@@ -24,6 +25,7 @@ module.exports = {
   plugins: [
     "@esri/calcite-components",
     "@typescript-eslint",
+    "eslint-plugin-barrel-files",
     "eslint-plugin-react",
     "import",
     "jest",

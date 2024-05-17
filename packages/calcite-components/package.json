@@ -83,6 +83,7 @@
     "@stencil/angular-output-target": "0.8.4",
     "@stencil/react-output-target": "0.5.3",
     "@stencil/sass": "3.0.11",
+    "eslint-plugin-barrel-files": "1.0.5",
     "jsdom": "24.0.0"
   },
   "license": "SEE LICENSE.md",
