@@ -36,7 +36,7 @@ import { ListItemAndHandle } from "./interfaces";
 import { ICONS, SLOTS } from "./resources";
 
 /**
- * @deprecated Use the `list` component instead.
+ * @deprecated Use the `calcite-list` component instead.
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */

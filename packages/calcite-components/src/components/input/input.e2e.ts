@@ -17,7 +17,7 @@ import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementRect, getElementXY, selectText } from "../../tests/utils";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
-import { testHiddenInputSyncing, testPostValidationFocusing } from "./common/tests";
+import { testHiddenInputSyncing, testPostValidationFocusing, testWorkaroundForGlobalPropRemoval } from "./common/tests";
 import { CSS } from "./resources";
 
 describe("calcite-input", () => {
