@@ -7,6 +7,7 @@
   "license": "SEE LICENSE.md",
   "scripts": {
     "build": "rimraf dist && npm run compile",
+    "build:watch": "watch 'npm run build' ./src/react-component-lib/",
     "prebuild": "npm run patch:jsx-import",
     "clean": "rimraf dist node_modules .turbo",
     "compile": "npm run tsc",

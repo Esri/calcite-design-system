@@ -5,6 +5,12 @@
       "dependsOn": ["^build"],
       "outputs": ["**/dist/**", "www/**", "hydrate/**", "docs/**", "src/components.d.ts"]
     },
+    "build:watch": {
+      "dependsOn": ["^build"],
+      "outputs": ["**/dist/**", "www/**", "hydrate/**", "docs/**", "src/components.d.ts"],
+      "cache": false,
+      "persistent": true
+    },
     "start": {
       "dependsOn": ["^build"],
       "cache": false,

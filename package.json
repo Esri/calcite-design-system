@@ -9,6 +9,7 @@
   "scripts": {
     "postinstall": "patch-package",
     "build": "turbo run build --log-order=stream",
+    "build:watch": "turbo run build:watch --log-order=stream",
     "clean": "turbo run clean --log-order=stream && rimraf node_modules",
     "lint": "concurrently \"npm:lint:*\" \"turbo run lint --log-order=stream\"",
     "lint:md": "prettier --write \"**/*.md\" >/dev/null && markdownlint \"{,documentation}/*.md\" --fix --dot --ignore-path .gitignore",
@@ -117,6 +118,7 @@
     "turbo": "1.13.2",
     "typescript": "5.4.4",
     "updtr": "4.0.0",
+    "watch": "1.0.2",
     "workbox-build": "7.0.0"
   },
   "license": "SEE LICENSE.md",
