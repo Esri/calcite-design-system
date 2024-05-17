@@ -83,7 +83,7 @@ import { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 import { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 import { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 import { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
-import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
+import { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
 import { TableMessages } from "./components/table/assets/table/t9n";
 import { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
 import { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
@@ -173,7 +173,7 @@ export { TabID, TabLayout, TabPosition } from "./components/tabs/interfaces";
 export { TabNavMessages } from "./components/tab-nav/assets/tab-nav/t9n";
 export { TabChangeEventDetail, TabCloseEventDetail } from "./components/tab/interfaces";
 export { TabTitleMessages } from "./components/tab-title/assets/tab-title/t9n";
-export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent } from "./components/table/interfaces";
+export { RowType, TableInteractionMode, TableLayout, TableRowFocusEvent, TableSelectionDisplay } from "./components/table/interfaces";
 export { TableMessages } from "./components/table/assets/table/t9n";
 export { TableCellMessages } from "./components/table-cell/assets/table-cell/t9n";
 export { TableHeaderMessages } from "./components/table-header/assets/table-header/t9n";
@@ -4931,6 +4931,10 @@ export namespace Components {
           * @readonly
          */
         "selectedItems": HTMLCalciteTableRowElement[];
+        /**
+          * Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed.
+         */
+        "selectionDisplay": TableSelectionDisplay;
         /**
           * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"none"` does not allow any selections.
          */
@@ -12879,6 +12883,10 @@ declare namespace LocalJSX {
           * @readonly
          */
         "selectedItems"?: HTMLCalciteTableRowElement[];
+        /**
+          * Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed.
+         */
+        "selectionDisplay"?: TableSelectionDisplay;
         /**
           * Specifies the selection mode of the component, where:  `"multiple"` allows any number of selections,  `"single"` allows only one selection, and  `"none"` does not allow any selections.
          */
