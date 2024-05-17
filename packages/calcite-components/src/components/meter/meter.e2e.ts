@@ -123,10 +123,16 @@ describe("calcite-meter", () => {
           shadowSelector: `.${CSS.container}`,
           targetProp: "borderColor",
         },
-        "--calcite-meter-corner-radius": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderRadius",
-        },
+        "--calcite-meter-corner-radius": [
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.fill}`,
+            targetProp: "borderRadius",
+          },
+        ],
         "--calcite-meter-shadow": {
           targetProp: "boxShadow",
           shadowSelector: `.${CSS.container}`,
@@ -142,15 +148,6 @@ describe("calcite-meter", () => {
         "--calcite-meter-value-text-color": {
           shadowSelector: `.${CSS.labelValue}`,
           targetProp: "color",
-        },
-      };
-      themed(meterHtml, tokens);
-    });
-    describe("corner-radius-fill", () => {
-      const tokens: ComponentTestTokens = {
-        "--calcite-meter-corner-radius": {
-          shadowSelector: `.${CSS.fill}`,
-          targetProp: "borderRadius",
         },
       };
       themed(meterHtml, tokens);
