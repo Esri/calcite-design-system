@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.14...@esri/calcite-components@2.9.0-next.15) (2024-05-17)
+
+### Features
+
+- **table:** Add `selection-display` property ([#9355](https://github.com/Esri/calcite-design-system/issues/9355)) ([7b52870](https://github.com/Esri/calcite-design-system/commit/7b528703041c3a9e2f484ac7f952c79929ec5103)), closes [#9353](https://github.com/Esri/calcite-design-system/issues/9353)
+
 ## [2.9.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.13...@esri/calcite-components@2.9.0-next.14) (2024-05-17)
 
 ### Features
