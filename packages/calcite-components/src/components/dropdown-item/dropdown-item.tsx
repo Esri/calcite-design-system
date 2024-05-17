@@ -125,7 +125,7 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
    *
    * @internal
    */
-  @Prop() scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -151,7 +151,7 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
   }
 
   render(): VNode {
-    const { href, selectionMode, label, iconFlipRtl, scale } = this;
+    const { href, selectionMode, label, iconFlipRtl } = this;
 
     const iconStartEl = (
       <calcite-icon
@@ -223,7 +223,6 @@ export class DropdownItem implements InteractiveComponent, LoadableComponent {
             class={{
               [CSS.container]: true,
               [CSS.containerLink]: !!href,
-              [`${CSS.container}--${scale}`]: true,
               [CSS.containerMulti]: selectionMode === "multiple",
               [CSS.containerSingle]: selectionMode === "single",
               [CSS.containerNone]: selectionMode === "none",
