@@ -35,7 +35,7 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-day-size: 27px;
+  --calcite-internal-day-size: 32px;
 
   .day-wrapper {
     @apply p-0;
@@ -57,7 +57,7 @@
 }
 
 :host([scale="l"]) {
-  --calcite-internal-day-size: 43px;
+  --calcite-internal-day-size: 44px;
 
   .day-wrapper {
     @apply px-1;

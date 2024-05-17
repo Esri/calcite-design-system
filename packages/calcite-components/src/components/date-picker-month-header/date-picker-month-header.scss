@@ -10,7 +10,7 @@
 }
 
 .header {
-  @apply flex justify-between items-center;
+  @apply flex justify-between items-center h-full;
 }
 
 .chevron-container {
@@ -107,6 +107,10 @@
     justify-center
     text-center
     leading-none;
+
+  calcite-select {
+    max-block-size: 100%;
+  }
 }
 
 .text--reverse {

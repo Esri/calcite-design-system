@@ -669,7 +669,7 @@ export class DatePickerMonth {
   private renderMonthCalendar(weekDays: string[], days: Day[], isNextMonth = false): VNode {
     return (
       <div class="month">
-        <div class="week-headers" role="row">
+        <div class="week-header-container" role="row">
           {weekDays.map((weekday) => (
             <span class="week-header" role="columnheader">
               {weekday}
