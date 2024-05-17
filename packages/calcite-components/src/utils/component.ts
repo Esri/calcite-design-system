@@ -1,4 +1,4 @@
-import { Build, forceUpdate } from "@stencil/core";
+import { Build, forceUpdate as stencilForceUpdate } from "@stencil/core";
 import { HTMLStencilElement } from "@stencil/core/internal";
 import { Scale } from "../components/interfaces";
 
@@ -24,6 +24,17 @@ function isStencilEl(el: HTMLElement): el is HTMLStencilElement {
 }
 
 /**
+ * Exported for testing purposes only.
+ *
+ * @internal
+ */
+export const forceUpdate = Build.isTesting
+  ? stencilForceUpdate
+  : () => {
+      /* noop */
+    };
+
+/**
  * This helper util can be used to ensuring the component is loaded and rendered by the browser (The "componentDidLoad" Stencil lifecycle method has been called and any internal elements are focusable).
  *
  * A component developer can await this method before proceeding with any logic that requires a component to be loaded first and then an internal element be focused.
@@ -41,7 +52,7 @@ function isStencilEl(el: HTMLElement): el is HTMLStencilElement {
 export async function componentFocusable(el: HTMLElement): Promise<void> {
   await componentOnReady(el);
 
-  if (!Build.isBrowser) {
+  if (!Build.isBrowser && !Build.isTesting) {
     return;
   }
 
