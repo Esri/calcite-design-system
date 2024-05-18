@@ -846,26 +846,28 @@ describe("calcite-stepper", () => {
 
       const stepper = await page.find("calcite-stepper");
       const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
-      const eventSpy = await stepper.spyOnEvent("calciteStepperItemChange");
-      expect(eventSpy).toHaveReceivedEventTimes(0);
+      const changeSpy = await stepper.spyOnEvent("calciteStepperChange");
+      const itemChangeSpy = await stepper.spyOnEvent("calciteStepperItemChange");
+      expect(changeSpy).toHaveReceivedEventTimes(0);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(0);
 
       // shouldn't emit change event when disabled element is visible
       await actionEnd.click();
-      await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(0);
+      expect(changeSpy).toHaveReceivedEventTimes(0);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(0);
 
       await actionEnd.click();
-      await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(changeSpy).toHaveReceivedEventTimes(1);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(1);
 
       // shouldn't emit change event when disabled element is visible
       await actionStart.click();
-      await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(changeSpy).toHaveReceivedEventTimes(1);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(1);
 
       await actionStart.click();
-      await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(changeSpy).toHaveReceivedEventTimes(2);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(2);
     });
 
     it(`switching to layout="horizontal-single" dynamically from another option should display a single item (#8931)`, async () => {
