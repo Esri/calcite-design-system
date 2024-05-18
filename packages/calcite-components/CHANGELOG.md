@@ -33,6 +33,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - **input, input-number, input-text:** ensure autofocus is available on HTMLElement ([#9343](https://github.com/Esri/calcite-design-system/issues/9343)) ([#9347](https://github.com/Esri/calcite-design-system/issues/9347)) ([27ad10e](https://github.com/Esri/calcite-design-system/commit/27ad10ed82bc69c5ed62a2b4f2ea24e86f83c01c)), closes [#9235](https://github.com/Esri/calcite-design-system/issues/9235)
 
+## [2.8.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.1...@esri/calcite-components@2.8.2) (2024-05-15)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** Ensure autofocus is available on HTMLElement ([#9343](https://github.com/Esri/calcite-design-system/issues/9343)) ([405a4b0](https://github.com/Esri/calcite-design-system/commit/405a4b0d81d1cee15da40b31b2508461019fd022))
+
 ## [2.9.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.9...@esri/calcite-components@2.9.0-next.10) (2024-05-14)
 
 ### Bug Fixes
