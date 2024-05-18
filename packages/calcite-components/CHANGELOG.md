@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.15...@esri/calcite-components@2.9.0-next.16) (2024-05-18)
+
+### Bug Fixes
+
+- **tile:** slotted content renders within the border ([#9359](https://github.com/Esri/calcite-design-system/issues/9359)) ([045ca2a](https://github.com/Esri/calcite-design-system/commit/045ca2abd433464179e9b6663c832d0ef1e6d877)), closes [#9358](https://github.com/Esri/calcite-design-system/issues/9358)
+
 ## [2.9.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.14...@esri/calcite-components@2.9.0-next.15) (2024-05-17)
 
 ### Features
