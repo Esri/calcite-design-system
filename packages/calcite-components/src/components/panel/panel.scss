@@ -134,8 +134,7 @@
 .footer {
   @apply flex mt-auto flex-row content-between justify-between bg-foreground-1;
   padding-inline: var(--calcite-spacing-md);
-  padding-block-start: var(--calcite-spacing-xxs);
-  padding-block-end: var(--calcite-spacing-md);
+  padding-block: var(--calcite-spacing-md);
 }
 
 @include slotted("footer-start", "*") {
