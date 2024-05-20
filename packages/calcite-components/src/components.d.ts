@@ -1416,6 +1416,10 @@ export namespace Components {
          */
         "headingLevel": HeadingLevel;
         /**
+          * Defines the layout of the component.
+         */
+        "layout": "horizontal" | "vertical";
+        /**
           * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
         "max": string;
@@ -1559,6 +1563,10 @@ export namespace Components {
           * The range of dates currently being hovered.
          */
         "hoverRange": HoverRange;
+        /**
+          * Defines the layout of the component.
+         */
+        "layout": "horizontal" | "vertical";
         /**
           * CLDR locale data for current locale.
          */
@@ -9221,6 +9229,10 @@ declare namespace LocalJSX {
          */
         "headingLevel"?: HeadingLevel;
         /**
+          * Defines the layout of the component.
+         */
+        "layout"?: "horizontal" | "vertical";
+        /**
           * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
         "max"?: string;
@@ -9368,6 +9380,10 @@ declare namespace LocalJSX {
           * The range of dates currently being hovered.
          */
         "hoverRange"?: HoverRange;
+        /**
+          * Defines the layout of the component.
+         */
+        "layout"?: "horizontal" | "vertical";
         /**
           * CLDR locale data for current locale.
          */

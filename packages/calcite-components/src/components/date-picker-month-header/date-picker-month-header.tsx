@@ -142,8 +142,10 @@ export class DatePickerMonthHeader {
 
     return (
       <Fragment>
-        {this.position === "start" && (
-          <div class={{ [CSS.chevronContainer]: true }}>{this.renderChevron("left")}</div>
+        {this.position && (
+          <div class={{ [CSS.chevronContainer]: true }}>
+            {this.position === "start" && this.renderChevron("left")}
+          </div>
         )}
         <div class={{ text: true, [CSS.textReverse]: reverse }}>
           {this.renderMonthPicker(months, activeMonth)}

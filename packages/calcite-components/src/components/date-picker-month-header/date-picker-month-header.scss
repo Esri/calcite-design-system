@@ -5,10 +5,6 @@
   --calcite-select-font-weight: 500;
 }
 
-:host {
-  @apply w-full;
-}
-
 .header {
   @apply flex justify-between items-center h-full;
 }

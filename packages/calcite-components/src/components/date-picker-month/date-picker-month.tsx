@@ -103,6 +103,12 @@ export class DatePickerMonth {
   /** The range of dates currently being hovered. */
   @Prop() hoverRange: HoverRange;
 
+  /** Defines the layout of the component.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical";
+
   /**
    * Made into a prop for testing purposes only
    *
@@ -279,23 +285,10 @@ export class DatePickerMonth {
 
     return (
       <Host onFocusout={this.disableActiveFocus}>
-        <div class="month-header">
-          <calcite-date-picker-month-header
-            activeDate={this.activeDate}
-            headingLevel={this.headingLevel}
-            localeData={this.localeData}
-            max={this.max}
-            messages={this.messages}
-            min={this.min}
-            monthAbbreviations={this.monthAbbreviations}
-            onCalciteInternalDatePickerMonthHeaderSelect={this.monthHeaderSelectChange}
-            position={this.range ? "start" : null}
-            scale={this.scale}
-            selectedDate={this.selectedDate}
-          />
-          {this.range && (
+        <div class="calendar-container" onKeyDown={this.keyDownHandler} role="grid">
+          <div class="calendar">
             <calcite-date-picker-month-header
-              activeDate={nextMonth(this.activeDate)}
+              activeDate={this.activeDate}
               headingLevel={this.headingLevel}
               localeData={this.localeData}
               max={this.max}
@@ -303,15 +296,31 @@ export class DatePickerMonth {
               min={this.min}
               monthAbbreviations={this.monthAbbreviations}
               onCalciteInternalDatePickerMonthHeaderSelect={this.monthHeaderSelectChange}
-              position={"end"}
+              position={this.range ? "start" : null}
               scale={this.scale}
               selectedDate={this.selectedDate}
             />
+            {this.renderMonthCalendar(adjustedWeekDays, days)}
+          </div>
+          {this.range && (
+            <div class="calendar">
+              <calcite-date-picker-month-header
+                activeDate={nextMonth(this.activeDate)}
+                headingLevel={this.headingLevel}
+                localeData={this.localeData}
+                max={this.max}
+                messages={this.messages}
+                min={this.min}
+                monthAbbreviations={this.monthAbbreviations}
+                onCalciteInternalDatePickerMonthHeaderSelect={this.monthHeaderSelectChange}
+                position={"end"}
+                scale={this.scale}
+                selectedDate={this.selectedDate}
+              />
+
+              {this.range && this.renderMonthCalendar(adjustedWeekDays, nextMonthDays, true)}
+            </div>
           )}
-        </div>
-        <div class="calendar" onKeyDown={this.keyDownHandler} role="grid">
-          {this.renderMonthCalendar(adjustedWeekDays, days)}
-          {this.range && this.renderMonthCalendar(adjustedWeekDays, nextMonthDays, true)}
         </div>
       </Host>
     );

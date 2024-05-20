@@ -118,6 +118,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
+  /** Defines the layout of the component. */
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
   /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
   @Prop({ mutable: true }) valueAsDate: Date | Date[];
 
@@ -519,29 +522,28 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   ): VNode {
     return (
       this.localeData && (
-        <div class="range-calendar">
-          <calcite-date-picker-month
-            activeDate={activeDate}
-            dateTimeFormat={this.dateTimeFormat}
-            endDate={this.range ? endDate : undefined}
-            headingLevel={this.headingLevel || HEADING_LEVEL}
-            hoverRange={this.hoverRange}
-            localeData={this.localeData}
-            max={maxDate}
-            messages={this.messages}
-            min={minDate}
-            monthAbbreviations={this.monthAbbreviations}
-            onCalciteInternalDatePickerDayHover={this.monthHoverChange}
-            onCalciteInternalDatePickerDaySelect={this.monthDateChange}
-            onCalciteInternalDatePickerMonthActiveDateChange={this.monthActiveDateChange}
-            onCalciteInternalDatePickerMonthChange={this.monthHeaderSelectChange}
-            onCalciteInternalDatePickerMonthMouseOut={this.monthMouseOutChange}
-            range={this.range}
-            scale={this.scale}
-            selectedDate={this.activeRange === "end" ? endDate || date : date}
-            startDate={this.range ? date : undefined}
-          />
-        </div>
+        <calcite-date-picker-month
+          activeDate={activeDate}
+          dateTimeFormat={this.dateTimeFormat}
+          endDate={this.range ? endDate : undefined}
+          headingLevel={this.headingLevel || HEADING_LEVEL}
+          hoverRange={this.hoverRange}
+          layout={this.layout}
+          localeData={this.localeData}
+          max={maxDate}
+          messages={this.messages}
+          min={minDate}
+          monthAbbreviations={this.monthAbbreviations}
+          onCalciteInternalDatePickerDayHover={this.monthHoverChange}
+          onCalciteInternalDatePickerDaySelect={this.monthDateChange}
+          onCalciteInternalDatePickerMonthActiveDateChange={this.monthActiveDateChange}
+          onCalciteInternalDatePickerMonthChange={this.monthHeaderSelectChange}
+          onCalciteInternalDatePickerMonthMouseOut={this.monthMouseOutChange}
+          range={this.range}
+          scale={this.scale}
+          selectedDate={this.activeRange === "end" ? endDate || date : date}
+          startDate={this.range ? date : undefined}
+        />
       )
     );
   }
@@ -571,7 +573,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     this.value = [dateToISO(startDate), dateToISO(date)];
     this.valueAsDate = [startDate, date];
     // avoid emitting change event when user select stat date beyond end date
-    if (!!date) {
+    if (date) {
       this.calciteDatePickerRangeChange.emit();
     }
   }

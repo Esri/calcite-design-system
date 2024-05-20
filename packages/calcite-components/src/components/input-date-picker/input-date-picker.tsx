@@ -630,6 +630,7 @@ export class InputDatePicker
                       activeDate={this.datePickerActiveDate}
                       activeRange={this.focusedInput}
                       headingLevel={this.headingLevel}
+                      layout={this.layout}
                       max={this.max}
                       maxAsDate={this.maxAsDate}
                       messageOverrides={this.messageOverrides}
@@ -693,10 +694,10 @@ export class InputDatePicker
                   </div>
                 )}
               </div>
-              {this.range && this.layout === "vertical" && this.scale !== "s" && (
-                <div class={CSS.verticalArrowContainer}>
+              {this.range && this.layout === "vertical" && (
+                <div class={CSS.verticalChevronContainer}>
                   <calcite-icon
-                    icon={this.open ? "arrow-up" : "arrow-down"}
+                    icon={this.open ? "chevron-up" : "chevron-down"}
                     scale={getIconScale(this.scale)}
                   />
                 </div>

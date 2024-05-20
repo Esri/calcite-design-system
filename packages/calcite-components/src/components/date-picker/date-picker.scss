@@ -15,37 +15,37 @@
 }
 
 :host([scale="s"]) {
-  inline-size: 234px;
+  inline-size: 236px;
   min-inline-size: 216px;
   max-inline-size: 380px;
 }
 
-:host([scale="s"][range]) {
-  inline-size: 476px;
+:host([scale="s"][range][layout="horizontal"]) {
+  inline-size: 480px;
   min-inline-size: 432px;
   max-inline-size: 772px;
 }
 
 :host([scale="m"]) {
-  inline-size: 296px;
+  inline-size: 298px;
   min-inline-size: 272px;
   max-inline-size: 480px;
 }
 
-:host([scale="m"][range]) {
-  inline-size: 604px;
+:host([scale="m"][range][layout="horizontal"]) {
+  inline-size: 608px;
   min-inline-size: 544px;
   max-inline-size: 972px;
 }
 
 :host([scale="l"]) {
-  inline-size: 332px;
+  inline-size: 334px;
   min-inline-size: 320px;
   max-inline-size: 600px;
 }
 
-:host([scale="l"][range]) {
-  inline-size: 680px;
+:host([scale="l"][range][layout="horizontal"]) {
+  inline-size: 684px;
   min-inline-size: 640px;
   max-inline-size: 1212px;
 }

@@ -121,25 +121,17 @@
   @apply mt-0;
 }
 
-.vertical-arrow-container {
-  @apply flex items-center border border-solid border-color-input border-l-0;
-  inline-size: 16px;
-  block-size: 62px;
-  background-color: #ffffff;
-
-  calcite-icon {
-    @apply h-3
-      w-3
-      min-w-0;
-  }
+.vertical-chevron-container {
+  @apply flex items-center border border-solid border-color-input border-l-0 px-3;
+  background-color: var(--calcite-color-foreground-1);
 }
 
-:host([range][layout="vertical"][scale="m"]) .vertical-arrow-container {
-  padding-inline: theme("spacing.3");
+:host([range][layout="vertical"][scale="s"]) .vertical-chevron-container {
+  @apply px-2;
 }
 
-:host([range][layout="vertical"][scale="l"]) .vertical-arrow-container {
-  @apply px-3.5;
+:host([range][layout="vertical"][scale="l"]) .vertical-chevron-container {
+  @apply px-4;
 }
 
 @include form-validation-message();

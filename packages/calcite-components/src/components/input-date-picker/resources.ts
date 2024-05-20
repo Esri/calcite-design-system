@@ -16,6 +16,6 @@ export const CSS = {
   menu: "menu-container",
   menuActive: "menu-container--active",
   toggleIcon: "toggle-icon",
-  verticalArrowContainer: "vertical-arrow-container",
+  verticalChevronContainer: "vertical-chevron-container",
   chevronIcon: "chevron-icon",
 };
