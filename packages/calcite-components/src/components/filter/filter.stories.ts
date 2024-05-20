@@ -1,4 +1,3 @@
-import { storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
@@ -8,7 +7,6 @@ export default {
   parameters: {
     notes: readme,
   },
-  ...storyFilters(),
 };
 
 export const simple_TestOnly = (): string => html`<calcite-filter></calcite-filter>`;
