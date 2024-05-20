@@ -116,8 +116,8 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
-  <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
+  <calcite-button slot="${SLOTS.footerStart}" width="half" appearance="outline">Naw.</calcite-button>
+  <calcite-button slot="${SLOTS.footerEnd}" width="half">Yeah!</calcite-button>
 `;
 
 const panelContent = `${headerHTML}
@@ -459,4 +459,35 @@ export const contentTopBottomSlot = (): string => html`
       <p slot="footer">Slotted content!</p>
     </calcite-panel>
   </div>
+`;
+
+export const footerStartAndEndSlots = (): string => html`
+  <calcite-panel style="height: 200px">
+    <div slot="header-content">header-content slot</div>
+    <p>Slotted content!</p>
+    <div slot="content-bottom">Slot for a content-bottom.</div>
+    <calcite-button
+      type="button"
+      slot="footer-start"
+      kind="neutral"
+      scale="s"
+      id="card-icon-test-1"
+      icon-start="check"
+    ></calcite-button>
+    <div slot="footer-end">
+      <calcite-button type="button" scale="s" kind="neutral" id="card-icon-test-2" icon-start="stairs">
+      </calcite-button>
+      <calcite-button type="button" scale="s" kind="neutral" id="card-icon-test-3" icon-start="ellipsis">
+      </calcite-button>
+      <calcite-dropdown type="hover">
+        <calcite-button id="card-icon-test-4" slot="trigger" scale="s" kind="neutral" icon-start="caret-down">
+        </calcite-button>
+        <calcite-dropdown-group selection-mode="none">
+          <calcite-dropdown-item>View details</calcite-dropdown-item>
+          <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+          <calcite-dropdown-item>Delete</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    </div>
+  </calcite-panel>
 `;

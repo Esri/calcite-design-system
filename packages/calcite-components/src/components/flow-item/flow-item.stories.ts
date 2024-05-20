@@ -116,8 +116,8 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
-  <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
+  <calcite-button slot="${SLOTS.footerStart}" width="half" appearance="outline">Naw.</calcite-button>
+  <calcite-button slot="${SLOTS.footerEnd}" width="half">Yeah!</calcite-button>
 `;
 
 const flowItemContent = `${headerHTML}
@@ -279,13 +279,13 @@ export const withActionBarAndContentTop_TestOnly = (): string =>
     </calcite-flow-item>
   </div>`;
 
-export const footerPaddingAndContentBottom_TestOnly = (): string =>
+export const footerStartEndAndContentBottom_TestOnly = (): string =>
   html`<div style="width: 300px;">
     <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
       <div slot="content-bottom">Content bottom!</div>
-      <div slot="footer">Footer!</div>
+      ${footerHTML}
     </calcite-flow-item>
   </div>`;
 
