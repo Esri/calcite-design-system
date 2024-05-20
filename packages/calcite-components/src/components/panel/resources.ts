@@ -37,7 +37,8 @@ export const SLOTS = {
   headerMenuActions: "header-menu-actions",
   headerContent: "header-content",
   fab: "fab",
-  footer: "footer",
+  footerEnd: "footer-end",
+  footerStart: "footer-start",
   footerActions: "footer-actions",
 };
 
