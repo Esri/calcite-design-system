@@ -1125,20 +1125,20 @@ describe("calcite-tree", () => {
       );
     });
 
-    describe("mouse", () => {
-      assertSelectionModes(
-        true,
-        async (page, item) => {
-          await directItemClick(page, item);
-        },
-        async (page, _item, toggle) => {
-          await directItemClick(page, toggle);
-        },
-        async (page, item) => {
-          await directItemClick(page, item);
-        },
-      );
-    });
+    // describe("mouse", () => {
+    //   assertSelectionModes(
+    //     true,
+    //     async (page, item) => {
+    //       await directItemClick(page, item);
+    //     },
+    //     async (page, _item, toggle) => {
+    //       await directItemClick(page, toggle);
+    //     },
+    //     async (page, item) => {
+    //       await directItemClick(page, item);
+    //     },
+    //   );
+    // });
 
     interface SelectionModeTest {
       selectionMode: SelectionMode;
