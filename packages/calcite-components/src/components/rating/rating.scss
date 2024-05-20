@@ -46,7 +46,8 @@
 }
 
 .star {
-  @apply transition-default;
+  @apply;
+  @include transition-default();
   position: relative;
   display: flex;
   flex-direction: column;
@@ -68,7 +69,8 @@
 }
 
 .fraction {
-  @apply transition-default;
+  @apply;
+  @include transition-default();
   position: absolute;
   pointer-events: none;
   inset-block-start: 0;

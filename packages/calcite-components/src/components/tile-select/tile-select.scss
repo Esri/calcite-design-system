@@ -14,7 +14,8 @@ $spacing: $baseline * 0.5;
     padding: $spacing;
     position: relative;
     vertical-align: top;
-    @apply transition-default;
+    @apply;
+    @include transition-default();
 
     &.checked {
       @apply z-default;

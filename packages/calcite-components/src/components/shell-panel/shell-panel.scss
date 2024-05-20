@@ -116,12 +116,12 @@
 }
 
 .separator {
-  @apply transition-default
-  pointer-events-auto
+  @apply pointer-events-auto
   absolute
   flex
   bg-transparent
   opacity-0;
+  @include transition-default();
   cursor: col-resize;
   outline: none;
   &:hover {

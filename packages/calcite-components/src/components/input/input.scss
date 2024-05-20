@@ -218,10 +218,10 @@ input:focus {
 }
 
 .icon {
-  @apply transition-default
-    pointer-events-none
+  @apply pointer-events-none
     absolute
     block;
+  @include transition-default();
 }
 
 .icon,
@@ -266,9 +266,11 @@ input[type="time"]::-webkit-clear-button {
   border-inline-start-width: theme("borderWidth.0");
 
   &:hover {
-    @apply bg-foreground-2 transition-default;
+    @apply bg-foreground-2;
+    @include transition-default();
     calcite-icon {
-      @apply text-color-1 transition-default;
+      @apply text-color-1;
+      @include transition-default();
     }
   }
   &:active {
@@ -356,12 +358,12 @@ input[type="number"] {
 }
 
 .number-button-wrapper {
-  @apply transition-default
-    pointer-events-none
+  @apply pointer-events-none
     order-6
     box-border
     flex
     flex-col;
+  @include transition-default();
 }
 
 :host([number-button-type="vertical"]) .wrapper {
@@ -445,7 +447,7 @@ input[type="number"] {
   pointer-events: initial;
   @apply border-color-input
     bg-foreground-1
-    transition-default
+
     m-0
     box-border
     flex
@@ -456,9 +458,11 @@ input[type="number"] {
     border-solid
     py-0
     px-2;
+  @include transition-default();
   border-inline-start-width: theme("borderWidth.0");
   & calcite-icon {
-    @apply transition-default pointer-events-none;
+    @apply pointer-events-none;
+    @include transition-default();
   }
   &:focus {
     @apply bg-foreground-2;
@@ -563,7 +567,8 @@ textarea::-webkit-resizer {
 // input needed for higher specificity of these overrides
 input {
   &.inline-child {
-    @apply transition-default bg-transparent;
+    @apply bg-transparent;
+    @include transition-default();
     .editing-enabled {
       background-color: inherit;
     }

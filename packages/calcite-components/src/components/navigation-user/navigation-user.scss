@@ -9,9 +9,10 @@
       items-center
       justify-center
       cursor-pointer
-      transition-default
+
       focus-base
       text-0h;
+    @include transition-default();
     border-block-end: 2px solid transparent;
   }
 }

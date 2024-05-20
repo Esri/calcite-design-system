@@ -158,7 +158,7 @@
 
 .close {
   @apply text-color-3
-    transition-default
+
     focus-base
     order-2
     m-0
@@ -166,6 +166,7 @@
     appearance-none
     border-none
     bg-transparent;
+  @include transition-default();
   padding-block: var(--calcite-modal-padding-internal);
   padding-inline: var(--calcite-modal-padding-internal);
   flex: 0 0 auto;
