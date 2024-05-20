@@ -344,7 +344,7 @@ export class Combobox
 
   @Listen("click", { target: "document" })
   async documentClickHandler(event: PointerEvent): Promise<void> {
-    if (this.disabled || !this.open || event.composedPath().includes(this.el)) {
+    if (this.disabled || event.composedPath().includes(this.el)) {
       return;
     }
 
