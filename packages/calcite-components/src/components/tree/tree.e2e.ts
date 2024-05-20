@@ -1201,7 +1201,7 @@ describe("calcite-tree", () => {
         },
         {
           selectionMode: "single",
-          canDeselect: { item: true, child: false },
+          canDeselect: { item: true, child: true },
           expandableItemClick: {
             selectsItem: false,
             selectsChildren: false,
