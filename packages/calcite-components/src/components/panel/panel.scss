@@ -132,14 +132,24 @@
 }
 
 .footer {
-  @apply bg-foreground-1
-  flex
-  w-full
-  justify-evenly;
+  @apply flex mt-auto flex-row content-between justify-between bg-foreground-1;
+  padding-inline: var(--calcite-spacing-md);
+  padding-block-start: var(--calcite-spacing-xxs);
+  padding-block-end: var(--calcite-spacing-md);
+}
 
-  flex: 0 0 auto;
-  padding: var(--calcite-panel-footer-padding, theme("spacing.2"));
-  border-block-start: 1px solid var(--calcite-color-border-3);
+@include slotted("footer-start", "*") {
+  @apply text-n2-wrap self-center;
+  margin-inline-end: auto;
+}
+
+@include slotted("footer-end", "*") {
+  @apply text-n2-wrap self-center;
+}
+
+slot[name="footer-start"]::slotted(*),
+slot[name="footer-end"]::slotted(*) {
+  @apply flex gap-1;
 }
 
 .fab-container {
