@@ -3,6 +3,10 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
+ * @prop --calcite-panel-spacing-block-end: Specifies the padding of the component's `content-bottom` slot.
+ * @prop --calcite-panel-spacing-block-start: Specifies the padding of the component's `content-top` slot.
+ * @prop --calcite-panel-height: Specifies the height of the component, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` is set.
+ * @prop --calcite-panel-width: Specifies the width of the component, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the width of the viewport. Will not apply if `fullscreen` is set.
  * @prop --calcite-panel-action-background-color: defines the background color of an action sub-component inside the component.
  * @prop --calcite-panel-action-background-color-hover: defines the background color of an action sub-component when hovered or focused.
  * @prop --calcite-panel-action-background-color-active: defines the background color of an action sub-component when active.
@@ -25,36 +29,50 @@
 
 :host {
   @extend %component-host;
+
   position: relative;
   display: flex;
-  inline-size: var(--calcite-container-size-content-fluid);
-  block-size: var(--calcite-container-size-content-fluid);
   flex: 1 1 auto;
   overflow: hidden;
+  --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
+  block-size: var(--calcite-panel-height, 100%);
+  inline-size: var(--calcite-panel-width, 100%);
 }
 
 @import "../../assets/styles/header";
 
-:host([scale="s"]) .content-top,
-.content-bottom {
-  padding: var(--calcite-spacing-sm);
+:host([scale="s"]) {
+  .content-bottom {
+    padding: var(--calcite-panel-spacing-block-end, var(--calcite-spacing-sm));
+  }
+  .content-top {
+    padding: var(--calcite-panel-spacing-block-start, var(--calcite-spacing-sm));
+  }
 }
 
-:host([scale="m"]) .content-top,
-.content-bottom {
-  padding: var(--calcite-spacing-md);
+:host,
+:host([scale="m"]) {
+  .content-bottom {
+    padding: var(--calcite-panel-spacing-block-end, var(--calcite-spacing-md));
+  }
+  .content-top {
+    padding: var(--calcite-panel-spacing-block-start, var(--calcite-spacing-md));
+  }
 }
 
-:host([scale="l"]) .content-top,
-.content-bottom {
-  padding: var(--calcite-spacing-xl);
+:host([scale="l"]) {
+  .content-bottom {
+    padding: var(--calcite-panel-spacing-block-end, var(--calcite-spacing-xl));
+  }
+  .content-top {
+    padding: var(--calcite-panel-spacing-block-start, var(--calcite-spacing-xl));
+  }
 }
 
 .content-top,
 .content-bottom {
   @apply flex items-start self-stretch;
 
-  padding: var(--calcite-spacing-md);
   border-block-start: 1px solid var(--calcite-color-border-3);
   background-color: var(--calcite-color-foreground-1);
 }
@@ -174,6 +192,7 @@
   background-color: var(--calcite-panel-background-color, var(--calcite-color-background));
   overflow: auto;
   block-size: var(--calcite-container-size-content-fluid);
+  padding: var(--calcite-panel-spacing, 0);
 }
 
 .footer {
