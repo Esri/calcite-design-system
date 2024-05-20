@@ -252,6 +252,10 @@ export namespace Components {
           * Specifies the size of the component inherited from the `calcite-accordion`.
          */
         "scale": Scale;
+        /**
+          * Sets focus on the component.
+         */
+        "setFocus": () => Promise<void>;
     }
     interface CalciteAction {
         /**
