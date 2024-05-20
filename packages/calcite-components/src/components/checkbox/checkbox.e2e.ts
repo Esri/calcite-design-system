@@ -9,6 +9,8 @@ import {
   hidden,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { Scale } from "../interfaces";
+import { Direction } from "../../utils/dom";
 
 describe("calcite-checkbox", () => {
   describe("honors hidden attribute", () => {
@@ -170,112 +172,43 @@ describe("calcite-checkbox", () => {
   });
 
   describe("WCAG AA recommended minimum 24px click area", () => {
-    it("small checkbox allows clicks 5px around all sides", async () => {
+    const testCheckboxClick = async (scale: Scale, maxExtraPixels: number, direction: "ltr" | "rtl"): Promise<void> => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-checkbox scale="s"></calcite-checkbox>`);
+      await page.setContent(html`<calcite-checkbox dir="${direction}" scale="${scale}"></calcite-checkbox>`);
       const checkbox = await page.find("calcite-checkbox");
       const { left, top, right, bottom } = await page.evaluate(() =>
         document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON(),
       );
 
-      const maxExtraPixels = 5;
+      const testClick = async (x, y, expected) => {
+        await page.mouse.click(x, y);
+        await page.waitForChanges();
+        expect(await checkbox.getProperty("checked")).toBe(expected);
+      };
 
-      await page.mouse.click(left - maxExtraPixels, top - maxExtraPixels);
-      await page.waitForChanges();
+      await testClick(left - maxExtraPixels, top - maxExtraPixels, true);
+      await testClick(right + maxExtraPixels, top + maxExtraPixels, false);
+      await testClick(left - maxExtraPixels, bottom - maxExtraPixels, true);
+      await testClick(right + maxExtraPixels, bottom + maxExtraPixels, false);
+      await testClick(right + maxExtraPixels + 1, bottom + maxExtraPixels + 1, false);
+    };
 
-      expect(await checkbox.getProperty("checked")).toBe(true);
+    const directions = ["ltr", "rtl"];
 
-      await page.mouse.click(right + maxExtraPixels, top + maxExtraPixels);
-      await page.waitForChanges();
+    directions.forEach((direction: Direction) => {
+      describe(`${direction}`, () => {
+        it("small checkbox allows clicks 5px around all sides", async () => {
+          await testCheckboxClick("s", 5, direction);
+        });
 
-      expect(await checkbox.getProperty("checked")).toBe(false);
+        it("medium checkbox allows clicks 4px around all sides", async () => {
+          await testCheckboxClick("m", 4, direction);
+        });
 
-      await page.mouse.click(left - maxExtraPixels, bottom - maxExtraPixels);
-      await page.waitForChanges();
-
-      expect(await checkbox.getProperty("checked")).toBe(true);
-
-      await page.mouse.click(right + maxExtraPixels, bottom + maxExtraPixels);
-      await page.waitForChanges();
-
-      expect(await checkbox.getProperty("checked")).toBe(false);
-
-      await page.mouse.click(right + maxExtraPixels + 1, bottom + maxExtraPixels + 1);
-      await page.waitForChanges();
-
-      expect(await checkbox.getProperty("checked")).toBe(false);
-    });
-
-    it("medium checkbox allows clicks 4px around all sides", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-checkbox scale="m"></calcite-checkbox>`);
-      const checkbox = await page.find("calcite-checkbox");
-      const { left, top, right, bottom } = await page.evaluate(() =>
-        document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON(),
-      );
-
-      const maxExtraPixels = 4;
-
-      await page.mouse.click(left - maxExtraPixels, top - maxExtraPixels);
-      await page.waitForChanges();
-
-      expect(await checkbox.getProperty("checked")).toBe(true);
-
-      await page.mouse.click(right + maxExtraPixels, top + maxExtraPixels);
-      await page.waitForChanges();
-
-      expect(await checkbox.getProperty("checked")).toBe(false);
-
-      await page.mouse.click(left - maxExtraPixels, bottom - maxExtraPixels);
-      await page.waitForChanges();
-
-      expect(await checkbox.getProperty("checked")).toBe(true);
-
-      await page.mouse.click(right + maxExtraPixels, bottom + maxExtraPixels);
-      await page.waitForChanges();
-
-      expect(await checkbox.getProperty("checked")).toBe(false);
-
-      await page.mouse.click(right + maxExtraPixels + 1, bottom + maxExtraPixels + 1);
-      await page.waitForChanges();
-
-      expect(await checkbox.getProperty("checked")).toBe(false);
-    });
-
-    it("large checkbox allows clicks 3px around all sides", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-checkbox scale="l"></calcite-checkbox>`);
-      const checkbox = await page.find("calcite-checkbox");
-      const { left, top, right, bottom } = await page.evaluate(() =>
-        document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON(),
-      );
-
-      const maxExtraPixels = 3;
-
-      await page.mouse.click(left - maxExtraPixels, top - maxExtraPixels);
-      await page.waitForChanges();
-
-      expect(await checkbox.getProperty("checked")).toBe(true);
-
-      await page.mouse.click(right + maxExtraPixels, top + maxExtraPixels);
-      await page.waitForChanges();
-
-      expect(await checkbox.getProperty("checked")).toBe(false);
-
-      await page.mouse.click(left - maxExtraPixels, bottom - maxExtraPixels);
-      await page.waitForChanges();
-
-      expect(await checkbox.getProperty("checked")).toBe(true);
-
-      await page.mouse.click(right + maxExtraPixels, bottom + maxExtraPixels);
-      await page.waitForChanges();
-
-      expect(await checkbox.getProperty("checked")).toBe(false);
-
-      await page.mouse.click(right + maxExtraPixels + 1, bottom + maxExtraPixels + 1);
-      await page.waitForChanges();
-
-      expect(await checkbox.getProperty("checked")).toBe(false);
+        it("large checkbox allows clicks 3px around all sides", async () => {
+          await testCheckboxClick("l", 3, direction);
+        });
+      });
     });
   });
 });
