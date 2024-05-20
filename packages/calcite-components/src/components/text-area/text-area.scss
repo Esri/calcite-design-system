@@ -147,13 +147,6 @@ textarea {
   @apply bg-background font-medium;
 }
 
-:host([disabled]) {
-  textarea,
-  footer {
-    @apply opacity-50;
-  }
-}
-
 .border--color {
   @apply border-b border-color-input;
   &:focus {
