@@ -4,6 +4,7 @@ import { accessible, defaults, hidden, HYDRATED_ATTR, renders, t9n, themed } fro
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { getElementXY } from "../../tests/utils";
 import { openClose } from "../../tests/commonTests";
+import { CSS as CHIP_CSS } from "../chip/resources";
 import { CSS, DURATIONS } from "./resources";
 
 describe("defaults", () => {
@@ -49,6 +50,23 @@ describe("calcite-alert", () => {
       <div slot="title">Title Text</div>
       <div slot="message">Message Text</div>
     </calcite-alert>`;
+
+    const alertQueueHtml = html` <calcite-button
+        id="button"
+        onclick="document.querySelector('#alert-to-be-queued').setAttribute('open', '')"
+        >open alert</calcite-button
+      >
+      <calcite-alert open icon="3d-glasses">
+        <div slot="title">Title of alert Uno</div>
+        <div slot="message">Message text of the alert Uno</div>
+        <a slot="link" href="#">Retry</a>
+      </calcite-alert>
+
+      <calcite-alert id="alert-to-be-queued">
+        <div slot="title">Title of alert Dos</div>
+        <div slot="message">Message text of the alert Dos</div>
+        <a slot="link" href="#">Retry</a>
+      </calcite-alert>`;
 
     describe("default", () => {
       const tokens: ComponentTestTokens = {
@@ -113,28 +131,35 @@ describe("calcite-alert", () => {
       };
       themed(alertHtml, tokens);
     });
-    describe.skip("queued Alerts", () => {
-      /* Currently we cannot programmatically simulate a queued Alert in a `themed` test */
-      /* https://github.com/Esri/calcite-design-system/issues/9340 */
+    describe("queued Alerts", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-alert-chip-background-color": {
-          shadowSelector: `.${CSS.container}`,
           targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.queueCount} >>> calcite-chip >>> .${CHIP_CSS.container}`,
         },
         "--calcite-alert-chip-border-color": {
           targetProp: "borderColor",
-          shadowSelector: `.${CSS.queueCount} >>> calcite-chip`,
+          shadowSelector: `.${CSS.queueCount} >>> calcite-chip >>> .${CHIP_CSS.container}`,
         },
         "--calcite-alert-chip-corner-radius": {
           targetProp: "borderRadius",
-          shadowSelector: `.${CSS.queueCount} >>> calcite-chip`,
+          shadowSelector: `.${CSS.queueCount} >>> calcite-chip >>> .${CHIP_CSS.container}`,
         },
         "--calcite-alert-chip-text-color": {
           targetProp: "color",
-          shadowSelector: `.${CSS.queueCount} >>> calcite-chip`,
+          shadowSelector: `.${CSS.queueCount} >>> calcite-chip >>> .${CHIP_CSS.container}`,
         },
       };
-      themed(alertHtml, tokens);
+      themed(async () => {
+        const page = await newE2EPage();
+        await page.setContent(alertQueueHtml);
+        await page.$eval("#button", (button: HTMLCalciteButtonElement) => {
+          button.click();
+        });
+        await page.waitForChanges();
+
+        return { tag: "calcite-alert", page };
+      }, tokens);
     });
   });
 
