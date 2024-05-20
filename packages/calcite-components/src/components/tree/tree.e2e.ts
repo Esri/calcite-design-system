@@ -1231,11 +1231,11 @@ describe("calcite-tree", () => {
                   Child 2
 
                   <calcite-tree slot="children">
-                    <calcite-tree-item id="${expandableItemChildId}">Grandchild 1</calcite-tree-item>
+                    <calcite-tree-item>Grandchild 1</calcite-tree-item>
 
                     <calcite-tree-item>Grandchild 2</calcite-tree-item>
 
-                    <calcite-tree-item>
+                    <calcite-tree-item id="${expandableItemChildId}">
                       Grandchild 3
                       <calcite-tree slot="children">
                         <calcite-tree-item>Great-Grandchild 1</calcite-tree-item>
