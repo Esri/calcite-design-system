@@ -574,9 +574,10 @@ export class Panel
   }
 
   renderFooterNode(): VNode {
-    const { hasFooterEndContent, hasFooterStartContent, hasFooterActions } = this;
+    const { hasFooterEndContent, hasFooterStartContent, hasFooterContent, hasFooterActions } = this;
 
-    const showFooter = hasFooterStartContent || hasFooterEndContent || hasFooterActions;
+    const showFooter =
+      hasFooterStartContent || hasFooterEndContent || hasFooterContent || hasFooterActions;
 
     return (
       <footer class={CSS.footer} hidden={!showFooter}>
