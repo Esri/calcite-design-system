@@ -253,7 +253,7 @@ The subject should contain a concise description of the proposed change, where c
 
 - **Be succinct, yet informative** to ensure the change's purpose is conveyed once added to the changelog
 - Describe the commit's purpose, not a related issue or how the change was mitigated
-- Use present tense, such as "update" instead of "updates" or "updates"
+- Use present tense, such as "update" instead of "updated" or "updates"
 - Not capitalize the first letter
 - Not insert a period `.` at the end
 
