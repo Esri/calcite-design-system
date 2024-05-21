@@ -160,14 +160,14 @@ describe("calcite-dropdown", () => {
       </calcite-dropdown>`,
     );
 
-    const item1IconStart = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon-start");
-    const item1IconEnd = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon-end");
-    const item2IconStart = await page.find("calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon-start");
-    const item2IconEnd = await page.find("calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon-end");
-    const item3IconStart = await page.find("calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon-start");
-    const item3IconEnd = await page.find("calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon-end");
-    const item4IconStart = await page.find("calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon-start");
-    const item4IconEnd = await page.find("calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon-end");
+    const item1IconStart = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon--start");
+    const item1IconEnd = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon--end");
+    const item2IconStart = await page.find("calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon--start");
+    const item2IconEnd = await page.find("calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon--end");
+    const item3IconStart = await page.find("calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon--start");
+    const item3IconEnd = await page.find("calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon--end");
+    const item4IconStart = await page.find("calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon--start");
+    const item4IconEnd = await page.find("calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon--end");
     expect(item1IconStart).not.toBeNull();
     expect(item1IconEnd).toBeNull();
     expect(item2IconStart).toBeNull();

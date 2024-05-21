@@ -11,9 +11,10 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { focusFirstTabbable, getElementDir, toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { FlipContext } from "../interfaces";
 import {
   connectMessages,
   disconnectMessages,
@@ -48,6 +49,15 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   //
   // --------------------------------------------------------------------------
 
+  /** Specifies an icon to display at the end of the component. */
+  @Prop({ reflect: true }) iconEnd: string;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /** Specifies an icon to display at the start of the component. */
+  @Prop({ reflect: true }) iconStart: string;
+
   /**
    * When `true`, expands the component and its contents.
    */
@@ -55,6 +65,8 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
 
   /**
    * Displays a status-related indicator icon.
+   *
+   * @deprecated Use `icon-start` instead.
    */
   @Prop({ reflect: true }) status: Status;
 
@@ -198,14 +210,33 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
     ) : null;
   }
 
+  renderIcon(icon: string): VNode {
+    const { iconFlipRtl } = this;
+
+    if (icon === undefined) {
+      return null;
+    }
+
+    const flipRtlStart = iconFlipRtl === "both" || iconFlipRtl === "start";
+    const flipRtlEnd = iconFlipRtl === "both" || iconFlipRtl === "end";
+
+    const isIconStart = icon === this.iconStart;
+
+    /** Icon scale is not variable as the component does not have a scale property */
+    return (
+      <calcite-icon
+        class={isIconStart ? this.iconStart : this.iconEnd}
+        flipRtl={isIconStart ? flipRtlStart : flipRtlEnd}
+        icon={isIconStart ? this.iconStart : this.iconEnd}
+        key={isIconStart ? CSS.iconStart : CSS.iconEnd}
+        scale="s"
+      />
+    );
+  }
+
   render(): VNode {
-    const { el, messages, open, text, toggleDisplay } = this;
-    const dir = getElementDir(el);
-    const arrowIcon = open
-      ? ICONS.menuOpen
-      : dir === "rtl"
-        ? ICONS.menuClosedLeft
-        : ICONS.menuClosedRight;
+    const { messages, open, text, toggleDisplay } = this;
+    const arrowIcon = open ? ICONS.menuOpen : ICONS.menuClosed;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
 
@@ -213,7 +244,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
       toggleDisplay === "switch" ? (
         <div
           class={{
-            [CSS.toggleSwitchContainer]: true,
+            [CSS.toggleContainer]: true,
           }}
         >
           <div
@@ -230,31 +261,42 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
             tabIndex={0}
             title={toggleLabel}
           >
+            {this.renderIcon(this.iconStart)}
             <div class={CSS.toggleSwitchContent}>
               <span class={CSS.toggleSwitchText}>{text}</span>
             </div>
+
+            {this.renderIcon(this.iconEnd)}
             {this.renderStatusIcon()}
+            {/* we use calcite-label to use a simple component that will allow us to prevent keyboard focus by setting tabindex="-1" on the host */}
           </div>
-          {/* we use calcite-label to use a simple component that will allow us to prevent keyboard focus by setting tabindex="-1" on the host */}
-          <calcite-label class={CSS.focusGuard} layout="inline" tabIndex={-1}>
-            <calcite-switch checked={open} label={toggleLabel} scale="s" />
+          <calcite-label class={CSS.label} layout="inline" tabIndex={-1}>
+            <calcite-switch checked={open} class={CSS.switch} label={toggleLabel} scale="s" />
           </calcite-label>
         </div>
       ) : (
-        <button
-          aria-controls={IDS.content}
-          aria-expanded={toAriaBoolean(open)}
+        <div
           class={{
-            [CSS.sectionHeader]: true,
-            [CSS.toggle]: true,
+            [CSS.toggleContainer]: true,
           }}
-          id={IDS.toggle}
-          onClick={this.toggleSection}
         >
-          <calcite-icon icon={arrowIcon} scale="s" />
-          <span class={CSS.sectionHeaderText}>{text}</span>
-          {this.renderStatusIcon()}
-        </button>
+          <button
+            aria-controls={IDS.content}
+            aria-expanded={toAriaBoolean(open)}
+            class={{
+              [CSS.sectionHeader]: true,
+              [CSS.toggle]: true,
+            }}
+            id={IDS.toggle}
+            onClick={this.toggleSection}
+          >
+            {this.renderIcon(this.iconStart)}
+            <span class={CSS.sectionHeaderText}>{text}</span>
+            {this.renderIcon(this.iconEnd)}
+            {this.renderStatusIcon()}
+            <calcite-icon class={CSS.chevronIcon} icon={arrowIcon} scale="s" />
+          </button>
+        </div>
       );
 
     return (

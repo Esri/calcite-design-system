@@ -98,7 +98,7 @@ export class InputText
   /**
    * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
    *
-   * @internal
+   * @ignore
    */
   // eslint-disable-next-line @stencil-community/reserved-member-names
   @Prop() autofocus: boolean;
@@ -683,12 +683,11 @@ export class InputText
         pattern={this.pattern}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
+        ref={this.setChildElRef}
         required={this.required ? true : null}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
         type="text"
         value={this.value}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setChildElRef}
       />
     );
 

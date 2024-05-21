@@ -100,9 +100,10 @@
 }
 
 :host([alignment="center"]) {
-  .row,
-  .content-container {
-    align-items: center;
+  .icon {
+    align-self: center;
+  }
+  .text-content {
     text-align: center;
   }
   slot[name="content-start"]::slotted(*),
@@ -249,3 +250,7 @@
 }
 
 @include base-component();
+
+::slotted(*) {
+  max-inline-size: 100%;
+}

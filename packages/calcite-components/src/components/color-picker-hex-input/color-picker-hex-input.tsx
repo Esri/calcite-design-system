@@ -319,10 +319,9 @@ export class ColorPickerHexInput implements LoadableComponent {
           onKeyDown={this.onInputKeyDown}
           onPaste={this.onHexInputPaste}
           prefixText="#"
+          ref={this.storeHexInputRef}
           scale={inputScale}
           value={hexInputValue}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.storeHexInputRef}
         />
         {alphaChannel ? (
           <calcite-input-number
@@ -337,11 +336,10 @@ export class ColorPickerHexInput implements LoadableComponent {
             onCalciteInputNumberChange={this.onOpacityInputChange}
             onCalciteInternalInputNumberBlur={this.onOpacityInputBlur}
             onKeyDown={this.onInputKeyDown}
+            ref={this.storeOpacityInputRef}
             scale={inputScale}
             suffixText="%"
             value={opacityInputValue}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.storeOpacityInputRef}
           />
         ) : null}
       </div>
