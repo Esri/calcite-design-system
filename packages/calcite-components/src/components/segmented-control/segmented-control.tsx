@@ -274,17 +274,19 @@ export class SegmentedControl
 
     switch (adjustedKey) {
       case "ArrowLeft":
-      case "ArrowUp":
+      case "ArrowUp": {
         event.preventDefault();
         const previous = selectedIndex < 1 ? items[items.length - 1] : items[selectedIndex - 1];
         this.selectItem(previous, true);
         return;
+      }
       case "ArrowRight":
-      case "ArrowDown":
+      case "ArrowDown": {
         event.preventDefault();
         const next = selectedIndex === -1 ? items[1] : items[selectedIndex + 1] || items[0];
         this.selectItem(next, true);
         return;
+      }
       case " ":
         event.preventDefault();
         this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement, true);

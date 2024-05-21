@@ -48,17 +48,17 @@
   }
 }
 
-.column,
+.content-container,
 .row {
   align-items: flex-start;
   display: flex;
 }
 
-.column {
+.content-container {
   flex-direction: column;
 }
 
-.content-container {
+.text-content-container {
   inline-size: 100%;
   outline-color: transparent;
   padding: 0;
@@ -88,7 +88,7 @@
     block-size: 64px;
     inline-size: 64px;
   }
-  .content-container {
+  .text-content-container {
     justify-content: center;
   }
 }
@@ -100,9 +100,10 @@
 }
 
 :host([alignment="center"]) {
-  .row,
-  .column {
-    align-items: center;
+  .icon {
+    align-self: center;
+  }
+  .text-content {
     text-align: center;
   }
   slot[name="content-start"]::slotted(*),
@@ -117,7 +118,7 @@
   .container {
     padding: var(--calcite-spacing-sm);
   }
-  .column,
+  .content-container--has-content,
   .row {
     gap: var(--calcite-spacing-sm);
   }
@@ -129,6 +130,9 @@
     font-size: var(--calcite-font-size--3);
     line-height: 0.85938rem;
   }
+  .content-container--has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
+    margin-block-end: var(--calcite-spacing-sm);
+  }
 }
 
 :host([scale="m"]) {
@@ -137,7 +141,7 @@
   .container {
     padding: var(--calcite-spacing-md);
   }
-  .column,
+  .content-container--has-content,
   .row {
     gap: var(--calcite-spacing-md);
   }
@@ -149,6 +153,9 @@
     font-size: var(--calcite-font-size--2);
     line-height: 1.03125rem;
   }
+  .content-container--has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
+    margin-block-end: var(--calcite-spacing-md);
+  }
 }
 
 :host([scale="l"]) {
@@ -157,7 +164,7 @@
   .container {
     padding: var(--calcite-spacing-xl);
   }
-  .column,
+  .content-container--has-content,
   .row {
     gap: var(--calcite-spacing-xl);
   }
@@ -168,6 +175,9 @@
   .description {
     font-size: var(--calcite-font-size--1);
     line-height: 1.20313rem;
+  }
+  .content-container--has-only-content-top-and-bottom slot[name="content-top"]::slotted(*) {
+    margin-block-end: var(--calcite-spacing-xl);
   }
 }
 
@@ -240,3 +250,7 @@
 }
 
 @include base-component();
+
+::slotted(*) {
+  max-inline-size: 100%;
+}

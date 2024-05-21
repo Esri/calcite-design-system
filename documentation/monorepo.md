@@ -162,7 +162,7 @@ A `deploy-latest.yml` GitHub Action runs `release-please`, which creates the rel
 
 After installing the PR, the Action creates [git tags](#git-tags) and [GitHub releases](#github-releases) for each bumped package, and then deploys to NPM.
 
-A `remove-next-changelog-entries.yml` GitHub Action runs the `removeNextChangelogEntries.ts` script every time `release-please` pushes changes to its branch. This ensures all `next` changelog sections created by Lerna are removed before a dev installs the PR.
+A `remove-prerelease-changelog-entries.yml` GitHub Action runs the `removePrereleaseChangelogEntries.ts` script every time `release-please` pushes changes to its branch. This ensures all `next`, `hotfix`, and `rc` changelog sections created by Lerna are removed before a dev installs the PR.
 
 ### Steps to release
 

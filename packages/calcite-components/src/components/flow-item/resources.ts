@@ -9,6 +9,8 @@ export const ICONS = {
 
 export const SLOTS = {
   actionBar: "action-bar",
+  contentTop: "content-top",
+  contentBottom: "content-bottom",
   headerActionsStart: "header-actions-start",
   headerActionsEnd: "header-actions-end",
   headerMenuActions: "header-menu-actions",

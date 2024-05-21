@@ -303,7 +303,7 @@ export class Block
       <div class={CSS.icon} key="loader">
         <calcite-loader inline label={messages.loading} />
       </div>
-    ) : !!status ? (
+    ) : status ? (
       <div class={CSS.icon} key="status-icon">
         <calcite-icon
           class={{
@@ -400,7 +400,6 @@ export class Block
               class={CSS.content}
               hidden={!open}
               id={IDS.content}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.setTransitionEl}
             >
               {this.renderScrim()}

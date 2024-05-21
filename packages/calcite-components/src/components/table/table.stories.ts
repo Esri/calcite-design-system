@@ -7,6 +7,7 @@ interface TableArgs {
   pageSize: number;
   interactionMode: string;
   selectionMode: string;
+  selectionDisplay: string;
   scale: string;
   layout: string;
   caption: string;
@@ -21,6 +22,7 @@ export default {
     pageSize: 0,
     interactionMode: interactionMode.defaultValue,
     selectionMode: selectionMode.values[1],
+    selectionDisplay: "top",
     scale: scale.defaultValue,
     layout: layout.values[5],
     caption: "Simple table",
@@ -38,6 +40,10 @@ export default {
         (option) =>
           option !== "children" && option !== "single-persist" && option !== "multichildren" && option !== "ancestors",
       ),
+      control: { type: "select" },
+    },
+    selectionDisplay: {
+      options: ["none", "top"],
       control: { type: "select" },
     },
     scale: {
@@ -60,11 +66,12 @@ export default {
   },
 };
 
-export const simple = (args: TableArgs): string =>
-  html`<calcite-table
+export const simple = (args: TableArgs): string => html`
+  <calcite-table
     page-size="${args.pageSize}"
     interaction-mode="${args.interactionMode}"
     selection-mode="${args.selectionMode}"
+    selection-display="${args.selectionDisplay}"
     scale="${args.scale}"
     layout="${args.layout}"
     caption="${args.caption}"
@@ -96,7 +103,8 @@ export const simple = (args: TableArgs): string =>
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>
     </calcite-table-row>
-  </calcite-table>`;
+  </calcite-table>
+`;
 
 export const simpleStriped_TestOnly = (): string =>
   html`<calcite-table striped caption="Simple-striped table">
@@ -763,6 +771,74 @@ export const selectionModeMultipleAndSelectedOnLoad_TestOnly = (): string =>
   html` <calcite-table
     page-size="4"
     selection-mode="multiple"
+    numbered
+    caption="selection-mode multiple with selected at load"
+  >
+    <calcite-action slot="selection-actions" icon="layer"></calcite-action>
+    <calcite-action slot="selection-actions" icon="send"></calcite-action>
+    <calcite-action slot="selection-actions" icon="copy"></calcite-action>
+    <calcite-action slot="selection-actions" icon="plus"></calcite-action>
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+      <calcite-table-header heading="Heading"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row selected>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+  </calcite-table>`;
+
+export const selectionModeMultipleAndSelectedSelectionDisplayNoneOnLoad = (): string =>
+  html` <calcite-table
+    page-size="4"
+    selection-mode="multiple"
+    selection-display="none"
     numbered
     caption="selection-mode multiple with selected at load"
   >
