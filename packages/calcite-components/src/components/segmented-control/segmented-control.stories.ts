@@ -31,7 +31,13 @@ export default {
     layout: {
       options: layout.values.filter(
         (option) =>
-          option !== "grid" && option !== "inline" && option !== "center" && option !== "auto" && option !== "fixed",
+          option !== "grid" &&
+          option !== "inline" &&
+          option !== "center" &&
+          option !== "auto" &&
+          option !== "fixed" &&
+          option !== "none" &&
+          option !== "horizontal-single",
       ),
       control: { type: "select" },
     },

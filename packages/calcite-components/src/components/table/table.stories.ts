@@ -51,7 +51,9 @@ export default {
           option !== "vertical" &&
           option !== "grid" &&
           option !== "inline" &&
-          option !== "center",
+          option !== "center" &&
+          option !== "none" &&
+          option !== "horizontal-single",
       ),
       control: { type: "select" },
     },

@@ -1,63 +1,23 @@
-import { boolean, text } from "../../../.storybook/fake-knobs";
-import {
-  Attribute,
-  Attributes,
-  createComponentHTML as create,
-  filterComponentAttributes,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+
+interface PickListArgs {
+  disabled: boolean;
+  filterEnabled: boolean;
+  loading: boolean;
+  multiple: boolean;
+  selectionFollowsFocus: boolean;
+}
 
 export default {
   title: "Components/Pick List",
-};
-
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  return filterComponentAttributes(
-    [
-      {
-        name: "disabled",
-        commit(): Attribute {
-          this.value = boolean("disabled", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "filter-enabled",
-        commit(): Attribute {
-          this.value = boolean("filterEnabled", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "loading",
-        commit(): Attribute {
-          this.value = boolean("loading", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "multiple",
-        commit(): Attribute {
-          this.value = boolean("multiple", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "selection-follows-focus",
-        commit(): Attribute {
-          this.value = boolean("selection-follows-focus", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
+  args: {
+    disabled: false,
+    filterEnabled: false,
+    loading: false,
+    multiple: false,
+    selectionFollowsFocus: false,
+  },
 };
 
 const action = html`
@@ -71,94 +31,79 @@ const action = html`
   ></calcite-action>
 `;
 
-export const simple = (): string =>
-  create(
-    "calcite-pick-list",
-    createAttributes(),
-    html`
-      <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex">
-        ${action}
-      </calcite-pick-list-item>
-      <calcite-pick-list-item label="Triceratops" description="3 horn" value="triceratops" selected>
-        ${action}
-      </calcite-pick-list-item>
-      <calcite-pick-list-item label="hi" description="there" value="helloWorld"> ${action} </calcite-pick-list-item>
-    `,
-  );
+export const simple = (args: PickListArgs): string => html`
+  <calcite-pick-list
+    ${args.disabled ? "disabled" : ""}
+    ${args.filterEnabled ? "filter-enabled" : ""}
+    ${args.loading ? "loading" : ""}
+    ${args.multiple ? "multiple" : ""}
+    ${args.selectionFollowsFocus ? "selection-follows-focus" : ""}
+  >
+    <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex">
+      ${action}
+    </calcite-pick-list-item>
+    <calcite-pick-list-item label="Triceratops" description="3 horn" value="triceratops" selected>
+      ${action}
+    </calcite-pick-list-item>
+    <calcite-pick-list-item label="hi" description="there" value="helloWorld"> ${action} </calcite-pick-list-item>
+  </calcite-pick-list>
+`;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create(
-    "calcite-pick-list",
-    createAttributes({ exceptions: ["dir", "class"] }).concat([
-      {
-        name: "dir",
-        value: "rtl",
-      },
-      {
-        name: "class",
-        value: "calcite-mode-dark",
-      },
-    ]),
-    html`
-      <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex">
-        ${action}
-      </calcite-pick-list-item>
-      <calcite-pick-list-item label="Triceratops" description="3 horn" value="triceratops" selected>
-        ${action}
-      </calcite-pick-list-item>
-      <calcite-pick-list-item label="hi" description="there" value="helloWorld"> ${action} </calcite-pick-list-item>
-    `,
-  );
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-pick-list dir="rtl" class="calcite-mode-dark">
+    <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex">
+      ${action}
+    </calcite-pick-list-item>
+    <calcite-pick-list-item label="Triceratops" description="3 horn" value="triceratops" selected>
+      ${action}
+    </calcite-pick-list-item>
+    <calcite-pick-list-item label="hi" description="there" value="helloWorld"> ${action} </calcite-pick-list-item>
+  </calcite-pick-list>
+`;
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
-export const grouped = (): string =>
-  create(
-    "calcite-pick-list",
-    createAttributes(),
-    html`
-      <calcite-pick-list-group group-title="numbers" heading-level="${text("heading-level", "1")}">
-        <calcite-pick-list-item label="one" description="fish" value="one" icon="grip">
-          ${action}
-        </calcite-pick-list-item>
-        <calcite-pick-list-item label="two" description="fish" value="two" icon="grip">
-          ${action}
-        </calcite-pick-list-item>
-      </calcite-pick-list-group>
-      <calcite-pick-list-group group-title="colors" heading-level="${text("heading-level", "1")}">
-        <calcite-pick-list-item label="red" description="fish" value="red" icon="grip">
-          ${action}
-        </calcite-pick-list-item>
-        <calcite-pick-list-item label="blue" description="fish" value="blue" icon="grip">
-          ${action}
-        </calcite-pick-list-item>
-      </calcite-pick-list-group>
-    `,
-  );
+export const grouped = (): string => html`
+  <calcite-pick-list>
+    <calcite-pick-list-group group-title="numbers" heading-level="1">
+      <calcite-pick-list-item label="one" description="fish" value="one" icon="grip">
+        ${action}
+      </calcite-pick-list-item>
+      <calcite-pick-list-item label="two" description="fish" value="two" icon="grip">
+        ${action}
+      </calcite-pick-list-item>
+    </calcite-pick-list-group>
+    <calcite-pick-list-group group-title="colors" heading-level="1">
+      <calcite-pick-list-item label="red" description="fish" value="red" icon="grip">
+        ${action}
+      </calcite-pick-list-item>
+      <calcite-pick-list-item label="blue" description="fish" value="blue" icon="grip">
+        ${action}
+      </calcite-pick-list-item>
+    </calcite-pick-list-group>
+  </calcite-pick-list>
+`;
 
-export const nested = (): string =>
-  create(
-    "calcite-pick-list",
-    createAttributes(),
-    html`
-      <calcite-pick-list-group>
-        <calcite-pick-list-item label="All the dogs" value="all-dogs" slot="parent-item">
-          ${action}
-        </calcite-pick-list-item>
-        <calcite-pick-list-item label="Husky" value="husky"> ${action} </calcite-pick-list-item>
-        <calcite-pick-list-item label="Pomeranian" value="pom"> ${action} </calcite-pick-list-item>
-        <calcite-pick-list-item label="Xoloitzcuintle" value="xolo"> ${action} </calcite-pick-list-item>
-      </calcite-pick-list-group>
-      <calcite-pick-list-group>
-        <calcite-pick-list-item label="All the cats" value="all-cats" slot="parent-item">
-          ${action}
-        </calcite-pick-list-item>
-        <calcite-pick-list-item label="Himalayan" value="himalayan"> ${action} </calcite-pick-list-item>
-        <calcite-pick-list-item label="Persian" value="persian"> ${action} </calcite-pick-list-item>
-        <calcite-pick-list-item label="Sphynx" value="sphynx"> ${action} </calcite-pick-list-item>
-      </calcite-pick-list-group>
-    `,
-  );
+export const nested = (): string => html`
+  <calcite-pick-list>
+    <calcite-pick-list-group>
+      <calcite-pick-list-item label="All the dogs" value="all-dogs" slot="parent-item">
+        ${action}
+      </calcite-pick-list-item>
+      <calcite-pick-list-item label="Husky" value="husky"> ${action} </calcite-pick-list-item>
+      <calcite-pick-list-item label="Pomeranian" value="pom"> ${action} </calcite-pick-list-item>
+      <calcite-pick-list-item label="Xoloitzcuintle" value="xolo"> ${action} </calcite-pick-list-item>
+    </calcite-pick-list-group>
+    <calcite-pick-list-group>
+      <calcite-pick-list-item label="All the cats" value="all-cats" slot="parent-item">
+        ${action}
+      </calcite-pick-list-item>
+      <calcite-pick-list-item label="Himalayan" value="himalayan"> ${action} </calcite-pick-list-item>
+      <calcite-pick-list-item label="Persian" value="persian"> ${action} </calcite-pick-list-item>
+      <calcite-pick-list-item label="Sphynx" value="sphynx"> ${action} </calcite-pick-list-item>
+    </calcite-pick-list-group>
+  </calcite-pick-list>
+`;
 
 export const disabled_TestOnly = (): string =>
   html`<calcite-pick-list disabled>

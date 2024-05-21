@@ -21,6 +21,9 @@ import {
   LabelType,
   ClickType,
   CollapseDirection,
+  TextType,
+  Mode,
+  SelectionAppearance,
 } from "../src/components/interfaces";
 
 interface AttributeMetadata<T> {
@@ -51,6 +54,9 @@ interface CommonAttributes {
   labelType: AttributeMetadata<LabelType>;
   clickType: AttributeMetadata<ClickType>;
   collapseDirection: AttributeMetadata<CollapseDirection>;
+  textType: AttributeMetadata<TextType>;
+  mode: AttributeMetadata<Mode>;
+  selectionAppearance: AttributeMetadata<SelectionAppearance>;
 }
 
 const logicalFlowPositionOptions: LogicalFlowPosition[] = ["inline-start", "inline-end", "block-start", "block-end"];
@@ -73,7 +79,17 @@ const selectionModeOptions: SelectionMode[] = [
 const arrowTypeOptions: ArrowType[] = ["inline", "edge", "none"];
 const displayModeOptions: DisplayMode[] = ["dock", "float", "overlay"];
 const toggleDisplayOptions: ToggleDisplay[] = ["button", "switch"];
-const layoutOptions: Layout[] = ["horizontal", "vertical", "grid", "inline", "center", "auto", "fixed"];
+const layoutOptions: Layout[] = [
+  "horizontal",
+  "vertical",
+  "grid",
+  "inline",
+  "center",
+  "auto",
+  "fixed",
+  "none",
+  "horizontal-single",
+];
 const dirOptions: Dir[] = ["ltr", "rtl"];
 const buttonTypeOptions: ButtonType[] = ["radio", "checkbox"];
 const interactionModeOptions: InteractionMode[] = ["interactive", "static"];
@@ -82,7 +98,21 @@ const determinateTypeOptions: DeterminateType[] = ["determinate", "indeterminate
 const fillTypeOptions: FillType[] = ["single", "range"];
 const labelTypeOptions: LabelType[] = ["percent", "units"];
 const clickTypeOptions: ClickType[] = ["click", "hover"];
-const collapseDirectionptions: CollapseDirection[] = ["down", "up"];
+const collapseDirectionOptions: CollapseDirection[] = ["down", "up"];
+const textTypeOptions: TextType[] = [
+  "text",
+  "textarea",
+  "email",
+  "password",
+  "tel",
+  "number",
+  "search",
+  "file",
+  "time",
+  "date",
+];
+const modeOptions: Mode[] = ["offset", "name"];
+const selectionAppearanceOptions: SelectionAppearance[] = ["icon", "border"];
 
 export const ATTRIBUTES: CommonAttributes = {
   alignment: {
@@ -170,7 +200,19 @@ export const ATTRIBUTES: CommonAttributes = {
     defaultValue: clickTypeOptions[0],
   },
   collapseDirection: {
-    values: collapseDirectionptions,
-    defaultValue: collapseDirectionptions[0],
+    values: collapseDirectionOptions,
+    defaultValue: collapseDirectionOptions[0],
+  },
+  textType: {
+    values: textTypeOptions,
+    defaultValue: textTypeOptions[0],
+  },
+  mode: {
+    values: modeOptions,
+    defaultValue: modeOptions[0],
+  },
+  selectionAppearance: {
+    values: selectionAppearanceOptions,
+    defaultValue: selectionAppearanceOptions[0],
   },
 };

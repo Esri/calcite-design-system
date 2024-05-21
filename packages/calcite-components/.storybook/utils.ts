@@ -17,44 +17,6 @@ export const modesDarkDefault = {
   themeOverride: "dark",
 };
 
-export interface KnobbedAttribute {
-  name: string;
-  value: ReturnType<any>;
-}
-
-export interface SimpleAttribute {
-  name: string;
-  value: string | boolean | number;
-}
-
-export type Attribute = KnobbedAttribute | SimpleAttribute;
-export type Attributes = Attribute[];
-
-interface DeferredAttribute {
-  name: string;
-  commit: () => Attribute;
-}
-
-export const createComponentHTML = (tagName: string, attributes: Attributes, contentHTML: string = ""): string =>
-  `<${tagName} ${attributes
-    .map(({ name, value }) => {
-      const booleanAttr = typeof value === "boolean";
-      if (booleanAttr) {
-        return value ? name : "";
-      }
-      return `${name}="${value}"`;
-    })
-    .join(" ")}>${contentHTML}</${tagName}>`;
-
-export const filterComponentAttributes = (attributesList: DeferredAttribute[], exceptions: string[]): Attributes => {
-  if (!exceptions.length) {
-    return attributesList.map((attr) => attr.commit());
-  }
-  return attributesList
-    .filter((attr) => !exceptions.find((except) => except === attr.name))
-    .map((attr) => attr.commit());
-};
-
 /**
  * This helper creates a story that captures all breakpoints across all scales for testing.
  *

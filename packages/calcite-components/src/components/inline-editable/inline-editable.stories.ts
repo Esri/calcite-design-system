@@ -1,25 +1,51 @@
-import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { scale, alignment } = ATTRIBUTES;
+
+interface InlineEditableArgs {
+  scale: string;
+  controls: boolean;
+  editingEnabled: boolean;
+  loading: boolean;
+  disabled: boolean;
+  alignment: string;
+  placeholder: string;
+}
 
 export default {
   title: "Components/Controls/Inline Editable",
+  args: {
+    scale: scale.defaultValue,
+    controls: false,
+    editingEnabled: false,
+    loading: false,
+    disabled: false,
+    alignment: alignment.defaultValue,
+    placeholder: "Placeholder text",
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    alignment: {
+      options: alignment.values.filter((option) => option !== "center"),
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: InlineEditableArgs): string => html`
   <div style="width:300px;max-width:100%;">
     <calcite-inline-editable
-      scale="${select("scale", ["s", "m", "l"], "m", "InlineEditable")}"
-      ${boolean("controls", false, "InlineEditable") && "controls"}
-      ${boolean("editing-enabled", false, "InlineEditable") && "editing-enabled"}
-      ${boolean("loading", false, "InlineEditable") && "loading"}
-      ${boolean("disabled", false, "InlineEditable") && "disabled"}
+      scale="${args.scale}"
+      ${args.controls ? "controls" : ""}
+      ${args.editingEnabled ? "editing-enabled" : ""}
+      ${args.loading ? "loading" : ""}
+      ${args.disabled ? "disabled" : ""}
     >
-      <calcite-input
-        alignment="${select("alignment", ["start", "end"], "start", "Input")}"
-        placeholder="${text("placeholder", "Placeholder text", "Input")}"
-      >
-      </calcite-input>
+      <calcite-input alignment="${args.alignment}" placeholder="${args.placeholder}"> </calcite-input>
     </calcite-inline-editable>
   </div>
 `;
@@ -36,31 +62,12 @@ export const disabled_TestOnly = (): string => html`
 
 export const darkModeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;">
-    <calcite-label
-      class="calcite-mode-dark"
-      status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
-      scale="${select("scale", ["s", "m", "l"], "m", "Label")}"
-      layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}"
-    >
-      ${text("label text", "My great label", "Label")}
-      <calcite-inline-editable
-        ${boolean("controls", false, "InlineEditable") && "controls"}
-        ${boolean("editing-enabled", false, "InlineEditable") && "editing-enabled"}
-        ${boolean("loading", false, "InlineEditable") && "loading"}
-        ${boolean("disabled", false, "InlineEditable") && "disabled"}
-      >
-        <calcite-input
-          alignment="${select("alignment", ["start", "end"], "start", "Input")}"
-          placeholder="${text("placeholder", "Placeholder text", "Input")}"
-        >
-        </calcite-input>
+    <calcite-label class="calcite-mode-dark" status="idle" scale="m" layout="default">
+      My great label
+      <calcite-inline-editable>
+        <calcite-input alignment="start" placeholder="Placeholder text"> </calcite-input>
       </calcite-inline-editable>
-      <calcite-input-message
-        ${boolean("icon", false, "InputMessage") && "icon"}
-        status="${select("status", ["idle", "valid", "invalid"], "idle", "InputMessage")}"
-      >
-        ${text("text", "My great input message", "InputMessage")}
-      </calcite-input-message>
+      <calcite-input-message status="idle"> My great input message </calcite-input-message>
     </calcite-label>
   </div>
 `;

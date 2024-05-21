@@ -25,7 +25,13 @@ export default {
   argTypes: {
     layout: {
       options: layout.values.filter(
-        (option) => option !== "inline" && option !== "center" && option !== "auto" && option !== "fixed",
+        (option) =>
+          option !== "inline" &&
+          option !== "center" &&
+          option !== "auto" &&
+          option !== "fixed" &&
+          option !== "none" &&
+          option !== "horizontal-single",
       ),
       control: { type: "select" },
     },

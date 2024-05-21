@@ -1,114 +1,72 @@
-import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import { iconNames } from "../../../.storybook/helpers";
-import {
-  Attribute,
-  Attributes,
-  createComponentHTML as create,
-  filterComponentAttributes,
-} from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { alignment, buttonType, width } = ATTRIBUTES;
+
+interface TileSelectArgs {
+  checked: boolean;
+  description: string;
+  disabled: boolean;
+  heading: string;
+  hidden: boolean;
+  icon: string;
+  inputAlignment: string;
+  inputEnabled: boolean;
+  type: string;
+  value: string;
+  width: string;
+}
 
 export default {
   title: "Components/Tiles/Tile Select",
+  args: {
+    checked: false,
+    description: "",
+    disabled: false,
+    heading: "",
+    hidden: false,
+    icon: "",
+    inputAlignment: alignment.defaultValue,
+    inputEnabled: false,
+    type: buttonType.defaultValue,
+    value: "one",
+    width: width.defaultValue,
+  },
+  argTypes: {
+    icon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+    inputAlignment: {
+      options: alignment.values.filter((option) => option !== "center"),
+      control: { type: "select" },
+    },
+    type: {
+      options: buttonType.values,
+      control: { type: "select" },
+    },
+    width: {
+      options: width.values.filter((option) => option !== "half"),
+      control: { type: "select" },
+    },
+  },
 };
 
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  return filterComponentAttributes(
-    [
-      {
-        name: "checked",
-        commit(): Attribute {
-          this.value = boolean("checked", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "description",
-        commit(): Attribute {
-          this.value = text("description", "");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "disabled",
-        commit(): Attribute {
-          this.value = boolean("disabled", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "heading",
-        commit(): Attribute {
-          this.value = text("heading", "");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "hidden",
-        commit(): Attribute {
-          this.value = boolean("hidden", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "icon",
-        commit(): Attribute {
-          this.value = select("icon", ["", ...iconNames], "");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "input-alignment",
-        commit(): Attribute {
-          this.value = select("input-alignment", ["start", "end"], "start");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "input-enabled",
-        commit(): Attribute {
-          this.value = boolean("input-enabled", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "type",
-        commit(): Attribute {
-          this.value = select("type", ["radio", "checkbox"], "radio");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "value",
-        commit(): Attribute {
-          this.value = text("value", "one");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "width",
-        commit(): Attribute {
-          this.value = select("width", ["auto", "full"], "auto");
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
-};
-
-export const simple = (): string => html`${create("calcite-tile-select", createAttributes())}`;
+export const simple = (args: TileSelectArgs): string => html`
+  <calcite-tile-select
+    ${args.checked ? "checked" : ""}
+    description="${args.description}"
+    ${args.disabled ? "disabled" : ""}
+    heading="${args.heading}"
+    ${args.hidden ? "hidden" : ""}
+    icon="${args.icon}"
+    input-alignment="${args.inputAlignment}"
+    ${args.inputEnabled ? "input-enabled" : ""}
+    type="${args.type}"
+    value="${args.value}"
+    width="${args.width}"
+  ></calcite-tile-select>
+`;
 
 export const checkbox_TestOnly = (): string =>
   html`<calcite-tile-select icon="check" heading="test" value="one" type="checkbox"></calcite-tile-select>`;

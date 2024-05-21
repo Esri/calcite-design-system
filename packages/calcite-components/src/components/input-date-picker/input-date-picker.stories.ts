@@ -1,26 +1,72 @@
-import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { locales } from "../../utils/locale";
+import { locales, defaultLocale } from "../../utils/locale";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { iconNames } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { scale, status } = ATTRIBUTES;
+
+interface InputDatePickerArgs {
+  scale: string;
+  status: string;
+  value: string;
+  min: string;
+  max: string;
+  lang: string;
+  placement: string;
+  validationMessage: string;
+  validationIcon: string;
+}
 
 export default {
   title: "Components/Controls/InputDatePicker",
+  args: {
+    scale: scale.defaultValue,
+    status: status.defaultValue,
+    value: "2020-12-12",
+    min: "2016-08-09",
+    max: "2023-12-18",
+    lang: defaultLocale,
+    placement: defaultMenuPlacement,
+    validationMessage: "",
+    validationIcon: "",
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    lang: {
+      options: locales,
+      control: { type: "select" },
+    },
+    placement: {
+      options: menuPlacements,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: InputDatePickerArgs): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-      value="${text("value", "2020-12-12")}"
-      min="${text("min", "2016-08-09")}"
-      max="${text("max", "2023-12-18")}"
-      lang="${select("locale", locales, "en")}"
-      placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
-      validation-message="${text("validation-message", "")}"
-      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+      scale="${args.scale}"
+      status="${args.status}"
+      value="${args.value}"
+      min="${args.min}"
+      max="${args.max}"
+      lang="${args.lang}"
+      placement="${args.placement}"
+      validation-message="${args.validationMessage}"
+      validation-icon="${args.validationIcon}"
     ></calcite-input-date-picker
   </div>
 `;
@@ -28,17 +74,17 @@ export const simple = (): string => html`
 export const range = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-      min="${text("min", "2016-08-09")}"
-      max="${text("max", "2023-12-18")}"
-      lang="${select("locale", locales, "en")}"
-      next-month-label="${text("next-month-label", "Next month")}"
-      prev-month-label="${text("prev-month-label", "Previous month")}"
-      range="${boolean("range", true)}"
-      layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-      validation-message="${text("validation-message", "")}"
-      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+      scale="m"
+      status="idle"
+      min="2016-08-09"
+      max="2023-12-18"
+      lang="en"
+      next-month-label="Next month"
+      prev-month-label="Previous month"
+      range
+      layout="horizontal"
+      validation-message=""
+      validation-icon=""
     ></calcite-input-date-picker>
   </div>
 `;
