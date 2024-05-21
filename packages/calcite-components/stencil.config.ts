@@ -6,6 +6,7 @@ import { reactOutputTarget } from "@stencil/react-output-target";
 import { angularOutputTarget } from "@stencil/angular-output-target";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import stylelint from "stylelint";
+import { webTypesOutputTarget } from "@stencil-community/web-types-output-target";
 import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
 import { version } from "./package.json";
@@ -100,6 +101,9 @@ export const create: () => Config = () => ({
       proxiesFile: "../calcite-components-react/src/components.ts",
       excludeComponents: ["context-consumer"],
       customElementsDir: "dist/components",
+    }),
+    webTypesOutputTarget({
+      outFile: "dist/extras/web-types.json",
     }),
     { type: "dist-hydrate-script" },
     { type: "dist-custom-elements", customElementsExportBehavior: "auto-define-custom-elements" },

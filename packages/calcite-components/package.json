@@ -80,6 +80,7 @@
     "@esri/eslint-plugin-calcite-components": "^1.2.1-next.0",
     "@stencil-community/eslint-plugin": "0.7.2",
     "@stencil-community/postcss": "2.2.0",
+    "@stencil-community/web-types-output-target": "0.3.1",
     "@stencil/angular-output-target": "0.8.4",
     "@stencil/react-output-target": "0.5.3",
     "@stencil/sass": "3.0.11",
