@@ -33,6 +33,10 @@ const createFlowItemAttributes: (group: string) => Attributes = (group) => {
       name: "description",
       value: text("description", "Description", group),
     },
+    {
+      name: "selected",
+      value: boolean("selected", false, group, "prop"),
+    },
   ];
 };
 

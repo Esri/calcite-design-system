@@ -83,6 +83,14 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           return this;
         },
       },
+      {
+        name: "selected",
+        commit(): Attribute {
+          this.value = boolean("selected", true, "", "prop");
+          delete this.build;
+          return this;
+        },
+      },
     ],
     exceptions,
   );
@@ -143,6 +151,7 @@ export const simple = (): string =>
 export const onlyProps = (): string => html`
   <div style="width: 300px;">
     <calcite-flow-item
+      selected
       height-scale="s"
       heading-level="${text("heading-level", "2")}"
       description="${text(
@@ -158,15 +167,15 @@ export const onlyProps = (): string => html`
 `;
 
 export const collapsed_TestOnly = (): string => html`
-  <calcite-flow-item collapsed collapsible closable> Hello World! </calcite-flow-item>
+  <calcite-flow-item selected collapsed collapsible closable> Hello World! </calcite-flow-item>
 `;
 
 export const collapseDirectionUp_TestOnly = (): string => html`
-  <calcite-flow-item collapsed collapsible collapse-direction="up" closable> Hello World! </calcite-flow-item>
+  <calcite-flow-item selected collapsed collapsible collapse-direction="up" closable> Hello World! </calcite-flow-item>
 `;
 
 export const disabledWithStyledSlot_TestOnly = (): string => html`
-  <calcite-flow-item style="height: 100%;" heading="Heading" disabled>
+  <calcite-flow-item selected style="height: 100%;" heading="Heading" disabled>
     <div id="content" style="height: 100%;">${contentHTML}</div>
   </calcite-flow-item>
 `;
@@ -206,7 +215,7 @@ export const noDoubleScrollbars_TestOnly = (): string => html`
   </style>
   <div id="container">
     <calcite-flow>
-      <calcite-flow-item heading="Example">
+      <calcite-flow-item selected heading="Example">
         <div>### Sticky Content e.g. toolbar</div>
         <div class="content">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sapien lectus, ultricies a molestie nec,
@@ -245,7 +254,7 @@ export const overflowContent_TestOnly = (): string =>
     </style>
     <div class="container">
       <calcite-flow>
-        <calcite-flow-item heading="My Panel">
+        <calcite-flow-item selected heading="My Panel">
           <calcite-list>
             <calcite-list-item label="My list item" description="My description"></calcite-list-item>
             <calcite-list-item label="My list item" description="My description"></calcite-list-item>
@@ -265,7 +274,7 @@ export const overflowContent_TestOnly = (): string =>
 
 export const withActionBarAndContentTop_TestOnly = (): string =>
   html`<div style="width: 300px;">
-    <calcite-flow-item height-scale="s">
+    <calcite-flow-item selected height-scale="s">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Add" icon="plus"> </calcite-action>
@@ -281,7 +290,7 @@ export const withActionBarAndContentTop_TestOnly = (): string =>
 
 export const footerPaddingAndContentBottom_TestOnly = (): string =>
   html`<div style="width: 300px;">
-    <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+    <calcite-flow-item selected height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
       <div slot="content-bottom">Content bottom!</div>
@@ -290,6 +299,10 @@ export const footerPaddingAndContentBottom_TestOnly = (): string =>
   </div>`;
 
 export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
-  html`<calcite-flow-item style="--calcite-flow-item-header-border-block-end:none;" height-scale="s" heading="My Panel"
+  html`<calcite-flow-item
+    selected
+    style="--calcite-flow-item-header-border-block-end:none;"
+    height-scale="s"
+    heading="My Panel"
     >Slotted content!</calcite-flow-item
   >`;
