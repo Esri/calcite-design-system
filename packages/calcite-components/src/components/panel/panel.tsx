@@ -55,6 +55,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
  * @slot header-content - A slot for adding custom content to the header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
+ * @slot footer - A slot for adding custom content to the component's footer.
  * @slot footer-actions - [Deprecated] Use the `footer-start` and `footer-end` slots instead. A slot for adding `calcite-button`s to the component's footer.
  * @slot footer-end - A slot for adding a trailing footer custom content.
  * @slot footer-start - A slot for adding a leading footer custom content.
@@ -218,6 +219,8 @@ export class Panel
 
   @State() hasFooterActions = false;
 
+  @State() hasFooterContent = false;
+
   @State() hasFooterEndContent = false;
 
   @State() hasFooterStartContent = false;
@@ -325,6 +328,14 @@ export class Panel
     this.hasHeaderContent = slotChangeHasAssignedElement(event);
   };
 
+  handleFabSlotChange = (event: Event): void => {
+    this.hasFab = slotChangeHasAssignedElement(event);
+  };
+
+  handleFooterActionsSlotChange = (event: Event): void => {
+    this.hasFooterActions = slotChangeHasAssignedElement(event);
+  };
+
   handleFooterEndSlotChange = (event: Event): void => {
     this.hasFooterEndContent = slotChangeHasAssignedElement(event);
   };
@@ -333,12 +344,8 @@ export class Panel
     this.hasFooterStartContent = slotChangeHasAssignedElement(event);
   };
 
-  handleFooterActionsSlotChange = (event: Event): void => {
-    this.hasFooterActions = slotChangeHasAssignedElement(event);
-  };
-
-  handleFabSlotChange = (event: Event): void => {
-    this.hasFab = slotChangeHasAssignedElement(event);
+  handleFooterSlotChange = (event: Event): void => {
+    this.hasFooterContent = slotChangeHasAssignedElement(event);
   };
 
   private contentBottomSlotChangeHandler = (event: Event): void => {
@@ -573,6 +580,7 @@ export class Panel
 
     return (
       <footer class={CSS.footer} hidden={!showFooter}>
+        <slot key="footer-slot" name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
         <slot
           key="footer-start"
           name={SLOTS.footerStart}
