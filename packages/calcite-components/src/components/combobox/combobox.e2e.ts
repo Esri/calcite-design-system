@@ -15,7 +15,7 @@ import {
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
-import { getElementXY, skipAnimations } from "../../tests/utils";
+import { getElementXY, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 import { CSS } from "./resources";
 
 const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
@@ -2019,5 +2019,15 @@ describe("calcite-combobox", () => {
     await page.waitForChanges();
 
     expect(await combobox.getProperty("open")).toBe(false);
+  });
+
+  it("does not throw an error when a click emits on connect (#9321)", async () => {
+    const page = await newProgrammaticE2EPage();
+    await page.evaluate(async () => {
+      const combobox = document.createElement("calcite-combobox");
+      document.body.click();
+      document.body.append(combobox);
+    });
+    await page.waitForChanges();
   });
 });
