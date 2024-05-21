@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.2...@esri/calcite-components@2.8.3) (2024-05-21)
+
+### Bug Fixes
+
+- **combobox:** Fix error that occurs when a click is emitted when the component is appended to the DOM ([#9373](https://github.com/Esri/calcite-design-system/issues/9373)) ([34a2bbe](https://github.com/Esri/calcite-design-system/commit/34a2bbefeee5149eb9a374b3ef188740656811c1))
+
 ## [2.9.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.16...@esri/calcite-components@2.9.0-next.17) (2024-05-20)
 
 ### Features
