@@ -16,7 +16,7 @@ import { CSS, SLOTS } from "./resources";
 
 describe("calcite-flow-item", () => {
   describe("renders", () => {
-    renders("calcite-flow-item", { display: "flex" });
+    renders("<calcite-flow-item selected></calcite-flow-item>", { display: "flex" });
   });
 
   describe("honors hidden attribute", () => {
@@ -55,6 +55,10 @@ describe("calcite-flow-item", () => {
       },
       {
         propertyName: "menuOpen",
+        defaultValue: false,
+      },
+      {
+        propertyName: "selected",
         defaultValue: false,
       },
       {
@@ -110,7 +114,7 @@ describe("calcite-flow-item", () => {
   });
 
   describe("disabled", () => {
-    disabled(`<calcite-flow-item closable>scrolling content</calcite-flow-item>`);
+    disabled(`<calcite-flow-item closable selected>scrolling content</calcite-flow-item>`);
   });
 
   describe("accessible", () => {
@@ -138,7 +142,7 @@ describe("calcite-flow-item", () => {
   });
 
   describe("should focus on back button", () => {
-    focusable(`<calcite-flow-item show-back-button>test</calcite-flow-item>`, {
+    focusable(`<calcite-flow-item show-back-button selected>test</calcite-flow-item>`, {
       shadowFocusTargetSelector: "calcite-action",
     });
   });

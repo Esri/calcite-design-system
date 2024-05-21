@@ -1831,6 +1831,7 @@ export namespace Components {
     interface CalciteFlow {
         /**
           * Removes the currently active `calcite-flow-item`.
+          * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>
          */
         "back": () => Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>;
         /**
@@ -1839,6 +1840,7 @@ export namespace Components {
         "customItemSelectors": string;
         /**
           * Sets focus on the component.
+          * @returns Promise<void>
          */
         "setFocus": () => Promise<void>;
     }
@@ -1910,6 +1912,10 @@ export namespace Components {
           * @returns - promise that resolves once the content is scrolled to.
          */
         "scrollContentTo": (options?: ScrollToOptions) => Promise<void>;
+        /**
+          * When true, flow-item is displayed within a parent flow.
+         */
+        "selected": boolean;
         /**
           * Sets focus on the component.
           * @returns promise.
@@ -6580,6 +6586,7 @@ declare global {
         "calciteFlowItemScroll": void;
         "calciteFlowItemClose": void;
         "calciteFlowItemToggle": void;
+        "calciteInternalFlowItemChange": void;
     }
     interface HTMLCalciteFlowItemElement extends Components.CalciteFlowItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteFlowItemElementEventMap>(type: K, listener: (this: HTMLCalciteFlowItemElement, ev: CalciteFlowItemCustomEvent<HTMLCalciteFlowItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -9709,10 +9716,15 @@ declare namespace LocalJSX {
           * Fires when the collapse button is clicked.
          */
         "onCalciteFlowItemToggle"?: (event: CalciteFlowItemCustomEvent<void>) => void;
+        "onCalciteInternalFlowItemChange"?: (event: CalciteFlowItemCustomEvent<void>) => void;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning"?: OverlayPositioning;
+        /**
+          * When true, flow-item is displayed within a parent flow.
+         */
+        "selected"?: boolean;
         /**
           * When `true`, displays a back button in the component's header.
          */

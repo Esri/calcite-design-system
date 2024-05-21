@@ -143,6 +143,16 @@ export class FlowItem
   @Prop({ mutable: true }) messages: FlowItemMessages;
 
   /**
+   * When true, flow-item is displayed within a parent flow.
+   */
+  @Prop({ reflect: true }) selected = false;
+
+  @Watch("selected")
+  selectedHandler(): void {
+    this.calciteInternalFlowItemChange.emit();
+  }
+
+  /**
    * Determines the type of positioning to use for the overlaid content.
    *
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
@@ -215,6 +225,11 @@ export class FlowItem
    * Fires when the collapse button is clicked.
    */
   @Event({ cancelable: false }) calciteFlowItemToggle: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalFlowItemChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
