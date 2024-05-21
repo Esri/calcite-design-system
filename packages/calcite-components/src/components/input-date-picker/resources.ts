@@ -10,6 +10,7 @@ export const CSS = {
   inputContainer: "input-container",
   inputNoBottomBorder: "no-bottom-border",
   inputNoRightBorder: "no-right-border",
+  inputNoTopBorder: "no-top-border",
   inputNoLeftBorder: "no-left-border",
   inputWrapper: "input-wrapper",
   input: "input",

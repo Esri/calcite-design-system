@@ -73,17 +73,30 @@
 }
 
 .divider-container {
-  @apply flex w-px items-stretch border-color-input
+  @apply flex items-stretch border-color-input
   border
   border-l-0
   border-r-0
   border-solid;
-  background-color: #ffffff;
+  background-color: var(--calcite-color-foreground-1);
+}
+
+:host([layout="horizontal"]) .divider-container {
+  @apply w-px;
 }
 
 .divider {
   @apply my-1 inline-block w-px;
   background-color: #d9d9d9;
+}
+
+:host([layout="vertical"]) .divider-container {
+  @apply w-full h-px border-t-0 border-b-0 border-l border-r-0;
+  padding-inline: 0.75rem;
+
+  & .divider {
+    @apply w-full h-px my-0;
+  }
 }
 
 :host([range][layout="vertical"]) {
@@ -126,12 +139,22 @@
   background-color: var(--calcite-color-foreground-1);
 }
 
-:host([range][layout="vertical"][scale="s"]) .vertical-chevron-container {
-  @apply px-2;
+:host([range][layout="vertical"][scale="s"]) {
+  .vertical-chevron-container {
+    @apply px-2;
+  }
+  .divider-container {
+    padding-inline: 0.5rem;
+  }
 }
 
-:host([range][layout="vertical"][scale="l"]) .vertical-chevron-container {
-  @apply px-4;
+:host([range][layout="vertical"][scale="l"]) {
+  .vertical-chevron-container {
+    @apply px-4;
+  }
+  .divider-container {
+    padding-inline: 1rem;
+  }
 }
 
 @include form-validation-message();

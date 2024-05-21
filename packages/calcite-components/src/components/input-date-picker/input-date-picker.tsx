@@ -650,7 +650,7 @@ export class InputDatePicker
                     />
                   </div>
                 </div>
-                {this.range && this.layout === "horizontal" && (
+                {this.range && (
                   <div class={CSS.dividerContainer}>
                     <div class={CSS.divider} />
                   </div>
@@ -671,7 +671,7 @@ export class InputDatePicker
                       aria-haspopup="dialog"
                       class={{
                         [CSS.input]: true,
-                        [CSS.inputBorderTopColorOne]: this.layout === "vertical" && this.range,
+                        [CSS.inputNoTopBorder]: this.layout === "vertical" && this.range,
                         [CSS.inputNoLeftBorder]: this.layout === "horizontal" && this.range,
                         [CSS.inputNoRightBorder]: this.layout === "vertical" && this.range,
                       }}

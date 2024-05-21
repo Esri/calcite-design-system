@@ -5,7 +5,7 @@
 }
 
 :host([range]) .calendar-container {
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 :host([range][layout="vertical"]) .calendar-container {

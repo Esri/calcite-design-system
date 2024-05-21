@@ -14,9 +14,9 @@
 }
 
 :host([scale="s"]) {
+  @apply m-1.5;
   block-size: #{$calcite-size-24};
-  margin: var(--calcite-spacing-xs);
-  margin-inline-start: var(--calcite-spacing-sm);
+  margin-inline-start: 0.5rem;
 
   calcite-select {
     --calcite-select-font-size: var(--calcite-font-size);
@@ -30,9 +30,9 @@
 }
 
 :host([scale="m"]) {
+  @apply m-2;
   block-size: #{$calcite-size-32};
-  margin: var(--calcite-spacing-sm);
-  margin-inline-start: 10px;
+  margin-inline-start: 0.625rem;
 
   calcite-select {
     --calcite-select-font-size: var(--calcite-font-size-md);
@@ -46,9 +46,9 @@
 }
 
 :host([scale="l"]) {
+  @apply m-1.5;
   block-size: #{$calcite-size-44};
-  margin: var(--calcite-spacing-xs);
-  margin-inline-start: var(--calcite-spacing-sm);
+  margin-inline-start: 0.5rem;
 
   calcite-select {
     --calcite-select-font-size: var(--calcite-font-size-lg);
