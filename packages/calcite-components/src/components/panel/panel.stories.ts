@@ -296,7 +296,8 @@ export const footerPadding_TestOnly = (): string =>
     <calcite-panel height-scale="s" style="--calcite-panel-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
-      <div slot="footer">Footer!</div>
+      <div slot="footer-start">Footer!</div>
+      <div slot="footer-end">Footer!</div>
     </calcite-panel>
   </div>`;
 
@@ -314,7 +315,7 @@ export const actionBarBackgroundColor_TestOnly = (): string =>
     <p style="height: 400px">Hello world!</p>
     <p style="height: 400px">Hello world!</p>
     <p style="height: 400px">Hello world!</p>
-    <p slot="footer">Slotted content!</p>
+    <p slot="footer-start">Slotted content!</p>
   </calcite-panel>`;
 
 export const footerWithoutContent_TestOnly = (): string =>
@@ -323,7 +324,7 @@ export const footerWithoutContent_TestOnly = (): string =>
     heading="Header!"
     style="width: 300px; height:auto; --calcite-panel-header-border-block-end:none;"
   >
-    <p slot="footer">Footer content!</p>
+    <p slot="footer-start">Footer content!</p>
   </calcite-panel>`;
 
 export const actionBarWithoutContent_TestOnly = (): string =>
@@ -370,7 +371,7 @@ export const footerAndActionBarWithoutContent_TestOnly = (): string =>
         <calcite-action text="Layers" icon="layers"> </calcite-action>
       </calcite-action-group>
     </calcite-action-bar>
-    <p slot="footer">Footer content!</p>
+    <p slot="footer-start">Footer content!</p>
   </calcite-panel>`;
 
 export const flexContent_TestOnly = (): string =>
@@ -456,7 +457,7 @@ export const contentTopBottomSlot = (): string => html`
       <p>Hello world!</p>
       <p>Hello world!</p>
       <div slot="content-bottom">Slot for a content-bottom.</div>
-      <p slot="footer">Slotted content!</p>
+      <p slot="footer-start">Slotted content!</p>
     </calcite-panel>
   </div>
 `;

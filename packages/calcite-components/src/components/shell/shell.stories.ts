@@ -159,7 +159,7 @@ const headerHTML = html`
   </header>
 `;
 
-const footerHTML = `<footer slot="footer">My Shell Footer</footer>`;
+const footerHTML = `<footer slot="footer-start">My Shell Footer</footer>`;
 
 const contentHTML = html(`
   <div
@@ -279,8 +279,8 @@ const advancedTrailingPanelHTMl = html(`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer" width="half" appearance="outline">Cancel</calcite-button>
-      <calcite-button slot="footer" width="half">Save</calcite-button>
+      <calcite-button slot="footer-start" width="half" appearance="outline">Cancel</calcite-button>
+      <calcite-button slot="footer-end" width="half">Save</calcite-button>
     </calcite-flow-item>
     <calcite-flow-item heading="Deeper flow item">
       <calcite-block collapsible open heading="End Content" summary="Select goodness">
@@ -313,8 +313,8 @@ const advancedTrailingPanelHTMl = html(`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer" width="half" appearance="outline">Cancel</calcite-button>
-      <calcite-button slot="footer" width="half">Save</calcite-button>
+      <calcite-button slot="footer-start" width="half" appearance="outline">Cancel</calcite-button>
+      <calcite-button slot="footer-end" width="half">Save</calcite-button>
     </calcite-flow-item>
   </calcite-flow>
 `);
@@ -462,7 +462,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
             </calcite-block-content>
           </calcite-block>
           <calcite-button
-            slot="footer"
+            slot="footer-start"
             width="half"
             appearance="outline"
             alignment="center"
@@ -472,7 +472,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
             Cancel
           </calcite-button>
           <calcite-button
-            slot="footer"
+            slot="footer-end"
             width="half"
             alignment="center"
             appearance="solid"
@@ -522,7 +522,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
             </calcite-block-content>
           </calcite-block>
           <calcite-button
-            slot="footer"
+            slot="footer-start"
             width="half"
             appearance="outline"
             alignment="center"
@@ -532,7 +532,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
             Cancel
           </calcite-button>
           <calcite-button
-            slot="footer"
+            slot="footer-end"
             width="half"
             alignment="center"
             appearance="solid"
@@ -544,7 +544,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         </calcite-flow-item>
       </calcite-flow>
     </calcite-shell-panel>
-    <footer slot="footer">My Shell Footer</footer>
+    <footer slot="footer-start">My Shell Footer</footer>
   </calcite-shell>`);
 
 export const slottedModalAndAlert = (): string =>
@@ -615,7 +615,7 @@ export const slottedModalAndAlert = (): string =>
       <calcite-panel heading="Main content">
         <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
       </calcite-panel>
-      <footer slot="footer">Footer Example</footer>
+      <footer slot="footer-start">Footer Example</footer>
     </calcite-shell>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
@@ -653,8 +653,8 @@ export const slottedSheetOverlay = (): string =>
                 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
                 deserunt mollit anim id est laborum.
               </p>
-              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+              <calcite-button slot="footer-start" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+              <calcite-button slot="footer-end" width="half" appearance="outline">amet porttitor</calcite-button>
             </calcite-panel>
           </calcite-sheet>
       <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
@@ -701,7 +701,7 @@ export const slottedSheetOverlay = (): string =>
       <calcite-panel heading="Main content">
         <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
       </calcite-panel>
-      <footer slot="footer">Footer Example</footer>
+      <footer slot="footer-start">Footer Example</footer>
     </calcite-shell>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
@@ -744,8 +744,8 @@ export const slottedSheetFloat = (): string =>
                 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
                 deserunt mollit anim id est laborum.
               </p>
-              <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-              <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
+              <calcite-button slot="footer-start" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+              <calcite-button slot="footer-end" width="half" appearance="outline">amet porttitor</calcite-button>
             </calcite-panel>
           </calcite-sheet>
       <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
@@ -792,7 +792,7 @@ export const slottedSheetFloat = (): string =>
       <calcite-panel heading="Main content">
         <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
       </calcite-panel>
-      <footer slot="footer">Footer Example</footer>
+      <footer slot="footer-start">Footer Example</footer>
     </calcite-shell>
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
@@ -838,7 +838,7 @@ export const slottedPanelTop_TestOnly = (): string =>
       background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
     <div class="gnav" slot="header">Header Example</div>
     <calcite-shell-center-row slot="panel-top">${centerRowHTML}</calcite-shell-center-row>
-    <footer slot="footer">Footer Example</footer>
+    <footer slot="footer-start">Footer Example</footer>
   </calcite-shell>
 `);
 
@@ -864,7 +864,7 @@ export const slottedPanelBottom_TestOnly = (): string =>
       background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
       <div class="gnav" slot="header">Header Example</div>
       <calcite-shell-center-row slot="panel-bottom">${centerRowHTML}</calcite-shell-center-row>
-      <footer slot="footer">Footer Example</footer>
+      <footer slot="footer-start">Footer Example</footer>
     </calcite-shell>
   `);
 

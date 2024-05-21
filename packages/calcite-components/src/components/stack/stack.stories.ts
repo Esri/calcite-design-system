@@ -57,7 +57,7 @@ export const panelFooter_TestOnly = (): string =>
   html`<calcite-panel>
     <div slot="header-content">My Panel</div>
     <p>My content</p>
-    <calcite-stack slot="footer">
+    <calcite-stack slot="footer-start">
       <calcite-action text="select" icon="check" slot="actions-start"></calcite-action>
       <calcite-input disabled></calcite-input>
       <calcite-avatar slot="content-start" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>
