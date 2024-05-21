@@ -14,16 +14,13 @@ import {
   Watch,
 } from "@stencil/core";
 import { toAriaBoolean, slotChangeHasAssignedElement } from "../../utils/dom";
-import { CSS, SLOTS, ICONS } from "./resources";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
-
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-
 import {
   connectMessages,
   disconnectMessages,
@@ -40,8 +37,9 @@ import {
 } from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { isActivationKey } from "../../utils/key";
-import { ChipMessages } from "./assets/chip/t9n";
 import { getIconScale } from "../../utils/component";
+import { ChipMessages } from "./assets/chip/t9n";
+import { CSS, SLOTS, ICONS } from "./resources";
 
 /**
  * @slot - A slot for adding text.
@@ -104,6 +102,14 @@ export class Chip
   /** When `true`, the component is selected.  */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
+  @Watch("selected")
+  watchSelected(selected: boolean): void {
+    if (this.selectionMode === "none") {
+      return;
+    }
+    this.handleSelectionPropertyChange(selected);
+  }
+
   /**
    * Use this property to override individual strings used by the component.
    */
@@ -130,6 +136,11 @@ export class Chip
    * @internal
    */
   @Prop() interactive = false;
+
+  /**
+   * @internal
+   */
+  @Prop() parentChipGroup: HTMLCalciteChipGroupElement;
 
   //--------------------------------------------------------------------------
   //
@@ -177,6 +188,16 @@ export class Chip
    */
   @Event({ cancelable: false }) calciteInternalChipKeyEvent: EventEmitter<KeyboardEvent>;
 
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalChipSelect: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalSyncSelectedChips: EventEmitter<void>;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -191,6 +212,9 @@ export class Chip
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    if (this.selectionMode !== "none" && this.interactive && this.selected) {
+      this.handleSelectionPropertyChange(this.selected);
+    }
   }
 
   componentDidRender(): void {
@@ -297,6 +321,19 @@ export class Chip
     }
   };
 
+  private handleSelectionPropertyChange(selected: boolean): void {
+    if (this.selectionMode === "single") {
+      this.calciteInternalSyncSelectedChips.emit();
+    }
+    const selectedInParent = this.parentChipGroup.selectedItems.includes(this.el);
+
+    if (!selectedInParent && selected && this.selectionMode !== "multiple") {
+      this.calciteInternalChipSelect.emit();
+    }
+    if (this.selectionMode !== "single") {
+      this.calciteInternalSyncSelectedChips.emit();
+    }
+  }
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -340,9 +377,8 @@ export class Chip
         class={CSS.close}
         onClick={this.close}
         onKeyDown={this.closeButtonKeyDownHandler}
-        tabIndex={this.disabled ? -1 : 0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={(el) => (this.closeButtonEl = el)}
+        tabIndex={this.disabled ? -1 : 0}
       >
         <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
       </button>
@@ -398,10 +434,9 @@ export class Chip
                   (!!this.selectionMode && this.selectionMode !== "multiple" && !this.selected)),
             }}
             onClick={this.handleEmittingEvent}
+            ref={(el) => (this.containerEl = el)}
             role={role}
             tabIndex={disableInteraction ? -1 : 0}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={(el) => (this.containerEl = el)}
           >
             {this.selectionMode !== "none" && this.renderSelectionIcon()}
             {this.renderChipImage()}

@@ -6,7 +6,6 @@ import {
   createComponentHTML as create,
   modesDarkDefault,
 } from "../../../.storybook/utils";
-
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 
 export default {

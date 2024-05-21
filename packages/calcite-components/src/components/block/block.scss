@@ -37,7 +37,7 @@
 }
 
 .toggle {
-  @apply font-inherit
+  @apply font-sans
     focus-base
     m-0
     flex
@@ -140,8 +140,8 @@ calcite-handle {
 
 .content {
   @apply animate-in flex-1 relative min-h-0;
-  padding-block: var(--calcite-block-padding, theme("spacing.2"));
-  padding-inline: var(--calcite-block-padding, theme("spacing[2.5]"));
+  padding-block: var(--calcite-block-padding, var(--calcite-spacing-sm));
+  padding-inline: var(--calcite-block-padding, var(--calcite-spacing-md));
 }
 
 .control-container {

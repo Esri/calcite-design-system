@@ -25,6 +25,18 @@ export const simple = (): string => html`
   ></calcite-input-time-zone>
 `;
 
+export const clearable = (): string => html`
+  <label>default</label>
+  <calcite-input-time-zone mode="offset" clearable></calcite-input-time-zone>
+  <calcite-input-time-zone mode="name" clearable></calcite-input-time-zone>
+  <br />
+  <label>initialized as empty</label>
+  <calcite-input-time-zone mode="offset" clearable value=""></calcite-input-time-zone>
+  <calcite-input-time-zone mode="name" clearable value=""></calcite-input-time-zone>
+`;
+
+clearable.parameters = { chromatic: { delay: 500 } };
+
 export const timeZoneNameMode_TestOnly = (): string => html`
   <calcite-input-time-zone mode="name" open></calcite-input-time-zone>
 `;
@@ -97,3 +109,5 @@ export const validationMessageAllScales_TestOnly = (): string => html`
     ></calcite-input-time-zone>
   </div>
 `;
+
+export const readOnly = (): string => html` <calcite-input-time-zone read-only></calcite-input-time-zone> `;

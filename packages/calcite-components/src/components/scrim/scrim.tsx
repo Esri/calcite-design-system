@@ -7,11 +7,11 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { ScrimMessages } from "./assets/scrim/t9n";
-import { CSS, BREAKPOINTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
+import { CSS, BREAKPOINTS } from "./resources";
+import { ScrimMessages } from "./assets/scrim/t9n";
 
 /**
  * @slot - A slot for adding custom content, primarily loading information.
@@ -114,9 +114,8 @@ export class Scrim implements LocalizedComponent, T9nComponent {
         {loading ? (
           <calcite-loader
             label={messages.loading}
-            scale={this.loaderScale}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.storeLoaderEl}
+            scale={this.loaderScale}
           />
         ) : null}
         <div class={CSS.content} hidden={!hasContent}>

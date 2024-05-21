@@ -12,7 +12,6 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-
 import { getElementDir } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
@@ -20,6 +19,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  MutableValidityState,
 } from "../../utils/form";
 import {
   connectInteractive,
@@ -138,6 +138,27 @@ export class SegmentedControl
   /** Specifies the validation icon to display under the component. */
   @Prop({ reflect: true }) validationIcon: string | boolean;
 
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
+
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
@@ -253,17 +274,19 @@ export class SegmentedControl
 
     switch (adjustedKey) {
       case "ArrowLeft":
-      case "ArrowUp":
+      case "ArrowUp": {
         event.preventDefault();
         const previous = selectedIndex < 1 ? items[items.length - 1] : items[selectedIndex - 1];
         this.selectItem(previous, true);
         return;
+      }
       case "ArrowRight":
-      case "ArrowDown":
+      case "ArrowDown": {
         event.preventDefault();
         const next = selectedIndex === -1 ? items[1] : items[selectedIndex + 1] || items[0];
         this.selectItem(next, true);
         return;
+      }
       case " ":
         event.preventDefault();
         this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement, true);

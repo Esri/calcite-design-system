@@ -234,6 +234,10 @@ export class Filter
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     if (event.key === "Escape") {
       this.clear();
       event.preventDefault();
@@ -280,13 +284,12 @@ export class Filter
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
-              scale={scale}
-              type="text"
-              value={this.value}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={(el): void => {
                 this.textInput = el;
               }}
+              scale={scale}
+              type="text"
+              value={this.value}
             />
           </label>
         </div>

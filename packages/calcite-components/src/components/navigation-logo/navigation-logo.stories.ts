@@ -1,6 +1,5 @@
 import { boolean } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-
 import { html } from "../../../support/formatting";
 import { text } from "../../../.storybook/fake-knobs";
 
@@ -70,4 +69,13 @@ export const withHref_TestOnly = (): string => html`
     >
     </calcite-navigation-logo>
   </calcite-navigation>
+`;
+
+export const headingLevel_TestOnly = (): string => html`
+  <calcite-navigation-logo
+    heading="ArcGIS Online"
+    heading-level="1"
+    description="City of AcmeCo"
+    thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+  />
 `;

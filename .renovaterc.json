@@ -8,7 +8,7 @@
     ":widenPeerDependencies"
   ],
   "platformCommit": true,
-  "enabledManagers": ["npm"],
+  "enabledManagers": ["npm", "github-actions"],
   "timezone": "America/Los_Angeles",
   "schedule": ["before 5am on every weekday"],
   "labels": ["dependencies"],
@@ -17,8 +17,6 @@
     "@types/node",
     "@types/react",
     "@types/react-dom",
-    "@whitespace/storybook-addon-html",
-    "cheerio",
     "jest",
     "jest-cli",
     "node",

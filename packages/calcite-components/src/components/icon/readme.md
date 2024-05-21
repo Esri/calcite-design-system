@@ -47,6 +47,7 @@ To use a custom color for the icon fill, you can supply your desired color to th
 - [calcite-block-section](../block-section)
 - [calcite-button](../button)
 - [calcite-card](../card)
+- [calcite-carousel](../carousel)
 - [calcite-chip](../chip)
 - [calcite-combobox](../combobox)
 - [calcite-combobox-item](../combobox-item)
@@ -94,6 +95,7 @@ graph TD;
   calcite-block-section --> calcite-icon
   calcite-button --> calcite-icon
   calcite-card --> calcite-icon
+  calcite-carousel --> calcite-icon
   calcite-chip --> calcite-icon
   calcite-combobox --> calcite-icon
   calcite-combobox-item --> calcite-icon

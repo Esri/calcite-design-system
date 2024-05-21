@@ -31,16 +31,21 @@ import {
   numberStringFormatter,
   NumberingSystem,
 } from "../../utils/locale";
-import { TableInteractionMode, TableLayout, TableRowFocusEvent } from "./interfaces";
+import { getUserAgentString } from "../../utils/browser";
+import {
+  TableInteractionMode,
+  TableLayout,
+  TableRowFocusEvent,
+  TableSelectionDisplay,
+} from "./interfaces";
 import { CSS, SLOTS } from "./resources";
 import { TableMessages } from "./assets/table/t9n";
-import { getUserAgentString } from "../../utils/browser";
 
 /**
  * @slot - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
  * @slot table-header - A slot for adding `calcite-table-row` elements containing `calcite-table-header` elements.
  * @slot table-footer - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
- * @slot selection-actions - A slot for adding a `calcite-action-bar` or other elements to display when `selectionMode` is not `"none"`.
+ * @slot selection-actions - A slot for adding `calcite-actions` or other elements to display when `selectionMode` is not `"none"` and `selectionDisplay` is not `"none"`.
  */
 
 @Component({
@@ -94,6 +99,10 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
    */
   @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
     "none";
+
+  /** Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed. */
+
+  @Prop({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
 
   /**
    * When `true`, displays striped styling in the component.
@@ -278,8 +287,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
         break;
     }
 
-    const destinationCount = this.allRows?.find((row) => row.positionAll === rowPosition)
-      ?.cellCount;
+    const destinationCount = this.allRows?.find(
+      (row) => row.positionAll === rowPosition,
+    )?.cellCount;
 
     const adjustedPos = cellPosition > destinationCount ? destinationCount : cellPosition;
 
@@ -468,11 +478,10 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
           numberingSystem={this.numberingSystem}
           onCalcitePaginationChange={this.handlePaginationChange}
           pageSize={this.pageSize}
+          ref={(el) => (this.paginationEl = el)}
           scale={this.scale}
           startItem={1}
           totalItems={this.bodyRows?.length}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.paginationEl = el)}
         />
       </div>
     );
@@ -517,7 +526,9 @@ export class Table implements LocalizedComponent, LoadableComponent, T9nComponen
     return (
       <Host>
         <div class={CSS.container}>
-          {this.selectionMode !== "none" && this.renderSelectionArea()}
+          {this.selectionMode !== "none" &&
+            this.selectionDisplay !== "none" &&
+            this.renderSelectionArea()}
           <div
             class={{
               [CSS.bordered]: this.bordered,

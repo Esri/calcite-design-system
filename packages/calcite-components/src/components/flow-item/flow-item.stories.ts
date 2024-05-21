@@ -7,9 +7,8 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-
-import { SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
+import { SLOTS } from "./resources";
 
 export default {
   title: "Components/Flow Item",
@@ -264,7 +263,7 @@ export const overflowContent_TestOnly = (): string =>
       </calcite-flow>
     </div>`;
 
-export const withActionBar_TestOnly = (): string =>
+export const withActionBarAndContentTop_TestOnly = (): string =>
   html`<div style="width: 300px;">
     <calcite-flow-item height-scale="s">
       <calcite-action-bar slot="action-bar">
@@ -275,15 +274,17 @@ export const withActionBar_TestOnly = (): string =>
         </calcite-action-group>
       </calcite-action-bar>
       <div slot="header-content">Header!</div>
+      <div slot="content-top">Content Top!</div>
       <p>Slotted content!</p>
     </calcite-flow-item>
   </div>`;
 
-export const footerPadding_TestOnly = (): string =>
+export const footerPaddingAndContentBottom_TestOnly = (): string =>
   html`<div style="width: 300px;">
     <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
+      <div slot="content-bottom">Content bottom!</div>
       <div slot="footer">Footer!</div>
     </calcite-flow-item>
   </div>`;

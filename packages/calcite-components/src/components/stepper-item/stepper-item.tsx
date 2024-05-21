@@ -39,7 +39,6 @@ import {
   LoadableComponent,
   componentFocusable,
 } from "../../utils/loadable";
-import { CSS } from "./resources";
 import {
   connectMessages,
   disconnectMessages,
@@ -47,6 +46,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
+import { CSS } from "./resources";
 import { StepperItemMessages } from "./assets/stepper-item/t9n";
 
 /**
@@ -262,12 +262,11 @@ export class StepperItem
             )}
             <div
               class={CSS.stepperItemHeader}
+              ref={(el) => (this.headerEl = el)}
               tabIndex={
                 /* additional tab index logic needed because of display: contents */
                 this.layout === "horizontal" && !this.disabled ? 0 : null
               }
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={(el) => (this.headerEl = el)}
             >
               {this.icon ? this.renderIcon() : null}
               {this.numbered ? (

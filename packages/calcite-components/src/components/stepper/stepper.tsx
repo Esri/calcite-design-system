@@ -15,16 +15,8 @@ import {
 } from "@stencil/core";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Position, Scale } from "../interfaces";
-import {
-  StepperItemChangeEventDetail,
-  StepperItemKeyEventDetail,
-  StepperLayout,
-} from "./interfaces";
 import { createObserver } from "../../utils/observers";
-import { StepBar } from "./functional/step-bar";
-import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
-
 import {
   connectLocalized,
   disconnectLocalized,
@@ -38,6 +30,13 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
+import { CSS } from "./resources";
+import { StepBar } from "./functional/step-bar";
+import {
+  StepperItemChangeEventDetail,
+  StepperItemKeyEventDetail,
+  StepperLayout,
+} from "./interfaces";
 import { StepperMessages } from "./assets/stepper/t9n";
 
 /**

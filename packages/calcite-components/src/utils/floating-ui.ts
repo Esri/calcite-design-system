@@ -16,9 +16,9 @@ import {
 } from "@floating-ui/dom";
 import { Build } from "@stencil/core";
 import { debounce, DebouncedFunc } from "lodash-es";
-import { getElementDir } from "./dom";
-import { Layout } from "../components/interfaces";
 import { offsetParent } from "composed-offset-position";
+import { Layout } from "../components/interfaces";
+import { getElementDir } from "./dom";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
   if (Build.isBrowser) {

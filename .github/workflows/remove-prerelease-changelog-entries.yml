@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - release-please--branches--main
+      - release-please--branches--hotfix
 permissions:
   contents: write
   pull-requests: write
@@ -11,19 +12,19 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.ADMIN_TOKEN }}
           fetch-depth: 0
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: package.json
       - name: Remove Next Changelog Entries
         run: |
           git pull
           npm install
-          npm run util:remove-next-changelog-entries
+          npm run util:remove-prerelease-changelog-entries
       - name: Push Changes
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"

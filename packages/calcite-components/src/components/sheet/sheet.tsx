@@ -28,10 +28,10 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
-import { CSS } from "./resources";
-import { DisplayMode } from "./interfaces";
 import { LogicalFlowPosition, Scale } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { CSS } from "./resources";
+import { DisplayMode } from "./interfaces";
 
 @Component({
   tag: "calcite-sheet",
@@ -184,7 +184,6 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
             class={{
               [CSS.content]: true,
             }}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setTransitionEl}
           >
             <slot />

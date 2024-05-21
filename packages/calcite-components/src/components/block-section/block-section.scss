@@ -18,12 +18,14 @@
 }
 
 .toggle {
-  @apply text-color-2
+  @apply font-sans
+    text-color-2
     w-full
     border-0
     bg-transparent
-    font-sans
     font-medium;
+
+  gap: var(--calcite-spacing-md);
 }
 
 .toggle--switch,
@@ -47,39 +49,49 @@
   }
 }
 
-.section-header .status-icon {
-  @apply self-end;
+.label {
+  @apply flex items-center justify-center my-1;
+
+  margin-inline-start: var(--calcite-spacing-md);
 }
 
 .section-header__text {
-  @apply mx-3
-    my-0
+  @apply my-0
     flex-auto;
 
   text-align: initial;
   word-wrap: anywhere;
 }
 
-.toggle--switch-container {
-  @apply flex items-center relative bg-transparent w-full;
+.toggle-container {
+  @apply flex items-center relative bg-transparent;
   word-break: break-word;
 
-  .focus-guard {
-    --calcite-label-margin-bottom: 0;
-    @apply absolute pointer-events-none;
-    inset-inline-end: 0;
-    margin-inline-start: theme("margin.1");
+  .toggle--switch__content {
+    @apply flex flex-auto items-center;
+  }
+
+  .icon--end,
+  .icon--start {
+    @apply flex items-center;
+
+    color: var(--calcite-color-text-3);
+
+    &:hover {
+      color: var(--calcite-color-text-1);
+    }
+  }
+
+  .switch {
+    @apply flex items-center;
+
+    inset-block-start: 50%;
+    transform: translate(0, 50%);
   }
 }
 
-.toggle--switch {
-  .status-icon {
-    margin-inline-start: theme("margin.2");
-  }
-}
-
-.toggle--switch__content {
-  @apply flex flex-auto items-center;
+.status-icon {
+  @apply flex items-center;
 }
 
 .status-icon.valid {
@@ -90,10 +102,8 @@
   color: theme("colors.danger");
 }
 
-:host([toggle-display="switch"]) .toggle {
-  .toggle--switch__content {
-    @apply me-7;
-  }
+.chevron-icon {
+  @apply flex items-center;
 }
 
 @include base-component();

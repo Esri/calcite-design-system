@@ -424,7 +424,6 @@ export class TableRow implements InteractiveComponent, LocalizedComponent {
             aria-selected={this.selected}
             class={{ [CSS.lastVisibleRow]: this.lastVisibleRow }}
             onKeyDown={this.keyDownHandler}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(el) => (this.tableRowEl = el)}
           >
             {this.numbered && this.renderNumberedCell()}
