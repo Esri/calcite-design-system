@@ -235,7 +235,7 @@ Contributions must adhere to **one** of the following conventions:
 - **`perf`**: A change improving performance 🚀
 - **`refactor`**: A change that neither fixes a bug or adds a feature 🔁
 - **`revert`**: Reverts a previous commit ↪️
-- **`test`**: Adds a new, or missing test 🧪
+- **`test`**: Improves test coverage in updating a test or adding a new, or missing test 🧪
 
 ### Scope of change
 
@@ -280,14 +280,22 @@ For more information, explore [Stencil's contributing document](https://github.c
 
 Calcite Core team members should be consulted prior to submitting breaking change pull requests. For stability and consistency, breaking change sprints are coordinated and communicated well in advance.
 
-When breaking changes are supported in a current milestone, commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax:
+When breaking changes are supported in a current milestone, commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax.
+
+The PR's details should be comprehensive, and when possible, include the following:
+
+- What the proposed breaking change includes
+- Why the breaking change is proposed
+- An example to support users migrating from the previous major version (e.g., `1.x` to `2.x`)
+
+For PR examples, refer to previous changelog entries from the `2.0` major releases for [calcite-components](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/CHANGELOG.md#200-2023-12-02) and [calcite-design-tokens](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-design-tokens/CHANGELOG.md#200-2023-12-02). Also explore the breaking change structure below:
 
 ```text
 <type>(<scope>)!: <descriptive summary>
 
 <optional info>
 
-BREAKING CHANGE: <Concise details about the change and migration options>
+BREAKING CHANGE: <What the breaking change includes, why it is proposed, and migration support for users>
 ```
 
 When adding a `BREAKING CHANGE:` note to the summary block right before confirming a squash merge, remove all the info except the `BREAKING CHANGE:` note itself, or else everything ends up being added to the changelog.
