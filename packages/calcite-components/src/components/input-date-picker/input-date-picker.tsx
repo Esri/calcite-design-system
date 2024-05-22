@@ -6,7 +6,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -370,17 +369,6 @@ export class InputDatePicker
   //  Event Listeners
   //
   //--------------------------------------------------------------------------
-
-  @Listen("calciteDaySelect")
-  calciteDaySelectHandler(): void {
-    if (this.shouldFocusRangeStart() || this.rangeStartValueChangedByUser) {
-      return;
-    }
-
-    this.open = false;
-    const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
-    focusedInput.setFocus();
-  }
 
   private calciteInternalInputInputHandler = (event: CustomEvent<any>): void => {
     const target = event.target as HTMLCalciteInputElement;
@@ -952,7 +940,7 @@ export class InputDatePicker
       }
 
       if (submitForm(this)) {
-        this.restoreInputFocus();
+        this.restoreInputFocus(true);
       }
     } else if (key === "ArrowDown") {
       this.open = true;
@@ -1063,16 +1051,21 @@ export class InputDatePicker
       return;
     }
 
+    if (restore) {
+      // restore focus on to the same input before opening the date-picker on Escape key or Form submission.
+      this.focusInput();
+      return;
+    }
+
     //avoid closing of date-picker while editing
     this.rangeStartValueChangedByUser = !restore && this.focusedInput === "start";
-
     this.focusedInput = restore && this.focusedInput === "start" ? "start" : "end";
 
-    if (restore) {
-      //restore focus on to the input  that was focused before opening the date-picker on Escape key or form submission.
-      const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
-      focusedInput.setFocus();
+    if (this.shouldFocusRangeStart() || this.rangeStartValueChangedByUser) {
+      return;
     }
+    this.open = false;
+    this.focusInput();
   }
 
   private localizeInputValues(): void {
@@ -1143,6 +1136,7 @@ export class InputDatePicker
     this.userChangedValue = true;
     this.value = newValue;
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
+
     const changeEvent = this.calciteInputDatePickerChange.emit();
 
     if (changeEvent && changeEvent.defaultPrevented) {
@@ -1227,4 +1221,9 @@ export class InputDatePicker
     const normalizedYear = normalizeToCurrentCentury(Number(year));
     return `${normalizedYear}-${month}-${day}`;
   }
+
+  private focusInput = (): void => {
+    const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
+    focusedInput.setFocus();
+  };
 }

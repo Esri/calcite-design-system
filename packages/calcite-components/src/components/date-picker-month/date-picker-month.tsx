@@ -175,7 +175,7 @@ export class DatePickerMonth {
   //
   //--------------------------------------------------------------------------
 
-  /**current focused date */
+  /** current focused date */
   @State() focusedDate: Date;
 
   //--------------------------------------------------------------------------
@@ -286,41 +286,8 @@ export class DatePickerMonth {
     return (
       <Host onFocusout={this.disableActiveFocus}>
         <div class="calendar-container" onKeyDown={this.keyDownHandler} role="grid">
-          <div class="calendar">
-            <calcite-date-picker-month-header
-              activeDate={this.activeDate}
-              headingLevel={this.headingLevel}
-              localeData={this.localeData}
-              max={this.max}
-              messages={this.messages}
-              min={this.min}
-              monthAbbreviations={this.monthAbbreviations}
-              onCalciteInternalDatePickerMonthHeaderSelect={this.monthHeaderSelectChange}
-              position={this.range ? "start" : null}
-              scale={this.scale}
-              selectedDate={this.selectedDate}
-            />
-            {this.renderMonthCalendar(adjustedWeekDays, days)}
-          </div>
-          {this.range && (
-            <div class="calendar">
-              <calcite-date-picker-month-header
-                activeDate={nextMonth(this.activeDate)}
-                headingLevel={this.headingLevel}
-                localeData={this.localeData}
-                max={this.max}
-                messages={this.messages}
-                min={this.min}
-                monthAbbreviations={this.monthAbbreviations}
-                onCalciteInternalDatePickerMonthHeaderSelect={this.monthHeaderSelectChange}
-                position={"end"}
-                scale={this.scale}
-                selectedDate={this.selectedDate}
-              />
-
-              {this.range && this.renderMonthCalendar(adjustedWeekDays, nextMonthDays, true)}
-            </div>
-          )}
+          {this.renderCalendar(adjustedWeekDays, days)}
+          {this.range && this.renderCalendar(adjustedWeekDays, nextMonthDays, true)}
         </div>
       </Host>
     );
@@ -560,6 +527,27 @@ export class DatePickerMonth {
           startOfRange={this.isStartOfRange(date)}
           value={date}
         />
+      </div>
+    );
+  }
+
+  private renderCalendar(weekDays: string[], days: Day[], isNextMonth = false): VNode {
+    return (
+      <div class="calendar">
+        <calcite-date-picker-month-header
+          activeDate={isNextMonth ? nextMonth(this.activeDate) : this.activeDate}
+          headingLevel={this.headingLevel}
+          localeData={this.localeData}
+          max={this.max}
+          messages={this.messages}
+          min={this.min}
+          monthAbbreviations={this.monthAbbreviations}
+          onCalciteInternalDatePickerMonthHeaderSelect={this.monthHeaderSelectChange}
+          position={isNextMonth ? "end" : this.range ? "start" : null}
+          scale={this.scale}
+          selectedDate={this.selectedDate}
+        />
+        {this.renderMonthCalendar(weekDays, days, isNextMonth)}
       </div>
     );
   }

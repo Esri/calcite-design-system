@@ -32,6 +32,14 @@ async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
   return await page.find(`calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`);
 }
 
+async function setActiveDate(page: E2EPage, date: string): Promise<void> {
+  await page.evaluate((date) => {
+    const datePicker = document.querySelector("calcite-date-picker");
+    datePicker.activeDate = new Date(date);
+  }, date);
+  await page.waitForChanges();
+}
+
 describe("calcite-date-picker", () => {
   describe("renders", () => {
     renders("calcite-date-picker", { display: "inline-block" });
@@ -66,6 +74,9 @@ describe("calcite-date-picker", () => {
 
     await page.waitForTimeout(animationDurationInMs);
     // can't find this input as it's deeply nested in shadow dom, so just tab to it
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("ArrowUp");
@@ -167,14 +178,6 @@ describe("calcite-date-picker", () => {
     expect(changedEvent).toHaveReceivedEventTimes(0);
   });
 
-  async function setActiveDate(page: E2EPage, date: string): Promise<void> {
-    await page.evaluate((date) => {
-      const datePicker = document.querySelector("calcite-date-picker");
-      datePicker.activeDate = new Date(date);
-    }, date);
-    await page.waitForChanges();
-  }
-
   it("doesn't fire calciteDatePickerChange on outside changes to value", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-date-picker value='2000-11-27'></calcite-date-picker>");
@@ -219,12 +222,6 @@ describe("calcite-date-picker", () => {
 
     expect(await date.getProperty("value")).toEqual(["2020-09-08", "2020-09-23"]);
 
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
     await page.keyboard.press("Tab");
     await page.waitForChanges();
     await page.keyboard.press("Tab");
@@ -405,12 +402,6 @@ describe("calcite-date-picker", () => {
       await page.waitForChanges();
       await page.keyboard.press("Tab");
       await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
       await page.keyboard.press("Enter");
@@ -448,12 +439,6 @@ describe("calcite-date-picker", () => {
       const datePicker = await page.find("calcite-date-picker");
       datePicker.setProperty("value", ["2024-01-01", "2024-02-10"]);
 
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
       await page.keyboard.press("Tab");
       await page.waitForChanges();
       await page.keyboard.press("Tab");
