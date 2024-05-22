@@ -228,7 +228,7 @@ export class Tree {
     } else if (!isNoneSelectionMode) {
       targetItems.forEach((treeItem) => {
         if (!treeItem.disabled) {
-          treeItem.selected = this.selectionMode === "single" || !treeItem.selected;
+          treeItem.selected = this.selectionMode === "single" ? !treeItem.selected : true;
         }
       });
     }
