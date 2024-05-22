@@ -285,7 +285,7 @@ export class DatePickerMonth {
 
     return (
       <Host onFocusout={this.disableActiveFocus}>
-        <div class="calendar-container" onKeyDown={this.keyDownHandler} role="grid">
+        <div class="calendar-container" role="grid">
           {this.renderCalendar(adjustedWeekDays, days)}
           {this.range && this.renderCalendar(adjustedWeekDays, nextMonthDays, true)}
         </div>
@@ -665,7 +665,7 @@ export class DatePickerMonth {
 
   private renderMonthCalendar(weekDays: string[], days: Day[], isNextMonth = false): VNode {
     return (
-      <div class="month">
+      <div class="month" onKeyDown={this.keyDownHandler}>
         <div class="week-header-container" role="row">
           {weekDays.map((weekday) => (
             <span class="week-header" role="columnheader">
