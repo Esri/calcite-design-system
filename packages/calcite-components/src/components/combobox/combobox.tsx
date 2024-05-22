@@ -64,7 +64,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale, SelectionMode, Status } from "../interfaces";
-import { XButton, CSS as XButtonCSS } from "../functional/XButton";
+import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { componentOnReady, getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { ComboboxMessages } from "./assets/combobox/t9n";
@@ -343,16 +343,12 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   @Listen("click", { target: "document" })
-  documentClickHandler(event: PointerEvent): void {
-    if (this.disabled) {
+  async documentClickHandler(event: PointerEvent): Promise<void> {
+    if (this.disabled || event.composedPath().includes(this.el)) {
       return;
     }
 
-    const composedPath = event.composedPath();
-
-    if (composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
-      return;
-    }
+    await componentOnReady(this.el);
 
     if (!this.allowCustomValues && this.textInput.value) {
       this.clearInputValue();
