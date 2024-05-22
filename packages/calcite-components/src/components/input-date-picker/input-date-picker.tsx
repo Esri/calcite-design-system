@@ -85,7 +85,7 @@ import {
   FocusTrapComponent,
 } from "../../utils/focusTrapComponent";
 import { guid } from "../../utils/guid";
-import { getIconScale } from "../../utils/component";
+import { componentOnReady, getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
@@ -465,7 +465,7 @@ export class InputDatePicker
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  async connectedCallback(): Promise<void> {
     connectInteractive(this);
     connectLocalized(this);
 
@@ -512,7 +512,9 @@ export class InputDatePicker
       onToggleOpenCloseComponent(this);
     }
 
+    await componentOnReady(this.el);
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    this.localizeInputValues();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -524,8 +526,6 @@ export class InputDatePicker
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.localizeInputValues();
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   disconnectedCallback(): void {
