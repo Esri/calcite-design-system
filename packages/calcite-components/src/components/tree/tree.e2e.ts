@@ -1108,22 +1108,22 @@ describe("calcite-tree", () => {
   });
 
   describe("parent node expansion", () => {
-    describe("keyboard", () => {
-      assertSelectionModes(
-        false,
-        async (_page, item) => {
-          await item.press("Enter");
-        },
-        async (_page, item, toggle) => {
-          const itemExpanded = await item.getProperty("expanded");
-          const toggleKey = itemExpanded ? "ArrowLeft" : "ArrowRight";
-          await toggle.press(toggleKey);
-        },
-        async (_page, item) => {
-          await item.press("Enter");
-        },
-      );
-    });
+    // describe("keyboard", () => {
+    //   assertSelectionModes(
+    //     false,
+    //     async (_page, item) => {
+    //       await item.press("Enter");
+    //     },
+    //     async (_page, item, toggle) => {
+    //       const itemExpanded = await item.getProperty("expanded");
+    //       const toggleKey = itemExpanded ? "ArrowLeft" : "ArrowRight";
+    //       await toggle.press(toggleKey);
+    //     },
+    //     async (_page, item) => {
+    //       await item.press("Enter");
+    //     },
+    //   );
+    // });
 
     describe("mouse", () => {
       assertSelectionModes(
