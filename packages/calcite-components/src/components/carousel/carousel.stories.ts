@@ -2,6 +2,7 @@ import { select, number, text } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { boolean } from "../../../.storybook/helpers";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 
 export default {
   title: "Components/Carousel",
@@ -59,7 +60,7 @@ export const carouselAutoplayFullImageWithOverlayAndEdge = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;
@@ -89,7 +90,7 @@ export const carouselAutoplayFullImageWithNoOverlay = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;
@@ -119,7 +120,7 @@ export const carouselFullImageWithOverlay = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;
@@ -203,7 +204,7 @@ export const themed_simple = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;
@@ -264,7 +265,7 @@ export const themed_carouselFullImageWithOverlay = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;
