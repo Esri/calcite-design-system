@@ -54,10 +54,10 @@ body:
       multiple: false
       description: What is the impact of the enhancement to you, your team, or organization? Use discretion and only select the "need" priority for high user impact and quality issues in the component(s).
       options:
-        - p4 - not time sensitive
-        - p3 - want for upcoming milestone
-        - p2 - want for current milestone
-        - p1 - need for current milestone
+        - impact - p3 - not time sensitive
+        - impact - p2 - want for an upcoming milestone
+        - impact - p1 - need for current milestone
+        - impact - p0 - emergency
   - type: checkboxes
     id: packages
     attributes:
