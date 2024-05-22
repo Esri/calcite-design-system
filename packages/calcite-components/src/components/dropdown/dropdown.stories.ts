@@ -502,7 +502,7 @@ export const settingFullWidthEnablesTriggerTruncation_TestOnly = (): string =>
     </calcite-dropdown>
   </div>`;
 
-export const multipleScales = (): string => html`
+export const openInAllScales = (): string => html`
   <style>
     .container {
       display: inline-flex;
