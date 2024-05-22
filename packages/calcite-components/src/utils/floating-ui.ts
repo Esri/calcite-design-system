@@ -427,13 +427,19 @@ export async function reposition(
   options: Parameters<typeof positionFloatingUI>[1],
   delayed = false,
 ): Promise<void> {
-  if (!component.open) {
+  if (!component.open || !options.floatingEl || !options.referenceEl) {
     return;
+  }
+
+  const trackedState = autoUpdatingComponentMap.get(component);
+
+  if (!trackedState) {
+    return runAutoUpdate(component, options.referenceEl, options.floatingEl);
   }
 
   const positionFunction = delayed ? getDebouncedReposition(component) : positionFloatingUI;
 
-  return positionFunction(component, options);
+  await positionFunction(component, options);
 }
 
 function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunc<typeof positionFloatingUI> {
@@ -460,14 +466,67 @@ const ARROW_CSS_TRANSFORM = {
   right: "rotate(90deg)",
 };
 
+type PendingFloatingUIState = {
+  state: "pending";
+};
+
+type ActiveFloatingUIState = {
+  state: "active";
+  cleanUp: () => void;
+};
+
+type TrackedFloatingUIState = PendingFloatingUIState | ActiveFloatingUIState;
+
 /**
  * Exported for testing purposes only
  *
  * @internal
  */
-export const cleanupMap = new WeakMap<FloatingUIComponent, () => void>();
+export const autoUpdatingComponentMap = new WeakMap<FloatingUIComponent, TrackedFloatingUIState>();
 
 const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, DebouncedFunc<typeof positionFloatingUI>>();
+
+async function runAutoUpdate(
+  component: FloatingUIComponent,
+  referenceEl: ReferenceElement,
+  floatingEl: HTMLElement,
+): Promise<void> {
+  if (!floatingEl.isConnected) {
+    return;
+  }
+
+  const effectiveAutoUpdate = Build.isBrowser
+    ? autoUpdate
+    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
+        updateCallback();
+        return () => {
+          /* noop */
+        };
+      };
+
+  // we set initial state here to make it available for `reposition` calls
+  autoUpdatingComponentMap.set(component, { state: "pending" });
+
+  const rep = component.reposition();
+
+  // define callback function that return s `rep` on the first call and then returns component.reposition();
+  const callback = () => {
+    let first = true;
+    return () => {
+      if (first) {
+        first = false;
+        return rep;
+      }
+
+      return component.reposition();
+    };
+  };
+
+  const cleanUp = effectiveAutoUpdate(referenceEl, floatingEl, callback);
+  autoUpdatingComponentMap.set(component, { state: "active", cleanUp });
+
+  return rep;
+}
 
 /**
  * Helper to set up floating element interactions on connectedCallback.
@@ -476,11 +535,11 @@ const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, Debou
  * @param referenceEl - The `referenceElement` used to position the component according to its `placement` value.
  * @param floatingEl - The `floatingElement` containing the floating ui.
  */
-export function connectFloatingUI(
+export async function connectFloatingUI(
   component: FloatingUIComponent,
   referenceEl: ReferenceElement,
   floatingEl: HTMLElement,
-): void {
+): Promise<void> {
   if (!floatingEl || !referenceEl) {
     return;
   }
@@ -495,19 +554,11 @@ export function connectFloatingUI(
     position: component.overlayPositioning,
   });
 
-  const runAutoUpdate = Build.isBrowser
-    ? autoUpdate
-    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
-        updateCallback();
-        return () => {
-          /* noop */
-        };
-      };
+  if (!component.open) {
+    return;
+  }
 
-  cleanupMap.set(
-    component,
-    runAutoUpdate(referenceEl, floatingEl, () => component.reposition()),
-  );
+  return runAutoUpdate(component, referenceEl, floatingEl);
 }
 
 /**
@@ -526,8 +577,13 @@ export function disconnectFloatingUI(
     return;
   }
 
-  cleanupMap.get(component)?.();
-  cleanupMap.delete(component);
+  const trackedState = autoUpdatingComponentMap.get(component);
+
+  if (trackedState?.state === "active") {
+    trackedState.cleanUp();
+  }
+
+  autoUpdatingComponentMap.delete(component);
 
   componentToDebouncedRepositionMap.get(component)?.cancel();
   componentToDebouncedRepositionMap.delete(component);
