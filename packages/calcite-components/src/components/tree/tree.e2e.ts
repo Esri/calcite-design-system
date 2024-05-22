@@ -1294,7 +1294,9 @@ describe("calcite-tree", () => {
                   ? 7
                   : selectionMode === "multiple" || selectionMode === "single" || selectionMode === "single-persist"
                     ? 0
-                    : 4,
+                    : selectionMode === "children" || selectionMode === "multichildren"
+                      ? 1
+                      : 4,
             );
 
             await selectItemChild(page, expandableChildItem);
