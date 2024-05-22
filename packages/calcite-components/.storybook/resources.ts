@@ -24,7 +24,7 @@ import {
   TextType,
   Mode,
   SelectionAppearance,
-} from "../src/components/interfaces";
+} from "./interfaces";
 
 interface AttributeMetadata<T> {
   values: T[];
