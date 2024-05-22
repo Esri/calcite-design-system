@@ -1308,7 +1308,7 @@ describe("calcite-tree", () => {
                 ? 0
                 : !childToggleTraversesParent && selectionMode === "multiple"
                   ? 0
-                  : canDeselect.child
+                  : canDeselect.child && selectionMode !== "single"
                     ? 0
                     : 1,
             );
