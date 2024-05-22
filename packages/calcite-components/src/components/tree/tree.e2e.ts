@@ -1292,10 +1292,9 @@ describe("calcite-tree", () => {
                 ? 0
                 : selectionMode === "ancestors" && !childToggleTraversesParent
                   ? 7
-                  : !childToggleTraversesParent &&
-                      (selectionMode === "multiple" || selectionMode === "single" || selectionMode === "single-persist")
+                  : selectionMode === "multiple" || selectionMode === "single" || selectionMode === "single-persist"
                     ? 0
-                    : 1,
+                    : 4,
             );
 
             await selectItemChild(page, expandableChildItem);
