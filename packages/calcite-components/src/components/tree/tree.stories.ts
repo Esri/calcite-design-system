@@ -161,7 +161,7 @@ export default {
   },
 };
 
-const selectionModes = ["single", "children", "multichildren", "ancestors", "none", "multiple"];
+const selectionModes = ["single", "single-persist", "children", "multichildren", "ancestors", "none", "multiple"];
 
 export const simple = (): string => html`
   <calcite-tree
