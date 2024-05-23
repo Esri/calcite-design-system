@@ -507,25 +507,24 @@ async function runAutoUpdate(
   // we set initial state here to make it available for `reposition` calls
   autoUpdatingComponentMap.set(component, { state: "pending" });
 
-  const rep = component.reposition();
+  let repositionPromise: Promise<void>;
 
-  // define callback function that return s `rep` on the first call and then returns component.reposition();
-  const callback = () => {
-    let first = true;
-    return () => {
-      if (first) {
-        first = false;
-        return rep;
+  const cleanUp = effectiveAutoUpdate(
+    referenceEl,
+    floatingEl,
+    // callback is invoked immediately
+    () => {
+      const promise = component.reposition();
+
+      if (!repositionPromise) {
+        repositionPromise = promise;
       }
+    },
+  );
 
-      return component.reposition();
-    };
-  };
-
-  const cleanUp = effectiveAutoUpdate(referenceEl, floatingEl, callback);
   autoUpdatingComponentMap.set(component, { state: "active", cleanUp });
 
-  return rep;
+  return repositionPromise;
 }
 
 /**
