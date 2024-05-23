@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.19...@esri/calcite-components@2.9.0-next.20) (2024-05-23)
+
+### Features
+
+- **stepper, stepper-item:** add separate change events to stepper and items (deprecates `calciteStepperItemChange` on the parent) ([#9351](https://github.com/Esri/calcite-design-system/issues/9351)) ([cf6a118](https://github.com/Esri/calcite-design-system/commit/cf6a11867d74d5dedd77ad039e5475d65f25a46a)), closes [#2094](https://github.com/Esri/calcite-design-system/issues/2094)
+
+### Bug Fixes
+
+- **dropdown-group:** title scale with dropdown scale ([#9360](https://github.com/Esri/calcite-design-system/issues/9360)) ([3529cdd](https://github.com/Esri/calcite-design-system/commit/3529cdd1778cb1243de23c410acc27c419d63524)), closes [#9350](https://github.com/Esri/calcite-design-system/issues/9350)
+
 ## [2.9.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.18...@esri/calcite-components@2.9.0-next.19) (2024-05-23)
 
 ### Bug Fixes
