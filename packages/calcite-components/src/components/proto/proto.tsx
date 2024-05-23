@@ -2,7 +2,9 @@ import { Component, h, VNode } from "@stencil/core";
 import {
   draggable,
   dropTargetForElements,
+  monitorForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/Element/adapter";
+// import { getReorderDestinationIndex } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index";
 
 @Component({
   tag: "calcite-proto",
@@ -14,8 +16,10 @@ export class Proto {
     const items = ["one", "two", "three", "four", "five"];
     return (
       <ul ref={this.setupDropTarget}>
-        {items.map((item) => (
-          <li ref={this.setupDraggable}>{item}</li>
+        {items.map((item, index) => (
+          <li id={index.toString()} key={index} ref={this.setupDraggable}>
+            {item}
+          </li>
         ))}
       </ul>
     );
@@ -27,7 +31,29 @@ export class Proto {
       onDragStart: () => console.log("Dragging an element"),
       onDragEnter: () => console.log("Entered a drop target"),
       onDragLeave: () => console.log("Left a drop target"),
-      onDrop: () => console.log("Dropped an element"),
+      onDrop: () => {
+        // const target = location.current.dropTargets[0];
+        // const indexOfTarget = Array.from(el.children).findIndex(
+        //   (item) => item.id === target.element.id,
+        // );
+        // console.log({ target, indexOfTarget });
+        // console.log("Dropped an element", location, source);
+        // const index = source?.element?.id;
+        // console.log(index);
+      },
+    });
+
+    monitorForElements({
+      onDrop: ({ location, source }) => {
+        const target = source.element;
+        const indexOfTarget = Array.from(el.children).findIndex((item) => item.id === target.id);
+
+        console.log({ target, indexOfTarget });
+
+        console.log("Dropped an element", location, source);
+        const index = source?.element?.id;
+        console.log(index);
+      },
     });
   };
 
