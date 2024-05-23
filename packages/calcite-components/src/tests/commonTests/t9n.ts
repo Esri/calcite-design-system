@@ -1,9 +1,10 @@
 import { E2EElement, E2EPage } from "@stencil/core/testing";
 import { toHaveNoViolations } from "jest-axe";
+import { HTMLStencilElement } from "@stencil/core/internal";
 import { MessageBundle } from "../../utils/t9n";
-import { IntrinsicElementsWithProp } from "./../utils";
+import { IntrinsicElementsWithProp, newProgrammaticE2EPage } from "./../utils";
 import { getTagAndPage } from "./utils";
-import { ComponentTestSetup } from "./interfaces";
+import { ComponentTag, ComponentTestSetup } from "./interfaces";
 
 expect.extend(toHaveNoViolations);
 
@@ -40,6 +41,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
   it("has defined default messages", async () => await assertDefaultMessages());
   it("overrides messages", async () => await assertOverrides());
   it("switches messages", async () => await assertLangSwitch());
+  it("does not throw when removed during message loading", async () => await assertNoErrorOnRemovalDuringMessageLoad());
 
   async function assertDefaultMessages(): Promise<void> {
     expect(await getCurrentMessages()).toBeDefined();
@@ -96,5 +98,23 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     // reset test changes
     component.removeAttribute("lang");
     await page.waitForChanges();
+  }
+
+  async function assertNoErrorOnRemovalDuringMessageLoad(): Promise<void> {
+    async function runTest(): Promise<void> {
+      type CalciteComponentsWithMessageOverrides = IntrinsicElementsWithProp<"messageOverrides"> & HTMLStencilElement;
+
+      const page = await newProgrammaticE2EPage();
+      await page.evaluate(async (tag: ComponentTag) => {
+        const component = document.createElement(tag) as CalciteComponentsWithMessageOverrides;
+        document.body.append(component);
+        await component.componentOnReady();
+        component.messageOverrides = { ...component.messageOverrides };
+        component.remove();
+      }, component.tagName.toLowerCase());
+      await page.waitForChanges();
+    }
+
+    await expect(runTest()).resolves.toBeUndefined();
   }
 }

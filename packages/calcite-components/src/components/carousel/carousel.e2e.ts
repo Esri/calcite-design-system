@@ -930,4 +930,55 @@ describe("calcite-carousel", () => {
       expect(selectedItem.id).toEqual("two");
     });
   });
+
+  it("item slide animation finishes between paging/selection", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-carousel label="carousel">
+        <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>
+      </calcite-carousel>`,
+    );
+
+    const container = await page.find(`calcite-carousel >>> .${CSS.container}`);
+    const animationStartSpy = await container.spyOnEvent("animationstart");
+    const animationEndSpy = await container.spyOnEvent("animationend");
+    const nextButton = await page.find(`calcite-carousel >>> .${CSS.pageNext}`);
+
+    await nextButton.click();
+    await page.waitForChanges();
+    await nextButton.click();
+    await page.waitForChanges();
+
+    expect(animationStartSpy).toHaveReceivedEventTimes(2);
+    expect(animationEndSpy).toHaveReceivedEventTimes(2);
+
+    const previousButton = await page.find(`calcite-carousel >>> .${CSS.pagePrevious}`);
+    await previousButton.click();
+    await page.waitForChanges();
+    await previousButton.click();
+    await page.waitForChanges();
+
+    expect(animationStartSpy).toHaveReceivedEventTimes(4);
+    expect(animationEndSpy).toHaveReceivedEventTimes(4);
+
+    const [item1, item2, item3] = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemIndividual}`);
+
+    await item2.click();
+    await page.waitForChanges();
+    await item3.click();
+    await page.waitForChanges();
+
+    expect(animationStartSpy).toHaveReceivedEventTimes(6);
+    expect(animationEndSpy).toHaveReceivedEventTimes(6);
+
+    await item2.click();
+    await page.waitForChanges();
+    await item1.click();
+    await page.waitForChanges();
+
+    expect(animationStartSpy).toHaveReceivedEventTimes(8);
+    expect(animationEndSpy).toHaveReceivedEventTimes(8);
+  });
 });

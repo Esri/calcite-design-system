@@ -1,43 +1,3 @@
-.container--s {
-  @apply text-n2h py-1;
-  padding-inline-end: theme("padding.2");
-  padding-inline-start: theme("padding.6");
-}
-
-.container--m {
-  @apply text-n1h py-2;
-  padding-inline-end: theme("padding.3");
-  padding-inline-start: theme("padding.8");
-}
-
-.container--l {
-  @apply text-0h py-2.5;
-  padding-inline-end: theme("padding.4");
-  padding-inline-start: theme("padding.10");
-}
-
-// none-selection mode
-.container--s.container--none-selection {
-  padding-inline-start: theme("padding.1");
-  & .dropdown-link {
-    padding-inline-start: theme("padding.0");
-  }
-}
-
-.container--m.container--none-selection {
-  padding-inline-start: theme("padding.2");
-  & .dropdown-link {
-    padding-inline-start: theme("padding.0");
-  }
-}
-
-.container--l.container--none-selection {
-  padding-inline-start: theme("padding.3");
-  & .dropdown-link {
-    padding-inline-start: theme("padding.0");
-  }
-}
-
 @mixin itemStyling {
   @apply text-color-3
     relative
@@ -54,53 +14,85 @@
   @apply relative
     flex
     flex-grow
-    items-center;
+    items-center
+    focus-base;
 }
 
 .container {
   @include itemStyling;
-  text-align: start;
+  @apply text-start;
+
+  & a {
+    @include itemStyling;
+    @apply focus-base;
+  }
 }
 
 .dropdown-item-content {
   @apply flex-auto py-0.5;
-  padding-inline-end: theme("margin.auto");
-  padding-inline-start: theme("margin.1");
 }
 
-//focus
-:host,
-.container--link a {
-  @apply focus-base;
-}
-:host(:focus) {
-  @apply focus-inset outline-none;
+// item icon
+.dropdown-item-icon {
+  @apply relative
+    opacity-0
+    duration-150
+    ease-in-out;
+  transform: scale(0.9);
 }
 
-// when used as link move styling anchor
-.container--link {
-  @apply p-0;
-  & a {
-    @include itemStyling;
+:host([scale="s"]) {
+  .container {
+    @apply text-n2h py-1 px-2;
+  }
+
+  .dropdown-item-icon,
+  .dropdown-item-icon--start {
+    padding-inline-end: var(--calcite-spacing-sm);
+  }
+
+  .dropdown-item-icon--end {
+    padding-inline-start: var(--calcite-spacing-sm);
   }
 }
 
-.container--s .dropdown-link {
-  @apply text-n2h py-1;
-  padding-inline-end: theme("padding.2");
-  padding-inline-start: theme("padding.6");
+:host([scale="m"]) {
+  .container {
+    @apply text-n1h py-2 px-3;
+  }
+
+  .dropdown-item-icon,
+  .dropdown-item-icon--start {
+    padding-inline-end: var(--calcite-spacing-md);
+  }
+
+  .dropdown-item-icon--end {
+    padding-inline-start: var(--calcite-spacing-md);
+  }
 }
 
-.container--m .dropdown-link {
-  @apply text-n1h py-2;
-  padding-inline-end: theme("padding.3");
-  padding-inline-start: theme("padding.8");
+:host([scale="l"]) {
+  .container {
+    @apply text-0h py-2.5 px-4;
+  }
+
+  .dropdown-item-icon,
+  .dropdown-item-icon--start {
+    padding-inline-end: var(--calcite-spacing-xl);
+  }
+
+  .dropdown-item-icon--end {
+    padding-inline-start: var(--calcite-spacing-xl);
+  }
 }
 
-.container--l .dropdown-link {
-  @apply text-0h py-3;
-  padding-inline-end: theme("padding.4");
-  padding-inline-start: theme("padding.10");
+//focus
+:host(:focus) {
+  @apply focus-inset outline-none;
+
+  .container {
+    @apply text-color-1 no-underline;
+  }
 }
 
 :host(:hover:not([disabled])),
@@ -109,7 +101,7 @@
     @apply bg-foreground-2 text-color-1 no-underline;
   }
 
-  .container--link .dropdown-link {
+  .dropdown-link {
     @apply text-color-1;
   }
 }
@@ -118,37 +110,12 @@
   @apply bg-foreground-3;
 }
 
-:host(:focus) .container {
-  @apply text-color-1 no-underline;
-}
-
 :host([selected]) .container:not(.container--none-selection),
-:host([selected]) .container--link .dropdown-link {
+:host([selected]) .dropdown-link {
   @apply text-color-1 font-medium;
   & calcite-icon {
     color: theme("backgroundColor.brand");
   }
-}
-
-// item icon
-.dropdown-item-icon {
-  @apply absolute
-    opacity-0
-    duration-150
-    ease-in-out;
-  transform: scale(0.9);
-}
-
-.container--s .dropdown-item-icon {
-  inset-inline-start: theme("spacing.1");
-}
-
-.container--m .dropdown-item-icon {
-  inset-inline-start: theme("spacing.2");
-}
-
-.container--l .dropdown-item-icon {
-  inset-inline-start: theme("spacing.3");
 }
 
 :host(:hover:not([disabled])) .dropdown-item-icon {
@@ -159,37 +126,6 @@
 :host([selected]) .dropdown-item-icon {
   color: theme("backgroundColor.brand");
   @apply opacity-100;
-}
-
-// icon start & end
-.container--s {
-  .dropdown-item-icon-start {
-    margin-inline-end: theme("margin.2");
-    margin-inline-start: theme("margin.1");
-  }
-  .dropdown-item-icon-end {
-    margin-inline-start: theme("margin.2");
-  }
-}
-
-.container--m {
-  .dropdown-item-icon-start {
-    margin-inline-end: theme("margin.3");
-    margin-inline-start: theme("margin.1");
-  }
-  .dropdown-item-icon-end {
-    margin-inline-start: theme("margin.3");
-  }
-}
-
-.container--l {
-  .dropdown-item-icon-start {
-    margin-inline-end: theme("margin.4");
-    margin-inline-start: theme("margin.1");
-  }
-  .dropdown-item-icon-end {
-    margin-inline-start: theme("margin.4");
-  }
 }
 
 @include base-component();
