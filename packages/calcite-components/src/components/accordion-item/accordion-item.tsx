@@ -6,6 +6,7 @@ import {
   h,
   Host,
   Listen,
+  Method,
   Prop,
   VNode,
 } from "@stencil/core";
@@ -23,6 +24,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
 import { FlipContext, Position, Scale, SelectionMode } from "../interfaces";
+import { componentFocusable } from "../../utils/component";
 import { SLOTS, CSS, IDS } from "./resources";
 import { RequestedItem } from "./interfaces";
 
@@ -184,6 +186,7 @@ export class AccordionItem implements ConditionalSlotComponent {
               class={CSS.headerContent}
               id={IDS.sectionToggle}
               onClick={this.itemHeaderClickHandler}
+              ref={this.storeHeaderEl}
               role="button"
               tabindex="0"
             >
@@ -290,11 +293,30 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   @Element() el: HTMLCalciteAccordionItemElement;
 
+  private headerEl: HTMLDivElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this.el);
+    this.headerEl.focus();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private storeHeaderEl = (el: HTMLDivElement): void => {
+    this.headerEl = el;
+  };
 
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();

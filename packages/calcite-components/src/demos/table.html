@@ -3233,6 +3233,16 @@
             <calcite-chip appearance="outline-fill" value="multiple">multiple</calcite-chip>
           </calcite-chip-group>
         </div>
+
+        <div>
+          <span>Selection Display</span>
+          <calcite-chip-group selection-mode="single-persist" id="selection-display-chips">
+            <calcite-chip appearance="outline-fill" selected value="top">Top</calcite-chip>
+            <calcite-chip appearance="outline-fill" value="top-sticky">Top-sticky</calcite-chip>
+            <calcite-chip appearance="outline-fill" value="none">None</calcite-chip>
+          </calcite-chip-group>
+        </div>
+
         <div>
           <span>Scale</span>
           <calcite-chip-group selection-mode="single-persist" id="scale-chips">
@@ -5618,6 +5628,50 @@
         </calcite-table-row>
       </calcite-table>
 
+      <h3>selection-mode multiple with selected at load selection display none</h3>
+      <calcite-table
+        bordered
+        selection-mode="multiple"
+        selection-display="none"
+        numbered
+        caption="selection-mode multiple and numbered"
+      >
+        <calcite-action slot="selection-actions" icon="layer"></calcite-action>
+        <calcite-action slot="selection-actions" icon="send"></calcite-action>
+        <calcite-action slot="selection-actions" icon="copy"></calcite-action>
+        <calcite-action slot="selection-actions" icon="plus"></calcite-action>
+        <calcite-table-row slot="table-header">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row slot="table-footer">
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+          <calcite-table-cell>foot</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>
+
       <h3>selection-mode multiple with multiple headers, footers, pageSize</h3>
 
       <calcite-table
@@ -6133,6 +6187,7 @@
     const chipGroupTheme = document.getElementById("theme-chips");
     const chipGroupScale = document.getElementById("scale-chips");
     const chipGroupSelectionMode = document.getElementById("selection-mode-chips");
+    const chipGroupSelectionDisplayMode = document.getElementById("selection-display-chips");
     const chipGroupLayout = document.getElementById("layout-chips");
     const chipGroupInteraction = document.getElementById("interaction-chips");
     const pageSizeInput = document.getElementById("page-size-input");
@@ -6141,6 +6196,7 @@
     const calciteChipsTheme = document.querySelectorAll("#theme-chips calcite-chip");
     const calciteChipsScale = document.querySelectorAll("#scale-chips calcite-chip");
     const calciteChipsSelectionMode = document.querySelectorAll("#selection-mode-chips calcite-chip");
+    const calciteChipsSelectionDisplayMode = document.querySelectorAll("#selection-display-chips calcite-chip");
     const calciteChipsLayout = document.querySelectorAll("#layout-chips calcite-chip");
     const calciteChipsInteraction = document.querySelectorAll("#interaction-chips calcite-chip");
 
@@ -6190,6 +6246,16 @@
       calciteChipsSelectionMode.forEach((chip) => {
         if (event.target.selectedItems.includes(chip)) {
           table.selectionMode = chip.value;
+        } else {
+          return;
+        }
+      });
+    });
+
+    chipGroupSelectionDisplayMode.addEventListener("calciteChipGroupSelect", (event) => {
+      calciteChipsSelectionDisplayMode.forEach((chip) => {
+        if (event.target.selectedItems.includes(chip)) {
+          table.selectionDisplay = chip.value;
         } else {
           return;
         }

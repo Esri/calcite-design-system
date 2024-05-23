@@ -53,16 +53,16 @@ export const themingInteractive = (): string => {
       <div class="demo-column">
         <calcite-accordion>
           <calcite-accordion-item heading="Accordion Item"
-            ><img src="https://placem.at/places?w=200&txt=0" />
+            ><img src="${placeholderImage({ width: 300, height: 200 })}" />
           </calcite-accordion-item>
           <calcite-accordion-item heading="Accordion Item 2"
-            ><img src="https://placem.at/places?w=200&txt=0" />
+            ><img src="${placeholderImage({ width: 300, height: 200 })}" />
           </calcite-accordion-item>
           <calcite-accordion-item heading="Accordion Item 3"
-            ><img src="https://placem.at/places?w=200&txt=0" />
+            ><img src="${placeholderImage({ width: 300, height: 200 })}" />
           </calcite-accordion-item>
           <calcite-accordion-item heading="Accordion Item 4"
-            ><img src="https://placem.at/places?w=200&txt=0" />
+            ><img src="${placeholderImage({ width: 300, height: 200 })}" />
           </calcite-accordion-item>
           <calcite-accordion-item heading="Accordion Item 5" expanded>
             <calcite-tree lines>

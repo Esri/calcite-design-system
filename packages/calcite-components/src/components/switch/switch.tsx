@@ -32,6 +32,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-switch",
@@ -204,13 +205,13 @@ export class Switch
           <div
             aria-checked={toAriaBoolean(this.checked)}
             aria-label={getLabelText(this)}
-            class="container"
+            class={CSS.container}
             ref={this.setSwitchEl}
             role="switch"
             tabIndex={0}
           >
-            <div class="track">
-              <div class="handle" />
+            <div class={CSS.track}>
+              <div class={CSS.handle} />
             </div>
             <HiddenFormInputSlot component={this} />
           </div>
