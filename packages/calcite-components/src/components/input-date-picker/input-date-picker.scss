@@ -48,6 +48,11 @@
     .chevron-icon {
       color: var(--calcite-color-text-1);
     }
+    // chevron icon is available in endInput only for range.
+    // changes color of chevron icon in endInput when startInput is hovered/focused.
+    ~ .input-wrapper .chevron-icon {
+      color: var(--calcite-color-text-1);
+    }
   }
 }
 
@@ -137,6 +142,14 @@
 .vertical-chevron-container {
   @apply flex items-center border border-solid border-color-input border-l-0 px-3;
   background-color: var(--calcite-color-foreground-1);
+
+  calcite-icon {
+    color: var(--calcite-color-text-3);
+
+    &:hover {
+      color: var(--calcite-color-text-1);
+    }
+  }
 }
 
 :host([range][layout="vertical"][scale="s"]) {
@@ -154,6 +167,18 @@
   }
   .divider-container {
     padding-inline: 1rem;
+  }
+}
+
+.container {
+  &:focus-within,
+  &:active,
+  &:hover {
+    .vertical-chevron-container {
+      calcite-icon {
+        color: var(--calcite-color-text-1);
+      }
+    }
   }
 }
 
