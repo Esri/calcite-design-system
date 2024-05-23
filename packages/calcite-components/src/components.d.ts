@@ -3934,6 +3934,8 @@ export namespace Components {
          */
         "value": number;
     }
+    interface CalciteProto {
+    }
     interface CalciteRadioButton {
         /**
           * When `true`, the component is checked.
@@ -7134,6 +7136,12 @@ declare global {
         prototype: HTMLCalciteProgressElement;
         new (): HTMLCalciteProgressElement;
     };
+    interface HTMLCalciteProtoElement extends Components.CalciteProto, HTMLStencilElement {
+    }
+    var HTMLCalciteProtoElement: {
+        prototype: HTMLCalciteProtoElement;
+        new (): HTMLCalciteProtoElement;
+    };
     interface HTMLCalciteRadioButtonElementEventMap {
         "calciteInternalRadioButtonBlur": void;
         "calciteRadioButtonChange": void;
@@ -7849,6 +7857,7 @@ declare global {
         "calcite-pick-list-item": HTMLCalcitePickListItemElement;
         "calcite-popover": HTMLCalcitePopoverElement;
         "calcite-progress": HTMLCalciteProgressElement;
+        "calcite-proto": HTMLCalciteProtoElement;
         "calcite-radio-button": HTMLCalciteRadioButtonElement;
         "calcite-radio-button-group": HTMLCalciteRadioButtonGroupElement;
         "calcite-rating": HTMLCalciteRatingElement;
@@ -11847,6 +11856,8 @@ declare namespace LocalJSX {
          */
         "value"?: number;
     }
+    interface CalciteProto {
+    }
     interface CalciteRadioButton {
         /**
           * When `true`, the component is checked.
@@ -13761,6 +13772,7 @@ declare namespace LocalJSX {
         "calcite-pick-list-item": CalcitePickListItem;
         "calcite-popover": CalcitePopover;
         "calcite-progress": CalciteProgress;
+        "calcite-proto": CalciteProto;
         "calcite-radio-button": CalciteRadioButton;
         "calcite-radio-button-group": CalciteRadioButtonGroup;
         "calcite-rating": CalciteRating;
@@ -13889,6 +13901,7 @@ declare module "@stencil/core" {
             "calcite-pick-list-item": LocalJSX.CalcitePickListItem & JSXBase.HTMLAttributes<HTMLCalcitePickListItemElement>;
             "calcite-popover": LocalJSX.CalcitePopover & JSXBase.HTMLAttributes<HTMLCalcitePopoverElement>;
             "calcite-progress": LocalJSX.CalciteProgress & JSXBase.HTMLAttributes<HTMLCalciteProgressElement>;
+            "calcite-proto": LocalJSX.CalciteProto & JSXBase.HTMLAttributes<HTMLCalciteProtoElement>;
             "calcite-radio-button": LocalJSX.CalciteRadioButton & JSXBase.HTMLAttributes<HTMLCalciteRadioButtonElement>;
             "calcite-radio-button-group": LocalJSX.CalciteRadioButtonGroup & JSXBase.HTMLAttributes<HTMLCalciteRadioButtonGroupElement>;
             "calcite-rating": LocalJSX.CalciteRating & JSXBase.HTMLAttributes<HTMLCalciteRatingElement>;

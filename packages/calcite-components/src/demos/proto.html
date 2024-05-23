@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Scrim</title>
+
+    <style>
+      .parent {
+        display: flex;
+        flex-wrap: wrap;
+        width: 70%;
+        margin-left: 5%;
+      }
+
+      .child {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        flex: 1 1 auto;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-font-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 1rem;
+        margin-bottom: 2rem;
+      }
+    </style>
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <calcite-proto></calcite-proto>
+    </demo-dom-swapper>
+  </body>
+</html>

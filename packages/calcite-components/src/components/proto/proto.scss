@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  display: block;
+  padding: 10px;
+}
+
+@include base-component();

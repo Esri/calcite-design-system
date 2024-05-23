@@ -62,6 +62,7 @@
     "directory": "packages/calcite-components"
   },
   "dependencies": {
+    "@atlaskit/pragmatic-drag-and-drop": "1.1.9",
     "@floating-ui/dom": "1.6.4",
     "@stencil/core": "4.17.1",
     "@types/color": "3.0.6",
