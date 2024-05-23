@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.21...@esri/calcite-components@2.9.0-next.22) (2024-05-23)
+
+### Bug Fixes
+
+- **tree:** allow single select only and add indicator ([#9405](https://github.com/Esri/calcite-design-system/issues/9405)) ([0d07b59](https://github.com/Esri/calcite-design-system/commit/0d07b59d9d55f9dcb78869b51219d9e509ff11cb)), closes [#7899](https://github.com/Esri/calcite-design-system/issues/7899)
+
 ## [2.9.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.20...@esri/calcite-components@2.9.0-next.21) (2024-05-23)
 
 ### Features
