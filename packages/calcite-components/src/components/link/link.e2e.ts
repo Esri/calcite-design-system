@@ -1,5 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, renders, themed } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { html } from "../../../support/formatting";
 
 describe("calcite-link", () => {
   describe("renders", () => {
@@ -317,6 +319,49 @@ describe("calcite-link", () => {
       linkUnderlineStyle = await linkStyles.getPropertyValue("background-image");
       expect(linkUnderlineStyle).toEqual(
         `linear-gradient(rgb(0, 97, 155), rgb(0, 97, 155)), linear-gradient(${overrideStyle}, ${overrideStyle})`,
+      );
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-link-text-color": [
+          {
+            shadowSelector: "span",
+            targetProp: "color",
+          },
+        ],
+        "--calcite-link-background-color": [
+          {
+            shadowSelector: "span",
+            targetProp: "backgroundColor",
+          },
+        ],
+        "--calcite-link-icon-color": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+      };
+      themed(html` <calcite-link icon-start="smile" icon-end="smile"> Themed link. </calcite-link> `, tokens);
+    });
+    describe("external link", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-link-text-color": {
+          shadowSelector: "a",
+          targetProp: "color",
+        },
+
+        "--calcite-link-background-color": {
+          shadowSelector: "a",
+          targetProp: "backgroundColor",
+        },
+      };
+      themed(
+        html` <calcite-link href="http://google.com" rel="noopener noreferrer" target="_blank" icon-start="launch"
+          >A link to Google with an icon</calcite-link
+        >`,
+        tokens,
       );
     });
   });
