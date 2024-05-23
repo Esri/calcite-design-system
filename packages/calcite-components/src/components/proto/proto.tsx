@@ -22,7 +22,13 @@ export class Proto {
   }
 
   private setupDropTarget = (el: HTMLUListElement): void => {
-    dropTargetForElements({ element: el, onDragStart: () => console.log("Dragging an element") });
+    dropTargetForElements({
+      element: el,
+      onDragStart: () => console.log("Dragging an element"),
+      onDragEnter: () => console.log("Entered a drop target"),
+      onDragLeave: () => console.log("Left a drop target"),
+      onDrop: () => console.log("Dropped an element"),
+    });
   };
 
   private setupDraggable = (el: HTMLLIElement): void => {
