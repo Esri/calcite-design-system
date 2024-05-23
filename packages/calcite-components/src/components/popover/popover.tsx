@@ -294,7 +294,6 @@ export class Popover
     await componentOnReady(this.el);
     this.setUpReferenceElement();
     connectFocusTrap(this);
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
 
     if (this.open) {
       onToggleOpenCloseComponent(this);
