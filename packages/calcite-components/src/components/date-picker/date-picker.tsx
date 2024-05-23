@@ -113,9 +113,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("min")
   onMinChanged(min: string): void {
-    if (min) {
-      this.minAsDate = dateFromISO(min);
-    }
+    this.minAsDate = min ? dateFromISO(min) : null;
   }
 
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
@@ -123,9 +121,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    if (max) {
-      this.maxAsDate = dateFromISO(max);
-    }
+    this.maxAsDate = max ? dateFromISO(max) : null;
   }
 
   /**
