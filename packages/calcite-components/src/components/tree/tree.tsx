@@ -175,7 +175,8 @@ export class Tree {
       (((this.selectionMode === "single" || this.selectionMode === "multiple") &&
         childItems.length <= 0) ||
         this.selectionMode === "children" ||
-        this.selectionMode === "multichildren");
+        this.selectionMode === "multichildren" ||
+        (this.selectionMode === "single-persist" && !target.hasChildren));
 
     const shouldUpdateExpand =
       ["multiple", "none", "single", "single-persist"].includes(this.selectionMode) &&

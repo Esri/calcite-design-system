@@ -7355,6 +7355,7 @@ declare global {
         new (): HTMLCalciteStackElement;
     };
     interface HTMLCalciteStepperElementEventMap {
+        "calciteStepperChange": void;
         "calciteStepperItemChange": void;
         "calciteInternalStepperItemChange": StepperItemChangeEventDetail;
     }
@@ -7375,8 +7376,8 @@ declare global {
     interface HTMLCalciteStepperItemElementEventMap {
         "calciteInternalStepperItemKeyEvent": StepperItemKeyEventDetail;
         "calciteInternalStepperItemSelect": StepperItemEventDetail;
-        "calciteInternalUserRequestedStepperItemSelect": StepperItemChangeEventDetail;
         "calciteInternalStepperItemRegister": StepperItemEventDetail;
+        "calciteStepperItemSelect": void;
     }
     interface HTMLCalciteStepperItemElement extends Components.CalciteStepperItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteStepperItemElementEventMap>(type: K, listener: (this: HTMLCalciteStepperItemElement, ev: CalciteStepperItemCustomEvent<HTMLCalciteStepperItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -12593,6 +12594,11 @@ declare namespace LocalJSX {
         /**
           * Fires when the active `calcite-stepper-item` changes.
          */
+        "onCalciteStepperChange"?: (event: CalciteStepperCustomEvent<void>) => void;
+        /**
+          * Fires when the active `calcite-stepper-item` changes.
+          * @deprecated use `calciteStepperChange` instead or `calciteStepperItemChange` on items instead.
+         */
         "onCalciteStepperItemChange"?: (event: CalciteStepperCustomEvent<void>) => void;
         /**
           * Specifies the size of the component.
@@ -12653,7 +12659,10 @@ declare namespace LocalJSX {
         "onCalciteInternalStepperItemKeyEvent"?: (event: CalciteStepperItemCustomEvent<StepperItemKeyEventDetail>) => void;
         "onCalciteInternalStepperItemRegister"?: (event: CalciteStepperItemCustomEvent<StepperItemEventDetail>) => void;
         "onCalciteInternalStepperItemSelect"?: (event: CalciteStepperItemCustomEvent<StepperItemEventDetail>) => void;
-        "onCalciteInternalUserRequestedStepperItemSelect"?: (event: CalciteStepperItemCustomEvent<StepperItemChangeEventDetail>) => void;
+        /**
+          * Fires when the active `calcite-stepper-item` changes.
+         */
+        "onCalciteStepperItemSelect"?: (event: CalciteStepperItemCustomEvent<void>) => void;
         /**
           * Specifies the size of the component inherited from the `calcite-stepper`, defaults to `m`.
          */

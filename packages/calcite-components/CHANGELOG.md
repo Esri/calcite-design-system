@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.21...@esri/calcite-components@2.9.0-next.22) (2024-05-23)
+
+### Bug Fixes
+
+- **tree:** allow single select only and add indicator ([#9405](https://github.com/Esri/calcite-design-system/issues/9405)) ([0d07b59](https://github.com/Esri/calcite-design-system/commit/0d07b59d9d55f9dcb78869b51219d9e509ff11cb)), closes [#7899](https://github.com/Esri/calcite-design-system/issues/7899)
+
+## [2.9.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.20...@esri/calcite-components@2.9.0-next.21) (2024-05-23)
+
+### Features
+
+- **split-button:** Make dividers consistent ([#9402](https://github.com/Esri/calcite-design-system/issues/9402)) ([caf27e3](https://github.com/Esri/calcite-design-system/commit/caf27e3f3bf367db26ac88effe0cd16ce35cafff)), closes [#8142](https://github.com/Esri/calcite-design-system/issues/8142)
+
+## [2.9.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.19...@esri/calcite-components@2.9.0-next.20) (2024-05-23)
+
+### Features
+
+- **stepper, stepper-item:** add separate change events to stepper and items (deprecates `calciteStepperItemChange` on the parent) ([#9351](https://github.com/Esri/calcite-design-system/issues/9351)) ([cf6a118](https://github.com/Esri/calcite-design-system/commit/cf6a11867d74d5dedd77ad039e5475d65f25a46a)), closes [#2094](https://github.com/Esri/calcite-design-system/issues/2094)
+
+### Bug Fixes
+
+- **dropdown-group:** title scale with dropdown scale ([#9360](https://github.com/Esri/calcite-design-system/issues/9360)) ([3529cdd](https://github.com/Esri/calcite-design-system/commit/3529cdd1778cb1243de23c410acc27c419d63524)), closes [#9350](https://github.com/Esri/calcite-design-system/issues/9350)
+
 ## [2.9.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.18...@esri/calcite-components@2.9.0-next.19) (2024-05-23)
 
 ### Bug Fixes
