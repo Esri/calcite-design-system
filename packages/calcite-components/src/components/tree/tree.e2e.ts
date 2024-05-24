@@ -1348,5 +1348,36 @@ describe("calcite-tree", () => {
       await directItemClick(page, gc1);
       expect(await tree.getProperty("selectedItems")).toHaveLength(0);
     });
+
+    it("single-persist allows only one selection", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-tree selection-mode="single-persist">
+          <calcite-tree-item id="child1">Child 1</calcite-tree-item>
+          <calcite-tree-item id="sub1">
+            Child 2
+            <calcite-tree slot="children" selection-mode="single-persist">
+              <calcite-tree-item id="gc1">Grandchild 1</calcite-tree-item>
+              <calcite-tree-item>Grandchild 2</calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+      `);
+      const tree = await page.find("calcite-tree");
+      expect(await tree.getProperty("selectedItems")).toHaveLength(0);
+      const child1 = await page.find("#child1");
+      await directItemClick(page, child1);
+      expect(await tree.getProperty("selectedItems")).toHaveLength(1);
+      await directItemClick(page, child1);
+      expect(await tree.getProperty("selectedItems")).toHaveLength(1);
+      const sub1 = await page.find("#sub1");
+      await directItemClick(page, sub1);
+      expect(await tree.getProperty("selectedItems")).toHaveLength(1);
+      const gc1 = await page.find("#gc1");
+      await directItemClick(page, gc1);
+      expect(await tree.getProperty("selectedItems")).toHaveLength(1);
+      await directItemClick(page, gc1);
+      expect(await tree.getProperty("selectedItems")).toHaveLength(1);
+    });
   });
 });
