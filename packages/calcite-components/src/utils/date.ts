@@ -151,7 +151,7 @@ export function datePartsFromLocalizedString(
  */
 export function dateToISO(date?: Date): string {
   if (date instanceof Date) {
-    return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().split("T")[0];
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   }
   return "";
 }
