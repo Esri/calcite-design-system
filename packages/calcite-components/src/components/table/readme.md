@@ -127,6 +127,7 @@ A simple table component.
 | `pageSize`             | `page-size`         | Specifies the page size of the component. When `true`, renders `calcite-pagination`.                                                                                                                                                                                                                                       | `number`                           | `0`             |
 | `scale`                | `scale`             | Specifies the size of the component.                                                                                                                                                                                                                                                                                       | `"l" \| "m" \| "s"`                | `"m"`           |
 | `selectedItems`        | --                  | Specifies the component's selected items.                                                                                                                                                                                                                                                                                  | `HTMLCalciteTableRowElement[]`     | `[]`            |
+| `selectionDisplay`     | `selection-display` | Specifies the display of the selection interface when `selection-mode` is not `"none"`. When `"none"`, content slotted the `selection-actions` slot will not be displayed.                                                                                                                                                 | `"none" \| "top"`                  | `"top"`         |
 | `selectionMode`        | `selection-mode`    | Specifies the selection mode of the component, where: `"multiple"` allows any number of selections, `"single"` allows only one selection, and `"none"` does not allow any selections.                                                                                                                                      | `"multiple" \| "none" \| "single"` | `"none"`        |
 | `striped`              | `striped`           | When `true`, displays striped styling in the component.                                                                                                                                                                                                                                                                    | `boolean`                          | `false`         |
 | `zebra`                | `zebra`             | <span style="color:red">**[DEPRECATED]**</span> Use the `striped` property instead.<br/><br/>When `true`, displays striped styling in the component.                                                                                                                                                                       | `boolean`                          | `false`         |
@@ -140,12 +141,12 @@ A simple table component.
 
 ## Slots
 
-| Slot                  | Description                                                                                                            |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-|                       | A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements. |
-| `"selection-actions"` | A slot for adding a `calcite-action-bar` or other elements to display when `selectionMode` is not `"none"`.            |
-| `"table-footer"`      | A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements. |
-| `"table-header"`      | A slot for adding `calcite-table-row` elements containing `calcite-table-header` elements.                             |
+| Slot                  | Description                                                                                                                                   |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+|                       | A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.                        |
+| `"selection-actions"` | A slot for adding `calcite-actions` or other elements to display when `selectionMode` is not `"none"` and `selectionDisplay` is not `"none"`. |
+| `"table-footer"`      | A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.                        |
+| `"table-header"`      | A slot for adding `calcite-table-row` elements containing `calcite-table-header` elements.                                                    |
 
 ## Dependencies
 
