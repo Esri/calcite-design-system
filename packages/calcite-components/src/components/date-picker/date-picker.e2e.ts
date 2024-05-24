@@ -4,21 +4,6 @@ import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTes
 import { skipAnimations } from "../../tests/utils";
 import { formatTimePart } from "../../utils/time";
 
-async function setActiveDate(page: E2EPage, date: string): Promise<void> {
-  await page.evaluate((date) => {
-    const datePicker = document.querySelector("calcite-date-picker");
-    datePicker.activeDate = new Date(date);
-  }, date);
-  await page.waitForChanges();
-}
-
-async function getActiveDate(page: E2EPage): Promise<string> {
-  return await page.evaluate(() => {
-    const datePicker = document.querySelector("calcite-date-picker");
-    return datePicker.activeDate.toISOString();
-  });
-}
-
 describe("calcite-date-picker", () => {
   describe("renders", () => {
     renders("calcite-date-picker", { display: "inline-block" });
@@ -346,13 +331,13 @@ describe("calcite-date-picker", () => {
     expect(await element.getProperty("minAsDate")).toBe(null);
     expect(await element.getProperty("maxAsDate")).toBe(null);
 
-    const maxPlusOne = "2022-11-26";
-    await setActiveDate(page, maxPlusOne);
-    expect(await getActiveDate(page)).toEqual(new Date(maxPlusOne).toISOString());
+    const dateBeyondMax = "2022-11-26";
+    await setActiveDate(page, dateBeyondMax);
+    expect(await getActiveDate(page)).toEqual(new Date(dateBeyondMax).toISOString());
 
-    const minMinusOne = "2022-11-14";
-    await setActiveDate(page, minMinusOne);
-    expect(await getActiveDate(page)).toEqual(new Date(minMinusOne).toISOString());
+    const dateBeforeMin = "2022-11-14";
+    await setActiveDate(page, dateBeforeMin);
+    expect(await getActiveDate(page)).toEqual(new Date(dateBeforeMin).toISOString());
   });
 
   it("passes down the default year prop to child date-picker-month-header", async () => {
@@ -581,3 +566,18 @@ describe("calcite-date-picker", () => {
     expect(await datePicker.getProperty("value")).toEqual(["2020-09-15", "2020-09-30"]);
   });
 });
+
+async function setActiveDate(page: E2EPage, date: string): Promise<void> {
+  await page.evaluate((date) => {
+    const datePicker = document.querySelector("calcite-date-picker");
+    datePicker.activeDate = new Date(date);
+  }, date);
+  await page.waitForChanges();
+}
+
+async function getActiveDate(page: E2EPage): Promise<string> {
+  return await page.evaluate(() => {
+    const datePicker = document.querySelector("calcite-date-picker");
+    return datePicker.activeDate.toISOString();
+  });
+}

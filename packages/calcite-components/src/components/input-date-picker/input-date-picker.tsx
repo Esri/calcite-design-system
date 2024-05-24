@@ -247,7 +247,7 @@ export class InputDatePicker
 
   @Watch("min")
   onMinChanged(min: string): void {
-    this.minAsDate = min ? dateFromISO(min) : null;
+    this.minAsDate = dateFromISO(min);
   }
 
   /** Specifies the latest allowed date ("yyyy-mm-dd"). */
@@ -255,7 +255,7 @@ export class InputDatePicker
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    this.maxAsDate = max ? dateFromISO(max) : null;
+    this.maxAsDate = dateFromISO(max);
   }
 
   /** When `true`, displays the `calcite-date-picker` component. */
