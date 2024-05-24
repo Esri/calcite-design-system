@@ -50,12 +50,12 @@ describe("calcite-navigation-user", () => {
     describe("default", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-navigation-user-avatar-corner-radius": {
-          shadowSelector: `.${CSS.button} >>> calcite-avatar`,
-          targetProp: "borderRadius",
+          shadowSelector: `calcite-avatar`,
+          targetProp: "--calcite-avatar-corner-radius",
         },
         "--calcite-navigation-user-avatar-text-color": {
-          shadowSelector: `.${CSS.button} >>> calcite-avatar >>> .initials`,
-          targetProp: "color",
+          shadowSelector: `calcite-avatar`,
+          targetProp: "--calcite-avatar-text-color",
         },
         "--calcite-navigation-user-background-color": {
           shadowSelector: `.${CSS.button}`,
