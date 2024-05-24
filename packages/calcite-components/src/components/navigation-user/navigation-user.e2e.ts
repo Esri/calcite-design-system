@@ -43,7 +43,7 @@ describe("calcite-navigation-user", () => {
   });
 
   describe("theme", () => {
-    const navigationLogoHtml = html`
+    const navigationUserHtml = html`
       <calcite-navigation-user full-name="Walt McChipson" username="waltChip"> </calcite-navigation-user>
     `;
 
@@ -74,7 +74,7 @@ describe("calcite-navigation-user", () => {
           targetProp: "color",
         },
       };
-      themed(navigationLogoHtml, tokens);
+      themed(navigationUserHtml, tokens);
     });
   });
 });
