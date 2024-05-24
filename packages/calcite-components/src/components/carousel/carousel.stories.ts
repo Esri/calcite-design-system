@@ -1,5 +1,6 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { arrowType } = ATTRIBUTES;
 
@@ -83,7 +84,7 @@ export const carouselAutoplayFullImageWithOverlayAndEdge = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;
@@ -113,7 +114,7 @@ export const carouselAutoplayFullImageWithNoOverlay = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;
@@ -143,7 +144,7 @@ export const carouselFullImageWithOverlay = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;
@@ -227,7 +228,7 @@ export const themed_simple = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;
@@ -288,7 +289,7 @@ export const themed_carouselFullImageWithOverlay = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;

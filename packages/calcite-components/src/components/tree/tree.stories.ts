@@ -1,6 +1,5 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { selectionMode, scale } = ATTRIBUTES;
 
@@ -8,7 +7,6 @@ interface TreeArgs {
   lines: boolean;
   selectionMode: string;
   scale: string;
-  iconStart: string;
 }
 
 export default {
@@ -17,19 +15,14 @@ export default {
     lines: false,
     selectionMode: selectionMode.values[0],
     scale: scale.defaultValue,
-    iconStart: "palette",
   },
   argTypes: {
     selectionMode: {
-      options: selectionMode.values.filter((option) => option !== "single-persist"),
+      options: selectionMode.values,
       control: { type: "select" },
     },
     scale: {
       options: scale.values,
-      control: { type: "select" },
-    },
-    iconStart: {
-      options: iconNames,
       control: { type: "select" },
     },
   },
@@ -79,7 +72,7 @@ const treeItems = html`
 const slottedLargeDropdown = html`
   <calcite-dropdown slot="actions-end" id="slottedLargeDropdown" scale="l">
     <calcite-action slot="trigger" icon="ellipsis" scale="l"></calcite-action>
-    <calcite-dropdown-group group-title="Settings" selection-mode="multi">
+    <calcite-dropdown-group group-title="Settings" selection-mode="multiple">
       <calcite-dropdown-item>Group elements</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Display mode" selection-mode="single">
@@ -92,7 +85,7 @@ const slottedLargeDropdown = html`
 const slottedDefaultDropdown = html`
   <calcite-dropdown slot="actions-end" id="slottedDefaultDropdown">
     <calcite-action slot="trigger" icon="ellipsis"></calcite-action>
-    <calcite-dropdown-group group-title="Settings" selection-mode="multi">
+    <calcite-dropdown-group group-title="Settings" selection-mode="multiple">
       <calcite-dropdown-item>Group elements</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Display mode" selection-mode="single">
@@ -105,7 +98,7 @@ const slottedDefaultDropdown = html`
 const slottedSmallDropdown = html`
   <calcite-dropdown slot="actions-end" id="slottedDefaultDropdown" scale="s">
     <calcite-action slot="trigger" icon="ellipsis" scale="s"></calcite-action>
-    <calcite-dropdown-group group-title="Settings" selection-mode="multi">
+    <calcite-dropdown-group group-title="Settings" selection-mode="multiple">
       <calcite-dropdown-item>Group elements</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Display mode" selection-mode="single">
@@ -191,39 +184,7 @@ const slottedSmallActionsEnd = html`
 
 export const simple = (args: TreeArgs): string => html`
   <calcite-tree ${boolean("lines", args.lines)} selection-mode="${args.selectionMode}" scale="${args.scale}">
-    <calcite-tree-item>
-      <a>Child 1</a>
-    </calcite-tree-item>
-    <calcite-tree-item icon-start="${args.iconStart}">
-      <a>Child 2</a>
-      <calcite-tree slot="children" icon-start="${args.iconStart}">
-        <calcite-tree-item>
-          <a>Grandchild 1</a>
-        </calcite-tree-item>
-        <calcite-tree-item icon-start="${args.iconStart}">
-          <a>Grandchild 2</a>
-          <calcite-tree slot="children" icon-start="${args.iconStart}">
-            <calcite-tree-item>
-              <a>Great-Grandchild 1</a>
-            </calcite-tree-item>
-            <calcite-tree-item icon-start="${args.iconStart}">
-              <a>Great-Grandchild 2</a>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
-    </calcite-tree-item>
-    <calcite-tree-item>
-      <a>Child 3</a>
-      <calcite-tree slot="children">
-        <calcite-tree-item>
-          <a>Grandchild 1</a>
-        </calcite-tree-item>
-        <calcite-tree-item>
-          <a>Grandchild 2</a>
-        </calcite-tree-item>
-      </calcite-tree>
-    </calcite-tree-item>
+    ${treeItems}
   </calcite-tree>
 `;
 
