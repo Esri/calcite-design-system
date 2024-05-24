@@ -1,7 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { accessible, focusable, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 
 describe("calcite-menu-item", () => {
   describe("renders", () => {
@@ -114,5 +115,73 @@ describe("calcite-menu-item", () => {
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("Nature");
     expect(eventSpy).toHaveReceivedEventTimes(2);
+  });
+});
+
+describe("theme", () => {
+  const menuItemHtml = html`
+    <calcite-menu layout="vertical">
+      <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
+      <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
+      <calcite-menu-item
+        class="menuItem3"
+        text="Example item 3"
+        text-enabled
+        icon-start="layer"
+        icon-end="layer"
+        breadcrumb
+        open
+      >
+        <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
+        <calcite-menu-item
+          class="submenuItem2"
+          slot="submenu-item"
+          text="Example submenu item 2"
+          text-enabled
+          href="https://esri.com"
+        >
+          <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
+        </calcite-menu-item>
+      </calcite-menu-item>
+      <calcite-menu-item text="Example item 4" text-enabled></calcite-menu-item>
+    </calcite-menu>
+    <calcite-menu layout="horizontal">
+      <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
+      <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
+      <calcite-menu-item text="Example item 3" text-enabled icon-start="layer" icon-end="layer" breadcrumb open>
+        <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
+        <calcite-menu-item slot="submenu-item" text="Example submenu item 2" text-enabled href="https://esri.com">
+          <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
+        </calcite-menu-item>
+      </calcite-menu-item>
+      <calcite-menu-item text="Example item 4" text-enabled></calcite-menu-item>
+    </calcite-menu>
+  `;
+  describe("default", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-menu-item-action-background-color-active": {
+        shadowSelector: "calcite-action",
+        targetProp: "backgroundColor",
+        state: { press: { attribute: "tag", value: "calcite-action" } },
+      },
+      "--calcite-menu-item-action-background-color-hover": {
+        shadowSelector: "calcite-action",
+        targetProp: "--calcite-action-background-color",
+        state: "hover",
+      },
+      "--calcite-menu-item-action-background-color": {
+        shadowSelector: "calcite-action",
+        targetProp: "--calcite-action-background-color",
+      },
+    };
+    themed(async () => {
+      const page = await newE2EPage();
+      await page.setContent(menuItemHtml);
+      const menuItem3 = await page.find(".menuItem3");
+      menuItem3.click();
+      await page.waitForSelector(`.submenuItem2`);
+
+      return { tag: "calcite-menu-item", page };
+    }, tokens);
   });
 });
