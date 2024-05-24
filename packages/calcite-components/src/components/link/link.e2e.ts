@@ -326,18 +326,16 @@ describe("calcite-link", () => {
   describe("theme", () => {
     describe("default", () => {
       const tokens: ComponentTestTokens = {
-        "--calcite-link-text-color": [
-          {
-            shadowSelector: "span",
-            targetProp: "color",
-          },
-        ],
-        "--calcite-link-background-color": [
-          {
-            shadowSelector: "span",
-            targetProp: "backgroundColor",
-          },
-        ],
+        "--calcite-link-text-color": {
+          shadowSelector: "span",
+          targetProp: "color",
+        },
+
+        "--calcite-link-background-color": {
+          shadowSelector: "span",
+          targetProp: "backgroundColor",
+        },
+
         "--calcite-link-icon-color": {
           shadowSelector: "calcite-icon",
           targetProp: "--calcite-icon-color",
