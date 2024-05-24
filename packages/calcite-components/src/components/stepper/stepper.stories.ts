@@ -102,7 +102,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   <div dir="rtl">
     <calcite-stepper
     class="calcite-mode-dark"
-      layout="horizontal"s
+      layout="horizontal"
       scale="m"
       numbered
       icon

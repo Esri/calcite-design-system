@@ -500,7 +500,7 @@ export const withPlaceholderIcon_TestOnly = (): string =>
   html` <calcite-combobox
     id="labelFour"
     label="test"
-    placeholder="folder"
+    placeholder="select folder"
     placeholder-icon="select"
     max-items="6"
     selection-mode="single"
@@ -513,7 +513,7 @@ export const withPlaceholderIcon_TestOnly = (): string =>
 
 export const withoutPlaceholderIcon_TestOnly = (): string =>
   html` <div style="width:400px;max-width:100%;background-color:white;padding:100px">
-    <calcite-combobox placeholder="folder" selection-mode="multiple" open>
+    <calcite-combobox placeholder="select folder" selection-mode="multiple" open>
       <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
       <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
       <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>

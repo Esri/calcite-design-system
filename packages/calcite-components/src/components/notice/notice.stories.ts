@@ -54,7 +54,7 @@ export default {
 export const simple = (args: NoticeArgs): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
-      icon="${args.icon}"
+      ${boolean("icon", args.showIcon)}
       ${boolean("open", args.open)}
       ${boolean("closable", args.closable)}
       scale="${args.noticeScale}"

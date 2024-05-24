@@ -67,8 +67,8 @@ export const clearable = (): string => html`
   <calcite-input-time-zone mode="name" clearable></calcite-input-time-zone>
   <br />
   <label>initialized as empty</label>
-  <calcite-input-time-zone mode="offset" clearable></calcite-input-time-zone>
-  <calcite-input-time-zone mode="name" clearable></calcite-input-time-zone>
+  <calcite-input-time-zone mode="offset" clearable value=""></calcite-input-time-zone>
+  <calcite-input-time-zone mode="name" clearable value=""></calcite-input-time-zone>
 `;
 
 clearable.parameters = { chromatic: { delay: 500 } };
