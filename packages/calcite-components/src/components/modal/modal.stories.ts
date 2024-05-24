@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { kind, scale } = ATTRIBUTES;
@@ -47,13 +47,13 @@ export default {
 
 export const simple = (args: ModalArgs): string => html`
   <calcite-modal
-    ${args.open ? "open" : ""}
+    ${boolean("open", args.open)}
     kind="${args.kind}"
     scale="${args.scale}"
     width-scale="${args.widthScale}"
-    ${args.fullscreen ? "fullscreen" : ""}
-    ${args.docked ? "docked" : ""}
-    ${args.escapeDisabled ? "escape-disabled" : ""}
+    ${boolean("fullscreen", args.fullscreen)}
+    ${boolean("docked", args.docked)}
+    ${boolean("escape-disabled", args.escapeDisabled)}
   >
     <h3 slot="header">Small Modal</h3>
     <div slot="content">
@@ -78,7 +78,7 @@ const mightyLongTextToScroll = html`
 `;
 
 export const slots = (): string => html`
-  <calcite-modal open kind="" scale="m" width-scale="s">
+  <calcite-modal open scale="m" width-scale="s">
     <h3 slot="header">Slot for a header.</h3>
     <div slot="content-top">Slot for a content-top.</div>
     <div slot="content" style="height: 100px">${mightyLongTextToScroll}</div>
@@ -92,7 +92,6 @@ export const darkModeRTLCustomSizeCSSVars_TestOnly = (): string => html`
     class="calcite-mode-dark"
     dir="rtl"
     open
-    kind=""
     scale="m"
     style="--calcite-modal-height: 500px; --calcite-modal-width: 600px;"
   >

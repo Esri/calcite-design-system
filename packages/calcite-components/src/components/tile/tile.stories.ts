@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -42,11 +42,11 @@ export default {
 
 export const simple = (args: TileArgs): string => html`
   <calcite-tile
-    ${args.active ? "active" : ""}
+    ${boolean("active", args.active)}
     description="${args.description}"
-    ${args.disabled ? "disabled" : ""}
+    ${boolean("disabled", args.disabled)}
     heading="${args.heading}"
-    ${args.hidden ? "hidden" : ""}
+    ${boolean("hidden", args.hidden)}
     href="${args.href}"
     icon="${args.icon}"
     scale="${args.scale}"

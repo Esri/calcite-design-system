@@ -1,3 +1,4 @@
+import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 
@@ -29,8 +30,8 @@ export const simple = (args: NavigationUserArgs): string => html`
     username="${args.userName}"
     thumbnail="${args.thumbnail}"
     user-id="${args.userId}"
-    ${args.textDisabled ? "text-disabled" : ""}
-    ${args.active ? "active" : ""}
+    ${boolean("text-disabled", args.textDisabled)}
+    ${boolean("active", args.active)}
   />
 `;
 

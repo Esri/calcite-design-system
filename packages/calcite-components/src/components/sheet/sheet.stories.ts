@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { logicalFlowPosition, displayMode } = ATTRIBUTES;
@@ -47,7 +47,7 @@ const panelHTML = html`<calcite-panel heading="Ultrices neque"
 export const simple = (args: SheetArgs): string => html`
   <calcite-sheet
     label="libero nunc"
-    ${args.open ? "open" : ""}
+    ${boolean("open", args.open)}
     position="${args.position}"
     display-mode="${args.displayMode}"
     >${panelHTML}</calcite-sheet
@@ -57,7 +57,7 @@ export const simple = (args: SheetArgs): string => html`
 export const simpleDarkMode = (args: SheetArgs): string => html`
   <calcite-sheet
     label="libero nunc"
-    ${args.open ? "open" : ""}
+    ${boolean("open", args.open)}
     position="${args.position}"
     display-mode="${args.displayMode}"
     >${panelHTML}</calcite-sheet

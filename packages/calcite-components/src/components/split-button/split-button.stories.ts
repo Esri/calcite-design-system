@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { appearance, kind, scale, width, iconType } = ATTRIBUTES;
@@ -69,8 +69,8 @@ export const simple = (args: SplitButtonArgs): string => html`
       kind="${args.kind}"
       scale="${args.scale}"
       width="${args.width}"
-      ${args.loading ? "loading" : ""}
-      ${args.disabled ? "disabled" : ""}
+      ${boolean("loading", args.loading)}
+      ${boolean("disabled", args.disabled)}
       primary-icon-start="${args.primaryIconStart}"
       primary-text="${args.primaryText}"
       primary-label="${args.primaryLabel}"

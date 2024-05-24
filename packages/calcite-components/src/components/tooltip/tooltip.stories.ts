@@ -1,6 +1,6 @@
 import { html } from "../../../support/formatting";
 import { placements } from "../../utils/floating-ui";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
 
@@ -37,7 +37,7 @@ export const simple = (args: TooltipArgs): string => html`
       placement="${args.placements}"
       offset-distance="${args.offsetDistance}"
       offset-skidding="${args.offsetSkidding}"
-      ${args.open ? "open" : ""}
+      ${boolean("open", args.open)}
     >
       <span> ${contentHTML} </span>
     </calcite-tooltip>

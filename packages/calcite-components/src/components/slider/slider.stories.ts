@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale } = ATTRIBUTES;
@@ -61,14 +61,14 @@ export const simple = (args: SliderArgs): string => html`
     value="${args.value}"
     step="${args.step}"
     min-label="${args.minLabel}"
-    ${args.disabled ? "disabled" : ""}
-    ${args.labelHandles ? "label-handles" : ""}
-    ${args.labelTicks ? "label-ticks" : ""}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("label-handles", args.labelHandles)}
+    ${boolean("label-ticks", args.labelTicks)}
     ticks="${args.ticks}"
     page-step="${args.pageStep}"
-    ${args.precise ? "precise" : ""}
-    ${args.mirrored ? "mirrored" : ""}
-    ${args.snap ? "snap" : ""}
+    ${boolean("precise", args.precise)}
+    ${boolean("mirrored", args.mirrored)}
+    ${boolean("snap", args.snap)}
     scale="${args.scale}"
   ></calcite-slider>
 `;

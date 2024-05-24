@@ -35,7 +35,7 @@ export const simple = (args: CardGroupArgs): string => html`
       <h3 slot="heading">Portland Businesses</h3>
       <span slot="description"
         >by
-        <calcite-link href="">example_user</calcite-link>
+        <calcite-link>example_user</calcite-link>
       </span>
       <div>
         Created: Apr 22, 2019
@@ -73,7 +73,7 @@ export const simple = (args: CardGroupArgs): string => html`
       <h3 slot="heading">Portland Businesses</h3>
       <span slot="description"
         >by
-        <calcite-link href="">example_user</calcite-link>
+        <calcite-link>example_user</calcite-link>
       </span>
       <div>
         Created: Apr 22, 2019
@@ -100,7 +100,7 @@ export const simple = (args: CardGroupArgs): string => html`
       <img slot="thumbnail" alt="Sample image alt" src="${args.src}" />
       <span slot="description"
         >by
-        <calcite-link href="">example_user</calcite-link>
+        <calcite-link>example_user</calcite-link>
       </span>
       <div>
         Created: Apr 22, 2019
@@ -242,7 +242,7 @@ export const multipleCardHeightsMatchPerRow_TestOnly = (): string => html`
         <h3 slot="heading">Portland Businesses</h3>
         <span slot="description"
           >by
-          <calcite-link href="">example_user</calcite-link>
+          <calcite-link>example_user</calcite-link>
         </span>
         <div>
           Created: Apr 22, 2019
@@ -277,7 +277,7 @@ export const multipleCardHeightsMatchPerRow_TestOnly = (): string => html`
         <h3 slot="heading">Portland Businesses</h3>
         <span slot="description"
           >by
-          <calcite-link href="">example_user</calcite-link>
+          <calcite-link>example_user</calcite-link>
         </span>
         <div>
           Created: Apr 22, 2019

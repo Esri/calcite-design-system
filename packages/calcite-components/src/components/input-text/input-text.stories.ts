@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale, status, alignment } = ATTRIBUTES;
@@ -63,9 +63,9 @@ export const simple = (args: InputTextArgs): string => html`
       alignment="${args.alignment}"
       prefix-text="${args.prefixText}"
       suffix-text="${args.suffixText}"
-      ${args.loading ? "loading" : ""}
-      ${args.clearable ? "clearable" : ""}
-      ${args.disabled ? "disabled" : ""}
+      ${boolean("loading", args.loading)}
+      ${boolean("clearable", args.clearable)}
+      ${boolean("disabled", args.disabled)}
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
@@ -77,17 +77,7 @@ export const simple = (args: InputTextArgs): string => html`
 
 export const withSlottedAction = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-input-text
-      id="input-with-slotted-action"
-      status="idle"
-      alignment="start"
-      prefix-text=""
-      suffix-text=""
-      value=""
-      placeholder="Placeholder text"
-      validation-message=""
-      validation-icon=""
-    >
+    <calcite-input-text id="input-with-slotted-action" status="idle" alignment="start" placeholder="Placeholder text">
       <calcite-button slot="action">Go</calcite-button>
     </calcite-input-text>
   </div>
@@ -99,9 +89,6 @@ export const darkModeRTL_TestOnly = (): string => html`
       id="input-dark-mode"
       status="idle"
       alignment="start"
-      prefix-text=""
-      suffix-text=""
-      value=""
       placeholder="Placeholder text"
       validation-message="This should not appear because the status is not 'invalid'"
     >

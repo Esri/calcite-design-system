@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { textType, alignment, layout, scale, status } = ATTRIBUTES;
@@ -93,9 +93,9 @@ export const simple = (args: InputArgs): string => html`
       step="${args.step}"
       prefix-text="${args.prefixText}"
       suffix-text="${args.suffixText}"
-      ${args.loading ? "loading" : ""}
-      ${args.clearable ? "clearable" : ""}
-      ${args.disabled ? "disabled" : ""}
+      ${boolean("loading", args.loading)}
+      ${boolean("clearable", args.clearable)}
+      ${boolean("disabled", args.disabled)}
       value="${args.value}"
       scale="${args.scale}"
       status="${args.status}"
@@ -116,14 +116,9 @@ export const withSlottedAction = (): string => html`
       min="0"
       max="100"
       step="1"
-      prefix-text=""
-      suffix-text=""
-      value=""
       placeholder="Placeholder text"
       scale="m"
       status="idle"
-      validation-message=""
-      validation-icon=""
     >
       <calcite-button slot="action">Go</calcite-button>
     </calcite-input>
@@ -135,14 +130,10 @@ export const textarea_TestOnly = (): string => html`
     <calcite-input
       id="input-with-text-area"
       type="textarea"
-      prefix-text=""
-      suffix-text=""
-      value=""
       scale="m"
       status="idle"
       placeholder="Placeholder text"
       validation-message="My great input message"
-      validation-icon=""
     >
     </calcite-input>
   </div>
@@ -163,9 +154,6 @@ export const darkModeRTL_TestOnly = (): string => html`
         min="0"
         max="100"
         step="1"
-        prefix-text=""
-        suffix-text=""
-        value=""
         placeholder="Placeholder text"
         validation-message="This should not appear because the status is not 'invalid'"
       >

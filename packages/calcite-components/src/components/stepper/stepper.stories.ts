@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { layout, scale } = ATTRIBUTES;
@@ -64,8 +64,8 @@ export const simple = (args: StepperArgs): string => html`
   <calcite-stepper
     layout="${args.layout}"
     scale="${args.scale}"
-    ${args.numbered ? "numbered" : ""}
-    ${args.icon ? "icon" : ""}
+    ${boolean("numbered", args.numbered)}
+    ${boolean("icon", args.icon)}
   >
     <calcite-stepper-item heading="${args.heading1}" description="${args.description1}" complete>
       <calcite-notice open width="full"><div slot="message">Step 1 Content Goes Here</div></calcite-notice>
@@ -84,8 +84,8 @@ export const simple = (args: StepperArgs): string => html`
   <calcite-stepper
     layout="${args.layout}"
     scale="${args.scale}"
-    ${args.numbered ? "numbered" : ""}
-    ${args.icon ? "icon" : ""}
+    ${boolean("numbered", args.numbered)}
+    ${boolean("icon", args.icon)}
   >
     <calcite-stepper-item heading="${args.heading1}" description="${args.description1}" complete>
     </calcite-stepper-item>
@@ -116,7 +116,6 @@ export const darkModeRTL_TestOnly = (): string => html`
       </calcite-stepper-item>
       <calcite-stepper-item
         heading="Compile member list"
-        description=""
         complete
         error
       >
@@ -124,7 +123,6 @@ export const darkModeRTL_TestOnly = (): string => html`
       </calcite-stepper-item>
       <calcite-stepper-item
         heading="Set member properties"
-        description=""
         selected
       >
         <calcite-notice open width="full"><div slot="message">Step 3 Constent Goes Here</div></calcite-notice>
@@ -154,12 +152,12 @@ export const overriddenWidth_TestOnly = (): string =>
         <div slot="message">Step 2 Content Goes Here</div>
       </calcite-notice>
     </calcite-stepper-item>
-    <calcite-stepper-item heading="Set member properties" description="" selected>
+    <calcite-stepper-item heading="Set member properties" selected>
       <calcite-notice open width="full">
         <div slot="message">Step 3 Content Goes Here</div>
       </calcite-notice>
     </calcite-stepper-item>
-    <calcite-stepper-item heading="Confirm and complete" description="Disabled example" disabled="">
+    <calcite-stepper-item heading="Confirm and complete" description="Disabled example" disabled>
       <calcite-notice open width="full">
         <div slot="message">Step 4 Content Goes Here</div>
       </calcite-notice>

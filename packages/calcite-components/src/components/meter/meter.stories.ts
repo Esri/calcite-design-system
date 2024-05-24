@@ -1,5 +1,5 @@
 import { html } from "../../../support/formatting";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { fillType, appearance, labelType } = ATTRIBUTES;
 
@@ -69,9 +69,9 @@ export const simple = (args: MeterArgs): string =>
     range-label-type="${args.rangeLabelType}"
     value-label-type="${args.valueLabelType}"
     unit-label="${args.unitLabel}"
-    ${args.groupSeparator ? "group-separator" : ""}
-    ${args.rangeLabels ? "range-labels" : ""}
-    ${args.valueLabel ? "value-label" : ""}
+    ${boolean("group-separator", args.groupSeparator)}
+    ${boolean("range-labels", args.rangeLabels)}
+    ${boolean("value-label", args.valueLabel)}
   ></calcite-meter>`;
 
 export const complex = (): string =>

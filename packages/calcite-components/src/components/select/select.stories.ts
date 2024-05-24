@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -54,7 +54,7 @@ export default {
 export const simple = (args: SelectArgs): string => html`
   <div style="width:260px">
     <calcite-select
-      ${args.selectDisabled ? "disabled" : ""}
+      ${boolean("disabled", args.selectDisabled)}
       status="${args.status}"
       width="${args.width}"
       scale="${args.scale}"
@@ -62,9 +62,9 @@ export const simple = (args: SelectArgs): string => html`
       validation-icon="${args.validationIcon}"
     >
       <calcite-option
-        ${args.optionDisabled ? "disabled" : ""}
+        ${boolean("disabled", args.optionDisabled)}
         label="${args.label}"
-        ${args.selected ? "selected" : ""}
+        ${boolean("selected", args.selected)}
         value="${args.value}"
       ></calcite-option>
       <calcite-option
@@ -78,7 +78,7 @@ export const simple = (args: SelectArgs): string => html`
 `;
 
 export const grouped = (): string => html`
-  <calcite-select status="idle" width="auto" scale="m" validation-message="" validation-icon="">
+  <calcite-select status="idle" width="auto" scale="m">
     <calcite-option-group label="My fancy group label">
       <calcite-option label="fancy label" value="value"></calcite-option>
       <calcite-option label="some fixed option (A)" value="some-fixed-value-a"></calcite-option>
@@ -92,32 +92,15 @@ export const grouped = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-select
-    status="idle"
-    width="auto"
-    scale="m"
-    validation-message=""
-    validation-icon=""
-    dir="rtl"
-    class="calcite-mode-dark"
-    calcite-hydrated=""
-  >
-    <calcite-option-group label="My fancy group label" calcite-hydrated="">
-      <calcite-option label="fancy label" value="value" selected="" calcite-hydrated=""></calcite-option>
-      <calcite-option label="some fixed option (A)" value="some-fixed-value-a" calcite-hydrated=""></calcite-option>
-      <calcite-option
-        label="another fixed option (A)"
-        value="another-fixed-value-a"
-        calcite-hydrated=""
-      ></calcite-option>
+  <calcite-select status="idle" width="auto" scale="m" dir="rtl" class="calcite-mode-dark">
+    <calcite-option-group label="My fancy group label">
+      <calcite-option label="fancy label" value="value"></calcite-option>
+      <calcite-option label="some fixed option (A)" value="some-fixed-value-a"></calcite-option>
+      <calcite-option label="another fixed option (A)" value="another-fixed-value-a"></calcite-option>
     </calcite-option-group>
-    <calcite-option-group label="group B (fixed)" calcite-hydrated="">
-      <calcite-option label="some fixed option (B)" value="some-fixed-value-b" calcite-hydrated=""></calcite-option>
-      <calcite-option
-        label="another fixed option (B)"
-        value="another-fixed-value-b"
-        calcite-hydrated=""
-      ></calcite-option>
+    <calcite-option-group label="group B (fixed)">
+      <calcite-option label="some fixed option (B)" value="some-fixed-value-b"></calcite-option>
+      <calcite-option label="another fixed option (B)" value="another-fixed-value-b"></calcite-option>
     </calcite-option-group>
   </calcite-select>
 `;

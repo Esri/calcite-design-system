@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -64,8 +64,8 @@ export const simple = (args: DropdownArgs): string => html`
     scale="${args.scale}"
     width-scale="${args.widthScale}"
     type="${args.type}"
-    ${args.closeOnSelectDisabled ? "close-on-select-disabled" : ""}
-    ${args.disabled ? "disabled" : ""}
+    ${boolean("close-on-select-disabled", args.closeOnSelectDisabled)}
+    ${boolean("disabled", args.disabled)}
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="${args.selectionMode}" group-title="Sort by">

@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { SLOTS } from "./resources";
@@ -79,14 +79,14 @@ const flowItemContent = `${headerHTML}
 
 export const simple = (args: FlowItemArgs): string => html`
   <calcite-flow-item
-    ${args.closed ? "closed" : ""}
-    ${args.disabled ? "disabled" : ""}
-    ${args.closable ? "closable" : ""}
-    ${args.collapsible ? "collapsible" : ""}
-    ${args.collapsed ? "collapsed" : ""}
+    ${boolean("closed", args.closed)}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("closable", args.closable)}
+    ${boolean("collapsible", args.collapsible)}
+    ${boolean("collapsed", args.collapsed)}
     collapse-direction="${args.collapseDirection}"
     height-scale="${args.heightScale}"
-    ${args.loading ? "loading" : ""}
+    ${boolean("loading", args.loading)}
   >
     ${headerHTML}
     <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>

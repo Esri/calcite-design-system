@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { appearance, kind, scale, width } = ATTRIBUTES;
@@ -54,10 +54,10 @@ export const simple = (args: ButtonArgs): string => html`
     appearance="${args.appearance}"
     kind="${args.kind}"
     scale="${args.scale}"
-    ${args.round ? "round" : ""}
+    ${boolean("round", args.round)}
     href="${args.href}"
-    ${args.loading ? "loading" : ""}
-    ${args.disabled ? "disabled" : ""}
+    ${boolean("loading", args.loading)}
+    ${boolean("disabled", args.disabled)}
     width="${args.width}"
   >
     ${args.text}
@@ -71,7 +71,6 @@ export const withIconStart = (): string => html`
     kind="brand"
     icon-start="${iconNames[0]}"
     scale="m"
-    href=""
     type="button"
     width="auto"
   >
@@ -82,15 +81,7 @@ export const withIconStart = (): string => html`
 withIconStart.storyName = "With icon-start";
 
 export const withIconEnd = (): string => html`
-  <calcite-button
-    alignment="center"
-    appearance="solid"
-    icon-end="${iconNames[0]}"
-    kind="brand"
-    scale="m"
-    href=""
-    width="auto"
-  >
+  <calcite-button alignment="center" appearance="solid" icon-end="${iconNames[0]}" kind="brand" scale="m" width="auto">
     button text here
   </calcite-button>
 `;
@@ -105,7 +96,6 @@ export const withIconStartAndIconEnd = (): string => html`
     icon-start="${iconNames[0]}"
     icon-end="${iconNames[0]}"
     scale="m"
-    href=""
     width="auto"
     type="button"
   >
@@ -147,15 +137,7 @@ withIconEndEmpty_TestOnly.storyName = "With icon-end set to empty";
 
 export const sideBySide_TestOnly = (): string => html`
   <div style="width: 300px; max-width: 100%; display: flex; flex-direction: row; background-color: #fff">
-    <calcite-button
-      width="half"
-      appearance="outline-fill"
-      kind="brand"
-      alignment="center"
-      scale="m"
-      type="button"
-      calcite-hydrated=""
-    >
+    <calcite-button width="half" appearance="outline-fill" kind="brand" alignment="center" scale="m" type="button">
       Back
     </calcite-button>
     <calcite-button
@@ -179,7 +161,6 @@ export const darkModeRTL_TestOnly = (): string => html`
     appearance="solid"
     kind="brand"
     scale="m"
-    href=""
     icon-start="${iconNames[0]}"
     icon-end="${iconNames[0]}"
     alignment="center"

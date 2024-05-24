@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale, width, kind } = ATTRIBUTES;
@@ -54,9 +54,9 @@ export default {
 export const simple = (args: NoticeArgs): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
-      ${args.icon ? "icon" : ""}
-      ${args.open ? "open" : ""}
-      ${args.closable ? "closable" : ""}
+      icon="${args.icon}"
+      ${boolean("open", args.open)}
+      ${boolean("closable", args.closable)}
       scale="${args.noticeScale}"
       width="${args.width}"
       kind="${args.kind}"

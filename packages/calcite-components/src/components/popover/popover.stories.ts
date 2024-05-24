@@ -1,3 +1,4 @@
+import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placements } from "../../utils/floating-ui";
 import { defaultPopoverPlacement } from "../popover/resources";
@@ -54,14 +55,14 @@ export const simple = (args: PopoverArgs): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
-      ${args.closable ? "closable" : ""}
-      ${args.flipDisabled ? "flip-disabled" : ""}
-      ${args.pointerDisabled ? "pointer-disabled" : ""}
+      ${boolean("closable", args.closable)}
+      ${boolean("flip-disabled", args.flipDisabled)}
+      ${boolean("pointer-disabled", args.pointerDisabled)}
       reference-element="reference-element"
       placement="${args.placement}"
       offset-distance="${args.offsetDistance}"
       offset-skidding="${args.offsetSkidding}"
-      ${args.open ? "open" : ""}
+      ${boolean("open", args.open)}
       text-close="${args.textClose}"
     >
       ${contentHTML}

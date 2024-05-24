@@ -1,3 +1,4 @@
+import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../panel/resources";
 
@@ -116,19 +117,19 @@ const item2HTML = html`
 export const simple = (args: FlowArgs): string => html`
   <calcite-flow>
     <calcite-flow-item
-      ${args.disabled ? "disabled" : ""}
+      ${boolean("disabled", args.disabled)}
       heading="${args.heading}"
-      ${args.loading ? "loading" : ""}
-      ${args.menuOpen ? "menu-open" : ""}
+      ${boolean("loading", args.loading)}
+      ${boolean("menu-open", args.menuOpen)}
       description="${args.description}"
     >
       ${createItemHTML(item1HTML)}
     </calcite-flow-item>
     <calcite-flow-item
-      ${args.disabled ? "disabled" : ""}
+      ${boolean("disabled", args.disabled)}
       heading="${args.heading}"
-      ${args.loading ? "loading" : ""}
-      ${args.menuOpen ? "menu-open" : ""}
+      ${boolean("loading", args.loading)}
+      ${boolean("menu-open", args.menuOpen)}
       description="${args.description}"
     >
       ${createItemHTML(item2HTML)}

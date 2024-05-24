@@ -1,35 +1,86 @@
 import { placeholderImage } from "../.storybook/placeholderImage";
 
+interface CustomThemeArgs {
+  calciteColorBrand: string;
+  calciteColorBrandHover: string;
+  calciteColorBrandPress: string;
+  calciteColorStatusInfo: string;
+  calciteColorStatusSuccess: string;
+  calciteColorStatusWarning: string;
+  calciteColorStatusDanger: string;
+  calciteColorStatusDangerHover: string;
+  calciteColorStatusDangerPress: string;
+  calciteColorBackground: string;
+  calciteColorForeground1: string;
+  calciteColorForeground2: string;
+  calciteColorForeground3: string;
+  calciteColorText1: string;
+  calciteColorText2: string;
+  calciteColorText3: string;
+  calciteColorTextInverse: string;
+  calciteColorTextLink: string;
+  calciteColorBorder1: string;
+  calciteColorBorder2: string;
+  calciteColorBorder3: string;
+  calciteColorBorderInput: string;
+  calciteUiIconColor: string;
+}
+
 export default {
   title: "Theming/Custom Theme",
+  args: {
+    calciteColorBrand: "#007ac2",
+    calciteColorBrandHover: "#00619b",
+    calciteColorBrandPress: "#004874",
+    calciteColorStatusInfo: "#00619b",
+    calciteColorStatusSuccess: "#35ac46",
+    calciteColorStatusWarning: "#edd317",
+    calciteColorStatusDanger: "#d83020",
+    calciteColorStatusDangerHover: "#a82b1e",
+    calciteColorStatusDangerPress: "#7c1d13",
+    calciteColorBackground: "#f8f8f8",
+    calciteColorForeground1: "#ffffff",
+    calciteColorForeground2: "#f3f3f3",
+    calciteColorForeground3: "#eaeaea",
+    calciteColorText1: "#151515",
+    calciteColorText2: "#4a4a4a",
+    calciteColorText3: "#6a6a6a",
+    calciteColorTextInverse: "#ffffff",
+    calciteColorTextLink: "#00619b",
+    calciteColorBorder1: "#cacaca",
+    calciteColorBorder2: "#d4d4d4",
+    calciteColorBorder3: "#dfdfdf",
+    calciteColorBorderInput: "#949494",
+    calciteUiIconColor: "currentColor",
+  },
 };
 
-export const themingInteractive = (): string => {
+export const themingInteractive = (args: CustomThemeArgs): string => {
   return `<div
     style="
-      --calcite-color-brand: ${"#007ac2"};
-      --calcite-color-brand-hover: ${"#00619b"};
-      --calcite-color-brand-press: ${"#004874"};
-      --calcite-color-status-info: ${"#00619b"};
-      --calcite-color-status-success: ${"#35ac46"};
-      --calcite-color-status-warning: ${"#edd317"};
-      --calcite-color-status-danger: ${"#d83020"};
-      --calcite-color-status-danger-hover: ${"#a82b1e"};
-      --calcite-color-status-danger-press: ${"#7c1d13"};
-      --calcite-color-background: ${"#f8f8f8"};
-      --calcite-color-foreground-1: ${"#ffffff"};
-      --calcite-color-foreground-2: ${"#f3f3f3"};
-      --calcite-color-foreground-3: ${"#eaeaea"};
-      --calcite-color-text-1: ${"#151515"};
-      --calcite-color-text-2: ${"#4a4a4a"};
-      --calcite-color-text-3: ${"#6a6a6a"};
-      --calcite-color-text-inverse: ${"#ffffff"};
-      --calcite-color-text-link: ${"#00619b"};
-      --calcite-color-border-1: ${"#cacaca"};
-      --calcite-color-border-2: ${"#d4d4d4"};
-      --calcite-color-border-3: ${"#dfdfdf"};
-      --calcite-color-border-input: ${"#949494"};
-      --calcite-ui-icon-color: ${"currentColor"};
+      --calcite-color-brand: ${args.calciteColorBrand};
+      --calcite-color-brand-hover: ${args.calciteColorBrandHover};
+      --calcite-color-brand-press: ${args.calciteColorBrandPress};
+      --calcite-color-status-info: ${args.calciteColorStatusInfo};
+      --calcite-color-status-success: ${args.calciteColorStatusSuccess};
+      --calcite-color-status-warning: ${args.calciteColorStatusWarning};
+      --calcite-color-status-danger: ${args.calciteColorStatusDanger};
+      --calcite-color-status-danger-hover: ${args.calciteColorStatusDangerHover};
+      --calcite-color-status-danger-press: ${args.calciteColorStatusDangerPress};
+      --calcite-color-background: ${args.calciteColorBackground};
+      --calcite-color-foreground-1: ${args.calciteColorForeground1};
+      --calcite-color-foreground-2: ${args.calciteColorForeground2};
+      --calcite-color-foreground-3: ${args.calciteColorForeground3};
+      --calcite-color-text-1: ${args.calciteColorText1};
+      --calcite-color-text-2: ${args.calciteColorText2};
+      --calcite-color-text-3: ${args.calciteColorText3};
+      --calcite-color-text-inverse: ${args.calciteColorTextInverse};
+      --calcite-color-text-link: ${args.calciteColorTextLink};
+      --calcite-color-border-1: ${args.calciteColorBorder1};
+      --calcite-color-border-2: ${args.calciteColorBorder2};
+      --calcite-color-border-3: ${args.calciteColorBorder3};
+      --calcite-color-border-input: ${args.calciteColorBorderInput};
+      --calcite-ui-icon-color: ${args.calciteUiIconColor};
     "
   >
     <style>

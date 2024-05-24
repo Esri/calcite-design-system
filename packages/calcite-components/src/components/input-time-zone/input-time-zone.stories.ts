@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { mode, scale, status } = ATTRIBUTES;
@@ -52,7 +52,7 @@ export default {
 
 export const simple = (args: InputTimeZoneArgs): string => html`
   <calcite-input-time-zone
-    ${args.disabled ? "disabled" : ""}
+    ${boolean("disabled", args.disabled)}
     mode="${args.mode}"
     scale="${args.scale}"
     status="${args.status}"
@@ -67,8 +67,8 @@ export const clearable = (): string => html`
   <calcite-input-time-zone mode="name" clearable></calcite-input-time-zone>
   <br />
   <label>initialized as empty</label>
-  <calcite-input-time-zone mode="offset" clearable value=""></calcite-input-time-zone>
-  <calcite-input-time-zone mode="name" clearable value=""></calcite-input-time-zone>
+  <calcite-input-time-zone mode="offset" clearable></calcite-input-time-zone>
+  <calcite-input-time-zone mode="name" clearable></calcite-input-time-zone>
 `;
 
 clearable.parameters = { chromatic: { delay: 500 } };

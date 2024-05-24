@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ICONS } from "./resources";
@@ -42,12 +42,12 @@ export default {
 export const simple = (args: FabArgs): string => html`
   <calcite-fab
     appearance="${args.appearance}"
-    ${args.disabled ? "disabled" : ""}
+    ${boolean("disabled", args.disabled)}
     icon="${args.icon}"
     label="${args.label}"
-    ${args.loading ? "loading" : ""}
+    ${boolean("loading", args.loading)}
     text="${args.text}"
-    ${args.textEnabled ? "text-enabled" : ""}
+    ${boolean("text-enabled", args.textEnabled)}
     scale="${args.scale}"
   ></calcite-fab>
 `;

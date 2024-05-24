@@ -1,5 +1,5 @@
 import { html } from "../../../support/formatting";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { interactionMode, selectionMode, scale, layout } = ATTRIBUTES;
 
@@ -75,9 +75,9 @@ export const simple = (args: TableArgs): string => html`
     scale="${args.scale}"
     layout="${args.layout}"
     caption="${args.caption}"
-    ${args.numbered ? "numbered" : ""}
-    ${args.bordered ? "bordered" : ""}
-    ${args.striped ? "striped" : ""}
+    ${boolean("numbered", args.numbered)}
+    ${boolean("bordered", args.bordered)}
+    ${boolean("striped", args.striped)}
   >
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>

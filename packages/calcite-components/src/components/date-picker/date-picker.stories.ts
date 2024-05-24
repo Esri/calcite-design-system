@@ -1,4 +1,4 @@
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { locales, defaultLocale } from "../../utils/locale";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -55,9 +55,7 @@ export const simple = (args: DatePickerArgs): string => html`
       lang="${args.lang}"
       max="${args.max}"
       min="${args.min}"
-      next-month-label=""
-      prev-month-label=""
-      ${args.range ? "range" : ""}
+      ${boolean("range", args.range)}
       scale="${args.scale}"
       value="${args.value}"
     ></calcite-date-picker>
@@ -67,12 +65,8 @@ export const simple = (args: DatePickerArgs): string => html`
 export const range = (): string => html`
   <div style="width: 400px">
     <calcite-date-picker
-      dir=""
       lang="${defaultLocale}"
-      max=""
       min="2016-08-09"
-      next-month-label=""
-      prev-month-label=""
       range
       scale="m"
       value="2020-02-28"
@@ -105,10 +99,6 @@ export const darkModeRTL_TestOnly = (): string => html`
       dir="rtl"
       class="calcite-mode-dark"
       lang="${defaultLocale}"
-      max=""
-      min=""
-      next-month-label=""
-      prev-month-label=""
       scale="m"
       value="2020-02-28"
     ></calcite-date-picker>
@@ -119,122 +109,49 @@ darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const bgLang_TestOnly = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker
-      dir=""
-      lang="bg"
-      max=""
-      min=""
-      next-month-label=""
-      prev-month-label=""
-      scale="m"
-      value="2020-02-28"
-    ></calcite-date-picker>
+    <calcite-date-picker lang="bg" scale="m" value="2020-02-28"></calcite-date-picker>
   </div>
 `;
 
 export const ptPTLang_TestOnly = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker
-      dir=""
-      lang="pt-PT"
-      max=""
-      min=""
-      next-month-label=""
-      prev-month-label=""
-      scale="m"
-      value="2020-02-28"
-    ></calcite-date-picker>
+    <calcite-date-picker lang="pt-PT" scale="m" value="2020-02-28"></calcite-date-picker>
   </div>
 `;
 
 export const germanLang_TestOnly = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker
-      dir=""
-      lang="de"
-      max=""
-      min=""
-      next-month-label=""
-      prev-month-label=""
-      scale="m"
-      value="2022-08-11"
-    ></calcite-date-picker>
+    <calcite-date-picker lang="de" scale="m" value="2022-08-11"></calcite-date-picker>
   </div>
 `;
 
 export const spanishLang_TestOnly = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker
-      dir=""
-      lang="es"
-      max=""
-      min=""
-      next-month-label=""
-      prev-month-label=""
-      scale="m"
-      value="2023-05-11"
-    ></calcite-date-picker>
+    <calcite-date-picker lang="es" scale="m" value="2023-05-11"></calcite-date-picker>
   </div>
 `;
 
 export const norwegianLang_TestOnly = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker
-      dir=""
-      lang="nb"
-      max=""
-      min=""
-      next-month-label=""
-      prev-month-label=""
-      scale="m"
-      value="2023-05-11"
-    ></calcite-date-picker>
+    <calcite-date-picker lang="nb" scale="m" value="2023-05-11"></calcite-date-picker>
   </div>
 `;
 
 export const britishLang_TestOnly = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker
-      dir=""
-      lang="en-gb"
-      max=""
-      min=""
-      next-month-label=""
-      prev-month-label=""
-      scale="m"
-      value="2024-01-11"
-    ></calcite-date-picker>
+    <calcite-date-picker lang="en-gb" scale="m" value="2024-01-11"></calcite-date-picker>
   </div>
 `;
 
 export const chineseLang_TestOnly = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker
-      dir=""
-      lang="zh-cn"
-      max=""
-      min=""
-      next-month-label=""
-      prev-month-label=""
-      scale="m"
-      value="2024-01-11"
-    ></calcite-date-picker>
+    <calcite-date-picker lang="zh-cn" scale="m" value="2024-01-11"></calcite-date-picker>
   </div>
 `;
 
 export const arabLangNumberingSystem_TestOnly = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker
-      dir=""
-      lang="ar"
-      numbering-system="arab"
-      max=""
-      min=""
-      next-month-label=""
-      prev-month-label=""
-      scale="m"
-      value="2022-08-11"
-    ></calcite-date-picker>
+    <calcite-date-picker lang="ar" numbering-system="arab" scale="m" value="2022-08-11"></calcite-date-picker>
   </div>
 `;
 

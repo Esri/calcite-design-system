@@ -1,3 +1,4 @@
+import { boolean } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 
@@ -35,34 +36,25 @@ export const simple = (args: MenuItemArgs): string => html`
       rel="${args.rel}"
       target="${args.target}"
       label="${args.label}"
-      ${args.active ? "active" : ""}
-      ${args.breadcrumb ? "breadcrumb" : ""}
+      ${boolean("active", args.active)}
+      ${boolean("breadcrumb", args.breadcrumb)}
     />
   </calcite-menu>
 `;
 
 export const iconStart = (): string =>
   html`<calcite-menu>
-    <calcite-menu-item text="Menu item" src="" href="" rel="" target="" label="" icon-start="${iconNames[0]}" />
+    <calcite-menu-item text="Menu item" icon-start="${iconNames[0]}" />
   </calcite-menu>`;
 
 export const iconEnd = (): string =>
   html`<calcite-menu>
-    <calcite-menu-item text="Menu item" src="" href="" rel="" target="" label="" icon-end="${iconNames[0]}" />
+    <calcite-menu-item text="Menu item" icon-end="${iconNames[0]}" />
   </calcite-menu>`;
 
 export const iconsBoth = (): string =>
   html`<calcite-menu>
-    <calcite-menu-item
-      text="Menu item"
-      src=""
-      href=""
-      rel=""
-      target=""
-      label=""
-      icon-end="${iconNames[0]}"
-      icon-start="${iconNames[0]}"
-    />
+    <calcite-menu-item text="Menu item" icon-end="${iconNames[0]}" icon-start="${iconNames[0]}" />
   </calcite-menu>`;
 
 export const allIconsAndSubMenu_TestOnly = (): string =>

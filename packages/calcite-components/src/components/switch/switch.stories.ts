@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale } = ATTRIBUTES;
@@ -28,8 +28,8 @@ export const simple = (args: SwitchArgs): string => html`
   <calcite-switch
     name="setting"
     value="enabled"
-    ${args.checked ? "checked" : ""}
-    ${args.disabled ? "disabled" : ""}
+    ${boolean("checked", args.checked)}
+    ${boolean("disabled", args.disabled)}
     scale="${args.scale}"
   ></calcite-switch>
 `;

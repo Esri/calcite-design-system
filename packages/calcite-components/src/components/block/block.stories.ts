@@ -1,3 +1,4 @@
+import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -45,13 +46,17 @@ export const simple = (args: BlockArgs): string => html`
   <calcite-block
     heading="${args.heading}"
     description="${args.description}"
-    ${args.blockOpen ? "open" : ""}
-    ${args.collapsible ? "collapsible" : ""}
-    ${args.loading ? "loading" : ""}
-    ${args.disabled ? "disabled" : ""}
+    ${boolean("open", args.blockOpen)}
+    ${boolean("collapsible", args.collapsible)}
+    ${boolean("loading", args.loading)}
+    ${boolean("disabled", args.disabled)}
     heading-level="${args.headingLevel}"
   >
-    <calcite-block-section text="${args.text}" ${args.sectionOpen ? "open" : ""} toggle-display="${args.toggleDisplay}">
+    <calcite-block-section
+      text="${args.text}"
+      ${boolean("open", args.sectionOpen)}
+      toggle-display="${args.toggleDisplay}"
+    >
       <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
     </calcite-block-section>
     <calcite-block-section text="Nature" open>

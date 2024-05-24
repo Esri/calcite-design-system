@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { SLOTS } from "./resources";
@@ -79,14 +79,14 @@ const panelContent = `${headerHTML}
 
 export const simple = (args: PanelArgs): string => html`
   <calcite-panel
-    ${args.closed ? "closed" : ""}
-    ${args.disabled ? "disabled" : ""}
-    ${args.closable ? "closable" : ""}
-    ${args.collapsed ? "collapsed" : ""}
-    ${args.collapsible ? "collapsible" : ""}
+    ${boolean("closed", args.closed)}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("closable", args.closable)}
+    ${boolean("collapsed", args.collapsed)}
+    ${boolean("collapsible", args.collapsible)}
     collapseDirection="${args.collapseDirection}"
     heightScale="${args.heightScale}"
-    ${args.loading ? "loading" : ""}
+    ${boolean("loading", args.loading)}
   >
     ${headerHTML}
     <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>

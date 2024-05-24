@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { arrowType } = ATTRIBUTES;
@@ -34,9 +34,9 @@ export const simple = (args: CarouselArgs): string =>
   html` <div style="width:600px;height:400px;">
     <calcite-carousel
       control-overlay="${args.controlOverlay}"
-      ${args.disabled ? "disabled" : ""}
+      ${boolean("disabled", args.disabled)}
       autoplay-duration="${args.autoPlayDuration}"
-      ${args.autoPlay ? "autoplay" : ""}
+      ${boolean("autoplay", args.autoPlay)}
       label="${args.label}"
       arrow-type="${args.arrowType}"
     >

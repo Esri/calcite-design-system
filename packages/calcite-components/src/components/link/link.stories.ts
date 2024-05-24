@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import * as icons from "../../../../../node_modules/@esri/calcite-ui-icons";
 import { html } from "../../../support/formatting";
 
@@ -39,7 +39,7 @@ export default {
 export const simple = (args: LinkArgs): string => html`
   <div style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight};">
     Some wrapping text
-    <calcite-link href="${args.href}" ${args.disabled ? "disabled" : ""}> ${args.text}</calcite-link>
+    <calcite-link href="${args.href}" ${boolean("disabled", args.disabled)}> ${args.text}</calcite-link>
     around the link
   </div>
 `;
@@ -47,7 +47,7 @@ export const simple = (args: LinkArgs): string => html`
 export const iconStart = (): string => html`
   <div style="font-size: 16px; font-weight: 400;">
     Some wrapping text
-    <calcite-link href="" icon-start="${iconNames[0]}"> link text here</calcite-link>
+    <calcite-link icon-start="${iconNames[0]}"> link text here</calcite-link>
     around the link
   </div>
 `;
@@ -55,7 +55,7 @@ export const iconStart = (): string => html`
 export const iconEnd = (): string => html`
   <div style="font-size: 16px; font-weight: 400;">
     Some wrapping text
-    <calcite-link href="" icon-end="${iconNames[0]}"> link text here</calcite-link>
+    <calcite-link icon-end="${iconNames[0]}"> link text here</calcite-link>
     around the link
   </div>
 `;
@@ -63,7 +63,7 @@ export const iconEnd = (): string => html`
 export const iconStartAndIconEnd = (): string => html`
   <div style="font-size: 16px; font-weight: 400;">
     Some wrapping text
-    <calcite-link href="" icon-start="${iconNames[0]}" icon-end="${iconNames[0]}"> link text here</calcite-link>
+    <calcite-link icon-start="${iconNames[0]}" icon-end="${iconNames[0]}"> link text here</calcite-link>
     around the link
   </div>
 `;
@@ -71,7 +71,7 @@ export const iconStartAndIconEnd = (): string => html`
 export const darkModeRTL_TestOnly = (): string => html`
   <div class="calcite-mode-dark" dir="rtl" style="color: white; font-size: 16px; font-weight: 400;">
     Some wrapping text
-    <calcite-link class="calcite-mode-dark" href="">link text here</calcite-link>
+    <calcite-link class="calcite-mode-dark">link text here</calcite-link>
     around the link
   </div>
 `;

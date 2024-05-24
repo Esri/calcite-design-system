@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale, status, alignment, layout } = ATTRIBUTES;
@@ -87,9 +87,9 @@ export const simple = (args: InputNumberArgs): string => html`
       step="${args.step}"
       prefix-text="${args.prefixText}"
       suffix-text="${args.suffixText}"
-      ${args.loading ? "loading" : ""}
-      ${args.clearable ? "clearable" : ""}
-      ${args.disabled ? "disabled" : ""}
+      ${boolean("loading", args.loading)}
+      ${boolean("clearable", args.clearable)}
+      ${boolean("disabled", args.disabled)}
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
@@ -109,12 +109,7 @@ export const withSlottedAction = (): string => html`
       min="0"
       max="100"
       step="1"
-      prefix-text=""
-      suffix-text=""
-      value=""
       placeholder="Placeholder text"
-      validation-message=""
-      validation-icon=""
     >
       <calcite-button slot="action">Go</calcite-button>
     </calcite-input-number>
@@ -133,9 +128,6 @@ export const darkModeRTL_TestOnly = (): string => html`
         min="0"
         max="100"
         step="1"
-        prefix-text=""
-        suffix-text=""
-        value=""
         placeholder="Placeholder text"
         validation-message="This should not appear because the status is not 'invalid'"
       >

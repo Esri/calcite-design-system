@@ -1,3 +1,4 @@
+import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -49,7 +50,7 @@ export default {
 export const simple = (args: TitleGroupArgs): string => html`
   <calcite-tile-group
     dir="${args.dir}"
-    ${args.disabled ? "disabled" : ""}
+    ${boolean("disabled", args.disabled)}
     layout="${args.layout}"
     scale="${args.scale}"
   >

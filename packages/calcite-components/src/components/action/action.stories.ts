@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -58,18 +58,18 @@ export default {
 export const simple = (args: ActionArgs): string => html`
   <div>
     <calcite-action
-      ${args.active ? "active" : ""}
+      ${boolean("active", args.active)}
       alignment="${args.alignment}"
       appearance="${args.appearance}"
-      ${args.compact ? "compact" : ""}
-      ${args.disabled ? "disabled" : ""}
+      ${boolean("compact", args.compact)}
+      ${boolean("disabled", args.disabled)}
       icon="${args.icon}"
-      ${args.indicator ? "indicator" : ""}
+      ${boolean("indicator", args.indicator)}
       label="${args.label}"
-      ${args.loading ? "loading" : ""}
+      ${boolean("loading", args.loading)}
       scale="${args.scale}"
       text="${args.text}"
-      ${args.textEnabled ? "text-enabled style" : ""}
+      ${boolean("text-enabled style", args.textEnabled)}
     ></calcite-action>
   </div>
 `;

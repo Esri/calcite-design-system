@@ -1,3 +1,4 @@
+import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 
@@ -21,7 +22,7 @@ export const simple = (args: NavigationLogoArgs): string =>
     description="${args.description}"
     heading="${args.heading}"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-    ${args.active ? "active" : ""}
+    ${boolean("active", args.active)}
   />`;
 
 export const heading_TestOnly = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" />`;

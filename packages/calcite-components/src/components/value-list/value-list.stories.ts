@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
 interface ValueListArgs {
@@ -23,24 +23,17 @@ export default {
 };
 
 const action = html`
-  <calcite-action
-    slot="actions-end"
-    label="click-me"
-    onClick="console.log('clicked');"
-    appearance="outline"
-    scale="s"
-    icon="ellipsis"
-  ></calcite-action>
+  <calcite-action slot="actions-end" label="click-me" appearance="outline" scale="s" icon="ellipsis"></calcite-action>
 `;
 
 export const simple = (args: ValueListArgs): string => html`
   <calcite-value-list
-    ${args.disabled ? "disabled" : ""}
-    ${args.dragEnabled ? "drag-enabled" : ""}
-    ${args.filterEnabled ? "filter-enabled" : ""}
-    ${args.loading ? "loading" : ""}
-    ${args.multiple ? "multiple" : ""}
-    ${args.selectionFollowsFocus ? "selection-follows-focus" : ""}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("drag-enabled", args.dragEnabled)}
+    ${boolean("filter-enabled", args.filterEnabled)}
+    ${boolean("loading", args.loading)}
+    ${boolean("multiple", args.multiple)}
+    ${boolean("selection-follows-focus", args.selectionFollowsFocus)}
   >
     <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">
       ${action}
@@ -77,7 +70,6 @@ export const darkModeRTL_TestOnly = (): string => html`
       <calcite-action
         slot="actions-end"
         label="click-me"
-        onclick="console.log('clicked');"
         appearance="outline"
         scale="s"
         icon="ellipsis"
@@ -87,7 +79,6 @@ export const darkModeRTL_TestOnly = (): string => html`
       <calcite-action
         slot="actions-end"
         label="click-me"
-        onclick="console.log('clicked');"
         appearance="outline"
         scale="s"
         icon="ellipsis"
@@ -101,7 +92,6 @@ export const darkModeRTL_TestOnly = (): string => html`
       <calcite-action
         slot="actions-end"
         label="click-me"
-        onclick="console.log('clicked');"
         appearance="outline"
         scale="s"
         icon="ellipsis"

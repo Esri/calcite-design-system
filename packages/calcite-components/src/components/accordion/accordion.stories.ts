@@ -125,22 +125,16 @@ export const withActions = (): string => html`
 
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-accordion scale="m" appearance="solid" selection-mode="multiple" class="calcite-mode-dark" dir="rtl">
-    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" icon-end="">
+    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
       ${accordionItemContent}
     </calcite-accordion-item>
-    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" icon-end="">
+    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
       ${accordionItemContent}
     </calcite-accordion-item>
-    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" icon-end="">
+    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
       ${accordionItemContent}
     </calcite-accordion-item>
-    <calcite-accordion-item
-      heading="Heading"
-      description="Description for item"
-      icon-start="banana"
-      icon-end=""
-      expanded
-    >
+    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" expanded>
       ${accordionItemContent}
     </calcite-accordion-item>
   </calcite-accordion>
@@ -150,16 +144,16 @@ darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const transparentAppearance_TestOnly = (): string => html`
   <calcite-accordion scale="m" selection-mode="multiple" appearance="transparent">
-    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="" icon-end="">
+    <calcite-accordion-item heading="Heading" description="Description for item">
       ${accordionItemContent}
     </calcite-accordion-item>
-    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="" icon-end="">
+    <calcite-accordion-item heading="Heading" description="Description for item">
       ${accordionItemContent}
     </calcite-accordion-item>
-    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="" icon-end="">
+    <calcite-accordion-item heading="Heading" description="Description for item">
       ${accordionItemContent}
     </calcite-accordion-item>
-    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="" icon-end="" expanded>
+    <calcite-accordion-item heading="Heading" description="Description for item" expanded>
       ${accordionItemContent}
     </calcite-accordion-item>
   </calcite-accordion>
@@ -167,16 +161,10 @@ export const transparentAppearance_TestOnly = (): string => html`
 
 export const withIconStartAndEnd_TestOnly = (): string => html`
   <calcite-accordion scale="m" selection-mode="multiple" appearance="transparent">
-    <calcite-accordion-item
-      heading="Heading"
-      description="Description for item"
-      icon-start="banana"
-      icon-end=""
-      expanded
-    >
+    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" expanded>
       ${accordionItemContent}
     </calcite-accordion-item>
-    <calcite-accordion-item heading="Heading" description="Description for item" icon-start="" icon-end="cars">
+    <calcite-accordion-item heading="Heading" description="Description for item" icon-end="cars">
       ${accordionItemContent}
     </calcite-accordion-item>
     <calcite-accordion-item heading="Heading" description="Description for item" icon-start="plane" icon-end="plane">

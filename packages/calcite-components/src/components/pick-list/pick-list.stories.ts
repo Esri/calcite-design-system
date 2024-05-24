@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
 interface PickListArgs {
@@ -24,7 +24,6 @@ const action = html`
   <calcite-action
     slot="actions-end"
     label="click-me"
-    onClick="console.log('clicked');"
     appearance="outline"
     scale="s"
     icon="information"
@@ -33,11 +32,11 @@ const action = html`
 
 export const simple = (args: PickListArgs): string => html`
   <calcite-pick-list
-    ${args.disabled ? "disabled" : ""}
-    ${args.filterEnabled ? "filter-enabled" : ""}
-    ${args.loading ? "loading" : ""}
-    ${args.multiple ? "multiple" : ""}
-    ${args.selectionFollowsFocus ? "selection-follows-focus" : ""}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("filter-enabled", args.filterEnabled)}
+    ${boolean("loading", args.loading)}
+    ${boolean("multiple", args.multiple)}
+    ${boolean("selection-follows-focus", args.selectionFollowsFocus)}
   >
     <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex">
       ${action}

@@ -1,6 +1,6 @@
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { logicalFlowPosition } = ATTRIBUTES;
 
@@ -63,8 +63,8 @@ const footerEndButtonsHtml = html`
 export const simple = (args: CardArgs): string => html`
   <div style="width: 260px">
     <calcite-card
-      ${args.loading ? "loading" : ""}
-      ${args.selected ? "selected" : ""}
+      ${boolean("loading", args.loading)}
+      ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >
       ${titleHtml}
@@ -75,8 +75,8 @@ export const simple = (args: CardArgs): string => html`
 export const simpleWithFooterLinks = (args: CardArgs): string => html`
   <div style="width:260px">
     <calcite-card
-      ${args.loading ? "loading" : ""}
-      ${args.selected ? "selected" : ""}
+      ${boolean("loading", args.loading)}
+      ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >
       ${titleHtml}${footerLinksHtml}
@@ -87,8 +87,8 @@ export const simpleWithFooterLinks = (args: CardArgs): string => html`
 export const simpleWithFooterButton = (args: CardArgs): string => html`
   <div style="width:260px">
     <calcite-card
-      ${args.loading ? "loading" : ""}
-      ${args.selected ? "selected" : ""}
+      ${boolean("loading", args.loading)}
+      ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >
       ${titleHtml}${footerButtonHtml}
@@ -103,7 +103,7 @@ export const thumbnail = (): string => html`
       <h3 slot="heading">Portland Businesses</h3>
       <span slot="description"
         >by
-        <calcite-link href="">example_user</calcite-link>
+        <calcite-link>example_user</calcite-link>
       </span>
       <div>
         Created: Apr 22, 2019
@@ -159,7 +159,7 @@ export const thumbnailRounded = (): string => html`
       <h3 slot="heading">Portland Businesses</h3>
       <span slot="description"
         >by
-        <calcite-link href="">example_user</calcite-link>
+        <calcite-link>example_user</calcite-link>
       </span>
       <div>
         Created: Apr 22, 2019
@@ -216,7 +216,7 @@ export const slottedFooterItems_TestOnly = (): string => html`
       <h3 slot="heading">Portland Businesses</h3>
       <span slot="description"
         >by
-        <calcite-link href="">example_user</calcite-link>
+        <calcite-link>example_user</calcite-link>
       </span>
       <div>
         Created: Apr 22, 2019

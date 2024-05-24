@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { layout, appearance, scale, width, status } = ATTRIBUTES;
@@ -70,7 +70,7 @@ export const simple = (args: SegmentedControl): string => html`
     appearance="${args.appearance}"
     scale="${args.scale}"
     width="${args.width}"
-    ${args.disabled ? "disabled" : ""}
+    ${boolean("disabled", args.disabled)}
     status="${args.status}"
     validation-icon="${args.validationIcon}"
     validation-message="${args.validationMessage}"
@@ -86,14 +86,7 @@ export const fullWidthWithIcons = (): string => html`
   <div style="width:33vw;">
     <calcite-label scale="m">
       My great segmented control
-      <calcite-segmented-control
-        layout="horizontal"
-        appearance="solid"
-        width="full"
-        status="idle"
-        validation-icon=""
-        validation-message=""
-      >
+      <calcite-segmented-control layout="horizontal" appearance="solid" width="full" status="idle">
         <calcite-segmented-control-item icon-start="car" value="car" checked>Car</calcite-segmented-control-item>
         <calcite-segmented-control-item icon-start="plane" value="plane">Plane</calcite-segmented-control-item>
         <calcite-segmented-control-item icon-start="biking" value="bicycle">Bicycle</calcite-segmented-control-item>

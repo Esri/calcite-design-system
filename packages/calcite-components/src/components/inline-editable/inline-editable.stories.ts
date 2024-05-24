@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale, alignment } = ATTRIBUTES;
@@ -40,10 +40,10 @@ export const simple = (args: InlineEditableArgs): string => html`
   <div style="width:300px;max-width:100%;">
     <calcite-inline-editable
       scale="${args.scale}"
-      ${args.controls ? "controls" : ""}
-      ${args.editingEnabled ? "editing-enabled" : ""}
-      ${args.loading ? "loading" : ""}
-      ${args.disabled ? "disabled" : ""}
+      ${boolean("controls", args.controls)}
+      ${boolean("editing-enabled", args.editingEnabled)}
+      ${boolean("loading", args.loading)}
+      ${boolean("disabled", args.disabled)}
     >
       <calcite-input alignment="${args.alignment}" placeholder="${args.placeholder}"> </calcite-input>
     </calcite-inline-editable>

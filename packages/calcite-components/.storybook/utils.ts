@@ -83,3 +83,13 @@ export function createBreakpointStories(
     ${storyHTML}
   </div>`;
 }
+
+/**
+ * Returns boolean property name if value is true. If value is false, returns an empty string.
+ *
+ * @param prop name of boolean property
+ * @param value value of boolean property
+ */
+export const boolean = (prop: string, value: boolean): string => {
+  return value ? prop : "";
+};

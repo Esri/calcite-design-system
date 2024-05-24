@@ -1,5 +1,5 @@
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
 interface TipManagerArgs {
@@ -58,7 +58,7 @@ const tipContent = html`
 `;
 
 export const simple = (args: TipManagerArgs): string => html`
-  <calcite-tip-manager ${args.closed ? "closed" : ""}> ${tipContent} </calcite-tip-manager>
+  <calcite-tip-manager ${boolean("closed", args.closed)}> ${tipContent} </calcite-tip-manager>
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`

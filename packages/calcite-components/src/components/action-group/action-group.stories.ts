@@ -19,9 +19,9 @@ export const honorsFlexGrow = (): string =>
 export const gridCenteringOfActionsInAGroup = (): string => html`
   <div style="width:400px">
     <calcite-action-group layout="grid">
-      <calcite-action alignment="center" scale="m" appearance="solid" icon="polygon" polygon=""> </calcite-action>
-      <calcite-action alignment="center" scale="m" appearance="solid" icon="rectangle" rectangle=""> </calcite-action>
-      <calcite-action alignment="center" scale="m" appearance="solid" icon="trash" trash=""> </calcite-action>
+      <calcite-action alignment="center" scale="m" appearance="solid" icon="polygon"> </calcite-action>
+      <calcite-action alignment="center" scale="m" appearance="solid" icon="rectangle"> </calcite-action>
+      <calcite-action alignment="center" scale="m" appearance="solid" icon="trash"> </calcite-action>
     </calcite-action-group>
   </div>
 `;

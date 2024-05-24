@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { layout, scale } = ATTRIBUTES;
@@ -42,8 +42,8 @@ export default {
 export const simple = (args: RadioButtonGroupArgs): string => html`
   <calcite-radio-button-group
     name="simple"
-    ${args.disabled ? "disabled" : ""}
-    ${args.hidden ? "hidden" : ""}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("hidden", args.hidden)}
     layout="${args.layout}"
     scale="${args.scale}"
   >

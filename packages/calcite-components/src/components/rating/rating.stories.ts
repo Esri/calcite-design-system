@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale } = ATTRIBUTES;
@@ -36,11 +36,11 @@ export const simple = (args: RatingArgs): string => html`
   <calcite-rating
     scale="${args.scale}"
     value="${args.value}"
-    ${args.showChip ? "show-chip" : ""}
+    ${boolean("show-chip", args.showChip)}
     average="${args.average}"
     count="${args.count}"
-    ${args.readOnly ? "read-only" : ""}
-    ${args.disabled ? "disabled" : ""}
+    ${boolean("read-only", args.readOnly)}
+    ${boolean("disabled", args.disabled)}
   ></calcite-rating>
 `;
 

@@ -1,6 +1,6 @@
 import { iconNames } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale, appearance, kind } = ATTRIBUTES;
@@ -46,8 +46,8 @@ export const simple = (args: ChipArgs): string => html`
       scale="${args.scale}"
       appearance="${args.appearance}"
       kind="${args.kind}"
-      ${args.closable ? "closable" : ""}
-      ${args.selected ? "selected" : ""}
+      ${boolean("closable", args.closable)}
+      ${boolean("selected", args.selected)}
       >My great chip</calcite-chip
     >
   </div>
@@ -62,7 +62,7 @@ export const withIcon = (): string => html`
 export const withImage = (): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip scale="m" appearance="solid" kind="neutral">
-      <img alt="" slot="image" src="${placeholderImage({ width: 50, height: 50 })}" />
+      <img slot="image" src="${placeholderImage({ width: 50, height: 50 })}" />
       My great chip</calcite-chip
     >
   </div>

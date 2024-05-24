@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { layout, dir, alignment, width, buttonType } = ATTRIBUTES;
@@ -114,7 +114,7 @@ export const simple = (args: TileSelectGroupArgs): string => html`
       heading="Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
       icon="layers"
       name="light"
-      ${args.inputEnabled ? "input-enabled" : ""}
+      ${boolean("input-enabled", args.inputEnabled)}
       input-alignment="${args.alignment}"
       width="${args.width}"
       type="${args.type}"
@@ -126,7 +126,7 @@ export const simple = (args: TileSelectGroupArgs): string => html`
       heading="Tile title lorem ipsum"
       icon="layers"
       name="light"
-      ${args.inputEnabled ? "input-enabled" : ""}
+      ${boolean("input-enabled", args.inputEnabled)}
       input-alignment="${args.alignment}"
       width="${args.width}"
       type="${args.type}"
@@ -138,7 +138,7 @@ export const simple = (args: TileSelectGroupArgs): string => html`
       heading="Tile title lorem ipsum"
       icon="layers"
       name="light"
-      ${args.inputEnabled ? "input-enabled" : ""}
+      ${boolean("input-enabled", args.inputEnabled)}
       input-alignment="${args.alignment}"
       width="${args.width}"
       type="${args.type}"
@@ -150,7 +150,7 @@ export const simple = (args: TileSelectGroupArgs): string => html`
       heading="Tile-title-lorem-ipsum-Tile-title-lorem-ipsum-Tile-title-lorem-ipsum-Tile-title-lorem-ipsum-Tile-title-lorem-ipsum-Tile-title-lorem-ipsum"
       icon="layers"
       name="light"
-      ${args.inputEnabled ? "input-enabled" : ""}
+      ${boolean("input-enabled", args.inputEnabled)}
       input-alignment="${args.alignment}"
       width="${args.width}"
       type="${args.type}"

@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale } = ATTRIBUTES;
@@ -32,11 +32,11 @@ export default {
 
 export const simple = (args: ColorPickerArgs): string => html`
   <calcite-color-picker
-    ${args.channelsDisabled ? "channels-disabled" : ""}
-    ${args.hexDisabled ? "hex-disabled" : ""}
-    ${args.savedDisabled ? "saved-disabled" : ""}
+    ${boolean("channels-disabled", args.channelsDisabled)}
+    ${boolean("hex-disabled", args.hexDisabled)}
+    ${boolean("saved-disabled", args.savedDisabled)}
     scale="${args.scale}"
-    ${args.clearable ? "clearable" : ""}
+    ${boolean("clearable", args.clearable)}
     value="${args.value}"
   ></calcite-color-picker>
 `;

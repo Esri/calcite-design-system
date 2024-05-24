@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -190,7 +190,7 @@ const slottedSmallActionsEnd = html`
 `;
 
 export const simple = (args: TreeArgs): string => html`
-  <calcite-tree ${args.lines ? "lines" : ""} selection-mode="${args.selectionMode}" scale="${args.scale}">
+  <calcite-tree ${boolean("lines", args.lines)} selection-mode="${args.selectionMode}" scale="${args.scale}">
     <calcite-tree-item>
       <a>Child 1</a>
     </calcite-tree-item>

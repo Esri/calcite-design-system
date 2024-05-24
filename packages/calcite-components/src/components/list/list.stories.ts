@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -56,12 +56,12 @@ export const simple = (args: ListArgs): string => html`
   <calcite-list
     selection-mode="${args.selectionMode}"
     selection-appearance="${args.selectionAppearance}"
-    ${args.loading ? "loading" : ""}
-    ${args.closable ? "closable" : ""}
-    ${args.closed ? "closed" : ""}
-    ${args.filterEnabled ? "filter-enabled" : ""}
-    ${args.dragEnabled ? "drag-enabled" : ""}
-    ${args.disabled ? "disabled" : ""}
+    ${boolean("loading", args.loading)}
+    ${boolean("closable", args.closable)}
+    ${boolean("closed", args.closed)}
+    ${boolean("filter-enabled", args.filterEnabled)}
+    ${boolean("drag-enabled", args.dragEnabled)}
+    ${boolean("disabled", args.disabled)}
     label="${args.label}"
   >
     <calcite-list-item
@@ -124,7 +124,7 @@ export const stretchSlottedContent = (): string => html`
         <calcite-action appearance="transparent" icon="plus" slot="trigger"></calcite-action>
         <calcite-dropdown-group selection-mode="single" group-title="Sort by">
           <calcite-dropdown-item>Relevance</calcite-dropdown-item>
-          <calcite-dropdown-item selected="">Date modified</calcite-dropdown-item>
+          <calcite-dropdown-item>Date modified</calcite-dropdown-item>
           <calcite-dropdown-item>Title</calcite-dropdown-item>
         </calcite-dropdown-group>
       </calcite-dropdown>

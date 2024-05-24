@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
 interface ColorPickerSwatchArgs {
@@ -15,7 +15,7 @@ export default {
 };
 
 export const simple = (args: ColorPickerSwatchArgs): string => html`
-  <calcite-color-picker-swatch ${args.active ? "active" : ""} color="${args.color}"></calcite-color-picker-swatch>
+  <calcite-color-picker-swatch ${boolean("active", args.active)} color="${args.color}"></calcite-color-picker-swatch>
 `;
 
 export const active_TestOnly = (): string =>

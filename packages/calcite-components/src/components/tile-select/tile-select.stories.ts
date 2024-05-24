@@ -1,3 +1,4 @@
+import { boolean } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -54,14 +55,14 @@ export default {
 
 export const simple = (args: TileSelectArgs): string => html`
   <calcite-tile-select
-    ${args.checked ? "checked" : ""}
+    ${boolean("checked", args.checked)}
     description="${args.description}"
-    ${args.disabled ? "disabled" : ""}
+    ${boolean("disabled", args.disabled)}
     heading="${args.heading}"
-    ${args.hidden ? "hidden" : ""}
+    ${boolean("hidden", args.hidden)}
     icon="${args.icon}"
     input-alignment="${args.inputAlignment}"
-    ${args.inputEnabled ? "input-enabled" : ""}
+    ${boolean("input-enabled", args.inputEnabled)}
     type="${args.type}"
     value="${args.value}"
     width="${args.width}"

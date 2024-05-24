@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale, status } = ATTRIBUTES;
@@ -37,9 +37,9 @@ export default {
 export const simple = (args: CheckboxArgs): string => html`
   <calcite-label layout="inline">
     <calcite-checkbox
-      ${args.checked ? "checked" : ""}
-      ${args.disabled ? "disabled" : ""}
-      ${args.indeterminate ? "indeterminate" : ""}
+      ${boolean("checked", args.checked)}
+      ${boolean("disabled", args.disabled)}
+      ${boolean("indeterminate", args.indeterminate)}
       scale="${args.scale}"
       status="${args.status}"
     ></calcite-checkbox>

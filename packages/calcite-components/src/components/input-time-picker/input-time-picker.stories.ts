@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -54,8 +54,8 @@ export default {
 
 export const simple = (args: InputTimePickerArgs): string => html`
   <calcite-input-time-picker
-    ${args.disabled ? "disabled" : ""}
-    ${args.hidden ? "hidden" : ""}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("hidden", args.hidden)}
     name="${args.name}"
     placement="${args.placement}"
     scale="${args.scale}"

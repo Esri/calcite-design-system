@@ -83,8 +83,6 @@ export const range = (): string => html`
       prev-month-label="Previous month"
       range
       layout="horizontal"
-      validation-message=""
-      validation-icon=""
     ></calcite-input-date-picker>
   </div>
 `;
@@ -120,7 +118,6 @@ export const mediumIconForLargeInput_TestOnly = (): string => html`
       scale="l"
       start="2020-12-12"
       end="2020-12-16"
-      range=""
       layout="horizontal"
     ></calcite-input-date-picker>
   </div>

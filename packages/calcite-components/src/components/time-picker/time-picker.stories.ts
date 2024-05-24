@@ -1,3 +1,4 @@
+import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { locales, numberingSystems, defaultLocale, defaultNumberingSystem } from "../../utils/locale";
@@ -51,8 +52,8 @@ export default {
 
 export const simple = (args: TimePicker): string => html`
   <calcite-time-picker
-    ${args.disabled ? "disabled" : ""}
-    ${args.hidden ? "hidden" : ""}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("hidden", args.hidden)}
     lang="${args.lang}"
     name="${args.name}"
     numbering-system="${args.numberingSystem}"

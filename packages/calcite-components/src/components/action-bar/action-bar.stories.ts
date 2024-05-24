@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { position } = ATTRIBUTES;
@@ -26,8 +26,8 @@ export default {
 
 export const simple = (args: ActionBarArgs): string => html`
   <calcite-action-bar
-    ${args.expandDisabled ? "expand-disabled" : ""}
-    ${args.expanded ? "expanded" : ""}
+    ${boolean("expand-disabled", args.expandDisabled)}
+    ${boolean("expanded", args.expanded)}
     position="${args.position}"
   >
     <calcite-action-group>

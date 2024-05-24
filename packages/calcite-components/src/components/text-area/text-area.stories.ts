@@ -1,3 +1,4 @@
+import { boolean } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -53,7 +54,7 @@ export const simple = (args: TextAreaArgs): string => html`
     scale="${args.scale}"
     status="${args.status}"
     placeholder="${args.placeholder}"
-    ${args.disabled ? "disabled" : ""}
+    ${boolean("disabled", args.disabled)}
     columns="${args.columns}"
     resize="${args.resize}"
     rows="${args.rows}"
@@ -75,18 +76,7 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 
 export const withSlottedElements = (): string => html`
-  <calcite-text-area
-    placeholder="Add Notes"
-    max-length="50"
-    scale="m"
-    placeholder="Add Notes"
-    columns="20"
-    rows="2"
-    label=""
-    name=""
-    validation-message=""
-    validation-icon=""
-  >
+  <calcite-text-area placeholder="Add Notes" max-length="50" scale="m" placeholder="Add Notes" columns="20" rows="2">
     <calcite-button slot="footer-start">RESET</calcite-button>
     <calcite-action icon="code" slot="footer-end"></calcite-action>
   </calcite-text-area>

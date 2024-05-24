@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale } = ATTRIBUTES;
@@ -33,10 +33,10 @@ export default {
 export const simple = (args: RadioButtonArgs): string => html`
   <calcite-label layout="inline">
     <calcite-radio-button
-      ${args.checked ? "checked" : ""}
-      ${args.disabled ? "disabled" : ""}
-      ${args.hidden ? "hidden" : ""}
-      ${args.focused ? "focused" : ""}
+      ${boolean("checked", args.checked)}
+      ${boolean("disabled", args.disabled)}
+      ${boolean("hidden", args.hidden)}
+      ${boolean("focused", args.focused)}
       name="simple"
       scale="${args.scale}"
       value="value"

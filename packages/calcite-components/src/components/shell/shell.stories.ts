@@ -1,5 +1,5 @@
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { displayMode, position, scale } = ATTRIBUTES;
@@ -300,16 +300,16 @@ export const simple = (args: ShellArgs): string => html`
     ${headerHTML}
     <calcite-shell-panel
       slot="panel-start"
-      ${args.collapsed ? "collapsed" : ""}
+      ${boolean("collapsed", args.collapsed)}
       displayMode="${args.displayMode}"
       position="${args.leadingPanelPosition}"
-      ${args.resizable ? "resizable" : ""}
+      ${boolean("resizable", args.resizable)}
     >
       ${advancedLeadingPanelHTML}
     </calcite-shell-panel>
     ${contentHTML}
     <calcite-shell-center-row
-      ${args.detached ? "detached" : ""}
+      ${boolean("detached", args.detached)}
       height-scale="${args.heightScale}"
       position="${args.shellCenterRowPosition}"
       slot="center-row"
@@ -319,10 +319,10 @@ export const simple = (args: ShellArgs): string => html`
     ${centerRowAdvancedHTML}
     <calcite-shell-panel
       slot="panel-end"
-      ${args.collapsed ? "collapsed" : ""}
+      ${boolean("collapsed", args.collapsed)}
       displayMode="${args.displayMode}"
       position="${args.trailingPanelPosition}"
-      ${args.resizable ? "resizable" : ""}
+      ${boolean("resizable", args.resizable)}
     >
       ${advancedTrailingPanelHTMl}
     </calcite-shell-panel>

@@ -15,8 +15,6 @@ export const single = (): string => html`
       placeholder="placeholder"
       scale="m"
       status="idle"
-      validation-message=""
-      validation-icon=""
     >
       <calcite-combobox-item icon="altitude" value="altitude" text-label="Altitude" selected></calcite-combobox-item>
       <calcite-combobox-item icon="article" value="article" text-label="Article"></calcite-combobox-item>
@@ -289,8 +287,6 @@ export const nestedItems = (): string => html`
       scale="m"
       max-items="0"
       status="idle"
-      validation-message=""
-      validation-icon=""
     >
       <calcite-combobox-item value="ITEM-0-0" text-label="Level 1">
         <calcite-combobox-item value="ITEM-0-1" text-label="Level 2"></calcite-combobox-item>
@@ -398,12 +394,7 @@ export const flipPlacements_TestOnly = (): string => html`
     <calcite-combobox class="my-combobox" placeholder="placeholder" open>
       <calcite-combobox-item value="Trees" text-label="Trees" aria-hidden="true">
         <calcite-combobox-item value="Pine" text-label="Pine" aria-hidden="true"></calcite-combobox-item>
-        <calcite-combobox-item
-          value="Sequoia"
-          disabled=""
-          text-label="Sequoia"
-          aria-hidden="true"
-        ></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia" aria-hidden="true"></calcite-combobox-item>
         <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" aria-hidden="true"></calcite-combobox-item>
       </calcite-combobox-item>
       <calcite-combobox-item value="Flowers" text-label="Flowers" aria-hidden="true">
@@ -588,12 +579,7 @@ export const optionListMinWidthMatchesInputWhenOverlayPositioningIsFixed_TestOnl
     <calcite-combobox placeholder="placeholder" overlay-positioning="fixed" placement="bottom" open>
       <calcite-combobox-item value="Trees" text-label="Trees" aria-hidden="true">
         <calcite-combobox-item value="Pine" text-label="Pine" aria-hidden="true"></calcite-combobox-item>
-        <calcite-combobox-item
-          value="Sequoia"
-          disabled=""
-          text-label="Sequoia"
-          aria-hidden="true"
-        ></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia" aria-hidden="true"></calcite-combobox-item>
         <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" aria-hidden="true"></calcite-combobox-item>
       </calcite-combobox-item>
       <calcite-combobox-item value="Flowers" text-label="Flowers" aria-hidden="true">
