@@ -27,8 +27,8 @@
       const tagName = `${packageName}@${packageVersion}`;
       const assetName = `${packageName.replace("@", "").replace("/", "-")}-${packageVersion}.tgz`;
 
-      await exec(`cd ${packagePath} && tar -czvf ${assetName} ${distFiles.join(" ")}`);
-      await exec(`gh release upload ${tagName} ${packagePath}/${assetName}`);
+      await exec(`npm pack --workspace ${packagePath}`);
+      await exec(`gh release upload ${tagName} ${assetName}`);
     }
   } catch (error) {
     console.error(error);
