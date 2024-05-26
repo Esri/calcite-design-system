@@ -126,16 +126,15 @@ describe("theme", () => {
         <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
       </calcite-menu-item>
     </calcite-menu>
+  `;
+  const dropdownMenuItems = html`
     <calcite-menu layout="horizontal">
-      <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
-      <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
-      <calcite-menu-item text="Example item 3" text-enabled icon-start="layer" icon-end="layer" breadcrumb open>
+      <calcite-menu-item text="Example item" text-enabled icon-start="layer" icon-end="layer" breadcrumb open>
         <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
         <calcite-menu-item slot="submenu-item" text="Example submenu item 2" text-enabled href="https://esri.com">
           <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
         </calcite-menu-item>
       </calcite-menu-item>
-      <calcite-menu-item text="Example item 4" text-enabled></calcite-menu-item>
     </calcite-menu>
   `;
   describe("default", () => {
@@ -154,6 +153,15 @@ describe("theme", () => {
         shadowSelector: `calcite-action`,
         targetProp: "--calcite-action-background-color",
       },
+      // "--calcite-menu-item-action-text-color": {
+      //   shadowSelector: `calcite-action`,
+      //   targetProp: "backgroundColor",
+      // },
+      // "--calcite-menu-item-background-color": {
+      //   shadowSelector: `.${CSS.content}`,
+      //   targetProp: "backgroundColor",
+      // },
+      //test background on content
     };
     themed(async () => {
       const page = await newE2EPage();
@@ -165,4 +173,43 @@ describe("theme", () => {
       return { tag: "calcite-menu-item", page };
     }, tokens);
   });
+
+  describe("dropdownMenuItems", () => {
+    const tokens: ComponentTestTokens = {
+      // "--calcite-menu-item-background-color": {
+      //   shadowSelector: `.${CSS.dropdownMenuItems}`,
+      //   targetProp: "backgroundColor",
+      // },
+      //test background on dropdownMenuItems
+      "--calcite-menu-item-icon-color": {
+        shadowSelector: `.${CSS.container} .${CSS.icon}`,
+        targetProp: "--calcite-icon-color",
+      },
+      // "--calcite-menu-item-text-color": {
+      //   shadowSelector: `.${CSS.container}`,
+      //   targetProp: "color",
+      // },
+    };
+    themed(async () => {
+      const page = await newE2EPage();
+      await page.setContent(dropdownMenuItems);
+      const menuItem = await page.find("calcite-menu-item");
+      await menuItem.click();
+      await page.waitForChanges();
+      menuItem.setProperty("open", true);
+      return { tag: "calcite-menu-item", page };
+    }, tokens);
+  });
 });
+
+//::after, hover on sister element
+// --calcite-menu-item-action-border-color
+// --calcite-menu-item-action-text-color
+
+//shorthands
+// --calcite-menu-item-background-color
+// --calcite-menu-item-border-color
+
+// --calcite-menu-item-sub-menu-border-color
+// --calcite-menu-item-sub-menu-corner-radius
+// --calcite-menu-item-text-color

@@ -15,6 +15,5 @@ export const CSS = {
   itemContent: "item-content",
   open: "open",
   nested: "nested",
-  dropdownAction: "dropdown-action",
   textContainer: "text-container",
 };

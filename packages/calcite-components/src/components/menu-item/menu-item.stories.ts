@@ -124,15 +124,13 @@ export const theming_TestOnly = (): string => html`
       <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
     </calcite-menu-item>
   </calcite-menu>
+  <br />
   <calcite-menu layout="horizontal">
-    <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
-    <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
-    <calcite-menu-item text="Example item 3" text-enabled icon-start="layer" icon-end="layer" breadcrumb open>
+    <calcite-menu-item text="Example item" text-enabled icon-start="layer" icon-end="layer" breadcrumb open>
       <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
       <calcite-menu-item slot="submenu-item" text="Example submenu item 2" text-enabled href="https://esri.com">
         <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
       </calcite-menu-item>
     </calcite-menu-item>
-    <calcite-menu-item text="Example item 4" text-enabled></calcite-menu-item>
   </calcite-menu>
 `;
