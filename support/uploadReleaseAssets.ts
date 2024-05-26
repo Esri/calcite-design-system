@@ -15,15 +15,14 @@
 
     for (const packagePath of releasedPackages) {
       const packageJson = JSON.parse(await fs.readFile(resolve(packagePath, "package.json"), "utf8"));
-      const distFiles = packageJson?.files;
       const packageName = packageJson?.name;
+      const packageVersion = packageJson?.version;
 
-      if (!distFiles?.length) {
-        console.warn("Skipping", packageName, "because it does not have the `files` field in its package.json");
+      if (!packageName || !packageVersion) {
+        console.warn(`Skipping "${packagePath}" because a package.json could not be found/parsed"`);
         continue;
       }
 
-      const packageVersion = packageJson?.version;
       const tagName = `${packageName}@${packageVersion}`;
       const assetName = `${packageName.replace("@", "").replace("/", "-")}-${packageVersion}.tgz`;
 
