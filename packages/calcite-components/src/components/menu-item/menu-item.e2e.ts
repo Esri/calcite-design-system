@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-menu-item", () => {
   describe("renders", () => {
@@ -139,16 +140,16 @@ describe("theme", () => {
   `;
   describe("default", () => {
     const tokens: ComponentTestTokens = {
-      // "--calcite-menu-item-action-background-color-active": {
-      //   shadowSelector: `calcite-menu-item`,
-      //   targetProp: "backgroundColor",
-      //   state: { press: { attribute: "tag", value: "calcite-action" } },
-      // },
-      // "--calcite-menu-item-action-background-color-hover": {
-      //   shadowSelector: "calcite-action",
-      //   targetProp: "--calcite-action-background-color",
-      //   state: "hover",
-      // },
+      "--calcite-menu-item-action-background-color-active": {
+        shadowSelector: "calcite-action",
+        targetProp: "--calcite-action-background-color",
+        state: { press: { attribute: "class", value: CSS.dropdownAction } },
+      },
+      "--calcite-menu-item-action-background-color-hover": {
+        shadowSelector: "calcite-action",
+        targetProp: "--calcite-action-background-color",
+        state: "hover",
+      },
       "--calcite-menu-item-action-background-color": {
         shadowSelector: `calcite-action`,
         targetProp: "--calcite-action-background-color",
