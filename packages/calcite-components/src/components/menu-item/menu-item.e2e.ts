@@ -212,6 +212,3 @@ describe("theme", () => {
 //::after, hover on sister element
 // --calcite-menu-item-action-border-color
 // --calcite-menu-item-action-text-color
-
-//shorthands
-// --calcite-menu-item-border-color
