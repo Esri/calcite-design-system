@@ -153,42 +153,49 @@ describe("theme", () => {
         shadowSelector: `calcite-action`,
         targetProp: "--calcite-action-background-color",
       },
+      "--calcite-menu-item-sub-menu-corner-radius": {
+        shadowSelector: `.dropdown--vertical`,
+        targetProp: "borderRadius",
+      },
       // "--calcite-menu-item-action-text-color": {
       //   shadowSelector: `calcite-action`,
       //   targetProp: "backgroundColor",
       // },
-      // "--calcite-menu-item-background-color": {
-      //   shadowSelector: `.${CSS.content}`,
-      //   targetProp: "backgroundColor",
-      // },
-      //test background on content
+      "--calcite-menu-item-background-color": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-menu-item-border-color": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "borderColor",
+      },
     };
     themed(async () => {
       const page = await newE2EPage();
       await page.setContent(menuItemHtml);
-      // const menuItem = await page.find("calcite-menu-item");
-      // await menuItem.click();
       await page.waitForChanges();
-      // menuItem.setProperty("open", true);
       return { tag: "calcite-menu-item", page };
     }, tokens);
   });
 
   describe("dropdownMenuItems", () => {
     const tokens: ComponentTestTokens = {
-      // "--calcite-menu-item-background-color": {
-      //   shadowSelector: `.${CSS.dropdownMenuItems}`,
-      //   targetProp: "backgroundColor",
-      // },
-      //test background on dropdownMenuItems
+      "--calcite-menu-item-background-color": {
+        shadowSelector: `.${CSS.dropdownMenuItems}`,
+        targetProp: "backgroundColor",
+      },
       "--calcite-menu-item-icon-color": {
         shadowSelector: `.${CSS.container} .${CSS.icon}`,
         targetProp: "--calcite-icon-color",
       },
-      // "--calcite-menu-item-text-color": {
-      //   shadowSelector: `.${CSS.container}`,
-      //   targetProp: "color",
-      // },
+      "--calcite-menu-item-text-color": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "color",
+      },
+      "--calcite-menu-item-sub-menu-border-color": {
+        shadowSelector: `.${CSS.dropdownMenuItems}`,
+        targetProp: "borderColor",
+      },
     };
     themed(async () => {
       const page = await newE2EPage();
@@ -207,9 +214,4 @@ describe("theme", () => {
 // --calcite-menu-item-action-text-color
 
 //shorthands
-// --calcite-menu-item-background-color
 // --calcite-menu-item-border-color
-
-// --calcite-menu-item-sub-menu-border-color
-// --calcite-menu-item-sub-menu-corner-radius
-// --calcite-menu-item-text-color
