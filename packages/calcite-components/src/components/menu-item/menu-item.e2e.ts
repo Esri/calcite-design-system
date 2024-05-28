@@ -157,10 +157,6 @@ describe("theme", () => {
         shadowSelector: `.dropdown--vertical`,
         targetProp: "borderRadius",
       },
-      // "--calcite-menu-item-action-text-color": {
-      //   shadowSelector: `calcite-action`,
-      //   targetProp: "backgroundColor",
-      // },
       "--calcite-menu-item-background-color": {
         shadowSelector: `.${CSS.content}`,
         targetProp: "backgroundColor",
@@ -208,7 +204,3 @@ describe("theme", () => {
     }, tokens);
   });
 });
-
-//::after, hover on sister element
-// --calcite-menu-item-action-border-color
-// --calcite-menu-item-action-text-color
