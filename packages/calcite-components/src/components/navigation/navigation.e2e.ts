@@ -78,17 +78,17 @@ describe("calcite-navigation", () => {
     describe("default", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-navigation-action-background-color": {
-          shadowSelector: `.${CSS.container} >>> .${CSS.containerContent} >>> calcite-action >>> button`,
-          targetProp: "backgroundColor",
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color",
         },
         "--calcite-navigation-action-background-color-active": {
-          shadowSelector: `.${CSS.container} >>> .${CSS.containerContent} >>> calcite-action >>> button`,
-          targetProp: "backgroundColor",
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color",
           state: { press: { attribute: "appearance", value: "solid" } },
         },
         "--calcite-navigation-action-background-color-hover": {
-          shadowSelector: `.${CSS.container} >>> .${CSS.containerContent} >>> calcite-action >>> button`,
-          targetProp: "backgroundColor",
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color",
           state: { hover: { attribute: "appearance", value: "solid" } },
         },
         "--calcite-navigation-background-color": {
