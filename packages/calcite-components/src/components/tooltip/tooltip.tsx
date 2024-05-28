@@ -160,7 +160,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   async connectedCallback(): Promise<void> {
     await componentOnReady(this.el);
     this.setUpReferenceElement(true);
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
 
     if (this.open) {
       onToggleOpenCloseComponent(this);
