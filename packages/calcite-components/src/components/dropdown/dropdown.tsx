@@ -175,6 +175,7 @@ export class Dropdown
   @Watch("scale")
   handlePropsChange(): void {
     this.updateItems();
+    this.updateGroupScale();
   }
 
   //--------------------------------------------------------------------------
@@ -495,7 +496,12 @@ export class Dropdown
     this.groups = groups;
 
     this.updateItems();
+    this.updateGroupScale();
   };
+
+  private updateGroupScale(): void {
+    this.groups?.forEach((group) => (group.scale = this.scale));
+  }
 
   resizeObserverCallback = (entries: ResizeObserverEntry[]): void => {
     entries.forEach((entry) => {

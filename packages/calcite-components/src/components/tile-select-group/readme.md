@@ -4,6 +4,8 @@ For comprehensive guidance on using and implementing `calcite-tile-select-group`
 
 <!-- Auto Generated Below -->
 
+> **[DEPRECATED]** Use the `calcite-tile-group` component instead.
+
 ## Usage
 
 ### Basic

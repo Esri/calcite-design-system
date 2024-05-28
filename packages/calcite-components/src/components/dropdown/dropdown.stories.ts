@@ -501,3 +501,44 @@ export const settingFullWidthEnablesTriggerTruncation_TestOnly = (): string =>
       </calcite-dropdown-group>
     </calcite-dropdown>
   </div>`;
+
+export const openInAllScales = (): string => html`
+  <style>
+    .container {
+      display: inline-flex;
+      flex-direction: column;
+      width: 10rem;
+      padding: 25px;
+      flex-basis: 200px;
+    }
+  </style>
+  <div class="container">
+    <calcite-dropdown scale="s" width-scale="s" open>
+      <calcite-button icon-end="hamburger" appearance="outline" slot="trigger">Scale S</calcite-button>
+      <calcite-dropdown-group group-title="View">
+        <calcite-dropdown-item icon-end="list-bullet" selected>List</calcite-dropdown-item>
+        <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  </div>
+
+  <div class="container">
+    <calcite-dropdown scale="m" width-scale="s" open>
+      <calcite-button icon-end="hamburger" appearance="outline" slot="trigger">Scale M</calcite-button>
+      <calcite-dropdown-group group-title="View">
+        <calcite-dropdown-item icon-end="list-bullet" selected>List</calcite-dropdown-item>
+        <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  </div>
+
+  <div class="container">
+    <calcite-dropdown scale="l" width-scale="s" open>
+      <calcite-button icon-end="hamburger" appearance="outline" slot="trigger">Scale L</calcite-button>
+      <calcite-dropdown-group group-title="View">
+        <calcite-dropdown-item icon-end="list-bullet" selected>List</calcite-dropdown-item>
+        <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  </div>
+`;

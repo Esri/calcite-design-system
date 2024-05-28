@@ -26,6 +26,7 @@ jobs:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
           # https://github.com/storybookjs/storybook-deployer/issues/77#issuecomment-618560481
           GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
         run: |
           if [ "$NEXT_RELEASE_ENABLED" == "true" ]; then
             npm install

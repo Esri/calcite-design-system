@@ -199,13 +199,12 @@ export class StepperItem
    * @internal
    */
   @Event({ cancelable: false })
-  calciteInternalUserRequestedStepperItemSelect: EventEmitter<StepperItemChangeEventDetail>;
+  calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
 
   /**
-   * @internal
+   * Fires when the active `calcite-stepper-item` changes.
    */
-  @Event({ cancelable: false })
-  calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
+  @Event({ cancelable: false }) calciteStepperItemSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -404,11 +403,7 @@ export class StepperItem
   private emitUserRequestedItem = (): void => {
     this.emitRequestedItem();
     if (!this.disabled) {
-      const position = this.itemPosition;
-
-      this.calciteInternalUserRequestedStepperItemSelect.emit({
-        position,
-      });
+      this.calciteStepperItemSelect.emit();
     }
   };
 

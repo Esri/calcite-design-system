@@ -4,6 +4,8 @@ For comprehensive guidance on using and implementing `calcite-tip`, refer to the
 
 <!-- Auto Generated Below -->
 
+> **[DEPRECATED]** Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
+
 ## Usage
 
 ### Basic

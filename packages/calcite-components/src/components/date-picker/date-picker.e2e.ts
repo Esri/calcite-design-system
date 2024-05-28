@@ -315,6 +315,31 @@ describe("calcite-date-picker", () => {
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
 
+  it("unsetting min/max updates internally", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone("America/Los_Angeles");
+    await page.setContent(
+      html`<calcite-date-picker value="2022-11-20" min="2022-11-15" max="2022-11-25"></calcite-date-picker>`,
+    );
+
+    const element = await page.find("calcite-date-picker");
+
+    element.setProperty("min", null);
+    element.setProperty("max", null);
+    await page.waitForChanges();
+
+    expect(await element.getProperty("minAsDate")).toBe(null);
+    expect(await element.getProperty("maxAsDate")).toBe(null);
+
+    const dateBeyondMax = "2022-11-26";
+    await setActiveDate(page, dateBeyondMax);
+    expect(await getActiveDate(page)).toEqual(new Date(dateBeyondMax).toISOString());
+
+    const dateBeforeMin = "2022-11-14";
+    await setActiveDate(page, dateBeforeMin);
+    expect(await getActiveDate(page)).toEqual(new Date(dateBeforeMin).toISOString());
+  });
+
   it("passes down the default year prop to child date-picker-month-header", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-date-picker value="2000-11-27" active></calcite-date-picker>`);
@@ -332,14 +357,6 @@ describe("calcite-date-picker", () => {
   });
 
   describe("ArrowKeys and PageKeys", () => {
-    async function setActiveDate(page: E2EPage, date: string): Promise<void> {
-      await page.evaluate((date) => {
-        const datePicker = document.querySelector("calcite-date-picker");
-        datePicker.activeDate = new Date(date);
-      }, date);
-      await page.waitForChanges();
-    }
-
     it("should be able to navigate between months and select date using arrow keys and page keys", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
@@ -549,3 +566,18 @@ describe("calcite-date-picker", () => {
     expect(await datePicker.getProperty("value")).toEqual(["2020-09-15", "2020-09-30"]);
   });
 });
+
+async function setActiveDate(page: E2EPage, date: string): Promise<void> {
+  await page.evaluate((date) => {
+    const datePicker = document.querySelector("calcite-date-picker");
+    datePicker.activeDate = new Date(date);
+  }, date);
+  await page.waitForChanges();
+}
+
+async function getActiveDate(page: E2EPage): Promise<string> {
+  return await page.evaluate(() => {
+    const datePicker = document.querySelector("calcite-date-picker");
+    return datePicker.activeDate.toISOString();
+  });
+}

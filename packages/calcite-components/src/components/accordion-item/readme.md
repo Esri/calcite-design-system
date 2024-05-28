@@ -15,6 +15,16 @@ For comprehensive guidance on using and implementing `calcite-accordion-item`, r
 | `iconFlipRtl` | `icon-flip-rtl` | Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). | `"both" \| "end" \| "start"` | `undefined` |
 | `iconStart`   | `icon-start`    | Specifies an icon to display at the start of the component.                                                 | `string`                     | `undefined` |
 
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Sets focus on the component.
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Slots
 
 | Slot              | Description                                                                                 |

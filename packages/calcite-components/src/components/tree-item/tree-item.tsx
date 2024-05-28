@@ -201,7 +201,10 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
-    const showBulletPoint = this.selectionMode === "single" || this.selectionMode === "children";
+    const showBulletPoint =
+      this.selectionMode === "single" ||
+      this.selectionMode === "children" ||
+      this.selectionMode === "single-persist";
     const showCheckmark =
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
     const showBlank = this.selectionMode === "none" && !this.hasChildren;

@@ -214,29 +214,106 @@ johndoe/feature/add-something-to-modal
 
 ## Commit message format
 
-This project follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), which are used to generate the changelog. Be sure to provide clear and sufficient information in commit messages. This is important because the commit messages are used to automatically update the changelog.
+Calcite follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), which are used to generate the changelog. Be sure to provide clear and sufficient information in commit messages. This is important because the commit messages are used to generate the changelog automatically.
+
+Contributions should adhere to the `<type>(<scope>): <descriptive summary>` format and include the following:
+
+- [Convention type](#convention-type)
+- [Scope of change](#scope-of-change), *optional*
+- [Descriptive commit subject](#descriptive-commit-subject)
+
+Check out the [contribution example](#contribution-example) for a formatted example, and explore [breaking change formatting](#breaking-changes) for consideration during Calcite's breaking change releases.
+
+### Convention type
+
+Contributions must adhere to **one** of the following conventions:
+
+- **`chore`**: Adds a new build process, or auxiliary tool and libraries (e.g., documentation generation) 🤖
+- **`docs`**: Documentation only changes 📚
+- **`feat`**: Adds a new feature, or functionality ✨
+- **`fix`**: Fixes a bug 🐛
+- **`perf`**: A change improving performance 🚀
+- **`refactor`**: A change that neither fixes a bug or adds a feature 🔁
+- **`revert`**: Reverts a previous commit ↪️
+- **`test`**: Improves test coverage in updating a test or adding a new, or missing test 🧪
+
+### Scope of change
+
+*Optional*. Most contributions will include a scope, such as a component, multiple components, test(s), or utilities. For example:
+
+- `text-area`
+- `dropdown, dropdown-group, dropdown-item`
+- `common`
+
+Not all commits will contain a scope, however it is recommended to include scope when possible.
+
+### Descriptive commit subject
+
+The subject should contain a concise description of the proposed change, where contributors will:
+
+- **Be succinct, yet informative** to ensure the change's purpose is conveyed once added to the changelog
+- Describe the commit's purpose, not a related issue or how the change was mitigated
+- Use present tense, such as "update" instead of "updated" or "updates"
+- Not capitalize the first letter
+- Not insert a period `.` at the end
+
+### Contribution example
 
 For instance, if providing a bug fix to the Text Area component, which includes additional support to assistive technologies, you could use the following conventional commit:
 
-> fix(text-area): provide additional support to assistive technologies
+```text
+fix(text-area): provide additional support to assistive technologies
+```
 
-[Stencil's contributing document](https://github.com/ionic-team/stencil/blob/main/CONTRIBUTING.md#commit-message-format) explains this in great detail. Please refer to the above link for more conventional commit details and examples, and visit [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/main) to refer to additional examples.
+A more in-depth description can be added to the PR's body summary. For example:
+
+```text
+Related Issue: <Issue number>
+
+### Summary
+Provide additional context for assistive technology users when the component's character limit exceeds the `maxLength` property. Assistive technology users recieve an error message as soon as the character limit is exceeded.
+```
+
+For more information, explore [Stencil's contributing document](https://github.com/ionic-team/stencil/blob/main/CONTRIBUTING.md#commit-message-format). Please refer to the above link for more conventional commit details and examples, and visit [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/main) to refer to additional examples.
 
 ## Breaking changes
 
 Calcite Core team members should be consulted prior to submitting breaking change pull requests. For stability and consistency, breaking change sprints are coordinated and communicated well in advance.
 
-When breaking changes are supported in a current sprint, commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax:
+When breaking changes are supported in a current milestone, commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax.
+
+The PR's details should be comprehensive, and when possible, include the following:
+
+- What the proposed breaking change includes
+- Why the breaking change is proposed
+- An example to support users migrating from the previous major version (e.g., `1.x` to `2.x`)
+
+For PR examples, refer to previous changelog entries from the `2.0` major releases for [calcite-components](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-components/CHANGELOG.md#200-2023-12-02) and [calcite-design-tokens](https://github.com/Esri/calcite-design-system/blob/main/packages/calcite-design-tokens/CHANGELOG.md#200-2023-12-02). Also explore the breaking change structure below:
 
 ```text
-<type>!: <descriptive summary>
+<type>(<scope>)!: <descriptive summary>
 
 <optional info>
 
-BREAKING CHANGE: <details about the change and migration options (this can span multiple lines)>
+BREAKING CHANGE: <What the breaking change includes, why it is proposed, and migration support for users>
 ```
 
 When adding a `BREAKING CHANGE:` note to the summary block right before confirming a squash merge, remove all the info except the `BREAKING CHANGE:` note itself, or else everything ends up being added to the changelog.
+
+### Breaking change contribution example
+
+For instance, if adding a refactored breaking change to the Modal component, you could use the following conventional commit:
+
+```text
+refactor(modal)!: rename `width` property to `widthScale`
+```
+
+And a more in-depth, but succinct description for the PR's body summary could include:
+
+```text
+Related Issue: <Issue number>
+BREAKING CHANGE: For consistency, renames `width` property to `widthScale`.
+```
 
 See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0/) for more helpful information.
 

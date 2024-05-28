@@ -4,6 +4,8 @@ For comprehensive guidance on using and implementing `calcite-tip-manager`, refe
 
 <!-- Auto Generated Below -->
 
+> **[DEPRECATED]** Use the `calcite-carousel` and `calcite-carousel-item` components instead.
+
 ## Usage
 
 ### Basic
