@@ -39,6 +39,7 @@
     "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-typescript": "11.1.6",
     "@storybook/addon-a11y": "8.0.9",
+    "@storybook/addon-controls": "8.0.9",
     "@storybook/addon-docs": "8.0.9",
     "@storybook/addon-interactions": "8.0.9",
     "@storybook/addon-mdx-gfm": "8.0.9",

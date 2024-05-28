@@ -1,18 +1,28 @@
-import { boolean } from "../../../.storybook/helpers";
+import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
-import { text } from "../../../.storybook/fake-knobs";
+
+interface NavigationLogoArgs {
+  description: string;
+  heading: string;
+  active: boolean;
+}
 
 export default {
   title: "Components/Navigation/Navigation Logo",
+  args: {
+    description: "City of AcmeCo",
+    heading: "ArcGIS Online",
+    active: false,
+  },
 };
 
-export const simple = (): string =>
+export const simple = (args: NavigationLogoArgs): string =>
   html`<calcite-navigation-logo
-    description="${text("description", "City of AcmeCo")}"
-    heading="${text("heading", "ArcGIS Online")}"
+    description="${args.description}"
+    heading="${args.heading}"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-    ${boolean("active", false)}
+    ${boolean("active", args.active)}
   />`;
 
 export const heading_TestOnly = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" />`;
