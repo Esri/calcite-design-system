@@ -1,9 +1,7 @@
-import { select } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { select } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import treeItemReadme from "../tree-item/readme.md";
-import readme from "./readme.md";
 
 const treeItems = html`
   <calcite-tree-item>
@@ -44,7 +42,7 @@ const treeItems = html`
 const slottedLargeDropdown = html`
   <calcite-dropdown slot="actions-end" id="slottedLargeDropdown" scale="l">
     <calcite-action slot="trigger" icon="ellipsis" scale="l"></calcite-action>
-    <calcite-dropdown-group group-title="Settings" selection-mode="multi">
+    <calcite-dropdown-group group-title="Settings" selection-mode="multiple">
       <calcite-dropdown-item>Group elements</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Display mode" selection-mode="single">
@@ -57,7 +55,7 @@ const slottedLargeDropdown = html`
 const slottedDefaultDropdown = html`
   <calcite-dropdown slot="actions-end" id="slottedDefaultDropdown">
     <calcite-action slot="trigger" icon="ellipsis"></calcite-action>
-    <calcite-dropdown-group group-title="Settings" selection-mode="multi">
+    <calcite-dropdown-group group-title="Settings" selection-mode="multiple">
       <calcite-dropdown-item>Group elements</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Display mode" selection-mode="single">
@@ -70,7 +68,7 @@ const slottedDefaultDropdown = html`
 const slottedSmallDropdown = html`
   <calcite-dropdown slot="actions-end" id="slottedDefaultDropdown" scale="s">
     <calcite-action slot="trigger" icon="ellipsis" scale="s"></calcite-action>
-    <calcite-dropdown-group group-title="Settings" selection-mode="multi">
+    <calcite-dropdown-group group-title="Settings" selection-mode="multiple">
       <calcite-dropdown-item>Group elements</calcite-dropdown-item>
     </calcite-dropdown-group>
     <calcite-dropdown-group group-title="Display mode" selection-mode="single">
@@ -157,15 +155,13 @@ const slottedSmallActionsEnd = html`
 export default {
   title: "Components/Tree",
   parameters: {
-    notes: [readme, treeItemReadme],
     chromatic: {
       delay: 1000,
     },
   },
-  ...storyFilters(),
 };
 
-const selectionModes = ["single", "children", "multichildren", "ancestors", "none", "multiple"];
+const selectionModes = ["single", "single-persist", "children", "multichildren", "ancestors", "none", "multiple"];
 
 export const simple = (): string => html`
   <calcite-tree
@@ -263,7 +259,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     ${treeItems}
   </calcite-tree>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const OverflowingSubtree = (): string =>
   html`<div style="width:400px">

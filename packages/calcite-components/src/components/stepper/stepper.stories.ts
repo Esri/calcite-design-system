@@ -1,19 +1,15 @@
-import { select, text } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { select, text } from "../../../.storybook/fake-knobs";
+import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme1 from "./readme.md";
-import readme2 from "../stepper-item/readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Stepper",
   parameters: {
-    notes: [readme1, readme2],
     chromatic: {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -131,7 +127,7 @@ export const darkModeRTL_TestOnly = (): string => html`
 </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const overriddenWidth_TestOnly = (): string =>
   html` <calcite-stepper numbered style="width: 50vw">

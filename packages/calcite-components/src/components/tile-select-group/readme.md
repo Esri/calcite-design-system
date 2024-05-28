@@ -1,6 +1,10 @@
 # calcite-tile-select-group
 
+For comprehensive guidance on using and implementing `calcite-tile-select-group`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tile-select-group/).
+
 <!-- Auto Generated Below -->
+
+> **[DEPRECATED]** Use the `calcite-tile-group` component instead.
 
 ## Usage
 

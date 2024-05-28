@@ -1,6 +1,6 @@
 # calcite-action
 
-The `calcite-action` component lives in either a `calcite-action-bar` or `calcite-action-pad`. Actions look like an icon with a text description option of the component that will be revealed when the icon/ text is clicked or selected.
+For comprehensive guidance on using and implementing `calcite-action`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/action/).
 
 <!-- Auto Generated Below -->
 
@@ -71,10 +71,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot        | Description                            |
-| ----------- | -------------------------------------- |
-|             | A slot for adding a `calcite-icon`.    |
-| `"tooltip"` | A slot for adding a `calcite-tooltip`. |
+| Slot        | Description                                               |
+| ----------- | --------------------------------------------------------- |
+|             | A slot for adding a `calcite-icon`.                       |
+| `"tooltip"` | [Deprecated] Use the `calcite-tooltip` component instead. |
 
 ## CSS Custom Properties
 

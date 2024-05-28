@@ -11,14 +11,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { ItemKeyboardEvent } from "./interfaces";
-
-import {
-  focusElement,
-  focusElementInGroup,
-  isPrimaryPointerButton,
-  toAriaBoolean,
-} from "../../utils/dom";
+import { focusElement, focusElementInGroup, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -50,6 +43,7 @@ import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
+import { ItemKeyboardEvent } from "./interfaces";
 import { SLOTS } from "./resources";
 
 /**
@@ -181,6 +175,7 @@ export class Dropdown
   @Watch("scale")
   handlePropsChange(): void {
     this.updateItems();
+    this.updateGroupScale();
   }
 
   //--------------------------------------------------------------------------
@@ -205,7 +200,6 @@ export class Dropdown
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
-    this.reposition(true);
     if (this.open) {
       this.openHandler();
       onToggleOpenCloseComponent(this);
@@ -221,7 +215,7 @@ export class Dropdown
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.reposition(true);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   componentDidRender(): void {
@@ -245,7 +239,6 @@ export class Dropdown
             id={`${guid}-menubutton`}
             onClick={this.openCalciteDropdown}
             onKeyDown={this.keyDownHandler}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setReferenceEl}
           >
             <slot
@@ -259,7 +252,6 @@ export class Dropdown
           <div
             aria-hidden={toAriaBoolean(!open)}
             class="calcite-dropdown-wrapper"
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setFloatingEl}
           >
             <div
@@ -270,9 +262,8 @@ export class Dropdown
                 [FloatingCSS.animationActive]: open,
               }}
               id={`${guid}-menu`}
-              role="menu"
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.setScrollerAndTransitionEl}
+              role="menu"
             >
               <slot onSlotchange={this.updateGroups} />
             </div>
@@ -332,14 +323,9 @@ export class Dropdown
   /** Fires when the component is open and animation is complete. */
   @Event({ cancelable: false }) calciteDropdownOpen: EventEmitter<void>;
 
-  @Listen("pointerdown", { target: "window" })
+  @Listen("click", { target: "window" })
   closeCalciteDropdownOnClick(event: PointerEvent): void {
-    if (
-      this.disabled ||
-      !isPrimaryPointerButton(event) ||
-      !this.open ||
-      event.composedPath().includes(this.el)
-    ) {
+    if (this.disabled || !this.open || event.composedPath().includes(this.el)) {
       return;
     }
 
@@ -510,7 +496,12 @@ export class Dropdown
     this.groups = groups;
 
     this.updateItems();
+    this.updateGroupScale();
   };
+
+  private updateGroupScale(): void {
+    this.groups?.forEach((group) => (group.scale = this.scale));
+  }
 
   resizeObserverCallback = (entries: ResizeObserverEntry[]): void => {
     entries.forEach((entry) => {

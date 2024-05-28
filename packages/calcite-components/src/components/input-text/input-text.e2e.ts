@@ -12,7 +12,11 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils";
-import { testHiddenInputSyncing, testPostValidationFocusing } from "../input/common/tests";
+import {
+  testHiddenInputSyncing,
+  testPostValidationFocusing,
+  testWorkaroundForGlobalPropRemoval,
+} from "../input/common/tests";
 
 describe("calcite-input-text", () => {
   describe("labelable", () => {
@@ -468,6 +472,8 @@ describe("calcite-input-text", () => {
 
     testHiddenInputSyncing("calcite-input-text");
   });
+
+  testWorkaroundForGlobalPropRemoval("calcite-input-text");
 
   describe("translation support", () => {
     t9n("calcite-input-text");

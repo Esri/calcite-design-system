@@ -42,7 +42,7 @@ import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
- * @slot tooltip - A slot for adding a `calcite-tooltip`.
+ * @slot tooltip - [Deprecated] Use the `calcite-tooltip` component instead.
  */
 @Component({
   tag: "calcite-action",
@@ -299,7 +299,10 @@ export class Action
       buttonId,
       messages,
     } = this;
-    const ariaLabel = `${label || text}${indicator ? ` (${messages.indicator})` : ""}`;
+    const labelFallback = label || text;
+    const ariaLabel = labelFallback
+      ? `${labelFallback}${indicator ? ` (${messages.indicator})` : ""}`
+      : "";
 
     const buttonClasses = {
       [CSS.button]: true,
@@ -319,7 +322,6 @@ export class Action
             class={buttonClasses}
             disabled={disabled}
             id={buttonId}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
           >
             {this.renderIconContainer()}

@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  forceUpdate,
   h,
   Host,
   Method,
@@ -18,13 +19,13 @@ import {
   setRequestedIcon,
 } from "../../utils/dom";
 import { Scale, Status, Alignment } from "../interfaces";
-
 import {
   connectForm,
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
   internalHiddenInputInputEvent,
+  MutableValidityState,
   submitForm,
 } from "../../utils/form";
 import {
@@ -49,7 +50,6 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
-
 import {
   addLocalizedTrailingDecimalZeros,
   BigDecimal,
@@ -66,11 +66,11 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
+import { getIconScale } from "../../utils/component";
+import { Validation } from "../functional/Validation";
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
-import { getIconScale } from "../../utils/component";
-import { Validation } from "../functional/Validation";
 import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
 
 /**
@@ -95,6 +95,19 @@ export class Input
 {
   //--------------------------------------------------------------------------
   //
+  //  Global attributes
+  //
+  //--------------------------------------------------------------------------
+
+  @Watch("autofocus")
+  @Watch("enterkeyhint")
+  @Watch("inputmode")
+  handleGlobalAttributesChanged(): void {
+    forceUpdate(this);
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Properties
   //
   //--------------------------------------------------------------------------
@@ -103,11 +116,12 @@ export class Input
   @Prop({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
-   * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
+   * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
    *
-   * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
+   * @ignore
    */
-  @Prop({ reflect: true }) autofocus = false;
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() autofocus: boolean;
 
   /**
    * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
@@ -125,6 +139,15 @@ export class Input
   disabledWatcher(): void {
     this.setDisabledAction();
   }
+
+  /**
+   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+   *
+   * @futureBreaking kebab-cased attribute will not be supported in a future release
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() enterKeyHint: string;
 
   /**
    * The `id` of the form that will be associated with the component.
@@ -145,6 +168,15 @@ export class Input
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
+
+  /**
+   * Adds support for kebab-cased attribute, removed in https://github.com/Esri/calcite-design-system/pull/9123
+   *
+   * @futureBreaking kebab-cased attribute will not be supported in a future release
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/reserved-member-names
+  @Prop() inputMode: string;
 
   /** Accessible name for the component. */
   @Prop() label: string;
@@ -210,6 +242,27 @@ export class Input
 
   /** Specifies the validation icon to display under the component. */
   @Prop({ reflect: true }) validationIcon: string | boolean;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
 
   /**
    * Specifies the name of the component.
@@ -289,22 +342,6 @@ export class Input
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
    */
   @Prop() multiple = false;
-
-  /**
-   * Specifies the type of content to help devices display an appropriate virtual keyboard.
-   * Read the native attribute's documentation on MDN for more info.
-   *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
-   */
-  @Prop() inputMode = "text";
-
-  /**
-   * Specifies the action label or icon for the Enter key on virtual keyboards.
-   * Read the native attribute's documentation on MDN for more info.
-   *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
-   */
-  @Prop() enterKeyHint: string;
 
   /** Adds text to the end of the component. */
   @Prop() suffixText: string;
@@ -487,22 +524,6 @@ export class Input
     connectLabel(this);
     connectForm(this);
 
-    this.setPreviousEmittedValue(this.value);
-    this.setPreviousValue(this.value);
-
-    if (this.type === "number") {
-      if (this.value === "Infinity" || this.value === "-Infinity") {
-        this.displayedValue = this.value;
-        this.previousEmittedValue = this.value;
-      } else {
-        this.warnAboutInvalidNumberValue(this.value);
-        this.setValue({
-          origin: "connected",
-          value: isValidNumber(this.value) ? this.value : "",
-        });
-      }
-    }
-
     this.mutationObserver?.observe(this.el, { childList: true });
 
     this.setDisabledAction();
@@ -527,6 +548,22 @@ export class Input
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
     await setUpMessages(this);
+
+    this.setPreviousEmittedValue(this.value);
+    this.setPreviousValue(this.value);
+
+    if (this.type === "number") {
+      if (this.value === "Infinity" || this.value === "-Infinity") {
+        this.displayedValue = this.value;
+        this.previousEmittedValue = this.value;
+      } else {
+        this.warnAboutInvalidNumberValue(this.value);
+        this.setValue({
+          origin: "connected",
+          value: isValidNumber(this.value) ? this.value : "",
+        });
+      }
+    }
   }
 
   componentDidLoad(): void {
@@ -609,14 +646,15 @@ export class Input
   //--------------------------------------------------------------------------
 
   keyDownHandler = (event: KeyboardEvent): void => {
-    if (this.readOnly || this.disabled) {
+    if (this.readOnly || this.disabled || event.defaultPrevented) {
       return;
     }
+
     if (this.isClearable && event.key === "Escape") {
       this.clearInputValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter" && !event.defaultPrevented) {
+    if (event.key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
       }
@@ -1123,8 +1161,11 @@ export class Input
     );
 
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
-
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
+
+    const autofocus = this.el.autofocus || this.el.hasAttribute("autofocus") ? true : null;
+    const enterKeyHint = this.el.enterKeyHint || this.el.getAttribute("enterkeyhint");
+    const inputMode = this.el.inputMode || this.el.getAttribute("inputmode");
 
     const localeNumberInput =
       this.type === "number" ? (
@@ -1132,11 +1173,11 @@ export class Input
           accept={this.accept}
           aria-label={getLabelText(this)}
           autocomplete={this.autocomplete}
-          autofocus={this.autofocus ? true : null}
+          autofocus={autofocus}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
-          enterKeyHint={this.enterKeyHint}
-          inputMode={this.inputMode}
+          enterKeyHint={enterKeyHint}
+          inputMode={inputMode}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
@@ -1150,10 +1191,9 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
+          ref={this.setChildNumberElRef}
           type="text"
           value={this.displayedValue}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setChildNumberElRef}
         />
       ) : null;
 
@@ -1164,15 +1204,15 @@ export class Input
               accept={this.accept}
               aria-label={getLabelText(this)}
               autocomplete={this.autocomplete}
-              autofocus={this.autofocus ? true : null}
+              autofocus={autofocus}
               class={{
                 [CSS.editingEnabled]: this.editingEnabled,
                 [CSS.inlineChild]: !!this.inlineEditableEl,
               }}
               defaultValue={this.defaultValue}
               disabled={this.disabled ? true : null}
-              enterKeyHint={this.enterKeyHint}
-              inputMode={this.inputMode}
+              enterKeyHint={enterKeyHint}
+              inputMode={inputMode}
               max={this.maxString}
               maxLength={this.maxLength}
               min={this.minString}
@@ -1188,6 +1228,7 @@ export class Input
               pattern={this.pattern}
               placeholder={this.placeholder || ""}
               readOnly={this.readOnly}
+              ref={this.setChildElRef}
               required={this.required ? true : null}
               step={this.step}
               tabIndex={
@@ -1195,8 +1236,6 @@ export class Input
               }
               type={this.type}
               value={this.value}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setChildElRef}
             />,
             this.isTextarea ? (
               <div class={CSS.resizeIconWrapper}>
@@ -1233,7 +1272,7 @@ export class Input
               : null}
             <HiddenFormInputSlot component={this} />
           </div>
-          {this.validationMessage ? (
+          {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
               message={this.validationMessage}

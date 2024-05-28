@@ -1,5 +1,4 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
@@ -9,15 +8,10 @@ import {
   modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 import { SLOTS } from "./resources";
 
 export default {
   title: "Components/Panel",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -28,7 +22,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "closed",
         commit(): Attribute {
-          this.value = boolean("closed", false);
+          this.value = boolean("closed", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -36,7 +30,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false);
+          this.value = boolean("disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -44,7 +38,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "closable",
         commit(): Attribute {
-          this.value = boolean("closable", false);
+          this.value = boolean("closable", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -52,7 +46,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "collapsed",
         commit(): Attribute {
-          this.value = boolean("collapsed", false);
+          this.value = boolean("collapsed", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -60,7 +54,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "collapsible",
         commit(): Attribute {
-          this.value = boolean("collapsible", false);
+          this.value = boolean("collapsible", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -84,7 +78,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "loading",
         commit(): Attribute {
-          this.value = boolean("loading", false);
+          this.value = boolean("loading", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -185,7 +179,7 @@ export const darkModeRTL_TestOnly = (): string =>
     panelContent,
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const closableWithActions_TestOnly = (): string => html`
   <calcite-panel
@@ -446,3 +440,23 @@ export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
   html`<calcite-panel style="--calcite-panel-header-border-block-end:none;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-panel
   >`;
+
+export const contentTopBottomSlot = (): string => html`
+  <div style="height: 350px; width: 400px; display: flex">
+    <calcite-panel height-scale="s">
+      <div slot="header-content">Header!</div>
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <div slot="content-top">Slot for a content-top.</div>
+      <p>Slotted content!</p>
+      <p>Hello world!</p>
+      <p>Hello world!</p>
+      <p>Hello world!</p>
+      <div slot="content-bottom">Slot for a content-bottom.</div>
+      <p slot="footer">Slotted content!</p>
+    </calcite-panel>
+  </div>
+`;

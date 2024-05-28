@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots, hidden } from "../../tests/commonTests";
-import { CSS, IDS, SLOTS } from "./resources";
+import { accessible, renders, slots, hidden, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS, IDS, SLOTS } from "./resources";
 
 describe("calcite-accordion-item", () => {
   describe("renders", () => {
@@ -18,6 +18,10 @@ describe("calcite-accordion-item", () => {
 
   describe("slots", () => {
     slots("calcite-accordion-item", SLOTS);
+  });
+
+  describe("is focusable", () => {
+    focusable("calcite-accordion-item");
   });
 
   it("properly uses ARIA and roles", async () => {

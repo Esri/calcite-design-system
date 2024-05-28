@@ -1,15 +1,11 @@
-import { select, text } from "@storybook/addon-knobs";
-import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
+import { select, text } from "../../../.storybook/fake-knobs";
+import { iconNames, boolean } from "../../../.storybook/helpers";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 
 export default {
   title: "Components/Tiles/Tile",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -29,7 +25,7 @@ export const simple = (): string => html`
   </calcite-tile>
 `;
 
-export const allVariants_NoTest = (): string => html`
+export const allVariants = (): string => html`
   <style>
     .parent {
       display: flex;
@@ -54,6 +50,10 @@ export const allVariants_NoTest = (): string => html`
     hr {
       margin: 25px 0;
       border-top: 1px solid var(--calcite-color-border-2);
+    }
+    calcite-chip.new {
+      background-color: #d8efda;
+      color: #13631f;
     }
   </style>
   <div class="parent">
@@ -162,86 +162,6 @@ export const allVariants_NoTest = (): string => html`
     </div>
   </div>
 
-  <!-- slots -->
-  <div class="parent">
-    <div class="child right-aligned-text">slots</div>
-
-    <div class="child">
-      <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-        heading="Tile title lorem ipsum"
-        icon="layers"
-        scale="s"
-      >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
-        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
-      </calcite-tile>
-    </div>
-    <div class="child">
-      <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-        heading="Tile title lorem ipsum"
-        icon="layers"
-        scale="m"
-      >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
-        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
-      </calcite-tile>
-    </div>
-    <div class="child">
-      <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-        heading="Tile title lorem ipsum"
-        icon="layers"
-        scale="l"
-      >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
-        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
-      </calcite-tile>
-    </div>
-  </div>
-
-  <div class="parent">
-    <div class="child right-aligned-text">links with slots</div>
-
-    <div class="child">
-      <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-        heading="Tile title lorem ipsum"
-        href="/"
-        icon="layers"
-        scale="s"
-      >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
-        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
-      </calcite-tile>
-    </div>
-    <div class="child">
-      <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-        heading="Tile title lorem ipsum"
-        href="/"
-        icon="layers"
-        scale="m"
-      >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
-        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
-      </calcite-tile>
-    </div>
-    <div class="child">
-      <calcite-tile
-        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-        heading="Tile title lorem ipsum"
-        href="/"
-        icon="layers"
-        scale="l"
-      >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
-        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
-      </calcite-tile>
-    </div>
-  </div>
-
   <!-- large visual -->
   <div class="parent">
     <div class="child right-aligned-text">large visual</div>
@@ -257,9 +177,9 @@ export const allVariants_NoTest = (): string => html`
     </div>
   </div>
 
-  <!-- large visual with link -->
+  <!-- link large visual -->
   <div class="parent">
-    <div class="child right-aligned-text">large visual with link</div>
+    <div class="child right-aligned-text">link large visual</div>
 
     <div class="child">
       <calcite-tile href="/" icon="layers" heading="Tile title lorem ipsum" scale="s"></calcite-tile>
@@ -269,6 +189,453 @@ export const allVariants_NoTest = (): string => html`
     </div>
     <div class="child">
       <calcite-tile href="/" icon="layers" heading="Tile title lorem ipsum" scale="l"></calcite-tile>
+    </div>
+  </div>
+
+  <!-- content-top slot -->
+  <div class="parent">
+    <div class="child right-aligned-text">content-top slot</div>
+
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top" scale="s">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top" scale="l">New</calcite-chip>
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- content-bottom slot -->
+  <div class="parent">
+    <div class="child right-aligned-text">content-bottom slot</div>
+
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom" scale="s">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom" scale="l">New</calcite-chip>
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- link with content-top slot -->
+  <div class="parent">
+    <div class="child right-aligned-text">link with content-top slot</div>
+
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top" scale="s">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top" scale="l">New</calcite-chip>
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- link with content-bottom slot -->
+  <div class="parent">
+    <div class="child right-aligned-text">link with content-bottom slot</div>
+
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom" scale="s">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom" scale="l">New</calcite-chip>
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- only content-top slot -->
+  <div class="parent">
+    <div class="child right-aligned-text">only content-top slot</div>
+
+    <div class="child">
+      <calcite-tile scale="s">
+        <img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-top" />
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile scale="m">
+        <img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-top" />
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile scale="l">
+        <img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-top" />
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- only content-bottom slot -->
+  <div class="parent">
+    <div class="child right-aligned-text">only content-bottom slot</div>
+
+    <div class="child">
+      <calcite-tile scale="s">
+        <img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-bottom" />
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile scale="m">
+        <img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-bottom" />
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile scale="l">
+        <img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-bottom" />
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- only content-top and content-bottom slots -->
+  <div class="parent">
+    <div class="child right-aligned-text">only content-top and content-bottom slots</div>
+
+    <div class="child">
+      <calcite-tile scale="s">
+        <img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-top" />
+        <img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-bottom" />
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile scale="m">
+        <img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-top" />
+        <img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-bottom" />
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile scale="l">
+        <img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-top" />
+        <img src="${placeholderImage({ width: 500, height: 500 })}" slot="content-bottom" />
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- content-start slot -->
+  <div class="parent">
+    <div class="child right-aligned-text">content-start slot (deprecated)</div>
+
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-icon slot="content-start" icon="banana" scale="s"></calcite-icon>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-icon slot="content-start" icon="banana" scale="l"></calcite-icon>
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- link with content-start slot -->
+  <div class="parent">
+    <div class="child right-aligned-text">link with content-start slot (deprecated)</div>
+
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-icon slot="content-start" icon="banana" scale="s"></calcite-icon>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-icon slot="content-start" icon="banana" scale="l"></calcite-icon>
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- content-end slot -->
+  <div class="parent">
+    <div class="child right-aligned-text">content-end slot (deprecated)</div>
+
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-icon slot="content-end" icon="banana" scale="s"></calcite-icon>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-icon slot="content-end" icon="banana" scale="l"></calcite-icon>
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- link with content-end slot -->
+  <div class="parent">
+    <div class="child right-aligned-text">link with content-end slot (deprecated)</div>
+
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-icon slot="content-end" icon="banana" scale="s"></calcite-icon>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-icon slot="content-end" icon="banana" scale="l"></calcite-icon>
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- content-start & content-end slots -->
+  <div class="parent">
+    <div class="child right-aligned-text">content-start & content-end slots (deprecated)</div>
+
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-icon slot="content-start" icon="banana" scale="s"></calcite-icon>
+        <calcite-icon slot="content-end" icon="banana" scale="s"></calcite-icon>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-icon slot="content-start" icon="banana" scale="l"></calcite-icon>
+        <calcite-icon slot="content-end" icon="banana" scale="l"></calcite-icon>
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- link with content-start & content-end slots -->
+  <div class="parent">
+    <div class="child right-aligned-text">link with content-start & content-end slots (deprecated)</div>
+
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-icon slot="content-start" icon="banana" scale="s"></calcite-icon>
+        <calcite-icon slot="content-end" icon="banana" scale="s"></calcite-icon>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
+        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        href="/"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-icon slot="content-start" icon="banana" scale="l"></calcite-icon>
+        <calcite-icon slot="content-end" icon="banana" scale="l"></calcite-icon>
+      </calcite-tile>
     </div>
   </div>
 
@@ -380,9 +747,9 @@ export const allVariants_NoTest = (): string => html`
     </div>
   </div>
 
-  <!-- slots centered -->
+  <!-- content-start & content-end slot centered (deprecated) -->
   <div class="parent">
-    <div class="child right-aligned-text">slots centered</div>
+    <div class="child right-aligned-text">content-start & content-end slot centered (deprecated)</div>
 
     <div class="child">
       <calcite-tile
@@ -392,8 +759,8 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="s"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
-        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+        <calcite-icon slot="content-start" icon="banana" scale="s"></calcite-icon>
+        <calcite-icon slot="content-end" icon="banana" scale="s"></calcite-icon>
       </calcite-tile>
     </div>
     <div class="child">
@@ -404,7 +771,6 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="m"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -416,15 +782,15 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="l"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
-        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+        <calcite-icon slot="content-start" icon="banana" scale="l"></calcite-icon>
+        <calcite-icon slot="content-end" icon="banana" scale="l"></calcite-icon>
       </calcite-tile>
     </div>
   </div>
 
-  <!-- links with slots centered -->
+  <!-- link with content-start & content-end slot centered (deprecated) -->
   <div class="parent">
-    <div class="child right-aligned-text">links with slots centered</div>
+    <div class="child right-aligned-text">link with content-start & content-end slot centered (deprecated)</div>
 
     <div class="child">
       <calcite-tile
@@ -435,8 +801,8 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="s"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
-        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+        <calcite-icon slot="content-start" icon="banana" scale="s"></calcite-icon>
+        <calcite-icon slot="content-end" icon="banana" scale="s"></calcite-icon>
       </calcite-tile>
     </div>
     <div class="child">
@@ -448,7 +814,6 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="m"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
         <calcite-icon slot="content-end" icon="banana"></calcite-icon>
       </calcite-tile>
     </div>
@@ -461,8 +826,8 @@ export const allVariants_NoTest = (): string => html`
         icon="layers"
         scale="l"
       >
-        <calcite-icon slot="content-start" icon="banana"></calcite-icon>
-        <calcite-icon slot="content-end" icon="banana"></calcite-icon>
+        <calcite-icon slot="content-start" icon="banana" scale="l"></calcite-icon>
+        <calcite-icon slot="content-end" icon="banana" scale="l"></calcite-icon>
       </calcite-tile>
     </div>
   </div>
@@ -470,29 +835,26 @@ export const allVariants_NoTest = (): string => html`
 
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-tile
-    ${boolean("active", false)}
-    description="${text(
-      "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
-    )}"
-    ${boolean("disabled", false)}
-    heading="${text("heading", "Tile heading lorem ipsum")}"
-    ${boolean("hidden", false)}
-    href="${text("href", "#")}"
-    icon="${select("icon", iconNames, "layer")}"
+    description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+    heading="Tile heading lorem ipsum"
+    href="#"
+    icon="layer"
     class="calcite-mode-dark"
     dir="rtl"
   >
   </calcite-tile>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+
+export const contentTopBotton_TestOnly = (): string => html`
+  <calcite-tile description="polygon layer" heading="Percent of population that carpool to work" icon="layers">
+    <calcite-icon slot="content-top" icon="polygon"></calcite-icon>
+    <calcite-icon slot="content-bottom" icon="launch"></calcite-icon>
+  </calcite-tile>
+`;
 
 export const contentStartRTL_TestOnly = (): string => html`
-  <calcite-tile
-    description="${text("description", "polygon layer")}"
-    heading="${text("heading", "Percent of population that carpool to work")}"
-    dir="rtl"
-  >
+  <calcite-tile description="polygon layer" heading="Percent of population that carpool to work" dir="rtl">
     <calcite-icon scale="s" slot="content-start" icon="polygon"></calcite-icon>
     <calcite-icon scale="s" slot="content-end" icon="launch"></calcite-icon>
   </calcite-tile>
@@ -509,16 +871,10 @@ export const overflowingContent_TestOnly = (): string => html`
 
 export const disabled_TestOnly = (): string => html`
   <calcite-tile
-    ${boolean("active", false)}
-    description="${text(
-      "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
-    )}"
-    ${boolean("disabled", false)}
-    heading="${text("heading", "Tile heading lorem ipsum")}"
-    ${boolean("hidden", false)}
-    href="${text("href", "#")}"
-    icon="${select("icon", iconNames, "layer")}"
+    description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+    disabled
+    heading="Tile heading lorem ipsum"
+    icon="layer"
   >
   </calcite-tile>
 `;

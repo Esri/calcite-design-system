@@ -10,7 +10,7 @@
         display: flex;
         align-items: center;
         color: var(--calcite-color-text-3);
-        font-family: var(--calcite-sans-family);
+        font-family: var(--calcite-font-family);
         font-size: var(--calcite-font-size-0);
         font-weight: var(--calcite-font-weight-medium);
       }
@@ -84,6 +84,61 @@
                 <calcite-tree-item>
                   Grandchild 3
                   <calcite-tree slot="children">
+                    <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                    <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                    <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>
+      </div>
+
+      <!-- single-persist select -->
+      <div class="parent">
+        <div class="child right-aligned-text">single persist select</div>
+
+        <div class="child">
+          <calcite-tree lines selection-mode="single-persist" scale="s">
+            <calcite-tree-item> Child 1 </calcite-tree-item>
+
+            <calcite-tree-item>
+              Child 2
+
+              <calcite-tree slot="children" selection-mode="single-persist">
+                <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+
+                <calcite-tree-item> Grandchild 2 </calcite-tree-item>
+
+                <calcite-tree-item>
+                  Grandchild 3
+                  <calcite-tree slot="children" selection-mode="single-persist">
+                    <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                    <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                    <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>
+
+        <div class="child">
+          <calcite-tree lines selection-mode="single-persist" scale="m">
+            <calcite-tree-item> Child 1 </calcite-tree-item>
+
+            <calcite-tree-item>
+              Child 2
+
+              <calcite-tree slot="children" selection-mode="single-persist">
+                <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+
+                <calcite-tree-item> Grandchild 2 </calcite-tree-item>
+
+                <calcite-tree-item>
+                  Grandchild 3
+                  <calcite-tree slot="children" selection-mode="single-persist">
                     <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
                     <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
                     <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>

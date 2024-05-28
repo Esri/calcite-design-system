@@ -59,11 +59,27 @@
     border-solid;
   padding-block: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+
+  &:hover {
+    .icon {
+      color: var(--calcite-color-text-1);
+    }
+  }
 }
 
 :host(:focus-within) .wrapper,
 .wrapper--active {
   @apply focus-inset;
+}
+
+:host([read-only]) {
+  .wrapper {
+    background-color: var(--calcite-color-background);
+  }
+
+  .label {
+    font-weight: var(--calcite-font-weight-medium);
+  }
 }
 
 :host([status="invalid"]) .wrapper {
@@ -90,6 +106,7 @@
     p-0;
 
   gap: var(--calcite-combobox-item-spacing-unit-s);
+  margin-inline-end: var(--calcite-combobox-item-spacing-unit-s);
 
   &.selection-display-fit,
   &.selection-display-single {
@@ -105,6 +122,7 @@
   font-inherit
   text-color-1
   text-ellipsis
+  overflow-hidden
   p-0;
   font-size: inherit;
   block-size: var(--calcite-combobox-input-height);
@@ -115,6 +133,7 @@
   &:focus {
     @apply outline-none;
   }
+
   &:placeholder-shown {
     @apply text-ellipsis;
   }
@@ -155,7 +174,6 @@
 
 .label {
   @apply pointer-events-none
-    flex
     max-w-full
     flex-auto
     truncate
@@ -176,6 +194,10 @@
 
 .icon-end {
   @apply flex-none;
+
+  .icon {
+    color: var(--calcite-color-text-3);
+  }
 }
 
 .floating-ui-container {

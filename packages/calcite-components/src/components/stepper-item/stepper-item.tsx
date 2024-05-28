@@ -39,7 +39,6 @@ import {
   LoadableComponent,
   componentFocusable,
 } from "../../utils/loadable";
-import { CSS } from "./resources";
 import {
   connectMessages,
   disconnectMessages,
@@ -47,6 +46,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
+import { CSS } from "./resources";
 import { StepperItemMessages } from "./assets/stepper-item/t9n";
 
 /**
@@ -145,13 +145,6 @@ export class StepperItem
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies if the user is viewing one `stepper-item` at a time.
-   * Helps in determining if header region is tabbable.
-   * @internal
-   */
-  @Prop({ reflect: true }) multipleViewMode = false;
-
-  /**
    * Use this property to override individual strings used by the component.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
@@ -206,13 +199,12 @@ export class StepperItem
    * @internal
    */
   @Event({ cancelable: false })
-  calciteInternalUserRequestedStepperItemSelect: EventEmitter<StepperItemChangeEventDetail>;
+  calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
 
   /**
-   * @internal
+   * Fires when the active `calcite-stepper-item` changes.
    */
-  @Event({ cancelable: false })
-  calciteInternalStepperItemRegister: EventEmitter<StepperItemEventDetail>;
+  @Event({ cancelable: false }) calciteStepperItemSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -269,12 +261,11 @@ export class StepperItem
             )}
             <div
               class={CSS.stepperItemHeader}
+              ref={(el) => (this.headerEl = el)}
               tabIndex={
                 /* additional tab index logic needed because of display: contents */
-                this.layout === "horizontal" && !this.disabled && this.multipleViewMode ? 0 : null
+                this.layout === "horizontal" && !this.disabled ? 0 : null
               }
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={(el) => (this.headerEl = el)}
             >
               {this.icon ? this.renderIcon() : null}
               {this.numbered ? (
@@ -372,7 +363,7 @@ export class StepperItem
   private renderIcon(): VNode {
     let path = "circle";
 
-    if (this.selected && (this.multipleViewMode || (!this.error && !this.complete))) {
+    if (this.selected && (this.layout !== "horizontal-single" || (!this.error && !this.complete))) {
       path = "circleF";
     } else if (this.error) {
       path = "exclamationMarkCircleF";
@@ -412,11 +403,7 @@ export class StepperItem
   private emitUserRequestedItem = (): void => {
     this.emitRequestedItem();
     if (!this.disabled) {
-      const position = this.itemPosition;
-
-      this.calciteInternalUserRequestedStepperItemSelect.emit({
-        position,
-      });
+      this.calciteStepperItemSelect.emit();
     }
   };
 

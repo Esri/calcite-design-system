@@ -1,16 +1,10 @@
-import { select, text } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { select, text } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme2 from "../segmented-control-item/readme.md";
-import readme1 from "./readme.md";
 
 export default {
   title: "Components/Controls/Radio/Segmented Control",
-  parameters: {
-    notes: [readme1, readme2],
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -52,8 +46,12 @@ export const fullWidthWithIcons = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
-  <calcite-segmented-control class="calcite-mode-dark" dir="rtl">
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-segmented-control
+    class="calcite-mode-dark"
+    dir="rtl"
+    validation-message="This should not appear because the status is not 'invalid'"
+  >
     <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
     <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
     <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
@@ -61,7 +59,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </calcite-segmented-control>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string =>
   html`<calcite-segmented-control disabled>
@@ -138,4 +136,30 @@ export const validationMessage_TestOnly = (): string => html`
       <calcite-segmented-control-item scale="l" value="vue">Vue</calcite-segmented-control-item>
     </calcite-segmented-control>
   </div>
+`;
+
+export const iconOnly = (): string => html`
+  <h1>small</h1>
+  <calcite-segmented-control scale="s">
+    <calcite-segmented-control-item icon-start="banana" value="react" checked></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-start="gear" value="ember"></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-start="3d-glasses" value="angular"></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-start="effects" value="vue"></calcite-segmented-control-item>
+  </calcite-segmented-control>
+
+  <h1>medium</h1>
+  <calcite-segmented-control scale="m">
+    <calcite-segmented-control-item icon-end="banana" value="react" checked></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-end="gear" value="ember"></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-end="3d-glasses" value="angular"></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-end="effects" value="vue"></calcite-segmented-control-item>
+  </calcite-segmented-control>
+
+  <h1>medium</h1>
+  <calcite-segmented-control scale="l">
+    <calcite-segmented-control-item icon-end="banana" value="react" checked></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-end="gear" value="ember"></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-end="3d-glasses" value="angular"></calcite-segmented-control-item>
+    <calcite-segmented-control-item icon-end="effects" value="vue"></calcite-segmented-control-item>
+  </calcite-segmented-control>
 `;

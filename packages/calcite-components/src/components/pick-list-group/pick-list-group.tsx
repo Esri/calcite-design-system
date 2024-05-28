@@ -9,7 +9,7 @@ import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Head
 import { CSS, SLOTS } from "./resources";
 
 /**
- * @deprecated Use the `list` component instead.
+ * @deprecated Use the `calcite-list` component instead.
  * @slot - A slot for adding `calcite-pick-list-item` elements.
  */
 @Component({
@@ -31,7 +31,7 @@ export class PickListGroup implements ConditionalSlotComponent {
   @Prop({ reflect: true }) groupTitle: string;
 
   /**
-   * Specifies the number at which section headings should start.
+   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 

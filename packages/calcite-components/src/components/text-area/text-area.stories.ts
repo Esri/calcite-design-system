@@ -1,14 +1,9 @@
-import { select, text, number } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import readme from "./readme.md";
+import { select, text, number } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/TextArea",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -29,7 +24,12 @@ export const simple = (): string => html`
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-text-area dir="rtl" class="calcite-mode-dark"> </calcite-text-area>
+  <calcite-text-area
+    dir="rtl"
+    class="calcite-mode-dark"
+    validation-message="This should not appear because the status is not 'invalid'"
+  >
+  </calcite-text-area>
 `;
 
 export const withSlottedElements = (): string => html`
@@ -83,17 +83,22 @@ export const chineseLang_TestOnly = (): string => html`
 export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
   html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+/**  Adds explicit height/width for components using position:fixed per Chromatic doc <https://www.chromatic.com/docs/snapshots/#why-isn%E2%80%99t-my-modal-or-dialog-captured>. */
+const wrapperStyles = html`
   <style>
-    .container {
+    .wrapper {
       display: flex;
-      flex-direction: column;
-      width: 420px;
-      height: 80px;
-      gap: 45px;
+      width: 800px;
+      height: 250px;
+      padding: 64px;
+      gap: 10px;
     }
   </style>
-  <div class="container">
+`;
+
+export const validationMessageAllScales_TestOnly = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
     <calcite-text-area
       scale="s"
       status="invalid"

@@ -26,8 +26,8 @@ import {
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
-import { CSS } from "./resources";
 import { getIconScale } from "../../utils/component";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.

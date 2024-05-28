@@ -5,9 +5,9 @@ import autoprefixer from "autoprefixer";
 import { reactOutputTarget } from "@stencil/react-output-target";
 import { angularOutputTarget } from "@stencil/angular-output-target";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
+import stylelint from "stylelint";
 import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
-import stylelint from "stylelint";
 import { version } from "./package.json";
 
 export const create: () => Config = () => ({
@@ -23,6 +23,8 @@ export const create: () => Config = () => ({
     { components: ["calcite-block", "calcite-block-section"] },
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
+    { components: ["calcite-card-group"] },
+    { components: ["calcite-carousel", "calcite-carousel-item"] },
     { components: ["calcite-checkbox"] },
     { components: ["calcite-chip"] },
     { components: ["calcite-chip-group"] },
@@ -79,6 +81,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"] },
     { components: ["calcite-text-area"] },
     { components: ["calcite-tile"] },
+    { components: ["calcite-tile-group"] },
     { components: ["calcite-tile-select-group", "calcite-tile-select"] },
     { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tooltip"] },

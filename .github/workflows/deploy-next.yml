@@ -10,12 +10,12 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
           ref: main
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
           registry-url: "https://registry.npmjs.org"
@@ -26,6 +26,7 @@ jobs:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
           # https://github.com/storybookjs/storybook-deployer/issues/77#issuecomment-618560481
           GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
         run: |
           if [ "$NEXT_RELEASE_ENABLED" == "true" ]; then
             npm install

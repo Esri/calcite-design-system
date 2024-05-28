@@ -1,15 +1,10 @@
-import { number, select, text } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { number, select, text } from "../../../.storybook/fake-knobs";
+import { boolean, iconNames } from "../../../.storybook/helpers";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Input Number",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -84,13 +79,13 @@ export const darkModeRTL_TestOnly = (): string => html`
         ${boolean("disabled", false)}
         value="${text("value", "")}"
         placeholder="${text("placeholder", "Placeholder text")}"
-        validation-message="My great input message"
+        validation-message="This should not appear because the status is not 'invalid'"
       >
       </calcite-input-number>
     </calcite-label>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const Infinity_TestOnly = (): string => html`<calcite-input-number value="Infinity"></calcite-input-number>`;
 

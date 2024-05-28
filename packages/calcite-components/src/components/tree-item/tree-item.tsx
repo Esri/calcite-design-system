@@ -32,9 +32,9 @@ import {
 } from "../../utils/interactive";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
+import { getIconScale } from "../../utils/component";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { getIconScale } from "../../utils/component";
 
 /**
  * @slot - A slot for adding text.
@@ -201,7 +201,10 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
 
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
-    const showBulletPoint = this.selectionMode === "single" || this.selectionMode === "children";
+    const showBulletPoint =
+      this.selectionMode === "single" ||
+      this.selectionMode === "children" ||
+      this.selectionMode === "single-persist";
     const showCheckmark =
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
@@ -291,7 +294,6 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
                   [CSS_UTILITY.rtl]: rtl,
                 }}
                 data-selection-mode={this.selectionMode}
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
               >
                 {chevron}
@@ -373,7 +375,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         });
         event.preventDefault();
         break;
-      case "Enter":
+      case "Enter": {
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
         const link = Array.from(this.el.children).find((el) =>
           el.matches("a"),
@@ -391,6 +393,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           });
         }
         event.preventDefault();
+      }
     }
   }
 

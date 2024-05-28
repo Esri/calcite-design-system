@@ -1,21 +1,16 @@
-import { number, select } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { number, select } from "../../../.storybook/fake-knobs";
+import { boolean } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
-import readme2 from "../dropdown-group/readme.md";
-import readme3 from "../dropdown-item/readme.md";
-import readme1 from "./readme.md";
 
 export default {
   title: "Components/Buttons/Dropdown",
   parameters: {
-    notes: [readme1, readme2, readme3],
     chromatic: {
       delay: 500,
     },
   },
-  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -223,7 +218,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-dropdown>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const itemsAsLinksDarkMode = (): string => html`
   <calcite-dropdown
@@ -257,7 +252,7 @@ export const itemsAsLinksDarkMode = (): string => html`
   </calcite-dropdown>
 `;
 
-itemsAsLinksDarkMode.parameters = { modes: modesDarkDefault };
+itemsAsLinksDarkMode.parameters = { themes: modesDarkDefault };
 
 export const scrollingAfterCertainItems_TestOnly = (): string => html`
   <calcite-dropdown
@@ -506,3 +501,44 @@ export const settingFullWidthEnablesTriggerTruncation_TestOnly = (): string =>
       </calcite-dropdown-group>
     </calcite-dropdown>
   </div>`;
+
+export const openInAllScales = (): string => html`
+  <style>
+    .container {
+      display: inline-flex;
+      flex-direction: column;
+      width: 10rem;
+      padding: 25px;
+      flex-basis: 200px;
+    }
+  </style>
+  <div class="container">
+    <calcite-dropdown scale="s" width-scale="s" open>
+      <calcite-button icon-end="hamburger" appearance="outline" slot="trigger">Scale S</calcite-button>
+      <calcite-dropdown-group group-title="View">
+        <calcite-dropdown-item icon-end="list-bullet" selected>List</calcite-dropdown-item>
+        <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  </div>
+
+  <div class="container">
+    <calcite-dropdown scale="m" width-scale="s" open>
+      <calcite-button icon-end="hamburger" appearance="outline" slot="trigger">Scale M</calcite-button>
+      <calcite-dropdown-group group-title="View">
+        <calcite-dropdown-item icon-end="list-bullet" selected>List</calcite-dropdown-item>
+        <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  </div>
+
+  <div class="container">
+    <calcite-dropdown scale="l" width-scale="s" open>
+      <calcite-button icon-end="hamburger" appearance="outline" slot="trigger">Scale L</calcite-button>
+      <calcite-dropdown-group group-title="View">
+        <calcite-dropdown-item icon-end="list-bullet" selected>List</calcite-dropdown-item>
+        <calcite-dropdown-item icon-end="grid">Grid</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  </div>
+`;

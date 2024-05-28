@@ -1,8 +1,10 @@
 # calcite-tip
 
-The `calcite-tip` component can comprise of an image, text and hyperlink to give helpful hints to a user about using the platform.
+For comprehensive guidance on using and implementing `calcite-tip`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/tip/).
 
 <!-- Auto Generated Below -->
+
+> **[DEPRECATED]** Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
 
 ## Usage
 
@@ -27,7 +29,7 @@ Renders a close-disabled tip with a heading, thumbnail, info and a link.
 | `closeDisabled`    | `close-disabled`    | When `true`, the close button is not present on the component.                                                                                         | `boolean`                    | `false`     |
 | `closed`           | `closed`            | When `true`, the component does not display.                                                                                                           | `boolean`                    | `false`     |
 | `heading`          | `heading`           | The component header text.                                                                                                                             | `string`                     | `undefined` |
-| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.                                                                                           | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `headingLevel`     | `heading-level`     | Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.                              | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
 | `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                                                                | `TipMessages`                | `undefined` |
 | `selected`         | `selected`          | When `true`, the component is selected if it has a parent `calcite-tip-manager`. Only one tip can be selected within the `calcite-tip-manager` parent. | `boolean`                    | `false`     |
 

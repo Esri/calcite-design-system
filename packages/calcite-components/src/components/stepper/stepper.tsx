@@ -15,16 +15,8 @@ import {
 } from "@stencil/core";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Position, Scale } from "../interfaces";
-import {
-  StepperItemChangeEventDetail,
-  StepperItemKeyEventDetail,
-  StepperLayout,
-} from "./interfaces";
 import { createObserver } from "../../utils/observers";
-import { StepBar } from "./functional/step-bar";
-import { ITEM_MIN_WIDTH, CSS } from "./resources";
 import { guid } from "../../utils/guid";
-
 import {
   connectLocalized,
   disconnectLocalized,
@@ -38,6 +30,13 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
+import { CSS } from "./resources";
+import { StepBar } from "./functional/step-bar";
+import {
+  StepperItemChangeEventDetail,
+  StepperItemKeyEventDetail,
+  StepperLayout,
+} from "./interfaces";
 import { StepperMessages } from "./assets/stepper/t9n";
 
 /**
@@ -74,6 +73,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   @Watch("scale")
   handleItemPropChange(): void {
     this.updateItems();
+    this.determineActiveStepper();
   }
 
   /**
@@ -122,6 +122,13 @@ export class Stepper implements LocalizedComponent, T9nComponent {
    * Fires when the active `calcite-stepper-item` changes.
    *
    */
+  @Event({ cancelable: false }) calciteStepperChange: EventEmitter<void>;
+
+  /**
+   * Fires when the active `calcite-stepper-item` changes.
+   *
+   * @deprecated use `calciteStepperChange` instead or `calciteStepperItemChange` on items instead.
+   */
   @Event({ cancelable: false }) calciteStepperItemChange: EventEmitter<void>;
 
   /**
@@ -150,7 +157,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   }
 
   componentDidLoad(): void {
-    this.resizeObserver?.observe(this.containerEl);
     // if no stepper items are set as active, default to the first one
     if (typeof this.currentActivePosition !== "number") {
       const enabledStepIndex = this.getFirstEnabledStepperPosition();
@@ -166,7 +172,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   }
 
   disconnectedCallback(): void {
-    this.resizeObserver?.disconnect();
     disconnectMessages(this);
     disconnectLocalized(this);
     this.mutationObserver?.disconnect();
@@ -176,7 +181,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     return (
       <Host aria-label={this.messages.label} role="region">
         <div
-          class={{ container: true, [CSS.singleView]: !this.multipleViewMode }}
+          class={{ container: true, [CSS.singleView]: this.layout === "horizontal-single" }}
           ref={this.setContainerEl}
         >
           {this.layout === "horizontal-single" && (
@@ -192,10 +197,12 @@ export class Stepper implements LocalizedComponent, T9nComponent {
               ))}
             </div>
           )}
-          <div class={{ [CSS.actionContainer]: true }}>
-            {this.renderAction("start")}
-            {this.renderAction("end")}
-          </div>
+          {this.layout === "horizontal-single" && (
+            <div class={{ [CSS.actionContainer]: true }}>
+              {this.renderAction("start")}
+              {this.renderAction("end")}
+            </div>
+          )}
           <slot onSlotchange={this.handleDefaultSlotChange} />
         </div>
       </Host>
@@ -255,9 +262,9 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     });
   }
 
-  @Listen("calciteInternalUserRequestedStepperItemSelect")
-  handleUserRequestedStepperItemSelect(): void {
-    this.calciteStepperItemChange.emit();
+  @Listen("calciteStepperItemSelect")
+  handleItemSelect(): void {
+    this.emitItemSelect();
   }
 
   //--------------------------------------------------------------------------
@@ -350,15 +357,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   @Watch("currentActivePosition")
   handlePositionChange(): void {
     readTask((): void => {
-      this.determineActiveStepper(true);
-    });
-  }
-
-  @State() elWidth: number;
-
-  @Watch("elWidth")
-  handleElWidthChange(): void {
-    readTask((): void => {
       this.determineActiveStepper();
     });
   }
@@ -384,10 +382,10 @@ export class Stepper implements LocalizedComponent, T9nComponent {
   //
   //--------------------------------------------------------------------------
 
-  private resizeObserver = createObserver(
-    "resize",
-    (entries) => (this.elWidth = entries[0].contentRect.width),
-  );
+  private emitItemSelect(): void {
+    this.calciteStepperItemChange.emit();
+    this.calciteStepperChange.emit();
+  }
 
   private updateItems(): void {
     this.el.querySelectorAll("calcite-stepper-item").forEach((item) => {
@@ -398,35 +396,19 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     });
   }
 
-  private determineActiveStepper(currentActivePositionChanged = false): void {
-    const totalItems = this.items.length;
-    if (!this.elWidth || !totalItems || this.layout === "vertical" || totalItems === 1) {
+  private determineActiveStepper(): void {
+    const { items } = this;
+
+    if (items.length < 2) {
       return;
     }
 
-    const activePosition = this.currentActivePosition || 0;
+    const { currentActivePosition, layout } = this;
 
-    if (this.layout === "horizontal") {
-      if (this.multipleViewMode && !currentActivePositionChanged) {
-        return;
-      }
-      this.multipleViewMode = true;
-      this.setGridTemplateColumns(this.items);
-      this.items.forEach((item: HTMLCalciteStepperItemElement) => {
-        item.hidden = false;
-        item.multipleViewMode = true;
-      });
-    } else {
-      this.multipleViewMode = false;
-      this.items.forEach((item: HTMLCalciteStepperItemElement, index) => {
-        if (index !== activePosition) {
-          item.hidden = true;
-        } else {
-          item.hidden = false;
-          item.multipleViewMode = false;
-        }
-      });
-    }
+    this.multipleViewMode = layout !== "horizontal-single";
+    items.forEach((item, index) => {
+      item.hidden = layout === "horizontal-single" && index !== (currentActivePosition || 0);
+    });
   }
 
   private getEnabledStepIndex(
@@ -437,7 +419,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
 
     let newIndex = startIndex;
 
-    while (items[newIndex]?.disabled && this.multipleViewMode) {
+    while (items[newIndex]?.disabled && this.layout !== "horizontal-single") {
       newIndex = newIndex + (direction === "previous" ? -1 : 1);
     }
 
@@ -507,7 +489,7 @@ export class Stepper implements LocalizedComponent, T9nComponent {
       currentActivePosition !== this.currentActivePosition &&
       !this.items[this.currentActivePosition].disabled
     ) {
-      this.calciteStepperItemChange.emit();
+      this.emitItemSelect();
     }
   };
 
@@ -517,7 +499,6 @@ export class Stepper implements LocalizedComponent, T9nComponent {
     if (enabledStepIndex > -1) {
       return enabledStepIndex;
     }
-
     return 0;
   }
 
@@ -530,18 +511,9 @@ export class Stepper implements LocalizedComponent, T9nComponent {
       (el) => el?.tagName === "CALCITE-STEPPER-ITEM",
     );
     this.items = items as HTMLCalciteStepperItemElement[];
-    this.setGridTemplateColumns(items);
-    this.setStepperItemNumberingSystem();
-  };
-
-  private setGridTemplateColumns(items: Element[]): void {
-    const minWidth = this.getMinWidthOfStepperItem();
-    const spacing = Array(items.length).fill(`minmax(${minWidth}px, 1fr)`).join(" ");
+    const spacing = Array(items.length).fill("1fr").join(" ");
     this.containerEl.style.gridTemplateAreas = spacing;
     this.containerEl.style.gridTemplateColumns = spacing;
-  }
-
-  private getMinWidthOfStepperItem(): number {
-    return ITEM_MIN_WIDTH[this.scale];
-  }
+    this.setStepperItemNumberingSystem();
+  };
 }

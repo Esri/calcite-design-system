@@ -315,6 +315,31 @@ describe("calcite-date-picker", () => {
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
 
+  it("unsetting min/max updates internally", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone("America/Los_Angeles");
+    await page.setContent(
+      html`<calcite-date-picker value="2022-11-20" min="2022-11-15" max="2022-11-25"></calcite-date-picker>`,
+    );
+
+    const element = await page.find("calcite-date-picker");
+
+    element.setProperty("min", null);
+    element.setProperty("max", null);
+    await page.waitForChanges();
+
+    expect(await element.getProperty("minAsDate")).toBe(null);
+    expect(await element.getProperty("maxAsDate")).toBe(null);
+
+    const dateBeyondMax = "2022-11-26";
+    await setActiveDate(page, dateBeyondMax);
+    expect(await getActiveDate(page)).toEqual(new Date(dateBeyondMax).toISOString());
+
+    const dateBeforeMin = "2022-11-14";
+    await setActiveDate(page, dateBeforeMin);
+    expect(await getActiveDate(page)).toEqual(new Date(dateBeforeMin).toISOString());
+  });
+
   it("passes down the default year prop to child date-picker-month-header", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-date-picker value="2000-11-27" active></calcite-date-picker>`);
@@ -330,4 +355,229 @@ describe("calcite-date-picker", () => {
   describe("translation support", () => {
     t9n("calcite-date-picker");
   });
+
+  describe("ArrowKeys and PageKeys", () => {
+    it("should be able to navigate between months and select date using arrow keys and page keys", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
+      await page.waitForChanges();
+
+      const datePicker = await page.find("calcite-date-picker");
+      await setActiveDate(page, "01-01-2024");
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual("2023-12-25");
+
+      await page.keyboard.press("PageUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await datePicker.getProperty("value")).toEqual("2023-11-25");
+
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual("2024-01-25");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual("2024-02-01");
+    });
+
+    it("should be able to navigate between months and select date using arrow keys and page keys when value is parsed", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker value="2024-01-01"></calcite-date-picker>`);
+      const datePicker = await page.find("calcite-date-picker");
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual("2023-12-25");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual("2024-01-08");
+
+      await page.keyboard.press("PageUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await datePicker.getProperty("value")).toEqual("2023-12-08");
+
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual("2024-02-08");
+    });
+
+    it("should be able to navigate between months and select date using arrow keys and page keys in range", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
+      await page.waitForChanges();
+
+      const datePicker = await page.find("calcite-date-picker");
+      await setActiveDate(page, "01-01-2024");
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual(["2023-12-25", ""]);
+
+      await page.keyboard.press("PageUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      await page.waitForTimeout(4000);
+      expect(await datePicker.getProperty("value")).toEqual(["2023-11-25", "2023-12-25"]);
+
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      await page.waitForTimeout(4000);
+      expect(await datePicker.getProperty("value")).toEqual(["2023-11-25", "2024-01-25"]);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual(["2023-11-25", "2024-02-01"]);
+    });
+
+    it("should be able to navigate between months and select date using arrow keys and page keys in range when value is parsed", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
+      const datePicker = await page.find("calcite-date-picker");
+      datePicker.setProperty("value", ["2024-01-01", "2024-02-10"]);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual(["2023-12-25", "2024-02-10"]);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual(["2023-12-25", "2024-01-08"]);
+
+      await page.keyboard.press("PageUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await datePicker.getProperty("value")).toEqual(["2023-12-08", "2024-01-08"]);
+
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toEqual(["2023-12-08", "2024-02-08"]);
+    });
+  });
+
+  it("restarts range on selection after a range is complete when proximitySelectionDisabled is set", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html` <calcite-date-picker range value="2020-09-01" proximity-selection-disabled></calcite-date-picker>`,
+    );
+    const datePicker = await page.find("calcite-date-picker");
+
+    await selectDay("20200908", page, "mouse");
+    await page.waitForChanges();
+    await selectDay("20200923", page, "mouse");
+    await page.waitForChanges();
+    expect(await datePicker.getProperty("value")).toEqual(["2020-09-08", "2020-09-23"]);
+
+    await selectDay("20200915", page, "mouse");
+    await page.waitForChanges();
+    expect(await datePicker.getProperty("value")).toEqual(["2020-09-15", ""]);
+
+    await selectDay("20200930", page, "mouse");
+    await page.waitForChanges();
+    expect(await datePicker.getProperty("value")).toEqual(["2020-09-15", "2020-09-30"]);
+  });
 });
+
+async function setActiveDate(page: E2EPage, date: string): Promise<void> {
+  await page.evaluate((date) => {
+    const datePicker = document.querySelector("calcite-date-picker");
+    datePicker.activeDate = new Date(date);
+  }, date);
+  await page.waitForChanges();
+}
+
+async function getActiveDate(page: E2EPage): Promise<string> {
+  return await page.evaluate(() => {
+    const datePicker = document.querySelector("calcite-date-picker");
+    return datePicker.activeDate.toISOString();
+  });
+}

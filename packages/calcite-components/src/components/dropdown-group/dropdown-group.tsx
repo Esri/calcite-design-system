@@ -11,9 +11,9 @@ import {
   Watch,
 } from "@stencil/core";
 import { Scale, SelectionMode } from "../interfaces";
-import { RequestedItem } from "./interfaces";
 import { createObserver } from "../../utils/observers";
 import { CSS } from "../dropdown-item/resources";
+import { RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-item`s.
@@ -40,7 +40,7 @@ export class DropdownGroup {
    *
    * @internal
    */
-  @Prop() scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the selection mode of the component, where:
@@ -104,7 +104,6 @@ export class DropdownGroup {
         <div
           class={{
             [CSS.container]: true,
-            [`${CSS.container}--${this.scale}`]: true,
           }}
         >
           {dropdownSeparator}

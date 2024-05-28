@@ -58,9 +58,6 @@ import {
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
 import { ListItemAndHandle } from "../value-list-item/interfaces";
-import { ValueListMessages } from "./assets/value-list/t9n";
-import { CSS, ICON_TYPES } from "./resources";
-import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 import {
   DragDetail,
   connectSortableComponent,
@@ -69,9 +66,12 @@ import {
   dragActive,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
+import { ValueListMessages } from "./assets/value-list/t9n";
+import { CSS, ICON_TYPES } from "./resources";
+import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 
 /**
- * @deprecated Use the `list` component instead.
+ * @deprecated Use the `calcite-list` component instead.
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
@@ -482,7 +482,7 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
-  getIconType(): ICON_TYPES | null {
+  getIconType(): typeof ICON_TYPES | null {
     let type = null;
     if (this.dragEnabled) {
       type = ICON_TYPES.grip;

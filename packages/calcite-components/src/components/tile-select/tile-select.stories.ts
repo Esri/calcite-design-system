@@ -1,20 +1,15 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { boolean, select, text } from "../../../.storybook/fake-knobs";
+import { iconNames } from "../../../.storybook/helpers";
 import {
   Attribute,
   Attributes,
   createComponentHTML as create,
   filterComponentAttributes,
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Tiles/Tile Select",
-  parameters: {
-    notes: readme,
-  },
-  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -23,7 +18,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "checked",
         commit(): Attribute {
-          this.value = boolean("checked", false);
+          this.value = boolean("checked", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -39,7 +34,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "disabled",
         commit(): Attribute {
-          this.value = boolean("disabled", false);
+          this.value = boolean("disabled", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -55,7 +50,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "hidden",
         commit(): Attribute {
-          this.value = boolean("hidden", false);
+          this.value = boolean("hidden", false, "", "prop");
           delete this.build;
           return this;
         },
@@ -79,7 +74,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "input-enabled",
         commit(): Attribute {
-          this.value = boolean("input-enabled", false);
+          this.value = boolean("input-enabled", false, "", "prop");
           delete this.build;
           return this;
         },

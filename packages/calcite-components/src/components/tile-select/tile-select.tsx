@@ -30,6 +30,7 @@ import { TileSelectType } from "./interfaces";
 import { CSS } from "./resources";
 
 /**
+ * @deprecated Use the `calcite-tile` component instead.
  * @slot - A slot for adding custom content.
  */
 @Component({

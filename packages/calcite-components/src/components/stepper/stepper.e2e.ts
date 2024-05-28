@@ -501,12 +501,13 @@ describe("calcite-stepper", () => {
     });
   });
 
-  describe("should emit calciteStepperItemChange on user interaction", () => {
+  describe("should emit calciteStepperChange/calciteStepperItemChange on user interaction", () => {
     let layout: HTMLCalciteStepperElement["layout"];
 
     async function assertEmitting(page: E2EPage, hasContent: boolean): Promise<void> {
       const element = await page.find("calcite-stepper");
-      const eventSpy = await element.spyOnEvent("calciteStepperItemChange");
+      const itemChangeSpy = await element.spyOnEvent("calciteStepperItemChange");
+      const changeSpy = await element.spyOnEvent("calciteStepperChange");
       const firstItem = await page.find("#step-1");
 
       const getSelectedItemId = async (): Promise<string> => {
@@ -520,10 +521,12 @@ describe("calcite-stepper", () => {
       // non user interaction
       firstItem.setProperty("selected", true);
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
 
       await page.$eval("#step-2", itemClicker);
-      expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(++expectedEvents);
+      expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
       expect(await getSelectedItemId()).toBe("step-2");
 
       if (hasContent) {
@@ -532,29 +535,35 @@ describe("calcite-stepper", () => {
         );
 
         if (layout === "vertical") {
-          expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
+          expect(itemChangeSpy).toHaveReceivedEventTimes(++expectedEvents);
+          expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
           expect(await getSelectedItemId()).toBe("step-1");
         } else {
           // no events since horizontal layout moves content outside of item selection hit area
-          expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
+          expect(itemChangeSpy).toHaveReceivedEventTimes(expectedEvents);
+          expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
         }
       }
 
       // disabled item
       await page.$eval("#step-3", itemClicker);
-      expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
 
       await page.$eval("#step-4", itemClicker);
-      expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(++expectedEvents);
+      expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
       expect(await getSelectedItemId()).toBe("step-4");
 
       await element.callMethod("prevStep");
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
 
       await element.callMethod("nextStep");
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(expectedEvents);
+      expect(changeSpy).toHaveReceivedEventTimes(expectedEvents);
     }
 
     describe("horizontal layout", () => {
@@ -837,26 +846,57 @@ describe("calcite-stepper", () => {
 
       const stepper = await page.find("calcite-stepper");
       const [actionStart, actionEnd] = await page.findAll("calcite-stepper >>> calcite-action");
-      const eventSpy = await stepper.spyOnEvent("calciteStepperItemChange");
-      expect(eventSpy).toHaveReceivedEventTimes(0);
+      const changeSpy = await stepper.spyOnEvent("calciteStepperChange");
+      const itemChangeSpy = await stepper.spyOnEvent("calciteStepperItemChange");
+      expect(changeSpy).toHaveReceivedEventTimes(0);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(0);
 
       // shouldn't emit change event when disabled element is visible
       await actionEnd.click();
-      await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(0);
+      expect(changeSpy).toHaveReceivedEventTimes(0);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(0);
 
       await actionEnd.click();
-      await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(changeSpy).toHaveReceivedEventTimes(1);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(1);
 
       // shouldn't emit change event when disabled element is visible
       await actionStart.click();
-      await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(changeSpy).toHaveReceivedEventTimes(1);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(1);
 
       await actionStart.click();
+      expect(changeSpy).toHaveReceivedEventTimes(2);
+      expect(itemChangeSpy).toHaveReceivedEventTimes(2);
+    });
+
+    it(`switching to layout="horizontal-single" dynamically from another option should display a single item (#8931)`, async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`
+          <calcite-stepper layout="horizontal">
+            <calcite-stepper-item heading="Step 1" selected>
+              <div>Step 1 content</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Step 2">
+              <div>Step 2 content</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Step 3">
+              <div>Step 3 content</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Review">
+              <div>Step 4 content</div>
+            </calcite-stepper-item>
+          </calcite-stepper>
+          </calcite-stepper>`,
+      );
+
+      const stepper = await page.find("calcite-stepper");
+      await stepper.setProperty("layout", "horizontal-single");
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(2);
+
+      const displayedItems = await page.findAll("calcite-stepper-item:not([hidden])");
+      expect(displayedItems.length).toBe(1);
     });
   });
 });

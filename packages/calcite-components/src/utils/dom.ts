@@ -584,6 +584,19 @@ export function isPrimaryPointerButton(event: PointerEvent): boolean {
   return !!(event.isPrimary && event.button === 0);
 }
 
+/**
+ * This helper returns true if the mouse event was triggered by a keyboard click.
+ *
+ * @param {MouseEvent} event The mouse event.
+ * @returns {boolean} The value.
+ */
+export function isKeyboardTriggeredClick(event: MouseEvent): boolean {
+  // we assume event.detail = 0 is a keyboard click
+  // see https://www.w3.org/TR/uievents/#event-type-click
+  // see https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event#usage_notes
+  return event.detail === 0;
+}
+
 export type FocusElementInGroupDestination = "first" | "last" | "next" | "previous";
 
 /**
@@ -595,12 +608,12 @@ export type FocusElementInGroupDestination = "first" | "last" | "next" | "previo
  * @param {boolean} cycle Should navigation cycle through elements or stop at extent - defaults to true.
  * @returns {Element} The focused element
  */
-export const focusElementInGroup = (
+export const focusElementInGroup = <T extends Element = Element>(
   elements: Element[],
   currentElement: Element,
   destination: FocusElementInGroupDestination,
   cycle = true,
-): Element => {
+): T => {
   const currentIndex = elements.indexOf(currentElement);
   const isFirstItem = currentIndex === 0;
   const isLastItem = currentIndex === elements.length - 1;
@@ -639,4 +652,62 @@ export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
 
   const children = Array.from(a.parentNode.children);
   return children.indexOf(a) < children.indexOf(b);
+}
+
+/**
+ * This util helps determine when an animation has completed.
+ *
+ * @param targetEl The element to watch for the animation to complete.
+ * @param animationName The name of the animation to watch for completion.
+ */
+export async function whenAnimationDone(targetEl: HTMLElement, animationName: string): Promise<void> {
+  const { animationDuration: allDurations, animationName: allNames } = getComputedStyle(targetEl);
+
+  const allDurationsArray = allDurations.split(",");
+  const allPropsArray = allNames.split(",");
+  const propIndex = allPropsArray.indexOf(animationName);
+  const duration =
+    allDurationsArray[propIndex] ??
+    /* Safari will have a single duration value for the shorthand prop when multiple, separate names/props are defined,
+            so we fall back to it if there's no matching prop duration */
+    allDurationsArray[0];
+
+  if (duration === "0s") {
+    return Promise.resolve();
+  }
+
+  const startEvent = "animationstart";
+  const endEvent = "animationend";
+  const cancelEvent = "animationcancel";
+
+  return new Promise<void>((resolve) => {
+    const fallbackTimeoutId = setTimeout(
+      (): void => {
+        targetEl.removeEventListener(startEvent, onStart);
+        targetEl.removeEventListener(endEvent, onEndOrCancel);
+        targetEl.removeEventListener(cancelEvent, onEndOrCancel);
+        resolve();
+      },
+      parseFloat(duration) * 1000,
+    );
+
+    targetEl.addEventListener(startEvent, onStart);
+    targetEl.addEventListener(endEvent, onEndOrCancel);
+    targetEl.addEventListener(cancelEvent, onEndOrCancel);
+
+    function onStart(event: AnimationEvent): void {
+      if (event.animationName === animationName && event.target === targetEl) {
+        clearTimeout(fallbackTimeoutId);
+        targetEl.removeEventListener(startEvent, onStart);
+      }
+    }
+
+    function onEndOrCancel(event: AnimationEvent): void {
+      if (event.animationName === animationName && event.target === targetEl) {
+        targetEl.removeEventListener(endEvent, onEndOrCancel);
+        targetEl.removeEventListener(cancelEvent, onEndOrCancel);
+        resolve();
+      }
+    }
+  });
 }

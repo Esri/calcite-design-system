@@ -29,6 +29,7 @@ import { TipMessages } from "./assets/tip/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
+ * @deprecated Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.
  * @slot - A slot for adding text and a hyperlink.
  * @slot thumbnail - A slot for adding an HTML image element.
  */
@@ -60,7 +61,7 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
   @Prop() heading: string;
 
   /**
-   * Specifies the number at which section headings should start.
+   * Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 

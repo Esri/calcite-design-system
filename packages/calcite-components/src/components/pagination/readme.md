@@ -1,6 +1,6 @@
 # calcite-pagination
 
-`calcite-pagination` allows users to select a page from a paginated API.
+For comprehensive guidance on using and implementing `calcite-pagination`, refer to the [documentation page](https://developers.arcgis.com/calcite-design-system/components/paination/).
 
 <!-- Auto Generated Below -->
 
@@ -44,6 +44,20 @@ For example, after querying the search API, you'll get back a response similar t
 | `calcitePaginationChange` | Emits when the selected page changes. | `CustomEvent<void>` |
 
 ## Methods
+
+### `goTo(page: number | "start" | "end") => Promise<void>`
+
+Set a specified page as active.
+
+#### Parameters
+
+| Name   | Type                         | Description |
+| ------ | ---------------------------- | ----------- |
+| `page` | `number \| "start" \| "end"` |             |
+
+#### Returns
+
+Type: `Promise<void>`
 
 ### `nextPage() => Promise<void>`
 

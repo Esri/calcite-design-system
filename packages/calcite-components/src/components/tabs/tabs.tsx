@@ -1,8 +1,8 @@
 import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
 import { Scale } from "../interfaces";
+import { createObserver } from "../../utils/observers";
 import { TabLayout, TabPosition } from "./interfaces";
 import { SLOTS } from "./resources";
-import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-tab`s.
