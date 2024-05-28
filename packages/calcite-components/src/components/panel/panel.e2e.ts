@@ -12,6 +12,7 @@ import {
   slots,
   t9n,
 } from "../../tests/commonTests";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS, SLOTS } from "./resources";
 
 const panelTemplate = (scrollable = false) =>
@@ -423,5 +424,128 @@ describe("calcite-panel", () => {
 
     expect(await panel.getProperty("closed")).toBe(false);
     expect(await container.isVisible()).toBe(true);
+  });
+
+  describe("theme", () => {
+    const panelHTML = html`
+      <calcite-panel height-scale="s" closable heading="panel" description="slotted with header actions and action-bar">
+        <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+        <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+        <calcite-action label="icon left" icon="left" slot="header-actions-start"></calcite-action>
+        <calcite-action label="icon left" icon="left" slot="header-actions-end"></calcite-action>
+        <calcite-action-bar slot="action-bar">
+          <calcite-action-group>
+            <calcite-action text="Add" icon="plus"> </calcite-action>
+            <calcite-action text="Save" icon="save"> </calcite-action>
+            <calcite-action text="Layers" icon="layers"> </calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+        <div slot="content-top">Slot for a content-top.</div>
+        <p>Slotted content!</p>
+        <p style="height: 400px">Hello world!</p>
+        <p style="height: 400px">Hello world!</p>
+        <p style="height: 400px">Hello world!</p>
+        <div slot="content-bottom">Slot for a content-bottom.</div>
+        <p slot="footer">Slotted content!</p>
+        <calcite-fab slot="fab"></calcite-fab>
+      </calcite-panel>
+    `;
+
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-panel-spacing-block-end": {
+          shadowSelector: `.${CSS.contentBottom}`,
+          targetProp: "paddingBlockEnd",
+        },
+        "--calcite-panel-spacing-block-start": {
+          shadowSelector: `.${CSS.contentTop}`,
+          targetProp: "paddingBlockStart",
+        },
+        "--calcite-panel-height": {
+          selector: "calcite-panel",
+          targetProp: "blockSize",
+        },
+        "--calcite-panel-width": {
+          selector: "calcite-panel",
+          targetProp: "inlineSize",
+        },
+        "--calcite-panel-action-background-color": {
+          shadowSelector: `calcite-action >>> .button`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-panel-action-background-color-hover": {
+          shadowSelector: `calcite-action >>> .button`,
+          targetProp: "--calcite-action-background-color",
+          state: { hover: { attribute: "class", value: `button` } },
+        },
+        "--calcite-panel-action-background-color-active": {
+          shadowSelector: `calcite-action >>> .button`,
+          targetProp: "--calcite-action-background-color",
+          state: { press: { attribute: "class", value: `button` } },
+        },
+
+        "--calcite-panel-action-menu-border-color": {
+          shadowSelector: "calcite-action-menu",
+          targetProp: "--calcite-action-menu-border-color",
+        },
+        "--calcite-panel-action-menu-text-color": {
+          shadowSelector: "calcite-action-menu",
+          targetProp: "--calcite-action-menu-text-color",
+        },
+        "--calcite-panel-background-color": [
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+          },
+          {
+            shadowSelector: `.${CSS.contentWrapper}`,
+            targetProp: "backgroundColor",
+          },
+        ],
+        "--calcite-panel-border-color": [
+          {
+            shadowSelector: `.${CSS.header}`,
+            targetProp: "borderBlockEndColor",
+          },
+          {
+            shadowSelector: `.${CSS.headerContainerBorderEnd}`,
+            targetProp: "borderBlockEndColor",
+          },
+          {
+            shadowSelector: `.${CSS.footer}`,
+            targetProp: "borderBlockStartColor",
+          },
+        ],
+        "--calcite-panel-description-text-color": {
+          shadowSelector: `.${CSS.description}`,
+          targetProp: "color",
+        },
+        "--calcite-panel-fab-z-index": {
+          shadowSelector: `.${CSS.fabContainer}`,
+          targetProp: "zIndex",
+        },
+        "--calcite-panel-footer-background-color": {
+          shadowSelector: `.${CSS.footer}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-panel-footer-space": {
+          shadowSelector: `.${CSS.footer}`,
+          targetProp: "paddingBlockStart",
+        },
+        "--calcite-panel-header-background-color": {
+          shadowSelector: `.${CSS.header}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-panel-header-z-index": {
+          shadowSelector: `.${CSS.header}`,
+          targetProp: "zIndex",
+        },
+        "--calcite-panel-heading-text-color": {
+          shadowSelector: `.${CSS.heading}`,
+          targetProp: "color",
+        },
+      };
+      themed(panelHTML, tokens);
+    });
   });
 });
