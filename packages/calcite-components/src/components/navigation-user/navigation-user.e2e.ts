@@ -66,11 +66,11 @@ describe("calcite-navigation-user", () => {
           targetProp: "borderBlockEndColor",
         },
         "--calcite-navigation-user-full-name-text-color": {
-          shadowSelector: `.${CSS.button} >>> .${CSS.fullName}`,
+          shadowSelector: `.${CSS.fullName}`,
           targetProp: "color",
         },
         "--calcite-navigation-user-name-text-color": {
-          shadowSelector: `.${CSS.button} >>> .${CSS.username}`,
+          shadowSelector: `.${CSS.username}`,
           targetProp: "color",
         },
       };
