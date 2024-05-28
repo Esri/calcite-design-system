@@ -1,5 +1,7 @@
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, reflects, renders, defaults } from "../../tests/commonTests";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-navigation-logo", () => {
   describe("renders", () => {
@@ -66,5 +68,42 @@ describe("calcite-navigation-logo", () => {
         defaultValue: undefined,
       },
     ]);
+  });
+
+  describe("theme", () => {
+    const navigationLogoHtml = html`
+      <calcite-navigation-logo heading="Walt's Chips" description="Eastern Potato Chip Company" icon="layers">
+      </calcite-navigation-logo>
+    `;
+
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-navigation-logo-background-color": {
+          shadowSelector: `.${CSS.anchor}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-navigation-logo-border-color": {
+          shadowSelector: `.${CSS.anchor}`,
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-navigation-logo-description-text-color": {
+          shadowSelector: `.${CSS.description}`,
+          targetProp: "color",
+        },
+        "--calcite-navigation-logo-heading-text-color": {
+          shadowSelector: `.${CSS.anchor}`,
+          targetProp: "color",
+        },
+        "--calcite-navigation-logo-icon-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "color",
+        },
+        "--calcite-navigation-logo-text-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "color",
+        },
+      };
+      themed(navigationLogoHtml, tokens);
+    });
   });
 });
