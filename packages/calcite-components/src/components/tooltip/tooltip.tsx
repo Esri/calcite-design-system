@@ -27,6 +27,7 @@ import {
 import { guid } from "../../utils/guid";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
+import { componentOnReady } from "../../utils/component";
 import { ARIA_DESCRIBED_BY, CSS } from "./resources";
 import TooltipManager from "./TooltipManager";
 import { getEffectiveReferenceElement } from "./utils";
@@ -146,8 +147,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   guid = `calcite-tooltip-${guid()}`;
 
-  hasLoaded = false;
-
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
@@ -158,26 +157,19 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    this.setUpReferenceElement(this.hasLoaded);
+  async connectedCallback(): Promise<void> {
+    await componentOnReady(this.el);
+    this.setUpReferenceElement(true);
+
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
   async componentWillLoad(): Promise<void> {
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
-  }
-
-  componentDidLoad(): void {
-    if (this.referenceElement && !this.effectiveReferenceElement) {
-      this.setUpReferenceElement();
-    }
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
-    this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {
