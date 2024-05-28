@@ -350,7 +350,7 @@ export class Combobox
 
     await componentOnReady(this.el);
 
-    if (!this.allowCustomValues && this.textInput.value) {
+    if (!this.allowCustomValues && this.text) {
       this.clearInputValue();
       this.filterItems("");
       this.updateActiveItemIndex(-1);
