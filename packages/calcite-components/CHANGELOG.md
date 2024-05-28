@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.22...@esri/calcite-components@2.9.0-next.23) (2024-05-25)
+
+### Bug Fixes
+
+- **input-date-picker, date-picker:** ensure min/max can be unset ([#9406](https://github.com/Esri/calcite-design-system/issues/9406)) ([89b0bfe](https://github.com/Esri/calcite-design-system/commit/89b0bfe9662e79739d127762d0f161b7e6c04b5a)), closes [#7889](https://github.com/Esri/calcite-design-system/issues/7889)
+
 ## [2.9.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.21...@esri/calcite-components@2.9.0-next.22) (2024-05-23)
 
 ### Bug Fixes

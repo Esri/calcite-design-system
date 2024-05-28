@@ -1,10 +1,31 @@
-import { select } from "../../../.storybook/fake-knobs";
-import { boolean } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { logicalFlowPosition, displayMode } = ATTRIBUTES;
+
+interface SheetArgs {
+  open: boolean;
+  position: string;
+  displayMode: string;
+}
 
 export default {
   title: "Components/Sheet",
+  args: {
+    open: true,
+    position: logicalFlowPosition.values[0],
+    displayMode: displayMode.values[2],
+  },
+  argTypes: {
+    position: {
+      options: logicalFlowPosition.values,
+      control: { type: "select" },
+    },
+    displayMode: {
+      options: displayMode.values.filter((option) => option !== "dock"),
+      control: { type: "select" },
+    },
+  },
   parameters: {
     chromatic: {
       delay: 1000,
@@ -23,22 +44,22 @@ const panelHTML = html`<calcite-panel heading="Ultrices neque"
   <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
 </calcite-panel>`;
 
-export const simple = (): string => html`
+export const simple = (args: SheetArgs): string => html`
   <calcite-sheet
     label="libero nunc"
-    ${boolean("open", true)}
-    position="${select("position", ["inline-start", "inline-end", "block-start", "block-end"], "inline-start")}"
-    display-mode="${select("display-mode", ["overlay", "float"], "overlay")}"
+    ${boolean("open", args.open)}
+    position="${args.position}"
+    display-mode="${args.displayMode}"
     >${panelHTML}</calcite-sheet
   >
 `;
 
-export const simpleDarkMode = (): string => html`
+export const simpleDarkMode = (args: SheetArgs): string => html`
   <calcite-sheet
     label="libero nunc"
-    ${boolean("open", true)}
-    ${select("position", ["inline-start", "inline-end", "block-start", "block-end"], "inline-start")}
-    ${select("display-mode", ["overlay", "float"], "overlay")}
+    ${boolean("open", args.open)}
+    position="${args.position}"
+    display-mode="${args.displayMode}"
     >${panelHTML}</calcite-sheet
   >
 `;
