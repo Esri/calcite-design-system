@@ -1,7 +1,8 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
+import { focusable, hidden, openClose, renders, slots, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-modal", () => {
@@ -610,7 +611,7 @@ describe("calcite-modal", () => {
     });
     const scrimStyles = await page.evaluate(() => {
       const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
-      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
+      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background-color");
     });
     expect(scrimStyles.trim()).toEqual("rgba(0, 0, 0, 0.85)");
   });
@@ -632,7 +633,7 @@ describe("calcite-modal", () => {
     });
     const scrimStyles = await page.evaluate(() => {
       const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
-      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
+      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background-color");
     });
     expect(scrimStyles).toEqual(overrideStyle);
   });
@@ -655,5 +656,80 @@ describe("calcite-modal", () => {
     await page.waitForChanges();
     closeIcon = await page.find('calcite-modal >>> calcite-icon[scale="m"]');
     expect(closeIcon).not.toBe(null);
+  });
+});
+
+describe("theme", () => {
+  const menuHTML = html`
+    <calcite-modal open>
+      <h3 slot="header">Slot for a header.</h3>
+      <div slot="content-top">Slot for a content-top.</div>
+      <div slot="content" style="height: 100px">
+        Lorem ipsum dolor sit amet, feugiat magna ut, posuere arcu. Curabitur varius erat ut suscipit convallis.
+      </div>
+      <div slot="content-bottom">Slot for a content-bottom.</div>
+      <calcite-button slot="primary" width="full">Button</calcite-button>
+    </calcite-modal>
+  `;
+  describe("default", () => {
+    const tokens: ComponentTestTokens = {
+      // "--calcite-modal-accent-color": {
+      //   targetProp: "--calcite-internal-modal-accent-color",
+      // },
+      "--calcite-modal-background-color": {
+        shadowSelector: `.${CSS.modal}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-modal-border-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "--calcite-internal-modal-border-color",
+      },
+      "--calcite-modal-close-button-background-color-hover": {
+        shadowSelector: `.${CSS.modal} .${CSS.close}`,
+        targetProp: "backgroundColor",
+        state: { hover: { attribute: "class", value: CSS.close } },
+      },
+      "--calcite-modal-close-button-background-color": {
+        shadowSelector: `.${CSS.modal} .${CSS.close}`,
+        targetProp: "backgroundColor",
+      },
+      // "--calcite-modal-close-button-icon-color": {
+      //   shadowSelector: `.${CSS.modal} .${CSS.close} calcite-icon`,
+      //   targetProp: "--calcite-icon-color",
+      // },
+      "--calcite-modal-content-background-color": {
+        shadowSelector: `.${CSS.modal} .${CSS.content}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-modal-content-padding": {
+        shadowSelector: `.${CSS.modal} .${CSS.content}`,
+        targetProp: "padding",
+      },
+      "--calcite-modal-content-space": {
+        shadowSelector: `.${CSS.modal} .${CSS.content}`,
+        targetProp: "padding",
+      },
+      "--calcite-modal-height": {
+        shadowSelector: `.${CSS.modal}`,
+        targetProp: "blockSize",
+      },
+      "--calcite-modal-shadow": {
+        shadowSelector: `.${CSS.modal}`,
+        targetProp: "boxShadow",
+      },
+      "--calcite-modal-text-color": {
+        shadowSelector: `.${CSS.modal}`,
+        targetProp: "color",
+      },
+      "--calcite-modal-width": {
+        shadowSelector: `.${CSS.modal}`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-modal-scrim-background-color": {
+        shadowSelector: `.${CSS.scrim}`,
+        targetProp: "--calcite-scrim-background-color",
+      },
+    };
+    themed(async () => menuHTML, tokens);
   });
 });
