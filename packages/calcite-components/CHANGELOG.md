@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0-next.23...@esri/calcite-components@2.9.0-next.24) (2024-05-29)
+
+### Bug Fixes
+
+- **combobox:** fix error that occurs in dist-custom-elements (components) output when a click is emitted when the component is appended to the DOM ([#9423](https://github.com/Esri/calcite-design-system/issues/9423)) ([4c55427](https://github.com/Esri/calcite-design-system/commit/4c55427fe174fb3fc5ae539bf84308e8ff7a2bbb)), closes [#9321](https://github.com/Esri/calcite-design-system/issues/9321) [/github.com/ionic-team/ionic-framework/blob/5cdfa1aaf47a6160cd1bd2be434dcfa8390b56e1/core/src/utils/helpers.ts#L60-L79](https://github.com/Esri//github.com/ionic-team/ionic-framework/blob/5cdfa1aaf47a6160cd1bd2be434dcfa8390b56e1/core/src/utils/helpers.ts/issues/L60-L79)
+- defer floating-ui updating until component is connected and open ([#9443](https://github.com/Esri/calcite-design-system/issues/9443)) ([4b30d71](https://github.com/Esri/calcite-design-system/commit/4b30d7118c2452152d646017a1b1af4cdc5f7259)), closes [#9397](https://github.com/Esri/calcite-design-system/issues/9397)
+
 ## [2.8.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.3...@esri/calcite-components@2.8.4) (2024-05-28)
 
 ### Bug Fixes
