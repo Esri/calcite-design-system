@@ -34,6 +34,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  MutableValidityState,
   submitForm,
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
@@ -63,8 +64,8 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale, SelectionMode, Status } from "../interfaces";
-import { XButton, CSS as XButtonCSS } from "../functional/XButton";
-import { getIconScale } from "../../utils/component";
+import { CSS as XButtonCSS, XButton } from "../functional/XButton";
+import { componentOnReady, getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
@@ -183,6 +184,27 @@ export class Combobox
 
   /** Specifies the validation icon to display under the component. */
   @Prop({ reflect: true }) validationIcon: string | boolean;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
 
   /**
    * Specifies the name of the component.
@@ -321,18 +343,14 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   @Listen("click", { target: "document" })
-  documentClickHandler(event: PointerEvent): void {
-    if (this.disabled) {
+  async documentClickHandler(event: PointerEvent): Promise<void> {
+    if (this.disabled || event.composedPath().includes(this.el)) {
       return;
     }
 
-    const composedPath = event.composedPath();
+    await componentOnReady(this.el);
 
-    if (composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
-      return;
-    }
-
-    if (!this.allowCustomValues && this.textInput.value) {
+    if (!this.allowCustomValues && this.text) {
       this.clearInputValue();
       this.filterItems("");
       this.updateActiveItemIndex(-1);
@@ -434,7 +452,7 @@ export class Combobox
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  async connectedCallback(): Promise<void> {
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
@@ -454,7 +472,9 @@ export class Combobox
       onToggleOpenCloseComponent(this);
     }
 
+    await componentOnReady(this.el);
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    afterConnectDefaultValueSet(this, this.getValue());
   }
 
   async componentWillLoad(): Promise<void> {
@@ -464,8 +484,6 @@ export class Combobox
   }
 
   componentDidLoad(): void {
-    afterConnectDefaultValueSet(this, this.getValue());
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
     setComponentLoaded(this);
   }
 
@@ -635,6 +653,10 @@ export class Combobox
   }
 
   private keyDownHandler = (event: KeyboardEvent): void => {
+    if (this.readOnly) {
+      return;
+    }
+
     const { key } = event;
 
     switch (key) {
@@ -740,7 +762,7 @@ export class Combobox
         }
         break;
       case "Delete":
-      case "Backspace":
+      case "Backspace": {
         const notDeletable =
           this.selectionDisplay === "single" ||
           (this.selectionDisplay === "fit" && this.selectedHiddenChipsCount > 0);
@@ -755,6 +777,7 @@ export class Combobox
           this.removeLastChip();
         }
         break;
+      }
     }
   };
 
@@ -1348,7 +1371,7 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   renderChips(): VNode[] {
-    const { activeChipIndex, scale, selectionMode, messages } = this;
+    const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
         chip: true,
@@ -1357,10 +1380,12 @@ export class Combobox
       const ancestors = [...getItemAncestors(item)].reverse();
       const pathLabel = [...ancestors, item].map((el) => el.textLabel);
       const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
+
       return (
         <calcite-chip
+          appearance={readOnly ? "outline" : "solid"}
           class={chipClasses}
-          closable
+          closable={!readOnly}
           icon={item.icon}
           iconFlipRtl={item.iconFlipRtl}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
@@ -1396,11 +1421,10 @@ export class Combobox
             !compactSelectionDisplay
           ),
         }}
+        ref={setAllSelectedIndicatorChipEl}
         scale={scale}
         title={label}
         value=""
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={setAllSelectedIndicatorChipEl}
       >
         {label}
       </calcite-chip>
@@ -1472,11 +1496,10 @@ export class Combobox
           chip: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
+        ref={setSelectedIndicatorChipEl}
         scale={scale}
         title={label}
         value=""
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={setSelectedIndicatorChipEl}
       >
         {label}
       </calcite-chip>
@@ -1579,10 +1602,10 @@ export class Combobox
           onFocus={this.comboboxFocusHandler}
           onInput={this.inputHandler}
           placeholder={placeholder}
+          readOnly={this.readOnly}
+          ref={(el) => (this.textInput = el as HTMLInputElement)}
           role="combobox"
           type="text"
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.textInput = el as HTMLInputElement)}
         />
       </span>
     );
@@ -1616,14 +1639,9 @@ export class Combobox
           "floating-ui-container": true,
           "floating-ui-container--active": open,
         }}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={setFloatingEl}
       >
-        <div
-          class={classes}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={setContainerEl}
-        >
+        <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !open }}>
             <slot />
           </ul>
@@ -1656,6 +1674,7 @@ export class Combobox
     return (
       <span class="icon-end" key="chevron">
         <calcite-icon
+          class={CSS.icon}
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
         />
@@ -1664,12 +1683,13 @@ export class Combobox
   }
 
   render(): VNode {
-    const { selectionDisplay, guid, label, open } = this;
+    const { selectionDisplay, guid, label, open, readOnly } = this;
     const singleSelectionMode = isSingleLike(this.selectionMode);
     const allSelectionDisplay = selectionDisplay === "all";
     const singleSelectionDisplay = selectionDisplay === "single";
     const fitSelectionDisplay = !singleSelectionMode && selectionDisplay === "fit";
     const isClearable = !this.clearDisabled && this.value?.length > 0;
+
     return (
       <Host onClick={this.comboboxFocusHandler}>
         <InteractiveContainer disabled={this.disabled}>
@@ -1682,7 +1702,6 @@ export class Combobox
             }}
             onClick={this.clickHandler}
             onKeyDown={this.keyDownHandler}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setReferenceEl}
           >
             {this.renderSelectedOrPlaceholderIcon()}
@@ -1693,7 +1712,6 @@ export class Combobox
                 [CSS.selectionDisplaySingle]: singleSelectionDisplay,
               }}
               key="grid"
-              // eslint-disable-next-line react/jsx-sort-props -- auto-generated by @esri/calcite-components/enforce-ref-last-prop
               ref={this.setChipContainerEl}
             >
               {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
@@ -1713,7 +1731,7 @@ export class Combobox
               </label>
               {this.renderInput()}
             </div>
-            {isClearable ? (
+            {!readOnly && isClearable ? (
               <XButton
                 disabled={this.disabled}
                 key="close-button"
@@ -1721,7 +1739,7 @@ export class Combobox
                 scale={this.scale}
               />
             ) : null}
-            {this.renderChevronIcon()}
+            {!readOnly && this.renderChevronIcon()}
           </div>
           <ul
             aria-labelledby={`${labelUidPrefix}${guid}`}

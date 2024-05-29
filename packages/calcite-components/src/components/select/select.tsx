@@ -18,6 +18,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  MutableValidityState,
 } from "../../utils/form";
 import {
   connectInteractive,
@@ -26,7 +27,7 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentFocusable,
   LoadableComponent,
@@ -94,6 +95,27 @@ export class Select
   @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
+
+  /**
    * Specifies the name of the component.
    *
    * Required to pass the component's `value` on form submission.
@@ -116,8 +138,7 @@ export class Select
 
   @Watch("value")
   valueHandler(value: string): void {
-    const items = this.el.querySelectorAll("calcite-option");
-    items.forEach((item) => (item.selected = item.value === value));
+    this.updateItemsFromValue(value);
   }
 
   /**
@@ -185,6 +206,10 @@ export class Select
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
+
+    if (typeof this.value === "string") {
+      this.updateItemsFromValue(this.value);
+    }
   }
 
   componentDidLoad(): void {
@@ -255,6 +280,12 @@ export class Select
 
   onLabelClick(): void {
     this.setFocus();
+  }
+
+  private updateItemsFromValue(value: string): void {
+    this.el
+      .querySelectorAll("calcite-option")
+      .forEach((item) => (item.selected = item.value === value));
   }
 
   private updateNativeElement(
@@ -393,7 +424,6 @@ export class Select
               class={CSS.select}
               disabled={disabled}
               onChange={this.handleInternalSelectChange}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
               ref={this.storeSelectRef}
             >
               <slot />

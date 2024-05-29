@@ -1,0 +1,247 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-carousel-item-background-color-active: Specifies the background color of the component's slide item while active.
+ * @prop --calcite-carousel-item-background-color-hover: Specifies the background color of the component's slide item while hovered.
+ * @prop --calcite-carousel-item-background-color-selected: Specifies the background color of the component's slide item when selected.
+ * @prop --calcite-carousel-item-background-color: Specifies the background color of the component's slide item.
+ * @prop --calcite-carousel-item-icon-color-hover: Specifies the icon color of the component's slide item while hovered.
+ * @prop --calcite-carousel-item-icon-color-selected: Specifies the icon color of the component's slide item when selected.
+ * @prop --calcite-carousel-item-icon-color: Specifies the icon color of the component's slide item.
+ * @prop --calcite-carousel-control-color-hover: Specifies the icon color of the component's slide slide arrow and autoplay button while hovered.
+ * @prop --calcite-carousel-control-color: Specifies the icon color of the component's slide arrow and autoplay button.
+ * @prop --calcite-carousel-autoplay-progress-background-color: Specifies the background color of the component's progress when `autoplay`.
+ * @prop --calcite-carousel-autoplay-progress-fill-color: Specifies the fill color of the component's progress when `autoplay`.
+ *
+ */
+
+:host {
+  @apply flex w-full;
+  --calcite-internal-carousel-item-space: 1.5rem;
+  --calcite-internal-carousel-item-space-wide: 3.5rem;
+  --calcite-internal-carousel-item-background-color: var(
+    --calcite-carousel-item-background-color,
+    var(--calcite-color-foreground-1)
+  );
+  --calcite-internal-carousel-item-background-color-hover: var(
+    --calcite-carousel-item-background-color-hover,
+    var(--calcite-color-foreground-2)
+  );
+  --calcite-internal-carousel-item-background-color-active: var(
+    --calcite-carousel-item-background-color-active,
+    var(--calcite-color-foreground-2)
+  );
+  --calcite-internal-carousel-item-background-color-selected: var(
+    --calcite-carousel-item-background-color-selected,
+    var(--calcite-color-foreground-1)
+  );
+  --calcite-internal-carousel-item-icon-color-hover: var(
+    --calcite-carousel-item-icon-color-hover,
+    var(--calcite-action-color-transparent-hover)
+  );
+  --calcite-internal-carousel-item-icon-color: var(--calcite-carousel-item-icon-color, var(--calcite-color-border-3));
+  --calcite-internal-carousel-item-icon-color-selected: var(
+    --calcite-carousel-item-icon-color-selected,
+    var(--calcite-color-brand)
+  );
+  --calcite-internal-carousel-control-color-hover: var(
+    --calcite-carousel-control-color-hover,
+    var(--calcite-carousel-item-icon-color-hover)
+  );
+  --calcite-internal-carousel-control-color: var(--calcite-carousel-item-icon-color, var(--calcite-color-border-input));
+  --calcite-internal-carousel-autoplay-progress-background-color: var(
+    --calcite-carousel-autoplay-progress-background-color,
+    var(--calcite-color-border-3)
+  );
+  --calcite-internal-carousel-autoplay-progress-fill-color: var(
+    --calcite-carousel-autoplay-progress-fill-color,
+    var(--calcite-color-brand)
+  );
+}
+
+.container {
+  @apply focus-base
+   relative
+    flex
+    flex-col
+    overflow-hidden
+    text-color-2
+    text-n1h
+    w-full;
+  &:focus {
+    @apply focus-inset;
+  }
+}
+
+.container--edged {
+  .page-next,
+  .page-previous {
+    @apply h-12 w-12;
+    position: absolute;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+  }
+
+  .page-next {
+    inset-inline-end: 0;
+  }
+
+  .page-previous {
+    inset-inline-start: 0;
+  }
+}
+
+.container--edged:not(.container--overlaid) {
+  padding-inline: var(--calcite-internal-carousel-item-space-wide);
+  inline-size: calc(100% - var(--calcite-internal-carousel-item-space-wide) * 2);
+}
+
+.item-container {
+  @apply flex
+    items-start
+    justify-center
+    overflow-auto
+    flex-auto
+    p-1;
+  animation-name: none;
+  animation-duration: var(--calcite-animation-timing);
+}
+
+.container--overlaid .item-container {
+  @apply p-0;
+}
+
+.item-container--forward {
+  animation-name: item-forward;
+}
+
+.item-container--backward {
+  animation-name: item-backward;
+}
+
+calcite-carousel-item:not([selected]) {
+  opacity: 0;
+}
+
+.pagination {
+  @apply flex
+  flex-row
+  items-center
+  justify-center
+  m-3;
+  inline-size: auto;
+}
+
+.pagination-items {
+  @apply flex flex-row items-center;
+}
+
+.container--overlaid .pagination {
+  inset-block-end: 0;
+  inset-block-start: unset;
+  inset-inline: 0;
+  position: absolute;
+}
+
+.pagination-item.page-next,
+.pagination-item.page-previous {
+  color: var(--calcite-internal-carousel-control-color);
+  &:hover {
+    color: var(--calcite-internal-carousel-control-color-hover);
+  }
+}
+
+.pagination-item.autoplay-control {
+  position: relative;
+  color: var(--calcite-internal-carousel-control-color);
+  --calcite-color-brand: var(--calcite-internal-carousel-autoplay-progress-fill-color);
+  --calcite-color-border-3: var(--calcite-internal-carousel-autoplay-progress-background-color);
+}
+
+.autoplay-progress {
+  position: absolute;
+  inset-block-end: 2px;
+  inset-inline: 0;
+  inline-size: 100%;
+}
+
+.autoplay-control:focus .autoplay-progress {
+  inset-block-end: 4px;
+  inset-inline: 2px;
+  inline-size: calc(100% - 4px);
+}
+
+.pagination-item {
+  @apply focus-base
+    transition-default
+    m-0
+    h-8
+    w-8
+    cursor-pointer
+    items-center
+    border-none
+    bg-transparent;
+  -webkit-appearance: none;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  --calcite-color-foreground-1: var(--calcite-internal-carousel-item-background-color);
+  color: var(--calcite-internal-carousel-item-icon-color);
+  &:hover {
+    background-color: var(--calcite-internal-carousel-item-background-color-hover);
+    color: var(--calcite-internal-carousel-item-icon-color-hover);
+  }
+  &:focus {
+    background-color: var(--calcite-internal-carousel-item-background-color-active);
+    @apply focus-inset;
+  }
+  &:active {
+    background-color: var(--calcite-internal-carousel-item-background-color-active);
+    color: var(--calcite-internal-carousel-item-icon-color-hover);
+  }
+  & calcite-icon {
+    color: inherit;
+    pointer-events: none;
+  }
+  &.pagination-item--selected {
+    --calcite-color-foreground-1: var(--calcite-internal-carousel-item-background-color-selected);
+    --calcite-color-foreground-3: var(--calcite-internal-carousel-item-background-color-selected);
+    color: var(--calcite-internal-carousel-item-icon-color-selected);
+  }
+}
+
+.container--overlaid .pagination-item {
+  background-color: var(--calcite-internal-carousel-item-background-color);
+  &:hover {
+    background-color: var(--calcite-internal-carousel-item-background-color-hover);
+  }
+  &:focus {
+    background-color: var(--calcite-internal-carousel-item-background-color-active);
+  }
+  &:active {
+    background-color: var(--calcite-internal-carousel-item-background-color-active);
+  }
+}
+
+@keyframes item-forward {
+  0% {
+    transform: translate3d(100px, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes item-backward {
+  0% {
+    transform: translate3d(-100px, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@include disabled();
+
+@include base-component();

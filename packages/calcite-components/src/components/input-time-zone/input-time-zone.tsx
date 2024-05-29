@@ -44,6 +44,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  MutableValidityState,
 } from "../../utils/form";
 import {
   createTimeZoneItems,
@@ -76,6 +77,13 @@ export class InputTimeZone
   //  Properties
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * When `true`, an empty value (`null`) will be allowed as a `value`.
+   *
+   * When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   */
+  @Prop({ reflect: true }) clearable = false;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -136,6 +144,27 @@ export class InputTimeZone
   @Prop({ reflect: true }) validationIcon: string | boolean;
 
   /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
+
+  /**
    * Specifies the name of the component.
    *
    * Required to pass the component's `value` on form submission.
@@ -188,6 +217,14 @@ export class InputTimeZone
 
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {
+    value = this.normalizeValue(value);
+
+    if (!value && this.clearable) {
+      this.value = value;
+      this.selectedTimeZoneItem = null;
+      return;
+    }
+
     const timeZoneItem = this.findTimeZoneItem(value);
 
     if (!timeZoneItem) {
@@ -302,7 +339,17 @@ export class InputTimeZone
   private onComboboxChange = (event: CustomEvent): void => {
     event.stopPropagation();
     const combobox = event.target as HTMLCalciteComboboxElement;
-    const selected = this.findTimeZoneItemByLabel(combobox.selectedItems[0].textLabel);
+    const selectedItem = combobox.selectedItems[0];
+
+    if (!selectedItem) {
+      this.value = null;
+      this.selectedTimeZoneItem = null;
+      this.calciteInputTimeZoneChange.emit();
+      return;
+    }
+
+    const selected = this.findTimeZoneItemByLabel(selectedItem.textLabel);
+
     const selectedValue = `${selected.value}`;
 
     if (this.value === selectedValue && selected.label === this.selectedTimeZoneItem.label) {
@@ -326,25 +373,27 @@ export class InputTimeZone
     this.calciteInputTimeZoneOpen.emit();
   };
 
-  private findTimeZoneItem(value: number | string): TimeZoneItem {
+  private findTimeZoneItem(value: number | string | null): TimeZoneItem | null {
     return findTimeZoneItemByProp(this.timeZoneItems, "value", value);
   }
 
-  private findTimeZoneItemByLabel(label: string): TimeZoneItem {
+  private findTimeZoneItemByLabel(label: string | null): TimeZoneItem | null {
     return findTimeZoneItemByProp(this.timeZoneItems, "label", label);
   }
 
   private async updateTimeZoneItemsAndSelection(): Promise<void> {
     this.timeZoneItems = await this.createTimeZoneItems();
 
+    if (this.value === "" && this.clearable) {
+      this.selectedTimeZoneItem = null;
+      return;
+    }
+
     const fallbackValue = this.mode === "offset" ? getUserTimeZoneOffset() : getUserTimeZoneName();
     const valueToMatch = this.value ?? fallbackValue;
 
-    this.selectedTimeZoneItem = this.findTimeZoneItem(valueToMatch);
-
-    if (!this.selectedTimeZoneItem) {
-      this.selectedTimeZoneItem = this.findTimeZoneItem(fallbackValue);
-    }
+    this.selectedTimeZoneItem =
+      this.findTimeZoneItem(valueToMatch) || this.findTimeZoneItem(fallbackValue);
   }
 
   private async createTimeZoneItems(): Promise<TimeZoneItem[]> {
@@ -382,13 +431,18 @@ export class InputTimeZone
     disconnectMessages(this);
   }
 
+  private normalizeValue(value: string | null): string {
+    return value === null ? "" : value;
+  }
+
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await setUpMessages(this);
+    this.value = this.normalizeValue(this.value);
 
     await this.updateTimeZoneItemsAndSelection();
 
-    const selectedValue = `${this.selectedTimeZoneItem.value}`;
+    const selectedValue = this.selectedTimeZoneItem ? `${this.selectedTimeZoneItem.value}` : null;
     afterConnectDefaultValueSet(this, selectedValue);
     this.value = selectedValue;
   }
@@ -406,7 +460,7 @@ export class InputTimeZone
       <Host>
         <InteractiveContainer disabled={this.disabled}>
           <calcite-combobox
-            clearDisabled={true}
+            clearDisabled={!this.clearable}
             disabled={this.disabled}
             label={this.messages.chooseTimeZone}
             lang={this.effectiveLocale}
@@ -418,14 +472,16 @@ export class InputTimeZone
             onCalciteComboboxOpen={this.onComboboxOpen}
             open={this.open}
             overlayPositioning={this.overlayPositioning}
+            placeholder={
+              this.mode === "name" ? this.messages.namePlaceholder : this.messages.offsetPlaceholder
+            }
             readOnly={this.readOnly}
+            ref={this.setComboboxRef}
             scale={this.scale}
-            selectionMode="single-persist"
+            selectionMode={this.clearable ? "single" : "single-persist"}
             status={this.status}
             validation-icon={this.validationIcon}
             validation-message={this.validationMessage}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setComboboxRef}
           >
             {this.timeZoneItems.map((group) => {
               const selected = this.selectedTimeZoneItem === group;

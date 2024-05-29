@@ -1,6 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, renders, t9n } from "../../tests/commonTests";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 describe("calcite-pagination", () => {
@@ -277,6 +278,136 @@ describe("calcite-pagination", () => {
       for (const lang in formattedValuesPerLanguageObject) {
         await testLocalizedGroupSeparator(lang, formattedValuesPerLanguageObject[lang]);
       }
+    });
+  });
+
+  describe("navigation methods", () => {
+    let page: E2EPage;
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        `<calcite-pagination start-item="1" total-items="124" page-size="20"></calcite-pagination>`,
+      );
+    });
+
+    it("navigates to last page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", "end");
+      await page.waitForChanges();
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(121);
+    });
+
+    it("navigates to first page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", "end");
+      await page.waitForChanges();
+      let item = await element.getProperty("startItem");
+      expect(item).toEqual(121);
+      await element.callMethod("goTo", "start");
+      await page.waitForChanges();
+      item = await element.getProperty("startItem");
+      expect(item).toEqual(1);
+    });
+
+    it("navigates middle page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", 3);
+      await page.waitForChanges();
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(41);
+    });
+
+    it("navigates beyond last page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", 20);
+      await page.waitForChanges();
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(121);
+    });
+
+    it("navigates before first page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", -1);
+      await page.waitForChanges();
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(1);
+    });
+  });
+
+  describe("theme", () => {
+    const paginationHTML = html`
+      <calcite-pagination total-items="300" page-size="100" start-item="1"></calcite-pagination>
+    `;
+
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-pagination-item-background-color-active": {
+          shadowSelector: `.${CSS.page}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: `${CSS.page}` } },
+        },
+        "--calcite-pagination-item-background-color-hover": {
+          shadowSelector: `.${CSS.page}`,
+          targetProp: "backgroundColor",
+          state: { hover: { attribute: "class", value: `${CSS.page}` } },
+        },
+        "--calcite-pagination-item-background-color": {
+          shadowSelector: `.${CSS.page}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-pagination-item-border-color-hover": {
+          shadowSelector: `.${CSS.page}`,
+          targetProp: "borderBlockEndColor",
+          state: { hover: { attribute: "class", value: `${CSS.page}` } },
+        },
+        "--calcite-pagination-item-border-color-selected": {
+          shadowSelector: `.${CSS.selected}`,
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-pagination-item-text-color-hover": {
+          shadowSelector: `.${CSS.page}`,
+          targetProp: "color",
+          state: { hover: { attribute: "class", value: `${CSS.page}` } },
+        },
+        "--calcite-pagination-item-text-color-selected": {
+          shadowSelector: `.${CSS.selected}`,
+          targetProp: "color",
+        },
+        "--calcite-pagination-item-text-color": {
+          shadowSelector: `.${CSS.page}`,
+          targetProp: "color",
+        },
+        "--calcite-pagination-arrow-background-color-active": {
+          shadowSelector: `.${CSS.chevron}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: `${CSS.chevron}` } },
+        },
+        "--calcite-pagination-arrow-background-color-hover": {
+          shadowSelector: `.${CSS.chevron}`,
+          targetProp: "backgroundColor",
+          state: { hover: { attribute: "class", value: `${CSS.chevron}` } },
+        },
+        "--calcite-pagination-arrow-background-color": {
+          shadowSelector: `.${CSS.chevron}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-pagination-arrow-icon-color-active": {
+          shadowSelector: `.${CSS.chevron}`,
+          targetProp: "color",
+          state: { press: { attribute: "class", value: `${CSS.chevron}` } },
+        },
+        "--calcite-pagination-arrow-icon-color-hover": {
+          shadowSelector: `.${CSS.chevron}`,
+          targetProp: "color",
+          state: { hover: { attribute: "class", value: `${CSS.chevron}` } },
+        },
+        "--calcite-pagination-icon-color": {
+          shadowSelector: `.${CSS.chevron}`,
+          targetProp: "color",
+        },
+      };
+      themed(paginationHTML, tokens);
     });
   });
 });

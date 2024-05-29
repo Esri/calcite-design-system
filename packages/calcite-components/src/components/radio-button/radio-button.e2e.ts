@@ -577,7 +577,41 @@ describe("calcite-radio-button", () => {
   });
 
   describe("is form-associated", () => {
-    formAssociated("calcite-radio-button", { testValue: true, inputType: "radio" });
+    describe("no group", () => {
+      formAssociated("calcite-radio-button", {
+        testValue: true,
+        inputType: "radio",
+      });
+    });
+
+    // skipped until the util supports a parent component wrapping the form associated element(s)
+    // https://github.com/Esri/calcite-design-system/issues/9221
+    describe.skip("group", () => {
+      formAssociated(
+        html`
+          <calcite-radio-button-group name="using" required>
+            <calcite-label layout="inline">
+              Yes
+              <calcite-radio-button value="yes" required></calcite-radio-button>
+            </calcite-label>
+            <calcite-label layout="inline">
+              No
+              <calcite-radio-button value="no" required></calcite-radio-button>
+            </calcite-label>
+            <calcite-label layout="inline">
+              Maybe
+              <calcite-radio-button value="maybe" required></calcite-radio-button>
+            </calcite-label>
+          </calcite-radio-button-group>
+        `,
+        {
+          testValue: true,
+          inputType: "radio",
+          validation: true,
+          changeValueKeys: ["Space"],
+        },
+      );
+    });
   });
 
   describe("theme", () => {

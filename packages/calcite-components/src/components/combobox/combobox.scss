@@ -61,9 +61,30 @@
   padding-inline: var(--calcite-internal-combobox-space-large);
 }
 
+.label {
+  @apply pointer-events-none
+    max-w-full
+    flex-auto
+    truncate
+    p-0
+    font-normal;
+  block-size: var(--calcite-internal-combobox-height);
+  line-height: var(--calcite-internal-combobox-height);
+}
+
 :host(:focus-within) .wrapper,
 .wrapper--active {
   @apply focus-inset;
+}
+
+:host([read-only]) {
+  .wrapper {
+    background-color: var(--calcite-color-background);
+  }
+
+  .label {
+    font-weight: var(--calcite-font-weight-medium);
+  }
 }
 
 :host([status="invalid"]) .wrapper {
@@ -159,17 +180,6 @@
   @apply flex-1 overflow-hidden;
 }
 
-.label {
-  @apply pointer-events-none
-    max-w-full
-    flex-auto
-    truncate
-    p-0
-    font-normal;
-  block-size: var(--calcite-internal-combobox-height);
-  line-height: var(--calcite-internal-combobox-height);
-}
-
 .label--icon {
   padding-inline: var(--calcite-internal-combobox-space-large);
 }
@@ -181,6 +191,10 @@
 
 .icon-end {
   @apply flex-none;
+
+  .icon {
+    color: var(--calcite-color-text-3);
+  }
 }
 
 .floating-ui-container {

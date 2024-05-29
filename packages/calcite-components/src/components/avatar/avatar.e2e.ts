@@ -2,6 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 const placeholderUrl = placeholderImage({
   width: 120,
@@ -64,7 +65,7 @@ describe("calcite-avatar", () => {
       const background = document.querySelector("calcite-avatar").shadowRoot.querySelector(".background");
       return background.getAttribute("style");
     });
-    expect(style).toEqual("background-color: rgb(245, 219, 214);");
+    expect(style).toEqual("background-color: rgb(245, 214, 236);");
   });
 
   it("renders default icon when no information is passed", async () => {
@@ -73,6 +74,29 @@ describe("calcite-avatar", () => {
     const icon = await page.find("calcite-avatar >>> .icon");
     const visible = await icon.isVisible();
     expect(visible).toBe(true);
+  });
+
+  it("generates unique background if names are similar", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-avatar full-name="John Doe" username="john_doe"></calcite-avatar>
+      <calcite-avatar full-name="John Doe 1" username="john_doe1"></calcite-avatar>
+      <calcite-avatar full-name="John Doe 2" username="john_doe2"></calcite-avatar>
+    `);
+
+    const avatars = [
+      await page.find(`calcite-avatar:nth-child(1) >>> .${CSS.background}`),
+      await page.find(`calcite-avatar:nth-child(2) >>> .${CSS.background}`),
+      await page.find(`calcite-avatar:nth-child(3) >>> .${CSS.background}`),
+    ];
+
+    const [firstBgColor, secondBgColor, thirdBgColor] = await Promise.all(
+      avatars.map((avatar) => avatar.getComputedStyle().then(({ backgroundColor }) => backgroundColor)),
+    );
+
+    expect(firstBgColor).not.toEqual(secondBgColor);
+    expect(secondBgColor).not.toEqual(thirdBgColor);
+    expect(firstBgColor).not.toEqual(thirdBgColor);
   });
 
   describe("theme", () => {

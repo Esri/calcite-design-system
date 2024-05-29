@@ -10,10 +10,12 @@ import {
   openClose,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 const animationDurationInMs = 200;
 
@@ -72,7 +74,9 @@ describe("calcite-input-date-picker", () => {
     openClose(`<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker>`);
   });
 
-  it.skip("supports t9n", () => t9n("calcite-input-date-picker"));
+  describe("translation support", () => {
+    t9n("calcite-input-date-picker");
+  });
 
   async function navigateMonth(page: E2EPage, direction: "previous" | "next"): Promise<void> {
     const linkIndex = direction === "previous" ? 0 : 1;
@@ -748,6 +752,27 @@ describe("calcite-input-date-picker", () => {
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
 
+  it("unsetting min/max updates internally", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone("America/Los_Angeles");
+    await page.setContent(
+      html`<calcite-input-date-picker
+        value="2022-11-27"
+        min="2022-11-15"
+        max="2024-11-15"
+      ></calcite-input-date-picker>`,
+    );
+
+    const element = await page.find("calcite-input-date-picker");
+
+    element.setProperty("min", null);
+    element.setProperty("max", null);
+    await page.waitForChanges();
+
+    expect(await element.getProperty("minAsDate")).toBe(null);
+    expect(await element.getProperty("maxAsDate")).toBe(null);
+  });
+
   describe("owns a floating-ui", () => {
     floatingUIOwner(
       `<calcite-input-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-input-date-picker>`,
@@ -1143,6 +1168,168 @@ describe("calcite-input-date-picker", () => {
 
       expect(await element.getProperty("value")).toEqual(["2020-01-01", "2020-02-02"]);
       expect(changeEvent).toHaveReceivedEventTimes(2);
+    });
+  });
+
+  describe("ArrowKeys and PageKeys", () => {
+    it("should be able to navigate between months using arrow keys and page keys", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input-date-picker value="2024-01-01"></calcite-input-date-picker>`);
+      await page.waitForChanges();
+      await skipAnimations(page);
+
+      const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
+      const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+      expect(await calendar.isVisible()).toBe(false);
+      await input.click();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("PageUp");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(false);
+      expect(await getActiveMonth(page)).toBe("February");
+    });
+
+    it("should be able to navigate between months using arrow keys and page keys in range", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
+      await page.waitForChanges();
+      await skipAnimations(page);
+
+      await page.evaluate(() => {
+        const inputDatePicker = document.querySelector("calcite-input-date-picker");
+        inputDatePicker.value = ["2024-01-01", "2024-02-10"];
+      });
+
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const [inputStart, inputEnd] = await page.findAll("calcite-input-date-picker >>> calcite-input-text");
+      const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+      expect(await calendar.isVisible()).toBe(false);
+
+      await inputStart.click();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      await page.keyboard.press("PageUp");
+      await page.waitForChanges();
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+
+      expect(await calendar.isVisible()).toBe(false);
+      expect(await inputDatePicker.getProperty("value")).toEqual(["2023-11-25", "2024-02-10"]);
+
+      await inputEnd.click();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("PageDown");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(await calendar.isVisible()).toBe(false);
+      expect(await inputDatePicker.getProperty("value")).not.toEqual(["2024-01-01", "2024-03-17"]);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-input-background-color": {
+          shadowSelector: "input",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-border-color": {
+          shadowSelector: "input",
+          targetProp: "borderColor",
+        },
+        "--calcite-input-corner-radius": {
+          shadowSelector: "input",
+          targetProp: "borderRadius",
+        },
+        "--calcite-input-shadow": {
+          shadowSelector: "calcite-input-text",
+          targetProp: "boxShadow",
+        },
+        "--calcite-input-text-color": {
+          shadowSelector: "input",
+          targetProp: "color",
+        },
+        "--calcite-input-button-background-color-hover": {
+          shadowSelector: ".toggle-icon",
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-input-button-background-color": {
+          shadowSelector: ".toggle-icon",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-icon-color-active": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-input-icon-color-hover": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-input-icon-color": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+      };
+      themed(`calcite-input-date-picker`, tokens);
     });
   });
 });

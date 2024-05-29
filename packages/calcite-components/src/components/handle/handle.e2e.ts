@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { HandleMessages } from "../../components";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS, SUBSTITUTIONS } from "./resources";
 
 describe("calcite-handle", () => {
@@ -146,49 +147,52 @@ describe("calcite-handle", () => {
 
   describe("theme", () => {
     describe("default", () => {
-      themed("calcite-handle", {
-        "--calcite-handle-background-color": {
-          shadowSelector: `.handle`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-handle-background-color-hover": {
-          shadowSelector: `.handle`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-handle-background-color-focus": {
-          shadowSelector: `.handle`,
-          targetProp: "backgroundColor",
-          state: "focus",
-        },
+      const tokens: ComponentTestTokens = {
         "--calcite-handle-icon-color": {
-          shadowSelector: `calcite-icon`,
+          shadowSelector: `.${CSS.handle}`,
           targetProp: "color",
         },
         "--calcite-handle-icon-color-hover": {
-          shadowSelector: `calcite-icon`,
+          shadowSelector: `.${CSS.handle}`,
           targetProp: "color",
           state: "hover",
         },
         "--calcite-handle-icon-color-focus": {
-          shadowSelector: `calcite-icon`,
+          shadowSelector: `.${CSS.handle}`,
           targetProp: "color",
           state: "focus",
         },
-      });
-    });
-
-    describe("selected", () => {
-      themed("<calcite-handle selected></calcite-handle>", {
-        "--calcite-handle-background-color-selected": {
-          shadowSelector: `.handle`,
+        "--calcite-handle-icon-color-selected": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "color",
+          state: { press: { attribute: "class", value: CSS.handle } },
+        },
+        "--calcite-handle-background-color": {
+          shadowSelector: `.${CSS.handle}`,
           targetProp: "backgroundColor",
         },
-        "--calcite-handle-icon-color-selected": {
-          shadowSelector: `calcite-icon`,
-          targetProp: "color",
+        "--calcite-handle-background-color-hover": {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.handle}`,
+          state: "hover",
         },
-      });
+        "--calcite-handle-background-color-focus": {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.handle}`,
+          state: "focus",
+        },
+      };
+      themed(`calcite-handle`, tokens);
+    });
+    describe("selected", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-handle-background-color-selected": {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.handle}`,
+          state: { press: { attribute: "class", value: CSS.handle } },
+        },
+      };
+      themed(`calcite-handle`, tokens);
     });
   });
 });

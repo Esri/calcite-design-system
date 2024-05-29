@@ -78,12 +78,18 @@ export class Slider
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * Used to configure where the fill is placed along the slider track in relation to the value handle.
+   *
+   * Range mode will always display the fill between the min and max handles.
+   */
+  @Prop({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
+
+  /**
    * The `id` of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
@@ -112,6 +118,15 @@ export class Slider
 
   /** When `true`, displays label handles with their numeric value. */
   @Prop({ reflect: true }) labelHandles = false;
+
+  /**
+   * When specified, allows users to customize handle labels.
+   */
+  @Prop() labelFormatter: (
+    value: number,
+    type: "value" | "min" | "max" | "tick",
+    defaultFormatter: (value: number) => string,
+  ) => string | undefined;
 
   /** When `true` and `ticks` is specified, displays label tick marks with their numeric value. */
   @Prop({ reflect: true }) labelTicks = false;
@@ -281,6 +296,24 @@ export class Slider
         mirror,
       });
 
+    const fillPlacement = valueIsRange ? "start" : this.fillPlacement;
+    const trackRangePlacementStyles =
+      fillPlacement === "none"
+        ? {
+            left: `unset`,
+            right: `unset`,
+          }
+        : fillPlacement === "end"
+          ? {
+              left: `${mirror ? minInterval : maxInterval}%`,
+              right: `${mirror ? maxInterval : minInterval}%`,
+            }
+          : /* default */
+            {
+              left: `${mirror ? 100 - maxInterval : minInterval}%`,
+              right: `${mirror ? minInterval : 100 - maxInterval}%`,
+            };
+
     return (
       <Host id={id} onKeyDown={this.handleKeyDown} onTouchStart={this.handleTouchStart}>
         <InteractiveContainer disabled={this.disabled}>
@@ -293,25 +326,26 @@ export class Slider
             }}
           >
             {this.renderGraph()}
-            <div
-              class={CSS.track}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.storeTrackRef}
-            >
+            <div class={CSS.track} ref={this.storeTrackRef}>
               <div
                 class={CSS.trackRange}
                 onPointerDown={this.onTrackPointerDown}
-                style={{
-                  left: `${mirror ? 100 - maxInterval : minInterval}%`,
-                  right: `${mirror ? minInterval : 100 - maxInterval}%`,
-                }}
+                style={trackRangePlacementStyles}
               />
               <div class={CSS.ticks}>
                 {this.tickValues.map((tick) => {
                   const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
-                  let activeTicks = tick >= min && tick <= value;
-                  if (useMinValue) {
-                    activeTicks = tick >= this.minValue && tick <= this.maxValue;
+
+                  let activeTicks: boolean = false;
+
+                  if (fillPlacement === "start" || fillPlacement === "end") {
+                    if (useMinValue) {
+                      activeTicks = tick >= this.minValue && tick <= this.maxValue;
+                    } else {
+                      const rangeStart = fillPlacement === "start" ? min : value;
+                      const rangeEnd = fillPlacement === "start" ? value : this.max;
+                      activeTicks = tick >= rangeStart && tick <= rangeEnd;
+                    }
                   }
 
                   return (
@@ -368,7 +402,12 @@ export class Slider
     const valueProp = isMinThumb ? "minValue" : valueIsRange ? "maxValue" : "value";
     const ariaLabel = isMinThumb ? this.minLabel : valueIsRange ? this.maxLabel : this.minLabel;
     const ariaValuenow = isMinThumb ? this.minValue : value;
-    const displayedValue = isMinThumb ? this.formatValue(this.minValue) : this.formatValue(value);
+    const displayedValue =
+      valueProp === "minValue"
+        ? this.internalLabelFormatter(this.minValue, "min")
+        : valueProp === "maxValue"
+          ? this.internalLabelFormatter(this.maxValue, "max")
+          : this.internalLabelFormatter(value, "value");
     const thumbStyle: SideOffset = isMinThumb
       ? { left: `${mirror ? 100 - minInterval : minInterval}%` }
       : { right: `${mirror ? maxInterval : 100 - maxInterval}%` };
@@ -420,11 +459,10 @@ export class Slider
         onBlur={this.onThumbBlur}
         onFocus={this.onThumbFocus}
         onPointerDown={this.onThumbPointerDown}
+        ref={this.storeThumbRef}
         role="slider"
         style={thumbStyle}
         tabIndex={0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.storeThumbRef}
       >
         {thumbContent}
       </div>
@@ -465,7 +503,7 @@ export class Slider
           [CSS.tickMax]: isMaxTickLabel,
         }}
       >
-        {this.formatValue(tick)}
+        {this.internalLabelFormatter(tick, "tick")}
       </span>
     ) : null;
   }
@@ -1226,4 +1264,20 @@ export class Slider
 
     return numberStringFormatter.localize(value.toString());
   };
+
+  private internalLabelFormatter(value: number, type: "max" | "min" | "value" | "tick"): string {
+    const customFormatter = this.labelFormatter;
+
+    if (!customFormatter) {
+      return this.formatValue(value);
+    }
+
+    const formattedValue = customFormatter(value, type, this.formatValue);
+
+    if (formattedValue == null) {
+      return this.formatValue(value);
+    }
+
+    return formattedValue;
+  }
 }

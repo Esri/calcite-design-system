@@ -1,4 +1,4 @@
-import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@stencil/core/testing";
 import dedent from "dedent";
 import { html } from "../../../support/formatting";
 import {
@@ -13,7 +13,12 @@ import {
   renders,
   themed,
 } from "../../tests/commonTests";
-import { GlobalTestProps, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils";
+import {
+  createSelectedItemsAsserter,
+  getFocusedElementProp,
+  isElementFocused,
+  skipAnimations,
+} from "../../tests/utils";
 
 describe("calcite-dropdown", () => {
   const simpleDropdownHTML = html`
@@ -79,49 +84,6 @@ describe("calcite-dropdown", () => {
   describe("openClose", () => {
     openClose(simpleDropdownHTML);
   });
-
-  interface SelectedItemsAssertionOptions {
-    /**
-     * IDs from items to assert selection
-     */
-    expectedItemIds: string[];
-  }
-
-  /**
-   * Test helper for selected calcite-dropdown items. Expects items to have IDs to test against.
-   *
-   * Note: assertSelectedItems.setUpEvents must be called before using this method
-   *
-   * @param page
-   * @param root0
-   * @param root0.expectedItemIds
-   */
-  async function assertSelectedItems(page: E2EPage, { expectedItemIds }: SelectedItemsAssertionOptions): Promise<void> {
-    await page.waitForTimeout(100);
-    const selectedItemIds = await page.evaluate(() => {
-      const dropdown = document.querySelector<HTMLCalciteDropdownElement>("calcite-dropdown");
-      return dropdown.selectedItems.map((item) => item.id);
-    });
-
-    expect(selectedItemIds).toHaveLength(expectedItemIds.length);
-
-    expectedItemIds.forEach((itemId, index) => expect(selectedItemIds[index]).toEqual(itemId));
-  }
-
-  type SelectionEventTestWindow = GlobalTestProps<{ eventDetail: Selection }>;
-
-  /**
-   * Helper to wire up the page to assert on the event detail
-   *
-   * @param page
-   */
-  assertSelectedItems.setUpEvents = async (page: E2EPage) => {
-    await page.evaluate(() => {
-      document.addEventListener("calciteDropdownSelect", ({ detail }: CustomEvent<Selection>) => {
-        (window as SelectionEventTestWindow).eventDetail = detail;
-      });
-    });
-  };
 
   const dropdownSelectionModeContent = html`
     <calcite-dropdown>
@@ -199,14 +161,14 @@ describe("calcite-dropdown", () => {
       </calcite-dropdown>`,
     );
 
-    const item1IconStart = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon-start");
-    const item1IconEnd = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon-end");
-    const item2IconStart = await page.find("calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon-start");
-    const item2IconEnd = await page.find("calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon-end");
-    const item3IconStart = await page.find("calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon-start");
-    const item3IconEnd = await page.find("calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon-end");
-    const item4IconStart = await page.find("calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon-start");
-    const item4IconEnd = await page.find("calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon-end");
+    const item1IconStart = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon--start");
+    const item1IconEnd = await page.find("calcite-dropdown-item[id='item-1'] >>> .dropdown-item-icon--end");
+    const item2IconStart = await page.find("calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon--start");
+    const item2IconEnd = await page.find("calcite-dropdown-item[id='item-2'] >>> .dropdown-item-icon--end");
+    const item3IconStart = await page.find("calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon--start");
+    const item3IconEnd = await page.find("calcite-dropdown-item[id='item-3'] >>> .dropdown-item-icon--end");
+    const item4IconStart = await page.find("calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon--start");
+    const item4IconEnd = await page.find("calcite-dropdown-item[id='item-4'] >>> .dropdown-item-icon--end");
     expect(item1IconStart).not.toBeNull();
     expect(item1IconEnd).toBeNull();
     expect(item2IconStart).toBeNull();
@@ -282,30 +244,26 @@ describe("calcite-dropdown", () => {
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
     const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
-    await assertSelectedItems.setUpEvents(page);
+
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-dropdown", "calciteDropdownSelect");
+
     expect(group1).toEqualAttribute("selection-mode", "multiple");
     await trigger.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, { expectedItemIds: ["item-2"] });
+    await selectedItemAsserter(["item-2"]);
     await item1.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-2"],
-    });
+    await selectedItemAsserter(["item-1", "item-2"]);
     await trigger.click();
     await page.waitForChanges();
     await item2.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, {
-      expectedItemIds: ["item-1"],
-    });
+    await selectedItemAsserter(["item-1"]);
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3"],
-    });
+    await selectedItemAsserter(["item-1", "item-3"]);
 
     expect(item1).toHaveAttribute("selected");
     expect(item2).not.toHaveAttribute("selected");
@@ -333,23 +291,19 @@ describe("calcite-dropdown", () => {
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
     const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
-    await assertSelectedItems.setUpEvents(page);
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-dropdown", "calciteDropdownSelect");
     expect(group1).toEqualAttribute("selection-mode", "single");
-    await assertSelectedItems(page, { expectedItemIds: ["item-2"] });
+    await selectedItemAsserter(["item-2"]);
     await trigger.click();
     await page.waitForChanges();
     await item1.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, {
-      expectedItemIds: ["item-1"],
-    });
+    await selectedItemAsserter(["item-1"]);
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, {
-      expectedItemIds: ["item-3"],
-    });
+    await selectedItemAsserter(["item-3"]);
 
     expect(item1).not.toHaveAttribute("selected");
     expect(item2).not.toHaveAttribute("selected");
@@ -377,20 +331,21 @@ describe("calcite-dropdown", () => {
     const item2 = await element.find("calcite-dropdown-item[id='item-2']");
     const item3 = await element.find("calcite-dropdown-item[id='item-3']");
     const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
-    await assertSelectedItems.setUpEvents(page);
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-dropdown", "calciteDropdownSelect");
+
     expect(group1).toEqualAttribute("selection-mode", "none");
     await trigger.click();
     await item1.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, { expectedItemIds: [] });
+    await selectedItemAsserter([]);
     await trigger.click();
     await item2.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, { expectedItemIds: [] });
+    await selectedItemAsserter([]);
     await trigger.click();
     await item3.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, { expectedItemIds: [] });
+    await selectedItemAsserter([]);
 
     expect(item1).not.toHaveAttribute("selected");
     expect(item2).not.toHaveAttribute("selected");
@@ -436,62 +391,47 @@ describe("calcite-dropdown", () => {
     const item8 = await element.find("calcite-dropdown-item[id='item-8']");
     const item9 = await element.find("calcite-dropdown-item[id='item-9']");
     const itemChangeSpy = await element.spyOnEvent("calciteDropdownSelect");
-    await assertSelectedItems.setUpEvents(page);
+    const selectedItemAsserter = await createSelectedItemsAsserter(page, "calcite-dropdown", "calciteDropdownSelect");
 
     expect(group1).toEqualAttribute("selection-mode", "multiple");
     expect(group2).toEqualAttribute("selection-mode", "single");
     expect(group3).toEqualAttribute("selection-mode", "none");
-    await assertSelectedItems(page, { expectedItemIds: ["item-2", "item-5"] });
-
+    await selectedItemAsserter(["item-2", "item-5"]);
     await trigger.click();
     await page.waitForChanges();
     await item1.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-2", "item-5"],
-    });
+    await selectedItemAsserter(["item-1", "item-2", "item-5"]);
     await trigger.click();
     await page.waitForChanges();
     await item2.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-5"],
-    });
+    await selectedItemAsserter(["item-1", "item-5"]);
     await trigger.click();
     await page.waitForChanges();
     await item3.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-5"],
-    });
+    await selectedItemAsserter(["item-1", "item-3", "item-5"]);
     await trigger.click();
     await page.waitForChanges();
     await item4.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-4"],
-    });
+    await selectedItemAsserter(["item-1", "item-3", "item-4"]);
     await trigger.click();
     await page.waitForChanges();
     await item6.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-6"],
-    });
+    await selectedItemAsserter(["item-1", "item-3", "item-6"]);
     await trigger.click();
     await page.waitForChanges();
     await item7.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-6"],
-    });
+    await selectedItemAsserter(["item-1", "item-3", "item-6"]);
     await trigger.click();
     await page.waitForChanges();
     await item9.click();
     await page.waitForChanges();
-    await assertSelectedItems(page, {
-      expectedItemIds: ["item-1", "item-3", "item-6"],
-    });
+    await selectedItemAsserter(["item-1", "item-3", "item-6"]);
 
     expect(item1).toHaveAttribute("selected");
     expect(item2).not.toHaveAttribute("selected");

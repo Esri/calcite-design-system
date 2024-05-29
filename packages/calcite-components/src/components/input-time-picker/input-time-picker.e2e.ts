@@ -11,10 +11,12 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 
 async function getInputValue(page: E2EPage): Promise<string> {
   return page.evaluate(
@@ -60,7 +62,9 @@ describe("calcite-input-time-picker", () => {
     `);
   });
 
-  it.skip("supports t9n", () => t9n("calcite-input-time-picker"));
+  describe("translation support", () => {
+    t9n("calcite-input-time-picker");
+  });
 
   describe("defaults", () => {
     defaults("calcite-input-time-picker", [
@@ -648,7 +652,7 @@ describe("calcite-input-time-picker", () => {
     expect(await inputTimePicker.getProperty("value")).toBe("14:05:00");
   });
 
-  it.skip("correctly relocalizes the display value when the lang and numbering systems change", async () => {
+  it("correctly relocalizes the display value when the lang and numbering systems change", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker step="1" value="14:30:25"></calcite-input-time-picker>`);
     const inputTimePicker = await page.find("calcite-input-time-picker");
@@ -679,7 +683,7 @@ describe("calcite-input-time-picker", () => {
     await page.waitForChanges();
     await waitForAnimationFrame();
 
-    expect(await getInputValue(page)).toBe("下午02:30");
+    expect(await getInputValue(page)).toBe("下午02:30:25");
   });
 
   describe("arabic locale support", () => {
@@ -712,7 +716,7 @@ describe("calcite-input-time-picker", () => {
       expect(await getInputValue(page)).toBe("٠١٢٣٤٥٦٧٨٩");
     });
 
-    it.skip("committing typed value works as expected in arab numbering system", async () => {
+    it("committing typed value works as expected in arab numbering system", async () => {
       const page = await newE2EPage();
       await page.setContent(
         `<calcite-input-time-picker step="1" lang="ar" numbering-system="arab"></calcite-input-time-picker>`,
@@ -957,6 +961,105 @@ describe("calcite-input-time-picker", () => {
       popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
       expect(await popover.isVisible()).toBe(false);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-input-background-color": {
+          shadowSelector: "input",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-border-color": {
+          shadowSelector: "input",
+          targetProp: "borderColor",
+        },
+        "--calcite-input-corner-radius": {
+          shadowSelector: "input",
+          targetProp: "borderRadius",
+        },
+        "--calcite-input-shadow": {
+          shadowSelector: "calcite-input-text",
+          targetProp: "boxShadow",
+        },
+        "--calcite-input-text-color": {
+          shadowSelector: "input",
+          targetProp: "color",
+        },
+        "--calcite-input-button-background-color-hover": {
+          shadowSelector: ".toggle-icon",
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-input-button-background-color": {
+          shadowSelector: ".toggle-icon",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-icon-color-active": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-input-icon-color-hover": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-input-icon-color": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+      };
+      themed(`calcite-input-time-picker`, tokens);
+    });
+    describe("popover", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-input-popover-border-color": {
+          shadowSelector: "calcite-popover",
+          targetProp: "--calcite-popover-border-color",
+        },
+        "--calcite-input-popover-shadow": {
+          shadowSelector: "calcite-popover",
+          targetProp: "--calcite-popover-shadow",
+        },
+        "--calcite-input-time-picker-background-color-hover": {
+          shadowSelector: "calcite-popover",
+          targetProp: "--calcite-popover-border-color",
+          state: "hover",
+        },
+        "--calcite-input-time-picker-background-color": [
+          {
+            shadowSelector: "calcite-popover",
+            targetProp: "--calcite-popover-background-color",
+          },
+          {
+            shadowSelector: "calcite-time-picker",
+            targetProp: "--calcite-time-picker-background-color",
+          },
+        ],
+        "--calcite-input-time-picker-shadow-focus": {
+          selector: "calcite-input-time-picker",
+          shadowSelector: "calcite-time-picker",
+          targetProp: "--calcite-time-picker-input-box-shadow-focus",
+        },
+        "--calcite-input-time-picker-shadow": {
+          shadowSelector: "calcite-time-picker",
+          targetProp: "--calcite-time-picker-input-box-shadow",
+        },
+        "--calcite-input-time-picker-icon-color": {
+          shadowSelector: "calcite-time-picker",
+          targetProp: "--calcite-time-picker-icon-color",
+        },
+        "--calcite-input-time-picker-text-color": {
+          shadowSelector: "calcite-time-picker",
+          targetProp: "--calcite-time-picker-text-color",
+        },
+        "--calcite-input-time-picker-toggle-icon-color-hover": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+          state: "hover",
+        },
+      };
+      themed(html`<calcite-input-time-picker open />`, tokens);
     });
   });
 });

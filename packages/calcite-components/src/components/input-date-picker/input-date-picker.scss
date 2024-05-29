@@ -96,6 +96,18 @@
 
 .input-wrapper {
   @apply relative;
+
+  .chevron-icon {
+    color: var(--calcite-color-text-3);
+  }
+
+  &:focus-within,
+  &:active,
+  &:hover {
+    .chevron-icon {
+      color: var(--calcite-color-text-1);
+    }
+  }
 }
 
 .toggle-icon {
@@ -103,9 +115,21 @@
   inset-inline-end: 0;
   inset-block: 0;
   padding-inline: var(--calcite-toggle-spacing);
+  background-color: var(--calcite-input-button-background-color);
+
+  &:hover {
+    background-color: var(--calcite-input-button-background-color-hover);
+  }
 
   calcite-icon {
-    --calcite-icon-color: var(--calcite-input-toggle-icon-color);
+    --calcite-icon-color: var(--calcite-input-icon-color);
+
+    &:hover {
+      --calcite-icon-color: var(--calcite-input-icon-color-hover);
+    }
+    &:active {
+      --calcite-icon-color: var(--calcite-input-icon-color-active);
+    }
   }
 }
 
