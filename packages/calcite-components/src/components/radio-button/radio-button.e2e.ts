@@ -9,9 +9,11 @@ import {
   labelable,
   reflects,
   renders,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils";
+import { CSS } from "./resources";
 
 describe("calcite-radio-button", () => {
   describe("renders", () => {
@@ -576,5 +578,58 @@ describe("calcite-radio-button", () => {
 
   describe("is form-associated", () => {
     formAssociated("calcite-radio-button", { testValue: true, inputType: "radio" });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-radio-button", {
+        "--calcite-radio-button-background-color": {
+          shadowSelector: `.${CSS.radio}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-radio-button-border-radius": {
+          shadowSelector: `.${CSS.radio}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-radio-button-shadow": {
+          shadowSelector: `.${CSS.radio}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-radio-button-size": [
+          {
+            shadowSelector: `.${CSS.radio}`,
+            targetProp: "blockSize",
+          },
+          {
+            shadowSelector: `.${CSS.radio}`,
+            targetProp: "maxInlineSize",
+          },
+          {
+            shadowSelector: `.${CSS.radio}`,
+            targetProp: "minInlineSize",
+          },
+        ],
+      });
+    });
+
+    describe("checked", () => {
+      themed("calcite-radio-button", {
+        "--calcite-radio-button-shadow": {
+          shadowSelector: `.${CSS.radio}`,
+          targetProp: "boxShadow",
+        },
+      });
+    });
+
+    describe.skip("focused", () => {
+      // TODO: confirm if we're adding --calcite-x-focus, we have a global prop for focus color, focus offset/inset, width is not available
+      themed("calcite-radio-button", {
+        "--calcite-radio-focus": {
+          shadowSelector: `.${CSS.radio}`,
+          targetProp: "outline",
+          state: "focus",
+        },
+      });
+    });
   });
 });
