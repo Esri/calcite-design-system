@@ -15,11 +15,12 @@
  *
  */
 
+:host {
+  --calcite-navigation-background-color: var(--calcite-navigation-background, var(--calcite-color-foreground-1));
+}
 @include base-component();
 
 .container {
-  --calcite-navigation-background-color: var(--calcite-navigation-background, var(--calcite-color-foreground-1));
-
   @apply flex
   flex-col
   mx-auto
