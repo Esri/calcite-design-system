@@ -391,7 +391,9 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
  * @returns string - the new value for the token
  */
 function assignTestTokenThemeValues(token: string): string {
-  return token.includes("color")
+  const legacyBackgroundColorToken = token.endsWith("-background");
+
+  return token.includes("color") || legacyBackgroundColorToken
     ? "rgb(0, 191, 255)"
     : token.includes("shadow")
       ? "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px"
