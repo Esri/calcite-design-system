@@ -565,6 +565,22 @@ describe("calcite-date-picker", () => {
     await page.waitForChanges();
     expect(await datePicker.getProperty("value")).toEqual(["2020-09-15", "2020-09-30"]);
   });
+
+  it("doesn't select the previous day in CEST timezone", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone("Europe/Zurich");
+
+    await page.setContent(html` <calcite-date-picker value="1850-03-12"></calcite-date-picker> `);
+
+    const datePicker = await page.find("calcite-date-picker");
+
+    expect(await datePicker.getProperty("value")).toBe("1850-03-12");
+
+    await selectDay("18500307", page, "mouse");
+    await page.waitForChanges();
+
+    expect(await datePicker.getProperty("value")).toBe("1850-03-07");
+  });
 });
 
 async function setActiveDate(page: E2EPage, date: string): Promise<void> {
