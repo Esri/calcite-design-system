@@ -7,6 +7,12 @@ import { getTagAndPage } from "./utils";
 
 expect.extend(toHaveNoViolations);
 
+interface TargetInfo {
+  el: E2EElement;
+  selector: string;
+  shadowSelector: string;
+}
+
 /**
  * This object that represents component tokens and their respective test options.
  */
@@ -100,7 +106,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
 
         const el = await page.find(selector);
         const tokenStyle = `${token}: ${setTokens[token]}`;
-        let target = el;
+        const target: TargetInfo = { el, selector, shadowSelector };
         let contextSelector: ContextSelectByAttr;
         let stateName: State;
 
@@ -115,13 +121,14 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
           styleTargets[selector][1].push(tokenStyle);
         }
         if (shadowSelector) {
-          target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : target;
+          const effectiveShadowSelector = shadowSelector.replace(/::.*$/, "");
+          target.el = await page.find(`${selector} >>> ${effectiveShadowSelector}`);
         }
         if (state && typeof state !== "string") {
           contextSelector = Object.values(state)[0] as ContextSelectByAttr;
         }
 
-        if (!target) {
+        if (!target.el) {
           throw new Error(
             `[${token}] target (${selector}${
               shadowSelector ? " >>> " + shadowSelector : ""
@@ -168,9 +175,9 @@ type State = "press" | "hover" | "focus";
  */
 export type TestTarget = {
   /**
-   * The element to get the computed style from.
+   * An object with target element and selector info.
    */
-  target: E2EElement;
+  target: TargetInfo;
 
   /**
    * @todo doc
@@ -242,15 +249,21 @@ export type TestSelectToken = {
  *
  * @param element
  * @param property
+ * @param pseudoElement
  */
-async function getComputedStylePropertyValue(element: E2EElement, property: string): Promise<string> {
+async function getComputedStylePropertyValue(
+  element: E2EElement,
+  property: string,
+  pseudoElement?: string,
+): Promise<string> {
   type E2EElementInternal = E2EElement & {
     _elmHandle: ElementHandle;
   };
 
   return await (element as E2EElementInternal)._elmHandle.evaluate(
-    (el, targetProp): string => window.getComputedStyle(el).getPropertyValue(targetProp),
+    (el, targetProp, pseudoElement): string => window.getComputedStyle(el, pseudoElement).getPropertyValue(targetProp),
     property,
+    pseudoElement,
   );
 }
 
@@ -271,6 +284,9 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
 
   await page.mouse.reset();
   await page.waitForChanges();
+
+  const targetEl = target.el;
+  const pseudoElement = target.shadowSelector?.match(/::(before|after)/)?.[0] ?? undefined;
 
   if (contextSelector) {
     const rect = (await page.evaluate((context: TestTarget["contextSelector"]) => {
@@ -344,20 +360,21 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       await page.mouse.up();
     }
   } else if (state) {
-    await target[state as Exclude<State, "press">]();
+    await targetEl[state as Exclude<State, "press">]();
   }
 
   await page.waitForChanges();
 
   if (targetProp.startsWith("--calcite-")) {
-    expect(await getComputedStylePropertyValue(target, targetProp)).toBe(expectedValue);
+    expect(await getComputedStylePropertyValue(targetEl, targetProp, pseudoElement)).toBe(expectedValue);
     return;
   }
 
-  const styles = await target.getComputedStyle();
+  const styles = await targetEl.getComputedStyle(pseudoElement);
   const isFakeBorderToken = token.includes("border-color") && targetProp === "boxShadow";
+  const isLinearGradientUnderlineToken = token.includes("link-underline-color") && targetProp === "backgroundImage";
 
-  if (isFakeBorderToken) {
+  if (isFakeBorderToken || isLinearGradientUnderlineToken) {
     expect(styles[targetProp]).toMatch(expectedValue);
     return;
   }
