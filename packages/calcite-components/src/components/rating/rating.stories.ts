@@ -1,17 +1,10 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Rating } from "./rating";
 const { scale } = ATTRIBUTES;
 
-interface RatingArgs {
-  scale: string;
-  value: number;
-  showChip: boolean;
-  average: number;
-  count: number;
-  readOnly: boolean;
-  disabled: boolean;
-}
+type RatingStoryArgs = Pick<Rating, "scale" | "value" | "showChip" | "average" | "count" | "readOnly" | "disabled">;
 
 export default {
   title: "Components/Controls/Rating",
@@ -32,7 +25,7 @@ export default {
   },
 };
 
-export const simple = (args: RatingArgs): string => html`
+export const simple = (args: RatingStoryArgs): string => html`
   <calcite-rating
     scale="${args.scale}"
     value="${args.value}"

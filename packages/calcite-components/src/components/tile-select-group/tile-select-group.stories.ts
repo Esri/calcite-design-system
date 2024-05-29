@@ -1,15 +1,17 @@
+import { TileSelect } from "../tile-select/tile-select";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { TileSelectGroup } from "./tile-select-group";
 const { layout, dir, alignment, width, buttonType } = ATTRIBUTES;
 
-interface TileSelectGroupArgs {
-  layout: string;
+interface TileSelectGroupStoryArgs {
+  layout: TileSelectGroup["layout"];
   dir: string;
-  inputEnabled: boolean;
-  alignment: string;
-  width: string;
-  type: string;
+  inputEnabled: TileSelect["inputEnabled"];
+  inputAlignment: TileSelect["inputAlignment"];
+  width: TileSelect["width"];
+  type: TileSelect["type"];
 }
 
 export default {
@@ -18,7 +20,7 @@ export default {
     layout: layout.defaultValue,
     dir: dir.defaultValue,
     inputEnabled: true,
-    alignment: alignment.defaultValue,
+    inputAlignment: alignment.defaultValue,
     width: width.defaultValue,
     type: buttonType.defaultValue,
   },
@@ -39,7 +41,7 @@ export default {
       options: dir.values,
       control: { type: "select" },
     },
-    alignment: {
+    inputAlignment: {
       options: alignment.values,
       control: { type: "select" },
     },
@@ -106,7 +108,7 @@ const tileSelectsHTML = () => html`
   </calcite-tile-select>
 `;
 
-export const simple = (args: TileSelectGroupArgs): string => html`
+export const simple = (args: TileSelectGroupStoryArgs): string => html`
   <calcite-tile-select-group layout="${args.layout}" dir="${args.dir}">
     <calcite-tile-select
       checked
@@ -115,7 +117,7 @@ export const simple = (args: TileSelectGroupArgs): string => html`
       icon="layers"
       name="light"
       ${boolean("input-enabled", args.inputEnabled)}
-      input-alignment="${args.alignment}"
+      input-alignment="${args.inputAlignment}"
       width="${args.width}"
       type="${args.type}"
       value="one"
@@ -127,7 +129,7 @@ export const simple = (args: TileSelectGroupArgs): string => html`
       icon="layers"
       name="light"
       ${boolean("input-enabled", args.inputEnabled)}
-      input-alignment="${args.alignment}"
+      input-alignment="${args.inputAlignment}"
       width="${args.width}"
       type="${args.type}"
       value="two"
@@ -139,7 +141,7 @@ export const simple = (args: TileSelectGroupArgs): string => html`
       icon="layers"
       name="light"
       ${boolean("input-enabled", args.inputEnabled)}
-      input-alignment="${args.alignment}"
+      input-alignment="${args.inputAlignment}"
       width="${args.width}"
       type="${args.type}"
       value="three"
@@ -151,7 +153,7 @@ export const simple = (args: TileSelectGroupArgs): string => html`
       icon="layers"
       name="light"
       ${boolean("input-enabled", args.inputEnabled)}
-      input-alignment="${args.alignment}"
+      input-alignment="${args.inputAlignment}"
       width="${args.width}"
       type="${args.type}"
       value="four"

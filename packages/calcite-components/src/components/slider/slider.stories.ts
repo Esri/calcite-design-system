@@ -1,24 +1,25 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Slider } from "./slider";
 const { scale } = ATTRIBUTES;
 
-interface SliderArgs {
-  min: number;
-  max: number;
-  value: number;
-  step: number;
+interface SliderStoryArgs {
+  min: Slider["min"];
+  max: Slider["max"];
+  value: Slider["value"];
+  step: Slider["step"];
   temperature: string;
-  minLabel: string;
-  disabled: boolean;
-  labelHandles: boolean;
-  labelTicks: boolean;
-  ticks: number;
-  pageStep: number;
-  precise: boolean;
-  mirrored: boolean;
-  snap: boolean;
-  scale: string;
+  minLabel: Slider["minLabel"];
+  disabled: Slider["disabled"];
+  labelHandles: Slider["labelHandles"];
+  labelTicks: Slider["labelTicks"];
+  ticks: Slider["ticks"];
+  pageStep: Slider["pageStep"];
+  precise: Slider["precise"];
+  mirrored: Slider["mirrored"];
+  snap: Slider["snap"];
+  scale: Slider["scale"];
 }
 
 export default {
@@ -54,7 +55,7 @@ export default {
   },
 };
 
-export const simple = (args: SliderArgs): string => html`
+export const simple = (args: SliderStoryArgs): string => html`
   <calcite-slider
     min="${args.min}"
     max="${args.max}"

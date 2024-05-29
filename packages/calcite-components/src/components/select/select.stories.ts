@@ -1,20 +1,22 @@
+import { Option } from "../option/option";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Select } from "./select";
 const { status, width, scale } = ATTRIBUTES;
 
-interface SelectArgs {
-  selectDisabled: boolean;
-  status: string;
-  width: string;
-  scale: string;
-  validationMessage: string;
-  validationIcon: string;
-  optionDisabled: boolean;
-  label: string;
-  selected: boolean;
-  value: string;
+interface SelectStoryArgs {
+  selectDisabled: Select["disabled"];
+  status: Select["status"];
+  width: Select["width"];
+  scale: Select["scale"];
+  validationMessage: Select["validationMessage"];
+  validationIcon: Select["validationIcon"];
+  optionDisabled: Option["disabled"];
+  label: Option["label"];
+  selected: Option["selected"];
+  value: Option["value"];
 }
 
 export default {
@@ -51,7 +53,7 @@ export default {
   },
 };
 
-export const simple = (args: SelectArgs): string => html`
+export const simple = (args: SelectStoryArgs): string => html`
   <div style="width:260px">
     <calcite-select
       ${boolean("disabled", args.selectDisabled)}

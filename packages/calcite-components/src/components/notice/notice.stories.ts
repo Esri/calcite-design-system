@@ -2,16 +2,17 @@ import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Notice } from "./notice";
 const { scale, width, kind } = ATTRIBUTES;
 
-interface NoticeArgs {
+interface NoticeStoryArgs {
   showIcon: boolean;
-  open: boolean;
-  closable: boolean;
+  open: Notice["open"];
+  closable: Notice["closable"];
   noticeScale: string;
-  width: string;
-  kind: string;
-  icon: string;
+  width: Notice["width"];
+  kind: Notice["kind"];
+  icon: Notice["icon"];
   actionScale: string;
 }
 
@@ -51,7 +52,7 @@ export default {
   },
 };
 
-export const simple = (args: NoticeArgs): string => html`
+export const simple = (args: NoticeStoryArgs): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       ${boolean("icon", args.showIcon)}

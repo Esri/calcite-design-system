@@ -1,18 +1,19 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Panel } from "./panel";
 import { SLOTS } from "./resources";
 const { collapseDirection, scale } = ATTRIBUTES;
 
-interface PanelArgs {
-  closed: boolean;
-  disabled: boolean;
-  closable: boolean;
-  collapsed: boolean;
-  collapsible: boolean;
-  collapseDirection: string;
+interface PanelStoryArgs {
+  closed: Panel["closed"];
+  disabled: Panel["disabled"];
+  closable: Panel["closable"];
+  collapsed: Panel["collapsed"];
+  collapsible: Panel["collapsible"];
+  collapseDirection: Panel["collapseDirection"];
   heightScale: string;
-  loading: boolean;
+  loading: Panel["loading"];
 }
 
 export default {
@@ -77,7 +78,7 @@ const panelContent = `${headerHTML}
   ${contentHTML}
   ${footerHTML}`;
 
-export const simple = (args: PanelArgs): string => html`
+export const simple = (args: PanelStoryArgs): string => html`
   <calcite-panel
     ${boolean("closed", args.closed)}
     ${boolean("disabled", args.disabled)}

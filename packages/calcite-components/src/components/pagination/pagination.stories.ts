@@ -2,15 +2,16 @@ import { locales, numberingSystems, defaultLocale, defaultNumberingSystem } from
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Pagination } from "./pagination";
 const { scale } = ATTRIBUTES;
 
-interface PaginationArgs {
-  scale: string;
-  startItem: number;
+interface PaginationStoryArgs {
+  scale: Pagination["scale"];
+  startItem: Pagination["startItem"];
   lang: string;
-  numberingSystem: string;
-  totalItems: number;
-  pageSize: number;
+  numberingSystem: Pagination["numberingSystem"];
+  totalItems: Pagination["totalItems"];
+  pageSize: Pagination["pageSize"];
 }
 
 export default {
@@ -44,7 +45,7 @@ export default {
   },
 };
 
-export const simple = (args: PaginationArgs): string => html`
+export const simple = (args: PaginationStoryArgs): string => html`
   <style>
     .sb-show-main.sb-main-centered #storybook-root {
       padding: 0 !important;

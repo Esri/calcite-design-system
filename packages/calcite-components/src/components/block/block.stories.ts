@@ -1,20 +1,22 @@
+import { BlockSection } from "../block-section/block-section";
 import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Block } from "./block";
 const { toggleDisplay } = ATTRIBUTES;
 
-interface BlockArgs {
-  heading: string;
-  description: string;
-  blockOpen: boolean;
-  collapsible: boolean;
-  loading: boolean;
-  disabled: boolean;
-  headingLevel: number;
+interface BlockStoryArgs {
+  heading: Block["heading"];
+  description: Block["description"];
+  blockOpen: Block["open"];
+  collapsible: Block["collapsible"];
+  loading: Block["loading"];
+  disabled: Block["disabled"];
+  headingLevel: Block["headingLevel"];
   text: string;
-  sectionOpen: boolean;
-  toggleDisplay: string;
+  sectionOpen: BlockSection["open"];
+  toggleDisplay: BlockSection["toggleDisplay"];
 }
 
 export default {
@@ -42,7 +44,7 @@ export default {
   },
 };
 
-export const simple = (args: BlockArgs): string => html`
+export const simple = (args: BlockStoryArgs): string => html`
   <calcite-block
     heading="${args.heading}"
     description="${args.description}"

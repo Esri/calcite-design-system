@@ -2,10 +2,11 @@ import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { CardGroup } from "./card-group";
 const { selectionMode } = ATTRIBUTES;
 
-interface CardGroupArgs {
-  selectionMode: string;
+interface CardGroupStoryArgs {
+  selectionMode: CardGroup["selectionMode"];
   src: string;
 }
 
@@ -28,7 +29,7 @@ export default {
   },
 };
 
-export const simple = (args: CardGroupArgs): string => html`
+export const simple = (args: CardGroupStoryArgs): string => html`
   <calcite-card-group selection-mode="${args.selectionMode}">
     <calcite-card label="test card">
       <img slot="thumbnail" alt="Sample image alt" src="${args.src}" />

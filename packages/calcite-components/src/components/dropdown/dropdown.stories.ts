@@ -1,18 +1,16 @@
+import { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Dropdown } from "./dropdown";
 const { scale, clickType, selectionMode } = ATTRIBUTES;
 
-interface DropdownArgs {
-  placement: string;
-  scale: string;
-  widthScale: string;
-  type: string;
-  closeOnSelectDisabled: boolean;
-  disabled: boolean;
-  selectionMode: string;
-}
+type DropdownStoryArgs = Pick<
+  Dropdown,
+  "placement" | "scale" | "widthScale" | "type" | "closeOnSelectDisabled" | "disabled"
+> &
+  Pick<DropdownGroup, "selectionMode">;
 
 export default {
   title: "Components/Buttons/Dropdown",
@@ -57,7 +55,7 @@ export default {
   },
 };
 
-export const simple = (args: DropdownArgs): string => html`
+export const simple = (args: DropdownStoryArgs): string => html`
   <calcite-dropdown
     open
     placement="${args.placement}"

@@ -1,18 +1,20 @@
+import { ShellPanel } from "../shell-panel/shell-panel";
+import { ShellCenterRow } from "../shell-center-row/shell-center-row";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { displayMode, position, scale } = ATTRIBUTES;
 
-interface ShellArgs {
-  collapsed: boolean;
-  displayMode: string;
-  leadingPanelPosition: string;
-  trailingPanelPosition: string;
-  resizable: boolean;
-  detached: boolean;
-  heightScale: string;
-  shellCenterRowPosition: string;
+interface ShellStoryArgs {
+  collapsed: ShellPanel["collapsed"];
+  displayMode: ShellPanel["displayMode"];
+  leadingPanelPosition: ShellPanel["position"];
+  trailingPanelPosition: ShellPanel["position"];
+  resizable: ShellPanel["resizable"];
+  detached: ShellCenterRow["detached"];
+  heightScale: ShellCenterRow["heightScale"];
+  shellCenterRowPosition: ShellCenterRow["position"];
 }
 
 export default {
@@ -295,7 +297,7 @@ const advancedTrailingPanelHTMl = html(`
   </calcite-flow>
 `);
 
-export const simple = (args: ShellArgs): string => html`
+export const simple = (args: ShellStoryArgs): string => html`
   <calcite-shell>
     ${headerHTML}
     <calcite-shell-panel

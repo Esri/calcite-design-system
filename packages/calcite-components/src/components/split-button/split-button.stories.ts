@@ -2,21 +2,23 @@ import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { SplitButton } from "./split-button";
 const { appearance, kind, scale, width, iconType } = ATTRIBUTES;
 
-interface SplitButtonArgs {
-  appearance: string;
-  kind: string;
-  scale: string;
-  width: string;
-  loading: boolean;
-  disabled: boolean;
-  primaryIconStart: string;
-  primaryText: string;
-  primaryLabel: string;
-  dropdownLabel: string;
-  dropdownIconType: string;
-}
+type SplitButtonStoryArgs = Pick<
+  SplitButton,
+  | "appearance"
+  | "kind"
+  | "scale"
+  | "width"
+  | "loading"
+  | "disabled"
+  | "primaryIconStart"
+  | "primaryText"
+  | "primaryLabel"
+  | "dropdownLabel"
+  | "dropdownIconType"
+>;
 
 export default {
   title: "Components/Buttons/Split Button",
@@ -61,7 +63,7 @@ export default {
   },
 };
 
-export const simple = (args: SplitButtonArgs): string => html`
+export const simple = (args: SplitButtonStoryArgs): string => html`
   <div style="width:70vw;">
     <calcite-split-button
       active

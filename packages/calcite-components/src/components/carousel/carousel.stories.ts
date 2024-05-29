@@ -2,15 +2,16 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Carousel } from "./carousel";
 const { arrowType } = ATTRIBUTES;
 
-interface CarouselArgs {
-  controlOverlay: boolean;
-  disabled: boolean;
-  autoPlayDuration: number;
-  autoPlay: boolean;
-  label: string;
-  arrowType: string;
+interface CarouselStoryArgs {
+  controlOverlay: Carousel["controlOverlay"];
+  disabled: Carousel["disabled"];
+  autoplayDuration: Carousel["autoplayDuration"];
+  autoplay: boolean;
+  label: Carousel["label"];
+  arrowType: Carousel["arrowType"];
 }
 
 export default {
@@ -18,8 +19,8 @@ export default {
   args: {
     controlOverlay: false,
     disabled: false,
-    autoPlayDuration: 6000,
-    autoPlay: false,
+    autoplayDuration: 6000,
+    autoplay: false,
     label: "Example carousel label",
     arrowType: arrowType.defaultValue,
   },
@@ -31,13 +32,13 @@ export default {
   },
 };
 
-export const simple = (args: CarouselArgs): string =>
+export const simple = (args: CarouselStoryArgs): string =>
   html` <div style="width:600px;height:400px;">
     <calcite-carousel
       control-overlay="${args.controlOverlay}"
       ${boolean("disabled", args.disabled)}
-      autoplay-duration="${args.autoPlayDuration}"
-      ${boolean("autoplay", args.autoPlay)}
+      autoplay-duration="${args.autoplayDuration}"
+      ${boolean("autoplay", args.autoplay)}
       label="${args.label}"
       arrow-type="${args.arrowType}"
     >

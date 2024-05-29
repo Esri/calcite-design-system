@@ -1,17 +1,18 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import * as icons from "../../../../../node_modules/@esri/calcite-ui-icons";
 import { html } from "../../../support/formatting";
+import { Link } from "./link";
 
 // we can get all unique icon names from all size 16 non-filled icons.
 const iconNames = Object.keys(icons)
   .filter((iconName) => iconName.endsWith("16"))
   .map((iconName) => iconName.replace("16", ""));
 
-interface LinkArgs {
+interface LinkStoryArgs {
   containingFontSize: string;
   containingFontWeight: string;
-  href: string;
-  disabled: boolean;
+  href: Link["href"];
+  disabled: Link["disabled"];
   text: string;
 }
 
@@ -36,7 +37,7 @@ export default {
   },
 };
 
-export const simple = (args: LinkArgs): string => html`
+export const simple = (args: LinkStoryArgs): string => html`
   <div style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight};">
     Some wrapping text
     <calcite-link href="${args.href}" ${boolean("disabled", args.disabled)}> ${args.text}</calcite-link>

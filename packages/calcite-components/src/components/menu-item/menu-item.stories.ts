@@ -1,16 +1,17 @@
 import { boolean } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
+import { CalciteMenuItem } from "./menu-item";
 
-interface MenuItemArgs {
-  text: string;
+interface MenuItemStoryArgs {
+  text: CalciteMenuItem["text"];
   src: string;
-  href: string;
-  rel: string;
-  target: string;
-  label: string;
-  active: boolean;
-  breadcrumb: boolean;
+  href: CalciteMenuItem["href"];
+  rel: CalciteMenuItem["rel"];
+  target: CalciteMenuItem["target"];
+  label: CalciteMenuItem["label"];
+  active: CalciteMenuItem["active"];
+  breadcrumb: CalciteMenuItem["breadcrumb"];
 }
 
 export default {
@@ -27,7 +28,7 @@ export default {
   },
 };
 
-export const simple = (args: MenuItemArgs): string => html`
+export const simple = (args: MenuItemStoryArgs): string => html`
   <calcite-menu>
     <calcite-menu-item
       text="${args.text}"

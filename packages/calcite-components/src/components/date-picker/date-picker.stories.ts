@@ -2,18 +2,19 @@ import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.st
 import { html } from "../../../support/formatting";
 import { locales, defaultLocale } from "../../utils/locale";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { DatePicker } from "./date-picker";
 const { scale } = ATTRIBUTES;
 
-interface DatePickerArgs {
+interface DatePickerStoryArgs {
   dir: string;
   lang: string;
-  max: string;
-  min: string;
+  max: DatePicker["max"];
+  min: DatePicker["min"];
   nextMonthLabel: string;
   prevMonthLabel: string;
-  range: boolean;
-  scale: string;
-  value: string;
+  range: DatePicker["range"];
+  scale: DatePicker["scale"];
+  value: DatePicker["value"];
 }
 
 export default {
@@ -48,7 +49,7 @@ export default {
   },
 };
 
-export const simple = (args: DatePickerArgs): string => html`
+export const simple = (args: DatePickerStoryArgs): string => html`
   <div style="width: 400px">
     <calcite-date-picker
       dir="${args.dir}"

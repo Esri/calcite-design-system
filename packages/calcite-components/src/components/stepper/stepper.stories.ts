@@ -1,21 +1,23 @@
+import { Stepper } from "../stepper/stepper";
+import { StepperItem } from "../stepper-item/stepper-item";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { layout, scale } = ATTRIBUTES;
 
-interface StepperArgs {
-  layout: string;
-  scale: string;
-  numbered: boolean;
-  icon: boolean;
-  heading1: string;
-  description1: string;
-  heading2: string;
-  description2: string;
-  heading3: string;
-  description3: string;
-  heading4: string;
-  description4: string;
+interface StepperStoryArgs {
+  layout: Stepper["layout"];
+  scale: Stepper["scale"];
+  numbered: Stepper["numbered"];
+  icon: Stepper["icon"];
+  heading1: StepperItem["heading"];
+  description1: StepperItem["description"];
+  heading2: StepperItem["heading"];
+  description2: StepperItem["description"];
+  heading3: StepperItem["heading"];
+  description3: StepperItem["description"];
+  heading4: StepperItem["heading"];
+  description4: StepperItem["description"];
 }
 
 export default {
@@ -59,7 +61,7 @@ export default {
   },
 };
 
-export const simple = (args: StepperArgs): string => html`
+export const simple = (args: StepperStoryArgs): string => html`
   <h1>Default</h1>
   <calcite-stepper
     layout="${args.layout}"

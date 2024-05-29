@@ -1,18 +1,19 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { FlowItem } from "./flow-item";
 import { SLOTS } from "./resources";
 const { collapseDirection, scale } = ATTRIBUTES;
 
-interface FlowItemArgs {
-  closed: boolean;
-  disabled: boolean;
-  closable: boolean;
-  collapsible: boolean;
-  collapsed: boolean;
-  collapseDirection: string;
+interface FlowItemStoryArgs {
+  closed: FlowItem["closed"];
+  disabled: FlowItem["disabled"];
+  closable: FlowItem["closable"];
+  collapsible: FlowItem["collapsible"];
+  collapsed: FlowItem["collapsed"];
+  collapseDirection: FlowItem["collapseDirection"];
   heightScale: string;
-  loading: boolean;
+  loading: FlowItem["loading"];
 }
 
 export default {
@@ -77,7 +78,7 @@ const flowItemContent = `${headerHTML}
   ${contentHTML}
   ${footerHTML}`;
 
-export const simple = (args: FlowItemArgs): string => html`
+export const simple = (args: FlowItemStoryArgs): string => html`
   <calcite-flow-item
     ${boolean("closed", args.closed)}
     ${boolean("disabled", args.disabled)}
