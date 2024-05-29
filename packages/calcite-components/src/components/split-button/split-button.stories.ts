@@ -1,27 +1,81 @@
-import { text, select } from "../../../.storybook/fake-knobs";
-import { iconNames, boolean } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { appearance, kind, scale, width, iconType } = ATTRIBUTES;
+
+interface SplitButtonArgs {
+  appearance: string;
+  kind: string;
+  scale: string;
+  width: string;
+  loading: boolean;
+  disabled: boolean;
+  primaryIconStart: string;
+  primaryText: string;
+  primaryLabel: string;
+  dropdownLabel: string;
+  dropdownIconType: string;
+}
 
 export default {
   title: "Components/Buttons/Split Button",
+  args: {
+    appearance: appearance.defaultValue,
+    kind: kind.defaultValue,
+    scale: scale.defaultValue,
+    width: width.defaultValue,
+    loading: false,
+    disabled: false,
+    primaryIconStart: iconNames[0],
+    primaryText: "Primary Option",
+    primaryLabel: "Primary Option",
+    dropdownLabel: "Additional Options",
+    dropdownIconType: iconType.defaultValue,
+  },
+  argTypes: {
+    appearance: {
+      options: appearance.values,
+      control: { type: "select" },
+    },
+    kind: {
+      options: kind.values.filter((option) => option !== "info" && option !== "warning" && option !== "success"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    width: {
+      options: width.values,
+      control: { type: "select" },
+    },
+    primaryIconStart: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+    dropdownIconType: {
+      options: iconType.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: SplitButtonArgs): string => html`
   <div style="width:70vw;">
     <calcite-split-button
       active
-      appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
-      kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
-      scale="${select("size", ["s", "m", "l"], "m")}"
-      width="${select("width", ["auto", "half", "full"], "auto")}"
-      ${boolean("loading", false)}
-      ${boolean("disabled", false)}
-      primary-icon-start="${select("primary-icon-start", iconNames, iconNames[0])}"
-      primary-text="${text("primary-text", "Primary Option")}"
-      primary-label="${text("primary-label", "Primary Option")}"
-      dropdown-label="${text("dropdown-label", "Additional Options")}"
-      dropdown-icon-type="${select("dropdown-icon-type", ["chevron", "caret", "ellipsis", "overflow"], "chevron")}"
+      appearance="${args.appearance}"
+      kind="${args.kind}"
+      scale="${args.scale}"
+      width="${args.width}"
+      ${boolean("loading", args.loading)}
+      ${boolean("disabled", args.disabled)}
+      primary-icon-start="${args.primaryIconStart}"
+      primary-text="${args.primaryText}"
+      primary-label="${args.primaryLabel}"
+      dropdown-label="${args.dropdownLabel}"
+      dropdown-icon-type="${args.dropdownIconType}"
     >
       <calcite-dropdown-group selection-mode="none">
         <calcite-dropdown-item>Option 2</calcite-dropdown-item>
@@ -70,17 +124,15 @@ export const allWidths_TestOnly = (): string => html`
 export const iconEnd_TestOnly = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
-      appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
-      kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
-      scale="${select("size", ["s", "m", "l"], "m")}"
-      width="${select("width", ["auto", "half", "full"], "auto")}"
-      ${boolean("loading", false)}
-      ${boolean("disabled", false)}
-      primary-icon-end="${select("primary-icon-end", iconNames, iconNames[0])}"
-      primary-text="${text("primary-text", "Primary Option")}"
-      primary-label="${text("primary-label", "Primary Option")}"
-      dropdown-label="${text("dropdown-label", "Additional Options")}"
-      dropdown-icon-type="${select("dropdown-icon-type", ["chevron", "caret", "ellipsis", "overflow"], "chevron")}"
+      appearance="solid"
+      kind="brand"
+      scale="m"
+      width="auto"
+      primary-icon-end="${iconNames[0]}"
+      primary-text="Primary Option"
+      primary-label="Primary Option"
+      dropdown-label="Additional Options"
+      dropdown-icon-type="chevron"
     >
       <calcite-dropdown-group selection-mode="none">
         <calcite-dropdown-item>Option 2</calcite-dropdown-item>
@@ -94,18 +146,16 @@ export const iconEnd_TestOnly = (): string => html`
 export const iconStartAndIconEnd = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
-      appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
-      kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
-      scale="${select("size", ["s", "m", "l"], "m")}"
-      width="${select("width", ["auto", "half", "full"], "auto")}"
-      ${boolean("loading", false)}
-      ${boolean("disabled", false)}
-      primary-icon-start="${select("primary-icon-end", iconNames, iconNames[0])}"
-      primary-icon-end="${select("primary-icon-end", iconNames, iconNames[0])}"
-      primary-text="${text("primary-text", "Primary Option")}"
-      primary-label="${text("primary-label", "Primary Option")}"
-      dropdown-label="${text("dropdown-label", "Additional Options")}"
-      dropdown-icon-type="${select("dropdown-icon-type", ["chevron", "caret", "ellipsis", "overflow"], "chevron")}"
+      appearance="solid"
+      kind="brand"
+      scale="m"
+      width="auto"
+      primary-icon-start="${iconNames[0]}"
+      primary-icon-end="${iconNames[0]}"
+      primary-text="Primary Option"
+      primary-label="Primary Option"
+      dropdown-label="Additional Options"
+      dropdown-icon-type="chevron"
     >
       <calcite-dropdown-group selection-mode="none">
         <calcite-dropdown-item>Option 2</calcite-dropdown-item>
@@ -119,16 +169,14 @@ export const iconStartAndIconEnd = (): string => html`
 export const darkModeRTL_TestOnly = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
-      appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
-      kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
-      scale="${select("size", ["s", "m", "l"], "m")}"
-      width="${select("width", ["auto", "half", "full"], "auto")}"
-      ${boolean("loading", false)}
-      ${boolean("disabled", false)}
-      primary-icon-start="${select("primary-icon-start", iconNames, iconNames[0])}"
-      primary-text="${text("primary-text", "Primary Option")}"
-      dropdown-label="${text("dropdown-label", "Additional Options")}"
-      dropdown-icon-type="${select("dropdown-icon-type", ["chevron", "caret", "ellipsis", "overflow"], "chevron")}"
+      appearance="solid"
+      kind="brand"
+      scale="m"
+      width="auto"
+      primary-icon-start="${iconNames[0]}"
+      primary-text="Primary Option"
+      dropdown-label="Additional Options"
+      dropdown-icon-type="chevron"
       class="calcite-mode-dark"
     >
       <calcite-dropdown-group selection-mode="none">
