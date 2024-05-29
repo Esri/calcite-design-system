@@ -2,6 +2,12 @@
   "name": "@esri/eslint-plugin-calcite-components",
   "version": "1.2.1-next.0",
   "description": "ESLint rules for @esri/calcite-components",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "packages/eslint-plugin-calcite-components"
+  },
+  "license": "SEE LICENSE.md",
   "main": "dist/index.js",
   "files": [
     "dist/index.js"
@@ -16,15 +22,14 @@
   "dependencies": {
     "stencil-eslint-core": "0.4.1"
   },
+  "devDependencies": {
+    "ts-node": "10.9.2"
+  },
   "peerDependencies": {
     "eslint": ">=8.0.0"
   },
-  "license": "SEE LICENSE.md",
   "packageManager": "npm@8.19.4",
   "volta": {
     "extends": "../../package.json"
-  },
-  "devDependencies": {
-    "ts-node": "10.9.2"
   }
 }
