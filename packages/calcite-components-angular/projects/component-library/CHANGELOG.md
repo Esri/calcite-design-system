@@ -15,6 +15,18 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
   - dependencies
     - @esri/calcite-components bumped from ^2.9.0-next.23 to ^2.9.0
 
+## [2.8.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.8.3...@esri/calcite-components-angular@2.8.4) (2024-05-28)
+
+### Miscellaneous Chores
+
+- **@esri/calcite-components-angular:** Synchronize components versions
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - dependencies
+    - @esri/calcite-components bumped from ^2.8.3 to ^2.8.4
+
 ## [2.8.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-angular@2.8.2...@esri/calcite-components-angular@2.8.3) (2024-05-21)
 
 ### Miscellaneous Chores
