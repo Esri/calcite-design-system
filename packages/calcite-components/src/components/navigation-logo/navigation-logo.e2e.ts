@@ -95,8 +95,8 @@ describe("calcite-navigation-logo", () => {
           targetProp: "color",
         },
         "--calcite-navigation-logo-icon-color": {
-          shadowSelector: `.${CSS.icon}`,
-          targetProp: "color",
+          shadowSelector: `calcite-icon`,
+          targetProp: "--calcite-icon-color",
         },
         "--calcite-navigation-logo-text-color": {
           shadowSelector: `.${CSS.icon}`,
