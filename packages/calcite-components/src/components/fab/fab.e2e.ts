@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders, defaults } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, defaults, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-fab", () => {
@@ -143,6 +143,41 @@ describe("calcite-fab", () => {
         });
         const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
         expect(fab.getAttribute("appearance")).toBe("outline-fill");
+      });
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-fab", {
+        "--calcite-fab-background-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "--calcite-button-background-color",
+        },
+        "--calcite-fab-border-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "--calcite-button-border-color",
+        },
+        "--calcite-fab-corner-radius": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "--calcite-button-corner-radius",
+        },
+        "--calcite-fab-loader-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "--calcite-button-loader-color",
+        },
+        "--calcite-fab-shadow": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "--calcite-button-shadow",
+        },
+        "--calcite-fab-text-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "--calcite-button-text-color",
+        },
+        "--calcite-fab-icon-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "--calcite-button-icon-color",
+        },
       });
     });
   });
