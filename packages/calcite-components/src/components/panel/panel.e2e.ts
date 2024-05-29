@@ -469,21 +469,40 @@ describe("calcite-panel", () => {
           selector: "calcite-panel",
           targetProp: "inlineSize",
         },
-        "--calcite-panel-action-background-color": {
-          shadowSelector: `calcite-action >>> .button`,
-          targetProp: "--calcite-action-background-color",
-        },
-        "--calcite-panel-action-background-color-hover": {
-          shadowSelector: `calcite-action >>> .button`,
-          targetProp: "--calcite-action-background-color",
-          state: { hover: { attribute: "class", value: `button` } },
-        },
-        "--calcite-panel-action-background-color-active": {
-          shadowSelector: `calcite-action >>> .button`,
-          targetProp: "--calcite-action-background-color",
-          state: { press: { attribute: "class", value: `button` } },
-        },
-
+        "--calcite-panel-action-background-color": [
+          {
+            shadowSelector: `calcite-action[title='Close']`,
+            targetProp: "--calcite-action-background-color",
+          },
+          {
+            shadowSelector: `calcite-action[slot='trigger']`,
+            targetProp: "--calcite-action-background-color",
+          },
+        ],
+        "--calcite-panel-action-background-color-hover": [
+          {
+            shadowSelector: `calcite-action[title='Close']`,
+            targetProp: "--calcite-action-background-color",
+            state: { hover: { attribute: "class", value: `button` } },
+          },
+          {
+            shadowSelector: `calcite-action[slot='trigger']`,
+            targetProp: "--calcite-action-background-color",
+            state: { hover: { attribute: "class", value: `button` } },
+          },
+        ],
+        "--calcite-panel-action-background-color-active": [
+          {
+            shadowSelector: `calcite-action[title='Close']`,
+            targetProp: "--calcite-action-background-color",
+            state: { press: { attribute: "class", value: `button` } },
+          },
+          {
+            shadowSelector: `calcite-action[slot='trigger']`,
+            targetProp: "--calcite-action-background-color",
+            state: { press: { attribute: "class", value: `button` } },
+          },
+        ],
         "--calcite-panel-action-menu-border-color": {
           shadowSelector: "calcite-action-menu",
           targetProp: "--calcite-action-menu-border-color",
