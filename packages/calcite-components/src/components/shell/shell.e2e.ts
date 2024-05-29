@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell", () => {
@@ -120,5 +121,41 @@ describe("calcite-shell", () => {
 
     const panelTop = await contentNode.find(`slot[name="${SLOTS.panelTop}"]`);
     expect(panelTop).toBeNull();
+  });
+});
+
+describe("theme", () => {
+  const shellHtml = html` <calcite-shell content-behind>
+    <header slot="header">
+      <h2>My Shell Header</h2>
+    </header>
+    <calcite-shell-panel slot="panel-start">
+      <calcite-panel heading="Leading panel content">
+        <div>Content</div>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-panel heading="Leading panel content">
+      <div>Content</div>
+    </calcite-panel>
+    <calcite-tip-manager slot="center-row">
+      <calcite-tip-group group-title="Astronomy">
+        <calcite-tip heading="The Red Rocks and Blue Water">
+          <p>This tip is how a tip should really look.</p>
+        </calcite-tip>
+      </calcite-tip-group>
+    </calcite-tip-manager>
+    <footer slot="footer">My Shell Footer</footer>
+  </calcite-shell>`;
+  describe("default", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-shell-background-color": {
+        targetProp: "backgroundColor",
+      },
+      "--calcite-shell-border-color": {
+        // shadowSelector: `calcite-shell-panel calcite-panel`,
+        targetProp: "borderColor",
+      },
+    };
+    themed(shellHtml, tokens);
   });
 });
