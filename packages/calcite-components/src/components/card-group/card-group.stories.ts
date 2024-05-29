@@ -1,29 +1,41 @@
-import { select } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { selectionMode } = ATTRIBUTES;
+
+interface CardGroupArgs {
+  selectionMode: string;
+  src: string;
+}
 
 export default {
   title: "Components/Card Group",
+  args: {
+    selectionMode: selectionMode.defaultValue,
+    src: placeholderImage({
+      width: 280,
+      height: 150,
+    }),
+  },
+  argTypes: {
+    selectionMode: {
+      options: selectionMode.values.filter(
+        (option) => option !== "children" && option !== "multichildren" && option !== "ancestors",
+      ),
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
-  <calcite-card-group
-    selection-mode="${select("selection-mode", ["single", "single-persist", "multiple", "none"], "multiple")}"
-  >
+export const simple = (args: CardGroupArgs): string => html`
+  <calcite-card-group selection-mode="${args.selectionMode}">
     <calcite-card label="test card">
-      <img
-        slot="thumbnail"
-        alt="Sample image alt"
-        src="${placeholderImage({
-          width: 280,
-          height: 150,
-        })}"
-      />
+      <img slot="thumbnail" alt="Sample image alt" src="${args.src}" />
       <h3 slot="heading">Portland Businesses</h3>
       <span slot="description"
         >by
-        <calcite-link href="">example_user</calcite-link>
+        <calcite-link>example_user</calcite-link>
       </span>
       <div>
         Created: Apr 22, 2019
@@ -57,18 +69,11 @@ export const simple = (): string => html`
       </div>
     </calcite-card>
     <calcite-card label="test card">
-      <img
-        slot="thumbnail"
-        alt="Sample image alt"
-        src="${placeholderImage({
-          width: 280,
-          height: 150,
-        })}"
-      />
+      <img slot="thumbnail" alt="Sample image alt" src="${args.src}" />
       <h3 slot="heading">Portland Businesses</h3>
       <span slot="description"
         >by
-        <calcite-link href="">example_user</calcite-link>
+        <calcite-link>example_user</calcite-link>
       </span>
       <div>
         Created: Apr 22, 2019
@@ -92,17 +97,10 @@ export const simple = (): string => html`
       </div>
     </calcite-card>
     <calcite-card label="test card">
-      <img
-        slot="thumbnail"
-        alt="Sample image alt"
-        src="${placeholderImage({
-          width: 280,
-          height: 150,
-        })}"
-      />
+      <img slot="thumbnail" alt="Sample image alt" src="${args.src}" />
       <span slot="description"
         >by
-        <calcite-link href="">example_user</calcite-link>
+        <calcite-link>example_user</calcite-link>
       </span>
       <div>
         Created: Apr 22, 2019
@@ -244,7 +242,7 @@ export const multipleCardHeightsMatchPerRow_TestOnly = (): string => html`
         <h3 slot="heading">Portland Businesses</h3>
         <span slot="description"
           >by
-          <calcite-link href="">example_user</calcite-link>
+          <calcite-link>example_user</calcite-link>
         </span>
         <div>
           Created: Apr 22, 2019
@@ -279,7 +277,7 @@ export const multipleCardHeightsMatchPerRow_TestOnly = (): string => html`
         <h3 slot="heading">Portland Businesses</h3>
         <span slot="description"
           >by
-          <calcite-link href="">example_user</calcite-link>
+          <calcite-link>example_user</calcite-link>
         </span>
         <div>
           Created: Apr 22, 2019
