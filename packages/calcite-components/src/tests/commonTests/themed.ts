@@ -371,7 +371,9 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
   }
 
   const styles = await targetEl.getComputedStyle(pseudoElement);
-  const isFakeBorderToken = token.includes("border-color") && targetProp === "boxShadow";
+  const isFakeBorderToken =
+    token.includes("border-color") &&
+    (targetProp === "boxShadow" || targetProp === "outline" || targetProp === "outlineColor");
   const isLinearGradientUnderlineToken = token.includes("link-underline-color") && targetProp === "backgroundImage";
 
   if (isFakeBorderToken || isLinearGradientUnderlineToken) {
