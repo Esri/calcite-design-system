@@ -6,6 +6,10 @@
  * @prop --calcite-button-background-color: defines the component's background color.
  * @prop --calcite-button-border-color: defines the component's border color.
  * @prop --calcite-button-corner-radius: defines the component's corner radius.
+ * @prop --calcite-button-corner-radius-start-start: defines the component's top-left corner radius. will fallback to --calcite-button-corner-radius.
+ * @prop --calcite-button-corner-radius-start-end: defines the component's top-right corner radius. Will fallback to --calcite-button-corner-radius.
+ * @prop --calcite-button-corner-radius-end-start: defines the component's bottom-left corner radius. Will fallback to --calcite-button-corner-radius.
+ * @prop --calcite-button-corner-radius-end-end: defines the component's bottom-right corner radius. Will fallback to --calcite-button-corner-radius.
  * @prop --calcite-button-loader-color: defines the component's loader color.
  * @prop --calcite-button-shadow: defines the component's shadow.
  * @prop --calcite-button-text-color: defines the component's text color.
@@ -23,25 +27,37 @@
 
 .button {
   @apply focus-base
-    font-inherit
-    relative
-    box-border
-    flex
-    cursor-pointer
-    select-none
-    appearance-none
-    items-center
-    border-none
-    text-center
-    font-normal
-    no-underline;
+  font-inherit
+  relative
+  box-border
+  flex
+  cursor-pointer
+  select-none
+  appearance-none
+  items-center
+  border-none
+  text-center
+  font-normal
+  no-underline;
   padding-block: var(--calcite-internal-button-space-y, 3px);
   padding-inline: var(--calcite-internal-button-space-x, 7px);
   inline-size: var(--calcite-container-size-content-fluid);
   block-size: var(--calcite-container-size-content-fluid);
-  border-radius: var(
-    --calcite-button-corner-radius,
-    var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius))
+  border-start-start-radius: var(
+    --calcite-button-corner-radius-start-start,
+    var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
+  );
+  border-start-end-radius: var(
+    --calcite-button-corner-radius-start-end,
+    var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
+  );
+  border-end-start-radius: var(
+    --calcite-button-corner-radius-end-start,
+    var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
+  );
+  border-end-end-radius: var(
+    --calcite-button-corner-radius-end-end,
+    var(--calcite-button-corner-radius, var(--calcite-internal-button-corner-radius, var(--calcite-corner-radius)))
   );
   justify-content: var(--calcite-internal-button-content-align-x, center);
   background-color: var(

@@ -54,16 +54,23 @@ describe("calcite-dropdown-item", () => {
   describe("theme", () => {
     describe("default", () => {
       themed("calcite-dropdown-item", {
-        "--calcite-dropdown-item-background-color": {
-          shadowSelector: `.container`,
-          targetProp: "backgroundColor",
+        "--calcite-dropdown-item-background-color": [
+          {
+            shadowSelector: ".container",
+            targetProp: "backgroundColor",
+          },
+          {
+            shadowSelector: ".container a",
+            targetProp: "backgroundColor",
+          },
+        ],
+        "--calcite-dropdown-item-icon-color": {
+          targetProp: "--calcite-icon-color",
         },
         "--calcite-dropdown-item-indicator-color": {
-          shadowSelector: `.dropdown-item-icon`,
-          targetProp: "color",
+          targetProp: "--calcite-icon-color",
         },
         "--calcite-dropdown-item-text-color": {
-          shadowSelector: `.container`,
           targetProp: "color",
         },
       });
