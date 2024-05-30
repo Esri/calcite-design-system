@@ -131,7 +131,7 @@
   @apply font-medium;
   color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-1));
   & calcite-icon {
-    color: var(--calcite-dropdown-item-icon-color, theme("backgroundColor.brand"));
+    --calcite-icon-color: var(--calcite-dropdown-item-icon-color, theme("backgroundColor.brand"));
   }
 }
 
