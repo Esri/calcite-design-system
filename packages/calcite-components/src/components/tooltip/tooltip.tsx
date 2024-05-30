@@ -175,7 +175,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.hasLoaded = true;
   }
 

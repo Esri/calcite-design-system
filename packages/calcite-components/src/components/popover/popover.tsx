@@ -310,7 +310,6 @@ export class Popover
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.hasLoaded = true;
   }
 
