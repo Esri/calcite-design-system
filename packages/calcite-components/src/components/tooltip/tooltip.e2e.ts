@@ -3,6 +3,8 @@ import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "../tooltip/resour
 import { accessible, defaults, floatingUIOwner, hidden, openClose, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, GlobalTestProps } from "../../tests/utils";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 interface PointerMoveOptions {
   delay: number;
@@ -1077,5 +1079,46 @@ describe("calcite-tooltip", () => {
 
     expect(await tooltip1.getProperty("open")).toBe(false);
     expect(await tooltip2.getProperty("open")).toBe(true);
+  });
+
+  describe("theme", () => {
+    const tooltipHTML = html`
+      <calcite-tooltip placement="auto" reference-element="tooltip-auto-ref" open>
+        <p>placement: auto</p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua.
+      </calcite-tooltip>
+      <calcite-button appearance="outline" id="tooltip-auto-ref">auto</calcite-button>
+    `;
+
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-tooltip-background-color": {
+          shadowSelector: `.calcite-floating-ui-anim`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-tooltip-border-color": {
+          shadowSelector: `.calcite-floating-ui-anim`,
+          targetProp: "borderColor",
+        },
+        "--calcite-tooltip-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-tooltip-shadow": {
+          shadowSelector: `.calcite-floating-ui-anim`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-tooltip-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+        "--calcite-tooltip-z-index": {
+          selector: "calcite-tooltip",
+          targetProp: "zIndex",
+        },
+      };
+      themed(tooltipHTML, tokens);
+    });
   });
 });
