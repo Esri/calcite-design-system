@@ -172,8 +172,6 @@
   @apply w-full;
 }
 
-//--calcite-internal-split-button-loader-color: var(--calcite-color-inverse);
-
 :host([kind="brand"]),
 :host([kind="danger"]),
 :host([kind="inverse"]) {
@@ -342,17 +340,14 @@
     calcite-button,
     calcite-dropdown {
       &:hover {
-        // --calcite-internal-split-button-border-color: var(--calcite-color-brand-hover);
         --calcite-internal-split-button-text-color: var(--calcite-color-brand-hover);
         --calcite-internal-split-button-shadow: inset 0 0 0 1px var(--calcite-color-brand-hover);
       }
       &:focus {
-        // --calcite-internal-split-button-border-color: var(--calcite-color-brand);
         --calcite-internal-split-button-text-color: var(--calcite-color-brand);
         --calcite-internal-split-button-shadow: inset 0 0 0 2px var(--calcite-color-brand);
       }
       &:active {
-        // --calcite-internal-split-button-border-color: var(--calcite-color-brand-press);
         --calcite-internal-split-button-text-color: var(--calcite-color-brand-press);
         --calcite-internal-split-button-shadow: inset 0 0 0 2px var(--calcite-color-brand-press);
       }
@@ -364,17 +359,14 @@
     calcite-button,
     calcite-dropdown {
       &:hover {
-        // --calcite-internal-split-button-border-color: var(--calcite-color-status-danger-hover);
         --calcite-internal-split-button-text-color: var(--calcite-color-status-danger-hover);
         --calcite-internal-split-button-shadow: inset 0 0 0 1px var(--calcite-color-status-danger-hover);
       }
       &:focus {
-        // --calcite-internal-split-button-border-color: var(--calcite-color-status-danger);
         --calcite-internal-split-button-text-color: var(--calcite-color-status-danger);
         --calcite-internal-split-button-shadow: inset 0 0 0 2px var(--calcite-color-status-danger);
       }
       &:active {
-        // --calcite-internal-split-button-border-color: var(--calcite-color-status-danger-press);
         --calcite-internal-split-button-text-color: var(--calcite-color-status-danger-press);
         --calcite-internal-split-button-shadow: inset 0 0 0 2px var(--calcite-color-status-danger-press);
       }
@@ -407,15 +399,12 @@
     calcite-button,
     calcite-dropdown {
       &:hover {
-        // --calcite-internal-split-button-border-color: var(--calcite-color-inverse-hover);
         --calcite-internal-split-button-shadow: inset 0 0 0 1px var(--calcite-color-inverse-hover);
       }
       &:focus {
-        // --calcite-internal-split-button-border-color: var(--calcite-color-inverse);
         --calcite-internal-split-button-shadow: inset 0 0 0 2px var(--calcite-color-inverse);
       }
       &:active {
-        // --calcite-internal-split-button-border-color: var(--calcite-color-inverse-press);
         --calcite-internal-split-button-shadow: inset 0 0 0 2px var(--calcite-color-inverse-press);
       }
     }
