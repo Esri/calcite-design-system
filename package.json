@@ -95,7 +95,7 @@
     "jest-axe": "8.0.0",
     "jest-cli": "29.7.0",
     "lerna": "8.1.2",
-    "lint-staged": "15.2.2",
+    "lint-staged": "15.2.5",
     "markdownlint-cli": "0.39.0",
     "postcss": "8.4.38",
     "prettier": "3.2.5",
