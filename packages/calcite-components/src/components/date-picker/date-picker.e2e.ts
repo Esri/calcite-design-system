@@ -4,42 +4,6 @@ import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTes
 import { skipAnimations } from "../../tests/utils";
 import { formatTimePart } from "../../utils/time";
 
-async function selectDayInMonthById(id: string, page: E2EPage): Promise<void> {
-  const day = await page.find(
-    `calcite-date-picker>>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
-  );
-  await day.click();
-  await page.waitForChanges();
-}
-
-async function selectFirstAvailableDay(page: E2EPage): Promise<void> {
-  const day = await page.find(
-    "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day:not([selected])",
-  );
-  await day.click();
-  await page.waitForChanges();
-}
-
-async function selectSelectedDay(page: E2EPage): Promise<void> {
-  const day = await page.find(
-    "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[selected]",
-  );
-  await day.click();
-  await page.waitForChanges();
-}
-
-async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
-  return await page.find(`calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`);
-}
-
-async function setActiveDate(page: E2EPage, date: string): Promise<void> {
-  await page.evaluate((date) => {
-    const datePicker = document.querySelector("calcite-date-picker");
-    datePicker.activeDate = new Date(date);
-  }, date);
-  await page.waitForChanges();
-}
-
 describe("calcite-date-picker", () => {
   describe("renders", () => {
     renders("calcite-date-picker", { display: "inline-block" });
@@ -274,7 +238,32 @@ describe("calcite-date-picker", () => {
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
 
-  it("passes down the default year prop to child date-picker-month", async () => {
+  it("unsetting min/max updates internally", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone("America/Los_Angeles");
+    await page.setContent(
+      html`<calcite-date-picker value="2022-11-20" min="2022-11-15" max="2022-11-25"></calcite-date-picker>`,
+    );
+
+    const element = await page.find("calcite-date-picker");
+
+    element.setProperty("min", null);
+    element.setProperty("max", null);
+    await page.waitForChanges();
+
+    expect(await element.getProperty("minAsDate")).toBe(null);
+    expect(await element.getProperty("maxAsDate")).toBe(null);
+
+    const dateBeyondMax = "2022-11-26";
+    await setActiveDate(page, dateBeyondMax);
+    expect(await getActiveDate(page)).toEqual(new Date(dateBeyondMax).toISOString());
+
+    const dateBeforeMin = "2022-11-14";
+    await setActiveDate(page, dateBeforeMin);
+    expect(await getActiveDate(page)).toEqual(new Date(dateBeforeMin).toISOString());
+  });
+
+  it("passes down the default year prop to child date-picker-month-header", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-date-picker value="2000-11-27" active></calcite-date-picker>`);
     const date = await page.find(`calcite-date-picker >>> calcite-date-picker-month`);
@@ -579,3 +568,46 @@ describe("calcite-date-picker", () => {
     });
   });
 });
+
+async function setActiveDate(page: E2EPage, date: string): Promise<void> {
+  await page.evaluate((date) => {
+    const datePicker = document.querySelector("calcite-date-picker");
+    datePicker.activeDate = new Date(date);
+  }, date);
+  await page.waitForChanges();
+}
+
+async function getActiveDate(page: E2EPage): Promise<string> {
+  return await page.evaluate(() => {
+    const datePicker = document.querySelector("calcite-date-picker");
+    return datePicker.activeDate.toISOString();
+  });
+}
+
+async function selectDayInMonthById(id: string, page: E2EPage): Promise<void> {
+  const day = await page.find(
+    `calcite-date-picker>>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
+  );
+  await day.click();
+  await page.waitForChanges();
+}
+
+async function selectFirstAvailableDay(page: E2EPage): Promise<void> {
+  const day = await page.find(
+    "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day:not([selected])",
+  );
+  await day.click();
+  await page.waitForChanges();
+}
+
+async function selectSelectedDay(page: E2EPage): Promise<void> {
+  const day = await page.find(
+    "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[selected]",
+  );
+  await day.click();
+  await page.waitForChanges();
+}
+
+async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
+  return await page.find(`calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`);
+}

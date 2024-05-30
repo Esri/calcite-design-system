@@ -64,8 +64,8 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale, SelectionMode, Status } from "../interfaces";
-import { XButton, CSS as XButtonCSS } from "../functional/XButton";
-import { getIconScale } from "../../utils/component";
+import { CSS as XButtonCSS, XButton } from "../functional/XButton";
+import { componentOnReady, getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
@@ -343,18 +343,14 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   @Listen("click", { target: "document" })
-  documentClickHandler(event: PointerEvent): void {
-    if (this.disabled) {
+  async documentClickHandler(event: PointerEvent): Promise<void> {
+    if (this.disabled || event.composedPath().includes(this.el)) {
       return;
     }
 
-    const composedPath = event.composedPath();
+    await componentOnReady(this.el);
 
-    if (composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
-      return;
-    }
-
-    if (!this.allowCustomValues && this.textInput.value) {
+    if (!this.allowCustomValues && this.text) {
       this.clearInputValue();
       this.filterItems("");
       this.updateActiveItemIndex(-1);
@@ -456,7 +452,7 @@ export class Combobox
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  async connectedCallback(): Promise<void> {
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
@@ -476,7 +472,9 @@ export class Combobox
       onToggleOpenCloseComponent(this);
     }
 
+    await componentOnReady(this.el);
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    afterConnectDefaultValueSet(this, this.getValue());
   }
 
   async componentWillLoad(): Promise<void> {
@@ -486,8 +484,6 @@ export class Combobox
   }
 
   componentDidLoad(): void {
-    afterConnectDefaultValueSet(this, this.getValue());
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
     setComponentLoaded(this);
   }
 
