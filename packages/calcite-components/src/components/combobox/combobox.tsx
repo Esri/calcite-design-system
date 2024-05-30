@@ -452,7 +452,7 @@ export class Combobox
   //
   // --------------------------------------------------------------------------
 
-  async connectedCallback(): Promise<void> {
+  connectedCallback(): void {
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
@@ -472,9 +472,7 @@ export class Combobox
       onToggleOpenCloseComponent(this);
     }
 
-    await componentOnReady(this.el);
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
-    afterConnectDefaultValueSet(this, this.getValue());
   }
 
   async componentWillLoad(): Promise<void> {
@@ -484,6 +482,8 @@ export class Combobox
   }
 
   componentDidLoad(): void {
+    afterConnectDefaultValueSet(this, this.getValue());
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
     setComponentLoaded(this);
   }
 
