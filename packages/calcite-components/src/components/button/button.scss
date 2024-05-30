@@ -6,10 +6,10 @@
  * @prop --calcite-button-background-color: defines the component's background color.
  * @prop --calcite-button-border-color: defines the component's border color.
  * @prop --calcite-button-corner-radius: defines the component's corner radius.
- * @prop --calcite-button-corner-radius-start-start: defines the component's start-start corner radius. Will fallback to --calcite-button-corner-radius if defined.
- * @prop --calcite-button-corner-radius-start-end: defines the component's start-end corner radius. Will fallback to --calcite-button-corner-radius if defined.
- * @prop --calcite-button-corner-radius-end-start: defines the component's end-start corner radius. Will fallback to --calcite-button-corner-radius if defined.
- * @prop --calcite-button-corner-radius-end-end: defines the component's end-end corner radius. Will fallback to --calcite-button-corner-radius if defined.
+ * @prop --calcite-button-corner-radius-start-start: defines the component's top-left corner radius. will fallback to --calcite-button-corner-radius.
+ * @prop --calcite-button-corner-radius-start-end: defines the component's top-right corner radius. Will fallback to --calcite-button-corner-radius.
+ * @prop --calcite-button-corner-radius-end-start: defines the component's bottom-left corner radius. Will fallback to --calcite-button-corner-radius.
+ * @prop --calcite-button-corner-radius-end-end: defines the component's bottom-right corner radius. Will fallback to --calcite-button-corner-radius.
  * @prop --calcite-button-loader-color: defines the component's loader color.
  * @prop --calcite-button-shadow: defines the component's shadow.
  * @prop --calcite-button-text-color: defines the component's text color.
