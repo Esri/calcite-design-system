@@ -660,7 +660,7 @@ describe("calcite-modal", () => {
 });
 
 describe("theme", () => {
-  const menuHTML = html`
+  const modalHTML = html`
     <calcite-modal open>
       <h3 slot="header">Slot for a header.</h3>
       <div slot="content-top">Slot for a content-top.</div>
@@ -669,6 +669,31 @@ describe("theme", () => {
       </div>
       <div slot="content-bottom">Slot for a content-bottom.</div>
       <calcite-button slot="primary" width="full">Button</calcite-button>
+    </calcite-modal>
+  `;
+  const modalBrandHTML = html`
+    <calcite-modal kind="brand" open>
+      <h3 slot="header">Slot for a header.</h3>
+    </calcite-modal>
+  `;
+  const modalDangerHTML = html`
+    <calcite-modal kind="danger" open>
+      <h3 slot="header">Slot for a header.</h3>
+    </calcite-modal>
+  `;
+  const modalInfoHTML = html`
+    <calcite-modal kind="info" open>
+      <h3 slot="header">Slot for a header.</h3>
+    </calcite-modal>
+  `;
+  const modalSuccessHTML = html`
+    <calcite-modal kind="success" open>
+      <h3 slot="header">Slot for a header.</h3>
+    </calcite-modal>
+  `;
+  const modalWarningHTML = html`
+    <calcite-modal kind="warning" open>
+      <h3 slot="header">Slot for a header.</h3>
     </calcite-modal>
   `;
   describe("default", () => {
@@ -730,6 +755,46 @@ describe("theme", () => {
         targetProp: "--calcite-scrim-background-color",
       },
     };
-    themed(async () => menuHTML, tokens);
+    themed(async () => modalHTML, tokens);
+  });
+  describe("kindBrand", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-modal-accent-color": {
+        targetProp: "--calcite-internal-modal-accent-color",
+      },
+    };
+    themed(async () => modalBrandHTML, tokens);
+  });
+  describe("dangerBrand", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-modal-accent-color": {
+        targetProp: "--calcite-internal-modal-accent-color",
+      },
+    };
+    themed(async () => modalDangerHTML, tokens);
+  });
+  describe("infoBrand", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-modal-accent-color": {
+        targetProp: "--calcite-internal-modal-accent-color",
+      },
+    };
+    themed(async () => modalInfoHTML, tokens);
+  });
+  describe("successBrand", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-modal-accent-color": {
+        targetProp: "--calcite-internal-modal-accent-color",
+      },
+    };
+    themed(async () => modalSuccessHTML, tokens);
+  });
+  describe("warningBrand", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-modal-accent-color": {
+        targetProp: "--calcite-internal-modal-accent-color",
+      },
+    };
+    themed(async () => modalWarningHTML, tokens);
   });
 });
