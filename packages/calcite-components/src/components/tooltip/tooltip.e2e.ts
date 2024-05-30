@@ -4,6 +4,7 @@ import { accessible, defaults, floatingUIOwner, hidden, openClose, renders } fro
 import { html } from "../../../support/formatting";
 import { getElementXY, GlobalTestProps } from "../../tests/utils";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 
 interface PointerMoveOptions {
@@ -1094,11 +1095,11 @@ describe("calcite-tooltip", () => {
     describe("default", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-tooltip-background-color": {
-          shadowSelector: `.calcite-floating-ui-anim`,
+          shadowSelector: `.${FloatingCSS.animation}`,
           targetProp: "backgroundColor",
         },
         "--calcite-tooltip-border-color": {
-          shadowSelector: `.calcite-floating-ui-anim`,
+          shadowSelector: `.${FloatingCSS.animation}`,
           targetProp: "borderColor",
         },
         "--calcite-tooltip-corner-radius": {
@@ -1106,7 +1107,7 @@ describe("calcite-tooltip", () => {
           targetProp: "borderRadius",
         },
         "--calcite-tooltip-shadow": {
-          shadowSelector: `.calcite-floating-ui-anim`,
+          shadowSelector: `.${FloatingCSS.animation}`,
           targetProp: "boxShadow",
         },
         "--calcite-tooltip-text-color": {
