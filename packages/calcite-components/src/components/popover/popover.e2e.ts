@@ -10,6 +10,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
@@ -697,6 +698,117 @@ describe("calcite-popover", () => {
       focusable(createPopoverHTML(contentHTML, "closable"), {
         shadowFocusTargetSelector: `.${CSS.closeButton}`,
       });
+    });
+  });
+
+  describe("theme", () => {
+    const popoverHTML = html`
+      <calcite-popover
+        heading="I'm a heading in the header using the 'heading' prop!"
+        label="right end popover"
+        reference-element="heading-title-content-cta"
+        placement="right-end"
+        id="popover-heading"
+        closable
+        style="width: 25vw"
+      >
+        <div style="padding: 0.5rem 1rem 0.75rem">
+          <p style="margin-top: 0">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book.
+          </p>
+        </div>
+      </calcite-popover>
+    `;
+
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-popover-background-color": {
+          shadowSelector: `.calcite-floating-ui-anim`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-popover-border-color": {
+          shadowSelector: `.calcite-floating-ui-anim`,
+          targetProp: "borderColor",
+        },
+        "--calcite-popover-close-background-color": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-popover-close-background-color-hover": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-background-color",
+          state: { hover: { attribute: "class", value: `button` } },
+        },
+        "--calcite-popover-close-background-color-active": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-background-color",
+          state: { press: { attribute: "class", value: `button` } },
+        },
+
+        "--calcite-popover-close-icon-color": {
+          shadowSelector: `.${CSS.closeButton}`,
+          targetProp: "color",
+        },
+        "--calcite-popover-close-icon-color-hover": {
+          shadowSelector: `.${CSS.closeButton}`,
+          targetProp: "color",
+          state: { hover: { attribute: "class", value: `${CSS.closeButton}` } },
+        },
+        "--calcite-popover-close-icon-color-active": {
+          shadowSelector: `.${CSS.closeButton}`,
+          targetProp: "color",
+          state: { press: { attribute: "class", value: `${CSS.closeButton}` } },
+        },
+        "--calcite-popover-close-text-color": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-text-color",
+        },
+        "--calcite-popover-close-text-color-hover": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-text-color",
+          state: { hover: { attribute: "class", value: `button` } },
+        },
+        "--calcite-popover-close-text-color-active": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-text-color",
+          state: { press: { attribute: "class", value: `button` } },
+        },
+        "--calcite-popover-corner-radius": [
+          {
+            shadowSelector: `.calcite-floating-ui-anim`,
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.closeButtonContainer}`,
+            targetProp: "borderStartEndRadius",
+          },
+          {
+            shadowSelector: `.${CSS.closeButtonContainer}`,
+            targetProp: "borderEndEndRadius",
+          },
+        ],
+        "--calcite-popover-shadow": {
+          shadowSelector: `.calcite-floating-ui-anim`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-popover-text-color": [
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+          },
+        ],
+      };
+      themed(popoverHTML, tokens);
     });
   });
 });
