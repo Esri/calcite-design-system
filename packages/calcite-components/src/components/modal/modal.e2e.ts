@@ -698,9 +698,6 @@ describe("theme", () => {
   `;
   describe("default", () => {
     const tokens: ComponentTestTokens = {
-      // "--calcite-modal-accent-color": {
-      //   targetProp: "--calcite-internal-modal-accent-color",
-      // },
       "--calcite-modal-background-color": {
         shadowSelector: `.${CSS.modal}`,
         targetProp: "backgroundColor",
@@ -718,10 +715,6 @@ describe("theme", () => {
         shadowSelector: `.${CSS.modal} .${CSS.close}`,
         targetProp: "backgroundColor",
       },
-      // "--calcite-modal-close-button-icon-color": {
-      //   shadowSelector: `.${CSS.modal} .${CSS.close} calcite-icon`,
-      //   targetProp: "--calcite-icon-color",
-      // },
       "--calcite-modal-content-background-color": {
         shadowSelector: `.${CSS.modal} .${CSS.content}`,
         targetProp: "backgroundColor",
