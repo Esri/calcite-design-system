@@ -11,6 +11,7 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
@@ -777,7 +778,7 @@ describe("calcite-popover", () => {
         },
         "--calcite-popover-corner-radius": [
           {
-            shadowSelector: `.calcite-floating-ui-anim`,
+            shadowSelector: `.${FloatingCSS.animation}`,
             targetProp: "borderRadius",
           },
           {
@@ -794,7 +795,7 @@ describe("calcite-popover", () => {
           },
         ],
         "--calcite-popover-shadow": {
-          shadowSelector: `.calcite-floating-ui-anim`,
+          shadowSelector: `.${FloatingCSS.animation}`,
           targetProp: "boxShadow",
         },
         "--calcite-popover-text-color": [
