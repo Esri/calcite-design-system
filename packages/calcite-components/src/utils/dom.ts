@@ -702,8 +702,6 @@ export async function whenTransitionOrAnimationDone(
             so we fall back to it if there's no matching prop duration */
     allDurationsArray[0];
 
-  console.log("duration", duration, allDurations, allProps, style.transitionDuration, style.transitionProperty);
-
   if (duration === "0s") {
     return Promise.resolve();
   }
@@ -728,7 +726,6 @@ export async function whenTransitionOrAnimationDone(
     targetEl.addEventListener(cancelEvent, onEndOrCancel);
 
     function onStart(event: TransitionOrAnimationEvent): void {
-      console.log("start");
       if (event.target === targetEl && getTransitionOrAnimationName(event) === transitionPropOrAnimationName) {
         window.clearTimeout(fallbackTimeoutId);
         targetEl.removeEventListener(startEvent, onStart);
@@ -736,7 +733,6 @@ export async function whenTransitionOrAnimationDone(
     }
 
     function onEndOrCancel(event: TransitionOrAnimationEvent): void {
-      console.log("end or c");
       if (event.target === targetEl && getTransitionOrAnimationName(event) === transitionPropOrAnimationName) {
         targetEl.removeEventListener(endEvent, onEndOrCancel);
         targetEl.removeEventListener(cancelEvent, onEndOrCancel);
