@@ -54,24 +54,31 @@ describe("calcite-dropdown-item", () => {
   describe("theme", () => {
     describe("default", () => {
       themed("calcite-dropdown-item", {
-        "--calcite-dropdown-item-background-color": [
-          {
-            shadowSelector: ".container",
-            targetProp: "backgroundColor",
-          },
-          {
-            shadowSelector: ".container a",
-            targetProp: "backgroundColor",
-          },
-        ],
-        "--calcite-dropdown-item-icon-color": {
-          targetProp: "--calcite-icon-color",
-        },
-        "--calcite-dropdown-item-indicator-color": {
-          targetProp: "--calcite-icon-color",
+        "--calcite-dropdown-item-background-color": {
+          shadowSelector: ".container",
+          targetProp: "backgroundColor",
         },
         "--calcite-dropdown-item-text-color": {
+          shadowSelector: ".container",
           targetProp: "color",
+        },
+      });
+    });
+
+    describe("selected", () => {
+      themed(html`<calcite-dropdown-item selected></calcite-dropdown-item>`, {
+        "--calcite-dropdown-item-indicator-color": {
+          shadowSelector: `.dropdown-item-icon`,
+          targetProp: "--calcite-icon-color",
+        },
+      });
+    });
+
+    describe("with link", () => {
+      themed(html`<calcite-dropdown-item href="http://example.com"></calcite-dropdown-item>`, {
+        "--calcite-dropdown-item-background-color": {
+          shadowSelector: ".dropdown-link",
+          targetProp: "backgroundColor",
         },
       });
     });
@@ -80,12 +87,12 @@ describe("calcite-dropdown-item", () => {
       themed(html`<calcite-dropdown-item icon-start="banana" icon-end="banana"></calcite-dropdown-item>`, {
         "--calcite-dropdown-item-icon-color": [
           {
-            shadowSelector: `.dropdown-item-icon-start`,
-            targetProp: "color",
+            shadowSelector: `.dropdown-item-icon--start`,
+            targetProp: "--calcite-icon-color",
           },
           {
-            shadowSelector: `.dropdown-item-icon-end`,
-            targetProp: "color",
+            shadowSelector: `.dropdown-item-icon--end`,
+            targetProp: "--calcite-icon-color",
           },
         ],
       });

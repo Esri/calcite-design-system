@@ -1054,7 +1054,7 @@ describe("calcite-input-time-picker", () => {
           targetProp: "--calcite-time-picker-text-color",
         },
         "--calcite-input-time-picker-toggle-icon-color-hover": {
-          shadowSelector: "calcite-icon",
+          shadowSelector: ".toggle-icon calcite-icon",
           targetProp: "--calcite-icon-color",
           state: "hover",
         },
