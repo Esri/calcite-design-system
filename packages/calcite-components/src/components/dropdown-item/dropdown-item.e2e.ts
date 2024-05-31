@@ -1,6 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, renders, hidden, disabled } from "../../tests/commonTests";
-import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown-item", () => {
   describe("renders", () => {
@@ -52,27 +54,50 @@ describe("calcite-dropdown-item", () => {
   });
 
   describe("theme", () => {
-    const tokens: ComponentTestTokens = {
-      "--calcite-dropdown-item-background-color": [
-        {
-          shadowSelector: ".container",
+    describe("default", () => {
+      themed("calcite-dropdown-item", {
+        "--calcite-dropdown-item-background-color": {
+          shadowSelector: `.${CSS.container}`,
           targetProp: "backgroundColor",
         },
-        {
-          shadowSelector: ".container a",
+        "--calcite-dropdown-item-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("selected", () => {
+      themed(html`<calcite-dropdown-item selected></calcite-dropdown-item>`, {
+        "--calcite-dropdown-item-indicator-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "--calcite-icon-color",
+        },
+      });
+    });
+
+    describe("with link", () => {
+      themed(html`<calcite-dropdown-item href="http://example.com"></calcite-dropdown-item>`, {
+        "--calcite-dropdown-item-background-color": {
+          shadowSelector: `.${CSS.link}`,
           targetProp: "backgroundColor",
         },
-      ],
-      "--calcite-dropdown-item-icon-color": {
-        targetProp: "--calcite-icon-color",
-      },
-      "--calcite-dropdown-item-indicator-color": {
-        targetProp: "--calcite-icon-color",
-      },
-      "--calcite-dropdown-item-text-color": {
-        targetProp: "color",
-      },
-    };
-    themed(`calcite-action-bar`, tokens);
+      });
+    });
+
+    describe("with start/end icon", () => {
+      themed(html`<calcite-dropdown-item icon-start="banana" icon-end="banana"></calcite-dropdown-item>`, {
+        "--calcite-dropdown-item-icon-color": [
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "--calcite-icon-color",
+          },
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "--calcite-icon-color",
+          },
+        ],
+      });
+    });
   });
 });
