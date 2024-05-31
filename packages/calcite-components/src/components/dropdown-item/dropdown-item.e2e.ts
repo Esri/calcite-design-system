@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, renders, hidden, disabled } from "../../tests/commonTests";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 
 describe("calcite-dropdown-item", () => {
   describe("renders", () => {
@@ -48,5 +49,30 @@ describe("calcite-dropdown-item", () => {
     await calciteDropdownItemSelectEvent;
 
     expect(itemChangeSpy).toHaveReceivedEventTimes(3);
+  });
+
+  describe("theme", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-dropdown-item-background-color": [
+        {
+          shadowSelector: ".container",
+          targetProp: "backgroundColor",
+        },
+        {
+          shadowSelector: ".container a",
+          targetProp: "backgroundColor",
+        },
+      ],
+      "--calcite-dropdown-item-icon-color": {
+        targetProp: "--calcite-icon-color",
+      },
+      "--calcite-dropdown-item-indicator-color": {
+        targetProp: "--calcite-icon-color",
+      },
+      "--calcite-dropdown-item-text-color": {
+        targetProp: "color",
+      },
+    };
+    themed(`calcite-action-bar`, tokens);
   });
 });

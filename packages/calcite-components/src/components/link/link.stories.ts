@@ -1,6 +1,4 @@
-import { select, text } from "../../../.storybook/fake-knobs";
-import { boolean } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import * as icons from "../../../../../node_modules/@esri/calcite-ui-icons";
 import { html } from "../../../support/formatting";
 
@@ -9,101 +7,71 @@ const iconNames = Object.keys(icons)
   .filter((iconName) => iconName.endsWith("16"))
   .map((iconName) => iconName.replace("16", ""));
 
+interface LinkArgs {
+  containingFontSize: string;
+  containingFontWeight: string;
+  href: string;
+  disabled: boolean;
+  text: string;
+}
+
 export default {
   title: "Components/Link",
+  args: {
+    containingFontSize: "16",
+    containingFontWeight: "400",
+    href: "",
+    disabled: false,
+    text: "link text here",
+  },
+  argTypes: {
+    containingFontSize: {
+      options: ["12", "14", "16", "18", "20", "24", "32"],
+      control: { type: "select" },
+    },
+    containingFontWeight: {
+      options: ["300", "400", "500", "700"],
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
-  <div
-    style="font-size: ${select(
-      "containing font size",
-      ["12", "14", "16", "18", "20", "24", "32"],
-      "16",
-    )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
-  >
+export const simple = (args: LinkArgs): string => html`
+  <div style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight};">
     Some wrapping text
-    <calcite-link href="${text("href", "")}" ${boolean("disabled", false)}>
-      ${text("text", "link text here")}</calcite-link
-    >
+    <calcite-link href="${args.href}" ${boolean("disabled", args.disabled)}> ${args.text}</calcite-link>
     around the link
   </div>
 `;
 
 export const iconStart = (): string => html`
-  <div
-    style="font-size: ${select(
-      "containing font size",
-      ["12", "14", "16", "18", "20", "24", "32"],
-      "16",
-    )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
-  >
+  <div style="font-size: 16px; font-weight: 400;">
     Some wrapping text
-    <calcite-link
-      href="${text("href", "")}"
-      ${boolean("disabled", false)}
-      icon-start="${select("icon-start", iconNames, iconNames[0])}"
-    >
-      ${text("text", "link text here")}</calcite-link
-    >
+    <calcite-link icon-start="${iconNames[0]}"> link text here</calcite-link>
     around the link
   </div>
 `;
 
 export const iconEnd = (): string => html`
-  <div
-    style="font-size: ${select(
-      "containing font size",
-      ["12", "14", "16", "18", "20", "24", "32"],
-      "16",
-    )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
-  >
+  <div style="font-size: 16px; font-weight: 400;">
     Some wrapping text
-    <calcite-link
-      href="${text("href", "")}"
-      ${boolean("disabled", false)}
-      icon-end="${select("icon-end", iconNames, iconNames[0])}"
-    >
-      ${text("text", "link text here")}</calcite-link
-    >
+    <calcite-link icon-end="${iconNames[0]}"> link text here</calcite-link>
     around the link
   </div>
 `;
 
 export const iconStartAndIconEnd = (): string => html`
-  <div
-    style="font-size: ${select(
-      "containing font size",
-      ["12", "14", "16", "18", "20", "24", "32"],
-      "16",
-    )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
-  >
+  <div style="font-size: 16px; font-weight: 400;">
     Some wrapping text
-    <calcite-link
-      href="${text("href", "")}"
-      ${boolean("disabled", false)}
-      icon-start="${select("icon-start", iconNames, iconNames[0])}"
-      icon-end="${select("icon-end", iconNames, iconNames[0])}"
-    >
-      ${text("text", "link text here")}</calcite-link
-    >
+    <calcite-link icon-start="${iconNames[0]}" icon-end="${iconNames[0]}"> link text here</calcite-link>
     around the link
   </div>
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <div
-    class="calcite-mode-dark"
-    dir="rtl"
-    style="color: white; font-size: ${select(
-      "containing font size",
-      ["12", "14", "16", "18", "20", "24", "32"],
-      "16",
-    )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
-  >
+  <div class="calcite-mode-dark" dir="rtl" style="color: white; font-size: 16px; font-weight: 400;">
     Some wrapping text
-    <calcite-link class="calcite-mode-dark" href="${text("href", "")}" ${boolean("disabled", false)}
-      >${text("text", "link text here")}</calcite-link
-    >
+    <calcite-link class="calcite-mode-dark">link text here</calcite-link>
     around the link
   </div>
 `;
