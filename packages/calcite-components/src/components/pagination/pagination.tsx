@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
   Method,
   Prop,
@@ -447,17 +446,19 @@ export class Pagination
     const selected = start === this.startItem;
 
     return (
-      <button
-        aria-current={selected ? "page" : "false"}
-        class={{
-          [CSS.page]: true,
-          [CSS.selected]: selected,
-        }}
-        onClick={this.handlePageClick}
-        value={start}
-      >
-        {displayedPage}
-      </button>
+      <li>
+        <button
+          aria-current={selected ? "page" : "false"}
+          class={{
+            [CSS.page]: true,
+            [CSS.selected]: selected,
+          }}
+          onClick={this.handlePageClick}
+          value={start}
+        >
+          {displayedPage}
+        </button>
+      </li>
     );
   }
 
@@ -467,19 +468,21 @@ export class Pagination
     const disabled = pageSize === 1 ? startItem <= pageSize : startItem < pageSize;
 
     return (
-      <button
-        aria-label={messages.previous}
-        class={{
-          [CSS.chevron]: true,
-          [CSS.disabled]: disabled,
-        }}
-        data-test-chevron="previous"
-        disabled={disabled}
-        key="previous"
-        onClick={this.previousClicked}
-      >
-        <calcite-icon flipRtl icon={ICONS.previous} scale={getIconScale(this.scale)} />
-      </button>
+      <li>
+        <button
+          aria-label={messages.previous}
+          class={{
+            [CSS.chevron]: true,
+            [CSS.disabled]: disabled,
+          }}
+          data-test-chevron="previous"
+          disabled={disabled}
+          key="previous"
+          onClick={this.previousClicked}
+        >
+          <calcite-icon flipRtl icon={ICONS.previous} scale={getIconScale(this.scale)} />
+        </button>
+      </li>
     );
   }
 
@@ -490,19 +493,21 @@ export class Pagination
       pageSize === 1 ? startItem + pageSize > totalItems : startItem + pageSize > totalItems;
 
     return (
-      <button
-        aria-label={messages.next}
-        class={{
-          [CSS.chevron]: true,
-          [CSS.disabled]: disabled,
-        }}
-        data-test-chevron="next"
-        disabled={disabled}
-        key="next-button"
-        onClick={this.nextClicked}
-      >
-        <calcite-icon flipRtl icon={ICONS.next} scale={getIconScale(this.scale)} />
-      </button>
+      <li>
+        <button
+          aria-label={messages.next}
+          class={{
+            [CSS.chevron]: true,
+            [CSS.disabled]: disabled,
+          }}
+          data-test-chevron="next"
+          disabled={disabled}
+          key="next-button"
+          onClick={this.nextClicked}
+        >
+          <calcite-icon flipRtl icon={ICONS.next} scale={getIconScale(this.scale)} />
+        </button>
+      </li>
     );
   }
 
@@ -512,18 +517,20 @@ export class Pagination
     const disabled = startItem === 1;
 
     return isXXSmall ? (
-      <button
-        aria-label={messages.first}
-        class={{
-          [CSS.chevron]: true,
-          [CSS.disabled]: disabled,
-        }}
-        disabled={disabled}
-        key="first-button"
-        onClick={this.firstClicked}
-      >
-        <calcite-icon flipRtl icon={ICONS.first} scale={getIconScale(this.scale)} />
-      </button>
+      <li>
+        <button
+          aria-label={messages.first}
+          class={{
+            [CSS.chevron]: true,
+            [CSS.disabled]: disabled,
+          }}
+          disabled={disabled}
+          key="first-button"
+          onClick={this.firstClicked}
+        >
+          <calcite-icon flipRtl icon={ICONS.first} scale={getIconScale(this.scale)} />
+        </button>
+      </li>
     ) : null;
   }
 
@@ -533,30 +540,32 @@ export class Pagination
     const disabled = startItem === lastStartItem;
 
     return isXXSmall ? (
-      <button
-        aria-label={messages.last}
-        class={{
-          [CSS.chevron]: true,
-          [CSS.disabled]: disabled,
-        }}
-        disabled={disabled}
-        key="last-button"
-        onClick={this.lastClicked}
-      >
-        <calcite-icon flipRtl icon={ICONS.last} scale={getIconScale(this.scale)} />
-      </button>
+      <li>
+        <button
+          aria-label={messages.last}
+          class={{
+            [CSS.chevron]: true,
+            [CSS.disabled]: disabled,
+          }}
+          disabled={disabled}
+          key="last-button"
+          onClick={this.lastClicked}
+        >
+          <calcite-icon flipRtl icon={ICONS.last} scale={getIconScale(this.scale)} />
+        </button>
+      </li>
     ) : null;
   }
 
   render(): VNode {
     return (
-      <Fragment>
+      <ul>
         {this.renderFirstChevron()}
         {this.renderPreviousChevron()}
         {this.renderItems()}
         {this.renderNextChevron()}
         {this.renderLastChevron()}
-      </Fragment>
+      </ul>
     );
   }
 }

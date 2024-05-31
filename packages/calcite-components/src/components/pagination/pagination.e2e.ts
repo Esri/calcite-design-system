@@ -41,6 +41,17 @@ describe("calcite-pagination", () => {
     });
   });
 
+  describe("semantics", () => {
+    it("should render a list internally", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-pagination total-items="10" page-size="1"></calcite-pagination>`);
+      const list = await page.find(`calcite-pagination >>> ul`);
+      expect(list).not.toBeNull();
+      const listItems = await page.findAll(`calcite-pagination >>> li`);
+      expect(listItems.length).toBe(10);
+    });
+  });
+
   describe("ellipsis rendering", () => {
     it("should not render either ellipsis when total pages is less than or equal to 5", async () => {
       const page = await newE2EPage();
