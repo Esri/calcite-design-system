@@ -371,6 +371,76 @@ describe("calcite-tooltip", () => {
     expect(await tooltip.getProperty("open")).toBe(false);
   });
 
+  it("should toggle tooltip on pointerdown for touch events", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(html`
+      <button id="test">test</button>
+      <calcite-tooltip id="tooltip" reference-element="ref">Content</calcite-tooltip>
+      <div tabindex="0" id="ref">Button</div>
+    `);
+
+    await page.waitForChanges();
+
+    const tooltip = await page.find("calcite-tooltip");
+
+    expect(await tooltip.getProperty("open")).toBe(false);
+
+    await page.evaluate(() => {
+      const ref = document.getElementById("ref");
+      const event1 = new PointerEvent("pointerdown", {
+        view: window,
+        cancelable: true,
+        isPrimary: true,
+        clientX: 100,
+        clientY: 100,
+        bubbles: true,
+        button: 0,
+      });
+      ref.dispatchEvent(event1);
+    });
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(true);
+
+    await page.evaluate(() => {
+      const ref = document.getElementById("ref");
+      const event1 = new PointerEvent("pointerdown", {
+        view: window,
+        cancelable: true,
+        isPrimary: true,
+        clientX: 100,
+        clientY: 100,
+        bubbles: true,
+        button: 0,
+      });
+      ref.dispatchEvent(event1);
+    });
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(true);
+
+    await page.evaluate(() => {
+      const ref = document.getElementById("test");
+      const event1 = new PointerEvent("pointerdown", {
+        view: window,
+        cancelable: true,
+        isPrimary: true,
+        clientX: 100,
+        clientY: 100,
+        bubbles: true,
+        button: 0,
+      });
+      ref.dispatchEvent(event1);
+    });
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(false);
+  });
+
   it("should not open tooltip when clicked", async () => {
     const page = await newE2EPage();
 
