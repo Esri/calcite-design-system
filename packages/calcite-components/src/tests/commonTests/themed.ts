@@ -345,6 +345,12 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       });
     }, contextSelector)) as { width: number; height: number; left: number; top: number } | undefined;
 
+    if (!rect) {
+      throw new Error(
+        `[${token}] context target (${contextSelector.attribute}="${contextSelector.value}") not found, make sure test HTML renders the component and expected shadow DOM elements`,
+      );
+    }
+
     const box = {
       x: rect.left + rect.width / 2,
       y: rect.top + rect.height / 2,
@@ -360,26 +366,56 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       await page.mouse.up();
     }
   } else if (state) {
-    await targetEl[state as Exclude<State, "press">]();
+    try {
+      await targetEl[state as Exclude<State, "press">]();
+    } catch (error) {
+      // checking for explicit Puppeteer ElementHandle error: https://github.com/puppeteer/puppeteer/blob/68fd7712932f94730b6186107a0509c233938084/packages/puppeteer-core/src/api/ElementHandle.ts#L625
+      const message =
+        error.message === "Node is either not clickable or not an Element"
+          ? `[${token}] target node (${target.selector}${
+              target.shadowSelector ? " >>> " + target.shadowSelector : ""
+            }) must be clickable (larger than 1x1) for state: ${state}`
+          : `[${token}] ${error.message} for state: ${state} on target node (${target.selector}${
+              target.shadowSelector ? " >>> " + target.shadowSelector : ""
+            })`;
+
+      throw new Error(message);
+    }
   }
 
   await page.waitForChanges();
 
   if (targetProp.startsWith("--calcite-")) {
-    expect(await getComputedStylePropertyValue(targetEl, targetProp, pseudoElement)).toBe(expectedValue);
+    const customPropValue = await getComputedStylePropertyValue(targetEl, targetProp, pseudoElement);
+    expect(getStyleString(token, targetProp, customPropValue)).toBe(getStyleString(token, targetProp, expectedValue));
     return;
   }
 
   const styles = await targetEl.getComputedStyle(pseudoElement);
-  const isFakeBorderToken = token.includes("border-color") && targetProp === "boxShadow";
+  const isFakeBorderColorToken =
+          token.includes("-color") &&
+          (targetProp === "boxShadow" || targetProp === "outline" || targetProp === "outlineColor");
   const isLinearGradientUnderlineToken = token.includes("link-underline-color") && targetProp === "backgroundImage";
 
-  if (isFakeBorderToken || isLinearGradientUnderlineToken) {
-    expect(styles[targetProp]).toMatch(expectedValue);
+  if (isFakeBorderColorToken || isLinearGradientUnderlineToken) {
+    expect(getStyleString(token, targetProp, styles[targetProp])).toMatch(expectedValue);
     return;
   }
 
-  expect(styles[targetProp]).toBe(expectedValue);
+  expect(getStyleString(token, targetProp, styles[targetProp])).toBe(getStyleString(token, targetProp, expectedValue));
+}
+
+/**
+ * Generates a message with the token, property, and value.
+ *
+ * Used for debugging.
+ *
+ * @param token - the token as a CSS variable
+ * @param prop - the CSS property
+ * @param value - the value of the CSS property
+ */
+function getStyleString(token: string, prop: string, value: string): string {
+  return `[${token}:${prop}] ${value}`;
 }
 
 /**
@@ -391,7 +427,9 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
  * @returns string - the new value for the token
  */
 function assignTestTokenThemeValues(token: string): string {
-  return token.includes("color")
+  const legacyBackgroundColorToken = token.endsWith("-background");
+
+  return token.includes("color") || legacyBackgroundColorToken
     ? "rgb(0, 191, 255)"
     : token.includes("shadow")
       ? "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px"
