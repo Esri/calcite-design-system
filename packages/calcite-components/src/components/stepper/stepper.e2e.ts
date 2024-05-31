@@ -1,8 +1,10 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { defaults, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
 import { isElementFocused } from "../../tests/utils";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 // we use browser-context function to click on items to workaround `E2EElement#click` error
 async function itemClicker(item: HTMLCalciteStepperItemElement) {
@@ -897,6 +899,82 @@ describe("calcite-stepper", () => {
 
       const displayedItems = await page.findAll("calcite-stepper-item:not([hidden])");
       expect(displayedItems.length).toBe(1);
+    });
+  });
+
+  const stepperHTML = html`
+    <calcite-stepper layout="horizontal-single" numbered icon scale="s">
+      <calcite-stepper-item heading="Confirm and complete">
+        <calcite-notice open width="full">
+          <div slot="message">Step 4 Content Goes Here</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Choose method" selected>
+        <calcite-notice open width="full">
+          <div slot="message">Step 1 Content Goes Here</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Compile member list" complete>
+        <calcite-notice open width="full">
+          <div slot="message">Step 2 Content Goes Here</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Set member properties" description="Some subtext" error>
+        <calcite-notice open width="full">
+          <div slot="message">Step 3 Content Goes Here</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+    </calcite-stepper>
+  `;
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-stepper-action-background-color": {
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-stepper-action-background-color-hover": {
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color",
+          state: { hover: { attribute: "class", value: CSS.actionIcon } },
+        },
+        "--calcite-stepper-action-background-color-active": {
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color",
+          state: { press: { attribute: "class", value: CSS.actionIcon } },
+        },
+        "--calcite-stepper-step-bar-fill-color": {
+          shadowSelector: `.step-bar rect`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-step-bar-fill-color-hover": {
+          shadowSelector: `.step-bar rect`,
+          targetProp: "fill",
+          state: "hover",
+        },
+        "--calcite-stepper-step-bar-selected-fill-color": {
+          shadowSelector: `.step-bar rect.step-bar--selected`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-step-bar-complete-fill-color": {
+          shadowSelector: `.step-bar rect.step-bar--complete`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-step-bar-completed-fill-color-hover": {
+          shadowSelector: `.step-bar rect.step-bar--complete`,
+          targetProp: "fill",
+          state: "hover",
+        },
+        "--calcite-stepper-step-bar-error-fill-color": {
+          shadowSelector: `.step-bar rect.step-bar--error`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-step-bar-error-fill-color-hover": {
+          shadowSelector: `.step-bar rect.step-bar--error`,
+          targetProp: "fill",
+        },
+      };
+      themed(stepperHTML, tokens);
     });
   });
 });
