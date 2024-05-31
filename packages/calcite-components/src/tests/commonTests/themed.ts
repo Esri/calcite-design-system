@@ -23,43 +23,48 @@ export type ComponentTestTokens = Record<CalciteCSSCustomProp, TestSelectToken |
  * Helper to test custom theming of a component's associated tokens.
  *
  * @example
- // describe("theme", () => {
- //   const tokens: ComponentTestTokens = {
- //      "--calcite-action-menu-border-color": [
- //        {
- //          targetProp: "borderLeftColor",
- //        },
- //        {
- //          shadowSelector: "calcite-action",
- //          targetProp: "--calcite-action-border-color",
- //        },
- //     ],
- //     "--calcite-action-menu-background-color": {
- //          targetProp: "backgroundColor",
- //          shadowSelector: ".container",
- //     },
- //     "--calcite-action-menu-trigger-background-color-active": {
- //        shadowSelector: "calcite-action",
- //        targetProp: "--calcite-action-background-color",
- //        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
- //      },
- //      "--calcite-action-menu-trigger-background-color-focus": {
- //        shadowSelector: "calcite-action",
- //        targetProp: "--calcite-action-background-color",
- //        state: "focus",
- //      },
- //      "--calcite-action-menu-trigger-background-color-hover": {
- //        shadowSelector: "calcite-action",
- //        targetProp: "--calcite-action-background-color",
- //        state: "hover",
- //      },
- //      "--calcite-action-menu-trigger-background-color": {
- //        shadowSelector: "calcite-action",
- //        targetProp: "--calcite-action-background-color",
- //      },
- //   };
- //   themed(`calcite-action-bar`, tokens);
- // });
+ * describe("theme", () => {
+ *   const tokens: ComponentTestTokens = {
+ *      "--calcite-action-menu-border-color": [
+ *        {
+ *          targetProp: "borderLeftColor",
+ *        },
+ *        {
+ *          shadowSelector: "calcite-action",
+ *          targetProp: "--calcite-action-border-color",
+ *        },
+ *        {
+ *          // added to demonstrate pseudo-element support
+ *          shadowSelector: "calcite-action::after",
+ *          targetProp: "borderColor",
+ *        },
+ *     ],
+ *     "--calcite-action-menu-background-color": {
+ *          targetProp: "backgroundColor",
+ *          shadowSelector: ".container",
+ *     },
+ *     "--calcite-action-menu-trigger-background-color-active": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+ *      },
+ *      "--calcite-action-menu-trigger-background-color-focus": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: "focus",
+ *      },
+ *      "--calcite-action-menu-trigger-background-color-hover": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: "hover",
+ *      },
+ *      "--calcite-action-menu-trigger-background-color": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *      },
+ *   };
+ *   themed(`calcite-action-bar`, tokens);
+ * });
  *
  * @param componentTestSetup - A component tag, html, tag + e2e page or provider for setting up a test.
  * @param tokens - A record of token names and their associated selectors, shadow selectors, target props, and states.
