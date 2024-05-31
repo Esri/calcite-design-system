@@ -48,7 +48,7 @@ describe("calcite-pagination", () => {
       const list = await page.find(`calcite-pagination >>> .${CSS.list}`);
       expect(list).not.toBeNull();
       const listItems = await page.findAll(`calcite-pagination >>> .${CSS.listItem}`);
-      expect(listItems.length).toBe(10);
+      expect(listItems.length).toBe(12);
     });
   });
 
