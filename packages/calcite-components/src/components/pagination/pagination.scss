@@ -3,11 +3,11 @@
   writing-mode: horizontal-tb;
 }
 
-ul {
+.list {
   @apply flex list-none m-0 p-0;
 }
 
-li {
+.list-item {
   @apply flex m-0 p-0;
 }
 

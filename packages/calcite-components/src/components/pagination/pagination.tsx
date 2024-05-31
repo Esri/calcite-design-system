@@ -446,7 +446,7 @@ export class Pagination
     const selected = start === this.startItem;
 
     return (
-      <li>
+      <li class={CSS.listItem}>
         <button
           aria-current={selected ? "page" : "false"}
           class={{
@@ -468,21 +468,19 @@ export class Pagination
     const disabled = pageSize === 1 ? startItem <= pageSize : startItem < pageSize;
 
     return (
-      <li>
-        <button
-          aria-label={messages.previous}
-          class={{
-            [CSS.chevron]: true,
-            [CSS.disabled]: disabled,
-          }}
-          data-test-chevron="previous"
-          disabled={disabled}
-          key="previous"
-          onClick={this.previousClicked}
-        >
-          <calcite-icon flipRtl icon={ICONS.previous} scale={getIconScale(this.scale)} />
-        </button>
-      </li>
+      <button
+        aria-label={messages.previous}
+        class={{
+          [CSS.chevron]: true,
+          [CSS.disabled]: disabled,
+        }}
+        data-test-chevron="previous"
+        disabled={disabled}
+        key="previous"
+        onClick={this.previousClicked}
+      >
+        <calcite-icon flipRtl icon={ICONS.previous} scale={getIconScale(this.scale)} />
+      </button>
     );
   }
 
@@ -493,21 +491,19 @@ export class Pagination
       pageSize === 1 ? startItem + pageSize > totalItems : startItem + pageSize > totalItems;
 
     return (
-      <li>
-        <button
-          aria-label={messages.next}
-          class={{
-            [CSS.chevron]: true,
-            [CSS.disabled]: disabled,
-          }}
-          data-test-chevron="next"
-          disabled={disabled}
-          key="next-button"
-          onClick={this.nextClicked}
-        >
-          <calcite-icon flipRtl icon={ICONS.next} scale={getIconScale(this.scale)} />
-        </button>
-      </li>
+      <button
+        aria-label={messages.next}
+        class={{
+          [CSS.chevron]: true,
+          [CSS.disabled]: disabled,
+        }}
+        data-test-chevron="next"
+        disabled={disabled}
+        key="next-button"
+        onClick={this.nextClicked}
+      >
+        <calcite-icon flipRtl icon={ICONS.next} scale={getIconScale(this.scale)} />
+      </button>
     );
   }
 
@@ -517,20 +513,18 @@ export class Pagination
     const disabled = startItem === 1;
 
     return isXXSmall ? (
-      <li>
-        <button
-          aria-label={messages.first}
-          class={{
-            [CSS.chevron]: true,
-            [CSS.disabled]: disabled,
-          }}
-          disabled={disabled}
-          key="first-button"
-          onClick={this.firstClicked}
-        >
-          <calcite-icon flipRtl icon={ICONS.first} scale={getIconScale(this.scale)} />
-        </button>
-      </li>
+      <button
+        aria-label={messages.first}
+        class={{
+          [CSS.chevron]: true,
+          [CSS.disabled]: disabled,
+        }}
+        disabled={disabled}
+        key="first-button"
+        onClick={this.firstClicked}
+      >
+        <calcite-icon flipRtl icon={ICONS.first} scale={getIconScale(this.scale)} />
+      </button>
     ) : null;
   }
 
@@ -540,31 +534,29 @@ export class Pagination
     const disabled = startItem === lastStartItem;
 
     return isXXSmall ? (
-      <li>
-        <button
-          aria-label={messages.last}
-          class={{
-            [CSS.chevron]: true,
-            [CSS.disabled]: disabled,
-          }}
-          disabled={disabled}
-          key="last-button"
-          onClick={this.lastClicked}
-        >
-          <calcite-icon flipRtl icon={ICONS.last} scale={getIconScale(this.scale)} />
-        </button>
-      </li>
+      <button
+        aria-label={messages.last}
+        class={{
+          [CSS.chevron]: true,
+          [CSS.disabled]: disabled,
+        }}
+        disabled={disabled}
+        key="last-button"
+        onClick={this.lastClicked}
+      >
+        <calcite-icon flipRtl icon={ICONS.last} scale={getIconScale(this.scale)} />
+      </button>
     ) : null;
   }
 
   render(): VNode {
     return (
-      <ul>
-        {this.renderFirstChevron()}
-        {this.renderPreviousChevron()}
+      <ul class={CSS.list}>
+        <li class={CSS.listItem}>{this.renderFirstChevron()}</li>
+        <li class={CSS.listItem}>{this.renderPreviousChevron()}</li>
         {this.renderItems()}
-        {this.renderNextChevron()}
-        {this.renderLastChevron()}
+        <li class={CSS.listItem}>{this.renderNextChevron()}</li>
+        <li class={CSS.listItem}>{this.renderLastChevron()}</li>
       </ul>
     );
   }

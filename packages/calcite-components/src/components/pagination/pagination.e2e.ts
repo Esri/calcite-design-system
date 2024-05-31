@@ -41,13 +41,13 @@ describe("calcite-pagination", () => {
     });
   });
 
-  describe("semantics", () => {
-    it("should render a list internally", async () => {
+  describe("semantic elements are used", () => {
+    it("should render a native list internally", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-pagination total-items="10" page-size="1"></calcite-pagination>`);
-      const list = await page.find(`calcite-pagination >>> ul`);
+      const list = await page.find(`calcite-pagination >>> .${CSS.list}`);
       expect(list).not.toBeNull();
-      const listItems = await page.findAll(`calcite-pagination >>> li`);
+      const listItems = await page.findAll(`calcite-pagination >>> .${CSS.listItem}`);
       expect(listItems.length).toBe(10);
     });
   });
