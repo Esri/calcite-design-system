@@ -106,10 +106,11 @@
   @apply flex overflow-hidden;
   flex: 0 0 auto;
   border-start-end-radius: theme("borderRadius.DEFAULT");
+  border-end-end-radius: theme("borderRadius.DEFAULT");
 }
 
-:host(:not([heading])) .close-button-container {
-  border-end-end-radius: theme("borderRadius.DEFAULT");
+.has-header .close-button-container {
+  border-end-end-radius: none;
 }
 
 ::slotted(calcite-panel),
