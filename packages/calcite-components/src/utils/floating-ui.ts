@@ -259,6 +259,8 @@ export const flipPlacements: FlipPlacement[] = [
   "right-end",
   "left-start",
   "left-end",
+  "leading",
+  "trailing",
   "leading-start",
   "leading-end",
   "trailing-start",
