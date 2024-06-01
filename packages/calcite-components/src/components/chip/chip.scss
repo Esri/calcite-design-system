@@ -16,7 +16,6 @@
  * @prop --calcite-chip-close-background-color-focus: Specifies the focus background color of the component's `closable` element when focused.
  * @prop --calcite-chip-close-focus-outline-color Specifies the focus outline color of the component's `closable` element.
  * @prop --calcite-chip-select-icon-color: Specifies the color of the component's select icon
- * @prop --calcite-chip-select-icon-color-active: Specifies the color of the component's select icon when active.
  *
  */
 
@@ -101,11 +100,11 @@
 
 :host([kind="neutral"]) .container {
   color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
-  .close {
-    color: var(--calcite-chip-close-icon-color, var(--calcite-color-text-3));
+  .close calcite-icon {
+    --calcite-icon-color: var(--calcite-chip-close-icon-color, var(--calcite-color-text-3));
   }
   .chip-icon {
-    color: var(--calcite-chip-icon-color, var(--calcite-color-text-1));
+    --calcite-icon-color: var(--calcite-chip-icon-color, var(--calcite-color-text-1));
   }
 }
 
@@ -119,15 +118,15 @@
 }
 
 :host([kind="inverse"]) .container .chip-icon {
-  color: var(--calcite-chip-icon-color, var(--calcite-color-text-inverse));
+  --calcite-icon-color: var(--calcite-chip-icon-color, var(--calcite-color-text-inverse));
 }
 
 :host([kind="inverse"][appearance="solid"]) .container {
   background-color: var(--calcite-chip-background-color, var(--calcite-color-inverse));
   border-color: var(--calcite-chip-border-color, transparent);
   color: var(--calcite-chip-text-color, var(--calcite-color-text-inverse));
-  .close {
-    color: var(--calcite-chip-close-icon-color, var(--calcite-color-text-inverse));
+  .close calcite-icon {
+    --calcite-icon-color: var(--calcite-chip-close-icon-color, var(--calcite-color-text-inverse));
   }
 }
 
@@ -136,20 +135,20 @@
   border-color: var(--calcite-chip-border-color, var(--calcite-color-inverse));
   color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
   .chip-icon {
-    color: var(--calcite-chip-icon-color, var(--calcite-color-inverse));
+    --calcite-icon-color: var(--calcite-chip-icon-color, var(--calcite-color-inverse));
   }
 }
 
 :host([kind="brand"]) .container .chip-icon {
-  color: var(--calcite-chip-icon-color, var(--calcite-color-text-inverse));
+  --calcite-icon-color: var(--calcite-chip-icon-color, var(--calcite-color-text-inverse));
 }
 
 :host([kind="brand"][appearance="solid"]) .container {
   background-color: var(--calcite-chip-background-color, var(--calcite-color-brand));
   border-color: var(--calcite-chip-border-color, transparent);
   color: var(--calcite-chip-text-color, var(--calcite-color-text-inverse));
-  .close {
-    color: var(--calcite-chip-close-icon-color, var(--calcite-color-text-inverse));
+  .close calcite-icon {
+    --calcite-icon-color: var(--calcite-chip-close-icon-color, var(--calcite-color-text-inverse));
   }
 }
 
@@ -158,7 +157,7 @@
   border-color: var(--calcite-chip-border-color, var(--calcite-color-brand));
   color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
   .chip-icon {
-    color: var(--calcite-chip-icon-color, var(--calcite-color-inverse));
+    --calcite-icon-color: var(--calcite-chip-icon-color, var(--calcite-color-inverse));
   }
 }
 
@@ -257,7 +256,6 @@
   align-content: center;
   justify-content: center;
   margin: 0;
-  color: var(--calcite-chip-close-icon-color, var(--calcite-color-text-3));
   block-size: var(--calcite-internal-chip-icon-size);
   inline-size: var(--calcite-internal-chip-icon-size);
   background-color: var(--calcite-chip-close-background-color, var(--calcite-color-transparent));
@@ -274,7 +272,7 @@
   }
 
   calcite-icon {
-    color: inherit;
+    --calcite-icon-color: color: var(--calcite-chip-close-icon-color, var(--calcite-color-text-3));
   }
 }
 
@@ -291,21 +289,19 @@
   transition:
     opacity 0.15s ease-in-out,
     inline-size 0.15s ease-in-out;
-  &.select-icon--active {
+
+  &--active {
     block-size: var(--calcite-internal-chip-icon-size);
     inline-size: var(--calcite-internal-chip-icon-size);
     visibility: visible;
     opacity: 0.5;
-
-    calcite-icon {
-      --calcite-icon-color: var(--calcite-chip-select-icon-color-active);
-    }
   }
 
   calcite-icon {
     --calcite-icon-color: var(--calcite-chip-select-icon-color);
   }
 }
+
 .container:not(.is-circle).image--slotted .select-icon.select-icon--active {
   margin-inline-end: var(--calcite-internal-chip-spacing-s);
 }
