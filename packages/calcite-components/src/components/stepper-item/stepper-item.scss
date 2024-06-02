@@ -113,7 +113,7 @@
     h-3
     flex-shrink-0
     self-start;
-  color: var(
+  --calcite-icon-color: var(
     --calcite-stepper-item-icon-color,
     var(--calcite-internal-stepper-item-icon-color, var(--calcite-color-text-3))
   );
