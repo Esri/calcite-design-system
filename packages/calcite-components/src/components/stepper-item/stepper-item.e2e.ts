@@ -39,13 +39,6 @@ describe("calcite-stepper-item", () => {
     expect(stepperItemSelect).toHaveReceivedEventTimes(1);
   });
 
-  const stepperItemHTML = html`
-    <calcite-stepper-item heading="Confirm and complete" icon numbered description="Some subtext">
-      <calcite-notice open width="full">
-        <div slot="message">Step 1 Content Goes Here</div>
-      </calcite-notice>
-    </calcite-stepper-item>
-  `;
   describe("theme", () => {
     describe("default", () => {
       const tokens: ComponentTestTokens = {
@@ -59,7 +52,7 @@ describe("calcite-stepper-item", () => {
         },
         "--calcite-stepper-item-icon-color": {
           shadowSelector: `calcite-icon`,
-          targetProp: "color",
+          targetProp: "--calcite-icon-color",
         },
         "--calcite-stepper-item-number-text-color": {
           shadowSelector: `.${CSS.stepperItemNumber}`,
@@ -70,7 +63,14 @@ describe("calcite-stepper-item", () => {
           targetProp: "color",
         },
       };
-      themed(stepperItemHTML, tokens);
+      themed(
+        html`
+          <calcite-stepper-item heading="Confirm and complete" icon numbered description="Some subtext">
+            <div>Step 1 Content Goes Here</div>
+          </calcite-stepper-item>
+        `,
+        tokens,
+      );
     });
   });
 });
