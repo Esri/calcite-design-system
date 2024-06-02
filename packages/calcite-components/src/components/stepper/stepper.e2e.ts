@@ -902,30 +902,6 @@ describe("calcite-stepper", () => {
     });
   });
 
-  const stepperHTML = html`
-    <calcite-stepper layout="horizontal-single" numbered icon scale="s">
-      <calcite-stepper-item heading="Confirm and complete">
-        <calcite-notice open width="full">
-          <div slot="message">Step 4 Content Goes Here</div>
-        </calcite-notice>
-      </calcite-stepper-item>
-      <calcite-stepper-item heading="Choose method" selected>
-        <calcite-notice open width="full">
-          <div slot="message">Step 1 Content Goes Here</div>
-        </calcite-notice>
-      </calcite-stepper-item>
-      <calcite-stepper-item heading="Compile member list" complete>
-        <calcite-notice open width="full">
-          <div slot="message">Step 2 Content Goes Here</div>
-        </calcite-notice>
-      </calcite-stepper-item>
-      <calcite-stepper-item heading="Set member properties" description="Some subtext" error>
-        <calcite-notice open width="full">
-          <div slot="message">Step 3 Content Goes Here</div>
-        </calcite-notice>
-      </calcite-stepper-item>
-    </calcite-stepper>
-  `;
   describe("theme", () => {
     describe("default", () => {
       const tokens: ComponentTestTokens = {
@@ -944,37 +920,55 @@ describe("calcite-stepper", () => {
           state: { press: { attribute: "class", value: CSS.actionIcon } },
         },
         "--calcite-stepper-step-bar-fill-color": {
-          shadowSelector: `.step-bar rect`,
+          shadowSelector: `.${CSS.stepBar} ${CSS.rect}`,
           targetProp: "fill",
         },
         "--calcite-stepper-step-bar-fill-color-hover": {
-          shadowSelector: `.step-bar rect`,
+          shadowSelector: `.${CSS.stepBar} ${CSS.rect}`,
           targetProp: "fill",
           state: "hover",
         },
         "--calcite-stepper-step-bar-selected-fill-color": {
-          shadowSelector: `.step-bar rect.step-bar--selected`,
+          shadowSelector: `.${CSS.stepBarSelected}`,
           targetProp: "fill",
         },
         "--calcite-stepper-step-bar-complete-fill-color": {
-          shadowSelector: `.step-bar rect.step-bar--complete`,
+          shadowSelector: `.${CSS.stepBarComplete}`,
           targetProp: "fill",
         },
         "--calcite-stepper-step-bar-completed-fill-color-hover": {
-          shadowSelector: `.step-bar rect.step-bar--complete`,
+          shadowSelector: `.${CSS.stepBarComplete}`,
           targetProp: "fill",
           state: "hover",
         },
         "--calcite-stepper-step-bar-error-fill-color": {
-          shadowSelector: `.step-bar rect.step-bar--error`,
+          shadowSelector: `.${CSS.stepBarError}`,
           targetProp: "fill",
         },
         "--calcite-stepper-step-bar-error-fill-color-hover": {
-          shadowSelector: `.step-bar rect.step-bar--error`,
+          shadowSelector: `.${CSS.stepBarError}`,
           targetProp: "fill",
         },
       };
-      themed(stepperHTML, tokens);
+      themed(
+        html`
+          <calcite-stepper layout="horizontal-single" numbered icon scale="s">
+            <calcite-stepper-item heading="Confirm and complete">
+              <div>Step 4 Content Goes Here</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Choose method" selected>
+              <div>Step 1 Content Goes Here</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" complete>
+              <div>Step 2 Content Goes Here</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" error>
+              <div>Step 3 Content Goes Here</div>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        `,
+        tokens,
+      );
     });
   });
 });
