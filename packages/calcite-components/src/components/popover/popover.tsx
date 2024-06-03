@@ -292,12 +292,7 @@ export class Popover
     this.setFilteredPlacements();
     connectLocalized(this);
     connectMessages(this);
-    this.setUpReferenceElement(this.hasLoaded);
     connectFocusTrap(this);
-
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   async componentWillLoad(): Promise<void> {
@@ -307,10 +302,11 @@ export class Popover
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    if (this.referenceElement && !this.effectiveReferenceElement) {
-      this.setUpReferenceElement();
+    this.setUpReferenceElement();
+
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
     }
-    this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {
