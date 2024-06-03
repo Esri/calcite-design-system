@@ -24,7 +24,7 @@ import {
   TextType,
   Mode,
   SelectionAppearance,
-} from "./interfaces";
+} from "../../calcite-components/src/components/interfaces.ts";
 
 interface AttributeMetadata<T> {
   values: T[];
@@ -93,7 +93,7 @@ const layoutOptions: Layout[] = [
 const dirOptions: Dir[] = ["ltr", "rtl"];
 const buttonTypeOptions: ButtonType[] = ["radio", "checkbox"];
 const interactionModeOptions: InteractionMode[] = ["interactive", "static"];
-const iconTypeOptions: IconType[] = ["chevron", "caret", "ellipsis", "overflow"];
+const iconTypeOptions: IconType[] = ["chevron", "caret", "ellipsis", "overflow", "plus-minus"];
 const determinateTypeOptions: DeterminateType[] = ["determinate", "indeterminate"];
 const fillTypeOptions: FillType[] = ["single", "range"];
 const labelTypeOptions: LabelType[] = ["percent", "units"];

@@ -14,7 +14,6 @@ import {
 import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { FlipContext } from "../interfaces";
 import {
   connectMessages,
   disconnectMessages,
@@ -22,7 +21,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { Status } from "../interfaces";
+import { FlipContext, Status } from "../interfaces";
 import {
   componentFocusable,
   LoadableComponent,
