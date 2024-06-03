@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - release-please--branches--main
-      - release-please--branches--hotfix
 permissions:
   contents: write
   pull-requests: write

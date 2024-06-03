@@ -61,7 +61,7 @@ A [GitHub Action](https://github.com/Esri/calcite-components-examples/blob/maste
 
 ## next releases
 
-`next` releases are useful for testing incoming changes between releases. They are [released by the CI](/Monorepo.md#ci-for-next-releases) after 'deployable' commits are installed to `main`. A deployable commit is:
+`next` releases are useful for testing incoming changes between releases. They are [released by the CI](./monorepo.md#ci-for-next-releases) after 'deployable' commits are installed to `dev`. A deployable commit is:
 
 1. a commit of type `feat` or `fix`
 2. a commit that introduces a breaking change
@@ -70,7 +70,7 @@ If you need to disable `next` releases, you can do so by setting the `NEXT_RELEA
 
 ```sh
 # make sure you don't have any unsaved work
-git checkout main
+git checkout dev
 npm run clean
 npm install
 npm test
