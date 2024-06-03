@@ -1,99 +1,43 @@
-import { boolean, select, text } from "../../../.storybook/fake-knobs";
-import {
-  Attributes,
-  createComponentHTML as create,
-  Attribute,
-  filterComponentAttributes,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
-import { ATTRIBUTES } from "../../../.storybook/resources";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { SLOTS } from "./resources";
+const { collapseDirection, scale } = ATTRIBUTES;
+
+interface FlowItemArgs {
+  closed: boolean;
+  disabled: boolean;
+  closable: boolean;
+  collapsible: boolean;
+  collapsed: boolean;
+  collapseDirection: string;
+  heightScale: string;
+  loading: boolean;
+  selected: boolean;
+}
 
 export default {
   title: "Components/Flow Item",
-};
-
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const { scale } = ATTRIBUTES;
-
-  return filterComponentAttributes(
-    [
-      {
-        name: "closed",
-        commit(): Attribute {
-          this.value = boolean("closed", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "disabled",
-        commit(): Attribute {
-          this.value = boolean("disabled", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "closable",
-        commit(): Attribute {
-          this.value = boolean("closable", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "collapsible",
-        commit(): Attribute {
-          this.value = boolean("collapsible", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "collapsed",
-        commit(): Attribute {
-          this.value = boolean("collapsed", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "collapse-direction",
-        commit(): Attribute {
-          this.value = select("collapseDirection", ["down", "up"], "down");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "height-scale",
-        commit(): Attribute {
-          this.value = select("heightScale", scale.values, scale.defaultValue);
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "loading",
-        commit(): Attribute {
-          this.value = boolean("loading", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "selected",
-        commit(): Attribute {
-          this.value = boolean("selected", true, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
+  args: {
+    closed: false,
+    disabled: false,
+    closable: false,
+    collapsible: false,
+    collapsed: false,
+    collapseDirection: collapseDirection.defaultValue,
+    heightScale: scale.defaultValue,
+    loading: false,
+  },
+  argTypes: {
+    collapseDirection: {
+      options: collapseDirection.values,
+      control: { type: "select" },
+    },
+    heightScale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
 const headerHTML = `<h3 class="heading" slot="${SLOTS.headerContent}">Heading</h3>`;
@@ -134,67 +78,57 @@ const flowItemContent = `${headerHTML}
   ${contentHTML}
   ${footerHTML}`;
 
-export const simple = (): string =>
-  create(
-    "calcite-flow-item",
-    createAttributes(),
-    html`
-      ${headerHTML}
-      <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
-      <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
-      ${contentHTML}
-      <calcite-fab slot="fab"></calcite-fab>
-      ${footerHTML}
-    `,
-  );
+export const simple = (args: FlowItemArgs): string => html`
+  <calcite-flow-item
+    ${boolean("closed", args.closed)}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("closable", args.closable)}
+    ${boolean("collapsible", args.collapsible)}
+    ${boolean("collapsed", args.collapsed)}
+    collapse-direction="${args.collapseDirection}"
+    height-scale="${args.heightScale}"
+    ${boolean("loading", args.loading)}
+    ${boolean("selected", args.selected)}
+  >
+    ${headerHTML}
+    <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
+    <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
+    ${contentHTML}
+    <calcite-fab slot="fab"></calcite-fab>
+    ${footerHTML}
+  </calcite-flow-item>
+`;
 
 export const onlyProps = (): string => html`
   <div style="width: 300px;">
     <calcite-flow-item
-      selected
       height-scale="s"
-      heading-level="${text("heading-level", "2")}"
-      description="${text(
-        "description",
-        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
-      )}"
-      heading="${text(
-        "heading",
-        "flowItem title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum",
-      )}"
+      heading-level="2"
+      description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+      heading="flowItem title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
     />
   </div>
 `;
 
 export const collapsed_TestOnly = (): string => html`
-  <calcite-flow-item selected collapsed collapsible closable> Hello World! </calcite-flow-item>
+  <calcite-flow-item collapsed collapsible closable> Hello World! </calcite-flow-item>
 `;
 
 export const collapseDirectionUp_TestOnly = (): string => html`
-  <calcite-flow-item selected collapsed collapsible collapse-direction="up" closable> Hello World! </calcite-flow-item>
+  <calcite-flow-item collapsed collapsible collapse-direction="up" closable> Hello World! </calcite-flow-item>
 `;
 
 export const disabledWithStyledSlot_TestOnly = (): string => html`
-  <calcite-flow-item selected style="height: 100%;" heading="Heading" disabled>
+  <calcite-flow-item style="height: 100%;" heading="Heading" disabled>
     <div id="content" style="height: 100%;">${contentHTML}</div>
   </calcite-flow-item>
 `;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create(
-    "calcite-flow-item",
-    createAttributes({ exceptions: ["dir", "class"] }).concat([
-      {
-        name: "dir",
-        value: "rtl",
-      },
-      {
-        name: "class",
-        value: "calcite-mode-dark",
-      },
-    ]),
-    flowItemContent,
-  );
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-flow-item collapse-direction="down" height-scale="m" dir="rtl" class="calcite-mode-dark">
+    ${flowItemContent}
+  </calcite-flow-item>
+`;
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
@@ -215,7 +149,7 @@ export const noDoubleScrollbars_TestOnly = (): string => html`
   </style>
   <div id="container">
     <calcite-flow>
-      <calcite-flow-item selected heading="Example">
+      <calcite-flow-item heading="Example">
         <div>### Sticky Content e.g. toolbar</div>
         <div class="content">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sapien lectus, ultricies a molestie nec,
@@ -254,7 +188,7 @@ export const overflowContent_TestOnly = (): string =>
     </style>
     <div class="container">
       <calcite-flow>
-        <calcite-flow-item selected heading="My Panel">
+        <calcite-flow-item heading="My Panel">
           <calcite-list>
             <calcite-list-item label="My list item" description="My description"></calcite-list-item>
             <calcite-list-item label="My list item" description="My description"></calcite-list-item>
@@ -274,7 +208,7 @@ export const overflowContent_TestOnly = (): string =>
 
 export const withActionBarAndContentTop_TestOnly = (): string =>
   html`<div style="width: 300px;">
-    <calcite-flow-item selected height-scale="s">
+    <calcite-flow-item height-scale="s">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Add" icon="plus"> </calcite-action>
@@ -290,7 +224,7 @@ export const withActionBarAndContentTop_TestOnly = (): string =>
 
 export const footerPaddingAndContentBottom_TestOnly = (): string =>
   html`<div style="width: 300px;">
-    <calcite-flow-item selected height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+    <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
       <div slot="content-bottom">Content bottom!</div>
@@ -299,10 +233,6 @@ export const footerPaddingAndContentBottom_TestOnly = (): string =>
   </div>`;
 
 export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
-  html`<calcite-flow-item
-    selected
-    style="--calcite-flow-item-header-border-block-end:none;"
-    height-scale="s"
-    heading="My Panel"
+  html`<calcite-flow-item style="--calcite-flow-item-header-border-block-end:none;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-flow-item
   >`;
