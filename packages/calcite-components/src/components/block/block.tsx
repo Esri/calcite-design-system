@@ -370,7 +370,7 @@ export class Block
           headerContent
         )}
         {hasControl ? (
-          <div class={CSS.controlContainer}>
+          <div aria-describedby={IDS.header} class={CSS.controlContainer}>
             <slot name={SLOTS.control} />
           </div>
         ) : null}
