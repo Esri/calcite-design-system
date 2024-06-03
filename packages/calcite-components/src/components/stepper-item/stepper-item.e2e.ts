@@ -1,6 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { disabled, renders, hidden, t9n } from "../../tests/commonTests";
+import { disabled, renders, hidden, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-stepper-item", () => {
   describe("renders", () => {
@@ -35,5 +37,40 @@ describe("calcite-stepper-item", () => {
 
     await stepperItem.click();
     expect(stepperItemSelect).toHaveReceivedEventTimes(1);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-stepper-item-description-text-color": {
+          shadowSelector: `.${CSS.stepperItemDescription}`,
+          targetProp: "color",
+        },
+        "--calcite-stepper-item-heading-text-color": {
+          shadowSelector: `.${CSS.stepperItemHeading}`,
+          targetProp: "color",
+        },
+        "--calcite-stepper-item-icon-color": {
+          shadowSelector: `calcite-icon`,
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-stepper-item-number-text-color": {
+          shadowSelector: `.${CSS.stepperItemNumber}`,
+          targetProp: "color",
+        },
+        "--calcite-stepper-item-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+      };
+      themed(
+        html`
+          <calcite-stepper-item heading="Confirm and complete" icon numbered description="Some subtext">
+            <div>Step 1 Content Goes Here</div>
+          </calcite-stepper-item>
+        `,
+        tokens,
+      );
+    });
   });
 });
