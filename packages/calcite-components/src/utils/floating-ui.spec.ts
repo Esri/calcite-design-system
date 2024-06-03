@@ -7,7 +7,7 @@ const {
   connectFloatingUI,
   defaultOffsetDistance,
   disconnectFloatingUI,
-  effectivePlacements,
+  flipPlacements,
   filterValidFlipPlacements,
   getEffectivePlacement,
   placements,
@@ -199,6 +199,6 @@ it("should have correct value for defaultOffsetDistance", () => {
 
 it("should filter valid placements", () => {
   expect(new Set(filterValidFlipPlacements([...placements], document.createElement("div")))).toEqual(
-    new Set(effectivePlacements),
+    new Set(flipPlacements),
   );
 });

@@ -117,7 +117,7 @@ export const positionFloatingUI =
       middleware: getMiddleware({
         placement,
         flipDisabled,
-        flipPlacements: flipPlacements.map((placement) => getEffectivePlacement(floatingEl, placement)),
+        flipPlacements: flipPlacements?.map((placement) => getEffectivePlacement(floatingEl, placement)),
         offsetDistance,
         offsetSkidding,
         arrowEl,
