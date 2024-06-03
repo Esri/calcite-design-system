@@ -103,7 +103,7 @@
     "quicktype-core": "23.0.168",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "rimraf": "5.0.5",
+    "rimraf": "5.0.7",
     "rollup": "4.17.2",
     "semver": "7.6.0",
     "shell-quote": "1.8.1",
