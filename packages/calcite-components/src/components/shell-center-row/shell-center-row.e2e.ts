@@ -108,9 +108,10 @@ describe("theme", () => {
   `;
   describe("default", () => {
     const tokens: ComponentTestTokens = {
-      // "--calcite-shell-center-row-border-color": {
-      //   targetProp: "borderColor",
-      // },
+      "--calcite-shell-center-row-border-color": {
+        shadowSelector: `calcite-action-bar`,
+        targetProp: "borderColor",
+      },
       "--calcite-shell-center-row-border-radius": {
         targetProp: "borderRadius",
       },
@@ -121,5 +122,3 @@ describe("theme", () => {
     themed(shellCenterHtml, tokens);
   });
 });
-
-// --calcite-shell-center-row-border-color
