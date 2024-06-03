@@ -232,7 +232,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           ref={this.setTransitionEl}
         >
           {effectiveIcon && this.renderIcon(effectiveIcon)}
-          <div class={CSS.textContainer}>
+          <div
+            class={CSS.textContainer}
+            onFocusin={this.autoClose && this.autoCloseTimeoutId ? this.handleKeyBoardFocus : null}
+            onFocusout={
+              this.autoClose && this.autoCloseTimeoutId ? this.handleKeyBoardUnfocus : null
+            }
+          >
             <slot name={SLOTS.title} />
             <slot name={SLOTS.message} />
             <slot name={SLOTS.link} />
@@ -245,6 +251,20 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       </Host>
     );
   }
+
+  private handleKeyBoardFocus = (): void => {
+    this.transitionEl.classList.add("focused");
+    this.keyBoardFocus = true;
+    this.handleFocus();
+  };
+
+  private handleKeyBoardUnfocus = (): void => {
+    this.transitionEl.classList.remove("focused");
+    this.keyBoardFocus = false;
+    if (!this.mouseFocus) {
+      this.handleUnfocus();
+    }
+  };
 
   private renderCloseButton(): VNode {
     return (
@@ -447,6 +467,10 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   transitionEl: HTMLDivElement;
 
+  keyBoardFocus: boolean;
+
+  mouseFocus: boolean;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -510,12 +534,24 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   };
 
   private handleMouseOver = (): void => {
+    this.mouseFocus = true;
+    this.handleFocus();
+  };
+
+  private handleMouseLeave = (): void => {
+    this.mouseFocus = false;
+    if (!this.keyBoardFocus) {
+      this.handleUnfocus();
+    }
+  };
+
+  private handleFocus = (): void => {
     window.clearTimeout(this.autoCloseTimeoutId);
     this.totalOpenTime = Date.now() - this.initialOpenTime;
     this.lastMouseOverBegin = Date.now();
   };
 
-  private handleMouseLeave = (): void => {
+  private handleUnfocus = (): void => {
     const hoverDuration = Date.now() - this.lastMouseOverBegin;
     const timeRemaining =
       DURATIONS[this.autoCloseDuration] - this.totalOpenTime + this.totalHoverTime;

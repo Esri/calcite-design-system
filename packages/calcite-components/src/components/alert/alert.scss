@@ -296,6 +296,13 @@ $alertDurations:
   :host(:hover[auto-close-duration="#{$name}"]) .dismiss-progress:after {
     animation-play-state: paused;
   }
+  :host(:focus[auto-close-duration="#{$name}"]) .dismiss-progress:after {
+    animation-play-state: paused;
+  }
+}
+
+.container.focused .dismiss-progress:after {
+  animation-play-state: paused;
 }
 
 @keyframes dismissProgress {
