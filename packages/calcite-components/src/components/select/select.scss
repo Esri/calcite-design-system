@@ -5,6 +5,7 @@
  *
  * @prop --calcite-select-font-size: The font size of `calcite-option`s in the component.
  * @prop --calcite-select-spacing: The padding around the selected option text.
+ * @prop --calcite-select-text-color: The text color of the component.
  */
 
 :host {
@@ -92,6 +93,7 @@
     truncate
     rounded-none
     border-solid;
+  color: var(--calcite-select-text-color, var(--calcite-color-text-2));
   border-width: var(--calcite-select-internal-border-width, 1px);
   font-size: var(--calcite-select-font-size);
   padding-inline: var(--calcite-select-spacing-inline);

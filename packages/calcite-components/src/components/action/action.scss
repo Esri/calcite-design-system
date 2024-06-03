@@ -4,6 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-action-indicator-color: Specifies the color of the component's indicator.
+ * @prop --calcite-internal-action-padding-block: Specifies the padding-top of the component.
  */
 
 :host {
@@ -95,7 +96,8 @@
 
 :host([scale="s"]) {
   .button {
-    @apply text-n2h px-2 py-1 font-normal;
+    @apply text-n2h px-2  font-normal;
+    padding-block: var(--calcite-internal-action-padding-block, 0.25rem);
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.2");
@@ -105,6 +107,7 @@
 :host([scale="m"]) {
   .button {
     @apply text-n1h px-4 py-3 font-normal;
+    padding-block: var(--calcite-internal-action-padding-block, 0.75rem);
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.3");
@@ -113,7 +116,8 @@
 
 :host([scale="l"]) {
   .button {
-    @apply text-0h p-5 font-normal;
+    @apply text-0h px-5 font-normal;
+    padding-block: var(--calcite-internal-action-padding-block, 1.25rem);
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.4");

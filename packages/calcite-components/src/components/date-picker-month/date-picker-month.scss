@@ -4,10 +4,6 @@
   @apply flex w-full;
 }
 
-:host([range]) .calendar-container {
-  gap: 0.75rem;
-}
-
 :host([range][layout="vertical"]) .calendar-container {
   @apply flex-col;
 }
@@ -99,4 +95,16 @@
   .day {
     font-size: var(--calcite-font-size-md);
   }
+}
+
+.calendar--start {
+  @apply border-solid border-color-1 border-0;
+}
+
+:host([range][layout="horizontal"]) .calendar--start {
+  border-inline-end-width: 1px;
+}
+
+:host([range][layout="vertical"]) .calendar--start {
+  border-block-end-width: 1px;
 }

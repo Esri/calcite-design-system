@@ -3,6 +3,7 @@
   --calcite-select-internal-border-width: 0px;
   --calcite-select-internal-icon-border-inline-end-width: 0px;
   --calcite-select-font-weight: 500;
+  --calcite-select-text-color: var(--calcite-color-text-1);
 }
 
 .header {
@@ -24,7 +25,7 @@
   }
 
   .chevron-container {
-    inline-size: #{$calcite-size-24};
+    min-inline-size: #{$calcite-size-24};
     block-size: #{$calcite-size-24};
   }
 }
@@ -40,8 +41,9 @@
   }
 
   .chevron-container {
-    inline-size: #{$calcite-size-28};
+    min-inline-size: #{$calcite-size-32};
     block-size: #{$calcite-size-32};
+    --calcite-internal-action-padding-block: 0.25rem;
   }
 }
 
@@ -56,8 +58,9 @@
   }
 
   .chevron-container {
-    min-inline-size: #{$calcite-size-36};
-    min-block-size: #{$calcite-size-44};
+    min-inline-size: #{$calcite-size-44};
+    block-size: #{$calcite-size-44};
+    --calcite-internal-action-padding-block: 0.625rem;
   }
 }
 
@@ -76,7 +79,7 @@
     transition-default 
     w-full 
     h-full;
-
+  --calcite-internal-action-padding-block: 0;
   &:focus {
     @apply focus-inset;
   }
@@ -89,9 +92,8 @@
   &:active {
     @apply bg-foreground-3;
   }
-
   &[aria-disabled="true"] {
-    @apply pointer-events-none opacity-0;
+    @apply pointer-events-none;
   }
 }
 

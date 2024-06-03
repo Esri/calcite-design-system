@@ -26,7 +26,6 @@ import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
-import { getIconScale } from "../../utils/component";
 import { CSS, ICON } from "./resources";
 
 @Component({
@@ -202,22 +201,20 @@ export class DatePickerMonthHeader {
   private renderChevron(direction: "left" | "right"): VNode {
     const activeMonth = this.activeDate.getMonth();
     return (
-      <a
+      <calcite-action
+        alignment={"center"}
         aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
         aria-label={direction === "right" ? this.messages.nextMonth : this.messages.prevMonth}
         class={CSS.chevron}
-        href="#"
+        compact={true}
+        disabled={this.nextMonthDate.getMonth() === activeMonth}
+        icon={direction === "right" ? ICON.chevronRight : ICON.chevronLeft}
         onClick={direction === "right" ? this.nextMonthClick : this.prevMonthClick}
         onKeyDown={direction === "right" ? this.nextMonthKeydown : this.prevMonthKeydown}
         role="button"
-        tabindex={this.nextMonthDate.getMonth() === activeMonth ? -1 : 0}
-      >
-        <calcite-icon
-          flip-rtl
-          icon={direction === "right" ? ICON.chevronRight : ICON.chevronLeft}
-          scale={getIconScale(this.scale)}
-        />
-      </a>
+        scale={this.scale === "l" ? "l" : "m"}
+        text={direction === "right" ? this.messages.nextMonth : this.messages.prevMonth}
+      />
     );
   }
 

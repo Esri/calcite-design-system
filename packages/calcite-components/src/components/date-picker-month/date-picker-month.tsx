@@ -533,7 +533,12 @@ export class DatePickerMonth {
 
   private renderCalendar(weekDays: string[], days: Day[], isNextMonth = false): VNode {
     return (
-      <div class="calendar">
+      <div
+        class={{
+          calendar: true,
+          "calendar--start": !isNextMonth,
+        }}
+      >
         <calcite-date-picker-month-header
           activeDate={isNextMonth ? nextMonth(this.activeDate) : this.activeDate}
           headingLevel={this.headingLevel}
