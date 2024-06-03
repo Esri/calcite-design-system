@@ -302,7 +302,7 @@ export class Popover
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.setUpReferenceElement();
+    this.setUpReferenceElement(true);
 
     if (this.open) {
       onToggleOpenCloseComponent(this);
