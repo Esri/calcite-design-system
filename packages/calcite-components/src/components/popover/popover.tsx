@@ -293,6 +293,10 @@ export class Popover
     connectLocalized(this);
     connectMessages(this);
     connectFocusTrap(this);
+
+    // we set up the ref element in the next frame to ensure PopoverManager
+    // event handlers are invoked after connect (mainly for `components` output target)
+    requestAnimationFrame(() => this.setUpReferenceElement(this.hasLoaded));
   }
 
   async componentWillLoad(): Promise<void> {
@@ -302,11 +306,14 @@ export class Popover
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.setUpReferenceElement(true);
+    if (this.referenceElement && !this.effectiveReferenceElement) {
+      this.setUpReferenceElement();
+    }
 
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
+    this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {
