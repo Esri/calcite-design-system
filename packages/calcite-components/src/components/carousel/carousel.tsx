@@ -41,10 +41,9 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { getRoundRobinIndex } from "../../utils/array";
-import { ArrowType } from "../interfaces";
 import { CSS, DURATION, ICONS } from "./resources";
 import { CarouselMessages } from "./assets/carousel/t9n";
-import { AutoplayType } from "./interfaces";
+import { ArrowType, AutoplayType } from "./interfaces";
 
 /**
  * @slot - A slot for adding `calcite-carousel-item`s.

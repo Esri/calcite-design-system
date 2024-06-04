@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Alignment, Appearance, ArrowType, Columns, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+import { Alignment, Appearance, Columns, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 import { ActionMessages } from "./components/action/assets/action/t9n";
@@ -23,7 +23,7 @@ import { BlockSectionMessages } from "./components/block-section/assets/block-se
 import { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
 import { ButtonMessages } from "./components/button/assets/button/t9n";
 import { CardMessages } from "./components/card/assets/card/t9n";
-import { AutoplayType } from "./components/carousel/interfaces";
+import { ArrowType, AutoplayType } from "./components/carousel/interfaces";
 import { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 import { MutableValidityState } from "./utils/form";
 import { ChipMessages } from "./components/chip/assets/chip/t9n";
@@ -95,7 +95,7 @@ import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
 import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
-export { Alignment, Appearance, ArrowType, Columns, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+export { Alignment, Appearance, Columns, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 export { ActionMessages } from "./components/action/assets/action/t9n";
@@ -113,7 +113,7 @@ export { BlockSectionMessages } from "./components/block-section/assets/block-se
 export { ButtonAlignment, DropdownIconType } from "./components/button/interfaces";
 export { ButtonMessages } from "./components/button/assets/button/t9n";
 export { CardMessages } from "./components/card/assets/card/t9n";
-export { AutoplayType } from "./components/carousel/interfaces";
+export { ArrowType, AutoplayType } from "./components/carousel/interfaces";
 export { CarouselMessages } from "./components/carousel/assets/carousel/t9n";
 export { MutableValidityState } from "./utils/form";
 export { ChipMessages } from "./components/chip/assets/chip/t9n";
@@ -5252,10 +5252,7 @@ export namespace Components {
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
-        "layout": Exclude<
-    Layout,
-    "grid" | "inline" | "center" | "auto" | "fixed" | "none" | "horizontal-single"
-  >;
+        "layout": Extract<Layout, "horizontal" | "vertical">;
         /**
           * Specifies the size of the component.
          */
@@ -5296,10 +5293,7 @@ export namespace Components {
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
-        "layout": Exclude<
-    Layout,
-    "grid" | "inline" | "center" | "auto" | "fixed" | "none" | "horizontal-single"
-  >;
+        "layout": Extract<Layout, "horizontal" | "vertical">;
         /**
           * Specifies the size of the component.
          */
@@ -13216,10 +13210,7 @@ declare namespace LocalJSX {
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
-        "layout"?: Exclude<
-    Layout,
-    "grid" | "inline" | "center" | "auto" | "fixed" | "none" | "horizontal-single"
-  >;
+        "layout"?: Extract<Layout, "horizontal" | "vertical">;
         "onCalciteInternalTileKeyEvent"?: (event: CalciteTileCustomEvent<KeyboardEvent>) => void;
         /**
           * Fires when the selected state of the component changes.
@@ -13261,10 +13252,7 @@ declare namespace LocalJSX {
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
-        "layout"?: Exclude<
-    Layout,
-    "grid" | "inline" | "center" | "auto" | "fixed" | "none" | "horizontal-single"
-  >;
+        "layout"?: Extract<Layout, "horizontal" | "vertical">;
         /**
           * Fires when the component's selection changes.
          */

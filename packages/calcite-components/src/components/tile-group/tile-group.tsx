@@ -53,10 +53,7 @@ export class TileGroup implements InteractiveComponent, SelectableGroupComponent
    *
    * Use `"horizontal"` for rows, and `"vertical"` for a single column.
    */
-  @Prop({ reflect: true }) layout: Exclude<
-    Layout,
-    "grid" | "inline" | "center" | "auto" | "fixed" | "none" | "horizontal-single"
-  > = "horizontal";
+  @Prop({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
   /**
    * Specifies the size of the component.
