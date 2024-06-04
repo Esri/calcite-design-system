@@ -268,11 +268,8 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
 
             {this.renderIcon(this.iconEnd)}
             {this.renderStatusIcon()}
-            {/* we use calcite-label to use a simple component that will allow us to prevent keyboard focus by setting tabindex="-1" on the host */}
+            <calcite-switch checked={open} class={CSS.switch} inert label={toggleLabel} scale="s" />
           </div>
-          <calcite-label class={CSS.label} layout="inline" tabIndex={-1}>
-            <calcite-switch checked={open} class={CSS.switch} label={toggleLabel} scale="s" />
-          </calcite-label>
         </div>
       ) : (
         <div
