@@ -100,7 +100,7 @@
     "postcss": "8.4.38",
     "prettier": "3.2.5",
     "puppeteer": "21.5.0",
-    "quicktype-core": "23.0.168",
+    "quicktype-core": "23.0.170",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "rimraf": "5.0.7",
