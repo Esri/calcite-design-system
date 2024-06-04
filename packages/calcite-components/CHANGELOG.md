@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.5...@esri/calcite-components@2.8.6) (2024-06-04)
+
+
+### Bug Fixes
+
+* **popover:** Prevent closing when component is connected to the DOM via a click ([#9501](https://github.com/Esri/calcite-design-system/issues/9501)) ([9ede090](https://github.com/Esri/calcite-design-system/commit/9ede090e2ac3dbcd540bbdbe8cf49754f861d1f2))
+
 ## [2.8.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.8.4...@esri/calcite-components@2.8.5) (2024-05-30)
 
 
