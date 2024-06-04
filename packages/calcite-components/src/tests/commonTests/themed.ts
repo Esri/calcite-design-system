@@ -13,6 +13,8 @@ interface TargetInfo {
   shadowSelector: string;
 }
 
+const pseudoElementPattern = /:{1,2}(before|after)/;
+
 /**
  * This object that represents component tokens and their respective test options.
  */
@@ -126,7 +128,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
           styleTargets[selector][1].push(tokenStyle);
         }
         if (shadowSelector) {
-          const effectiveShadowSelector = shadowSelector.replace(/::.*$/, "");
+          const effectiveShadowSelector = shadowSelector.replace(pseudoElementPattern, "");
           target.el = await page.find(`${selector} >>> ${effectiveShadowSelector}`);
         }
         if (state && typeof state !== "string") {
@@ -291,7 +293,7 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
   await page.waitForChanges();
 
   const targetEl = target.el;
-  const pseudoElement = target.shadowSelector?.match(/::(before|after)/)?.[0] ?? undefined;
+  const pseudoElement = target.shadowSelector?.match(pseudoElementPattern)?.[0] ?? undefined;
 
   if (contextSelector) {
     const rect = (await page.evaluate((context: TestTarget["contextSelector"]) => {
