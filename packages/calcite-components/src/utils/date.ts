@@ -145,7 +145,7 @@ export function datePartsFromLocalizedString(
 }
 
 /**
- * Return first portion of ISO string (YYYY-mm-dd)
+ * Return the date portion in local time of a Date object in ISO 8601 format (YYYY-MM-DD)
  *
  * @param date
  */
