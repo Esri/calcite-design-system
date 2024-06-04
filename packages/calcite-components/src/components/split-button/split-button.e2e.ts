@@ -1,6 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, disabled, focusable, hidden, renders } from "../../tests/commonTests";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-split-button", () => {
   describe("defaults", () => {
@@ -239,5 +241,118 @@ describe("calcite-split-button", () => {
     await page.keyboard.press("Enter");
     await dropdownCloseEvent;
     expect(await group.isVisible()).toBe(false);
+  });
+
+  describe("theme", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-split-button-background-color-active": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-background-color",
+        state: { press: { attribute: "appearance", value: "solid" } },
+      },
+      "--calcite-split-button-background-color-focus": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-background-color",
+        state: "focus",
+      },
+      "--calcite-split-button-background-color-hover": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-background-color",
+        state: "hover",
+      },
+      "--calcite-split-button-background-color": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-background-color",
+      },
+      "--calcite-split-button-border-color-active": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-border-color",
+        state: { press: { attribute: "appearance", value: "solid" } },
+      },
+      "--calcite-split-button-border-color-focus": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-border-color",
+        state: "focus",
+      },
+      "--calcite-split-button-border-color-hover": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-border-color",
+        state: "hover",
+      },
+      "--calcite-split-button-border-color": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-border-color",
+      },
+      "--calcite-split-button-corner-radius": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-corner-radius",
+      },
+      "--calcite-split-button-divider-color": {
+        shadowSelector: `.${CSS.divider}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-split-button-icon-color-active": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-icon-color",
+        state: { press: { attribute: "appearance", value: "solid" } },
+      },
+      "--calcite-split-button-icon-color-focus": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-icon-color",
+        state: "focus",
+      },
+      "--calcite-split-button-icon-color-hover": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-icon-color",
+        state: "hover",
+      },
+      "--calcite-split-button-icon-color": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-icon-color",
+      },
+      "--calcite-split-button-loader-color": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-loader-color",
+      },
+      "--calcite-split-button-shadow-active": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-shadow",
+        state: { press: { attribute: "appearance", value: "solid" } },
+      },
+      "--calcite-split-button-shadow-focus": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-shadow",
+        state: "focus",
+      },
+      "--calcite-split-button-shadow-hover": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-shadow",
+        state: "hover",
+      },
+      "--calcite-split-button-shadow": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-shadow",
+      },
+      "--calcite-split-button-text-color-active": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-text-color",
+        state: { press: { attribute: "appearance", value: "solid" } },
+      },
+      "--calcite-split-button-text-color-focus": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-text-color",
+        state: "focus",
+      },
+      "--calcite-split-button-text-color-hover": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-text-color",
+        state: "hover",
+      },
+      "--calcite-split-button-text-color": {
+        shadowSelector: "calcite-button",
+        targetProp: "--calcite-button-text-color",
+      },
+    };
+    themed(`<calcite-split-button primary-text="Button" loading />`, tokens);
   });
 });

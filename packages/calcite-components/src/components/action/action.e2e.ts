@@ -226,8 +226,8 @@ describe("calcite-action", () => {
           targetProp: "--calcite-icon-color",
         },
         "--calcite-action-indicator-color": {
-          shadowSelector: `.${CSS.actionIndicator}`,
-          targetProp: "color",
+          shadowSelector: `.${CSS.actionIndicator}::after`,
+          targetProp: "background-color",
         },
       } as const;
       themed(

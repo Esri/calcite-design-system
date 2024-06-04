@@ -66,9 +66,7 @@
     border-0
     border-solid
     no-underline
-    outline-none
-    duration-150
-    ease-in-out;
+    outline-none;
   border-block-start-width: var(--calcite-spacing-base);
   border-color: var(
     --calcite-stepper-item-border-color,
@@ -88,19 +86,16 @@
   @apply flex cursor-pointer items-start;
 }
 
-.stepper-item-content,
-.stepper-item-header {
-  @apply duration-150 ease-in-out;
-  padding-block: var(--calcite-internal-stepper-item-space-unit-l);
-  padding-inline-end: var(--calcite-internal-stepper-item-space-unit-m);
+:host .stepper-item-content,
+:host .stepper-item-header {
+  padding-block: var(--calcite-stepper-item-spacing-unit-l);
+  padding-inline-end: var(--calcite-stepper-item-spacing-unit-m);
   text-align: start;
 }
 
 .stepper-item-header * {
   @apply inline-flex
-    items-center
-    duration-150
-    ease-in-out;
+    items-center;
 }
 
 .stepper-item-content {
@@ -117,10 +112,8 @@
     inline-flex
     h-3
     flex-shrink-0
-    self-start
-    duration-150
-    ease-in-out;
-  color: var(
+    self-start;
+  --calcite-icon-color: var(
     --calcite-stepper-item-icon-color,
     var(--calcite-internal-stepper-item-icon-color, var(--calcite-color-text-3))
   );
@@ -275,12 +268,6 @@
     padding-block: 0;
     padding-inline-end: var(--calcite-internal-stepper-item-space-unit-m);
     text-align: start;
-  }
-}
-
-:host([layout="vertical"]) {
-  .stepper-item-header:focus {
-    @apply duration-0;
   }
 }
 

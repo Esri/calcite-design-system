@@ -4,8 +4,8 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-text-area-background-color: Specifies the background color of the component.
- * @prop --calcite-text-area-border-block-end-color: Specifies the border block end color of the component.
  * @prop --calcite-text-area-border-color: Specifies the border color of the component.
+ * @prop --calcite-text-area-color-invalid: Specifies the color used to indicate an invalid state.
  * @prop --calcite-text-area-character-limit-text-color: Specifies the color of the character limit text displayed in footer of the component.
  * @prop --calcite-text-area-text-color: Specifies the color of text in the component.
  *
@@ -16,36 +16,21 @@
   relative
   w-full
   h-full;
-  --calcite-text-area-text-color: var(--calcite-color-text-1);
-  --calcite-text-area-background-color: var(--calcite-color-foreground-1);
-  --calcite-text-area-border-color: var(--calcite-color-border-input);
-  --calcite-text-area-border-block-end-color: var(--calcite-color-border-3);
-  --calcite-text-area-character-limit-text-color: var(--calcite-color-text-2);
-}
-
-textarea,
-.footer {
-  @apply text-n1;
-  padding-block: var(--calcite-spacing-sm);
-  padding-inline: var(--calcite-spacing-md);
 }
 
 textarea {
-  @apply relative
-  font-sans
-  block
-  box-border
-  w-full
-  m-0;
-
-  background-color: var(--calcite-text-area-background-color);
-  border: var(--calcite-border-width-sm) solid var(--calcite-text-area-border-color);
-  border-block-end-width: var(--calcite-border-width-sm);
-  border-block-end-style: solid;
-  border-block-end-color: var(--calcite-text-area-border-block-end-color);
-  color: var(--calcite-text-area-text-color);
-  font-family: var(--calcite-sans-family);
+  @apply font-sans
+    relative
+    block
+    box-border
+    border
+    w-full
+    m-0;
   min-inline-size: theme("spacing.48");
+  border-block-end: 1px solid var(--calcite-color-border-3);
+  color: var(--calcite-text-area-text-color, var(--calcite-color-text-1));
+  background-color: var(--calcite-text-area-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
 
   @media screen and (max-width: 480px) {
     @apply resize-none;
@@ -54,9 +39,13 @@ textarea {
   &:focus {
     @apply focus-inset;
   }
+
   &.text-area--invalid {
-    --calcite-text-area-border-color: var(--calcite-color-status-danger);
-    --calcite-text-area-border-block-end-color: var(--calcite-color-status-danger);
+    @apply border
+    border-solid
+    border-b;
+    border-color: var(--calcite-text-area-color-invalid, var(--calcite-color-status-danger));
+
     &:focus {
       @apply focus-inset-danger;
     }
@@ -69,40 +58,128 @@ textarea {
 .footer {
   @apply flex
   box-border
+  border
+  border-solid
+  border-t-0
   items-center;
-  background-color: var(--calcite-text-area-background-color);
-  border: var(--calcite-border-width-sm) solid var(--calcite-text-area-border-color);
-  border-block-start: var(--calcite-border-width-none);
-  min-block-size: 2.25rem;
+
+  background-color: var(--calcite-text-area-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
 }
 
 .character-limit {
-  @apply text-n1
-  flex
+  @apply flex
   justify-end
   items-center
+  font-normal
   whitespace-nowrap;
 
-  font-weight: var(--calcite-font-weight-regular);
-  color: var(--calcite-text-area-character-limit-text-color);
-  padding-inline-start: var(--calcite-spacing-md);
+  color: var(--calcite-text-area-character-limit-text-color, var(--calcite-color-text-2));
 }
 
 .character--over-limit {
-  font-weight: var(--calcite-font-weight-bold);
-  color: var(--calcite-color-status-danger);
+  @apply font-bold
+  text-danger;
+
+  color: var(--calcite-text-area-color-invalid, var(--calcite-color-status-danger));
+}
+
+:host([resize="none"]) textarea {
+  @apply resize-none;
+}
+
+:host([resize="horizontal"]) textarea {
+  @apply resize-x;
+}
+
+:host([resize="vertical"]) textarea {
+  @apply resize-y;
+}
+
+:host([scale="s"]) {
+  @apply text-n2;
+  .footer {
+    @apply py-1
+    px-2;
+    min-block-size: 1.75rem;
+  }
+  textarea {
+    @apply py-1
+    px-2;
+  }
+
+  textarea,
+  .footer,
+  .character-limit {
+    @apply text-n2
+    pl-2;
+  }
+}
+
+:host([scale="m"]) {
+  textarea {
+    @apply py-2
+    px-3;
+  }
+  .footer {
+    @apply py-2
+    px-3;
+    min-block-size: 2.25rem;
+  }
+
+  textarea,
+  .footer,
+  .character-limit {
+    @apply text-n1
+    pl-3;
+  }
+}
+
+:host([scale="l"]) {
+  @apply text-0;
+  textarea {
+    @apply py-3
+    px-4;
+  }
+  .footer {
+    @apply py-3
+    px-4;
+    min-block-size: 2.75rem;
+  }
+
+  textarea,
+  .footer,
+  .character-limit {
+    @apply text-0
+    pl-4;
+  }
+}
+
+:host([status="invalid"]) {
+  textarea {
+    border-color: var(--calcite-text-area-color-invalid, var(--calcite-color-status-danger));
+  }
+  textarea:focus {
+    @apply focus-inset-danger;
+  }
 }
 
 .readonly {
-  background-color: var(--calcite-color-background);
-  font-weight: var(--calcite-font-weight-medium);
+  @apply font-medium;
+  background-color: var(--calcite-text-area-background-color-readonly, var(--calcite-color-background));
 }
 
 .border--color {
-  border-block-end: 1px solid var(--calcite-text-area-border-color);
+  @apply border-b;
+  border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
+
   &:focus {
-    border-block-end-width: var(--calcite-border-width-sm);
+    @apply border-b-2;
   }
+}
+
+textarea.block-size--full {
+  @apply h-full;
 }
 
 .content,
@@ -122,89 +199,6 @@ textarea {
 
 .assistive-text {
   @apply sr-only;
-}
-
-textarea.block-size--full {
-  @apply h-full;
-}
-
-:host([resize="none"]) textarea {
-  @apply resize-none;
-}
-
-:host([resize="horizontal"]) textarea {
-  @apply resize-x;
-}
-
-:host([resize="vertical"]) textarea {
-  @apply resize-y;
-}
-
-:host([scale="s"]) {
-  textarea,
-  .footer,
-  .character-limit {
-    @apply text-n2
-    pl-2;
-  }
-
-  .footer {
-    min-block-size: 1.75rem;
-  }
-  textarea {
-    @apply py-1
-    px-2;
-  }
-}
-
-:host([scale="m"]) {
-  textarea {
-    @apply py-2
-    px-3;
-  }
-  .footer {
-    @apply py-2
-    px-3;
-    min-block-size: 2.25rem;
-  }
-}
-
-:host([scale="l"]) {
-  textarea,
-  .footer {
-    @apply text-0;
-    padding-block: var(--calcite-spacing-md);
-    padding-inline: var(--calcite-spacing-xl);
-  }
-  .footer {
-    min-block-size: 2.75rem;
-  }
-}
-
-:host([scale="l"]) {
-  textarea,
-  .footer,
-  .character-limit {
-    @apply text-0;
-    padding-inline-start: var(--calcite-spacing-xl);
-  }
-}
-
-:host([status="invalid"]) {
-  textarea {
-    --calcite-text-area-border-color: var(--calcite-color-status-danger);
-    --calcite-text-area-border-block-end-color: var(--calcite-color-status-danger);
-  }
-  textarea:focus {
-    @apply focus-inset-danger;
-  }
-}
-
-:host([disabled]) {
-  textarea,
-  .footer {
-    opacity: var(--calcite-opacity-half);
-  }
 }
 
 @include form-validation-message();

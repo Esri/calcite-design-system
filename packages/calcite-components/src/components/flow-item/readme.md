@@ -65,6 +65,8 @@ promise.
 | ------------------------ | ------------------------------------------------------------------------------------------------------------ |
 |                          | A slot for adding custom content.                                                                            |
 | `"action-bar"`           | A slot for adding a `calcite-action-bar` to the component.                                                   |
+| `"content-bottom"`       | A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)          |
+| `"content-top"`          | A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).     |
 | `"fab"`                  | A slot for adding a `calcite-fab` (floating action button) to perform an action.                             |
 | `"footer"`               | A slot for adding custom content to the component's footer.                                                  |
 | `"footer-actions"`       | [Deprecated] Use the `"footer"` slot instead. A slot for adding `calcite-button`s to the component's footer. |

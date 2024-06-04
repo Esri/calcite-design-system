@@ -1,20 +1,45 @@
-import { select, number, text } from "../../../.storybook/fake-knobs";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { boolean } from "../../../.storybook/helpers";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { arrowType } = ATTRIBUTES;
+
+interface CarouselArgs {
+  controlOverlay: boolean;
+  disabled: boolean;
+  autoPlayDuration: number;
+  autoPlay: boolean;
+  label: string;
+  arrowType: string;
+}
 
 export default {
   title: "Components/Carousel",
+  args: {
+    controlOverlay: false,
+    disabled: false,
+    autoPlayDuration: 6000,
+    autoPlay: false,
+    label: "Example carousel label",
+    arrowType: arrowType.defaultValue,
+  },
+  argTypes: {
+    arrowType: {
+      options: arrowType.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string =>
+export const simple = (args: CarouselArgs): string =>
   html` <div style="width:600px;height:400px;">
     <calcite-carousel
-      ${boolean("control-overlay", false)}
-      ${boolean("disabled", false)}
-      ${number("autoplay-duration", 6000)}
-      ${text("label", "Example carousel label")}
-      arrow-type="${select("arrow-type", ["inline", "edge", "none"], "inline")}"
+      control-overlay="${args.controlOverlay}"
+      ${boolean("disabled", args.disabled)}
+      autoplay-duration="${args.autoPlayDuration}"
+      ${boolean("autoplay", args.autoPlay)}
+      label="${args.label}"
+      arrow-type="${args.arrowType}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -59,7 +84,7 @@ export const carouselAutoplayFullImageWithOverlayAndEdge = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;
@@ -89,7 +114,7 @@ export const carouselAutoplayFullImageWithNoOverlay = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;
@@ -119,7 +144,7 @@ export const carouselFullImageWithOverlay = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;
@@ -203,7 +228,7 @@ export const themed_simple = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;
@@ -264,7 +289,7 @@ export const themed_carouselFullImageWithOverlay = (): string =>
     <style>
       .bg-image-example {
         color: red;
-        background-image: url("https://placebear.com/3000/2000");
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
         background-size: cover;
         padding: 1rem;
         height: 300px;

@@ -1,7 +1,9 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { accessible, focusable, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-menu-item", () => {
   describe("renders", () => {
@@ -114,5 +116,91 @@ describe("calcite-menu-item", () => {
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("Nature");
     expect(eventSpy).toHaveReceivedEventTimes(2);
+  });
+});
+
+describe("theme", () => {
+  const menuItemHtml = html`
+    <calcite-menu layout="vertical">
+      <calcite-menu-item text="Example submenu item 2" text-enabled href="https://esri.com">
+        <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
+      </calcite-menu-item>
+    </calcite-menu>
+  `;
+  const dropdownMenuItems = html`
+    <calcite-menu layout="horizontal">
+      <calcite-menu-item text="Example item" text-enabled icon-start="layer" icon-end="layer" breadcrumb open>
+        <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
+        <calcite-menu-item slot="submenu-item" text="Example submenu item 2" text-enabled href="https://esri.com">
+          <calcite-menu-item slot="submenu-item" text="Example submenu item 1" text-enabled></calcite-menu-item>
+        </calcite-menu-item>
+      </calcite-menu-item>
+    </calcite-menu>
+  `;
+  describe("default", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-menu-item-action-background-color-active": {
+        shadowSelector: "calcite-action",
+        targetProp: "--calcite-action-background-color",
+        state: { press: { attribute: "class", value: CSS.dropdownAction } },
+      },
+      "--calcite-menu-item-action-background-color-hover": {
+        shadowSelector: "calcite-action",
+        targetProp: "--calcite-action-background-color",
+        state: "hover",
+      },
+      "--calcite-menu-item-action-background-color": {
+        shadowSelector: `calcite-action`,
+        targetProp: "--calcite-action-background-color",
+      },
+      "--calcite-menu-item-sub-menu-corner-radius": {
+        shadowSelector: `.dropdown--vertical`,
+        targetProp: "borderRadius",
+      },
+      "--calcite-menu-item-background-color": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-menu-item-border-color": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "borderColor",
+      },
+    };
+    themed(async () => {
+      const page = await newE2EPage();
+      await page.setContent(menuItemHtml);
+      await page.waitForChanges();
+      return { tag: "calcite-menu-item", page };
+    }, tokens);
+  });
+
+  describe("dropdownMenuItems", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-menu-item-background-color": {
+        shadowSelector: `.${CSS.dropdownMenuItems}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-menu-item-icon-color": {
+        shadowSelector: `.${CSS.container} .${CSS.icon}`,
+        targetProp: "--calcite-icon-color",
+      },
+      "--calcite-menu-item-text-color": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "color",
+      },
+      "--calcite-menu-item-sub-menu-border-color": {
+        shadowSelector: `.${CSS.dropdownMenuItems}`,
+        targetProp: "borderColor",
+      },
+    };
+    themed(async () => {
+      const page = await newE2EPage();
+      await page.setContent(dropdownMenuItems);
+      const menuItem = await page.find("calcite-menu-item");
+      await menuItem.click();
+      await page.waitForChanges();
+      menuItem.setProperty("open", true);
+      return { tag: "calcite-menu-item", page };
+    }, tokens);
   });
 });
