@@ -27,7 +27,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
 import {
   connectMessages,
   disconnectMessages,
@@ -133,8 +132,6 @@ export class InlineEditable
     connectLabel(this);
     connectLocalized(this);
     connectMessages(this);
-    this.mutationObserver?.observe(this.el, { childList: true });
-    this.mutationObserverCallback();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -151,7 +148,6 @@ export class InlineEditable
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-    this.mutationObserver?.disconnect();
   }
 
   componentDidRender(): void {
@@ -167,7 +163,7 @@ export class InlineEditable
           onKeyDown={this.escapeKeyHandler}
         >
           <div class={CSS.inputWrapper}>
-            <slot />
+            <slot onSlotchange={this.handleSlotChange} />
           </div>
           <div class={CSS.controlsWrapper}>
             <calcite-button
@@ -278,8 +274,6 @@ export class InlineEditable
 
   labelEl: HTMLCalciteLabelElement;
 
-  mutationObserver = createObserver("mutation", () => this.mutationObserverCallback());
-
   @State() defaultMessages: InlineEditableMessages;
 
   @State() effectiveLocale: string;
@@ -309,11 +303,6 @@ export class InlineEditable
   //
   //--------------------------------------------------------------------------
 
-  mutationObserverCallback(): void {
-    this.updateSlottedInput();
-    this.scale = this.scale || this.inputElement?.scale;
-  }
-
   onLabelClick(): void {
     this.setFocus();
   }
@@ -324,6 +313,7 @@ export class InlineEditable
     });
 
     this.inputElement = inputElement;
+    this.scale = this.scale || inputElement?.scale;
 
     if (!inputElement) {
       return;
@@ -417,4 +407,6 @@ export class InlineEditable
       this.loading = false;
     }
   };
+
+  private handleSlotChange = (): void => this.updateSlottedInput();
 }

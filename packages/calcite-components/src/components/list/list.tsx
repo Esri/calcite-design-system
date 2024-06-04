@@ -21,7 +21,6 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { createObserver } from "../../utils/observers";
 import { SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
@@ -406,8 +405,6 @@ export class List
 
     connectLocalized(this);
     connectMessages(this);
-    this.connectObserver();
-    this.updateListItems();
     this.setUpSorting();
     connectInteractive(this);
     this.setParentList();
@@ -431,7 +428,6 @@ export class List
       return;
     }
 
-    this.disconnectObserver();
     disconnectSortableComponent(this);
     disconnectInteractive(this);
     disconnectLocalized(this);
@@ -474,8 +470,6 @@ export class List
   @State() hasFilterNoResults = false;
 
   listItems: HTMLCalciteListItemElement[] = [];
-
-  mutationObserver = createObserver("mutation", () => this.updateListItems());
 
   visibleItems: HTMLCalciteListItemElement[] = [];
 
@@ -637,14 +631,6 @@ export class List
     ) : null;
   }
 
-  private connectObserver(): void {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-  }
-
-  private disconnectObserver(): void {
-    this.mutationObserver?.disconnect();
-  }
-
   private setUpSorting(): void {
     const { dragEnabled } = this;
 
@@ -653,14 +639,6 @@ export class List
     }
 
     connectSortableComponent(this);
-  }
-
-  onGlobalDragStart(): void {
-    this.disconnectObserver();
-  }
-
-  onGlobalDragEnd(): void {
-    this.connectObserver();
   }
 
   onDragEnd(detail: ListDragDetail): void {
@@ -683,6 +661,7 @@ export class List
   }
 
   private handleDefaultSlotChange = (event: Event): void => {
+    this.updateListItems();
     updateListItemChildren(getListItemChildren(event.target as HTMLSlotElement));
     if (this.parentListEl) {
       this.calciteInternalListDefaultSlotChange.emit();
@@ -986,7 +965,6 @@ export class List
       newIndex = oldIndex === lastIndex ? 0 : oldIndex + 1;
     }
 
-    this.disconnectObserver();
     handle.blurUnselectDisabled = true;
 
     const referenceEl =
@@ -997,7 +975,6 @@ export class List
     parentEl.insertBefore(dragEl, referenceEl);
 
     this.updateListItems();
-    this.connectObserver();
 
     this.calciteListOrderChange.emit({
       dragEl,

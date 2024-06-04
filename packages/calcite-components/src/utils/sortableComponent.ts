@@ -63,12 +63,12 @@ export interface SortableComponent {
   /**
    * Called when any sortable component drag starts. For internal use only. Any public drag events should emit within `onDragStart()`.
    */
-  onGlobalDragStart: () => void;
+  onGlobalDragStart?: () => void;
 
   /**
    * Called when any sortable component drag ends. For internal use only. Any public drag events should emit within `onDragEnd()`.
    */
-  onGlobalDragEnd: () => void;
+  onGlobalDragEnd?: () => void;
 
   /**
    * Called when a component's dragging ends.
@@ -132,12 +132,12 @@ export function connectSortableComponent(component: SortableComponent): void {
     filter: `${handle}[disabled]`,
     onStart: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
       dragState.active = true;
-      onGlobalDragStart();
+      onGlobalDragStart?.();
       component.onDragStart({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
     onEnd: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
       dragState.active = false;
-      onGlobalDragEnd();
+      onGlobalDragEnd?.();
       component.onDragEnd({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
     onSort: ({ from: fromEl, item: dragEl, to: toEl, newIndex, oldIndex }) => {
@@ -171,9 +171,9 @@ export function dragActive(component: SortableComponent): boolean {
 }
 
 function onGlobalDragStart(): void {
-  Array.from(sortableComponentSet).forEach((component) => component.onGlobalDragStart());
+  Array.from(sortableComponentSet).forEach((component) => component.onGlobalDragStart?.());
 }
 
 function onGlobalDragEnd(): void {
-  Array.from(sortableComponentSet).forEach((component) => component.onGlobalDragEnd());
+  Array.from(sortableComponentSet).forEach((component) => component.onGlobalDragEnd?.());
 }

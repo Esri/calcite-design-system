@@ -10,7 +10,6 @@ import {
   Watch,
 } from "@stencil/core";
 import { Appearance, Position, Scale, SelectionMode } from "../interfaces";
-import { createObserver } from "../../utils/observers";
 import { RequestedItem } from "./interfaces";
 /**
  * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
@@ -58,7 +57,7 @@ export class Accordion {
   @Watch("scale")
   @Watch("selectionMode")
   handlePropsChange(): void {
-    this.updateAccordionItems();
+    this.updateItems();
   }
 
   //--------------------------------------------------------------------------
@@ -78,15 +77,6 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, { childList: true });
-    this.updateAccordionItems();
-  }
-
-  disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
-  }
-
   render(): VNode {
     const transparent = this.appearance === "transparent";
     return (
@@ -96,7 +86,7 @@ export class Accordion {
           accordion: !transparent,
         }}
       >
-        <slot />
+        <slot onSlotchange={this.handleSlotChange} />
       </div>
     );
   }
@@ -123,15 +113,13 @@ export class Accordion {
 
   @Element() el: HTMLCalciteAccordionElement;
 
-  mutationObserver = createObserver("mutation", () => this.updateAccordionItems());
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
   //
   //--------------------------------------------------------------------------
 
-  private updateAccordionItems(): void {
+  private updateItems(): void {
     this.el.querySelectorAll("calcite-accordion-item").forEach((item) => {
       item.iconPosition = this.iconPosition;
       item.iconType = this.iconType;
@@ -141,4 +129,6 @@ export class Accordion {
     // sync props on items across shadow DOM
     document.dispatchEvent(new CustomEvent("calciteInternalAccordionItemsSync"));
   }
+
+  private handleSlotChange = (): void => this.updateItems();
 }

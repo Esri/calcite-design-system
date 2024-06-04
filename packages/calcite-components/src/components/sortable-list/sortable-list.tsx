@@ -7,7 +7,6 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
-import { createObserver } from "../../utils/observers";
 import { HandleNudge } from "../handle/interfaces";
 import { Layout } from "../interfaces";
 import {
@@ -87,10 +86,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
   items: Element[] = [];
 
-  mutationObserver = createObserver("mutation", () => {
-    this.setUpSorting();
-  });
-
   sortable: Sortable;
 
   dragEnabled = true;
@@ -106,8 +101,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
       return;
     }
 
-    this.setUpSorting();
-    this.beginObserving();
     connectInteractive(this);
   }
 
@@ -118,7 +111,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
     disconnectInteractive(this);
     disconnectSortableComponent(this);
-    this.endObserving();
   }
 
   componentDidRender(): void {
@@ -146,14 +138,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
-
-  onGlobalDragStart(): void {
-    this.endObserving();
-  }
-
-  onGlobalDragEnd(): void {
-    this.beginObserving();
-  }
 
   onDragEnd(): void {}
 
@@ -196,8 +180,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
       }
     }
 
-    this.endObserving();
-
     if (appendInstead) {
       sortItem.parentElement.appendChild(sortItem);
     } else {
@@ -206,7 +188,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
     this.items = Array.from(this.el.children);
 
-    this.beginObserving();
     requestAnimationFrame(() => focusElement(handle));
 
     if ("selected" in handle) {
@@ -219,13 +200,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
     connectSortableComponent(this);
   }
 
-  beginObserving(): void {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-  }
-
-  endObserving(): void {
-    this.mutationObserver?.disconnect();
-  }
+  private handleSlotChange = (): void => this.setUpSorting();
 
   // --------------------------------------------------------------------------
   //
@@ -246,7 +221,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
             [CSS.containerHorizontal]: horizontal,
           }}
         >
-          <slot />
+          <slot onSlotchange={this.handleSlotChange} />
         </div>
       </InteractiveContainer>
     );

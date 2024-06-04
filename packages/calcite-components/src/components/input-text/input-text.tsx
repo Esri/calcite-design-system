@@ -37,7 +37,6 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
 import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
@@ -333,8 +332,6 @@ export class InputText
   /** the computed icon to render */
   private requestedIcon?: string;
 
-  mutationObserver = createObserver("mutation", () => this.setDisabledAction());
-
   private userChangedValue = false;
 
   @State() effectiveLocale: string;
@@ -366,7 +363,6 @@ export class InputText
 
     connectLabel(this);
     connectForm(this);
-    this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
     this.el.addEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
@@ -377,8 +373,6 @@ export class InputText
     disconnectForm(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-
-    this.mutationObserver?.disconnect();
     this.el.removeEventListener(internalHiddenInputInputEvent, this.onHiddenFormInputInput);
   }
 
@@ -623,6 +617,8 @@ export class InputText
     }
   };
 
+  private handleSlotChange = (): void => this.setDisabledAction();
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -703,7 +699,7 @@ export class InputText
               {this.loading ? loader : null}
             </div>
             <div class={CSS.actionWrapper}>
-              <slot name={SLOTS.action} />
+              <slot name={SLOTS.action} onSlotchange={this.handleSlotChange} />
             </div>
             {this.suffixText ? suffixText : null}
             <HiddenFormInputSlot component={this} />
