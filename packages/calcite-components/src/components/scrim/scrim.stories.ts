@@ -1,14 +1,18 @@
-import { boolean } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+
+interface ScrimArgs {
+  loading: boolean;
+}
 
 export default {
   title: "Components/Scrim",
+  loading: false,
 };
 
-export const simple = (): string => html`
+export const simple = (args: ScrimArgs): string => html`
   <div tabindex="0" style="position: relative; width: 400px; height: 400px">
-    <calcite-scrim ${boolean("loading", false)}></calcite-scrim>
+    <calcite-scrim ${boolean("loading", args.loading)}></calcite-scrim>
     <div style="width: 400px; height: 400px; overflow: auto">
       <p>
         Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
@@ -38,7 +42,7 @@ export const simple = (): string => html`
 
 export const darkModeRTL_TestOnly = (): string => html`
   <div tabindex="0" style="position: relative; width: 400px; height: 400px">
-    <calcite-scrim dir="rtl" class="calcite-mode-dark" ${boolean("loading", false)}></calcite-scrim>
+    <calcite-scrim dir="rtl" class="calcite-mode-dark"></calcite-scrim>
     <div style="width: 400px; height: 400px; overflow: auto">
       <p>
         Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor

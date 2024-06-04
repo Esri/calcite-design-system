@@ -10,5 +10,3 @@ export const iconNames = Object.keys(icons)
       .replace(iPrefixedNumberIconNamePattern, "$1")
       .localeCompare(b.replace(iPrefixedNumberIconNamePattern, "$1"));
   });
-
-export { boolean } from "./fake-knobs";
