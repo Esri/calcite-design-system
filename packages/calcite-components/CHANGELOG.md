@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.1-next.0...@esri/calcite-components@2.9.1-next.1) (2024-06-04)
+
+### Bug Fixes
+
+- **panel:** prevent menu actions from being clipped in Safari ([#9488](https://github.com/Esri/calcite-design-system/issues/9488)) ([29eb4ce](https://github.com/Esri/calcite-design-system/commit/29eb4ce802e8ebdeb2012ad178fd19334b6c3a44)), closes [#8028](https://github.com/Esri/calcite-design-system/issues/8028)
+
 ## [2.9.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0...@esri/calcite-components@2.9.1-next.0) (2024-05-31)
 
 ### Bug Fixes
