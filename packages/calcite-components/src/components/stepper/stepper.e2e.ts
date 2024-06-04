@@ -1,8 +1,10 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { defaults, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
 import { isElementFocused } from "../../tests/utils";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 // we use browser-context function to click on items to workaround `E2EElement#click` error
 async function itemClicker(item: HTMLCalciteStepperItemElement) {
@@ -897,6 +899,76 @@ describe("calcite-stepper", () => {
 
       const displayedItems = await page.findAll("calcite-stepper-item:not([hidden])");
       expect(displayedItems.length).toBe(1);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-stepper-action-background-color": {
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-stepper-action-background-color-hover": {
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color",
+          state: { hover: { attribute: "class", value: CSS.actionIcon } },
+        },
+        "--calcite-stepper-action-background-color-active": {
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color",
+          state: { press: { attribute: "class", value: CSS.actionIcon } },
+        },
+        "--calcite-stepper-step-bar-fill-color": {
+          shadowSelector: `.${CSS.stepBar} ${CSS.rect}`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-step-bar-fill-color-hover": {
+          shadowSelector: `.${CSS.stepBar} ${CSS.rect}`,
+          targetProp: "fill",
+          state: "hover",
+        },
+        "--calcite-stepper-step-bar-selected-fill-color": {
+          shadowSelector: `.${CSS.stepBarSelected}`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-step-bar-complete-fill-color": {
+          shadowSelector: `.${CSS.stepBarComplete}`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-step-bar-completed-fill-color-hover": {
+          shadowSelector: `.${CSS.stepBarComplete}`,
+          targetProp: "fill",
+          state: "hover",
+        },
+        "--calcite-stepper-step-bar-error-fill-color": {
+          shadowSelector: `.${CSS.stepBarError}`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-step-bar-error-fill-color-hover": {
+          shadowSelector: `.${CSS.stepBarError}`,
+          targetProp: "fill",
+        },
+      };
+      themed(
+        html`
+          <calcite-stepper layout="horizontal-single" numbered icon scale="s">
+            <calcite-stepper-item heading="Confirm and complete">
+              <div>Step 4 Content Goes Here</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Choose method" selected>
+              <div>Step 1 Content Goes Here</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Compile member list" complete>
+              <div>Step 2 Content Goes Here</div>
+            </calcite-stepper-item>
+            <calcite-stepper-item heading="Set member properties" description="Some subtext" error>
+              <div>Step 3 Content Goes Here</div>
+            </calcite-stepper-item>
+          </calcite-stepper>
+        `,
+        tokens,
+      );
     });
   });
 });
