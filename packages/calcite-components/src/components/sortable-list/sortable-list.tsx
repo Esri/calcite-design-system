@@ -65,7 +65,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   /**
    * Indicates the horizontal or vertical orientation of the component.
    */
-  @Prop({ reflect: true }) layout: Layout = "vertical";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "vertical";
 
   /**
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.

@@ -82,7 +82,7 @@ export class ActionPad
   /**
    * Indicates the layout of the component.
    */
-  @Prop({ reflect: true }) layout: Layout = "vertical";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "vertical";
 
   @Watch("layout")
   layoutHandler(): void {
@@ -92,7 +92,7 @@ export class ActionPad
   /**
    * Arranges the component depending on the element's `dir` property.
    */
-  @Prop({ reflect: true }) position: Position;
+  @Prop({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /**
    * Specifies the size of the expand `calcite-action`.
