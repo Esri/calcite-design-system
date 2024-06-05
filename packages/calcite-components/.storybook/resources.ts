@@ -8,23 +8,23 @@ import {
   Kind,
   Width,
   SelectionMode,
-  ArrowType,
-  DisplayMode,
-  ToggleDisplay,
   Layout,
-  Dir,
-  ButtonType,
-  InteractionMode,
   IconType,
-  DeterminateType,
-  FillType,
-  LabelType,
-  ClickType,
   CollapseDirection,
-  TextType,
-  Mode,
   SelectionAppearance,
 } from "../../calcite-components/src/components/interfaces.ts";
+import { ArrowType } from "../src/components/carousel/interfaces.ts";
+import { BlockSectionToggleDisplay } from "../src/components/block-section/interfaces.ts";
+import { TileSelectGroupDir } from "../src/components/tile-select-group/interfaces.ts";
+import { TileSelectType } from "../src/components/tile-select/interfaces.ts";
+import { TableInteractionMode } from "../src/components/table/interfaces.ts";
+import { DeterminateType } from "../src/components/loader/interfaces.ts";
+import { MeterFillType, MeterLabelType } from "../src/components/meter/interfaces.ts";
+import { DropdownClickType } from "../src/components/dropdown/interfaces.ts";
+import { TextType } from "../src/components/input/interfaces.ts";
+import { TimeZoneMode } from "../src/components/input-time-zone/interfaces.ts";
+import { DisplayMode } from "../src/components/sheet/interfaces.ts";
+import { ShellDisplayMode } from "../src/components/shell/interfaces.ts";
 
 interface AttributeMetadata<T> {
   values: T[];
@@ -43,20 +43,21 @@ interface CommonAttributes {
   selectionMode: AttributeMetadata<SelectionMode>;
   arrowType: AttributeMetadata<ArrowType>;
   displayMode: AttributeMetadata<DisplayMode>;
-  toggleDisplay: AttributeMetadata<ToggleDisplay>;
+  toggleDisplay: AttributeMetadata<BlockSectionToggleDisplay>;
   layout: AttributeMetadata<Layout>;
-  dir: AttributeMetadata<Dir>;
-  buttonType: AttributeMetadata<ButtonType>;
-  interactionMode: AttributeMetadata<InteractionMode>;
+  dir: AttributeMetadata<TileSelectGroupDir>;
+  buttonType: AttributeMetadata<TileSelectType>;
+  interactionMode: AttributeMetadata<TableInteractionMode>;
   iconType: AttributeMetadata<IconType>;
   determinateType: AttributeMetadata<DeterminateType>;
-  fillType: AttributeMetadata<FillType>;
-  labelType: AttributeMetadata<LabelType>;
-  clickType: AttributeMetadata<ClickType>;
+  fillType: AttributeMetadata<MeterFillType>;
+  labelType: AttributeMetadata<MeterLabelType>;
+  clickType: AttributeMetadata<DropdownClickType>;
   collapseDirection: AttributeMetadata<CollapseDirection>;
   textType: AttributeMetadata<TextType>;
-  mode: AttributeMetadata<Mode>;
+  mode: AttributeMetadata<TimeZoneMode>;
   selectionAppearance: AttributeMetadata<SelectionAppearance>;
+  shellDisplayMode: AttributeMetadata<ShellDisplayMode>;
 }
 
 const logicalFlowPositionOptions: LogicalFlowPosition[] = ["inline-start", "inline-end", "block-start", "block-end"];
@@ -77,8 +78,8 @@ const selectionModeOptions: SelectionMode[] = [
   "multiple",
 ];
 const arrowTypeOptions: ArrowType[] = ["inline", "edge", "none"];
-const displayModeOptions: DisplayMode[] = ["dock", "float", "overlay"];
-const toggleDisplayOptions: ToggleDisplay[] = ["button", "switch"];
+const displayModeOptions: DisplayMode[] = ["float", "overlay"];
+const toggleDisplayOptions: BlockSectionToggleDisplay[] = ["button", "switch"];
 const layoutOptions: Layout[] = [
   "horizontal",
   "vertical",
@@ -90,14 +91,14 @@ const layoutOptions: Layout[] = [
   "none",
   "horizontal-single",
 ];
-const dirOptions: Dir[] = ["ltr", "rtl"];
-const buttonTypeOptions: ButtonType[] = ["radio", "checkbox"];
-const interactionModeOptions: InteractionMode[] = ["interactive", "static"];
+const dirOptions: TileSelectGroupDir[] = ["ltr", "rtl"];
+const buttonTypeOptions: TileSelectType[] = ["radio", "checkbox"];
+const interactionModeOptions: TableInteractionMode[] = ["interactive", "static"];
 const iconTypeOptions: IconType[] = ["chevron", "caret", "ellipsis", "overflow", "plus-minus"];
 const determinateTypeOptions: DeterminateType[] = ["determinate", "indeterminate"];
-const fillTypeOptions: FillType[] = ["single", "range"];
-const labelTypeOptions: LabelType[] = ["percent", "units"];
-const clickTypeOptions: ClickType[] = ["click", "hover"];
+const fillTypeOptions: MeterFillType[] = ["single", "range"];
+const labelTypeOptions: MeterLabelType[] = ["percent", "units"];
+const clickTypeOptions: DropdownClickType[] = ["click", "hover"];
 const collapseDirectionOptions: CollapseDirection[] = ["down", "up"];
 const textTypeOptions: TextType[] = [
   "text",
@@ -111,8 +112,9 @@ const textTypeOptions: TextType[] = [
   "time",
   "date",
 ];
-const modeOptions: Mode[] = ["offset", "name"];
+const modeOptions: TimeZoneMode[] = ["offset", "name"];
 const selectionAppearanceOptions: SelectionAppearance[] = ["icon", "border"];
+const shellDisplayModeOptions: ShellDisplayMode[] = ["dock", "float", "overlay"];
 
 export const ATTRIBUTES: CommonAttributes = {
   alignment: {
@@ -214,5 +216,9 @@ export const ATTRIBUTES: CommonAttributes = {
   selectionAppearance: {
     values: selectionAppearanceOptions,
     defaultValue: selectionAppearanceOptions[0],
+  },
+  shellDisplayMode: {
+    values: shellDisplayModeOptions,
+    defaultValue: shellDisplayModeOptions[0],
   },
 };
