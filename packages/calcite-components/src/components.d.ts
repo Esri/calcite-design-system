@@ -1222,6 +1222,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Text for the component's filter input field.
+         */
+        "filterText": string;
+        /**
           * Specifies the component's filtered items.
           * @readonly
          */
@@ -8976,6 +8980,10 @@ declare namespace LocalJSX {
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
+        /**
+          * Text for the component's filter input field.
+         */
+        "filterText"?: string;
         /**
           * Specifies the component's filtered items.
           * @readonly
