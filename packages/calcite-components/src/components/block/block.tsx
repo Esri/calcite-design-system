@@ -42,6 +42,7 @@ import {
 } from "../../utils/loadable";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { FlipContext } from "../interfaces";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { BlockMessages } from "./assets/block/t9n";
 
@@ -97,6 +98,15 @@ export class Block
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
+  /** Specifies an icon to display at the end of the component. */
+  @Prop({ reflect: true }) iconEnd: string;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /** Specifies an icon to display at the start of the component. */
+  @Prop({ reflect: true }) iconStart: string;
+
   /**
    * When `true`, a busy indicator is displayed.
    */
@@ -114,6 +124,8 @@ export class Block
 
   /**
    * Displays a status-related indicator icon.
+   *
+   * @deprecated Use `icon-start` instead.
    */
   @Prop({ reflect: true }) status: Status;
 
@@ -294,7 +306,31 @@ export class Block
     return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
   }
 
-  renderIcon(): VNode[] {
+  renderIcon(icon: string): VNode {
+    const { iconFlipRtl } = this;
+
+    if (icon === undefined) {
+      return null;
+    }
+
+    const flipRtlStart = iconFlipRtl === "both" || iconFlipRtl === "start";
+    const flipRtlEnd = iconFlipRtl === "both" || iconFlipRtl === "end";
+
+    const isIconStart = icon === this.iconStart;
+
+    /** Icon scale is not variable as the component does not have a scale property */
+    return (
+      <calcite-icon
+        class={isIconStart ? this.iconStart : this.iconEnd}
+        flipRtl={isIconStart ? flipRtlStart : flipRtlEnd}
+        icon={isIconStart ? this.iconStart : this.iconEnd}
+        key={isIconStart ? CSS.iconStart : CSS.iconEnd}
+        scale="s"
+      />
+    );
+  }
+
+  renderStatusOrContentStart(): VNode[] {
     const { loading, messages, status } = this;
 
     const hasSlottedIcon = !!getSlotted(this.el, SLOTS.icon);
@@ -341,7 +377,8 @@ export class Block
 
     const headerContent = (
       <header class={CSS.header} id={IDS.header}>
-        {this.renderIcon()}
+        {this.renderIcon(this.iconStart)}
+        {this.renderStatusOrContentStart()}
         {this.renderTitle()}
       </header>
     );
@@ -364,10 +401,14 @@ export class Block
             title={toggleLabel}
           >
             {headerContent}
+            {this.renderIcon(this.iconEnd)}
             <calcite-icon aria-hidden="true" class={CSS.toggleIcon} icon={collapseIcon} scale="s" />
           </button>
         ) : (
-          headerContent
+          <div>
+            {headerContent}
+            {this.renderIcon(this.iconEnd)}
+          </div>
         )}
         {hasControl ? (
           <div class={CSS.controlContainer}>

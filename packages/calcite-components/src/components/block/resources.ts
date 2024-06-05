@@ -14,6 +14,8 @@ export const CSS = {
   headerContainer: "header-container",
   heading: "heading",
   icon: "icon",
+  iconStart: "icon--start",
+  iconEnd: "icon--end",
   invalid: "invalid",
   statusIcon: "status-icon",
   summary: "summary",
