@@ -200,6 +200,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       }),
     );
     window.clearTimeout(this.autoCloseTimeoutId);
+    this.autoCloseTimeoutId = null;
     window.clearTimeout(this.queueTimeout);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -226,18 +227,17 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
             [CSS.containerQueued]: queued,
             [`${CSS.container}--${placement}`]: true,
             [CSS.containerSlottedInShell]: this.slottedInShell,
+            ["focused"]: this.keyBoardFocus,
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
-          onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
+          onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
           ref={this.setTransitionEl}
         >
           {effectiveIcon && this.renderIcon(effectiveIcon)}
           <div
             class={CSS.textContainer}
             onFocusin={this.autoClose && this.autoCloseTimeoutId ? this.handleKeyBoardFocus : null}
-            onFocusout={
-              this.autoClose && this.autoCloseTimeoutId ? this.handleKeyBoardUnfocus : null
-            }
+            onFocusout={this.autoClose ? this.handleKeyBoardUnfocus : null}
           >
             <slot name={SLOTS.title} />
             <slot name={SLOTS.message} />
@@ -253,16 +253,14 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   private handleKeyBoardFocus = (): void => {
-    this.transitionEl.classList.add("focused");
     this.keyBoardFocus = true;
     this.handleFocus();
   };
 
   private handleKeyBoardUnfocus = (): void => {
-    this.transitionEl.classList.remove("focused");
     this.keyBoardFocus = false;
     if (!this.mouseFocus) {
-      this.handleUnfocus();
+      this.handleBlur();
     }
   };
 
@@ -449,6 +447,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** is the alert queued */
   @State() queued = false;
 
+  @State() keyBoardFocus = false;
+
   private autoCloseTimeoutId: number = null;
 
   private closeButton: HTMLButtonElement;
@@ -466,8 +466,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
-
-  keyBoardFocus: boolean;
 
   mouseFocus: boolean;
 
@@ -541,17 +539,18 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   private handleMouseLeave = (): void => {
     this.mouseFocus = false;
     if (!this.keyBoardFocus) {
-      this.handleUnfocus();
+      this.handleBlur();
     }
   };
 
   private handleFocus = (): void => {
     window.clearTimeout(this.autoCloseTimeoutId);
+    this.autoCloseTimeoutId = null;
     this.totalOpenTime = Date.now() - this.initialOpenTime;
     this.lastMouseOverBegin = Date.now();
   };
 
-  private handleUnfocus = (): void => {
+  private handleBlur = (): void => {
     const hoverDuration = Date.now() - this.lastMouseOverBegin;
     const timeRemaining =
       DURATIONS[this.autoCloseDuration] - this.totalOpenTime + this.totalHoverTime;
