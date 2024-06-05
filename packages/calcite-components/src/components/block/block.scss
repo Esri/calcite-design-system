@@ -20,7 +20,9 @@
 @import "../../assets/styles/header";
 
 .header {
-  @apply justify-start p-0;
+  @apply justify-start;
+  padding: var(--calcite-spacing-md);
+  gap: var(--calcite-spacing-md);
 }
 
 .header,
@@ -69,7 +71,6 @@ calcite-handle {
 
 .title {
   @apply m-0;
-  padding: theme("spacing.3");
 }
 
 .header .title .heading {
@@ -94,8 +95,6 @@ calcite-handle {
 
 .icon {
   display: flex;
-  margin-inline-start: theme("spacing.3");
-  margin-inline-end: 0px;
 }
 
 .status-icon.valid {
