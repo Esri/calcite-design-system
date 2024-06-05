@@ -55,7 +55,7 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { FloatingArrow } from "../functional/FloatingArrow";
-import { getIconScale } from "../../utils/component";
+import { componentOnReady, getIconScale } from "../../utils/component";
 import PopoverManager from "./PopoverManager";
 import { PopoverMessages } from "./assets/popover/t9n";
 import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
@@ -278,8 +278,6 @@ export class Popover
 
   transitionEl: HTMLDivElement;
 
-  hasLoaded = false;
-
   focusTrap: FocusTrap;
 
   // --------------------------------------------------------------------------
@@ -288,16 +286,18 @@ export class Popover
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  async connectedCallback(): Promise<void> {
     this.setFilteredPlacements();
     connectLocalized(this);
     connectMessages(this);
-    this.setUpReferenceElement(this.hasLoaded);
+
+    await componentOnReady(this.el);
+    this.setUpReferenceElement();
     connectFocusTrap(this);
+
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -307,11 +307,6 @@ export class Popover
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    if (this.referenceElement && !this.effectiveReferenceElement) {
-      this.setUpReferenceElement();
-    }
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
-    this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {

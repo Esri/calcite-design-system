@@ -14,7 +14,6 @@ import {
 import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { FlipContext } from "../interfaces";
 import {
   connectMessages,
   disconnectMessages,
@@ -22,7 +21,7 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { Status } from "../interfaces";
+import { FlipContext, Status } from "../interfaces";
 import {
   componentFocusable,
   LoadableComponent,
@@ -268,11 +267,8 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
 
             {this.renderIcon(this.iconEnd)}
             {this.renderStatusIcon()}
-            {/* we use calcite-label to use a simple component that will allow us to prevent keyboard focus by setting tabindex="-1" on the host */}
+            <calcite-switch checked={open} class={CSS.switch} inert label={toggleLabel} scale="s" />
           </div>
-          <calcite-label class={CSS.label} layout="inline" tabIndex={-1}>
-            <calcite-switch checked={open} class={CSS.switch} label={toggleLabel} scale="s" />
-          </calcite-label>
         </div>
       ) : (
         <div

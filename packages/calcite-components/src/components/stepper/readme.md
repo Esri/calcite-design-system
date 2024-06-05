@@ -57,9 +57,10 @@ For comprehensive guidance on using and implementing `calcite-stepper`, refer to
 
 ## Events
 
-| Event                      | Description                                           | Type                |
-| -------------------------- | ----------------------------------------------------- | ------------------- |
-| `calciteStepperItemChange` | Fires when the active `calcite-stepper-item` changes. | `CustomEvent<void>` |
+| Event                      | Description                                                                                                                                                                                       | Type                |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteStepperChange`     | Fires when the active `calcite-stepper-item` changes.                                                                                                                                             | `CustomEvent<void>` |
+| `calciteStepperItemChange` | <span style="color:red">**[DEPRECATED]**</span> use `calciteStepperChange` instead or `calciteStepperItemChange` on items instead.<br/><br/>Fires when the active `calcite-stepper-item` changes. | `CustomEvent<void>` |
 
 ## Methods
 
