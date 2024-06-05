@@ -6,10 +6,10 @@
  * @prop --calcite-time-picker-text-color: Specifies the text color of the component.
  * @prop --calcite-time-picker-background-color: Specifies the background color of the component.
  * @prop --calcite-time-picker-background-color-hover: Specifies the background color of the component when hovered.
- * @prop --calcite-time-picker-background-color-active: Specifies the background color of the component when active.
+ * @prop --calcite-time-picker-button-background-color-active: Specifies the background color of the component when active.
  * @prop --calcite-time-picker-icon-color: Specifies the color of the component's icons.
  * @prop --calcite-time-picker-input-box-shadow: Specifies the box shadow around the numbers inside the open component.
- * @prop --calcite-time-picker-input-box-shadow-focus: Specifies the box shadow around the numbers inside the open component when focused.
+ * @prop --calcite-time-picker-input-border-focus-color: Specifies the box shadow around the numbers inside the open component when focused.
  */
 :host {
   @apply inline-block;
@@ -50,7 +50,7 @@
       outline-offset: 0;
     }
     &:active {
-      background-color: var(--calcite-time-picker-background-color-active, var(--calcite-color-foreground-3));
+      background-color: var(--calcite-time-picker-button-background-color-active, var(--calcite-color-foreground-3));
     }
     &.top-left {
       border-start-start-radius: var(--calcite-border-radius);
@@ -86,7 +86,7 @@
     }
     &.inputFocus,
     &:hover.inputFocus {
-      box-shadow: var(--calcite-time-picker-input-box-shadow-focus, inset 0 0 0 2px var(--calcite-color-brand));
+      box-shadow: var(--calcite-time-picker-input-border-focus-color, inset 0 0 0 2px var(--calcite-color-brand));
       z-index: theme("zIndex.header");
     }
   }
