@@ -458,7 +458,7 @@ describe("calcite-alert", () => {
       await page.waitForSelector("#alert", { visible: false });
     });
 
-    it("pauses on focus and resumes on unfocus", async () => {
+    it("pauses on focus and resumes on blur", async () => {
       await button.click();
       expect(await alert.isVisible()).toBe(true);
       expect(await alert.getProperty("autoCloseDuration")).toEqual("medium");
