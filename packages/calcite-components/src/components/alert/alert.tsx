@@ -200,6 +200,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       }),
     );
     window.clearTimeout(this.autoCloseTimeoutId);
+    this.autoCloseTimeoutId = null;
     window.clearTimeout(this.queueTimeout);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -226,13 +227,18 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
             [CSS.containerQueued]: queued,
             [`${CSS.container}--${placement}`]: true,
             [CSS.containerSlottedInShell]: this.slottedInShell,
+            [CSS.focused]: this.keyBoardFocus,
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
-          onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
+          onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
           ref={this.setTransitionEl}
         >
           {effectiveIcon && this.renderIcon(effectiveIcon)}
-          <div class={CSS.textContainer}>
+          <div
+            class={CSS.textContainer}
+            onFocusin={this.autoClose && this.autoCloseTimeoutId ? this.handleKeyBoardFocus : null}
+            onFocusout={this.autoClose ? this.handleKeyBoardBlur : null}
+          >
             <slot name={SLOTS.title} />
             <slot name={SLOTS.message} />
             <slot name={SLOTS.link} />
@@ -246,6 +252,18 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     );
   }
 
+  private handleKeyBoardFocus = (): void => {
+    this.keyBoardFocus = true;
+    this.handleFocus();
+  };
+
+  private handleKeyBoardBlur = (): void => {
+    this.keyBoardFocus = false;
+    if (!this.mouseFocus) {
+      this.handleBlur();
+    }
+  };
+
   private renderCloseButton(): VNode {
     return (
       <button
@@ -253,6 +271,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         class={CSS.close}
         key="close"
         onClick={this.closeAlert}
+        onFocusin={this.autoClose ? this.handleKeyBoardFocus : null}
+        onFocusout={this.autoClose ? this.handleKeyBoardBlur : null}
         ref={(el) => (this.closeButton = el)}
         type="button"
       >
@@ -429,6 +449,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** is the alert queued */
   @State() queued = false;
 
+  @State() keyBoardFocus = false;
+
   private autoCloseTimeoutId: number = null;
 
   private closeButton: HTMLButtonElement;
@@ -446,6 +468,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
+
+  mouseFocus: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -510,12 +534,25 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   };
 
   private handleMouseOver = (): void => {
+    this.mouseFocus = true;
+    this.handleFocus();
+  };
+
+  private handleMouseLeave = (): void => {
+    this.mouseFocus = false;
+    if (!this.keyBoardFocus) {
+      this.handleBlur();
+    }
+  };
+
+  private handleFocus = (): void => {
     window.clearTimeout(this.autoCloseTimeoutId);
+    this.autoCloseTimeoutId = null;
     this.totalOpenTime = Date.now() - this.initialOpenTime;
     this.lastMouseOverBegin = Date.now();
   };
 
-  private handleMouseLeave = (): void => {
+  private handleBlur = (): void => {
     const hoverDuration = Date.now() - this.lastMouseOverBegin;
     const timeRemaining =
       DURATIONS[this.autoCloseDuration] - this.totalOpenTime + this.totalHoverTime;
