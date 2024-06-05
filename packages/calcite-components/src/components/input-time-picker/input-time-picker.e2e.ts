@@ -1043,7 +1043,7 @@ describe("calcite-input-time-picker", () => {
         },
         "--calcite-input-time-picker-shadow": {
           shadowSelector: "calcite-time-picker",
-          targetProp: "--calcite-time-picker-input-box-shadow",
+          targetProp: "--calcite-time-picker-input-border-hover-color",
         },
         "--calcite-input-time-picker-icon-color": {
           shadowSelector: "calcite-time-picker",
