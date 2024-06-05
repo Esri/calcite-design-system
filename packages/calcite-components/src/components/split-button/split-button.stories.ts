@@ -57,7 +57,7 @@ export default {
       control: { type: "select" },
     },
     dropdownIconType: {
-      options: iconType.values,
+      options: iconType.values.filter((option) => option !== "plus-minus"),
       control: { type: "select" },
     },
   },
