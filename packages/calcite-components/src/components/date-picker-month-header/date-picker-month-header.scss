@@ -24,7 +24,8 @@
     --calcite-select-line-height: var(--calcite-font-line-height-fixed-base);
   }
 
-  .chevron-container {
+  .chevron-container,
+  .chevron {
     min-inline-size: #{$calcite-size-24};
     block-size: #{$calcite-size-24};
   }
@@ -40,7 +41,8 @@
     --calcite-select-line-height: var(--calcite-font-line-height-fixed-lg);
   }
 
-  .chevron-container {
+  .chevron-container,
+  .chevron {
     min-inline-size: #{$calcite-size-32};
     block-size: #{$calcite-size-32};
     --calcite-internal-action-padding-block: 0.25rem;
@@ -57,7 +59,8 @@
     --calcite-select-line-height: var(--calcite-font-line-height-fixed-xl);
   }
 
-  .chevron-container {
+  .chevron-container,
+  .chevron {
     min-inline-size: #{$calcite-size-44};
     block-size: #{$calcite-size-44};
     --calcite-internal-action-padding-block: 0.625rem;
