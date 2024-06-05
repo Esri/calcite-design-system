@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.1-next.1...@esri/calcite-components@2.9.1-next.2) (2024-06-04)
+
+### Bug Fixes
+
+- **block-section:** restore block toggling when clicking on the header switch ([#9472](https://github.com/Esri/calcite-design-system/issues/9472)) ([519a11c](https://github.com/Esri/calcite-design-system/commit/519a11c6d85383e7d7bab95a9c52330864606602)), closes [#9454](https://github.com/Esri/calcite-design-system/issues/9454) [#9194](https://github.com/Esri/calcite-design-system/issues/9194)
+
+## [2.9.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.1-next.0...@esri/calcite-components@2.9.1-next.1) (2024-06-04)
+
+### Bug Fixes
+
+- **panel:** prevent menu actions from being clipped in Safari ([#9488](https://github.com/Esri/calcite-design-system/issues/9488)) ([29eb4ce](https://github.com/Esri/calcite-design-system/commit/29eb4ce802e8ebdeb2012ad178fd19334b6c3a44)), closes [#8028](https://github.com/Esri/calcite-design-system/issues/8028)
+
 ## [2.9.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0...@esri/calcite-components@2.9.1-next.0) (2024-05-31)
 
 ### Bug Fixes

@@ -43,7 +43,7 @@
 }
 
 .container {
-  @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
+  @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
   transition:
     max-block-size var(--calcite-animation-timing),
