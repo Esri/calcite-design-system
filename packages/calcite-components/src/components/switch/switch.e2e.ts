@@ -1,5 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, formAssociated, hidden, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -130,5 +132,41 @@ describe("calcite-switch", () => {
 
     const element = await page.find("calcite-switch");
     expect(element).toEqualAttribute("scale", "m");
+  });
+
+  describe("theme", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-switch-corner-radius": [
+        {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "borderRadius",
+        },
+        {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "borderRadius",
+        },
+      ],
+      "--calcite-switch-handle-background-color": [
+        {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+        },
+      ],
+      "--calcite-switch-track-background-color": {
+        shadowSelector: `.${CSS.track}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-switch-border-color": [
+        {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "borderColor",
+        },
+      ],
+    };
+    themed(`calcite-switch`, tokens);
   });
 });

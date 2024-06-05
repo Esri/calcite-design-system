@@ -7,6 +7,14 @@ import { getTagAndPage } from "./utils";
 
 expect.extend(toHaveNoViolations);
 
+interface TargetInfo {
+  el: E2EElement;
+  selector: string;
+  shadowSelector: string;
+}
+
+const pseudoElementPattern = /:{1,2}(before|after)/;
+
 /**
  * This object that represents component tokens and their respective test options.
  */
@@ -17,43 +25,48 @@ export type ComponentTestTokens = Record<CalciteCSSCustomProp, TestSelectToken |
  * Helper to test custom theming of a component's associated tokens.
  *
  * @example
- // describe("theme", () => {
- //   const tokens: ComponentTestTokens = {
- //      "--calcite-action-menu-border-color": [
- //        {
- //          targetProp: "borderLeftColor",
- //        },
- //        {
- //          shadowSelector: "calcite-action",
- //          targetProp: "--calcite-action-border-color",
- //        },
- //     ],
- //     "--calcite-action-menu-background-color": {
- //          targetProp: "backgroundColor",
- //          shadowSelector: ".container",
- //     },
- //     "--calcite-action-menu-trigger-background-color-active": {
- //        shadowSelector: "calcite-action",
- //        targetProp: "--calcite-action-background-color",
- //        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
- //      },
- //      "--calcite-action-menu-trigger-background-color-focus": {
- //        shadowSelector: "calcite-action",
- //        targetProp: "--calcite-action-background-color",
- //        state: "focus",
- //      },
- //      "--calcite-action-menu-trigger-background-color-hover": {
- //        shadowSelector: "calcite-action",
- //        targetProp: "--calcite-action-background-color",
- //        state: "hover",
- //      },
- //      "--calcite-action-menu-trigger-background-color": {
- //        shadowSelector: "calcite-action",
- //        targetProp: "--calcite-action-background-color",
- //      },
- //   };
- //   themed(`calcite-action-bar`, tokens);
- // });
+ * describe("theme", () => {
+ *   const tokens: ComponentTestTokens = {
+ *      "--calcite-action-menu-border-color": [
+ *        {
+ *          targetProp: "borderLeftColor",
+ *        },
+ *        {
+ *          shadowSelector: "calcite-action",
+ *          targetProp: "--calcite-action-border-color",
+ *        },
+ *        {
+ *          // added to demonstrate pseudo-element support
+ *          shadowSelector: "calcite-action::after",
+ *          targetProp: "borderColor",
+ *        },
+ *     ],
+ *     "--calcite-action-menu-background-color": {
+ *          targetProp: "backgroundColor",
+ *          shadowSelector: ".container",
+ *     },
+ *     "--calcite-action-menu-trigger-background-color-active": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+ *      },
+ *      "--calcite-action-menu-trigger-background-color-focus": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: "focus",
+ *      },
+ *      "--calcite-action-menu-trigger-background-color-hover": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: "hover",
+ *      },
+ *      "--calcite-action-menu-trigger-background-color": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *      },
+ *   };
+ *   themed(`calcite-action-bar`, tokens);
+ * });
  *
  * @param componentTestSetup - A component tag, html, tag + e2e page or provider for setting up a test.
  * @param tokens - A record of token names and their associated selectors, shadow selectors, target props, and states.
@@ -100,7 +113,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
 
         const el = await page.find(selector);
         const tokenStyle = `${token}: ${setTokens[token]}`;
-        let target = el;
+        const target: TargetInfo = { el, selector, shadowSelector };
         let contextSelector: ContextSelectByAttr;
         let stateName: State;
 
@@ -115,13 +128,14 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
           styleTargets[selector][1].push(tokenStyle);
         }
         if (shadowSelector) {
-          target = shadowSelector ? await page.find(`${selector} >>> ${shadowSelector}`) : target;
+          const effectiveShadowSelector = shadowSelector.replace(pseudoElementPattern, "");
+          target.el = await page.find(`${selector} >>> ${effectiveShadowSelector}`);
         }
         if (state && typeof state !== "string") {
           contextSelector = Object.values(state)[0] as ContextSelectByAttr;
         }
 
-        if (!target) {
+        if (!target.el) {
           throw new Error(
             `[${token}] target (${selector}${
               shadowSelector ? " >>> " + shadowSelector : ""
@@ -168,9 +182,9 @@ type State = "press" | "hover" | "focus";
  */
 export type TestTarget = {
   /**
-   * The element to get the computed style from.
+   * An object with target element and selector info.
    */
-  target: E2EElement;
+  target: TargetInfo;
 
   /**
    * @todo doc
@@ -242,15 +256,21 @@ export type TestSelectToken = {
  *
  * @param element
  * @param property
+ * @param pseudoElement
  */
-async function getComputedStylePropertyValue(element: E2EElement, property: string): Promise<string> {
+async function getComputedStylePropertyValue(
+  element: E2EElement,
+  property: string,
+  pseudoElement?: string,
+): Promise<string> {
   type E2EElementInternal = E2EElement & {
     _elmHandle: ElementHandle;
   };
 
   return await (element as E2EElementInternal)._elmHandle.evaluate(
-    (el, targetProp): string => window.getComputedStyle(el).getPropertyValue(targetProp),
+    (el, targetProp, pseudoElement): string => window.getComputedStyle(el, pseudoElement).getPropertyValue(targetProp),
     property,
+    pseudoElement,
   );
 }
 
@@ -271,6 +291,9 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
 
   await page.mouse.reset();
   await page.waitForChanges();
+
+  const targetEl = target.el;
+  const pseudoElement = target.shadowSelector?.match(pseudoElementPattern)?.[0] ?? undefined;
 
   if (contextSelector) {
     const rect = (await page.evaluate((context: TestTarget["contextSelector"]) => {
@@ -329,6 +352,12 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       });
     }, contextSelector)) as { width: number; height: number; left: number; top: number } | undefined;
 
+    if (!rect) {
+      throw new Error(
+        `[${token}] context target (${contextSelector.attribute}="${contextSelector.value}") not found, make sure test HTML renders the component and expected shadow DOM elements`,
+      );
+    }
+
     const box = {
       x: rect.left + rect.width / 2,
       y: rect.top + rect.height / 2,
@@ -344,25 +373,56 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       await page.mouse.up();
     }
   } else if (state) {
-    await target[state as Exclude<State, "press">]();
+    try {
+      await targetEl[state as Exclude<State, "press">]();
+    } catch (error) {
+      // checking for explicit Puppeteer ElementHandle error: https://github.com/puppeteer/puppeteer/blob/68fd7712932f94730b6186107a0509c233938084/packages/puppeteer-core/src/api/ElementHandle.ts#L625
+      const message =
+        error.message === "Node is either not clickable or not an Element"
+          ? `[${token}] target node (${target.selector}${
+              target.shadowSelector ? " >>> " + target.shadowSelector : ""
+            }) must be clickable (larger than 1x1) for state: ${state}`
+          : `[${token}] ${error.message} for state: ${state} on target node (${target.selector}${
+              target.shadowSelector ? " >>> " + target.shadowSelector : ""
+            })`;
+
+      throw new Error(message);
+    }
   }
 
   await page.waitForChanges();
 
   if (targetProp.startsWith("--calcite-")) {
-    expect(await getComputedStylePropertyValue(target, targetProp)).toBe(expectedValue);
+    const customPropValue = await getComputedStylePropertyValue(targetEl, targetProp, pseudoElement);
+    expect(getStyleString(token, targetProp, customPropValue)).toBe(getStyleString(token, targetProp, expectedValue));
     return;
   }
 
-  const styles = await target.getComputedStyle();
-  const isFakeBorderToken = token.includes("border-color") && targetProp === "boxShadow";
+  const styles = await targetEl.getComputedStyle(pseudoElement);
+  const isFakeBorderColorToken =
+    token.includes("-color") &&
+    (targetProp === "boxShadow" || targetProp === "outline" || targetProp === "outlineColor");
+  const isLinearGradientUnderlineToken = token.includes("link-underline-color") && targetProp === "backgroundImage";
 
-  if (isFakeBorderToken) {
-    expect(styles[targetProp]).toMatch(expectedValue);
+  if (isFakeBorderColorToken || isLinearGradientUnderlineToken) {
+    expect(getStyleString(token, targetProp, styles[targetProp])).toMatch(expectedValue);
     return;
   }
 
-  expect(styles[targetProp]).toBe(expectedValue);
+  expect(getStyleString(token, targetProp, styles[targetProp])).toBe(getStyleString(token, targetProp, expectedValue));
+}
+
+/**
+ * Generates a message with the token, property, and value.
+ *
+ * Used for debugging.
+ *
+ * @param token - the token as a CSS variable
+ * @param prop - the CSS property
+ * @param value - the value of the CSS property
+ */
+function getStyleString(token: string, prop: string, value: string): string {
+  return `[${token}:${prop}] ${value}`;
 }
 
 /**
@@ -374,7 +434,9 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
  * @returns string - the new value for the token
  */
 function assignTestTokenThemeValues(token: string): string {
-  return token.includes("color")
+  const legacyBackgroundColorToken = token.endsWith("-background");
+
+  return token.includes("color") || legacyBackgroundColorToken
     ? "rgb(0, 191, 255)"
     : token.includes("shadow")
       ? "rgb(255, 255, 255) 0px 0px 0px 4px, rgb(255, 105, 180) 0px 0px 0px 5px inset, rgb(0, 191, 255) 0px 0px 0px 9px"
