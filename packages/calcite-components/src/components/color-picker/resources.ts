@@ -67,7 +67,7 @@ export const DIMENSIONS = {
       width: 160,
     },
     thumb: {
-      radius: 10,
+      radius: 7,
     },
   },
   m: {
@@ -80,7 +80,7 @@ export const DIMENSIONS = {
       width: 272,
     },
     thumb: {
-      radius: 10,
+      radius: 7,
     },
   },
   l: {
@@ -93,7 +93,7 @@ export const DIMENSIONS = {
       width: 464,
     },
     thumb: {
-      radius: 10,
+      radius: 7,
     },
   },
 };

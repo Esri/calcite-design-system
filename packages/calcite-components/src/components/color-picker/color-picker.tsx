@@ -809,7 +809,11 @@ export class ColorPicker
             />
           </div>
           <div class={CSS.previewAndSliders}>
-            <calcite-color-picker-swatch class={CSS.preview} color={selectedColorInHex} scale="l" />
+            <calcite-color-picker-swatch
+              class={CSS.preview}
+              color={selectedColorInHex}
+              scale={this.alphaChannel ? "l" : this.scale}
+            />
             <div class={CSS.sliders}>
               <div class={CSS.controlAndScope}>
                 <canvas
