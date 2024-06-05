@@ -227,7 +227,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
             [CSS.containerQueued]: queued,
             [`${CSS.container}--${placement}`]: true,
             [CSS.containerSlottedInShell]: this.slottedInShell,
-            ["focused"]: this.keyBoardFocus,
+            [CSS.focused]: this.keyBoardFocus,
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
           onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
@@ -237,7 +237,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           <div
             class={CSS.textContainer}
             onFocusin={this.autoClose && this.autoCloseTimeoutId ? this.handleKeyBoardFocus : null}
-            onFocusout={this.autoClose ? this.handleKeyBoardUnfocus : null}
+            onFocusout={this.autoClose ? this.handleKeyBoardBlur : null}
           >
             <slot name={SLOTS.title} />
             <slot name={SLOTS.message} />
@@ -257,7 +257,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     this.handleFocus();
   };
 
-  private handleKeyBoardUnfocus = (): void => {
+  private handleKeyBoardBlur = (): void => {
     this.keyBoardFocus = false;
     if (!this.mouseFocus) {
       this.handleBlur();
@@ -271,6 +271,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         class={CSS.close}
         key="close"
         onClick={this.closeAlert}
+        onFocusin={this.autoClose ? this.handleKeyBoardFocus : null}
+        onFocusout={this.autoClose ? this.handleKeyBoardBlur : null}
         ref={(el) => (this.closeButton = el)}
         type="button"
       >

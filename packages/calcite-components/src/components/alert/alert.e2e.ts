@@ -465,8 +465,6 @@ describe("calcite-alert", () => {
       expect(playState).toEqual("running");
       buttonClose = await page.find(`#alert >>> .${CSS.close}`);
       buttonClose.focus();
-      // const link = await page.find(`#alert >>> .text-container`);
-      // await link.focus();
       await page.waitForTimeout(DURATIONS.medium);
       expect(await alert.isVisible()).toBe(true);
       await button.focus();
