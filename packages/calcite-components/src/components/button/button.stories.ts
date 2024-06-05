@@ -1,67 +1,88 @@
-import { text, select } from "../../../.storybook/fake-knobs";
-import { iconNames, boolean } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { appearance, kind, scale, width } = ATTRIBUTES;
+
+interface ButtonArgs {
+  appearance: string;
+  kind: string;
+  scale: string;
+  round: boolean;
+  href: string;
+  loading: boolean;
+  disabled: boolean;
+  width: string;
+  text: string;
+}
 
 export default {
   title: "Components/Buttons/Button",
+  args: {
+    appearance: appearance.defaultValue,
+    kind: kind.defaultValue,
+    scale: scale.defaultValue,
+    round: false,
+    href: "",
+    loading: false,
+    disabled: false,
+    width: width.defaultValue,
+    text: "button text here",
+  },
+  argTypes: {
+    appearance: {
+      options: appearance.values,
+      control: { type: "select" },
+    },
+    kind: {
+      options: kind.values.filter((option) => option !== "info" && option !== "warning" && option !== "success"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    width: {
+      options: width.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: ButtonArgs): string => html`
   <calcite-button
-    appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
-    kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("round", false)}
-    href="${text("href", "")}"
-    ${boolean("loading", false)}
-    ${boolean("disabled", false)}
-    width="${select("width", ["auto", "half", "full"], "auto")}"
+    appearance="${args.appearance}"
+    kind="${args.kind}"
+    scale="${args.scale}"
+    ${boolean("round", args.round)}
+    href="${args.href}"
+    ${boolean("loading", args.loading)}
+    ${boolean("disabled", args.disabled)}
+    width="${args.width}"
   >
-    ${text("text", "button text here")}
+    ${args.text}
   </calcite-button>
 `;
 
 export const withIconStart = (): string => html`
   <calcite-button
-    alignment="${select(
-      "alignment",
-      ["start", "end", "center", "space-between", "icon-start-space-between", "icon-end-space-between"],
-      "center",
-    )}"
-    appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
-    kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
-    icon-start="${select("icon-start", iconNames, iconNames[0])}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("round", false)}
-    href="${text("href", "")}"
-    ${boolean("loading", false)}
-    ${boolean("disabled", false)}
+    alignment="center"
+    appearance="solid"
+    kind="brand"
+    icon-start="${iconNames[0]}"
+    scale="m"
+    type="button"
+    width="auto"
   >
-    ${text("text", "button text here")}
+    button text here
   </calcite-button>
 `;
 
 withIconStart.storyName = "With icon-start";
 
 export const withIconEnd = (): string => html`
-  <calcite-button
-    alignment="${select(
-      "alignment",
-      ["start", "end", "center", "space-between", "icon-start-space-between", "icon-end-space-between"],
-      "center",
-    )}"
-    appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
-    icon-end="${select("icon-end", iconNames, iconNames[0])}"
-    kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("round", false)}
-    href="${text("href", "")}"
-    ${boolean("loading", false)}
-    ${boolean("disabled", false)}
-    width="${select("width", ["auto", "half", "full"], "auto")}"
-  >
-    ${text("text", "button text here")}
+  <calcite-button alignment="center" appearance="solid" icon-end="${iconNames[0]}" kind="brand" scale="m" width="auto">
+    button text here
   </calcite-button>
 `;
 
@@ -69,23 +90,16 @@ withIconEnd.storyName = "With icon-end";
 
 export const withIconStartAndIconEnd = (): string => html`
   <calcite-button
-    alignment="${select(
-      "alignment",
-      ["start", "end", "center", "space-between", "icon-start-space-between", "icon-end-space-between"],
-      "center",
-    )}"
-    appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
-    kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
-    icon-start="${select("icon-start", iconNames, iconNames[0])}"
-    icon-end="${select("icon-end", iconNames, iconNames[0])}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("round", false)}
-    href="${text("href", "")}"
-    ${boolean("loading", false)}
-    ${boolean("disabled", false)}
-    width="${select("width", ["auto", "half", "full"], "auto")}"
+    alignment="center"
+    appearance="solid"
+    kind="brand"
+    icon-start="${iconNames[0]}"
+    icon-end="${iconNames[0]}"
+    scale="m"
+    width="auto"
+    type="button"
   >
-    ${text("text", "button text here")}
+    button text here
   </calcite-button>
 `;
 
@@ -94,10 +108,15 @@ withIconStartAndIconEnd.storyName = "With icon-start and icon-end";
 export const setWidthContainer = (): string => html`
   <div style="width: 480px; max-width: 100%; background-color: #fff">
     <calcite-button
-      width="${select("width", ["auto", "half", "full"], "auto")}"
-      icon-start="${select("icon-start", iconNames, iconNames[0])}"
+      width="auto"
+      icon-start="${iconNames[0]}"
+      alignment="center"
+      appearance="solid"
+      kind="brand"
+      scale="m"
+      type="button"
     >
-      ${text("text", "button text here")}
+      button text here
     </calcite-button>
   </div>
 `;
@@ -118,20 +137,19 @@ withIconEndEmpty_TestOnly.storyName = "With icon-end set to empty";
 
 export const sideBySide_TestOnly = (): string => html`
   <div style="width: 300px; max-width: 100%; display: flex; flex-direction: row; background-color: #fff">
-    <calcite-button
-      width="half"
-      appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "outline-fill")}"
-      kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
-    >
-      ${text("text", "Back")}
+    <calcite-button width="half" appearance="outline-fill" kind="brand" alignment="center" scale="m" type="button">
+      Back
     </calcite-button>
     <calcite-button
       width="half"
-      appearance="${select("appearance-2", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
-      kind="${select("kind-2", ["brand", "danger", "inverse", "neutral"], "brand")}"
-      icon-start="${select("icon-start", iconNames, iconNames[0])}"
+      appearance="solid"
+      kind="brand"
+      icon-start="${iconNames[0]}"
+      alignment="center"
+      scale="m"
+      type="button"
     >
-      ${text("text-2", "Some long string")}
+      Some long string
     </calcite-button>
   </div>
 `;
@@ -140,17 +158,16 @@ export const darkModeRTL_TestOnly = (): string => html`
   <calcite-button
     class="calcite-mode-dark"
     dir="rtl"
-    appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
-    kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("round", false)}
-    href="${text("href", "")}"
-    ${boolean("loading", false)}
-    ${boolean("disabled", false)}
-    icon-start="${select("icon-start", iconNames, iconNames[0])}"
-    icon-end="${select("icon-end", iconNames, iconNames[0])}"
+    appearance="solid"
+    kind="brand"
+    scale="m"
+    icon-start="${iconNames[0]}"
+    icon-end="${iconNames[0]}"
+    alignment="center"
+    type="button"
+    width="auto"
   >
-    ${text("text", "button text here")}
+    button text here
   </calcite-button>
 `;
 

@@ -1,44 +1,94 @@
 import { html } from "../../../support/formatting";
-import { modesDarkDefault } from "../../../.storybook/utils";
-import { boolean, number, select, text } from "../../../.storybook/fake-knobs";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { fillType, appearance, labelType } = ATTRIBUTES;
+
+interface MeterArgs {
+  min: number;
+  max: number;
+  low: number;
+  high: number;
+  value: number;
+  fillType: string;
+  appearance: string;
+  rangeLabelType: string;
+  valueLabelType: string;
+  unitLabel: string;
+  groupSeparator: boolean;
+  rangeLabels: boolean;
+  valueLabel: boolean;
+}
 
 export default {
   title: "Components/Meter",
+  args: {
+    min: 0,
+    max: 100,
+    low: 0,
+    high: 0,
+    value: 0,
+    fillType: fillType.defaultValue,
+    appearance: appearance.values[2],
+    rangeLabelType: labelType.defaultValue,
+    valueLabelType: labelType.defaultValue,
+    unitLabel: "",
+    groupSeparator: false,
+    rangeLabels: false,
+    valueLabel: false,
+  },
+  argTypes: {
+    fillType: {
+      options: fillType.values,
+      control: { type: "select" },
+    },
+    appearance: {
+      options: appearance.values.filter((option) => option !== "transparent"),
+      control: { type: "select" },
+    },
+    rangeLabelType: {
+      options: labelType.values,
+      control: { type: "select" },
+    },
+    valueLabelType: {
+      options: labelType.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string =>
+export const simple = (args: MeterArgs): string =>
   html`<calcite-meter
     label="Meter example"
-    min="${number("min", 0)}"
-    max="${number("max", 100)}"
-    low="${number("low", 0)}"
-    high="${number("high", 0)}"
-    value="${number("value", 0)}"
-    fill-type="${select("fill-type", ["single", "range"], "range")}"
-    appearance="${select("appearance", ["solid", "outline", "outline-fill"], "outline-fill")}"
-    range-label-type="${select("range-label-type", ["percent", "units"], "percent")}"
-    value-label-type="${select("value-label-type", ["percent", "units"], "percent")}"
-    unit-label="${text("unit-label", "")}"
-    ${boolean("group-separator", false)}
-    ${boolean("range-labels", false)}
-    ${boolean("value-label", false)}
+    min="${args.min}"
+    max="${args.max}"
+    low="${args.low}"
+    high="${args.high}"
+    value="${args.value}"
+    fill-type="${args.fillType}"
+    appearance="${args.appearance}"
+    range-label-type="${args.rangeLabelType}"
+    value-label-type="${args.valueLabelType}"
+    unit-label="${args.unitLabel}"
+    ${boolean("group-separator", args.groupSeparator)}
+    ${boolean("range-labels", args.rangeLabels)}
+    ${boolean("value-label", args.valueLabel)}
   ></calcite-meter>`;
 
 export const complex = (): string =>
   html`<calcite-meter
-    min="${number("min", 500)}"
-    max="${number("max", 10000)}"
-    low="${number("low", 2500)}"
-    high="${number("high", 7500)}"
-    value="${number("value", 1750)}"
-    fill-type="${select("fill-type", ["single", "range"], "range")}"
-    appearance="${select("appearance", ["solid", "outline", "outline-fill"], "single")}"
-    range-label-type="${select("range-label-type", ["percent", "units"], "units")}"
-    value-label-type="${select("value-label-type", ["percent", "units"], "percent")}"
-    unit-label="${text("unit-label", "credits")}"
-    ${boolean("group-separator", true)}
-    ${boolean("range-labels", true)}
-    ${boolean("value-label", true)}
+    min="500"
+    max="10000"
+    low="2500"
+    high="7500"
+    value="1750"
+    fill-type="range"
+    appearance="single"
+    range-label-type="units"
+    value-label-type="percent"
+    unit-label="credits"
+    group-separator
+    range-labels
+    value-label
   ></calcite-meter>`;
 
 export const swapLabelPlacementWhenCloseToMax_TestOnly = (): string =>
