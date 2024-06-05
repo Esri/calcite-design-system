@@ -68,7 +68,7 @@ export class AccordionItem implements ConditionalSlotComponent {
    *
    * @internal
    */
-  @Prop() iconPosition: Position;
+  @Prop() iconPosition: Extract<"start" | "end", Position>;
 
   /** Specifies the type of the icon in the header inherited from the `calcite-accordion`.
    *

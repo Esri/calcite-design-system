@@ -68,7 +68,7 @@ export class ActionGroup
    *
    * @deprecated Use the `layout` property on the component's parent instead.
    */
-  @Prop({ reflect: true }) layout: Layout = "vertical";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "vertical";
 
   /**
    * Indicates number of columns.
