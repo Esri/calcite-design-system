@@ -463,8 +463,7 @@ describe("calcite-alert", () => {
       expect(await alert.isVisible()).toBe(true);
       expect(await alert.getProperty("autoCloseDuration")).toEqual("medium");
       expect(playState).toEqual("running");
-      const link = document.querySelector("calcite-link");
-      await link.focus();
+      alert.focus();
       await page.waitForTimeout(DURATIONS.medium);
       expect(await alert.isVisible()).toBe(true);
       await button.focus();
