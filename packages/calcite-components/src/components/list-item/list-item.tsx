@@ -533,6 +533,7 @@ export class ListItem
         {closable ? (
           <calcite-action
             appearance="transparent"
+            class={CSS.close}
             icon={ICONS.close}
             key="close-action"
             label={messages.close}

@@ -25,6 +25,7 @@ export const CSS = {
   selectionContainerSingle: "selection-container--single",
   openContainer: "open-container",
   dragContainer: "drag-container",
+  close: "close",
 };
 
 export const SLOTS = {
