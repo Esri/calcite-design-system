@@ -72,7 +72,9 @@ describe("calcite-input-date-picker", () => {
     openClose(`<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker>`);
   });
 
-  it.skip("supports t9n", () => t9n("calcite-input-date-picker"));
+  describe("translation support", () => {
+    t9n("calcite-input-date-picker");
+  });
 
   async function navigateMonth(page: E2EPage, direction: "previous" | "next"): Promise<void> {
     const linkIndex = direction === "previous" ? 0 : 1;
@@ -746,6 +748,27 @@ describe("calcite-input-date-picker", () => {
       picker.minAsDate.getTime(),
     );
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
+  });
+
+  it("unsetting min/max updates internally", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone("America/Los_Angeles");
+    await page.setContent(
+      html`<calcite-input-date-picker
+        value="2022-11-27"
+        min="2022-11-15"
+        max="2024-11-15"
+      ></calcite-input-date-picker>`,
+    );
+
+    const element = await page.find("calcite-input-date-picker");
+
+    element.setProperty("min", null);
+    element.setProperty("max", null);
+    await page.waitForChanges();
+
+    expect(await element.getProperty("minAsDate")).toBe(null);
+    expect(await element.getProperty("maxAsDate")).toBe(null);
   });
 
   describe("owns a floating-ui", () => {

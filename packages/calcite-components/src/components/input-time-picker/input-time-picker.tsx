@@ -67,7 +67,13 @@ import {
 } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
-import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
 import { getSupportedLocale } from "../../utils/locale";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { decimalPlaces } from "../../utils/math";
@@ -388,7 +394,8 @@ export class InputTimePicker
 
   @Watch("effectiveLocale")
   async effectiveLocaleWatcher(locale: SupportedLocale): Promise<void> {
-    await this.loadDateTimeLocaleData();
+    await Promise.all([this.loadDateTimeLocaleData(), updateMessages(this, this.effectiveLocale)]);
+
     this.setInputValue(
       localizeTimeString({
         value: this.value,
@@ -1006,11 +1013,10 @@ export class InputTimePicker
               onCalciteInputTextInput={this.calciteInternalInputInputHandler}
               onCalciteInternalInputTextFocus={this.calciteInternalInputFocusHandler}
               readOnly={readOnly}
+              ref={this.setInputAndTransitionEl}
               role="combobox"
               scale={this.scale}
               status={this.status}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setInputAndTransitionEl}
             />
             {!this.readOnly && this.renderToggleIcon(this.open)}
           </div>
@@ -1024,22 +1030,20 @@ export class InputTimePicker
             open={this.open}
             overlayPositioning={this.overlayPositioning}
             placement={this.placement}
+            ref={this.setCalcitePopoverEl}
             referenceElement={this.referenceElementId}
             triggerDisabled={true}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.setCalcitePopoverEl}
           >
             <calcite-time-picker
               lang={this.effectiveLocale}
               messageOverrides={this.messageOverrides}
               numberingSystem={this.numberingSystem}
               onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
+              ref={this.setCalciteTimePickerEl}
               scale={this.scale}
               step={this.step}
               tabIndex={this.open ? undefined : -1}
               value={this.value}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setCalciteTimePickerEl}
             />
           </calcite-popover>
           <HiddenFormInputSlot component={this} />

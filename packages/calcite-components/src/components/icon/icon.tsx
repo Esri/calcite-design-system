@@ -4,7 +4,7 @@ import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
-import { fetchIcon, scaleToPx } from "./utils";
+import { fetchIcon, getCachedIconData, scaleToPx } from "./utils";
 
 @Component({
   tag: "calcite-icon",
@@ -60,19 +60,17 @@ export class Icon {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.waitUntilVisible(() => {
-      this.visible = true;
-      this.loadIconPathData();
-    });
+    if (!this.visible) {
+      this.waitUntilVisible(() => {
+        this.visible = true;
+        this.loadIconPathData();
+      });
+    }
   }
 
   disconnectedCallback(): void {
     this.intersectionObserver?.disconnect();
     this.intersectionObserver = null;
-  }
-
-  async componentWillLoad(): Promise<void> {
-    this.loadIconPathData();
   }
 
   render(): VNode {
@@ -142,7 +140,8 @@ export class Icon {
       return;
     }
 
-    const pathData = await fetchIcon({ icon, scale });
+    const fetchIconProps = { icon, scale };
+    const pathData = getCachedIconData(fetchIconProps) || (await fetchIcon(fetchIconProps));
 
     // While the fetchIcon method is awaiting response, the icon requested can change. This check is to verify the response received belongs to the current icon.
     if (icon !== this.icon) {

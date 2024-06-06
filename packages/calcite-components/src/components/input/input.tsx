@@ -118,7 +118,7 @@ export class Input
   /**
    * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
    *
-   * @internal
+   * @ignore
    */
   // eslint-disable-next-line @stencil-community/reserved-member-names
   @Prop() autofocus: boolean;
@@ -1191,10 +1191,9 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
+          ref={this.setChildNumberElRef}
           type="text"
           value={this.displayedValue}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.setChildNumberElRef}
         />
       ) : null;
 
@@ -1229,6 +1228,7 @@ export class Input
               pattern={this.pattern}
               placeholder={this.placeholder || ""}
               readOnly={this.readOnly}
+              ref={this.setChildElRef}
               required={this.required ? true : null}
               step={this.step}
               tabIndex={
@@ -1236,8 +1236,6 @@ export class Input
               }
               type={this.type}
               value={this.value}
-              // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-              ref={this.setChildElRef}
             />,
             this.isTextarea ? (
               <div class={CSS.resizeIconWrapper}>

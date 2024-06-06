@@ -20,8 +20,8 @@ import {
   connectFloatingUI,
   defaultMenuPlacement,
   disconnectFloatingUI,
-  EffectivePlacement,
-  filterComputedPlacements,
+  filterValidFlipPlacements,
+  FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
   LogicalPlacement,
@@ -64,8 +64,8 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Scale, SelectionMode, Status } from "../interfaces";
-import { XButton, CSS as XButtonCSS } from "../functional/XButton";
-import { getIconScale } from "../../utils/component";
+import { CSS as XButtonCSS, XButton } from "../functional/XButton";
+import { componentOnReady, getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
@@ -283,7 +283,7 @@ export class Combobox
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements: EffectivePlacement[];
+  @Prop() flipPlacements: FlipPlacement[];
 
   /**
    * Made into a prop for testing purposes only
@@ -343,18 +343,14 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   @Listen("click", { target: "document" })
-  documentClickHandler(event: PointerEvent): void {
-    if (this.disabled) {
+  async documentClickHandler(event: PointerEvent): Promise<void> {
+    if (this.disabled || event.composedPath().includes(this.el)) {
       return;
     }
 
-    const composedPath = event.composedPath();
+    await componentOnReady(this.el);
 
-    if (composedPath.includes(this.el) || composedPath.includes(this.referenceEl)) {
-      return;
-    }
-
-    if (!this.allowCustomValues && this.textInput.value) {
+    if (!this.allowCustomValues && this.text) {
       this.clearInputValue();
       this.filterItems("");
       this.updateActiveItemIndex(-1);
@@ -456,7 +452,7 @@ export class Combobox
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  async connectedCallback(): Promise<void> {
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
@@ -476,7 +472,9 @@ export class Combobox
       onToggleOpenCloseComponent(this);
     }
 
+    await componentOnReady(this.el);
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    afterConnectDefaultValueSet(this, this.getValue());
   }
 
   async componentWillLoad(): Promise<void> {
@@ -486,8 +484,6 @@ export class Combobox
   }
 
   componentDidLoad(): void {
-    afterConnectDefaultValueSet(this, this.getValue());
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
     setComponentLoaded(this);
   }
 
@@ -527,7 +523,7 @@ export class Combobox
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
-  filteredFlipPlacements: EffectivePlacement[];
+  filteredFlipPlacements: FlipPlacement[];
 
   internalValueChangeFlag = false;
 
@@ -633,7 +629,7 @@ export class Combobox
     const { el, flipPlacements } = this;
 
     this.filteredFlipPlacements = flipPlacements
-      ? filterComputedPlacements(flipPlacements, el)
+      ? filterValidFlipPlacements(flipPlacements, el)
       : null;
   };
 
@@ -1425,11 +1421,10 @@ export class Combobox
             !compactSelectionDisplay
           ),
         }}
+        ref={setAllSelectedIndicatorChipEl}
         scale={scale}
         title={label}
         value=""
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={setAllSelectedIndicatorChipEl}
       >
         {label}
       </calcite-chip>
@@ -1501,11 +1496,10 @@ export class Combobox
           chip: true,
           [CSS.chipInvisible]: chipInvisible,
         }}
+        ref={setSelectedIndicatorChipEl}
         scale={scale}
         title={label}
         value=""
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={setSelectedIndicatorChipEl}
       >
         {label}
       </calcite-chip>
@@ -1609,10 +1603,9 @@ export class Combobox
           onInput={this.inputHandler}
           placeholder={placeholder}
           readOnly={this.readOnly}
+          ref={(el) => (this.textInput = el as HTMLInputElement)}
           role="combobox"
           type="text"
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.textInput = el as HTMLInputElement)}
         />
       </span>
     );
@@ -1646,14 +1639,9 @@ export class Combobox
           "floating-ui-container": true,
           "floating-ui-container--active": open,
         }}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={setFloatingEl}
       >
-        <div
-          class={classes}
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={setContainerEl}
-        >
+        <div class={classes} ref={setContainerEl}>
           <ul class={{ list: true, "list--hide": !open }}>
             <slot />
           </ul>
@@ -1714,7 +1702,6 @@ export class Combobox
             }}
             onClick={this.clickHandler}
             onKeyDown={this.keyDownHandler}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setReferenceEl}
           >
             {this.renderSelectedOrPlaceholderIcon()}
@@ -1725,7 +1712,6 @@ export class Combobox
                 [CSS.selectionDisplaySingle]: singleSelectionDisplay,
               }}
               key="grid"
-              // eslint-disable-next-line react/jsx-sort-props -- auto-generated by @esri/calcite-components/enforce-ref-last-prop
               ref={this.setChipContainerEl}
             >
               {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}

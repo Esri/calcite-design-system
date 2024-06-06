@@ -1,16 +1,27 @@
-import { boolean, select } from "../../../.storybook/fake-knobs";
-import {
-  Attributes,
-  Attribute,
-  filterComponentAttributes,
-  createComponentHTML as create,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
-import { ATTRIBUTES } from "../../../.storybook/resources";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+const { position } = ATTRIBUTES;
+
+interface ActionPadArgs {
+  expandDisabled: boolean;
+  expanded: boolean;
+  position: string;
+}
 
 export default {
   title: "Components/Action Pad",
+  args: {
+    expandDisabled: false,
+    expanded: false,
+    position: position.defaultValue,
+  },
+  argTypes: {
+    position: {
+      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      control: { type: "select" },
+    },
+  },
   parameters: {
     chromatic: {
       delay: 5000,
@@ -18,54 +29,21 @@ export default {
   },
 };
 
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const { position } = ATTRIBUTES;
-
-  return filterComponentAttributes(
-    [
-      {
-        name: "expand-disabled",
-        commit(): Attribute {
-          this.value = boolean("expandDisabled", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "expanded",
-        commit(): Attribute {
-          this.value = boolean("expanded", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "position",
-        commit(): Attribute {
-          this.value = select("position", position.values, position.defaultValue);
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
-};
-
-export const simple = (): string =>
-  create(
-    "calcite-action-pad",
-    createAttributes(),
-    html`
-      <calcite-action-group>
-        <calcite-action text="Undo" label="Undo Action" icon="undo"></calcite-action>
-        <calcite-action text="Redo" label="Redo Action" icon="redo"></calcite-action>
-      </calcite-action-group>
-      <calcite-action-group>
-        <calcite-action text="Delete" label="Delete Item" icon="trash"></calcite-action>
-      </calcite-action-group>
-    `,
-  );
+export const simple = (args: ActionPadArgs): string => html`
+  <calcite-action-pad
+    ${boolean("expand-disabled", args.expandDisabled)}
+    ${boolean("expanded", args.expanded)}
+    position="${args.position}"
+  >
+    <calcite-action-group>
+      <calcite-action text="Undo" label="Undo Action" icon="undo"></calcite-action>
+      <calcite-action text="Redo" label="Redo Action" icon="redo"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Delete" label="Delete Item" icon="trash"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-pad>
+`;
 
 export const withDefinedWidths = (): string => html`
   <style>
@@ -84,29 +62,17 @@ export const withDefinedWidths = (): string => html`
   </calcite-action-pad>
 `;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create(
-    "calcite-action-pad",
-    createAttributes({ exceptions: ["dir", "class"] }).concat([
-      {
-        name: "dir",
-        value: "rtl",
-      },
-      {
-        name: "class",
-        value: "calcite-mode-dark",
-      },
-    ]),
-    html`
-      <calcite-action-group>
-        <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
-        <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
-      </calcite-action-group>
-      <calcite-action-group>
-        <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
-      </calcite-action-group>
-    `,
-  );
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-action-pad position="start" dir="rtl" class="calcite-mode-dark">
+    <calcite-action-group>
+      <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
+      <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Layers" label="View Layers" icon="layers"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-pad>
+`;
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 

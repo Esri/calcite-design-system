@@ -137,7 +137,7 @@ export class ActionBar
   /**
    * Arranges the component depending on the element's `dir` property.
    */
-  @Prop({ reflect: true }) position: Position;
+  @Prop({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /**
    * Specifies the size of the expand `calcite-action`.
@@ -412,11 +412,10 @@ export class ActionBar
         expandText={messages.expand}
         expanded={expanded}
         position={position}
+        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setExpandToggleRef}
       />
     ) : null;
 

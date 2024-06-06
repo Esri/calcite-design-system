@@ -29,29 +29,49 @@ export const scaleToPx: Record<Scale, number> = {
   l: 32,
 };
 
-export async function fetchIcon({ icon, scale }: FetchIconProps): Promise<CalciteIconPath> {
+function generateIconId({ icon, scale }: FetchIconProps): string {
   const size = scaleToPx[scale];
   const name = normalizeIconName(icon);
   const filled = name.charAt(name.length - 1) === "F";
   const iconName = filled ? name.substring(0, name.length - 1) : name;
-  const id = `${iconName}${size}${filled ? "F" : ""}`;
 
-  if (iconCache[id]) {
-    return iconCache[id];
+  return `${iconName}${size}${filled ? "F" : ""}`;
+}
+
+export async function fetchIcon(props: FetchIconProps): Promise<CalciteIconPath> {
+  const cachedIconKey = generateIconId(props);
+  const cachedIconData = getCachedIconDataByKey(cachedIconKey);
+
+  if (cachedIconData) {
+    return cachedIconData;
   }
-  if (!requestCache[id]) {
-    requestCache[id] = fetch(getAssetPath(`./assets/icon/${id}.json`))
+
+  if (!requestCache[cachedIconKey]) {
+    requestCache[cachedIconKey] = fetch(getAssetPath(`./assets/icon/${cachedIconKey}.json`))
       .then((resp) => resp.json())
       .catch(() => {
-        console.error(`"${id}" is not a valid calcite-ui-icon name`);
+        console.error(`"${cachedIconKey}" is not a valid calcite-ui-icon name`);
         return "";
       });
   }
 
-  const path = await requestCache[id];
-  iconCache[id] = path;
+  const path = await requestCache[cachedIconKey];
+  iconCache[cachedIconKey] = path;
 
   return path;
+}
+
+/**
+ * Util to retrieve cached icon data based on icon name and scale.
+ *
+ * @param props – icon properties
+ */
+export function getCachedIconData(props: FetchIconProps): CalciteIconPath {
+  return getCachedIconDataByKey(generateIconId(props));
+}
+
+function getCachedIconDataByKey(id: string): CalciteIconPath {
+  return iconCache[id];
 }
 
 /**
