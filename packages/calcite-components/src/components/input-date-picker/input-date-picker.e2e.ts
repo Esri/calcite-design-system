@@ -57,10 +57,10 @@ async function navigateMonth(page: E2EPage, direction: "previous" | "next", rang
   let prevMonth: E2EElement;
   let nextMonth: E2EElement;
   if (range) {
-    prevMonth = await datePickerMonthHeaderStart.find("a");
-    nextMonth = await datePickerMonthHeaderEnd.find("a");
+    prevMonth = await datePickerMonthHeaderStart.find("calcite-action");
+    nextMonth = await datePickerMonthHeaderEnd.find("calcite-action");
   } else {
-    [prevMonth, nextMonth] = await datePickerMonthHeaderStart.findAll("a");
+    [prevMonth, nextMonth] = await datePickerMonthHeaderStart.findAll("calcite-action");
   }
 
   await (direction === "previous" ? prevMonth.click() : nextMonth.click());
@@ -1490,5 +1490,59 @@ describe("calcite-input-date-picker", () => {
       expect(await calendar.isVisible()).toBe(false);
       expect(await inputDatePicker.getProperty("value")).not.toEqual(["2024-01-01", "2024-03-17"]);
     });
+  });
+
+  it("should update activeDate when user is updating date using keyboard", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
+    await page.waitForChanges();
+    await skipAnimations(page);
+
+    const inputDatePicker = await page.find("calcite-input-date-picker");
+    const input = await page.find("calcite-input-date-picker >>> calcite-input-text");
+    inputDatePicker.setProperty("value", ["2025-09-21", "2025-11-11"]);
+    const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+    expect(await calendar.isVisible()).toBe(false);
+    await input.click();
+    expect(await calendar.isVisible()).toBe(true);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(await calendar.isVisible()).toBe(true);
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    expect(await getActiveMonth(page)).toBe("September");
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.waitForTimeout(2000);
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.waitForTimeout(2000);
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.waitForTimeout(2000);
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.waitForTimeout(2000);
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+
+    expect(await getActiveMonth(page)).toBe("October");
   });
 });

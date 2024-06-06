@@ -391,23 +391,16 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       this.activeDate = date;
     } else {
       const month = date.getMonth();
+      const isDateOutsideCurrentMonths =
+        month !== this.activeStartDate.getMonth() &&
+        month !== nextMonth(this.activeStartDate).getMonth();
       if (this.activeRange === "end") {
-        const isDateOutsideActiveEndRange =
-          this.activeEndDate &&
-          month !== prevMonth(this.activeEndDate).getMonth() &&
-          month !== this.activeEndDate.getMonth();
-
-        if (!this.activeEndDate || isDateOutsideActiveEndRange) {
+        if (!this.activeEndDate || (this.activeStartDate && isDateOutsideCurrentMonths)) {
           this.activeEndDate = date;
           this.activeStartDate = prevMonth(date);
         }
       } else {
-        const isDateOutsideActiveStartRange =
-          this.activeStartDate &&
-          month !== nextMonth(this.activeStartDate).getMonth() &&
-          month !== this.activeStartDate.getMonth();
-
-        if (isDateOutsideActiveStartRange || !this.activeStartDate) {
+        if ((this.activeStartDate && isDateOutsideCurrentMonths) || !this.activeStartDate) {
           this.activeStartDate = date;
           this.activeEndDate = nextMonth(date);
         }
