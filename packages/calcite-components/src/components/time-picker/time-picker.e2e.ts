@@ -1240,12 +1240,6 @@ describe("calcite-time-picker", () => {
 
   describe("theme", () => {
     const tokens: ComponentTestTokens = {
-      "--calcite-time-picker-text-color": [
-        {
-          targetProp: "color",
-          shadowSelector: `.${CSS.timePicker}`,
-        },
-      ],
       "--calcite-time-picker-background-color": [
         {
           targetProp: "backgroundColor",
@@ -1274,6 +1268,25 @@ describe("calcite-time-picker", () => {
           targetProp: "boxShadow",
           shadowSelector: `.${CSS.input}`,
           state: "hover",
+        },
+      ],
+      "--calcite-time-picker-input-border-focus-color": [
+        {
+          targetProp: "boxShadow",
+          shadowSelector: `.${CSS.input}`,
+          state: "focus",
+        },
+      ],
+      "--calcite-time-picker-shadow": [
+        {
+          targetProp: "boxShadow",
+          shadowSelector: `.${CSS.timePicker}`,
+        },
+      ],
+      "--calcite-time-picker-text-color": [
+        {
+          targetProp: "color",
+          shadowSelector: `.${CSS.timePicker}`,
         },
       ],
     };
