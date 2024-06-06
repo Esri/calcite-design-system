@@ -5,12 +5,13 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 import { ActionMessages } from "./components/action/assets/action/t9n";
 import { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
 import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
+import { Columns } from "./components/action-group/interfaces";
 import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 import { AlertDuration, Sync } from "./components/alert/interfaces";
@@ -61,7 +62,7 @@ import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 import { MenuMessages } from "./components/menu/assets/menu/t9n";
 import { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 import { MenuItemCustomEvent } from "./components/menu-item/interfaces";
-import { MeterLabelType } from "./components/meter/interfaces";
+import { MeterFillType, MeterLabelType } from "./components/meter/interfaces";
 import { ModalMessages } from "./components/modal/assets/modal/t9n";
 import { NoticeMessages } from "./components/notice/assets/notice/t9n";
 import { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
@@ -95,12 +96,13 @@ import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
 import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
-export { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 export { ActionMessages } from "./components/action/assets/action/t9n";
 export { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
 export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
+export { Columns } from "./components/action-group/interfaces";
 export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 export { AlertDuration, Sync } from "./components/alert/interfaces";
@@ -151,7 +153,7 @@ export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 export { MenuMessages } from "./components/menu/assets/menu/t9n";
 export { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 export { MenuItemCustomEvent } from "./components/menu-item/interfaces";
-export { MeterLabelType } from "./components/meter/interfaces";
+export { MeterFillType, MeterLabelType } from "./components/meter/interfaces";
 export { ModalMessages } from "./components/modal/assets/modal/t9n";
 export { NoticeMessages } from "./components/notice/assets/notice/t9n";
 export { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
@@ -194,11 +196,11 @@ export namespace Components {
         /**
           * Specifies the placement of the icon in the header.
          */
-        "iconPosition": Position;
+        "iconPosition": Extract<"start" | "end", Position>;
         /**
           * Specifies the type of the icon in the header.
          */
-        "iconType": "chevron" | "caret" | "plus-minus";
+        "iconType": Extract<"chevron" | "caret" | "plus-minus", IconType>;
         /**
           * Specifies the size of the component.
          */
@@ -239,7 +241,7 @@ export namespace Components {
         /**
           * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
          */
-        "iconPosition": Position;
+        "iconPosition": Extract<"start" | "end", Position>;
         /**
           * Specifies an icon to display at the start of the component.
          */
@@ -247,7 +249,7 @@ export namespace Components {
         /**
           * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
          */
-        "iconType": "chevron" | "caret" | "plus-minus";
+        "iconType": Extract<"chevron" | "caret" | "plus-minus", IconType>;
         /**
           * Specifies the size of the component inherited from the `calcite-accordion`.
          */
@@ -363,7 +365,7 @@ export namespace Components {
         /**
           * Arranges the component depending on the element's `dir` property.
          */
-        "position": Position;
+        "position": Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the expand `calcite-action`.
          */
@@ -390,7 +392,7 @@ export namespace Components {
           * Indicates the layout of the component.
           * @deprecated Use the `layout` property on the component's parent instead.
          */
-        "layout": Layout;
+        "layout": Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * When `true`, the `calcite-action-menu` is open.
          */
@@ -470,7 +472,7 @@ export namespace Components {
         /**
           * Indicates the layout of the component.
          */
-        "layout": Layout;
+        "layout": Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -486,7 +488,7 @@ export namespace Components {
         /**
           * Arranges the component depending on the element's `dir` property.
          */
-        "position": Position;
+        "position": Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the expand `calcite-action`.
          */
@@ -1858,7 +1860,7 @@ export namespace Components {
         /**
           * Specifies the direction of the collapse.
          */
-        "collapseDirection": "down" | "up";
+        "collapseDirection": CollapseDirection;
         /**
           * When `true`, hides the component's content area.
          */
@@ -3252,7 +3254,7 @@ export namespace Components {
         /**
           * Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values.
          */
-        "fillType": "single" | "range";
+        "fillType": MeterFillType;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -3630,7 +3632,7 @@ export namespace Components {
         /**
           * Specifies the direction of the collapse.
          */
-        "collapseDirection": "down" | "up";
+        "collapseDirection": CollapseDirection;
         /**
           * When `true`, hides the component's content area.
          */
@@ -3993,7 +3995,7 @@ export namespace Components {
         /**
           * Defines the layout of the component.
          */
-        "layout": Layout;
+        "layout": Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * Specifies the name of the component on form submission. Must be unique to other component instances.
          */
@@ -4185,7 +4187,7 @@ export namespace Components {
         /**
           * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
          */
-        "layout": Layout;
+        "layout": Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * Specifies the size of the component inherited from the `calcite-segmented-control`, defaults to `m`.
          */
@@ -4333,7 +4335,7 @@ export namespace Components {
         /**
           * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
          */
-        "position": Position;
+        "position": Extract<"start" | "end", Position>;
     }
     interface CalciteShellPanel {
         /**
@@ -4373,7 +4375,7 @@ export namespace Components {
         /**
           * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
          */
-        "position": Position;
+        "position": Extract<"start" | "end", Position>;
         /**
           * When `true` and `displayMode` is not `float`, the component's content area is resizable.
          */
@@ -4530,7 +4532,7 @@ export namespace Components {
         /**
           * Indicates the horizontal or vertical orientation of the component.
          */
-        "layout": Layout;
+        "layout": Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * When true, content is waiting to be loaded. This state shows a busy indicator.
          */
@@ -5252,7 +5254,7 @@ export namespace Components {
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
-        "layout": Exclude<Layout, "grid">;
+        "layout": Extract<Layout, "horizontal" | "vertical">;
         /**
           * Specifies the size of the component.
          */
@@ -5293,7 +5295,7 @@ export namespace Components {
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
-        "layout": Exclude<Layout, "grid">;
+        "layout": Extract<Layout, "horizontal" | "vertical">;
         /**
           * Specifies the size of the component.
          */
@@ -7901,11 +7903,11 @@ declare namespace LocalJSX {
         /**
           * Specifies the placement of the icon in the header.
          */
-        "iconPosition"?: Position;
+        "iconPosition"?: Extract<"start" | "end", Position>;
         /**
           * Specifies the type of the icon in the header.
          */
-        "iconType"?: "chevron" | "caret" | "plus-minus";
+        "iconType"?: Extract<"chevron" | "caret" | "plus-minus", IconType>;
         "onCalciteInternalAccordionChange"?: (event: CalciteAccordionCustomEvent<RequestedItem>) => void;
         /**
           * Specifies the size of the component.
@@ -7947,7 +7949,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
          */
-        "iconPosition"?: Position;
+        "iconPosition"?: Extract<"start" | "end", Position>;
         /**
           * Specifies an icon to display at the start of the component.
          */
@@ -7955,7 +7957,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
          */
-        "iconType"?: "chevron" | "caret" | "plus-minus";
+        "iconType"?: Extract<"chevron" | "caret" | "plus-minus", IconType>;
         "onCalciteInternalAccordionItemClose"?: (event: CalciteAccordionItemCustomEvent<void>) => void;
         "onCalciteInternalAccordionItemSelect"?: (event: CalciteAccordionItemCustomEvent<RequestedItem1>) => void;
         /**
@@ -8065,7 +8067,7 @@ declare namespace LocalJSX {
         /**
           * Arranges the component depending on the element's `dir` property.
          */
-        "position"?: Position;
+        "position"?: Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the expand `calcite-action`.
          */
@@ -8088,7 +8090,7 @@ declare namespace LocalJSX {
           * Indicates the layout of the component.
           * @deprecated Use the `layout` property on the component's parent instead.
          */
-        "layout"?: Layout;
+        "layout"?: Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * When `true`, the `calcite-action-menu` is open.
          */
@@ -8164,7 +8166,7 @@ declare namespace LocalJSX {
         /**
           * Indicates the layout of the component.
          */
-        "layout"?: Layout;
+        "layout"?: Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -8184,7 +8186,7 @@ declare namespace LocalJSX {
         /**
           * Arranges the component depending on the element's `dir` property.
          */
-        "position"?: Position;
+        "position"?: Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the expand `calcite-action`.
          */
@@ -9653,7 +9655,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the direction of the collapse.
          */
-        "collapseDirection"?: "down" | "up";
+        "collapseDirection"?: CollapseDirection;
         /**
           * When `true`, hides the component's content area.
          */
@@ -11153,7 +11155,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values.
          */
-        "fillType"?: "single" | "range";
+        "fillType"?: MeterFillType;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -11526,7 +11528,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the direction of the collapse.
          */
-        "collapseDirection"?: "down" | "up";
+        "collapseDirection"?: CollapseDirection;
         /**
           * When `true`, hides the component's content area.
          */
@@ -11918,7 +11920,7 @@ declare namespace LocalJSX {
         /**
           * Defines the layout of the component.
          */
-        "layout"?: Layout;
+        "layout"?: Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * Specifies the name of the component on form submission. Must be unique to other component instances.
          */
@@ -12110,7 +12112,7 @@ declare namespace LocalJSX {
         /**
           * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
          */
-        "layout"?: Layout;
+        "layout"?: Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * Fires when the item has been selected.
          */
@@ -12270,7 +12272,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
          */
-        "position"?: Position;
+        "position"?: Extract<"start" | "end", Position>;
     }
     interface CalciteShellPanel {
         /**
@@ -12312,7 +12314,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
          */
-        "position"?: Position;
+        "position"?: Extract<"start" | "end", Position>;
         /**
           * When `true` and `displayMode` is not `float`, the component's content area is resizable.
          */
@@ -12473,7 +12475,7 @@ declare namespace LocalJSX {
         /**
           * Indicates the horizontal or vertical orientation of the component.
          */
-        "layout"?: Layout;
+        "layout"?: Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * When true, content is waiting to be loaded. This state shows a busy indicator.
          */
@@ -13210,7 +13212,7 @@ declare namespace LocalJSX {
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
-        "layout"?: Exclude<Layout, "grid">;
+        "layout"?: Extract<Layout, "horizontal" | "vertical">;
         "onCalciteInternalTileKeyEvent"?: (event: CalciteTileCustomEvent<KeyboardEvent>) => void;
         /**
           * Fires when the selected state of the component changes.
@@ -13252,7 +13254,7 @@ declare namespace LocalJSX {
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
-        "layout"?: Exclude<Layout, "grid">;
+        "layout"?: Extract<Layout, "horizontal" | "vertical">;
         /**
           * Fires when the component's selection changes.
          */
