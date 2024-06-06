@@ -218,7 +218,7 @@ td:focus {
 tr:focus {
   .actions-start,
   .actions-end {
-    inset-block-start: theme("spacing[0.5]");
+    inset-block: theme("spacing[0.5]");
     .close,
     ::slotted(calcite-action),
     ::slotted(calcite-action-menu),
