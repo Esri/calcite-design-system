@@ -48,8 +48,8 @@ import { BlockMessages } from "./assets/block/t9n";
 
 /**
  * @slot - A slot for adding custom content.
- * @slot icon - A slot for adding a leading header icon with `calcite-icon`.
- * @slot control - A slot for adding a single HTML input element in a header.
+ * @slot icon - [Deprecated] A slot for adding a leading header icon with `calcite-icon`. Use `icon-start` instead.
+ * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
 @Component({
