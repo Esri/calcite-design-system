@@ -129,9 +129,9 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   }
 
   /**
-   * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
+   * Specifies the action bar's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    */
-  @Prop({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
+  @Prop({ reflect: true }) actionBarPosition: Extract<"start" | "end", Position> = "start";
 
   /**
    * When `true` and `displayMode` is not `float`, the component's content area is resizable.
@@ -264,7 +264,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   render(): VNode {
     const {
       collapsed,
-      position,
+      actionBarPosition,
       initialContentWidth,
       initialContentHeight,
       contentWidth,
@@ -316,12 +316,13 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const getAnimationDir = (): string => {
       if (layout === "horizontal") {
-        return position === "start"
+        return actionBarPosition === "start"
           ? CSS_UTILITY.calciteAnimateInDown
           : CSS_UTILITY.calciteAnimateInUp;
       } else {
         const isStart =
-          (dir === "ltr" && position === "end") || (dir === "rtl" && position === "start");
+          (dir === "ltr" && actionBarPosition === "end") ||
+          (dir === "rtl" && actionBarPosition === "start");
         return isStart ? CSS_UTILITY.calciteAnimateInLeft : CSS_UTILITY.calciteAnimateInRight;
       }
     };
@@ -355,7 +356,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const mainNodes = [actionBarNode, contentNode];
 
-    if (position === "end") {
+    if (actionBarPosition === "end") {
       mainNodes.reverse();
     }
 
@@ -458,7 +459,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       initialContentHeight,
       contentHeightMin,
       contentHeightMax,
-      position,
+      actionBarPosition,
     } = this;
     const multipliedStep = step * stepMultiplier;
 
@@ -485,11 +486,11 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const increaseKeys =
       layout === "horizontal"
-        ? position === "end"
+        ? actionBarPosition === "end"
           ? key === verticalKeys[1] || key === horizontalKeys[0]
           : key === verticalKeys[0] || key === horizontalKeys[1]
         : key === verticalKeys[1] ||
-          (position === "end" ? key === horizontalKeys[0] : key === horizontalKeys[1]);
+          (actionBarPosition === "end" ? key === horizontalKeys[0] : key === horizontalKeys[1]);
 
     if (increaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
@@ -501,11 +502,11 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const decreaseKeys =
       layout === "horizontal"
-        ? position === "end"
+        ? actionBarPosition === "end"
           ? key === verticalKeys[0] || key === horizontalKeys[0]
           : key === verticalKeys[1] || key === horizontalKeys[1]
         : key === verticalKeys[0] ||
-          (position === "end" ? key === horizontalKeys[1] : key === horizontalKeys[0]);
+          (actionBarPosition === "end" ? key === horizontalKeys[1] : key === horizontalKeys[0]);
 
     if (decreaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
@@ -578,7 +579,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       layout,
       initialContentWidth,
       initialContentHeight,
-      position,
+      actionBarPosition,
       initialClientX,
       initialClientY,
     } = this;
@@ -590,10 +591,10 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const adjustedOffset =
       layout === "horizontal"
-        ? position === "end"
+        ? actionBarPosition === "end"
           ? -adjustmentDirection * offset
           : adjustmentDirection * offset
-        : position === "end"
+        : actionBarPosition === "end"
           ? -adjustmentDirection * offset
           : adjustmentDirection * offset;
 

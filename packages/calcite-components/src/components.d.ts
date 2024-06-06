@@ -4337,6 +4337,10 @@ export namespace Components {
     }
     interface CalciteShellPanel {
         /**
+          * Specifies the action bar's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "actionBarPosition": Extract<"start" | "end", Position>;
+        /**
           * When `true`, hides the component's content area.
          */
         "collapsed": boolean;
@@ -4370,10 +4374,6 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": ShellPanelMessages;
-        /**
-          * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
-         */
-        "position": Extract<"start" | "end", Position>;
         /**
           * When `true` and `displayMode` is not `float`, the component's content area is resizable.
          */
@@ -12274,6 +12274,10 @@ declare namespace LocalJSX {
     }
     interface CalciteShellPanel {
         /**
+          * Specifies the action bar's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "actionBarPosition"?: Extract<"start" | "end", Position>;
+        /**
           * When `true`, hides the component's content area.
          */
         "collapsed"?: boolean;
@@ -12309,10 +12313,6 @@ declare namespace LocalJSX {
         "messages"?: ShellPanelMessages;
         "onCalciteInternalShellPanelResizeEnd"?: (event: CalciteShellPanelCustomEvent<void>) => void;
         "onCalciteInternalShellPanelResizeStart"?: (event: CalciteShellPanelCustomEvent<void>) => void;
-        /**
-          * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
-         */
-        "position"?: Extract<"start" | "end", Position>;
         /**
           * When `true` and `displayMode` is not `float`, the component's content area is resizable.
          */
