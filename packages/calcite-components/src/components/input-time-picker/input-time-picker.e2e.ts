@@ -1040,11 +1040,11 @@ describe("calcite-input-time-picker", () => {
         "--calcite-input-time-picker-shadow-focus": {
           selector: "calcite-input-time-picker",
           shadowSelector: "calcite-time-picker",
-          targetProp: "--calcite-time-picker-input-box-shadow-focus",
+          targetProp: "--calcite-time-picker-input-border-color-focus",
         },
         "--calcite-input-time-picker-shadow": {
           shadowSelector: "calcite-time-picker",
-          targetProp: "--calcite-time-picker-input-box-shadow",
+          targetProp: "--calcite-time-picker-input-border-color-hover",
         },
         "--calcite-input-time-picker-icon-color": {
           shadowSelector: "calcite-time-picker",
