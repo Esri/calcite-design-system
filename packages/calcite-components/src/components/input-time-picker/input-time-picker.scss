@@ -71,19 +71,12 @@
   }
 
   calcite-icon {
-    --calcite-icon-color: var(--calcite-input-icon-color);
-
-    &:hover {
-      --calcite-icon-color: var(--calcite-input-icon-color-hover);
-    }
-    &:active {
-      --calcite-icon-color: var(--calcite-input-icon-color-active);
-    }
+    --calcite-icon-color: var(--calcite-input-time-picker-toggle-icon-color);
   }
 }
 
 .input-wrapper:hover .toggle-icon,
-calcite-input-text:focus + .toggle-icon {
+:is(calcite-input-text:active, calcite-input-text:hover, calcite-input-text:focus) + .toggle-icon {
   calcite-icon {
     --calcite-icon-color: var(--calcite-input-time-picker-toggle-icon-color-hover, var(--calcite-color-text-1));
   }

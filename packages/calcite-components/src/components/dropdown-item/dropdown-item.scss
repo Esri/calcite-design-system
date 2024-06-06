@@ -20,7 +20,7 @@
     duration-150
     ease-in-out;
   color: var(--calcite-dropdown-item-text-color, (--calcite-color-text-3));
-  background-color: var(--calcite-dropdown-item-background-color, none);
+  background-color: var(--calcite-dropdown-item-background-color, transparent);
 }
 
 :host {
@@ -130,18 +130,20 @@
 :host([selected]) .dropdown-link {
   @apply font-medium;
   color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-1));
-  & calcite-icon {
-    --calcite-icon-color: var(--calcite-dropdown-item-icon-color, theme("backgroundColor.brand"));
-  }
+}
+
+.dropdown-item-icon--start,
+.dropdown-item-icon--end {
+  --calcite-icon-color: var(--calcite-dropdown-item-icon-color, theme("backgroundColor.brand"));
 }
 
 :host(:hover:not([disabled])) .dropdown-item-icon {
-  color: var(--calcite-dropdown-item-indicator-color, theme("borderColor.color.1"));
+  --calcite-icon-color: var(--calcite-dropdown-item-indicator-color, theme("borderColor.color.1"));
   @apply opacity-100;
 }
 
 :host([selected]) .dropdown-item-icon {
-  color: var(--calcite-dropdown-item-indicator-color, theme("backgroundColor.brand"));
+  --calcite-icon-color: var(--calcite-dropdown-item-indicator-color, theme("backgroundColor.brand"));
   @apply opacity-100;
 }
 
