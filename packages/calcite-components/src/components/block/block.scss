@@ -36,6 +36,9 @@
   grid-column: header-start / menu-end;
   grid-row: 1 / 2;
 }
+.header ::slotted(calcite-icon) {
+  margin-inline-end: var(--calcite-spacing-md);
+}
 
 .toggle {
   @apply font-sans
@@ -99,6 +102,10 @@ calcite-handle {
 .icon--start,
 .icon--end {
   margin-inline-end: var(--calcite-spacing-md);
+}
+
+.status-icon {
+  margin-inline-end: var(--calcite-spacing-sm);
 }
 
 .status-icon.valid {
