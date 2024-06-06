@@ -12,7 +12,7 @@ import {
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
-import { EffectivePlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
 import {
@@ -82,7 +82,7 @@ export class ActionMenu implements LoadableComponent {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements: EffectivePlacement[];
+  @Prop() flipPlacements: FlipPlacement[];
 
   /**
    *  Specifies the text string for the component.
