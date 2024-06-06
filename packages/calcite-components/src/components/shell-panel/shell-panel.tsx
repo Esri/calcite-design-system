@@ -68,8 +68,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   @Watch("detached")
   handleDetached(value: boolean): void {
     if (value) {
-      this.displayMode = "float";
-    } else if (this.displayMode === "float") {
+      this.displayMode = "float-detach";
+    } else if (this.displayMode === "float-detach") {
       this.displayMode = "dock";
     }
   }
@@ -81,17 +81,17 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
    *
    * `"overlay"` displays at full height on top of center content, and
    *
-   * `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+   * `"float-detach"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
    */
   @Prop({ reflect: true }) displayMode: DisplayMode = "dock";
 
   @Watch("displayMode")
   handleDisplayMode(value: DisplayMode): void {
-    this.detached = value === "float";
+    this.detached = value === "float-detach";
   }
 
   /**
-   * When `displayMode` is `float`, specifies the maximum height of the component.
+   * When `displayMode` is `float-detach`, specifies the maximum height of the component.
    *
    * @deprecated Use `heightScale` instead.
    */
@@ -134,7 +134,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   @Prop({ reflect: true }) actionBarPosition: Extract<"start" | "end", Position> = "start";
 
   /**
-   * When `true` and `displayMode` is not `float`, the component's content area is resizable.
+   * When `true` and `displayMode` is not `float-detach`, the component's content area is resizable.
    */
   @Prop({ reflect: true }) resizable = false;
 
@@ -280,7 +280,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const dir = getElementDir(this.el);
 
-    const allowResizing = displayMode !== "float" && resizable;
+    const allowResizing = displayMode !== "float-detach" && resizable;
 
     const style = allowResizing
       ? layout === "horizontal"
@@ -333,7 +333,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           [CSS_UTILITY.rtl]: dir === "rtl",
           [CSS.content]: true,
           [CSS.contentOverlay]: displayMode === "overlay",
-          [CSS.contentFloat]: displayMode === "float",
+          [CSS.contentFloat]: displayMode === "float-detach",
           [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
           [getAnimationDir()]: displayMode === "overlay",
         }}
