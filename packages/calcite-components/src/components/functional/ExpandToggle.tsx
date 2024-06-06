@@ -22,7 +22,7 @@ const ICONS = {
 };
 
 function getCalcitePosition(position: Position, el: HTMLElement): Position {
-  return position || el.closest("calcite-shell-panel")?.position || "start";
+  return position || el.closest("calcite-shell-panel")?.actionBarPosition || "start";
 }
 
 export function toggleChildActionText({
