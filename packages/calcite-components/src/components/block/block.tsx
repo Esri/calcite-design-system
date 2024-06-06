@@ -352,12 +352,14 @@ export class Block
     const toggleLabel = open ? messages.collapse : messages.expand;
     const { iconFlipRtl } = this;
 
+    /** Icon scale is not variable as the component does not have a scale property */
     const iconStartEl = this.iconStart ? (
       <calcite-icon
         class={CSS.iconStart}
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
         icon={this.iconStart}
         key="icon-start"
+        scale="s"
       />
     ) : null;
     const iconEndEl = this.iconEnd ? (
@@ -366,6 +368,7 @@ export class Block
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
         icon={this.iconEnd}
         key="icon-end"
+        scale="s"
       />
     ) : null;
 

@@ -96,7 +96,7 @@ calcite-handle {
 }
 
 .icon {
-  display: flex;
+  @apply flex;
 }
 
 .icon--start,
