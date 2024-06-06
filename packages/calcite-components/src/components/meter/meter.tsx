@@ -23,7 +23,7 @@ import {
 import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { CSS } from "./resources";
-import { MeterLabelType } from "./interfaces";
+import { MeterFillType, MeterLabelType } from "./interfaces";
 
 @Component({
   tag: "calcite-meter",
@@ -45,7 +45,7 @@ export class Meter implements FormComponent, LoadableComponent, LocalizedCompone
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values. */
-  @Prop({ reflect: true }) fillType: "single" | "range" = "range";
+  @Prop({ reflect: true }) fillType: MeterFillType = "range";
 
   /**
    * The `id` of the form that will be associated with the component.

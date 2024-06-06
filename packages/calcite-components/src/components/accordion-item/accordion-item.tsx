@@ -23,7 +23,7 @@ import {
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
-import { FlipContext, Position, Scale, SelectionMode } from "../interfaces";
+import { FlipContext, Position, Scale, SelectionMode, IconType } from "../interfaces";
 import { componentFocusable } from "../../utils/component";
 import { SLOTS, CSS, IDS } from "./resources";
 import { RequestedItem } from "./interfaces";
@@ -68,13 +68,13 @@ export class AccordionItem implements ConditionalSlotComponent {
    *
    * @internal
    */
-  @Prop() iconPosition: Position;
+  @Prop() iconPosition: Extract<"start" | "end", Position>;
 
   /** Specifies the type of the icon in the header inherited from the `calcite-accordion`.
    *
    * @internal
    */
-  @Prop() iconType: "chevron" | "caret" | "plus-minus";
+  @Prop() iconType: Extract<"chevron" | "caret" | "plus-minus", IconType>;
 
   /**
    * The containing `accordion` element.
