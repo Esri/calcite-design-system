@@ -9,7 +9,7 @@ import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, 
 import { RequestedItem } from "./components/accordion/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 import { ActionMessages } from "./components/action/assets/action/t9n";
-import { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+import { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
 import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 import { Columns } from "./components/action-group/interfaces";
 import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
@@ -100,7 +100,7 @@ export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, 
 export { RequestedItem } from "./components/accordion/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 export { ActionMessages } from "./components/action/assets/action/t9n";
-export { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+export { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
 export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
 export { Columns } from "./components/action-group/interfaces";
 export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
@@ -430,7 +430,7 @@ export namespace Components {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements": EffectivePlacement[];
+        "flipPlacements": FlipPlacement[];
         /**
           * Specifies the text string for the component.
          */
@@ -1231,7 +1231,7 @@ export namespace Components {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements": EffectivePlacement[];
+        "flipPlacements": FlipPlacement[];
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -1629,7 +1629,7 @@ export namespace Components {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements": EffectivePlacement[];
+        "flipPlacements": FlipPlacement[];
         /**
           * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
          */
@@ -2251,7 +2251,7 @@ export namespace Components {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements": EffectivePlacement[];
+        "flipPlacements": FlipPlacement[];
         /**
           * When `true`, prevents focus trapping.
          */
@@ -3838,7 +3838,7 @@ export namespace Components {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements": EffectivePlacement[];
+        "flipPlacements": FlipPlacement[];
         /**
           * When `true`, prevents focus trapping.
          */
@@ -8124,7 +8124,7 @@ declare namespace LocalJSX {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements"?: EffectivePlacement[];
+        "flipPlacements"?: FlipPlacement[];
         /**
           * Specifies the text string for the component.
          */
@@ -8986,7 +8986,7 @@ declare namespace LocalJSX {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements"?: EffectivePlacement[];
+        "flipPlacements"?: FlipPlacement[];
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -9427,7 +9427,7 @@ declare namespace LocalJSX {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements"?: EffectivePlacement[];
+        "flipPlacements"?: FlipPlacement[];
         /**
           * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
          */
@@ -10065,7 +10065,7 @@ declare namespace LocalJSX {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements"?: EffectivePlacement[];
+        "flipPlacements"?: FlipPlacement[];
         /**
           * When `true`, prevents focus trapping.
          */
@@ -11749,7 +11749,7 @@ declare namespace LocalJSX {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements"?: EffectivePlacement[];
+        "flipPlacements"?: FlipPlacement[];
         /**
           * When `true`, prevents focus trapping.
          */
