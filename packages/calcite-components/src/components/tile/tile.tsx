@@ -107,7 +107,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
    *
    * @internal
    */
-  @Prop({ reflect: true }) layout: Exclude<Layout, "grid"> = "horizontal";
+  @Prop({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
   /**
    * Specifies the size of the component.
