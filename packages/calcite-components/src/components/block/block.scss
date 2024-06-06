@@ -22,7 +22,6 @@
 .header {
   @apply justify-start;
   padding: var(--calcite-spacing-md);
-  gap: var(--calcite-spacing-md);
 }
 
 .header,
@@ -97,6 +96,11 @@ calcite-handle {
   display: flex;
 }
 
+.icon--start,
+.icon--end {
+  margin-inline-end: var(--calcite-spacing-md);
+}
+
 .status-icon.valid {
   color: theme("colors.success");
 }
@@ -117,6 +121,13 @@ calcite-handle {
   }
 }
 
+.icon-end-container {
+  @apply flex items-center;
+
+  margin-inline-start: auto;
+  padding: var(--calcite-spacing-md);
+}
+
 .toggle-icon {
   @apply text-color-3
   transition-color
@@ -125,8 +136,6 @@ calcite-handle {
   justify-self-end
   duration-150
   ease-in-out;
-  margin-inline-end: theme("spacing.3");
-  margin-inline-start: auto;
 }
 
 .toggle:hover .toggle-icon {

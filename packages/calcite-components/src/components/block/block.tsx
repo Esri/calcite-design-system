@@ -306,30 +306,6 @@ export class Block
     return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
   }
 
-  renderIcon(icon: string): VNode {
-    const { iconFlipRtl } = this;
-
-    if (icon === undefined) {
-      return null;
-    }
-
-    const flipRtlStart = iconFlipRtl === "both" || iconFlipRtl === "start";
-    const flipRtlEnd = iconFlipRtl === "both" || iconFlipRtl === "end";
-
-    const isIconStart = icon === this.iconStart;
-
-    /** Icon scale is not variable as the component does not have a scale property */
-    return (
-      <calcite-icon
-        class={isIconStart ? this.iconStart : this.iconEnd}
-        flipRtl={isIconStart ? flipRtlStart : flipRtlEnd}
-        icon={isIconStart ? this.iconStart : this.iconEnd}
-        key={isIconStart ? CSS.iconStart : CSS.iconEnd}
-        scale="s"
-      />
-    );
-  }
-
   renderStatusOrContentStart(): VNode[] {
     const { loading, messages, status } = this;
 
@@ -374,10 +350,28 @@ export class Block
     const { collapsible, el, loading, open, heading, messages } = this;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
+    const { iconFlipRtl } = this;
+
+    const iconStartEl = this.iconStart ? (
+      <calcite-icon
+        class={CSS.iconStart}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
+        icon={this.iconStart}
+        key="icon-start"
+      />
+    ) : null;
+    const iconEndEl = this.iconEnd ? (
+      <calcite-icon
+        class={CSS.iconEnd}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
+        icon={this.iconEnd}
+        key="icon-end"
+      />
+    ) : null;
 
     const headerContent = (
       <header class={CSS.header} id={IDS.header}>
-        {this.renderIcon(this.iconStart)}
+        {iconStartEl}
         {this.renderStatusOrContentStart()}
         {this.renderTitle()}
       </header>
@@ -401,13 +395,20 @@ export class Block
             title={toggleLabel}
           >
             {headerContent}
-            {this.renderIcon(this.iconEnd)}
-            <calcite-icon aria-hidden="true" class={CSS.toggleIcon} icon={collapseIcon} scale="s" />
+            <div class={CSS.iconEndContainer}>
+              {iconEndEl}
+              <calcite-icon
+                aria-hidden="true"
+                class={CSS.toggleIcon}
+                icon={collapseIcon}
+                scale="s"
+              />
+            </div>
           </button>
         ) : (
           <div>
             {headerContent}
-            {this.renderIcon(this.iconEnd)}
+            <div class={CSS.iconEndContainer}>{iconEndEl}</div>
           </div>
         )}
         {hasControl ? (

@@ -16,6 +16,7 @@ export const CSS = {
   icon: "icon",
   iconStart: "icon--start",
   iconEnd: "icon--end",
+  iconEndContainer: "icon-end-container",
   invalid: "invalid",
   statusIcon: "status-icon",
   summary: "summary",
