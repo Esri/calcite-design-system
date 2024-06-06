@@ -1263,14 +1263,14 @@ describe("calcite-time-picker", () => {
           shadowSelector: `calcite-icon`,
         },
       ],
-      "--calcite-time-picker-input-border-hover-color": [
+      "--calcite-time-picker-input-border-color-hover": [
         {
           targetProp: "boxShadow",
           shadowSelector: `.${CSS.input}`,
           state: "hover",
         },
       ],
-      "--calcite-time-picker-input-border-focus-color": [
+      "--calcite-time-picker-input-border-color-focus": [
         {
           targetProp: "boxShadow",
           shadowSelector: `.${CSS.input}`,
