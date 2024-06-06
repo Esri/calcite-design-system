@@ -77,7 +77,11 @@
   }
 }
 
-:host([scale="s"]) .container.image--slotted {
+:host([scale="s"]) .container.selectable.single.image--slotted {
+  padding-inline-end: calc(theme("spacing[0.5]") / 2);
+}
+
+:host([scale="s"]) .container:not(.selected):not(.multiple).image--slotted {
   padding-inline-start: calc(theme("spacing[0.5]") / 2);
 }
 
