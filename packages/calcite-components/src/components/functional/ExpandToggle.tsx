@@ -94,6 +94,7 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
   const actionNode = (
     <calcite-action
       icon={expanded ? expandIcon : collapseIcon}
+      id="expand-toggle"
       label={label}
       onClick={toggle}
       ref={(referenceElement): HTMLCalciteActionElement =>
