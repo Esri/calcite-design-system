@@ -11,7 +11,7 @@ export default {
   args: {
     open: true,
     position: logicalFlowPosition.values[0],
-    displayMode: displayMode.values[2],
+    displayMode: displayMode.values[1],
   },
   argTypes: {
     position: {
@@ -19,7 +19,7 @@ export default {
       control: { type: "select" },
     },
     displayMode: {
-      options: displayMode.values.filter((option) => option !== "dock"),
+      options: displayMode.values,
       control: { type: "select" },
     },
   },
