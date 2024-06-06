@@ -1,0 +1,43 @@
+@import "~@esri/calcite-base/dist/index";
+@import "~@esri/calcite-design-tokens/dist/scss/index";
+@import "~@esri/calcite-design-tokens/dist/scss/core";
+
+/* CSS vars (@include in global) */
+@import "type";
+
+// Add Calcite Design Tokens as CSS Custom Props
+@import url("~@esri/calcite-design-tokens/dist/css/index.css");
+
+// Include legacy tokens for backwards compatibility
+@import "./legacy";
+
+:root {
+  @extend %type-vars;
+  @include animation-base();
+  --calcite-popover-z-index: var(--calcite-z-index-popup);
+  --calcite-border-radius: var(--calcite-border-radius-round, 4px);
+  --calcite-offset-invert-focus: 0; // should be 0 or 1
+  --calcite-ui-icon-color: currentColor;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-family: var(--calcite-font-family);
+}
+
+.calcite-mode-auto {
+  @media (prefers-color-scheme: dark) {
+    @include calcite-mode-dark();
+  }
+
+  @media (prefers-color-scheme: light) {
+    @include calcite-mode-light();
+  }
+}
+
+@include animation-reduced-motion();
+
+@include animation-helper-classes();
+
+@include sortable-helper-classes();

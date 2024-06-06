@@ -1,0 +1,4 @@
+{
+  "invalid": "Neplatné",
+  "tooLong": "Aktuálna dĺžka znaku je {currentLength}, čo presahuje maximálnu dĺžku {maxLength}."
+}

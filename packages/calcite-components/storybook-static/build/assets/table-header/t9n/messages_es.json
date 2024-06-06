@@ -1,0 +1,8 @@
+{
+  "all": "todo",
+  "keyboardDeselectAll": "Pulsar intro o espacio para anular la selección de todas las filas",
+  "keyboardSelectAll": "Pulsar intro o espacio para seleccionar todas las filas",
+  "rowNumber": "Número de fila",
+  "selected": "filas seleccionadas",
+  "selectionColumn": "Columna de selección"
+}

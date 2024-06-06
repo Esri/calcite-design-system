@@ -1,0 +1,4 @@
+{
+  "invalid": "無効",
+  "tooLong": "現在の文字数は {currentLength} です。これは、文字数の最大値である {maxLength} 文字を超過しています。"
+}

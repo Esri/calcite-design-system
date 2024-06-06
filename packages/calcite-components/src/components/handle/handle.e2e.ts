@@ -2,6 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { HandleMessages } from "../../components";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { html } from "../../../support/formatting";
 import { CSS, SUBSTITUTIONS } from "./resources";
 
 describe("calcite-handle", () => {
@@ -184,15 +185,15 @@ describe("calcite-handle", () => {
       };
       themed(`calcite-handle`, tokens);
     });
+
     describe("selected", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-handle-background-color-selected": {
           targetProp: "backgroundColor",
           shadowSelector: `.${CSS.handle}`,
-          state: { press: { attribute: "class", value: CSS.handle } },
         },
       };
-      themed(`calcite-handle`, tokens);
+      themed(html`<calcite-handle selected></calcite-handle>`, tokens);
     });
   });
 });
