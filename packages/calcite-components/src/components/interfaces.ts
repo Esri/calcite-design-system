@@ -31,3 +31,4 @@ export type Status = "invalid" | "valid" | "idle";
 export type Width = "auto" | "half" | "full";
 export type IconType = "chevron" | "caret" | "ellipsis" | "overflow" | "plus-minus";
 export type CollapseDirection = "down" | "up";
+export type Dir = "ltr" | "rtl";

@@ -9,13 +9,13 @@ import {
   Width,
   SelectionMode,
   Layout,
+  Dir,
   IconType,
   CollapseDirection,
   SelectionAppearance,
 } from "../../calcite-components/src/components/interfaces.ts";
 import { ArrowType } from "../src/components/carousel/interfaces.ts";
 import { BlockSectionToggleDisplay } from "../src/components/block-section/interfaces.ts";
-import { TileSelectGroupDir } from "../src/components/tile-select-group/interfaces.ts";
 import { TileSelectType } from "../src/components/tile-select/interfaces.ts";
 import { TableInteractionMode } from "../src/components/table/interfaces.ts";
 import { DeterminateType } from "../src/components/loader/interfaces.ts";
@@ -45,7 +45,7 @@ interface CommonAttributes {
   displayMode: AttributeMetadata<DisplayMode>;
   toggleDisplay: AttributeMetadata<BlockSectionToggleDisplay>;
   layout: AttributeMetadata<Layout>;
-  dir: AttributeMetadata<TileSelectGroupDir>;
+  dir: AttributeMetadata<Dir>;
   buttonType: AttributeMetadata<TileSelectType>;
   interactionMode: AttributeMetadata<TableInteractionMode>;
   iconType: AttributeMetadata<IconType>;
@@ -91,7 +91,7 @@ const layoutOptions: Layout[] = [
   "none",
   "horizontal-single",
 ];
-const dirOptions: TileSelectGroupDir[] = ["ltr", "rtl"];
+const dirOptions: Dir[] = ["ltr", "rtl"];
 const buttonTypeOptions: TileSelectType[] = ["radio", "checkbox"];
 const interactionModeOptions: TableInteractionMode[] = ["interactive", "static"];
 const iconTypeOptions: IconType[] = ["chevron", "caret", "ellipsis", "overflow", "plus-minus"];
