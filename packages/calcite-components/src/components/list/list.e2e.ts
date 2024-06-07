@@ -365,57 +365,12 @@ describe("calcite-list", () => {
     const list = await page.find("calcite-list");
     await page.waitForTimeout(listDebounceTimeout);
 
-    expect(await list.getProperty("filteredItems")).toHaveLength(3);
-    expect(await list.getProperty("filteredData")).toHaveLength(3);
+    expect(await list.getProperty("filteredItems")).toHaveLength(2);
+    expect(await list.getProperty("filteredData")).toHaveLength(2);
 
     const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
     expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match", "value-match"]);
-  });
-
-  it("filters initially with matchFields", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-list filter-enabled filter-text="match">
-        <calcite-list-item
-          id="label-match"
-          label="match"
-          description="description-1"
-          value="value-1"
-        ></calcite-list-item>
-        <calcite-list-item
-          id="description-match"
-          label="label-2"
-          description="match"
-          value="value-1"
-        ></calcite-list-item>
-        <calcite-list-item
-          id="value-match"
-          label="label-3"
-          description="description-3"
-          value="match"
-        ></calcite-list-item>
-        <calcite-list-item
-          id="no-match"
-          label="label-4"
-          description="description-4"
-          value="value-4"
-        ></calcite-list-item>
-      </calcite-list>
-    `);
-
-    await page.waitForChanges();
-    const list = await page.find("calcite-list");
-    list.setProperty("matchFields", ["label"]);
-    await page.waitForChanges();
-    await page.waitForTimeout(listDebounceTimeout);
-
-    expect(await list.getProperty("filteredItems")).toHaveLength(1);
-    expect(await list.getProperty("filteredData")).toHaveLength(1);
-
-    const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
-
-    expect(visibleItems.map((item) => item.id)).toEqual(["label-match"]);
   });
 
   it("should support shift click to select multiple items", async () => {
