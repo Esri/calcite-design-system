@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { placements } from "../../utils/floating-ui";
 import { defaultPopoverPlacement } from "../popover/resources";
 import { modesDarkDefault } from "../../../.storybook/utils";
+import { Popover } from "./popover";
 
 const contentHTML = `
 <div style="width: 300px; padding:12px 16px;">
@@ -15,14 +16,11 @@ const contentHTML = `
 const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 const nestedReferenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Nested Reference Element" id="reference-element-nested">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
-interface PopoverArgs {
-  closable: boolean;
-  flipDisabled: boolean;
-  pointerDisabled: boolean;
-  placement: string;
-  offsetDistance: number;
-  offsetSkidding: number;
-  open: boolean;
+interface PopoverStoryArgs
+  extends Pick<
+    Popover,
+    "closable" | "flipDisabled" | "pointerDisabled" | "placement" | "offsetDistance" | "offsetSkidding" | "open"
+  > {
   textClose: string;
 }
 
@@ -51,7 +49,7 @@ export default {
   },
 };
 
-export const simple = (args: PopoverArgs): string => html`
+export const simple = (args: PopoverStoryArgs): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover

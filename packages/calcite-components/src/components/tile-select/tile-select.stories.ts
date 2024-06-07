@@ -2,20 +2,24 @@ import { boolean } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { TileSelect } from "./tile-select";
 const { alignment, buttonType, width } = ATTRIBUTES;
 
-interface TileSelectArgs {
-  checked: boolean;
-  description: string;
-  disabled: boolean;
-  heading: string;
+interface TileSelectStoryArgs
+  extends Pick<
+    TileSelect,
+    | "checked"
+    | "description"
+    | "disabled"
+    | "heading"
+    | "icon"
+    | "inputAlignment"
+    | "inputEnabled"
+    | "type"
+    | "value"
+    | "width"
+  > {
   hidden: boolean;
-  icon: string;
-  inputAlignment: string;
-  inputEnabled: boolean;
-  type: string;
-  value: string;
-  width: string;
 }
 
 export default {
@@ -53,7 +57,7 @@ export default {
   },
 };
 
-export const simple = (args: TileSelectArgs): string => html`
+export const simple = (args: TileSelectStoryArgs): string => html`
   <calcite-tile-select
     ${boolean("checked", args.checked)}
     description="${args.description}"

@@ -1,20 +1,17 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Sheet } from "./sheet";
 const { logicalFlowPosition, displayMode } = ATTRIBUTES;
 
-interface SheetArgs {
-  open: boolean;
-  position: string;
-  displayMode: string;
-}
+type SheetStoryArgs = Pick<Sheet, "open" | "position" | "displayMode">;
 
 export default {
   title: "Components/Sheet",
   args: {
     open: true,
     position: logicalFlowPosition.values[0],
-    displayMode: displayMode.values[2],
+    displayMode: displayMode.values[1],
   },
   argTypes: {
     position: {
@@ -22,7 +19,7 @@ export default {
       control: { type: "select" },
     },
     displayMode: {
-      options: displayMode.values.filter((option) => option !== "dock"),
+      options: displayMode.values,
       control: { type: "select" },
     },
   },
@@ -44,7 +41,7 @@ const panelHTML = html`<calcite-panel heading="Ultrices neque"
   <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
 </calcite-panel>`;
 
-export const simple = (args: SheetArgs): string => html`
+export const simple = (args: SheetStoryArgs): string => html`
   <calcite-sheet
     label="libero nunc"
     ${boolean("open", args.open)}
@@ -54,7 +51,7 @@ export const simple = (args: SheetArgs): string => html`
   >
 `;
 
-export const simpleDarkMode = (args: SheetArgs): string => html`
+export const simpleDarkMode = (args: SheetStoryArgs): string => html`
   <calcite-sheet
     label="libero nunc"
     ${boolean("open", args.open)}
