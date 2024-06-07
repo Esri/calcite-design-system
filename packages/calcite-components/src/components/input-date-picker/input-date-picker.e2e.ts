@@ -376,6 +376,22 @@ describe("calcite-input-date-picker", () => {
         await page.waitForChanges();
         expect(await calendar.isVisible()).toBe(false);
       });
+
+      it("toggles the date picker when using arrow up/escape key", async () => {
+        const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+        expect(await calendar.isVisible()).toBe(false);
+
+        await inputDatePicker.callMethod("setFocus");
+        await page.waitForChanges();
+        await page.keyboard.press("ArrowUp");
+        await page.waitForChanges();
+        expect(await calendar.isVisible()).toBe(true);
+
+        await page.keyboard.press("Escape");
+        await page.waitForChanges();
+        expect(await calendar.isVisible()).toBe(false);
+      });
     });
 
     describe("range", () => {

@@ -526,7 +526,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           onCalciteInternalDatePickerMonthMouseOut={this.monthMouseOutChange}
           range={this.range}
           scale={this.scale}
-          selectedDate={this.activeRange === "end" ? endDate || date : date}
+          selectedDate={this.activeRange === "end" ? endDate : date}
           startDate={this.range ? date : undefined}
         />
       )
@@ -546,6 +546,8 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         this.activeEndDate = new Date(valueAsDate[1]);
       }
     }
+    //resets hoverRange when user is navigating via keyboard and closes date-picker
+    this.hoverRange = undefined;
   };
 
   private getEndDate(): Date {

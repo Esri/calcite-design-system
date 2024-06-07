@@ -491,6 +491,7 @@ export class DatePickerMonth {
    */
   private renderDateDay({ active, currentMonth, date, day, dayInWeek, ref }: Day, key: number) {
     const isFocusedOnStart = this.isFocusedOnStart();
+    const isDateInRange = inRange(date, this.min, this.max);
     const isHoverInRange =
       this.isHoverInRange() ||
       (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate));
@@ -508,14 +509,14 @@ export class DatePickerMonth {
           currentMonth={currentMonth}
           dateTimeFormat={this.dateTimeFormat}
           day={day}
-          disabled={!inRange(date, this.min, this.max)}
+          disabled={!isDateInRange}
           endOfRange={this.isEndOfRange(date)}
           highlighted={this.betweenSelectedRange(date)}
           onCalciteDaySelect={this.daySelect}
           onCalciteInternalDayHover={this.dayHover}
           range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
           rangeEdge={dayInWeek === 0 ? "start" : dayInWeek === 6 ? "end" : undefined}
-          rangeHover={this.isRangeHover(date)}
+          rangeHover={isDateInRange && this.isRangeHover(date)}
           ref={(el: HTMLCalciteDatePickerDayElement) => {
             // when moving via keyboard, focus must be updated on active date
             if (ref && active && this.activeFocus) {
