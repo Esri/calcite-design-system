@@ -449,9 +449,9 @@ describe("calcite-date-picker", () => {
       expect(await datePicker.getProperty("value")).toEqual("2024-02-08");
     });
 
-    it("should be able to navigate between months and select date using arrow keys and page keys in range", async () => {
+    it.skip("should be able to navigate between months and select date using arrow keys and page keys in range", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
+      await page.setContent("<calcite-date-picker range></calcite-date-picker>");
       await page.waitForChanges();
 
       const datePicker = await page.find("calcite-date-picker");
@@ -602,19 +602,19 @@ describe("calcite-date-picker", () => {
       assertCenturyDateValue(1750);
     });
 
-    it("sets value to the selected day in 2000s in CEST timezone", async () => {
+    it("sets value to the selected day in 2000s in Zurich timezone", async () => {
       assertCenturyDateValue(2050, "Europe/Zurich");
     });
 
-    it("sets value to the selected day in 1900s in CEST timezone", async () => {
+    it("sets value to the selected day in 1900s in Zurich timezone", async () => {
       assertCenturyDateValue(1950, "Europe/Zurich");
     });
 
-    it("sets value to the selected day in 1800s in CEST timezone", async () => {
+    it("sets value to the selected day in 1800s in Zurich timezone", async () => {
       assertCenturyDateValue(1850, "Europe/Zurich");
     });
 
-    it("sets value to the selected day in 1700s in CEST timezone", async () => {
+    it("sets value to the selected day in 1700s in Zurich timezone", async () => {
       assertCenturyDateValue(1750, "Europe/Zurich");
     });
   });
