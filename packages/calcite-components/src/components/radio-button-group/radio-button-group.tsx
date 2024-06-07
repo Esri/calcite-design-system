@@ -58,7 +58,8 @@ export class RadioButtonGroup implements LoadableComponent {
   }
 
   /** Defines the layout of the component. */
-  @Prop({ reflect: true }) layout: Layout = "horizontal";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
+    "horizontal";
 
   @Watch("layout")
   onLayoutChange(): void {
