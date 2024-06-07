@@ -51,9 +51,11 @@
     justify-between
     border-none
     p-0;
-  text-align: initial;
 
+  text-align: initial;
   background-color: transparent;
+  margin-inline-end: var(--calcite-spacing-md);
+
   &:hover {
     @apply bg-foreground-2;
   }
@@ -101,6 +103,8 @@ calcite-handle {
 
 .icon--start,
 .icon--end {
+  @apply text-color-3;
+
   margin-inline-end: var(--calcite-spacing-md);
 }
 
@@ -132,13 +136,11 @@ calcite-handle {
   @apply flex items-center;
 
   margin-inline-start: auto;
-  padding: var(--calcite-spacing-md);
 }
 
 .toggle-icon {
   @apply text-color-3
   transition-color
-  my-3
   self-center
   justify-self-end
   duration-150
@@ -157,6 +159,10 @@ calcite-handle {
   @apply animate-in flex-1 relative min-h-0;
   padding-block: var(--calcite-block-padding, var(--calcite-spacing-sm));
   padding-inline: var(--calcite-block-padding, var(--calcite-spacing-md));
+}
+
+.content-start {
+  @apply text-color-3;
 }
 
 .control-container {

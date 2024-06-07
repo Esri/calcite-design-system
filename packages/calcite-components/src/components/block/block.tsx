@@ -53,6 +53,7 @@ import { BlockMessages } from "./assets/block/t9n";
 
 /**
  * @slot - A slot for adding custom content.
+ * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions.
  * @slot icon - [Deprecated] A slot for adding a leading header icon with `calcite-icon`. Use `icon-start` instead.
  * @slot content-start - A slot for adding non-actionable elements before content of the component.
  * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
@@ -209,6 +210,8 @@ export class Block
 
   @Element() el: HTMLCalciteBlockElement;
 
+  @State() defaultMessages: BlockMessages;
+
   @State() hasContentStart = false;
 
   @State() effectiveLocale: string;
@@ -218,7 +221,7 @@ export class Block
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: BlockMessages;
+  @State() hasEndActions = false;
 
   openTransitionProp = "opacity";
 
@@ -301,6 +304,10 @@ export class Block
     this.transitionEl = el;
   };
 
+  private actionsEndSlotChangeHandler = (event: Event): void => {
+    this.hasEndActions = slotChangeHasAssignedElement(event);
+  };
+
   handleContentStartSlotChange = (event: Event): void => {
     this.hasContentStart = slotChangeHasAssignedElement(event);
   };
@@ -344,6 +351,14 @@ export class Block
         <slot key="icon-slot" name={SLOTS.icon} />
       </div>
     ) : null;
+  }
+
+  private renderActionsEnd(): VNode {
+    return (
+      <div class={CSS.actionsEnd}>
+        <slot name={SLOTS.actionsEnd} onSlotchange={this.actionsEndSlotChangeHandler} />
+      </div>
+    );
   }
 
   renderContentStart(): VNode {
@@ -422,6 +437,7 @@ export class Block
             {headerContent}
             <div class={CSS.iconEndContainer}>
               {iconEndEl}
+              {this.renderActionsEnd()}
               <calcite-icon
                 aria-hidden="true"
                 class={CSS.toggleIcon}
@@ -433,6 +449,7 @@ export class Block
         ) : iconEndEl ? (
           <div>
             {headerContent}
+            {this.renderActionsEnd()}
             <div class={CSS.iconEndContainer}>{iconEndEl}</div>
           </div>
         ) : (

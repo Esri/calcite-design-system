@@ -5,6 +5,7 @@ export const IDS = {
 };
 
 export const CSS = {
+  actionsEnd: "actions-end",
   button: "button",
   container: "container",
   content: "content",
@@ -28,10 +29,11 @@ export const CSS = {
 };
 
 export const SLOTS = {
-  icon: "icon",
+  actionsEnd: "actions-end",
   contentStart: "content-start",
   control: "control",
   headerMenuActions: "header-menu-actions",
+  icon: "icon",
 };
 
 export const ICONS = {
