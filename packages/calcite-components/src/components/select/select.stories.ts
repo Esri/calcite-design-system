@@ -1,26 +1,21 @@
+import { Option } from "../option/option";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Select } from "./select";
 const { status, width, scale } = ATTRIBUTES;
 
-interface SelectArgs {
-  selectDisabled: boolean;
-  status: string;
-  width: string;
-  scale: string;
-  validationMessage: string;
-  validationIcon: string;
-  optionDisabled: boolean;
-  label: string;
-  selected: boolean;
-  value: string;
+interface SelectStoryArgs
+  extends Pick<Select, "disabled" | "status" | "width" | "scale" | "validationMessage" | "validationIcon">,
+    Pick<Option, "label" | "selected" | "value"> {
+  optionDisabled: Option["disabled"];
 }
 
 export default {
   title: "Components/Controls/Select",
   args: {
-    selectDisabled: false,
+    disabled: false,
     status: status.defaultValue,
     width: width.defaultValue,
     scale: scale.defaultValue,
@@ -51,10 +46,10 @@ export default {
   },
 };
 
-export const simple = (args: SelectArgs): string => html`
+export const simple = (args: SelectStoryArgs): string => html`
   <div style="width:260px">
     <calcite-select
-      ${boolean("disabled", args.selectDisabled)}
+      ${boolean("disabled", args.disabled)}
       status="${args.status}"
       width="${args.width}"
       scale="${args.scale}"

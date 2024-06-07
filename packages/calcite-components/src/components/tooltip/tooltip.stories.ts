@@ -1,16 +1,17 @@
 import { html } from "../../../support/formatting";
 import { placements } from "../../utils/floating-ui";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { Tooltip } from "./tooltip";
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
 
 const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appearance="transparent" kind="neutral" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
-interface TooltipArgs {
+interface TooltipStoryArgs {
   placements: string;
   offsetDistance: number;
   offsetSkidding: number;
-  open: boolean;
+  open: Tooltip["open"];
 }
 
 export default {
@@ -29,7 +30,7 @@ export default {
   },
 };
 
-export const simple = (args: TooltipArgs): string => html`
+export const simple = (args: TooltipStoryArgs): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-tooltip

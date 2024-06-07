@@ -1,13 +1,10 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { ActionBar } from "./action-bar";
 const { position } = ATTRIBUTES;
 
-interface ActionBarArgs {
-  expandDisabled: boolean;
-  expanded: boolean;
-  position: string;
-}
+type ActionBarStoryArgs = Pick<ActionBar, "expandDisabled" | "expanded" | "position">;
 
 export default {
   title: "Components/Action Bar",
@@ -24,7 +21,7 @@ export default {
   },
 };
 
-export const simple = (args: ActionBarArgs): string => html`
+export const simple = (args: ActionBarStoryArgs): string => html`
   <calcite-action-bar
     ${boolean("expand-disabled", args.expandDisabled)}
     ${boolean("expanded", args.expanded)}
