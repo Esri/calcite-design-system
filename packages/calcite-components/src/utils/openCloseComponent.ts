@@ -1,4 +1,6 @@
 import { readTask } from "@stencil/core";
+import { whenTransitionDone } from "./dom";
+
 /**
  * Defines interface for components with open/close public emitter.
  * All implementations of this interface must handle the following events: `beforeOpen`, `open`, `beforeClose`, `close`.
@@ -59,15 +61,6 @@ function isOpen(component: OpenCloseComponent): boolean {
   return "opened" in component ? component.opened : component.open;
 }
 
-function emitImmediately(component: OpenCloseComponent, nonOpenCloseComponent = false): void {
-  (nonOpenCloseComponent ? component[component.transitionProp] : isOpen(component))
-    ? component.onBeforeOpen()
-    : component.onBeforeClose();
-  (nonOpenCloseComponent ? component[component.transitionProp] : isOpen(component))
-    ? component.onOpen()
-    : component.onClose();
-}
-
 /**
  * Helper to determine globally set transition duration on the given openTransitionProp, which is imported and set in the @Watch("open").
  * Used to emit (before)open/close events both for when the opacity transition is present and when there is none (transition-duration is set to 0).
@@ -86,59 +79,22 @@ function emitImmediately(component: OpenCloseComponent, nonOpenCloseComponent = 
  * }
  *
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
- * @param nonOpenCloseComponent - OpenCloseComponent uses `expanded` prop to emit (before)open/close.
  */
-export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpenCloseComponent = false): void {
-  readTask((): void => {
+export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
+  readTask(async (): Promise<void> => {
     if (!component.transitionEl) {
       return;
     }
 
-    const { transitionDuration: allDurations, transitionProperty: allProps } = getComputedStyle(component.transitionEl);
-    const allTransitionDurationsArray = allDurations.split(",");
-    const allTransitionPropsArray = allProps.split(",");
-    const openTransitionPropIndex = allTransitionPropsArray.indexOf(component.openTransitionProp);
-    const transitionDuration =
-      allTransitionDurationsArray[openTransitionPropIndex] ??
-      /* Safari will have a single transition value if multiple props share it,
-            so we fall back to it if there's no matching prop duration */
-      allTransitionDurationsArray[0];
-    if (transitionDuration === "0s") {
-      emitImmediately(component, nonOpenCloseComponent);
+    await whenTransitionDone(component.transitionEl, component.openTransitionProp);
+
+    if (isOpen(component)) {
+      component.onBeforeOpen();
+      component.onOpen();
       return;
     }
-    const fallbackTimeoutId = setTimeout(
-      (): void => {
-        component.transitionEl.removeEventListener("transitionstart", onStart);
-        component.transitionEl.removeEventListener("transitionend", onEndOrCancel);
-        component.transitionEl.removeEventListener("transitioncancel", onEndOrCancel);
-        emitImmediately(component, nonOpenCloseComponent);
-      },
-      parseFloat(transitionDuration) * 1000,
-    );
-    component.transitionEl.addEventListener("transitionstart", onStart);
-    component.transitionEl.addEventListener("transitionend", onEndOrCancel);
-    component.transitionEl.addEventListener("transitioncancel", onEndOrCancel);
 
-    function onStart(event: TransitionEvent): void {
-      if (event.propertyName === component.openTransitionProp && event.target === component.transitionEl) {
-        clearTimeout(fallbackTimeoutId);
-        component.transitionEl.removeEventListener("transitionstart", onStart);
-        (nonOpenCloseComponent ? component[component.transitionProp] : isOpen(component))
-          ? component.onBeforeOpen()
-          : component.onBeforeClose();
-      }
-    }
-
-    function onEndOrCancel(event: TransitionEvent): void {
-      if (event.propertyName === component.openTransitionProp && event.target === component.transitionEl) {
-        (nonOpenCloseComponent ? component[component.transitionProp] : isOpen(component))
-          ? component.onOpen()
-          : component.onClose();
-
-        component.transitionEl.removeEventListener("transitionend", onEndOrCancel);
-        component.transitionEl.removeEventListener("transitioncancel", onEndOrCancel);
-      }
-    }
+    component.onBeforeClose();
+    component.onClose();
   });
 }
