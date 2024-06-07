@@ -566,112 +566,114 @@ describe("calcite-date-picker", () => {
     expect(await datePicker.getProperty("value")).toEqual(["2020-09-15", "2020-09-30"]);
   });
 
-  it("sets value to the selected day in the 2000s", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html` <calcite-date-picker value="2005-03-12"></calcite-date-picker> `);
-    const datePicker = await page.find("calcite-date-picker");
+  describe("cross-century date values", () => {
+    it("sets value to the selected day in the 2000s", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-date-picker value="2005-03-12"></calcite-date-picker> `);
+      const datePicker = await page.find("calcite-date-picker");
 
-    expect(await datePicker.getProperty("value")).toBe("2005-03-12");
+      expect(await datePicker.getProperty("value")).toBe("2005-03-12");
 
-    await selectDay("20050307", page, "mouse");
-    await page.waitForChanges();
+      await selectDay("20050307", page, "mouse");
+      await page.waitForChanges();
 
-    expect(await datePicker.getProperty("value")).toBe("2005-03-07");
-  });
+      expect(await datePicker.getProperty("value")).toBe("2005-03-07");
+    });
 
-  it("sets value to the selected day in the 1900s", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html` <calcite-date-picker value="1950-03-12"></calcite-date-picker> `);
-    const datePicker = await page.find("calcite-date-picker");
+    it("sets value to the selected day in the 1900s", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-date-picker value="1950-03-12"></calcite-date-picker> `);
+      const datePicker = await page.find("calcite-date-picker");
 
-    expect(await datePicker.getProperty("value")).toBe("1950-03-12");
+      expect(await datePicker.getProperty("value")).toBe("1950-03-12");
 
-    await selectDay("19500307", page, "mouse");
-    await page.waitForChanges();
+      await selectDay("19500307", page, "mouse");
+      await page.waitForChanges();
 
-    expect(await datePicker.getProperty("value")).toBe("1950-03-07");
-  });
+      expect(await datePicker.getProperty("value")).toBe("1950-03-07");
+    });
 
-  it("sets value to the selected day in the 1800s", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html` <calcite-date-picker value="1850-03-12"></calcite-date-picker> `);
-    const datePicker = await page.find("calcite-date-picker");
+    it("sets value to the selected day in the 1800s", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-date-picker value="1850-03-12"></calcite-date-picker> `);
+      const datePicker = await page.find("calcite-date-picker");
 
-    expect(await datePicker.getProperty("value")).toBe("1850-03-12");
+      expect(await datePicker.getProperty("value")).toBe("1850-03-12");
 
-    await selectDay("18500307", page, "mouse");
-    await page.waitForChanges();
+      await selectDay("18500307", page, "mouse");
+      await page.waitForChanges();
 
-    expect(await datePicker.getProperty("value")).toBe("1850-03-07");
-  });
+      expect(await datePicker.getProperty("value")).toBe("1850-03-07");
+    });
 
-  it("sets value to the selected day in the 1700s", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html` <calcite-date-picker value="1750-03-12"></calcite-date-picker> `);
-    const datePicker = await page.find("calcite-date-picker");
+    it("sets value to the selected day in the 1700s", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-date-picker value="1750-03-12"></calcite-date-picker> `);
+      const datePicker = await page.find("calcite-date-picker");
 
-    expect(await datePicker.getProperty("value")).toBe("1750-03-12");
+      expect(await datePicker.getProperty("value")).toBe("1750-03-12");
 
-    await selectDay("17500307", page, "mouse");
-    await page.waitForChanges();
+      await selectDay("17500307", page, "mouse");
+      await page.waitForChanges();
 
-    expect(await datePicker.getProperty("value")).toBe("1750-03-07");
-  });
+      expect(await datePicker.getProperty("value")).toBe("1750-03-07");
+    });
 
-  it("sets value to the selected day in 2000s in CEST timezone", async () => {
-    const page = await newE2EPage();
-    await page.emulateTimezone("Europe/Zurich");
-    await page.setContent(html` <calcite-date-picker value="2050-03-12"></calcite-date-picker> `);
-    const datePicker = await page.find("calcite-date-picker");
+    it("sets value to the selected day in 2000s in CEST timezone", async () => {
+      const page = await newE2EPage();
+      await page.emulateTimezone("Europe/Zurich");
+      await page.setContent(html` <calcite-date-picker value="2050-03-12"></calcite-date-picker> `);
+      const datePicker = await page.find("calcite-date-picker");
 
-    expect(await datePicker.getProperty("value")).toBe("2050-03-12");
+      expect(await datePicker.getProperty("value")).toBe("2050-03-12");
 
-    await selectDay("20500307", page, "mouse");
-    await page.waitForChanges();
+      await selectDay("20500307", page, "mouse");
+      await page.waitForChanges();
 
-    expect(await datePicker.getProperty("value")).toBe("2050-03-07");
-  });
+      expect(await datePicker.getProperty("value")).toBe("2050-03-07");
+    });
 
-  it("sets value to the selected day in 1900s in CEST timezone", async () => {
-    const page = await newE2EPage();
-    await page.emulateTimezone("Europe/Zurich");
-    await page.setContent(html` <calcite-date-picker value="1950-03-12"></calcite-date-picker> `);
-    const datePicker = await page.find("calcite-date-picker");
+    it("sets value to the selected day in 1900s in CEST timezone", async () => {
+      const page = await newE2EPage();
+      await page.emulateTimezone("Europe/Zurich");
+      await page.setContent(html` <calcite-date-picker value="1950-03-12"></calcite-date-picker> `);
+      const datePicker = await page.find("calcite-date-picker");
 
-    expect(await datePicker.getProperty("value")).toBe("1950-03-12");
+      expect(await datePicker.getProperty("value")).toBe("1950-03-12");
 
-    await selectDay("19500307", page, "mouse");
-    await page.waitForChanges();
+      await selectDay("19500307", page, "mouse");
+      await page.waitForChanges();
 
-    expect(await datePicker.getProperty("value")).toBe("1950-03-07");
-  });
+      expect(await datePicker.getProperty("value")).toBe("1950-03-07");
+    });
 
-  it("sets value to the selected day in 1800s in CEST timezone", async () => {
-    const page = await newE2EPage();
-    await page.emulateTimezone("Europe/Zurich");
-    await page.setContent(html` <calcite-date-picker value="1850-03-12"></calcite-date-picker> `);
-    const datePicker = await page.find("calcite-date-picker");
+    it("sets value to the selected day in 1800s in CEST timezone", async () => {
+      const page = await newE2EPage();
+      await page.emulateTimezone("Europe/Zurich");
+      await page.setContent(html` <calcite-date-picker value="1850-03-12"></calcite-date-picker> `);
+      const datePicker = await page.find("calcite-date-picker");
 
-    expect(await datePicker.getProperty("value")).toBe("1850-03-12");
+      expect(await datePicker.getProperty("value")).toBe("1850-03-12");
 
-    await selectDay("18500307", page, "mouse");
-    await page.waitForChanges();
+      await selectDay("18500307", page, "mouse");
+      await page.waitForChanges();
 
-    expect(await datePicker.getProperty("value")).toBe("1850-03-07");
-  });
+      expect(await datePicker.getProperty("value")).toBe("1850-03-07");
+    });
 
-  it("sets value to the selected day in 1700s in CEST timezone", async () => {
-    const page = await newE2EPage();
-    await page.emulateTimezone("Europe/Zurich");
-    await page.setContent(html` <calcite-date-picker value="1750-03-12"></calcite-date-picker> `);
-    const datePicker = await page.find("calcite-date-picker");
+    it("sets value to the selected day in 1700s in CEST timezone", async () => {
+      const page = await newE2EPage();
+      await page.emulateTimezone("Europe/Zurich");
+      await page.setContent(html` <calcite-date-picker value="1750-03-12"></calcite-date-picker> `);
+      const datePicker = await page.find("calcite-date-picker");
 
-    expect(await datePicker.getProperty("value")).toBe("1750-03-12");
+      expect(await datePicker.getProperty("value")).toBe("1750-03-12");
 
-    await selectDay("17500307", page, "mouse");
-    await page.waitForChanges();
+      await selectDay("17500307", page, "mouse");
+      await page.waitForChanges();
 
-    expect(await datePicker.getProperty("value")).toBe("1750-03-07");
+      expect(await datePicker.getProperty("value")).toBe("1750-03-07");
+    });
   });
 });
 

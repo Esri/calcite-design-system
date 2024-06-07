@@ -716,52 +716,54 @@ describe("calcite-input-date-picker", () => {
       expect(await inputDatePicker.getProperty("value")).toBe("2023-01-01");
     });
 
-    it("sets value to the clicked day in the 2000s in CEST timezone", async () => {
-      const page = await newE2EPage();
+    describe("cross-century date values", () => {
+      it("sets value to the clicked day in the 2000s in CEST timezone", async () => {
+        const page = await newE2EPage();
 
-      await page.emulateTimezone("Europe/Zurich");
-      await page.setContent(html` <calcite-input-date-picker value="2050-03-12"></calcite-input-date-picker> `);
+        await page.emulateTimezone("Europe/Zurich");
+        await page.setContent(html` <calcite-input-date-picker value="2050-03-12"></calcite-input-date-picker> `);
 
-      const inputDatePicker = await page.find("calcite-input-date-picker");
+        const inputDatePicker = await page.find("calcite-input-date-picker");
 
-      await inputDatePicker.click();
-      await page.waitForChanges();
-      await selectDayInMonth(page, 7);
+        await inputDatePicker.click();
+        await page.waitForChanges();
+        await selectDayInMonth(page, 7);
 
-      expect(await inputDatePicker.getProperty("value")).toBe("2050-03-07");
-      expect(await getDateInputValue(page)).toEqual("3/7/2050");
-    });
+        expect(await inputDatePicker.getProperty("value")).toBe("2050-03-07");
+        expect(await getDateInputValue(page)).toEqual("3/7/2050");
+      });
 
-    it("sets value to the clicked day in the 1900s in CEST timezone", async () => {
-      const page = await newE2EPage();
+      it("sets value to the clicked day in the 1900s in CEST timezone", async () => {
+        const page = await newE2EPage();
 
-      await page.emulateTimezone("Europe/Zurich");
-      await page.setContent(html` <calcite-input-date-picker value="1950-03-12"></calcite-input-date-picker> `);
+        await page.emulateTimezone("Europe/Zurich");
+        await page.setContent(html` <calcite-input-date-picker value="1950-03-12"></calcite-input-date-picker> `);
 
-      const inputDatePicker = await page.find("calcite-input-date-picker");
+        const inputDatePicker = await page.find("calcite-input-date-picker");
 
-      await inputDatePicker.click();
-      await page.waitForChanges();
-      await selectDayInMonth(page, 7);
+        await inputDatePicker.click();
+        await page.waitForChanges();
+        await selectDayInMonth(page, 7);
 
-      expect(await inputDatePicker.getProperty("value")).toBe("1950-03-07");
-      expect(await getDateInputValue(page)).toEqual("3/7/1950");
-    });
+        expect(await inputDatePicker.getProperty("value")).toBe("1950-03-07");
+        expect(await getDateInputValue(page)).toEqual("3/7/1950");
+      });
 
-    it("sets value to the clicked day in the 1800s in CEST timezone", async () => {
-      const page = await newE2EPage();
+      it("sets value to the clicked day in the 1800s in CEST timezone", async () => {
+        const page = await newE2EPage();
 
-      await page.emulateTimezone("Europe/Zurich");
-      await page.setContent(html` <calcite-input-date-picker value="1850-03-12"></calcite-input-date-picker> `);
+        await page.emulateTimezone("Europe/Zurich");
+        await page.setContent(html` <calcite-input-date-picker value="1850-03-12"></calcite-input-date-picker> `);
 
-      const inputDatePicker = await page.find("calcite-input-date-picker");
+        const inputDatePicker = await page.find("calcite-input-date-picker");
 
-      await inputDatePicker.click();
-      await page.waitForChanges();
-      await selectDayInMonth(page, 7);
+        await inputDatePicker.click();
+        await page.waitForChanges();
+        await selectDayInMonth(page, 7);
 
-      expect(await inputDatePicker.getProperty("value")).toBe("1850-03-07");
-      expect(await getDateInputValue(page)).toEqual("3/7/1850");
+        expect(await inputDatePicker.getProperty("value")).toBe("1850-03-07");
+        expect(await getDateInputValue(page)).toEqual("3/7/1850");
+      });
     });
   });
 
