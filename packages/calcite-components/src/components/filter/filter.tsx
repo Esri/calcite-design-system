@@ -82,6 +82,16 @@ export class Filter
   @Prop({ mutable: true }) filteredItems: object[] = [];
 
   /**
+   * Specifies the fields to match against when filtering.
+   */
+  @Prop() matchFields: string[];
+
+  @Watch("matchFields")
+  matchFieldsHandler(): void {
+    this.filterDebounced(this.value);
+  }
+
+  /**
    * Specifies placeholder text for the input element.
    */
   @Prop() placeholder: string;
@@ -159,7 +169,7 @@ export class Filter
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     if (this.items.length) {
-      this.updateFiltered(filter(this.items, this.value));
+      this.updateFiltered(filter(this.items, this.value, this.matchFields));
     }
     await setUpMessages(this);
   }
@@ -223,7 +233,8 @@ export class Filter
 
   private filterDebounced = debounce(
     (value: string, emit = false, onFilter?: () => void): void =>
-      this.items.length && this.updateFiltered(filter(this.items, value), emit, onFilter),
+      this.items.length &&
+      this.updateFiltered(filter(this.items, value, this.matchFields), emit, onFilter),
     DEBOUNCE_TIMEOUT,
   );
 

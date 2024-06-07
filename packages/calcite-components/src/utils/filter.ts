@@ -1,6 +1,6 @@
 import { escapeRegExp, forIn } from "lodash-es";
 
-export const filter = (data: Array<object>, value: string): Array<any> => {
+export const filter = (data: Array<object>, value: string, matchFields?: string[]): Array<any> => {
   const escapedValue = escapeRegExp(value);
   const regex = new RegExp(escapedValue, "i");
 
@@ -9,16 +9,22 @@ export const filter = (data: Array<object>, value: string): Array<any> => {
     The data argument should be an array of objects`);
   }
 
-  const find = (input: object, RE: RegExp) => {
+  const find = (input: object, RE: RegExp, fields?: string[]) => {
     if ((input as any)?.constant || (input as any)?.filterDisabled) {
       return true;
     }
+
     let found = false;
 
-    forIn(input, (val) => {
+    forIn(input, (val: any, key) => {
       if (typeof val === "function" || val == null /* intentional == to catch undefined */) {
         return;
       }
+
+      if (fields && !fields.includes(key)) {
+        return;
+      }
+
       if (Array.isArray(val) || (typeof val === "object" && val !== null)) {
         if (find(val, RE)) {
           found = true;
@@ -27,12 +33,9 @@ export const filter = (data: Array<object>, value: string): Array<any> => {
         found = true;
       }
     });
+
     return found;
   };
 
-  const result = data.filter((item) => {
-    return find(item, regex);
-  });
-
-  return result;
+  return data.filter((item) => find(item, regex, matchFields));
 };
