@@ -275,3 +275,36 @@ export const icons_TestOnly = (): string => html`
     </calcite-block-section>
   </calcite-block>
 `;
+
+export const actionsEndLoadingIconStartEnd = (): string => html`
+  <calcite-block
+    heading="Valid status"
+    description="summary"
+    collapsible
+    icon-start="pen"
+    icon-end="pen"
+    style="width: 500px"
+  >
+    <calcite-icon
+      icon="compass"
+      slot="content-start"
+      style="color: var(--calcite-color-status-success)"
+      scale="s"
+    ></calcite-icon>
+    <calcite-action appearance="transparent" icon="ellipsis" text="menu" label="menu" slot="actions-end" />
+  </calcite-block>
+`;
+
+export const actionsEndContentStartIconStartEnd = (): string => html`
+  <calcite-block
+    heading="Valid status"
+    collapsible
+    status="valid"
+    icon-start="pen"
+    icon-end="pen"
+    loading
+    style="width: 500px"
+  >
+    <calcite-action appearance="transparent" icon="ellipsis" text="menu" label="menu" slot="actions-end" />
+  </calcite-block>
+`;

@@ -54,7 +54,6 @@
 
   text-align: initial;
   background-color: transparent;
-  margin-inline-end: var(--calcite-spacing-md);
 
   &:hover {
     @apply bg-foreground-2;
@@ -145,6 +144,8 @@ calcite-handle {
   justify-self-end
   duration-150
   ease-in-out;
+
+  margin-inline: var(--calcite-spacing-md);
 }
 
 .toggle:hover .toggle-icon {
