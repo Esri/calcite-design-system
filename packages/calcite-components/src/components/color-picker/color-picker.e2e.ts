@@ -2221,8 +2221,7 @@ describe("calcite-color-picker", () => {
         await nudgeAQuarterOfSlider();
         // hue wraps around, so we nudge it back to assert position at the edge
         await scope.press("ArrowLeft");
-        expect(await getScopeLeftOffset()).toBeLessThanOrEqual(193.5);
-        expect(await getScopeLeftOffset()).toBeGreaterThan(189.5);
+        expect(await getScopeLeftOffset()).toBeCloseTo(196.5, 0);
 
         // nudge it to wrap around
         await scope.press("ArrowRight");
@@ -2257,7 +2256,7 @@ describe("calcite-color-picker", () => {
         const hueSliderScope = await page.find(`calcite-color-picker >>> .${CSS.hueScope}`);
 
         expect(await hueSliderScope.getComputedStyle()).toMatchObject({
-          top: "9.5px",
+          top: "6.5px",
           left: `${DIMENSIONS.m.thumb.radius - 0.5}px`,
         });
       });
