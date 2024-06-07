@@ -8,6 +8,7 @@ export const CSS = {
   button: "button",
   container: "container",
   content: "content",
+  contentStart: "content-start",
   controlContainer: "control-container",
   description: "description",
   header: "header",
@@ -28,6 +29,7 @@ export const CSS = {
 
 export const SLOTS = {
   icon: "icon",
+  contentStart: "content-start",
   control: "control",
   headerMenuActions: "header-menu-actions",
 };

@@ -16,7 +16,12 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
-import { focusFirstTabbable, getSlotted, toAriaBoolean } from "../../utils/dom";
+import {
+  focusFirstTabbable,
+  getSlotted,
+  toAriaBoolean,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -49,6 +54,7 @@ import { BlockMessages } from "./assets/block/t9n";
 /**
  * @slot - A slot for adding custom content.
  * @slot icon - [Deprecated] A slot for adding a leading header icon with `calcite-icon`. Use `icon-start` instead.
+ * @slot content-start - A slot for adding non-actionable elements before content of the component.
  * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
@@ -203,6 +209,8 @@ export class Block
 
   @Element() el: HTMLCalciteBlockElement;
 
+  @State() hasContentStart = false;
+
   @State() effectiveLocale: string;
 
   @Watch("effectiveLocale")
@@ -293,6 +301,10 @@ export class Block
     this.transitionEl = el;
   };
 
+  handleContentStartSlotChange = (event: Event): void => {
+    this.hasContentStart = slotChangeHasAssignedElement(event);
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -306,7 +318,7 @@ export class Block
     return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
   }
 
-  renderStatusOrContentStart(): VNode[] {
+  renderLoaderStatusIcon(): VNode[] {
     const { loading, messages, status } = this;
 
     const hasSlottedIcon = !!getSlotted(this.el, SLOTS.icon);
@@ -332,6 +344,15 @@ export class Block
         <slot key="icon-slot" name={SLOTS.icon} />
       </div>
     ) : null;
+  }
+
+  renderContentStart(): VNode {
+    const { hasContentStart } = this;
+    return (
+      <div class={CSS.contentStart} hidden={!hasContentStart}>
+        <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
+      </div>
+    );
   }
 
   renderTitle(): VNode {
@@ -375,7 +396,8 @@ export class Block
     const headerContent = (
       <header class={CSS.header} id={IDS.header}>
         {iconStartEl}
-        {this.renderStatusOrContentStart()}
+        {this.renderContentStart()}
+        {this.renderLoaderStatusIcon()}
         {this.renderTitle()}
       </header>
     );
@@ -408,11 +430,13 @@ export class Block
               />
             </div>
           </button>
-        ) : (
+        ) : iconEndEl ? (
           <div>
             {headerContent}
             <div class={CSS.iconEndContainer}>{iconEndEl}</div>
           </div>
+        ) : (
+          headerContent
         )}
         {hasControl ? (
           <div class={CSS.controlContainer}>
