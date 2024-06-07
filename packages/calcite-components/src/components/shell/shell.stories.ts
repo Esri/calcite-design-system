@@ -2,7 +2,7 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-const { displayMode, position, scale } = ATTRIBUTES;
+const { shellDisplayMode, position, scale } = ATTRIBUTES;
 
 interface ShellArgs {
   collapsed: boolean;
@@ -19,7 +19,7 @@ export default {
   title: "Components/Shell",
   args: {
     collapsed: false,
-    displayMode: displayMode.defaultValue,
+    displayMode: shellDisplayMode.defaultValue,
     leadingPanelPosition: position.values[0],
     trailingPanelPosition: position.values[1],
     resizable: true,
@@ -29,7 +29,7 @@ export default {
   },
   argTypes: {
     displayMode: {
-      options: displayMode.values,
+      options: shellDisplayMode.values,
       control: { type: "select" },
     },
     leadingPanelPosition: {

@@ -37,7 +37,7 @@ export class ShellCenterRow implements ConditionalSlotComponent {
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    */
-  @Prop({ reflect: true }) position: Position = "end";
+  @Prop({ reflect: true }) position: Extract<"start" | "end", Position> = "end";
 
   // --------------------------------------------------------------------------
   //
