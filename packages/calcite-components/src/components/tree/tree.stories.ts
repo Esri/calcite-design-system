@@ -1,13 +1,10 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Tree } from "./tree";
 const { selectionMode, scale } = ATTRIBUTES;
 
-interface TreeArgs {
-  lines: boolean;
-  selectionMode: string;
-  scale: string;
-}
+type TreeStoryArgs = Pick<Tree, "lines" | "selectionMode" | "scale">;
 
 export default {
   title: "Components/Tree",
@@ -182,7 +179,7 @@ const slottedSmallActionsEnd = html`
   </calcite-tree-item>
 `;
 
-export const simple = (args: TreeArgs): string => html`
+export const simple = (args: TreeStoryArgs): string => html`
   <calcite-tree ${boolean("lines", args.lines)} selection-mode="${args.selectionMode}" scale="${args.scale}">
     ${treeItems}
   </calcite-tree>

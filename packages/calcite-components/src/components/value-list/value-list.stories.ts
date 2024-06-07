@@ -1,14 +1,11 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ValueList } from "./value-list";
 
-interface ValueListArgs {
-  disabled: boolean;
-  dragEnabled: boolean;
-  filterEnabled: boolean;
-  loading: boolean;
-  multiple: boolean;
-  selectionFollowsFocus: boolean;
-}
+type ValueListStoryArgs = Pick<
+  ValueList,
+  "disabled" | "dragEnabled" | "filterEnabled" | "loading" | "multiple" | "selectionFollowsFocus"
+>;
 
 export default {
   title: "Components/Value List",
@@ -26,7 +23,7 @@ const action = html`
   <calcite-action slot="actions-end" label="click-me" appearance="outline" scale="s" icon="ellipsis"></calcite-action>
 `;
 
-export const simple = (args: ValueListArgs): string => html`
+export const simple = (args: ValueListStoryArgs): string => html`
   <calcite-value-list
     ${boolean("disabled", args.disabled)}
     ${boolean("drag-enabled", args.dragEnabled)}

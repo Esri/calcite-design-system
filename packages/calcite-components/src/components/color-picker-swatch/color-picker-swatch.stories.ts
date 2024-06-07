@@ -1,10 +1,8 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ColorPickerSwatch } from "./color-picker-swatch";
 
-interface ColorPickerSwatchArgs {
-  active: boolean;
-  color: string;
-}
+type ColorPickerSwatchStoryArgs = Pick<ColorPickerSwatch, "active" | "color">;
 
 export default {
   title: "Components/Controls/ColorPicker/support/ColorPickerSwatch",
@@ -14,7 +12,7 @@ export default {
   },
 };
 
-export const simple = (args: ColorPickerSwatchArgs): string => html`
+export const simple = (args: ColorPickerSwatchStoryArgs): string => html`
   <calcite-color-picker-swatch ${boolean("active", args.active)} color="${args.color}"></calcite-color-picker-swatch>
 `;
 

@@ -1,13 +1,10 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Progress } from "./progress";
 const { determinateType } = ATTRIBUTES;
 
-interface ProgressArgs {
-  type: string;
-  value: number;
-  text: string;
-}
+type ProgressStoryArgs = Pick<Progress, "type" | "value" | "text">;
 
 export default {
   title: "Components/Progress",
@@ -27,7 +24,7 @@ export default {
   },
 };
 
-export const simple = (args: ProgressArgs): string => html`
+export const simple = (args: ProgressStoryArgs): string => html`
   <calcite-progress type="${args.type}" value="${args.value}" text="${args.text}"></calcite-progress>
 `;
 

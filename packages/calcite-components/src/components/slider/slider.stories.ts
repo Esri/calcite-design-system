@@ -1,24 +1,28 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Slider } from "./slider";
 const { scale } = ATTRIBUTES;
 
-interface SliderArgs {
-  min: number;
-  max: number;
-  value: number;
-  step: number;
+interface SliderStoryArgs
+  extends Pick<
+    Slider,
+    | "min"
+    | "max"
+    | "value"
+    | "step"
+    | "minLabel"
+    | "disabled"
+    | "labelHandles"
+    | "labelTicks"
+    | "ticks"
+    | "pageStep"
+    | "precise"
+    | "mirrored"
+    | "snap"
+    | "scale"
+  > {
   temperature: string;
-  minLabel: string;
-  disabled: boolean;
-  labelHandles: boolean;
-  labelTicks: boolean;
-  ticks: number;
-  pageStep: number;
-  precise: boolean;
-  mirrored: boolean;
-  snap: boolean;
-  scale: string;
 }
 
 export default {
@@ -54,7 +58,7 @@ export default {
   },
 };
 
-export const simple = (args: SliderArgs): string => html`
+export const simple = (args: SliderStoryArgs): string => html`
   <calcite-slider
     min="${args.min}"
     max="${args.max}"
