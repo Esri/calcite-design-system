@@ -4,11 +4,8 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { RadioButtonGroup } from "./radio-button-group";
 const { layout, scale } = ATTRIBUTES;
 
-interface RadioButtonGroupStoryArgs {
-  disabled: RadioButtonGroup["disabled"];
+interface RadioButtonGroupStoryArgs extends Pick<RadioButtonGroup, "disabled" | "layout" | "scale"> {
   hidden: boolean;
-  layout: RadioButtonGroup["layout"];
-  scale: RadioButtonGroup["scale"];
 }
 
 export default {

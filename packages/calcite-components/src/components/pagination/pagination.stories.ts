@@ -5,13 +5,9 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Pagination } from "./pagination";
 const { scale } = ATTRIBUTES;
 
-interface PaginationStoryArgs {
-  scale: Pagination["scale"];
-  startItem: Pagination["startItem"];
+interface PaginationStoryArgs
+  extends Pick<Pagination, "scale" | "startItem" | "numberingSystem" | "totalItems" | "pageSize"> {
   lang: string;
-  numberingSystem: Pagination["numberingSystem"];
-  totalItems: Pagination["totalItems"];
-  pageSize: Pagination["pageSize"];
 }
 
 export default {

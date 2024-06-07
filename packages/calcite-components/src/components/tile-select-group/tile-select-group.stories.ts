@@ -5,14 +5,13 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TileSelectGroup } from "./tile-select-group";
 const { layout, dir, alignment, width, buttonType } = ATTRIBUTES;
 
-interface TileSelectGroupStoryArgs {
-  layout: TileSelectGroup["layout"];
+interface TileSelectGroupArgs extends Pick<TileSelectGroup, "layout"> {
   dir: string;
-  inputEnabled: TileSelect["inputEnabled"];
-  inputAlignment: TileSelect["inputAlignment"];
-  width: TileSelect["width"];
-  type: TileSelect["type"];
 }
+
+type TileSelectArgs = Pick<TileSelect, "inputEnabled" | "inputAlignment" | "width" | "type">;
+
+type TileSelectGroupStoryArgs = TileSelectGroupArgs & TileSelectArgs;
 
 export default {
   title: "Components/Tiles/Tile Select Group",

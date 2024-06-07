@@ -4,22 +4,25 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Slider } from "./slider";
 const { scale } = ATTRIBUTES;
 
-interface SliderStoryArgs {
-  min: Slider["min"];
-  max: Slider["max"];
-  value: Slider["value"];
-  step: Slider["step"];
+interface SliderStoryArgs
+  extends Pick<
+    Slider,
+    | "min"
+    | "max"
+    | "value"
+    | "step"
+    | "minLabel"
+    | "disabled"
+    | "labelHandles"
+    | "labelTicks"
+    | "ticks"
+    | "pageStep"
+    | "precise"
+    | "mirrored"
+    | "snap"
+    | "scale"
+  > {
   temperature: string;
-  minLabel: Slider["minLabel"];
-  disabled: Slider["disabled"];
-  labelHandles: Slider["labelHandles"];
-  labelTicks: Slider["labelTicks"];
-  ticks: Slider["ticks"];
-  pageStep: Slider["pageStep"];
-  precise: Slider["precise"];
-  mirrored: Slider["mirrored"];
-  snap: Slider["snap"];
-  scale: Slider["scale"];
 }
 
 export default {

@@ -6,16 +6,12 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TimePicker } from "./time-picker";
 const { scale } = ATTRIBUTES;
 
-interface TimePickerStoryArgs {
+interface TimePickerStoryArgs extends Pick<TimePicker, "numberingSystem" | "scale" | "step" | "value"> {
   disabled: boolean;
   hidden: boolean;
   lang: string;
   name: string;
-  numberingSystem: TimePicker["numberingSystem"];
   placement: string;
-  scale: TimePicker["scale"];
-  step: TimePicker["step"];
-  value: TimePicker["value"];
 }
 
 export default {

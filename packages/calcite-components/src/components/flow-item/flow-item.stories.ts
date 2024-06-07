@@ -5,15 +5,12 @@ import { FlowItem } from "./flow-item";
 import { SLOTS } from "./resources";
 const { collapseDirection, scale } = ATTRIBUTES;
 
-interface FlowItemStoryArgs {
-  closed: FlowItem["closed"];
-  disabled: FlowItem["disabled"];
-  closable: FlowItem["closable"];
-  collapsible: FlowItem["collapsible"];
-  collapsed: FlowItem["collapsed"];
-  collapseDirection: FlowItem["collapseDirection"];
+interface FlowItemStoryArgs
+  extends Pick<
+    FlowItem,
+    "closed" | "disabled" | "closable" | "collapsible" | "collapsed" | "collapseDirection" | "loading"
+  > {
   heightScale: string;
-  loading: FlowItem["loading"];
 }
 
 export default {

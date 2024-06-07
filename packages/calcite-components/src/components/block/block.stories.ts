@@ -6,17 +6,11 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Block } from "./block";
 const { toggleDisplay } = ATTRIBUTES;
 
-interface BlockStoryArgs {
-  heading: Block["heading"];
-  description: Block["description"];
-  blockOpen: Block["open"];
-  collapsible: Block["collapsible"];
-  loading: Block["loading"];
-  disabled: Block["disabled"];
-  headingLevel: Block["headingLevel"];
+interface BlockStoryArgs
+  extends Pick<Block, "heading" | "description" | "open" | "collapsible" | "loading" | "disabled" | "headingLevel">,
+    Pick<BlockSection, "toggleDisplay"> {
   text: string;
   sectionOpen: BlockSection["open"];
-  toggleDisplay: BlockSection["toggleDisplay"];
 }
 
 export default {
@@ -24,7 +18,7 @@ export default {
   args: {
     heading: "Heading",
     description: "description",
-    blockOpen: true,
+    open: true,
     collapsible: true,
     loading: false,
     disabled: false,
@@ -48,7 +42,7 @@ export const simple = (args: BlockStoryArgs): string => html`
   <calcite-block
     heading="${args.heading}"
     description="${args.description}"
-    ${boolean("open", args.blockOpen)}
+    ${boolean("open", args.open)}
     ${boolean("collapsible", args.collapsible)}
     ${boolean("loading", args.loading)}
     ${boolean("disabled", args.disabled)}

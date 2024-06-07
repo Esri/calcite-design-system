@@ -6,15 +6,9 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tile } from "./tile";
 const { scale } = ATTRIBUTES;
 
-interface TileStoryArgs {
-  active: Tile["active"];
-  description: Tile["description"];
-  disabled: Tile["disabled"];
-  heading: Tile["heading"];
+interface TileStoryArgs
+  extends Pick<Tile, "active" | "description" | "disabled" | "heading" | "href" | "icon" | "scale"> {
   hidden: boolean;
-  href: Tile["href"];
-  icon: Tile["icon"];
-  scale: Tile["scale"];
 }
 
 export default {

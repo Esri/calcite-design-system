@@ -1,11 +1,9 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { Graph } from "./graph";
 
-interface GraphStoryArgs {
+interface GraphStoryArgs extends Pick<Graph, "min" | "max"> {
   width: number;
   height: number;
-  min: Graph["min"];
-  max: Graph["max"];
 }
 
 export default {

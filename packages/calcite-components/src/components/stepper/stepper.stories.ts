@@ -5,20 +5,29 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { layout, scale } = ATTRIBUTES;
 
-interface StepperStoryArgs {
-  layout: Stepper["layout"];
-  scale: Stepper["scale"];
-  numbered: Stepper["numbered"];
-  icon: Stepper["icon"];
+type StepperArgs = Pick<Stepper, "layout" | "scale" | "numbered" | "icon">;
+
+type StepperItemArgs1 = {
   heading1: StepperItem["heading"];
   description1: StepperItem["description"];
+};
+
+type StepperItemArgs2 = {
   heading2: StepperItem["heading"];
   description2: StepperItem["description"];
+};
+
+type StepperItemArgs3 = {
   heading3: StepperItem["heading"];
   description3: StepperItem["description"];
+};
+
+type StepperItemArgs4 = {
   heading4: StepperItem["heading"];
   description4: StepperItem["description"];
-}
+};
+
+type StepperStoryArgs = StepperArgs & StepperItemArgs1 & StepperItemArgs2 & StepperItemArgs3 & StepperItemArgs4;
 
 export default {
   title: "Components/Stepper",

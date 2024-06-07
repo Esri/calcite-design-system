@@ -5,14 +5,9 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Notice } from "./notice";
 const { scale, width, kind } = ATTRIBUTES;
 
-interface NoticeStoryArgs {
+interface NoticeStoryArgs extends Pick<Notice, "open" | "closable" | "width" | "kind" | "icon"> {
   showIcon: boolean;
-  open: Notice["open"];
-  closable: Notice["closable"];
   noticeScale: string;
-  width: Notice["width"];
-  kind: Notice["kind"];
-  icon: Notice["icon"];
   actionScale: string;
 }
 

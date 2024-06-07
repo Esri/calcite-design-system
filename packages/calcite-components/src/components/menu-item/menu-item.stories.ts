@@ -3,15 +3,9 @@ import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { CalciteMenuItem } from "./menu-item";
 
-interface MenuItemStoryArgs {
-  text: CalciteMenuItem["text"];
+interface MenuItemStoryArgs
+  extends Pick<CalciteMenuItem, "text" | "href" | "rel" | "target" | "label" | "active" | "breadcrumb"> {
   src: string;
-  href: CalciteMenuItem["href"];
-  rel: CalciteMenuItem["rel"];
-  target: CalciteMenuItem["target"];
-  label: CalciteMenuItem["label"];
-  active: CalciteMenuItem["active"];
-  breadcrumb: CalciteMenuItem["breadcrumb"];
 }
 
 export default {

@@ -5,14 +5,10 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Carousel } from "./carousel";
 const { arrowType } = ATTRIBUTES;
 
-interface CarouselStoryArgs {
-  controlOverlay: Carousel["controlOverlay"];
-  disabled: Carousel["disabled"];
-  autoplayDuration: Carousel["autoplayDuration"];
-  autoplay: boolean;
-  label: Carousel["label"];
-  arrowType: Carousel["arrowType"];
-}
+type CarouselStoryArgs = Pick<
+  Carousel,
+  "controlOverlay" | "disabled" | "autoplayDuration" | "autoplay" | "label" | "arrowType"
+>;
 
 export default {
   title: "Components/Carousel",
@@ -38,7 +34,7 @@ export const simple = (args: CarouselStoryArgs): string =>
       control-overlay="${args.controlOverlay}"
       ${boolean("disabled", args.disabled)}
       autoplay-duration="${args.autoplayDuration}"
-      ${boolean("autoplay", args.autoplay)}
+      ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
       arrow-type="${args.arrowType}"
     >

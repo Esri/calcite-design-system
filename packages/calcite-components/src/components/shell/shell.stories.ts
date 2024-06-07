@@ -6,16 +6,16 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { shellDisplayMode, position, scale } = ATTRIBUTES;
 
-interface ShellStoryArgs {
-  collapsed: ShellPanel["collapsed"];
-  displayMode: ShellPanel["displayMode"];
+interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "resizable"> {
   leadingPanelPosition: ShellPanel["position"];
   trailingPanelPosition: ShellPanel["position"];
-  resizable: ShellPanel["resizable"];
-  detached: ShellCenterRow["detached"];
-  heightScale: ShellCenterRow["heightScale"];
+}
+
+interface ShellCenterRowArgs extends Pick<ShellCenterRow, "detached" | "heightScale"> {
   shellCenterRowPosition: ShellCenterRow["position"];
 }
+
+type ShellStoryArgs = ShellPanelArgs & ShellCenterRowArgs;
 
 export default {
   title: "Components/Shell",

@@ -5,15 +5,12 @@ import { Panel } from "./panel";
 import { SLOTS } from "./resources";
 const { collapseDirection, scale } = ATTRIBUTES;
 
-interface PanelStoryArgs {
-  closed: Panel["closed"];
-  disabled: Panel["disabled"];
-  closable: Panel["closable"];
-  collapsed: Panel["collapsed"];
-  collapsible: Panel["collapsible"];
-  collapseDirection: Panel["collapseDirection"];
+interface PanelStoryArgs
+  extends Pick<
+    Panel,
+    "closed" | "disabled" | "closable" | "collapsed" | "collapsible" | "collapseDirection" | "loading"
+  > {
   heightScale: string;
-  loading: Panel["loading"];
 }
 
 export default {

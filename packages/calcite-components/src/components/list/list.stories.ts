@@ -5,16 +5,13 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { List } from "./list";
 const { selectionMode, selectionAppearance } = ATTRIBUTES;
 
-interface ListStoryArgs {
-  selectionMode: List["selectionMode"];
-  selectionAppearance: List["selectionAppearance"];
-  loading: List["loading"];
+interface ListStoryArgs
+  extends Pick<
+    List,
+    "selectionMode" | "selectionAppearance" | "loading" | "filterEnabled" | "dragEnabled" | "disabled" | "label"
+  > {
   closable: boolean;
   closed: boolean;
-  filterEnabled: List["filterEnabled"];
-  dragEnabled: List["dragEnabled"];
-  disabled: List["disabled"];
-  label: List["label"];
 }
 
 export default {

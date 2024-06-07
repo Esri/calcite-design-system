@@ -6,17 +6,12 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputTimePicker } from "./input-time-picker";
 const { scale, status } = ATTRIBUTES;
 
-interface InputTimePickerStoryArgs {
-  disabled: InputTimePicker["disabled"];
+interface InputTimePickerStoryArgs
+  extends Pick<
+    InputTimePicker,
+    "disabled" | "name" | "placement" | "scale" | "status" | "step" | "validationMessage" | "validationIcon" | "value"
+  > {
   hidden: boolean;
-  name: InputTimePicker["name"];
-  placement: InputTimePicker["placement"];
-  scale: InputTimePicker["scale"];
-  status: InputTimePicker["status"];
-  step: InputTimePicker["step"];
-  validationMessage: InputTimePicker["validationMessage"];
-  validationIcon: InputTimePicker["validationIcon"];
-  value: InputTimePicker["value"];
 }
 
 export default {

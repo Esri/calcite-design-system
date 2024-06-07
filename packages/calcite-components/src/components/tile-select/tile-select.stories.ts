@@ -5,18 +5,21 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TileSelect } from "./tile-select";
 const { alignment, buttonType, width } = ATTRIBUTES;
 
-interface TileSelectStoryArgs {
-  checked: TileSelect["checked"];
-  description: TileSelect["description"];
-  disabled: TileSelect["disabled"];
-  heading: TileSelect["heading"];
+interface TileSelectStoryArgs
+  extends Pick<
+    TileSelect,
+    | "checked"
+    | "description"
+    | "disabled"
+    | "heading"
+    | "icon"
+    | "inputAlignment"
+    | "inputEnabled"
+    | "type"
+    | "value"
+    | "width"
+  > {
   hidden: boolean;
-  icon: TileSelect["icon"];
-  inputAlignment: TileSelect["inputAlignment"];
-  inputEnabled: TileSelect["inputEnabled"];
-  type: TileSelect["type"];
-  value: TileSelect["value"];
-  width: TileSelect["width"];
 }
 
 export default {

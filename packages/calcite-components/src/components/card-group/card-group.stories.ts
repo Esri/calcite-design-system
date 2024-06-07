@@ -5,8 +5,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { CardGroup } from "./card-group";
 const { selectionMode } = ATTRIBUTES;
 
-interface CardGroupStoryArgs {
-  selectionMode: CardGroup["selectionMode"];
+interface CardGroupStoryArgs extends Pick<CardGroup, "selectionMode"> {
   src: string;
 }
 

@@ -7,16 +7,12 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputDatePicker } from "./input-date-picker";
 const { scale, status } = ATTRIBUTES;
 
-interface InputDatePickerStoryArgs {
-  scale: InputDatePicker["scale"];
-  status: InputDatePicker["status"];
-  value: InputDatePicker["value"];
-  min: InputDatePicker["min"];
-  max: InputDatePicker["max"];
+interface InputDatePickerStoryArgs
+  extends Pick<
+    InputDatePicker,
+    "scale" | "status" | "value" | "min" | "max" | "placement" | "validationMessage" | "validationIcon"
+  > {
   lang: string;
-  placement: InputDatePicker["placement"];
-  validationMessage: InputDatePicker["validationMessage"];
-  validationIcon: InputDatePicker["validationIcon"];
 }
 
 export default {

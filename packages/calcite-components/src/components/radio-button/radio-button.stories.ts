@@ -4,13 +4,8 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { RadioButton } from "./radio-button";
 const { scale } = ATTRIBUTES;
 
-interface RadioButtonStoryArgs {
-  checked: RadioButton["checked"];
-  disabled: RadioButton["disabled"];
+interface RadioButtonStoryArgs extends Pick<RadioButton, "checked" | "disabled" | "focused" | "scale" | "label"> {
   hidden: boolean;
-  focused: RadioButton["focused"];
-  scale: RadioButton["scale"];
-  label: RadioButton["label"];
 }
 
 export default {

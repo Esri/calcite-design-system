@@ -5,11 +5,8 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TileGroup } from "./tile-group";
 const { dir, layout, scale } = ATTRIBUTES;
 
-interface TileGroupStoryArgs {
+interface TileGroupStoryArgs extends Pick<TileGroup, "disabled" | "layout" | "scale"> {
   dir: string;
-  disabled: TileGroup["disabled"];
-  layout: TileGroup["layout"];
-  scale: TileGroup["scale"];
 }
 
 export default {

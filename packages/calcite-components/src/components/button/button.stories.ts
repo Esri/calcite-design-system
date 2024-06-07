@@ -5,15 +5,8 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Button } from "./button";
 const { appearance, kind, scale, width } = ATTRIBUTES;
 
-interface ButtonStoryArgs {
-  appearance: Button["appearance"];
-  kind: Button["kind"];
-  scale: Button["scale"];
-  round: Button["round"];
-  href: Button["href"];
-  loading: Button["loading"];
-  disabled: Button["disabled"];
-  width: Button["width"];
+interface ButtonStoryArgs
+  extends Pick<Button, "appearance" | "kind" | "scale" | "round" | "href" | "loading" | "disabled" | "width"> {
   text: string;
 }
 

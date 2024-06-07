@@ -5,16 +5,11 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { DatePicker } from "./date-picker";
 const { scale } = ATTRIBUTES;
 
-interface DatePickerStoryArgs {
+interface DatePickerStoryArgs extends Pick<DatePicker, "min" | "max" | "range" | "scale" | "value"> {
   dir: string;
   lang: string;
-  max: DatePicker["max"];
-  min: DatePicker["min"];
   nextMonthLabel: string;
   prevMonthLabel: string;
-  range: DatePicker["range"];
-  scale: DatePicker["scale"];
-  value: DatePicker["value"];
 }
 
 export default {

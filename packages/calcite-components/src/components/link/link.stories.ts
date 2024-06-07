@@ -8,11 +8,9 @@ const iconNames = Object.keys(icons)
   .filter((iconName) => iconName.endsWith("16"))
   .map((iconName) => iconName.replace("16", ""));
 
-interface LinkStoryArgs {
+interface LinkStoryArgs extends Pick<Link, "href" | "disabled"> {
   containingFontSize: string;
   containingFontWeight: string;
-  href: Link["href"];
-  disabled: Link["disabled"];
   text: string;
 }
 

@@ -16,14 +16,11 @@ const contentHTML = `
 const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 const nestedReferenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Nested Reference Element" id="reference-element-nested">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
-interface PopoverStoryArgs {
-  closable: Popover["closable"];
-  flipDisabled: Popover["flipDisabled"];
-  pointerDisabled: Popover["pointerDisabled"];
-  placement: Popover["placement"];
-  offsetDistance: Popover["offsetDistance"];
-  offsetSkidding: Popover["offsetSkidding"];
-  open: Popover["open"];
+interface PopoverStoryArgs
+  extends Pick<
+    Popover,
+    "closable" | "flipDisabled" | "pointerDisabled" | "placement" | "offsetDistance" | "offsetSkidding" | "open"
+  > {
   textClose: string;
 }
 
