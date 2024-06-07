@@ -26,8 +26,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { LogicalFlowPosition } from "../interfaces";
-import { SelectionMode } from "../interfaces";
+import { LogicalFlowPosition, SelectionMode } from "../interfaces";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -348,10 +347,9 @@ export class Card
             class={{ [CSS.contentWrapper]: true, inline: thumbnailInline }}
             onClick={this.cardBodyClickHandler}
             onKeyDown={this.keyDownHandler}
+            ref={(el) => (this.containerEl = el)}
             role={role}
             tabIndex={!this.selectable || this.disabled ? 0 : -1}
-            // eslint-disable-next-line react/jsx-sort-props
-            ref={(el) => (this.containerEl = el)}
           >
             {this.loading ? (
               <div aria-live="polite" class="calcite-card-loader-container">

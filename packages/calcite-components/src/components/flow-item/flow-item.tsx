@@ -36,12 +36,15 @@ import {
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { CollapseDirection } from "../interfaces";
 import { FlowItemMessages } from "./assets/flow-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
+ * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
+ * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
  * @slot header-actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  * @slot header-actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot header-content - A slot for adding custom content to the component's header.
@@ -81,7 +84,7 @@ export class FlowItem
    *
    * @internal
    */
-  @Prop() collapseDirection: "down" | "up" = "down";
+  @Prop() collapseDirection: CollapseDirection = "down";
 
   /**
    * When `true`, the component is collapsible.
@@ -331,12 +334,11 @@ export class FlowItem
         icon={icon}
         key="flow-back-button"
         onClick={backButtonClick}
+        ref={this.setBackRef}
         scale="s"
         slot="header-actions-start"
         text={label}
         title={label}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setBackRef}
       />
     ) : null;
   }
@@ -377,7 +379,6 @@ export class FlowItem
             onCalcitePanelScroll={this.handlePanelScroll}
             onCalcitePanelToggle={this.handlePanelToggle}
             overlayPositioning={overlayPositioning}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={this.setContainerRef}
           >
             {this.renderBackButton()}
@@ -387,6 +388,8 @@ export class FlowItem
             <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
             <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
             <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
+            <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
+            <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
             <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
             <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
             <slot />

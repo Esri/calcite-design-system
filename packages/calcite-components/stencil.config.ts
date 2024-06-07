@@ -24,6 +24,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-button"] },
     { components: ["calcite-card"] },
     { components: ["calcite-card-group"] },
+    { components: ["calcite-carousel", "calcite-carousel-item"] },
     { components: ["calcite-checkbox"] },
     { components: ["calcite-chip"] },
     { components: ["calcite-chip-group"] },

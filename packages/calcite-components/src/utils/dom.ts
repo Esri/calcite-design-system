@@ -653,3 +653,99 @@ export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
   const children = Array.from(a.parentNode.children);
   return children.indexOf(a) < children.indexOf(b);
 }
+
+/**
+ * This util helps determine when an animation has completed.
+ *
+ * @param targetEl The element to watch for the animation to complete.
+ * @param animationName The name of the animation to watch for completion.
+ */
+export async function whenAnimationDone(targetEl: HTMLElement, animationName: string): Promise<void> {
+  return whenTransitionOrAnimationDone(targetEl, animationName, "animation");
+}
+
+/**
+ * This util helps determine when a transition has completed.
+ *
+ * @param targetEl The element to watch for the transition to complete.
+ * @param transitionProp The name of the transition to watch for completion.
+ */
+export async function whenTransitionDone(targetEl: HTMLElement, transitionProp: string): Promise<void> {
+  return whenTransitionOrAnimationDone(targetEl, transitionProp, "transition");
+}
+
+type TransitionOrAnimation = "transition" | "animation";
+type TransitionOrAnimationEvent = TransitionEvent | AnimationEvent;
+
+/**
+ * This util helps determine when a transition has completed.
+ *
+ * @param targetEl The element to watch for the transition or animation to complete.
+ * @param transitionPropOrAnimationName The transition or animation property to watch for completion.
+ * @param type The type of property to watch for completion. Defaults to "transition".
+ */
+export async function whenTransitionOrAnimationDone(
+  targetEl: HTMLElement,
+  transitionPropOrAnimationName: string,
+  type: TransitionOrAnimation,
+): Promise<void> {
+  const style = window.getComputedStyle(targetEl);
+  const allDurations = type === "transition" ? style.transitionDuration : style.animationDuration;
+  const allProps = type === "transition" ? style.transitionProperty : style.animationName;
+
+  const allDurationsArray = allDurations.split(",");
+  const allPropsArray = allProps.split(",");
+  const propIndex = allPropsArray.indexOf(transitionPropOrAnimationName);
+  const duration =
+    allDurationsArray[propIndex] ??
+    /* Safari will have a single duration value for the shorthand prop when multiple, separate names/props are defined,
+            so we fall back to it if there's no matching prop duration */
+    allDurationsArray[0];
+
+  if (duration === "0s") {
+    return Promise.resolve();
+  }
+
+  const startEvent = type === "transition" ? "transitionstart" : "animationstart";
+  const endEvent = type === "transition" ? "transitionend" : "animationend";
+  const cancelEvent = type === "transition" ? "transitioncancel" : "animationcancel";
+
+  return new Promise<void>((resolve) => {
+    const fallbackTimeoutId = window.setTimeout(
+      (): void => {
+        targetEl.removeEventListener(startEvent, onStart);
+        targetEl.removeEventListener(endEvent, onEndOrCancel);
+        targetEl.removeEventListener(cancelEvent, onEndOrCancel);
+        resolve();
+      },
+      parseFloat(duration) * 1000,
+    );
+
+    targetEl.addEventListener(startEvent, onStart);
+    targetEl.addEventListener(endEvent, onEndOrCancel);
+    targetEl.addEventListener(cancelEvent, onEndOrCancel);
+
+    function onStart(event: TransitionOrAnimationEvent): void {
+      if (event.target === targetEl && getTransitionOrAnimationName(event) === transitionPropOrAnimationName) {
+        window.clearTimeout(fallbackTimeoutId);
+        targetEl.removeEventListener(startEvent, onStart);
+      }
+    }
+
+    function onEndOrCancel(event: TransitionOrAnimationEvent): void {
+      if (event.target === targetEl && getTransitionOrAnimationName(event) === transitionPropOrAnimationName) {
+        targetEl.removeEventListener(endEvent, onEndOrCancel);
+        targetEl.removeEventListener(cancelEvent, onEndOrCancel);
+        resolve();
+      }
+    }
+  });
+}
+
+function isTransitionEvent(event: TransitionOrAnimationEvent): event is TransitionEvent {
+  return "propertyName" in event;
+}
+
+function getTransitionOrAnimationName(event: TransitionOrAnimationEvent): string {
+  return isTransitionEvent(event) ? event.propertyName : event.animationName;
+}

@@ -131,7 +131,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    */
-  @Prop({ reflect: true }) position: Position = "start";
+  @Prop({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
   /**
    * When `true` and `displayMode` is not `float`, the component's content area is resizable.
@@ -307,11 +307,10 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           class={CSS.separator}
           key="separator"
           onKeyDown={this.separatorKeyDown}
+          ref={this.connectSeparator}
           role="separator"
           tabIndex={0}
           touch-action="none"
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={this.connectSeparator}
         />
       ) : null;
 
@@ -339,9 +338,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
         }}
         hidden={collapsed}
         key="content"
-        style={style}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.storeContentEl}
+        style={style}
       >
         {this.renderHeader()}
         <div class={CSS.contentBody}>
@@ -663,8 +661,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter(
-      (el) => el?.matches("calcite-action-bar"),
+    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-bar"),
     ) as HTMLCalciteActionBarElement[];
 
     this.actionBars = actionBars;

@@ -15,7 +15,6 @@
   @apply text-color-2
   flex
   flex-auto
-  font-sans
   font-normal
   items-stretch;
 }
@@ -45,6 +44,10 @@
 .content-start,
 .content-end {
   @apply flex-initial;
+
+  ::slotted(calcite-icon) {
+    @apply self-center mx-3;
+  }
 }
 
 .actions-start,
@@ -52,13 +55,6 @@
 .content-start,
 .content-end {
   @apply flex items-center;
-}
-
-.content-start,
-.content-end {
-  ::slotted(calcite-icon) {
-    @apply self-center mx-3;
-  }
 }
 
 .actions-start,

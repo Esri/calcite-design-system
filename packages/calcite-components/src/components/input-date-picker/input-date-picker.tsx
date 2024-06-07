@@ -28,10 +28,10 @@ import {
   connectFloatingUI,
   defaultMenuPlacement,
   disconnectFloatingUI,
-  EffectivePlacement,
-  filterComputedPlacements,
+  filterValidFlipPlacements,
   FloatingCSS,
   FloatingUIComponent,
+  FlipPlacement,
   MenuPlacement,
   OverlayPositioning,
   reposition,
@@ -41,6 +41,7 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
+  MutableValidityState,
   submitForm,
 } from "../../utils/form";
 import {
@@ -70,7 +71,13 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
-import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages,
+} from "../../utils/t9n";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -78,7 +85,7 @@ import {
   FocusTrapComponent,
 } from "../../utils/focusTrapComponent";
 import { guid } from "../../utils/guid";
-import { getIconScale } from "../../utils/component";
+import { componentOnReady, getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
@@ -194,7 +201,7 @@ export class InputDatePicker
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements: EffectivePlacement[];
+  @Prop() flipPlacements: FlipPlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -236,23 +243,19 @@ export class InputDatePicker
   @Prop({ mutable: true }) maxAsDate: Date;
 
   /** Specifies the earliest allowed date ("yyyy-mm-dd"). */
-  @Prop() min: string;
+  @Prop({ reflect: true }) min: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
-    if (min) {
-      this.minAsDate = dateFromISO(min);
-    }
+    this.minAsDate = dateFromISO(min);
   }
 
   /** Specifies the latest allowed date ("yyyy-mm-dd"). */
-  @Prop() max: string;
+  @Prop({ reflect: true }) max: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    if (max) {
-      this.maxAsDate = dateFromISO(max);
-    }
+    this.maxAsDate = dateFromISO(max);
   }
 
   /** When `true`, displays the `calcite-date-picker` component. */
@@ -275,6 +278,27 @@ export class InputDatePicker
 
   /** Specifies the validation icon to display under the component. */
   @Prop({ reflect: true }) validationIcon: string | boolean;
+
+  /**
+   * The current validation state of the component.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated in form util when syncing hidden input
+  @Prop({ mutable: true }) validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
 
   /**
    * Specifies the name of the component.
@@ -437,7 +461,7 @@ export class InputDatePicker
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  async connectedCallback(): Promise<void> {
     connectInteractive(this);
     connectLocalized(this);
 
@@ -484,7 +508,9 @@ export class InputDatePicker
       onToggleOpenCloseComponent(this);
     }
 
+    await componentOnReady(this.el);
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    this.localizeInputValues();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -496,8 +522,6 @@ export class InputDatePicker
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.localizeInputValues();
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   disconnectedCallback(): void {
@@ -532,7 +556,6 @@ export class InputDatePicker
                 data-position="start"
                 onClick={this.onInputWrapperClick}
                 onPointerDown={this.onInputWrapperPointerDown}
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={this.setStartWrapper}
               >
                 <calcite-input-text
@@ -552,11 +575,10 @@ export class InputDatePicker
                   onCalciteInternalInputTextFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
+                  ref={this.setStartInput}
                   role="combobox"
                   scale={this.scale}
                   status={this.status}
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                  ref={this.setStartInput}
                 />
                 {!this.readOnly &&
                   this.renderToggleIcon(this.open && this.focusedInput === "start")}
@@ -574,9 +596,8 @@ export class InputDatePicker
                   [CSS.menuActive]: this.open,
                 }}
                 id={this.dialogId}
-                role="dialog"
-                // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                 ref={this.setFloatingEl}
+                role="dialog"
               >
                 <div
                   class={{
@@ -585,7 +606,6 @@ export class InputDatePicker
                     [FloatingCSS.animation]: true,
                     [FloatingCSS.animationActive]: this.open,
                   }}
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                   ref={this.setTransitionEl}
                 >
                   <calcite-date-picker
@@ -602,11 +622,10 @@ export class InputDatePicker
                     onCalciteDatePickerRangeChange={this.handleDateRangeChange}
                     proximitySelectionDisabled={this.proximitySelectionDisabled}
                     range={this.range}
+                    ref={this.setDatePickerRef}
                     scale={this.scale}
                     tabIndex={this.open ? undefined : -1}
                     valueAsDate={this.valueAsDate}
-                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                    ref={this.setDatePickerRef}
                   />
                 </div>
               </div>
@@ -631,7 +650,6 @@ export class InputDatePicker
                   data-position="end"
                   onClick={this.onInputWrapperClick}
                   onPointerDown={this.onInputWrapperPointerDown}
-                  // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
                   ref={this.setEndWrapper}
                 >
                   <calcite-input-text
@@ -650,11 +668,10 @@ export class InputDatePicker
                     onCalciteInternalInputTextFocus={this.endInputFocus}
                     placeholder={this.localeData?.placeholder}
                     readOnly={readOnly}
+                    ref={this.setEndInput}
                     role="combobox"
                     scale={this.scale}
                     status={this.status}
-                    // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-                    ref={this.setEndInput}
                   />
                   {!this.readOnly &&
                     this.renderToggleIcon(this.open && this.focusedInput === "end")}
@@ -681,6 +698,7 @@ export class InputDatePicker
       // we set tab index to -1 to prevent delegatesFocus from stealing focus before we can set it
       <span class={CSS.toggleIcon} tabIndex={-1}>
         <calcite-icon
+          class={CSS.chevronIcon}
           icon={open ? "chevron-up" : "chevron-down"}
           scale={getIconScale(this.scale)}
         />
@@ -702,7 +720,7 @@ export class InputDatePicker
 
   private dialogId = `date-picker-dialog--${guid()}`;
 
-  filteredFlipPlacements: EffectivePlacement[];
+  filteredFlipPlacements: FlipPlacement[];
 
   private focusOnOpen = false;
 
@@ -719,6 +737,12 @@ export class InputDatePicker
   @State() defaultMessages: InputDatePickerMessages;
 
   @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+    this.loadLocaleData();
+  }
 
   @State() focusedInput: "start" | "end" = "start";
 
@@ -790,7 +814,7 @@ export class InputDatePicker
     const { el, flipPlacements } = this;
 
     this.filteredFlipPlacements = flipPlacements
-      ? filterComputedPlacements(flipPlacements, el)
+      ? filterValidFlipPlacements(flipPlacements, el)
       : null;
   };
 
@@ -893,6 +917,7 @@ export class InputDatePicker
     }
 
     if (key === "Enter") {
+      event.preventDefault();
       this.commitValue();
 
       if (this.shouldFocusRangeEnd()) {
@@ -902,7 +927,6 @@ export class InputDatePicker
       }
 
       if (submitForm(this)) {
-        event.preventDefault();
         this.restoreInputFocus();
       }
     } else if (key === "ArrowDown") {
@@ -950,7 +974,6 @@ export class InputDatePicker
     });
   };
 
-  @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;

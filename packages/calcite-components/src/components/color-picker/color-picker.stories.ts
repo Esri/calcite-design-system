@@ -1,93 +1,52 @@
-import { boolean, select, text } from "../../../.storybook/fake-knobs";
-import {
-  Attribute,
-  filterComponentAttributes,
-  Attributes,
-  createComponentHTML as create,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
-import { ATTRIBUTES } from "../../../.storybook/resources";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { ColorPicker } from "./color-picker";
+const { scale } = ATTRIBUTES;
+
+type ColorPickerStoryArgs = Pick<
+  ColorPicker,
+  "channelsDisabled" | "hexDisabled" | "savedDisabled" | "scale" | "clearable" | "value"
+>;
 
 export default {
   title: "Components/Controls/ColorPicker",
+  args: {
+    channelsDisabled: false,
+    hexDisabled: false,
+    savedDisabled: false,
+    scale: scale.defaultValue,
+    clearable: false,
+    value: "#b33f33",
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-const createColorAttributes: (options?: { exceptions: string[] }) => Attributes = (
-  { exceptions } = { exceptions: [] },
-) => {
-  const { scale } = ATTRIBUTES;
+export const simple = (args: ColorPickerStoryArgs): string => html`
+  <calcite-color-picker
+    ${boolean("channels-disabled", args.channelsDisabled)}
+    ${boolean("hex-disabled", args.hexDisabled)}
+    ${boolean("saved-disabled", args.savedDisabled)}
+    scale="${args.scale}"
+    ${boolean("clearable", args.clearable)}
+    value="${args.value}"
+  ></calcite-color-picker>
+`;
 
-  return filterComponentAttributes(
-    [
-      {
-        name: "channels-disabled",
-        commit(): Attribute {
-          this.value = boolean("channels-disabled", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "hex-disabled",
-        commit(): Attribute {
-          this.value = boolean("hex-disabled", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "saved-disabled",
-        commit(): Attribute {
-          this.value = boolean("saved-disabled", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "scale",
-        commit(): Attribute {
-          this.value = select("scale", scale.values, scale.defaultValue);
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
-};
-
-export const simple = (): string =>
-  create("calcite-color-picker", [
-    {
-      name: "clearable",
-      value: boolean("clearable", false, "", "prop"),
-    },
-    ...createColorAttributes(),
-    {
-      name: "value",
-      value: text("value", "#b33f33"),
-    },
-  ]);
-
-export const alphaChannel = (): string =>
-  create("calcite-color-picker", [
-    ...createColorAttributes(),
-    { name: "alpha-channel", value: true },
-    { name: "value", value: text("value", "#b33f3333") },
-  ]);
+export const alphaChannel = (): string => html`
+  <calcite-color-picker scale="m" alpha-channel value="#b33f3333"></calcite-color-picker>
+`;
 
 export const disabled_TestOnly = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create("calcite-color-picker", [
-    ...createColorAttributes({ exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
-    { name: "class", value: "calcite-mode-dark" },
-    {
-      name: "value",
-      value: text("value", "#b33f33"),
-    },
-  ]);
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-color-picker scale="m" dir="rtl" class="calcite-mode-dark" value="#b33f33"></calcite-color-picker>
+`;
 
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 

@@ -1,20 +1,45 @@
-import { select } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Tabs } from "./tabs";
+const { layout, position, scale } = ATTRIBUTES;
+
+type TabsStoryArgs = Pick<Tabs, "layout" | "position" | "scale">;
 
 export default {
   title: "Components/Tabs",
+  args: {
+    layout: layout.values[3],
+    position: position.values[2],
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    layout: {
+      options: layout.values.filter(
+        (option) => option !== "auto" && option !== "fixed" && option !== "none" && option !== "horizontal-single",
+      ),
+      control: { type: "select" },
+    },
+    position: {
+      options: position.values.filter((option) => option !== "start" && option !== "end"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simpleDarkModeRTL_TestOnly = (): string => html`
+export const simpleDarkModeRTL_TestOnly = (args: TabsStoryArgs): string => html`
   <calcite-tabs
     dir="rtl"
     class="calcite-mode-dark"
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
+    layout="${args.layout}"
+    position="${args.position}"
+    scale="${args.scale}"
   >
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
@@ -36,12 +61,7 @@ simpleDarkModeRTL_TestOnly.parameters = {
 };
 
 export const bordered = (): string => html`
-  <calcite-tabs
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    bordered
-  >
+  <calcite-tabs layout="inline" position="top" scale="m" bordered>
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
       <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
@@ -56,12 +76,7 @@ export const bordered = (): string => html`
 `;
 
 export const closable = (): string => html`
-  <calcite-tabs
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    ${boolean("bordered", false)}
-  >
+  <calcite-tabs layout="inline" position="top" scale="m">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1" closable> Tab 1 Title </calcite-tab-title>
       <calcite-tab-title tab="tab2" closable>Tab 2 Title</calcite-tab-title>
@@ -76,14 +91,7 @@ export const closable = (): string => html`
 `;
 
 export const borderedDarkModeRTL_TestOnly = (): string => html`
-  <calcite-tabs
-    layout="inline"
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    bordered
-    dir="rtl"
-    class="calcite-mode-dark"
-  >
+  <calcite-tabs layout="inline" position="top" scale="m" bordered dir="rtl" class="calcite-mode-dark">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
       <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
@@ -101,22 +109,12 @@ borderedDarkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 const selectedIcon = iconNames[0];
 
 export const withIcons = (): string => html`
-  <calcite-tabs
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  >
+  <calcite-tabs layout="inline" position="top" scale="m">
     <calcite-tab-nav slot="title-group">
-      <calcite-tab-title selected icon-start="${select("tab 1 icon-start", iconNames, selectedIcon)}"
-        >Tab 1 Title</calcite-tab-title
-      >
-      <calcite-tab-title icon-end="${select("tab 2 icon-end", iconNames, selectedIcon)}">Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title
-        icon-start="${select("tab 3 icon-start", iconNames, selectedIcon)}"
-        icon-end="${select("tab 3 icon-end", iconNames, selectedIcon)}"
-        >Tab 3 Title</calcite-tab-title
-      >
-      <calcite-tab-title icon-start="${select("tab 4 icon-start", iconNames, selectedIcon)}"></calcite-tab-title>
+      <calcite-tab-title selected icon-start="${selectedIcon}">Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title icon-end="${selectedIcon}">Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title icon-start="${selectedIcon}" icon-end="${selectedIcon}">Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title icon-start="${selectedIcon}"></calcite-tab-title>
     </calcite-tab-nav>
 
     <calcite-tab selected><p>Tab 1 Content</p></calcite-tab>
@@ -129,9 +127,9 @@ export const withIcons = (): string => html`
 export const setWidth = (): string => html`
   <div style="width: 400px;">
     <calcite-tabs
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["top", "bottom"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
+    layout="inline"
+    position="top"
+    scale="m"
     >
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>

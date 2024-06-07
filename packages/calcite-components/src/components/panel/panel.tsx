@@ -42,12 +42,15 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { CollapseDirection } from "../interfaces";
 import { PanelMessages } from "./assets/panel/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
+ * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
+ * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
  * @slot header-content - A slot for adding custom content to the header.
@@ -92,7 +95,7 @@ export class Panel
    *
    * @internal
    */
-  @Prop() collapseDirection: "down" | "up" = "down";
+  @Prop() collapseDirection: CollapseDirection = "down";
 
   /**
    * When `true`, the component is collapsible.
@@ -207,6 +210,10 @@ export class Panel
 
   @State() hasActionBar = false;
 
+  @State() hasContentBottom = false;
+
+  @State() hasContentTop = false;
+
   @State() hasFooterContent = false;
 
   @State() hasFooterActions = false;
@@ -303,8 +310,8 @@ export class Panel
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = slotChangeGetAssignedElements(event).filter(
-      (el) => el?.matches("calcite-action-bar"),
+    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-bar"),
     ) as HTMLCalciteActionBarElement[];
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
@@ -326,6 +333,14 @@ export class Panel
 
   handleFabSlotChange = (event: Event): void => {
     this.hasFab = slotChangeHasAssignedElement(event);
+  };
+
+  private contentBottomSlotChangeHandler = (event: Event): void => {
+    this.hasContentBottom = slotChangeHasAssignedElement(event);
+  };
+
+  private contentTopSlotChangeHandler = (event: Event): void => {
+    this.hasContentTop = slotChangeHasAssignedElement(event);
   };
 
   // --------------------------------------------------------------------------
@@ -540,6 +555,7 @@ export class Panel
           {this.renderHeaderActionsEnd()}
         </div>
         {this.renderActionBar()}
+        {this.renderContentTop()}
       </header>
     );
   }
@@ -577,11 +593,26 @@ export class Panel
         class={CSS.contentWrapper}
         hidden={this.collapsible && this.collapsed}
         onScroll={this.panelScrollHandler}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setPanelScrollEl}
       >
         <slot />
         {this.renderFab()}
+      </div>
+    );
+  }
+
+  renderContentBottom(): VNode {
+    return (
+      <div class={CSS.contentBottom} hidden={!this.hasContentBottom}>
+        <slot name={SLOTS.contentBottom} onSlotchange={this.contentBottomSlotChangeHandler} />
+      </div>
+    );
+  }
+
+  renderContentTop(): VNode {
+    return (
+      <div class={CSS.contentTop} hidden={!this.hasContentTop}>
+        <slot name={SLOTS.contentTop} onSlotchange={this.contentTopSlotChangeHandler} />
       </div>
     );
   }
@@ -602,12 +633,12 @@ export class Panel
         aria-busy={toAriaBoolean(loading)}
         class={CSS.container}
         hidden={closed}
-        tabIndex={closable ? 0 : -1}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
         ref={this.setContainerRef}
+        tabIndex={closable ? 0 : -1}
       >
         {this.renderHeaderNode()}
         {this.renderContent()}
+        {this.renderContentBottom()}
         {this.renderFooterNode()}
       </article>
     );

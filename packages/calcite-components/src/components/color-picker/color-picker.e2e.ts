@@ -137,7 +137,7 @@ describe("calcite-color-picker", () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
 
-    const buttons = await page.findAll("calcite-color-picker >>> calcite-button");
+    const buttons = await page.findAll(`calcite-color-picker >>> .${CSS.container} calcite-button`);
 
     expect(buttons).toHaveLength(2);
 
@@ -1333,7 +1333,7 @@ describe("calcite-color-picker", () => {
 
           await updateColorWithAllInputs(page, async (value: ColorValue) => {
             expect(value).not.toBe(rgbCss);
-            expect(value).toMatch(/^rgba\(\d+, \d+, \d+\, [0-9.]+\)/);
+            expect(value).toMatch(/^rgba\(\d+, \d+, \d+, [0-9.]+\)/);
           });
 
           expect(() => assertUnsupportedValueMessage(rgbCss, "auto")).toThrow();
@@ -1346,7 +1346,7 @@ describe("calcite-color-picker", () => {
 
           await updateColorWithAllInputs(page, async (value: ColorValue) => {
             expect(value).not.toBe(rgbaCss);
-            expect(value).toMatch(/^rgba\(\d+, \d+, \d+\, [0-9.]+\)/);
+            expect(value).toMatch(/^rgba\(\d+, \d+, \d+, [0-9.]+\)/);
           });
 
           expect(() => assertUnsupportedValueMessage(rgbaCss, "auto")).toThrow();
@@ -1359,7 +1359,7 @@ describe("calcite-color-picker", () => {
 
           await updateColorWithAllInputs(page, async (value: ColorValue) => {
             expect(value).not.toBe(hslCss);
-            expect(value).toMatch(/^hsla\([0-9.]+, [0-9.]+%, [0-9.]+%\, [0-9.]+\)/);
+            expect(value).toMatch(/^hsla\([0-9.]+, [0-9.]+%, [0-9.]+%, [0-9.]+\)/);
           });
 
           expect(() => assertUnsupportedValueMessage(hslCss, "auto")).toThrow();
@@ -1372,7 +1372,7 @@ describe("calcite-color-picker", () => {
 
           await updateColorWithAllInputs(page, async (value: ColorValue) => {
             expect(value).not.toBe(hslaCss);
-            expect(value).toMatch(/^hsla\([0-9.]+, [0-9.]+%, [0-9.]+%\, [0-9.]+\)/);
+            expect(value).toMatch(/^hsla\([0-9.]+, [0-9.]+%, [0-9.]+%, [0-9.]+\)/);
           });
 
           expect(() => assertUnsupportedValueMessage(hslaCss, "auto")).toThrow();

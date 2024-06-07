@@ -41,6 +41,17 @@ describe("calcite-pagination", () => {
     });
   });
 
+  describe("semantic elements are used", () => {
+    it("should render a native list internally", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-pagination total-items="10" page-size="1"></calcite-pagination>`);
+      const list = await page.find(`calcite-pagination >>> .${CSS.list}`);
+      expect(list).not.toBeNull();
+      const listItems = await page.findAll(`calcite-pagination >>> .${CSS.listItem}`);
+      expect(listItems.length).toBe(12);
+    });
+  });
+
   describe("ellipsis rendering", () => {
     it("should not render either ellipsis when total pages is less than or equal to 5", async () => {
       const page = await newE2EPage();
@@ -277,6 +288,60 @@ describe("calcite-pagination", () => {
       for (const lang in formattedValuesPerLanguageObject) {
         await testLocalizedGroupSeparator(lang, formattedValuesPerLanguageObject[lang]);
       }
+    });
+  });
+
+  describe("navigation methods", () => {
+    let page: E2EPage;
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        `<calcite-pagination start-item="1" total-items="124" page-size="20"></calcite-pagination>`,
+      );
+    });
+
+    it("navigates to last page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", "end");
+      await page.waitForChanges();
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(121);
+    });
+
+    it("navigates to first page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", "end");
+      await page.waitForChanges();
+      let item = await element.getProperty("startItem");
+      expect(item).toEqual(121);
+      await element.callMethod("goTo", "start");
+      await page.waitForChanges();
+      item = await element.getProperty("startItem");
+      expect(item).toEqual(1);
+    });
+
+    it("navigates middle page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", 3);
+      await page.waitForChanges();
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(41);
+    });
+
+    it("navigates beyond last page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", 20);
+      await page.waitForChanges();
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(121);
+    });
+
+    it("navigates before first page", async () => {
+      const element = await page.find("calcite-pagination");
+      await element.callMethod("goTo", -1);
+      await page.waitForChanges();
+      const item = await element.getProperty("startItem");
+      expect(item).toEqual(1);
     });
   });
 });

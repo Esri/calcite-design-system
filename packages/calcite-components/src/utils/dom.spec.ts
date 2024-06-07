@@ -1,3 +1,4 @@
+import { JSDOM } from "jsdom";
 import { ModeName } from "../../src/components/interfaces";
 import { html } from "../../support/formatting";
 import {
@@ -5,20 +6,22 @@ import {
   focusElementInGroup,
   getElementProp,
   getModeName,
+  getShadowRootNode,
   getSlotted,
+  isBefore,
+  isKeyboardTriggeredClick,
   isPrimaryPointerButton,
   setRequestedIcon,
   slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement,
-  toAriaBoolean,
-  getShadowRootNode,
-  slotChangeGetTextContent,
   slotChangeGetAssignedNodes,
+  slotChangeGetTextContent,
+  slotChangeHasAssignedElement,
   slotChangeHasAssignedNode,
-  slotChangeHasTextContent,
   slotChangeHasContent,
-  isBefore,
-  isKeyboardTriggeredClick,
+  slotChangeHasTextContent,
+  toAriaBoolean,
+  whenAnimationDone,
+  whenTransitionDone,
 } from "./dom";
 import { guidPattern } from "./guid.spec";
 
@@ -605,6 +608,142 @@ describe("dom", () => {
     it("should return false if click is triggered by mouse/pointer", () => {
       const event = new MouseEvent("click", { detail: 1 });
       expect(isKeyboardTriggeredClick(event)).toBe(false);
+    });
+  });
+
+  async function promiseState(
+    promise: Promise<any>,
+  ): Promise<{ status: "fulfilled" | "rejected"; value?: any; reason: any }> {
+    const pendingState = { status: "pending" };
+
+    return Promise.race([promise, pendingState]).then(
+      (value) => (value === pendingState ? value : { status: "fulfilled", value }),
+      (reason) => ({ status: "rejected", reason }),
+    );
+  }
+
+  describe("whenTransitionDone", () => {
+    let dispatchTransitionEvent: (
+      element: HTMLElement,
+      type: "transitionstart" | "transitionend",
+      propertyName: string,
+    ) => void;
+
+    beforeEach(() => {
+      // we clobber Stencil's custom Mock document implementation
+      const { window: win } = new JSDOM();
+
+      // make window references use JSDOM (which is a subset, hence the type cast)
+      window = win as any as Window & typeof globalThis;
+
+      // we define TransitionEvent since JSDOM doesn't support it yet - https://github.com/jsdom/jsdom/issues/1781
+      class TransitionEvent extends window.Event {
+        elapsedTime: number;
+
+        propertyName: string;
+
+        constructor(type: string, eventInitDict: EventInit & Partial<{ elapsedTime: number; propertyName: string }>) {
+          super(type, eventInitDict);
+          this.elapsedTime = eventInitDict.elapsedTime;
+          this.propertyName = eventInitDict.propertyName;
+        }
+      }
+
+      dispatchTransitionEvent = (
+        element: HTMLElement,
+        type: "transitionstart" | "transitionend",
+        propertyName: string,
+      ): void => {
+        element.dispatchEvent(new TransitionEvent(type, { propertyName }));
+      };
+    });
+
+    it("should return a promise that resolves after the transition", async () => {
+      const element = window.document.createElement("div");
+      const testProp = "opacity";
+      const testDuration = "0.5s";
+      const testTransition = `${testProp} ${testDuration} ease 0s`;
+
+      element.style.transition = testTransition;
+
+      // need to mock due to JSDOM issue with getComputedStyle - https://github.com/jsdom/jsdom/issues/3090
+      window.getComputedStyle = jest.fn().mockReturnValue({
+        transition: testTransition,
+        transitionDuration: testDuration,
+        transitionProperty: testProp,
+      });
+      window.document.body.append(element);
+
+      const promise = whenTransitionDone(element, "opacity");
+      element.style.opacity = "0";
+      expect(await promiseState(promise)).toHaveProperty("status", "pending");
+
+      dispatchTransitionEvent(element, "transitionstart", "opacity");
+      expect(await promiseState(promise)).toHaveProperty("status", "pending");
+
+      dispatchTransitionEvent(element, "transitionend", "opacity");
+      expect(await promiseState(promise)).toHaveProperty("status", "pending");
+
+      expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
+    });
+  });
+
+  describe("whenAnimationDone", () => {
+    let dispatchAnimationEvent: (
+      element: HTMLElement,
+      type: "animationstart" | "animationend",
+      animationName: string,
+    ) => void;
+
+    beforeEach(() => {
+      // we clobber Stencil's custom Mock document implementation
+      const { window: win } = new JSDOM();
+
+      // make window references use JSDOM (which is a subset, hence the type cast)
+      window = win as any as Window & typeof globalThis;
+
+      // we define AnimationEvent since JSDOM doesn't support it yet -
+
+      class AnimationEvent extends window.Event {
+        elapsedTime: number;
+
+        animationName: string;
+
+        constructor(type: string, eventInitDict: EventInit & Partial<{ elapsedTime: number; animationName: string }>) {
+          super(type, eventInitDict);
+          this.elapsedTime = eventInitDict.elapsedTime;
+          this.animationName = eventInitDict.animationName;
+        }
+      }
+
+      dispatchAnimationEvent = (
+        element: HTMLElement,
+        type: "animationstart" | "animationend",
+        animationName: string,
+      ): void => {
+        element.dispatchEvent(new AnimationEvent(type, { animationName }));
+      };
+    });
+
+    it("should return a promise that resolves after the animation", async () => {
+      const element = window.document.createElement("div");
+      const testAnimationName = "fade";
+      const testDuration = "0.5s";
+
+      element.style.animation = `${testAnimationName} ${testDuration} ease 0s`;
+      window.document.body.append(element);
+
+      const promise = whenAnimationDone(element, testAnimationName);
+      element.style.animationName = "none";
+      expect(await promiseState(promise)).toHaveProperty("status", "pending");
+
+      dispatchAnimationEvent(element, "animationstart", testAnimationName);
+      expect(await promiseState(promise)).toHaveProperty("status", "pending");
+
+      dispatchAnimationEvent(element, "animationend", testAnimationName);
+      expect(await promiseState(promise)).toHaveProperty("status", "pending");
+
+      expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
     });
   });
 });

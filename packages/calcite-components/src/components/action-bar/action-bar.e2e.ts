@@ -75,6 +75,37 @@ describe("calcite-action-bar", () => {
     );
   });
 
+  describe("messageOverrides", () => {
+    it("should honor expandLabel and collapseLabel", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent("<calcite-action-bar></calcite-action-bar>");
+      await page.waitForChanges();
+
+      const actionBar = await page.find("calcite-action-bar");
+
+      const expandLabel = "Open me up";
+      const collapseLabel = "Close me down";
+
+      actionBar.setProperty("messageOverrides", {
+        expandLabel,
+        collapseLabel,
+      });
+      await page.waitForChanges();
+
+      const expandAction = await page.find("calcite-action-bar >>> #expand-toggle");
+
+      expect(expandAction).not.toBeNull();
+
+      expect(await expandAction.getProperty("label")).toBe(expandLabel);
+
+      actionBar.setProperty("expanded", true);
+      await page.waitForChanges();
+
+      expect(await expandAction.getProperty("label")).toBe(collapseLabel);
+    });
+  });
+
   describe("expand functionality", () => {
     it("should not modify actions within an action-menu", async () => {
       const page = await newE2EPage({
@@ -109,19 +140,17 @@ describe("calcite-action-bar", () => {
 
       await page.waitForChanges();
 
-      const expandAction = await page.find("calcite-action-bar >>> calcite-action");
+      const expandAction = await page.find("calcite-action-bar >>> #expand-toggle");
 
       expect(expandAction).not.toBeNull();
     });
 
     it("allows disabling expandable behavior", async () => {
       const page = await newE2EPage();
-
       await page.setContent("<calcite-action-bar expand-disabled></calcite-action-bar>");
-
       await page.waitForChanges();
 
-      const expandAction = await page.find("calcite-action-bar >>> calcite-action");
+      const expandAction = await page.find("calcite-action-bar >>> calcite-action-group calcite-action");
 
       expect(expandAction).toBeNull();
     });
@@ -211,7 +240,7 @@ describe("calcite-action-bar", () => {
         </calcite-action-bar>`,
       );
 
-      const expandAction = await page.find("calcite-action-bar >>> calcite-action");
+      const expandAction = await page.find("calcite-action-bar >>> calcite-action-group calcite-action");
       const action = await page.find("calcite-action");
       const actionBar = await page.find("calcite-action-bar");
       const group = await page.find("calcite-action-group");
