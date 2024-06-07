@@ -7,17 +7,12 @@ const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 
 const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appearance="transparent" kind="neutral" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
-interface TooltipStoryArgs {
-  placements: string;
-  offsetDistance: number;
-  offsetSkidding: number;
-  open: Tooltip["open"];
-}
+type TooltipStoryArgs = Pick<Tooltip, "placement" | "offsetDistance" | "offsetSkidding" | "open">;
 
 export default {
   title: "Components/Tooltip",
   args: {
-    placements: placements[0],
+    placement: placements[0],
     offsetDistance: 6,
     offsetSkidding: 0,
     open: false,
@@ -35,7 +30,7 @@ export const simple = (args: TooltipStoryArgs): string => html`
     ${referenceElementHTML}
     <calcite-tooltip
       reference-element="reference-element"
-      placement="${args.placements}"
+      placement="${args.placement}"
       offset-distance="${args.offsetDistance}"
       offset-skidding="${args.offsetSkidding}"
       ${boolean("open", args.open)}
