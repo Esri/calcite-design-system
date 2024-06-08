@@ -633,7 +633,7 @@ describe("dom", () => {
       // we clobber Stencil's custom Mock document implementation
       const { window: win } = new JSDOM();
 
-      // make window references use JSDOM (which is a subset, hence the type cast)
+      // eslint-disable-next-line no-global-assign -- overriding to make window references use JSDOM (which is a subset, hence the type cast)
       window = win as any as Window & typeof globalThis;
 
       // we define TransitionEvent since JSDOM doesn't support it yet - https://github.com/jsdom/jsdom/issues/1781
@@ -699,7 +699,7 @@ describe("dom", () => {
       // we clobber Stencil's custom Mock document implementation
       const { window: win } = new JSDOM();
 
-      // make window references use JSDOM (which is a subset, hence the type cast)
+      // eslint-disable-next-line no-global-assign -- overriding to make window references use JSDOM (which is a subset, hence the type cast)
       window = win as any as Window & typeof globalThis;
 
       // we define AnimationEvent since JSDOM doesn't support it yet -
