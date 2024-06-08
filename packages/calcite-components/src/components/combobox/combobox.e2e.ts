@@ -178,6 +178,35 @@ describe("calcite-combobox", () => {
     openClose(simpleComboboxHTML);
   });
 
+  it("should open the combobox when typing within the input", async () => {
+    const page = await newE2EPage({
+      html: html`
+        <calcite-combobox id="myCombobox">
+          <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+          <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
+          <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
+          <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+        </calcite-combobox>
+      `,
+    });
+
+    const combobox = await page.find("calcite-combobox");
+    const input = await page.find("calcite-combobox >>> input");
+    const items = await page.findAll("calcite-combobox-item");
+    expect(await combobox.getProperty("open")).toBe(false);
+    await input.focus();
+    await page.waitForChanges();
+
+    await input.type("Arizona");
+    await page.waitForChanges();
+
+    expect(await combobox.getProperty("open")).toBe(true);
+    expect(await items[0].isVisible()).toBe(true);
+    expect(await items[1].isVisible()).toBe(false);
+    expect(await items[2].isVisible()).toBe(false);
+    expect(await items[3].isVisible()).toBe(false);
+  });
+
   it("filtering does not match property with value of undefined", async () => {
     const page = await newE2EPage({
       html: html`
