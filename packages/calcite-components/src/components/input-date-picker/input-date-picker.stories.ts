@@ -1,4 +1,4 @@
-import { type StoryObj, Meta } from "@storybook/web-components";
+import { type StoryObj } from "@storybook/web-components";
 import { userEvent } from "@storybook/test";
 import { findByShadowRole } from "shadow-dom-testing-library";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
@@ -10,7 +10,6 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputDatePicker } from "./input-date-picker";
 const { scale, status } = ATTRIBUTES;
 
-
 interface InputDatePickerStoryArgs
   extends Pick<
     InputDatePicker,
@@ -19,11 +18,9 @@ interface InputDatePickerStoryArgs
   lang: string;
 }
 
-const meta: Meta = {
-  component: "calcite-input-date-picker",
+export default {
   title: "Components/Controls/InputDatePicker",
   args: {
-    open: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     value: "2020-12-12",
@@ -55,10 +52,8 @@ const meta: Meta = {
       options: iconNames,
       control: { type: "select" },
     },
-    open: { control: { type: "boolean" } },
   },
 };
-
 
 export const simple = (args: InputDatePickerStoryArgs): string => html`
   <div style="width: 400px">
@@ -72,7 +67,6 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       placement="${args.placement}"
       validation-message="${args.validationMessage}"
       validation-icon="${args.validationIcon}"
-      open="${args.open}"
     ></calcite-input-date-picker
   </div>
 `;
