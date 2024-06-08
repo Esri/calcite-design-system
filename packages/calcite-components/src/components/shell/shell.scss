@@ -129,4 +129,8 @@ slot[name="panel-top"]::slotted(calcite-shell-center-row) {
   inset: 0;
 }
 
+slot[name="modals"]::slotted(calcite-modal) {
+  position: absolute;
+}
+
 @include base-component();

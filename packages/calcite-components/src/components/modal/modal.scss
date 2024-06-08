@@ -18,7 +18,7 @@
 }
 
 :host {
-  @apply absolute flex inset-0 opacity-0 z-overlay;
+  @apply fixed flex inset-0 opacity-0 z-overlay;
   visibility: hidden !important;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
@@ -34,14 +34,13 @@
 
 .container {
   @apply text-color-2
-    fixed
+    absolute
     inset-0
     flex
     items-center
     justify-center
     overflow-y-hidden
-    opacity-0
-    z-overlay;
+    opacity-0;
   visibility: hidden !important;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
@@ -71,7 +70,7 @@
 
 .scrim {
   --calcite-scrim-background: var(--calcite-modal-scrim-background, var(--calcite-color-transparent-scrim));
-  @apply fixed inset-0 flex overflow-y-hidden;
+  @apply absolute inset-0 flex overflow-y-hidden;
 }
 
 .modal {
@@ -404,18 +403,6 @@ slot[name="primary"] {
   .back,
   .secondary {
     @apply m-0 mb-1;
-  }
-}
-
-/**
- * Conditional styles for when Modal is slotted in Shell
- */
-
-.container.slotted-in-shell {
-  position: absolute;
-  pointer-events: auto;
-  calcite-scrim {
-    position: absolute;
   }
 }
 
