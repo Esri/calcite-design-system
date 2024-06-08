@@ -585,7 +585,7 @@ export class ListItem
       <div
         class={{
           [CSS.nestedContainer]: true,
-          [CSS.nestedContainerHidden]: this.openable && !this.open,
+          [CSS.nestedContainerOpen]: this.openable && this.open,
         }}
       >
         <slot
@@ -701,7 +701,7 @@ export class ListItem
             </tr>
             {this.renderContentBottom()}
           </div>
-          <div class={CSS.indent}>{this.renderDefaultContainer()}</div>
+          {this.renderDefaultContainer()}
         </InteractiveContainer>
       </Host>
     );
