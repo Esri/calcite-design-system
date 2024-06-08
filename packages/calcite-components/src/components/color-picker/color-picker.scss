@@ -111,6 +111,7 @@
 .sliders {
   @apply flex flex-col justify-between;
   margin-inline-start: var(--calcite-color-picker-spacing);
+  gap: var(--calcite-spacing-xxs);
 }
 
 .preview-and-sliders {
