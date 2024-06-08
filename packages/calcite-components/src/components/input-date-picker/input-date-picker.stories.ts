@@ -1,3 +1,6 @@
+import { type StoryObj, Meta } from "@storybook/web-components";
+import { userEvent } from "@storybook/test";
+import { findByShadowRole } from "shadow-dom-testing-library";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { locales, defaultLocale } from "../../utils/locale";
@@ -5,7 +8,6 @@ import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { scale, status } = ATTRIBUTES;
-
 interface InputDatePickerArgs {
   scale: string;
   status: string;
@@ -16,11 +18,14 @@ interface InputDatePickerArgs {
   placement: string;
   validationMessage: string;
   validationIcon: string;
+  open: boolean;
 }
 
-export default {
+const meta: Meta = {
+  component: "calcite-input-date-picker",
   title: "Components/Controls/InputDatePicker",
   args: {
+    open: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     value: "2020-12-12",
@@ -52,8 +57,11 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    open: { control: { type: "boolean" } },
   },
 };
+
+export default meta;
 
 export const simple = (args: InputDatePickerArgs): string => html`
   <div style="width: 400px">
@@ -67,6 +75,7 @@ export const simple = (args: InputDatePickerArgs): string => html`
       placement="${args.placement}"
       validation-message="${args.validationMessage}"
       validation-icon="${args.validationIcon}"
+      open="${args.open}"
     ></calcite-input-date-picker
   </div>
 `;
@@ -295,4 +304,17 @@ export const rangeWithMinAsDateAfterCurrentDate_TestOnly = (): string => html`
 
 rangeWithMinAsDateAfterCurrentDate_TestOnly.parameters = {
   chromatic: { delay: 1000 },
+};
+export const open: StoryObj = {
+  decorators: [(): string => html`<calcite-input-date-picker></calcite-input-date-picker>`],
+};
+
+open.play = async ({ canvasElement, step }) => {
+  await step("Open on Click", async () => {
+    const picker = await findByShadowRole(canvasElement, "combobox");
+    await userEvent.click(picker);
+    // const datepicker = await findByShadowTestId(canvasElement, 'date-picker');
+    // // await expect(pickerEl.getAttribute('open')).toBe(true)
+    // await waitFor(() => expect(datepicker).toBeVisible());
+  });
 };
