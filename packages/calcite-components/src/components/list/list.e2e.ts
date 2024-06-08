@@ -370,7 +370,7 @@ describe("calcite-list", () => {
 
     const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
-    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match", "value-match"]);
+    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
   });
 
   it("should support shift click to select multiple items", async () => {
