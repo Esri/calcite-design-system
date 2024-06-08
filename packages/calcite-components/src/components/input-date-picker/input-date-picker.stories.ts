@@ -1,5 +1,5 @@
 import { type StoryObj } from "@storybook/web-components";
-import { userEvent } from "@storybook/test";
+import { expect, userEvent, waitFor } from "@storybook/test";
 import { findByShadowRole } from "shadow-dom-testing-library";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
@@ -301,6 +301,7 @@ export const open: StoryObj = {
 };
 
 open.play = async ({ canvasElement, step }) => {
+  await waitFor(() => expect(canvasElement).not.toBeNull());
   await step("Open on Click", async () => {
     const picker = await findByShadowRole(canvasElement, "combobox");
     await userEvent.click(picker);
