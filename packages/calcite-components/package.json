@@ -84,7 +84,7 @@
     "@stencil/angular-output-target": "0.8.4",
     "@stencil/react-output-target": "0.5.3",
     "@stencil/sass": "3.0.12",
-    "jsdom": "24.0.0"
+    "jsdom": "24.1.0"
   },
   "license": "SEE LICENSE.md",
   "volta": {
