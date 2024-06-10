@@ -207,7 +207,7 @@ describe("calcite-action-pad", () => {
     expect(buttonGroup).toBeNull();
   });
 
-  it("should modify textEnabled on actions when expanded and expandDisabled", async () => {
+  it("should not modify textEnabled on actions and group by default when expanded and expandDisabled", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -226,8 +226,8 @@ describe("calcite-action-pad", () => {
     expect(await actionPad.getProperty("expanded")).toBe(true);
     expect(expandAction).toBeNull();
     expect(action).not.toBeNull();
-    expect(await group.getProperty("expanded")).toBe(true);
-    expect(await action.getProperty("textEnabled")).toBe(true);
+    expect(await group.getProperty("expanded")).toBe(false);
+    expect(await action.getProperty("textEnabled")).toBe(false);
   });
 
   describe("accessible", () => {

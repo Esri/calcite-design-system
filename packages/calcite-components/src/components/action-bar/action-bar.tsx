@@ -82,7 +82,7 @@ export class ActionBar
   @Prop({ reflect: true }) expandDisabled = false;
 
   @Watch("expandDisabled")
-  expandHandler(): void {
+  expandDisabledHandler(): void {
     this.overflowActions();
   }
 
@@ -93,7 +93,9 @@ export class ActionBar
 
   @Watch("expanded")
   expandedHandler(): void {
-    this.mutationObserverHandler();
+    const { el, expanded } = this;
+    toggleChildActionText({ el, expanded });
+    this.overflowActions();
   }
 
   /**
@@ -115,12 +117,10 @@ export class ActionBar
   overflowActionsHandler(overflowActionsDisabled: boolean): void {
     if (overflowActionsDisabled) {
       this.resizeObserver?.disconnect();
-      this.mutationObserver?.disconnect();
       return;
     }
 
     this.resizeObserver?.observe(this.el);
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActions();
   }
 
@@ -218,6 +218,7 @@ export class ActionBar
     connectLocalized(this);
     connectMessages(this);
 
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsHandler(this.overflowActionsDisabled);
     connectConditionalSlotComponent(this);
   }
@@ -279,8 +280,8 @@ export class ActionBar
   };
 
   mutationObserverHandler = (): void => {
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
+    const actionGroups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+    this.setGroupLayout(actionGroups);
     this.overflowActions();
   };
 
@@ -307,8 +308,6 @@ export class ActionBar
     const actions = queryActions(el);
     const actionCount = expandDisabled ? actions.length : actions.length + 1;
     const actionGroups = Array.from(el.querySelectorAll("calcite-action-group"));
-
-    this.setGroupLayout(actionGroups);
 
     const groupCount =
       this.hasActionsEnd || this.hasBottomActions || !expandDisabled

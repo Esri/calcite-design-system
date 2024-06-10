@@ -111,7 +111,7 @@ describe("calcite-action-bar", () => {
       const page = await newE2EPage({
         html: html`<calcite-action-bar expanded>
           <calcite-action-group>
-            <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
+            <calcite-action text-enabled id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
           </calcite-action-group>
           <calcite-action-group>
             <calcite-action-menu label="Save and open">
@@ -229,7 +229,7 @@ describe("calcite-action-bar", () => {
       expect(await buttonGroup.isVisible()).toBe(false);
     });
 
-    it("should modify textEnabled on actions when expanded and expandDisabled", async () => {
+    it("should not modify textEnabled on actions and group by default when expanded and expandDisabled", async () => {
       const page = await newE2EPage();
 
       await page.setContent(
@@ -248,8 +248,8 @@ describe("calcite-action-bar", () => {
       expect(await actionBar.getProperty("expanded")).toBe(true);
       expect(expandAction).toBeNull();
       expect(action).not.toBeNull();
-      expect(await group.getProperty("expanded")).toBe(true);
-      expect(await action.getProperty("textEnabled")).toBe(true);
+      expect(await group.getProperty("expanded")).toBe(false);
+      expect(await action.getProperty("textEnabled")).toBe(false);
     });
 
     it("should modify textEnabled on actions when expanded is true and new children are added", async () => {
