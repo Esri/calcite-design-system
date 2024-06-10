@@ -437,7 +437,7 @@ describe("calcite-tree-item", () => {
       );
     });
     describe("selections", () => {
-      describe("checkbox", () => {
+      describe("ancestor", () => {
         const tokens: ComponentTestTokens = {
           "--calcite-tree-item-checkbox-background-color-checked": {
             selector: "calcite-tree-item",
@@ -492,22 +492,53 @@ describe("calcite-tree-item", () => {
           tokens,
         );
       });
-      describe("bullet", () => {
+      describe("multiple", () => {
         const tokens: ComponentTestTokens = {
           "--calcite-tree-item-selection-icon-color": {
+            selector: "calcite-tree-item[selected]",
+            shadowSelector: `.${CSS.checkmarkIcon}`,
+            targetProp: "--calcite-icon-color",
+          },
+        };
+        themed(
+          html`<calcite-tree selection-mode="multiple">
+            <calcite-tree-item selected><span>Child 1</span></calcite-tree-item>
+            <calcite-tree-item expanded>
+              <span>Child 2</span>
+              <calcite-tree slot="children">
+                <calcite-tree-item selected><span>Grandchild 1</span></calcite-tree-item>
+                <calcite-tree-item><span>Grandchild 2</span></calcite-tree-item>
+                <calcite-tree-item expanded>
+                  <span>Grandchild 3</span>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item><span>Great-Grandchild 1</span></calcite-tree-item>
+                    <calcite-tree-item><span>Great-Grandchild 2</span></calcite-tree-item>
+                    <calcite-tree-item><span>Great-Grandchild 3</span></calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>`,
+          tokens,
+        );
+      });
+      describe("single", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-tree-item-selection-icon-color": {
+            selector: "calcite-tree-item[selected]",
             shadowSelector: `.${CSS.bulletPointIcon}`,
             targetProp: "--calcite-icon-color",
           },
         };
         themed(
-          html`<calcite-tree selection-mode="children">
-            <calcite-tree-item><span>Child 1</span></calcite-tree-item>
+          html`<calcite-tree selection-mode="single">
+            <calcite-tree-item selected><span>Child 1</span></calcite-tree-item>
             <calcite-tree-item expanded>
               <span>Child 2</span>
               <calcite-tree slot="children">
                 <calcite-tree-item><span>Grandchild 1</span></calcite-tree-item>
                 <calcite-tree-item><span>Grandchild 2</span></calcite-tree-item>
-                <calcite-tree-item expanded>
+                <calcite-tree-item>
                   <span>Grandchild 3</span>
                   <calcite-tree slot="children">
                     <calcite-tree-item><span>Great-Grandchild 1</span></calcite-tree-item>
