@@ -36,7 +36,12 @@
   grid-column: header-start / menu-end;
   grid-row: 1 / 2;
 }
+
 .header ::slotted(calcite-icon) {
+  margin-inline-end: var(--calcite-spacing-md);
+}
+
+.header .icon ::slotted([slot="icon"]) {
   margin-inline-end: var(--calcite-spacing-md);
 }
 
@@ -145,7 +150,7 @@ calcite-handle {
   duration-150
   ease-in-out;
 
-  margin-inline: var(--calcite-spacing-md);
+  margin-inline-end: var(--calcite-spacing-md);
 }
 
 .toggle:hover .toggle-icon {
