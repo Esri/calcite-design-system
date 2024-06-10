@@ -1,8 +1,8 @@
 {
   "previous": "이전",
   "next": "다음",
-  "play": "Play",
-  "pause": "Pause",
-  "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "play": "재생",
+  "pause": "정지",
+  "carousel": "회전 슬라이드",
+  "carouselItemProgress": "회전 슬라이드 항목의 진행률 표시기"
 }

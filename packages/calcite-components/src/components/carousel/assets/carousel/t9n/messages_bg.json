@@ -1,8 +1,8 @@
 {
-  "previous": "Предишна",
+  "previous": "Предишно",
   "next": "Напред",
-  "play": "Play",
-  "pause": "Pause",
-  "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "play": "Възпроизвеждане",
+  "pause": "Временно спиране",
+  "carousel": "Карусел",
+  "carouselItemProgress": "Индикатор за напредък при каруселен елемент"
 }
