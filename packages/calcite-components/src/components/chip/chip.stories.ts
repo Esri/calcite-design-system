@@ -3,15 +3,10 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Chip } from "./chip";
 const { scale, appearance, kind } = ATTRIBUTES;
 
-interface ChipArgs {
-  scale: string;
-  appearance: string;
-  kind: string;
-  closable: boolean;
-  selected: boolean;
-}
+type ChipStoryArgs = Pick<Chip, "scale" | "appearance" | "kind" | "closable" | "selected">;
 
 export default {
   title: "Components/Chip",
@@ -40,7 +35,7 @@ export default {
   },
 };
 
-export const simple = (args: ChipArgs): string => html`
+export const simple = (args: ChipStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip
       scale="${args.scale}"

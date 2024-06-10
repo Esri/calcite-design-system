@@ -1,13 +1,10 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Switch } from "./switch";
 const { scale } = ATTRIBUTES;
 
-interface SwitchArgs {
-  checked: boolean;
-  disabled: boolean;
-  scale: string;
-}
+type SwitchStoryArgs = Pick<Switch, "checked" | "disabled" | "scale">;
 
 export default {
   title: "Components/Controls/Switch",
@@ -24,7 +21,7 @@ export default {
   },
 };
 
-export const simple = (args: SwitchArgs): string => html`
+export const simple = (args: SwitchStoryArgs): string => html`
   <calcite-switch
     name="setting"
     value="enabled"

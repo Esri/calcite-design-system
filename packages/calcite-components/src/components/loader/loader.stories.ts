@@ -1,12 +1,9 @@
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Loader } from "./loader";
 const { determinateType, scale } = ATTRIBUTES;
 
-interface LoaderArgs {
-  type: string;
-  scale: string;
-  value: number;
-}
+type LoaderStoryArgs = Pick<Loader, "type" | "scale" | "value">;
 
 export default {
   title: "Components/Loader",
@@ -30,7 +27,7 @@ export default {
   },
 };
 
-export const simple_TestOnly = (args: LoaderArgs): string => html`
+export const simple_TestOnly = (args: LoaderStoryArgs): string => html`
   <calcite-loader type="${args.type}" scale="${args.scale}" value="${args.value}" />
 `;
 

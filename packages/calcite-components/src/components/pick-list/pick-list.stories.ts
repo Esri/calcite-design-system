@@ -1,13 +1,11 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { PickList } from "./pick-list";
 
-interface PickListArgs {
-  disabled: boolean;
-  filterEnabled: boolean;
-  loading: boolean;
-  multiple: boolean;
-  selectionFollowsFocus: boolean;
-}
+type PickListStoryArgs = Pick<
+  PickList,
+  "disabled" | "filterEnabled" | "loading" | "multiple" | "selectionFollowsFocus"
+>;
 
 export default {
   title: "Components/Pick List",
@@ -30,7 +28,7 @@ const action = html`
   ></calcite-action>
 `;
 
-export const simple = (args: PickListArgs): string => html`
+export const simple = (args: PickListStoryArgs): string => html`
   <calcite-pick-list
     ${boolean("disabled", args.disabled)}
     ${boolean("filter-enabled", args.filterEnabled)}
