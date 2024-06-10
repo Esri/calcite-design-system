@@ -4603,6 +4603,10 @@ export namespace Components {
          */
         "dropdownLabel": string;
         /**
+          * Defines the available placements that can be used when a flip occurs.
+         */
+        "flipPlacements": FlipPlacement[];
+        /**
           * Specifies the kind of the component, which will apply to border and background, if applicable.
          */
         "kind": Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
@@ -4614,6 +4618,11 @@ export namespace Components {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning": OverlayPositioning;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-end"
+         */
+        "placement": MenuPlacement;
         /**
           * Specifies an icon to display at the end of the primary button.
          */
@@ -12601,6 +12610,10 @@ declare namespace LocalJSX {
          */
         "dropdownLabel"?: string;
         /**
+          * Defines the available placements that can be used when a flip occurs.
+         */
+        "flipPlacements"?: FlipPlacement[];
+        /**
           * Specifies the kind of the component, which will apply to border and background, if applicable.
          */
         "kind"?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
@@ -12620,6 +12633,11 @@ declare namespace LocalJSX {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning"?: OverlayPositioning;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-end"
+         */
+        "placement"?: MenuPlacement;
         /**
           * Specifies an icon to display at the end of the primary button.
          */

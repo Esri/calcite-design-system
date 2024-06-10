@@ -302,8 +302,9 @@ export const open: StoryObj = {
 
 open.play = async ({ canvasElement, step }) => {
   await waitFor(() => expect(canvasElement).not.toBeNull());
+
   await step("Open on Click", async () => {
-    const picker = await findByShadowRole(canvasElement, "combobox");
+    const picker = await waitFor(async () => await findByShadowRole(canvasElement, "combobox"));
     await userEvent.click(picker);
     // const datepicker = await findByShadowTestId(canvasElement, 'date-picker');
     // // await expect(pickerEl.getAttribute('open')).toBe(true)
