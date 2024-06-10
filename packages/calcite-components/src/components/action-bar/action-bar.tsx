@@ -93,9 +93,7 @@ export class ActionBar
 
   @Watch("expanded")
   expandedHandler(): void {
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
-    this.overflowActions();
+    this.mutationObserverHandler();
   }
 
   /**
@@ -114,13 +112,15 @@ export class ActionBar
   @Prop({ reflect: true }) overflowActionsDisabled = false;
 
   @Watch("overflowActionsDisabled")
-  overflowDisabledHandler(overflowActionsDisabled: boolean): void {
+  overflowActionsHandler(overflowActionsDisabled: boolean): void {
     if (overflowActionsDisabled) {
       this.resizeObserver?.disconnect();
+      this.mutationObserver?.disconnect();
       return;
     }
 
     this.resizeObserver?.observe(this.el);
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActions();
   }
 
@@ -182,11 +182,7 @@ export class ActionBar
 
   @Element() el: HTMLCalciteActionBarElement;
 
-  mutationObserver = createObserver("mutation", () => {
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
-    this.overflowActions();
-  });
+  mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
   resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
 
@@ -214,27 +210,15 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   componentDidLoad(): void {
-    const { el, expanded } = this;
-
     setComponentLoaded(this);
-    toggleChildActionText({ el, expanded });
     this.overflowActions();
   }
 
   connectedCallback(): void {
-    const { el, expanded } = this;
-
     connectLocalized(this);
     connectMessages(this);
-    toggleChildActionText({ el, expanded });
 
-    this.mutationObserver?.observe(el, { childList: true, subtree: true });
-
-    if (!this.overflowActionsDisabled) {
-      this.resizeObserver?.observe(el);
-    }
-
-    this.overflowActions();
+    this.overflowActionsHandler(this.overflowActionsDisabled);
     connectConditionalSlotComponent(this);
   }
 
@@ -292,6 +276,12 @@ export class ActionBar
         }
       });
     }
+  };
+
+  mutationObserverHandler = (): void => {
+    const { el, expanded } = this;
+    toggleChildActionText({ el, expanded });
+    this.overflowActions();
   };
 
   resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
