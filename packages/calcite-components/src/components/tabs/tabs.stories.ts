@@ -3,13 +3,10 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Tabs } from "./tabs";
 const { layout, position, scale } = ATTRIBUTES;
 
-interface TabsArgs {
-  layout: string;
-  position: string;
-  scale: string;
-}
+type TabsStoryArgs = Pick<Tabs, "layout" | "position" | "scale">;
 
 export default {
   title: "Components/Tabs",
@@ -36,7 +33,7 @@ export default {
   },
 };
 
-export const simpleDarkModeRTL_TestOnly = (args: TabsArgs): string => html`
+export const simpleDarkModeRTL_TestOnly = (args: TabsStoryArgs): string => html`
   <calcite-tabs
     dir="rtl"
     class="calcite-mode-dark"

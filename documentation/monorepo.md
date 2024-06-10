@@ -166,4 +166,4 @@ A `remove-prerelease-changelog-entries.yml` GitHub Action runs the `removePrerel
 
 ### Steps to release
 
-For the most part the releases are automated in the CI (see the sections above). However, there are a few manual steps, which are described in the [releasing documentation](/Releasing.md).
+For the most part the releases are automated in the CI (see the sections above). However, there are a few manual steps, which are described in the [releasing documentation](./releasing.md).

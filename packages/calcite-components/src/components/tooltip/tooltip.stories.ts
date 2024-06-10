@@ -1,22 +1,18 @@
 import { html } from "../../../support/formatting";
 import { placements } from "../../utils/floating-ui";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { Tooltip } from "./tooltip";
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
 
 const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appearance="transparent" kind="neutral" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
-interface TooltipArgs {
-  placements: string;
-  offsetDistance: number;
-  offsetSkidding: number;
-  open: boolean;
-}
+type TooltipStoryArgs = Pick<Tooltip, "placement" | "offsetDistance" | "offsetSkidding" | "open">;
 
 export default {
   title: "Components/Tooltip",
   args: {
-    placements: placements[0],
+    placement: placements[0],
     offsetDistance: 6,
     offsetSkidding: 0,
     open: false,
@@ -29,12 +25,12 @@ export default {
   },
 };
 
-export const simple = (args: TooltipArgs): string => html`
+export const simple = (args: TooltipStoryArgs): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-tooltip
       reference-element="reference-element"
-      placement="${args.placements}"
+      placement="${args.placement}"
       offset-distance="${args.offsetDistance}"
       offset-skidding="${args.offsetSkidding}"
       ${boolean("open", args.open)}

@@ -158,7 +158,7 @@
   block-size: 2px;
   border-radius: var(--calcite-internal-alert-corner-radius) var(--calcite-internal-alert-corner-radius) 0 0;
 
-  &:after {
+  &::after {
     @apply absolute
     top-0
     block;
@@ -316,9 +316,14 @@ $alertDurations:
   :host([auto-close-duration="#{$name}"]) .dismiss-progress:after {
     animation: dismissProgress $duration ease-out;
   }
-  :host(:hover[auto-close-duration="#{$name}"]) .dismiss-progress:after {
+  :host(:hover[auto-close-duration="#{$name}"]) .dismiss-progress:after,
+  :host(:focus[auto-close-duration="#{$name}"]) .dismiss-progress:after {
     animation-play-state: paused;
   }
+}
+
+.container.focused .dismiss-progress::after {
+  animation-play-state: paused;
 }
 
 @keyframes dismissProgress {

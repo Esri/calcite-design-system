@@ -1,12 +1,9 @@
 import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
+import { CalciteNavigationLogo } from "./navigation-logo";
 
-interface NavigationLogoArgs {
-  description: string;
-  heading: string;
-  active: boolean;
-}
+type NavigationLogoStoryArgs = Pick<CalciteNavigationLogo, "description" | "heading" | "active">;
 
 export default {
   title: "Components/Navigation/Navigation Logo",
@@ -17,7 +14,7 @@ export default {
   },
 };
 
-export const simple = (args: NavigationLogoArgs): string =>
+export const simple = (args: NavigationLogoStoryArgs): string =>
   html`<calcite-navigation-logo
     description="${args.description}"
     heading="${args.heading}"

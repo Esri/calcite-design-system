@@ -137,7 +137,7 @@ export class ActionBar
   /**
    * Arranges the component depending on the element's `dir` property.
    */
-  @Prop({ reflect: true }) position: Position;
+  @Prop({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /**
    * Specifies the size of the expand `calcite-action`.
@@ -408,8 +408,10 @@ export class ActionBar
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
         class={CSS.expandToggle}
+        collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
         el={el}
+        expandLabel={messages.expandLabel}
         expandText={messages.expand}
         expanded={expanded}
         position={position}
