@@ -33,7 +33,7 @@ jobs:
           GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
           BRANCH: ${{ github.base_ref || github.ref_name }}
-        run: ../scripts/publishPrerelease.sh
+        run: "${{ github.workspace }}/.github/scripts/publishPrerelease.sh"
       - name: notify teams
         uses: toko-bifrost/ms-teams-deploy-card@3.1.2
         if: ${{ !cancelled() && github.event_name == 'push' }}
