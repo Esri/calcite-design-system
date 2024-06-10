@@ -178,46 +178,49 @@ describe("calcite-combobox", () => {
     openClose(simpleComboboxHTML);
   });
 
-  it("should open the combobox when typing within the input", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-combobox id="myCombobox">
-          <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
-          <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
-          <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
-          <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
-        </calcite-combobox>
-      `,
-    });
+  it("should toggle the combobox when typing within the input", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(html`
+      <calcite-combobox id="myCombobox">
+        <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+        <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
+        <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
+        <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
 
     const combobox = await page.find("calcite-combobox");
-    const input = await page.find("calcite-combobox >>> input");
-    const items = await page.findAll("calcite-combobox-item");
-    expect(await combobox.getProperty("open")).toBe(false);
-    await input.focus();
+    await combobox.callMethod("setFocus");
     await page.waitForChanges();
+    expect(await combobox.getProperty("open")).toBe(false);
 
-    await input.type("Arizona");
+    const text = "Arizona";
+
+    await combobox.type(text);
     await page.waitForChanges();
 
     expect(await combobox.getProperty("open")).toBe(true);
-    expect(await items[0].isVisible()).toBe(true);
-    expect(await items[1].isVisible()).toBe(false);
-    expect(await items[2].isVisible()).toBe(false);
-    expect(await items[3].isVisible()).toBe(false);
+
+    for (let i = 0; i < text.length; i++) {
+      await combobox.press("Backspace");
+    }
+
+    await page.waitForChanges();
+    expect(await combobox.getProperty("open")).toBe(false);
   });
 
   it("filtering does not match property with value of undefined", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-combobox id="myCombobox">
-          <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
-          <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
-          <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
-          <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
-        </calcite-combobox>
-      `,
-    });
+    const page = await newE2EPage();
+
+    await page.setContent(html`
+      <calcite-combobox id="myCombobox">
+        <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+        <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
+        <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
+        <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
 
     const combobox = await page.find("calcite-combobox");
     const input = await page.find("calcite-combobox >>> input");
@@ -235,16 +238,16 @@ describe("calcite-combobox", () => {
   });
 
   it("should filter the items in listbox when typing into the input", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-combobox id="myCombobox">
-          <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
-          <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
-          <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
-          <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
-        </calcite-combobox>
-      `,
-    });
+    const page = await newE2EPage();
+
+    await page.setContent(html`
+      <calcite-combobox id="myCombobox">
+        <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+        <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
+        <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
+        <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
 
     const combobox = await page.find("calcite-combobox");
     const input = await page.find("calcite-combobox >>> input");
@@ -684,11 +687,13 @@ describe("calcite-combobox", () => {
     });
 
     it("should honor calciteComboboxChipClose", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-combobox>
-        <calcite-combobox-item value="one" selected text-label="one"></calcite-combobox-item>
-      </calcite-combobox>`,
-      });
+      const page = await newE2EPage();
+
+      await page.setContent(
+        html`<calcite-combobox>
+          <calcite-combobox-item value="one" selected text-label="one"></calcite-combobox-item>
+        </calcite-combobox>`,
+      );
 
       const eventSpy = await page.spyOnEvent("calciteComboboxChipClose", "window");
 
