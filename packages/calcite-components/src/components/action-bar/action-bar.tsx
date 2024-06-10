@@ -114,7 +114,7 @@ export class ActionBar
   @Prop({ reflect: true }) overflowActionsDisabled = false;
 
   @Watch("overflowActionsDisabled")
-  overflowActionsHandler(overflowActionsDisabled: boolean): void {
+  overflowActionsDisabledHandler(overflowActionsDisabled: boolean): void {
     if (overflowActionsDisabled) {
       this.resizeObserver?.disconnect();
       return;
@@ -219,7 +219,7 @@ export class ActionBar
     connectMessages(this);
 
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.overflowActionsHandler(this.overflowActionsDisabled);
+    this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     connectConditionalSlotComponent(this);
   }
 
