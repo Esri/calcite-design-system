@@ -69,6 +69,9 @@ export const DIMENSIONS = {
     thumb: {
       radius: 7,
     },
+    preview: {
+      size: 20,
+    },
   },
   m: {
     slider: {
@@ -82,6 +85,9 @@ export const DIMENSIONS = {
     thumb: {
       radius: 7,
     },
+    preview: {
+      size: 24,
+    },
   },
   l: {
     slider: {
@@ -94,6 +100,9 @@ export const DIMENSIONS = {
     },
     thumb: {
       radius: 7,
+    },
+    preview: {
+      size: 32,
     },
   },
 };

@@ -199,8 +199,10 @@ export class ColorPicker
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  @Watch("alphaChannel")
   @Watch("scale")
   handleScaleChange(scale: Scale = "m"): void {
+    this.effectiveSliderWidth = this.getSliderWidth();
     this.updateDimensions(scale);
     this.updateCanvasSize("all");
     this.drawColorControls();
@@ -311,6 +313,8 @@ export class ColorPicker
   private colorFieldRenderingContext: CanvasRenderingContext2D;
 
   private colorFieldScopeNode: HTMLDivElement;
+
+  private effectiveSliderWidth: number;
 
   private hueSliderRenderingContext: CanvasRenderingContext2D;
 
@@ -1324,6 +1328,7 @@ export class ColorPicker
   private initColorField = (canvas: HTMLCanvasElement): void => {
     this.colorFieldRenderingContext = canvas.getContext("2d");
     this.updateCanvasSize("color-field");
+    this.effectiveSliderWidth = this.getSliderWidth();
     this.drawColorControls();
   };
 
@@ -1353,7 +1358,7 @@ export class ColorPicker
     }
 
     const adjustedSliderDimensions = {
-      width: dimensions.slider.width,
+      width: this.effectiveSliderWidth,
       height:
         dimensions.slider.height + (dimensions.thumb.radius - dimensions.slider.height / 2) * 2,
     };
@@ -1448,10 +1453,11 @@ export class ColorPicker
 
     const {
       dimensions: {
-        slider: { width },
         thumb: { radius },
       },
     } = this;
+
+    const width = this.effectiveSliderWidth;
 
     const x = hsvColor.hue() / (HUE_LIMIT_CONSTRAINED / width);
     const y = radius;
@@ -1464,17 +1470,35 @@ export class ColorPicker
     this.drawThumb(this.hueSliderRenderingContext, radius, sliderBoundX, y, hsvColor, false);
   }
 
+  private getSliderWidth(): number {
+    const {
+      dimensions: {
+        slider: { width },
+        preview,
+      },
+    } = this;
+
+    if (this.alphaChannel) {
+      return width;
+    }
+
+    const previewWidthOffset = DIMENSIONS["l"].preview.size - preview.size;
+
+    return width + previewWidthOffset;
+  }
+
   private drawHueSlider(): void {
     const context = this.hueSliderRenderingContext;
     const {
       dimensions: {
-        slider: { height, width },
+        slider: { height },
         thumb: { radius: thumbRadius },
       },
     } = this;
 
     const x = 0;
     const y = thumbRadius - height / 2;
+    const width = this.effectiveSliderWidth;
 
     const gradient = context.createLinearGradient(0, 0, width, 0);
 
@@ -1515,13 +1539,14 @@ export class ColorPicker
     const {
       baseColorFieldColor: previousColor,
       dimensions: {
-        slider: { height, width },
+        slider: { height },
         thumb: { radius: thumbRadius },
       },
     } = this;
 
     const x = 0;
     const y = thumbRadius - height / 2;
+    const width = this.effectiveSliderWidth;
 
     context.clearRect(0, 0, width, height + this.getSliderCapSpacing() * 2);
 
