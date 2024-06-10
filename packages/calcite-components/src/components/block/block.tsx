@@ -212,14 +212,14 @@ export class Block
 
   @State() defaultMessages: BlockMessages;
 
-  @State() hasContentStart = false;
-
   @State() effectiveLocale: string;
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
   }
+
+  @State() hasContentStart = false;
 
   @State() hasEndActions = false;
 
@@ -308,7 +308,7 @@ export class Block
     this.hasEndActions = slotChangeHasAssignedElement(event);
   };
 
-  handleContentStartSlotChange = (event: Event): void => {
+  private handleContentStartSlotChange = (event: Event): void => {
     this.hasContentStart = slotChangeHasAssignedElement(event);
   };
 
@@ -438,12 +438,7 @@ export class Block
             <div class={CSS.iconEndContainer}>
               {iconEndEl}
               {this.renderActionsEnd()}
-              <calcite-icon
-                aria-hidden="true"
-                class={CSS.toggleIcon}
-                icon={collapseIcon}
-                scale="s"
-              />
+              <calcite-icon class={CSS.toggleIcon} icon={collapseIcon} scale="s" />
             </div>
           </button>
         ) : iconEndEl ? (

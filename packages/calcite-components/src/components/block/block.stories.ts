@@ -276,7 +276,9 @@ export const icons_TestOnly = (): string => html`
   </calcite-block>
 `;
 
-export const actionsEndLoadingIconStartEnd = (): string => html`
+export const iconStartEnd = (): string => html`
+  <h1>actions-end and loading</h1>
+
   <calcite-block
     heading="Valid status"
     description="summary"
@@ -293,9 +295,9 @@ export const actionsEndLoadingIconStartEnd = (): string => html`
     ></calcite-icon>
     <calcite-action appearance="transparent" icon="ellipsis" text="menu" label="menu" slot="actions-end" />
   </calcite-block>
-`;
 
-export const actionsEndContentStartIconStartEnd = (): string => html`
+  <h1>actions-end and content-start</h1>
+
   <calcite-block
     heading="Valid status"
     collapsible
