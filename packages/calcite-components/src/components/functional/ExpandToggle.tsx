@@ -30,10 +30,16 @@ function getCalcitePosition(position: Position, el: HTMLElement): Position {
 export function toggleChildActionText({
   el,
   expanded,
+  expandDisabled,
 }: {
   el: HTMLElement;
   expanded: boolean;
+  expandDisabled: boolean;
 }): void {
+  if (expandDisabled) {
+    return;
+  }
+
   queryActions(el)
     .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
     .forEach((action) => (action.textEnabled = expanded));

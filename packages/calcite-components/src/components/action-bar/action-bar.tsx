@@ -93,8 +93,8 @@ export class ActionBar
 
   @Watch("expanded")
   expandedHandler(): void {
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
+    const { el, expanded, expandDisabled } = this;
+    toggleChildActionText({ el, expanded, expandDisabled });
     this.overflowActions();
   }
 
@@ -183,8 +183,8 @@ export class ActionBar
   @Element() el: HTMLCalciteActionBarElement;
 
   mutationObserver = createObserver("mutation", () => {
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
+    const { el, expanded, expandDisabled } = this;
+    toggleChildActionText({ el, expanded, expandDisabled });
     this.overflowActions();
   });
 
@@ -214,19 +214,19 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   componentDidLoad(): void {
-    const { el, expanded } = this;
+    const { el, expanded, expandDisabled } = this;
 
     setComponentLoaded(this);
-    toggleChildActionText({ el, expanded });
+    toggleChildActionText({ el, expanded, expandDisabled });
     this.overflowActions();
   }
 
   connectedCallback(): void {
-    const { el, expanded } = this;
+    const { el, expanded, expandDisabled } = this;
 
     connectLocalized(this);
     connectMessages(this);
-    toggleChildActionText({ el, expanded });
+    toggleChildActionText({ el, expanded, expandDisabled });
 
     this.mutationObserver?.observe(el, { childList: true, subtree: true });
 

@@ -76,7 +76,7 @@ export class ActionPad
 
   @Watch("expanded")
   expandedHandler(expanded: boolean): void {
-    toggleChildActionText({ el: this.el, expanded });
+    toggleChildActionText({ el: this.el, expanded, expandDisabled: this.expandDisabled });
   }
 
   /**
@@ -184,8 +184,8 @@ export class ActionPad
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
+    const { el, expanded, expandDisabled } = this;
+    toggleChildActionText({ el, expanded, expandDisabled });
     await setUpMessages(this);
   }
 
