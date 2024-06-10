@@ -738,17 +738,17 @@ describe("calcite-input-date-picker", () => {
         expect(await getDateInputValue(page)).toEqual(`3/7/${year}`);
       }
 
-      it("sets value to the clicked day in the 2000s in CEST timezone", async () => {
-        assertCenturyDateValue(2050, "Europe/Zurich");
-        });
-
-      it("sets value to the clicked day in the 1900s in CEST timezone", async () => {
-        assertCenturyDateValue(1950, "Europe/Zurich");
-        });
-
-      it("sets value to the clicked day in the 1800s in CEST timezone", async () => {
-        assertCenturyDateValue(1850, "Europe/Zurich");
+      it("sets value to the clicked day in the 2000s in Zurich timezone", async () => {
+        await assertCenturyDateValue(2050, "Europe/Zurich");
       });
+
+      it("sets value to the clicked day in the 1900s in Zurich timezone", async () => {
+        await assertCenturyDateValue(1950, "Europe/Zurich");
+      });
+
+      it("sets value to the clicked day in the 1800s in Zurich timezone", async () => {
+        await assertCenturyDateValue(1850, "Europe/Zurich");
+    });
     });
   });
 

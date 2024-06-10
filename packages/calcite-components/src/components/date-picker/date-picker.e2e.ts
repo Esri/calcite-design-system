@@ -587,35 +587,35 @@ describe("calcite-date-picker", () => {
     }
 
     it("sets value to the selected day in the 2000s", async () => {
-      assertCenturyDateValue(2005);
-      });
+      await assertCenturyDateValue(2005);
+    });
 
     it("sets value to the selected day in the 1900s", async () => {
-      assertCenturyDateValue(1950);
+      await assertCenturyDateValue(1950);
     });
 
     it("sets value to the selected day in the 1800s", async () => {
-      assertCenturyDateValue(1850);
+      await assertCenturyDateValue(1850);
       });
 
     it("sets value to the selected day in the 1700s", async () => {
-      assertCenturyDateValue(1750);
+      await assertCenturyDateValue(1750);
     });
 
     it("sets value to the selected day in 2000s in Zurich timezone", async () => {
-      assertCenturyDateValue(2050, "Europe/Zurich");
+      await assertCenturyDateValue(2050, "Europe/Zurich");
     });
 
     it("sets value to the selected day in 1900s in Zurich timezone", async () => {
-      assertCenturyDateValue(1950, "Europe/Zurich");
+      await assertCenturyDateValue(1950, "Europe/Zurich");
     });
 
     it("sets value to the selected day in 1800s in Zurich timezone", async () => {
-      assertCenturyDateValue(1850, "Europe/Zurich");
+      await assertCenturyDateValue(1850, "Europe/Zurich");
     });
 
     it("sets value to the selected day in 1700s in Zurich timezone", async () => {
-      assertCenturyDateValue(1750, "Europe/Zurich");
+      await assertCenturyDateValue(1750, "Europe/Zurich");
     });
   });
 });
