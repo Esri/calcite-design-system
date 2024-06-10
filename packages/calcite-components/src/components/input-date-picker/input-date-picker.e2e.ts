@@ -639,17 +639,53 @@ describe("calcite-input-date-picker", () => {
     });
   });
 
-  it("allows clicking a date in the calendar popup", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-date-picker value="2023-01-31"></calcite-input-date-picker>`);
-    const inputDatePicker = await page.find("calcite-input-date-picker");
+  describe("clicking in the calendar popup", () => {
+    it("allows clicking a date in the calendar popup", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input-date-picker value="2023-01-31"></calcite-input-date-picker>`);
+      const inputDatePicker = await page.find("calcite-input-date-picker");
 
-    await inputDatePicker.click();
-    await page.waitForChanges();
+      await inputDatePicker.click();
+      await page.waitForChanges();
 
-    await selectDayInMonthByIndex(page, 1);
+      await selectDayInMonthByIndex(page, 1);
 
-    expect(await inputDatePicker.getProperty("value")).toBe("2023-01-01");
+      expect(await inputDatePicker.getProperty("value")).toBe("2023-01-01");
+    });
+
+    describe("cross-century date values", () => {
+      async function assertCenturyDateValue(year: number, timezone?: string) {
+        const initialValue = `${year}-03-12`;
+        const page = await newE2EPage();
+        if (timezone) {
+          await page.emulateTimezone(timezone);
+        }
+        await page.setContent(html` <calcite-input-date-picker value="${initialValue}"></calcite-input-date-picker> `);
+
+        const inputDatePicker = await page.find("calcite-input-date-picker");
+
+        expect(await inputDatePicker.getProperty("value")).toBe(initialValue);
+
+        await inputDatePicker.click();
+        await page.waitForChanges();
+        await selectDayInMonthByIndex(page, 7);
+
+        expect(await inputDatePicker.getProperty("value")).toBe(`${year}-03-07`);
+        expect(await getDateInputValue(page)).toEqual(`3/7/${year}`);
+      }
+
+      it("sets value to the clicked day in the 2000s in Zurich timezone", async () => {
+        await assertCenturyDateValue(2050, "Europe/Zurich");
+      });
+
+      it("sets value to the clicked day in the 1900s in Zurich timezone", async () => {
+        await assertCenturyDateValue(1950, "Europe/Zurich");
+      });
+
+      it("sets value to the clicked day in the 1800s in Zurich timezone", async () => {
+        await assertCenturyDateValue(1850, "Europe/Zurich");
+      });
+    });
   });
 
   describe("is form-associated", () => {
