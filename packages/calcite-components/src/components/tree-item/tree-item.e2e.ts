@@ -1,7 +1,9 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { SLOTS } from "./resources";
+import { CSS } from "./resources";
 
 describe("calcite-tree-item", () => {
   describe("renders", () => {
@@ -383,5 +385,142 @@ describe("calcite-tree-item", () => {
     const itemBounds = await item.boundingBox();
 
     expect(itemBounds.height).not.toBe(0);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-tree-item-chevron-color-active": {
+          selector: "calcite-tree-item",
+          shadowSelector: `.${CSS.chevron}`,
+          targetProp: "--calcite-icon-color",
+          state: { press: { attribute: "class", value: CSS.chevron } },
+        },
+        "--calcite-tree-item-chevron-color-hover": {
+          selector: "calcite-tree-item",
+          shadowSelector: `.${CSS.chevron}`,
+          targetProp: "--calcite-icon-color",
+          state: "hover",
+        },
+        "--calcite-tree-item-chevron-color": {
+          selector: "calcite-tree-item",
+          shadowSelector: `.${CSS.chevron}`,
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-tree-item-icon-color": {
+          selector: "calcite-tree-item",
+          shadowSelector: `.${CSS.iconStart}`,
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-tree-item-line-color": {
+          selector: "calcite-tree-item",
+          shadowSelector: `.${CSS.childrenContainer}::after`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-tree-item-text-color": {
+          selector: "calcite-tree-item",
+          targetProp: "color",
+        },
+      };
+      themed(
+        html`
+          <calcite-tree id="root" lines>
+            <calcite-tree-item icon-start="palette" expanded>
+              Parent
+              <calcite-tree slot="children">
+                <calcite-tree-item id="child">child</calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        `,
+        tokens,
+      );
+    });
+    describe("selections", () => {
+      describe("checkbox", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-tree-item-checkbox-background-color-checked": {
+            selector: "calcite-tree-item",
+            shadowSelector: "calcite-checkbox",
+            targetProp: "--calcite-checkbox-background-color-checked",
+          },
+          "--calcite-tree-item-checkbox-background-color": {
+            selector: "calcite-tree-item",
+            shadowSelector: "calcite-checkbox",
+            targetProp: "--calcite-checkbox-background-color",
+          },
+          "--calcite-tree-item-checkbox-shadow-checked": {
+            selector: "calcite-tree-item",
+            shadowSelector: "calcite-checkbox",
+            targetProp: "--calcite-checkbox-shadow-checked",
+          },
+          "--calcite-tree-item-checkbox-shadow-hover": {
+            selector: "calcite-tree-item",
+            shadowSelector: "calcite-checkbox",
+            targetProp: "--calcite-checkbox-shadow-hover",
+          },
+          "--calcite-tree-item-checkbox-shadow": {
+            selector: "calcite-tree-item",
+            shadowSelector: "calcite-checkbox",
+            targetProp: "--calcite-checkbox-shadow",
+          },
+          "--calcite-tree-item-selection-icon-color": {
+            selector: "calcite-tree-item",
+            shadowSelector: `calcite-checkbox`,
+            targetProp: "--calcite-checkbox-icon-color",
+          },
+        };
+        themed(
+          html`<calcite-tree selection-mode="ancestors">
+            <calcite-tree-item selected><span>Child 1</span></calcite-tree-item>
+            <calcite-tree-item expanded>
+              <span>Child 2</span>
+              <calcite-tree slot="children">
+                <calcite-tree-item selected><span>Grandchild 1</span></calcite-tree-item>
+                <calcite-tree-item><span>Grandchild 2</span></calcite-tree-item>
+                <calcite-tree-item expanded>
+                  <span>Grandchild 3</span>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item><span>Great-Grandchild 1</span></calcite-tree-item>
+                    <calcite-tree-item><span>Great-Grandchild 2</span></calcite-tree-item>
+                    <calcite-tree-item><span>Great-Grandchild 3</span></calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>`,
+          tokens,
+        );
+      });
+      describe("bullet", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-tree-item-selection-icon-color": {
+            shadowSelector: `.${CSS.bulletPointIcon}`,
+            targetProp: "--calcite-icon-color",
+          },
+        };
+        themed(
+          html`<calcite-tree selection-mode="children">
+            <calcite-tree-item><span>Child 1</span></calcite-tree-item>
+            <calcite-tree-item expanded>
+              <span>Child 2</span>
+              <calcite-tree slot="children">
+                <calcite-tree-item><span>Grandchild 1</span></calcite-tree-item>
+                <calcite-tree-item><span>Grandchild 2</span></calcite-tree-item>
+                <calcite-tree-item expanded>
+                  <span>Grandchild 3</span>
+                  <calcite-tree slot="children">
+                    <calcite-tree-item><span>Great-Grandchild 1</span></calcite-tree-item>
+                    <calcite-tree-item><span>Great-Grandchild 2</span></calcite-tree-item>
+                    <calcite-tree-item><span>Great-Grandchild 3</span></calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>`,
+          tokens,
+        );
+      });
+    });
   });
 });
