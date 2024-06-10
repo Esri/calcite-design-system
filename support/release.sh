@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-# This script is used to version and publish releases and pre-releases. 
+# This script is used to version and publish releases and pre-releases.
 #
 # @arg1 The deployment step to run, must be either "version" or "publish".
 # @arg2 [optional] The pre-release tag, e.g., "next", "hotfix", or "rc". 
@@ -9,7 +9,7 @@ set -e
 
 help() {
     [ -n "$1" ] && printf "%s\n" "$@"
-    echo "Usage: ./release.sh <version | publish> [<pre-release-tag>]"
+    echo "Usage: ./release.sh (version | publish) [<pre-release-tag>]"
     exit 1
 }
 
@@ -39,7 +39,7 @@ sanity_checks() {
 version() {
     sanity_checks
 
-    if [ -z "$dist_tag" ]; then
+    if [ -z "$dist_tag" ] || [ "$dist_tag" = "latest" ]; then
         lerna version --no-push --no-git-tag-version --yes \
             --conventional-commits \
             --create-release github
@@ -62,10 +62,14 @@ main() {
     cmd="$1"
     dist_tag="$2"
 
-    if [ -z "$dist_tag" ] || [ "$dist_tag" = "next" ]; then
+    if [ -z "$dist_tag" ] || [ "$dist_tag" = "latest" ]; then
         branch="main"
+    elif [ "$dist_tag" = "next" ]; then
+        branch="dev"
+    elif [ "$dist_tag" = "rc" ]; then
+        branch="rc"
     else
-        branch="$dist_tag"
+        help "invalid dist tag: '$dist_tag'"
     fi
 
     if [ -z "$cmd" ]; then
@@ -76,7 +80,6 @@ main() {
         publish
     else
         help "invalid command: '$cmd'"
-        exit 1
     fi
 }
 
