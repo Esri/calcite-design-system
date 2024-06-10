@@ -1054,6 +1054,7 @@ export class Combobox
     const value = (event.target as HTMLInputElement).value;
     this.text = value;
     this.filterItems(value);
+    this.open = value.length > 0;
     if (value) {
       this.activeChipIndex = -1;
     }
