@@ -209,15 +209,12 @@ export class ActionBar
   //
   // --------------------------------------------------------------------------
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-    this.overflowActions();
-  }
-
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
 
+    this.updateGroups();
+    this.overflowActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     connectConditionalSlotComponent(this);
@@ -226,6 +223,11 @@ export class ActionBar
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+    this.overflowActions();
   }
 
   disconnectedCallback(): void {
@@ -280,8 +282,7 @@ export class ActionBar
   };
 
   mutationObserverHandler = (): void => {
-    const actionGroups = Array.from(this.el.querySelectorAll("calcite-action-group"));
-    this.setGroupLayout(actionGroups);
+    this.updateGroups();
     this.overflowActions();
   };
 

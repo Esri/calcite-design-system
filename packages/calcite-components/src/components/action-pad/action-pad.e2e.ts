@@ -207,7 +207,7 @@ describe("calcite-action-pad", () => {
     expect(buttonGroup).toBeNull();
   });
 
-  it("should not modify textEnabled on actions and group by default when expanded and expandDisabled", async () => {
+  it("should not modify textEnabled on actions or expanded on group", async () => {
     const page = await newE2EPage();
 
     await page.setContent(

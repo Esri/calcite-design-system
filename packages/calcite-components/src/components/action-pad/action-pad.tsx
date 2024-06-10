@@ -176,12 +176,6 @@ export class ActionPad
     connectMessages(this);
   }
 
-  disconnectedCallback(): void {
-    disconnectLocalized(this);
-    disconnectMessages(this);
-    disconnectConditionalSlotComponent(this);
-  }
-
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await setUpMessages(this);
@@ -189,6 +183,12 @@ export class ActionPad
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+    disconnectConditionalSlotComponent(this);
   }
 
   // --------------------------------------------------------------------------
