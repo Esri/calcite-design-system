@@ -6,16 +6,16 @@ For comprehensive guidance on using and implementing `calcite-block-section`, re
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                                                                                              | Type                             | Default     |
-| ------------------ | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
-| `iconEnd`          | `icon-end`          | Specifies an icon to display at the end of the component.                                                                                                | `string`                         | `undefined` |
-| `iconFlipRtl`      | `icon-flip-rtl`     | Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).                                              | `"both" \| "end" \| "start"`     | `undefined` |
-| `iconStart`        | `icon-start`        | Specifies an icon to display at the start of the component.                                                                                              | `string`                         | `undefined` |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                                                                  | `BlockSectionMessages`           | `undefined` |
-| `open`             | `open`              | When `true`, expands the component and its contents.                                                                                                     | `boolean`                        | `false`     |
-| `status`           | `status`            | <span style="color:red">**[DEPRECATED]**</span> Use `icon-start` instead.<br/><br/>Displays a status-related indicator icon.                             | `"idle" \| "invalid" \| "valid"` | `undefined` |
-| `text`             | `text`              | The component header text.                                                                                                                               | `string`                         | `undefined` |
-| `toggleDisplay`    | `toggle-display`    | Specifies how the component's toggle is displayed, where: `"button"` sets the toggle to a selectable header, and `"switch"` sets the toggle to a switch. | `"button" \| "switch"`           | `"button"`  |
+| Property           | Attribute        | Description                                                                                                                                              | Type                                      | Default     |
+| ------------------ | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ----------- |
+| `iconEnd`          | `icon-end`       | Specifies an icon to display at the end of the component.                                                                                                | `string`                                  | `undefined` |
+| `iconFlipRtl`      | `icon-flip-rtl`  | Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).                                              | `"both" \| "end" \| "start"`              | `undefined` |
+| `iconStart`        | `icon-start`     | Specifies an icon to display at the start of the component.                                                                                              | `string`                                  | `undefined` |
+| `messageOverrides` | --               | Use this property to override individual strings used by the component.                                                                                  | `{ collapse?: string; expand?: string; }` | `undefined` |
+| `open`             | `open`           | When `true`, expands the component and its contents.                                                                                                     | `boolean`                                 | `false`     |
+| `status`           | `status`         | <span style="color:red">**[DEPRECATED]**</span> Use `icon-start` instead.<br/><br/>Displays a status-related indicator icon.                             | `"idle" \| "invalid" \| "valid"`          | `undefined` |
+| `text`             | `text`           | The component header text.                                                                                                                               | `string`                                  | `undefined` |
+| `toggleDisplay`    | `toggle-display` | Specifies how the component's toggle is displayed, where: `"button"` sets the toggle to a selectable header, and `"switch"` sets the toggle to a switch. | `"button" \| "switch"`                    | `"button"`  |
 
 ## Events
 

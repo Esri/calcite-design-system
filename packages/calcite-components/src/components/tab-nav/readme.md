@@ -22,12 +22,12 @@ Tabs `scale` and `position` properties are inherited by it's child components, t
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                   | Type                         | Default     |
-| ------------------ | ------------------- | ----------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.       | `TabNavMessages`             | `undefined` |
-| `selectedTitle`    | --                  | Specifies the component's selected `calcite-tab-title`.                       | `HTMLCalciteTabTitleElement` | `null`      |
-| `storageId`        | `storage-id`        | Specifies the name when saving selected `calcite-tab` data to `localStorage`. | `string`                     | `undefined` |
-| `syncId`           | `sync-id`           | Specifies text to update multiple components to keep in sync if one changes.  | `string`                     | `undefined` |
+| Property           | Attribute    | Description                                                                   | Type                                                      | Default     |
+| ------------------ | ------------ | ----------------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
+| `messageOverrides` | --           | Use this property to override individual strings used by the component.       | `{ nextTabTitles?: string; previousTabTitles?: string; }` | `undefined` |
+| `selectedTitle`    | --           | Specifies the component's selected `calcite-tab-title`.                       | `HTMLCalciteTabTitleElement`                              | `null`      |
+| `storageId`        | `storage-id` | Specifies the name when saving selected `calcite-tab` data to `localStorage`. | `string`                                                  | `undefined` |
+| `syncId`           | `sync-id`    | Specifies text to update multiple components to keep in sync if one changes.  | `string`                                                  | `undefined` |
 
 ## Events
 
