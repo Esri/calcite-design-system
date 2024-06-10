@@ -437,14 +437,12 @@ export class Block
             {headerContent}
             <div class={CSS.iconEndContainer}>
               {iconEndEl}
-              {this.renderActionsEnd()}
               <calcite-icon class={CSS.toggleIcon} icon={collapseIcon} scale="s" />
             </div>
           </button>
         ) : iconEndEl ? (
           <div>
             {headerContent}
-            {this.renderActionsEnd()}
             <div class={CSS.iconEndContainer}>{iconEndEl}</div>
           </div>
         ) : (
@@ -476,6 +474,7 @@ export class Block
             }}
           >
             {headerNode}
+            {this.renderActionsEnd()}
             <section
               aria-labelledby={IDS.toggle}
               class={CSS.content}

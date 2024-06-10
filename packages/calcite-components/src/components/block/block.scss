@@ -30,7 +30,7 @@
 }
 
 .header-container {
-  @apply grid items-stretch;
+  @apply grid items-stretch w-full;
   grid-template: auto / auto 1fr auto auto;
   grid-template-areas: "handle header control menu";
   grid-column: header-start / menu-end;
@@ -158,7 +158,7 @@ calcite-handle {
 }
 
 .container {
-  @apply flex flex-col h-full relative;
+  @apply flex flex-row h-full relative;
 }
 
 .content {
@@ -178,6 +178,10 @@ calcite-handle {
 
 calcite-action-menu {
   grid-area: menu;
+}
+
+.actions-end {
+  @apply flex items-stretch;
 }
 
 :host([open]) {
