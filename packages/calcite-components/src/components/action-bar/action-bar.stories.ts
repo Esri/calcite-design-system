@@ -116,7 +116,7 @@ export const withDefinedWidths = (): string => html`
   <calcite-action-bar expanded>
     <calcite-action-group expanded>
       <calcite-action text-enabled text="Add to my custom action bar application" icon="plus"></calcite-action>
-      <calcite-action text="Save to my custom action bar application" icon="save"></calcite-action>
+      <calcite-action text-enabled text="Save to my custom action bar application" icon="save"></calcite-action>
     </calcite-action-group>
     <calcite-action-group expanded>
       <calcite-action text-enabled text="Layers in my custom action bar application" icon="layers"></calcite-action>
