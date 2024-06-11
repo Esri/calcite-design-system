@@ -48,7 +48,7 @@ import {
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { FlipContext } from "../interfaces";
-import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import { CSS, ICONS, IDS, SLOTS, Position } from "./resources";
 import { BlockMessages } from "./assets/block/t9n";
 
 /**
@@ -325,7 +325,7 @@ export class Block
     return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
   }
 
-  renderLoaderStatusIcon(): VNode[] {
+  private renderLoaderStatusIcon(): VNode[] {
     const { loading, messages, status } = this;
 
     const hasSlottedIcon = !!getSlotted(this.el, SLOTS.icon);
@@ -361,7 +361,7 @@ export class Block
     );
   }
 
-  renderContentStart(): VNode {
+  private renderContentStart(): VNode {
     const { hasContentStart } = this;
     return (
       <div class={CSS.contentStart} hidden={!hasContentStart}>
@@ -382,27 +382,28 @@ export class Block
     ) : null;
   }
 
-  renderIcon(iconPosition: string): VNode {
+  private renderIcon(position: Position): VNode {
     const { iconFlipRtl } = this;
 
-    if (iconPosition === undefined) {
-      return null;
-    }
-
     const flipRtl =
-      iconFlipRtl === "both" || iconPosition === "iconStart"
+      iconFlipRtl === "both" || position === "start"
         ? iconFlipRtl === "start"
         : iconFlipRtl === "end";
 
-    const iconValue = iconPosition === "iconStart" ? this.iconStart : this.iconEnd;
+    const iconValue = position === "start" ? this.iconStart : this.iconEnd;
+    const iconClass = position === "start" ? CSS.iconStart : CSS.iconEnd;
+
+    if (!iconValue) {
+      return undefined;
+    }
 
     /** Icon scale is not variable as the component does not have a scale property */
     return (
       <calcite-icon
-        class={CSS[iconPosition]}
+        class={iconClass}
         flipRtl={flipRtl}
         icon={iconValue}
-        key={CSS[iconPosition]}
+        key={iconClass}
         scale="s"
       />
     );
@@ -415,7 +416,7 @@ export class Block
 
     const headerContent = (
       <header class={CSS.header} id={IDS.header}>
-        {this.renderIcon(this.iconStart ? "iconStart" : undefined)}
+        {this.renderIcon("start")}
         {this.renderContentStart()}
         {this.renderLoaderStatusIcon()}
         {this.renderTitle()}
@@ -441,16 +442,14 @@ export class Block
           >
             {headerContent}
             <div class={CSS.iconEndContainer}>
-              {this.renderIcon(this.iconEnd ? "iconEnd" : undefined)}
+              {this.renderIcon("end")}
               <calcite-icon class={CSS.toggleIcon} icon={collapseIcon} scale="s" />
             </div>
           </button>
         ) : this.iconEnd ? (
           <div>
             {headerContent}
-            <div class={CSS.iconEndContainer}>
-              {this.renderIcon(this.iconEnd ? "iconEnd" : undefined)}
-            </div>
+            <div class={CSS.iconEndContainer}>{this.renderIcon("end")}</div>
           </div>
         ) : (
           headerContent
