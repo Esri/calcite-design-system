@@ -310,6 +310,7 @@ export class ActionBar
 
     const actions = queryActions(el);
     const actionCount = expandDisabled ? actions.length : actions.length + 1;
+    this.updateGroups();
 
     const groupCount =
       this.hasActionsEnd || this.hasBottomActions || !expandDisabled
