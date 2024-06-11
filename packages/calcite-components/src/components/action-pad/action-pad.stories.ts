@@ -49,12 +49,12 @@ export const withDefinedWidths = (): string => html`
     }
   </style>
   <calcite-action-pad expanded>
-    <calcite-action-group>
-      <calcite-action text="Add to my custom action pad application" icon="plus"></calcite-action>
-      <calcite-action text="Save to my custom action pad application" icon="save"></calcite-action>
+    <calcite-action-group expanded>
+      <calcite-action text-enabled text="Add to my custom action pad application" icon="plus"></calcite-action>
+      <calcite-action text-enabled text="Save to my custom action pad application" icon="save"></calcite-action>
     </calcite-action-group>
-    <calcite-action-group>
-      <calcite-action text="Layers in my custom action pad application" icon="layers"></calcite-action>
+    <calcite-action-group expanded>
+      <calcite-action text-enabled text="Layers in my custom action pad application" icon="layers"></calcite-action>
     </calcite-action-group>
   </calcite-action-pad>
 `;

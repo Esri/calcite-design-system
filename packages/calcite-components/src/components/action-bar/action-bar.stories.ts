@@ -93,12 +93,12 @@ export const horizontalOverflow_TestOnly = (): string => html`
         <calcite-action text="Layers" icon="layers"></calcite-action>
         <calcite-action text="Help" icon="question"></calcite-action>
         <calcite-action
-          style="width:400px"
+          text-enabled
           text="Wide action with a super long title that is unreasonable in my opinion"
           icon="banana"
         ></calcite-action>
         <calcite-action
-          style="width:400px"
+          text-enabled
           text="Wide action with a super long title that is unreasonable in my opinion"
           icon="banana"
         ></calcite-action>
@@ -114,12 +114,12 @@ export const withDefinedWidths = (): string => html`
     }
   </style>
   <calcite-action-bar expanded>
-    <calcite-action-group>
-      <calcite-action text="Add to my custom action bar application" icon="plus"></calcite-action>
+    <calcite-action-group expanded>
+      <calcite-action text-enabled text="Add to my custom action bar application" icon="plus"></calcite-action>
       <calcite-action text="Save to my custom action bar application" icon="save"></calcite-action>
     </calcite-action-group>
-    <calcite-action-group>
-      <calcite-action text="Layers in my custom action bar application" icon="layers"></calcite-action>
+    <calcite-action-group expanded>
+      <calcite-action text-enabled text="Layers in my custom action bar application" icon="layers"></calcite-action>
     </calcite-action-group>
   </calcite-action-bar>
 `;
@@ -171,31 +171,31 @@ export const adjacentTooltipsOpenQuickly = (): string => html`
 `;
 
 export const hebrewLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="he">
-<calcite-action text="Information" icon="information"></calcite-action>
-<calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+<calcite-action text-enabled text="Information" icon="information"></calcite-action>
+<calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
 export const norwegianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="nb">
-<calcite-action text="Information" icon="information"></calcite-action>
-<calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+<calcite-action text-enabled text="Information" icon="information"></calcite-action>
+<calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
 export const FrenchLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="fr">
-<calcite-action text="Information" icon="information"></calcite-action>
-<calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+<calcite-action text-enabled text="Information" icon="information"></calcite-action>
+<calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
 export const hongKongLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="zh-HK">
-<calcite-action text="Information" icon="information"></calcite-action>
-<calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+<calcite-action text-enabled text="Information" icon="information"></calcite-action>
+<calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
 export const ukrainianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="uk">
-<calcite-action text="Information" icon="information"></calcite-action>
-<calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+<calcite-action text-enabled text="Information" icon="information"></calcite-action>
+<calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
 export const bosnianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="bs">
-<calcite-action text="Information" icon="information"></calcite-action>
-<calcite-action text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
+<calcite-action text-enabled text="Information" icon="information"></calcite-action>
+<calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
