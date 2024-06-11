@@ -268,12 +268,23 @@ export class ColorPickerHexInput implements LoadableComponent {
     }
   };
 
+  private onInputKeyUp = (): void => {
+    const hexInputValue = `#${this.hexInputNode.value}`;
+    const oldValue = this.value;
+    console.log("value", hexInputValue);
+
+    if (isValidHex(hexInputValue) && isLonghandHex(hexInputValue)) {
+      this.internalSetValue(hexInputValue, oldValue);
+    }
+  };
+
   private onHexInputPaste = (event: ClipboardEvent): void => {
     const hex = event.clipboardData.getData("text");
 
     if (isValidHex(hex)) {
       event.preventDefault();
       this.hexInputNode.value = hex.slice(1);
+      this.internalSetValue(hex, this.value);
     }
   };
 
@@ -317,6 +328,7 @@ export class ColorPickerHexInput implements LoadableComponent {
           onCalciteInputTextChange={this.onHexInputChange}
           onCalciteInternalInputTextBlur={this.onHexInputBlur}
           onKeyDown={this.onInputKeyDown}
+          onKeyUp={this.onInputKeyUp}
           onPaste={this.onHexInputPaste}
           prefixText="#"
           ref={this.storeHexInputRef}
