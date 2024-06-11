@@ -1,6 +1,6 @@
 import { type StoryObj } from "@storybook/web-components";
 import { expect, userEvent, waitFor } from "@storybook/test";
-import { findByShadowRole } from "shadow-dom-testing-library";
+import { findByShadowRole, within } from "shadow-dom-testing-library";
 import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { locales, defaultLocale } from "../../utils/locale";
@@ -297,17 +297,14 @@ rangeWithMinAsDateAfterCurrentDate_TestOnly.parameters = {
   chromatic: { delay: 1000 },
 };
 export const open: StoryObj = {
-  decorators: [(): string => html`<calcite-input-date-picker></calcite-input-date-picker>`],
+  decorators: [(): string => html`<calcite-input-date-picker data-testid="1"></calcite-input-date-picker>`],
 };
 
 open.play = async ({ canvasElement, step }) => {
-  await waitFor(() => expect(canvasElement).not.toBeNull());
-
+  const canvas = within(canvasElement);
+  await waitFor(() => expect(canvas.getByTestId("1")).not.toBeNull());
   await step("Open on Click", async () => {
-    const picker = await waitFor(async () => await findByShadowRole(canvasElement, "combobox"));
+    const picker = await waitFor(() => findByShadowRole(canvasElement, "combobox"), { timeout: 3000 });
     await userEvent.click(picker);
-    // const datepicker = await findByShadowTestId(canvasElement, 'date-picker');
-    // // await expect(pickerEl.getAttribute('open')).toBe(true)
-    // await waitFor(() => expect(datepicker).toBeVisible());
   });
 };
