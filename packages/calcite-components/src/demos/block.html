@@ -226,9 +226,8 @@
 
       <hr />
 
-      <!-- block status -->
       <div class="parent">
-        <div class="child right-aligned-text">block status</div>
+        <div class="child right-aligned-text">[deprecated] block status, loader, icon slot</div>
         <div class="child">
           <calcite-block heading="Valid status" description="summary" collapsible status="valid">
             <calcite-input icon="form-field" placeholder="This is valid input field"></calcite-input>
@@ -237,11 +236,17 @@
           <calcite-block heading="Invalid status" description="summary" status="invalid"> </calcite-block>
 
           <calcite-block heading="Idle status" description="summary" status="idle"> </calcite-block>
+
+          <calcite-block heading="loading" description="summary" loading> </calcite-block>
+
+          <calcite-block heading="loading" description="summary">
+            <div slot="icon">✅</div>
+          </calcite-block>
         </div>
       </div>
 
       <div class="parent">
-        <div class="child right-aligned-text">block loader, icon-start/end, content-start, actions-end</div>
+        <div class="child right-aligned-text">icon-start/end props, content-start slot, actions-end slot</div>
         <div class="child">
           <calcite-block heading="Valid status" collapsible status="valid" icon-start="pen" icon-end="pen" loading>
             <calcite-action appearance="transparent" icon="ellipsis" text="menu" label="menu" slot="actions-end" />
