@@ -659,9 +659,16 @@ export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
  *
  * @param targetEl The element to watch for the animation to complete.
  * @param animationName The name of the animation to watch for completion.
+ * @param onStart A callback to run when the animation starts.
+ * @param onEnd A callback to run when the animation ends or is canceled.
  */
-export async function whenAnimationDone(targetEl: HTMLElement, animationName: string): Promise<void> {
-  return whenTransitionOrAnimationDone(targetEl, animationName, "animation");
+export async function whenAnimationDone(
+  targetEl: HTMLElement,
+  animationName: string,
+  onStart?: () => void,
+  onEnd?: () => void,
+): Promise<void> {
+  return whenTransitionOrAnimationDone(targetEl, animationName, "animation", onStart, onEnd);
 }
 
 /**
@@ -669,9 +676,16 @@ export async function whenAnimationDone(targetEl: HTMLElement, animationName: st
  *
  * @param targetEl The element to watch for the transition to complete.
  * @param transitionProp The name of the transition to watch for completion.
+ * @param onStart A callback to run when the transition starts.
+ * @param onEnd A callback to run when the transition ends or is canceled.
  */
-export async function whenTransitionDone(targetEl: HTMLElement, transitionProp: string): Promise<void> {
-  return whenTransitionOrAnimationDone(targetEl, transitionProp, "transition");
+export async function whenTransitionDone(
+  targetEl: HTMLElement,
+  transitionProp: string,
+  onStart?: () => void,
+  onEnd?: () => void,
+): Promise<void> {
+  return whenTransitionOrAnimationDone(targetEl, transitionProp, "transition", onStart, onEnd);
 }
 
 type TransitionOrAnimation = "transition" | "animation";
@@ -683,11 +697,15 @@ type TransitionOrAnimationEvent = TransitionEvent | AnimationEvent;
  * @param targetEl The element to watch for the transition or animation to complete.
  * @param transitionPropOrAnimationName The transition or animation property to watch for completion.
  * @param type The type of property to watch for completion. Defaults to "transition".
+ * @param onStart A callback to run when the transition or animation starts.
+ * @param onEnd A callback to run when the transition or animation ends or is canceled.
  */
 export async function whenTransitionOrAnimationDone(
   targetEl: HTMLElement,
   transitionPropOrAnimationName: string,
   type: TransitionOrAnimation,
+  onStart?: () => void,
+  onEnd?: () => void,
 ): Promise<void> {
   const style = window.getComputedStyle(targetEl);
   const allDurations = type === "transition" ? style.transitionDuration : style.animationDuration;
@@ -713,29 +731,31 @@ export async function whenTransitionOrAnimationDone(
   return new Promise<void>((resolve) => {
     const fallbackTimeoutId = window.setTimeout(
       (): void => {
-        targetEl.removeEventListener(startEvent, onStart);
-        targetEl.removeEventListener(endEvent, onEndOrCancel);
-        targetEl.removeEventListener(cancelEvent, onEndOrCancel);
+        targetEl.removeEventListener(startEvent, onTransitionOrAnimationStart);
+        targetEl.removeEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
+        targetEl.removeEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
         resolve();
       },
       parseFloat(duration) * 1000,
     );
 
-    targetEl.addEventListener(startEvent, onStart);
-    targetEl.addEventListener(endEvent, onEndOrCancel);
-    targetEl.addEventListener(cancelEvent, onEndOrCancel);
+    targetEl.addEventListener(startEvent, onTransitionOrAnimationStart);
+    targetEl.addEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
+    targetEl.addEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
 
-    function onStart(event: TransitionOrAnimationEvent): void {
+    function onTransitionOrAnimationStart(event: TransitionOrAnimationEvent): void {
       if (event.target === targetEl && getTransitionOrAnimationName(event) === transitionPropOrAnimationName) {
         window.clearTimeout(fallbackTimeoutId);
-        targetEl.removeEventListener(startEvent, onStart);
+        targetEl.removeEventListener(startEvent, onTransitionOrAnimationStart);
+        onStart?.();
       }
     }
 
-    function onEndOrCancel(event: TransitionOrAnimationEvent): void {
+    function onTransitionOrAnimationEndOrCancel(event: TransitionOrAnimationEvent): void {
       if (event.target === targetEl && getTransitionOrAnimationName(event) === transitionPropOrAnimationName) {
-        targetEl.removeEventListener(endEvent, onEndOrCancel);
-        targetEl.removeEventListener(cancelEvent, onEndOrCancel);
+        targetEl.removeEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
+        targetEl.removeEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
+        onEnd?.();
         resolve();
       }
     }

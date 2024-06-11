@@ -1,4 +1,3 @@
-import { JSDOM } from "jsdom";
 import { ModeName } from "../../src/components/interfaces";
 import { html } from "../../support/formatting";
 import {
@@ -24,6 +23,8 @@ import {
   whenTransitionDone,
 } from "./dom";
 import { guidPattern } from "./guid.spec";
+import { createTransitionEventDispatcher, TransitionEventDispatcher } from "./spec-helpers/transitionEvents";
+import { AnimationEventDispatcher, createAnimationEventDispatcher } from "./spec-helpers/animationEvents";
 
 describe("dom", () => {
   describe("getElementProp()", () => {
@@ -623,39 +624,10 @@ describe("dom", () => {
   }
 
   describe("whenTransitionDone", () => {
-    let dispatchTransitionEvent: (
-      element: HTMLElement,
-      type: "transitionstart" | "transitionend",
-      propertyName: string,
-    ) => void;
+    let dispatchTransitionEvent: TransitionEventDispatcher;
 
     beforeEach(() => {
-      // we clobber Stencil's custom Mock document implementation
-      const { window: win } = new JSDOM();
-
-      // eslint-disable-next-line no-global-assign -- overriding to make window references use JSDOM (which is a subset, hence the type cast)
-      window = win as any as Window & typeof globalThis;
-
-      // we define TransitionEvent since JSDOM doesn't support it yet - https://github.com/jsdom/jsdom/issues/1781
-      class TransitionEvent extends window.Event {
-        elapsedTime: number;
-
-        propertyName: string;
-
-        constructor(type: string, eventInitDict: EventInit & Partial<{ elapsedTime: number; propertyName: string }>) {
-          super(type, eventInitDict);
-          this.elapsedTime = eventInitDict.elapsedTime;
-          this.propertyName = eventInitDict.propertyName;
-        }
-      }
-
-      dispatchTransitionEvent = (
-        element: HTMLElement,
-        type: "transitionstart" | "transitionend",
-        propertyName: string,
-      ): void => {
-        element.dispatchEvent(new TransitionEvent(type, { propertyName }));
-      };
+      dispatchTransitionEvent = createTransitionEventDispatcher();
     });
 
     it("should return a promise that resolves after the transition", async () => {
@@ -689,40 +661,10 @@ describe("dom", () => {
   });
 
   describe("whenAnimationDone", () => {
-    let dispatchAnimationEvent: (
-      element: HTMLElement,
-      type: "animationstart" | "animationend",
-      animationName: string,
-    ) => void;
+    let dispatchAnimationEvent: AnimationEventDispatcher;
 
     beforeEach(() => {
-      // we clobber Stencil's custom Mock document implementation
-      const { window: win } = new JSDOM();
-
-      // eslint-disable-next-line no-global-assign -- overriding to make window references use JSDOM (which is a subset, hence the type cast)
-      window = win as any as Window & typeof globalThis;
-
-      // we define AnimationEvent since JSDOM doesn't support it yet -
-
-      class AnimationEvent extends window.Event {
-        elapsedTime: number;
-
-        animationName: string;
-
-        constructor(type: string, eventInitDict: EventInit & Partial<{ elapsedTime: number; animationName: string }>) {
-          super(type, eventInitDict);
-          this.elapsedTime = eventInitDict.elapsedTime;
-          this.animationName = eventInitDict.animationName;
-        }
-      }
-
-      dispatchAnimationEvent = (
-        element: HTMLElement,
-        type: "animationstart" | "animationend",
-        animationName: string,
-      ): void => {
-        element.dispatchEvent(new AnimationEvent(type, { animationName }));
-      };
+      dispatchAnimationEvent = createAnimationEventDispatcher();
     });
 
     it("should return a promise that resolves after the animation", async () => {
