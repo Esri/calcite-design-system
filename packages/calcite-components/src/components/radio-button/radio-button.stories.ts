@@ -1,15 +1,11 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { RadioButton } from "./radio-button";
 const { scale } = ATTRIBUTES;
 
-interface RadioButtonArgs {
-  checked: boolean;
-  disabled: boolean;
+interface RadioButtonStoryArgs extends Pick<RadioButton, "checked" | "disabled" | "focused" | "scale" | "label"> {
   hidden: boolean;
-  focused: boolean;
-  scale: string;
-  label: string;
 }
 
 export default {
@@ -30,7 +26,7 @@ export default {
   },
 };
 
-export const simple = (args: RadioButtonArgs): string => html`
+export const simple = (args: RadioButtonStoryArgs): string => html`
   <calcite-label layout="inline">
     <calcite-radio-button
       ${boolean("checked", args.checked)}

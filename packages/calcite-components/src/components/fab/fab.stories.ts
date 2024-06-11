@@ -1,19 +1,14 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Fab } from "./fab";
 import { ICONS } from "./resources";
 const { appearance, scale } = ATTRIBUTES;
 
-interface FabArgs {
-  appearance: string;
-  disabled: boolean;
-  icon: string;
-  label: string;
-  loading: boolean;
-  text: string;
-  textEnabled: boolean;
-  scale: boolean;
-}
+type FabStoryArgs = Pick<
+  Fab,
+  "appearance" | "disabled" | "icon" | "label" | "loading" | "text" | "textEnabled" | "scale"
+>;
 
 export default {
   title: "Components/Buttons/FAB",
@@ -39,7 +34,7 @@ export default {
   },
 };
 
-export const simple = (args: FabArgs): string => html`
+export const simple = (args: FabStoryArgs): string => html`
   <calcite-fab
     appearance="${args.appearance}"
     ${boolean("disabled", args.disabled)}

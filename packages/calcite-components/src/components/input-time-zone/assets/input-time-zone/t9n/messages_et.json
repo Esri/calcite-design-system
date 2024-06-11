@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "Valige ajavöönd.",
+  "offsetPlaceholder": "Otsi linna, piirkonna või nihke järgi",
+  "namePlaceholder": "Otsi ajavööndi järgi",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidjan",
   "Africa/Accra": "Accra",

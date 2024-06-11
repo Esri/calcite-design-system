@@ -1,10 +1,9 @@
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { CalciteMenu } from "./menu";
 const { layout } = ATTRIBUTES;
 
-interface MenuArgs {
-  layout: string;
-}
+type MenuStoryArgs = Pick<CalciteMenu, "layout">;
 
 export default {
   title: "Components/Menu",
@@ -28,7 +27,7 @@ export default {
   },
 };
 
-export const simple = (args: MenuArgs): string => html`
+export const simple = (args: MenuStoryArgs): string => html`
   <calcite-menu layout="${args.layout}">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>

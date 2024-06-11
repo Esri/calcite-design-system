@@ -2,7 +2,7 @@ name: Deploy Latest
 on:
   workflow_dispatch:
   push:
-    branches: [main, hotfix]
+    branches: [main]
 permissions:
   contents: write
   pull-requests: write

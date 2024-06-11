@@ -407,8 +407,10 @@ export class ActionBar
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
+        collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
         el={el}
+        expandLabel={messages.expandLabel}
         expandText={messages.expand}
         expanded={expanded}
         position={position}

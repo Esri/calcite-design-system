@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "Izvēlieties laika joslu",
+  "offsetPlaceholder": "Meklēt pēc pilsētas, reģiona vai nobīdes",
+  "namePlaceholder": "Meklēt pēc laika joslas",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidžana",
   "Africa/Accra": "Akra",

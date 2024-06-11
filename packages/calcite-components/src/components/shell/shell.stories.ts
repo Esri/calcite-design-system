@@ -1,19 +1,21 @@
+import { ShellPanel } from "../shell-panel/shell-panel";
+import { ShellCenterRow } from "../shell-center-row/shell-center-row";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { shellDisplayMode, position, scale } = ATTRIBUTES;
 
-interface ShellArgs {
-  collapsed: boolean;
-  displayMode: string;
-  leadingPanelPosition: string;
-  trailingPanelPosition: string;
-  resizable: boolean;
-  detached: boolean;
-  heightScale: string;
-  shellCenterRowPosition: string;
+interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "resizable"> {
+  leadingPanelPosition: ShellPanel["position"];
+  trailingPanelPosition: ShellPanel["position"];
 }
+
+interface ShellCenterRowArgs extends Pick<ShellCenterRow, "detached" | "heightScale"> {
+  shellCenterRowPosition: ShellCenterRow["position"];
+}
+
+type ShellStoryArgs = ShellPanelArgs & ShellCenterRowArgs;
 
 export default {
   title: "Components/Shell",
@@ -295,7 +297,7 @@ const advancedTrailingPanelHTMl = html(`
   </calcite-flow>
 `);
 
-export const simple = (args: ShellArgs): string => html`
+export const simple = (args: ShellStoryArgs): string => html`
   <calcite-shell>
     ${headerHTML}
     <calcite-shell-panel

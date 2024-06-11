@@ -1,19 +1,14 @@
+import { AccordionItem } from "../accordion-item/accordion-item";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Accordion } from "./accordion";
 const { scale, appearance, selectionMode } = ATTRIBUTES;
 
-interface AccordionArgs {
-  scale: string;
-  appearance: string;
-  selectionMode: string;
-  heading: string;
-  description: string;
-  iconStart: string;
-  iconEnd: string;
-}
+type AccordionStoryArgs = Pick<Accordion, "scale" | "appearance" | "selectionMode"> &
+  Pick<AccordionItem, "heading" | "description" | "iconStart" | "iconEnd">;
 
 export default {
   title: "Components/Accordion",
@@ -62,7 +57,7 @@ const accordionItemContent = `Custom content here<br/><img src="${placeholderIma
   height: 133,
 })}"><br/>More custom content here`;
 
-export const simple = (args: AccordionArgs): string => html`
+export const simple = (args: AccordionStoryArgs): string => html`
   <calcite-accordion scale="${args.scale}" appearance="${args.appearance}" selection-mode="${args.selectionMode}">
     <calcite-accordion-item
       heading="${args.heading}"

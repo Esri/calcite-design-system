@@ -1,0 +1,45 @@
+name: Deploy Prerelease
+concurrency:
+  group: deploy_prerelease
+  cancel-in-progress: true
+on:
+  # `next` versions are automatically released when deployabled commits are pushed to dev
+  push:
+    branches: [dev]
+  # `hotfix` and `rc` versions must be manually released:
+  # https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ADMIN_TOKEN }}
+          ref: ${{ github.base_ref || github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          registry-url: "https://registry.npmjs.org"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Deploy prerelease and storybook
+        env:
+          NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
+          # https://github.com/storybookjs/storybook-deployer/issues/77#issuecomment-618560481
+          GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+          BRANCH: ${{ github.base_ref || github.ref_name }}
+        run: "${{ github.workspace }}/.github/scripts/publishPrerelease.sh"
+      - name: notify teams
+        uses: toko-bifrost/ms-teams-deploy-card@3.1.2
+        if: ${{ !cancelled() && github.event_name == 'push' }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URI_BUILD }}
+          show-on-start: false
+          card-layout-exit: complete
+          timezone: America/Los_Angeles
