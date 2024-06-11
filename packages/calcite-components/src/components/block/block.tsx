@@ -382,35 +382,40 @@ export class Block
     ) : null;
   }
 
+  renderIcon(icon: string): VNode {
+    const { iconFlipRtl } = this;
+
+    if (icon === undefined) {
+      return null;
+    }
+
+    const flipRtl =
+      iconFlipRtl === "both" || icon === "iconStart"
+        ? iconFlipRtl === "start"
+        : iconFlipRtl === "end";
+
+    const iconValue = icon === "iconStart" ? this.iconStart : this.iconEnd;
+
+    /** Icon scale is not variable as the component does not have a scale property */
+    return (
+      <calcite-icon
+        class={CSS[icon]}
+        flipRtl={flipRtl}
+        icon={iconValue}
+        key={CSS[icon]}
+        scale="s"
+      />
+    );
+  }
+
   render(): VNode {
     const { collapsible, el, loading, open, heading, messages } = this;
 
     const toggleLabel = open ? messages.collapse : messages.expand;
-    const { iconFlipRtl } = this;
-
-    /** Icon scale is not variable as the component does not have a scale property */
-    const iconStartEl = this.iconStart ? (
-      <calcite-icon
-        class={CSS.iconStart}
-        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
-        icon={this.iconStart}
-        key="icon-start"
-        scale="s"
-      />
-    ) : null;
-    const iconEndEl = this.iconEnd ? (
-      <calcite-icon
-        class={CSS.iconEnd}
-        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
-        icon={this.iconEnd}
-        key="icon-end"
-        scale="s"
-      />
-    ) : null;
 
     const headerContent = (
       <header class={CSS.header} id={IDS.header}>
-        {iconStartEl}
+        {this.renderIcon("iconStart")}
         {this.renderContentStart()}
         {this.renderLoaderStatusIcon()}
         {this.renderTitle()}
@@ -436,14 +441,14 @@ export class Block
           >
             {headerContent}
             <div class={CSS.iconEndContainer}>
-              {iconEndEl}
+              {this.renderIcon("iconEnd")}
               <calcite-icon class={CSS.toggleIcon} icon={collapseIcon} scale="s" />
             </div>
           </button>
-        ) : iconEndEl ? (
+        ) : this.iconEnd ? (
           <div>
             {headerContent}
-            <div class={CSS.iconEndContainer}>{iconEndEl}</div>
+            <div class={CSS.iconEndContainer}>{this.renderIcon("iconEnd")}</div>
           </div>
         ) : (
           headerContent
