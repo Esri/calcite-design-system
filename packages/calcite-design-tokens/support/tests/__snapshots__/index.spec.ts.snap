@@ -412,16 +412,6 @@ exports[`generated tokens CSS global should match 1`] = `
   --calcite-opacity-dark: 0.85;
   --calcite-opacity-half: 0.5;
   --calcite-opacity-light: 0.4;
-  --calcite-font-text-case-capitalize: capitalize;
-  --calcite-font-text-case-lowercase: lowercase;
-  --calcite-font-text-case-uppercase: uppercase;
-  --calcite-font-text-case-none: none;
-  --calcite-font-text-decoration-underline: underline;
-  --calcite-font-text-decoration-none: none;
-  --calcite-font-paragraph-spacing-normal: 4px;
-  --calcite-font-letter-spacing-wide: 0.4;
-  --calcite-font-letter-spacing-normal: 0;
-  --calcite-font-letter-spacing-tight: -0.4;
   --calcite-font-line-height-relative-loose: 2; /* 2 */
   --calcite-font-line-height-relative-relaxed: 1.625; /* 1.625 */
   --calcite-font-line-height-relative-normal: 1.5; /* 1.5 */
@@ -440,7 +430,7 @@ exports[`generated tokens CSS global should match 1`] = `
   --calcite-font-size: 14px;
   --calcite-font-size-sm: 12px;
   --calcite-font-size-xs: 10px;
-  --calcite-font-weight-bold: 700;
+  --calcite-font-weight-bold: 600;
   --calcite-font-weight-semibold: 600;
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-regular: 400;
@@ -912,7 +902,7 @@ export const calciteFontWeightNormal = "400"; // For backwards compatibility onl
 export const calciteFontWeightRegular = "400";
 export const calciteFontWeightMedium = "500";
 export const calciteFontWeightSemibold = "600";
-export const calciteFontWeightBold = "700";
+export const calciteFontWeightBold = "600";
 export const calciteFontSizeXs = "10px";
 export const calciteFontSizeSm = "12px";
 export const calciteFontSize = "14px";
@@ -931,16 +921,6 @@ export const calciteFontLineHeightRelativeSnug = "137.5%"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "150%"; // 1.5
 export const calciteFontLineHeightRelativeRelaxed = "162.5%"; // 1.625
 export const calciteFontLineHeightRelativeLoose = "200%"; // 2
-export const calciteFontLetterSpacingTight = "-0.4";
-export const calciteFontLetterSpacingNormal = "0";
-export const calciteFontLetterSpacingWide = "0.4";
-export const calciteFontParagraphSpacingNormal = "4px";
-export const calciteFontTextDecorationNone = "none";
-export const calciteFontTextDecorationUnderline = "underline";
-export const calciteFontTextCaseNone = "none";
-export const calciteFontTextCaseUppercase = "uppercase";
-export const calciteFontTextCaseLowercase = "lowercase";
-export const calciteFontTextCaseCapitalize = "capitalize";
 export const calciteOpacityLight = "0.4";
 export const calciteOpacityHalf = "0.5";
 export const calciteOpacityDark = "0.85";
@@ -971,7 +951,7 @@ export const calciteSpacingLg = "14px";
 export const calciteSpacingXl = "16px";
 export const calciteSpacingXxl = "20px";
 export const calciteSpacingXxxl = "32px";
-export const calciteTypography = {"fontFamily":["Avenir Next","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
+export const calciteTypography = {"fontFamily":["Avenir Next","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","lineHeight":"16px"};
 export const calciteTypographyLightMinus3h = {"fontSize":"10px","fontWeight":"300","lineHeight":"12px"};
 export const calciteTypographyLightMinus2h = {"fontSize":"12px","fontWeight":"300"};
 export const calciteTypographyLightMinus1h = {"fontWeight":"300"};
@@ -979,7 +959,7 @@ export const calciteTypographyLight0h = {"fontSize":"16px","fontWeight":"300","l
 export const calciteTypographyLight1h = {"fontSize":"18px","fontWeight":"300","lineHeight":"24px"};
 export const calciteTypographyRegularMinus3h = {"lineHeight":"12px","fontSize":"10px"};
 export const calciteTypographyRegularMinus2h = {"fontSize":"12px"};
-export const calciteTypographyRegularMinus1h = {"fontFamily":["Avenir Next","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
+export const calciteTypographyRegularMinus1h = {"fontFamily":["Avenir Next","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","lineHeight":"16px"};
 export const calciteTypographyRegular0h = {"lineHeight":"20px","fontSize":"16px"};
 export const calciteTypographyRegular1h = {"lineHeight":"24px","fontSize":"18px"};
 export const calciteTypographyMediumMinus3h = {"fontWeight":"500","lineHeight":"12px","fontSize":"10px"};
@@ -1024,8 +1004,8 @@ export const calciteTypographyHierarchyHeading3 = {"fontWeight":"500","lineHeigh
 export const calciteTypographyHierarchyHeading4 = {"fontWeight":"500","lineHeight":"137.5%","fontSize":"16px"};
 export const calciteTypographyHierarchyHeading5 = {"fontWeight":"500","lineHeight":"137.5%"};
 export const calciteTypographyHierarchyBodySnug = {"lineHeight":"137.5%"};
-export const calciteTypographyHierarchyBody = {"fontFamily":["Avenir Next","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","letterSpacing":"0","lineHeight":"16px","paragraphSpacing":"4px","textCase":"none","textDecoration":"none"};
-export const calciteTypographyHierarchyOverline = {"lineHeight":"12px","textCase":"uppercase","fontWeight":"700"};
+export const calciteTypographyHierarchyBody = {"fontFamily":["Avenir Next","Avenir","Helvetica Neue","sans-serif"],"fontSize":"14px","fontWeight":"400","lineHeight":"16px"};
+export const calciteTypographyHierarchyOverline = {"lineHeight":"12px","fontWeight":"600"};
 export const calciteTypographyHierarchyCaption = {"lineHeight":"137.5%","fontSize":"12px"};
 export const calciteZIndexDeep = "-999999";
 export const calciteZIndex = "1";
@@ -1159,16 +1139,6 @@ export const calciteFontLineHeightRelativeNormal : string;
 export const calciteFontLineHeightRelativeRelaxed : string;
 /** 2 */
 export const calciteFontLineHeightRelativeLoose : string;
-export const calciteFontLetterSpacingTight : string;
-export const calciteFontLetterSpacingNormal : string;
-export const calciteFontLetterSpacingWide : string;
-export const calciteFontParagraphSpacingNormal : string;
-export const calciteFontTextDecorationNone : string;
-export const calciteFontTextDecorationUnderline : string;
-export const calciteFontTextCaseNone : string;
-export const calciteFontTextCaseUppercase : string;
-export const calciteFontTextCaseLowercase : string;
-export const calciteFontTextCaseCapitalize : string;
 export const calciteOpacityLight : string;
 export const calciteOpacityHalf : string;
 export const calciteOpacityDark : string;
@@ -1199,7 +1169,7 @@ export const calciteSpacingLg : string;
 export const calciteSpacingXl : string;
 export const calciteSpacingXxl : string;
 export const calciteSpacingXxxl : string;
-export const calciteTypography : { fontFamily: string[], fontSize: string, fontWeight: string, letterSpacing: string, lineHeight: string, paragraphSpacing: string, textCase: string, textDecoration: string };
+export const calciteTypography : { fontFamily: string[], fontSize: string, fontWeight: string, lineHeight: string };
 export const calciteTypographyLightMinus3h : { fontSize: string, fontWeight: string, lineHeight: string };
 export const calciteTypographyLightMinus2h : { fontSize: string, fontWeight: string };
 export const calciteTypographyLightMinus1h : { fontWeight: string };
@@ -1207,7 +1177,7 @@ export const calciteTypographyLight0h : { fontSize: string, fontWeight: string, 
 export const calciteTypographyLight1h : { fontSize: string, fontWeight: string, lineHeight: string };
 export const calciteTypographyRegularMinus3h : { lineHeight: string, fontSize: string };
 export const calciteTypographyRegularMinus2h : { fontSize: string };
-export const calciteTypographyRegularMinus1h : { fontFamily: string[], fontSize: string, fontWeight: string, letterSpacing: string, lineHeight: string, paragraphSpacing: string, textCase: string, textDecoration: string };
+export const calciteTypographyRegularMinus1h : { fontFamily: string[], fontSize: string, fontWeight: string, lineHeight: string };
 export const calciteTypographyRegular0h : { lineHeight: string, fontSize: string };
 export const calciteTypographyRegular1h : { lineHeight: string, fontSize: string };
 export const calciteTypographyMediumMinus3h : { fontWeight: string, lineHeight: string, fontSize: string };
@@ -1252,8 +1222,8 @@ export const calciteTypographyHierarchyHeading3 : { fontWeight: string, lineHeig
 export const calciteTypographyHierarchyHeading4 : { fontWeight: string, lineHeight: string, fontSize: string };
 export const calciteTypographyHierarchyHeading5 : { fontWeight: string, lineHeight: string };
 export const calciteTypographyHierarchyBodySnug : { lineHeight: string };
-export const calciteTypographyHierarchyBody : { fontFamily: string[], fontSize: string, fontWeight: string, letterSpacing: string, lineHeight: string, paragraphSpacing: string, textCase: string, textDecoration: string };
-export const calciteTypographyHierarchyOverline : { lineHeight: string, textCase: string, fontWeight: string };
+export const calciteTypographyHierarchyBody : { fontFamily: string[], fontSize: string, fontWeight: string, lineHeight: string };
+export const calciteTypographyHierarchyOverline : { lineHeight: string, fontWeight: string };
 export const calciteTypographyHierarchyCaption : { lineHeight: string, fontSize: string };
 export const calciteZIndexDeep : string;
 export const calciteZIndex : string;
@@ -2003,16 +1973,6 @@ $calcite-opacity-full: 1;
 $calcite-opacity-dark: 0.85;
 $calcite-opacity-half: 0.5;
 $calcite-opacity-light: 0.4;
-$calcite-font-text-case-capitalize: capitalize;
-$calcite-font-text-case-lowercase: lowercase;
-$calcite-font-text-case-uppercase: uppercase;
-$calcite-font-text-case-none: none;
-$calcite-font-text-decoration-underline: underline;
-$calcite-font-text-decoration-none: none;
-$calcite-font-paragraph-spacing-normal: 4px;
-$calcite-font-letter-spacing-wide: 0.4;
-$calcite-font-letter-spacing-normal: 0;
-$calcite-font-letter-spacing-tight: -0.4;
 $calcite-font-line-height-relative-loose: 2; // 2
 $calcite-font-line-height-relative-relaxed: 1.625; // 1.625
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
@@ -2031,7 +1991,7 @@ $calcite-font-size-md: 16px;
 $calcite-font-size: 14px;
 $calcite-font-size-sm: 12px;
 $calcite-font-size-xs: 10px;
-$calcite-font-weight-bold: 700;
+$calcite-font-weight-bold: 600;
 $calcite-font-weight-semibold: 600;
 $calcite-font-weight-medium: 500;
 $calcite-font-weight-regular: 400;
