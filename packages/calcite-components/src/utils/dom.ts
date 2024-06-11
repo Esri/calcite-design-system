@@ -721,6 +721,8 @@ export async function whenTransitionOrAnimationDone(
     allDurationsArray[0];
 
   if (duration === "0s") {
+    onStart?.();
+    onEnd?.();
     return Promise.resolve();
   }
 
