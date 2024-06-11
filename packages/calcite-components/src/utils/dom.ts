@@ -720,10 +720,14 @@ export async function whenTransitionOrAnimationDone(
             so we fall back to it if there's no matching prop duration */
     allDurationsArray[0];
 
-  if (duration === "0s") {
+  function startEndImmediately(): void {
     onStart?.();
     onEnd?.();
-    return Promise.resolve();
+  }
+
+  if (duration === "0s") {
+    startEndImmediately();
+    return;
   }
 
   const startEvent = type === "transition" ? "transitionstart" : "animationstart";
@@ -736,6 +740,7 @@ export async function whenTransitionOrAnimationDone(
         targetEl.removeEventListener(startEvent, onTransitionOrAnimationStart);
         targetEl.removeEventListener(endEvent, onTransitionOrAnimationEndOrCancel);
         targetEl.removeEventListener(cancelEvent, onTransitionOrAnimationEndOrCancel);
+        startEndImmediately();
         resolve();
       },
       parseFloat(duration) * 1000,
