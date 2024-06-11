@@ -14,13 +14,14 @@
   "unpkg": "dist/calcite/calcite.js",
   "collection:main": "dist/collection/index.js",
   "collection": "dist/collection/collection-manifest.json",
+  "customElements": "dist/extras/custom-elements.json",
   "files": [
     "dist/",
     "hydrate/"
   ],
   "scripts": {
     "build": "npm run util:prep-build-reqs && stencil build",
-    "postbuild": "npm run util:patch && npm run util:generate-t9n-docs-json && npm run util:clean-readmes",
+    "postbuild": "npm run util:patch && npm run util:generate-t9n-docs-json && npm run util:generate-manifest && npm run util:clean-readmes",
     "build:watch": "npm run util:prep-build-reqs && stencil build --no-docs --watch",
     "build:watch-dev": "npm run util:prep-build-reqs && stencil build --no-docs --dev --watch",
     "build-storybook": "npm run util:prep-storybook-build && NODE_OPTIONS=--openssl-legacy-provider storybook build --output-dir ./docs --quiet",
@@ -41,6 +42,7 @@
     "test": "stencil test --no-docs --no-build --spec --e2e",
     "test:prerender": "npm run build -- --prerender",
     "test:watch": "stencil test --no-docs --spec --e2e --watchAll",
+    "util:generate-manifest": "custom-elements-manifest analyze --stencil --outdir dist/extras --globs 'src/components/*/*.tsx'",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-assets": "npm run util:copy-icons",
     "util:copy-icons": "cpy \"../../node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
@@ -76,6 +78,7 @@
     "type-fest": "4.18.2"
   },
   "devDependencies": {
+    "@custom-elements-manifest/analyzer": "0.10.2",
     "@esri/calcite-design-tokens": "^2.2.1-next.0",
     "@esri/calcite-ui-icons": "3.28.2",
     "@esri/eslint-plugin-calcite-components": "^1.2.1-next.2",
