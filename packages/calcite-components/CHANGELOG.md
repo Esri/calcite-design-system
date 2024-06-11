@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.0...@esri/calcite-components@2.10.0-next.1) (2024-06-06)
+
+### Features
+
+- **action-bar, action-pad:** add expandLabel and collapseLabel to messages ([#9497](https://github.com/Esri/calcite-design-system/issues/9497)) ([12407eb](https://github.com/Esri/calcite-design-system/commit/12407eba686c7da11c5463b9e6dcbd74fdefb7cc)), closes [#5539](https://github.com/Esri/calcite-design-system/issues/5539)
+
+### Bug Fixes
+
+- **block:** add accessible label for slotted controls ([#9502](https://github.com/Esri/calcite-design-system/issues/9502)) ([a9054d5](https://github.com/Esri/calcite-design-system/commit/a9054d5e496cff038553ac349829b28ff5941a4f)), closes [#8037](https://github.com/Esri/calcite-design-system/issues/8037)
+
+## [2.10.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.1-next.3...@esri/calcite-components@2.10.0-next.0) (2024-06-06)
+
+### Features
+
+- **action-menu, combobox, dropdown, input-date-picker, popover:** allow logical placements for flipPlacements property. [#8825](https://github.com/Esri/calcite-design-system/issues/8825) ([#9490](https://github.com/Esri/calcite-design-system/issues/9490)) ([45aabaa](https://github.com/Esri/calcite-design-system/commit/45aabaa27ab50523ccdc5df07019cc8ed7dfb2b0))
+
+### Bug Fixes
+
+- **list-item:** hide nested list items by default ([#9474](https://github.com/Esri/calcite-design-system/issues/9474)) ([fb06ef9](https://github.com/Esri/calcite-design-system/commit/fb06ef96c7bf719afa9a46c8eff09f0945c6f3cd)), closes [#9400](https://github.com/Esri/calcite-design-system/issues/9400)
+- **popover:** correct border radius on close button ([#9485](https://github.com/Esri/calcite-design-system/issues/9485)) ([d0fba56](https://github.com/Esri/calcite-design-system/commit/d0fba5655ef730e012586f3be6ccb82f674308a7)), closes [#8208](https://github.com/Esri/calcite-design-system/issues/8208)
+
+## [2.9.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.1-next.2...@esri/calcite-components@2.9.1-next.3) (2024-06-05)
+
+### Bug Fixes
+
+- **alert:** pause auto-close alert when link focused ([#9503](https://github.com/Esri/calcite-design-system/issues/9503)) ([fa9a829](https://github.com/Esri/calcite-design-system/commit/fa9a8296d2757d8b58d6bb79d2d308d096507b49)), closes [#5960](https://github.com/Esri/calcite-design-system/issues/5960)
+
+## [2.9.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.1-next.1...@esri/calcite-components@2.9.1-next.2) (2024-06-04)
+
+### Bug Fixes
+
+- **block-section:** restore block toggling when clicking on the header switch ([#9472](https://github.com/Esri/calcite-design-system/issues/9472)) ([519a11c](https://github.com/Esri/calcite-design-system/commit/519a11c6d85383e7d7bab95a9c52330864606602)), closes [#9454](https://github.com/Esri/calcite-design-system/issues/9454) [#9194](https://github.com/Esri/calcite-design-system/issues/9194)
+
+## [2.9.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.1-next.0...@esri/calcite-components@2.9.1-next.1) (2024-06-04)
+
+### Bug Fixes
+
+- **panel:** prevent menu actions from being clipped in Safari ([#9488](https://github.com/Esri/calcite-design-system/issues/9488)) ([29eb4ce](https://github.com/Esri/calcite-design-system/commit/29eb4ce802e8ebdeb2012ad178fd19334b6c3a44)), closes [#8028](https://github.com/Esri/calcite-design-system/issues/8028)
+
 ## [2.9.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.9.0...@esri/calcite-components@2.9.1-next.0) (2024-05-31)
 
 ### Bug Fixes

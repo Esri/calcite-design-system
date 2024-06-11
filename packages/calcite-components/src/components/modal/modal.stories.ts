@@ -1,17 +1,13 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Modal } from "./modal";
 const { kind, scale } = ATTRIBUTES;
 
-interface ModalArgs {
-  open: boolean;
-  kind: string;
-  scale: string;
-  widthScale: string;
-  fullscreen: boolean;
-  docked: boolean;
-  escapeDisabled: boolean;
-}
+type ModalStoryArgs = Pick<
+  Modal,
+  "open" | "kind" | "scale" | "widthScale" | "fullscreen" | "docked" | "escapeDisabled"
+>;
 
 export default {
   title: "Components/Modal",
@@ -45,7 +41,7 @@ export default {
   },
 };
 
-export const simple = (args: ModalArgs): string => html`
+export const simple = (args: ModalStoryArgs): string => html`
   <calcite-modal
     ${boolean("open", args.open)}
     kind="${args.kind}"

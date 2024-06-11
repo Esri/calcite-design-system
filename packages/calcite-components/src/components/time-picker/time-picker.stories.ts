@@ -3,18 +3,15 @@ import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { locales, numberingSystems, defaultLocale, defaultNumberingSystem } from "../../utils/locale";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { TimePicker } from "./time-picker";
 const { scale } = ATTRIBUTES;
 
-interface TimePicker {
+interface TimePickerStoryArgs extends Pick<TimePicker, "numberingSystem" | "scale" | "step" | "value"> {
   disabled: boolean;
   hidden: boolean;
   lang: string;
   name: string;
-  numberingSystem: string;
   placement: string;
-  scale: string;
-  step: number;
-  value: string;
 }
 
 export default {
@@ -50,7 +47,7 @@ export default {
   },
 };
 
-export const simple = (args: TimePicker): string => html`
+export const simple = (args: TimePickerStoryArgs): string => html`
   <calcite-time-picker
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}

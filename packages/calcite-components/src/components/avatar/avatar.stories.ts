@@ -1,16 +1,10 @@
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Avatar } from "./avatar";
 const { scale } = ATTRIBUTES;
 
-interface AvatarArgs {
-  scale: string;
-  fullName: string;
-  label: string;
-  userName: string;
-  userId: string;
-  thumbnail: string;
-}
+type AvatarStoryArgs = Pick<Avatar, "scale" | "fullName" | "label" | "username" | "userId" | "thumbnail">;
 
 export default {
   title: "Components/Avatar",
@@ -18,7 +12,7 @@ export default {
     scale: scale.defaultValue,
     fullName: "John Doe",
     label: "John Doe",
-    userName: "jdoe",
+    username: "jdoe",
     userId: "9a7c50e6b3ce4b859f7b31e302437164",
     thumbnail: placeholderImage({ width: 120, height: 120 }),
   },
@@ -30,12 +24,12 @@ export default {
   },
 };
 
-export const simple = (args: AvatarArgs): string => html`
+export const simple = (args: AvatarStoryArgs): string => html`
   <calcite-avatar
     scale="${args.scale}"
     full-name="${args.fullName}"
     label="${args.label}"
-    username="${args.userName}"
+    username="${args.username}"
     user-id="${args.userId}"
     thumbnail="${args.thumbnail}"
   >

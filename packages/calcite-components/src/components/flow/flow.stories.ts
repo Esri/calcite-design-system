@@ -2,7 +2,7 @@ import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../panel/resources";
 
-interface FlowArgs {
+interface FlowStoryArgs {
   disabled: boolean;
   heading: string;
   loading: boolean;
@@ -115,7 +115,7 @@ const item2HTML = html`
   </ul>
 `;
 
-export const simple = (args: FlowArgs): string => html`
+export const simple = (args: FlowStoryArgs): string => html`
   <calcite-flow>
     <calcite-flow-item
       ${boolean("disabled", args.disabled)}

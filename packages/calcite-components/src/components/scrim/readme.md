@@ -77,10 +77,10 @@ For comprehensive guidance on using and implementing `calcite-scrim`, refer to t
 
 ## Properties
 
-| Property           | Attribute           | Description                                                             | Type            | Default     |
-| ------------------ | ------------------- | ----------------------------------------------------------------------- | --------------- | ----------- |
-| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                             | `boolean`       | `false`     |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `ScrimMessages` | `undefined` |
+| Property           | Attribute | Description                                                             | Type                    | Default     |
+| ------------------ | --------- | ----------------------------------------------------------------------- | ----------------------- | ----------- |
+| `loading`          | `loading` | When `true`, a busy indicator is displayed.                             | `boolean`               | `false`     |
+| `messageOverrides` | --        | Use this property to override individual strings used by the component. | `{ loading?: string; }` | `undefined` |
 
 ## Slots
 

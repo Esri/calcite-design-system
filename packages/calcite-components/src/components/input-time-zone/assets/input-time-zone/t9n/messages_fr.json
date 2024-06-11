@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "Choisissez le fuseau horaire.",
+  "offsetPlaceholder": "Rechercher par ville, région ou décalage",
+  "namePlaceholder": "Rechercher par fuseau horaire",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidjan",
   "Africa/Accra": "Accra",

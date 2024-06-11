@@ -1,20 +1,16 @@
+import { BlockSection } from "../block-section/block-section";
 import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Block } from "./block";
 const { toggleDisplay } = ATTRIBUTES;
 
-interface BlockArgs {
-  heading: string;
-  description: string;
-  blockOpen: boolean;
-  collapsible: boolean;
-  loading: boolean;
-  disabled: boolean;
-  headingLevel: number;
+interface BlockStoryArgs
+  extends Pick<Block, "heading" | "description" | "open" | "collapsible" | "loading" | "disabled" | "headingLevel">,
+    Pick<BlockSection, "toggleDisplay"> {
   text: string;
-  sectionOpen: boolean;
-  toggleDisplay: string;
+  sectionOpen: BlockSection["open"];
 }
 
 export default {
@@ -22,7 +18,7 @@ export default {
   args: {
     heading: "Heading",
     description: "description",
-    blockOpen: true,
+    open: true,
     collapsible: true,
     loading: false,
     disabled: false,
@@ -42,11 +38,11 @@ export default {
   },
 };
 
-export const simple = (args: BlockArgs): string => html`
+export const simple = (args: BlockStoryArgs): string => html`
   <calcite-block
     heading="${args.heading}"
     description="${args.description}"
-    ${boolean("open", args.blockOpen)}
+    ${boolean("open", args.open)}
     ${boolean("collapsible", args.collapsible)}
     ${boolean("loading", args.loading)}
     ${boolean("disabled", args.disabled)}
