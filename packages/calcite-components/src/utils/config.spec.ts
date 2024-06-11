@@ -1,12 +1,10 @@
-import type { CalciteConfig } from "./config";
-
 describe("config", () => {
-  let config: CalciteConfig;
+  let config: typeof import("./config");
 
   /**
    * Need to load the config at runtime to allow test to specify custom configuration if needed.
    */
-  async function loadConfig(): Promise<CalciteConfig> {
+  async function loadConfig(): Promise<typeof import("./config")> {
     return import("./config");
   }
 
@@ -27,5 +25,30 @@ describe("config", () => {
     config = await loadConfig();
 
     expect(config.focusTrapStack).toBe(customFocusTrapStack);
+  });
+
+  describe("stampVersion", () => {
+    const calciteVersionPreBuildPlaceholder = "__CALCITE_VERSION__";
+
+    it("creates global config and stamps the version onto it", async () => {
+      config = await loadConfig();
+      config.stampVersion();
+      expect(globalThis.calciteConfig.version).toBe(calciteVersionPreBuildPlaceholder);
+    });
+
+    it("stamps the version onto existing config if there's no version present", async () => {
+      globalThis.calciteConfig = {};
+      config = await loadConfig();
+      config.stampVersion();
+      expect(globalThis.calciteConfig.version).toBe(calciteVersionPreBuildPlaceholder);
+    });
+
+    it("warns if the version is already set", async () => {
+      globalThis.calciteConfig = { version: "1.33.7" };
+      config = await loadConfig();
+      const warnSpy = jest.spyOn(console, "warn");
+      config.stampVersion();
+      expect(warnSpy).toHaveBeenCalled();
+    });
   });
 });
