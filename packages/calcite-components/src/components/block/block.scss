@@ -30,10 +30,10 @@
 }
 
 .header-container {
-  @apply grid items-stretch w-full;
+  @apply grid items-stretch;
   grid-template: auto / auto 1fr auto auto;
-  grid-template-areas: "handle header control menu";
-  grid-column: header-start / menu-end;
+  grid-template-areas: "handle header control menu actions-end";
+  grid-column: header-start / actions-end;
   grid-row: 1 / 2;
 }
 
@@ -48,6 +48,10 @@
 .icon--start,
 .icon--end {
   @apply text-color-3;
+}
+
+.actions-end {
+  grid-area: actions-end;
 }
 
 .toggle {
@@ -152,7 +156,7 @@ calcite-handle {
 }
 
 .container {
-  @apply flex flex-row h-full relative;
+  @apply flex flex-col h-full relative;
 }
 
 .content {

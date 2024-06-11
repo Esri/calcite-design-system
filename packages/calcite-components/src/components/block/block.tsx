@@ -415,7 +415,7 @@ export class Block
 
     const headerContent = (
       <header class={CSS.header} id={IDS.header}>
-        {this.renderIcon("iconStart")}
+        {this.renderIcon(this.iconStart ? "iconStart" : undefined)}
         {this.renderContentStart()}
         {this.renderLoaderStatusIcon()}
         {this.renderTitle()}
@@ -441,14 +441,16 @@ export class Block
           >
             {headerContent}
             <div class={CSS.iconEndContainer}>
-              {this.renderIcon("iconEnd")}
+              {this.renderIcon(this.iconEnd ? "iconEnd" : undefined)}
               <calcite-icon class={CSS.toggleIcon} icon={collapseIcon} scale="s" />
             </div>
           </button>
         ) : this.iconEnd ? (
           <div>
             {headerContent}
-            <div class={CSS.iconEndContainer}>{this.renderIcon("iconEnd")}</div>
+            <div class={CSS.iconEndContainer}>
+              {this.renderIcon(this.iconEnd ? "iconEnd" : undefined)}
+            </div>
           </div>
         ) : (
           headerContent
@@ -466,6 +468,7 @@ export class Block
             <slot name={SLOTS.headerMenuActions} />
           </calcite-action-menu>
         ) : null}
+        {this.renderActionsEnd()}
       </div>
     );
 
@@ -479,7 +482,6 @@ export class Block
             }}
           >
             {headerNode}
-            {this.renderActionsEnd()}
             <section
               aria-labelledby={IDS.toggle}
               class={CSS.content}
