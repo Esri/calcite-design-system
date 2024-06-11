@@ -449,7 +449,7 @@ describe("calcite-date-picker", () => {
       expect(await datePicker.getProperty("value")).toEqual("2024-02-08");
     });
 
-    it.skip("should be able to navigate between months and select date using arrow keys and page keys in range", async () => {
+    it("should be able to navigate between months and select date using arrow keys and page keys in range", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-date-picker range></calcite-date-picker>");
       await page.waitForChanges();
@@ -566,8 +566,7 @@ describe("calcite-date-picker", () => {
     expect(await datePicker.getProperty("value")).toEqual(["2020-09-15", "2020-09-30"]);
   });
 
-  describe.only("cross-century date values", () => {
-
+  describe("cross-century date values", () => {
     async function assertCenturyDateValue(year: number, timezone?: string) {
       const initialValue = `${year}-03-12`;
       const page = await newE2EPage();
@@ -596,7 +595,7 @@ describe("calcite-date-picker", () => {
 
     it("sets value to the selected day in the 1800s", async () => {
       await assertCenturyDateValue(1850);
-      });
+    });
 
     it("sets value to the selected day in the 1700s", async () => {
       await assertCenturyDateValue(1750);
