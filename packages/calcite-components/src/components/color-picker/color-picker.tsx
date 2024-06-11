@@ -49,6 +49,7 @@ import {
   colorEqual,
   CSSColorMode,
   Format,
+  getSliderWidth,
   hexify,
   normalizeAlpha,
   normalizeColor,
@@ -199,10 +200,8 @@ export class ColorPicker
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  @Watch("alphaChannel")
   @Watch("scale")
   handleScaleChange(scale: Scale = "m"): void {
-    this.effectiveSliderWidth = this.getSliderWidth();
     this.updateDimensions(scale);
     this.updateCanvasSize("all");
     this.drawColorControls();
@@ -313,8 +312,6 @@ export class ColorPicker
   private colorFieldRenderingContext: CanvasRenderingContext2D;
 
   private colorFieldScopeNode: HTMLDivElement;
-
-  private effectiveSliderWidth: number;
 
   private hueSliderRenderingContext: CanvasRenderingContext2D;
 
@@ -746,7 +743,6 @@ export class ColorPicker
       colorFieldScopeLeft,
       colorFieldScopeTop,
       dimensions: {
-        slider: { width: sliderWidth },
         thumb: { radius: thumbRadius },
       },
       hexDisabled,
@@ -762,6 +758,8 @@ export class ColorPicker
       scale,
       scopeOrientation,
     } = this;
+    const sliderWidth = this.getSliderWidth();
+
     const selectedColorInHex = color ? hexify(color, alphaChannel) : null;
     const hueTop = thumbRadius;
     const hueLeft = hueScopeLeft ?? (sliderWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
@@ -1112,22 +1110,14 @@ export class ColorPicker
   }
 
   private captureHueSliderColor(x: number): void {
-    const {
-      dimensions: {
-        slider: { width },
-      },
-    } = this;
+    const width = this.getSliderWidth();
     const hue = (HUE_LIMIT_CONSTRAINED / width) * x;
 
     this.internalColorSet(this.baseColorFieldColor.hue(hue), false);
   }
 
   private captureOpacitySliderValue(x: number): void {
-    const {
-      dimensions: {
-        slider: { width },
-      },
-    } = this;
+    const width = this.getSliderWidth();
     const alpha = opacityToAlpha((OPACITY_LIMITS.max / width) * x);
 
     this.internalColorSet(this.baseColorFieldColor.alpha(alpha), false);
@@ -1328,7 +1318,6 @@ export class ColorPicker
   private initColorField = (canvas: HTMLCanvasElement): void => {
     this.colorFieldRenderingContext = canvas.getContext("2d");
     this.updateCanvasSize("color-field");
-    this.effectiveSliderWidth = this.getSliderWidth();
     this.drawColorControls();
   };
 
@@ -1358,7 +1347,7 @@ export class ColorPicker
     }
 
     const adjustedSliderDimensions = {
-      width: this.effectiveSliderWidth,
+      width: this.getSliderWidth(),
       height:
         dimensions.slider.height + (dimensions.thumb.radius - dimensions.slider.height / 2) * 2,
     };
@@ -1457,7 +1446,7 @@ export class ColorPicker
       },
     } = this;
 
-    const width = this.effectiveSliderWidth;
+    const width = this.getSliderWidth();
 
     const x = hsvColor.hue() / (HUE_LIMIT_CONSTRAINED / width);
     const y = radius;
@@ -1471,20 +1460,7 @@ export class ColorPicker
   }
 
   private getSliderWidth(): number {
-    const {
-      dimensions: {
-        slider: { width },
-        preview,
-      },
-    } = this;
-
-    if (this.alphaChannel) {
-      return width;
-    }
-
-    const previewWidthOffset = DIMENSIONS["l"].preview.size - preview.size;
-
-    return width + previewWidthOffset;
+    return getSliderWidth(this.dimensions, this.alphaChannel);
   }
 
   private drawHueSlider(): void {
@@ -1498,7 +1474,7 @@ export class ColorPicker
 
     const x = 0;
     const y = thumbRadius - height / 2;
-    const width = this.effectiveSliderWidth;
+    const width = this.getSliderWidth();
 
     const gradient = context.createLinearGradient(0, 0, width, 0);
 
@@ -1546,7 +1522,7 @@ export class ColorPicker
 
     const x = 0;
     const y = thumbRadius - height / 2;
-    const width = this.effectiveSliderWidth;
+    const width = this.getSliderWidth();
 
     context.clearRect(0, 0, width, height + this.getSliderCapSpacing() * 2);
 
@@ -1628,11 +1604,11 @@ export class ColorPicker
 
     const {
       dimensions: {
-        slider: { width },
         thumb: { radius },
       },
     } = this;
 
+    const width = this.getSliderWidth();
     const x = alphaToOpacity(hsvColor.alpha()) / (OPACITY_LIMITS.max / width);
     const y = radius;
     const sliderBoundX = this.getSliderBoundX(x, width, radius);

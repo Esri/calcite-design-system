@@ -1,5 +1,7 @@
 import Color from "color";
+import { Scale } from "../interfaces";
 import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./interfaces";
+import { DIMENSIONS } from "./resources";
 
 export const hexChar = /^[0-9A-F]$/i;
 const shorthandHex = /^#[0-9A-F]{3}$/i;
@@ -256,4 +258,19 @@ export function toNonAlphaMode(mode: SupportedMode): SupportedMode {
                 : mode;
 
   return nonAlphaMode;
+}
+
+export function getSliderWidth(activeDimensions: (typeof DIMENSIONS)[Scale], hasAlpha: boolean): number {
+  const {
+    slider: { width },
+    preview,
+  } = activeDimensions;
+
+  if (hasAlpha) {
+    return width;
+  }
+
+  const previewWidthOffset = DIMENSIONS["l"].preview.size - preview.size;
+
+  return width + previewWidthOffset;
 }
