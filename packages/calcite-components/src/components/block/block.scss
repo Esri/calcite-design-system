@@ -37,11 +37,9 @@
   grid-row: 1 / 2;
 }
 
-.header ::slotted(calcite-icon) {
-  margin-inline-end: var(--calcite-spacing-md);
-}
-
-.header .icon ::slotted([slot="icon"]) {
+.header ::slotted(calcite-icon),
+.header .icon ::slotted([slot="icon"]),
+.icon {
   margin-inline-end: var(--calcite-spacing-md);
 }
 
@@ -109,10 +107,6 @@ calcite-handle {
 .icon--end {
   @apply text-color-3;
 
-  margin-inline-end: var(--calcite-spacing-md);
-}
-
-.status-icon {
   margin-inline-end: var(--calcite-spacing-md);
 }
 
