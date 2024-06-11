@@ -382,27 +382,27 @@ export class Block
     ) : null;
   }
 
-  renderIcon(icon: string): VNode {
+  renderIcon(iconPosition: string): VNode {
     const { iconFlipRtl } = this;
 
-    if (icon === undefined) {
+    if (iconPosition === undefined) {
       return null;
     }
 
     const flipRtl =
-      iconFlipRtl === "both" || icon === "iconStart"
+      iconFlipRtl === "both" || iconPosition === "iconStart"
         ? iconFlipRtl === "start"
         : iconFlipRtl === "end";
 
-    const iconValue = icon === "iconStart" ? this.iconStart : this.iconEnd;
+    const iconValue = iconPosition === "iconStart" ? this.iconStart : this.iconEnd;
 
     /** Icon scale is not variable as the component does not have a scale property */
     return (
       <calcite-icon
-        class={CSS[icon]}
+        class={CSS[iconPosition]}
         flipRtl={flipRtl}
         icon={iconValue}
-        key={CSS[icon]}
+        key={CSS[iconPosition]}
         scale="s"
       />
     );

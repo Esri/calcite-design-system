@@ -39,8 +39,15 @@
 
 .header ::slotted(calcite-icon),
 .header .icon ::slotted([slot="icon"]),
-.icon {
+.icon,
+.icon--start,
+.icon--end {
   margin-inline-end: var(--calcite-spacing-md);
+}
+
+.icon--start,
+.icon--end {
+  @apply text-color-3;
 }
 
 .toggle {
@@ -101,13 +108,6 @@ calcite-handle {
 
 .icon {
   @apply flex;
-}
-
-.icon--start,
-.icon--end {
-  @apply text-color-3;
-
-  margin-inline-end: var(--calcite-spacing-md);
 }
 
 .status-icon.valid {
