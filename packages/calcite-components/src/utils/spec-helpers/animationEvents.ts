@@ -15,7 +15,6 @@ export function createAnimationEventDispatcher(): AnimationEventDispatcher {
   window = win as any as Window & typeof globalThis;
 
   // we define AnimationEvent since JSDOM doesn't support it yet -
-
   class AnimationEvent extends window.Event {
     elapsedTime: number;
 
