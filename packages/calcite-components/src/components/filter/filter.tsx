@@ -82,7 +82,7 @@ export class Filter
   @Prop({ mutable: true }) filteredItems: object[] = [];
 
   /**
-   * Specifies the fields to match against when filtering.
+   * Specifies the fields to match against when filtering. This will only apply when `value` is an object. If not set, all fields will be matched.
    */
   @Prop() matchFields: string[];
 

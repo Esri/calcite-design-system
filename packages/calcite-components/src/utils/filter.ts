@@ -16,7 +16,7 @@ export const filter = (data: Array<object>, value: string, matchFields?: string[
 
     let found = false;
 
-    forIn(input, (val: any, key) => {
+    forIn(input, (val, key) => {
       if (typeof val === "function" || val == null /* intentional == to catch undefined */) {
         return;
       }

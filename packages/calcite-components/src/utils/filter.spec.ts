@@ -2,12 +2,11 @@ import { filter } from "./filter";
 
 describe("filter function", () => {
   it("warns and returns empty array for empty data", () => {
-    const originalWarn = console.warn;
-    console.warn = jest.fn();
+    const spy = jest.spyOn(console, "warn");
     const result = filter([], "test");
-    expect(console.warn).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(1);
     expect(result).toEqual([]);
-    console.warn = originalWarn;
+    spy.mockRestore();
   });
 
   it("returns empty array when no objects match", () => {
@@ -38,6 +37,12 @@ describe("filter function", () => {
     const data = [{ name: "John", action: () => {}, value: null }];
     const result = filter(data, "John");
     expect(result).toEqual([{ name: "John", action: expect.any(Function), value: null }]);
+  });
+
+  it("returns empty array when searching with 'null'", () => {
+    const data = [{ name: "John", action: () => {}, value: null }];
+    const result = filter(data, "null");
+    expect(result).toEqual([]);
   });
 
   it("searches nested objects correctly", () => {
