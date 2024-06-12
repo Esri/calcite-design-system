@@ -169,7 +169,6 @@
   padding-inline: var(--calcite-modal-padding-internal);
   flex: 0 0 auto;
   calcite-icon {
-    @apply pointer-events-none;
     vertical-align: -2px;
   }
   &:focus {

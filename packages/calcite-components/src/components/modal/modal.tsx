@@ -1,3 +1,4 @@
+import { getNearestOverflowAncestor } from "@floating-ui/utils/dom";
 import {
   Component,
   Element,
@@ -534,7 +535,7 @@ export class Modal
     this.titleId = ensureId(titleEl);
     this.contentId = ensureId(contentEl);
 
-    if (!this.slottedInShell) {
+    if (getNearestOverflowAncestor(this.el) === document.body) {
       if (totalOpenModals === 0) {
         initialDocumentOverflowStyle = document.documentElement.style.overflow;
       }
@@ -568,9 +569,15 @@ export class Modal
       }
     }
 
-    totalOpenModals--;
+    if (getNearestOverflowAncestor(this.el) === document.body) {
+      totalOpenModals--;
+
+      if (totalOpenModals === 0) {
+        this.removeOverflowHiddenClass();
+      }
+    }
+
     this.opened = false;
-    this.removeOverflowHiddenClass();
   };
 
   private removeOverflowHiddenClass(): void {
