@@ -48,8 +48,6 @@
     .chevron-icon {
       color: var(--calcite-color-text-1);
     }
-    // chevron icon is available in endInput only for range.
-    // changes color of chevron icon in endInput when startInput is hovered/focused.
     ~ .input-wrapper .chevron-icon {
       color: var(--calcite-color-text-1);
     }

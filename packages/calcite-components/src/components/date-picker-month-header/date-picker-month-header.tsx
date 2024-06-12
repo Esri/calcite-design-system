@@ -17,7 +17,7 @@ import {
   nextMonth,
   prevMonth,
   formatCalendarYear,
-  requestedMonth,
+  activeDateInMonth,
 } from "../../utils/date";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
@@ -25,7 +25,7 @@ import { numberStringFormatter } from "../../utils/locale";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
-import { Scale } from "../interfaces";
+import { Position, Scale } from "../interfaces";
 import { CSS, ICON } from "./resources";
 
 @Component({
@@ -83,7 +83,7 @@ export class DatePickerMonthHeader {
    * @internal
    *
    */
-  @Prop() position: "start" | "end";
+  @Prop() position: Extract<"start" | "end", Position>;
 
   //--------------------------------------------------------------------------
   //
@@ -181,9 +181,8 @@ export class DatePickerMonthHeader {
       <calcite-select
         label={"year"}
         onCalciteSelectChange={this.handleYearChange}
-        width="full"
-        // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.yearPickerEl = el)}
+        width="full"
       >
         {this.yearList?.map((year: number) => {
           const yearString = year.toString();
@@ -303,7 +302,7 @@ export class DatePickerMonthHeader {
     const { abbreviated, wide } = this.localeData.months;
     const localeMonths = this.monthAbbreviations ? abbreviated : wide;
     const monthIndex = localeMonths.indexOf(target.value);
-    const newDate = requestedMonth(this.activeDate, monthIndex);
+    const newDate = activeDateInMonth(this.activeDate, monthIndex);
     this.calciteInternalDatePickerMonthHeaderSelect.emit(newDate);
   };
 

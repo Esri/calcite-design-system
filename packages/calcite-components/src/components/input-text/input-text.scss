@@ -318,19 +318,19 @@ input[type="text"]::-ms-reveal {
     items-center;
 }
 
-:host(.no-bottom-border) input {
+:host(.input--no-bottom-border) input {
   @apply border-b-0;
 }
 
-:host(.no-top-border) input {
+:host(.input--no-top-border) input {
   @apply border-t-0;
 }
 
-:host(.no-right-border) input {
+:host(.input--no-right-border) input {
   border-inline-end: 0;
 }
 
-:host(.no-left-border) input {
+:host(.input--no-left-border) input {
   border-inline-start: 0;
 }
 
