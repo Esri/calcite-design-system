@@ -419,6 +419,17 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
 }
 
 /**
+ * Filters an array of elements by their tag name.
+ *
+ * @param {Element[]} elements An array of elements, such as one returned by HTMLSlotElement.assignedNodes().
+ * @param {string} tagName The tag name to filter by.
+ * @returns {Element[]} A filtered array of elements.
+ */
+export function filterElementsByTagName<T extends Element>(elements: Element[], tagName: string): T[] {
+  return elements.filter((element): element is T => element.tagName == tagName.toUpperCase());
+}
+
+/**
  * Set a default icon from a defined set or allow an override with an icon name string
  *
  * @param {Record<string, string>} iconObject The icon object.
@@ -564,12 +575,14 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * ```
  *
  * @param {Event} event The event.
- * @returns {boolean} Whether the slot has any assigned elements.
+ * @param {string} tagName Specifies the element tag name to which the slot's assigned elements are filtered by.
+ * @returns {Element[]} An array of elements.
  */
-export function slotChangeGetAssignedElements(event: Event): Element[] {
-  return (event.target as HTMLSlotElement).assignedElements({
+export function slotChangeGetAssignedElements(event: Event, tagName?: string): Element[] {
+  const assignedElements = (event.target as HTMLSlotElement).assignedElements({
     flatten: true,
   });
+  return tagName ? filterElementsByTagName(assignedElements, tagName) : assignedElements;
 }
 
 /**

@@ -146,6 +146,7 @@ export class Tab {
   @Method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
+      // TODO: fix this uncaught exception that occurs when the tab being removed from the DOM still calls this method which no longer has a parentElement anymore.
       nodeListToArray(this.el.parentElement.children).filter((el) => el.matches("calcite-tab")),
       this.el,
     );

@@ -297,6 +297,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       : this.getIndexOfTabTitle(activatedTabTitle);
     event.stopPropagation();
 
+    this.selectedTitle = activatedTabTitle;
     this.scrollTabTitleIntoView(activatedTabTitle);
   }
 
@@ -394,6 +395,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
    * Emits when the selected `calcite-tab` changes.
    */
   @Event({ cancelable: false }) calciteTabChange: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event() calciteInternalTabNavSlotChange: EventEmitter<Element[]>;
 
   /**
    * @internal
@@ -501,10 +507,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   private onSlotChange = (event: Event): void => {
     this.intersectionObserver?.disconnect();
 
-    const slottedChildren = (event.target as HTMLSlotElement).assignedElements();
-    slottedChildren.forEach((child) => {
+    const slottedElements = (event.target as HTMLSlotElement).assignedElements();
+    slottedElements.forEach((child) => {
       this.intersectionObserver?.observe(child);
     });
+    this.calciteInternalTabNavSlotChange.emit(slottedElements);
   };
 
   private storeContainerRef = (el: HTMLDivElement) => (this.containerEl = el);

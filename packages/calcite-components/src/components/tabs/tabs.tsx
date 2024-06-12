@@ -1,6 +1,7 @@
 import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
+import { filterElementsByTagName, slotChangeGetAssignedElements } from "../../utils/dom";
 import { TabLayout, TabPosition } from "./interfaces";
 import { SLOTS } from "./resources";
 
@@ -48,6 +49,19 @@ export class Tabs {
 
   //--------------------------------------------------------------------------
   //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("calciteInternalTabNavSlotChange")
+  calciteInternalTabNavSlotChangeHandler(event: CustomEvent): void {
+    if (event.detail.length !== this.titles.length) {
+      this.titles = filterElementsByTagName(event.detail, "calcite-tab-title");
+    }
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
@@ -70,67 +84,11 @@ export class Tabs {
       <Fragment>
         <slot name={SLOTS.titleGroup} />
         <section>
-          <slot />
+          <slot onSlotchange={this.defaultSlotChangeHandler} />
         </section>
       </Fragment>
     );
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * @param event
-   * @internal
-   */
-  @Listen("calciteInternalTabTitleRegister")
-  calciteInternalTabTitleRegister(event: CustomEvent): void {
-    this.titles = [...this.titles, event.target as HTMLCalciteTabTitleElement];
-    this.registryHandler();
-    event.stopPropagation();
-  }
-
-  /**
-   * @param event
-   * @internal
-   */
-  @Listen("calciteTabTitleUnregister", { target: "body" })
-  calciteTabTitleUnregister(event: CustomEvent): void {
-    this.titles = this.titles.filter((el) => el !== event.detail);
-    this.registryHandler();
-    event.stopPropagation();
-  }
-
-  /**
-   * @param event
-   * @internal
-   */
-  @Listen("calciteInternalTabRegister")
-  calciteInternalTabRegister(event: CustomEvent): void {
-    this.tabs = [...this.tabs, event.target as HTMLCalciteTabElement];
-    this.registryHandler();
-    event.stopPropagation();
-  }
-
-  /**
-   * @param event
-   * @internal
-   */
-  @Listen("calciteTabUnregister", { target: "body" })
-  calciteTabUnregister(event: CustomEvent): void {
-    this.tabs = this.tabs.filter((el) => el !== event.detail);
-    this.registryHandler();
-    event.stopPropagation();
-  }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
 
   //--------------------------------------------------------------------------
   //
@@ -140,6 +98,10 @@ export class Tabs {
 
   @Element() el: HTMLCalciteTabsElement;
 
+  private defaultSlotChangeHandler = (event): void => {
+    this.tabs = slotChangeGetAssignedElements(event, "calcite-tab") as HTMLCalciteTabElement[];
+  };
+
   /**
    *
    * Stores an array of ids of `<calcite-tab-titles>`s to match up ARIA
@@ -147,11 +109,21 @@ export class Tabs {
    */
   @State() titles: HTMLCalciteTabTitleElement[] = [];
 
+  @Watch("titles")
+  titlesWatcher(): void {
+    this.registryHandler();
+  }
+
   /**
    *
    * Stores an array of ids of `<calcite-tab>`s to match up ARIA attributes.
    */
   @State() tabs: HTMLCalciteTabElement[] = [];
+
+  @Watch("tabs")
+  tabsWatcher(): void {
+    this.registryHandler();
+  }
 
   mutationObserver = createObserver("mutation", (mutationsList: MutationRecord[]) => {
     for (const mutation of mutationsList) {
@@ -237,6 +209,7 @@ export class Tabs {
     // pass all our new aria information to each `<calcite-tab>` and
     // `<calcite-tab-title>` which will check if they can update their internal
     // `controlled` or `labeledBy` states and re-render if necessary
+    console.log(this.tabs.length, this.titles.length);
     this.tabs.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
     this.titles.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
   }
