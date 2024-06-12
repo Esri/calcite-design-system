@@ -1,8 +1,8 @@
 {
   "previous": "Précédent",
   "next": "Suivant",
-  "play": "Play",
-  "pause": "Pause",
-  "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "play": "Lire",
+  "pause": "Suspendre",
+  "carousel": "Carrousel",
+  "carouselItemProgress": "Indicateur de progression pour l’élément Carrousel"
 }

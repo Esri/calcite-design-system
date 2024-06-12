@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, disabled, focusable, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-split-button", () => {
   describe("defaults", () => {
@@ -8,6 +8,23 @@ describe("calcite-split-button", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
+      },
+      {
+        propertyName: "flipPlacements",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "placement",
+        defaultValue: "bottom-end",
+      },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-split-button", [
+      {
+        propertyName: "placement",
+        value: "bottom-end",
       },
     ]);
   });
