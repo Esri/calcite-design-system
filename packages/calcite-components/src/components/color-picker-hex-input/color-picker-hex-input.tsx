@@ -268,7 +268,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     }
   };
 
-  private onInputKeyUp = (): void => {
+  private onInputChange = (): void => {
     const hexInputValue = `#${this.hexInputNode.value}`;
     const oldValue = this.value;
 
@@ -326,8 +326,8 @@ export class ColorPickerHexInput implements LoadableComponent {
           maxLength={6}
           onCalciteInputTextChange={this.onHexInputChange}
           onCalciteInternalInputTextBlur={this.onHexInputBlur}
+          onInput={this.onInputChange}
           onKeyDown={this.onInputKeyDown}
-          onKeyUp={this.onInputKeyUp}
           onPaste={this.onHexInputPaste}
           prefixText="#"
           ref={this.storeHexInputRef}
