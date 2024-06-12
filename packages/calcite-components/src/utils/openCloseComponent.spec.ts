@@ -1,5 +1,6 @@
 import * as openCloseComponent from "./openCloseComponent";
 import { createTransitionEventDispatcher, TransitionEventDispatcher } from "./spec-helpers/transitionEvents";
+import { mockGetComputedStyleFor } from "./spec-helpers/computedStyle";
 
 const { onToggleOpenCloseComponent } = openCloseComponent;
 
@@ -23,14 +24,12 @@ describe("openCloseComponent", () => {
       const testTransition = `${testProp} ${testDuration} ease 0s`;
 
       transitionEl.style.transition = testTransition;
-
-      // need to mock due to JSDOM issue with getComputedStyle - https://github.com/jsdom/jsdom/issues/3090
-      window.getComputedStyle = jest.fn().mockReturnValue({
+      window.document.body.append(transitionEl);
+      mockGetComputedStyleFor(transitionEl, {
         transition: testTransition,
         transitionDuration: testDuration,
         transitionProperty: testProp,
       });
-      window.document.body.append(transitionEl);
 
       const emittedEvents: string[] = [];
       const fakeOpenCloseComponent = {
