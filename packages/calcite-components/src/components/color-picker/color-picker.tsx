@@ -1034,6 +1034,7 @@ export class ColorPicker
         numberingSystem={this.numberingSystem}
         onCalciteInputNumberChange={this.handleChannelChange}
         onCalciteInputNumberInput={this.handleChannelInput}
+        onInput={this.handleChannelInputChange}
         onKeyDown={this.handleKeyDown}
         scale={this.scale === "l" ? "m" : "s"}
         // workaround to ensure input borders overlap as desired
@@ -1054,6 +1055,11 @@ export class ColorPicker
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  handleChannelInputChange = (event: Event): void => {
+    const customEvent = event as CustomEvent;
+    this.handleChannelChange(customEvent);
+  };
 
   handleKeyDown(event: KeyboardEvent): void {
     if (event.key === "Enter") {
