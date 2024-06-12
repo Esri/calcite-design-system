@@ -558,7 +558,6 @@ export class List
                         aria-label={filterPlaceholder}
                         disabled={disabled}
                         items={dataForFilter}
-                        matchFields={["label", "description", "metadata"]}
                         onCalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}

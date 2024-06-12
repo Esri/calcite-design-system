@@ -365,12 +365,12 @@ describe("calcite-list", () => {
     const list = await page.find("calcite-list");
     await page.waitForTimeout(listDebounceTimeout);
 
-    expect(await list.getProperty("filteredItems")).toHaveLength(2);
-    expect(await list.getProperty("filteredData")).toHaveLength(2);
+    expect(await list.getProperty("filteredItems")).toHaveLength(3);
+    expect(await list.getProperty("filteredData")).toHaveLength(3);
 
     const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
-    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
+    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match", "value-match"]);
   });
 
   it("should support shift click to select multiple items", async () => {
