@@ -1034,6 +1034,7 @@ export class ColorPicker
         numberingSystem={this.numberingSystem}
         onCalciteInputNumberChange={this.handleChannelChange}
         onCalciteInputNumberInput={this.handleChannelInput}
+        onFocus={this.handleInputFocus}
         onInput={this.handleChannelInputChange}
         onKeyDown={this.handleKeyDown}
         scale={this.scale === "l" ? "m" : "s"}
@@ -1066,6 +1067,11 @@ export class ColorPicker
       event.preventDefault();
     }
   }
+
+  handleInputFocus = (event: Event): void => {
+    const input = event.currentTarget as HTMLCalciteInputNumberElement;
+    input.selectText();
+  };
 
   private showIncompatibleColorWarning(value: ColorValue, format: Format): void {
     console.warn(
