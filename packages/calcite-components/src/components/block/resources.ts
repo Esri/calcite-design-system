@@ -42,5 +42,3 @@ export const ICONS = {
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
 };
-
-export type Position = "start" | "end";

@@ -38,7 +38,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { Status } from "../interfaces";
+import { Status, Position } from "../interfaces";
 import {
   componentFocusable,
   LoadableComponent,
@@ -48,7 +48,7 @@ import {
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { FlipContext } from "../interfaces";
-import { CSS, ICONS, IDS, SLOTS, Position } from "./resources";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { BlockMessages } from "./assets/block/t9n";
 
 /**
@@ -382,7 +382,7 @@ export class Block
     ) : null;
   }
 
-  private renderIcon(position: Position): VNode {
+  private renderIcon(position: Extract<"start" | "end", Position>): VNode {
     const { iconFlipRtl } = this;
 
     const flipRtl =

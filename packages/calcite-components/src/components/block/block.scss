@@ -44,6 +44,12 @@
   margin-inline-end: var(--calcite-spacing-md);
 }
 
+.icon {
+  & calcite-loader {
+    margin-inline-end: var(--calcite-spacing-xxxs);
+  }
+}
+
 .icon--start,
 .icon--end {
   @apply text-color-3;
