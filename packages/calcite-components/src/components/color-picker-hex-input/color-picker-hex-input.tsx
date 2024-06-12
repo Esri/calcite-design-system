@@ -271,7 +271,6 @@ export class ColorPickerHexInput implements LoadableComponent {
   private onInputKeyUp = (): void => {
     const hexInputValue = `#${this.hexInputNode.value}`;
     const oldValue = this.value;
-    console.log("value", hexInputValue);
 
     if (isValidHex(hexInputValue) && isLonghandHex(hexInputValue)) {
       this.internalSetValue(hexInputValue, oldValue);
