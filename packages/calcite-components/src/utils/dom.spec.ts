@@ -1,5 +1,9 @@
-import { ModeName } from "../../src/components/interfaces";
+import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
+import { createTransitionEventDispatcher, TransitionEventDispatcher } from "../tests/spec-helpers/transitionEvents";
+import { AnimationEventDispatcher, createAnimationEventDispatcher } from "../tests/spec-helpers/animationEvents";
+import { mockGetComputedStyleFor } from "../tests/spec-helpers/computedStyle";
+import { guidPattern } from "./guid.spec";
 import {
   ensureId,
   focusElementInGroup,
@@ -22,10 +26,6 @@ import {
   whenAnimationDone,
   whenTransitionDone,
 } from "./dom";
-import { guidPattern } from "./guid.spec";
-import { createTransitionEventDispatcher, TransitionEventDispatcher } from "./spec-helpers/transitionEvents";
-import { AnimationEventDispatcher, createAnimationEventDispatcher } from "./spec-helpers/animationEvents";
-import { mockGetComputedStyleFor } from "./spec-helpers/computedStyle";
 
 describe("dom", () => {
   describe("getElementProp()", () => {

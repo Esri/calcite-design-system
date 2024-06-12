@@ -1,6 +1,6 @@
+import { createTransitionEventDispatcher, TransitionEventDispatcher } from "../tests/spec-helpers/transitionEvents";
+import { mockGetComputedStyleFor } from "../tests/spec-helpers/computedStyle";
 import * as openCloseComponent from "./openCloseComponent";
-import { createTransitionEventDispatcher, TransitionEventDispatcher } from "./spec-helpers/transitionEvents";
-import { mockGetComputedStyleFor } from "./spec-helpers/computedStyle";
 
 const { onToggleOpenCloseComponent } = openCloseComponent;
 
