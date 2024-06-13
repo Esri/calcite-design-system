@@ -2,22 +2,24 @@ import { iconNames } from "../../../.storybook/helpers";
 import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { InputText } from "./input-text";
 const { scale, status, alignment } = ATTRIBUTES;
 
-interface InputTextArgs {
-  scale: string;
-  status: string;
-  alignment: string;
-  prefixText: string;
-  suffixText: string;
-  loading: boolean;
-  clearable: boolean;
-  disabled: boolean;
-  value: string;
-  placeholder: string;
-  validationMessage: string;
-  validationIcon: string;
-}
+type InputTextStoryArgs = Pick<
+  InputText,
+  | "scale"
+  | "status"
+  | "alignment"
+  | "prefixText"
+  | "suffixText"
+  | "loading"
+  | "clearable"
+  | "disabled"
+  | "value"
+  | "placeholder"
+  | "validationMessage"
+  | "validationIcon"
+>;
 
 export default {
   title: "Components/Controls/Input Text",
@@ -55,7 +57,7 @@ export default {
   },
 };
 
-export const simple = (args: InputTextArgs): string => html`
+export const simple = (args: InputTextStoryArgs): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-text
       scale="${args.scale}"

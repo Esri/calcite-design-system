@@ -14,16 +14,6 @@
 
 @include disabled();
 
-.indent {
-  @apply flex
-    flex-col
-    border-solid
-    border-0
-    border-color-3;
-
-  margin-inline-start: var(--calcite-list-item-spacing-indent, theme("spacing.6"));
-}
-
 .container {
   @apply bg-foreground-1
   box-border
@@ -62,11 +52,16 @@
 }
 
 .nested-container {
-  @apply flex flex-col;
+  @apply hidden flex-col
+    border-solid
+    border-0
+    border-color-3;
+
+  margin-inline-start: var(--calcite-list-item-spacing-indent, theme("spacing.6"));
 }
 
-.nested-container--hidden {
-  @apply hidden;
+.nested-container--open {
+  @apply flex;
 }
 
 .content-container {

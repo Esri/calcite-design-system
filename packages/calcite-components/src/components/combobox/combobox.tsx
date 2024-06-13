@@ -20,8 +20,8 @@ import {
   connectFloatingUI,
   defaultMenuPlacement,
   disconnectFloatingUI,
-  EffectivePlacement,
-  filterComputedPlacements,
+  filterValidFlipPlacements,
+  FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
   LogicalPlacement,
@@ -283,7 +283,7 @@ export class Combobox
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements: EffectivePlacement[];
+  @Prop() flipPlacements: FlipPlacement[];
 
   /**
    * Made into a prop for testing purposes only
@@ -523,7 +523,7 @@ export class Combobox
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
-  filteredFlipPlacements: EffectivePlacement[];
+  filteredFlipPlacements: FlipPlacement[];
 
   internalValueChangeFlag = false;
 
@@ -629,7 +629,7 @@ export class Combobox
     const { el, flipPlacements } = this;
 
     this.filteredFlipPlacements = flipPlacements
-      ? filterComputedPlacements(flipPlacements, el)
+      ? filterValidFlipPlacements(flipPlacements, el)
       : null;
   };
 
@@ -1054,6 +1054,7 @@ export class Combobox
     const value = (event.target as HTMLInputElement).value;
     this.text = value;
     this.filterItems(value);
+    this.open = value.length > 0;
     if (value) {
       this.activeChipIndex = -1;
     }

@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "Изберете часова зона.",
+  "offsetPlaceholder": "Търсене по град, район или изместване",
+  "namePlaceholder": "Търсене по часова зона",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Абиджан",
   "Africa/Accra": "Акра",
