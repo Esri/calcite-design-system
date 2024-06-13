@@ -377,7 +377,7 @@ describe("calcite-date-picker", () => {
       expect(await datePicker.getProperty("value")).toEqual("2024-02-08");
     });
 
-    it.skip("should be able to navigate between months and select date using arrow keys and page keys in range", async () => {
+    it("should be able to navigate between months and select date using arrow keys and page keys in range", async () => {
       const page = await newE2EPage();
       await page.setContent("<calcite-date-picker range></calcite-date-picker>");
       await page.waitForChanges();

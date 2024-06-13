@@ -13,8 +13,38 @@ export interface CalciteConfig {
    * @see https://github.com/focus-trap/focus-trap#createoptions
    */
   focusTrapStack: FocusTrap[];
+
+  /**
+   * Contains the version of the Calcite components.
+   *
+   * @readonly
+   */
+  version?: string;
 }
 
 const customConfig: CalciteConfig = globalThis["calciteConfig"];
 
 export const focusTrapStack: FocusTrap[] = customConfig?.focusTrapStack || [];
+
+const version = "__CALCITE_VERSION__"; // version number is set by build
+
+/**
+ * Stamp the version onto the global config.
+ */
+export function stampVersion(): void {
+  if (customConfig && customConfig.version) {
+    console.warn(
+      `[calcite-components] while initializing v${version}, an existing configuration with version "${customConfig.version}" was found. This may cause unexpected behavior. The version will not be added to the existing global configuration.`,
+    );
+    return;
+  }
+
+  const target = customConfig || globalThis["calciteConfig"] || {};
+
+  Object.defineProperty(target, "version", {
+    value: version,
+    writable: false,
+  });
+
+  globalThis["calciteConfig"] = target;
+}
