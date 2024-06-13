@@ -1,9 +1,7 @@
 :host {
-  @apply bg-foreground-1
-    text-color-2
-    text-n1
-    box-border
-    block;
+  @apply bg-foreground-1 text-n1 box-border block;
+
+  color: var(--calcite-color-text-2);
 }
 
 :host([open]) {
@@ -11,6 +9,21 @@
     border-0
     border-b
     border-solid;
+
+  .toggle {
+    color: var(--calcite-color-text-1);
+
+    &:hover {
+    }
+  }
+
+  .chevron-icon {
+    color: var(--calcite-color-text-3);
+
+    &:hover {
+      color: var(--calcite-color-text-1);
+    }
+  }
 }
 
 :host(:last-child) {
@@ -18,14 +31,14 @@
 }
 
 .toggle {
-  @apply font-sans
-    text-color-2
-    w-full
-    border-0
-    bg-transparent
-    font-medium;
+  @apply font-sans w-full border-0 bg-transparent font-medium;
 
   gap: var(--calcite-spacing-md);
+  color: var(--calcite-color-text-2);
+
+  &:hover {
+    color: var(--calcite-color-text-1);
+  }
 }
 
 .toggle--switch,
@@ -45,7 +58,7 @@
     @apply focus-outset;
   }
   &:hover {
-    @apply text-color-1;
+    color: var(--calcite-color-text-1);
   }
 }
 
@@ -66,7 +79,8 @@
   }
 
   .icon--end,
-  .icon--start {
+  .icon--start,
+  .chevron-icon {
     @apply flex items-center;
 
     color: var(--calcite-color-text-3);
@@ -87,10 +101,6 @@
 
 .status-icon.invalid {
   color: theme("colors.danger");
-}
-
-.chevron-icon {
-  @apply flex items-center;
 }
 
 @include base-component();
