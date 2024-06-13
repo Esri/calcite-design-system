@@ -48,21 +48,6 @@ export class DatePickerMonth {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * The DateTimeFormat used to provide screen reader labels.
-   *
-   * @internal
-   */
-  @Prop() dateTimeFormat: Intl.DateTimeFormat;
-
-  /** Already selected date.*/
-  @Prop() selectedDate: Date;
-
-  @Watch("selectedDate")
-  updateFocusedDate(newActiveDate: Date): void {
-    this.focusedDate = newActiveDate;
-  }
-
   /** The currently active Date.*/
   @Prop() activeDate: Date = new Date();
 
@@ -73,25 +58,28 @@ export class DatePickerMonth {
     }
   }
 
-  /** Start date currently active. */
-  @Prop() startDate?: Date;
+  /**
+   * The DateTimeFormat used to provide screen reader labels.
+   *
+   * @internal
+   */
+  @Prop() dateTimeFormat: Intl.DateTimeFormat;
 
   /** End date currently active.  */
   @Prop() endDate?: Date;
 
-  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
-  @Prop() min: Date;
+  /** Specifies the number at which section headings should start. */
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
-  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
-  @Prop() max: Date;
+  /** The range of dates currently being hovered. */
+  @Prop() hoverRange: HoverRange;
 
   /**
-   * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
+   * Specifies the layout of the component.
+   *
+   * @internal
    */
-  @Prop({ reflect: true }) range: boolean = false;
-
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale;
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical";
 
   /**
    * CLDR locale data for current locale.
@@ -100,14 +88,8 @@ export class DatePickerMonth {
    */
   @Prop() localeData: DateLocaleData;
 
-  /** The range of dates currently being hovered. */
-  @Prop() hoverRange: HoverRange;
-
-  /** Defines the layout of the component.
-   *
-   * @internal
-   */
-  @Prop({ reflect: true }) layout: "horizontal" | "vertical";
+  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
+  @Prop() max: Date;
 
   /**
    * Made into a prop for testing purposes only
@@ -117,15 +99,32 @@ export class DatePickerMonth {
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: DatePickerMessages;
 
+  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
+  @Prop() min: Date;
+
   /**
    * When `true`, month will be abbreviated.
    */
   @Prop() monthAbbreviations: boolean;
 
   /**
-   * Specifies the number at which section headings should start.
+   * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
    */
-  @Prop({ reflect: true }) headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) range: boolean = false;
+
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale;
+
+  /** Already selected date.*/
+  @Prop() selectedDate: Date;
+
+  @Watch("selectedDate")
+  updateFocusedDate(newActiveDate: Date): void {
+    this.focusedDate = newActiveDate;
+  }
+
+  /** Start date currently active. */
+  @Prop() startDate?: Date;
 
   //--------------------------------------------------------------------------
   //
@@ -687,7 +686,7 @@ export class DatePickerMonth {
     );
   }
 
-  monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
+  private monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
     const date = new Date(event.detail);
     const target = event.target as HTMLCalciteDatePickerMonthHeaderElement;
     this.updateFocusableDate(date);

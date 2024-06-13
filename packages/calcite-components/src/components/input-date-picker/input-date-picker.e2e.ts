@@ -13,65 +13,9 @@ import {
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
+import { Position } from "../interfaces";
 import { CSS } from "./resources";
 const animationDurationInMs = 200;
-
-async function selectDayInMonthByIndex(page: E2EPage, day: number): Promise<void> {
-  const dayIndex = day - 1;
-  const days = await page.findAll("calcite-input-date-picker >>> calcite-date-picker-day[current-month]");
-  await days[dayIndex].click();
-  await page.waitForChanges();
-}
-
-async function getActiveMonth(page: E2EPage): Promise<string> {
-  return page.evaluate(
-    async () =>
-      document
-        .querySelector("calcite-input-date-picker")
-        .shadowRoot.querySelector("calcite-date-picker")
-        .shadowRoot.querySelector("calcite-date-picker-month")
-        .shadowRoot.querySelector("calcite-date-picker-month-header")
-        .shadowRoot.querySelector("calcite-select")
-        .querySelector("calcite-option[selected]").textContent,
-  );
-}
-
-async function getDateInputValue(page: E2EPage, type: "start" | "end" = "start"): Promise<string> {
-  const inputIndex = type === "start" ? 0 : 1;
-
-  return page.evaluate(
-    async (inputIndex: number): Promise<string> =>
-      document
-        .querySelector("calcite-input-date-picker")
-        .shadowRoot.querySelectorAll("calcite-input-text")
-        [inputIndex].shadowRoot.querySelector("input").value,
-    inputIndex,
-  );
-}
-
-async function navigateMonth(page: E2EPage, direction: "previous" | "next", range = false): Promise<void> {
-  const [datePickerMonthHeaderStart, datePickerMonthHeaderEnd] = await page.findAll(
-    "calcite-input-date-picker >>> calcite-date-picker-month-header >>> .header",
-  );
-
-  let prevMonth: E2EElement;
-  let nextMonth: E2EElement;
-  if (range) {
-    prevMonth = await datePickerMonthHeaderStart.find("calcite-action");
-    nextMonth = await datePickerMonthHeaderEnd.find("calcite-action");
-  } else {
-    [prevMonth, nextMonth] = await datePickerMonthHeaderStart.findAll("calcite-action");
-  }
-
-  await (direction === "previous" ? prevMonth.click() : nextMonth.click());
-  await page.waitForChanges();
-}
-
-async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
-  return await page.find(
-    `calcite-input-date-picker >>> calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
-  );
-}
 
 describe("calcite-input-date-picker", () => {
   describe("accessibility", () => {
@@ -1372,7 +1316,6 @@ describe("calcite-input-date-picker", () => {
     });
   });
 
-  //todo: refactor to storybook tests
   describe("hover range", () => {
     it("should add range-hover attribute for dates less than new startDate and greater than current startDate or greater than new endDate and less than current startDate", async () => {
       const page = await newE2EPage();
@@ -1582,19 +1525,70 @@ describe("calcite-input-date-picker", () => {
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    await page.waitForTimeout(2000);
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    await page.waitForTimeout(2000);
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    await page.waitForTimeout(2000);
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    await page.waitForTimeout(2000);
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
 
     expect(await getActiveMonth(page)).toBe("October");
   });
 });
+
+async function selectDayInMonthByIndex(page: E2EPage, day: number): Promise<void> {
+  const dayIndex = day - 1;
+  const days = await page.findAll("calcite-input-date-picker >>> calcite-date-picker-day[current-month]");
+  await days[dayIndex].click();
+  await page.waitForChanges();
+}
+
+async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", Position> = "start"): Promise<string> {
+  const [startMonth, endMonth] = await page.findAll(
+    "calcite-input-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-select",
+  );
+
+  if (position === "start") {
+    return (await startMonth.find("calcite-option[selected]")).textContent;
+  }
+  return (await endMonth.find("calcite-option[selected]")).textContent;
+}
+
+async function getDateInputValue(page: E2EPage, type: "start" | "end" = "start"): Promise<string> {
+  const inputIndex = type === "start" ? 0 : 1;
+
+  return page.evaluate(
+    async (inputIndex: number): Promise<string> =>
+      document
+        .querySelector("calcite-input-date-picker")
+        .shadowRoot.querySelectorAll("calcite-input-text")
+        [inputIndex].shadowRoot.querySelector("input").value,
+    inputIndex,
+  );
+}
+
+async function navigateMonth(page: E2EPage, direction: "previous" | "next", range = false): Promise<void> {
+  const [datePickerMonthHeaderStart, datePickerMonthHeaderEnd] = await page.findAll(
+    "calcite-input-date-picker >>> calcite-date-picker-month-header >>> .header",
+  );
+
+  let prevMonth: E2EElement;
+  let nextMonth: E2EElement;
+  if (range) {
+    prevMonth = await datePickerMonthHeaderStart.find("calcite-action");
+    nextMonth = await datePickerMonthHeaderEnd.find("calcite-action");
+  } else {
+    [prevMonth, nextMonth] = await datePickerMonthHeaderStart.findAll("calcite-action");
+  }
+
+  await (direction === "previous" ? prevMonth.click() : nextMonth.click());
+  await page.waitForChanges();
+}
+
+async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
+  return await page.find(
+    `calcite-input-date-picker >>> calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
+  );
+}

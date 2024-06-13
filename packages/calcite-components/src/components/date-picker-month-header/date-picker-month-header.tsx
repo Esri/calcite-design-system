@@ -57,6 +57,12 @@ export class DatePickerMonthHeader {
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
   @Prop() max: Date;
 
+  @Watch("min")
+  @Watch("max")
+  updateYearList(): void {
+    this.getYearList();
+  }
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale;
 
@@ -111,6 +117,7 @@ export class DatePickerMonthHeader {
   }
 
   connectedCallback(): void {
+    this.getYearList();
     this.setNextPrevMonthDates();
   }
 
@@ -163,7 +170,7 @@ export class DatePickerMonthHeader {
   private renderMonthPicker(months: DateLocaleData["months"], activeMonth: number): VNode {
     const monthData = this.monthAbbreviations ? months.abbreviated : months.wide;
     return (
-      <calcite-select label={"month"} onCalciteSelectChange={this.handleMonthChange} width="full">
+      <calcite-select label="month" onCalciteSelectChange={this.handleMonthChange} width="full">
         {monthData.map((month: string, index: number) => {
           return (
             <calcite-option selected={index === activeMonth} value={month}>
@@ -176,19 +183,18 @@ export class DatePickerMonthHeader {
   }
 
   private renderYearPicker(): VNode {
-    this.getYearList();
     return (
       <calcite-select
-        label={"year"}
+        label="year"
         onCalciteSelectChange={this.handleYearChange}
         ref={(el) => (this.yearPickerEl = el)}
         width="full"
       >
-        {this.yearList?.map((year: number) => {
+        {this.yearList.map((year: number) => {
           const yearString = year.toString();
           return (
             <calcite-option selected={this.activeDate.getFullYear() === year} value={yearString}>
-              {numberStringFormatter?.localize(yearString)}
+              {numberStringFormatter.localize(yearString)}
               {this.localeData?.year?.suffix}
             </calcite-option>
           );
@@ -199,20 +205,21 @@ export class DatePickerMonthHeader {
 
   private renderChevron(direction: "left" | "right"): VNode {
     const activeMonth = this.activeDate.getMonth();
+    const isDirectionRight = direction === "right";
     return (
       <calcite-action
-        alignment={"center"}
+        alignment="center"
         aria-disabled={`${this.nextMonthDate.getMonth() === activeMonth}`}
-        aria-label={direction === "right" ? this.messages.nextMonth : this.messages.prevMonth}
+        aria-label={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
         class={CSS.chevron}
         compact={true}
         disabled={this.nextMonthDate.getMonth() === activeMonth}
-        icon={direction === "right" ? ICON.chevronRight : ICON.chevronLeft}
-        onClick={direction === "right" ? this.nextMonthClick : this.prevMonthClick}
-        onKeyDown={direction === "right" ? this.nextMonthKeydown : this.prevMonthKeydown}
+        icon={isDirectionRight ? ICON.chevronRight : ICON.chevronLeft}
+        onClick={isDirectionRight ? this.nextMonthClick : this.prevMonthClick}
+        onKeyDown={isDirectionRight ? this.nextMonthKeydown : this.prevMonthKeydown}
         role="button"
         scale={this.scale === "l" ? "l" : "m"}
-        text={direction === "right" ? this.messages.nextMonth : this.messages.prevMonth}
+        text={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
       />
     );
   }
@@ -232,15 +239,15 @@ export class DatePickerMonthHeader {
 
   @Element() el: HTMLCalciteDatePickerMonthHeaderElement;
 
-  private parentDatePickerEl: HTMLCalciteDatePickerElement;
-
-  private yearPickerEl: HTMLCalciteSelectElement;
-
   @State() nextMonthDate: Date;
 
   @State() prevMonthDate: Date;
 
-  private yearList: number[] = [];
+  @State() yearList: number[] = [];
+
+  private parentDatePickerEl: HTMLCalciteDatePickerElement;
+
+  private yearPickerEl: HTMLCalciteSelectElement;
 
   @Watch("min")
   @Watch("max")
@@ -297,7 +304,7 @@ export class DatePickerMonthHeader {
     this.calciteInternalDatePickerMonthHeaderSelect.emit(date);
   };
 
-  handleMonthChange = (event: CustomEvent): void => {
+  private handleMonthChange = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteOptionElement;
     const { abbreviated, wide } = this.localeData.months;
     const localeMonths = this.monthAbbreviations ? abbreviated : wide;

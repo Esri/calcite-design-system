@@ -156,7 +156,9 @@ describe("calcite-date-picker", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-date-picker value='2000-11-27'></calcite-date-picker>");
 
-    const [prevMonth, nextMonth] = await page.findAll("calcite-date-picker >>> a ");
+    const [prevMonth, nextMonth] = await page.findAll(
+      "calcite-date-picker >>> calcite-date-picker-month-header >>> .header >>> calcite-action",
+    );
     const [monthSelect, yearSelect] = await page.findAll("calcite-date-picker >>> calcite-select");
 
     await prevMonth.click();
@@ -490,7 +492,6 @@ describe("calcite-date-picker", () => {
     expect(await datePicker.getProperty("value")).toEqual(["2020-09-15", "2020-09-30"]);
   });
 
-  //todo: refactor to storybook tests
   describe("hover range", () => {
     it("should toggle range-hover attribute when updating the range", async () => {
       const page = await newE2EPage();

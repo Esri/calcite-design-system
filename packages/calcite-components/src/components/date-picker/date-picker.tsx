@@ -6,7 +6,6 @@ import {
   EventEmitter,
   h,
   Host,
-  // Listen,
   Method,
   Prop,
   State,
@@ -100,7 +99,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
       this.valueAsDate = getValueAsDateRange(value);
-      // avoids updating activeDates after every selection. Only updates when value is set programmatically.
       if (!this.userChangeRangeValue) {
         this.resetActiveDates();
       }
@@ -369,7 +367,9 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     this.dateTimeFormat = getDateTimeFormat(this.effectiveLocale, DATE_PICKER_FORMAT_OPTIONS);
   }
 
-  monthHeaderSelectChange = (event: CustomEvent<{ date: Date; position: string }>): void => {
+  private monthHeaderSelectChange = (
+    event: CustomEvent<{ date: Date; position: string }>,
+  ): void => {
     const date = new Date(event.detail.date);
     const position = event.detail.position;
     if (!this.range) {
@@ -385,7 +385,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     }
   };
 
-  monthActiveDateChange = (event: CustomEvent<Date>): void => {
+  private monthActiveDateChange = (event: CustomEvent<Date>): void => {
     const date = new Date(event.detail);
     if (!this.range) {
       this.activeDate = date;
@@ -408,7 +408,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     }
   };
 
-  monthHoverChange = (event: CustomEvent<Date>): void => {
+  private monthHoverChange = (event: CustomEvent<Date>): void => {
     if (!this.range) {
       this.hoverRange = undefined;
       return;
@@ -496,7 +496,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
    * @param minDate
    * @param date
    * @param endDate
-   * @param position
    */
   private renderMonth(
     activeDate: Date,
@@ -559,7 +558,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     this.userChangeRangeValue = true;
     this.value = [dateToISO(startDate), dateToISO(date)];
     this.valueAsDate = [startDate, date];
-    // avoid emitting change event when user select stat date beyond end date
     if (date) {
       this.calciteDatePickerRangeChange.emit();
     }
@@ -682,7 +680,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
       this.activeStartDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
       this.activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
 
-      // when min and max are defined and the current date is beyond the range.
       if (this.activeStartDate === this.activeEndDate) {
         const previousMonthActiveDate = prevMonth(this.activeEndDate);
         const nextMonthActiveDate = nextMonth(this.activeEndDate);
