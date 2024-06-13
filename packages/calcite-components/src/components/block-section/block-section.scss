@@ -32,10 +32,11 @@
 }
 
 .toggle {
-  @apply font-sans w-full border-0 bg-transparent font-medium;
+  @apply font-sans w-full border-0 bg-transparent;
 
   gap: var(--calcite-spacing-md);
   color: var(--calcite-color-text-2);
+  font-weight: var(--calcite-font-weight-normal);
 
   &:hover {
     color: var(--calcite-color-text-1);
