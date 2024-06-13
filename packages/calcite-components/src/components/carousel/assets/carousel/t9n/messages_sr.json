@@ -1,8 +1,8 @@
 {
   "previous": "Prethodno",
   "next": "Sledeće",
-  "play": "Play",
-  "pause": "Pause",
+  "play": "Reprodukuj",
+  "pause": "Pauza",
   "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "carouselItemProgress": "Indikator napretka za stavku Vrteška"
 }

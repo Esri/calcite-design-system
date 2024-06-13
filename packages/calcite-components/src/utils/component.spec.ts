@@ -1,7 +1,6 @@
 import { HTMLStencilElement } from "@stencil/core/internal";
 import { html } from "../../support/formatting";
-import * as componentUtils from "./component";
-const { componentFocusable, componentOnReady, getIconScale } = componentUtils;
+import { componentOnReady, getIconScale } from "./component";
 
 describe("getIconScale", () => {
   it('should return "m" when input is "l"', () => {
@@ -19,7 +18,7 @@ describe("componentOnReady", () => {
   let fakeComponent: HTMLElement;
 
   beforeEach(() => {
-    document.body.innerHTML = html`<fake-component></fake-component> `;
+    document.body.innerHTML = html` <fake-component></fake-component> `;
     fakeComponent = document.querySelector<HTMLElement>("fake-component");
 
     const originalRaf = globalThis.requestAnimationFrame;
@@ -47,50 +46,6 @@ describe("componentOnReady", () => {
     expect(promise).toBeInstanceOf(Promise);
 
     await promise;
-    expect(requestAnimationFrameSpy).toHaveBeenCalled();
-  });
-});
-
-describe("componentFocusable", () => {
-  let componentOnReadyStub: jest.SpyInstance;
-  let fakeComponent: HTMLStencilElement;
-  let forceUpdateSpy: jest.SpyInstance;
-  let requestAnimationFrameSpy: jest.SpyInstance;
-  let componentOnReadyResolver: (el: HTMLStencilElement) => void;
-
-  beforeEach(async () => {
-    document.body.innerHTML = html`<fake-component></fake-component> `;
-    fakeComponent = document.querySelector<HTMLStencilElement>("fake-component");
-
-    const componentOnReadyPromise = new Promise<HTMLStencilElement>(
-      (resolve: (el: HTMLStencilElement) => void) => (componentOnReadyResolver = resolve),
-    );
-    componentOnReadyStub = fakeComponent.componentOnReady = jest.fn(() => componentOnReadyPromise);
-    forceUpdateSpy = jest.spyOn(componentUtils, "forceUpdate").mockImplementation(jest.fn());
-
-    const originalRaf = globalThis.requestAnimationFrame;
-    requestAnimationFrameSpy = jest
-      .spyOn(globalThis, "requestAnimationFrame")
-      .mockImplementation((callback) => originalRaf(callback));
-  });
-
-  afterEach(() => {
-    requestAnimationFrameSpy.mockRestore();
-    forceUpdateSpy.mockRestore();
-  });
-
-  it("should resolve when ready and rendered", async () => {
-    const promise = componentFocusable(fakeComponent);
-    expect(promise).toBeInstanceOf(Promise);
-
-    expect(componentOnReadyStub).toHaveBeenCalled();
-    expect(requestAnimationFrameSpy).not.toHaveBeenCalled();
-    expect(forceUpdateSpy).not.toHaveBeenCalled();
-
-    componentOnReadyResolver(fakeComponent);
-    await promise;
-
-    expect(forceUpdateSpy).toHaveBeenCalled();
     expect(requestAnimationFrameSpy).toHaveBeenCalled();
   });
 });

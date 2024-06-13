@@ -20,8 +20,8 @@ import {
   connectFloatingUI,
   defaultMenuPlacement,
   disconnectFloatingUI,
-  EffectivePlacement,
-  filterComputedPlacements,
+  filterValidFlipPlacements,
+  FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
   LogicalPlacement,
@@ -283,7 +283,7 @@ export class Combobox
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements: EffectivePlacement[];
+  @Prop() flipPlacements: FlipPlacement[];
 
   /**
    * Made into a prop for testing purposes only
@@ -350,7 +350,7 @@ export class Combobox
 
     await componentOnReady(this.el);
 
-    if (!this.allowCustomValues && this.textInput.value) {
+    if (!this.allowCustomValues && this.text) {
       this.clearInputValue();
       this.filterItems("");
       this.updateActiveItemIndex(-1);
@@ -452,7 +452,7 @@ export class Combobox
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  async connectedCallback(): Promise<void> {
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
@@ -472,7 +472,9 @@ export class Combobox
       onToggleOpenCloseComponent(this);
     }
 
+    await componentOnReady(this.el);
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    afterConnectDefaultValueSet(this, this.getValue());
   }
 
   async componentWillLoad(): Promise<void> {
@@ -482,8 +484,6 @@ export class Combobox
   }
 
   componentDidLoad(): void {
-    afterConnectDefaultValueSet(this, this.getValue());
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
     setComponentLoaded(this);
   }
 
@@ -523,7 +523,7 @@ export class Combobox
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
-  filteredFlipPlacements: EffectivePlacement[];
+  filteredFlipPlacements: FlipPlacement[];
 
   internalValueChangeFlag = false;
 
@@ -629,7 +629,7 @@ export class Combobox
     const { el, flipPlacements } = this;
 
     this.filteredFlipPlacements = flipPlacements
-      ? filterComputedPlacements(flipPlacements, el)
+      ? filterValidFlipPlacements(flipPlacements, el)
       : null;
   };
 
@@ -1054,6 +1054,7 @@ export class Combobox
     const value = (event.target as HTMLInputElement).value;
     this.text = value;
     this.filterItems(value);
+    this.open = value.length > 0;
     if (value) {
       this.activeChipIndex = -1;
     }

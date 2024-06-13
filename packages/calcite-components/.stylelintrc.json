@@ -23,6 +23,12 @@
         "message": "selector is too complex, consider applying multiple classes dynamically during rendering"
       }
     ],
+    "selector-pseudo-element-colon-notation": [
+      "double",
+      {
+        "message": "Use double colons for pseudo-elements"
+      }
+    ],
     "selector-type-no-unknown": [
       true,
       {

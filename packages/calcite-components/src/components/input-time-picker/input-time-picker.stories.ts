@@ -1,25 +1,65 @@
-import { number, select, text } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { InputTimePicker } from "./input-time-picker";
+const { scale, status } = ATTRIBUTES;
+
+interface InputTimePickerStoryArgs
+  extends Pick<
+    InputTimePicker,
+    "disabled" | "name" | "placement" | "scale" | "status" | "step" | "validationMessage" | "validationIcon" | "value"
+  > {
+  hidden: boolean;
+}
 
 export default {
   title: "Components/Controls/Time/Input Time Picker",
+  args: {
+    disabled: false,
+    hidden: false,
+    name: "simple",
+    placement: defaultMenuPlacement,
+    scale: scale.defaultValue,
+    status: status.defaultValue,
+    step: 1,
+    validationMessage: "",
+    validationIcon: "",
+    value: "10:37",
+  },
+  argTypes: {
+    placement: {
+      options: menuPlacements,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: InputTimePickerStoryArgs): string => html`
   <calcite-input-time-picker
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    name="${text("name", "simple")}"
-    placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-    step="${number("step", 1)}"
-    validation-message="${text("validation-message", "")}"
-    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
-    value="${text("value", "10:37")}"
+    ${boolean("disabled", args.disabled)}
+    ${boolean("hidden", args.hidden)}
+    name="${args.name}"
+    placement="${args.placement}"
+    scale="${args.scale}"
+    status="${args.status}"
+    step="${args.step}"
+    validation-message="${args.validationMessage}"
+    validation-icon="${args.validationIcon}"
+    value="${args.value}"
   >
   </calcite-input-time-picker>
 `;
