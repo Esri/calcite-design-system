@@ -10,6 +10,7 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -200,5 +201,74 @@ describe("calcite-text-area", () => {
 
   describe("translation support", () => {
     t9n("calcite-text-area");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-text-area", {
+        "--calcite-text-area-background-color": [
+          {
+            shadowSelector: `.${CSS.textArea}`,
+            targetProp: "backgroundColor",
+          },
+          {
+            shadowSelector: `.${CSS.footer}`,
+            targetProp: "backgroundColor",
+          },
+        ],
+        "--calcite-text-area-border-color": {
+          shadowSelector: `.${CSS.textArea}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-text-area-border-block-end-color": {
+          shadowSelector: `.${CSS.textArea}`,
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-text-area-text-color": {
+          shadowSelector: `.${CSS.textArea}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("with footer", () => {
+      themed(html`<calcite-text-area max-length="10"></calcite-text-area>`, {
+        "--calcite-text-area-border-color": [
+          {
+            shadowSelector: `.${CSS.textArea}`,
+            targetProp: "borderTopColor",
+          },
+          {
+            shadowSelector: `.${CSS.textArea}`,
+            targetProp: "borderLeftColor",
+          },
+          {
+            shadowSelector: `.${CSS.textArea}`,
+            targetProp: "borderRightColor",
+          },
+          {
+            shadowSelector: `.${CSS.footer}`,
+            targetProp: "borderBottomColor",
+          },
+          {
+            shadowSelector: `.${CSS.footer}`,
+            targetProp: "borderLeftColor",
+          },
+          {
+            shadowSelector: `.${CSS.footer}`,
+            targetProp: "borderRightColor",
+          },
+        ],
+      });
+    });
+
+    describe("over limit", () => {
+      themed(html`<calcite-text-area max-length="4" value="12345"></calcite-text-area>`, {
+        "--calcite-text-area-character-limit-text-color": {
+          shadowSelector: `.${CSS.characterLimit}`,
+          targetProp: "color",
+        },
+      });
+    });
   });
 });

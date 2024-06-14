@@ -15,6 +15,7 @@ export const CSS = {
   hide: "hide",
   blockSizeFull: "block-size--full",
   footerEndSlotOnly: "footer--end-only",
+  textArea: "text-area",
 };
 
 export const SLOTS = {

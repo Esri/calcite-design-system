@@ -43,11 +43,6 @@
       border-color: none;
     }
   }
-
-  // override user agent stylesheet disabled styling
-  &:disabled {
-    border-color: var(--calcite-select-border-color-disabled, var(--calcite-color-border-input));
-  }
 }
 
 .select,
@@ -60,10 +55,6 @@
 }
 
 .icon-container {
-  color: var(--calcite-select-icon-color, var(--calcite-color-text-2));
-}
-
-.icon-container {
   @apply pointer-events-none absolute inset-y-0 flex items-center border-solid;
   background-color: var(--calcite-color-background-none);
   border-width: var(--calcite-border-width-none);
@@ -73,7 +64,7 @@
   padding-inline: var(--calcite-internal-select-icon-space-inline);
 
   .icon {
-    color: var(--calcite-select-icon-color, var(--calcite-color-text-3));
+    --calcite-icon-color: var(--calcite-select-icon-color, var(--calcite-color-text-3));
   }
 }
 

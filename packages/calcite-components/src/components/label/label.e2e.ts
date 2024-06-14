@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, hidden } from "../../tests/commonTests";
+import { renders, hidden, themed } from "../../tests/commonTests";
 
 describe("calcite-label", () => {
   describe("renders", () => {
@@ -178,5 +178,29 @@ describe("calcite-label", () => {
     const eventDetail: any = await page.evaluateHandle(() => (window as any).eventDetail);
 
     expect(eventDetail).toBeTruthy();
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-label", {
+        "--calcite-label-space-y-end": {
+          shadowSelector: `.container`,
+          targetProp: "marginBlockEnd",
+        },
+        "--calcite-label-text-color": {
+          shadowSelector: `.container`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("deprecated", () => {
+      themed("calcite-label", {
+        "--calcite-label-margin-bottom": {
+          shadowSelector: `.container`,
+          targetProp: "marginBlockEnd",
+        },
+      });
+    });
   });
 });

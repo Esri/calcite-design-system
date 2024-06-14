@@ -1,5 +1,5 @@
 import { newE2EPage, E2EPage, E2EElement } from "@stencil/core/testing";
-import { disabled, HYDRATED_ATTR, renders, hidden } from "../../tests/commonTests";
+import { disabled, HYDRATED_ATTR, renders, hidden, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -391,6 +391,79 @@ describe("calcite-tab-title", () => {
           ).style.left;
         }),
       ).toEqual("0px");
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-tab-title", {
+        "--calcite-tab-title-text-color": {
+          shadowSelector: `.container`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("bordered", () => {
+      themed(html`<calcite-tab-title bordered>close me</calcite-tab-title>`, {
+        "--calcite-tab-title-background-color": {
+          shadowSelector: `.container`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+      });
+    });
+
+    describe("with icon", () => {
+      themed(html`<calcite-tab-title icon-start="banana">close me</calcite-tab-title>`, {
+        "--calcite-tab-title-icon-color": {
+          shadowSelector: `.calcite-tab-title--icon`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("closable", () => {
+      themed(`<calcite-tab-title closable>close me</calcite-tab-title>`, {
+        "--calcite-tab-title-close-button-background-color": {
+          shadowSelector: `.close-button`,
+          targetProp: "color",
+        },
+        "--calcite-tab-title-close-button-background-color-active": {
+          shadowSelector: `.close-button`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-tab-title-close-button-background-color-focus": {
+          shadowSelector: `.close-button`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-tab-title-close-button-background-color-hover": {
+          shadowSelector: `.close-button`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-tab-title-close-button-icon-color": {
+          shadowSelector: `.close-button`,
+          targetProp: "color",
+        },
+        "--calcite-tab-title-close-button-icon-color-active": {
+          shadowSelector: `.close-button`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-tab-title-close-button-icon-color-focus": {
+          shadowSelector: `.close-button`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-tab-title-close-button-icon-color-hover": {
+          shadowSelector: `.close-button`,
+          targetProp: "color",
+          state: "hover",
+        },
+      });
     });
   });
 });

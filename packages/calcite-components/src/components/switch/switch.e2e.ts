@@ -1,6 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, formAssociated, hidden, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
-import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import {
+  accessible,
+  disabled,
+  formAssociated,
+  hidden,
+  HYDRATED_ATTR,
+  labelable,
+  themed,
+} from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-switch", () => {
@@ -135,7 +142,7 @@ describe("calcite-switch", () => {
   });
 
   describe("theme", () => {
-    const tokens: ComponentTestTokens = {
+    themed(`calcite-switch`, {
       "--calcite-switch-corner-radius": [
         {
           shadowSelector: `.${CSS.handle}`,
@@ -166,7 +173,6 @@ describe("calcite-switch", () => {
           targetProp: "borderColor",
         },
       ],
-    };
-    themed(`calcite-switch`, tokens);
+    });
   });
 });

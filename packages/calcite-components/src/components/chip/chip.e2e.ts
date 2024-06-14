@@ -1,5 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { accessible, disabled, focusable, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
+import { newProgrammaticE2EPage } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
@@ -237,5 +239,99 @@ describe("calcite-chip", () => {
 
   describe("translation support", () => {
     t9n("calcite-chip");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-chip", {
+        "--calcite-chip-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-chip-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-chip-shadow": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-chip-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-chip-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("closable", () => {
+      themed(html`<calcite-chip closable></calcite-chip>`, {
+        "--calcite-chip-close-icon-color": {
+          shadowSelector: `.${CSS.close} calcite-icon`,
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-chip-close-background-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-chip-close-background-color-hover": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-chip-close-background-color-active": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-chip-close-background-color-focus": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: "focus",
+        },
+        "--calcite-chip-close-focus-outline-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "outlineColor",
+        },
+      });
+    });
+
+    describe("with icon", () => {
+      themed(html`<calcite-chip closable icon="banana"></calcite-chip>`, {
+        "--calcite-chip-icon-color": {
+          shadowSelector: `.${CSS.chipIcon}`,
+          targetProp: "--calcite-icon-color",
+        },
+      });
+    });
+
+    describe("interactive", () => {
+      themed(
+        async () => {
+          const page = await newProgrammaticE2EPage();
+          await page.evaluate(() => {
+            const chip = document.createElement("calcite-chip");
+            chip.selectionMode = "single";
+            chip.icon = "banana";
+            chip.selected = true;
+            chip.interactive = true;
+            chip.parentChipGroup = { selectedItems: [] } as any;
+            document.body.append(chip);
+          });
+          await page.waitForChanges();
+
+          return { page, tag: "calcite-chip" };
+        },
+        {
+          "--calcite-chip-select-icon-color": {
+            shadowSelector: `.${CSS.selectIcon} calcite-icon`,
+            targetProp: "--calcite-icon-color",
+          },
+        },
+      );
+    });
   });
 });
