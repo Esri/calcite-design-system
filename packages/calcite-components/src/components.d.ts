@@ -1846,6 +1846,10 @@ export namespace Components {
          */
         "items": object[];
         /**
+          * Specifies the fields to match against when filtering.
+         */
+        "matchFields": string[];
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides": Partial<FilterMessages>;
@@ -9699,6 +9703,10 @@ declare namespace LocalJSX {
           * Defines the items to filter. The component uses the values as the starting point, and returns items  that contain the string entered in the input, using a partial match and recursive search.  This property is needed to conduct filtering.
          */
         "items"?: object[];
+        /**
+          * Specifies the fields to match against when filtering.
+         */
+        "matchFields"?: string[];
         /**
           * Use this property to override individual strings used by the component.
          */
