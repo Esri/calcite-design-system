@@ -2,17 +2,11 @@ import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Button } from "./button";
 const { appearance, kind, scale, width } = ATTRIBUTES;
 
-interface ButtonArgs {
-  appearance: string;
-  kind: string;
-  scale: string;
-  round: boolean;
-  href: string;
-  loading: boolean;
-  disabled: boolean;
-  width: string;
+interface ButtonStoryArgs
+  extends Pick<Button, "appearance" | "kind" | "scale" | "round" | "href" | "loading" | "disabled" | "width"> {
   text: string;
 }
 
@@ -49,7 +43,7 @@ export default {
   },
 };
 
-export const simple = (args: ButtonArgs): string => html`
+export const simple = (args: ButtonStoryArgs): string => html`
   <calcite-button
     appearance="${args.appearance}"
     kind="${args.kind}"

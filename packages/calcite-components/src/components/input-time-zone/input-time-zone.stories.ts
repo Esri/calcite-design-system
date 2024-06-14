@@ -2,16 +2,13 @@ import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { InputTimeZone } from "./input-time-zone";
 const { mode, scale, status } = ATTRIBUTES;
 
-interface InputTimeZoneArgs {
-  disabled: boolean;
-  mode: string;
-  scale: string;
-  status: string;
-  validationMessage: string;
-  validationIcon: string;
-}
+type InputTimeZoneStoryArgs = Pick<
+  InputTimeZone,
+  "disabled" | "mode" | "scale" | "status" | "validationMessage" | "validationIcon"
+>;
 
 export default {
   title: "Components/Controls/InputTimeZone",
@@ -50,7 +47,7 @@ export default {
   },
 };
 
-export const simple = (args: InputTimeZoneArgs): string => html`
+export const simple = (args: InputTimeZoneStoryArgs): string => html`
   <calcite-input-time-zone
     ${boolean("disabled", args.disabled)}
     mode="${args.mode}"

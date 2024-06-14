@@ -1,15 +1,12 @@
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { CalciteNavigationUser } from "./navigation-user";
 
-interface NavigationUserArgs {
-  fullName: string;
-  userName: string;
-  thumbnail: string;
-  userId: string;
-  textDisabled: boolean;
-  active: boolean;
-}
+type NavigationUserStoryArgs = Pick<
+  CalciteNavigationUser,
+  "fullName" | "username" | "thumbnail" | "userId" | "textDisabled" | "active"
+>;
 
 export default {
   title: "Components/Navigation/Navigation User",
@@ -23,11 +20,11 @@ export default {
   },
 };
 
-export const simple = (args: NavigationUserArgs): string => html`
+export const simple = (args: NavigationUserStoryArgs): string => html`
   <calcite-navigation-user
     slot="user"
     full-name="${args.fullName}"
-    username="${args.userName}"
+    username="${args.username}"
     thumbnail="${args.thumbnail}"
     user-id="${args.userId}"
     ${boolean("text-disabled", args.textDisabled)}

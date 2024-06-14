@@ -1,8 +1,8 @@
 {
-  "previous": "上一步",
-  "next": "下一步",
-  "play": "Play",
-  "pause": "Pause",
-  "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "previous": "后退",
+  "next": "前进",
+  "play": "播放",
+  "pause": "暂停",
+  "carousel": "转盘",
+  "carouselItemProgress": "转盘项目的进度指示器"
 }

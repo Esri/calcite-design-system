@@ -2,22 +2,24 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Action } from "./action";
 const { alignment, appearance, scale } = ATTRIBUTES;
 
-interface ActionArgs {
-  active: boolean;
-  alignment: string;
-  appearance: string;
-  compact: boolean;
-  disabled: boolean;
-  icon: string;
-  indicator: boolean;
-  label: string;
-  loading: boolean;
-  scale: string;
-  text: string;
-  textEnabled: boolean;
-}
+type ActionStoryArgs = Pick<
+  Action,
+  | "active"
+  | "alignment"
+  | "appearance"
+  | "compact"
+  | "disabled"
+  | "icon"
+  | "indicator"
+  | "label"
+  | "loading"
+  | "scale"
+  | "text"
+  | "textEnabled"
+>;
 
 export default {
   title: "Components/Buttons/Action",
@@ -55,7 +57,7 @@ export default {
   },
 };
 
-export const simple = (args: ActionArgs): string => html`
+export const simple = (args: ActionStoryArgs): string => html`
   <div>
     <calcite-action
       ${boolean("active", args.active)}

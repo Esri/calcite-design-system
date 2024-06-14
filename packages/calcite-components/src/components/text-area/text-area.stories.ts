@@ -2,21 +2,23 @@ import { boolean } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { TextArea } from "./text-area";
 const { scale, status } = ATTRIBUTES;
 
-interface TextAreaArgs {
-  scale: string;
-  status: string;
-  placeholder: string;
-  disabled: boolean;
-  columns: number;
-  resize: string;
-  rows: number;
-  label: string;
-  name: string;
-  validationMessage: string;
-  validationIcon: string;
-}
+type TextAreaStoryArgs = Pick<
+  TextArea,
+  | "scale"
+  | "status"
+  | "placeholder"
+  | "disabled"
+  | "columns"
+  | "resize"
+  | "rows"
+  | "label"
+  | "name"
+  | "validationMessage"
+  | "validationIcon"
+>;
 
 export default {
   title: "Components/TextArea",
@@ -49,7 +51,7 @@ export default {
   },
 };
 
-export const simple = (args: TextAreaArgs): string => html`
+export const simple = (args: TextAreaStoryArgs): string => html`
   <calcite-text-area
     scale="${args.scale}"
     status="${args.status}"

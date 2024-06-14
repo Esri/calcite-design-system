@@ -2,18 +2,13 @@ import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { SegmentedControl } from "./segmented-control";
 const { layout, appearance, scale, width, status } = ATTRIBUTES;
 
-interface SegmentedControl {
-  layout: string;
-  appearance: string;
-  scale: string;
-  width: string;
-  disabled: boolean;
-  status: string;
-  validationIcon: string;
-  validationMessage: string;
-}
+type SegmentedControlStoryArgs = Pick<
+  SegmentedControl,
+  "layout" | "appearance" | "scale" | "width" | "disabled" | "status" | "validationIcon" | "validationMessage"
+>;
 
 export default {
   title: "Components/Controls/Radio/Segmented Control",
@@ -64,7 +59,7 @@ export default {
   },
 };
 
-export const simple = (args: SegmentedControl): string => html`
+export const simple = (args: SegmentedControlStoryArgs): string => html`
   <calcite-segmented-control
     layout="${args.layout}"
     appearance="${args.appearance}"
