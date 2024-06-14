@@ -525,7 +525,6 @@ export class InputTimePicker
   async setFocus(): Promise<void> {
     await componentFocusable(this);
     focusFirstTabbable(this.el);
-    //this.el.focus();
   }
 
   /**
