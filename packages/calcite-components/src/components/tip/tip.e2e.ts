@@ -92,29 +92,29 @@ describe("calcite-tip", () => {
           targetProp: "borderColor",
         },
         "--calcite-tip-heading-text-color": {
-          shadowSelector: ".heading",
+          shadowSelector: `.${CSS.heading}`,
           targetProp: "color",
         },
         "--calcite-tip-close-background-color": {
-          shadowSelector: ".close",
+          shadowSelector: `.${CSS.close}`,
           targetProp: "--calcite-action-background-color",
         },
         "--calcite-tip-close-background-color-hover": {
-          shadowSelector: ".close",
+          shadowSelector: `.${CSS.close}`,
           targetProp: "--calcite-action-background-color",
           state: "hover",
         },
         "--calcite-tip-close-background-color-active": {
-          shadowSelector: ".close",
+          shadowSelector: `.${CSS.close}`,
           targetProp: "--calcite-action-background-color",
           state: { press: { attribute: "class", value: CSS.close } },
         },
         "--calcite-tip-close-text-color": {
-          shadowSelector: ".close",
+          shadowSelector: `.${CSS.close}`,
           targetProp: "--calcite-action-text-color",
         },
         "--calcite-tip-close-text-color-hover": {
-          shadowSelector: ".close",
+          shadowSelector: `.${CSS.close}`,
           targetProp: "--calcite-action-text-color",
           state: "hover",
         },
