@@ -57,6 +57,7 @@
   &:focus {
     @apply focus-inset;
   }
+
   &.text-area--invalid {
     --calcite-text-area-border-color: var(--calcite-internal-text-area-border-color);
     --calcite-internal-text-area-border-block-end-color: var(

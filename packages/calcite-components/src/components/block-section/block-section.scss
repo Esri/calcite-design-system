@@ -92,12 +92,6 @@
   }
 }
 
-.label {
-  @apply flex items-center justify-center my-1;
-
-  margin-inline-start: var(--calcite-spacing-md);
-}
-
 .section-header__text {
   @apply my-0
     flex-auto;
@@ -123,13 +117,6 @@
     &:hover {
       color: var(--calcite-color-text-1);
     }
-  }
-
-  .switch {
-    @apply flex items-center;
-
-    inset-block-start: 50%;
-    transform: translate(0, 50%);
   }
 }
 

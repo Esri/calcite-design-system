@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, renders, hidden, disabled, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown-item", () => {
   describe("renders", () => {
@@ -55,11 +56,11 @@ describe("calcite-dropdown-item", () => {
     describe("default", () => {
       themed("calcite-dropdown-item", {
         "--calcite-dropdown-item-background-color": {
-          shadowSelector: ".container",
+          shadowSelector: `.${CSS.container}`,
           targetProp: "backgroundColor",
         },
         "--calcite-dropdown-item-text-color": {
-          shadowSelector: ".container",
+          shadowSelector: `.${CSS.container}`,
           targetProp: "color",
         },
       });
@@ -68,7 +69,7 @@ describe("calcite-dropdown-item", () => {
     describe("selected", () => {
       themed(html`<calcite-dropdown-item selected></calcite-dropdown-item>`, {
         "--calcite-dropdown-item-indicator-color": {
-          shadowSelector: `.dropdown-item-icon`,
+          shadowSelector: `.${CSS.icon}`,
           targetProp: "--calcite-icon-color",
         },
       });
@@ -77,7 +78,7 @@ describe("calcite-dropdown-item", () => {
     describe("with link", () => {
       themed(html`<calcite-dropdown-item href="http://example.com"></calcite-dropdown-item>`, {
         "--calcite-dropdown-item-background-color": {
-          shadowSelector: ".dropdown-link",
+          shadowSelector: `.${CSS.link}`,
           targetProp: "backgroundColor",
         },
       });
@@ -87,11 +88,11 @@ describe("calcite-dropdown-item", () => {
       themed(html`<calcite-dropdown-item icon-start="banana" icon-end="banana"></calcite-dropdown-item>`, {
         "--calcite-dropdown-item-icon-color": [
           {
-            shadowSelector: `.dropdown-item-icon--start`,
+            shadowSelector: `.${CSS.iconStart}`,
             targetProp: "--calcite-icon-color",
           },
           {
-            shadowSelector: `.dropdown-item-icon--end`,
+            shadowSelector: `.${CSS.iconEnd}`,
             targetProp: "--calcite-icon-color",
           },
         ],

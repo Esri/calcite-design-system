@@ -1,23 +1,25 @@
 import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Meter } from "./meter";
 const { fillType, appearance, labelType } = ATTRIBUTES;
 
-interface MeterArgs {
-  min: number;
-  max: number;
-  low: number;
-  high: number;
-  value: number;
-  fillType: string;
-  appearance: string;
-  rangeLabelType: string;
-  valueLabelType: string;
-  unitLabel: string;
-  groupSeparator: boolean;
-  rangeLabels: boolean;
-  valueLabel: boolean;
-}
+type MeterStoryArgs = Pick<
+  Meter,
+  | "min"
+  | "max"
+  | "low"
+  | "high"
+  | "value"
+  | "fillType"
+  | "appearance"
+  | "rangeLabelType"
+  | "valueLabelType"
+  | "unitLabel"
+  | "groupSeparator"
+  | "rangeLabels"
+  | "valueLabel"
+>;
 
 export default {
   title: "Components/Meter",
@@ -56,7 +58,7 @@ export default {
   },
 };
 
-export const simple = (args: MeterArgs): string =>
+export const simple = (args: MeterStoryArgs): string =>
   html`<calcite-meter
     label="Meter example"
     min="${args.min}"

@@ -8,6 +8,7 @@ import {
   labelable,
   themed,
 } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -141,35 +142,37 @@ describe("calcite-switch", () => {
   });
 
   describe("theme", () => {
-    describe("default", () => {
-      themed("calcite-switch", {
-        "--calcite-switch-corner-radius": [
-          {
-            shadowSelector: `.handle`,
-            targetProp: "borderRadius",
-          },
-          {
-            shadowSelector: `.track`,
-            targetProp: "borderRadius",
-          },
-        ],
-        "--calcite-switch-handle-background-color": {
-          shadowSelector: `.handle`,
+    themed(`calcite-switch`, {
+      "--calcite-switch-corner-radius": [
+        {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "borderRadius",
+        },
+        {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "borderRadius",
+        },
+      ],
+      "--calcite-switch-handle-background-color": [
+        {
+          shadowSelector: `.${CSS.handle}`,
           targetProp: "backgroundColor",
         },
-        "--calcite-switch-handle-border-color": {
-          shadowSelector: `.handle`,
+      ],
+      "--calcite-switch-track-background-color": {
+        shadowSelector: `.${CSS.track}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-switch-border-color": [
+        {
+          shadowSelector: `.${CSS.handle}`,
           targetProp: "borderColor",
         },
-        "--calcite-switch-track-background-color": {
-          shadowSelector: `.track`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-switch-track-border-color": {
-          shadowSelector: `.track`,
+        {
+          shadowSelector: `.${CSS.track}`,
           targetProp: "borderColor",
         },
-      });
+      ],
     });
   });
 });

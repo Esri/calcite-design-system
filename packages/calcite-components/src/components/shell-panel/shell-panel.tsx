@@ -131,7 +131,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    */
-  @Prop({ reflect: true }) position: Position = "start";
+  @Prop({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
   /**
    * When `true` and `displayMode` is not `float`, the component's content area is resizable.

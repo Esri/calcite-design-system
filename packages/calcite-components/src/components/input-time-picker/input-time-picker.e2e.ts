@@ -17,6 +17,7 @@ import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "..
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 async function getInputValue(page: E2EPage): Promise<string> {
   return page.evaluate(
@@ -1039,11 +1040,11 @@ describe("calcite-input-time-picker", () => {
         "--calcite-input-time-picker-shadow-focus": {
           selector: "calcite-input-time-picker",
           shadowSelector: "calcite-time-picker",
-          targetProp: "--calcite-time-picker-input-box-shadow-focus",
+          targetProp: "--calcite-time-picker-input-border-color-focus",
         },
         "--calcite-input-time-picker-shadow": {
           shadowSelector: "calcite-time-picker",
-          targetProp: "--calcite-time-picker-input-box-shadow",
+          targetProp: "--calcite-time-picker-input-border-color-hover",
         },
         "--calcite-input-time-picker-icon-color": {
           shadowSelector: "calcite-time-picker",
@@ -1054,7 +1055,7 @@ describe("calcite-input-time-picker", () => {
           targetProp: "--calcite-time-picker-text-color",
         },
         "--calcite-input-time-picker-toggle-icon-color-hover": {
-          shadowSelector: ".toggle-icon calcite-icon",
+          shadowSelector: `.${CSS.toggleIcon} calcite-icon`,
           targetProp: "--calcite-icon-color",
           state: "hover",
         },

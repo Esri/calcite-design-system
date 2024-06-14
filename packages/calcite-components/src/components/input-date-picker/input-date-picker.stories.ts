@@ -4,18 +4,15 @@ import { locales, defaultLocale } from "../../utils/locale";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { InputDatePicker } from "./input-date-picker";
 const { scale, status } = ATTRIBUTES;
 
-interface InputDatePickerArgs {
-  scale: string;
-  status: string;
-  value: string;
-  min: string;
-  max: string;
+interface InputDatePickerStoryArgs
+  extends Pick<
+    InputDatePicker,
+    "scale" | "status" | "value" | "min" | "max" | "placement" | "validationMessage" | "validationIcon"
+  > {
   lang: string;
-  placement: string;
-  validationMessage: string;
-  validationIcon: string;
 }
 
 export default {
@@ -55,7 +52,7 @@ export default {
   },
 };
 
-export const simple = (args: InputDatePickerArgs): string => html`
+export const simple = (args: InputDatePickerStoryArgs): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       scale="${args.scale}"

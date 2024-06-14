@@ -26,8 +26,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { LogicalFlowPosition } from "../interfaces";
-import { SelectionMode } from "../interfaces";
+import { LogicalFlowPosition, SelectionMode } from "../interfaces";
 import {
   connectInteractive,
   disconnectInteractive,

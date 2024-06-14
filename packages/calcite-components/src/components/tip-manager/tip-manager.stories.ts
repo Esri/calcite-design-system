@@ -1,10 +1,9 @@
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { TipManager } from "./tip-manager";
 
-interface TipManagerArgs {
-  closed: boolean;
-}
+type TipManagerStoryArgs = Pick<TipManager, "closed">;
 
 export default {
   title: "Components/Tips/Tip Manager",
@@ -57,7 +56,7 @@ const tipContent = html`
   </calcite-tip>
 `;
 
-export const simple = (args: TipManagerArgs): string => html`
+export const simple = (args: TipManagerStoryArgs): string => html`
   <calcite-tip-manager ${boolean("closed", args.closed)}> ${tipContent} </calcite-tip-manager>
 `;
 

@@ -3,19 +3,15 @@ import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.st
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { InputTimePicker } from "./input-time-picker";
 const { scale, status } = ATTRIBUTES;
 
-interface InputTimePickerArgs {
-  disabled: boolean;
+interface InputTimePickerStoryArgs
+  extends Pick<
+    InputTimePicker,
+    "disabled" | "name" | "placement" | "scale" | "status" | "step" | "validationMessage" | "validationIcon" | "value"
+  > {
   hidden: boolean;
-  name: string;
-  placement: string;
-  scale: string;
-  status: string;
-  step: number;
-  validationMessage: string;
-  validationIcon: string;
-  value: string;
 }
 
 export default {
@@ -52,7 +48,7 @@ export default {
   },
 };
 
-export const simple = (args: InputTimePickerArgs): string => html`
+export const simple = (args: InputTimePickerStoryArgs): string => html`
   <calcite-input-time-picker
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}

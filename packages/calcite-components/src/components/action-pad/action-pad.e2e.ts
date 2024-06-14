@@ -78,6 +78,37 @@ describe("calcite-action-pad", () => {
     );
   });
 
+  describe("messageOverrides", () => {
+    it("should honor expandLabel and collapseLabel", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent("<calcite-action-pad></calcite-action-pad>");
+      await page.waitForChanges();
+
+      const actionPad = await page.find("calcite-action-pad");
+
+      const expandLabel = "Open me up";
+      const collapseLabel = "Close me down";
+
+      actionPad.setProperty("messageOverrides", {
+        expandLabel,
+        collapseLabel,
+      });
+      await page.waitForChanges();
+
+      const expandAction = await page.find("calcite-action-pad >>> #expand-toggle");
+
+      expect(expandAction).not.toBeNull();
+
+      expect(await expandAction.getProperty("label")).toBe(expandLabel);
+
+      actionPad.setProperty("expanded", true);
+      await page.waitForChanges();
+
+      expect(await expandAction.getProperty("label")).toBe(collapseLabel);
+    });
+  });
+
   describe("expand functionality", () => {
     it("should be expandable by default", async () => {
       const page = await newE2EPage();
@@ -86,7 +117,7 @@ describe("calcite-action-pad", () => {
 
       await page.waitForChanges();
 
-      const expandAction = await page.find("calcite-action-pad >>> calcite-action");
+      const expandAction = await page.find("calcite-action-pad >>> #expand-toggle");
 
       expect(expandAction).not.toBeNull();
     });
@@ -98,7 +129,7 @@ describe("calcite-action-pad", () => {
 
       await page.waitForChanges();
 
-      const expandAction = await page.find("calcite-action-pad >>> calcite-action");
+      const expandAction = await page.find("calcite-action-pad >>> #expand-toggle");
 
       expect(expandAction).toBeNull();
     });
@@ -188,7 +219,7 @@ describe("calcite-action-pad", () => {
       </calcite-action-pad>`,
     );
 
-    const expandAction = await page.find("calcite-action-pad >>> calcite-action");
+    const expandAction = await page.find("calcite-action-pad >>> #expand-toggle");
     const action = await page.find("calcite-action");
     const actionPad = await page.find("calcite-action-pad");
     const group = await page.find("calcite-action-group");

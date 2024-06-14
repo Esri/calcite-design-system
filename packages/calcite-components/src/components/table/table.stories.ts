@@ -1,20 +1,22 @@
 import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Table } from "./table";
 const { interactionMode, selectionMode, scale, layout } = ATTRIBUTES;
 
-interface TableArgs {
-  pageSize: number;
-  interactionMode: string;
-  selectionMode: string;
-  selectionDisplay: string;
-  scale: string;
-  layout: string;
-  caption: string;
-  numbered: boolean;
-  bordered: boolean;
-  striped: boolean;
-}
+type TableStoryArgs = Pick<
+  Table,
+  | "pageSize"
+  | "interactionMode"
+  | "selectionMode"
+  | "selectionDisplay"
+  | "scale"
+  | "layout"
+  | "caption"
+  | "numbered"
+  | "bordered"
+  | "striped"
+>;
 
 export default {
   title: "Components/Table",
@@ -66,7 +68,7 @@ export default {
   },
 };
 
-export const simple = (args: TableArgs): string => html`
+export const simple = (args: TableStoryArgs): string => html`
   <calcite-table
     page-size="${args.pageSize}"
     interaction-mode="${args.interactionMode}"
