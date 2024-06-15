@@ -5,13 +5,13 @@
  *
  * @prop --calcite-combobox-item-background-color-active: defines the background color when the component is active or hovered.
  * @prop --calcite-combobox-item-background-color: defines the background color of the component
+ * @prop --calcite-combobox-item-icon-color-active: defines the color of a custom icon when the component is active.
+ * @prop --calcite-combobox-item-icon-color: defines the color of a custom icon in the component.
  * @prop --calcite-combobox-item-indicator-icon-color-active: defines the color of an indicator icon when the component is active.
  * @prop --calcite-combobox-item-indicator-icon-color: defines the indicator icon color.
-  * @prop --calcite-combobox-item-icon-color: defines the color of a custom icon in the component.
  * @prop --calcite-combobox-item-shadow: defines the shadow of the component.
  * @prop --calcite-combobox-item-text-color-active: defines the text color when the component is selected, active, or hovered.
  * @prop --calcite-combobox-item-text-color: defines the text color of the component.
- *
  */
 
 /*
@@ -79,6 +79,7 @@ ul:focus {
      duration-150
      ease-in-out;
   @include word-break();
+  background-color: var(--calcite-combobox-item-background-color, var(--calcite-color-transparent));
   color: var(--calcite-combobox-item-text-color, var(--calcite-color-text-3));
   padding-block: var(--calcite-internal-combobox-item-space-small);
   padding-inline: var(--calcite-internal-combobox-item-space-large);
@@ -104,7 +105,7 @@ ul:focus {
 .label:hover,
 .label:active {
   @apply no-underline;
-  background-color: var(--calcite-combobox-item-background-color-active, --calcite-color-foreground-2);
+  background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-foreground-2));
   color: var(--calcite-combobox-item-text-color-active, var(--calcite-color-text-1));
 }
 
@@ -118,7 +119,7 @@ ul:focus {
      duration-150
      ease-in-out;
   opacity: 0;
-  color: var(--calcite-combobox-item-indicator-icon-color, theme("borderColor.color.1"));
+  color: var(--calcite-combobox-item-indicator-icon-color, var(--calcite-color-border-1));
 }
 
 .icon--indent {
@@ -140,7 +141,7 @@ ul:focus {
   min-inline-size: var(--calcite-internal-combobox-item-selector-icon-size);
 }
 
-.icon--dot:before {
+.icon--dot::before {
   text-align: start;
   content: "\2022";
 }
@@ -151,7 +152,7 @@ ul:focus {
 
 .label--selected .icon {
   opacity: var(--calcite-opacity-full);
-  color: var(--calcite-combobox-item-icon-color-selected, theme("backgroundColor.brand"));
+  color: var(--calcite-combobox-item-icon-color-active, var(--calcite-color-brand));
 }
 
 :host(:hover[disabled]) .icon {
