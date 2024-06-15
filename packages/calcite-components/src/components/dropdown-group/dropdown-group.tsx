@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { Scale, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
-import { CSS } from "../dropdown-item/resources";
+import { CSS } from "./resources";
 import { RequestedItem } from "./interfaces";
 
 /**
@@ -91,13 +91,13 @@ export class DropdownGroup {
 
   render(): VNode {
     const groupTitle = this.groupTitle ? (
-      <span aria-hidden="true" class="dropdown-title">
+      <span aria-hidden="true" class={CSS.title}>
         {this.groupTitle}
       </span>
     ) : null;
 
     const dropdownSeparator =
-      this.groupPosition > 0 ? <div class="dropdown-separator" role="separator" /> : null;
+      this.groupPosition > 0 ? <div class={CSS.separator} role="separator" /> : null;
 
     return (
       <Host aria-label={this.groupTitle} role="group">
