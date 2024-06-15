@@ -1,5 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, hidden, renders, slots, t9n, defaults, themed } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action", () => {
@@ -208,7 +210,7 @@ describe("calcite-action", () => {
 
   describe("theme", () => {
     describe("default", () => {
-      const tokens = {
+      const tokens: ComponentTestTokens = {
         "--calcite-action-background-color": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "backgroundColor",
@@ -229,9 +231,9 @@ describe("calcite-action", () => {
           shadowSelector: `.${CSS.actionIndicator}::after`,
           targetProp: "backgroundColor",
         },
-      } as const;
+      };
       themed(
-        `<calcite-action
+        html`<calcite-action
           scale="s"
           indicator
           active
@@ -244,24 +246,24 @@ describe("calcite-action", () => {
       );
     });
     describe("loading", () => {
-      const tokens = {
+      const tokens: ComponentTestTokens = {
         "--calcite-action-loader-color": {
           shadowSelector: "calcite-loader",
           targetProp: "--calcite-loader-color-start",
         },
-      } as const;
+      };
 
       themed(
-        `<calcite-action
-            scale="s"
-            indicator
-            active
-            text="click-me"
-            label="hello world"
-            text-enabled
-            icon="configure-popup"
-            loading
-          ></calcite-action>`,
+        html`<calcite-action
+          scale="s"
+          indicator
+          active
+          text="click-me"
+          label="hello world"
+          text-enabled
+          icon="configure-popup"
+          loading
+        ></calcite-action>`,
         tokens,
       );
     });
