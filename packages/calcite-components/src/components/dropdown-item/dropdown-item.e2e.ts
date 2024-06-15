@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { focusable, renders, hidden, disabled, themed } from "../../tests/commonTests";
+import { focusable, renders, hidden, disabled } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
