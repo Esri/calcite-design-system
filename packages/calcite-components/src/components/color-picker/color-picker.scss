@@ -11,12 +11,12 @@
  * @prop --calcite-color-picker-button-icon-color-active: defines the icon color of the button when in a active state in the component.
  * @prop --calcite-color-picker-button-icon-color-focus: defines the icon color of the button when in a focus state in the component.
  * @prop --calcite-color-picker-button-icon-color-hover: defines the icon color of the button when in a hover state in the component.
- * @prop --calcite-color-picker-button-loader-color: defines the loader color in the button in the component.
  * @prop --calcite-color-picker-button-text-color-active: defines the text color of the button when in a active state in the component.
  * @prop --calcite-color-picker-button-text-color-focus: defines the text color of the button when in a focus state in the component.
  * @prop --calcite-color-picker-button-text-color-hover: defines the text color of the button when in a hover state in the component.
  * @prop --calcite-color-picker-button-text-color: defines the text color of the button in the component.
  * @prop --calcite-color-picker-input-background-color: defines the background color of the input in the component.
+ * @prop --calcite-color-picker-input-background-color-hover: defines the background color of the input when in a hover state in the component.
  * @prop --calcite-color-picker-input-border-color: defines the border color of the input in the component.
  * @prop --calcite-color-picker-input-corner-radius: defines the corner radius of the input in the component.
  * @prop --calcite-color-picker-input-prefix-background-color: defines the background color of the prefix sub-component.
@@ -232,26 +232,24 @@
 
 calcite-button {
   --calcite-button-corner-radius: var(--calcite-color-picker-button-corner-radius);
-  --calcite-button-loader-color: var(--calcite-color-picker-button-loader-color);
   --calcite-button-text-color: var(--calcite-color-picker-button-text-color);
+  --calcite-button-background-color: var(--calcite-color-picker-button-background-color);
+  --calcite-button-icon-color: var(--calcite-color-picker-button-icon-color-hover);
 
   &:hover {
     --calcite-button-text-color: var(--calcite-color-picker-button-text-color-hover);
     --calcite-button-background-color: var(--calcite-color-picker-button-background-color-hover);
     --calcite-button-icon-color: var(--calcite-color-picker-button-icon-color-hover);
-    --calcite-button-border-color: var(--calcite-color-picker-button-icon-color-hover);
   }
   &:focus {
     --calcite-button-text-color: var(--calcite-color-picker-button-text-color-focus);
     --calcite-button-background-color: var(--calcite-color-picker-button-background-color-focus);
     --calcite-button-icon-color: var(--calcite-color-picker-button-icon-color-focus);
-    --calcite-button-border-color: var(--calcite-color-picker-button-icon-color-focus);
   }
   &:active {
     --calcite-button-text-color: var(--calcite-color-picker-button-text-color-active);
     --calcite-button-background-color: var(--calcite-color-picker-button-background-color-active);
     --calcite-button-icon-color: var(--calcite-color-picker-button-icon-color-active);
-    --calcite-button-border-color: var(--calcite-color-picker-button-icon-color-active);
   }
 }
 
