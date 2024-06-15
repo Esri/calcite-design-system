@@ -16,15 +16,10 @@
  * @prop --calcite-tab-nav-button-icon-color-focus: Specifies the color of the scroll buttons' icon when focused.
  * @prop --calcite-tab-nav-button-icon-color-hover: Specifies the color of the scroll buttons' icon when hovered.
  * @prop --calcite-tab-nav-button-icon-color: Specifies the color of the scroll buttons' icon.
- * @prop --calcite-tab-nav-button-loader-color: defines the scroll button's loader color.
  * @prop --calcite-tab-nav-button-shadow-active: defines the scroll button's shadow color in an active state.
  * @prop --calcite-tab-nav-button-shadow-focus: defines the scroll button's shadow color in a focus state.
  * @prop --calcite-tab-nav-button-shadow-hover: defines the scroll button's shadow color in a hover state.
  * @prop --calcite-tab-nav-button-shadow: defines the scroll button's shadow.
- * @prop --calcite-tab-nav-button-text-color-active: defines the scroll button's text color in an active state.
- * @prop --calcite-tab-nav-button-text-color-focus: defines the scroll button's text color in a focus state.
- * @prop --calcite-tab-nav-button-text-color-hover: defines the scroll button's text color in a hover state.
- * @prop --calcite-tab-nav-button-text-color: defines the scroll button's text color.
  * @prop --calcite-tab-nav-indicator-color: Specifies the color of the active tab indicator.
  */
 
@@ -185,9 +180,7 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
     --calcite-button-border-color: var(--calcite-tab-nav-button-border-color);
     --calcite-button-corner-radius: var(--calcite-tab-nav-button-corner-radius);
     --calcite-button-icon-color: var(--calcite-tab-nav-button-icon-color);
-    --calcite-button-loader-color: var(--calcite-tab-nav-button-loader-color);
     --calcite-button-shadow: var(--calcite-tab-nav-button-shadow);
-    --calcite-button-text-color: var(--calcite-tab-nav-button-text-color, var(--calcite-color-text-3));
     --calcite-offset-invert-focus: 1;
 
     block-size: var(--calcite-container-size-content-fluid);
@@ -197,14 +190,12 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
       --calcite-button-border-color: var(--calcite-tab-nav-button-border-color-hover);
       --calcite-button-icon-color: var(--calcite-tab-nav-button-icon-color-hover);
       --calcite-button-shadow: var(--calcite-tab-nav-button-shadow-hover);
-      --calcite-button-text-color: var(--calcite-tab-nav-button-text-color-hover, unset);
     }
     &:focus {
       --calcite-button-background-color: var(--calcite-tab-nav-button-background-color-focus);
       --calcite-button-border-color: var(--calcite-tab-nav-button-border-color-focus);
       --calcite-button-icon-color: var(--calcite-tab-nav-button-icon-color-focus);
       --calcite-button-shadow: var(--calcite-tab-nav-button-shadow-focus);
-      --calcite-button-text-color: var(--calcite-tab-nav-button-text-color-focus);
     }
     &:active {
       --calcite-button-background-color: var(
@@ -214,7 +205,6 @@ $last-mask-color-stop-position: 51%; // we go beyond the half point to ensure th
       --calcite-button-border-color: var(--calcite-tab-nav-button-border-color-active);
       --calcite-button-icon-color: var(--calcite-tab-nav-button-icon-color-active);
       --calcite-button-shadow: var(--calcite-tab-nav-button-shadow-active);
-      --calcite-button-text-color: var(--calcite-tab-nav-button-text-color-active);
     }
   }
 }

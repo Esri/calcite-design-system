@@ -245,13 +245,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
             <slot onSlotchange={this.onSlotChange} />
           </div>
           <div
-            class={{
-              [CSS.activeIndicatorContainer]: true,
-            }}
+            class={CSS.activeIndicatorContainer}
             ref={(el) => (this.activeIndicatorContainerEl = el)}
           >
             <div
-              class="tab-nav-active-indicator"
+              class={CSS.activeIndicator}
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
               style={indicatorStyle}
             />
