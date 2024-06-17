@@ -1,12 +1,10 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { ChipGroup } from "./chip-group";
 const { selectionMode, scale } = ATTRIBUTES;
 
-interface ChipGroupArgs {
-  selectionMode: string;
-  scale: string;
-}
+type ChipGroupStoryArgs = Pick<ChipGroup, "selectionMode" | "scale">;
 
 export default {
   title: "Components/Chip Group",
@@ -28,7 +26,7 @@ export default {
   },
 };
 
-export const simple = (args: ChipGroupArgs): string => html`
+export const simple = (args: ChipGroupStoryArgs): string => html`
   <calcite-chip-group selection-mode="${args.selectionMode}" scale="${args.scale}">
     <calcite-chip value="forest">Forest</calcite-chip>
     <calcite-chip value="tundra">Tundra</calcite-chip>

@@ -1,17 +1,12 @@
+import { Input } from "../input/input";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { InlineEditable } from "./inline-editable";
 const { scale, alignment } = ATTRIBUTES;
 
-interface InlineEditableArgs {
-  scale: string;
-  controls: boolean;
-  editingEnabled: boolean;
-  loading: boolean;
-  disabled: boolean;
-  alignment: string;
-  placeholder: string;
-}
+type InlineEditableStoryArgs = Pick<InlineEditable, "scale" | "controls" | "editingEnabled" | "loading" | "disabled"> &
+  Pick<Input, "alignment" | "placeholder">;
 
 export default {
   title: "Components/Controls/Inline Editable",
@@ -36,7 +31,7 @@ export default {
   },
 };
 
-export const simple = (args: InlineEditableArgs): string => html`
+export const simple = (args: InlineEditableStoryArgs): string => html`
   <div style="width:300px;max-width:100%;">
     <calcite-inline-editable
       scale="${args.scale}"

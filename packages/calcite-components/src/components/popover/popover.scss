@@ -109,6 +109,10 @@
   border-end-end-radius: theme("borderRadius.DEFAULT");
 }
 
+.has-header .close-button-container {
+  border-end-end-radius: none;
+}
+
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply h-full;

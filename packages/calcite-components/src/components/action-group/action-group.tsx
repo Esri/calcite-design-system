@@ -20,9 +20,10 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { Columns, Layout, Scale } from "../interfaces";
+import { Layout, Scale } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { Columns } from "./interfaces";
 import { ActionGroupMessages } from "./assets/action-group/t9n";
 import { ICONS, SLOTS, CSS } from "./resources";
 
