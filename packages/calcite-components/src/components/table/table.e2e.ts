@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { accessible, renders, hidden, defaults, reflects } from "../../tests/commonTests";
 import { createSelectedItemsAsserter, getFocusedElementProp } from "../../tests/utils";
 import { CSS } from "../table-header/resources";
+import { CSS as PAGINATION_CSS } from "../pagination/resources";
 import { CSS as CELL_CSS } from "../table-cell/resources";
 import { SLOTS } from "../table/resources";
 
@@ -1106,13 +1107,16 @@ describe("selection modes", () => {
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
     await selectedItemAsserter([row1.id]);
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(2)");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-      button?.click();
-    });
+        button?.click();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(tableSelectSpy).toHaveReceivedEventTimes(0);
@@ -1155,35 +1159,44 @@ describe("pagination event", () => {
 
     expect(tablePaginateSpy).toHaveReceivedEventTimes(0);
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(2)");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-      button?.click();
-    });
+        button?.click();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(tablePaginateSpy).toHaveReceivedEventTimes(1);
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(3)");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-      button?.click();
-    });
+        button?.click();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(tablePaginateSpy).toHaveReceivedEventTimes(2);
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(4)");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-      button?.click();
-    });
+        button?.click();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(tablePaginateSpy).toHaveReceivedEventTimes(3);
@@ -1403,15 +1416,18 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const headerCell = document.getElementById("head-1a");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const headerCell = document.getElementById("head-1a");
 
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(3)");
-      button?.click();
-      (headerCell as HTMLCalciteTableHeaderElement).setFocus();
-    });
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
+        button?.click();
+        (headerCell as HTMLCalciteTableHeaderElement).setFocus();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
@@ -1451,16 +1467,19 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("cell-4b");
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const headerCell = document.getElementById("head-1a");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const headerCell = document.getElementById("head-1a");
 
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(4)");
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[2];
 
-      button?.click();
-      (headerCell as HTMLCalciteTableHeaderElement).setFocus();
-    });
+        button?.click();
+        (headerCell as HTMLCalciteTableHeaderElement).setFocus();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
@@ -1827,16 +1846,19 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("foot-2b");
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const headerCell = document.getElementById("head-1a");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const headerCell = document.getElementById("head-1a");
 
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(3)");
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-      button?.click();
-      (headerCell as HTMLCalciteTableHeaderElement).setFocus();
-    });
+        button?.click();
+        (headerCell as HTMLCalciteTableHeaderElement).setFocus();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
@@ -2436,15 +2458,18 @@ describe("keyboard navigation", () => {
       ),
     ).toEqual({ "0": CSS.numberCell });
 
-    await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const headerCell = document.getElementById("head-1a");
+    await page.$eval(
+      "calcite-table",
+      (table, PAGINATION_CSS) => {
+        const headerCell = document.getElementById("head-1a");
 
-      const pagination = table.shadowRoot.querySelector("calcite-pagination");
-      const button = pagination.shadowRoot.querySelector<HTMLButtonElement>("button.page:nth-of-type(3)");
-      button?.click();
-      (headerCell as HTMLCalciteTableHeaderElement).setFocus();
-    });
+        const pagination = table.shadowRoot.querySelector("calcite-pagination");
+        const button = pagination.shadowRoot.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
+        button?.click();
+        (headerCell as HTMLCalciteTableHeaderElement).setFocus();
+      },
+      PAGINATION_CSS,
+    );
 
     await page.waitForChanges();
 

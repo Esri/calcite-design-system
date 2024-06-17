@@ -1,24 +1,85 @@
 import { html } from "../../../support/formatting";
-import { modesDarkDefault } from "../../../.storybook/utils";
-import { boolean, number, select, text } from "../../../.storybook/fake-knobs";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Table } from "./table";
+const { interactionMode, selectionMode, scale, layout } = ATTRIBUTES;
+
+type TableStoryArgs = Pick<
+  Table,
+  | "pageSize"
+  | "interactionMode"
+  | "selectionMode"
+  | "selectionDisplay"
+  | "scale"
+  | "layout"
+  | "caption"
+  | "numbered"
+  | "bordered"
+  | "striped"
+>;
 
 export default {
   title: "Components/Table",
+  args: {
+    pageSize: 0,
+    interactionMode: interactionMode.defaultValue,
+    selectionMode: selectionMode.values[1],
+    selectionDisplay: "top",
+    scale: scale.defaultValue,
+    layout: layout.values[5],
+    caption: "Simple table",
+    numbered: false,
+    bordered: false,
+    striped: false,
+  },
+  argTypes: {
+    interactionMode: {
+      options: interactionMode.values,
+      control: { type: "select" },
+    },
+    selectionMode: {
+      options: selectionMode.values.filter(
+        (option) =>
+          option !== "children" && option !== "single-persist" && option !== "multichildren" && option !== "ancestors",
+      ),
+      control: { type: "select" },
+    },
+    selectionDisplay: {
+      options: ["none", "top"],
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    layout: {
+      options: layout.values.filter(
+        (option) =>
+          option !== "horizontal" &&
+          option !== "vertical" &&
+          option !== "grid" &&
+          option !== "inline" &&
+          option !== "center" &&
+          option !== "none" &&
+          option !== "horizontal-single",
+      ),
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string =>
-  html`<calcite-table
-    page-size="${number("page-size", 0)}"
-    interaction-mode="${select("interaction-mode", ["interactive", "static"], "interactive")}"
-    selection-mode="${select("selection-mode", ["none", "single", "multiple"], "none")}"
-    selection-display="${select("selection-display", ["none", "top"], "top")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    layout="${select("layout", ["auto", "fixed"], "auto")}"
-    caption="${text("caption", "Simple table")}"
-    ${boolean("numbered", false)}
-    ${boolean("bordered", false)}
-    ${boolean("striped", false)}
-    caption="Simple table"
+export const simple = (args: TableStoryArgs): string => html`
+  <calcite-table
+    page-size="${args.pageSize}"
+    interaction-mode="${args.interactionMode}"
+    selection-mode="${args.selectionMode}"
+    selection-display="${args.selectionDisplay}"
+    scale="${args.scale}"
+    layout="${args.layout}"
+    caption="${args.caption}"
+    ${boolean("numbered", args.numbered)}
+    ${boolean("bordered", args.bordered)}
+    ${boolean("striped", args.striped)}
   >
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -44,7 +105,8 @@ export const simple = (): string =>
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>
     </calcite-table-row>
-  </calcite-table>`;
+  </calcite-table>
+`;
 
 export const simpleStriped_TestOnly = (): string =>
   html`<calcite-table striped caption="Simple-striped table">

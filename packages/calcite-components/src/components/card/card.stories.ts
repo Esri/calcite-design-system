@@ -1,50 +1,25 @@
-import { boolean, select } from "../../../.storybook/fake-knobs";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
-import {
-  Attribute,
-  Attributes,
-  filterComponentAttributes,
-  modesDarkDefault,
-  createComponentHTML as create,
-} from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Card } from "./card";
+const { logicalFlowPosition } = ATTRIBUTES;
+
+type CardStoryArgs = Pick<Card, "loading" | "selected" | "thumbnailPosition">;
 
 export default {
   title: "Components/Card",
-};
-
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  const { logicalFlowPosition } = ATTRIBUTES;
-  return filterComponentAttributes(
-    [
-      {
-        name: "loading",
-        commit(): Attribute {
-          this.value = boolean("loading", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "selected",
-        commit(): Attribute {
-          this.value = boolean("selected", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-      {
-        name: "thumbnail-position",
-        commit(): Attribute {
-          this.value = select("thumbnail-position", logicalFlowPosition.values, logicalFlowPosition.defaultValue);
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
+  args: {
+    loading: false,
+    selected: false,
+    thumbnailPosition: logicalFlowPosition.defaultValue,
+  },
+  argTypes: {
+    thumbnailPosition: {
+      options: logicalFlowPosition.values,
+      control: { type: "select" },
+    },
+  },
 };
 
 const titleHtml = html`
@@ -82,63 +57,84 @@ const footerEndButtonsHtml = html`
   </div>
 `;
 
-export const simple = (): string =>
-  html` <div style="width: 260px">${create("calcite-card", createAttributes(), titleHtml)}</div>`;
-
-export const simpleWithFooterLinks = (): string => html`
-  <div style="width:260px">${create("calcite-card", createAttributes(), html`${titleHtml}${footerLinksHtml}`)}</div>
+export const simple = (args: CardStoryArgs): string => html`
+  <div style="width: 260px">
+    <calcite-card
+      ${boolean("loading", args.loading)}
+      ${boolean("selected", args.selected)}
+      thumbnail-position="${args.thumbnailPosition}"
+    >
+      ${titleHtml}
+    </calcite-card>
+  </div>
 `;
 
-export const simpleWithFooterButton = (): string => html`
-  <div style="width:260px">${create("calcite-card", createAttributes(), html`${titleHtml}${footerButtonHtml}`)}</div>
+export const simpleWithFooterLinks = (args: CardStoryArgs): string => html`
+  <div style="width:260px">
+    <calcite-card
+      ${boolean("loading", args.loading)}
+      ${boolean("selected", args.selected)}
+      thumbnail-position="${args.thumbnailPosition}"
+    >
+      ${titleHtml}${footerLinksHtml}
+    </calcite-card>
+  </div>
+`;
+
+export const simpleWithFooterButton = (args: CardStoryArgs): string => html`
+  <div style="width:260px">
+    <calcite-card
+      ${boolean("loading", args.loading)}
+      ${boolean("selected", args.selected)}
+      thumbnail-position="${args.thumbnailPosition}"
+    >
+      ${titleHtml}${footerButtonHtml}
+    </calcite-card>
+  </div>
 `;
 
 export const thumbnail = (): string => html`
   <div style="width:260px">
-    ${create(
-      "calcite-card",
-      createAttributes(),
-      html`
-        ${thumbnailHtml}
-        <h3 slot="heading">Portland Businesses</h3>
-        <span slot="description"
-          >by
-          <calcite-link href="">example_user</calcite-link>
-        </span>
-        <div>
-          Created: Apr 22, 2019
-          <br />
-          Updated: Dec 9, 2019
-          <br />
-          View Count: 0
-        </div>
-        <calcite-button
-          slot="footer-start"
-          kind="neutral"
-          scale="s"
-          id="card-icon-test-1"
-          icon-start="circle"
-        ></calcite-button>
-        <div slot="footer-end">
-          <calcite-button scale="s" kind="neutral" id="card-icon-test-2" icon-start="circle"></calcite-button>
-          <calcite-button scale="s" kind="neutral" id="card-icon-test-3" icon-start="circle"></calcite-button>
-          <calcite-dropdown type="hover">
-            <calcite-button
-              id="card-icon-test-5"
-              slot="trigger"
-              scale="s"
-              kind="neutral"
-              icon-start="circle"
-            ></calcite-button>
-            <calcite-dropdown-group selection-mode="none">
-              <calcite-dropdown-item>View details</calcite-dropdown-item>
-              <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
-              <calcite-dropdown-item>Delete</calcite-dropdown-item>
-            </calcite-dropdown-group>
-          </calcite-dropdown>
-        </div>
-      `,
-    )}
+    <calcite-card>
+      ${thumbnailHtml}
+      <h3 slot="heading">Portland Businesses</h3>
+      <span slot="description"
+        >by
+        <calcite-link>example_user</calcite-link>
+      </span>
+      <div>
+        Created: Apr 22, 2019
+        <br />
+        Updated: Dec 9, 2019
+        <br />
+        View Count: 0
+      </div>
+      <calcite-button
+        slot="footer-start"
+        kind="neutral"
+        scale="s"
+        id="card-icon-test-1"
+        icon-start="circle"
+      ></calcite-button>
+      <div slot="footer-end">
+        <calcite-button scale="s" kind="neutral" id="card-icon-test-2" icon-start="circle"></calcite-button>
+        <calcite-button scale="s" kind="neutral" id="card-icon-test-3" icon-start="circle"></calcite-button>
+        <calcite-dropdown type="hover">
+          <calcite-button
+            id="card-icon-test-5"
+            slot="trigger"
+            scale="s"
+            kind="neutral"
+            icon-start="circle"
+          ></calcite-button>
+          <calcite-dropdown-group selection-mode="none">
+            <calcite-dropdown-item>View details</calcite-dropdown-item>
+            <calcite-dropdown-item>Duplicate</calcite-dropdown-item>
+            <calcite-dropdown-item>Delete</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </div>
+    </calcite-card>
     <calcite-tooltip placement="bottom-start" reference-element="card-icon-test-1"
       >My great tooltip example
     </calcite-tooltip>
@@ -160,7 +156,7 @@ export const thumbnailRounded = (): string => html`
       <h3 slot="heading">Portland Businesses</h3>
       <span slot="description"
         >by
-        <calcite-link href="">example_user</calcite-link>
+        <calcite-link>example_user</calcite-link>
       </span>
       <div>
         Created: Apr 22, 2019
@@ -217,7 +213,7 @@ export const slottedFooterItems_TestOnly = (): string => html`
       <h3 slot="heading">Portland Businesses</h3>
       <span slot="description"
         >by
-        <calcite-link href="">example_user</calcite-link>
+        <calcite-link>example_user</calcite-link>
       </span>
       <div>
         Created: Apr 22, 2019

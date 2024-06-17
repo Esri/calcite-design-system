@@ -6,6 +6,7 @@ import { reactOutputTarget } from "@stencil/react-output-target";
 import { angularOutputTarget } from "@stencil/angular-output-target";
 import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import stylelint from "stylelint";
+import replace from "@rollup/plugin-replace";
 import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
 import { version } from "./package.json";
@@ -142,6 +143,17 @@ export const create: () => Config = () => ({
       ],
     }),
   ],
+  rollupPlugins: {
+    before: [
+      replace({
+        values: {
+          __CALCITE_VERSION__: version,
+        },
+        include: ["src/utils/config.ts"],
+        preventAssignment: true,
+      }),
+    ],
+  },
   testing: {
     watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
     moduleNameMapper: {

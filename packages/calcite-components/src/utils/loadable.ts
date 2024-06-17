@@ -1,4 +1,4 @@
-import { componentFocusable as componentFocusableReplacement } from "./component";
+import { Build, forceUpdate } from "@stencil/core";
 
 /**
  * This helper adds support for knowing when a component has been loaded.
@@ -37,22 +37,15 @@ import { componentFocusable as componentFocusableReplacement } from "./component
  *    await componentLoaded(this);
  *  }
  * ```
- *
- * @deprecated use `componentOnReady` from `components.ts` instead.
  */
 export interface LoadableComponent {
-  /**
-   * The host element.
-   */
-  el: HTMLElement;
-
   /**
    * Stencil lifecycle method.
    * https://stenciljs.com/docs/component-lifecycle#componentwillload
    *
    * Called once just after the component is first connected to the DOM. Since this method is only called once, it's a good place to load data asynchronously and to setup the state without triggering extra re-renders.
    */
-  componentWillLoad?: () => Promise<void> | void;
+  componentWillLoad: () => Promise<void> | void;
 
   /**
    * Stencil lifecycle method.
@@ -60,7 +53,7 @@ export interface LoadableComponent {
    *
    * Called once just after the component is fully loaded and the first render() occurs.
    */
-  componentDidLoad?: () => Promise<void> | void;
+  componentDidLoad: () => Promise<void> | void;
 }
 
 const resolveMap = new WeakMap<LoadableComponent, (value: void | PromiseLike<void>) => void>();
@@ -79,8 +72,6 @@ const promiseMap = new WeakMap<LoadableComponent, Promise<void>>();
  * ```
  *
  * @param component
- *
- * @deprecated use `componentOnReady` from `components.ts` instead.
  */
 export function setUpLoadableComponent(component: LoadableComponent): void {
   promiseMap.set(component, new Promise((resolve) => resolveMap.set(component, resolve)));
@@ -98,8 +89,6 @@ export function setUpLoadableComponent(component: LoadableComponent): void {
  * ```
  *
  * @param component
- *
- * @deprecated use `componentOnReady` from `components.ts` instead.
  */
 export function setComponentLoaded(component: LoadableComponent): void {
   resolveMap.get(component)();
@@ -120,8 +109,6 @@ export function setComponentLoaded(component: LoadableComponent): void {
  *
  * @param component
  * @returns Promise<void>
- *
- * @deprecated use `componentOnReady` from `components.ts` instead.
  */
 export function componentLoaded(component: LoadableComponent): Promise<void> {
   return promiseMap.get(component);
@@ -143,9 +130,14 @@ export function componentLoaded(component: LoadableComponent): Promise<void> {
  *
  * @param component
  * @returns Promise<void>
- *
- * @deprecated use `componentFocusable` from `components.ts` instead.
  */
 export async function componentFocusable(component: LoadableComponent): Promise<void> {
-  await componentFocusableReplacement(component.el);
+  await componentLoaded(component);
+
+  if (!Build.isBrowser) {
+    return;
+  }
+
+  forceUpdate(component);
+  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }

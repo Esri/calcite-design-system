@@ -9,7 +9,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { Appearance, Position, Scale, SelectionMode } from "../interfaces";
+import { Appearance, Position, IconType, Scale, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { RequestedItem } from "./interfaces";
 /**
@@ -31,10 +31,11 @@ export class Accordion {
   @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /** Specifies the placement of the icon in the header. */
-  @Prop({ reflect: true }) iconPosition: Position = "end";
+  @Prop({ reflect: true }) iconPosition: Extract<"start" | "end", Position> = "end";
 
   /** Specifies the type of the icon in the header. */
-  @Prop({ reflect: true }) iconType: "chevron" | "caret" | "plus-minus" = "chevron";
+  @Prop({ reflect: true }) iconType: Extract<"chevron" | "caret" | "plus-minus", IconType> =
+    "chevron";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
