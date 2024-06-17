@@ -1387,14 +1387,17 @@ export class Combobox
           appearance={readOnly ? "outline" : "solid"}
           class={chipClasses}
           closable={!readOnly}
+          data-test-id={`chip-${i}`}
           icon={item.icon}
           iconFlipRtl={item.iconFlipRtl}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={item.textLabel}
           messageOverrides={{ dismissLabel: messages.removeTag }}
           onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
+          onFocusin={() => (this.activeChipIndex = i)}
           scale={scale}
           selected={item.selected}
+          tabindex={activeChipIndex === i ? 0 : -1}
           title={label}
           value={item.value}
         >
@@ -1597,6 +1600,7 @@ export class Combobox
             "input--hidden": showLabel,
             "input--icon": this.showingInlineIcon && !!this.placeholderIcon,
           }}
+          data-test-id="input"
           disabled={disabled}
           id={`${inputUidPrefix}${guid}`}
           key="input"
@@ -1606,6 +1610,7 @@ export class Combobox
           readOnly={this.readOnly}
           ref={(el) => (this.textInput = el as HTMLInputElement)}
           role="combobox"
+          tabindex={this.activeChipIndex === -1 ? 0 : -1}
           type="text"
         />
       </span>
