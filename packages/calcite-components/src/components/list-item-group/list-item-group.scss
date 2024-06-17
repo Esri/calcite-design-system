@@ -3,44 +3,28 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-list-item-group-background-color: Specifies the background color of the component.
- * @prop --calcite-list-item-group-border-color: Specifies the border color of the component.
- * @prop --calcite-list-item-heading-text-color: Specifies the text color of the component's heading.
+ * @prop --calcite-list-item-group-background-color: Specifies the background color of the component. Will fallback to --calcite-list-background-color.
+ * @prop --calcite-list-item-group-text-color: Specifies the text color of the component. Will fallback to --calcite-list-text-color.
  */
 
 :host {
-  display: flex;
-  flex-direction: column;
+  @apply flex flex-col;
+  background-color: var(--calcite-list-item-group-background-color, var(--calcite-color-foreground-1));
 }
 
 :host([filter-hidden]) {
-  display: none;
+  @apply hidden;
 }
 
 @include disabled();
 
 .container {
   @apply text-n1 m-0 flex flex-1 p-3 font-medium;
-
-  color: var(--calcite-list-item-group-heading-text-color, var(--calcite-color-text-2));
+  color: var(--calcite-list-item-group-text-color, var(--calcite-color-text-2));
 }
 
 .heading {
   @apply p-0;
-  padding-inline-start: calc(
-    var(--calcite-internal-list-item-spacing-indent, var(--calcite-spacing-xl)) *
-      var(--calcite-internal-list-item-spacing-indent-multiplier)
-  );
-}
-
-::slotted(calcite-list-item) {
-  border-block-start: var(--calcite-border-width-sm) solid
-    var(--calcite-list-item-group-border-color, var(--calcite-color-border-3));
-}
-
-// removes border for the first item of the group for both filtered and unfiltered items.
-::slotted(calcite-list-item:nth-child(1 of :not([hidden]))) {
-  border: none;
 }
 
 @include base-component();
