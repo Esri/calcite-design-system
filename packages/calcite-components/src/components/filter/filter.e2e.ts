@@ -277,6 +277,14 @@ describe("calcite-filter", () => {
       await page.waitForTimeout(DEBOUNCE_TIMEOUT);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
     });
+
+    it("should return no matching values", async () => {
+      const filter = await page.find("calcite-filter");
+      filter.setProperty("matchFields", ["description"]);
+      await page.waitForChanges();
+      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
+      assertMatchingItems(await filter.getProperty("filteredItems"), []);
+    });
   });
 
   describe("filter method", () => {
