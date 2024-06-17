@@ -161,6 +161,16 @@ export class List
   @Prop({ reflect: true }) loading = false;
 
   /**
+   * Specifies the fields to match against when filtering. If not set, all fields will be matched.
+   */
+  @Prop() matchFields: string[];
+
+  @Watch("matchFields")
+  async handleMatchFieldsChange(): Promise<void> {
+    this.performFilter();
+  }
+
+  /**
    * Use this property to override individual strings used by the component.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
@@ -517,6 +527,7 @@ export class List
       hasFilterActionsStart,
       hasFilterActionsEnd,
       hasFilterNoResults,
+      matchFields,
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
@@ -549,6 +560,7 @@ export class List
                         aria-label={filterPlaceholder}
                         disabled={disabled}
                         items={dataForFilter}
+                        matchFields={matchFields}
                         onCalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}
@@ -804,13 +816,14 @@ export class List
   }
 
   private async performFilter(): Promise<void> {
-    const { filterEl, filterText } = this;
+    const { filterEl, filterText, matchFields } = this;
 
     if (!filterEl) {
       return;
     }
 
     filterEl.value = filterText;
+    filterEl.matchFields = matchFields;
     await filterEl.filter(filterText);
     this.updateFilteredData();
   }

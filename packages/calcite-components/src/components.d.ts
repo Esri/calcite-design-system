@@ -3004,6 +3004,10 @@ export namespace Components {
          */
         "loading": boolean;
         /**
+          * Specifies the fields to match against when filtering. If not set, all fields will be matched.
+         */
+        "matchFields": string[];
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides": Partial<ListMessages>;
@@ -10890,6 +10894,10 @@ declare namespace LocalJSX {
           * When `true`, a busy indicator is displayed.
          */
         "loading"?: boolean;
+        /**
+          * Specifies the fields to match against when filtering. If not set, all fields will be matched.
+         */
+        "matchFields"?: string[];
         /**
           * Use this property to override individual strings used by the component.
          */
