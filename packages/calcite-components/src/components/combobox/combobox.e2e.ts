@@ -947,6 +947,77 @@ describe("calcite-combobox", () => {
     }
   });
 
+  describe("keyboard navigation with chips", () => {
+    let page: E2EPage;
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-combobox id="myCombobox" placeholder="Select a field">
+          <calcite-combobox-item value="Natural Resources" text-label="Natural Resources"></calcite-combobox-item>
+          <calcite-combobox-item value="Agriculture" text-label="Agriculture"></calcite-combobox-item>
+          <calcite-combobox-item value="Forestry" text-label="Forestry"></calcite-combobox-item>
+          <calcite-combobox-item selected value="Mining" text-label="Mining"></calcite-combobox-item>
+          <calcite-combobox-item value="Business" text-label="Business"></calcite-combobox-item>
+          <calcite-combobox-item selected value="Education" text-label="Education"></calcite-combobox-item>
+          <calcite-combobox-item selected value="Utilities" text-label="Utilities"></calcite-combobox-item>
+          <calcite-combobox-item value="Transportation" text-label="Transportation"></calcite-combobox-item>
+        </calcite-combobox>
+      `);
+    });
+
+    it("should navigate chips with arrow keys", async () => {
+      const comboboxId = "myCombobox";
+      const inputId = "input";
+      const chipId = "chip";
+
+      const getActiveElementId = () => page.evaluate(() => document.activeElement.id);
+
+      const getDataTestId = () =>
+        page.$eval(`#${comboboxId}`, (myCombobox) => myCombobox.shadowRoot.activeElement.getAttribute("data-test-id"));
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(`${chipId}-2`);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(`${chipId}-1`);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(`${chipId}-0`);
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(`${chipId}-0`);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(`${chipId}-1`);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(`${chipId}-2`);
+    });
+  });
+
   describe("keyboard navigation in all selection-display mode", () => {
     let page: E2EPage;
     const scrollablePageSizeInPx = 2400;

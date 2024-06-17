@@ -611,6 +611,18 @@ export namespace Components {
          */
         "headingLevel": HeadingLevel;
         /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd": string;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl": FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart": string;
+        /**
           * When `true`, a busy indicator is displayed.
          */
         "loading": boolean;
@@ -636,6 +648,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * Displays a status-related indicator icon.
+          * @deprecated Use `icon-start` instead.
          */
         "status": Status;
     }
@@ -8338,6 +8351,18 @@ declare namespace LocalJSX {
          */
         "headingLevel"?: HeadingLevel;
         /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd"?: string;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl"?: FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart"?: string;
+        /**
           * When `true`, a busy indicator is displayed.
          */
         "loading"?: boolean;
@@ -8380,6 +8405,7 @@ declare namespace LocalJSX {
         "overlayPositioning"?: OverlayPositioning;
         /**
           * Displays a status-related indicator icon.
+          * @deprecated Use `icon-start` instead.
          */
         "status"?: Status;
     }
