@@ -466,7 +466,7 @@ export class ColorPicker
 
     let inputValue: string;
 
-    if (!input.value) {
+    if (this.isClearable && !input.value) {
       inputValue = "";
     } else {
       const value = Number(input.value);
@@ -481,25 +481,7 @@ export class ColorPicker
     if (inputValue !== "" && this.shiftKeyChannelAdjustment !== 0) {
       // we treat nudging as a change event since the input won't emit when modifying the value directly
       this.handleChannelChange(event);
-    } else if (inputValue !== "") {
-      this.handleChannelChange(event);
     }
-  };
-
-  private handleChannelBlur = (event: CustomEvent): void => {
-    const input = event.currentTarget as HTMLCalciteInputNumberElement;
-    const channelIndex = Number(input.getAttribute("data-channel-index"));
-    const channels = [...this.channels] as this["channels"];
-
-    // restore original value when input field is left blank
-    if (!input.value && !this.isClearable) {
-      input.value = channels[channelIndex].toString();
-    }
-  };
-
-  handleChannelFocus = (event: Event): void => {
-    const input = event.currentTarget as HTMLCalciteInputNumberElement;
-    input.selectText();
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -550,7 +532,7 @@ export class ColorPicker
     }
 
     const isAlphaChannel = channelIndex === 3;
-    const value = input.value ? Number(input.value) : channels[channelIndex];
+    const value = Number(input.value);
 
     channels[channelIndex] = isAlphaChannel ? opacityToAlpha(value) : value;
     this.updateColorFromChannels(channels);
@@ -1052,8 +1034,6 @@ export class ColorPicker
         numberingSystem={this.numberingSystem}
         onCalciteInputNumberChange={this.handleChannelChange}
         onCalciteInputNumberInput={this.handleChannelInput}
-        onCalciteInternalInputNumberBlur={this.handleChannelBlur}
-        onCalciteInternalInputNumberFocus={this.handleChannelFocus}
         onKeyDown={this.handleKeyDown}
         scale={this.scale === "l" ? "m" : "s"}
         // workaround to ensure input borders overlap as desired

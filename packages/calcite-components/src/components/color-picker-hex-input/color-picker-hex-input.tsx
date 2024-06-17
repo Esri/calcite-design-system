@@ -146,17 +146,8 @@ export class ColorPickerHexInput implements LoadableComponent {
     const willClearValue = allowEmpty && !inputValue;
     const isLonghand = isLonghandHex(hex);
 
-    /* 
-      if alphaChannel is enabled, commit valid 4 digit hex codes.
-      if alphaChannel is disabled, commit valid 3 digit hex codes.
-    */
-    if (
-      (this.alphaChannel && inputValue.length === 4) ||
-      (!this.alphaChannel && inputValue.length === 3)
-    ) {
-      // ensure modified pasted hex values are committed since we prevent default to remove the # char.
-      this.onHexInputChange();
-    }
+    // ensure modified pasted hex values are committed since we prevent default to remove the # char.
+    this.onHexInputChange();
 
     if (willClearValue || (isValidHex(hex) && isLonghand)) {
       return;
@@ -189,14 +180,6 @@ export class ColorPickerHexInput implements LoadableComponent {
       allowEmpty && !internalColor ? "" : this.formatOpacityForInternalInput(internalColor);
   };
 
-  private onOpacityInputFocus = (): void => {
-    this.opacityInputNode.selectText();
-  };
-
-  private onOpacityInput = (): void => {
-    this.onOpacityInputChange();
-  };
-
   private onHexInputChange = (): void => {
     const nodeValue = this.hexInputNode.value;
     let value = nodeValue;
@@ -225,10 +208,6 @@ export class ColorPickerHexInput implements LoadableComponent {
     }
 
     this.internalSetValue(value, this.value);
-  };
-
-  private onHexInputFocus = (): void => {
-    this.hexInputNode.selectText();
   };
 
   private onHexInput = (): void => {
@@ -347,11 +326,10 @@ export class ColorPickerHexInput implements LoadableComponent {
         <calcite-input-text
           class={CSS.hexInput}
           label={messages?.hex || hexLabel}
-          maxLength={this.alphaChannel ? 8 : 6}
+          maxLength={6}
           onCalciteInputTextChange={this.onHexInputChange}
           onCalciteInputTextInput={this.onHexInput}
           onCalciteInternalInputTextBlur={this.onHexInputBlur}
-          onCalciteInternalInputTextFocus={this.onHexInputFocus}
           onKeyDown={this.onInputKeyDown}
           onPaste={this.onHexInputPaste}
           prefixText="#"
@@ -369,9 +347,8 @@ export class ColorPickerHexInput implements LoadableComponent {
             min={OPACITY_LIMITS.min}
             numberButtonType="none"
             numberingSystem={this.numberingSystem}
-            onCalciteInputNumberInput={this.onOpacityInput}
+            onCalciteInputNumberChange={this.onOpacityInputChange}
             onCalciteInternalInputNumberBlur={this.onOpacityInputBlur}
-            onCalciteInternalInputNumberFocus={this.onOpacityInputFocus}
             onKeyDown={this.onInputKeyDown}
             ref={this.storeOpacityInputRef}
             scale={inputScale}
