@@ -4,25 +4,12 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-list-background-color: Specifies the background color of the component.
- * @prop --calcite-list-border-color: Specifies the border color of the component.
- * @prop --calcite-list-filter-background-color: Specifies the background color of the filter sub-component.
- * @prop --calcite-list-filter-input-background-color: defines the background color of the filter input sub-component.
- * @prop --calcite-list-filter-input-border-color: defines the border color of the filter input sub-component.
- * @prop --calcite-list-filter-input-button-background-color: defines the background color of the filter input button in the input sub-component.
- * @prop --calcite-list-filter-input-button-background-color-hover: defines the background color of the filter input button when hovered in the input sub-component.
- * @prop --calcite-list-filter-input-button-border-color: defines the border color of the button in the filter input sub-component.
- * @prop --calcite-list-filter-input-button-icon-color: defines the icon color of the button in the filter input sub-component.
- * @prop --calcite-list-filter-input-button-icon-color-active: defines the icon color of the button when active in the filter input sub-component.
- * @prop --calcite-list-filter-input-button-icon-color-hover: defines the icon color of the button when hovered in the filter input sub-component.
- * @prop --calcite-list-filter-input-corner-radius: defines the corner radius of the input sub-component.
- * @prop --calcite-list-filter-input-icon-color: defines the icon color of the filter input sub-component.
- * @prop --calcite-list-filter-input-placeholder-text-color: defines the placeholder text color of the filter input sub-component.
- * @prop --calcite-list-filter-input-text-color: defines the text color of the filter input sub-component.
+ * @prop --calcite-list-header-background-color: Specifies the background color of the component header. Will fallback to --calcite-list-background-color.
  * @prop --calcite-list-header-z-index: Specifies the component header's z-index.
  */
 
 :host {
-  display: block;
+  @apply block;
 }
 
 @include disabled();
@@ -32,19 +19,19 @@
 }
 
 .table-container {
-  box-sizing: border-box;
-  display: flex;
-  inline-size: var(--calcite-container-size-content-fluid);
-  flex-direction: column;
-  background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
+  @apply box-border
+  flex
+  w-full
+  flex-col;
+  background-color: var(--calcite-color-transparent);
+
   * {
-    box-sizing: border-box;
+    @apply box-border;
   }
 }
 
 .table {
-  inline-size: var(--calcite-container-size-content-fluid);
-  border-collapse: collapse;
+  @apply w-full border-collapse;
 }
 
 .stack {
@@ -52,50 +39,22 @@
   --calcite-stack-padding-block: 0;
 }
 
-::slotted(calcite-list-item:not([filter-hidden], [closed])) {
-  border-block-start: var(--calcite-border-width-sm) solid
-    var(--calcite-list-border-color, var(--calcite-color-border-3));
-}
-
-// removes border for the first item of the group for both filtered and unfiltered items.
-::slotted(calcite-list-item:nth-child(1 of :not([hidden]))) {
-  border: none;
-}
-
-// removes shadow for the first item in filteredItems of the list.
-::slotted(calcite-list-item[data-filter]) {
-  border: none;
-}
-
 .sticky-pos {
-  position: sticky;
-  inset-block-start: 0px;
+  @apply sticky
+  top-0;
   z-index: var(--calcite-list-header-z-index, var(--calcite-z-index-sticky));
-  background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
-}
+  background-color: var(
+    --calcite-list-header-background-color,
+    var(--calcite-list-background-color, var(--calcite-color-foreground-1))
+  );
 
-.table-header {
-  padding: 0;
+  & th {
+    @apply p-0;
+  }
 }
 
 .assistive-text {
-  @include srOnly();
-}
-
-calcite-filter {
-  --calcite-filter-background-color: var(--calcite-list-filter-background-color);
-  --calcite-filter-input-corner-radius: var(--calcite-list-filter-input-corner-radius);
-  --calcite-filter-input-text-color: var(--calcite-list-filter-input-text-color);
-  --calcite-filter-input-border-color: var(--calcite-list-filter-input-border-color);
-  --calcite-filter-input-background-color: var(--calcite-list-filter-input-background-color);
-  --calcite-filter-input-button-background-color: var(--calcite-list-filter-input-button-background-color);
-  --calcite-filter-input-button-background-color-hover: var(--calcite-list-filter-input-button-background-color-hover);
-  --calcite-filter-input-icon-color: var(--calcite-list-filter-input-icon-color);
-  --calcite-filter-input-button-icon-color: var(--calcite-list-filter-input-button-icon-color);
-  --calcite-filter-input-button-icon-color-active: var(--calcite-list-filter-input-button-icon-color-active);
-  --calcite-filter-input-button-icon-color-hover: var(--calcite-list-filter-input-button-icon-color-hover);
-  --calcite-filter-input-placeholder-text-color: var(--calcite-list-filter-input-placeholder-text-color);
-  --calcite-filter-input-button-border-color: var(--calcite-list-filter-input-button-border-color);
+  @apply sr-only;
 }
 
 @include base-component();
