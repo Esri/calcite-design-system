@@ -1053,8 +1053,7 @@ export class Combobox
   inputHandler = (event: Event): void => {
     const value = (event.target as HTMLInputElement).value;
     this.text = value;
-    this.filterItems(value);
-    this.open = value.length > 0;
+    this.filterItems(value, true);
     if (value) {
       this.activeChipIndex = -1;
     }
@@ -1071,7 +1070,7 @@ export class Combobox
         isGroup(item) ? label === item.label : value === item.value && label === item.textLabel,
       );
 
-    return debounce((text: string): void => {
+    return debounce((text: string, updateOpen = false): void => {
       const filteredData = filter(this.data, text);
       const itemsAndGroups = this.getItemsAndGroups();
 
@@ -1090,6 +1089,11 @@ export class Combobox
       });
 
       this.filteredItems = this.getFilteredItems();
+
+      if (updateOpen) {
+        this.open = this.text.trim().length > 0 && this.filteredItems.length > 0;
+      }
+
       this.calciteComboboxFilterChange.emit();
     }, 100);
   })();
@@ -1259,6 +1263,7 @@ export class Combobox
       }
       this.updateItems();
       this.filterItems("");
+      this.open = true;
       this.emitComboboxChange();
     }
   }
