@@ -15,7 +15,6 @@ import {
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
-  dragActive,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 import { CSS } from "./resources";
@@ -102,20 +101,12 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     this.setUpSorting();
     this.beginObserving();
     connectInteractive(this);
   }
 
   disconnectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     disconnectInteractive(this);
     disconnectSortableComponent(this);
     this.endObserving();
