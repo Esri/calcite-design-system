@@ -1397,6 +1397,7 @@ export class Combobox
           onFocusin={() => (this.activeChipIndex = i)}
           scale={scale}
           selected={item.selected}
+          tabindex={activeChipIndex === i ? 0 : -1}
           title={label}
           value={item.value}
         >
@@ -1609,6 +1610,7 @@ export class Combobox
           readOnly={this.readOnly}
           ref={(el) => (this.textInput = el as HTMLInputElement)}
           role="combobox"
+          tabindex={this.activeChipIndex === -1 ? 0 : -1}
           type="text"
         />
       </span>

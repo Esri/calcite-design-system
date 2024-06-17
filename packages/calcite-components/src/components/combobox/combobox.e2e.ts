@@ -954,21 +954,6 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
 
       expect(await getActiveElementId()).toBe(comboboxId);
-      expect(await getDataTestId()).toBe(`${chipId}-0`);
-
-      await page.keyboard.press("ArrowRight");
-      await page.waitForChanges();
-      expect(await getActiveElementId()).toBe(comboboxId);
-      expect(await getDataTestId()).toBe(`${chipId}-1`);
-
-      await page.keyboard.press("ArrowRight");
-      await page.waitForChanges();
-      expect(await getActiveElementId()).toBe(comboboxId);
-      expect(await getDataTestId()).toBe(`${chipId}-2`);
-
-      await page.keyboard.press("ArrowRight");
-      await page.waitForChanges();
-      expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
 
       await page.keyboard.press("ArrowRight");
@@ -995,6 +980,16 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(`${chipId}-0`);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(`${chipId}-1`);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(`${chipId}-2`);
     });
   });
 
