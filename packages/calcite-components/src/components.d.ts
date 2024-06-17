@@ -611,6 +611,18 @@ export namespace Components {
          */
         "headingLevel": HeadingLevel;
         /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd": string;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl": FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart": string;
+        /**
           * When `true`, a busy indicator is displayed.
          */
         "loading": boolean;
@@ -636,6 +648,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * Displays a status-related indicator icon.
+          * @deprecated Use `icon-start` instead.
          */
         "status": Status;
     }
@@ -1805,6 +1818,10 @@ export namespace Components {
           * Defines the items to filter. The component uses the values as the starting point, and returns items  that contain the string entered in the input, using a partial match and recursive search.  This property is needed to conduct filtering.
          */
         "items": object[];
+        /**
+          * Specifies the fields to match against when filtering. This will only apply when `value` is an object. If not set, all fields will be matched.
+         */
+        "matchFields": string[];
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -8334,6 +8351,18 @@ declare namespace LocalJSX {
          */
         "headingLevel"?: HeadingLevel;
         /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd"?: string;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl"?: FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart"?: string;
+        /**
           * When `true`, a busy indicator is displayed.
          */
         "loading"?: boolean;
@@ -8376,6 +8405,7 @@ declare namespace LocalJSX {
         "overlayPositioning"?: OverlayPositioning;
         /**
           * Displays a status-related indicator icon.
+          * @deprecated Use `icon-start` instead.
          */
         "status"?: Status;
     }
@@ -9617,6 +9647,10 @@ declare namespace LocalJSX {
           * Defines the items to filter. The component uses the values as the starting point, and returns items  that contain the string entered in the input, using a partial match and recursive search.  This property is needed to conduct filtering.
          */
         "items"?: object[];
+        /**
+          * Specifies the fields to match against when filtering. This will only apply when `value` is an object. If not set, all fields will be matched.
+         */
+        "matchFields"?: string[];
         /**
           * Use this property to override individual strings used by the component.
          */
