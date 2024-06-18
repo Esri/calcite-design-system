@@ -210,6 +210,31 @@ describe("calcite-combobox", () => {
     expect(await combobox.getProperty("open")).toBe(false);
   });
 
+  it("should not toggle the combobox when typing within the input does not match any results", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(html`
+      <calcite-combobox id="myCombobox">
+        <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+        <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
+        <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
+        <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+
+    const combobox = await page.find("calcite-combobox");
+    await combobox.callMethod("setFocus");
+    await page.waitForChanges();
+    expect(await combobox.getProperty("open")).toBe(false);
+
+    const text = "nomatchingtexthere";
+
+    await combobox.type(text);
+    await page.waitForChanges();
+
+    expect(await combobox.getProperty("open")).toBe(false);
+  });
+
   it("filtering does not match property with value of undefined", async () => {
     const page = await newE2EPage();
 
