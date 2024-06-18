@@ -4,6 +4,10 @@ export const CSS = {
   page: "page",
   selected: "selected",
   chevron: "chevron",
+  chevronFirst: "chevron--first",
+  chevronPrevious: "chevron--previous",
+  chevronNext: "chevron--next",
+  chevronLast: "chevron--last",
   disabled: "disabled",
   ellipsis: "ellipsis",
 };
