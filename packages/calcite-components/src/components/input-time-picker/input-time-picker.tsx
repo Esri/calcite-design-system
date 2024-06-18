@@ -79,6 +79,7 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { focusFirstTabbable } from "../../utils/dom";
 import { CSS } from "./resources";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 
@@ -523,7 +524,7 @@ export class InputTimePicker
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.el);
   }
 
   /**

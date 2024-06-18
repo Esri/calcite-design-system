@@ -233,3 +233,17 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(
     html`<calcite-input-date-picker scale="{scale}" value="2020-12-12"></calcite-input-date-picker>`,
   );
+
+export const Focus = (): string =>
+  html`<calcite-input-date-picker></calcite-input-date-picker>
+    <script>
+      (async () => {
+        await customElements.whenDefined("calcite-input-date-picker");
+        const inputDatePicker = await document.querySelector("calcite-input-date-picker").componentOnReady();
+        await inputDatePicker.setFocus();
+      })();
+    </script>`;
+
+Focus.parameters = {
+  chromatic: { delay: 2000 },
+};
