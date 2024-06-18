@@ -1169,7 +1169,7 @@ export namespace Components {
           * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.  The type will be preserved as the color is updated.
           * @default "#007ac2"
           * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
-          * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
+          * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/src/components/color-picker/interfaces.ts#L10)
          */
         "value": ColorValue | null;
     }
@@ -1594,46 +1594,6 @@ export namespace Components {
           * Start date currently active.
          */
         "startDate"?: Date;
-    }
-    interface CalciteDatePickerMonthFloatingMenu {
-        /**
-          * Active date
-         */
-        "activeDate": Date;
-        /**
-          * Defines the available placements that can be used when a flip occurs.
-         */
-        "flipPlacements": FlipPlacement[];
-        /**
-          * CLDR locale data for translated calendar info.
-         */
-        "localeData": DateLocaleData;
-        /**
-          * When `true`, month will be abbreviated.
-         */
-        "monthAbbreviations": boolean;
-        /**
-          * Whether the component is opened.
-         */
-        "open": boolean;
-        /**
-          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-         */
-        "overlayPositioning": OverlayPositioning;
-        /**
-          * Specifies the placement of the `calcite-date-picker` relative to the component.
-          * @default "bottom-start"
-         */
-        "placement": MenuPlacement;
-        /**
-          * Specifies the position of the component in a range date-picker.
-         */
-        "position": "start" | "end";
-        /**
-          * Updates the position of the component.
-          * @param delayed
-         */
-        "reposition": (delayed?: boolean) => Promise<void>;
     }
     interface CalciteDatePickerMonthHeader {
         /**
@@ -3833,7 +3793,7 @@ export namespace Components {
         "disabled": boolean;
         /**
           * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
+          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
          */
         "icon": ICON_TYPES | null;
         /**
@@ -4465,7 +4425,7 @@ export namespace Components {
         "hasHistogram": boolean;
         /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
-          * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
+          * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/src/components/graph/interfaces.ts#L5)
          */
         "histogram": DataSeries;
         /**
@@ -5740,7 +5700,7 @@ export namespace Components {
         "handleActivated"?: boolean;
         /**
           * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
+          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
          */
         "icon"?: ICON_TYPES | null;
         /**
@@ -6538,12 +6498,6 @@ declare global {
     var HTMLCalciteDatePickerMonthElement: {
         prototype: HTMLCalciteDatePickerMonthElement;
         new (): HTMLCalciteDatePickerMonthElement;
-    };
-    interface HTMLCalciteDatePickerMonthFloatingMenuElement extends Components.CalciteDatePickerMonthFloatingMenu, HTMLStencilElement {
-    }
-    var HTMLCalciteDatePickerMonthFloatingMenuElement: {
-        prototype: HTMLCalciteDatePickerMonthFloatingMenuElement;
-        new (): HTMLCalciteDatePickerMonthFloatingMenuElement;
     };
     interface HTMLCalciteDatePickerMonthHeaderElementEventMap {
         "calciteInternalDatePickerSelect": Date;
@@ -7882,7 +7836,6 @@ declare global {
         "calcite-date-picker": HTMLCalciteDatePickerElement;
         "calcite-date-picker-day": HTMLCalciteDatePickerDayElement;
         "calcite-date-picker-month": HTMLCalciteDatePickerMonthElement;
-        "calcite-date-picker-month-floating-menu": HTMLCalciteDatePickerMonthFloatingMenuElement;
         "calcite-date-picker-month-header": HTMLCalciteDatePickerMonthHeaderElement;
         "calcite-dropdown": HTMLCalciteDropdownElement;
         "calcite-dropdown-group": HTMLCalciteDropdownGroupElement;
@@ -8997,7 +8950,7 @@ declare namespace LocalJSX {
           * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.  The type will be preserved as the color is updated.
           * @default "#007ac2"
           * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
-          * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
+          * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/src/components/color-picker/interfaces.ts#L10)
          */
         "value"?: ColorValue | null;
     }
@@ -9461,41 +9414,6 @@ declare namespace LocalJSX {
           * Start date currently active.
          */
         "startDate"?: Date;
-    }
-    interface CalciteDatePickerMonthFloatingMenu {
-        /**
-          * Active date
-         */
-        "activeDate"?: Date;
-        /**
-          * Defines the available placements that can be used when a flip occurs.
-         */
-        "flipPlacements"?: FlipPlacement[];
-        /**
-          * CLDR locale data for translated calendar info.
-         */
-        "localeData"?: DateLocaleData;
-        /**
-          * When `true`, month will be abbreviated.
-         */
-        "monthAbbreviations"?: boolean;
-        /**
-          * Whether the component is opened.
-         */
-        "open"?: boolean;
-        /**
-          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-         */
-        "overlayPositioning"?: OverlayPositioning;
-        /**
-          * Specifies the placement of the `calcite-date-picker` relative to the component.
-          * @default "bottom-start"
-         */
-        "placement"?: MenuPlacement;
-        /**
-          * Specifies the position of the component in a range date-picker.
-         */
-        "position"?: "start" | "end";
     }
     interface CalciteDatePickerMonthHeader {
         /**
@@ -11797,7 +11715,7 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         /**
           * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
+          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
          */
         "icon"?: ICON_TYPES | null;
         /**
@@ -12472,7 +12390,7 @@ declare namespace LocalJSX {
         "hasHistogram"?: boolean;
         /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
-          * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
+          * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/src/components/graph/interfaces.ts#L5)
          */
         "histogram"?: DataSeries;
         /**
@@ -12936,12 +12854,12 @@ declare namespace LocalJSX {
         "onCalciteInternalTabTitleRegister"?: (event: CalciteTabTitleCustomEvent<TabID>) => void;
         /**
           * Fires when a `calcite-tab` is selected (`event.details`).
-          * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts#L1)
+          * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts#L1)
          */
         "onCalciteInternalTabsActivate"?: (event: CalciteTabTitleCustomEvent<TabChangeEventDetail>) => void;
         /**
           * Fires when `calcite-tab` is closed (`event.details`).
-          * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts)
+          * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts)
          */
         "onCalciteInternalTabsClose"?: (event: CalciteTabTitleCustomEvent<TabCloseEventDetail>) => void;
         "onCalciteInternalTabsFocusFirst"?: (event: CalciteTabTitleCustomEvent<void>) => void;
@@ -13789,7 +13707,7 @@ declare namespace LocalJSX {
         "handleActivated"?: boolean;
         /**
           * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
+          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
          */
         "icon"?: ICON_TYPES | null;
         /**
@@ -13864,7 +13782,6 @@ declare namespace LocalJSX {
         "calcite-date-picker": CalciteDatePicker;
         "calcite-date-picker-day": CalciteDatePickerDay;
         "calcite-date-picker-month": CalciteDatePickerMonth;
-        "calcite-date-picker-month-floating-menu": CalciteDatePickerMonthFloatingMenu;
         "calcite-date-picker-month-header": CalciteDatePickerMonthHeader;
         "calcite-dropdown": CalciteDropdown;
         "calcite-dropdown-group": CalciteDropdownGroup;
@@ -13981,7 +13898,6 @@ declare module "@stencil/core" {
             "calcite-date-picker": LocalJSX.CalciteDatePicker & JSXBase.HTMLAttributes<HTMLCalciteDatePickerElement>;
             "calcite-date-picker-day": LocalJSX.CalciteDatePickerDay & JSXBase.HTMLAttributes<HTMLCalciteDatePickerDayElement>;
             "calcite-date-picker-month": LocalJSX.CalciteDatePickerMonth & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthElement>;
-            "calcite-date-picker-month-floating-menu": LocalJSX.CalciteDatePickerMonthFloatingMenu & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthFloatingMenuElement>;
             "calcite-date-picker-month-header": LocalJSX.CalciteDatePickerMonthHeader & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthHeaderElement>;
             "calcite-dropdown": LocalJSX.CalciteDropdown & JSXBase.HTMLAttributes<HTMLCalciteDropdownElement>;
             "calcite-dropdown-group": LocalJSX.CalciteDropdownGroup & JSXBase.HTMLAttributes<HTMLCalciteDropdownGroupElement>;
