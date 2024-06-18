@@ -45,7 +45,7 @@ import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
 import { componentOnReady } from "../../utils/component";
 import { ItemKeyboardEvent } from "./interfaces";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
@@ -237,7 +237,7 @@ export class Dropdown
       <Host>
         <InteractiveContainer disabled={this.disabled}>
           <div
-            class="calcite-trigger-container"
+            class={CSS.triggerContainer}
             id={`${guid}-menubutton`}
             onClick={this.openCalciteDropdown}
             onKeyDown={this.keyDownHandler}
@@ -251,15 +251,11 @@ export class Dropdown
               onSlotchange={this.updateTriggers}
             />
           </div>
-          <div
-            aria-hidden={toAriaBoolean(!open)}
-            class="calcite-dropdown-wrapper"
-            ref={this.setFloatingEl}
-          >
+          <div aria-hidden={toAriaBoolean(!open)} class={CSS.wrapper} ref={this.setFloatingEl}>
             <div
               aria-labelledby={`${guid}-menubutton`}
               class={{
-                ["calcite-dropdown-content"]: true,
+                [CSS.content]: true,
                 [FloatingCSS.animation]: true,
                 [FloatingCSS.animationActive]: open,
               }}
