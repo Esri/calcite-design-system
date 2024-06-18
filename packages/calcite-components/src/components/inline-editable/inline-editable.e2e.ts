@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, labelable, renders, hidden, t9n } from "../../tests/commonTests";
+import { accessible, disabled, labelable, renders, hidden, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -377,6 +377,30 @@ describe("calcite-inline-editable", () => {
         );
       });
     });
+  });
+
+  describe("theme", () => {
+    const tokens = {
+      "--calcite-inline-editable-background-color": {
+        shadowSelector: `.${CSS.wrapper}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-inline-editable-cancel-button-background-color-active": {
+        shadowSelector: `.${CSS.cancelEditingButton}`,
+        targetProp: "backgroundColor",
+        state: { press: { attribute: "class", value: CSS.cancelEditingButton } },
+      },
+      "--calcite-inline-editable-cancel-button-background-color-focus": {
+        shadowSelector: `.${CSS.cancelEditingButton}`,
+        state: "focus",
+        targetProp: "backgroundColor",
+      },
+    } as const;
+
+    themed(
+      `<calcite-inline-editable editing-enabled controls><calcite-input></calcite-input></calcite-inline-editable>`,
+      tokens,
+    );
   });
 
   describe("translation support", () => {
