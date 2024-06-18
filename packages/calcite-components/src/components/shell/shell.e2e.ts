@@ -144,7 +144,7 @@ describe("theme", () => {
     </calcite-shell>
   `;
 
-  describe("default", () => {
+  describe("slotted overrides", () => {
     const tokens: ComponentTestTokens = {
       "--calcite-shell-border-color": [
         {
@@ -168,15 +168,26 @@ describe("theme", () => {
           targetProp: "borderColor",
         },
       ],
+    };
+    themed(async () => shellHTML, tokens);
+  });
+
+  describe("default", () => {
+    const tokens: ComponentTestTokens = {
       "--calcite-shell-background-color": {
         targetProp: "backgroundColor",
       },
+    };
+    themed(async () => shellHTML, tokens);
+  });
+
+  describe("deprecated", () => {
+    const tokens: ComponentTestTokens = {
       "--calcite-shell-tip-spacing": {
         selector: `calcite-tip-manager`,
         targetProp: "insetInline",
       },
     };
-
     themed(async () => shellHTML, tokens);
   });
 });
