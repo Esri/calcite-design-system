@@ -1596,7 +1596,6 @@ export class Combobox
           class={{
             [CSS.input]: true,
             "input--single": true,
-            "input--transparent": this.activeChipIndex > -1,
             "input--hidden": showLabel,
             "input--icon": this.showingInlineIcon && !!this.placeholderIcon,
           }}
