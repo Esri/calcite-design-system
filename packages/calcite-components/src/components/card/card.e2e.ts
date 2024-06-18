@@ -154,7 +154,7 @@ describe("calcite-card", () => {
         {
           "--calcite-card-selection-icon-color": {
             shadowSelector: `calcite-icon`,
-            targetProp: "--calcite-ui-icon-color",
+            targetProp: "--calcite-icon-color",
           },
           "--calcite-card-selection-background-color": {
             shadowSelector: `.${CSS.checkboxWrapper}`,
@@ -195,11 +195,11 @@ describe("calcite-card", () => {
           },
           "--calcite-card-selection-icon-color-selected": {
             shadowSelector: `calcite-icon`,
-            targetProp: "--calcite-ui-icon-color",
+            targetProp: "--calcite-icon-color",
           },
           "--calcite-card-selection-icon-color-hover": {
             shadowSelector: `calcite-icon`,
-            targetProp: "--calcite-ui-icon-color",
+            targetProp: "--calcite-icon-color",
             state: "hover",
           },
         },
