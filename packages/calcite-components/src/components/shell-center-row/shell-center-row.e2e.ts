@@ -109,7 +109,7 @@ describe("theme", () => {
   describe("default", () => {
     const tokens: ComponentTestTokens = {
       "--calcite-shell-center-row-border-color": {
-        shadowSelector: `calcite-action-bar`,
+        selector: `calcite-action-bar`,
         targetProp: "borderColor",
       },
       "--calcite-shell-center-row-border-radius": {
