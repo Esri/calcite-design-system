@@ -2,13 +2,10 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Card } from "./card";
 const { logicalFlowPosition } = ATTRIBUTES;
 
-interface CardArgs {
-  loading: boolean;
-  selected: boolean;
-  thumbnailPosition: string;
-}
+type CardStoryArgs = Pick<Card, "loading" | "selected" | "thumbnailPosition">;
 
 export default {
   title: "Components/Card",
@@ -60,7 +57,7 @@ const footerEndButtonsHtml = html`
   </div>
 `;
 
-export const simple = (args: CardArgs): string => html`
+export const simple = (args: CardStoryArgs): string => html`
   <div style="width: 260px">
     <calcite-card
       ${boolean("loading", args.loading)}
@@ -72,7 +69,7 @@ export const simple = (args: CardArgs): string => html`
   </div>
 `;
 
-export const simpleWithFooterLinks = (args: CardArgs): string => html`
+export const simpleWithFooterLinks = (args: CardStoryArgs): string => html`
   <div style="width:260px">
     <calcite-card
       ${boolean("loading", args.loading)}
@@ -84,7 +81,7 @@ export const simpleWithFooterLinks = (args: CardArgs): string => html`
   </div>
 `;
 
-export const simpleWithFooterButton = (args: CardArgs): string => html`
+export const simpleWithFooterButton = (args: CardStoryArgs): string => html`
   <div style="width:260px">
     <calcite-card
       ${boolean("loading", args.loading)}

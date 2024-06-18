@@ -3,16 +3,12 @@ import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.st
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Tile } from "./tile";
 const { scale } = ATTRIBUTES;
-interface TileArgs {
-  active: boolean;
-  description: string;
-  disabled: boolean;
-  heading: string;
+
+interface TileStoryArgs
+  extends Pick<Tile, "active" | "description" | "disabled" | "heading" | "href" | "icon" | "scale"> {
   hidden: boolean;
-  href: string;
-  icon: string;
-  scale: string;
 }
 
 export default {
@@ -40,7 +36,7 @@ export default {
   },
 };
 
-export const simple = (args: TileArgs): string => html`
+export const simple = (args: TileStoryArgs): string => html`
   <calcite-tile
     ${boolean("active", args.active)}
     description="${args.description}"

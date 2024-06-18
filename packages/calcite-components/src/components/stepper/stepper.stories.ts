@@ -1,22 +1,33 @@
+import { Stepper } from "../stepper/stepper";
+import { StepperItem } from "../stepper-item/stepper-item";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 const { layout, scale } = ATTRIBUTES;
 
-interface StepperArgs {
-  layout: string;
-  scale: string;
-  numbered: boolean;
-  icon: boolean;
-  heading1: string;
-  description1: string;
-  heading2: string;
-  description2: string;
-  heading3: string;
-  description3: string;
-  heading4: string;
-  description4: string;
-}
+type StepperArgs = Pick<Stepper, "layout" | "scale" | "numbered" | "icon">;
+
+type StepperItemArgs1 = {
+  heading1: StepperItem["heading"];
+  description1: StepperItem["description"];
+};
+
+type StepperItemArgs2 = {
+  heading2: StepperItem["heading"];
+  description2: StepperItem["description"];
+};
+
+type StepperItemArgs3 = {
+  heading3: StepperItem["heading"];
+  description3: StepperItem["description"];
+};
+
+type StepperItemArgs4 = {
+  heading4: StepperItem["heading"];
+  description4: StepperItem["description"];
+};
+
+type StepperStoryArgs = StepperArgs & StepperItemArgs1 & StepperItemArgs2 & StepperItemArgs3 & StepperItemArgs4;
 
 export default {
   title: "Components/Stepper",
@@ -59,7 +70,7 @@ export default {
   },
 };
 
-export const simple = (args: StepperArgs): string => html`
+export const simple = (args: StepperStoryArgs): string => html`
   <h1>Default</h1>
   <calcite-stepper
     layout="${args.layout}"

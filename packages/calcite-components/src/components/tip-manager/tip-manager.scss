@@ -5,22 +5,22 @@
 *
 * These properties can be overridden using the component's tag as selector.
 *
-* @prop --calcite-tip-manager-action-background-color-active: defines the background color of an action sub-component when active inside the component.
-* @prop --calcite-tip-manager-action-background-color-hover: defines the background color of an action sub-component when hovered or focused inside the component.
-* @prop --calcite-tip-manager-action-background-color: defines the background color of an action sub-component inside the component.
-* @prop --calcite-tip-manager-action-text-color-active: defines the text color of an action sub-component when active inside the component.
-* @prop --calcite-tip-manager-action-text-color-hover: defines the text color of an action sub-component when hovered or focused inside the component.
-* @prop --calcite-tip-manager-action-text-color: defines the text color of an action sub-component inside the component.
 * @prop --calcite-tip-manager-background-color: The background color of the component.
 * @prop --calcite-tip-manager-border-color: The border color of the component.
+* @prop --calcite-tip-manager-close-background-color-active: defines the background color of an action sub-component when active inside the component.
+* @prop --calcite-tip-manager-close-background-color-hover: defines the background color of an action sub-component when hovered or focused inside the component.
+* @prop --calcite-tip-manager-close-background-color: defines the background color of an action sub-component inside the component.
+* @prop --calcite-tip-manager-close-icon-color-active: The color of the component's close icon when active.
+* @prop --calcite-tip-manager-close-icon-color-hover: The color of the component's close icon when hovered.
+* @prop --calcite-tip-manager-close-icon-color: The color of the component's close icon.
+* @prop --calcite-tip-manager-close-text-color-active: defines the text color of an action sub-component when active inside the component.
+* @prop --calcite-tip-manager-close-text-color-hover: defines the text color of an action sub-component when hovered or focused inside the component.
+* @prop --calcite-tip-manager-close-text-color: defines the text color of an action sub-component inside the component.
+* @prop --calcite-tip-manager-content-height: The height of the content area.
 * @prop --calcite-tip-manager-heading-text-color: The heading text color of the component.
 * @prop --calcite-tip-manager-height: [Deprecated] use `--calcite-tip-manager-content-height` instead - Specifies the maximum height of a slotted `calcite-tip` within the component.
 * @prop --calcite-tip-manager-text-color: The text color of the component.
 * @prop --calcite-tip-max-width: [Deprecated] in favor of setting `max-width` on tips directly - Specifies the maximum width of a slotted `calcite-tip` within the component.
-* @prop --calcite-tip-manager-close-icon-color: The color of the component's close icon.
-* @prop --calcite-tip-manager-close-icon-color-hover: The color of the component's close icon when hovered.
-* @prop --calcite-tip-manager-close-icon-color-active: The color of the component's close icon when active.
-*
 */
 
 :host {
@@ -81,7 +81,7 @@
     p-4;
   animation-name: none;
   animation-duration: var(--calcite-animation-timing);
-  block-size: var(--calcite-tip-manager-content-height, 19vh);
+  block-size: var(--calcite-tip-manager-height, var(--calcite-tip-manager-content-height, 19vh));
   &:focus {
     @apply focus-outset;
   }
@@ -89,6 +89,7 @@
 
 ::slotted(calcite-tip) {
   @apply m-0 border-none;
+  max-inline-size: var(--calcite-tip-max-width);
 }
 
 .tip-container--advancing {
@@ -154,18 +155,18 @@
 }
 
 calcite-action {
-  --calcite-action-background-color: var(--calcite-tip-manager-action-background-color);
-  --calcite-action-text-color: var(--calcite-tip-manager-action-text-color);
+  --calcite-action-background-color: var(--calcite-tip-manager-close-background-color);
+  --calcite-action-text-color: var(--calcite-tip-manager-close-text-color);
 
   &:hover,
   &:focus {
-    --calcite-action-background-color: var(--calcite-tip-manager-action-background-color-hover);
-    --calcite-action-text-color: var(--calcite-tip-manager-action-text-color-hover);
+    --calcite-action-background-color: var(--calcite-tip-manager-close-background-color-hover);
+    --calcite-action-text-color: var(--calcite-tip-manager-close-text-color-hover);
   }
 
   &:active {
-    --calcite-action-background-color: var(--calcite-tip-manager-action-background-color-active);
-    --calcite-action-text-color: var(--calcite-tip-manager-action-text-color-active);
+    --calcite-action-background-color: var(--calcite-tip-manager-close-background-color-active);
+    --calcite-action-text-color: var(--calcite-tip-manager-close-text-color-active);
   }
 }
 

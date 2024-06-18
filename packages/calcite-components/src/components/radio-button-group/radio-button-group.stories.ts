@@ -1,13 +1,11 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { RadioButtonGroup } from "./radio-button-group";
 const { layout, scale } = ATTRIBUTES;
 
-interface RadioButtonGroupArgs {
-  disabled: boolean;
+interface RadioButtonGroupStoryArgs extends Pick<RadioButtonGroup, "disabled" | "layout" | "scale"> {
   hidden: boolean;
-  layout: string;
-  scale: string;
 }
 
 export default {
@@ -39,7 +37,7 @@ export default {
   },
 };
 
-export const simple = (args: RadioButtonGroupArgs): string => html`
+export const simple = (args: RadioButtonGroupStoryArgs): string => html`
   <calcite-radio-button-group
     name="simple"
     ${boolean("disabled", args.disabled)}

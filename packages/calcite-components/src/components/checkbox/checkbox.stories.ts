@@ -1,16 +1,10 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Checkbox } from "./checkbox";
 const { scale, status } = ATTRIBUTES;
 
-interface CheckboxArgs {
-  checked: boolean;
-  disabled: boolean;
-  indeterminate: boolean;
-  scale: string;
-  status: string;
-  label: string;
-}
+type CheckboxStoryArgs = Pick<Checkbox, "checked" | "disabled" | "indeterminate" | "scale" | "status" | "label">;
 
 export default {
   title: "Components/Controls/Checkbox",
@@ -34,7 +28,7 @@ export default {
   },
 };
 
-export const simple = (args: CheckboxArgs): string => html`
+export const simple = (args: CheckboxStoryArgs): string => html`
   <calcite-label layout="inline">
     <calcite-checkbox
       ${boolean("checked", args.checked)}

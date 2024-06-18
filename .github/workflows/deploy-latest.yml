@@ -2,7 +2,7 @@ name: Deploy Latest
 on:
   workflow_dispatch:
   push:
-    branches: [main, hotfix]
+    branches: [main]
 permissions:
   contents: write
   pull-requests: write
@@ -60,7 +60,8 @@ jobs:
           git commit -m "build: update types and package-lock" || true
 
           npm run publish:latest
-          npm run util:upload-release-assets -- "${{ steps.release.outputs.paths_released }}"
+          npm run util:upload-release-assets -- "$RELEASED_PATHS"
         env:
+          RELEASED_PATHS: ${{ toJSON(steps.release.outputs.paths_released) }}
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
           NPM_CONFIG_PROVENANCE: true

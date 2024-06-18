@@ -9,7 +9,6 @@
  * @prop --calcite-select-spacing: [Deprecated] The padding around the selected option text.
  * @prop --calcite-select-text-color: The text color of the component.
  * @prop --calcite-select-icon-color: The icon color of the component.
- *
  */
 
 :host {
@@ -43,11 +42,6 @@
       border-color: none;
     }
   }
-
-  // override user agent stylesheet disabled styling
-  &:disabled {
-    border-color: var(--calcite-select-border-color-disabled, var(--calcite-color-border-input));
-  }
 }
 
 .select,
@@ -60,10 +54,6 @@
 }
 
 .icon-container {
-  color: var(--calcite-select-icon-color, var(--calcite-color-text-2));
-}
-
-.icon-container {
   @apply pointer-events-none absolute inset-y-0 flex items-center border-solid;
   background-color: var(--calcite-color-background-none);
   border-width: var(--calcite-border-width-none);
@@ -73,7 +63,7 @@
   padding-inline: var(--calcite-internal-select-icon-space-inline);
 
   .icon {
-    color: var(--calcite-select-icon-color, var(--calcite-color-text-3));
+    --calcite-icon-color: var(--calcite-select-icon-color, var(--calcite-color-text-3));
   }
 }
 
@@ -111,11 +101,11 @@
 }
 
 :host([width="auto"]) {
-  --calcite-internal-select-size: auto; // TODO: replace w/ design token
+  --calcite-internal-select-size: auto;
 }
 
 :host([width="half"]) {
-  --calcite-internal-select-size: 50%; // TODO: replace w/ design token
+  --calcite-internal-select-size: 50%;
 }
 
 :host([width="full"]) {

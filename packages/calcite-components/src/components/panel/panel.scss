@@ -77,14 +77,8 @@
 }
 
 .container {
+  @apply relative m-0 flex w-full flex-auto flex-col items-stretch p-0;
   background-color: var(--calcite-panel-background-color, var(--calcite-color-background));
-  margin: 0;
-  display: flex;
-  inline-size: var(--calcite-container-size-content-fluid);
-  flex: 1 1 auto;
-  flex-direction: column;
-  align-items: stretch;
-  padding: 0;
   transition:
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);

@@ -33,6 +33,14 @@
   writing-mode: horizontal-tb;
 }
 
+.list {
+  @apply flex list-none m-0 p-0;
+}
+
+.list-item {
+  @apply flex m-0 p-0;
+}
+
 :host([scale="s"]) {
   --calcite-internal-pagination-item-size: var(--calcite-size-xxl);
   --calcite-internal-pagination-item-space: var(--calcite-size-xxs);

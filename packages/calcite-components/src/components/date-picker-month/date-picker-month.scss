@@ -32,7 +32,7 @@
 .week-header {
   @apply text-center px-0;
   color: var(--calcite-date-picker-month-week-header-text-color, var(--calcite-color-text-3));
-  font-weight: var(--calcite-font-weight-semibold);
+  font-weight: var(--calcite-font-weight-bold);
   inline-size: calc(100% / 7);
   line-height: var(--calcite-font-line-height-fixed-base);
 }

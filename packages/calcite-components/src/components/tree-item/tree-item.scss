@@ -5,7 +5,6 @@
  *
  * @prop --calcite-tree-item-checkbox-background-color-checked: defines the background-color of the sub-component when checked.
  * @prop --calcite-tree-item-checkbox-background-color: defines the background-color of the sub-component.
- * @prop --calcite-tree-item-checkbox-icon-color: defines the checkmark color of the sub-component.
  * @prop --calcite-tree-item-checkbox-shadow-checked: defines the shadow of the sub-component when checked.
  * @prop --calcite-tree-item-checkbox-shadow-hover: defines the shadow of the sub-component when hovered.
  * @prop --calcite-tree-item-checkbox-shadow: defines the shadow of the sub-component.
@@ -19,13 +18,13 @@
  */
 
 :host {
-  --calcite-internal-tree-item-text-color: var(--calcite-tree-item-text-color, var(--calcite-color-text-3));
+  --calcite-internal-tree-item-text-color: var(--calcite-color-text-3);
 
   @apply block
     cursor-pointer
     max-w-full;
 
-  color: var(--calcite-internal-tree-item-text-color);
+  color: var(--calcite-tree-item-text-color, var(--calcite-internal-tree-item-text-color));
 }
 
 .node-actions-container {
@@ -100,7 +99,7 @@
 }
 
 :host([lines]) {
-  .children-container:after {
+  .children-container::after {
     @apply transition-default
         absolute
         top-0
@@ -114,7 +113,7 @@
   }
 }
 
-:host(:not([lines])) .node-container:after {
+:host(:not([lines])) .node-container::after {
   @apply hidden;
 }
 
@@ -205,7 +204,7 @@
 }
 
 :host([selected]) {
-  --calcite-internal-tree-item-text-color: var(--calcite-tree-item-text-color, var(--calcite-color-text-1));
+  --calcite-internal-tree-item-text-color: var(--calcite-color-text-1);
 }
 
 :host([selected]) .node-container {
@@ -259,7 +258,6 @@
 
 .chevron {
   @apply transition-default
-    text-color-3
     relative
     self-center;
   flex: 0 0 auto;
@@ -284,7 +282,7 @@
 calcite-checkbox {
   --calcite-checkbox-background-color: var(--calcite-tree-item-checkbox-background-color);
   --calcite-checkbox-background-color-checked: var(--calcite-tree-item-checkbox-background-color-checked);
-  --calcite-checkbox-icon-color: var(--calcite-tree-item-checkbox-icon-color);
+  --calcite-checkbox-icon-color: var(--calcite-tree-item-selection-icon-color);
   --calcite-checkbox-shadow: var(--calcite-tree-item-checkbox-shadow);
   --calcite-checkbox-shadow-checked: var(--calcite-tree-item-checkbox-shadow-checked);
   --calcite-checkbox-shadow-hover: var(--calcite-tree-item-checkbox-shadow-hover);

@@ -62,7 +62,7 @@ export class SegmentedControlItem {
    *
    * @internal
    */
-  @Prop() layout: Layout = "horizontal";
+  @Prop() layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "horizontal";
 
   /**
    * Specifies the size of the component inherited from the `calcite-segmented-control`, defaults to `m`.

@@ -1,10 +1,9 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
+import { Graph } from "./graph";
 
-interface GraphArgs {
+interface GraphStoryArgs extends Pick<Graph, "min" | "max"> {
   width: number;
   height: number;
-  min: number;
-  max: number;
 }
 
 export default {
@@ -34,7 +33,7 @@ const data: HTMLCalciteGraphElement["data"] = [
 const rainbow = ["red", "orange", "yellow", "green", "cyan", "blue", "violet"];
 const colorStops = rainbow.map((color, i) => ({ offset: (1 / (rainbow.length - 1)) * i, color }));
 
-export const simple = (args: GraphArgs): HTMLDivElement => {
+export const simple = (args: GraphStoryArgs): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = `${args.width}px`;
   div.style.height = `${args.height}px`;

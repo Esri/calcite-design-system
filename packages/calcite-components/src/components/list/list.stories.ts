@@ -2,18 +2,16 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { List } from "./list";
 const { selectionMode, selectionAppearance } = ATTRIBUTES;
 
-interface ListArgs {
-  selectionMode: string;
-  selectionAppearance: string;
-  loading: boolean;
+interface ListStoryArgs
+  extends Pick<
+    List,
+    "selectionMode" | "selectionAppearance" | "loading" | "filterEnabled" | "dragEnabled" | "disabled" | "label"
+  > {
   closable: boolean;
   closed: boolean;
-  filterEnabled: boolean;
-  dragEnabled: boolean;
-  disabled: boolean;
-  label: string;
 }
 
 export default {
@@ -52,7 +50,7 @@ const thumbnailImage = placeholderImage({ width: 44, height: 44 });
 
 const listHTML = (): string => html` selection-mode="none" selection-appearance="icon" label="My List" `;
 
-export const simple = (args: ListArgs): string => html`
+export const simple = (args: ListStoryArgs): string => html`
   <calcite-list
     selection-mode="${args.selectionMode}"
     selection-appearance="${args.selectionAppearance}"
