@@ -7,10 +7,12 @@ import {
   HYDRATED_ATTR,
   labelable,
   hidden,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { Direction } from "../../utils/dom";
+import { CSS } from "./resources";
 
 describe("calcite-checkbox", () => {
   describe("honors hidden attribute", () => {
@@ -208,6 +210,62 @@ describe("calcite-checkbox", () => {
         it("large checkbox allows clicks 3px around all sides", async () => {
           await testCheckboxClick("l", 3, direction);
         });
+      });
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-checkbox", {
+        "--calcite-checkbox-background-color": {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-checkbox-icon-color": {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "color",
+        },
+        "--calcite-checkbox-border-color": {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-checkbox-border-color-hover": {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "boxShadow",
+          state: "hover",
+        },
+        "--calcite-checkbox-size": [
+          {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "inlineSize",
+          },
+          {
+            shadowSelector: `.${CSS.toggle}`,
+            targetProp: "blockSize",
+          },
+        ],
+      });
+    });
+
+    describe("checked", () => {
+      themed(html`<calcite-checkbox checked></calcite-checkbox>`, {
+        "--calcite-checkbox-background-color-checked": {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-checkbox-border-color-checked": {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "boxShadow",
+        },
+      });
+    });
+
+    describe("invalid", () => {
+      themed(html`<calcite-checkbox status="invalid"></calcite-checkbox>`, {
+        "--calcite-checkbox-border-color-invalid": {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "boxShadow",
+        },
       });
     });
   });
