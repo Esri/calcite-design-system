@@ -3,10 +3,12 @@ export const ComboboxItemGroup = "CALCITE-COMBOBOX-ITEM-GROUP";
 export const ComboboxChildSelector = `${ComboboxItem}, ${ComboboxItemGroup}`;
 
 export const CSS = {
-  input: "input",
+  chipActive: "chip--active",
   chipInvisible: "chip--invisible",
+  icon: "icon",
+  input: "input",
+  listContainer: "list-container",
   selectionDisplayFit: "selection-display-fit",
   selectionDisplaySingle: "selection-display-single",
-  listContainer: "list-container",
-  icon: "icon",
+  wrapper: "wrapper",
 };

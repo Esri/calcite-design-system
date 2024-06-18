@@ -4,15 +4,17 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-radio-button-background-color: Specifies the background color of the component.
+ * @prop --calcite-radio-button-border-color: Specifies the shadow of the component.
  * @prop --calcite-radio-button-border-radius: Specifies the border radius of the component.
- * @prop --calcite-radio-button-shadow: Specifies the shadow of the component.
  * @prop --calcite-radio-button-size: Specifies the size of the component.
- * @prop --calcite-radio-focus: Specifies the focus of the component.
  */
 
 :host {
   display: block;
   cursor: pointer;
+
+  --calcite-internal-radio-button-shadow-spread: 1px;
+  --calcite-internal-radio-button-border-color-fallback: var(--calcite-color-border-input);
 }
 
 .container {
@@ -29,7 +31,11 @@
     all var(--calcite-animation-timing) ease-in-out 0s,
     outline 0s,
     outline-offset 0s;
-  box-shadow: var(--calcite-radio-button-shadow, inset 0 0 0 1px var(--calcite-color-border-input));
+  box-shadow: inset 0 0 0 var(--calcite-internal-radio-button-shadow-spread)
+    var(
+      --calcite-radio-button-border-color,
+      var(--calcite-internal-radio-button-border-color, var(--calcite-internal-radio-button-border-color-fallback))
+    );
 }
 
 :host([scale="s"]) .radio {
@@ -52,21 +58,14 @@
 
 :host([focused]) {
   .radio {
-    @include focusOutset("--calcite-radio-focus", "--calcite-internal-radio-focus-offset");
-  }
-}
-
-:host([hovered][disabled]) {
-  .radio {
-    box-shadow: var(--calcite-radio-button-shadow, inset 0 0 0 1px var(--calcite-color-border-input));
+    @apply focus-outset;
   }
 }
 
 :host([hovered]),
 :host(:not([checked])[focused]:not([disabled])) {
-  .radio {
-    box-shadow: var(--calcite-radio-button-shadow, inset 0 0 0 2px var(--calcite-color-brand));
-  }
+  --calcite-internal-radio-button-shadow-spread: 2px;
+  --calcite-internal-radio-button-border-color-fallback: var(--calcite-color-brand);
 }
 
 @include disabled() {
@@ -77,54 +76,24 @@
 }
 
 :host([scale="s"][checked]),
-:host([hovered][scale="s"][checked][disabled]) {
-  .radio {
-    box-shadow: var(--calcite-radio-button-shadow, inset 0 0 0 4px var(--calcite-color-brand));
-  }
-}
-
+:host([hovered][scale="s"][checked][disabled]),
 :host([scale="s"][focused][checked]:not([disabled])) {
-  .radio {
-    box-shadow: var(
-      --calcite-radio-button-shadow,
-      inset 0 0 0 4px var(--calcite-color-brand),
-      0 0 0 2px var(--calcite-color-foreground-1)
-    );
-  }
+  --calcite-internal-radio-button-shadow-spread: 4px;
+  --calcite-internal-radio-button-border-color-fallback: var(--calcite-color-brand);
 }
 
 :host([scale="m"][checked]),
-:host([hovered][scale="m"][checked][disabled]) {
-  .radio {
-    box-shadow: var(--calcite-radio-button-shadow, inset 0 0 0 5px var(--calcite-color-brand));
-  }
-}
-
+:host([hovered][scale="m"][checked][disabled]),
 :host([scale="m"][focused][checked]:not([disabled])) {
-  .radio {
-    box-shadow: var(
-      --calcite-radio-button-shadow,
-      inset 0 0 0 5px var(--calcite-color-brand),
-      0 0 0 2px var(--calcite-color-foreground-1)
-    );
-  }
+  --calcite-internal-radio-button-shadow-spread: 5px;
+  --calcite-internal-radio-button-border-color-fallback: var(--calcite-color-brand);
 }
 
 :host([scale="l"][checked]),
-:host([hovered][scale="l"][checked][disabled]) {
-  .radio {
-    box-shadow: var(--calcite-radio-button-shadow, inset 0 0 0 6px var(--calcite-color-brand));
-  }
-}
-
+:host([hovered][scale="l"][checked][disabled]),
 :host([scale="l"][focused][checked]:not([disabled])) {
-  .radio {
-    box-shadow: var(
-      --calcite-radio-button-shadow,
-      inset 0 0 0 6px var(--calcite-color-brand),
-      0 0 0 2px var(--calcite-color-foreground-1)
-    );
-  }
+  --calcite-internal-radio-button-shadow-spread: 6px;
+  --calcite-internal-radio-button-border-color-fallback: var(--calcite-color-brand);
 }
 
 @media (forced-colors: active) {
