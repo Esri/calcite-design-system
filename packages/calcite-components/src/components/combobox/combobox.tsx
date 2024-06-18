@@ -1070,7 +1070,7 @@ export class Combobox
         isGroup(item) ? label === item.label : value === item.value && label === item.textLabel,
       );
 
-    return debounce((text: string, updateOpen = false): void => {
+    return debounce((text: string, setOpenToEmptyState = false): void => {
       const filteredData = filter(this.data, text);
       const itemsAndGroups = this.getItemsAndGroups();
 
@@ -1090,7 +1090,7 @@ export class Combobox
 
       this.filteredItems = this.getFilteredItems();
 
-      if (updateOpen) {
+      if (setOpenToEmptyState) {
         this.open = this.text.trim().length > 0 && this.filteredItems.length > 0;
       }
 
