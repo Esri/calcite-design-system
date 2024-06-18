@@ -121,7 +121,7 @@
     "turbo": "1.13.4",
     "typescript": "5.4.4",
     "updtr": "4.0.0",
-    "workbox-build": "7.0.0"
+    "workbox-build": "7.1.1"
   },
   "license": "SEE LICENSE.md",
   "overrides": {
