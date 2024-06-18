@@ -385,15 +385,39 @@ describe("calcite-inline-editable", () => {
         shadowSelector: `.${CSS.wrapper}`,
         targetProp: "backgroundColor",
       },
+      "--calcite-inline-editable-cancel-button-background-color": {
+        shadowSelector: `.${CSS.cancelEditingButton}`,
+        targetProp: "--calcite-button-background-color",
+      },
       "--calcite-inline-editable-cancel-button-background-color-active": {
         shadowSelector: `.${CSS.cancelEditingButton}`,
-        targetProp: "backgroundColor",
+        targetProp: "--calcite-button-background-color",
         state: { press: { attribute: "class", value: CSS.cancelEditingButton } },
       },
       "--calcite-inline-editable-cancel-button-background-color-focus": {
         shadowSelector: `.${CSS.cancelEditingButton}`,
+        targetProp: "--calcite-button-background-color",
         state: "focus",
-        targetProp: "backgroundColor",
+      },
+      "--calcite-inline-editable-cancel-button-background-color-hover": {
+        shadowSelector: `.${CSS.cancelEditingButton}`,
+        targetProp: "--calcite-button-background-color",
+        state: "hover",
+      },
+      "--calcite-inline-editable-cancel-button-border-color-active": {
+        shadowSelector: `.${CSS.cancelEditingButton}`,
+        targetProp: "--calcite-button-border-color",
+        state: { press: { attribute: "class", value: CSS.cancelEditingButton } },
+      },
+      "--calcite-inline-editable-cancel-button-border-color-focus": {
+        shadowSelector: `.${CSS.cancelEditingButton}`,
+        targetProp: "--calcite-button-border-color",
+        state: { press: { attribute: "class", value: CSS.cancelEditingButton } },
+      },
+      "--calcite-inline-editable-cancel-button-border-color-hover": {
+        shadowSelector: `.${CSS.cancelEditingButton}`,
+        targetProp: "--calcite-button-border-color",
+        state: "hover",
       },
     } as const;
 
