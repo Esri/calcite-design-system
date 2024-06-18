@@ -493,7 +493,7 @@ export const footerStartAndEndSlots = (): string => html`
   </calcite-panel>
 `;
 
-export const footerOverFooterStartEnd = (): string => html`
+export const footerSlotPrecedence = (): string => html`
   <calcite-panel style="height: 200px">
     <p>Slotted content!</p>
     <div slot="header-content">header-content slot</div>
