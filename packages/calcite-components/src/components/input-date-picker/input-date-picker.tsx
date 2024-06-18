@@ -23,7 +23,7 @@ import {
   dateToISO,
   inRange,
 } from "../../utils/date";
-import { toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -429,7 +429,7 @@ export class InputDatePicker
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.el);
   }
 
   /**

@@ -271,3 +271,38 @@ export const icons_TestOnly = (): string => html`
     </calcite-block-section>
   </calcite-block>
 `;
+
+export const iconStartEnd = (): string => html`
+  <h1>content-start and actions-end</h1>
+
+  <calcite-block
+    heading="Valid status"
+    description="summary"
+    collapsible
+    icon-start="pen"
+    icon-end="pen"
+    style="width: 500px"
+  >
+    <calcite-icon
+      icon="compass"
+      slot="content-start"
+      style="color: var(--calcite-color-status-success)"
+      scale="s"
+    ></calcite-icon>
+    <calcite-action appearance="transparent" icon="ellipsis" text="menu" label="menu" slot="actions-end" />
+  </calcite-block>
+
+  <h1>loading and actions-end</h1>
+
+  <calcite-block
+    heading="Valid status"
+    collapsible
+    status="valid"
+    icon-start="pen"
+    icon-end="pen"
+    loading
+    style="width: 500px"
+  >
+    <calcite-action appearance="transparent" icon="ellipsis" text="menu" label="menu" slot="actions-end" />
+  </calcite-block>
+`;

@@ -63,7 +63,6 @@ import {
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
-  dragActive,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 import { ValueListMessages } from "./assets/value-list/t9n";
@@ -240,10 +239,6 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
@@ -267,10 +262,6 @@ export class ValueList<
   }
 
   disconnectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     disconnectInteractive(this);
     disconnectSortableComponent(this);
     disconnectLocalized(this);
