@@ -311,7 +311,7 @@ export interface FloatingUIComponent {
    *
    * Possible values: "vertical" or "horizontal".
    *
-   * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/main/src/components/functional/FloatingArrow.tsx)
+   * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/dev/src/components/functional/FloatingArrow.tsx)
    */
   floatingLayout?: FloatingLayout;
 }

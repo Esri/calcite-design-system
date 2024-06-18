@@ -238,7 +238,7 @@ export class ColorPicker
    *
    * @default "#007ac2"
    * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
-   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
+   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/src/components/color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = normalizeHex(
     hexify(DEFAULT_COLOR, this.alphaChannel),
