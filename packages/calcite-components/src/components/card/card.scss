@@ -3,11 +3,13 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- *
  * @prop --calcite-card-accent-color-selected: Specifies the accent color of the component when `selected`.
  * @prop --calcite-card-background-color: Specifies the background color of the component.
  * @prop --calcite-card-border-color: Specifies the border color of the component.
  * @prop --calcite-card-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-card-loader-color-end: Specifies the end color of the loader
+ * @prop --calcite-card-loader-color-middle: Specifies the middle color of the loader
+ * @prop --calcite-card-loader-color-start: Specifies the start color of the loader
  * @prop --calcite-card-selection-background-color-active: Specifies the background color of the component's selection element when active.
  * @prop --calcite-card-selection-background-color-hover: Specifies the background color of the component's selection element when hovered.
  * @prop --calcite-card-selection-background-color-selected: Specifies the icon color of the component's selection element when `selected`.
@@ -16,11 +18,6 @@
  * @prop --calcite-card-selection-icon-color-selected: Specifies the icon color of the component's selection element when `selected`.
  * @prop --calcite-card-selection-icon-color: Specifies the icon color of the component's selection element.
  * @prop --calcite-card-shadow: Specifies the shadow of the component.
- 
- * @prop --calcite-card-loader-color-one-third: Specifies the starting color of the loader
- * @prop --calcite-card-loader-color-start: Specifies the starting color of the loader
- * @prop --calcite-card-loader-color-two-thirds: Specifies the starting color of the loader
- *
  */
 
 :host {
@@ -217,9 +214,9 @@ slot[name="footer-end"]::slotted(*) {
 }
 
 calcite-loader {
-  --calcite-loader-color-middle: var(--calcite-card-loader-color-one-third);
   --calcite-loader-color-start: var(--calcite-card-loader-color-start);
-  --calcite-loader-color-end: var(--calcite-card-loader-color-two-thirds);
+  --calcite-loader-color-middle: var(--calcite-card-loader-color-middle);
+  --calcite-loader-color-end: var(--calcite-card-loader-color-end);
 }
 
 @include base-component();

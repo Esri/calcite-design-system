@@ -1,8 +1,9 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, renders, hidden, disabled } from "../../tests/commonTests";
-import { CSS } from "../card/resources";
+import { accessible, renders, hidden, disabled, themed } from "../../tests/commonTests";
+import { CSS as CARD_CSS } from "../card/resources";
 import { createSelectedItemsAsserter } from "../../tests/utils";
+import { CSS } from "./resources";
 
 describe("calcite-card-group", () => {
   describe("renders", () => {
@@ -70,8 +71,8 @@ describe("calcite-card-group", () => {
       const element = await page.find("calcite-card-group");
       const card1 = await page.find("#card-1");
       const card2 = await page.find("#card-2");
-      const card1CheckAction = await page.find(`#card-1 >>> .${CSS.checkboxWrapper}`);
-      const card2CheckAction = await page.find(`#card-2 >>> .${CSS.checkboxWrapper}`);
+      const card1CheckAction = await page.find(`#card-1 >>> .${CARD_CSS.checkboxWrapper}`);
+      const card2CheckAction = await page.find(`#card-2 >>> .${CARD_CSS.checkboxWrapper}`);
 
       const cardGroupSelectSpy = await element.spyOnEvent("calciteCardGroupSelect");
       const selectedItemAsserter = await createSelectedItemsAsserter(
@@ -88,7 +89,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card2.id]);
 
-      card1CheckAction.click();
+      await card1CheckAction.click();
       await page.waitForChanges();
       expect(await cardGroupSelectSpy).toHaveReceivedEventTimes(1);
       expect(await cardSelectSpy1).toHaveReceivedEventTimes(1);
@@ -98,7 +99,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card1.id]);
 
-      card2CheckAction.click();
+      await card2CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(2);
       expect(cardSelectSpy1).toHaveReceivedEventTimes(1);
@@ -108,7 +109,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card2.id]);
 
-      card2CheckAction.click();
+      await card2CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(3);
       expect(cardSelectSpy1).toHaveReceivedEventTimes(1);
@@ -132,8 +133,8 @@ describe("calcite-card-group", () => {
       const element = await page.find("calcite-card-group");
       const card1 = await page.find("#card-1");
       const card2 = await page.find("#card-2");
-      const card1CheckAction = await page.find(`#card-1 >>> .${CSS.checkboxWrapper}`);
-      const card2CheckAction = await page.find(`#card-2 >>> .${CSS.checkboxWrapper}`);
+      const card1CheckAction = await page.find(`#card-1 >>> .${CARD_CSS.checkboxWrapper}`);
+      const card2CheckAction = await page.find(`#card-2 >>> .${CARD_CSS.checkboxWrapper}`);
 
       const cardGroupSelectSpy = await element.spyOnEvent("calciteCardGroupSelect");
       const selectedItemAsserter = await createSelectedItemsAsserter(
@@ -146,7 +147,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card1.id]);
 
-      card1CheckAction.click();
+      await card1CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(1);
       expect(await card1.getProperty("selected")).toBe(true);
@@ -154,7 +155,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card1.id]);
 
-      card2CheckAction.click();
+      await card2CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(2);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -162,7 +163,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card2.id]);
 
-      card2CheckAction.click();
+      await card2CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(3);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -186,9 +187,9 @@ describe("calcite-card-group", () => {
       const card1 = await page.find("#card-1");
       const card2 = await page.find("#card-2");
       const card3 = await page.find("#card-3");
-      const card1CheckAction = await page.find(`#card-1 >>> .${CSS.checkboxWrapper}`);
-      const card2CheckAction = await page.find(`#card-2 >>> .${CSS.checkboxWrapper}`);
-      const card3CheckAction = await page.find(`#card-3 >>> .${CSS.checkboxWrapper}`);
+      const card1CheckAction = await page.find(`#card-1 >>> .${CARD_CSS.checkboxWrapper}`);
+      const card2CheckAction = await page.find(`#card-2 >>> .${CARD_CSS.checkboxWrapper}`);
+      const card3CheckAction = await page.find(`#card-3 >>> .${CARD_CSS.checkboxWrapper}`);
 
       const cardGroupSelectSpy = await element.spyOnEvent("calciteCardGroupSelect");
       const selectedItemAsserter = await createSelectedItemsAsserter(
@@ -201,7 +202,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toEqual([]);
       await selectedItemAsserter([]);
 
-      card1CheckAction.click();
+      await card1CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(1);
       expect(await card1.getProperty("selected")).toBe(true);
@@ -210,7 +211,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card1.id]);
 
-      card2CheckAction.click();
+      await card2CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(2);
       expect(await card1.getProperty("selected")).toBe(true);
@@ -219,7 +220,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(2);
       await selectedItemAsserter([card1.id, card2.id]);
 
-      card3CheckAction.click();
+      await card3CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(3);
       expect(await card1.getProperty("selected")).toBe(true);
@@ -228,7 +229,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(3);
       await selectedItemAsserter([card1.id, card2.id, card3.id]);
 
-      card1CheckAction.click();
+      await card1CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(4);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -237,7 +238,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(2);
       await selectedItemAsserter([card2.id, card3.id]);
 
-      card2CheckAction.click();
+      await card2CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(5);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -246,7 +247,7 @@ describe("calcite-card-group", () => {
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await selectedItemAsserter([card3.id]);
 
-      card3CheckAction.click();
+      await card3CheckAction.click();
       await page.waitForChanges();
       expect(cardGroupSelectSpy).toHaveReceivedEventTimes(6);
       expect(await card1.getProperty("selected")).toBe(false);
@@ -440,5 +441,16 @@ describe("calcite-card-group", () => {
 
     expect(await element.getProperty("selectedItems")).toHaveLength(2);
     await selectedItemAsserter([card4.id, card5.id]);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-card-group", {
+        "--calcite-card-group-gap": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "gap",
+        },
+      });
+    });
   });
 });
