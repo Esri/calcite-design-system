@@ -19,17 +19,17 @@
 @import "../../assets/styles/header";
 
 :host([scale="s"]) .content-top,
-.content-bottom {
+:host([scale="s"]) .content-bottom {
   padding: var(--calcite-spacing-sm);
 }
 
 :host([scale="m"]) .content-top,
-.content-bottom {
+:host([scale="m"]) .content-bottom {
   padding: var(--calcite-spacing-md);
 }
 
 :host([scale="l"]) .content-top,
-.content-bottom {
+:host([scale="l"]) .content-bottom {
   padding: var(--calcite-spacing-xl);
 }
 
@@ -138,17 +138,30 @@
 }
 
 @include slotted("footer-start", "*") {
-  @apply text-n2-wrap self-center;
+  @apply flex text-n2-wrap self-center;
   margin-inline-end: auto;
 }
 
 @include slotted("footer-end", "*") {
-  @apply text-n2-wrap self-center;
+  @apply flex text-n2-wrap self-center;
 }
 
-slot[name="footer-start"]::slotted(*),
-slot[name="footer-end"]::slotted(*) {
-  @apply flex gap-1;
+:host([scale="s"]) slot[name="footer"]::slotted(*),
+:host([scale="s"]) slot[name="footer-start"]::slotted(*),
+:host([scale="s"]) slot[name="footer-end"]::slotted(*) {
+  gap: var(--calcite-spacing-sm);
+}
+
+:host([scale="m"]) slot[name="footer"]::slotted(*),
+:host([scale="m"]) slot[name="footer-start"]::slotted(*),
+:host([scale="m"]) slot[name="footer-end"]::slotted(*) {
+  gap: var(--calcite-spacing-md);
+}
+
+:host([scale="l"]) slot[name="footer"]::slotted(*),
+:host([scale="l"]) slot[name="footer-start"]::slotted(*),
+:host([scale="l"]) slot[name="footer-end"]::slotted(*) {
+  gap: var(--calcite-spacing-lg);
 }
 
 .fab-container {
