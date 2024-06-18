@@ -529,11 +529,11 @@ describe("calcite-input-time-zone", () => {
         },
         "--calcite-input-combobox-item-indicator-icon-color-active": {
           shadowSelector: "calcite-combobox-item",
-          targetProp: "--calcite-combobox-item-indicator-icon-color-active",
+          targetProp: "--calcite-combobox-item-indicator-color-active",
         },
         "--calcite-input-combobox-item-indicator-icon-color": {
           shadowSelector: "calcite-combobox-item",
-          targetProp: "--calcite-combobox-item-indicator-icon-color",
+          targetProp: "--calcite-combobox-item-indicator-color",
         },
         "--calcite-input-combobox-item-shadow": {
           shadowSelector: "calcite-combobox-item",

@@ -7,8 +7,8 @@
  * @prop --calcite-combobox-item-background-color: defines the background color of the component
  * @prop --calcite-combobox-item-icon-color-active: defines the color of a custom icon when the component is active.
  * @prop --calcite-combobox-item-icon-color: defines the color of a custom icon in the component.
- * @prop --calcite-combobox-item-indicator-icon-color-active: defines the color of an indicator icon when the component is active.
- * @prop --calcite-combobox-item-indicator-icon-color: defines the indicator icon color.
+ * @prop --calcite-combobox-item-indicator-color-active: defines the color of an indicator icon when the component is active.
+ * @prop --calcite-combobox-item-indicator-color: defines the indicator icon color.
  * @prop --calcite-combobox-item-shadow: defines the shadow of the component.
  * @prop --calcite-combobox-item-text-color-active: defines the text color when the component is selected, active, or hovered.
  * @prop --calcite-combobox-item-text-color: defines the text color of the component.
@@ -119,7 +119,7 @@ ul:focus {
      duration-150
      ease-in-out;
   opacity: 0;
-  color: var(--calcite-combobox-item-indicator-icon-color, var(--calcite-color-border-1));
+  color: var(--calcite-combobox-item-indicator-color, var(--calcite-color-border-1));
 }
 
 .icon--indent {
@@ -133,7 +133,7 @@ ul:focus {
 }
 
 .icon--active {
-  color: var(--calcite-combobox-item-indicator-icon-color-active, var(--calcite-color-text-1));
+  color: var(--calcite-combobox-item-indicator-color-active, var(--calcite-color-text-1));
 }
 
 .icon--dot {

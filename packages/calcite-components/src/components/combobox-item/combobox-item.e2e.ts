@@ -25,7 +25,7 @@ describe("calcite-combobox-item", () => {
           shadowSelector: `.${CSS.label}`,
           targetProp: "backgroundColor",
         },
-        "--calcite-combobox-item-indicator-icon-color": {
+        "--calcite-combobox-item-indicator-color": {
           shadowSelector: `.${CSS.icon}`,
           targetProp: "color",
         },
@@ -63,7 +63,7 @@ describe("calcite-combobox-item", () => {
           shadowSelector: `.${CSS.icon}`,
           targetProp: "color",
         },
-        "--calcite-combobox-item-indicator-icon-color-active": {
+        "--calcite-combobox-item-indicator-color-active": {
           shadowSelector: `.${CSS.iconActive}`,
           targetProp: "color",
         },
