@@ -15,6 +15,7 @@ import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementRect, getElementXY, selectText } from "../../tests/utils";
+import { validateCaretIndex } from "../../tests/commonTests/utils";
 import { testHiddenInputSyncing, testPostValidationFocusing, testWorkaroundForGlobalPropRemoval } from "./common/tests";
 
 describe("calcite-input", () => {
@@ -1832,21 +1833,6 @@ describe("calcite-input", () => {
   describe("ArrowUp/ArrowDown function of moving caret to the beginning/end of text within calcite-input", () => {
     let page: E2EPage;
 
-    const determineCaretIndex = (
-      nestedInputTypeSelector: "textarea" | "input",
-      position?: number,
-    ): Promise<boolean> => {
-      return page.evaluate(
-        (nestedInputTypeSelector, position) => {
-          const element = document.querySelector("calcite-input") as HTMLCalciteInputElement;
-          const el = element.shadowRoot.querySelector(nestedInputTypeSelector);
-          return el.selectionStart === (position !== undefined ? position : el.value.length);
-        },
-        nestedInputTypeSelector,
-        position,
-      );
-    };
-
     beforeEach(async () => {
       page = await newE2EPage();
     });
@@ -1863,12 +1849,25 @@ describe("calcite-input", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(await determineCaretIndex("textarea", 0)).toBeTruthy();
+      expect(
+        await validateCaretIndex({
+          page,
+          componentTag: "calcite-input",
+          nestedInputTypeSelector: "textarea",
+          position: 0,
+        }),
+      ).toBeTruthy();
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(await determineCaretIndex("textarea")).toBeTruthy();
+      expect(
+        await validateCaretIndex({
+          page,
+          componentTag: "calcite-input",
+          nestedInputTypeSelector: "textarea",
+        }),
+      ).toBeTruthy();
     });
 
     it("works for type text", async () => {
@@ -1883,12 +1882,23 @@ describe("calcite-input", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(await determineCaretIndex("input", 0)).toBeTruthy();
+      expect(
+        await validateCaretIndex({
+          page,
+          componentTag: "calcite-input",
+          position: 0,
+        }),
+      ).toBeTruthy();
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(await determineCaretIndex("input")).toBeTruthy();
+      expect(
+        await validateCaretIndex({
+          page,
+          componentTag: "calcite-input",
+        }),
+      ).toBeTruthy();
     });
 
     it("should not work for type number, but increment instead", async () => {
@@ -1903,13 +1913,23 @@ describe("calcite-input", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(await determineCaretIndex("input")).toBeTruthy();
+      expect(
+        await validateCaretIndex({
+          page,
+          componentTag: "calcite-input",
+        }),
+      ).toBeTruthy();
       expect(await element.getProperty("value")).toBe("12346");
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(await determineCaretIndex("input")).toBeTruthy();
+      expect(
+        await validateCaretIndex({
+          page,
+          componentTag: "calcite-input",
+        }),
+      ).toBeTruthy();
       expect(await element.getProperty("value")).toBe("12345");
     });
 

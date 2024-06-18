@@ -78,19 +78,22 @@ export function propToAttr(name: string): string {
 export function validateCaretIndex({
   page,
   componentTag,
+  nestedInputTypeSelector = "input",
   position,
 }: {
   page: E2EPage;
   componentTag: string;
+  nestedInputTypeSelector?: "textarea" | "input";
   position?: number;
 }): Promise<boolean> {
   return page.evaluate(
-    (position, componentTag) => {
+    (position, componentTag, nestedInputTypeSelector) => {
       const element = document.querySelector(componentTag) as HTMLElement;
-      const el = element.shadowRoot.querySelector("input");
+      const el = element.shadowRoot.querySelector(nestedInputTypeSelector);
       return el.selectionStart === (position !== undefined ? position : el.value.length);
     },
     position,
     componentTag,
+    nestedInputTypeSelector,
   );
 }
