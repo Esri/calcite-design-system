@@ -16,6 +16,7 @@ import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
 import { getElementXY, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
+import { validateCaretIndex } from "../../tests/commonTests/utils";
 import { CSS } from "./resources";
 
 const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
@@ -940,8 +941,9 @@ describe("calcite-combobox", () => {
       `);
     });
 
-    it("should navigate chips with arrow keys", async () => {
+    it("should navigate chips and text with arrow keys", async () => {
       const comboboxId = "myCombobox";
+      const componentTag = "calcite-combobox";
       const inputId = "input";
       const chipId = "chip";
 
@@ -955,11 +957,40 @@ describe("calcite-combobox", () => {
 
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
+      expect(await validateCaretIndex({ page, componentTag, position: 0 })).toBeTruthy();
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
+      expect(await validateCaretIndex({ page, componentTag, position: 0 })).toBeTruthy();
+
+      await page.keyboard.type("zz");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      expect(await validateCaretIndex({ page, componentTag, position: 2 })).toBeTruthy();
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      expect(await validateCaretIndex({ page, componentTag, position: 2 })).toBeTruthy();
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      expect(await validateCaretIndex({ page, componentTag, position: 1 })).toBeTruthy();
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      expect(await validateCaretIndex({ page, componentTag, position: 0 })).toBeTruthy();
 
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
@@ -990,6 +1021,24 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(`${chipId}-2`);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      expect(await validateCaretIndex({ page, componentTag, position: 0 })).toBeTruthy();
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      expect(await validateCaretIndex({ page, componentTag, position: 2 })).toBeTruthy();
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      expect(await validateCaretIndex({ page, componentTag, position: 0 })).toBeTruthy();
     });
   });
 
