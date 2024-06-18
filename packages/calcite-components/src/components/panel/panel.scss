@@ -139,29 +139,15 @@
 
 @include slotted("footer-start", "*") {
   @apply flex text-n2-wrap self-center;
+
   margin-inline-end: auto;
+  gap: var(--calcite-spacing-md);
 }
 
 @include slotted("footer-end", "*") {
   @apply flex text-n2-wrap self-center;
-}
 
-:host([scale="s"]) slot[name="footer"]::slotted(*),
-:host([scale="s"]) slot[name="footer-start"]::slotted(*),
-:host([scale="s"]) slot[name="footer-end"]::slotted(*) {
-  gap: var(--calcite-spacing-sm);
-}
-
-:host([scale="m"]) slot[name="footer"]::slotted(*),
-:host([scale="m"]) slot[name="footer-start"]::slotted(*),
-:host([scale="m"]) slot[name="footer-end"]::slotted(*) {
   gap: var(--calcite-spacing-md);
-}
-
-:host([scale="l"]) slot[name="footer"]::slotted(*),
-:host([scale="l"]) slot[name="footer-start"]::slotted(*),
-:host([scale="l"]) slot[name="footer-end"]::slotted(*) {
-  gap: var(--calcite-spacing-lg);
 }
 
 .fab-container {
