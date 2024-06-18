@@ -1,4 +1,0 @@
-{
-  "invalid": "Không hợp lệ",
-  "tooLong": "Độ dài ký tự hiện tại là {currentLength}, vượt quá độ dài ký tự tối đa {maxLength}."
-}
