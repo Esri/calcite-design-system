@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+npm install
+
 if [ "$BRANCH" = "dev" ]; then
     if [ "$NEXT_RELEASE_ENABLED" != "true" ]; then
         echo "Next release is disabled"
@@ -11,8 +13,6 @@ if [ "$BRANCH" = "dev" ]; then
         exit 0
     fi
 fi
-
-npm install
 
 # version the packages with lerna before building to ensure the version in
 # Calcite components' source code preamble is correct for deployment
