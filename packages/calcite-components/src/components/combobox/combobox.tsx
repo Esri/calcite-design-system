@@ -1375,7 +1375,7 @@ export class Combobox
     return this.selectedItems.map((item, i) => {
       const chipClasses = {
         chip: true,
-        "chip--active": activeChipIndex === i,
+        [CSS.chipActive]: activeChipIndex === i,
       };
       const ancestors = [...getItemAncestors(item)].reverse();
       const pathLabel = [...ancestors, item].map((el) => el.textLabel);
@@ -1696,7 +1696,7 @@ export class Combobox
           <div
             aria-live="polite"
             class={{
-              wrapper: true,
+              [CSS.wrapper]: true,
               "wrapper--single": singleSelectionMode || !this.selectedItems.length,
               "wrapper--active": open,
             }}
