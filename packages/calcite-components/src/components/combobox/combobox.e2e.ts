@@ -2064,7 +2064,7 @@ describe("calcite-combobox", () => {
           },
           {
             shadowSelector: `.${CSS.input}`,
-            targetProp: "line-height",
+            targetProp: "lineHeight",
           },
         ],
       });

@@ -1,6 +1,7 @@
 export const CSS = {
-  track: "track",
   bar: "bar",
-  text: "text",
+  indeterminate: "indeterminate",
   reversed: "reversed",
+  text: "text",
+  track: "track",
 };
