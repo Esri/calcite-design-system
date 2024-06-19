@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell", () => {
@@ -120,5 +121,69 @@ describe("calcite-shell", () => {
 
     const panelTop = await contentNode.find(`slot[name="${SLOTS.panelTop}"]`);
     expect(panelTop).toBeNull();
+  });
+});
+
+describe("theme", () => {
+  const shellHTML = html`
+    <calcite-shell>
+      <calcite-tip-manager>
+        <calcite-tip heading="Example tip title">
+          <calcite-link href="http://www.esri.com">An example link</calcite-link>
+        </calcite-tip>
+      </calcite-tip-manager>
+      <calcite-panel heading="Leading panel content"></calcite-panel>
+      <calcite-flow heading="Leading panel content"></calcite-flow>
+      <calcite-shell-center-row slot="${SLOTS.panelBottom}"></calcite-shell-center-row>
+      <calcite-shell-center-row slot="${SLOTS.panelTop}"></calcite-shell-center-row>
+      <calcite-shell-center-row slot="${SLOTS.centerRow}"></calcite-shell-center-row>
+    </calcite-shell>
+  `;
+
+  describe("slotted overrides", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-shell-border-color": [
+        {
+          selector: `calcite-panel`,
+          targetProp: "borderColor",
+        },
+        {
+          selector: `calcite-flow`,
+          targetProp: "borderColor",
+        },
+        {
+          selector: `calcite-shell-center-row[slot="${SLOTS.panelBottom}"]`,
+          targetProp: "borderColor",
+        },
+        {
+          selector: `calcite-shell-center-row[slot="${SLOTS.panelTop}"]`,
+          targetProp: "borderColor",
+        },
+        {
+          selector: `calcite-shell-center-row[slot="${SLOTS.centerRow}"]`,
+          targetProp: "borderColor",
+        },
+      ],
+    };
+    themed(async () => shellHTML, tokens);
+  });
+
+  describe("default", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-shell-background-color": {
+        targetProp: "backgroundColor",
+      },
+    };
+    themed(async () => shellHTML, tokens);
+  });
+
+  describe("deprecated", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-shell-tip-spacing": {
+        selector: `calcite-tip-manager`,
+        targetProp: "insetInline",
+      },
+    };
+    themed(async () => shellHTML, tokens);
   });
 });
