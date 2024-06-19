@@ -106,17 +106,24 @@ describe("theme", () => {
       </calcite-action-bar>
     </calcite-shell-center-row>
   `;
+
   describe("default", () => {
     const tokens: ComponentTestTokens = {
-      "--calcite-shell-center-row-border-color": {
-        selector: `calcite-action-bar`,
-        targetProp: "borderColor",
-      },
       "--calcite-shell-center-row-border-radius": {
         targetProp: "borderRadius",
       },
       "--calcite-shell-center-row-background-color": {
         targetProp: "backgroundColor",
+      },
+    };
+    themed(shellCenterHtml, tokens);
+  });
+
+  describe("slotted overrides", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-shell-center-row-border-color": {
+        selector: `calcite-action-bar`,
+        targetProp: "borderColor",
       },
     };
     themed(shellCenterHtml, tokens);
