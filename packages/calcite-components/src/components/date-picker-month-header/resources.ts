@@ -9,6 +9,8 @@ export const CSS = {
   yearSuffix: "year--suffix",
   yearWrap: "year-wrap",
   textReverse: "text--reverse",
+  monthPicker: "month-picker",
+  yearPicker: "year-picker",
 };
 
 export const ICON = {

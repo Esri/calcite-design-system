@@ -165,4 +165,25 @@
   inset-inline-start: 0;
 }
 
+.text {
+  .month-picker {
+    --calcite-select-spacing-inline: 0.25rem;
+    --calcite-select-internal-icon-container-padding-inline: 0.25rem;
+  }
+}
+
+:host([scale="s"]) .text {
+  .month-picker {
+    --calcite-select-spacing-inline: 0.125rem;
+    --calcite-select-internal-icon-container-padding-inline: 0.125rem;
+  }
+}
+
+:host([scale="l"]) .text {
+  .month-picker {
+    --calcite-select-spacing-inline: 0.5rem;
+    --calcite-select-internal-icon-container-padding-inline: 0.5rem;
+  }
+}
+
 @include base-component();

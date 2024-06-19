@@ -19,7 +19,7 @@ import {
   formatCalendarYear,
   activeDateInMonth,
 } from "../../utils/date";
-import { closestElementCrossShadowBoundary } from "../../utils/dom";
+import { closestElementCrossShadowBoundary, getTextWidth } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
@@ -121,6 +121,10 @@ export class DatePickerMonthHeader {
     this.setNextPrevMonthDates();
   }
 
+  componentDidRender(): void {
+    this.setSelectWidth(this.monthPickerEl);
+  }
+
   render(): VNode {
     return <div class={CSS.header}>{this.renderContent()}</div>;
   }
@@ -170,10 +174,20 @@ export class DatePickerMonthHeader {
   private renderMonthPicker(months: DateLocaleData["months"], activeMonth: number): VNode {
     const monthData = this.monthAbbreviations ? months.abbreviated : months.wide;
     return (
-      <calcite-select label="month" onCalciteSelectChange={this.handleMonthChange} width="full">
+      <calcite-select
+        class={CSS.monthPicker}
+        label="month"
+        onCalciteSelectChange={this.handleMonthChange}
+        ref={(el) => (this.monthPickerEl = el)}
+        width="auto"
+      >
         {monthData.map((month: string, index: number) => {
           return (
-            <calcite-option selected={index === activeMonth} value={month}>
+            <calcite-option
+              disabled={this.isMonthInRange(index)}
+              selected={index === activeMonth}
+              value={month}
+            >
               {month}
             </calcite-option>
           );
@@ -185,10 +199,11 @@ export class DatePickerMonthHeader {
   private renderYearPicker(): VNode {
     return (
       <calcite-select
+        class={CSS.yearPicker}
         label="year"
         onCalciteSelectChange={this.handleYearChange}
         ref={(el) => (this.yearPickerEl = el)}
-        width="full"
+        width="auto"
       >
         {this.yearList.map((year: number) => {
           const yearString = year.toString();
@@ -226,7 +241,11 @@ export class DatePickerMonthHeader {
 
   private getYearList(): void {
     this.yearList = [];
-    for (let i = this.min?.getFullYear() || 1950; i <= (this.max?.getFullYear() || 2050); i++) {
+    for (
+      let i = this.min?.getFullYear() || this.defaultMinYear;
+      i <= (this.max?.getFullYear() || this.defaultMaxYear);
+      i++
+    ) {
       this.yearList.push(i);
     }
   }
@@ -249,6 +268,8 @@ export class DatePickerMonthHeader {
 
   private yearPickerEl: HTMLCalciteSelectElement;
 
+  private monthPickerEl: HTMLCalciteSelectElement;
+
   @Watch("min")
   @Watch("max")
   @Watch("activeDate")
@@ -260,6 +281,10 @@ export class DatePickerMonthHeader {
     this.nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
     this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
   }
+
+  private defaultMinYear = 1950;
+
+  private defaultMaxYear = 2050;
 
   //--------------------------------------------------------------------------
   //
@@ -311,6 +336,7 @@ export class DatePickerMonthHeader {
     const monthIndex = localeMonths.indexOf(target.value);
     const newDate = activeDateInMonth(this.activeDate, monthIndex);
     this.calciteInternalDatePickerMonthHeaderSelect.emit(newDate);
+    this.setSelectWidth(this.monthPickerEl);
   };
 
   private getInRangeDate({
@@ -366,4 +392,18 @@ export class DatePickerMonthHeader {
       ).toString();
     }
   }
+
+  private setSelectWidth(select: HTMLCalciteSelectElement): void {
+    const selectEl = select.shadowRoot.querySelector("select");
+    if (selectEl) {
+      const width = getTextWidth(select.value, getComputedStyle(selectEl).font);
+      const chevronOffSet = this.scale === "l" ? 40 : this.scale === "m" ? 28 : 22;
+      select.style.width = `${width + chevronOffSet}px`;
+    }
+  }
+
+  private isMonthInRange = (index: number): boolean => {
+    const activeDateInMonth = new Date(this.activeDate.getFullYear(), index, 1);
+    return (this.max && activeDateInMonth > this.max) || (this.min && activeDateInMonth < this.min);
+  };
 }

@@ -625,16 +625,14 @@ export class DatePickerMonth {
     const getDayInWeek = () => dayInWeek++ % 7;
     month = position === "end" ? month + 1 : month;
     const days: Day[] = [
-      ...(!this.range
-        ? prevMonthDays.map((day) => {
-            return {
-              active: false,
-              day,
-              dayInWeek: getDayInWeek(),
-              date: new Date(year, month - 1, day),
-            };
-          })
-        : []),
+      ...prevMonthDays.map((day) => {
+        return {
+          active: false,
+          day,
+          dayInWeek: getDayInWeek(),
+          date: new Date(year, month - 1, day),
+        };
+      }),
       ...currMonthDays.map((day) => {
         const date = new Date(year, month, day);
         const active =
@@ -680,7 +678,13 @@ export class DatePickerMonth {
         </div>
 
         <div class="week-days" role="row">
-          {days.map((day, index) => this.renderDateDay(day, isNextMonth ? 50 + index : index))}
+          {days.map((day, index) =>
+            this.range && !day.currentMonth ? (
+              <div />
+            ) : (
+              this.renderDateDay(day, isNextMonth ? 50 + index : index)
+            ),
+          )}
         </div>
       </div>
     );
