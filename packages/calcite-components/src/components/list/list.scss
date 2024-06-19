@@ -4,8 +4,9 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-list-background-color: Specifies the background color of the component.
- * @prop --calcite-list-header-background-color: Specifies the background color of the component header. Will fallback to --calcite-list-background-color.
+ * @prop --calcite-list-header-background-color: Specifies the background color of the component header.
  * @prop --calcite-list-header-z-index: Specifies the component header's z-index.
+ * @prop --calcite-list-text-color: Specifies the component text color.
  */
 
 :host {
@@ -43,10 +44,7 @@
   @apply sticky
   top-0;
   z-index: var(--calcite-list-header-z-index, var(--calcite-z-index-sticky));
-  background-color: var(
-    --calcite-list-header-background-color,
-    var(--calcite-list-background-color, var(--calcite-color-foreground-1))
-  );
+  background-color: var(--calcite-list-header-background-color, var(--calcite-color-foreground-1));
 
   & th {
     @apply p-0;

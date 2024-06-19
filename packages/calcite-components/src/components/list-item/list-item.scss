@@ -2,7 +2,7 @@
  *
  * --calcite-list-item-background-color-active: Specifies the background color of the component when active.
  * --calcite-list-item-background-color-hover: Specifies the background color of the component when hovered.
- * --calcite-list-item-background-color: Specifies the background color of the component. Will fallback to --calcite-list-background-color. 
+ * --calcite-list-item-background-color: Specifies the background color of the component.
  * --calcite-list-item-border-color: Specifies the border color of nested items.
  * --calcite-list-item-description-text-color-selected: Specifies the text color of the description when selected.
  * --calcite-list-item-description-text-color: Specifies the text color of the description.
@@ -17,10 +17,7 @@
 
 :host {
   @apply flex flex-col;
-  background-color: var(
-    --calcite-list-item-background-color,
-    var(--calcite-list-background-color, var(--calcite-color-foreground-1))
-  );
+  background-color: var(--calcite-list-item-background-color, var(--calcite-color-foreground-1));
 }
 
 :host([filter-hidden]),
