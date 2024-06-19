@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -232,4 +232,97 @@ describe("calcite-block-section", () => {
     expect(await element.getProperty("open")).toBe(false);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
   }
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-block-section heading="heading" description="description"></calcite-block-section>`, {
+        "--calcite-block-section-background-color": {
+          targetProp: "backgroundColor",
+        },
+        "--calcite-block-section-heading-text-color": {
+          shadowSelector: `.${CSS.sectionHeader}`,
+          targetProp: "color",
+        },
+        "--calcite-block-section-heading-text-color-hover": {
+          shadowSelector: `.${CSS.sectionHeader}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-block-section-toggle-icon-color": {
+          shadowSelector: `.${CSS.chevronIcon}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("open", () => {
+      themed(`<calcite-block-section open></calcite-block-section>`, {
+        "--calcite-block-section-border-color": {
+          targetProp: "borderColor",
+        },
+        "--calcite-block-section-heading-text-color-hover": {
+          shadowSelector: `.${CSS.sectionHeader}`,
+          targetProp: "color",
+          state: "hover",
+        },
+      });
+    });
+
+    describe("status icon", () => {
+      themed(`<calcite-block-section status="valid"></calcite-block-section>`, {
+        "--calcite-block-section-status-icon-color": {
+          shadowSelector: `.${CSS.statusIcon}`,
+          targetProp: "--calcite-icon-color",
+        },
+      });
+    });
+
+    describe("switch toggle (open)", () => {
+      themed(`<calcite-block-section open toggle-display="switch"></calcite-block-section>`, {
+        "--calcite-block-section-switch-handle-border-color-checked": {
+          shadowSelector: `calcite-switch`,
+          targetProp: "--calcite-switch-handle-border-color",
+          state: "hover",
+        },
+        "--calcite-block-section-switch-track-background-color-checked": {
+          shadowSelector: `calcite-switch`,
+          targetProp: "--calcite-switch-track-background-color",
+        },
+        "--calcite-block-section-switch-track-border-color-checked": {
+          shadowSelector: `calcite-switch`,
+          targetProp: "--calcite-switch-track-border-color",
+        },
+      });
+    });
+
+    describe("switch toggle (closed)", () => {
+      themed(`<calcite-block-section toggle-display="switch"></calcite-block-section>`, {
+        "--calcite-block-section-switch-corner-radius": {
+          shadowSelector: `calcite-switch`,
+          targetProp: "--calcite-switch-corner-radius",
+        },
+        "--calcite-block-section-switch-handle-background-color": {
+          shadowSelector: `calcite-switch`,
+          targetProp: "--calcite-switch-handle-background-color",
+        },
+        "--calcite-block-section-switch-handle-border-color": {
+          shadowSelector: `calcite-switch`,
+          targetProp: "--calcite-switch-handle-border-color",
+        },
+        "--calcite-block-section-switch-handle-border-color-hover": {
+          shadowSelector: `calcite-switch`,
+          targetProp: "--calcite-switch-handle-border-color",
+          state: "hover",
+        },
+        "--calcite-block-section-switch-track-background-color": {
+          shadowSelector: `calcite-switch`,
+          targetProp: "--calcite-switch-track-background-color",
+        },
+        "--calcite-block-section-switch-track-border-color": {
+          shadowSelector: `calcite-switch`,
+          targetProp: "--calcite-switch-track-border-color",
+        },
+      });
+    });
+  });
 });

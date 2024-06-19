@@ -10,6 +10,7 @@
  * @prop --calcite-block-section-status-icon-color: Specifies the status icon color of the component.
  * @prop --calcite-block-section-switch-corner-radius: Specifies the border radius of the switch.
  * @prop --calcite-block-section-switch-handle-background-color: Specifies the background color of the switch handle.
+ * @prop --calcite-block-section-switch-handle-border-color-checked: Specifies the border color of the switch handle when checked.
  * @prop --calcite-block-section-switch-handle-border-color-hover: Specifies the border color of the switch handle on hover.
  * @prop --calcite-block-section-switch-handle-border-color: Specifies the border color of the switch handle.
  * @prop --calcite-block-section-switch-track-background-color-checked: Specifies the background color of the switch track when checked.
@@ -47,7 +48,7 @@
 
   background-color: var(--calcite-color-transparent);
 
-  calcite-icon {
+  .chevron-icon {
     --calcite-icon-color: var(--calcite-block-section-toggle-icon-color);
   }
 }
@@ -88,7 +89,7 @@
     @apply focus-outset;
   }
   &:hover {
-    color: var(--calcite-block-section-heading-text-color, var(--calcite-color-text-1));
+    color: var(--calcite-block-section-heading-text-color-hover, var(--calcite-color-text-1));
   }
 }
 
@@ -157,6 +158,7 @@ calcite-switch {
   }
 
   &[checked] {
+    --calcite-switch-handle-border-color: var(--calcite-block-section-switch-handle-border-color-checked);
     --calcite-switch-track-background-color: var(--calcite-block-section-switch-track-background-color-checked);
     --calcite-switch-track-border-color: var(--calcite-block-section-switch-track-border-color-checked);
   }

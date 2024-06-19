@@ -21,10 +21,11 @@
  * @prop --calcite-block-header-background-color: Specifies the background color of the component's header.
  * @prop --calcite-block-heading-text-color-open: Specifies the text color of the component's heading when open.
  * @prop --calcite-block-heading-text-color: Specifies the text color of the component's heading.
- * @prop --calcite-block-loader-color-one-third: Specifies the starting color of the loader
+ * @prop --calcite-block-loader-color-middle: Specifies the starting color of the loader
+ * @prop --calcite-block-loader-color-end: Specifies the ending color of the loader
  * @prop --calcite-block-loader-color-start: Specifies the starting color of the loader
- * @prop --calcite-block-loader-color-two-thirds: Specifies the starting color of the loader
  * @prop --calcite-block-padding: [Deprecated] use `--calcite-block-content-space` instead - Specifies the padding of the component's `default` slot.
+ * @prop --calcite-block-scrim-background-color: Specifies the background color of the component's scrim.
  * @prop --calcite-block-text-color: Specifies the text color of the component.
  * @prop --calcite-block-toggle-icon-color: Specifies the color of the component's toggle icon.
  * @prop --calcite-block-toggle-icon-color-hover: Specifies the color of the component's toggle icon on hover.
@@ -208,13 +209,13 @@ calcite-icon {
 }
 
 calcite-loader {
-  --calcite-loader-color-middle: var(--calcite-block-loader-color-one-third);
+  --calcite-loader-color-middle: var(--calcite-block-loader-color-middle);
   --calcite-loader-color-start: var(--calcite-block-loader-color-start);
-  --calcite-loader-color-end: var(--calcite-block-loader-color-two-thirds);
+  --calcite-loader-color-end: var(--calcite-block-loader-color-end);
 }
 
 calcite-scrim {
-  // TODO: add sub-component tokens
+  --calcite-scrim-background-color: var(--calcite-block-scrim-background-color);
 }
 
 @include base-component();
