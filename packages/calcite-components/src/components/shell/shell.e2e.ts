@@ -124,18 +124,14 @@ describe("calcite-shell", () => {
   });
 });
 
-const tipManagerHTML = html`
-  <calcite-tip-manager>
-    <calcite-tip heading="Example tip title">
-      <calcite-link href="http://www.esri.com">An example link</calcite-link>
-    </calcite-tip>
-  </calcite-tip-manager>
-`;
-
 describe("theme", () => {
   const shellHTML = html`
     <calcite-shell>
-      ${tipManagerHTML}
+      <calcite-tip-manager>
+        <calcite-tip heading="Example tip title">
+          <calcite-link href="http://www.esri.com">An example link</calcite-link>
+        </calcite-tip>
+      </calcite-tip-manager>
       <calcite-panel heading="Leading panel content"></calcite-panel>
       <calcite-flow heading="Leading panel content"></calcite-flow>
       <calcite-shell-center-row slot="${SLOTS.panelBottom}"></calcite-shell-center-row>
