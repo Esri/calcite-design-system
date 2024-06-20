@@ -2,10 +2,12 @@ import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, renders, hidden, defaults, reflects } from "../../tests/commonTests";
 import { createSelectedItemsAsserter, getFocusedElementProp } from "../../tests/utils";
-import { CSS } from "../table-header/resources";
+import { CSS as TABLECELL_CSS } from "../table-cell/resources";
+import { CSS as TABLEHEADER_CSS } from "../table-header/resources";
 import { CSS as PAGINATION_CSS } from "../pagination/resources";
 import { CSS as CELL_CSS } from "../table-cell/resources";
-import { SLOTS } from "../table/resources";
+import { CSS, SLOTS } from "../table/resources";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 
 describe("calcite-table", () => {
   describe("renders", () => {
@@ -1968,7 +1970,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell, "1": TABLEHEADER_CSS.multipleSelectionCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -1985,7 +1987,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell, "1": TABLEHEADER_CSS.multipleSelectionCell });
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
@@ -1994,13 +1996,13 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2019,7 +2021,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell, "1": TABLEHEADER_CSS.multipleSelectionCell });
   });
 
   it("navigates correctly when number column present", async () => {
@@ -2061,7 +2063,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2078,7 +2080,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
@@ -2087,13 +2089,13 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": TABLEHEADER_CSS.numberCell });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2112,7 +2114,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
   });
 
   it("navigates correctly when number and selection column present numbered", async () => {
@@ -2154,7 +2156,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2164,7 +2166,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2177,7 +2179,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
@@ -2186,19 +2188,19 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2214,7 +2216,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
   });
 
   it("navigates correctly when pagination present and selection and number and first page displayed", async () => {
@@ -2260,7 +2262,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2270,7 +2272,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell, "1": TABLEHEADER_CSS.multipleSelectionCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2283,7 +2285,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell, "1": TABLEHEADER_CSS.multipleSelectionCell });
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
@@ -2292,13 +2294,13 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2316,7 +2318,7 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": TABLEHEADER_CSS.numberCell });
 
     page.keyboard.press("ControlLeft");
     await page.keyboard.press("Home");
@@ -2326,7 +2328,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
   });
 
   it("navigates correctly when pagination present, and selection and number and navigation to two other pages occurs", async () => {
@@ -2375,7 +2377,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2385,7 +2387,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2398,19 +2400,19 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row1.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row1.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
@@ -2419,19 +2421,19 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": TABLEHEADER_CSS.numberCell });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
@@ -2445,7 +2447,7 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": TABLEHEADER_CSS.numberCell });
 
     page.keyboard.press("ControlRight");
 
@@ -2456,7 +2458,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
 
     await page.$eval(
       "calcite-table",
@@ -2484,19 +2486,19 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("PageDown");
     await page.waitForChanges();
@@ -2505,19 +2507,19 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.selectionCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row4.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row4.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.numberCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.numberCell });
 
     page.keyboard.press("ControlRight");
     await page.keyboard.press("End");
@@ -2531,7 +2533,7 @@ describe("keyboard navigation", () => {
         `#${rowFoot.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList,
       ),
-    ).toEqual({ "0": CELL_CSS.footerCell, "1": CSS.numberCell });
+    ).toEqual({ "0": CELL_CSS.footerCell, "1": TABLEHEADER_CSS.numberCell });
   });
 
   it("navigates correctly when number and selection column present numbered and interaction-mode static - only focusing selection cells", async () => {
@@ -2574,7 +2576,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell, "1": TABLEHEADER_CSS.multipleSelectionCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2586,7 +2588,7 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell, "1": TABLEHEADER_CSS.multipleSelectionCell });
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
@@ -2596,30 +2598,497 @@ describe("keyboard navigation", () => {
         `#${rowHead.id}`,
         (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("th").classList,
       ),
-    ).toEqual({ "0": CSS.selectionCell, "1": CSS.multipleSelectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell, "1": TABLEHEADER_CSS.multipleSelectionCell });
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row1.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row2.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
 
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
     expect(
       await page.$eval(`#${row3.id}`, (el) => el.shadowRoot?.activeElement.shadowRoot?.querySelector("td").classList),
-    ).toEqual({ "0": CSS.selectionCell });
+    ).toEqual({ "0": TABLEHEADER_CSS.selectionCell });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-table-border-color": {
+          shadowSelector: `.${CSS.tableContainer}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-table-corner-radius": {
+          shadowSelector: `.${CSS.tableContainer}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-table-shadow": {
+          shadowSelector: `.${CSS.tableContainer}`,
+          targetProp: "boxShadow",
+        },
+      };
+      themed(`calcite-table`, tokens);
+    });
+    describe("bordered", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-table-border-color": {
+          shadowSelector: `.${CSS.bordered}`,
+          targetProp: "--calcite-internal-table-row-border-color",
+        },
+      };
+      themed(
+        html`<calcite-table bordered>
+          <calcite-table-row>
+            <calcite-table-cell>cell</calcite-table-cell>
+            <calcite-table-cell>cell</calcite-table-cell>
+          </calcite-table-row>
+        </calcite-table>`,
+        tokens,
+      );
+    });
+    describe("selection", () => {
+      describe("default", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-table-selection-chip-background-color": {
+            shadowSelector: `.${CSS.selectionCountChip}`,
+            targetProp: "--calcite-chip-background-color",
+          },
+          "--calcite-table-selection-chip-border-color": {
+            shadowSelector: `.${CSS.selectionCountChip}`,
+            targetProp: "--calcite-chip-border-color",
+          },
+          "--calcite-table-selection-chip-corner-radius": {
+            shadowSelector: `.${CSS.selectionCountChip}`,
+            targetProp: "--calcite-chip-corner-radius",
+          },
+          "--calcite-table-selection-chip-shadow": {
+            shadowSelector: `.${CSS.selectionCountChip}`,
+            targetProp: "--calcite-chip-shadow",
+          },
+          "--calcite-table-selection-chip-text-color": {
+            shadowSelector: `.${CSS.selectionCountChip}`,
+            targetProp: "--calcite-chip-text-color",
+          },
+        };
+        themed(
+          html`<calcite-table selection-mode="single" bordered>
+            <calcite-table-row>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>`,
+          tokens,
+        );
+      });
+      describe("selected", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-table-selection-chip-background-color-selected": {
+            shadowSelector: `.${CSS.selectionCountChip}`,
+            targetProp: "--calcite-chip-background-color",
+          },
+          "--calcite-table-selection-chip-border-color-selected": {
+            shadowSelector: `.${CSS.selectionCountChip}`,
+            targetProp: "--calcite-chip-border-color",
+          },
+          "--calcite-table-selection-chip-text-color-selected": {
+            shadowSelector: `.${CSS.selectionCountChip}`,
+            targetProp: "--calcite-chip-text-color",
+          },
+
+          "--calcite-table-selection-dismiss-button-background-color-active": {
+            shadowSelector: `.${CSS.dismissButton}`,
+            targetProp: "--calcite-button-background-color",
+            state: { press: { attribute: "class", value: CSS.dismissButton } },
+          },
+          "--calcite-table-selection-dismiss-button-background-color-hover": {
+            shadowSelector: `.${CSS.dismissButton}`,
+            targetProp: "--calcite-button-background-color",
+            state: "hover",
+          },
+          "--calcite-table-selection-dismiss-button-background-color": {
+            shadowSelector: `.${CSS.dismissButton}`,
+            targetProp: "--calcite-button-background-color",
+          },
+          "--calcite-table-selection-dismiss-button-border-color-active": {
+            shadowSelector: `.${CSS.dismissButton}`,
+            targetProp: "--calcite-button-border-color",
+            state: { press: { attribute: "class", value: CSS.dismissButton } },
+          },
+          "--calcite-table-selection-dismiss-button-border-color-hover": {
+            shadowSelector: `.${CSS.dismissButton}`,
+            targetProp: "--calcite-button-border-color",
+            state: "hover",
+          },
+          "--calcite-table-selection-dismiss-button-border-color": {
+            shadowSelector: `.${CSS.dismissButton}`,
+            targetProp: "--calcite-button-border-color",
+          },
+          "--calcite-table-selection-dismiss-button-corner-radius": {
+            shadowSelector: `.${CSS.dismissButton}`,
+            targetProp: "--calcite-button-corner-radius",
+          },
+          "--calcite-table-selection-dismiss-button-shadow": {
+            shadowSelector: `.${CSS.dismissButton}`,
+            targetProp: "--calcite-button-shadow",
+          },
+          "--calcite-table-selection-dismiss-button-text-color-active": {
+            shadowSelector: `.${CSS.dismissButton}`,
+            targetProp: "--calcite-button-text-color",
+            state: { press: { attribute: "class", value: CSS.dismissButton } },
+          },
+          "--calcite-table-selection-dismiss-button-text-color-hover": {
+            shadowSelector: `.${CSS.dismissButton}`,
+            targetProp: "--calcite-button-text-color",
+            state: "hover",
+          },
+          "--calcite-table-selection-dismiss-button-text-color": {
+            shadowSelector: `.${CSS.dismissButton}`,
+            targetProp: "--calcite-button-text-color",
+          },
+          "--calcite-table-selection-out-of-view-chip-background-color": {
+            shadowSelector: `.${CSS.selectionOutOfViewChip}`,
+            targetProp: "--calcite-chip-background-color",
+          },
+          "--calcite-table-selection-out-of-view-chip-border-color": {
+            shadowSelector: `.${CSS.selectionOutOfViewChip}`,
+            targetProp: "--calcite-chip-border-color",
+          },
+          "--calcite-table-selection-out-of-view-chip-corner-radius": {
+            shadowSelector: `.${CSS.selectionOutOfViewChip}`,
+            targetProp: "--calcite-chip-corner-radius",
+          },
+          "--calcite-table-selection-out-of-view-chip-shadow": {
+            shadowSelector: `.${CSS.selectionOutOfViewChip}`,
+            targetProp: "--calcite-chip-shadow",
+          },
+          "--calcite-table-selection-out-of-view-chip-text-color": {
+            shadowSelector: `.${CSS.selectionOutOfViewChip}`,
+            targetProp: "--calcite-chip-text-color",
+          },
+          "--calcite-table-selection-out-of-view-chip-icon-color": {
+            shadowSelector: `.${CSS.selectionOutOfViewChip}`,
+            targetProp: "--calcite-chip-icon-color",
+          },
+          "--calcite-table-pagination-item-text-color": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-pagination-item-text-color",
+          },
+          "--calcite-table-pagination-item-text-color-hover": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-pagination-item-text-color",
+            state: { hover: { attribute: "class", value: "page" } },
+          },
+          "--calcite-table-pagination-item-text-color-selected": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-pagination-item-text-color",
+          },
+          "--calcite-table-pagination-item-background-color": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-pagination-item-text-color",
+          },
+          "--calcite-table-pagination-item-background-color-hover": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-pagination-item-text-color",
+            state: { hover: { attribute: "class", value: "page" } },
+          },
+          "--calcite-table-pagination-item-background-color-active": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-pagination-item-text-color",
+            state: { press: { attribute: "class", value: "page" } },
+          },
+          "--calcite-table-pagination-item-border-color-selected": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-pagination-item-text-color",
+          },
+          "--calcite-table-pagination-item-border-color-hover": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-pagination-item-text-color",
+            state: { hover: { attribute: "class", value: "page" } },
+          },
+          "--calcite-table-pagination-arrow-icon-color": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-table-pagination-arrow-icon-color",
+          },
+          "--calcite-table-pagination-arrow-icon-color-hover": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-table-pagination-arrow-icon-color",
+            state: { hover: { attribute: "class", value: "chevron--next" } },
+          },
+          "--calcite-table-pagination-arrow-icon-color-active": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-table-pagination-arrow-icon-color",
+            state: { press: { attribute: "class", value: "chevron--next" } },
+          },
+          "--calcite-table-pagination-arrow-background-color": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-table-pagination-arrow-background-color",
+          },
+          "--calcite-table-pagination-arrow-background-color-hover": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-table-pagination-arrow-background-color",
+            state: { hover: { attribute: "class", value: "chevron--next" } },
+          },
+          "--calcite-table-pagination-arrow-background-color-active": {
+            shadowSelector: `calcite-pagination`,
+            targetProp: "--calcite-table-pagination-arrow-background-color",
+            state: { press: { attribute: "class", value: "chevron--next" } },
+          },
+        };
+        themed(
+          html`<calcite-table selection-mode="multiple" page-size="3" bordered>
+            <calcite-table-row selected>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row selected>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row selected>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row selected>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row selected>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row selected hidden>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row selected hidden>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row selected hidden>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>`,
+          tokens,
+        );
+      });
+    });
+    describe("table row", () => {
+      describe("default", () => {
+        themed(
+          html`<calcite-table striped>
+            <calcite-table-row data-test="one">
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row data-test="two">
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row selected>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>`,
+          {
+            "--calcite-table-row-background-color": {
+              selector: `calcite-table-row[data-test='two']`,
+              shadowSelector: "tr",
+              targetProp: "backgroundColor",
+            },
+            "--calcite-table-row-secondary-background-color": {
+              selector: `calcite-table-row[data-test='one']`,
+              shadowSelector: "tr",
+              targetProp: "backgroundColor",
+            },
+            "--calcite-table-row-background-color-selected": {
+              selector: `calcite-table-row[selected]`,
+              shadowSelector: "tr",
+              targetProp: "backgroundColor",
+            },
+            "--calcite-table-row-border-color": {
+              selector: `calcite-table-row`,
+              shadowSelector: "tr",
+              targetProp: "borderBlockEndColor",
+            },
+          },
+        );
+      });
+      describe("deprecated", () => {
+        themed(
+          html`<calcite-table>
+            <calcite-table-row>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row selected>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>`,
+          {
+            "--calcite-table-row-background": {
+              selector: `calcite-table-row`,
+              shadowSelector: "tr",
+              targetProp: "backgroundColor",
+            },
+          },
+        );
+      });
+    });
+    describe("table header", () => {
+      describe("default", () => {
+        themed(
+          html`<calcite-table caption="Simple table">
+            <calcite-table-row slot=${SLOTS.tableHeader}>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>`,
+          {
+            "--calcite-table-header-background-color": {
+              selector: `calcite-table-header`,
+              shadowSelector: "th",
+              targetProp: "backgroundColor",
+            },
+            "--calcite-table-header-border-color": {
+              selector: `calcite-table-header`,
+              shadowSelector: "th",
+              targetProp: "borderBlockEndColor",
+            },
+            "--calcite-table-header-heading-text-color": {
+              selector: `calcite-table-header`,
+              shadowSelector: `.${TABLEHEADER_CSS.heading}`,
+              targetProp: "color",
+            },
+            "--calcite-table-header-description-text-color": {
+              selector: `calcite-table-header`,
+              shadowSelector: `.${TABLEHEADER_CSS.description}`,
+              targetProp: "color",
+            },
+          },
+        );
+      });
+      describe("deprecated", () => {
+        themed(
+          html`<calcite-table caption="Simple table">
+            <calcite-table-row slot=${SLOTS.tableHeader}>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+              <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+            </calcite-table-row>
+            <calcite-table-row>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>`,
+          {
+            "--calcite-table-header-background": {
+              selector: `calcite-table-header`,
+              shadowSelector: "th",
+              targetProp: "backgroundColor",
+            },
+          },
+        );
+      });
+    });
+    describe("table cell", () => {
+      describe("default", () => {
+        themed(
+          html`<calcite-table numbered>
+            <calcite-table-row>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row slot="table-footer">
+              <calcite-table-cell>foot</calcite-table-cell>
+              <calcite-table-cell>foot</calcite-table-cell>
+              <calcite-table-cell>foot</calcite-table-cell>
+              <calcite-table-cell>foot</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>`,
+          {
+            "--calcite-table-cell-background-color": {
+              selector: `calcite-table-cell`,
+              shadowSelector: "td",
+              targetProp: "backgroundColor",
+            },
+            "--calcite-table-cell-border-color": {
+              selector: `calcite-table-cell`,
+              shadowSelector: "td",
+              targetProp: "borderColor",
+            },
+            "--calcite-table-cell-text-color": {
+              selector: `calcite-table-cell`,
+              shadowSelector: "td",
+              targetProp: "color",
+            },
+            // "--calcite-table-cell-number-background-color": {
+            //   selector: `calcite-table`,
+            //   targetProp: "backgroundColor",
+            // },
+            "--calcite-table-cell-footer-background-color": {
+              selector: `calcite-table-cell`,
+              shadowSelector: `.${TABLECELL_CSS.footerCell}`,
+              targetProp: "backgroundColor",
+            },
+            // "--calcite-table-cell-text-color-selected": {
+            //   selector: `calcite-table-cell`,
+            //   shadowSelector: `.${TABLECELL_CSS.selectionCell}`,
+            //   targetProp: "backgroundColor",
+            // },
+            // "--calcite-table-cell-shadow": {
+            //   selector: `calcite-table-cell`,
+            //   shadowSelector: `.${TABLECELL_CSS.selectedCell}`,
+            //   targetProp: "boxShadow",
+            // },
+            // "--calcite-table-cell-shadow-selected": {
+            //   selector: `calcite-table-cell`,
+            //   shadowSelector: `.${TABLECELL_CSS.selectedCell}`,
+            //   targetProp: "boxShadow",
+            // },
+          },
+        );
+      });
+      describe("deprecated", () => {
+        themed(
+          html`<calcite-table caption="Simple table"
+            >]
+            <calcite-table-row>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>1</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>`,
+          {
+            "--calcite-table-cell-background": {
+              selector: `calcite-table-cell`,
+              shadowSelector: "td",
+              targetProp: "backgroundColor",
+            },
+          },
+        );
+      });
+    });
   });
 });
