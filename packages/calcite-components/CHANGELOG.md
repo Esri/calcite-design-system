@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.2...@esri/calcite-components@2.10.0-next.3) (2024-06-20)
+
+### Features
+
+- **color-picker-hex-input:** auto apply new color after typing/pasting hex code ([#9561](https://github.com/Esri/calcite-design-system/issues/9561)) ([8b34583](https://github.com/Esri/calcite-design-system/commit/8b34583a0f3de3a02b1cea069f69eeecd8b77e72)), closes [#7057](https://github.com/Esri/calcite-design-system/issues/7057)
+
+### Bug Fixes
+
+- **list-item:** Improve focus outline appearance ([#9653](https://github.com/Esri/calcite-design-system/issues/9653)) ([b3d2cb2](https://github.com/Esri/calcite-design-system/commit/b3d2cb26c9df609c3b6c06be672ab70f6227d4e3)), closes [#7538](https://github.com/Esri/calcite-design-system/issues/7538)
+
 ## [2.10.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.1...@esri/calcite-components@2.10.0-next.2) (2024-06-20)
 
 ### Features
