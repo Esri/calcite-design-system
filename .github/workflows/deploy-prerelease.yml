@@ -6,7 +6,7 @@ on:
   # `next` versions are automatically released when deployabled commits are pushed to dev
   push:
     branches: [dev]
-  # `hotfix` and `rc` versions must be manually released:
+  # `rc` versions must be manually released:
   # https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow
   workflow_dispatch:
 jobs:
