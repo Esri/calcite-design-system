@@ -2,6 +2,11 @@ import { readTask } from "@stencil/core";
 import { whenTransitionDone } from "./dom";
 
 /**
+ * Exported for testing purposes only
+ */
+export const internalReadTask = readTask;
+
+/**
  * Defines interface for components with open/close public emitter.
  * All implementations of this interface must handle the following events: `beforeOpen`, `open`, `beforeClose`, `close`.
  */
@@ -81,20 +86,28 @@ function isOpen(component: OpenCloseComponent): boolean {
  * @param component - OpenCloseComponent uses `open` prop to emit (before)open/close.
  */
 export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
-  readTask(async (): Promise<void> => {
+  internalReadTask((): void => {
     if (!component.transitionEl) {
       return;
     }
 
-    await whenTransitionDone(component.transitionEl, component.openTransitionProp);
-
-    if (isOpen(component)) {
-      component.onBeforeOpen();
-      component.onOpen();
-      return;
-    }
-
-    component.onBeforeClose();
-    component.onClose();
+    whenTransitionDone(
+      component.transitionEl,
+      component.openTransitionProp,
+      () => {
+        if (isOpen(component)) {
+          component.onBeforeOpen();
+        } else {
+          component.onBeforeClose();
+        }
+      },
+      () => {
+        if (isOpen(component)) {
+          component.onOpen();
+        } else {
+          component.onClose();
+        }
+      },
+    );
   });
 }

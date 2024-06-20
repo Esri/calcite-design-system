@@ -6,7 +6,7 @@ on:
   # `next` versions are automatically released when deployabled commits are pushed to dev
   push:
     branches: [dev]
-  # `hotfix` and `rc` versions must be manually released:
+  # `rc` versions must be manually released:
   # https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow
   workflow_dispatch:
 jobs:
@@ -33,7 +33,7 @@ jobs:
           GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
           BRANCH: ${{ github.base_ref || github.ref_name }}
-        run: ../scripts/publishPrerelease.sh
+        run: "${{ github.workspace }}/.github/scripts/publishPrerelease.sh"
       - name: notify teams
         uses: toko-bifrost/ms-teams-deploy-card@3.1.2
         if: ${{ !cancelled() && github.event_name == 'push' }}

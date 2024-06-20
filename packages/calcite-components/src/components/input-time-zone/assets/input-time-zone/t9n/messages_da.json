@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "Vælg tidszone.",
+  "offsetPlaceholder": "Søg efter by, område eller forskydning",
+  "namePlaceholder": "Søg efter tidszone",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidjan",
   "Africa/Accra": "Accra",
