@@ -18,19 +18,25 @@
 
 @import "../../assets/styles/header";
 
-:host([scale="s"]) .content-top,
-:host([scale="s"]) .content-bottom {
-  padding: var(--calcite-spacing-sm);
+:host([scale="s"]) {
+  .content-top,
+  .content-bottom {
+    padding: var(--calcite-spacing-sm);
+  }
 }
 
-:host([scale="m"]) .content-top,
-:host([scale="m"]) .content-bottom {
-  padding: var(--calcite-spacing-md);
+:host([scale="m"]) {
+  .content-top,
+  .content-bottom {
+    padding: var(--calcite-spacing-md);
+  }
 }
 
-:host([scale="l"]) .content-top,
-:host([scale="l"]) .content-bottom {
-  padding: var(--calcite-spacing-xl);
+:host([scale="l"]) {
+  .content-top,
+  .content-bottom {
+    padding: var(--calcite-spacing-xl);
+  }
 }
 
 .content-top,
