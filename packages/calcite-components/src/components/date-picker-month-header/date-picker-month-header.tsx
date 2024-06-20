@@ -18,6 +18,8 @@ import {
   prevMonth,
   formatCalendarYear,
   activeDateInMonth,
+  hasSameMonthAndYear,
+  inRange,
 } from "../../utils/date";
 import { closestElementCrossShadowBoundary, getTextWidth } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
@@ -123,6 +125,7 @@ export class DatePickerMonthHeader {
 
   componentDidRender(): void {
     this.setSelectWidth(this.monthPickerEl);
+    this.setSelectWidth(this.yearPickerEl);
   }
 
   render(): VNode {
@@ -157,7 +160,13 @@ export class DatePickerMonthHeader {
             {this.position === "start" && this.renderChevron("left")}
           </div>
         )}
-        <div class={{ text: true, [CSS.textReverse]: reverse }}>
+        <div
+          class={{
+            [CSS.monthYearContainer]: true,
+            [CSS.monthYearContainerReverse]: reverse,
+            [CSS.rangeCalendar]: !!this.position,
+          }}
+        >
           {this.renderMonthPicker(months, activeMonth)}
           {this.renderYearPicker()}
         </div>
@@ -208,7 +217,11 @@ export class DatePickerMonthHeader {
         {this.yearList.map((year: number) => {
           const yearString = year.toString();
           return (
-            <calcite-option selected={this.activeDate.getFullYear() === year} value={yearString}>
+            <calcite-option
+              disabled={this.isYearInRange(year)}
+              selected={this.activeDate.getFullYear() === year}
+              value={yearString}
+            >
               {numberStringFormatter.localize(yearString)}
               {this.localeData?.year?.suffix}
             </calcite-option>
@@ -228,7 +241,12 @@ export class DatePickerMonthHeader {
         aria-label={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
         class={CSS.chevron}
         compact={true}
-        disabled={this.nextMonthDate.getMonth() === activeMonth}
+        disabled={
+          hasSameMonthAndYear(
+            isDirectionRight ? this.nextMonthDate : this.prevMonthDate,
+            this.activeDate,
+          ) || !inRange(this.activeDate, this.min, this.max)
+        }
         icon={isDirectionRight ? ICON.chevronRight : ICON.chevronLeft}
         onClick={isDirectionRight ? this.nextMonthClick : this.prevMonthClick}
         onKeyDown={isDirectionRight ? this.nextMonthKeydown : this.prevMonthKeydown}
@@ -241,11 +259,7 @@ export class DatePickerMonthHeader {
 
   private getYearList(): void {
     this.yearList = [];
-    for (
-      let i = this.min?.getFullYear() || this.defaultMinYear;
-      i <= (this.max?.getFullYear() || this.defaultMaxYear);
-      i++
-    ) {
+    for (let i = this.min.getFullYear() - 1; i <= this.max.getFullYear() + 1; i++) {
       this.yearList.push(i);
     }
   }
@@ -282,10 +296,6 @@ export class DatePickerMonthHeader {
     this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
   }
 
-  private defaultMinYear = 1950;
-
-  private defaultMaxYear = 2050;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -299,6 +309,7 @@ export class DatePickerMonthHeader {
         `${parseCalendarYear(Number(target.value), this.localeData)}`,
       ),
     });
+    this.setSelectWidth(this.yearPickerEl);
   };
 
   private prevMonthClick = (event: KeyboardEvent | MouseEvent): void => {
@@ -334,7 +345,10 @@ export class DatePickerMonthHeader {
     const { abbreviated, wide } = this.localeData.months;
     const localeMonths = this.monthAbbreviations ? abbreviated : wide;
     const monthIndex = localeMonths.indexOf(target.value);
-    const newDate = activeDateInMonth(this.activeDate, monthIndex);
+    let newDate = activeDateInMonth(this.activeDate, monthIndex);
+    if (!inRange(newDate, this.min, this.max)) {
+      newDate = dateFromRange(newDate, this.min, this.max);
+    }
     this.calciteInternalDatePickerMonthHeaderSelect.emit(newDate);
     this.setSelectWidth(this.monthPickerEl);
   };
@@ -404,6 +418,10 @@ export class DatePickerMonthHeader {
 
   private isMonthInRange = (index: number): boolean => {
     const activeDateInMonth = new Date(this.activeDate.getFullYear(), index, 1);
-    return (this.max && activeDateInMonth > this.max) || (this.min && activeDateInMonth < this.min);
+    return activeDateInMonth > this.max || activeDateInMonth < this.min;
+  };
+
+  private isYearInRange = (year: number): boolean => {
+    return year > this.max?.getFullYear() || year < this.min?.getFullYear();
   };
 }

@@ -1610,46 +1610,6 @@ export namespace Components {
          */
         "startDate"?: Date;
     }
-    interface CalciteDatePickerMonthFloatingMenu {
-        /**
-          * Active date
-         */
-        "activeDate": Date;
-        /**
-          * Defines the available placements that can be used when a flip occurs.
-         */
-        "flipPlacements": FlipPlacement[];
-        /**
-          * CLDR locale data for translated calendar info.
-         */
-        "localeData": DateLocaleData;
-        /**
-          * When `true`, month will be abbreviated.
-         */
-        "monthAbbreviations": boolean;
-        /**
-          * Whether the component is opened.
-         */
-        "open": boolean;
-        /**
-          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-         */
-        "overlayPositioning": OverlayPositioning;
-        /**
-          * Specifies the placement of the `calcite-date-picker` relative to the component.
-          * @default "bottom-start"
-         */
-        "placement": MenuPlacement;
-        /**
-          * Specifies the position of the component in a range date-picker.
-         */
-        "position": "start" | "end";
-        /**
-          * Updates the position of the component.
-          * @param delayed
-         */
-        "reposition": (delayed?: boolean) => Promise<void>;
-    }
     interface CalciteDatePickerMonthHeader {
         /**
           * The focused date is indicated and will become the selected date if the user proceeds.
@@ -6566,12 +6526,6 @@ declare global {
         prototype: HTMLCalciteDatePickerMonthElement;
         new (): HTMLCalciteDatePickerMonthElement;
     };
-    interface HTMLCalciteDatePickerMonthFloatingMenuElement extends Components.CalciteDatePickerMonthFloatingMenu, HTMLStencilElement {
-    }
-    var HTMLCalciteDatePickerMonthFloatingMenuElement: {
-        prototype: HTMLCalciteDatePickerMonthFloatingMenuElement;
-        new (): HTMLCalciteDatePickerMonthFloatingMenuElement;
-    };
     interface HTMLCalciteDatePickerMonthHeaderElementEventMap {
         "calciteInternalDatePickerMonthHeaderSelect": Date;
     }
@@ -7909,7 +7863,6 @@ declare global {
         "calcite-date-picker": HTMLCalciteDatePickerElement;
         "calcite-date-picker-day": HTMLCalciteDatePickerDayElement;
         "calcite-date-picker-month": HTMLCalciteDatePickerMonthElement;
-        "calcite-date-picker-month-floating-menu": HTMLCalciteDatePickerMonthFloatingMenuElement;
         "calcite-date-picker-month-header": HTMLCalciteDatePickerMonthHeaderElement;
         "calcite-dropdown": HTMLCalciteDropdownElement;
         "calcite-dropdown-group": HTMLCalciteDropdownGroupElement;
@@ -9510,41 +9463,6 @@ declare namespace LocalJSX {
           * Start date currently active.
          */
         "startDate"?: Date;
-    }
-    interface CalciteDatePickerMonthFloatingMenu {
-        /**
-          * Active date
-         */
-        "activeDate"?: Date;
-        /**
-          * Defines the available placements that can be used when a flip occurs.
-         */
-        "flipPlacements"?: FlipPlacement[];
-        /**
-          * CLDR locale data for translated calendar info.
-         */
-        "localeData"?: DateLocaleData;
-        /**
-          * When `true`, month will be abbreviated.
-         */
-        "monthAbbreviations"?: boolean;
-        /**
-          * Whether the component is opened.
-         */
-        "open"?: boolean;
-        /**
-          * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-         */
-        "overlayPositioning"?: OverlayPositioning;
-        /**
-          * Specifies the placement of the `calcite-date-picker` relative to the component.
-          * @default "bottom-start"
-         */
-        "placement"?: MenuPlacement;
-        /**
-          * Specifies the position of the component in a range date-picker.
-         */
-        "position"?: "start" | "end";
     }
     interface CalciteDatePickerMonthHeader {
         /**
@@ -13921,7 +13839,6 @@ declare namespace LocalJSX {
         "calcite-date-picker": CalciteDatePicker;
         "calcite-date-picker-day": CalciteDatePickerDay;
         "calcite-date-picker-month": CalciteDatePickerMonth;
-        "calcite-date-picker-month-floating-menu": CalciteDatePickerMonthFloatingMenu;
         "calcite-date-picker-month-header": CalciteDatePickerMonthHeader;
         "calcite-dropdown": CalciteDropdown;
         "calcite-dropdown-group": CalciteDropdownGroup;
@@ -14038,7 +13955,6 @@ declare module "@stencil/core" {
             "calcite-date-picker": LocalJSX.CalciteDatePicker & JSXBase.HTMLAttributes<HTMLCalciteDatePickerElement>;
             "calcite-date-picker-day": LocalJSX.CalciteDatePickerDay & JSXBase.HTMLAttributes<HTMLCalciteDatePickerDayElement>;
             "calcite-date-picker-month": LocalJSX.CalciteDatePickerMonth & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthElement>;
-            "calcite-date-picker-month-floating-menu": LocalJSX.CalciteDatePickerMonthFloatingMenu & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthFloatingMenuElement>;
             "calcite-date-picker-month-header": LocalJSX.CalciteDatePickerMonthHeader & JSXBase.HTMLAttributes<HTMLCalciteDatePickerMonthHeaderElement>;
             "calcite-dropdown": LocalJSX.CalciteDropdown & JSXBase.HTMLAttributes<HTMLCalciteDropdownElement>;
             "calcite-dropdown-group": LocalJSX.CalciteDropdownGroup & JSXBase.HTMLAttributes<HTMLCalciteDropdownGroupElement>;

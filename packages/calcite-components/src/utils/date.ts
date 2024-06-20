@@ -211,10 +211,6 @@ export function prevMonth(date: Date): Date {
 export function activeDateInMonth(date: Date, month: number): Date {
   const nextDate = new Date(date);
   nextDate.setMonth(month);
-  // date doesn't exist in new month, use last day
-  if (month !== date.getMonth()) {
-    return new Date(date.getFullYear(), month + 1, 0);
-  }
   return nextDate;
 }
 

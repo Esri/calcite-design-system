@@ -1,16 +1,14 @@
 export const CSS = {
   header: "header",
-  month: "month",
   chevron: "chevron",
   chevronContainer: "chevron-container",
   chevronContainerLeft: "chevron-container--left",
   chevronContainerRight: "chevron-container--right",
-  suffix: "suffix",
-  yearSuffix: "year--suffix",
-  yearWrap: "year-wrap",
-  textReverse: "text--reverse",
-  monthPicker: "month-picker",
-  yearPicker: "year-picker",
+  monthYearContainer: "month-year-container",
+  monthYearContainerReverse: "month-year-container--reverse",
+  monthPicker: "month-select",
+  rangeCalendar: "range-calendar",
+  yearPicker: "year-select",
 };
 
 export const ICON = {

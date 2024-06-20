@@ -100,87 +100,48 @@
   }
 }
 
-.text {
+.month-year-container {
   @apply w-full h-full
     flex
     flex-auto
     items-center
-    justify-center
+    justify-start
     text-center
     leading-none;
+  gap: 0.25rem;
 
   calcite-select {
     max-block-size: 100%;
   }
+
+  &.range-calendar {
+    @apply justify-center;
+  }
 }
 
-.text--reverse {
+.month-year-container--reverse {
   @apply flex-row-reverse;
 }
 
-.month,
-.year,
-.suffix {
-  @apply text-color-1
-    bg-foreground-1
-    mx-1
-    my-auto
-    inline-block
-    font-medium
-    leading-tight;
-  font-size: inherit;
-}
-
-.year {
-  @apply font-inherit
-    focus-base
-    relative
-    w-10
-    border-none
-    bg-transparent
-    text-center;
-  &:hover {
-    @apply duration-100 ease-in-out;
-    transition-property: outline-color;
-    outline: 2px solid var(--calcite-color-border-2);
-    outline-offset: 2px;
-  }
-  &:focus {
-    @apply focus-outset;
-  }
-}
-
-.year--suffix {
-  @apply text-left;
-}
-
-.year-wrap {
-  @apply relative;
-}
-
-.suffix {
-  @apply top-0
-    whitespace-nowrap
-    text-start;
-  inset-inline-start: 0;
-}
-
-.text {
-  .month-picker {
+.month-year-container {
+  .month-select,
+  .year-select {
     --calcite-select-spacing-inline: 0.25rem;
     --calcite-select-internal-icon-container-padding-inline: 0.25rem;
   }
 }
 
-:host([scale="s"]) .text {
-  .month-picker {
+:host([scale="s"]) .month-year-container {
+  .month-select,
+  .year-select {
     --calcite-select-spacing-inline: 0.125rem;
     --calcite-select-internal-icon-container-padding-inline: 0.125rem;
   }
 }
 
-:host([scale="l"]) .text {
-  .month-picker {
+:host([scale="l"]) .month-year-container {
+  .month-select,
+  .year-select {
     --calcite-select-spacing-inline: 0.5rem;
     --calcite-select-internal-icon-container-padding-inline: 0.5rem;
   }
