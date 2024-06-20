@@ -552,19 +552,11 @@ export class Pagination
   render(): VNode {
     return (
       <ul class={CSS.list}>
-        <li class={{ [CSS.listItem]: true, [CSS.chevronFirst]: true }}>
-          {this.renderFirstChevron()}
-        </li>
-        <li class={{ [CSS.listItem]: true, [CSS.chevronPrevious]: true }}>
-          {this.renderPreviousChevron()}
-        </li>
+        <li class={CSS.listItem}>{this.renderFirstChevron()}</li>
+        <li class={CSS.listItem}>{this.renderPreviousChevron()}</li>
         {this.renderItems()}
-        <li class={{ [CSS.listItem]: true, [CSS.chevronNext]: true }}>
-          {this.renderNextChevron()}
-        </li>
-        <li class={{ [CSS.listItem]: true, [CSS.chevronLast]: true }}>
-          {this.renderLastChevron()}
-        </li>
+        <li class={CSS.listItem}>{this.renderNextChevron()}</li>
+        <li class={CSS.listItem}>{this.renderLastChevron()}</li>
       </ul>
     );
   }

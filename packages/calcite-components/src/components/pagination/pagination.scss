@@ -139,10 +139,7 @@
     --calcite-pagination-arrow-background-color,
     var(--calcite-pagination-item-background-color, transparent)
   );
-  color: var(
-    --calcite-pagination-arrow-icon-color,
-    var(--calcite-pagination-item-text-color, var(--calcite-color-text-3))
-  );
+  color: var(--calcite-pagination-item-text-color, var(--calcite-color-text-3));
   &:hover {
     background-color: var(--calcite-pagination-arrow-background-color-hover);
     color: var(--calcite-pagination-arrow-icon-color-hover, var(--calcite-color-brand));
