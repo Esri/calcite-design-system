@@ -1985,6 +1985,7 @@ export namespace Components {
         "messageOverrides": Partial<HandleMessages>;
         /**
           * Made into a prop for testing purposes only.
+          * @readonly
          */
         "messages": HandleMessages;
         /**
@@ -9810,6 +9811,7 @@ declare namespace LocalJSX {
         "messageOverrides"?: Partial<HandleMessages>;
         /**
           * Made into a prop for testing purposes only.
+          * @readonly
          */
         "messages"?: HandleMessages;
         /**
