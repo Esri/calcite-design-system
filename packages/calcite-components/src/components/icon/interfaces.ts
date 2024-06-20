@@ -10,4 +10,4 @@ type ExtractBaseIcon<T> = T extends `${infer Base}${"16" | "24" | "32"}`
 type CamelCaseIcons = ExtractBaseIcon<keyof typeof icons>;
 type KebabCaseIcons = KebabCase<CamelCaseIcons>;
 
-export type IconType = KebabCaseIcons | CamelCaseIcons;
+export type IconName = KebabCaseIcons | CamelCaseIcons;

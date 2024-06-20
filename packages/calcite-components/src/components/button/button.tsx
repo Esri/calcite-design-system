@@ -37,6 +37,7 @@ import {
 } from "../../utils/t9n";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { toAriaBoolean } from "../../utils/dom";
+import { IconName } from "../icon/interfaces";
 import { ButtonMessages } from "./assets/button/t9n";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
@@ -123,7 +124,7 @@ export class Button
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconName;
 
   /**
    * When `true`, a busy indicator is displayed and interaction is disabled.
