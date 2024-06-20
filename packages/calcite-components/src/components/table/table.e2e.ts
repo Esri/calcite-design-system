@@ -4,6 +4,8 @@ import { accessible, renders, hidden, defaults, reflects } from "../../tests/com
 import { createSelectedItemsAsserter, getFocusedElementProp } from "../../tests/utils";
 import { CSS as TABLECELL_CSS } from "../table-cell/resources";
 import { CSS as TABLEHEADER_CSS } from "../table-header/resources";
+import { CSS as TABLECELL_CSS } from "../table-cell/resources";
+import { CSS as TABLEHEADER_CSS } from "../table-header/resources";
 import { CSS as PAGINATION_CSS } from "../pagination/resources";
 import { CSS as CELL_CSS } from "../table-cell/resources";
 import { CSS, SLOTS } from "../table/resources";
@@ -3016,14 +3018,16 @@ describe("keyboard navigation", () => {
     describe("table cell", () => {
       describe("default", () => {
         themed(
-          html`<calcite-table numbered>
+          html`<calcite-table numbered selection-mode="multiple">
             <calcite-table-row>
               <calcite-table-cell>cell</calcite-table-cell>
               <calcite-table-cell>cell</calcite-table-cell>
             </calcite-table-row>
+            <calcite-table-row selected>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
             <calcite-table-row slot="table-footer">
-              <calcite-table-cell>foot</calcite-table-cell>
-              <calcite-table-cell>foot</calcite-table-cell>
               <calcite-table-cell>foot</calcite-table-cell>
               <calcite-table-cell>foot</calcite-table-cell>
             </calcite-table-row>
@@ -3031,7 +3035,12 @@ describe("keyboard navigation", () => {
           {
             "--calcite-table-cell-background-color": {
               selector: `calcite-table-cell`,
-              shadowSelector: "td",
+              shadowSelector: `.${TABLECELL_CSS.contentCell}`,
+              targetProp: "backgroundColor",
+            },
+            "--calcite-table-cell-background-color-selected": {
+              selector: `calcite-table-row[selected] calcite-table-cell`,
+              shadowSelector: `.${TABLECELL_CSS.selectedCell}`,
               targetProp: "backgroundColor",
             },
             "--calcite-table-cell-border-color": {
@@ -3044,30 +3053,26 @@ describe("keyboard navigation", () => {
               shadowSelector: "td",
               targetProp: "color",
             },
-            // "--calcite-table-cell-number-background-color": {
-            //   selector: `calcite-table`,
-            //   targetProp: "backgroundColor",
-            // },
+            "--calcite-table-cell-number-background-color": {
+              selector: `calcite-table-row`,
+              shadowSelector: `calcite-table-cell >>> .${TABLECELL_CSS.numberCell}`,
+              targetProp: "backgroundColor",
+            },
             "--calcite-table-cell-footer-background-color": {
-              selector: `calcite-table-cell`,
+              selector: `calcite-table-row[slot="table-footer"] calcite-table-cell`,
               shadowSelector: `.${TABLECELL_CSS.footerCell}`,
               targetProp: "backgroundColor",
             },
-            // "--calcite-table-cell-text-color-selected": {
-            //   selector: `calcite-table-cell`,
-            //   shadowSelector: `.${TABLECELL_CSS.selectionCell}`,
-            //   targetProp: "backgroundColor",
-            // },
-            // "--calcite-table-cell-shadow": {
-            //   selector: `calcite-table-cell`,
-            //   shadowSelector: `.${TABLECELL_CSS.selectedCell}`,
-            //   targetProp: "boxShadow",
-            // },
-            // "--calcite-table-cell-shadow-selected": {
-            //   selector: `calcite-table-cell`,
-            //   shadowSelector: `.${TABLECELL_CSS.selectedCell}`,
-            //   targetProp: "boxShadow",
-            // },
+            "--calcite-table-cell-shadow-selected": {
+              selector: `calcite-table-row[selected]`,
+              shadowSelector: `calcite-table-cell:nth-child(2) >>> .${TABLECELL_CSS.selectionCell}`,
+              targetProp: "boxShadow",
+            },
+            "--calcite-table-cell-text-color-selected": {
+              selector: `calcite-table-row[selected]`,
+              shadowSelector: `calcite-table-cell:nth-child(2) >>> .${TABLECELL_CSS.selectionCell}`,
+              targetProp: "color",
+            },
           },
         );
       });
