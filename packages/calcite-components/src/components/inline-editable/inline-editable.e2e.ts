@@ -419,6 +419,25 @@ describe("calcite-inline-editable", () => {
         targetProp: "--calcite-button-border-color",
         state: "hover",
       },
+      "--calcite-inline-editable-cancel-button-icon-color": {
+        shadowSelector: `.${CSS.cancelEditingButton}`,
+        targetProp: "--calcite-button-icon-color",
+      },
+      "--calcite-inline-editable-cancel-button-icon-color-active": {
+        shadowSelector: `.${CSS.cancelEditingButton}`,
+        targetProp: "--calcite-button-icon-color",
+        state: { press: { attribute: "class", value: CSS.cancelEditingButton } },
+      },
+      "--calcite-inline-editable-cancel-button-icon-color-focus": {
+        shadowSelector: `.${CSS.cancelEditingButton}`,
+        targetProp: "--calcite-button-icon-color",
+        state: "focus",
+      },
+      "--calcite-inline-editable-cancel-button-icon-color-hover": {
+        shadowSelector: `.${CSS.cancelEditingButton}`,
+        targetProp: "--calcite-button-icon-color",
+        state: "hover",
+      },
     } as const;
 
     themed(
