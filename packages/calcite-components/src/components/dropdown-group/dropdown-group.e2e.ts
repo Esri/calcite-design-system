@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown-group", () => {
   describe("defaults", () => {
@@ -63,5 +64,42 @@ describe("calcite-dropdown-group", () => {
     items = await page.findAll("calcite-dropdown-item");
     expect(items.length).toBe(3);
     items.forEach(async (item) => expect(await item.getProperty("selectionMode")).toBe("none"));
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html` <calcite-dropdown-group group-title="test"></calcite-dropdown-group>`, {
+        "--calcite-dropdown-group-border-color": [
+          {
+            shadowSelector: `.${CSS.title}`,
+            targetProp: "borderColor",
+          },
+        ],
+        "--calcite-dropdown-group-text-color": {
+          shadowSelector: `.${CSS.title}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("separator", () => {
+      themed(
+        html`
+          <calcite-dropdown open>
+            <calcite-dropdown-group group-title="first"></calcite-dropdown-group>
+            <calcite-dropdown-group group-title="second (with separator)"></calcite-dropdown-group>
+          </calcite-dropdown>
+        `,
+        {
+          "--calcite-dropdown-group-border-color": [
+            {
+              selector: "calcite-dropdown-group[group-title^='second']",
+              shadowSelector: `.${CSS.separator}`,
+              targetProp: "backgroundColor",
+            },
+          ],
+        },
+      );
+    });
   });
 });
