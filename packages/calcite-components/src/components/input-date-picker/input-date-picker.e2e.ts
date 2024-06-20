@@ -10,6 +10,7 @@ import {
   openClose,
   renders,
   t9n,
+  focusable,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
@@ -74,6 +75,12 @@ describe("calcite-input-date-picker", () => {
 
   describe("translation support", () => {
     t9n("calcite-input-date-picker");
+  });
+
+  describe("should focus the input when setFocus is called", () => {
+    focusable(`calcite-input-date-picker`, {
+      shadowFocusTargetSelector: "calcite-input-text",
+    });
   });
 
   describe("event emitting when the value changes", () => {

@@ -611,6 +611,18 @@ export namespace Components {
          */
         "headingLevel": HeadingLevel;
         /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd": string;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl": FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart": string;
+        /**
           * When `true`, a busy indicator is displayed.
          */
         "loading": boolean;
@@ -636,6 +648,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * Displays a status-related indicator icon.
+          * @deprecated Use `icon-start` instead.
          */
         "status": Status;
     }
@@ -1156,7 +1169,7 @@ export namespace Components {
           * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.  The type will be preserved as the color is updated.
           * @default "#007ac2"
           * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
-          * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
+          * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/src/components/color-picker/interfaces.ts#L10)
          */
         "value": ColorValue | null;
     }
@@ -1842,6 +1855,10 @@ export namespace Components {
          */
         "items": object[];
         /**
+          * Specifies the fields to match against when filtering. This will only apply when `value` is an object. If not set, all fields will be matched.
+         */
+        "matchFields": string[];
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides": Partial<FilterMessages>;
@@ -2004,6 +2021,7 @@ export namespace Components {
         "messageOverrides": Partial<HandleMessages>;
         /**
           * Made into a prop for testing purposes only.
+          * @readonly
          */
         "messages": HandleMessages;
         /**
@@ -3816,7 +3834,7 @@ export namespace Components {
         "disabled": boolean;
         /**
           * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
+          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
          */
         "icon": ICON_TYPES | null;
         /**
@@ -4448,7 +4466,7 @@ export namespace Components {
         "hasHistogram": boolean;
         /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
-          * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
+          * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/src/components/graph/interfaces.ts#L5)
          */
         "histogram": DataSeries;
         /**
@@ -5723,7 +5741,7 @@ export namespace Components {
         "handleActivated"?: boolean;
         /**
           * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
+          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
          */
         "icon"?: ICON_TYPES | null;
         /**
@@ -8378,6 +8396,18 @@ declare namespace LocalJSX {
          */
         "headingLevel"?: HeadingLevel;
         /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd"?: string;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl"?: FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart"?: string;
+        /**
           * When `true`, a busy indicator is displayed.
          */
         "loading"?: boolean;
@@ -8420,6 +8450,7 @@ declare namespace LocalJSX {
         "overlayPositioning"?: OverlayPositioning;
         /**
           * Displays a status-related indicator icon.
+          * @deprecated Use `icon-start` instead.
          */
         "status"?: Status;
     }
@@ -8964,7 +8995,7 @@ declare namespace LocalJSX {
           * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.  The type will be preserved as the color is updated.
           * @default "#007ac2"
           * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
-          * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
+          * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/src/components/color-picker/interfaces.ts#L10)
          */
         "value"?: ColorValue | null;
     }
@@ -9705,6 +9736,10 @@ declare namespace LocalJSX {
          */
         "items"?: object[];
         /**
+          * Specifies the fields to match against when filtering. This will only apply when `value` is an object. If not set, all fields will be matched.
+         */
+        "matchFields"?: string[];
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides"?: Partial<FilterMessages>;
@@ -9863,6 +9898,7 @@ declare namespace LocalJSX {
         "messageOverrides"?: Partial<HandleMessages>;
         /**
           * Made into a prop for testing purposes only.
+          * @readonly
          */
         "messages"?: HandleMessages;
         /**
@@ -11772,7 +11808,7 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         /**
           * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
+          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
          */
         "icon"?: ICON_TYPES | null;
         /**
@@ -12447,7 +12483,7 @@ declare namespace LocalJSX {
         "hasHistogram"?: boolean;
         /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
-          * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
+          * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/src/components/graph/interfaces.ts#L5)
          */
         "histogram"?: DataSeries;
         /**
@@ -12911,12 +12947,12 @@ declare namespace LocalJSX {
         "onCalciteInternalTabTitleRegister"?: (event: CalciteTabTitleCustomEvent<TabID>) => void;
         /**
           * Fires when a `calcite-tab` is selected (`event.details`).
-          * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts#L1)
+          * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts#L1)
          */
         "onCalciteInternalTabsActivate"?: (event: CalciteTabTitleCustomEvent<TabChangeEventDetail>) => void;
         /**
           * Fires when `calcite-tab` is closed (`event.details`).
-          * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts)
+          * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts)
          */
         "onCalciteInternalTabsClose"?: (event: CalciteTabTitleCustomEvent<TabCloseEventDetail>) => void;
         "onCalciteInternalTabsFocusFirst"?: (event: CalciteTabTitleCustomEvent<void>) => void;
@@ -13764,7 +13800,7 @@ declare namespace LocalJSX {
         "handleActivated"?: boolean;
         /**
           * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
+          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
          */
         "icon"?: ICON_TYPES | null;
         /**
