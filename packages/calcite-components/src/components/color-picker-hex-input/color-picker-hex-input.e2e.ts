@@ -348,11 +348,18 @@ describe("calcite-color-picker-hex-input", () => {
           await assertTabAndEnterBehavior("", startingHex);
         });
 
-        it("commits hex chars when typing", async () => {
+        it("commits longhand hex chars when typing", async () => {
           await selectText(input);
-          await page.keyboard.type("abcdef");
+          await page.keyboard.type("abc");
           await page.waitForChanges();
 
+          // asserting that shorthand hex won't be committed
+          expect(await input.getProperty("value")).toBe("#b33f33");
+
+          await page.keyboard.type("def");
+          await page.waitForChanges();
+
+          // asserting that longhand hex will be committed
           expect(await input.getProperty("value")).toBe("#abcdef");
         });
 
