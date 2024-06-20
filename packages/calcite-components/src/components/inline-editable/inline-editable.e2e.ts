@@ -438,10 +438,75 @@ describe("calcite-inline-editable", () => {
         targetProp: "--calcite-button-icon-color",
         state: "hover",
       },
+      "--calcite-inline-editable-cancel-button-corner-radius": {
+        shadowSelector: `.${CSS.cancelEditingButton}`,
+        targetProp: "--calcite-button-corner-radius",
+      },
+      "--calcite-inline-editable-edit-button-background-color": {
+        shadowSelector: `.${CSS.enableEditingButton}`,
+        targetProp: "--calcite-button-background-color",
+      },
+      "--calcite-inline-editable-edit-button-background-color-active": {
+        shadowSelector: `.${CSS.enableEditingButton}`,
+        targetProp: "--calcite-button-background-color",
+        state: { press: { attribute: "class", value: CSS.enableEditingButton } },
+      },
+      "--calcite-inline-editable-edit-button-background-color-focus": {
+        shadowSelector: `.${CSS.enableEditingButton}`,
+        targetProp: "--calcite-button-background-color",
+        state: "focus",
+      },
+      "--calcite-inline-editable-edit-button-background-color-hover": {
+        shadowSelector: `.${CSS.enableEditingButton}`,
+        targetProp: "--calcite-button-background-color",
+        state: "hover",
+      },
+      "--calcite-inline-editable-edit-button-border-color": {
+        shadowSelector: `.${CSS.enableEditingButton}`,
+        targetProp: "--calcite-button-border-color",
+      },
+      "--calcite-inline-editable-edit-button-border-color-active": {
+        shadowSelector: `.${CSS.enableEditingButton}`,
+        targetProp: "--calcite-button-border-color",
+        state: { press: { attribute: "class", value: CSS.enableEditingButton } },
+      },
+      "--calcite-inline-editable-edit-button-border-color-focus": {
+        shadowSelector: `.${CSS.enableEditingButton}`,
+        targetProp: "--calcite-button-border-color",
+        state: "focus",
+      },
+      "--calcite-inline-editable-edit-button-border-color-hover": {
+        shadowSelector: `.${CSS.enableEditingButton}`,
+        targetProp: "--calcite-button-border-color",
+        state: "hover",
+      },
+      "--calcite-inline-editable-edit-button-icon-color": {
+        shadowSelector: `.${CSS.enableEditingButton}`,
+        targetProp: "--calcite-button-icon-color",
+      },
+      "--calcite-inline-editable-edit-button-icon-color-active": {
+        shadowSelector: `.${CSS.enableEditingButton}`,
+        targetProp: "--calcite-button-icon-color",
+        state: { press: { attribute: "class", value: CSS.enableEditingButton } },
+      },
+      "--calcite-inline-editable-edit-button-icon-color-focus": {
+        shadowSelector: `.${CSS.enableEditingButton}`,
+        targetProp: "--calcite-button-icon-color",
+        state: "focus",
+      },
+      "--calcite-inline-editable-edit-button-icon-color-hover": {
+        shadowSelector: `.${CSS.enableEditingButton}`,
+        targetProp: "--calcite-button-icon-color",
+        state: "hover",
+      },
+      "--calcite-inline-editable-edit-button-corner-radius": {
+        shadowSelector: `.${CSS.enableEditingButton}`,
+        targetProp: "--calcite-button-corner-radius",
+      },
     } as const;
 
     themed(
-      `<calcite-inline-editable editing-enabled controls><calcite-input></calcite-input></calcite-inline-editable>`,
+      `<calcite-inline-editable editing-enabled controls><calcite-input placeholder="My placeholder" value="Edit me"></calcite-input></calcite-inline-editable>`,
       tokens,
     );
   });
