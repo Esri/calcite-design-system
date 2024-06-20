@@ -54,7 +54,9 @@ export class DatePickerMonth {
   @Watch("activeDate")
   updateFocusedDateWithActive(newActiveDate: Date): void {
     if (!this.selectedDate) {
-      this.focusedDate = newActiveDate;
+      this.focusedDate = inRange(newActiveDate, this.min, this.max)
+        ? newActiveDate
+        : dateFromRange(newActiveDate, this.min, this.max);
     }
   }
 
