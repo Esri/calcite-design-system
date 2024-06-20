@@ -136,7 +136,8 @@ export const simple = (): string =>
       <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
       ${contentHTML}
       <calcite-fab slot="fab"></calcite-fab>
-      ${footerHTML}
+      <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
+      <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
     `,
   );
 

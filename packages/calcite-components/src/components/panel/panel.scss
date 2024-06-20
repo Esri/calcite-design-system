@@ -138,7 +138,9 @@
 }
 
 .footer {
-  @apply flex mt-auto flex-row content-between justify-between bg-foreground-1;
+  @apply flex mt-auto flex-row content-between justify-center items-center bg-foreground-1;
+
+  border-block-start: 1px solid var(--calcite-color-border-3);
   padding-inline: var(--calcite-spacing-md);
   padding-block: var(--calcite-spacing-md);
 }
