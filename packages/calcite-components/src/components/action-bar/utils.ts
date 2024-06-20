@@ -91,7 +91,7 @@ export const overflowActions = ({
       groupActions.some((groupAction) => {
         const unslottedActions = groupActions.filter((action) => !action.slot);
 
-        if (unslottedActions.length > 1 && groupActions.length > 2 && !groupAction.closest("calcite-action-menu")) {
+        if (unslottedActions.length > 1 && groupActions.length > 1 && !groupAction.closest("calcite-action-menu")) {
           groupAction.textEnabled = true;
           groupAction.setAttribute("slot", ACTION_GROUP_SLOTS.menuActions);
           slottedWithinGroupCount++;

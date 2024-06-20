@@ -101,6 +101,13 @@
   * {
     @apply box-border;
   }
+
+  &.float {
+    @apply rounded;
+    border: 1px solid var(--calcite-color-border-3);
+    margin-block: 0.5rem;
+    margin-inline: 0.5rem;
+  }
 }
 
 :host([layout="horizontal"]) .container {
@@ -253,7 +260,7 @@
   box-shadow: var(--calcite-shell-panel-shadow-block-end-internal);
 }
 
-.content--float {
+.content--detached {
   @apply shadow-0
   mx-2
   mt-2
@@ -268,12 +275,12 @@
   }
 }
 
-:host([layout="horizontal"]) .content--float {
+:host([layout="horizontal"]) .content--detached {
   @apply my-2;
 }
 
-:host([position="start"]) .content--float,
-:host([position="end"]) .content--float {
+:host([position="start"]) .content--detached,
+:host([position="end"]) .content--detached {
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     @apply border-none;

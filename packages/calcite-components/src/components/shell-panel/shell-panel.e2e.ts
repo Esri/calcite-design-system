@@ -147,7 +147,7 @@ describe("calcite-shell-panel", () => {
 
     await page.setContent("<calcite-shell-panel><div>content</div></calcite-shell-panel>");
 
-    let detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentFloat}`);
+    let detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentDetached}`);
 
     expect(detachedElement).toBeNull();
 
@@ -161,7 +161,7 @@ describe("calcite-shell-panel", () => {
 
     expect(await panel.getProperty("detached")).toBe(true);
 
-    detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentFloat}`);
+    detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentDetached}`);
 
     expect(detachedElement).not.toBeNull();
   });

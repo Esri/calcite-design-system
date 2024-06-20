@@ -10,6 +10,7 @@ import {
   State,
   VNode,
   Watch,
+  //forceUpdate,
 } from "@stencil/core";
 import { debounce } from "lodash-es";
 import {
@@ -342,6 +343,20 @@ export class ActionBar
       expanded,
       overflowCount,
     });
+
+    // let groupHeight = 0;
+    // actionGroups.reverse().forEach((group) => {
+    //   groupHeight += group.clientHeight;
+    // });
+    // if (layout === "vertical" && height > groupHeight) {
+    //   while (height > groupHeight) {
+    //     actionGroups.pop();
+    //     actionGroups.forEach((group) => {
+    //       groupHeight += group.clientHeight;
+    //     });
+    //   }
+    //   forceUpdate(actionGroups);
+    // }
   }, overflowActionsDebounceInMs);
 
   toggleExpand = (): void => {
