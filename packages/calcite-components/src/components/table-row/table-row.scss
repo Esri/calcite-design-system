@@ -5,7 +5,7 @@
  *
  * @prop --calcite-table-row-background: [Deprecated] Use `--calcite-table-row-background-color` instead. Specifies the background color of the component.
  * @prop --calcite-table-row-background-color: Specifies the background color of the component.
- * @prop --calcite-table-row-secondary-background-color: The background color of the component's `striped` rows, when specified.
+ * @prop --calcite-table-row-background-color-striped: The background color of the component's `striped` rows, when specified.
  * @prop --calcite-table-row-background-color-selected: The background color of the component's `selected` rows, when specified.
  * @prop --calcite-table-row-border-color: Specifies the border color of the component.
  * @prop --calcite-table-row-selected-accent-color: Specifies the border color of the component.
@@ -39,23 +39,10 @@ calcite-table-cell {
 }
 
 tr {
-  border-block-end: 1px solid
-    var(--calcite-table-row-border-color, var(--calcite-internal-table-row-border-color, transparent));
+  border-block-end: 1px solid var(--calcite-table-row-border-color, transparent);
   background-color: var(--calcite-table-row-background-color, var(--calcite-color-foreground-1));
 }
 
 tr.last-visible-row {
   border-block-end: 0;
-}
-
-:host(:nth-child(2n + 1)) {
-  tr {
-    background-color: var(
-      --calcite-table-row-secondary-background-color,
-      var(
-        --calcite-internal-table-secondary-background-color,
-        var(--calcite-table-row-background-color, var(--calcite-color-foreground-1))
-      )
-    );
-  }
 }
