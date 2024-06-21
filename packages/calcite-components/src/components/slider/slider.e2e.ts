@@ -1174,5 +1174,37 @@ describe("calcite-slider", () => {
         tokens,
       );
     });
+    describe("histogram", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-slider-histogram-accent-color": {
+          shadowSelector: "calcite-graph",
+          targetProp: "--calcite-graph-accent-color",
+        },
+        "--calcite-slider-histogram-background-color": {
+          shadowSelector: "calcite-graph",
+          targetProp: "--calcite-graph-background-color",
+        },
+      };
+      themed(async () => {
+        const page: E2EPage = await newE2EPage();
+        await page.setContent(html` <calcite-slider min="0" max="100" value="60" step="1"></calcite-slider> `);
+        const tag = "calcite-slider";
+        await page.$eval(tag, (slider: HTMLCalciteSliderElement) => {
+          slider.histogram = [
+            [0, 0],
+            [20, 12],
+            [40, 25],
+            [60, 55],
+            [80, 10],
+            [100, 0],
+          ];
+        });
+        await page.waitForChanges();
+        return {
+          page,
+          tag,
+        };
+      }, tokens);
+    });
   });
 });
