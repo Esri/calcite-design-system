@@ -836,13 +836,14 @@ export class List
   };
 
   private updateListItems = debounce((emit = false): void => {
-    const { selectionAppearance, selectionMode, dragEnabled } = this;
+    const { selectionAppearance, selectionMode, dragEnabled, el } = this;
 
     const items = Array.from(this.el.querySelectorAll(listItemSelector));
+
     items.forEach((item) => {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
-      if (item.closest("calcite-list") === this.el) {
+      if (item.closest("calcite-list") === el) {
         item.dragHandle = dragEnabled;
       }
     });
