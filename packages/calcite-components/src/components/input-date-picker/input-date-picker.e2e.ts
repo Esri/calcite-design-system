@@ -10,6 +10,7 @@ import {
   openClose,
   renders,
   t9n,
+  focusable,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
@@ -74,6 +75,12 @@ describe("calcite-input-date-picker", () => {
 
   describe("translation support", () => {
     t9n("calcite-input-date-picker");
+  });
+
+  describe("should focus the input when setFocus is called", () => {
+    focusable(`calcite-input-date-picker`, {
+      shadowFocusTargetSelector: "calcite-input-text",
+    });
   });
 
   async function navigateMonth(page: E2EPage, direction: "previous" | "next"): Promise<void> {
@@ -717,7 +724,6 @@ describe("calcite-input-date-picker", () => {
     });
 
     describe("cross-century date values", () => {
-
       async function assertCenturyDateValue(year: number, timezone?: string) {
         const initialValue = `${year}-03-12`;
         const page = await newE2EPage();
@@ -748,7 +754,7 @@ describe("calcite-input-date-picker", () => {
 
       it("sets value to the clicked day in the 1800s in Zurich timezone", async () => {
         await assertCenturyDateValue(1850, "Europe/Zurich");
-    });
+      });
     });
   });
 
