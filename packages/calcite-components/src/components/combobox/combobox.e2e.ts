@@ -957,13 +957,13 @@ describe("calcite-combobox", () => {
 
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
-      expect(await assertCaretPosition({ page, componentTag, position: 0 })).toBeTruthy();
+      await assertCaretPosition({ page, componentTag, position: 0 });
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
-      expect(await assertCaretPosition({ page, componentTag, position: 0 })).toBeTruthy();
+      await assertCaretPosition({ page, componentTag, position: 0 });
 
       await page.keyboard.type("zz");
       await page.waitForChanges();
@@ -972,25 +972,25 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
-      expect(await assertCaretPosition({ page, componentTag, position: 2 })).toBeTruthy();
+      await assertCaretPosition({ page, componentTag, position: 2 });
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
-      expect(await assertCaretPosition({ page, componentTag, position: 2 })).toBeTruthy();
+      await assertCaretPosition({ page, componentTag, position: 2 });
 
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
-      expect(await assertCaretPosition({ page, componentTag, position: 1 })).toBeTruthy();
+      await assertCaretPosition({ page, componentTag, position: 1 });
 
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
-      expect(await assertCaretPosition({ page, componentTag, position: 0 })).toBeTruthy();
+      await assertCaretPosition({ page, componentTag, position: 0 });
 
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
@@ -1026,19 +1026,19 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
-      expect(await assertCaretPosition({ page, componentTag, position: 0 })).toBeTruthy();
+      await assertCaretPosition({ page, componentTag, position: 0 });
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
-      expect(await assertCaretPosition({ page, componentTag, position: 2 })).toBeTruthy();
+      await assertCaretPosition({ page, componentTag, position: 2 });
 
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
-      expect(await assertCaretPosition({ page, componentTag, position: 0 })).toBeTruthy();
+      await assertCaretPosition({ page, componentTag, position: 0 });
     });
   });
 

@@ -17,7 +17,7 @@ import {
   testPostValidationFocusing,
   testWorkaroundForGlobalPropRemoval,
 } from "../input/common/tests";
-import { validateCaretIndex } from "../../tests/commonTests/utils";
+import { assertCaretPosition } from "../../tests/utils";
 
 describe("calcite-input-text", () => {
   describe("labelable", () => {
@@ -393,23 +393,19 @@ describe("calcite-input-text", () => {
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(
-      await validateCaretIndex({
-        page,
-        componentTag: "calcite-input-text",
-        position: 0,
-      }),
-    ).toBeTruthy();
+    await assertCaretPosition({
+      page,
+      componentTag: "calcite-input-text",
+      position: 0,
+    });
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(
-      await validateCaretIndex({
-        page,
-        componentTag: "calcite-input-text",
-      }),
-    ).toBeTruthy();
+    await assertCaretPosition({
+      page,
+      componentTag: "calcite-input-text",
+    });
   });
 
   it("allows disabling slotted action", async () => {

@@ -15,7 +15,7 @@ import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementRect, getElementXY, selectText } from "../../tests/utils";
-import { validateCaretIndex } from "../../tests/commonTests/utils";
+import { assertCaretPosition } from "../../tests/utils";
 import { testHiddenInputSyncing, testPostValidationFocusing, testWorkaroundForGlobalPropRemoval } from "./common/tests";
 
 describe("calcite-input", () => {
@@ -1849,25 +1849,21 @@ describe("calcite-input", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(
-        await validateCaretIndex({
-          page,
-          componentTag: "calcite-input",
-          nestedInputTypeSelector: "textarea",
-          position: 0,
-        }),
-      ).toBeTruthy();
+      await assertCaretPosition({
+        page,
+        componentTag: "calcite-input",
+        shadowInputTypeSelector: "textarea",
+        position: 0,
+      });
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(
-        await validateCaretIndex({
-          page,
-          componentTag: "calcite-input",
-          nestedInputTypeSelector: "textarea",
-        }),
-      ).toBeTruthy();
+      await assertCaretPosition({
+        page,
+        componentTag: "calcite-input",
+        shadowInputTypeSelector: "textarea",
+      });
     });
 
     it("works for type text", async () => {
@@ -1882,23 +1878,19 @@ describe("calcite-input", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(
-        await validateCaretIndex({
-          page,
-          componentTag: "calcite-input",
-          position: 0,
-        }),
-      ).toBeTruthy();
+      await assertCaretPosition({
+        page,
+        componentTag: "calcite-input",
+        position: 0,
+      });
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(
-        await validateCaretIndex({
-          page,
-          componentTag: "calcite-input",
-        }),
-      ).toBeTruthy();
+      await assertCaretPosition({
+        page,
+        componentTag: "calcite-input",
+      });
     });
 
     it("should not work for type number, but increment instead", async () => {
@@ -1913,23 +1905,21 @@ describe("calcite-input", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(
-        await validateCaretIndex({
-          page,
-          componentTag: "calcite-input",
-        }),
-      ).toBeTruthy();
+      await assertCaretPosition({
+        page,
+        componentTag: "calcite-input",
+      });
+
       expect(await element.getProperty("value")).toBe("12346");
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(
-        await validateCaretIndex({
-          page,
-          componentTag: "calcite-input",
-        }),
-      ).toBeTruthy();
+      await assertCaretPosition({
+        page,
+        componentTag: "calcite-input",
+      });
+
       expect(await element.getProperty("value")).toBe("12345");
     });
 

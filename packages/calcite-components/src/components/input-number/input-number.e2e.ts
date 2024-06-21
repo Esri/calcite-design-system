@@ -20,7 +20,7 @@ import {
   testHiddenInputSyncing,
   testPostValidationFocusing,
 } from "../input/common/tests";
-import { validateCaretIndex } from "../../tests/commonTests/utils";
+import { assertCaretPosition } from "../../tests/utils";
 
 describe("calcite-input-number", () => {
   const delayFor2UpdatesInMs = 200;
@@ -1621,23 +1621,21 @@ describe("calcite-input-number", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(
-        await validateCaretIndex({
-          page,
-          componentTag: "calcite-input-number",
-        }),
-      ).toBeTruthy();
+      await assertCaretPosition({
+        page,
+        componentTag: "calcite-input-number",
+      });
+
       expect(await element.getProperty("value")).toBe("12346");
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(
-        await validateCaretIndex({
-          page,
-          componentTag: "calcite-input-number",
-        }),
-      ).toBeTruthy();
+      await assertCaretPosition({
+        page,
+        componentTag: "calcite-input-number",
+      });
+
       expect(await element.getProperty("value")).toBe("12345");
     });
 
