@@ -529,9 +529,11 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteComboboxElement;
+
   private allSelectedIndicatorChipEl: HTMLCalciteChipElement;
 
-  @Element() el: HTMLCalciteComboboxElement;
+  private currentFilterPattern: RegExp;
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
@@ -1205,8 +1207,6 @@ export class Combobox
         })
     );
   };
-
-  private currentFilterPattern: RegExp;
 
   private updateItems = (): void => {
     this.items = this.getItems();
