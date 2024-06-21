@@ -161,12 +161,12 @@ export class List
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Specifies the fields to match against when filtering. If not set, all fields will be matched (label, description, metadata, value).
+   * Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value).
    */
-  @Prop() matchFields: string[];
+  @Prop() filterProps: string[];
 
-  @Watch("matchFields")
-  async handleMatchFieldsChange(): Promise<void> {
+  @Watch("filterProps")
+  async handlefilterPropsChange(): Promise<void> {
     this.performFilter();
   }
 
@@ -527,7 +527,7 @@ export class List
       hasFilterActionsStart,
       hasFilterActionsEnd,
       hasFilterNoResults,
-      matchFields,
+      filterProps,
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
@@ -559,8 +559,8 @@ export class List
                       <calcite-filter
                         aria-label={filterPlaceholder}
                         disabled={disabled}
+                        filterProps={filterProps}
                         items={dataForFilter}
-                        matchFields={matchFields}
                         onCalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}
@@ -816,14 +816,14 @@ export class List
   }
 
   private async performFilter(): Promise<void> {
-    const { filterEl, filterText, matchFields } = this;
+    const { filterEl, filterText, filterProps } = this;
 
     if (!filterEl) {
       return;
     }
 
     filterEl.value = filterText;
-    filterEl.matchFields = matchFields;
+    filterEl.filterProps = filterProps;
     await filterEl.filter(filterText);
     this.updateFilteredData();
   }

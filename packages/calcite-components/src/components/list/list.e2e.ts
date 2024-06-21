@@ -67,7 +67,7 @@ describe("calcite-list", () => {
         defaultValue: false,
       },
       {
-        propertyName: "matchFields",
+        propertyName: "filterProps",
         defaultValue: undefined,
       },
     ]);
@@ -377,7 +377,7 @@ describe("calcite-list", () => {
     expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match", "value-match"]);
   });
 
-  it("filters initially with matchFields", async () => {
+  it("filters initially with filterProps", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
       <calcite-list filter-enabled filter-text="match">
@@ -410,7 +410,7 @@ describe("calcite-list", () => {
 
     await page.waitForChanges();
     const list = await page.find("calcite-list");
-    list.setProperty("matchFields", ["label", "description"]);
+    list.setProperty("filterProps", ["label", "description"]);
     await page.waitForChanges();
     await page.waitForTimeout(listDebounceTimeout);
 
