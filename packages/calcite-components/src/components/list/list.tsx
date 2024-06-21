@@ -161,7 +161,7 @@ export class List
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Specifies the fields to match against when filtering. If not set, all fields will be matched.
+   * Specifies the fields to match against when filtering. If not set, all fields will be matched (label, description, metadata, value).
    */
   @Prop() matchFields: string[];
 
