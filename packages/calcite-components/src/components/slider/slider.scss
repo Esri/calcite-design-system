@@ -8,7 +8,7 @@
  * @prop --calcite-slider-handle-border-color: Specifies the border color of the handle.
  * @prop --calcite-slider-handle-color-active: Specifies the color of the handle.
  * @prop --calcite-slider-handle-color-hover: Specifies the color of the handle when hovered.
- * @prop --calcite-slider-handle-color: Specifies the color OF the handle.
+ * @prop --calcite-slider-handle-color: Specifies the color of the handle.
  * @prop --calcite-slider-handle-shadow-hover: Specifies the shadow of the handle when hovered.
  * @prop --calcite-slider-handle-shadow: Specifies the shadow of the handle.
  * @prop --calcite-slider-histogram-accent-color: Specifies the accent color of the graph.
@@ -252,9 +252,9 @@
   }
 }
 
-.thumb:hover.thumb--precise:after,
-.thumb:focus.thumb--precise:after,
-.thumb--active.thumb--precise:after {
+.thumb:hover.thumb--precise::after,
+.thumb:focus.thumb--precise::after,
+.thumb--active.thumb--precise::after {
   background-color: var(--calcite-slider-handle-color-hover, var(--calcite-color-brand));
 }
 
@@ -276,7 +276,7 @@
     &:hover {
       cursor: ew-resize;
     }
-    &:after {
+    &::after {
       @apply absolute w-full;
       content: "";
       inset-block-start: calc(var(--calcite-internal-slider-full-handle-height) * -0.5);

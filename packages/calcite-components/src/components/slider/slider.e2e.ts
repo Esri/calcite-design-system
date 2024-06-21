@@ -2,6 +2,7 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing
 import { html } from "../../../support/formatting";
 import { defaults, disabled, formAssociated, hidden, labelable, renders } from "../../tests/commonTests";
 import { getElementRect, getElementXY, isElementFocused } from "../../tests/utils";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 describe("calcite-slider", () => {
@@ -1124,6 +1125,54 @@ describe("calcite-slider", () => {
         expect(minValueLabel.innerText).toBe(`2${frGroupSeparator}500`);
         expect(maxValueLabel.innerText).toBe(`7${frGroupSeparator}500`);
       });
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-slider-handle-border-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-slider-handle-border-color-active": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "boxShadow",
+          state: { press: { attribute: "class", value: CSS.handle } },
+        },
+        "--calcite-slider-handle-border-color-hover": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "boxShadow",
+          state: "hover",
+        },
+        "--calcite-slider-handle-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-slider-handle-color-active": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.handle } },
+        },
+        "--calcite-slider-handle-color-hover": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+      };
+      themed(html` <calcite-slider min="0" max="100" value="20" step="10" ticks="10"></calcite-slider> `, tokens);
+    });
+    describe("disabled", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-slider-fill-color": {
+          shadowSelector: `.${CSS.trackRange}`,
+          targetProp: "backgroundColor",
+        },
+      };
+      themed(
+        html` <calcite-slider disabled min="0" max="100" value="20" step="10" ticks="10"></calcite-slider> `,
+        tokens,
+      );
     });
   });
 });
