@@ -32,6 +32,7 @@ For comprehensive guidance on using and implementing `calcite-tile`, refer to th
 | `iconFlipRtl` | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                                                                                             | `boolean`             | `false`     |
 | `label`       | `label`         | Accessible name for the component.                                                                                                                                                       | `string`              | `undefined` |
 | `scale`       | `scale`         | Specifies the size of the component.                                                                                                                                                     | `"l" \| "m" \| "s"`   | `"m"`       |
+| `selected`    | `selected`      | When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or`"multiple"`, the component is selected.                                                               | `boolean`             | `false`     |
 
 ## Events
 

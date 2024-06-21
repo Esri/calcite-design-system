@@ -82,8 +82,10 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
    * Made into a prop for testing purposes only.
    *
    * @internal
+   * @readonly
    */
-  @Prop() messages: HandleMessages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: HandleMessages;
 
   /**
    *
@@ -116,7 +118,8 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop() messageOverrides: Partial<HandleMessages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<HandleMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
