@@ -7,7 +7,32 @@ permissions:
   contents: write
   pull-requests: write
 jobs:
+  sync-dev-to-main:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.ADMIN_TOKEN }}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+      - name: Sync dev to main
+        run: |
+          git rebase --autostash --autosquash origin/dev
+          npm install
+          npm run build
+          npm test
+          git push origin/main
+
   release-please:
+    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -61,6 +86,21 @@ jobs:
 
           npm run publish:latest
           npm run util:upload-release-assets -- "$RELEASED_PATHS"
+
+          git checkout -b ci/cherry-pick-release-commit origin/dev
+          git cherry-pick origin/main || true
+
+          git checkout --ours \
+            packages/*/CHANGELOG.md \
+            packages/calcite-components-angular/projects/component-library/CHANGELOG.md
+
+          git checkout --theirs
+            packages/*/package.json \
+            packages/calcite-components-angular/projects/component-library/package.json
+
+          git cherry-pick --continue
+          gh pr create --fill --base "dev" --label "skip visual snapshots"
+
         env:
           RELEASED_PATHS: ${{ toJSON(steps.release.outputs.paths_released) }}
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

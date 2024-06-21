@@ -2,7 +2,7 @@ name: E2E
 on:
   workflow_dispatch:
   pull_request:
-    branches: [main, rc, dev]
+    branches: [rc, dev]
 jobs:
   e2e:
     runs-on: ubuntu-20.04
