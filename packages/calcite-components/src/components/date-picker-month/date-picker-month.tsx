@@ -653,16 +653,14 @@ export class DatePickerMonth {
           ref: true,
         };
       }),
-      ...(!this.range
-        ? nextMonthDays.map((day) => {
-            return {
-              active: false,
-              day,
-              dayInWeek: getDayInWeek(),
-              date: new Date(year, month + 1, day),
-            };
-          })
-        : []),
+      ...nextMonthDays.map((day) => {
+        return {
+          active: false,
+          day,
+          dayInWeek: getDayInWeek(),
+          date: new Date(year, month + 1, day),
+        };
+      }),
     ];
 
     return days;
@@ -680,13 +678,7 @@ export class DatePickerMonth {
         </div>
 
         <div class="week-days" role="row">
-          {days.map((day, index) =>
-            this.range && !day.currentMonth ? (
-              <div />
-            ) : (
-              this.renderDateDay(day, isNextMonth ? 50 + index : index)
-            ),
-          )}
+          {days.map((day, index) => this.renderDateDay(day, isNextMonth ? 50 + index : index))}
         </div>
       </div>
     );
