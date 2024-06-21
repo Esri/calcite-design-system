@@ -1342,11 +1342,9 @@ export class Combobox
     const height = this.calculateSingleItemHeight(activeItem);
     const { offsetHeight, scrollTop } = this.listContainerEl;
 
-    if (height + activeItem.offsetTop > offsetHeight + scrollTop) {
-      this.listContainerEl.scrollTop = height + activeItem.offsetTop - offsetHeight;
+    if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
+      this.listContainerEl.scrollTop = activeItem.offsetTop - offsetHeight + height;
     } else if (activeItem.offsetTop < scrollTop) {
-      this.listContainerEl.scrollTop = activeItem.offsetTop;
-    } else {
       this.listContainerEl.scrollTop = activeItem.offsetTop;
     }
   };
