@@ -160,6 +160,16 @@ export class List
   @Prop({ reflect: true }) loading = false;
 
   /**
+   * Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value).
+   */
+  @Prop() filterProps: string[];
+
+  @Watch("filterProps")
+  async handlefilterPropsChange(): Promise<void> {
+    this.performFilter();
+  }
+
+  /**
    * Use this property to override individual strings used by the component.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
@@ -516,6 +526,7 @@ export class List
       hasFilterActionsStart,
       hasFilterActionsEnd,
       hasFilterNoResults,
+      filterProps,
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
@@ -547,6 +558,7 @@ export class List
                       <calcite-filter
                         aria-label={filterPlaceholder}
                         disabled={disabled}
+                        filterProps={filterProps}
                         items={dataForFilter}
                         onCalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
@@ -803,13 +815,14 @@ export class List
   }
 
   private async performFilter(): Promise<void> {
-    const { filterEl, filterText } = this;
+    const { filterEl, filterText, filterProps } = this;
 
     if (!filterEl) {
       return;
     }
 
     filterEl.value = filterText;
+    filterEl.filterProps = filterProps;
     await filterEl.filter(filterText);
     this.updateFilteredData();
   }
