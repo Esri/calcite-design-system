@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.6...@esri/calcite-components@2.10.0-next.7) (2024-06-21)
+
+### Features
+
+- **combobox:** add `filterText` prop ([#9654](https://github.com/Esri/calcite-design-system/issues/9654)) ([01d01de](https://github.com/Esri/calcite-design-system/commit/01d01de57ff8fb9a683f9f7ba5668ad8f83d2a67)), closes [#7212](https://github.com/Esri/calcite-design-system/issues/7212)
+
 ## [2.10.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.5...@esri/calcite-components@2.10.0-next.6) (2024-06-21)
 
 ### Features
