@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.5...@esri/calcite-components@2.10.0-next.6) (2024-06-21)
+
+### Features
+
+- **list:** add filterProps property to specify which properties to filter against ([#9622](https://github.com/Esri/calcite-design-system/issues/9622)) ([a253c00](https://github.com/Esri/calcite-design-system/commit/a253c0040b6c00c2b7ee8d0c0a6830a5848dd116)), closes [#9619](https://github.com/Esri/calcite-design-system/issues/9619)
+
 ## [2.10.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.4...@esri/calcite-components@2.10.0-next.5) (2024-06-21)
 
 ### Bug Fixes
