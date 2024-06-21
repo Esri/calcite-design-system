@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.4...@esri/calcite-components@2.10.0-next.5) (2024-06-21)
+
+### Bug Fixes
+
+- **list:** enable dragging on list items contained within a list that supports dragEnabled ([#9660](https://github.com/Esri/calcite-design-system/issues/9660)) ([5010ef9](https://github.com/Esri/calcite-design-system/commit/5010ef991e8096b0733e6e51cce27b8a39a6e052)), closes [#9662](https://github.com/Esri/calcite-design-system/issues/9662)
+
 ## [2.10.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.3...@esri/calcite-components@2.10.0-next.4) (2024-06-21)
 
 ### Bug Fixes
