@@ -16,6 +16,7 @@ import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
 import { getElementXY, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
+import { assertCaretPosition } from "../../tests/utils";
 import { CSS } from "./resources";
 
 const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
@@ -207,6 +208,31 @@ describe("calcite-combobox", () => {
     }
 
     await page.waitForChanges();
+    expect(await combobox.getProperty("open")).toBe(false);
+  });
+
+  it("should not toggle the combobox when typing within the input does not match any results", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(html`
+      <calcite-combobox id="myCombobox">
+        <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+        <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
+        <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
+        <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+
+    const combobox = await page.find("calcite-combobox");
+    await combobox.callMethod("setFocus");
+    await page.waitForChanges();
+    expect(await combobox.getProperty("open")).toBe(false);
+
+    const text = "nomatchingtexthere";
+
+    await combobox.type(text);
+    await page.waitForChanges();
+
     expect(await combobox.getProperty("open")).toBe(false);
   });
 
@@ -940,8 +966,9 @@ describe("calcite-combobox", () => {
       `);
     });
 
-    it("should navigate chips with arrow keys", async () => {
+    it("should navigate chips and text with arrow keys", async () => {
       const comboboxId = "myCombobox";
+      const componentTag = "calcite-combobox";
       const inputId = "input";
       const chipId = "chip";
 
@@ -955,11 +982,40 @@ describe("calcite-combobox", () => {
 
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
+      await assertCaretPosition({ page, componentTag, position: 0 });
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(inputId);
+      await assertCaretPosition({ page, componentTag, position: 0 });
+
+      await page.keyboard.type("zz");
+      await page.waitForChanges();
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      await assertCaretPosition({ page, componentTag, position: 2 });
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      await assertCaretPosition({ page, componentTag, position: 2 });
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      await assertCaretPosition({ page, componentTag, position: 1 });
+
+      await page.keyboard.press("ArrowLeft");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      await assertCaretPosition({ page, componentTag, position: 0 });
 
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
@@ -990,6 +1046,24 @@ describe("calcite-combobox", () => {
       await page.waitForChanges();
       expect(await getActiveElementId()).toBe(comboboxId);
       expect(await getDataTestId()).toBe(`${chipId}-2`);
+
+      await page.keyboard.press("ArrowRight");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      await assertCaretPosition({ page, componentTag, position: 0 });
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      await assertCaretPosition({ page, componentTag, position: 2 });
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(await getActiveElementId()).toBe(comboboxId);
+      expect(await getDataTestId()).toBe(inputId);
+      await assertCaretPosition({ page, componentTag, position: 0 });
     });
   });
 
