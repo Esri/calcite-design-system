@@ -58,7 +58,6 @@ import { ListMessages } from "./assets/list/t9n";
 import { ListDragDetail } from "./interfaces";
 
 const listItemSelector = "calcite-list-item";
-const listItemSelectorDirect = `:scope > calcite-list-item`;
 const parentSelector = "calcite-list-item-group, calcite-list-item";
 
 /**
@@ -839,15 +838,13 @@ export class List
   private updateListItems = debounce((emit = false): void => {
     const { selectionAppearance, selectionMode, dragEnabled } = this;
 
-    const items = this.queryListItems();
+    const items = Array.from(this.el.querySelectorAll(listItemSelector));
     items.forEach((item) => {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
-    });
-
-    const directItems = this.queryListItems(true);
-    directItems.forEach((item) => {
-      item.dragHandle = dragEnabled;
+      if (item.closest("calcite-list") === this.el) {
+        item.dragHandle = dragEnabled;
+      }
     });
 
     if (this.parentListEl) {
@@ -870,10 +867,6 @@ export class List
     this.updateSelectedItems(emit);
     this.setUpSorting();
   }, debounceTimeout);
-
-  private queryListItems = (direct = false): HTMLCalciteListItemElement[] => {
-    return Array.from(this.el.querySelectorAll(direct ? listItemSelectorDirect : listItemSelector));
-  };
 
   private focusRow = (focusEl: HTMLCalciteListItemElement): void => {
     const { focusableItems } = this;
