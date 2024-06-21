@@ -280,7 +280,7 @@ describe("calcite-filter", () => {
 
     it("should return no matching values", async () => {
       const filter = await page.find("calcite-filter");
-      filter.setProperty("matchFields", ["description"]);
+      filter.setProperty("filterProps", ["description"]);
       await page.waitForChanges();
       await page.waitForTimeout(DEBOUNCE_TIMEOUT);
       assertMatchingItems(await filter.getProperty("filteredItems"), []);

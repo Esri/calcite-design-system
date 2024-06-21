@@ -68,4 +68,13 @@ describe("filter function", () => {
     const result = filter(data, "Doe");
     expect(result).toEqual([{ name: "Jane", constant: true }]);
   });
+
+  it("should return all results when given an empty search string", () => {
+    const data = [
+      { name: "John", age: 30 },
+      { name: "Jane", age: 25 },
+    ];
+    const result = filter(data, "");
+    expect(result).toEqual(data);
+  });
 });
