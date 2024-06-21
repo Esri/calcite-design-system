@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "Επιλέξτε ζώνη ώρας.",
+  "offsetPlaceholder": "Αναζήτηση ανά πόλη, περιφέρεια ή μετατόπιση",
+  "namePlaceholder": "Αναζήτηση ανά ζώνη ώρας",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Αμπιτζάν",
   "Africa/Accra": "Άκρα",

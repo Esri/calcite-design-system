@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "เลือกโซนเวลา",
+  "offsetPlaceholder": "ค้นหาตามเมือง ภูมิภาค หรือออฟเซ็ต",
+  "namePlaceholder": "ค้นหาตามโซนเวลา",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "อาบีจาน",
   "Africa/Accra": "แอคครา",

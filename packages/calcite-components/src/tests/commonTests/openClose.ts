@@ -43,7 +43,7 @@ interface OpenCloseOptions {
  * @example
  *
  * describe("openClose", () => {
- *   openClose("calcite-combobox opened with a tab", {
+ *   openClose("calcite-combobox", {
  *     beforeToggle: {
  *        open: async (page) => {
  *            await page.keyboard.press("Tab");
@@ -56,7 +56,7 @@ interface OpenCloseOptions {
  *      }
  *   });
  *
- *  openClose("open calcite-combobox closed with a tab", {
+ *  openClose("calcite-combobox", {
  *        initialToggleValue: true,
  *        beforeToggle: {
  *          close: async (page) => {

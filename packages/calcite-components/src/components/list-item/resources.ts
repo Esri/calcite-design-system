@@ -2,7 +2,6 @@ export const CSS = {
   wrapper: "wrapper",
   wrapperBordered: "wrapper--bordered",
   container: "container",
-  indent: "indent",
   containerHover: "container--hover",
   containerBorder: "container--border",
   containerBorderSelected: "container--border-selected",
@@ -11,7 +10,7 @@ export const CSS = {
   contentContainerSelectable: "content-container--selectable",
   contentContainerHasCenterContent: "content-container--has-center-content",
   nestedContainer: "nested-container",
-  nestedContainerHidden: "nested-container--hidden",
+  nestedContainerOpen: "nested-container--open",
   content: "content",
   customContent: "custom-content",
   actionsStart: "actions-start",
@@ -25,6 +24,7 @@ export const CSS = {
   selectionContainerSingle: "selection-container--single",
   openContainer: "open-container",
   dragContainer: "drag-container",
+  close: "close",
 };
 
 export const SLOTS = {

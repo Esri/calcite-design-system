@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "Alegeți fusul orar.",
+  "offsetPlaceholder": "Căutare după oraș, regiune sau decalaj",
+  "namePlaceholder": "Căutare după fus orar",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidjan",
   "Africa/Accra": "Accra",

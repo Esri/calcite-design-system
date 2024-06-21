@@ -1,32 +1,15 @@
-import { boolean } from "../../../.storybook/fake-knobs";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import {
-  Attribute,
-  Attributes,
-  createComponentHTML as create,
-  filterComponentAttributes,
-  modesDarkDefault,
-} from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { TipManager } from "./tip-manager";
+
+type TipManagerStoryArgs = Pick<TipManager, "closed">;
 
 export default {
   title: "Components/Tips/Tip Manager",
-};
-
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  return filterComponentAttributes(
-    [
-      {
-        name: "closed",
-        commit(): Attribute {
-          this.value = boolean("closed", false, "", "prop");
-          delete this.build;
-          return this;
-        },
-      },
-    ],
-    exceptions,
-  );
+  args: {
+    closed: false,
+  },
 };
 
 const tipContent = html`
@@ -73,17 +56,14 @@ const tipContent = html`
   </calcite-tip>
 `;
 
-export const simple = (): string => create("calcite-tip-manager", createAttributes(), tipContent);
+export const simple = (args: TipManagerStoryArgs): string => html`
+  <calcite-tip-manager ${boolean("closed", args.closed)}> ${tipContent} </calcite-tip-manager>
+`;
 
-export const darkModeRTL_TestOnly = (): string =>
-  create(
-    "calcite-tip-manager",
-    createAttributes({ exceptions: ["dir", "class"] }).concat([
-      { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-mode-dark" },
-    ]),
-    tipContent,
-  );
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-tip-manager dir="rtl" class="calcite-mode-dark">${tipContent}</calcite-tip-manager>
+`;
+
 darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const tipWithoutGroup_TestOnly = (): string =>
