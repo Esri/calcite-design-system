@@ -125,6 +125,13 @@ export class ColorPicker
     }
   }
 
+  @Watch("alphaChannel")
+  @Watch("dimensions")
+  handleAlphaChannelDimensionsChange(): void {
+    this.effectiveSliderWidth = getSliderWidth(this.dimensions, this.alphaChannel);
+    this.drawColorControls();
+  }
+
   /** When `true`, hides the RGB/HSV channel inputs. */
   @Prop() channelsDisabled = false;
 
@@ -231,7 +238,7 @@ export class ColorPicker
    *
    * @default "#007ac2"
    * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
-   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
+   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/src/components/color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = normalizeHex(
     hexify(DEFAULT_COLOR, this.alphaChannel),
@@ -313,6 +320,8 @@ export class ColorPicker
 
   private colorFieldScopeNode: HTMLDivElement;
 
+  private effectiveSliderWidth: number;
+
   private hueSliderRenderingContext: CanvasRenderingContext2D;
 
   private hueScopeNode: HTMLDivElement;
@@ -331,11 +340,11 @@ export class ColorPicker
 
   private shiftKeyChannelAdjustment = 0;
 
-  @State() defaultMessages: ColorPickerMessages;
-
   @State() channelMode: ColorMode = "rgb";
 
   @State() channels: Channels = this.toChannels(DEFAULT_COLOR);
+
+  @State() defaultMessages: ColorPickerMessages;
 
   @State() dimensions = DIMENSIONS.m;
 
@@ -683,6 +692,7 @@ export class ColorPicker
     setUpLoadableComponent(this);
 
     this.handleAllowEmptyOrClearableChange();
+    this.handleAlphaChannelDimensionsChange();
 
     const { isClearable, color, format, value } = this;
     const willSetNoColor = isClearable && !value;
@@ -758,8 +768,8 @@ export class ColorPicker
       scale,
       scopeOrientation,
     } = this;
-    const sliderWidth = this.getSliderWidth();
 
+    const sliderWidth = this.effectiveSliderWidth;
     const selectedColorInHex = color ? hexify(color, alphaChannel) : null;
     const hueTop = thumbRadius;
     const hueLeft = hueScopeLeft ?? (sliderWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
@@ -1110,15 +1120,13 @@ export class ColorPicker
   }
 
   private captureHueSliderColor(x: number): void {
-    const width = this.getSliderWidth();
-    const hue = (HUE_LIMIT_CONSTRAINED / width) * x;
+    const hue = (HUE_LIMIT_CONSTRAINED / this.effectiveSliderWidth) * x;
 
     this.internalColorSet(this.baseColorFieldColor.hue(hue), false);
   }
 
   private captureOpacitySliderValue(x: number): void {
-    const width = this.getSliderWidth();
-    const alpha = opacityToAlpha((OPACITY_LIMITS.max / width) * x);
+    const alpha = opacityToAlpha((OPACITY_LIMITS.max / this.effectiveSliderWidth) * x);
 
     this.internalColorSet(this.baseColorFieldColor.alpha(alpha), false);
   }
@@ -1347,7 +1355,7 @@ export class ColorPicker
     }
 
     const adjustedSliderDimensions = {
-      width: this.getSliderWidth(),
+      width: this.effectiveSliderWidth,
       height:
         dimensions.slider.height + (dimensions.thumb.radius - dimensions.slider.height / 2) * 2,
     };
@@ -1446,8 +1454,7 @@ export class ColorPicker
       },
     } = this;
 
-    const width = this.getSliderWidth();
-
+    const width = this.effectiveSliderWidth;
     const x = hsvColor.hue() / (HUE_LIMIT_CONSTRAINED / width);
     const y = radius;
     const sliderBoundX = this.getSliderBoundX(x, width, radius);
@@ -1457,10 +1464,6 @@ export class ColorPicker
     });
 
     this.drawThumb(this.hueSliderRenderingContext, radius, sliderBoundX, y, hsvColor, false);
-  }
-
-  private getSliderWidth(): number {
-    return getSliderWidth(this.dimensions, this.alphaChannel);
   }
 
   private drawHueSlider(): void {
@@ -1474,7 +1477,7 @@ export class ColorPicker
 
     const x = 0;
     const y = thumbRadius - height / 2;
-    const width = this.getSliderWidth();
+    const width = this.effectiveSliderWidth;
 
     const gradient = context.createLinearGradient(0, 0, width, 0);
 
@@ -1522,7 +1525,7 @@ export class ColorPicker
 
     const x = 0;
     const y = thumbRadius - height / 2;
-    const width = this.getSliderWidth();
+    const width = this.effectiveSliderWidth;
 
     context.clearRect(0, 0, width, height + this.getSliderCapSpacing() * 2);
 
@@ -1608,7 +1611,7 @@ export class ColorPicker
       },
     } = this;
 
-    const width = this.getSliderWidth();
+    const width = this.effectiveSliderWidth;
     const x = alphaToOpacity(hsvColor.alpha()) / (OPACITY_LIMITS.max / width);
     const y = radius;
     const sliderBoundX = this.getSliderBoundX(x, width, radius);

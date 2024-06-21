@@ -116,8 +116,6 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
   /**
    * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
-   *
-   * @internal
    */
   @Prop({ reflect: true }) selected = false;
 
