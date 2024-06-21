@@ -143,8 +143,8 @@
   border-block-start: 1px solid var(--calcite-color-border-3);
   padding-inline: var(--calcite-spacing-sm);
   padding-block: var(--calcite-spacing-sm);
-  column-gap: var(--calcite-spacing-md);
-  row-gap: 0;
+  column-gap: 0;
+  row-gap: var(--calcite-spacing-md);
 }
 
 @include slotted("footer-start", "*") {
