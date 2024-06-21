@@ -493,6 +493,65 @@ describe("calcite-input-time-zone", () => {
     currComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
     expect(currComboboxItem).not.toBe(prevComboboxItem);
   });
+
+  describe("offsetStyle", () => {
+    const gmtTimeZone = "Europe/London";
+    const utcTimeZone = "Europe/Paris";
+
+    describe("displays UTC or GMT based on user's locale (default)", () => {
+      it("displays GMT for GMT-preferred zone", async () => {
+        const page = await newE2EPage();
+        await page.emulateTimezone(gmtTimeZone);
+        await page.setContent(
+          addTimeZoneNamePolyfill(html` <calcite-input-time-zone lang="en-GB"></calcite-input-time-zone>`),
+        );
+
+        const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+
+        expect(await timeZoneItem.getProperty("textLabel")).toContain("GMT");
+      });
+
+      it("displays UTC for UTC-preferred zone", async () => {
+        const page = await newE2EPage();
+        await page.emulateTimezone(utcTimeZone);
+        await page.setContent(
+          addTimeZoneNamePolyfill(html` <calcite-input-time-zone lang="fr"></calcite-input-time-zone>`),
+        );
+
+        const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+
+        expect(await timeZoneItem.getProperty("textLabel")).toContain("UTC");
+      });
+    });
+
+    it("supports GMT as a style", async () => {
+      const page = await newE2EPage();
+      await page.emulateTimezone(utcTimeZone);
+      await page.setContent(
+        addTimeZoneNamePolyfill(
+          html` <calcite-input-time-zone lang="fr" offset-style="gmt"></calcite-input-time-zone>`,
+        ),
+      );
+
+      const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+
+      expect(await timeZoneItem.getProperty("textLabel")).toContain("GMT");
+    });
+
+    it("supports UTC as a style", async () => {
+      const page = await newE2EPage();
+      await page.emulateTimezone(gmtTimeZone);
+      await page.setContent(
+        addTimeZoneNamePolyfill(
+          html` <calcite-input-time-zone lang="en-GB" offset-style="utc"></calcite-input-time-zone>`,
+        ),
+      );
+
+      const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+
+      expect(await timeZoneItem.getProperty("textLabel")).toContain("UTC");
+    });
+  });
 });
 
 /**
@@ -519,6 +578,8 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
 
           if (timeZoneName === "shortOffset") {
             const { timeZone } = this.originalOptions;
+            const resolved = this.resolvedOptions();
+
             let offsetString;
 
             // hardcoding GMT and time zone names for this particular test suite
@@ -532,15 +593,21 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
                 offsetString = offsetString.replace("-", "+");
               }
             } else {
+              const offsetMarker = resolved.locale === "en-GB" ? "GMT" : resolved.locale === "fr" ? "UTC" : "GMT";
+
               offsetString =
-                "GMT" +
+                offsetMarker +
                 (timeZone === "America/Mexico_City" || timeZone === "Pacific/Galapagos"
                   ? "-6"
                   : timeZone === "America/Phoenix"
                     ? "-7"
-                    : timeZone === "Pacific/Guam" || timeZone === "Pacific/Chuuk"
-                      ? "+10"
-                      : "+0");
+                    : timeZone === "Europe/London"
+                      ? "+1"
+                      : timeZone === "Europe/Paris"
+                        ? "+2"
+                        : timeZone === "Pacific/Guam" || timeZone === "Pacific/Chuuk"
+                          ? "+10"
+                          : "+0");
             }
 
             originalParts.push({ type: "timeZoneName", value: offsetString });
@@ -571,6 +638,8 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
           return [
             "America/Mexico_City",
             "America/Phoenix",
+            "Europe/London",
+            "Europe/Paris",
             "Pacific/Galapagos",
             "Pacific/Guam",
 
