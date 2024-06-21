@@ -680,34 +680,42 @@ export class Combobox
         }
         break;
       case "ArrowLeft":
-        this.previousChip();
-        event.preventDefault();
+        if (this.activeChipIndex !== -1 || this.textInput.selectionStart === 0) {
+          this.previousChip();
+          event.preventDefault();
+        }
         break;
       case "ArrowRight":
-        this.nextChip();
-        event.preventDefault();
+        if (this.activeChipIndex !== -1) {
+          this.nextChip();
+          event.preventDefault();
+        }
         break;
       case "ArrowUp":
-        event.preventDefault();
-        if (this.open) {
-          this.shiftActiveItemIndex(-1);
-        }
+        if (this.filteredItems.length) {
+          event.preventDefault();
+          if (this.open) {
+            this.shiftActiveItemIndex(-1);
+          }
 
-        if (!this.comboboxInViewport()) {
-          this.el.scrollIntoView();
+          if (!this.comboboxInViewport()) {
+            this.el.scrollIntoView();
+          }
         }
         break;
       case "ArrowDown":
-        event.preventDefault();
-        if (this.open) {
-          this.shiftActiveItemIndex(1);
-        } else {
-          this.open = true;
-          this.ensureRecentSelectedItemIsActive();
-        }
+        if (this.filteredItems.length) {
+          event.preventDefault();
+          if (this.open) {
+            this.shiftActiveItemIndex(1);
+          } else {
+            this.open = true;
+            this.ensureRecentSelectedItemIsActive();
+          }
 
-        if (!this.comboboxInViewport()) {
-          this.el.scrollIntoView();
+          if (!this.comboboxInViewport()) {
+            this.el.scrollIntoView();
+          }
         }
         break;
       case " ":
@@ -1288,9 +1296,6 @@ export class Combobox
   }
 
   previousChip(): void {
-    if (this.filterText) {
-      return;
-    }
     const length = this.selectedItems.length - 1;
     const active = this.activeChipIndex;
     this.activeChipIndex = active === -1 ? length : Math.max(active - 1, 0);
@@ -1299,9 +1304,6 @@ export class Combobox
   }
 
   nextChip(): void {
-    if (this.filterText || this.activeChipIndex === -1) {
-      return;
-    }
     const last = this.selectedItems.length - 1;
     const newIndex = this.activeChipIndex + 1;
     if (newIndex > last) {
