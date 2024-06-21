@@ -371,7 +371,7 @@ describe("calcite-tooltip", () => {
     expect(await tooltip.getProperty("open")).toBe(false);
   });
 
-  it("should toggle tooltip on pointerdown for touch events", async () => {
+  it("should handle touch events", async () => {
     const page = await newE2EPage();
 
     await page.setContent(html`
@@ -388,14 +388,9 @@ describe("calcite-tooltip", () => {
 
     await page.evaluate(() => {
       const ref = document.getElementById("ref");
-      const event1 = new PointerEvent("pointerdown", {
-        view: window,
+      const event1 = new Event("click", {
         cancelable: true,
-        isPrimary: true,
-        clientX: 100,
-        clientY: 100,
         bubbles: true,
-        button: 0,
       });
       ref.dispatchEvent(event1);
     });
@@ -406,14 +401,9 @@ describe("calcite-tooltip", () => {
 
     await page.evaluate(() => {
       const ref = document.getElementById("ref");
-      const event1 = new PointerEvent("pointerdown", {
-        view: window,
+      const event1 = new Event("click", {
         cancelable: true,
-        isPrimary: true,
-        clientX: 100,
-        clientY: 100,
         bubbles: true,
-        button: 0,
       });
       ref.dispatchEvent(event1);
     });
@@ -424,14 +414,9 @@ describe("calcite-tooltip", () => {
 
     await page.evaluate(() => {
       const ref = document.getElementById("test");
-      const event1 = new PointerEvent("pointerdown", {
-        view: window,
+      const event1 = new Event("click", {
         cancelable: true,
-        isPrimary: true,
-        clientX: 100,
-        clientY: 100,
         bubbles: true,
-        button: 0,
       });
       ref.dispatchEvent(event1);
     });
