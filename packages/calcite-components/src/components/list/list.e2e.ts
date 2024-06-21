@@ -127,7 +127,7 @@ describe("calcite-list", () => {
       { focusTarget: "child" },
     );
 
-    it("should correctly set the dragHandle property on items", async () => {
+    it("should set the dragHandle property on items", async () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-list id="root" drag-enabled group="my-list">
@@ -146,6 +146,62 @@ describe("calcite-list", () => {
           </calcite-list-item>
           <calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item>
           <calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item>
+        </calcite-list>`,
+      );
+
+      await page.waitForChanges();
+      await page.waitForTimeout(listDebounceTimeout);
+
+      let dragHandleValues = [true, false, true, true, false, true, true];
+
+      const items = await page.findAll("calcite-list-item");
+
+      expect(items.length).toBe(dragHandleValues.length);
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
+      }
+
+      const rootList = await page.find("#root");
+
+      rootList.setProperty("dragEnabled", false);
+      await page.waitForChanges();
+      await page.waitForTimeout(listDebounceTimeout);
+
+      dragHandleValues = [false, false, true, true, false, false, false];
+
+      expect(items.length).toBe(dragHandleValues.length);
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
+      }
+    });
+
+    it("should set the dragHandle property on items which are not direct children", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-list id="root" drag-enabled group="my-list">
+          <div>
+            <calcite-list-item open label="Depth 1" description="Item 1">
+              <calcite-list group="my-list">
+                <div>
+                  <calcite-list-item open label="Depth 2" description="Item 2">
+                    <calcite-list drag-enabled group="my-list">
+                      <div>
+                        <calcite-list-item label="Depth 3" description="Item 3">
+                          <calcite-list drag-enabled group="my-list"></calcite-list>
+                        </calcite-list-item>
+                      </div>
+                      <div><calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item></div>
+                    </calcite-list>
+                  </calcite-list-item>
+                </div>
+                <div><calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item></div>
+              </calcite-list>
+            </calcite-list-item>
+          </div>
+          <div><calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item></div>
+          <div><calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item></div>
         </calcite-list>`,
       );
 
