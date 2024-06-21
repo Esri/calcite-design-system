@@ -495,61 +495,62 @@ describe("calcite-input-time-zone", () => {
   });
 
   describe("offsetStyle", () => {
-    const gmtTimeZone = "Europe/London";
-    const utcTimeZone = "Europe/Paris";
+    const gmtTimeZoneLocale = "en-GB";
+    const utcTimeZoneLocale = "fr";
+
+    let page: E2EPage;
+
+    async function assertItemLabelMatches(page: E2EPage, offsetMarker: "GMT" | "UTC"): Promise<void> {
+      // all items are formatted equally, so we only need to check the first one
+      const firstTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
+
+      expect(await firstTimeZoneItem.getProperty("textLabel")).toContain(offsetMarker);
+    }
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+    });
 
     describe("displays UTC or GMT based on user's locale (default)", () => {
       it("displays GMT for GMT-preferred zone", async () => {
-        const page = await newE2EPage();
-        await page.emulateTimezone(gmtTimeZone);
         await page.setContent(
-          addTimeZoneNamePolyfill(html` <calcite-input-time-zone lang="en-GB"></calcite-input-time-zone>`),
+          addTimeZoneNamePolyfill(
+            html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}"></calcite-input-time-zone>`,
+          ),
         );
 
-        const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
-
-        expect(await timeZoneItem.getProperty("textLabel")).toContain("GMT");
+        await assertItemLabelMatches(page, "GMT");
       });
 
       it("displays UTC for UTC-preferred zone", async () => {
-        const page = await newE2EPage();
-        await page.emulateTimezone(utcTimeZone);
         await page.setContent(
-          addTimeZoneNamePolyfill(html` <calcite-input-time-zone lang="fr"></calcite-input-time-zone>`),
+          addTimeZoneNamePolyfill(
+            html`<calcite-input-time-zone lang="${utcTimeZoneLocale}"></calcite-input-time-zone>`,
+          ),
         );
 
-        const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
-
-        expect(await timeZoneItem.getProperty("textLabel")).toContain("UTC");
+        await assertItemLabelMatches(page, "UTC");
       });
     });
 
     it("supports GMT as a style", async () => {
-      const page = await newE2EPage();
-      await page.emulateTimezone(utcTimeZone);
       await page.setContent(
         addTimeZoneNamePolyfill(
-          html` <calcite-input-time-zone lang="fr" offset-style="gmt"></calcite-input-time-zone>`,
+          html`<calcite-input-time-zone lang="${utcTimeZoneLocale}" offset-style="gmt"></calcite-input-time-zone>`,
         ),
       );
 
-      const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
-
-      expect(await timeZoneItem.getProperty("textLabel")).toContain("GMT");
+      await assertItemLabelMatches(page, "GMT");
     });
 
     it("supports UTC as a style", async () => {
-      const page = await newE2EPage();
-      await page.emulateTimezone(gmtTimeZone);
       await page.setContent(
         addTimeZoneNamePolyfill(
-          html` <calcite-input-time-zone lang="en-GB" offset-style="utc"></calcite-input-time-zone>`,
+          html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}" offset-style="utc"></calcite-input-time-zone>`,
         ),
       );
 
-      const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
-
-      expect(await timeZoneItem.getProperty("textLabel")).toContain("UTC");
+      await assertItemLabelMatches(page, "UTC");
     });
   });
 });
