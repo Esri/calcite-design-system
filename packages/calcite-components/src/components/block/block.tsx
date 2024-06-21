@@ -16,7 +16,12 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
-import { focusFirstTabbable, getSlotted, toAriaBoolean } from "../../utils/dom";
+import {
+  focusFirstTabbable,
+  getSlotted,
+  toAriaBoolean,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -33,7 +38,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { Status } from "../interfaces";
+import { Status, Position } from "../interfaces";
 import {
   componentFocusable,
   LoadableComponent,
@@ -42,13 +47,16 @@ import {
 } from "../../utils/loadable";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { FlipContext } from "../interfaces";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { BlockMessages } from "./assets/block/t9n";
 
 /**
  * @slot - A slot for adding custom content.
- * @slot icon - A slot for adding a leading header icon with `calcite-icon`.
- * @slot control - A slot for adding a single HTML input element in a header.
+ * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions.
+ * @slot icon - [Deprecated] A slot for adding a leading header icon with `calcite-icon`. Use `icon-start` instead.
+ * @slot content-start - A slot for adding non-actionable elements before content of the component.
+ * @slot control - [Deprecated] A slot for adding a single HTML input element in a header. Use `actions-end` instead.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
 @Component({
@@ -97,6 +105,15 @@ export class Block
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
+  /** Specifies an icon to display at the end of the component. */
+  @Prop({ reflect: true }) iconEnd: string;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /** Specifies an icon to display at the start of the component. */
+  @Prop({ reflect: true }) iconStart: string;
+
   /**
    * When `true`, a busy indicator is displayed.
    */
@@ -114,6 +131,8 @@ export class Block
 
   /**
    * Displays a status-related indicator icon.
+   *
+   * @deprecated Use `icon-start` instead.
    */
   @Prop({ reflect: true }) status: Status;
 
@@ -191,6 +210,8 @@ export class Block
 
   @Element() el: HTMLCalciteBlockElement;
 
+  @State() defaultMessages: BlockMessages;
+
   @State() effectiveLocale: string;
 
   @Watch("effectiveLocale")
@@ -198,7 +219,9 @@ export class Block
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: BlockMessages;
+  @State() hasContentStart = false;
+
+  @State() hasEndActions = false;
 
   openTransitionProp = "opacity";
 
@@ -281,6 +304,14 @@ export class Block
     this.transitionEl = el;
   };
 
+  private actionsEndSlotChangeHandler = (event: Event): void => {
+    this.hasEndActions = slotChangeHasAssignedElement(event);
+  };
+
+  private handleContentStartSlotChange = (event: Event): void => {
+    this.hasContentStart = slotChangeHasAssignedElement(event);
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -294,7 +325,7 @@ export class Block
     return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
   }
 
-  renderIcon(): VNode[] {
+  private renderLoaderStatusIcon(): VNode[] {
     const { loading, messages, status } = this;
 
     const hasSlottedIcon = !!getSlotted(this.el, SLOTS.icon);
@@ -322,6 +353,23 @@ export class Block
     ) : null;
   }
 
+  private renderActionsEnd(): VNode {
+    return (
+      <div class={CSS.actionsEnd}>
+        <slot name={SLOTS.actionsEnd} onSlotchange={this.actionsEndSlotChangeHandler} />
+      </div>
+    );
+  }
+
+  private renderContentStart(): VNode {
+    const { hasContentStart } = this;
+    return (
+      <div class={CSS.contentStart} hidden={!hasContentStart}>
+        <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
+      </div>
+    );
+  }
+
   renderTitle(): VNode {
     const { heading, headingLevel, description } = this;
     return heading || description ? (
@@ -334,6 +382,33 @@ export class Block
     ) : null;
   }
 
+  private renderIcon(position: Extract<"start" | "end", Position>): VNode {
+    const { iconFlipRtl } = this;
+
+    const flipRtl =
+      iconFlipRtl === "both" || position === "start"
+        ? iconFlipRtl === "start"
+        : iconFlipRtl === "end";
+
+    const iconValue = position === "start" ? this.iconStart : this.iconEnd;
+    const iconClass = position === "start" ? CSS.iconStart : CSS.iconEnd;
+
+    if (!iconValue) {
+      return undefined;
+    }
+
+    /** Icon scale is not variable as the component does not have a scale property */
+    return (
+      <calcite-icon
+        class={iconClass}
+        flipRtl={flipRtl}
+        icon={iconValue}
+        key={iconClass}
+        scale="s"
+      />
+    );
+  }
+
   render(): VNode {
     const { collapsible, el, loading, open, heading, messages } = this;
 
@@ -341,7 +416,9 @@ export class Block
 
     const headerContent = (
       <header class={CSS.header} id={IDS.header}>
-        {this.renderIcon()}
+        {this.renderIcon("start")}
+        {this.renderContentStart()}
+        {this.renderLoaderStatusIcon()}
         {this.renderTitle()}
       </header>
     );
@@ -364,13 +441,21 @@ export class Block
             title={toggleLabel}
           >
             {headerContent}
-            <calcite-icon aria-hidden="true" class={CSS.toggleIcon} icon={collapseIcon} scale="s" />
+            <div class={CSS.iconEndContainer}>
+              {this.renderIcon("end")}
+              <calcite-icon class={CSS.toggleIcon} icon={collapseIcon} scale="s" />
+            </div>
           </button>
+        ) : this.iconEnd ? (
+          <div>
+            {headerContent}
+            <div class={CSS.iconEndContainer}>{this.renderIcon("end")}</div>
+          </div>
         ) : (
           headerContent
         )}
         {hasControl ? (
-          <div class={CSS.controlContainer}>
+          <div aria-labelledby={IDS.header} class={CSS.controlContainer}>
             <slot name={SLOTS.control} />
           </div>
         ) : null}
@@ -382,6 +467,7 @@ export class Block
             <slot name={SLOTS.headerMenuActions} />
           </calcite-action-menu>
         ) : null}
+        {this.renderActionsEnd()}
       </div>
     );
 

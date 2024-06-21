@@ -533,6 +533,7 @@ export class ListItem
         {closable ? (
           <calcite-action
             appearance="transparent"
+            class={CSS.close}
             icon={ICONS.close}
             key="close-action"
             label={messages.close}
@@ -585,7 +586,7 @@ export class ListItem
       <div
         class={{
           [CSS.nestedContainer]: true,
-          [CSS.nestedContainerHidden]: this.openable && !this.open,
+          [CSS.nestedContainerOpen]: this.openable && this.open,
         }}
       >
         <slot
@@ -701,7 +702,7 @@ export class ListItem
             </tr>
             {this.renderContentBottom()}
           </div>
-          <div class={CSS.indent}>{this.renderDefaultContainer()}</div>
+          {this.renderDefaultContainer()}
         </InteractiveContainer>
       </Host>
     );

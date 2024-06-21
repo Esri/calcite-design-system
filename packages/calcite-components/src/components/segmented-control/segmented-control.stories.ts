@@ -1,22 +1,74 @@
-import { select, text } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { SegmentedControl } from "./segmented-control";
+const { layout, appearance, scale, width, status } = ATTRIBUTES;
+
+type SegmentedControlStoryArgs = Pick<
+  SegmentedControl,
+  "layout" | "appearance" | "scale" | "width" | "disabled" | "status" | "validationIcon" | "validationMessage"
+>;
 
 export default {
   title: "Components/Controls/Radio/Segmented Control",
+  args: {
+    layout: layout.defaultValue,
+    appearance: appearance.defaultValue,
+    scale: scale.defaultValue,
+    width: width.defaultValue,
+    disabled: false,
+    status: status.defaultValue,
+    validationIcon: "",
+    validationMessage: "",
+  },
+  argTypes: {
+    layout: {
+      options: layout.values.filter(
+        (option) =>
+          option !== "grid" &&
+          option !== "inline" &&
+          option !== "center" &&
+          option !== "auto" &&
+          option !== "fixed" &&
+          option !== "none" &&
+          option !== "horizontal-single",
+      ),
+      control: { type: "select" },
+    },
+    appearance: {
+      options: appearance.values.filter((option) => option !== "transparent"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    width: {
+      options: width.values.filter((option) => option !== "half"),
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: SegmentedControlStoryArgs): string => html`
   <calcite-segmented-control
-    layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-    appearance="${select("appearance", ["solid", "outline", "outline-fill"], "solid")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    width="${select("width", ["auto", "full"], "auto")}"
-    ${boolean("disabled", false)}
-    status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
-    validation-message="${text("validation-message", "")}"
+    layout="${args.layout}"
+    appearance="${args.appearance}"
+    scale="${args.scale}"
+    width="${args.width}"
+    ${boolean("disabled", args.disabled)}
+    status="${args.status}"
+    validation-icon="${args.validationIcon}"
+    validation-message="${args.validationMessage}"
   >
     <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
     <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
@@ -27,17 +79,9 @@ export const simple = (): string => html`
 
 export const fullWidthWithIcons = (): string => html`
   <div style="width:33vw;">
-    <calcite-label scale="${select("scale", ["s", "m", "l"], "m")}">
+    <calcite-label scale="m">
       My great segmented control
-      <calcite-segmented-control
-        layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-        appearance="${select("appearance", ["solid", "outline", "outline-fill"], "solid")}"
-        width="${select("width", ["auto", "full"], "full")}"
-        ${boolean("disabled", false)}
-        status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-        validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
-        validation-message="${text("validation-message", "")}"
-      >
+      <calcite-segmented-control layout="horizontal" appearance="solid" width="full" status="idle">
         <calcite-segmented-control-item icon-start="car" value="car" checked>Car</calcite-segmented-control-item>
         <calcite-segmented-control-item icon-start="plane" value="plane">Plane</calcite-segmented-control-item>
         <calcite-segmented-control-item icon-start="biking" value="bicycle">Bicycle</calcite-segmented-control-item>

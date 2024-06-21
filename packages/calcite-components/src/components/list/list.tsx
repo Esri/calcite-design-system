@@ -30,7 +30,6 @@ import {
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
-  dragActive,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 import {
@@ -400,10 +399,6 @@ export class List
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     connectLocalized(this);
     connectMessages(this);
     this.connectObserver();
@@ -427,10 +422,6 @@ export class List
   }
 
   disconnectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     this.disconnectObserver();
     disconnectSortableComponent(this);
     disconnectInteractive(this);

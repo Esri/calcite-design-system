@@ -15,7 +15,6 @@ import {
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
-  dragActive,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 import { CSS } from "./resources";
@@ -65,7 +64,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   /**
    * Indicates the horizontal or vertical orientation of the component.
    */
-  @Prop({ reflect: true }) layout: Layout = "vertical";
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "vertical";
 
   /**
    * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
@@ -102,20 +101,12 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     this.setUpSorting();
     this.beginObserving();
     connectInteractive(this);
   }
 
   disconnectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     disconnectInteractive(this);
     disconnectSortableComponent(this);
     this.endObserving();
