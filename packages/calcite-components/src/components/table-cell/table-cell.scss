@@ -4,13 +4,13 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-table-cell-background: [Deprecated] Use `--calcite-table-cell-background-color` instead. Specifies the background color of the component.
- * @prop --calcite-table-cell-background-color: Specifies the background color of the component. Will fallback to `--calcite-table-row-background-color` if not set.
+ * @prop --calcite-table-cell-background-color: Specifies the background color of the component.
+ * @prop --calcite-table-cell-background-color-selected: Specifies the background color of the selected cell.
  * @prop --calcite-table-cell-border-color: Specifies the border color of the component.
  * @prop --calcite-table-cell-text-color: Specifies the text color of the component.
  * @prop --calcite-table-cell-number-background-color: Specifies the background color of the number cell. 
  * @prop --calcite-table-cell-footer-background-color: Specifies the background color of the footer cell.
  * @prop --calcite-table-cell-text-color-selected: Specifies the text color of the selected cell.
- * @prop --calcite-table-cell-shadow: Specifies the shadow of the component.
  * @prop --calcite-table-cell-shadow-selected: Specifies the shadow of the selected cell.
  */
 
@@ -30,7 +30,6 @@
  */
 
 :host {
-  --calcite-internal-table-cell-background: var(--calcite-table-cell-background, transparent);
   @apply contents;
 }
 
@@ -47,8 +46,13 @@
 }
 
 td {
+  --calcite-internal-table-cell-background-color: var(
+    --calcite-table-cell-background-color,
+    var(--calcite-table-cell-background, transparent)
+  );
+
   @apply text-start align-middle whitespace-normal;
-  background-color: var(--calcite-internal-table-cell-background);
+  background-color: var(--calcite-internal-table-cell-background-color);
   font-size: var(--calcite-internal-table-cell-font-size);
   border-inline-end: 1px solid
     var(
@@ -117,11 +121,14 @@ td.last-cell {
 }
 
 .selected-cell:not(.number-cell):not(.footer-cell) {
-  --calcite-internal-table-cell-background: var(--calcite-color-foreground-current);
+  --calcite-internal-table-cell-background-color: var(
+    --calcite-table-cell-background-color-selected,
+    var(--calcite-color-foreground-current)
+  );
 }
 
 .selection-cell.selected-cell {
-  box-shadow: var(--calcite-table-cell-shadow, inset 0.25rem 0 0 0 var(--calcite-color-brand));
+  box-shadow: var(--calcite-table-cell-shadow-selected, inset 0.25rem 0 0 0 var(--calcite-color-brand));
   color: var(--calcite-table-cell-text-color-selected, var(--calcite-color-brand));
   & calcite-icon {
     --calcite-icon-color: var(--calcite-table-cell-text-color-selected, var(--calcite-color-brand));
