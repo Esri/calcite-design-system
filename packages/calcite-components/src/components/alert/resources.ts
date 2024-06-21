@@ -31,4 +31,5 @@ export const CSS = {
   queueCount: "queue-count",
   queueCountActive: "queue-count--active",
   textContainer: "text-container",
+  focused: "focused",
 };

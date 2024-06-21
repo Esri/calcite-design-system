@@ -20,8 +20,8 @@ import {
   connectFloatingUI,
   defaultMenuPlacement,
   disconnectFloatingUI,
-  EffectivePlacement,
-  filterComputedPlacements,
+  filterValidFlipPlacements,
+  FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
   LogicalPlacement,
@@ -283,7 +283,7 @@ export class Combobox
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements: EffectivePlacement[];
+  @Prop() flipPlacements: FlipPlacement[];
 
   /**
    * Made into a prop for testing purposes only
@@ -350,7 +350,7 @@ export class Combobox
 
     await componentOnReady(this.el);
 
-    if (!this.allowCustomValues && this.textInput.value) {
+    if (!this.allowCustomValues && this.text) {
       this.clearInputValue();
       this.filterItems("");
       this.updateActiveItemIndex(-1);
@@ -452,7 +452,7 @@ export class Combobox
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  async connectedCallback(): Promise<void> {
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
@@ -472,7 +472,9 @@ export class Combobox
       onToggleOpenCloseComponent(this);
     }
 
+    await componentOnReady(this.el);
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    afterConnectDefaultValueSet(this, this.getValue());
   }
 
   async componentWillLoad(): Promise<void> {
@@ -482,8 +484,6 @@ export class Combobox
   }
 
   componentDidLoad(): void {
-    afterConnectDefaultValueSet(this, this.getValue());
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
     setComponentLoaded(this);
   }
 
@@ -523,7 +523,7 @@ export class Combobox
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
-  filteredFlipPlacements: EffectivePlacement[];
+  filteredFlipPlacements: FlipPlacement[];
 
   internalValueChangeFlag = false;
 
@@ -629,7 +629,7 @@ export class Combobox
     const { el, flipPlacements } = this;
 
     this.filteredFlipPlacements = flipPlacements
-      ? filterComputedPlacements(flipPlacements, el)
+      ? filterValidFlipPlacements(flipPlacements, el)
       : null;
   };
 
@@ -676,34 +676,42 @@ export class Combobox
         }
         break;
       case "ArrowLeft":
-        this.previousChip();
-        event.preventDefault();
+        if (this.activeChipIndex !== -1 || this.textInput.selectionStart === 0) {
+          this.previousChip();
+          event.preventDefault();
+        }
         break;
       case "ArrowRight":
-        this.nextChip();
-        event.preventDefault();
+        if (this.activeChipIndex !== -1) {
+          this.nextChip();
+          event.preventDefault();
+        }
         break;
       case "ArrowUp":
-        event.preventDefault();
-        if (this.open) {
-          this.shiftActiveItemIndex(-1);
-        }
+        if (this.filteredItems.length) {
+          event.preventDefault();
+          if (this.open) {
+            this.shiftActiveItemIndex(-1);
+          }
 
-        if (!this.comboboxInViewport()) {
-          this.el.scrollIntoView();
+          if (!this.comboboxInViewport()) {
+            this.el.scrollIntoView();
+          }
         }
         break;
       case "ArrowDown":
-        event.preventDefault();
-        if (this.open) {
-          this.shiftActiveItemIndex(1);
-        } else {
-          this.open = true;
-          this.ensureRecentSelectedItemIsActive();
-        }
+        if (this.filteredItems.length) {
+          event.preventDefault();
+          if (this.open) {
+            this.shiftActiveItemIndex(1);
+          } else {
+            this.open = true;
+            this.ensureRecentSelectedItemIsActive();
+          }
 
-        if (!this.comboboxInViewport()) {
-          this.el.scrollIntoView();
+          if (!this.comboboxInViewport()) {
+            this.el.scrollIntoView();
+          }
         }
         break;
       case " ":
@@ -1053,7 +1061,7 @@ export class Combobox
   inputHandler = (event: Event): void => {
     const value = (event.target as HTMLInputElement).value;
     this.text = value;
-    this.filterItems(value);
+    this.filterItems(value, true);
     if (value) {
       this.activeChipIndex = -1;
     }
@@ -1070,7 +1078,7 @@ export class Combobox
         isGroup(item) ? label === item.label : value === item.value && label === item.textLabel,
       );
 
-    return debounce((text: string): void => {
+    return debounce((text: string, setOpenToEmptyState = false): void => {
       const filteredData = filter(this.data, text);
       const itemsAndGroups = this.getItemsAndGroups();
 
@@ -1089,6 +1097,11 @@ export class Combobox
       });
 
       this.filteredItems = this.getFilteredItems();
+
+      if (setOpenToEmptyState) {
+        this.open = this.text.trim().length > 0 && this.filteredItems.length > 0;
+      }
+
       this.calciteComboboxFilterChange.emit();
     }, 100);
   })();
@@ -1258,6 +1271,7 @@ export class Combobox
       }
       this.updateItems();
       this.filterItems("");
+      this.open = true;
       this.emitComboboxChange();
     }
   }
@@ -1273,9 +1287,6 @@ export class Combobox
   }
 
   previousChip(): void {
-    if (this.text) {
-      return;
-    }
     const length = this.selectedItems.length - 1;
     const active = this.activeChipIndex;
     this.activeChipIndex = active === -1 ? length : Math.max(active - 1, 0);
@@ -1284,9 +1295,6 @@ export class Combobox
   }
 
   nextChip(): void {
-    if (this.text || this.activeChipIndex === -1) {
-      return;
-    }
     const last = this.selectedItems.length - 1;
     const newIndex = this.activeChipIndex + 1;
     if (newIndex > last) {
@@ -1386,14 +1394,17 @@ export class Combobox
           appearance={readOnly ? "outline" : "solid"}
           class={chipClasses}
           closable={!readOnly}
+          data-test-id={`chip-${i}`}
           icon={item.icon}
           iconFlipRtl={item.iconFlipRtl}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={item.textLabel}
           messageOverrides={{ dismissLabel: messages.removeTag }}
           onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
+          onFocusin={() => (this.activeChipIndex = i)}
           scale={scale}
           selected={item.selected}
+          tabindex={activeChipIndex === i ? 0 : -1}
           title={label}
           value={item.value}
         >
@@ -1592,10 +1603,10 @@ export class Combobox
           class={{
             [CSS.input]: true,
             "input--single": true,
-            "input--transparent": this.activeChipIndex > -1,
             "input--hidden": showLabel,
             "input--icon": this.showingInlineIcon && !!this.placeholderIcon,
           }}
+          data-test-id="input"
           disabled={disabled}
           id={`${inputUidPrefix}${guid}`}
           key="input"
@@ -1605,6 +1616,7 @@ export class Combobox
           readOnly={this.readOnly}
           ref={(el) => (this.textInput = el as HTMLInputElement)}
           role="combobox"
+          tabindex={this.activeChipIndex === -1 ? 0 : -1}
           type="text"
         />
       </span>

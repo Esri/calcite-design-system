@@ -105,6 +105,10 @@ export interface SortableComponentItem {
  * @param {SortableComponent} component - The sortable component.
  */
 export function connectSortableComponent(component: SortableComponent): void {
+  if (dragActive(component)) {
+    return;
+  }
+
   disconnectSortableComponent(component);
   sortableComponentSet.add(component);
 
@@ -152,6 +156,10 @@ export function connectSortableComponent(component: SortableComponent): void {
  * @param {SortableComponent} component - The sortable component.
  */
 export function disconnectSortableComponent(component: SortableComponent): void {
+  if (dragActive(component)) {
+    return;
+  }
+
   sortableComponentSet.delete(component);
 
   component.sortable?.destroy();

@@ -1,10 +1,43 @@
-import { select, text } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { InputTimeZone } from "./input-time-zone";
+const { mode, scale, status } = ATTRIBUTES;
+
+type InputTimeZoneStoryArgs = Pick<
+  InputTimeZone,
+  "disabled" | "mode" | "scale" | "status" | "validationMessage" | "validationIcon"
+>;
 
 export default {
   title: "Components/Controls/InputTimeZone",
+  args: {
+    disabled: false,
+    mode: mode.defaultValue,
+    scale: scale.defaultValue,
+    status: status.defaultValue,
+    validationMessage: "",
+    validationIcon: "",
+  },
+  argTypes: {
+    mode: {
+      options: mode.values,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
   parameters: {
     chromatic: { delay: 1500 },
     options: {
@@ -14,14 +47,14 @@ export default {
   },
 };
 
-export const simple = (): string => html`
+export const simple = (args: InputTimeZoneStoryArgs): string => html`
   <calcite-input-time-zone
-    ${boolean("disabled", false)}
-    mode="${select("mode", ["offset", "name"], "offset")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-    validation-message="${text("validation-message", "")}"
-    validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+    ${boolean("disabled", args.disabled)}
+    mode="${args.mode}"
+    scale="${args.scale}"
+    status="${args.status}"
+    validation-message="${args.validationMessage}"
+    validation-icon="${args.validationIcon}"
   ></calcite-input-time-zone>
 `;
 

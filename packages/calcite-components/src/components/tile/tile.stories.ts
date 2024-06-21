@@ -1,26 +1,51 @@
-import { select, text } from "../../../.storybook/fake-knobs";
-import { iconNames, boolean } from "../../../.storybook/helpers";
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Tile } from "./tile";
+const { scale } = ATTRIBUTES;
+
+interface TileStoryArgs
+  extends Pick<Tile, "active" | "description" | "disabled" | "heading" | "href" | "icon" | "scale"> {
+  hidden: boolean;
+}
 
 export default {
   title: "Components/Tiles/Tile",
+  args: {
+    active: false,
+    description:
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
+    disabled: false,
+    heading: "Tile heading lorem ipsum",
+    hidden: false,
+    href: "#",
+    icon: "layer",
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    icon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: TileStoryArgs): string => html`
   <calcite-tile
-    ${boolean("active", false)}
-    description="${text(
-      "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
-    )}"
-    ${boolean("disabled", false)}
-    heading="${text("heading", "Tile heading lorem ipsum")}"
-    ${boolean("hidden", false)}
-    href="${text("href", "#")}"
-    icon="${select("icon", iconNames, "layer")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
+    ${boolean("active", args.active)}
+    description="${args.description}"
+    ${boolean("disabled", args.disabled)}
+    heading="${args.heading}"
+    ${boolean("hidden", args.hidden)}
+    href="${args.href}"
+    icon="${args.icon}"
+    scale="${args.scale}"
   >
   </calcite-tile>
 `;

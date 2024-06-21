@@ -5,12 +5,18 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+import { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 import { RequestedItem } from "./components/accordion/interfaces";
 import { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 import { ActionMessages } from "./components/action/assets/action/t9n";
+<<<<<<< HEAD
 import { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
 import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
+=======
+import { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+import { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
+import { Columns } from "./components/action-group/interfaces";
+>>>>>>> dev
 import { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 import { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 import { AlertDuration, Sync } from "./components/alert/interfaces";
@@ -52,7 +58,11 @@ import { InputTextMessages } from "./components/input-text/assets/input-text/t9n
 import { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
 import { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
 import { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
+<<<<<<< HEAD
 import { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
+=======
+import { TimeZoneMode } from "./components/input-time-zone/interfaces";
+>>>>>>> dev
 import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
 import { ListMessages } from "./components/list/assets/list/t9n";
@@ -61,7 +71,11 @@ import { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 import { MenuMessages } from "./components/menu/assets/menu/t9n";
 import { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 import { MenuItemCustomEvent } from "./components/menu-item/interfaces";
+<<<<<<< HEAD
 import { MeterLabelType } from "./components/meter/interfaces";
+=======
+import { MeterFillType, MeterLabelType } from "./components/meter/interfaces";
+>>>>>>> dev
 import { ModalMessages } from "./components/modal/assets/modal/t9n";
 import { NoticeMessages } from "./components/notice/assets/notice/t9n";
 import { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
@@ -95,12 +109,18 @@ import { TipManagerMessages } from "./components/tip-manager/assets/tip-manager/
 import { TreeItemSelectDetail } from "./components/tree-item/interfaces";
 import { ValueListMessages } from "./components/value-list/assets/value-list/t9n";
 import { ListItemAndHandle } from "./components/value-list-item/interfaces";
-export { Alignment, Appearance, Columns, FlipContext, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
+export { Alignment, Appearance, CollapseDirection, FlipContext, IconType, Kind, Layout, LogicalFlowPosition, Position, Scale, SelectionAppearance as SelectionAppearance1, SelectionMode, Status, Width } from "./components/interfaces";
 export { RequestedItem } from "./components/accordion/interfaces";
 export { RequestedItem as RequestedItem1 } from "./components/accordion-item/interfaces";
 export { ActionMessages } from "./components/action/assets/action/t9n";
+<<<<<<< HEAD
 export { EffectivePlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
 export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
+=======
+export { FlipPlacement, LogicalPlacement, MenuPlacement, OverlayPositioning, ReferenceElement } from "./utils/floating-ui";
+export { ActionBarMessages } from "./components/action-bar/assets/action-bar/t9n";
+export { Columns } from "./components/action-group/interfaces";
+>>>>>>> dev
 export { ActionGroupMessages } from "./components/action-group/assets/action-group/t9n";
 export { ActionPadMessages } from "./components/action-pad/assets/action-pad/t9n";
 export { AlertDuration, Sync } from "./components/alert/interfaces";
@@ -142,7 +162,11 @@ export { InputTextMessages } from "./components/input-text/assets/input-text/t9n
 export { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
 export { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
 export { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
+<<<<<<< HEAD
 export { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
+=======
+export { TimeZoneMode } from "./components/input-time-zone/interfaces";
+>>>>>>> dev
 export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
 export { ListMessages } from "./components/list/assets/list/t9n";
@@ -151,7 +175,11 @@ export { ListItemMessages } from "./components/list-item/assets/list-item/t9n";
 export { MenuMessages } from "./components/menu/assets/menu/t9n";
 export { MenuItemMessages } from "./components/menu-item/assets/menu-item/t9n";
 export { MenuItemCustomEvent } from "./components/menu-item/interfaces";
+<<<<<<< HEAD
 export { MeterLabelType } from "./components/meter/interfaces";
+=======
+export { MeterFillType, MeterLabelType } from "./components/meter/interfaces";
+>>>>>>> dev
 export { ModalMessages } from "./components/modal/assets/modal/t9n";
 export { NoticeMessages } from "./components/notice/assets/notice/t9n";
 export { PaginationMessages } from "./components/pagination/assets/pagination/t9n";
@@ -194,11 +222,11 @@ export namespace Components {
         /**
           * Specifies the placement of the icon in the header.
          */
-        "iconPosition": Position;
+        "iconPosition": Extract<"start" | "end", Position>;
         /**
           * Specifies the type of the icon in the header.
          */
-        "iconType": "chevron" | "caret" | "plus-minus";
+        "iconType": Extract<"chevron" | "caret" | "plus-minus", IconType>;
         /**
           * Specifies the size of the component.
          */
@@ -239,7 +267,7 @@ export namespace Components {
         /**
           * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
          */
-        "iconPosition": Position;
+        "iconPosition": Extract<"start" | "end", Position>;
         /**
           * Specifies an icon to display at the start of the component.
          */
@@ -247,7 +275,7 @@ export namespace Components {
         /**
           * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
          */
-        "iconType": "chevron" | "caret" | "plus-minus";
+        "iconType": Extract<"chevron" | "caret" | "plus-minus", IconType>;
         /**
           * Specifies the size of the component inherited from the `calcite-accordion`.
          */
@@ -363,7 +391,7 @@ export namespace Components {
         /**
           * Arranges the component depending on the element's `dir` property.
          */
-        "position": Position;
+        "position": Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the expand `calcite-action`.
          */
@@ -390,7 +418,7 @@ export namespace Components {
           * Indicates the layout of the component.
           * @deprecated Use the `layout` property on the component's parent instead.
          */
-        "layout": Layout;
+        "layout": Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * When `true`, the `calcite-action-menu` is open.
          */
@@ -428,7 +456,7 @@ export namespace Components {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements": EffectivePlacement[];
+        "flipPlacements": FlipPlacement[];
         /**
           * Specifies the text string for the component.
          */
@@ -470,7 +498,7 @@ export namespace Components {
         /**
           * Indicates the layout of the component.
          */
-        "layout": Layout;
+        "layout": Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -486,7 +514,7 @@ export namespace Components {
         /**
           * Arranges the component depending on the element's `dir` property.
          */
-        "position": Position;
+        "position": Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the expand `calcite-action`.
          */
@@ -609,6 +637,18 @@ export namespace Components {
          */
         "headingLevel": HeadingLevel;
         /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd": string;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl": FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart": string;
+        /**
           * When `true`, a busy indicator is displayed.
          */
         "loading": boolean;
@@ -634,6 +674,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * Displays a status-related indicator icon.
+          * @deprecated Use `icon-start` instead.
          */
         "status": Status;
     }
@@ -1154,7 +1195,7 @@ export namespace Components {
           * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.  The type will be preserved as the color is updated.
           * @default "#007ac2"
           * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
-          * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
+          * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/src/components/color-picker/interfaces.ts#L10)
          */
         "value": ColorValue | null;
     }
@@ -1229,7 +1270,7 @@ export namespace Components {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements": EffectivePlacement[];
+        "flipPlacements": FlipPlacement[];
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -1627,7 +1668,7 @@ export namespace Components {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements": EffectivePlacement[];
+        "flipPlacements": FlipPlacement[];
         /**
           * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
          */
@@ -1804,6 +1845,10 @@ export namespace Components {
          */
         "items": object[];
         /**
+          * Specifies the fields to match against when filtering. This will only apply when `value` is an object. If not set, all fields will be matched.
+         */
+        "matchFields": string[];
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides": Partial<FilterMessages>;
@@ -1858,7 +1903,7 @@ export namespace Components {
         /**
           * Specifies the direction of the collapse.
          */
-        "collapseDirection": "down" | "up";
+        "collapseDirection": CollapseDirection;
         /**
           * When `true`, hides the component's content area.
          */
@@ -1966,6 +2011,7 @@ export namespace Components {
         "messageOverrides": Partial<HandleMessages>;
         /**
           * Made into a prop for testing purposes only.
+          * @readonly
          */
         "messages": HandleMessages;
         /**
@@ -2249,7 +2295,7 @@ export namespace Components {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements": EffectivePlacement[];
+        "flipPlacements": FlipPlacement[];
         /**
           * When `true`, prevents focus trapping.
          */
@@ -3257,7 +3303,7 @@ export namespace Components {
         /**
           * Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values.
          */
-        "fillType": "single" | "range";
+        "fillType": MeterFillType;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -3635,7 +3681,7 @@ export namespace Components {
         /**
           * Specifies the direction of the collapse.
          */
-        "collapseDirection": "down" | "up";
+        "collapseDirection": CollapseDirection;
         /**
           * When `true`, hides the component's content area.
          */
@@ -3779,7 +3825,7 @@ export namespace Components {
         "disabled": boolean;
         /**
           * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
+          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
          */
         "icon": ICON_TYPES | null;
         /**
@@ -3841,7 +3887,7 @@ export namespace Components {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements": EffectivePlacement[];
+        "flipPlacements": FlipPlacement[];
         /**
           * When `true`, prevents focus trapping.
          */
@@ -3998,7 +4044,7 @@ export namespace Components {
         /**
           * Defines the layout of the component.
          */
-        "layout": Layout;
+        "layout": Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * Specifies the name of the component on form submission. Must be unique to other component instances.
          */
@@ -4190,7 +4236,7 @@ export namespace Components {
         /**
           * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
          */
-        "layout": Layout;
+        "layout": Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * Specifies the size of the component inherited from the `calcite-segmented-control`, defaults to `m`.
          */
@@ -4338,7 +4384,7 @@ export namespace Components {
         /**
           * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
          */
-        "position": Position;
+        "position": Extract<"start" | "end", Position>;
     }
     interface CalciteShellPanel {
         /**
@@ -4378,7 +4424,7 @@ export namespace Components {
         /**
           * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
          */
-        "position": Position;
+        "position": Extract<"start" | "end", Position>;
         /**
           * When `true` and `displayMode` is not `float`, the component's content area is resizable.
          */
@@ -4411,7 +4457,7 @@ export namespace Components {
         "hasHistogram": boolean;
         /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
-          * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
+          * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/src/components/graph/interfaces.ts#L5)
          */
         "histogram": DataSeries;
         /**
@@ -4535,7 +4581,7 @@ export namespace Components {
         /**
           * Indicates the horizontal or vertical orientation of the component.
          */
-        "layout": Layout;
+        "layout": Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * When true, content is waiting to be loaded. This state shows a busy indicator.
          */
@@ -4566,6 +4612,10 @@ export namespace Components {
          */
         "dropdownLabel": string;
         /**
+          * Defines the available placements that can be used when a flip occurs.
+         */
+        "flipPlacements": FlipPlacement[];
+        /**
           * Specifies the kind of the component, which will apply to border and background, if applicable.
          */
         "kind": Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
@@ -4577,6 +4627,11 @@ export namespace Components {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning": OverlayPositioning;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-end"
+         */
+        "placement": MenuPlacement;
         /**
           * Specifies an icon to display at the end of the primary button.
          */
@@ -5257,7 +5312,7 @@ export namespace Components {
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
-        "layout": Exclude<Layout, "grid">;
+        "layout": Extract<Layout, "horizontal" | "vertical">;
         /**
           * Specifies the size of the component.
          */
@@ -5298,7 +5353,7 @@ export namespace Components {
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
-        "layout": Exclude<Layout, "grid">;
+        "layout": Extract<Layout, "horizontal" | "vertical">;
         /**
           * Specifies the size of the component.
          */
@@ -5677,7 +5732,7 @@ export namespace Components {
         "handleActivated"?: boolean;
         /**
           * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
+          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
          */
         "icon"?: ICON_TYPES | null;
         /**
@@ -7906,11 +7961,11 @@ declare namespace LocalJSX {
         /**
           * Specifies the placement of the icon in the header.
          */
-        "iconPosition"?: Position;
+        "iconPosition"?: Extract<"start" | "end", Position>;
         /**
           * Specifies the type of the icon in the header.
          */
-        "iconType"?: "chevron" | "caret" | "plus-minus";
+        "iconType"?: Extract<"chevron" | "caret" | "plus-minus", IconType>;
         "onCalciteInternalAccordionChange"?: (event: CalciteAccordionCustomEvent<RequestedItem>) => void;
         /**
           * Specifies the size of the component.
@@ -7952,7 +8007,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
          */
-        "iconPosition"?: Position;
+        "iconPosition"?: Extract<"start" | "end", Position>;
         /**
           * Specifies an icon to display at the start of the component.
          */
@@ -7960,7 +8015,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
          */
-        "iconType"?: "chevron" | "caret" | "plus-minus";
+        "iconType"?: Extract<"chevron" | "caret" | "plus-minus", IconType>;
         "onCalciteInternalAccordionItemClose"?: (event: CalciteAccordionItemCustomEvent<void>) => void;
         "onCalciteInternalAccordionItemSelect"?: (event: CalciteAccordionItemCustomEvent<RequestedItem1>) => void;
         /**
@@ -8070,7 +8125,7 @@ declare namespace LocalJSX {
         /**
           * Arranges the component depending on the element's `dir` property.
          */
-        "position"?: Position;
+        "position"?: Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the expand `calcite-action`.
          */
@@ -8093,7 +8148,7 @@ declare namespace LocalJSX {
           * Indicates the layout of the component.
           * @deprecated Use the `layout` property on the component's parent instead.
          */
-        "layout"?: Layout;
+        "layout"?: Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * When `true`, the `calcite-action-menu` is open.
          */
@@ -8127,7 +8182,7 @@ declare namespace LocalJSX {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements"?: EffectivePlacement[];
+        "flipPlacements"?: FlipPlacement[];
         /**
           * Specifies the text string for the component.
          */
@@ -8169,7 +8224,7 @@ declare namespace LocalJSX {
         /**
           * Indicates the layout of the component.
          */
-        "layout"?: Layout;
+        "layout"?: Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -8189,7 +8244,7 @@ declare namespace LocalJSX {
         /**
           * Arranges the component depending on the element's `dir` property.
          */
-        "position"?: Position;
+        "position"?: Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the expand `calcite-action`.
          */
@@ -8328,6 +8383,18 @@ declare namespace LocalJSX {
          */
         "headingLevel"?: HeadingLevel;
         /**
+          * Specifies an icon to display at the end of the component.
+         */
+        "iconEnd"?: string;
+        /**
+          * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "iconFlipRtl"?: FlipContext;
+        /**
+          * Specifies an icon to display at the start of the component.
+         */
+        "iconStart"?: string;
+        /**
           * When `true`, a busy indicator is displayed.
          */
         "loading"?: boolean;
@@ -8370,6 +8437,7 @@ declare namespace LocalJSX {
         "overlayPositioning"?: OverlayPositioning;
         /**
           * Displays a status-related indicator icon.
+          * @deprecated Use `icon-start` instead.
          */
         "status"?: Status;
     }
@@ -8914,7 +8982,7 @@ declare namespace LocalJSX {
           * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.  The type will be preserved as the color is updated.
           * @default "#007ac2"
           * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
-          * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
+          * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/src/components/color-picker/interfaces.ts#L10)
          */
         "value"?: ColorValue | null;
     }
@@ -8989,7 +9057,7 @@ declare namespace LocalJSX {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements"?: EffectivePlacement[];
+        "flipPlacements"?: FlipPlacement[];
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -9430,7 +9498,7 @@ declare namespace LocalJSX {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements"?: EffectivePlacement[];
+        "flipPlacements"?: FlipPlacement[];
         /**
           * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller. Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
          */
@@ -9612,6 +9680,10 @@ declare namespace LocalJSX {
          */
         "items"?: object[];
         /**
+          * Specifies the fields to match against when filtering. This will only apply when `value` is an object. If not set, all fields will be matched.
+         */
+        "matchFields"?: string[];
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides"?: Partial<FilterMessages>;
@@ -9658,7 +9730,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the direction of the collapse.
          */
-        "collapseDirection"?: "down" | "up";
+        "collapseDirection"?: CollapseDirection;
         /**
           * When `true`, hides the component's content area.
          */
@@ -9770,6 +9842,7 @@ declare namespace LocalJSX {
         "messageOverrides"?: Partial<HandleMessages>;
         /**
           * Made into a prop for testing purposes only.
+          * @readonly
          */
         "messages"?: HandleMessages;
         /**
@@ -10068,7 +10141,7 @@ declare namespace LocalJSX {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements"?: EffectivePlacement[];
+        "flipPlacements"?: FlipPlacement[];
         /**
           * When `true`, prevents focus trapping.
          */
@@ -11163,7 +11236,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the component's display, where `"single"` displays a single color and `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values.
          */
-        "fillType"?: "single" | "range";
+        "fillType"?: MeterFillType;
         /**
           * The `id` of the form that will be associated with the component.  When not set, the component will be associated with its ancestor form element, if any.
          */
@@ -11536,7 +11609,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the direction of the collapse.
          */
-        "collapseDirection"?: "down" | "up";
+        "collapseDirection"?: CollapseDirection;
         /**
           * When `true`, hides the component's content area.
          */
@@ -11680,7 +11753,7 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         /**
           * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
+          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
          */
         "icon"?: ICON_TYPES | null;
         /**
@@ -11757,7 +11830,7 @@ declare namespace LocalJSX {
         /**
           * Defines the available placements that can be used when a flip occurs.
          */
-        "flipPlacements"?: EffectivePlacement[];
+        "flipPlacements"?: FlipPlacement[];
         /**
           * When `true`, prevents focus trapping.
          */
@@ -11928,7 +12001,7 @@ declare namespace LocalJSX {
         /**
           * Defines the layout of the component.
          */
-        "layout"?: Layout;
+        "layout"?: Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * Specifies the name of the component on form submission. Must be unique to other component instances.
          */
@@ -12120,7 +12193,7 @@ declare namespace LocalJSX {
         /**
           * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
          */
-        "layout"?: Layout;
+        "layout"?: Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * Fires when the item has been selected.
          */
@@ -12280,7 +12353,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
          */
-        "position"?: Position;
+        "position"?: Extract<"start" | "end", Position>;
     }
     interface CalciteShellPanel {
         /**
@@ -12322,7 +12395,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
          */
-        "position"?: Position;
+        "position"?: Extract<"start" | "end", Position>;
         /**
           * When `true` and `displayMode` is not `float`, the component's content area is resizable.
          */
@@ -12355,7 +12428,7 @@ declare namespace LocalJSX {
         "hasHistogram"?: boolean;
         /**
           * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
-          * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
+          * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/src/components/graph/interfaces.ts#L5)
          */
         "histogram"?: DataSeries;
         /**
@@ -12483,7 +12556,7 @@ declare namespace LocalJSX {
         /**
           * Indicates the horizontal or vertical orientation of the component.
          */
-        "layout"?: Layout;
+        "layout"?: Extract<"horizontal" | "vertical" | "grid", Layout>;
         /**
           * When true, content is waiting to be loaded. This state shows a busy indicator.
          */
@@ -12518,6 +12591,10 @@ declare namespace LocalJSX {
          */
         "dropdownLabel"?: string;
         /**
+          * Defines the available placements that can be used when a flip occurs.
+         */
+        "flipPlacements"?: FlipPlacement[];
+        /**
           * Specifies the kind of the component, which will apply to border and background, if applicable.
          */
         "kind"?: Extract<"brand" | "danger" | "inverse" | "neutral", Kind>;
@@ -12537,6 +12614,11 @@ declare namespace LocalJSX {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning"?: OverlayPositioning;
+        /**
+          * Determines where the component will be positioned relative to the container element.
+          * @default "bottom-end"
+         */
+        "placement"?: MenuPlacement;
         /**
           * Specifies an icon to display at the end of the primary button.
          */
@@ -12810,12 +12892,12 @@ declare namespace LocalJSX {
         "onCalciteInternalTabTitleRegister"?: (event: CalciteTabTitleCustomEvent<TabID>) => void;
         /**
           * Fires when a `calcite-tab` is selected (`event.details`).
-          * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts#L1)
+          * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts#L1)
          */
         "onCalciteInternalTabsActivate"?: (event: CalciteTabTitleCustomEvent<TabChangeEventDetail>) => void;
         /**
           * Fires when `calcite-tab` is closed (`event.details`).
-          * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts)
+          * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts)
          */
         "onCalciteInternalTabsClose"?: (event: CalciteTabTitleCustomEvent<TabCloseEventDetail>) => void;
         "onCalciteInternalTabsFocusFirst"?: (event: CalciteTabTitleCustomEvent<void>) => void;
@@ -13220,7 +13302,7 @@ declare namespace LocalJSX {
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
-        "layout"?: Exclude<Layout, "grid">;
+        "layout"?: Extract<Layout, "horizontal" | "vertical">;
         "onCalciteInternalTileKeyEvent"?: (event: CalciteTileCustomEvent<KeyboardEvent>) => void;
         /**
           * Fires when the selected state of the component changes.
@@ -13262,7 +13344,7 @@ declare namespace LocalJSX {
         /**
           * Defines the layout of the component.  Use `"horizontal"` for rows, and `"vertical"` for a single column.
          */
-        "layout"?: Exclude<Layout, "grid">;
+        "layout"?: Extract<Layout, "horizontal" | "vertical">;
         /**
           * Fires when the component's selection changes.
          */
@@ -13663,7 +13745,7 @@ declare namespace LocalJSX {
         "handleActivated"?: boolean;
         /**
           * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
-          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
+          * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
          */
         "icon"?: ICON_TYPES | null;
         /**

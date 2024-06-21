@@ -1,21 +1,42 @@
-import { select, number, text } from "../../../.storybook/fake-knobs";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { boolean } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Carousel } from "./carousel";
+const { arrowType } = ATTRIBUTES;
+
+type CarouselStoryArgs = Pick<
+  Carousel,
+  "controlOverlay" | "disabled" | "autoplayDuration" | "autoplay" | "label" | "arrowType"
+>;
 
 export default {
   title: "Components/Carousel",
+  args: {
+    controlOverlay: false,
+    disabled: false,
+    autoplayDuration: 6000,
+    autoplay: false,
+    label: "Example carousel label",
+    arrowType: arrowType.defaultValue,
+  },
+  argTypes: {
+    arrowType: {
+      options: arrowType.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string =>
+export const simple = (args: CarouselStoryArgs): string =>
   html` <div style="width:600px;height:400px;">
     <calcite-carousel
-      ${boolean("control-overlay", false)}
-      ${boolean("disabled", false)}
-      ${number("autoplay-duration", 6000)}
-      ${text("label", "Example carousel label")}
-      arrow-type="${select("arrow-type", ["inline", "edge", "none"], "inline")}"
+      control-overlay="${args.controlOverlay}"
+      ${boolean("disabled", args.disabled)}
+      autoplay-duration="${args.autoplayDuration}"
+      ${args.autoplay ? "autoplay" : ""}
+      label="${args.label}"
+      arrow-type="${args.arrowType}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>

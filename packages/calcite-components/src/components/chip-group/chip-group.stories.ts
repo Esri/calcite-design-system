@@ -1,16 +1,33 @@
-import { select } from "../../../.storybook/fake-knobs";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { ChipGroup } from "./chip-group";
+const { selectionMode, scale } = ATTRIBUTES;
+
+type ChipGroupStoryArgs = Pick<ChipGroup, "selectionMode" | "scale">;
 
 export default {
   title: "Components/Chip Group",
+  args: {
+    selectionMode: selectionMode.defaultValue,
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    selectionMode: {
+      options: selectionMode.values.filter(
+        (option) => option !== "children" && option !== "multichildren" && option !== "ancestors",
+      ),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
-  <calcite-chip-group
-    selection-mode="${select("selection-mode", ["single", "single-persist", "multiple", "none"], "multiple")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  >
+export const simple = (args: ChipGroupStoryArgs): string => html`
+  <calcite-chip-group selection-mode="${args.selectionMode}" scale="${args.scale}">
     <calcite-chip value="forest">Forest</calcite-chip>
     <calcite-chip value="tundra">Tundra</calcite-chip>
     <calcite-chip value="shore">Seashore</calcite-chip>

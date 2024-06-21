@@ -14,16 +14,6 @@
 
 @include disabled();
 
-.indent {
-  @apply flex
-    flex-col
-    border-solid
-    border-0
-    border-color-3;
-
-  margin-inline-start: var(--calcite-list-item-spacing-indent, theme("spacing.6"));
-}
-
 .container {
   @apply bg-foreground-1
   box-border
@@ -62,11 +52,16 @@
 }
 
 .nested-container {
-  @apply flex flex-col;
+  @apply hidden flex-col
+    border-solid
+    border-0
+    border-color-3;
+
+  margin-inline-start: var(--calcite-list-item-spacing-indent, theme("spacing.6"));
 }
 
-.nested-container--hidden {
-  @apply hidden;
+.nested-container--open {
+  @apply flex;
 }
 
 .content-container {
@@ -84,9 +79,14 @@ td {
   @apply focus-base;
 }
 
+tr {
+  @apply relative;
+}
+
 tr:focus,
 td:focus {
-  @apply focus-inset;
+  z-index: var(--calcite-app-z-index-sticky);
+  outline: 2px solid var(--calcite-ui-focus-color, var(--calcite-color-brand));
 }
 
 .content,
@@ -200,7 +200,7 @@ td:focus {
 
 .actions-start,
 .actions-end {
-  @apply p-0;
+  @apply p-0 relative;
   ::slotted(calcite-action),
   ::slotted(calcite-action-menu),
   ::slotted(calcite-handle),
@@ -209,6 +209,40 @@ td:focus {
 
     color: inherit;
   }
+}
+
+tr:focus {
+  .actions-start,
+  .actions-end {
+    inset-block: theme("spacing[0.5]");
+    .close,
+    ::slotted(calcite-action),
+    ::slotted(calcite-action-menu),
+    ::slotted(calcite-handle),
+    ::slotted(calcite-dropdown) {
+      block-size: calc(100% - theme("spacing[1]"));
+    }
+  }
+
+  &::after,
+  &::before {
+    @apply absolute;
+    content: "";
+    inline-size: theme("spacing[0]");
+    z-index: theme("zIndex.header");
+    background-color: theme("colors.brand");
+    inset-block: 0;
+  }
+  &::before {
+    inset-inline-start: 0;
+  }
+  &::after {
+    inset-inline-end: 0;
+  }
+}
+
+.container--border:focus::before {
+  display: none;
 }
 
 ::slotted(calcite-list:empty) {

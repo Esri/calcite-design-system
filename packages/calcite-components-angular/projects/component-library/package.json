@@ -1,27 +1,31 @@
 {
   "name": "@esri/calcite-components-angular",
-  "version": "2.9.0-next.22",
-  "sideEffects": false,
-  "homepage": "https://developers.arcgis.com/calcite-design-system/",
+  "version": "2.10.0-next.5",
   "description": "A set of Angular components that wrap Esri's Calcite Components.",
-  "author": {
-    "name": "Esri"
+  "homepage": "https://developers.arcgis.com/calcite-design-system/",
+  "bugs": {
+    "url": "https://github.com/Esri/calcite-design-system/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Esri/calcite-design-system.git",
     "directory": "packages/calcite-components-angular/projects/component-library"
   },
-  "bugs": {
-    "url": "https://github.com/Esri/calcite-design-system/issues"
+  "license": "SEE LICENSE.md",
+  "author": {
+    "name": "Esri"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@esri/calcite-components": "^2.10.0-next.5",
+    "tslib": "2.6.2"
   },
   "peerDependencies": {
     "@angular/common": ">=16.0.0",
     "@angular/core": ">=16.0.0"
-  },
-  "dependencies": {
-    "@esri/calcite-components": "^2.9.0-next.22",
-    "tslib": "2.6.2"
   },
   "lerna": {
     "command": {
@@ -29,6 +33,5 @@
         "directory": "./dist"
       }
     }
-  },
-  "license": "SEE LICENSE.md"
+  }
 }

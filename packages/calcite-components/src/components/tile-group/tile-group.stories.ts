@@ -1,20 +1,56 @@
-import { select, boolean } from "../../../.storybook/fake-knobs";
-import { html } from "../../../support/formatting";
+import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { TileGroup } from "./tile-group";
+const { dir, layout, scale } = ATTRIBUTES;
+
+interface TileGroupStoryArgs extends Pick<TileGroup, "disabled" | "layout" | "scale"> {
+  dir: string;
+}
 
 export default {
   title: "Components/Tiles/Tile Group",
+  args: {
+    dir: dir.defaultValue,
+    disabled: false,
+    layout: layout.defaultValue,
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    dir: {
+      options: dir.values,
+      control: { type: "select" },
+    },
+    layout: {
+      options: layout.values.filter(
+        (option) =>
+          option !== "grid" &&
+          option !== "inline" &&
+          option !== "center" &&
+          option !== "auto" &&
+          option !== "fixed" &&
+          option !== "none" &&
+          option !== "horizontal-single",
+      ),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
   parameters: {
     chromatic: { delay: 10000, viewports: [1728] },
   },
 };
 
-export const simple = (): string => html`
+export const simple = (args: TileGroupStoryArgs): string => html`
   <calcite-tile-group
-    dir="${select("dir", ["ltr", "rtl"], "ltr", "Tile Group")}"
-    ${boolean("disabled", false)}
-    layout="${select("layout", ["horizontal", "vertical"], "horizontal", "Tile Group")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
+    dir="${args.dir}"
+    ${boolean("disabled", args.disabled)}
+    layout="${args.layout}"
+    scale="${args.scale}"
   >
     <calcite-tile
       heading="Tile heading lorem ipsum"
