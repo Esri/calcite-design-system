@@ -259,7 +259,11 @@ export class DatePickerMonthHeader {
 
   private getYearList(): void {
     this.yearList = [];
-    for (let i = this.min.getFullYear() - 1; i <= this.max.getFullYear() + 1; i++) {
+    for (
+      let i = (this.min?.getFullYear() || this.defaultMinYear) - 1;
+      i <= (this.max?.getFullYear() || this.defaultMaxYear) + 1;
+      i++
+    ) {
       this.yearList.push(i);
     }
   }
@@ -283,6 +287,10 @@ export class DatePickerMonthHeader {
   private yearPickerEl: HTMLCalciteSelectElement;
 
   private monthPickerEl: HTMLCalciteSelectElement;
+
+  private defaultMinYear = 1950;
+
+  private defaultMaxYear = 2050;
 
   @Watch("min")
   @Watch("max")
@@ -418,10 +426,16 @@ export class DatePickerMonthHeader {
 
   private isMonthInRange = (index: number): boolean => {
     const activeDateInMonth = new Date(this.activeDate.getFullYear(), index, 1);
-    return activeDateInMonth > this.max || activeDateInMonth < this.min;
+    return (
+      activeDateInMonth > (this.max || new Date("2050-12-31")) ||
+      activeDateInMonth < (this.min || new Date("1950-01-01"))
+    );
   };
 
   private isYearInRange = (year: number): boolean => {
-    return year > this.max?.getFullYear() || year < this.min?.getFullYear();
+    return (
+      year > (this.max?.getFullYear() || this.defaultMaxYear) ||
+      year < (this.min?.getFullYear() || this.defaultMinYear)
+    );
   };
 }

@@ -134,7 +134,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @Prop({ mutable: true }) maxAsDate: Date;
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
-  @Prop({ reflect: true }) min: string = "1950-01-01";
+  @Prop({ reflect: true }) min: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
@@ -142,7 +142,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   }
 
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
-  @Prop({ reflect: true }) max: string = "2050-12-31";
+  @Prop({ reflect: true }) max: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
