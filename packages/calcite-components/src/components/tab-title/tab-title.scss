@@ -12,7 +12,7 @@
 }
 
 .content {
-  @apply flex items-center justify-center;
+  @apply flex items-center justify-center mb-0.5 relative;
 }
 
 .scale-s {
@@ -55,8 +55,7 @@
 }
 
 .container {
-  @apply border-b-2
-  border-b-color-transparent
+  @apply relative 
   box-border
   content-center
   cursor-pointer
@@ -69,15 +68,99 @@
   text-n1h
   transition-default
   w-full;
-
-  border-block-end-style: solid;
 }
 
-:host([position="bottom"]) .container {
-  @apply border-t-color-transparent
-    border-b-0
-    border-t-2;
-  border-block-start-style: solid;
+.selected-indicator {
+  @apply absolute
+    block
+    w-full
+    h-0.5
+    transition-default;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  inline-size: 100%;
+}
+
+.container--bottom .selected-indicator {
+  inset-block-end: unset;
+  inset-block-start: 0;
+}
+
+:host([bordered]) .selected-indicator {
+  inset-block-start: 0;
+  inset-block-end: unset;
+  inset-inline-start: -1px;
+  inset-inline-end: -1px;
+  inline-size: calc(100% + 2px);
+}
+
+:host([bordered][selected]) .container::after {
+  @apply absolute
+    block
+    w-full
+    h-0.5
+    transition-default;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  inline-size: 100%;
+  background: var(--calcite-color-foreground-1);
+  content: "";
+}
+
+/*
+:host([bordered][selected]) .container.container--bottom::after {
+  inset-block-start: -1px;
+}
+*/
+
+:host([bordered][selected]:hover) .container::after {
+  background: var(--calcite-color-foreground-2);
+}
+
+:host([bordered][selected]:focus) .container::after {
+  background: transparent;
+}
+
+/*
+:host([selected]:focus) .selected-indicator {
+  inset-block-end: 2px;
+}
+
+:host([selected]:focus) .container--bottom .selected-indicator {
+  inset-block-start: 2px;
+}
+
+:host([bordered][selected]:focus) .container--bottom .selected-indicator {
+  inset-block-end: 2px;
+  inset-block-start: unset;
+}
+*/
+
+:host([bordered]) .container--bottom .selected-indicator {
+  inset-block-start: unset;
+  inset-block-end: 0;
+}
+
+:host([selected]) .selected-indicator,
+:host([selected]:hover) .selected-indicator {
+  @apply bg-brand;
+}
+
+:host(:hover) .selected-indicator {
+  background-color: var(--calcite-color-border-3);
+}
+
+:host(:focus) .selected-indicator,
+:host(:active) .selected-indicator {
+  background-color: var(--calcite-color-brand);
+}
+
+@media (forced-colors: active) {
+  .selected-indicator {
+    background-color: highlight;
+  }
 }
 
 :host([closed]) {
@@ -142,19 +225,17 @@
   focus-base
   items-center
   justify-center
-  p-1
+  h-full
   self-center
   text-color-3
   transition-default;
-
   background-color: var(--calcite-button-transparent-1);
-  margin-inline-start: auto;
-
+  margin-inline-start: theme("margin.3");
+  // compensate for the added border on parent and ensure focus alignment
+  margin-inline-end: 1px;
+  block-size: calc(100% - 4px);
   &:focus {
-    @apply focus-inset;
-
-    // ⚠️overriding outline-offset should be avoided as it won't honor --calcite-color-focus-offset-invert
-    outline-offset: -1px;
+    @apply focus-normal;
   }
 
   &:focus,
@@ -185,14 +266,6 @@
   margin-inline-end: 0;
 }
 
-:host([bordered][selected]) {
-  box-shadow: inset 0px -2px var(--calcite-color-foreground-1);
-}
-
-:host([bordered][selected][position="bottom"]) {
-  box-shadow: inset 0 2px 0 var(--calcite-color-foreground-1);
-}
-
 :host([bordered]:hover) {
   .container {
     background-color: var(--calcite-color-transparent-hover);
@@ -203,14 +276,6 @@
 :host([bordered]) .container {
   border-inline-start: 1px solid transparent;
   border-inline-end: 1px solid transparent;
-  .close-button {
-    margin-inline: 0;
-  }
-}
-
-:host([closable][position="bottom"]) .container,
-:host([bordered][position="bottom"]) .container {
-  border-block-start-style: unset;
 }
 
 :host([selected][bordered]) .container {
@@ -263,7 +328,7 @@
     border-block-end-style: solid;
   }
 
-  :host([bordered][position="bottom"]) .container {
+  :host([bordered]) .container--bottom {
     border-block-start-style: solid;
   }
 
@@ -271,7 +336,7 @@
     border-block-end-style: none;
   }
 
-  :host([bordered][position="bottom"][selected]) .container {
+  :host([bordered][selected]) .container--bottom {
     border-block-start-style: none;
   }
 

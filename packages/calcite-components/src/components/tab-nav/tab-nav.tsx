@@ -98,16 +98,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   @Prop({ reflect: true, mutable: true }) bordered = false;
 
   /**
-   * @internal
-   */
-  @Prop({ mutable: true }) indicatorOffset: number;
-
-  /**
-   * @internal
-   */
-  @Prop({ mutable: true }) indicatorWidth: number;
-
-  /**
    * Made into a prop for testing purposes only.
    *
    * @internal
@@ -144,11 +134,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
   }
 
-  @Watch("selectedTitle")
-  selectedTitleChanged(): void {
-    this.updateActiveIndicator();
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -181,10 +166,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     this.layout = parentTabsEl?.layout;
     this.bordered = parentTabsEl?.bordered;
     this.effectiveDir = getElementDir(this.el);
-
-    if (this.selectedTitle) {
-      this.updateActiveIndicator();
-    }
   }
 
   componentDidRender(): void {
@@ -215,11 +196,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const width = `${this.indicatorWidth}px`;
-    const offset = `${this.indicatorOffset}px`;
-    const indicatorStyle =
-      this.effectiveDir !== "rtl" ? { width, left: offset } : { width, right: offset };
-
     return (
       <Host role="tablist">
         <div
@@ -231,7 +207,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
             [`position-${this.position}`]: true,
             [CSS_UTILITY.rtl]: this.effectiveDir === "rtl",
           }}
-          ref={this.storeContainerRef}
         >
           {this.renderScrollButton("start")}
           <div
@@ -243,18 +218,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
             ref={this.storeTabTitleWrapperRef}
           >
             <slot onSlotchange={this.onSlotChange} />
-          </div>
-          <div
-            class={{
-              [CSS.activeIndicatorContainer]: true,
-            }}
-            ref={(el) => (this.activeIndicatorContainerEl = el)}
-          >
-            <div
-              class="tab-nav-active-indicator"
-              ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
-              style={indicatorStyle}
-            />
           </div>
           {this.renderScrollButton("end")}
         </div>
@@ -379,11 +342,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     event.stopPropagation();
   }
 
-  @Listen("calciteInternalTabIconChanged")
-  iconStartChangeHandler(): void {
-    this.updateActiveIndicator();
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -423,12 +381,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   @State() private selectedTabId: TabID;
 
-  private activeIndicatorEl: HTMLElement;
-
-  private activeIndicatorContainerEl: HTMLDivElement;
-
-  private containerEl: HTMLDivElement;
-
   private effectiveDir: Direction = "ltr";
 
   private lastScrollWheelAxis: "x" | "y" = "x";
@@ -441,12 +393,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   private resizeObserver = createObserver("resize", () => {
     this.updateScrollingState();
-
-    if (!this.activeIndicatorEl) {
-      return;
-    }
-
-    this.updateActiveIndicator();
   });
 
   private get scrollerButtonWidth(): number {
@@ -459,20 +405,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private updateActiveIndicator(): void {
-    const tabTitleScrollLeft = this.tabTitleContainerEl?.scrollLeft;
-    const containerScrollLeft = this.containerEl?.scrollLeft;
-    const navWidth = this.activeIndicatorContainerEl?.offsetWidth;
-    const tabLeft = this.selectedTitle?.offsetLeft;
-    const tabWidth = this.selectedTitle?.offsetWidth;
-    const offsetRight = navWidth - tabLeft - tabWidth;
-    const offsetBase = this.effectiveDir === "ltr" ? tabLeft : offsetRight;
-    const multiplier = this.effectiveDir === "ltr" ? -1 : 1;
-
-    this.indicatorOffset = offsetBase + multiplier * (containerScrollLeft + tabTitleScrollLeft);
-    this.indicatorWidth = this.selectedTitle?.offsetWidth;
-  }
 
   private onTabTitleWheel = (event: WheelEvent): void => {
     event.preventDefault();
@@ -495,7 +427,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
     const scrollByX = (this.effectiveDir === "rtl" ? -1 : 1) * scrollBy;
     (event.currentTarget as HTMLDivElement).scrollBy(scrollByX, 0);
-    requestAnimationFrame(() => this.updateActiveIndicator());
   };
 
   private onSlotChange = (event: Event): void => {
@@ -506,8 +437,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       this.intersectionObserver?.observe(child);
     });
   };
-
-  private storeContainerRef = (el: HTMLDivElement) => (this.containerEl = el);
 
   private storeTabTitleWrapperRef = (el: HTMLDivElement) => {
     this.tabTitleContainerEl = el;
@@ -636,7 +565,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   }
 
   private onTabTitleScroll = (): void => {
-    this.updateActiveIndicator();
     this.updateScrollingState();
   };
 
@@ -689,7 +617,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     }
 
     requestAnimationFrame(() => {
-      this.updateActiveIndicator();
       tabTitles[this.selectedTabId].focus();
     });
   }
