@@ -277,7 +277,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
     if (parts.length > 1) {
       // we only highlight the first match
-      parts[1] = <span class={CSS.filterMatch}>{parts[1]}</span>;
+      parts[1] = <mark class={CSS.filterMatch}>{parts[1]}</mark>;
     }
 
     return parts;
