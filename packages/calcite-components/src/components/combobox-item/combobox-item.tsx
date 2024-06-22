@@ -76,11 +76,11 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true }) textLabel!: string;
 
   /**
-   * Pattern to use to filter match.
+   * Pattern for highlighting filter text matches.
    *
    * @internal
    */
-  @Prop({ reflect: true }) filterPattern: RegExp;
+  @Prop({ reflect: true }) filterTextMatchPattern: RegExp;
 
   /** The component's value. */
   @Prop() value!: any;
@@ -268,21 +268,18 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     );
   }
 
-  private renderTextContent(): string | VNode[] {
-    if (!this.filterPattern) {
+  private renderTextContent(): string | (string | VNode)[] {
+    if (!this.filterTextMatchPattern) {
       return this.textLabel;
     }
 
-    return this.textLabel.split(this.filterPattern).map((part): VNode => {
-      return (
-        <span
-          class={{
-            [CSS.filterMatch]: this.filterPattern.test(part),
-          }}
-        >
-          {part}
-        </span>
-      );
-    });
+    const parts: (string | VNode)[] = this.textLabel.split(this.filterTextMatchPattern);
+
+    if (parts.length > 1) {
+      // we only highlight the first match
+      parts[1] = <span class={CSS.filterMatch}>{parts[1]}</span>;
+    }
+
+    return parts;
   }
 }

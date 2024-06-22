@@ -1372,9 +1372,9 @@ export namespace Components {
          */
         "filterDisabled": boolean;
         /**
-          * Pattern to use to filter match.
+          * Pattern for highlighting filter text matches.
          */
-        "filterPattern": RegExp;
+        "filterTextMatchPattern": RegExp;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
          */
@@ -9184,9 +9184,9 @@ declare namespace LocalJSX {
          */
         "filterDisabled"?: boolean;
         /**
-          * Pattern to use to filter match.
+          * Pattern for highlighting filter text matches.
          */
-        "filterPattern"?: RegExp;
+        "filterTextMatchPattern"?: RegExp;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
          */

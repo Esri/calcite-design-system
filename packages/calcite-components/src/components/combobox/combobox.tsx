@@ -533,7 +533,7 @@ export class Combobox
 
   private allSelectedIndicatorChipEl: HTMLCalciteChipElement;
 
-  private currentFilterPattern: RegExp;
+  private filterTextMatchPattern: RegExp;
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
@@ -1105,11 +1105,11 @@ export class Combobox
         }
       });
 
-      this.filteredItems = this.getFilteredItems();
+      this.filterTextMatchPattern = this.filterText && new RegExp(`(${this.filterText})`, "i");
 
-      this.currentFilterPattern = this.filterText && new RegExp(`(${this.filterText})`, "gi");
+      this.filteredItems = this.getFilteredItems();
       this.filteredItems.forEach((item) => {
-        item.filterPattern = this.currentFilterPattern;
+        item.filterTextMatchPattern = this.filterTextMatchPattern;
       });
 
       if (setOpenToEmptyState) {
@@ -1341,7 +1341,6 @@ export class Combobox
 
     const height = this.calculateSingleItemHeight(activeItem);
     const { offsetHeight, scrollTop } = this.listContainerEl;
-
     if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
       this.listContainerEl.scrollTop = activeItem.offsetTop - offsetHeight + height;
     } else if (activeItem.offsetTop < scrollTop) {
