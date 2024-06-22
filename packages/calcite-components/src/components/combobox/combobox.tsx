@@ -12,7 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { debounce } from "lodash-es";
+import { debounce, escapeRegExp } from "lodash-es";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { filter } from "../../utils/filter";
 import { getElementWidth, getTextWidth, toAriaBoolean } from "../../utils/dom";
@@ -1105,7 +1105,8 @@ export class Combobox
         }
       });
 
-      this.filterTextMatchPattern = this.filterText && new RegExp(`(${this.filterText})`, "i");
+      this.filterTextMatchPattern =
+        this.filterText && new RegExp(`(${escapeRegExp(this.filterText)})`, "i");
 
       this.filteredItems = this.getFilteredItems();
       this.filteredItems.forEach((item) => {
