@@ -276,6 +276,9 @@
 :host([bordered]) .container {
   border-inline-start: 1px solid transparent;
   border-inline-end: 1px solid transparent;
+  .close-button {
+    margin-inline-start: theme("margin.1");
+  }
 }
 
 :host([selected][bordered]) .container {
