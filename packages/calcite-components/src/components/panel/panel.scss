@@ -141,8 +141,7 @@
   @apply flex mt-auto flex-row content-between justify-center items-center bg-foreground-1;
 
   border-block-start: 1px solid var(--calcite-color-border-3);
-  padding-inline: var(--calcite-spacing-sm);
-  padding-block: var(--calcite-spacing-sm);
+  padding: var(--calcite-panel-footer-padding, --calcite-spacing-sm);
   column-gap: 0;
   row-gap: var(--calcite-spacing-md);
 }

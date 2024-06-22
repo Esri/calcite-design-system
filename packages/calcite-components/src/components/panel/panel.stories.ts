@@ -235,7 +235,7 @@ export const footerPadding_TestOnly = (): string =>
     <calcite-panel height-scale="s" style="--calcite-panel-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
-      ${footerHTML}
+      <div slot="footer">Footer!</div>
     </calcite-panel>
   </div>`;
 

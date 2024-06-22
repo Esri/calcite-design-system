@@ -73,7 +73,9 @@ const flowItemContent = `${headerHTML}
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
   ${contentHTML}
-  ${footerHTML}`;
+  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
+  <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
+  `;
 
 export const simple = (args: FlowItemStoryArgs): string => html`
   <calcite-flow-item
@@ -230,7 +232,7 @@ export const footerPaddingAndContentBottom = (): string =>
   </div>`;
 
 export const footerStartEndAndContentBottom = (): string =>
-  html`<div style="width: 300px;">
+  html`<div style="width: 300px; height: 300px;">
     <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
