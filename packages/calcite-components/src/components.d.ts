@@ -1237,6 +1237,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Text for the component's filter input field.
+         */
+        "filterText": string;
+        /**
           * Specifies the component's filtered items.
           * @readonly
          */
@@ -1810,6 +1814,10 @@ export namespace Components {
          */
         "filter": (value?: string) => Promise<void>;
         /**
+          * Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched.
+         */
+        "filterProps": string[];
+        /**
           * The component's resulting items after filtering.
           * @readonly
          */
@@ -1818,10 +1826,6 @@ export namespace Components {
           * Defines the items to filter. The component uses the values as the starting point, and returns items  that contain the string entered in the input, using a partial match and recursive search.  This property is needed to conduct filtering.
          */
         "items": object[];
-        /**
-          * Specifies the fields to match against when filtering. This will only apply when `value` is an object. If not set, all fields will be matched.
-         */
-        "matchFields": string[];
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -2978,6 +2982,10 @@ export namespace Components {
           * Placeholder text for the component's filter input field.
          */
         "filterPlaceholder": string;
+        /**
+          * Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value).
+         */
+        "filterProps": string[];
         /**
           * Text for the component's filter input field.
          */
@@ -9017,6 +9025,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Text for the component's filter input field.
+         */
+        "filterText"?: string;
+        /**
           * Specifies the component's filtered items.
           * @readonly
          */
@@ -9638,6 +9650,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched.
+         */
+        "filterProps"?: string[];
+        /**
           * The component's resulting items after filtering.
           * @readonly
          */
@@ -9646,10 +9662,6 @@ declare namespace LocalJSX {
           * Defines the items to filter. The component uses the values as the starting point, and returns items  that contain the string entered in the input, using a partial match and recursive search.  This property is needed to conduct filtering.
          */
         "items"?: object[];
-        /**
-          * Specifies the fields to match against when filtering. This will only apply when `value` is an object. If not set, all fields will be matched.
-         */
-        "matchFields"?: string[];
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -10864,6 +10876,10 @@ declare namespace LocalJSX {
           * Placeholder text for the component's filter input field.
          */
         "filterPlaceholder"?: string;
+        /**
+          * Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value).
+         */
+        "filterProps"?: string[];
         /**
           * Text for the component's filter input field.
          */
