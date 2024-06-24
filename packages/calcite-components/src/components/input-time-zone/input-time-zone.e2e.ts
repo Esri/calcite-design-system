@@ -509,6 +509,19 @@ describe("calcite-input-time-zone", () => {
 
     beforeEach(async () => {
       page = await newE2EPage();
+      page.on("console", async (message) => {
+        if (message.text() != "JSHandle@error") {
+          return;
+        }
+
+        const messages = await Promise.all(
+          message.args().map((arg) => {
+            return arg.getProperty("message");
+          }),
+        );
+
+        console.error(`${messages.filter(Boolean)}`);
+      });
     });
 
     describe("displays UTC or GMT based on user's locale (default)", () => {
@@ -571,15 +584,16 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
           delete options?.timeZoneName;
           super(locales, options);
           this.originalOptions = originalOptions;
+          this.originalLocales = locales;
         }
 
         formatToParts(date) {
           const originalParts = super.formatToParts(date);
           const timeZoneName = this.originalOptions.timeZoneName;
+          const locale = this.originalLocales;
 
           if (timeZoneName === "shortOffset") {
             const { timeZone } = this.originalOptions;
-            const resolved = this.resolvedOptions();
 
             let offsetString;
 
@@ -594,7 +608,7 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
                 offsetString = offsetString.replace("-", "+");
               }
             } else {
-              const offsetMarker = resolved.locale === "en-GB" ? "GMT" : resolved.locale === "fr" ? "UTC" : "GMT";
+              const offsetMarker = locale === "en-GB" ? "GMT" : locale === "fr" ? "UTC" : "GMT";
 
               offsetString =
                 offsetMarker +
