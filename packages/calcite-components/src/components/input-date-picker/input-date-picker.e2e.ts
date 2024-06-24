@@ -1307,12 +1307,7 @@ describe("calcite-input-date-picker", () => {
       await page.waitForChanges();
       expect(await isCalendarVisible(page)).toBe(true);
 
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
+      await navigateToDateInMonth(page, true, true);
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
@@ -1404,16 +1399,7 @@ describe("calcite-input-date-picker", () => {
       await input.click();
       expect(await calendar.isVisible()).toBe(true);
 
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
+      await navigateToDateInMonth(page, false);
 
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
@@ -1460,14 +1446,7 @@ describe("calcite-input-date-picker", () => {
       await input.click();
       expect(await calendar.isVisible()).toBe(true);
 
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
+      await navigateToDateInMonth(page);
 
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
@@ -1494,7 +1473,7 @@ describe("calcite-input-date-picker", () => {
     });
   });
 
-  it("should update activeDate when user is updating date using keyboard", async () => {
+  it("should update activeDate when user selects date from different month using keyboard", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
     await page.waitForChanges();
@@ -1509,14 +1488,25 @@ describe("calcite-input-date-picker", () => {
     await input.click();
     expect(await calendar.isVisible()).toBe(true);
 
-    await page.keyboard.press("Tab");
+    await navigateToDateInMonth(page);
+
+    await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    await page.keyboard.press("Tab");
+    await page.keyboard.press("Enter");
     await page.waitForChanges();
-    await page.keyboard.press("Tab");
+    expect(await calendar.isVisible()).toBe(true);
+    await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
-    await page.keyboard.press("Tab");
+    await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
+    expect(await getActiveMonth(page)).toBe("September");
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+
+    expect(await calendar.isVisible()).toBe(false);
+    await input.click();
+    expect(await calendar.isVisible()).toBe(true);
+    await navigateToDateInMonth(page);
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
@@ -1543,6 +1533,51 @@ describe("calcite-input-date-picker", () => {
 
     expect(await getActiveMonth(page)).toBe("October");
   });
+});
+
+it("should not focus disabled dates when navigating using keyboard", async () => {
+  const page = await newE2EPage();
+  await page.setContent(html`<calcite-input-date-picker range max="2024-07-02"></calcite-input-date-picker>`);
+  await page.waitForChanges();
+  await skipAnimations(page);
+
+  const inputDatePicker = await page.find("calcite-input-date-picker");
+  const [startInput, endInput] = await page.findAll("calcite-input-date-picker >>> calcite-input-text");
+  const calendar = await page.find(`calcite-input-date-picker >>> .${CSS.calendarWrapper}`);
+
+  expect(await calendar.isVisible()).toBe(false);
+  await startInput.click();
+  expect(await calendar.isVisible()).toBe(true);
+
+  await selectDayInMonthByIndex(page, 25);
+  expect(await calendar.isVisible()).toBe(true);
+
+  await endInput.click();
+  await page.waitForChanges();
+  expect(await calendar.isVisible()).toBe(false);
+
+  await endInput.click();
+  await page.waitForChanges();
+  expect(await calendar.isVisible()).toBe(true);
+
+  await navigateToDateInMonth(page, true, true);
+
+  await page.keyboard.press("ArrowDown");
+  await page.waitForChanges();
+  await page.keyboard.press("ArrowDown");
+  await page.waitForChanges();
+  await page.keyboard.press("ArrowDown");
+  await page.waitForChanges();
+  await page.keyboard.press("ArrowRight");
+  await page.waitForChanges();
+  await page.keyboard.press("ArrowRight");
+  await page.waitForChanges();
+  expect(await getDayById(page, "20240703")).not.toHaveAttribute("range-hover");
+
+  await page.keyboard.press("Enter");
+  await page.waitForChanges();
+  expect(await calendar.isVisible()).toBe(false);
+  expect((await inputDatePicker.getProperty("value"))[1]).toEqual("2024-07-02");
 });
 
 async function selectDayInMonthByIndex(page: E2EPage, day: number): Promise<void> {
@@ -1598,4 +1633,25 @@ async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
   return await page.find(
     `calcite-input-date-picker >>> calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
   );
+}
+
+async function navigateToDateInMonth(
+  page: E2EPage,
+  isRange = true,
+  isPreviousMonthChevronDisabled = false,
+): Promise<void> {
+  await page.keyboard.press("Tab");
+  await page.waitForChanges();
+  await page.keyboard.press("Tab");
+  await page.waitForChanges();
+  await page.keyboard.press("Tab");
+  await page.waitForChanges();
+  if (!isPreviousMonthChevronDisabled) {
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+  }
+  if (!isRange) {
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+  }
 }
