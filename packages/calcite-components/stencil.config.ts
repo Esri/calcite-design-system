@@ -154,7 +154,6 @@ export const create: () => Config = () => ({
     ],
   },
   testing: {
-    testRegex: "(/__tests__/.*|(\\.|/)input-time-zone.e2e)\\.[jt]sx?$",
     watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
     moduleNameMapper: {
       "^lodash-es$": "lodash",
