@@ -117,7 +117,7 @@ ul:focus {
   min-inline-size: var(--calcite-combobox-item-selector-icon-size);
 }
 
-.icon--dot:before {
+.icon--dot::before {
   text-align: start;
   content: "\2022";
 }
@@ -133,4 +133,10 @@ ul:focus {
 
 :host(:hover[disabled]) .icon {
   @apply opacity-100;
+}
+
+.filter-match {
+  font-weight: var(--calcite-font-weight-bold);
+  color: var(--calcite-color-text-1);
+  background-color: var(--calcite-color-foreground-current);
 }
