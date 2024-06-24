@@ -117,7 +117,7 @@ ul:focus {
   min-inline-size: var(--calcite-combobox-item-selector-icon-size);
 }
 
-.icon--dot:before {
+.icon--dot::before {
   text-align: start;
   content: "\2022";
 }
