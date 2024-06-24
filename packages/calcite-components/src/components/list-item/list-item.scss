@@ -85,8 +85,7 @@ tr {
 
 tr:focus,
 td:focus {
-  z-index: var(--calcite-app-z-index-sticky);
-  outline: 2px solid var(--calcite-ui-focus-color, var(--calcite-color-brand));
+  @apply focus-inset;
 }
 
 .content,
