@@ -1274,6 +1274,10 @@ export namespace Components {
          */
         "filterDisabled": boolean;
         /**
+          * Pattern for highlighting filter text matches.
+         */
+        "filterTextMatchPattern": RegExp;
+        /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
          */
         "guid": string;
@@ -9081,6 +9085,10 @@ declare namespace LocalJSX {
           * When `true`, omits the component from the `calcite-combobox` filtered search results.
          */
         "filterDisabled"?: boolean;
+        /**
+          * Pattern for highlighting filter text matches.
+         */
+        "filterTextMatchPattern"?: RegExp;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
          */
