@@ -603,11 +603,7 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
                   ? "-6"
                   : timeZone === "America/Phoenix"
                     ? "-7"
-                    : // : timeZone === "Europe/London"
-                      //   ? "+1"
-                      //   : timeZone === "Europe/Paris"
-                      //     ? "+2"
-                      timeZone === "Pacific/Guam" || timeZone === "Pacific/Chuuk"
+                    : timeZone === "Pacific/Guam" || timeZone === "Pacific/Chuuk"
                       ? "+10"
                       : "+0");
             }
@@ -640,8 +636,6 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
           return [
             "America/Mexico_City",
             "America/Phoenix",
-            // "Europe/London",
-            // "Europe/Paris",
             "Pacific/Galapagos",
             "Pacific/Guam",
 
