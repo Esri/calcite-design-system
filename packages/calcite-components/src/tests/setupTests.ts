@@ -1,10 +1,15 @@
-const testErrorMessages: string[] = [];
+let globalError: jest.SpyInstance;
 
-beforeEach(() => (testErrorMessages.length = 0));
+beforeAll(() => {
+  globalError = jest.spyOn(global.console, "error");
+});
+
+beforeEach(() => globalError.mockClear());
 
 // eslint-disable-next-line jest/no-standalone-expect
-afterEach(() => expect(testErrorMessages).toHaveLength(0));
+afterEach(() => expect(globalError).not.toHaveBeenCalled());
 
 afterAll(() => {
-  jest.restoreAllMocks();
+  globalError.mockClear();
+  globalError.mockRestore();
 });
