@@ -495,8 +495,8 @@ describe("calcite-input-time-zone", () => {
   });
 
   describe("offsetStyle", () => {
-    const gmtTimeZoneLocale = "en-GB";
-    const utcTimeZoneLocale = "fr";
+    const gmtTimeZoneLocale = "";
+    const utcTimeZoneLocale = "";
 
     let page: E2EPage;
 
