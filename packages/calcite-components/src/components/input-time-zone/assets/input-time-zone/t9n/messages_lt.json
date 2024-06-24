@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "Pasirinkite laiko juostą.",
+  "offsetPlaceholder": "Ieškoti pagal miestą, regioną arba poslinkį",
+  "namePlaceholder": "Ieškoti pagal laiko juostą",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidžanas",
   "Africa/Accra": "Akra",

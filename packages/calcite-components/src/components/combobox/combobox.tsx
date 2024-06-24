@@ -12,7 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
-import { debounce } from "lodash-es";
+import { debounce, escapeRegExp } from "lodash-es";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { filter } from "../../utils/filter";
 import { getElementWidth, getTextWidth, toAriaBoolean } from "../../utils/dom";
@@ -115,6 +115,17 @@ export class Combobox
    * When `true`, the value-clearing will be disabled.
    */
   @Prop({ reflect: true }) clearDisabled = false;
+
+  /**
+   * Text for the component's filter input field.
+   */
+  @Prop({ reflect: true, mutable: true }) filterText = "";
+
+  @Watch("filterText")
+  filterTextChange(value: string): void {
+    this.updateActiveItemIndex(-1);
+    this.filterItems(value, true);
+  }
 
   /**
    * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:
@@ -350,14 +361,14 @@ export class Combobox
 
     await componentOnReady(this.el);
 
-    if (!this.allowCustomValues && this.text) {
+    if (!this.allowCustomValues && this.filterText) {
       this.clearInputValue();
       this.filterItems("");
       this.updateActiveItemIndex(-1);
     }
 
-    if (this.allowCustomValues && this.text.trim().length) {
-      this.addCustomChip(this.text);
+    if (this.allowCustomValues && this.filterText.trim().length) {
+      this.addCustomChip(this.filterText);
     }
 
     this.open = false;
@@ -481,6 +492,7 @@ export class Combobox
     setUpLoadableComponent(this);
     this.updateItems();
     await setUpMessages(this);
+    this.filterItems(this.filterText, false, false);
   }
 
   componentDidLoad(): void {
@@ -517,9 +529,11 @@ export class Combobox
   //
   //--------------------------------------------------------------------------
 
+  @Element() el: HTMLCalciteComboboxElement;
+
   private allSelectedIndicatorChipEl: HTMLCalciteChipElement;
 
-  @Element() el: HTMLCalciteComboboxElement;
+  private filterTextMatchPattern: RegExp;
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
@@ -550,14 +564,6 @@ export class Combobox
   @State() selectedHiddenChipsCount = 0;
 
   @State() selectedVisibleChipsCount = 0;
-
-  @State() text = "";
-
-  /** when search text is cleared, reset active to  */
-  @Watch("text")
-  textHandler(): void {
-    this.updateActiveItemIndex(-1);
-  }
 
   @State() effectiveLocale: string;
 
@@ -622,7 +628,7 @@ export class Combobox
 
   private clearInputValue(): void {
     this.textInput.value = "";
-    this.text = "";
+    this.filterText = "";
   }
 
   setFilteredPlacements = (): void => {
@@ -663,47 +669,55 @@ export class Combobox
       case "Tab":
         this.activeChipIndex = -1;
         this.activeItemIndex = -1;
-        if (this.allowCustomValues && this.text) {
-          this.addCustomChip(this.text, true);
+        if (this.allowCustomValues && this.filterText) {
+          this.addCustomChip(this.filterText, true);
           event.preventDefault();
         } else if (this.open) {
           this.open = false;
           event.preventDefault();
-        } else if (!this.allowCustomValues && this.text) {
+        } else if (!this.allowCustomValues && this.filterText) {
           this.clearInputValue();
           this.filterItems("");
           this.updateActiveItemIndex(-1);
         }
         break;
       case "ArrowLeft":
-        this.previousChip();
-        event.preventDefault();
+        if (this.activeChipIndex !== -1 || this.textInput.selectionStart === 0) {
+          this.previousChip();
+          event.preventDefault();
+        }
         break;
       case "ArrowRight":
-        this.nextChip();
-        event.preventDefault();
+        if (this.activeChipIndex !== -1) {
+          this.nextChip();
+          event.preventDefault();
+        }
         break;
       case "ArrowUp":
-        event.preventDefault();
-        if (this.open) {
-          this.shiftActiveItemIndex(-1);
-        }
+        if (this.filteredItems.length) {
+          event.preventDefault();
+          if (this.open) {
+            this.shiftActiveItemIndex(-1);
+          }
 
-        if (!this.comboboxInViewport()) {
-          this.el.scrollIntoView();
+          if (!this.comboboxInViewport()) {
+            this.el.scrollIntoView();
+          }
         }
         break;
       case "ArrowDown":
-        event.preventDefault();
-        if (this.open) {
-          this.shiftActiveItemIndex(1);
-        } else {
-          this.open = true;
-          this.ensureRecentSelectedItemIsActive();
-        }
+        if (this.filteredItems.length) {
+          event.preventDefault();
+          if (this.open) {
+            this.shiftActiveItemIndex(1);
+          } else {
+            this.open = true;
+            this.ensureRecentSelectedItemIsActive();
+          }
 
-        if (!this.comboboxInViewport()) {
-          this.el.scrollIntoView();
+          if (!this.comboboxInViewport()) {
+            this.el.scrollIntoView();
+          }
         }
         break;
       case " ":
@@ -752,8 +766,8 @@ export class Combobox
         } else if (this.activeChipIndex > -1) {
           this.removeActiveChip();
           event.preventDefault();
-        } else if (this.allowCustomValues && this.text) {
-          this.addCustomChip(this.text, true);
+        } else if (this.allowCustomValues && this.filterText) {
+          this.addCustomChip(this.filterText, true);
           event.preventDefault();
         } else if (!event.defaultPrevented) {
           if (submitForm(this)) {
@@ -772,7 +786,7 @@ export class Combobox
         if (this.activeChipIndex > -1) {
           event.preventDefault();
           this.removeActiveChip();
-        } else if (!this.text && this.isMulti()) {
+        } else if (!this.filterText && this.isMulti()) {
           event.preventDefault();
           this.removeLastChip();
         }
@@ -1052,11 +1066,7 @@ export class Combobox
 
   inputHandler = (event: Event): void => {
     const value = (event.target as HTMLInputElement).value;
-    this.text = value;
-    this.filterItems(value);
-    if (value) {
-      this.activeChipIndex = -1;
-    }
+    this.filterText = value;
   };
 
   getItemsAndGroups(): ComboboxChildElement[] {
@@ -1070,11 +1080,18 @@ export class Combobox
         isGroup(item) ? label === item.label : value === item.value && label === item.textLabel,
       );
 
-    return debounce((text: string): void => {
+    return debounce((text: string, setOpenToEmptyState = false, emit = true): void => {
       const filteredData = filter(this.data, text);
       const itemsAndGroups = this.getItemsAndGroups();
 
+      const matchAll = text === "";
+
       itemsAndGroups.forEach((item) => {
+        if (matchAll) {
+          item.hidden = false;
+          return;
+        }
+
         const hidden = !find(item, filteredData);
         item.hidden = hidden;
         const [parent, grandparent] = item.ancestors;
@@ -1088,8 +1105,21 @@ export class Combobox
         }
       });
 
+      this.filterTextMatchPattern =
+        this.filterText && new RegExp(`(${escapeRegExp(this.filterText)})`, "i");
+
       this.filteredItems = this.getFilteredItems();
-      this.calciteComboboxFilterChange.emit();
+      this.filteredItems.forEach((item) => {
+        item.filterTextMatchPattern = this.filterTextMatchPattern;
+      });
+
+      if (setOpenToEmptyState) {
+        this.open = this.filterText.trim().length > 0 && this.filteredItems.length > 0;
+      }
+
+      if (emit) {
+        this.calciteComboboxFilterChange.emit();
+      }
     }, 100);
   })();
 
@@ -1152,7 +1182,7 @@ export class Combobox
   }
 
   getFilteredItems(): HTMLCalciteComboboxItemElement[] {
-    return this.items.filter((item) => !item.hidden);
+    return this.filterText === "" ? this.items : this.items.filter((item) => !item.hidden);
   }
 
   private getSelectedItems = (): HTMLCalciteComboboxItemElement[] => {
@@ -1225,7 +1255,7 @@ export class Combobox
     if (this.textInput) {
       this.textInput.value = "";
     }
-    this.text = "";
+    this.filterText = "";
   }
 
   getItems(): HTMLCalciteComboboxItemElement[] {
@@ -1258,6 +1288,7 @@ export class Combobox
       }
       this.updateItems();
       this.filterItems("");
+      this.open = true;
       this.emitComboboxChange();
     }
   }
@@ -1273,9 +1304,6 @@ export class Combobox
   }
 
   previousChip(): void {
-    if (this.text) {
-      return;
-    }
     const length = this.selectedItems.length - 1;
     const active = this.activeChipIndex;
     this.activeChipIndex = active === -1 ? length : Math.max(active - 1, 0);
@@ -1284,9 +1312,6 @@ export class Combobox
   }
 
   nextChip(): void {
-    if (this.text || this.activeChipIndex === -1) {
-      return;
-    }
     const last = this.selectedItems.length - 1;
     const newIndex = this.activeChipIndex + 1;
     if (newIndex > last) {
@@ -1386,14 +1411,17 @@ export class Combobox
           appearance={readOnly ? "outline" : "solid"}
           class={chipClasses}
           closable={!readOnly}
+          data-test-id={`chip-${i}`}
           icon={item.icon}
           iconFlipRtl={item.iconFlipRtl}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={item.textLabel}
           messageOverrides={{ dismissLabel: messages.removeTag }}
           onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
+          onFocusin={() => (this.activeChipIndex = i)}
           scale={scale}
           selected={item.selected}
+          tabindex={activeChipIndex === i ? 0 : -1}
           title={label}
           value={item.value}
         >
@@ -1592,10 +1620,10 @@ export class Combobox
           class={{
             [CSS.input]: true,
             "input--single": true,
-            "input--transparent": this.activeChipIndex > -1,
             "input--hidden": showLabel,
             "input--icon": this.showingInlineIcon && !!this.placeholderIcon,
           }}
+          data-test-id="input"
           disabled={disabled}
           id={`${inputUidPrefix}${guid}`}
           key="input"
@@ -1605,7 +1633,9 @@ export class Combobox
           readOnly={this.readOnly}
           ref={(el) => (this.textInput = el as HTMLInputElement)}
           role="combobox"
+          tabindex={this.activeChipIndex === -1 ? 0 : -1}
           type="text"
+          value={this.filterText}
         />
       </span>
     );
