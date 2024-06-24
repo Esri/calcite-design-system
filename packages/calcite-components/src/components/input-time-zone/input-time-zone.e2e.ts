@@ -509,19 +509,6 @@ describe("calcite-input-time-zone", () => {
 
     beforeEach(async () => {
       page = await newE2EPage();
-      page.on("console", async (message) => {
-        if (!message.text().includes("JSHandle@error")) {
-          return;
-        }
-
-        const messages = await Promise.all(
-          message.args().map((arg) => {
-            return arg.getProperty("message");
-          }),
-        );
-
-        console.error(`${messages.filter(Boolean)}`);
-      });
     });
 
     describe("displays UTC or GMT based on user's locale (default)", () => {
