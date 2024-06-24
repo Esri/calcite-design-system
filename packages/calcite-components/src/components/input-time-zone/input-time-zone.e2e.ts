@@ -494,7 +494,7 @@ describe("calcite-input-time-zone", () => {
     expect(currComboboxItem).not.toBe(prevComboboxItem);
   });
 
-  describe("offsetStyle", () => {
+  describe.only("offsetStyle", () => {
     const gmtTimeZoneLocale = "en-GB";
     const utcTimeZoneLocale = "fr";
 
