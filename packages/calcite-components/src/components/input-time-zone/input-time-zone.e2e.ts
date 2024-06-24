@@ -510,7 +510,7 @@ describe("calcite-input-time-zone", () => {
     beforeEach(async () => {
       page = await newE2EPage();
       page.on("console", async (message) => {
-        if (message.text() != "JSHandle@error") {
+        if (!message.text().includes("JSHandle@error")) {
           return;
         }
 
