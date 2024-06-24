@@ -1293,11 +1293,11 @@ describe("calcite-slider", () => {
             targetProp: "borderColor",
           },
           "--calcite-slider-tick-color": {
-            shadowSelector: `.${CSS.tick}`,
+            shadowSelector: `.${CSS.tick}:nth-child(2)`,
             targetProp: "backgroundColor",
           },
         };
-        themed(html` <calcite-slider min="0" max="100" value="40" step="10" ticks="10"></calcite-slider> `, tokens);
+        themed(html` <calcite-slider min="0" max="100" step="10" ticks="10"></calcite-slider> `, tokens);
       });
       describe("labeled handles and ticks", () => {
         const tokens: ComponentTestTokens = {
