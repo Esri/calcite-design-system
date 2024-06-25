@@ -1135,11 +1135,6 @@ describe("calcite-slider", () => {
           shadowSelector: `.${CSS.handle}`,
           targetProp: "boxShadow",
         },
-        "--calcite-slider-handle-border-color-active": {
-          shadowSelector: `.${CSS.handle}`,
-          targetProp: "boxShadow",
-          state: { press: { attribute: "class", value: CSS.handle } },
-        },
         "--calcite-slider-handle-border-color-hover": {
           shadowSelector: `.${CSS.handle}`,
           targetProp: "boxShadow",
@@ -1284,21 +1279,49 @@ describe("calcite-slider", () => {
       });
     });
     describe("precise", () => {
-      const tokens: ComponentTestTokens = {
-        "--calcite-slider-precise-handle-color": {
-          shadowSelector: `.${CSS.handleExtension}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-slider-precise-handle-color-hover": {
-          shadowSelector: `.${CSS.handleExtension}`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-      };
-      themed(
-        html` <calcite-slider min="10000" max="100000" value="100000" step="1000" scale="s" precise></calcite-slider> `,
-        tokens,
-      );
+      describe("default and hover", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-precise-handle-color": {
+            shadowSelector: `.${CSS.handleExtension}`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-slider-precise-handle-color-hover": {
+            shadowSelector: `.${CSS.handleExtension}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+        };
+        themed(
+          html` <calcite-slider min="10000" max="100000" value="100000" step="1000" precise></calcite-slider> `,
+          tokens,
+        );
+      });
+      describe("drag", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-precise-handle-color-hover": {
+            shadowSelector: `.${CSS.handleExtension}`,
+            targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: CSS.handleExtension } },
+          },
+        };
+        themed(
+          html` <calcite-slider min="10000" max="100000" value="100000" step="1000" precise></calcite-slider> `,
+          tokens,
+        );
+      });
+      describe("focus", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-precise-handle-color-hover": {
+            shadowSelector: `.${CSS.handleExtension}`,
+            targetProp: "backgroundColor",
+            state: { focus: { attribute: "class", value: CSS.handleExtension } },
+          },
+        };
+        themed(
+          html` <calcite-slider min="10000" max="100000" value="20000" step="1000" precise></calcite-slider> `,
+          tokens,
+        );
+      });
     });
     describe("range", () => {
       const tokens: ComponentTestTokens = {
