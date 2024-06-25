@@ -1167,16 +1167,27 @@ describe("calcite-slider", () => {
       themed(html` <calcite-slider min="0" max="100" value="20" step="10"></calcite-slider> `, tokens);
     });
     describe("disabled", () => {
-      const tokens: ComponentTestTokens = {
-        "--calcite-slider-fill-color": {
-          shadowSelector: `.${CSS.trackRange}`,
-          targetProp: "backgroundColor",
-        },
-      };
-      themed(
-        html` <calcite-slider disabled min="0" max="100" value="20" step="10" ticks="10"></calcite-slider> `,
-        tokens,
-      );
+      describe("default", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-fill-color": {
+            shadowSelector: `.${CSS.trackRange}`,
+            targetProp: "backgroundColor",
+          },
+        };
+        themed(html` <calcite-slider disabled min="0" max="100" value="20" step="10"></calcite-slider> `, tokens);
+      });
+      describe("ticks", () => {
+        const tokens: ComponentTestTokens = {
+          "--calcite-slider-fill-color": {
+            shadowSelector: `.${CSS.tickActive}`,
+            targetProp: "backgroundColor",
+          },
+        };
+        themed(
+          html` <calcite-slider disabled min="0" max="100" value="20" step="10" ticks="10"></calcite-slider> `,
+          tokens,
+        );
+      });
     });
     describe("histogram", () => {
       describe("default", () => {
