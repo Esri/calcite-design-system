@@ -108,3 +108,7 @@
 :host([range][layout="vertical"]) .calendar--start {
   border-block-end-width: 1px;
 }
+
+.noncurrent {
+  @apply pointer-events-none opacity-0;
+}

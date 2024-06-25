@@ -706,7 +706,7 @@ async function getActiveDate(page: E2EPage): Promise<string> {
 
 async function selectDayInMonthById(id: string, page: E2EPage): Promise<void> {
   const day = await page.find(
-    `calcite-date-picker>>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
+    `calcite-date-picker>>> calcite-date-picker-month >>> calcite-date-picker-day[current-month][id="${id}"]`,
   );
   await day.click();
   await page.waitForChanges();

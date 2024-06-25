@@ -506,6 +506,7 @@ export class DatePickerMonth {
             "hover--outside-range": this.startDate && !isHoverInRange,
             "focused--start": isFocusedOnStart,
             "focused--end": !isFocusedOnStart,
+            noncurrent: this.range && !currentMonth,
           }}
           currentMonth={currentMonth}
           dateTimeFormat={this.dateTimeFormat}

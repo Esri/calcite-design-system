@@ -1637,7 +1637,7 @@ async function navigateMonth(page: E2EPage, direction: "previous" | "next", rang
 
 async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
   return await page.find(
-    `calcite-input-date-picker >>> calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
+    `calcite-input-date-picker >>> calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[current-month][id="${id}"]`,
   );
 }
 
