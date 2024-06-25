@@ -40,11 +40,14 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: googleapis/release-please-action@v4
+      - uses: google-github-actions/release-please-action@v3.7.13
         id: release
         with:
+          command: manifest
           token: ${{ secrets.ADMIN_TOKEN }}
-          target-branch: ${{ github.ref_name }}
+          default-branch: ${{ github.ref_name }}
+          extra-files: |
+            packages/calcite-components/readme.md
       - name: Checkout Repository
         if: ${{ steps.release.outputs.releases_created }}
         uses: actions/checkout@v4
