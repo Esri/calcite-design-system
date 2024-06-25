@@ -1159,8 +1159,12 @@ describe("calcite-slider", () => {
           targetProp: "backgroundColor",
           state: "hover",
         },
+        "--calcite-slider-track-color": {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "backgroundColor",
+        },
       };
-      themed(html` <calcite-slider min="0" max="100" value="20" step="10" ticks="10"></calcite-slider> `, tokens);
+      themed(html` <calcite-slider min="0" max="100" value="20" step="10"></calcite-slider> `, tokens);
     });
     describe("disabled", () => {
       const tokens: ComponentTestTokens = {
@@ -1285,6 +1289,29 @@ describe("calcite-slider", () => {
         tokens,
       );
     });
+    describe("range", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-slider-track-color": {
+          shadowSelector: `.${CSS.trackRange}`,
+          targetProp: "backgroundColor",
+        },
+      };
+      themed(
+        html`<calcite-slider
+          min="10000"
+          max="100000"
+          min-value="10000"
+          max-value="100000"
+          step="1000"
+          min-label="Temperature range (lower)"
+          max-label="Temperature range (upper)"
+          label-handles
+          scale="s"
+        >
+        </calcite-slider>`,
+        tokens,
+      );
+    });
     describe("ticks", () => {
       describe("default", () => {
         const tokens: ComponentTestTokens = {
@@ -1294,6 +1321,10 @@ describe("calcite-slider", () => {
           },
           "--calcite-slider-tick-color": {
             shadowSelector: `.${CSS.tick}:nth-child(2)`,
+            targetProp: "backgroundColor",
+          },
+          "--calcite-slider-tick-color-active": {
+            shadowSelector: `.${CSS.tick}`,
             targetProp: "backgroundColor",
           },
         };
