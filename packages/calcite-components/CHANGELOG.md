@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.8...@esri/calcite-components@2.10.0-next.9) (2024-06-25)
+
+### Features
+
+- **panel, flow-item:** add `footer-start` and `footer-end` slots ([#9374](https://github.com/Esri/calcite-design-system/issues/9374)) ([3def3ea](https://github.com/Esri/calcite-design-system/commit/3def3ea51bc69dfd1ebefc6a1ef2bcfe0bdc943c)), closes [#8981](https://github.com/Esri/calcite-design-system/issues/8981)
+
+### Bug Fixes
+
+- **list-item:** improve list item outline ([#9675](https://github.com/Esri/calcite-design-system/issues/9675)) ([b8c2fff](https://github.com/Esri/calcite-design-system/commit/b8c2fffab447ac47c2e4fedab07cafc33b1fe2d9)), closes [#7538](https://github.com/Esri/calcite-design-system/issues/7538)
+
 ## [2.10.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.7...@esri/calcite-components@2.10.0-next.8) (2024-06-24)
 
 ### Features
