@@ -504,8 +504,7 @@ describe("calcite-input-time-zone", () => {
       // all items are formatted equally, so we only need to check the first one
       const firstTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
 
-      expect(offsetMarker).toContain(offsetMarker);
-      expect(firstTimeZoneItem).toBe(firstTimeZoneItem);
+      expect(await firstTimeZoneItem.getProperty("textLabel")).toContain(offsetMarker);
     }
 
     beforeEach(async () => {
@@ -545,6 +544,7 @@ describe("calcite-input-time-zone", () => {
     });
 
     it("supports UTC as a style", async () => {
+      await page.emulateTimezone(testTimeZoneItems[0].name);
       await page.setContent(
         addTimeZoneNamePolyfill(
           html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}" offset-style="utc"></calcite-input-time-zone>`,
