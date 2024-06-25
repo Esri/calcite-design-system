@@ -550,7 +550,7 @@ describe("calcite-input-time-zone", () => {
         ),
       );
 
-      await assertItemLabelMatches(page, "UTC");
+      await assertItemLabelMatches(page, "GMT");
     });
   });
 });
