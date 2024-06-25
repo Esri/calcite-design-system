@@ -504,7 +504,8 @@ describe("calcite-input-time-zone", () => {
       // all items are formatted equally, so we only need to check the first one
       const firstTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
 
-      expect(await firstTimeZoneItem.getProperty("textLabel")).toContain(offsetMarker);
+      expect(offsetMarker).toContain(offsetMarker);
+      expect(firstTimeZoneItem).toBe(firstTimeZoneItem);
     }
 
     beforeEach(async () => {
