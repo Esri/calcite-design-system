@@ -500,12 +500,12 @@ describe("calcite-input-time-zone", () => {
 
     let page: E2EPage;
 
-    // async function assertItemLabelMatches(page: E2EPage, offsetMarker: "GMT" | "UTC"): Promise<void> {
-    //   // all items are formatted equally, so we only need to check the first one
-    //   const firstTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
-    //
-    //   expect(await firstTimeZoneItem.getProperty("textLabel")).toContain(offsetMarker);
-    // }
+    async function assertItemLabelMatches(page: E2EPage, offsetMarker: "GMT" | "UTC"): Promise<void> {
+      // all items are formatted equally, so we only need to check the first one
+      const firstTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
+
+      expect(await firstTimeZoneItem.getProperty("textLabel")).toContain(offsetMarker);
+    }
 
     beforeEach(async () => {
       page = await newE2EPage();
@@ -519,38 +519,38 @@ describe("calcite-input-time-zone", () => {
           ),
         );
 
-        // await assertItemLabelMatches(page, "GMT");
+        await assertItemLabelMatches(page, "GMT");
       });
 
       it("displays UTC for UTC-preferred zone", async () => {
         await page.setContent(
           addTimeZoneNamePolyfill(
-            html`<calcite-input-time-zone lang="${utcTimeZoneLocale}"></calcite-input-time-zone>`,
+            html`<calcite-input-time-zone></calcite-input-time-zone>`,
           ),
         );
 
-        // await assertItemLabelMatches(page, "UTC");
+        await assertItemLabelMatches(page, "UTC");
       });
     });
 
     it("supports GMT as a style", async () => {
       await page.setContent(
         addTimeZoneNamePolyfill(
-          html`<calcite-input-time-zone lang="${utcTimeZoneLocale}" offset-style="gmt"></calcite-input-time-zone>`,
+          html`<calcite-input-time-zone offset-style="gmt"></calcite-input-time-zone>`,
         ),
       );
 
-      // await assertItemLabelMatches(page, "GMT");
+      await assertItemLabelMatches(page, "GMT");
     });
 
     it("supports UTC as a style", async () => {
       await page.setContent(
         addTimeZoneNamePolyfill(
-          html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}" offset-style="utc"></calcite-input-time-zone>`,
+          html`<calcite-input-time-zone offset-style="utc"></calcite-input-time-zone>`,
         ),
       );
 
-      // await assertItemLabelMatches(page, "UTC");
+      await assertItemLabelMatches(page, "UTC");
     });
   });
 });
