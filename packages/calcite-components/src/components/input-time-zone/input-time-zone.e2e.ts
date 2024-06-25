@@ -15,6 +15,14 @@ import {
 import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { toUserFriendlyName } from "./utils";
 
+/*
+ * **Notes**
+ *
+ * - tests need to have an emulated time zone
+ * - test time zones should preferably be unaffected by daylight savings time, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for more info
+ * - not all time zones are supported in Puppeteer's bundled Chromium, so we patch the Intl API with test-specific values/logic
+ */
+
 describe("calcite-input-time-zone", () => {
   type TestTimeZoneItem = {
     name: string;
@@ -493,6 +501,67 @@ describe("calcite-input-time-zone", () => {
     currComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
     expect(currComboboxItem).not.toBe(prevComboboxItem);
   });
+
+  describe("offsetStyle", () => {
+    const gmtTimeZoneLocale = "en-GB";
+    const utcTimeZoneLocale = "fr";
+
+    let page: E2EPage;
+
+    async function assertItemLabelMatches(page: E2EPage, offsetMarker: "GMT" | "UTC"): Promise<void> {
+      // all items are formatted equally, so we only need to check the first one
+      const firstTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
+
+      expect(await firstTimeZoneItem.getProperty("textLabel")).toContain(offsetMarker);
+    }
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.emulateTimezone(testTimeZoneItems[0].name);
+    });
+
+    describe("displays UTC or GMT based on user's locale (default)", () => {
+      it("displays GMT for GMT-preferred locale", async () => {
+        await page.setContent(
+          addTimeZoneNamePolyfill(
+            html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}"></calcite-input-time-zone>`,
+          ),
+        );
+
+        await assertItemLabelMatches(page, "GMT");
+      });
+
+      it("displays UTC for UTC-preferred locale", async () => {
+        await page.setContent(
+          addTimeZoneNamePolyfill(
+            html`<calcite-input-time-zone lang="${utcTimeZoneLocale}"></calcite-input-time-zone>`,
+          ),
+        );
+
+        await assertItemLabelMatches(page, "UTC");
+      });
+    });
+
+    it("supports GMT as a style", async () => {
+      await page.setContent(
+        addTimeZoneNamePolyfill(
+          html`<calcite-input-time-zone lang="${utcTimeZoneLocale}" offset-style="gmt"></calcite-input-time-zone>`,
+        ),
+      );
+
+      await assertItemLabelMatches(page, "GMT");
+    });
+
+    it("supports UTC as a style", async () => {
+      await page.setContent(
+        addTimeZoneNamePolyfill(
+          html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}" offset-style="utc"></calcite-input-time-zone>`,
+        ),
+      );
+
+      await assertItemLabelMatches(page, "UTC");
+    });
+  });
 });
 
 /**
@@ -511,14 +580,17 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
           delete options?.timeZoneName;
           super(locales, options);
           this.originalOptions = originalOptions;
+          this.originalLocales = locales;
         }
 
         formatToParts(date) {
           const originalParts = super.formatToParts(date);
           const timeZoneName = this.originalOptions.timeZoneName;
+          const locale = this.originalLocales;
 
           if (timeZoneName === "shortOffset") {
             const { timeZone } = this.originalOptions;
+
             let offsetString;
 
             // hardcoding GMT and time zone names for this particular test suite
@@ -532,8 +604,10 @@ function addTimeZoneNamePolyfill(testHtml: string): string {
                 offsetString = offsetString.replace("-", "+");
               }
             } else {
+              const offsetMarker = locale === "en-GB" ? "GMT" : locale === "fr" ? "UTC" : "GMT";
+
               offsetString =
-                "GMT" +
+                offsetMarker +
                 (timeZone === "America/Mexico_City" || timeZone === "Pacific/Galapagos"
                   ? "-6"
                   : timeZone === "America/Phoenix"
