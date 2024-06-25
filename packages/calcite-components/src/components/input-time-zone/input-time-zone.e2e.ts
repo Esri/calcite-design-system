@@ -527,7 +527,7 @@ describe("calcite-input-time-zone", () => {
       it("displays GMT for GMT-preferred zone", async () => {
         await page.setContent(
           addTimeZoneNamePolyfill(
-            html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}"></calcite-input-time-zone>`,
+            html`<calcite-input-time-zone></calcite-input-time-zone>`,
           ),
         );
 
