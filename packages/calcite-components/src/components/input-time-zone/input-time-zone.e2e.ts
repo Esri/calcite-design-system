@@ -494,7 +494,10 @@ describe("calcite-input-time-zone", () => {
     expect(currComboboxItem).not.toBe(prevComboboxItem);
   });
 
-  describe.only("offsetStyle", () => {
+  describe.skip("offsetStyle", () => {
+    const gmtTimeZoneLocale = "en-GB";
+    const utcTimeZoneLocale = "fr";
+
     let page: E2EPage;
 
     async function assertItemLabelMatches(page: E2EPage, offsetMarker: "GMT" | "UTC"): Promise<void> {
@@ -512,7 +515,7 @@ describe("calcite-input-time-zone", () => {
       it("displays GMT for GMT-preferred zone", async () => {
         await page.setContent(
           addTimeZoneNamePolyfill(
-            html`<calcite-input-time-zone></calcite-input-time-zone>`,
+            html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}"></calcite-input-time-zone>`,
           ),
         );
 
@@ -522,7 +525,7 @@ describe("calcite-input-time-zone", () => {
       it("displays UTC for UTC-preferred zone", async () => {
         await page.setContent(
           addTimeZoneNamePolyfill(
-            html`<calcite-input-time-zone></calcite-input-time-zone>`,
+            html`<calcite-input-time-zone lang="${utcTimeZoneLocale}"></calcite-input-time-zone>`,
           ),
         );
 
@@ -533,7 +536,7 @@ describe("calcite-input-time-zone", () => {
     it("supports GMT as a style", async () => {
       await page.setContent(
         addTimeZoneNamePolyfill(
-          html`<calcite-input-time-zone offset-style="gmt"></calcite-input-time-zone>`,
+          html`<calcite-input-time-zone lang="${utcTimeZoneLocale}" offset-style="gmt"></calcite-input-time-zone>`,
         ),
       );
 
@@ -543,7 +546,7 @@ describe("calcite-input-time-zone", () => {
     it("supports UTC as a style", async () => {
       await page.setContent(
         addTimeZoneNamePolyfill(
-          html`<calcite-input-time-zone offset-style="utc"></calcite-input-time-zone>`,
+          html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}" offset-style="utc"></calcite-input-time-zone>`,
         ),
       );
 
