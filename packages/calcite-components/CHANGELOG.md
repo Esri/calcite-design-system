@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.9...@esri/calcite-components@2.10.0-next.10) (2024-06-25)
+
+### Features
+
+- **input-time-zone:** add `offsetStyle` prop ([#9426](https://github.com/Esri/calcite-design-system/issues/9426)) ([dbc6c81](https://github.com/Esri/calcite-design-system/commit/dbc6c81ed087fa3ce05c4f2f4eaefc045ef05e9b)), closes [#8716](https://github.com/Esri/calcite-design-system/issues/8716)
+
 ## [2.10.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.8...@esri/calcite-components@2.10.0-next.9) (2024-06-25)
 
 ### Features
