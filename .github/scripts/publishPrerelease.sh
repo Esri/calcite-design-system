@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -o errexit
 
 if [ "$BRANCH" = "dev" ] && [ "$NEXT_RELEASE_ENABLED" != "true" ]; then
     echo "Next release is disabled"
