@@ -2742,6 +2742,11 @@ export namespace Components {
          */
         "form": string;
         /**
+          * Specifies the maximum value.
+          * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
+         */
+        "max": string;
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides": Partial<InputTimePickerMessages & TimePickerMessages>;
@@ -2749,6 +2754,11 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": InputTimePickerMessages;
+        /**
+          * Specifies the minimum value.
+          * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
+         */
+        "min": string;
         /**
           * Specifies the name of the component on form submission.
          */
@@ -10618,6 +10628,11 @@ declare namespace LocalJSX {
          */
         "form"?: string;
         /**
+          * Specifies the maximum value.
+          * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
+         */
+        "max"?: string;
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides"?: Partial<InputTimePickerMessages & TimePickerMessages>;
@@ -10625,6 +10640,11 @@ declare namespace LocalJSX {
           * Made into a prop for testing purposes only
          */
         "messages"?: InputTimePickerMessages;
+        /**
+          * Specifies the minimum value.
+          * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
+         */
+        "min"?: string;
         /**
           * Specifies the name of the component on form submission.
          */
