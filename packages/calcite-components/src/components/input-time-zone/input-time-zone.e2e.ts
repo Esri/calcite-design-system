@@ -15,6 +15,14 @@ import {
 import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { toUserFriendlyName } from "./utils";
 
+/*
+ * **Notes**
+ *
+ * - tests need to have an emulated time zone
+ * - test time zones should preferably be unaffected by daylight savings time, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for more info
+ * - not all time zones are supported in Puppeteer's bundled Chromium, so we patch the Intl API with test-specific values/logic
+ */
+
 describe("calcite-input-time-zone", () => {
   type TestTimeZoneItem = {
     name: string;
@@ -513,7 +521,7 @@ describe("calcite-input-time-zone", () => {
     });
 
     describe("displays UTC or GMT based on user's locale (default)", () => {
-      it("displays GMT for GMT-preferred zone", async () => {
+      it("displays GMT for GMT-preferred locale", async () => {
         await page.setContent(
           addTimeZoneNamePolyfill(
             html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}"></calcite-input-time-zone>`,
@@ -523,7 +531,7 @@ describe("calcite-input-time-zone", () => {
         await assertItemLabelMatches(page, "GMT");
       });
 
-      it("displays UTC for UTC-preferred zone", async () => {
+      it("displays UTC for UTC-preferred locale", async () => {
         await page.setContent(
           addTimeZoneNamePolyfill(
             html`<calcite-input-time-zone lang="${utcTimeZoneLocale}"></calcite-input-time-zone>`,
