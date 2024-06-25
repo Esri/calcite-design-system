@@ -32,7 +32,7 @@
     "util:sync-linked-package-versions": "tsx support/syncLinkedPackageVersions.ts"
   },
   "devDependencies": {
-    "@cspell/eslint-plugin": "8.8.4",
+    "@cspell/eslint-plugin": "8.9.1",
     "@esri/calcite-base": "1.2.0",
     "@esri/calcite-colors": "6.1.0",
     "@prettier/sync": "0.5.2",
@@ -87,9 +87,9 @@
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.29.1",
     "eslint-plugin-jest": "28.6.0",
-    "eslint-plugin-jsdoc": "48.2.12",
+    "eslint-plugin-jsdoc": "48.2.13",
     "eslint-plugin-prettier": "5.1.3",
-    "eslint-plugin-react": "7.34.2",
+    "eslint-plugin-react": "7.34.3",
     "eslint-plugin-unicorn": "54.0.0",
     "globby": "14.0.1",
     "husky": "9.0.11",
