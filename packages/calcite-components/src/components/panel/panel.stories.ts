@@ -65,8 +65,8 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
-  <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
+  <calcite-button slot="${SLOTS.footerStart}" width="half" appearance="outline">Naw.</calcite-button>
+  <calcite-button slot="${SLOTS.footerEnd}" width="half">Yeah!</calcite-button>
 `;
 
 const panelContent = `${headerHTML}
@@ -380,7 +380,7 @@ export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
     >Slotted content!</calcite-panel
   >`;
 
-export const contentTopBottomSlot = (): string => html`
+export const footerAndContentTopBottomSlots = (): string => html`
   <div style="height: 350px; width: 400px; display: flex">
     <calcite-panel height-scale="s">
       <div slot="header-content">Header!</div>
@@ -398,4 +398,46 @@ export const contentTopBottomSlot = (): string => html`
       <p slot="footer">Slotted content!</p>
     </calcite-panel>
   </div>
+`;
+
+export const footerStartAndEndSlots = (): string => html`
+  <calcite-panel style="height: 200px">
+    <div slot="header-content">header-content slot</div>
+    <p>Slotted content!</p>
+    <div slot="content-bottom">Slot for a content-bottom.</div>
+    <calcite-button
+      type="button"
+      slot="footer-start"
+      kind="neutral"
+      scale="s"
+      id="card-icon-test-1"
+      icon-start="check"
+    ></calcite-button>
+    <calcite-button
+      type="button"
+      slot="footer-end"
+      kind="neutral"
+      scale="s"
+      id="card-icon-test-1"
+      icon-start="check"
+    ></calcite-button>
+  </calcite-panel>
+`;
+
+export const footerSlotPrecedence = (): string => html`
+  <calcite-panel style="height: 200px">
+    <p>Slotted content!</p>
+    <div slot="header-content">header-content slot</div>
+    <div slot="content-bottom">Slot for a content-bottom.</div>
+    <calcite-button
+      type="button"
+      slot="footer"
+      kind="neutral"
+      scale="s"
+      id="card-icon-test-1"
+      icon-start="check"
+      width="full"
+    ></calcite-button>
+    ${footerHTML}
+  </calcite-panel>
 `;

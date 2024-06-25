@@ -65,15 +65,17 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
-  <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
+  <calcite-button slot="${SLOTS.footerStart}" width="half" appearance="outline">Naw.</calcite-button>
+  <calcite-button slot="${SLOTS.footerEnd}" width="half">Yeah!</calcite-button>
 `;
 
 const flowItemContent = `${headerHTML}
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
   ${contentHTML}
-  ${footerHTML}`;
+  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
+  <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
+  `;
 
 export const simple = (args: FlowItemStoryArgs): string => html`
   <calcite-flow-item
@@ -91,7 +93,8 @@ export const simple = (args: FlowItemStoryArgs): string => html`
     <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
     ${contentHTML}
     <calcite-fab slot="fab"></calcite-fab>
-    ${footerHTML}
+    <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
+    <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
   </calcite-flow-item>
 `;
 
@@ -218,13 +221,34 @@ export const withActionBarAndContentTop_TestOnly = (): string =>
     </calcite-flow-item>
   </div>`;
 
-export const footerPaddingAndContentBottom_TestOnly = (): string =>
+export const footerPaddingAndContentBottom = (): string =>
+  html` <div style="width: 300px;">
+    <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+      <div slot="header-content">Header!</div>
+      <p>Slotted content!</p>
+      <div slot="content-bottom">Content bottom!</div>
+      <div slot="footer">Footer!</div>
+    </calcite-flow-item>
+  </div>`;
+
+export const footerStartEndAndContentBottom = (): string =>
+  html`<div style="width: 300px; height: 300px;">
+    <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+      <div slot="header-content">Header!</div>
+      <p>Slotted content!</p>
+      <div slot="content-bottom">Content bottom!</div>
+      ${footerHTML}
+    </calcite-flow-item>
+  </div>`;
+
+export const footerSlotPrecedence = (): string =>
   html`<div style="width: 300px;">
     <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
       <div slot="content-bottom">Content bottom!</div>
       <div slot="footer">Footer!</div>
+      ${footerHTML}
     </calcite-flow-item>
   </div>`;
 
