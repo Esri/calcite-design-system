@@ -7,6 +7,7 @@
  * @prop --calcite-block-section-border-color: Specifies the border color of the component. Applicable on bottom border when open.
  * @prop --calcite-block-section-heading-text-color-hover: Specifies the component's heading text color on hover.
  * @prop --calcite-block-section-heading-text-color: Specifies the component's heading text color.
+ * @prop --calcite-block-section-icon-color: Specifies the component's heading text color.
  * @prop --calcite-block-section-status-icon-color: Specifies the status icon color of the component.
  * @prop --calcite-block-section-switch-corner-radius: Specifies the border radius of the switch.
  * @prop --calcite-block-section-switch-handle-background-color: Specifies the background color of the switch handle.
@@ -143,6 +144,11 @@
 
 .chevron-icon {
   @apply flex items-center;
+}
+
+.icon--start,
+.icon--end {
+  --calcite-icon-color: var(--calcite-internal-block-section-icon-color);
 }
 
 calcite-switch {
