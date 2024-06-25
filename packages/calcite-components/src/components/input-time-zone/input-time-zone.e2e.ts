@@ -495,9 +495,6 @@ describe("calcite-input-time-zone", () => {
   });
 
   describe.only("offsetStyle", () => {
-    const gmtTimeZoneLocale = "en-GB";
-    const utcTimeZoneLocale = "fr";
-
     let page: E2EPage;
 
     async function assertItemLabelMatches(page: E2EPage, offsetMarker: "GMT" | "UTC"): Promise<void> {
