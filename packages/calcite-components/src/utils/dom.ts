@@ -537,7 +537,7 @@ export function slotChangeHasAssignedNode(event: Event): boolean {
  * @returns {boolean} Whether the slot has any assigned nodes.
  */
 export function slotChangeGetAssignedNodes(event: Event): Node[] {
-  return (event.target as HTMLSlotElement).assignedNodes({
+  return (event.currentTarget as HTMLSlotElement).assignedNodes({
     flatten: true,
   });
 }
@@ -567,7 +567,7 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * @returns {boolean} Whether the slot has any assigned elements.
  */
 export function slotChangeGetAssignedElements(event: Event): Element[] {
-  return (event.target as HTMLSlotElement).assignedElements({
+  return (event.currentTarget as HTMLSlotElement).assignedElements({
     flatten: true,
   });
 }
