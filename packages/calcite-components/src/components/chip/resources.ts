@@ -8,11 +8,13 @@ export const CSS = {
   imageSlotted: "image--slotted",
   closable: "closable",
   multiple: "multiple",
+  single: "single",
   selectable: "selectable",
   selectIcon: "select-icon",
   selectIconActive: "select-icon--active",
   nonInteractive: "non-interactive",
   isCircle: "is-circle",
+  selected: "selected",
 };
 
 export const SLOTS = {
