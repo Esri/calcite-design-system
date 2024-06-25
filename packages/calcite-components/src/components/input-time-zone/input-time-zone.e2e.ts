@@ -509,9 +509,10 @@ describe("calcite-input-time-zone", () => {
 
     beforeEach(async () => {
       page = await newE2EPage();
+      await page.emulateTimezone(testTimeZoneItems[0].name);
     });
 
-    describe.skip("displays UTC or GMT based on user's locale (default)", () => {
+    describe("displays UTC or GMT based on user's locale (default)", () => {
       it("displays GMT for GMT-preferred zone", async () => {
         await page.setContent(
           addTimeZoneNamePolyfill(
@@ -533,7 +534,7 @@ describe("calcite-input-time-zone", () => {
       });
     });
 
-    it.skip("supports GMT as a style", async () => {
+    it("supports GMT as a style", async () => {
       await page.setContent(
         addTimeZoneNamePolyfill(
           html`<calcite-input-time-zone lang="${utcTimeZoneLocale}" offset-style="gmt"></calcite-input-time-zone>`,
@@ -544,14 +545,13 @@ describe("calcite-input-time-zone", () => {
     });
 
     it("supports UTC as a style", async () => {
-      await page.emulateTimezone(testTimeZoneItems[0].name);
       await page.setContent(
         addTimeZoneNamePolyfill(
           html`<calcite-input-time-zone lang="${gmtTimeZoneLocale}" offset-style="utc"></calcite-input-time-zone>`,
         ),
       );
 
-      await assertItemLabelMatches(page, "GMT");
+      await assertItemLabelMatches(page, "UTC");
     });
   });
 });
