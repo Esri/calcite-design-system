@@ -854,6 +854,10 @@ export class InputDatePicker
     this.datePickerEl.reset();
   }
 
+  onFocusTrapDeactivate(): void {
+    this.open = false;
+  }
+
   setStartInput = (el: HTMLCalciteInputElement): void => {
     this.startInput = el;
   };
@@ -933,10 +937,6 @@ export class InputDatePicker
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();
-    } else if (key === "Escape") {
-      this.open = false;
-      event.preventDefault();
-      this.restoreInputFocus();
     }
   };
 

@@ -508,6 +508,10 @@ export class Popover
     deactivateFocusTrap(this);
   }
 
+  onFocusTrapDeactivate(): void {
+    this.open = false;
+  }
+
   storeArrowEl = (el: SVGElement): void => {
     this.arrowEl = el;
     this.reposition(true);

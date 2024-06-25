@@ -559,6 +559,10 @@ export class InputTimePicker
     this.calciteInputTimePickerClose.emit();
   }
 
+  onFocusTrapDeactivate(): void {
+    this.open = false;
+  }
+
   private delocalizeTimeString(value: string): string {
     // we need to set the corresponding locale before parsing, otherwise it defaults to English (possible dayjs bug)
     dayjs.locale(this.effectiveLocale.toLowerCase());
@@ -724,10 +728,6 @@ export class InputTimePicker
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();
-    } else if (key === "Escape" && this.open) {
-      this.open = false;
-      event.preventDefault();
-      this.calciteInputEl.setFocus();
     }
   };
 

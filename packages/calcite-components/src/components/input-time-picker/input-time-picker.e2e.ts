@@ -12,7 +12,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests";
-import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
+import { getFocusedElementProp, GlobalTestProps, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
 
@@ -861,6 +861,21 @@ describe("calcite-input-time-picker", () => {
       const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
       const stopgapDelayUntilOpenCloseEventsAreImplemented = 500;
 
+      type InputTimePickerEventOrderWindow = GlobalTestProps<{ events: string[] }>;
+
+      await page.$eval("calcite-input-time-picker", (sheet: HTMLCalciteInputTimePickerElement) => {
+        const receivedEvents: string[] = [];
+        (window as InputTimePickerEventOrderWindow).events = receivedEvents;
+
+        ["calciteInputTimePickerOpen", "calciteInputTimePickerClose"].forEach((eventType) => {
+          sheet.addEventListener(eventType, (event) => receivedEvents.push(event.type));
+        });
+      });
+
+      const inputTimePicker = await page.find("calcite-input-time-picker");
+      const openSpy = await inputTimePicker.spyOnEvent("calciteInputDatePickerOpen");
+      const closeSpy = await inputTimePicker.spyOnEvent("calciteInputDatePickerClose");
+
       await page.keyboard.press("Tab");
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
 
@@ -876,6 +891,7 @@ describe("calcite-input-time-picker", () => {
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
       await page.waitForTimeout(stopgapDelayUntilOpenCloseEventsAreImplemented);
+      expect(openSpy).toHaveReceivedEventTimes(1);
 
       expect(await popover.isVisible()).toBe(true);
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-TIME-PICKER");
@@ -891,6 +907,7 @@ describe("calcite-input-time-picker", () => {
       await page.keyboard.press("Escape");
       await page.waitForChanges();
       await page.waitForTimeout(stopgapDelayUntilOpenCloseEventsAreImplemented);
+      expect(closeSpy).toHaveReceivedEventTimes(1);
 
       expect(await popover.isVisible()).toBe(false);
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
@@ -924,17 +941,21 @@ describe("calcite-input-time-picker", () => {
 
     it("toggles the time picker when clicked", async () => {
       let popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+      const openSpy = await inputTimePicker.spyOnEvent("calciteInputDatePickerOpen");
+      const closeSpy = await inputTimePicker.spyOnEvent("calciteInputDatePickerClose");
 
       expect(await popover.isVisible()).toBe(false);
 
       await inputTimePicker.click();
       await page.waitForChanges();
+      expect(openSpy).toHaveReceivedEventTimes(1);
       popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
       expect(await popover.isVisible()).toBe(true);
 
       await inputTimePicker.click();
       await page.waitForChanges();
+      expect(closeSpy).toHaveReceivedEventTimes(1);
       popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
       expect(await popover.isVisible()).toBe(false);
@@ -942,6 +963,8 @@ describe("calcite-input-time-picker", () => {
 
     it("toggles the time picker when using arrow down/escape key", async () => {
       let popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+      const openSpy = await inputTimePicker.spyOnEvent("calciteInputDatePickerOpen");
+      const closeSpy = await inputTimePicker.spyOnEvent("calciteInputDatePickerClose");
 
       expect(await popover.isVisible()).toBe(false);
 
@@ -949,12 +972,14 @@ describe("calcite-input-time-picker", () => {
       await page.waitForChanges();
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
+      expect(openSpy).toHaveReceivedEventTimes(1);
       popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
       expect(await popover.isVisible()).toBe(true);
 
       await page.keyboard.press("Escape");
       await page.waitForChanges();
+      expect(closeSpy).toHaveReceivedEventTimes(1);
       popover = await page.find("calcite-input-time-picker >>> calcite-popover");
 
       expect(await popover.isVisible()).toBe(false);
