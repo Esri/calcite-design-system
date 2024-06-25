@@ -224,10 +224,10 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
     /** Icon scale is not variable as the component does not have a scale property */
     return (
       <calcite-icon
-        class={isIconStart ? this.iconStart : this.iconEnd}
+        class={isIconStart ? CSS.iconStart : CSS.iconEnd}
         flipRtl={isIconStart ? flipRtlStart : flipRtlEnd}
         icon={isIconStart ? this.iconStart : this.iconEnd}
-        key={isIconStart ? CSS.iconStart : CSS.iconEnd}
+        key={isIconStart ? this.iconStart : this.iconEnd}
         scale="s"
       />
     );
