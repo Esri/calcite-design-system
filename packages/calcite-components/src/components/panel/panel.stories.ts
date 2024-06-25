@@ -65,8 +65,8 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footerStart}" width="half" appearance="outline">Naw.</calcite-button>
-  <calcite-button slot="${SLOTS.footerEnd}" width="half">Yeah!</calcite-button>
+  <calcite-button slot="${SLOTS.footerStart}" width="half" appearance="outline">Footer start</calcite-button>
+  <calcite-button slot="${SLOTS.footerEnd}" width="half">Footer end</calcite-button>
 `;
 
 const panelContent = `${headerHTML}
@@ -253,7 +253,7 @@ export const actionBarBackgroundColor_TestOnly = (): string =>
     <p style="height: 400px">Hello world!</p>
     <p style="height: 400px">Hello world!</p>
     <p style="height: 400px">Hello world!</p>
-    <p slot="footer">Slotted content!</p>
+    <p slot="footer">Footer!</p>
   </calcite-panel>`;
 
 export const footerWithoutContent_TestOnly = (): string =>
@@ -262,7 +262,7 @@ export const footerWithoutContent_TestOnly = (): string =>
     heading="Header!"
     style="width: 300px; height:auto; --calcite-panel-header-border-block-end:none;"
   >
-    <p slot="footer">Footer content!</p>
+    <p slot="footer">Footer!</p>
   </calcite-panel>`;
 
 export const actionBarWithoutContent_TestOnly = (): string =>
@@ -309,7 +309,7 @@ export const footerAndActionBarWithoutContent_TestOnly = (): string =>
         <calcite-action text="Layers" icon="layers"> </calcite-action>
       </calcite-action-group>
     </calcite-action-bar>
-    <p slot="footer">Footer content!</p>
+    <p slot="footer">Footer!</p>
   </calcite-panel>`;
 
 export const flexContent_TestOnly = (): string =>
@@ -395,7 +395,7 @@ export const footerAndContentTopBottomSlots = (): string => html`
       <p>Hello world!</p>
       <p>Hello world!</p>
       <div slot="content-bottom">Slot for a content-bottom.</div>
-      <p slot="footer">Slotted content!</p>
+      <p slot="footer">Footer!</p>
     </calcite-panel>
   </div>
 `;
@@ -405,22 +405,12 @@ export const footerStartAndEndSlots = (): string => html`
     <div slot="header-content">header-content slot</div>
     <p>Slotted content!</p>
     <div slot="content-bottom">Slot for a content-bottom.</div>
-    <calcite-button
-      type="button"
-      slot="footer-start"
-      kind="neutral"
-      scale="s"
-      id="card-icon-test-1"
-      icon-start="check"
-    ></calcite-button>
-    <calcite-button
-      type="button"
-      slot="footer-end"
-      kind="neutral"
-      scale="s"
-      id="card-icon-test-1"
-      icon-start="check"
-    ></calcite-button>
+    <calcite-button type="button" slot="footer-start" kind="neutral" scale="s" id="card-icon-test-1" icon-start="check"
+      >Footer start</calcite-button
+    >
+    <calcite-button type="button" slot="footer-end" kind="neutral" scale="s" id="card-icon-test-1" icon-start="check"
+      >Footer end</calcite-button
+    >
   </calcite-panel>
 `;
 

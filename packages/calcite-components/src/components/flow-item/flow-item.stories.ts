@@ -65,16 +65,16 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footerStart}" width="half" appearance="outline">Naw.</calcite-button>
-  <calcite-button slot="${SLOTS.footerEnd}" width="half">Yeah!</calcite-button>
+  <calcite-button slot="${SLOTS.footerStart}" width="half" appearance="outline">Footer start</calcite-button>
+  <calcite-button slot="${SLOTS.footerEnd}" width="half">Footer end</calcite-button>
 `;
 
 const flowItemContent = `${headerHTML}
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
   <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
   ${contentHTML}
-  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
-  <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
+  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Footer</calcite-button>
+  <calcite-button slot="${SLOTS.footer}" width="half">Footer</calcite-button>
   `;
 
 export const simple = (args: FlowItemStoryArgs): string => html`
@@ -93,8 +93,8 @@ export const simple = (args: FlowItemStoryArgs): string => html`
     <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
     ${contentHTML}
     <calcite-fab slot="fab"></calcite-fab>
-    <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
-    <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
+    <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Footer</calcite-button>
+    <calcite-button slot="${SLOTS.footer}" width="half">Footer</calcite-button>
   </calcite-flow-item>
 `;
 
