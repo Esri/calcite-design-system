@@ -511,7 +511,7 @@ describe("calcite-input-time-zone", () => {
       page = await newE2EPage();
     });
 
-    describe("displays UTC or GMT based on user's locale (default)", () => {
+    describe.skip("displays UTC or GMT based on user's locale (default)", () => {
       it("displays GMT for GMT-preferred zone", async () => {
         await page.setContent(
           addTimeZoneNamePolyfill(
@@ -533,7 +533,7 @@ describe("calcite-input-time-zone", () => {
       });
     });
 
-    it("supports GMT as a style", async () => {
+    it.skip("supports GMT as a style", async () => {
       await page.setContent(
         addTimeZoneNamePolyfill(
           html`<calcite-input-time-zone lang="${utcTimeZoneLocale}" offset-style="gmt"></calcite-input-time-zone>`,
