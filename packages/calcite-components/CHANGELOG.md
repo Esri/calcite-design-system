@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.10...@esri/calcite-components@2.10.0-next.11) (2024-06-25)
+
+### Features
+
+- **input-date-picker, input-time-picker:** support form validation for min/max constraints ([#9677](https://github.com/Esri/calcite-design-system/issues/9677)) ([38fd878](https://github.com/Esri/calcite-design-system/commit/38fd8785c1056770c7261a7be7e92692a8394bc9)), closes [#8065](https://github.com/Esri/calcite-design-system/issues/8065) [#9282](https://github.com/Esri/calcite-design-system/issues/9282)
+
+### Bug Fixes
+
+- **flow-item:** fix inverted footer start/end slots ([#9681](https://github.com/Esri/calcite-design-system/issues/9681)) ([69cd6a5](https://github.com/Esri/calcite-design-system/commit/69cd6a5bdeb69da38b5c6482f8e44073a556a464)), closes [#8981](https://github.com/Esri/calcite-design-system/issues/8981)
+
 ## [2.10.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.9...@esri/calcite-components@2.10.0-next.10) (2024-06-25)
 
 ### Features
