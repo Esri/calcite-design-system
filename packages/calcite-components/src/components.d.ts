@@ -34,8 +34,8 @@ import { ColorPickerMessages } from "./components/color-picker/assets/color-pick
 import { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
 import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
-import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
+import { DateLocaleData } from "./components/date-picker/utils";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 import { FilterMessages } from "./components/filter/assets/filter/t9n";
@@ -125,8 +125,8 @@ export { ColorPickerMessages } from "./components/color-picker/assets/color-pick
 export { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
 export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
-export { DateLocaleData } from "./components/date-picker/utils"
 export { HoverRange } from "./utils/date";
+export { DateLocaleData } from "./components/date-picker/utils";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 export { FilterMessages } from "./components/filter/assets/filter/t9n";

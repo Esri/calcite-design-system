@@ -533,16 +533,17 @@ export class DatePickerMonth {
     );
   }
 
-  private renderCalendar(weekDays: string[], days: Day[], isNextMonth = false): VNode {
+  private renderCalendar(weekDays: string[], days: Day[], isEndCalendar = false): VNode {
     return (
       <div
         class={{
           calendar: true,
-          "calendar--start": !isNextMonth,
+          "calendar--start": !isEndCalendar,
         }}
       >
         <calcite-date-picker-month-header
-          activeDate={isNextMonth ? nextMonth(this.activeDate) : this.activeDate}
+          activeDate={isEndCalendar ? nextMonth(this.activeDate) : this.activeDate}
+          data-test-calendar={isEndCalendar ? "end" : "start"}
           headingLevel={this.headingLevel}
           localeData={this.localeData}
           max={this.max}
@@ -550,11 +551,11 @@ export class DatePickerMonth {
           min={this.min}
           monthAbbreviations={this.monthAbbreviations}
           onCalciteInternalDatePickerMonthHeaderSelect={this.monthHeaderSelectChange}
-          position={isNextMonth ? "end" : this.range ? "start" : null}
+          position={isEndCalendar ? "end" : this.range ? "start" : null}
           scale={this.scale}
           selectedDate={this.selectedDate}
         />
-        {this.renderMonthCalendar(weekDays, days, isNextMonth)}
+        {this.renderMonthCalendar(weekDays, days, isEndCalendar)}
       </div>
     );
   }
@@ -666,7 +667,7 @@ export class DatePickerMonth {
     return days;
   };
 
-  private renderMonthCalendar(weekDays: string[], days: Day[], isNextMonth = false): VNode {
+  private renderMonthCalendar(weekDays: string[], days: Day[], isEndCalendar = false): VNode {
     return (
       <div class="month" onKeyDown={this.keyDownHandler}>
         <div class="week-header-container" role="row">
@@ -678,7 +679,7 @@ export class DatePickerMonth {
         </div>
 
         <div class="week-days" role="row">
-          {days.map((day, index) => this.renderDateDay(day, isNextMonth ? 50 + index : index))}
+          {days.map((day, index) => this.renderDateDay(day, isEndCalendar ? 50 + index : index))}
         </div>
       </div>
     );

@@ -292,6 +292,10 @@ export class DatePickerMonthHeader {
 
   private defaultMaxYear = 2050;
 
+  private defaultMinISOYear = new Date("1950-01-01");
+
+  private defaultMaxISOYear = new Date("2050-12-31");
+
   @Watch("min")
   @Watch("max")
   @Watch("activeDate")
@@ -425,10 +429,10 @@ export class DatePickerMonthHeader {
   }
 
   private isMonthInRange = (index: number): boolean => {
-    const activeDateInMonth = new Date(this.activeDate.getFullYear(), index, 1);
+    const newActiveDate = activeDateInMonth(this.activeDate, index);
     return (
-      activeDateInMonth > (this.max || new Date("2050-12-31")) ||
-      activeDateInMonth < (this.min || new Date("1950-01-01"))
+      newActiveDate > (this.max || this.defaultMaxISOYear) ||
+      newActiveDate < (this.min || this.defaultMinISOYear)
     );
   };
 

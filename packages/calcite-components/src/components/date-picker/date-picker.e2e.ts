@@ -622,6 +622,73 @@ describe("calcite-date-picker", () => {
   });
 });
 
+describe("month & year select menu", () => {
+  it("should allow selecting last valid month from month select menu in start calendar", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-date-picker range max="2024-10-21"></calcite-date-picker>`);
+
+    await setActiveDate(page, "07-01-2024");
+    await page.waitForChanges();
+
+    const [monthSelectStart, monthSelectEnd] = await page.findAll(
+      "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select",
+    );
+    const [yearSelectStart, yearSelectEnd] = await page.findAll(
+      "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.year-select",
+    );
+    expect(await yearSelectStart.getProperty("value")).toBe("2024");
+    expect(await yearSelectEnd.getProperty("value")).toBe("2024");
+    expect(await monthSelectStart.getProperty("value")).toBe("July");
+    expect(await monthSelectEnd.getProperty("value")).toBe("August");
+
+    await monthSelectStart.click();
+    await page.waitForChanges();
+
+    await page.select(
+      "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select >>> select",
+      "October",
+    );
+    await page.waitForChanges();
+
+    expect(await monthSelectStart.getProperty("value")).toBe("October");
+    expect(await monthSelectEnd.getProperty("value")).toBe("November");
+    expect(await yearSelectEnd.getProperty("value")).toBe("2024");
+    expect(await yearSelectStart.getProperty("value")).toBe("2024");
+  });
+
+  it("should allow selecting first valid month from month select menu in end calendar", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-date-picker range min="2024-01-21"></calcite-date-picker>`);
+
+    await setActiveDate(page, "01-01-2024");
+    await page.waitForChanges();
+
+    const [monthSelectStart, monthSelectEnd] = await page.findAll(
+      "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.month-select",
+    );
+    const [yearSelectStart, yearSelectEnd] = await page.findAll(
+      "calcite-date-picker >>> calcite-date-picker-month-header >>> calcite-select.year-select",
+    );
+    expect(await yearSelectStart.getProperty("value")).toBe("2024");
+    expect(await yearSelectEnd.getProperty("value")).toBe("2024");
+    expect(await monthSelectStart.getProperty("value")).toBe("January");
+    expect(await monthSelectEnd.getProperty("value")).toBe("February");
+
+    await monthSelectEnd.click();
+    await page.waitForChanges();
+
+    await page.select(
+      `calcite-date-picker >>> [data-test-calendar="end"] >>> calcite-select.month-select >>> select`,
+      "January",
+    );
+    await page.waitForChanges();
+    await page.waitForTimeout(2000);
+    expect(await monthSelectStart.getProperty("value")).toBe("December");
+    expect(await yearSelectEnd.getProperty("value")).toBe("2024");
+    expect(await yearSelectStart.getProperty("value")).toBe("2023");
+  });
+});
+
 async function setActiveDate(page: E2EPage, date: string): Promise<void> {
   await page.evaluate((date) => {
     const datePicker = document.querySelector("calcite-date-picker");
