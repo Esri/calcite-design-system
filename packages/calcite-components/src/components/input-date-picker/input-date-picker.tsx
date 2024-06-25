@@ -87,6 +87,7 @@ import { guid } from "../../utils/guid";
 import { componentOnReady, getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
+import { syncHiddenFormInput } from "../input/common/input";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
 import { CSS } from "./resources";
@@ -854,6 +855,10 @@ export class InputDatePicker
     deactivateFocusTrap(this);
     this.focusOnOpen = false;
     this.datePickerEl.reset();
+  }
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    syncHiddenFormInput("date", this, input);
   }
 
   setStartInput = (el: HTMLCalciteInputElement): void => {

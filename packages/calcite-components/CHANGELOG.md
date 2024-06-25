@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.10...@esri/calcite-components@2.10.0-next.11) (2024-06-25)
+
+### Features
+
+- **input-date-picker, input-time-picker:** support form validation for min/max constraints ([#9677](https://github.com/Esri/calcite-design-system/issues/9677)) ([38fd878](https://github.com/Esri/calcite-design-system/commit/38fd8785c1056770c7261a7be7e92692a8394bc9)), closes [#8065](https://github.com/Esri/calcite-design-system/issues/8065) [#9282](https://github.com/Esri/calcite-design-system/issues/9282)
+
+### Bug Fixes
+
+- **flow-item:** fix inverted footer start/end slots ([#9681](https://github.com/Esri/calcite-design-system/issues/9681)) ([69cd6a5](https://github.com/Esri/calcite-design-system/commit/69cd6a5bdeb69da38b5c6482f8e44073a556a464)), closes [#8981](https://github.com/Esri/calcite-design-system/issues/8981)
+
+## [2.10.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.9...@esri/calcite-components@2.10.0-next.10) (2024-06-25)
+
+### Features
+
+- **input-time-zone:** add `offsetStyle` prop ([#9426](https://github.com/Esri/calcite-design-system/issues/9426)) ([dbc6c81](https://github.com/Esri/calcite-design-system/commit/dbc6c81ed087fa3ce05c4f2f4eaefc045ef05e9b)), closes [#8716](https://github.com/Esri/calcite-design-system/issues/8716)
+
+## [2.10.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.8...@esri/calcite-components@2.10.0-next.9) (2024-06-25)
+
+### Features
+
+- **panel, flow-item:** add `footer-start` and `footer-end` slots ([#9374](https://github.com/Esri/calcite-design-system/issues/9374)) ([3def3ea](https://github.com/Esri/calcite-design-system/commit/3def3ea51bc69dfd1ebefc6a1ef2bcfe0bdc943c)), closes [#8981](https://github.com/Esri/calcite-design-system/issues/8981)
+
+### Bug Fixes
+
+- **list-item:** improve list item outline ([#9675](https://github.com/Esri/calcite-design-system/issues/9675)) ([b8c2fff](https://github.com/Esri/calcite-design-system/commit/b8c2fffab447ac47c2e4fedab07cafc33b1fe2d9)), closes [#7538](https://github.com/Esri/calcite-design-system/issues/7538)
+
 ## [2.10.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.7...@esri/calcite-components@2.10.0-next.8) (2024-06-24)
 
 ### Features
