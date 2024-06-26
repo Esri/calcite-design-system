@@ -132,11 +132,11 @@
 }
 
 calcite-switch {
+  --calcite-switch-border-color: var(--calcite-block-section-switch-border-color);
   --calcite-switch-corner-radius: var(--calcite-block-section-switch-corner-radius);
   --calcite-switch-handle-background-color: var(--calcite-block-section-switch-handle-background-color);
   --calcite-switch-handle-border-color: var(--calcite-block-section-switch-handle-border-color);
   --calcite-switch-track-background-color: var(--calcite-block-section-switch-track-background-color);
-  --calcite-switch-track-border-color: var(--calcite-block-section-switch-track-border-color);
 
   &:focus,
   &:hover {
@@ -144,9 +144,9 @@ calcite-switch {
   }
 
   &[checked] {
+    --calcite-switch-border-color: var(--calcite-block-section-switch-border-color-checked);
     --calcite-switch-handle-border-color: var(--calcite-block-section-switch-handle-border-color-checked);
     --calcite-switch-track-background-color: var(--calcite-block-section-switch-track-background-color-checked);
-    --calcite-switch-track-border-color: var(--calcite-block-section-switch-track-border-color-checked);
   }
 }
 

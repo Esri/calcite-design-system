@@ -235,7 +235,7 @@ describe("calcite-block-section", () => {
 
   describe("theme", () => {
     describe("default", () => {
-      themed(html`<calcite-block-section heading="heading" description="description"></calcite-block-section>`, {
+      themed(html`<calcite-block-section text="text"></calcite-block-section>`, {
         "--calcite-block-section-background-color": {
           targetProp: "backgroundColor",
         },
@@ -263,11 +263,6 @@ describe("calcite-block-section", () => {
         "--calcite-block-section-border-color": {
           targetProp: "borderColor",
         },
-        "--calcite-block-section-heading-text-color-hover": {
-          shadowSelector: `.${CSS.sectionHeader}`,
-          targetProp: "color",
-          state: "hover",
-        },
       });
     });
 
@@ -291,9 +286,9 @@ describe("calcite-block-section", () => {
           shadowSelector: `calcite-switch`,
           targetProp: "--calcite-switch-track-background-color",
         },
-        "--calcite-block-section-switch-track-border-color-checked": {
+        "--calcite-block-section-switch-border-color-checked": {
           shadowSelector: `calcite-switch`,
-          targetProp: "--calcite-switch-track-border-color",
+          targetProp: "--calcite-switch-border-color",
         },
       });
     });
@@ -321,9 +316,9 @@ describe("calcite-block-section", () => {
           shadowSelector: `calcite-switch`,
           targetProp: "--calcite-switch-track-background-color",
         },
-        "--calcite-block-section-switch-track-border-color": {
+        "--calcite-block-section-switch-border-color": {
           shadowSelector: `calcite-switch`,
-          targetProp: "--calcite-switch-track-border-color",
+          targetProp: "--calcite-switch-border-color",
         },
       });
     });
