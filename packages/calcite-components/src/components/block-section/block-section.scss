@@ -18,6 +18,7 @@
  * @prop --calcite-block-section-switch-track-background-color: Specifies the background color of the switch track.
  * @prop --calcite-block-section-switch-track-border-color-checked: Specifies the border color of the switch track when checked.
  * @prop --calcite-block-section-switch-track-border-color: Specifies the border color of the switch track.
+ * @prop --calcite-block-section-text-color: Specifies the text color of the component.
  * @prop --calcite-block-section-toggle-icon-color: Specifies the icon color of the toggle.
  */
 
@@ -27,7 +28,7 @@
     text-n1;
 
   background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-color-text-2);
+  color: var(--calcite-block-section-text-color, var(--calcite-color-text-2));
 }
 
 :host([open]) {
@@ -36,22 +37,6 @@
   @apply border-0
     border-b
     border-solid;
-
-  .toggle {
-    color: var(--calcite-color-text-1);
-
-    &:hover {
-      color: var(--calcite-color-text-1);
-    }
-  }
-
-  .chevron-icon {
-    color: var(--calcite-color-text-3);
-
-    &:hover {
-      color: var(--calcite-color-text-1);
-    }
-  }
 }
 
 :host(:last-child) {
@@ -63,10 +48,6 @@
 
   background-color: var(--calcite-color-transparent);
   gap: var(--calcite-spacing-md);
-
-  .chevron-icon {
-    --calcite-icon-color: var(--calcite-block-section-toggle-icon-color);
-  }
 }
 
 .status-icon {
@@ -76,12 +57,7 @@
   );
 
   gap: var(--calcite-spacing-md);
-  color: var(--calcite-color-text-2);
   font-weight: var(--calcite-font-weight-normal);
-
-  &:hover {
-    color: var(--calcite-color-text-1);
-  }
 }
 
 .status-icon.valid {
@@ -137,42 +113,22 @@
     @apply flex flex-auto items-center;
   }
 
-  .icon--end,
-  .icon--start,
-  .chevron-icon {
-    @apply flex items-center;
-
-    color: var(--calcite-color-text-3);
-
-    &:hover {
-      color: var(--calcite-color-text-1);
-    }
-  }
-
   .switch {
     @apply flex items-center;
   }
 }
 
-.status-icon {
-  @apply flex items-center;
-}
-
-.status-icon.valid {
-  color: theme("colors.success");
-}
-
-.status-icon.invalid {
-  color: theme("colors.danger");
-}
-
 .icon--start,
 .icon--end {
-  --calcite-icon-color: var(--calcite-internal-block-section-icon-color);
+  --calcite-icon-color: var(--calcite-internal-block-section-icon-color, var(--calcite-color-text-3));
 }
 
 .chevron-icon {
-  @apply flex items-center;
+  --calcite-icon-color: var(--calcite-block-section-toggle-icon-color, var(--calcite-color-text-3));
+
+  &:hover {
+    --calcite-icon-color: var(--calcite-block-section-toggle-icon-color-hover, var(--calcite-color-text-1));
+  }
 }
 
 calcite-switch {

@@ -248,6 +248,9 @@ describe("calcite-block-section", () => {
           targetProp: "color",
           state: "hover",
         },
+        "--calcite-block-section-text-color": {
+          targetProp: "color",
+        },
         "--calcite-block-section-toggle-icon-color": {
           shadowSelector: `.${CSS.chevronIcon}`,
           targetProp: "color",
