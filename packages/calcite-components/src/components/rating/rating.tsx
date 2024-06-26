@@ -39,6 +39,7 @@ import { focusFirstTabbable } from "../../utils/dom";
 import { RatingMessages } from "./assets/rating/t9n";
 import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-rating",
@@ -228,9 +229,9 @@ export class Rating
         onPointerOver={this.handleRatingPointerOver}
       >
         <InteractiveContainer disabled={this.disabled}>
-          <span class="wrapper">
-            <fieldset class="fieldset" disabled={this.disabled}>
-              <legend class="visually-hidden">{this.messages.rating}</legend>
+          <span class={CSS.wrapper}>
+            <fieldset class={CSS.fieldset} disabled={this.disabled}>
+              <legend class={CSS.visuallyHidden}>{this.messages.rating}</legend>
               {this.starsMap.map(
                 ({
                   average,
@@ -246,11 +247,11 @@ export class Rating
                   return (
                     <label
                       class={{
-                        star: true,
-                        selected,
-                        hovered,
-                        average,
-                        partial,
+                        [CSS.star]: true,
+                        [CSS.selected]: selected,
+                        [CSS.hovered]: hovered,
+                        [CSS.average]: average,
+                        [CSS.partial]: partial,
                       }}
                       data-value={value}
                       htmlFor={id}

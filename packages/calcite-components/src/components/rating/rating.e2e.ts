@@ -13,6 +13,7 @@ import {
 import { isElementFocused } from "../../tests/utils";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-rating", () => {
   describe("common tests", () => {
@@ -778,8 +779,7 @@ describe("calcite-rating", () => {
           targetProp: "--calcite-internal-rating-spacing",
         },
         "--calcite-rating-outline-color": {
-          // TODO: add resources.ts file for storing this in a single place
-          shadowSelector: `.star`,
+          shadowSelector: `.${CSS.star}`,
           targetProp: "color",
         },
         "--calcite-rating-outline-color-hover": {
@@ -798,8 +798,7 @@ describe("calcite-rating", () => {
     describe("average with chip", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-rating-average-fill-color": {
-          // TODO: add resources.ts file for storing this in a single place
-          shadowSelector: `.average`,
+          shadowSelector: `.${CSS.average}`,
           targetProp: "color",
         },
         "--calcite-rating-chip-background-color": {
