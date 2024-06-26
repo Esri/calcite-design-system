@@ -44,7 +44,7 @@ jobs:
         id: release
         with:
           token: ${{ secrets.ADMIN_TOKEN }}
-          target-branch: ${{ github.ref_name }}
+          target-branch: main
       - name: Checkout Repository
         if: steps.release.outputs.releases_created == 'true'
         uses: actions/checkout@v4
