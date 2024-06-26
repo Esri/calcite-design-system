@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.11...@esri/calcite-components@2.10.0-next.12) (2024-06-25)
+
+### Bug Fixes
+
+- **combobox, dropdown, input-date-picker, popover, tooltip:** fix initialization logic in components output target ([#9470](https://github.com/Esri/calcite-design-system/issues/9470)) ([087bc92](https://github.com/Esri/calcite-design-system/commit/087bc922fe9de497cd54fe132a4ca32d0f9247f9)), closes [#9468](https://github.com/Esri/calcite-design-system/issues/9468)
+- **popover:** prevent closing when component is connected to the DOM via a click ([#9501](https://github.com/Esri/calcite-design-system/issues/9501)) ([d35bf65](https://github.com/Esri/calcite-design-system/commit/d35bf65753c8c417accae21776601f15d9ddf1a1)), closes [#9504](https://github.com/Esri/calcite-design-system/issues/9504)
+
+## [2.10.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.10...@esri/calcite-components@2.10.0-next.11) (2024-06-25)
+
+### Features
+
+- **input-date-picker, input-time-picker:** support form validation for min/max constraints ([#9677](https://github.com/Esri/calcite-design-system/issues/9677)) ([38fd878](https://github.com/Esri/calcite-design-system/commit/38fd8785c1056770c7261a7be7e92692a8394bc9)), closes [#8065](https://github.com/Esri/calcite-design-system/issues/8065) [#9282](https://github.com/Esri/calcite-design-system/issues/9282)
+
+### Bug Fixes
+
+- **flow-item:** fix inverted footer start/end slots ([#9681](https://github.com/Esri/calcite-design-system/issues/9681)) ([69cd6a5](https://github.com/Esri/calcite-design-system/commit/69cd6a5bdeb69da38b5c6482f8e44073a556a464)), closes [#8981](https://github.com/Esri/calcite-design-system/issues/8981)
+
+## [2.10.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.9...@esri/calcite-components@2.10.0-next.10) (2024-06-25)
+
+### Features
+
+- **input-time-zone:** add `offsetStyle` prop ([#9426](https://github.com/Esri/calcite-design-system/issues/9426)) ([dbc6c81](https://github.com/Esri/calcite-design-system/commit/dbc6c81ed087fa3ce05c4f2f4eaefc045ef05e9b)), closes [#8716](https://github.com/Esri/calcite-design-system/issues/8716)
+
 ## [2.10.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.0-next.8...@esri/calcite-components@2.10.0-next.9) (2024-06-25)
 
 ### Features

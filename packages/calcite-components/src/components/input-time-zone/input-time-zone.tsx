@@ -54,7 +54,7 @@ import {
   getUserTimeZoneOffset,
 } from "./utils";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
-import { TimeZoneItem, TimeZoneMode } from "./interfaces";
+import { OffsetStyle, TimeZoneItem, TimeZoneMode } from "./interfaces";
 
 @Component({
   tag: "calcite-input-time-zone",
@@ -137,6 +137,19 @@ export class InputTimeZone
   handleTimeZoneItemPropsChange(): void {
     this.updateTimeZoneItemsAndSelection();
   }
+
+  /**
+   * Specifies how the offset will be displayed, where
+   *
+   * `"user"` uses `UTC` or `GMT` depending on the user's locale,
+   * `"gmt"` always uses `GMT`, and
+   * `"utc"` always uses `UTC`.
+   *
+   * This only applies to the `offset` mode.
+   *
+   * @default "user"
+   */
+  @Prop({ reflect: true }) offsetStyle: OffsetStyle = "user";
 
   /** Specifies the validation message to display under the component. */
   @Prop() validationMessage: string;
@@ -409,6 +422,7 @@ export class InputTimeZone
       this.referenceDate instanceof Date
         ? this.referenceDate
         : new Date(this.referenceDate ?? Date.now()),
+      this.offsetStyle,
     );
   }
 

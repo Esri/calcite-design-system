@@ -85,10 +85,11 @@ import {
   FocusTrapComponent,
 } from "../../utils/focusTrapComponent";
 import { guid } from "../../utils/guid";
-import { componentOnReady, getIconScale } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
+import { syncHiddenFormInput } from "../input/common/input";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
 import { CSS } from "./resources";
@@ -462,7 +463,7 @@ export class InputDatePicker
   //
   // --------------------------------------------------------------------------
 
-  async connectedCallback(): Promise<void> {
+  connectedCallback(): void {
     connectInteractive(this);
     connectLocalized(this);
 
@@ -509,9 +510,7 @@ export class InputDatePicker
       onToggleOpenCloseComponent(this);
     }
 
-    await componentOnReady(this.el);
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
-    this.localizeInputValues();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -523,6 +522,8 @@ export class InputDatePicker
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    this.localizeInputValues();
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   disconnectedCallback(): void {
@@ -853,6 +854,10 @@ export class InputDatePicker
     this.restoreInputFocus();
     this.focusOnOpen = false;
     this.datePickerEl.reset();
+  }
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    syncHiddenFormInput("date", this, input);
   }
 
   setStartInput = (el: HTMLCalciteInputElement): void => {

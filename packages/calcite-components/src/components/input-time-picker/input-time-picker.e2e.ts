@@ -600,6 +600,7 @@ describe("calcite-input-time-picker", () => {
       submitsOnEnter: true,
       validation: true,
       validUserInputTestValue: "03:23 AM",
+      inputType: "time",
     });
   });
 
