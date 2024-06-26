@@ -858,6 +858,16 @@ export const allVariants = (): string => html`
   </div>
 `;
 
+allVariants.decorators = [
+  (storyFn: () => string) => html` <div style="width: 1800px; display: flex;">${storyFn()}</div>`,
+];
+allVariants.parameters = {
+  chromatic: {
+    delay: 1000,
+    viewports: [1800],
+  },
+};
+
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-tile
     description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
