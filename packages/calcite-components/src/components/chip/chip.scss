@@ -1,8 +1,13 @@
 :host([scale="s"]) {
   @apply text-n2 h-6;
-  // padding-inline: var(--calcite-spacing-xxs);
+
   --calcite-chip-spacing-s-internal: theme("spacing[1]");
   --calcite-chip-spacing-l-internal: theme("spacing[2]");
+
+  // padding-inline: var(--calcite-inernal-chip-padding);
+  // padding-inline-start: var(--calcite-inernal-chip-padding-start);
+  // padding-inline-end: var(--calcite-inernal-chip-padding-end);
+
   .close,
   .select-icon--active {
     @apply h-4 w-4;
@@ -53,7 +58,6 @@
 
 :host([scale="m"]) {
   @apply text-n1 h-8;
-  // padding-inline: var(--calcite-spacing-xs);
   --calcite-chip-spacing-s-internal: theme("spacing[1.5]");
   --calcite-chip-spacing-l-internal: theme("spacing[2]");
 
@@ -106,9 +110,10 @@
 
 :host([scale="l"]) {
   @apply text-0 h-11;
-  // padding-inline: var(--calcite-spacing-sm);
+
   --calcite-chip-spacing-s-internal: theme("spacing[2]");
   --calcite-chip-spacing-l-internal: theme("spacing[3]");
+
   .image-container,
   .close,
   .select-icon--active {
@@ -167,11 +172,7 @@
   justify-center
   box-border
   font-medium;
-  //affects small scale with text only
-  // &:not(.is-circle) {
-  //   padding-inline-start: var(--calcite-spacing-px);
-  //   padding-inline-end: var(--calcite-spacing-xxs);
-  // }
+
   &.selectable {
     @apply cursor-pointer;
   }
@@ -204,10 +205,6 @@
 .container:not(.image--slotted) .image-container {
   display: none;
 }
-// affects small text + closable
-// .container.closable {
-//   padding-inline-end: calc(var(--calcite-chip-spacing-l-internal) / 2);
-// }
 
 .container:not(.is-circle) {
   &.image--slotted .image-container {
