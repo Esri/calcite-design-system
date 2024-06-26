@@ -771,23 +771,59 @@ describe("calcite-rating", () => {
   });
 
   describe("theme", () => {
-    const tokens: ComponentTestTokens = {
-      "--calcite-rating-spacing": {
-        selector: `calcite-rating`,
-        targetProp: "--calcite-internal-rating-spacing",
-      },
-      "--calcite-rating-outline-color": {
-        // TODO: add resources.ts file for storing this in a single place
-        shadowSelector: `.star`,
-        targetProp: "color",
-      },
-      // "--calcite-rating-outline-color-hover": {
-      //   // TODO: add resources.ts file for storing this in a single place
-      //   shadowSelector: `.hovered`,
-      //   targetProp: "color",
-      //   state: { hover: { attribute: "class", value: "hovered" } },
-      // },
-    };
-    themed(async () => html`<calcite-rating></calcite-rating>`, tokens);
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-rating-spacing": {
+          selector: `calcite-rating`,
+          targetProp: "--calcite-internal-rating-spacing",
+        },
+        "--calcite-rating-outline-color": {
+          // TODO: add resources.ts file for storing this in a single place
+          shadowSelector: `.star`,
+          targetProp: "color",
+        },
+        "--calcite-rating-outline-color-hover": {
+          shadowSelector: "label",
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-rating-value-fill-color": {
+          shadowSelector: "label",
+          targetProp: "color",
+          state: { press: { attribute: "class", value: "star" } },
+        },
+      };
+      themed(async () => html`<calcite-rating></calcite-rating>`, tokens);
+    });
+    describe("average with chip", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-rating-average-fill-color": {
+          // TODO: add resources.ts file for storing this in a single place
+          shadowSelector: `.average`,
+          targetProp: "color",
+        },
+        "--calcite-rating-chip-background-color": {
+          shadowSelector: "calcite-chip",
+          targetProp: "--calcite-chip-background-color",
+        },
+        "--calcite-rating-chip-border-color": {
+          shadowSelector: "calcite-chip",
+          targetProp: "--calcite-chip-border-color",
+        },
+        "--calcite-rating-chip-shadow": {
+          shadowSelector: "calcite-chip",
+          targetProp: "--calcite-chip-shadow",
+        },
+        "--calcite-rating-chip-corner-radius": {
+          shadowSelector: "calcite-chip",
+          targetProp: "--calcite-chip-corner-radius",
+        },
+        "--calcite-rating-chip-text-color": {
+          shadowSelector: "calcite-chip",
+          targetProp: "--calcite-chip-text-color",
+        },
+      };
+      themed(async () => html`<calcite-rating average="3.65" show-chip></calcite-rating>`, tokens);
+    });
   });
 });
