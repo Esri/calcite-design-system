@@ -403,7 +403,7 @@ export class Block
         class={iconClass}
         flipRtl={flipRtl}
         icon={iconValue}
-        key={iconClass}
+        key={iconValue}
         scale="s"
       />
     );
