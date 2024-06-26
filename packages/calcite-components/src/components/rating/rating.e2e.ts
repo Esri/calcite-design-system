@@ -8,8 +8,11 @@ import {
   labelable,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { isElementFocused } from "../../tests/utils";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { html } from "../../../support/formatting";
 
 describe("calcite-rating", () => {
   describe("common tests", () => {
@@ -765,5 +768,26 @@ describe("calcite-rating", () => {
       expect(changeEvent).toHaveReceivedEventTimes(0);
       expect(element).toEqualAttribute("value", "2");
     });
+  });
+
+  describe("theme", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-rating-spacing": {
+        selector: `calcite-rating`,
+        targetProp: "--calcite-internal-rating-spacing",
+      },
+      "--calcite-rating-outline-color": {
+        // TODO: add resources.ts file for storing this in a single place
+        shadowSelector: `.star`,
+        targetProp: "color",
+      },
+      // "--calcite-rating-outline-color-hover": {
+      //   // TODO: add resources.ts file for storing this in a single place
+      //   shadowSelector: `.hovered`,
+      //   targetProp: "color",
+      //   state: { hover: { attribute: "class", value: "hovered" } },
+      // },
+    };
+    themed(async () => html`<calcite-rating></calcite-rating>`, tokens);
   });
 });
