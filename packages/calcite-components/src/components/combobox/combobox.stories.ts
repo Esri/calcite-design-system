@@ -811,3 +811,28 @@ export const readOnlyAllModes = (): string => html`
     </calcite-combobox-item>
   </calcite-combobox>
 `;
+
+export const filterHighlighting = (): string => html`
+  <calcite-combobox filter-text="Susan" max-items="6" open>
+    <calcite-combobox-item value="Trees" text-label="Trees">
+      <calcite-combobox-item value="Pine" text-label="Pine">
+        <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+      <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+    </calcite-combobox-item>
+    <calcite-combobox-item value="Flowers" text-label="Flowers">
+      <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+      <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+      <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+    </calcite-combobox-item>
+    <calcite-combobox-item value="Animals" text-label="Animals">
+      <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+      <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+      <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+    </calcite-combobox-item>
+    <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+    <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+    <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+  </calcite-combobox>
+`;

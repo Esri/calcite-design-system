@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "Chọn múi giờ.",
+  "offsetPlaceholder": "Tìm kiếm theo thành phố, vùng hoặc khu vực offset",
+  "namePlaceholder": "Tìm kiếm theo múi giờ",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidjan",
   "Africa/Accra": "Accra",

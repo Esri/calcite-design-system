@@ -79,6 +79,8 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { focusFirstTabbable } from "../../utils/dom";
+import { syncHiddenFormInput } from "../input/common/input";
 import { CSS } from "./resources";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 
@@ -229,6 +231,20 @@ export class InputTimePicker
       this.open = false;
     }
   }
+
+  /**
+   * Specifies the maximum value.
+   *
+   * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
+   */
+  @Prop({ reflect: true }) max: string;
+
+  /**
+   * Specifies the minimum value.
+   *
+   * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
+   */
+  @Prop({ reflect: true }) min: string;
 
   /**
    * Use this property to override individual strings used by the component.
@@ -523,7 +539,7 @@ export class InputTimePicker
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.el);
   }
 
   /**
@@ -556,6 +572,10 @@ export class InputTimePicker
 
   onClose(): void {
     this.calciteInputTimePickerClose.emit();
+  }
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    syncHiddenFormInput("time", this, input);
   }
 
   private delocalizeTimeString(value: string): string {

@@ -10,4 +10,5 @@ export const CSS = {
   selected: "label--selected",
   title: "title",
   textContainer: "text-container",
+  filterMatch: "filter-match",
 };

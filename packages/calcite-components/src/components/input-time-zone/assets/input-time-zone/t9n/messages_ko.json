@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "표준 시간대를 선택합니다.",
+  "offsetPlaceholder": "도시, 지역 또는 오프셋으로 검색",
+  "namePlaceholder": "표준 시간대로 검색",
   "timeZoneLabel": "({offset}){cities}",
   "Africa/Abidjan": "아비장",
   "Africa/Accra": "아크라",

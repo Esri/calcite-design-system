@@ -22,18 +22,16 @@ When releasing during normal work hours, you should block people from merging PR
 Follow these steps to release a major, minor, or patch version:
 
 1. Follow the steps above to [prevent merging pull requests](#prevent-merging-pull-requests).
-1. [Create a new branch](https://github.com/Esri/calcite-design-system/branches) off of `dev`.
-1. Create a pull request from the new branch with `main` as the target.
-1. Once the pull request is ready to install, enable "Allow rebase merging" under the Pull Requests section of the [repo settings](https://github.com/Esri/calcite-design-system/settings).
-   ![image](https://github.com/Esri/calcite-design-system/assets/10986395/9fa8be42-7923-47f9-b2d8-df65416e88cc)
-1. In the pull request created in step 3, switch the merge method to "Rebase and merge" and install.
-   ![image](https://github.com/Esri/calcite-design-system/assets/10986395/fcbfa86d-950f-459f-8ecd-e468d4373415)
-1. Disable the "Allow rebase merging" option from step 4.
+1. Sync the changes from `dev` to `main` by dispatching the "Deploy Latest" workflow following [GitHub's documentation](https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow), or using `gh`:
+
+   ```sh
+   gh workflow run deploy-latest.yml
+   ```
+
 1. Wait for the [Deploy Latest](https://github.com/Esri/calcite-design-system/actions/workflows/deploy-latest.yml) workflow run on `main` to complete.
 1. Review the PR created by `release-please` (titled `chore: release main`) to make sure the changelog(s) and package versioning looks correct.
    - There should be a commit on the PR's branch named `docs: remove prerelease changelog entries` that occurred **after** the most recent commit on `main`.
-1. Make sure the rest of the PR checks are passing.
-1. Approve and install the PR once all checks are passing. You will need to use Admin privilege to override the 6 approval rule.
+1. Approve and install the PR. You will need to use Admin privilege to override the 6 approval rule.
 1. Wait for the release's [Deploy Latest](https://github.com/Esri/calcite-design-system/actions/workflows/deploy-latest.yml) workflow run to finish.
 1. Ensure the released package(s) were deployed to NPM and that [GitHub Releases were created](https://github.com/Esri/calcite-design-system/releases).
 
@@ -44,13 +42,7 @@ Follow these steps to release a major, minor, or patch version:
    ```
 
 1. See the [troubleshooting](#troubleshooting) section if something went wrong, or reach out to Ben or Franco for help.
-1. Create a new branch off of `dev` and cherry-pick the release commit from `main` (the version bumps and changelog sections).
-
-   ```sh
-   git checkout dev && git pull && git checkout -b cherry-pick-release && git cherry-pick main && git push -u HEAD
-   ```
-
-1. Create a pull request from the new branch to `dev`, and install it by squash merging.
+1. A pull request should have been created that cherry-picks the release commit from `main` to `dev`. Review and install the PR using admin privilege.
 1. Change the `dev` branch's required approvals back to 1 and save the changes (see the [Prevent merging PRs](#prevent-merging-pull-requests) section)
 1. Let the team know via Teams merging is now unblocked in the initial `Core - Releases` message from earlier.
 
@@ -59,12 +51,15 @@ Follow these steps to release a major, minor, or patch version:
 The following are some troubleshooting steps you can take if a release is unsuccessful.
 
 1. Find the workflow run for the release [here](https://github.com/Esri/calcite-design-system/actions/workflows/deploy-latest.yml), and view the logs to find the error message.
-1. Fix the error. In some cases you can resolve the issue with a temporary solution, and then fix the CI after the release is completed. For example, if the `components.d.ts` file is outdated and breaks releases due to an unclean working tree, the [temporary solution](https://github.com/Esri/calcite-design-system/pull/9008) would be to build locally and submit a PR with the updated file. That way you won't be so time crunched when determining an [actual fix](https://github.com/Esri/calcite-design-system/pull/9011) to prevent the same error from occurring in the future. Reach out to Ben or Franco if a solution to the error isn't clear.
+1. Fix the error:
+   - In some cases you can resolve the issue with a temporary solution, and then fix the CI after the release is completed. For example, if the `components.d.ts` file is outdated and breaks releases due to an unclean working tree, the [temporary solution](https://github.com/Esri/calcite-design-system/pull/9008) would be to build locally and submit a PR with the updated file. That way you won't be so time crunched when determining an [actual fix](https://github.com/Esri/calcite-design-system/pull/9011) to prevent the same error from occurring in the future. Reach out to Ben or Franco if a solution to the error isn't clear.
+   - If the `dev`->`main` sync failed, you may have to resolve merge conflicts locally. See the "Sync dev to main" step in the `deploy-latest.yml` workflow for the process.
+   - If the release succeeded, but the cherry-pick PR wasn't created, you may need to fix merge conflicts locally.
 1. Once the PR with the fix is installed, make sure the new workflow run is passing.
 1. **IMPORTANT:** If the new release is showing up in the [GitHub releases](https://github.com/Esri/calcite-design-system/releases) but not on NPM, you'll need to release locally. This signifies the error involved publishing to NPM, which happens after the releases and tags are created on GitHub. To release locally, run the following commands:
 
 ```sh
-npm install && npm run build && npm test && npm run publish:latest
+git fetch && git checkout origin/main && npm install && npm run build && npm test && npm run publish:latest
 ```
 
 ### Bumping the examples

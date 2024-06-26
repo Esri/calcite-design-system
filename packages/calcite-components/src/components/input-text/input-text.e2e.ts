@@ -12,7 +12,7 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
-import { selectText } from "../../tests/utils";
+import { assertCaretPosition, selectText } from "../../tests/utils";
 import {
   testHiddenInputSyncing,
   testPostValidationFocusing,
@@ -383,14 +383,6 @@ describe("calcite-input-text", () => {
   });
 
   it("ArrowUp/ArrowDown function of moving caret to the beginning/end of text", async () => {
-    const determineCaretIndex = (position?: number): Promise<boolean> => {
-      return page.evaluate((position) => {
-        const element = document.querySelector("calcite-input-text") as HTMLCalciteInputTextElement;
-        const el = element.shadowRoot.querySelector("input");
-        return el.selectionStart === (position !== undefined ? position : el.value.length);
-      }, position);
-    };
-
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-text></calcite-input-text>`);
     const element = await page.find("calcite-input-text");
@@ -403,12 +395,19 @@ describe("calcite-input-text", () => {
     await page.keyboard.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(await determineCaretIndex(0)).toBeTruthy();
+    await assertCaretPosition({
+      page,
+      componentTag: "calcite-input-text",
+      position: 0,
+    });
 
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(await determineCaretIndex()).toBeTruthy();
+    await assertCaretPosition({
+      page,
+      componentTag: "calcite-input-text",
+    });
   });
 
   it("allows disabling slotted action", async () => {

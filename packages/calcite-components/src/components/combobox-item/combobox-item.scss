@@ -158,3 +158,9 @@ ul:focus {
 :host(:hover[disabled]) .icon {
   opacity: var(--calcite-opacity-full);
 }
+
+.filter-match {
+  font-weight: var(--calcite-font-weight-bold);
+  color: var(--calcite-color-text-1);
+  background-color: var(--calcite-color-foreground-current);
+}

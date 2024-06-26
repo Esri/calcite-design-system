@@ -13,7 +13,7 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests";
-import { getElementRect, getElementXY, selectText } from "../../tests/utils";
+import { assertCaretPosition, getElementRect, getElementXY, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import {
@@ -1607,14 +1607,6 @@ describe("calcite-input-number", () => {
   describe("ArrowUp/ArrowDown function of moving caret to the beginning/end of text", () => {
     let page: E2EPage;
 
-    const determineCaretIndex = (position?: number): Promise<boolean> => {
-      return page.evaluate((position) => {
-        const element = document.querySelector("calcite-input-number") as HTMLCalciteInputNumberElement;
-        const el = element.shadowRoot.querySelector("input");
-        return el.selectionStart === (position !== undefined ? position : el.value.length);
-      }, position);
-    };
-
     beforeEach(async () => {
       page = await newE2EPage();
     });
@@ -1631,13 +1623,21 @@ describe("calcite-input-number", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(await determineCaretIndex()).toBeTruthy();
+      await assertCaretPosition({
+        page,
+        componentTag: "calcite-input-number",
+      });
+
       expect(await element.getProperty("value")).toBe("12346");
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(await determineCaretIndex()).toBeTruthy();
+      await assertCaretPosition({
+        page,
+        componentTag: "calcite-input-number",
+      });
+
       expect(await element.getProperty("value")).toBe("12345");
     });
 
