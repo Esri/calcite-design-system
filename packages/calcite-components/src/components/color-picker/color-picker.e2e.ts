@@ -196,15 +196,14 @@ describe("calcite-color-picker", () => {
     const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
     await selectText(channelInput);
     await channelInput.type("254");
-    await channelInput.press("Enter");
     await page.waitForChanges();
-    expect(changeSpy).toHaveReceivedEventTimes(4);
-    expect(inputSpy).toHaveReceivedEventTimes(4);
+    expect(changeSpy).toHaveReceivedEventTimes(6);
+    expect(inputSpy).toHaveReceivedEventTimes(6);
 
     // change by clicking stored color
     await (await page.find(`calcite-color-picker >>> .${CSS.savedColor}`)).click();
-    expect(changeSpy).toHaveReceivedEventTimes(5);
-    expect(inputSpy).toHaveReceivedEventTimes(5);
+    expect(changeSpy).toHaveReceivedEventTimes(7);
+    expect(inputSpy).toHaveReceivedEventTimes(7);
 
     // change by dragging color field thumb
     const mouseDragSteps = 10;
@@ -222,8 +221,8 @@ describe("calcite-color-picker", () => {
     await page.mouse.up();
     await page.waitForChanges();
 
-    expect(changeSpy).toHaveReceivedEventTimes(6);
-    expect(inputSpy.length).toBeGreaterThan(6); // input event fires more than once
+    expect(changeSpy).toHaveReceivedEventTimes(8);
+    expect(inputSpy.length).toBeGreaterThan(8); // input event fires more than once
 
     // change by dragging hue slider thumb
     [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
@@ -235,7 +234,7 @@ describe("calcite-color-picker", () => {
     await page.mouse.up();
     await page.waitForChanges();
 
-    expect(changeSpy).toHaveReceivedEventTimes(7);
+    expect(changeSpy).toHaveReceivedEventTimes(9);
     expect(inputSpy.length).toBeGreaterThan(previousInputEventLength + 1); // input event fires more than once
 
     previousInputEventLength = inputSpy.length;
@@ -246,7 +245,7 @@ describe("calcite-color-picker", () => {
     picker.setProperty("value", "#fff");
     await page.waitForChanges();
 
-    expect(changeSpy).toHaveReceivedEventTimes(7);
+    expect(changeSpy).toHaveReceivedEventTimes(9);
     expect(inputSpy.length).toBe(previousInputEventLength);
   });
 

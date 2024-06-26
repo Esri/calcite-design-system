@@ -4,6 +4,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
@@ -340,6 +341,10 @@ export class ColorPicker
 
   private shiftKeyChannelAdjustment = 0;
 
+  private arrowUpOrDownTracker = "";
+
+  private channelInputClear = false;
+
   @State() channelMode: ColorMode = "rgb";
 
   @State() channels: Channels = this.toChannels(DEFAULT_COLOR);
@@ -478,6 +483,9 @@ export class ColorPicker
 
     if (!input.value) {
       inputValue = "";
+      this.channelInputClear = true;
+      // reset this to allow typing in new value when channel input is empty
+      this.arrowUpOrDownTracker = "";
     } else {
       const value = Number(input.value);
       const adjustedValue = value + this.shiftKeyChannelAdjustment;
@@ -503,7 +511,7 @@ export class ColorPicker
 
     // restore original value when input field is left blank
     if (!input.value && !this.isClearable) {
-      input.value = channels[channelIndex].toString();
+      input.value = channels[channelIndex]?.toString();
     }
   };
 
@@ -544,6 +552,19 @@ export class ColorPicker
         : key === "ArrowDown" && shiftKey
           ? -complementaryBump
           : 0;
+
+    if (key === "ArrowUp") {
+      this.arrowUpOrDownTracker = "arrowUp";
+    }
+    if (key === "ArrowDown") {
+      this.arrowUpOrDownTracker = "arrowDown";
+    }
+  }
+
+  private getChannelInputLimit(channelIndex: number): number {
+    return this.channelMode === "rgb"
+      ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
+      : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
   }
 
   private handleChannelChange = (event: CustomEvent): void => {
@@ -560,6 +581,18 @@ export class ColorPicker
     }
 
     const isAlphaChannel = channelIndex === 3;
+
+    if (this.channelInputClear && this.arrowUpOrDownTracker !== "") {
+      input.value =
+        this.arrowUpOrDownTracker === "arrowUp"
+          ? (channels[channelIndex] + 1 <= this.getChannelInputLimit(channelIndex)
+              ? channels[channelIndex] + 1
+              : this.getChannelInputLimit(channelIndex)
+            ).toString()
+          : (channels[channelIndex] - 1 >= 0 ? channels[channelIndex] - 1 : 0).toString();
+      this.channelInputClear = false;
+      this.arrowUpOrDownTracker = "";
+    }
     const value = input.value ? Number(input.value) : channels[channelIndex];
 
     channels[channelIndex] = isAlphaChannel ? opacityToAlpha(value) : value;
@@ -814,176 +847,178 @@ export class ColorPicker
     );
 
     return (
-      <InteractiveContainer disabled={this.disabled}>
-        <div class={CSS.container}>
-          <div class={CSS.controlAndScope}>
-            <canvas
-              class={CSS.colorField}
-              onPointerDown={this.handleColorFieldPointerDown}
-              ref={this.initColorField}
-            />
-            <div
-              aria-label={vertical ? messages.value : messages.saturation}
-              aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
-              aria-valuemin="0"
-              aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
-              class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
-              onKeyDown={this.handleColorFieldScopeKeyDown}
-              ref={this.storeColorFieldScope}
-              role="slider"
-              style={{
-                top: `${adjustedColorFieldScopeTop || 0}px`,
-                left: `${adjustedColorFieldScopeLeft || 0}px`,
-              }}
-              tabindex="0"
-            />
-          </div>
-          <div class={CSS.previewAndSliders}>
-            <calcite-color-picker-swatch
-              class={CSS.preview}
-              color={selectedColorInHex}
-              scale={this.alphaChannel ? "l" : this.scale}
-            />
-            <div class={CSS.sliders}>
-              <div class={CSS.controlAndScope}>
-                <canvas
-                  class={{ [CSS.slider]: true, [CSS.hueSlider]: true }}
-                  onPointerDown={this.handleHueSliderPointerDown}
-                  ref={this.initHueSlider}
-                />
-                <div
-                  aria-label={messages.hue}
-                  aria-valuemax={HSV_LIMITS.h}
-                  aria-valuemin="0"
-                  aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
-                  class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
-                  onKeyDown={this.handleHueScopeKeyDown}
-                  ref={this.storeHueScope}
-                  role="slider"
-                  style={{
-                    top: `${adjustedHueScopeTop}px`,
-                    left: `${adjustedHueScopeLeft}px`,
-                  }}
-                  tabindex="0"
-                />
-              </div>
-              {alphaChannel ? (
+      <Host onClick={this.handleColorPickerBlur}>
+        <InteractiveContainer disabled={this.disabled}>
+          <div class={CSS.container}>
+            <div class={CSS.controlAndScope}>
+              <canvas
+                class={CSS.colorField}
+                onPointerDown={this.handleColorFieldPointerDown}
+                ref={this.initColorField}
+              />
+              <div
+                aria-label={vertical ? messages.value : messages.saturation}
+                aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
+                aria-valuemin="0"
+                aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
+                class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
+                onKeyDown={this.handleColorFieldScopeKeyDown}
+                ref={this.storeColorFieldScope}
+                role="slider"
+                style={{
+                  top: `${adjustedColorFieldScopeTop || 0}px`,
+                  left: `${adjustedColorFieldScopeLeft || 0}px`,
+                }}
+                tabindex="0"
+              />
+            </div>
+            <div class={CSS.previewAndSliders}>
+              <calcite-color-picker-swatch
+                class={CSS.preview}
+                color={selectedColorInHex}
+                scale={this.alphaChannel ? "l" : this.scale}
+              />
+              <div class={CSS.sliders}>
                 <div class={CSS.controlAndScope}>
                   <canvas
-                    class={{ [CSS.slider]: true, [CSS.opacitySlider]: true }}
-                    onPointerDown={this.handleOpacitySliderPointerDown}
-                    ref={this.initOpacitySlider}
+                    class={{ [CSS.slider]: true, [CSS.hueSlider]: true }}
+                    onPointerDown={this.handleHueSliderPointerDown}
+                    ref={this.initHueSlider}
                   />
                   <div
-                    aria-label={messages.opacity}
-                    aria-valuemax={OPACITY_LIMITS.max}
-                    aria-valuemin={OPACITY_LIMITS.min}
-                    aria-valuenow={(color || DEFAULT_COLOR).round().alpha()}
-                    class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
-                    onKeyDown={this.handleOpacityScopeKeyDown}
-                    ref={this.storeOpacityScope}
+                    aria-label={messages.hue}
+                    aria-valuemax={HSV_LIMITS.h}
+                    aria-valuemin="0"
+                    aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
+                    class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
+                    onKeyDown={this.handleHueScopeKeyDown}
+                    ref={this.storeHueScope}
                     role="slider"
                     style={{
-                      top: `${adjustedOpacityScopeTop}px`,
-                      left: `${adjustedOpacityScopeLeft}px`,
+                      top: `${adjustedHueScopeTop}px`,
+                      left: `${adjustedHueScopeLeft}px`,
                     }}
                     tabindex="0"
                   />
                 </div>
-              ) : null}
-            </div>
-          </div>
-          {noHex && noChannels ? null : (
-            <div
-              class={{
-                [CSS.controlSection]: true,
-                [CSS.section]: true,
-              }}
-            >
-              <div class={CSS.hexAndChannelsGroup}>
-                {noHex ? null : (
-                  <div class={CSS.hexOptions}>
-                    <calcite-color-picker-hex-input
-                      allowEmpty={this.isClearable}
-                      alphaChannel={alphaChannel}
-                      class={CSS.control}
-                      messages={messages}
-                      numberingSystem={this.numberingSystem}
-                      onCalciteColorPickerHexInputChange={this.handleHexInputChange}
-                      scale={scale}
-                      value={selectedColorInHex}
+                {alphaChannel ? (
+                  <div class={CSS.controlAndScope}>
+                    <canvas
+                      class={{ [CSS.slider]: true, [CSS.opacitySlider]: true }}
+                      onPointerDown={this.handleOpacitySliderPointerDown}
+                      ref={this.initOpacitySlider}
+                    />
+                    <div
+                      aria-label={messages.opacity}
+                      aria-valuemax={OPACITY_LIMITS.max}
+                      aria-valuemin={OPACITY_LIMITS.min}
+                      aria-valuenow={(color || DEFAULT_COLOR).round().alpha()}
+                      class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
+                      onKeyDown={this.handleOpacityScopeKeyDown}
+                      ref={this.storeOpacityScope}
+                      role="slider"
+                      style={{
+                        top: `${adjustedOpacityScopeTop}px`,
+                        left: `${adjustedOpacityScopeLeft}px`,
+                      }}
+                      tabindex="0"
                     />
                   </div>
-                )}
-                {noChannels ? null : (
-                  <calcite-tabs
-                    class={{
-                      [CSS.colorModeContainer]: true,
-                      [CSS.splitSection]: true,
-                    }}
-                    scale={scale === "l" ? "m" : "s"}
-                  >
-                    <calcite-tab-nav slot="title-group">
-                      {this.renderChannelsTabTitle("rgb")}
-                      {this.renderChannelsTabTitle("hsv")}
-                    </calcite-tab-nav>
-                    {this.renderChannelsTab("rgb")}
-                    {this.renderChannelsTab("hsv")}
-                  </calcite-tabs>
-                )}
+                ) : null}
               </div>
             </div>
-          )}
-          {noSaved ? null : (
-            <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
-              <div class={CSS.header}>
-                <label>{messages.saved}</label>
-                <div class={CSS.savedColorsButtons}>
-                  <calcite-button
-                    appearance="transparent"
-                    class={CSS.deleteColor}
-                    disabled={noColor}
-                    iconStart="minus"
-                    kind="neutral"
-                    label={messages.deleteColor}
-                    onClick={this.deleteColor}
-                    scale={scale}
-                    type="button"
-                  />
-                  <calcite-button
-                    appearance="transparent"
-                    class={CSS.saveColor}
-                    disabled={noColor}
-                    iconStart="plus"
-                    kind="neutral"
-                    label={messages.saveColor}
-                    onClick={this.saveColor}
-                    scale={scale}
-                    type="button"
-                  />
-                </div>
-              </div>
-              {savedColors.length > 0 ? (
-                <div class={CSS.savedColors}>
-                  {[
-                    ...savedColors.map((color) => (
-                      <calcite-color-picker-swatch
-                        class={CSS.savedColor}
-                        color={color}
-                        key={color}
-                        onClick={this.handleSavedColorSelect}
-                        onKeyDown={this.handleSavedColorKeyDown}
+            {noHex && noChannels ? null : (
+              <div
+                class={{
+                  [CSS.controlSection]: true,
+                  [CSS.section]: true,
+                }}
+              >
+                <div class={CSS.hexAndChannelsGroup}>
+                  {noHex ? null : (
+                    <div class={CSS.hexOptions}>
+                      <calcite-color-picker-hex-input
+                        allowEmpty={this.isClearable}
+                        alphaChannel={alphaChannel}
+                        class={CSS.control}
+                        messages={messages}
+                        numberingSystem={this.numberingSystem}
+                        onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                         scale={scale}
-                        tabIndex={0}
+                        value={selectedColorInHex}
                       />
-                    )),
-                  ]}
+                    </div>
+                  )}
+                  {noChannels ? null : (
+                    <calcite-tabs
+                      class={{
+                        [CSS.colorModeContainer]: true,
+                        [CSS.splitSection]: true,
+                      }}
+                      scale={scale === "l" ? "m" : "s"}
+                    >
+                      <calcite-tab-nav slot="title-group">
+                        {this.renderChannelsTabTitle("rgb")}
+                        {this.renderChannelsTabTitle("hsv")}
+                      </calcite-tab-nav>
+                      {this.renderChannelsTab("rgb")}
+                      {this.renderChannelsTab("hsv")}
+                    </calcite-tabs>
+                  )}
                 </div>
-              ) : null}
-            </div>
-          )}
-        </div>
-      </InteractiveContainer>
+              </div>
+            )}
+            {noSaved ? null : (
+              <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
+                <div class={CSS.header}>
+                  <label>{messages.saved}</label>
+                  <div class={CSS.savedColorsButtons}>
+                    <calcite-button
+                      appearance="transparent"
+                      class={CSS.deleteColor}
+                      disabled={noColor}
+                      iconStart="minus"
+                      kind="neutral"
+                      label={messages.deleteColor}
+                      onClick={this.deleteColor}
+                      scale={scale}
+                      type="button"
+                    />
+                    <calcite-button
+                      appearance="transparent"
+                      class={CSS.saveColor}
+                      disabled={noColor}
+                      iconStart="plus"
+                      kind="neutral"
+                      label={messages.saveColor}
+                      onClick={this.saveColor}
+                      scale={scale}
+                      type="button"
+                    />
+                  </div>
+                </div>
+                {savedColors.length > 0 ? (
+                  <div class={CSS.savedColors}>
+                    {[
+                      ...savedColors.map((color) => (
+                        <calcite-color-picker-swatch
+                          class={CSS.savedColor}
+                          color={color}
+                          key={color}
+                          onClick={this.handleSavedColorSelect}
+                          onKeyDown={this.handleSavedColorKeyDown}
+                          scale={scale}
+                          tabIndex={0}
+                        />
+                      )),
+                    ]}
+                  </div>
+                ) : null}
+              </div>
+            )}
+          </div>
+        </InteractiveContainer>
+      </Host>
     );
   }
 
@@ -1704,4 +1739,8 @@ export class ColorPicker
   private getAdjustedScopePosition(left: number, top: number): [number, number] {
     return [left - SCOPE_SIZE / 2, top - SCOPE_SIZE / 2];
   }
+
+  private handleColorPickerBlur = (): void => {
+    this.el.blur();
+  };
 }

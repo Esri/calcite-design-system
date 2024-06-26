@@ -272,11 +272,10 @@ describe("calcite-color-picker-hex-input", () => {
     await selectText(input);
     const longhandHexWithExtraChars = "bbbbbbbbc";
     await page.keyboard.type(longhandHexWithExtraChars);
-    await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    const hexWithPreviousAlphaCharsPreserved = "#bbbbbbdd";
-    expect(await input.getProperty("value")).toBe(hexWithPreviousAlphaCharsPreserved);
+    const hexWithAlphaCharsPreserved = "#bbbbbbbb";
+    expect(await input.getProperty("value")).toBe(hexWithAlphaCharsPreserved);
   });
 
   describe("keyboard interaction", () => {

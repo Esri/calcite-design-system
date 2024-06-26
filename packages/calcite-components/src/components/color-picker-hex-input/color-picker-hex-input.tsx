@@ -146,14 +146,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     const willClearValue = allowEmpty && !inputValue;
     const isLonghand = isLonghandHex(hex);
 
-    /* 
-      if alphaChannel is enabled, commit valid 4 digit hex codes.
-      if alphaChannel is disabled, commit valid 3 digit hex codes.
-    */
-    if (
-      (this.alphaChannel && inputValue.length === 4) ||
-      (!this.alphaChannel && inputValue.length === 3)
-    ) {
+    if (this.validateShortHandValue(inputValue)) {
       // ensure modified pasted hex values are committed since we prevent default to remove the # char.
       this.onHexInputChange();
     }
@@ -193,7 +186,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     this.opacityInputNode.selectText();
   };
 
-  private onOpacityInput = (): void => {
+  private onOpacityInputInput = (): void => {
     this.onOpacityInputChange();
   };
 
@@ -231,7 +224,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     this.hexInputNode.selectText();
   };
 
-  private onHexInput = (): void => {
+  private onHexInputInput = (): void => {
     const hexInputValue = `#${this.hexInputNode.value}`;
     const oldValue = this.value;
 
@@ -249,7 +242,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     const { key } = event;
     const composedPath = event.composedPath();
 
-    if (key === "Tab" || key === "Enter") {
+    if ((key === "Tab" && this.validateShortHandValue(value)) || key === "Enter") {
       if (composedPath.includes(hexInputNode)) {
         this.onHexInputChange();
       } else {
@@ -349,7 +342,7 @@ export class ColorPickerHexInput implements LoadableComponent {
           label={messages?.hex || hexLabel}
           maxLength={this.alphaChannel ? 8 : 6}
           onCalciteInputTextChange={this.onHexInputChange}
-          onCalciteInputTextInput={this.onHexInput}
+          onCalciteInputTextInput={this.onHexInputInput}
           onCalciteInternalInputTextBlur={this.onHexInputBlur}
           onCalciteInternalInputTextFocus={this.onHexInputFocus}
           onKeyDown={this.onInputKeyDown}
@@ -369,7 +362,7 @@ export class ColorPickerHexInput implements LoadableComponent {
             min={OPACITY_LIMITS.min}
             numberButtonType="none"
             numberingSystem={this.numberingSystem}
-            onCalciteInputNumberInput={this.onOpacityInput}
+            onCalciteInputNumberInput={this.onOpacityInputInput}
             onCalciteInternalInputNumberBlur={this.onOpacityInputBlur}
             onCalciteInternalInputNumberFocus={this.onOpacityInputFocus}
             onKeyDown={this.onInputKeyDown}
@@ -475,4 +468,14 @@ export class ColorPickerHexInput implements LoadableComponent {
 
     return Color(nudgedChannels);
   }
+
+  /* 
+      if alphaChannel is enabled, commit valid 4 digit hex codes.
+      if alphaChannel is disabled, commit valid 3 digit hex codes.
+    */
+  private validateShortHandValue = (value: string): boolean => {
+    return (
+      (this.alphaChannel && value?.length === 4) || (!this.alphaChannel && value?.length === 3)
+    );
+  };
 }
