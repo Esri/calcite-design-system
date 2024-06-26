@@ -775,8 +775,14 @@ describe("calcite-rating", () => {
     describe("default", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-rating-spacing": {
-          selector: `calcite-rating`,
           targetProp: "--calcite-internal-rating-spacing",
+        },
+        "--calcite-rating-spacing-unit": {
+          targetProp: "--calcite-internal-rating-spacing",
+        },
+        "--calcite-internal-rating-spacing": {
+          shadowSelector: `.${CSS.fieldset}`,
+          targetProp: "gap",
         },
         "--calcite-rating-outline-color": {
           shadowSelector: `.${CSS.star}`,
@@ -793,7 +799,7 @@ describe("calcite-rating", () => {
           state: { press: { attribute: "class", value: "star" } },
         },
       };
-      themed(async () => html`<calcite-rating></calcite-rating>`, tokens);
+      themed(html`<calcite-rating></calcite-rating>`, tokens);
     });
     describe("average with chip", () => {
       const tokens: ComponentTestTokens = {
@@ -822,7 +828,7 @@ describe("calcite-rating", () => {
           targetProp: "--calcite-chip-text-color",
         },
       };
-      themed(async () => html`<calcite-rating average="3.65" show-chip></calcite-rating>`, tokens);
+      themed(html`<calcite-rating average="3.65" show-chip></calcite-rating>`, tokens);
     });
   });
 });
