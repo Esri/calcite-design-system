@@ -75,6 +75,13 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /** The component's text. */
   @Prop({ reflect: true }) textLabel!: string;
 
+  /**
+   * Pattern for highlighting filter text matches.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) filterTextMatchPattern: RegExp;
+
   /** The component's value. */
   @Prop() value!: any;
 
@@ -252,12 +259,27 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
             <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
               {this.renderSelectIndicator(showDot, iconPath)}
               {this.renderIcon(iconPath)}
-              <span class="title">{this.textLabel}</span>
+              <span class="title">{this.renderTextContent()}</span>
             </li>
             {this.renderChildren()}
           </div>
         </InteractiveContainer>
       </Host>
     );
+  }
+
+  private renderTextContent(): string | (string | VNode)[] {
+    if (!this.filterTextMatchPattern) {
+      return this.textLabel;
+    }
+
+    const parts: (string | VNode)[] = this.textLabel.split(this.filterTextMatchPattern);
+
+    if (parts.length > 1) {
+      // we only highlight the first match
+      parts[1] = <mark class={CSS.filterMatch}>{parts[1]}</mark>;
+    }
+
+    return parts;
   }
 }

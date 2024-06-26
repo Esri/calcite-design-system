@@ -48,6 +48,16 @@
         padding: var(--calcite-spacing-md);
       }
 
+      #when {
+        display: flex;
+      }
+
+      #whenDate,
+      #whenTime {
+        align-self: center;
+        width: 50%;
+      }
+
       /* Progress bar */
       #progress {
         position: fixed;
@@ -147,11 +157,24 @@
               </calcite-label>
             </li>
 
-            <!-- Date picker -->
+            <!-- Date and time pickers -->
             <li>
               <calcite-label>
                 When did you hear about Calcite components?
-                <calcite-input-date-picker id="when" name="when" required></calcite-input-date-picker>
+                <div id="when">
+                  <calcite-input-date-picker
+                    id="whenDate"
+                    name="whenDate"
+                    max="2024-07-01"
+                    required
+                  ></calcite-input-date-picker>
+                  <calcite-input-time-picker
+                    id="whenTime"
+                    name="whenTime"
+                    max="23:11"
+                    required
+                  ></calcite-input-time-picker>
+                </div>
               </calcite-label>
             </li>
 
@@ -449,7 +472,7 @@
       });
 
       // Date picker
-      const datePicker = document.getElementById("when");
+      const datePicker = document.getElementById("whenDate");
       datePicker.maxAsDate = new Date();
       datePicker.min = "2021-01-01";
 

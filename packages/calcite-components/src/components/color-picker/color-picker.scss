@@ -120,7 +120,7 @@
     pointer-events-none;
   &:focus {
     @apply focus-outset;
-    outline-offset: 11px;
+    outline-offset: 6px;
   }
 }
 
@@ -145,6 +145,7 @@
 .sliders {
   @apply flex flex-col justify-between;
   margin-inline-start: var(--calcite-internal-color-picker-space);
+  gap: var(--calcite-spacing-xxs);
 }
 
 .preview-and-sliders {

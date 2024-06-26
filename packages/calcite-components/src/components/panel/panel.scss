@@ -49,7 +49,6 @@
   }
 }
 
-:host,
 :host([scale="m"]) {
   .content-bottom {
     padding: var(--calcite-panel-spacing-block-end, var(--calcite-spacing-md));
@@ -189,14 +188,32 @@
 }
 
 .footer {
+  align-content: space-between;
+  align-items: center;
   background-color: var(--calcite-panel-footer-background-color, var(--calcite-color-foreground-1));
-  inline-size: var(--calcite-container-size-content-fluid);
-  display: flex;
-  justify-content: space-evenly;
-  flex: 0 0 auto;
-  padding: var(--calcite-panel-footer-space, var(--calcite-panel-footer-padding, var(--calcite-spacing-sm)));
   border-block-start: var(--calcite-border-width-sm) solid
     var(--calcite-panel-border-color, var(--calcite-color-border-3));
+  column-gap: 0;
+  display: flex;
+  flex: 0 0 auto;
+  inline-size: var(--calcite-container-size-content-fluid);
+  justify-content: center;
+  margin-block-start: auto;
+  padding: var(--calcite-panel-footer-space, var(--calcite-panel-footer-padding, var(--calcite-spacing-sm)));
+  row-gap: var(--calcite-spacing-md);
+}
+
+@include slotted("footer-start", "*") {
+  @apply flex text-n2-wrap self-center;
+
+  margin-inline-end: auto;
+  gap: var(--calcite-spacing-md);
+}
+
+@include slotted("footer-end", "*") {
+  @apply flex text-n2-wrap self-center;
+
+  gap: var(--calcite-spacing-md);
 }
 
 .fab-container {

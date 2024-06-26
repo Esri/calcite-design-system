@@ -1,5 +1,5 @@
 import { getDateTimeFormat, SupportedLocale } from "../../utils/locale";
-import { TimeZoneItem, TimeZoneMode, TimeZoneName } from "./interfaces";
+import { OffsetStyle, TimeZoneItem, TimeZoneMode, TimeZoneName } from "./interfaces";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
 
 const hourToMinutes = 60;
@@ -66,6 +66,7 @@ export async function createTimeZoneItems(
   messages: InputTimeZoneMessages,
   mode: TimeZoneMode,
   referenceDate: Date,
+  standardTime: OffsetStyle,
 ): Promise<TimeZoneItem[]> {
   const referenceDateInMs: number = referenceDate.getTime();
   const timeZoneNames = Intl.supportedValuesOf("timeZone");
@@ -106,10 +107,20 @@ export async function createTimeZoneItems(
           .filter((index) => index >= 0 && index < group.tzs.length);
       });
 
+      const effectiveLocale =
+        standardTime === "user"
+          ? locale
+          : // we use locales that will always yield a short offset that matches `standardTime`
+            standardTime === "utc"
+            ? "fr"
+            : "en-GB";
+
       return timeZoneGroups
         .map<TimeZoneItem<number>>(({ labelTzIndices, tzs }) => {
           const groupRepTz = tzs[0];
-          const decimalOffset = timeZoneOffsetToDecimal(getTimeZoneShortOffset(groupRepTz, locale, referenceDateInMs));
+          const decimalOffset = timeZoneOffsetToDecimal(
+            getTimeZoneShortOffset(groupRepTz, effectiveLocale, referenceDateInMs),
+          );
           const value = toOffsetValue(groupRepTz, referenceDateInMs);
           const tzLabels = labelTzIndices.map((index: number) => {
             const timeZone = tzs[index];

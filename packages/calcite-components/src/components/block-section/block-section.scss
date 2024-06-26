@@ -25,6 +25,7 @@
     text-n1;
 
   background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
+  color: var(--calcite-color-text-2);
 }
 
 :host([open]) {
@@ -33,6 +34,22 @@
   @apply border-0
     border-b
     border-solid;
+
+  .toggle {
+    color: var(--calcite-color-text-1);
+
+    &:hover {
+      color: var(--calcite-color-text-1);
+    }
+  }
+
+  .chevron-icon {
+    color: var(--calcite-color-text-3);
+
+    &:hover {
+      color: var(--calcite-color-text-1);
+    }
+  }
 }
 
 :host(:last-child) {
@@ -40,12 +57,10 @@
 }
 
 .toggle {
-  @apply border-0
-    font-medium
-    font-sans
-    w-full;
+  @apply border-0 font-medium font-sans w-full;
 
   background-color: var(--calcite-color-transparent);
+  gap: var(--calcite-spacing-md);
 
   calcite-icon {
     --calcite-icon-color: var(--calcite-block-section-toggle-icon-color);
@@ -59,6 +74,12 @@
   );
 
   gap: var(--calcite-spacing-md);
+  color: var(--calcite-color-text-2);
+  font-weight: var(--calcite-font-weight-normal);
+
+  &:hover {
+    color: var(--calcite-color-text-1);
+  }
 }
 
 .status-icon.valid {
@@ -92,6 +113,12 @@
   }
 }
 
+.label {
+  @apply flex items-center justify-center my-1;
+
+  margin-inline-start: var(--calcite-spacing-md);
+}
+
 .section-header__text {
   @apply my-0
     flex-auto;
@@ -100,8 +127,8 @@
   word-wrap: anywhere;
 }
 
-.toggle--switch-container {
-  @apply flex items-center relative w-full;
+.toggle-container {
+  @apply flex items-center relative bg-transparent;
   word-break: break-word;
 
   .toggle--switch__content {
@@ -109,7 +136,8 @@
   }
 
   .icon--end,
-  .icon--start {
+  .icon--start,
+  .chevron-icon {
     @apply flex items-center;
 
     color: var(--calcite-color-text-3);
@@ -118,18 +146,14 @@
       color: var(--calcite-color-text-1);
     }
   }
+
+  .switch {
+    @apply flex items-center;
+  }
 }
 
 .status-icon {
   @apply flex items-center;
-}
-
-.chevron-icon {
-  @apply flex items-center;
-}
-
-.toggle--switch__content {
-  @apply flex flex-auto items-center;
 }
 
 .status-icon.valid {
@@ -138,6 +162,10 @@
 
 .status-icon.invalid {
   color: theme("colors.danger");
+}
+
+.chevron-icon {
+  @apply flex items-center;
 }
 
 .chevron-icon {

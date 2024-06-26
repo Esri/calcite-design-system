@@ -44,7 +44,7 @@
 
   @include base-host();
   @apply border-0 border-b border-solid duration-150 ease-cubic
-    flex flex-col flex-grow-0 flex-shrink-0 p-0 transition-margin;
+  flex flex-col flex-grow-0 flex-shrink-0 p-0 transition-margin;
   flex-basis: auto;
 
   background-color: var(--calcite-block-background-color, var(--calcite-color-foreground-1));
@@ -55,6 +55,11 @@
   --calcite-internal-block-no-space: 0;
 }
 
+.header {
+  @apply justify-start;
+  padding: var(--calcite-spacing-md);
+}
+
 .header,
 .toggle {
   grid-area: header;
@@ -63,9 +68,32 @@
 .header-container {
   @apply grid items-stretch;
   grid-template: auto / auto 1fr auto auto;
-  grid-template-areas: "handle header control menu";
-  grid-column: header-start / menu-end;
+  grid-template-areas: "handle header control menu actions-end";
+  grid-column: header-start / actions-end;
   grid-row: 1 / 2;
+}
+
+.content-start,
+.icon,
+.icon--start,
+.icon--end {
+  margin-inline-end: var(--calcite-spacing-md);
+}
+
+.icon {
+  & calcite-loader {
+    margin-inline-end: var(--calcite-spacing-xxxs);
+  }
+}
+
+.icon--start,
+.icon--end {
+  @apply text-color-3;
+}
+
+.actions-end {
+  @apply flex items-stretch;
+  grid-area: actions-end;
 }
 
 .toggle-icon {
@@ -75,7 +103,7 @@
   my-3
   self-center
   transition-color;
-  margin-inline-end: theme("spacing.3");
+  margin-inline-end: var(--calcite-spacing-md);
   margin-inline-start: auto;
 }
 
@@ -120,7 +148,6 @@ calcite-handle {
 
 .title {
   @apply m-0;
-  padding: theme("spacing.3");
 }
 
 .heading {
@@ -145,8 +172,6 @@ calcite-handle {
 
 .icon {
   display: flex;
-  margin-inline-start: theme("spacing.3");
-  margin-inline-end: 0;
 }
 
 .status-icon {
@@ -159,6 +184,12 @@ calcite-handle {
   }
 }
 
+.icon-end-container {
+  @apply flex items-center;
+
+  margin-inline-start: auto;
+}
+
 .container {
   @apply flex flex-col h-full relative;
 }
@@ -167,6 +198,10 @@ calcite-handle {
   @apply animate-in flex-1 relative min-h-0;
   padding-block: var(--calcite-internal-block-padding-block);
   padding-inline: var(--calcite-internal-block-padding-inline);
+}
+
+.content-start {
+  @apply text-color-3 flex items-center;
 }
 
 .control-container {

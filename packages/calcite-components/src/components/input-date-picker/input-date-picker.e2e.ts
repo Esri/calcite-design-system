@@ -5,6 +5,7 @@ import {
   disabled,
   formAssociated,
   floatingUIOwner,
+  focusable,
   hidden,
   labelable,
   openClose,
@@ -76,6 +77,12 @@ describe("calcite-input-date-picker", () => {
 
   describe("translation support", () => {
     t9n("calcite-input-date-picker");
+  });
+
+  describe("should focus the input when setFocus is called", () => {
+    focusable(`calcite-input-date-picker`, {
+      shadowFocusTargetSelector: "calcite-input-text",
+    });
   });
 
   async function navigateMonth(page: E2EPage, direction: "previous" | "next"): Promise<void> {
@@ -704,28 +711,70 @@ describe("calcite-input-date-picker", () => {
     });
   });
 
-  it("allows clicking a date in the calendar popup", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-date-picker value="2023-01-31"></calcite-input-date-picker>`);
-    const inputDatePicker = await page.find("calcite-input-date-picker");
+  describe("clicking in the calendar popup", () => {
+    it("allows clicking a date in the calendar popup", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input-date-picker value="2023-01-31"></calcite-input-date-picker>`);
+      const inputDatePicker = await page.find("calcite-input-date-picker");
 
-    await inputDatePicker.click();
-    await page.waitForChanges();
+      await inputDatePicker.click();
+      await page.waitForChanges();
 
-    await selectDayInMonth(page, 1);
+      await selectDayInMonth(page, 1);
 
-    expect(await inputDatePicker.getProperty("value")).toBe("2023-01-01");
+      expect(await inputDatePicker.getProperty("value")).toBe("2023-01-01");
+    });
+
+    describe("cross-century date values", () => {
+      async function assertCenturyDateValue(year: number, timezone?: string) {
+        const initialValue = `${year}-03-12`;
+        const page = await newE2EPage();
+        if (timezone) {
+          await page.emulateTimezone(timezone);
+        }
+        await page.setContent(html` <calcite-input-date-picker value="${initialValue}"></calcite-input-date-picker> `);
+
+        const inputDatePicker = await page.find("calcite-input-date-picker");
+
+        expect(await inputDatePicker.getProperty("value")).toBe(initialValue);
+
+        await inputDatePicker.click();
+        await page.waitForChanges();
+        await selectDayInMonth(page, 7);
+
+        expect(await inputDatePicker.getProperty("value")).toBe(`${year}-03-07`);
+        expect(await getDateInputValue(page)).toEqual(`3/7/${year}`);
+      }
+
+      it("sets value to the clicked day in the 2000s in Zurich timezone", async () => {
+        await assertCenturyDateValue(2050, "Europe/Zurich");
+      });
+
+      it("sets value to the clicked day in the 1900s in Zurich timezone", async () => {
+        await assertCenturyDateValue(1950, "Europe/Zurich");
+      });
+
+      it("sets value to the clicked day in the 1800s in Zurich timezone", async () => {
+        await assertCenturyDateValue(1850, "Europe/Zurich");
+      });
+    });
   });
 
   describe("is form-associated", () => {
     describe("supports single value", () => {
-      formAssociated("calcite-input-date-picker", { testValue: "1985-03-23", submitsOnEnter: true, validation: true });
+      formAssociated("calcite-input-date-picker", {
+        testValue: "1985-03-23",
+        submitsOnEnter: true,
+        validation: true,
+        inputType: "date",
+      });
     });
 
     describe("supports range", () => {
       formAssociated(`<calcite-input-date-picker range name="calcite-input-date-picker"></calcite-input-date-picker>`, {
         testValue: ["1985-03-23", "1985-10-30"],
         submitsOnEnter: true,
+        inputType: "date",
       });
     });
   });
