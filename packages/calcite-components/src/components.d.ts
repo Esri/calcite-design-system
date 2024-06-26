@@ -53,7 +53,7 @@ import { InputTextMessages } from "./components/input-text/assets/input-text/t9n
 import { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
 import { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
 import { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
-import { TimeZoneMode } from "./components/input-time-zone/interfaces";
+import { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
 import { ListMessages } from "./components/list/assets/list/t9n";
@@ -144,7 +144,7 @@ export { InputTextMessages } from "./components/input-text/assets/input-text/t9n
 export { InputTimePickerMessages } from "./components/input-time-picker/assets/input-time-picker/t9n";
 export { TimePickerMessages } from "./components/time-picker/assets/time-picker/t9n";
 export { InputTimeZoneMessages } from "./components/input-time-zone/assets/input-time-zone/t9n";
-export { TimeZoneMode } from "./components/input-time-zone/interfaces";
+export { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
 export { ListMessages } from "./components/list/assets/list/t9n";
@@ -1237,6 +1237,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Text for the component's filter input field.
+         */
+        "filterText": string;
+        /**
           * Specifies the component's filtered items.
           * @readonly
          */
@@ -1367,6 +1371,10 @@ export namespace Components {
           * When `true`, omits the component from the `calcite-combobox` filtered search results.
          */
         "filterDisabled": boolean;
+        /**
+          * Pattern for highlighting filter text matches.
+         */
+        "filterTextMatchPattern": RegExp;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
          */
@@ -1810,6 +1818,10 @@ export namespace Components {
          */
         "filter": (value?: string) => Promise<void>;
         /**
+          * Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched.
+         */
+        "filterProps": string[];
+        /**
           * The component's resulting items after filtering.
           * @readonly
          */
@@ -1818,10 +1830,6 @@ export namespace Components {
           * Defines the items to filter. The component uses the values as the starting point, and returns items  that contain the string entered in the input, using a partial match and recursive search.  This property is needed to conduct filtering.
          */
         "items": object[];
-        /**
-          * Specifies the fields to match against when filtering. This will only apply when `value` is an object. If not set, all fields will be matched.
-         */
-        "matchFields": string[];
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -2734,6 +2742,11 @@ export namespace Components {
          */
         "form": string;
         /**
+          * Specifies the maximum value.
+          * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
+         */
+        "max": string;
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides": Partial<InputTimePickerMessages & TimePickerMessages>;
@@ -2741,6 +2754,11 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": InputTimePickerMessages;
+        /**
+          * Specifies the minimum value.
+          * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
+         */
+        "min": string;
         /**
           * Specifies the name of the component on form submission.
          */
@@ -2844,6 +2862,11 @@ export namespace Components {
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
         "name": string;
+        /**
+          * Specifies how the offset will be displayed, where  `"user"` uses `UTC` or `GMT` depending on the user's locale, `"gmt"` always uses `GMT`, and `"utc"` always uses `UTC`.  This only applies to the `offset` mode.
+          * @default "user"
+         */
+        "offsetStyle": OffsetStyle;
         /**
           * When `true`, displays and positions the component.
          */
@@ -2978,6 +3001,10 @@ export namespace Components {
           * Placeholder text for the component's filter input field.
          */
         "filterPlaceholder": string;
+        /**
+          * Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value).
+         */
+        "filterProps": string[];
         /**
           * Text for the component's filter input field.
          */
@@ -9019,6 +9046,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Text for the component's filter input field.
+         */
+        "filterText"?: string;
+        /**
           * Specifies the component's filtered items.
           * @readonly
          */
@@ -9167,6 +9198,10 @@ declare namespace LocalJSX {
           * When `true`, omits the component from the `calcite-combobox` filtered search results.
          */
         "filterDisabled"?: boolean;
+        /**
+          * Pattern for highlighting filter text matches.
+         */
+        "filterTextMatchPattern"?: RegExp;
         /**
           * The `id` attribute of the component. When omitted, a globally unique identifier is used.
          */
@@ -9640,6 +9675,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched.
+         */
+        "filterProps"?: string[];
+        /**
           * The component's resulting items after filtering.
           * @readonly
          */
@@ -9648,10 +9687,6 @@ declare namespace LocalJSX {
           * Defines the items to filter. The component uses the values as the starting point, and returns items  that contain the string entered in the input, using a partial match and recursive search.  This property is needed to conduct filtering.
          */
         "items"?: object[];
-        /**
-          * Specifies the fields to match against when filtering. This will only apply when `value` is an object. If not set, all fields will be matched.
-         */
-        "matchFields"?: string[];
         /**
           * Use this property to override individual strings used by the component.
          */
@@ -10593,6 +10628,11 @@ declare namespace LocalJSX {
          */
         "form"?: string;
         /**
+          * Specifies the maximum value.
+          * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
+         */
+        "max"?: string;
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides"?: Partial<InputTimePickerMessages & TimePickerMessages>;
@@ -10600,6 +10640,11 @@ declare namespace LocalJSX {
           * Made into a prop for testing purposes only
          */
         "messages"?: InputTimePickerMessages;
+        /**
+          * Specifies the minimum value.
+          * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
+         */
+        "min"?: string;
         /**
           * Specifies the name of the component on form submission.
          */
@@ -10714,6 +10759,11 @@ declare namespace LocalJSX {
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
         "name"?: string;
+        /**
+          * Specifies how the offset will be displayed, where  `"user"` uses `UTC` or `GMT` depending on the user's locale, `"gmt"` always uses `GMT`, and `"utc"` always uses `UTC`.  This only applies to the `offset` mode.
+          * @default "user"
+         */
+        "offsetStyle"?: OffsetStyle;
         /**
           * Fires when the component is requested to be closed and before the closing transition begins.
          */
@@ -10866,6 +10916,10 @@ declare namespace LocalJSX {
           * Placeholder text for the component's filter input field.
          */
         "filterPlaceholder"?: string;
+        /**
+          * Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value).
+         */
+        "filterProps"?: string[];
         /**
           * Text for the component's filter input field.
          */

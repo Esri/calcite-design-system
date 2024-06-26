@@ -1,4 +1,9 @@
-export type InputComponent = NumericInputComponent | TextualInputComponent;
+export type InputComponent = NumericInputComponent | TextualInputComponent | DateTimeInputComponent;
+
+export interface DateTimeInputComponent {
+  min: string;
+  max: string;
+}
 
 export interface NumericInputComponent {
   min: number;
