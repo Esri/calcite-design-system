@@ -29,6 +29,11 @@
     }
   }
 
+  .multiple.container.image--slotted.text--slotted {
+    padding-inline-start: var(--calcite-spacing-px);
+    padding-inline-end: var(--calcite-spacing-xxs);
+  }
+
   .container {
     padding-inline: var(--calcite-spacing-xxs);
   }
@@ -73,6 +78,11 @@
       padding-inline-start: var(--calcite-spacing-xxs);
       padding-inline-end: var(--calcite-spacing-sm);
     }
+  }
+
+  .multiple.container.image--slotted.text--slotted {
+    padding-inline-start: var(--calcite-spacing-xxs);
+    padding-inline-end: var(--calcite-spacing-xs);
   }
 
   .container {
