@@ -401,7 +401,7 @@ export const footerAndContentTopBottomSlots = (): string => html`
 `;
 
 export const footerStartAndEndSlots = (): string => html`
-  <calcite-panel style="height: 200px">
+  <calcite-panel style="height: 200px; width: 300px;">
     <div slot="header-content">header-content slot</div>
     <p>Slotted content!</p>
     <div slot="content-bottom">Slot for a content-bottom.</div>
