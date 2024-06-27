@@ -1,0 +1,12 @@
+@import "~highlight.js/scss/github";
+
+:host {
+  display: flex;
+}
+
+pre {
+  padding: 0;
+  margin: var(--calcite-spacing-md);
+}
+
+@include base-component();
