@@ -789,12 +789,12 @@ describe("calcite-rating", () => {
           targetProp: "color",
         },
         "--calcite-rating-outline-color-hover": {
-          shadowSelector: "label",
+          shadowSelector: `.${CSS.star}`,
           targetProp: "color",
           state: "hover",
         },
         "--calcite-rating-value-fill-color": {
-          shadowSelector: "label",
+          shadowSelector: `.${CSS.star}`,
           targetProp: "color",
           state: { press: { attribute: "class", value: "star" } },
         },
