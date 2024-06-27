@@ -16,7 +16,7 @@
 .wrapper {
   @apply relative flex items-stretch;
   inline-size: var(--select-width);
-
+  block-size: var(--calcite-internal-select-block-size, 2rem);
   &:focus-within,
   &:active,
   &:hover {
@@ -31,30 +31,20 @@
 :host([scale="s"]) {
   --calcite-select-font-size: theme("fontSize.n2h");
   --calcite-select-spacing-inline: theme("spacing.2") theme("spacing.8");
-  --calcite-select-internal-icon-container-padding-inline: 0.5rem;
-  .wrapper {
-    @apply h-6;
-  }
+  --calcite-internal-select-icon-container-padding-inline: 0.5rem;
 }
 
 :host([scale="m"]) {
   --calcite-select-font-size: theme("fontSize.n1h");
   --calcite-select-spacing-inline: theme("spacing.3") theme("spacing.10");
-  --calcite-select-internal-icon-container-padding-inline: 0.75rem;
-
-  .wrapper {
-    @apply h-8;
-  }
+  --calcite-internal-select-icon-container-padding-inline: 0.75rem;
 }
 
 :host([scale="l"]) {
   --calcite-select-font-size: theme("fontSize.0h");
   --calcite-select-spacing-inline: theme("spacing.4") theme("spacing.12");
-  --calcite-select-internal-icon-container-padding-inline: 1rem;
-
-  .wrapper {
-    block-size: 44px;
-  }
+  --calcite-internal-select-icon-container-padding-inline: 1rem;
+  --calcite-internal-select-block-size: 2.75rem;
 }
 
 :host([width="auto"]) {
@@ -87,6 +77,7 @@
   border-width: var(--calcite-select-internal-border-width, 1px);
   font-size: var(--calcite-select-font-size);
   padding-inline: var(--calcite-select-spacing-inline);
+  padding-block: var(--calcite-internal-select-spacing-block);
   border-inline-end-width: theme("borderWidth.0");
   font-weight: var(--calcite-select-font-weight, 400);
   line-height: var(--calcite-select-line-height, 14px);
@@ -105,7 +96,7 @@ select:disabled {
   inset-inline-end: theme("inset.0");
   border-inline-width: theme("borderWidth.0")
     var(--calcite-select-internal-icon-border-inline-end-width, theme("borderWidth.DEFAULT"));
-  padding-inline: var(--calcite-select-internal-icon-container-padding-inline);
+  padding-inline: var(--calcite-internal-select-icon-container-padding-inline);
   .icon {
     color: var(--calcite-color-text-3);
   }

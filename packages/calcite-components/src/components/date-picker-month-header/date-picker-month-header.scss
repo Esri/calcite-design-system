@@ -110,10 +110,6 @@
     leading-none;
   gap: 0.25rem;
 
-  calcite-select {
-    max-block-size: 100%;
-  }
-
   &.range-calendar {
     @apply justify-center;
   }
@@ -127,7 +123,8 @@
   .month-select,
   .year-select {
     --calcite-select-spacing-inline: 0.25rem;
-    --calcite-select-internal-icon-container-padding-inline: 0.25rem;
+    --calcite-internal-select-spacing-block: 0.25rem;
+    --calcite-internal-select-icon-container-padding-inline: 0.25rem;
   }
 }
 
@@ -135,7 +132,9 @@
   .month-select,
   .year-select {
     --calcite-select-spacing-inline: 0.125rem;
-    --calcite-select-internal-icon-container-padding-inline: 0.125rem;
+    --calcite-internal-select-spacing-block: 0.125rem;
+    --calcite-internal-select-icon-container-padding-inline: 0.125rem;
+    --calcite-internal-select-block-size: 1.5rem;
   }
 }
 
@@ -143,7 +142,9 @@
   .month-select,
   .year-select {
     --calcite-select-spacing-inline: 0.5rem;
-    --calcite-select-internal-icon-container-padding-inline: 0.5rem;
+    --calcite-internal-select-spacing-block: 0.5rem;
+    --calcite-internal-select-icon-container-padding-inline: 0.5rem;
+    --calcite-internal-select-block-size: 2.75rem;
   }
 }
 
