@@ -1,102 +1,145 @@
 import {
   Component,
   Element,
+  h,
+  Host,
+  Prop,
+  VNode,
   Event,
   EventEmitter,
-  h,
+  Watch,
+  State,
   Listen,
   Method,
-  Prop,
-  State,
-  VNode,
-  Watch,
 } from "@stencil/core";
+import { Scale } from "../interfaces";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
-import { Scale } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem,
-} from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages,
-} from "../../utils/t9n";
+  connectForm,
+  disconnectForm,
+  FormComponent,
+  HiddenFormInputSlot,
+  submitForm,
+} from "../../utils/form";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   formatTimePart,
-  getLocaleHourCycle,
-  getLocalizedDecimalSeparator,
-  getLocalizedTimePartSuffix,
-  getMeridiem,
-  getTimeParts,
-  HourCycle,
-  isValidTime,
-  localizeTimePart,
-  localizeTimeStringToParts,
-  maxTenthForMinuteAndSecond,
-  Meridiem,
   MinuteOrSecond,
-  parseTimeString,
+  maxTenthForMinuteAndSecond,
   TimePart,
+  getMeridiem,
+  HourCycle,
+  localizeTimeStringToParts,
+  parseTimeString,
+  localizeTimePart,
+  Meridiem,
+  getLocaleHourCycle,
+  getTimeParts,
+  getLocalizedTimePartSuffix,
+  isValidTime,
+  getLocalizedDecimalSeparator,
 } from "../../utils/time";
-import { getIconScale } from "../../utils/component";
+import { CSS, TEXT } from "./resources";
 import {
-  componentFocusable,
+  LocalizedComponent,
+  NumberingSystem,
+  connectLocalized,
+  disconnectLocalized,
+} from "../../utils/locale";
+import {
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { T9nComponent, connectMessages, disconnectMessages, setUpMessages } from "../../utils/t9n";
+import { InputTimeMessages } from "./assets/input-time/t9n";
 import { decimalPlaces, getDecimals } from "../../utils/math";
-import { CSS } from "./resources";
-import { TimePickerMessages } from "./assets/time-picker/t9n";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 @Component({
-  tag: "calcite-time-picker",
-  styleUrl: "time-picker.scss",
-  shadow: {
-    delegatesFocus: true,
-  },
+  tag: "calcite-input-time",
+  styleUrl: "input-time.scss",
+  shadow: true,
   assetsDirs: ["assets"],
 })
-export class TimePicker implements LoadableComponent, LocalizedComponent, T9nComponent {
+export class InputTime
+  implements
+    FormComponent,
+    InteractiveComponent,
+    LabelableComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
+{
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteInputTimeElement;
+
   //--------------------------------------------------------------------------
   //
   //  Properties
   //
   //--------------------------------------------------------------------------
 
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** Specifies the granularity the `value` must adhere to (in seconds). */
-  @Prop({ reflect: true }) step = 60;
-
-  @Watch("step")
-  stepChange(): void {
-    this.toggleSecond();
-  }
+  /** The disabled state of the time input */
+  @Prop({ reflect: true }) disabled = false;
 
   /**
-   * Specifies the Unicode numeral system used by the component for localization.
+   * The ID of the form that will be associated with the component.
    *
+   * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop() numberingSystem: NumberingSystem;
+  @Prop({ reflect: true }) form: string;
 
-  /** The component's value in UTC (always 24-hour format). */
-  @Prop({ mutable: true }) value: string = null;
+  /** When true, the icon is flipped in RTL. */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
-  @Watch("value")
-  valueWatcher(newValue: string): void {
-    this.setValue(newValue);
+  /**
+   * aria-label for the hour input
+   *
+   * @default "Hour"
+   */
+  @Prop() intlHour = TEXT.hour;
+
+  /**
+   * aria-label for the meridiem (am/pm) input
+   *
+   * @default "AM/PM"
+   */
+  @Prop() intlMeridiem = TEXT.meridiem;
+
+  /**
+   * aria-label for the minute input
+   *
+   * @default "Minute"
+   */
+  @Prop() intlMinute = TEXT.minute;
+
+  /**
+   * aria-label for the second input
+   *
+   * @default "Second"
+   */
+  @Prop() intlSecond = TEXT.second;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<InputTimeMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
   }
 
   /**
@@ -105,17 +148,42 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
    * @internal
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: TimePickerMessages;
+  @Prop({ mutable: true }) messages: InputTimeMessages;
+
+  /** The name of the time input */
+  @Prop() name: string;
 
   /**
-   * Use this property to override individual strings used by the component.
+   * Specifies the Unicode numeral system used by the component for localization.
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<TimePickerMessages>;
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+  /**
+   * When true, still focusable but controls are gone and the value cannot be modified.
+   *
+   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   */
+  @Prop() readonly = false;
+
+  /**
+   * When true, makes the component required for form-submission.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) required = false;
+
+  /** The scale (size) of the time input */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** number (seconds) that specifies the granularity that the value must adhere to */
+  @Prop() step = 60;
+
+  /** The selected time in UTC (always 24-hour format) */
+  @Prop({ mutable: true }) value: string = null;
+
+  @Watch("value")
+  valueWatcher(newValue: string): void {
+    this.setValue(newValue);
   }
 
   // --------------------------------------------------------------------------
@@ -124,11 +192,17 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteTimePickerElement;
+  private activeEl: HTMLSpanElement;
+
+  defaultValue: InputTime["value"];
+
+  formEl: HTMLFormElement;
 
   private fractionalSecondEl: HTMLSpanElement;
 
   private hourEl: HTMLSpanElement;
+
+  labelEl: HTMLCalciteLabelElement;
 
   private meridiemEl: HTMLSpanElement;
 
@@ -136,7 +210,7 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
 
   private minuteEl: HTMLSpanElement;
 
-  private pointerActivated = false;
+  previousValue: string;
 
   private secondEl: HTMLSpanElement;
 
@@ -146,13 +220,14 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
   //
   // --------------------------------------------------------------------------
 
-  @State() activeEl: HTMLSpanElement;
+  @State() defaultMessages: InputTimeMessages;
 
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
-  effectiveLocaleWatcher(): void {
-    this.updateLocale();
+  effectiveLocaleWatcher(newLocale: string): void {
+    this.hourCycle = getLocaleHourCycle(newLocale, this.numberingSystem);
+    this.setValue(this.value);
   }
 
   @State() fractionalSecond: string;
@@ -163,13 +238,13 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
 
   @State() localizedDecimalSeparator = ".";
 
+  @State() localizedFractionalSecond: string;
+
   @State() localizedHour: string;
 
   @State() localizedHourSuffix: string;
 
   @State() localizedMeridiem: string;
-
-  @State() localizedFractionalSecond: string;
 
   @State() localizedMinute: string;
 
@@ -187,9 +262,7 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
 
   @State() showFractionalSecond: boolean;
 
-  @State() showSecond: boolean;
-
-  @State() defaultMessages: TimePickerMessages;
+  @State() showSecond: boolean = this.step < 60;
 
   //--------------------------------------------------------------------------
   //
@@ -198,19 +271,24 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
   //--------------------------------------------------------------------------
 
   /**
-   * @internal
+   * Fires when the time value is committed.
    */
-  @Event({ cancelable: false }) calciteInternalTimePickerBlur: EventEmitter<void>;
+  @Event() calciteInputTimeChange: EventEmitter<string>;
+
+  /**
+   * Fires each time the user changes the value but has not committed changes.
+   */
+  @Event() calciteInputTimeInput: EventEmitter<string>;
 
   /**
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalTimePickerChange: EventEmitter<string>;
+  @Event() calciteInternalInputTimeBlur: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalTimePickerFocus: EventEmitter<void>;
+  @Event() calciteInternalInputTimeFocus: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -221,44 +299,58 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
   @Listen("blur")
   blurHandler(): void {
     this.activeEl = undefined;
-    this.pointerActivated = false;
-    this.calciteInternalTimePickerBlur.emit();
+    this.calciteInternalInputTimeBlur.emit();
+  }
+
+  @Listen("click")
+  clickHandler(event: MouseEvent): void {
+    const composedEventPath = event.composedPath();
+    if (composedEventPath.includes(this.hourEl)) {
+      return;
+    }
+    if (composedEventPath.includes(this.minuteEl)) {
+      return;
+    }
+    if (composedEventPath.includes(this.secondEl)) {
+      return;
+    }
+    if (composedEventPath.includes(this.fractionalSecondEl)) {
+      return;
+    }
+    if (composedEventPath.includes(this.meridiemEl)) {
+      return;
+    }
+    this.setFocus();
   }
 
   @Listen("focus")
-  hostFocusHandler(): void {
-    this.calciteInternalTimePickerFocus.emit();
+  focusHandler(): void {
+    this.calciteInternalInputTimeFocus.emit();
   }
 
   @Listen("keydown")
-  keyDownHandler(event: KeyboardEvent): void {
-    this.pointerActivated = false;
-    const { defaultPrevented, key } = event;
-
-    if (defaultPrevented) {
+  keyDownHandler({ defaultPrevented, key }: KeyboardEvent): void {
+    if (key === "Enter" && !defaultPrevented && !this.disabled) {
+      submitForm(this);
       return;
     }
 
     switch (this.activeEl) {
       case this.hourEl:
         if (key === "ArrowRight") {
-          this.focusPart("minute");
-          event.preventDefault();
+          this.setFocus("minute");
         }
         break;
       case this.minuteEl:
         switch (key) {
           case "ArrowLeft":
-            this.focusPart("hour");
-            event.preventDefault();
+            this.setFocus("hour");
             break;
           case "ArrowRight":
             if (this.step !== 60) {
-              this.focusPart("second");
-              event.preventDefault();
+              this.setFocus("second");
             } else if (this.hourCycle === "12") {
-              this.focusPart("meridiem");
-              event.preventDefault();
+              this.setFocus("meridiem");
             }
             break;
         }
@@ -266,15 +358,13 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
       case this.secondEl:
         switch (key) {
           case "ArrowLeft":
-            this.focusPart("minute");
-            event.preventDefault();
+            this.setFocus("minute");
             break;
           case "ArrowRight":
             if (this.showFractionalSecond) {
-              this.focusPart("fractionalSecond");
+              this.setFocus("fractionalSecond");
             } else if (this.hourCycle === "12") {
-              this.focusPart("meridiem");
-              event.preventDefault();
+              this.setFocus("meridiem");
             }
             break;
         }
@@ -282,13 +372,11 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
       case this.fractionalSecondEl:
         switch (key) {
           case "ArrowLeft":
-            this.focusPart("second");
-            event.preventDefault();
+            this.setFocus("second");
             break;
           case "ArrowRight":
             if (this.hourCycle === "12") {
-              this.focusPart("meridiem");
-              event.preventDefault();
+              this.setFocus("meridiem");
             }
             break;
         }
@@ -296,24 +384,15 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
       case this.meridiemEl:
         switch (key) {
           case "ArrowLeft":
-            if (this.showFractionalSecond) {
-              this.focusPart("fractionalSecond");
-            } else if (this.step !== 60) {
-              this.focusPart("second");
-              event.preventDefault();
+            if (this.step !== 60) {
+              this.setFocus("second");
             } else {
-              this.focusPart("minute");
-              event.preventDefault();
+              this.setFocus("minute");
             }
             break;
         }
         break;
     }
-  }
-
-  @Listen("pointerdown")
-  pointerDownHandler(): void {
-    this.pointerActivated = true;
   }
 
   //--------------------------------------------------------------------------
@@ -323,13 +402,13 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
   //--------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component's first focusable element.
+   * Sets focus on the component.
+   *
+   * @param target
    */
   @Method()
-  async setFocus(): Promise<void> {
-    await componentFocusable(this);
-
-    this.el?.focus();
+  async setFocus(target?: TimePart): Promise<void> {
+    this[`${target || "hour"}El`]?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -337,12 +416,6 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
   //  Private Methods
   //
   // --------------------------------------------------------------------------
-
-  private async focusPart(target: TimePart): Promise<void> {
-    await componentFocusable(this);
-
-    this[`${target || "hour"}El`]?.focus();
-  }
 
   private decrementHour = (): void => {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
@@ -352,6 +425,10 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
   private decrementMeridiem = (): void => {
     const newMeridiem = this.meridiem === "PM" ? "AM" : "PM";
     this.setValuePart("meridiem", newMeridiem);
+  };
+
+  private decrementMinute = (): void => {
+    this.decrementMinuteOrSecond("minute");
   };
 
   private decrementMinuteOrSecond = (key: MinuteOrSecond): void => {
@@ -365,19 +442,8 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
     this.setValuePart(key, newValue);
   };
 
-  private decrementMinute = (): void => {
-    this.decrementMinuteOrSecond("minute");
-  };
-
   private decrementSecond = (): void => {
     this.decrementMinuteOrSecond("second");
-  };
-
-  private focusHandler = (event: FocusEvent): void => {
-    if (this.pointerActivated) {
-      return;
-    }
-    this.activeEl = event.currentTarget as HTMLSpanElement;
   };
 
   private fractionalSecondKeyDownHandler = (event: KeyboardEvent): void => {
@@ -394,7 +460,7 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
       } else if (fractionalSecondAsIntegerLength < stepPrecision) {
         newFractionalSecondAsIntegerString = `${fractionalSecondAsInteger}${key}`.padStart(
           stepPrecision,
-          "0",
+          "0"
         );
       }
 
@@ -420,26 +486,22 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
     }
   };
 
-  private fractionalSecondDownClickHandler = (): void => {
-    this.activeEl = this.fractionalSecondEl;
-    this.fractionalSecondEl.focus();
-    this.nudgeFractionalSecond("down");
-  };
-
-  private fractionalSecondUpClickHandler = (): void => {
-    this.activeEl = this.fractionalSecondEl;
-    this.fractionalSecondEl.focus();
-    this.nudgeFractionalSecond("up");
-  };
-
-  private hourDownClickHandler = (): void => {
-    this.activeEl = this.hourEl;
-    this.hourEl.focus();
-    this.decrementHour();
-  };
+  private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
+    const isRTLKind = this.effectiveLocale === "ar" || this.effectiveLocale === "he";
+    if (formatParts && !isRTLKind) {
+      const index = formatParts.findIndex((parts: { type: string; value: string }) => {
+        return parts.value === this.localizedMeridiem;
+      });
+      return index;
+    }
+    return 0;
+  }
 
   private hourKeyDownHandler = (event: KeyboardEvent): void => {
-    const { key } = event;
+    if (this.disabled || this.readonly) {
+      return;
+    }
+    const key = event.key;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newHour;
@@ -480,21 +542,11 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
           this.incrementHour();
           break;
         case " ":
+        case "Spacebar":
           event.preventDefault();
           break;
       }
     }
-  };
-
-  private hourUpClickHandler = (): void => {
-    this.activeEl = this.hourEl;
-    this.hourEl.focus();
-    this.incrementHour();
-  };
-
-  private incrementMeridiem = (): void => {
-    const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
-    this.setValuePart("meridiem", newMeridiem);
   };
 
   private incrementHour = (): void => {
@@ -506,6 +558,15 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
     this.setValuePart("hour", newHour);
   };
 
+  private incrementMeridiem = (): void => {
+    const newMeridiem = this.meridiem === "AM" ? "PM" : "AM";
+    this.setValuePart("meridiem", newMeridiem);
+  };
+
+  private incrementMinute = (): void => {
+    this.incrementMinuteOrSecond("minute");
+  };
+
   private incrementMinuteOrSecond = (key: MinuteOrSecond): void => {
     const newValue = isValidNumber(this[key])
       ? this[key] === "59"
@@ -515,25 +576,14 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
     this.setValuePart(key, newValue);
   };
 
-  private incrementMinute = (): void => {
-    this.incrementMinuteOrSecond("minute");
-  };
-
   private incrementSecond = (): void => {
     this.incrementMinuteOrSecond("second");
   };
 
-  private inputClickHandler = (event: MouseEvent): void => {
-    this.activeEl = event.target as HTMLSpanElement;
-  };
-
-  private meridiemUpClickHandler = (): void => {
-    this.activeEl = this.meridiemEl;
-    this.meridiemEl.focus();
-    this.incrementMeridiem();
-  };
-
   private meridiemKeyDownHandler = (event: KeyboardEvent): void => {
+    if (this.disabled || this.readonly) {
+      return;
+    }
     switch (event.key) {
       case "a":
         this.setValuePart("meridiem", "AM");
@@ -554,31 +604,17 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
         this.decrementMeridiem();
         break;
       case " ":
+      case "Spacebar":
         event.preventDefault();
         break;
     }
   };
 
-  private meridiemDownClickHandler = (): void => {
-    this.activeEl = this.meridiemEl;
-    this.meridiemEl.focus();
-    this.decrementMeridiem();
-  };
-
-  private minuteDownClickHandler = (): void => {
-    this.activeEl = this.minuteEl;
-    this.minuteEl.focus();
-    this.decrementMinute();
-  };
-
-  private minuteUpClickHandler = (): void => {
-    this.activeEl = this.minuteEl;
-    this.minuteEl.focus();
-    this.incrementMinute();
-  };
-
   private minuteKeyDownHandler = (event: KeyboardEvent): void => {
-    const { key } = event;
+    if (this.disabled || this.readonly) {
+      return;
+    }
+    const key = event.key;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newMinute;
@@ -607,6 +643,7 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
           this.incrementMinute();
           break;
         case " ":
+        case "Spacebar":
           event.preventDefault();
           break;
       }
@@ -648,14 +685,9 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
     this.setValuePart("fractionalSecond", newFractionalSecond);
   };
 
-  private sanitizeValue = (value: string): string => {
-    const { hour, minute, second, fractionalSecond } = parseTimeString(value);
-    if (fractionalSecond) {
-      const sanitizedFractionalSecond = this.sanitizeFractionalSecond(fractionalSecond);
-      return `${hour}:${minute}:${second}.${sanitizedFractionalSecond}`;
-    }
-    return isValidTime(value) && value;
-  };
+  onLabelClick(): void {
+    this.setFocus();
+  }
 
   private sanitizeFractionalSecond = (fractionalSecond: string): string =>
     fractionalSecond && decimalPlaces(this.step) !== fractionalSecond.length
@@ -663,7 +695,10 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
       : fractionalSecond;
 
   private secondKeyDownHandler = (event: KeyboardEvent): void => {
-    const { key } = event;
+    if (this.disabled || this.readonly) {
+      return;
+    }
+    const key = event.key;
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newSecond;
@@ -692,23 +727,14 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
           this.incrementSecond();
           break;
         case " ":
+        case "Spacebar":
           event.preventDefault();
           break;
       }
     }
   };
 
-  private secondDownClickHandler = (): void => {
-    this.activeEl = this.secondEl;
-    this.secondEl.focus();
-    this.decrementSecond();
-  };
-
-  private secondUpClickHandler = (): void => {
-    this.activeEl = this.secondEl;
-    this.secondEl.focus();
-    this.incrementSecond();
-  };
+  private setFractionalSecondEl = (el: HTMLSpanElement) => (this.fractionalSecondEl = el);
 
   private setHourEl = (el: HTMLSpanElement) => (this.hourEl = el);
 
@@ -717,8 +743,6 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
   private setMinuteEl = (el: HTMLSpanElement) => (this.minuteEl = el);
 
   private setSecondEl = (el: HTMLSpanElement) => (this.secondEl = el);
-
-  private setFractionalSecondEl = (el: HTMLSpanElement) => (this.fractionalSecondEl = el);
 
   private setValue = (value: string): void => {
     if (isValidTime(value)) {
@@ -754,43 +778,40 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
         this.meridiemOrder = this.getMeridiemOrder(formatParts);
       }
     } else {
-      this.hour = null;
-      this.fractionalSecond = null;
-      this.localizedHour = null;
+      this.hour = undefined;
+      this.fractionalSecond = undefined;
+      this.localizedHour = undefined;
       this.localizedHourSuffix = getLocalizedTimePartSuffix(
         "hour",
         this.effectiveLocale,
-        this.numberingSystem,
+        this.numberingSystem
       );
-      this.localizedMeridiem = null;
-      this.localizedMinute = null;
+      this.localizedMeridiem = undefined;
+      this.localizedMinute = undefined;
       this.localizedMinuteSuffix = getLocalizedTimePartSuffix(
         "minute",
         this.effectiveLocale,
-        this.numberingSystem,
+        this.numberingSystem
       );
-      this.localizedSecond = null;
+      this.localizedSecond = undefined;
       this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
         this.effectiveLocale,
-        this.numberingSystem,
+        this.numberingSystem
       );
-      this.localizedFractionalSecond = null;
+      this.localizedFractionalSecond = undefined;
       this.localizedSecondSuffix = getLocalizedTimePartSuffix(
         "second",
         this.effectiveLocale,
-        this.numberingSystem,
+        this.numberingSystem
       );
-      this.meridiem = null;
-      this.minute = null;
-      this.second = null;
-      this.value = null;
+      this.meridiem = undefined;
+      this.minute = undefined;
+      this.second = undefined;
+      this.value = "";
     }
   };
 
-  private setValuePart = (
-    key: "hour" | "minute" | "second" | "fractionalSecond" | "meridiem",
-    value: number | string | Meridiem,
-  ): void => {
+  private setValuePart = (key: TimePart, value: number | string | Meridiem): void => {
     const { effectiveLocale: locale, numberingSystem } = this;
     if (key === "meridiem") {
       this.meridiem = value as Meridiem;
@@ -815,20 +836,6 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
           numberingSystem,
         });
       }
-    } else if (key === "fractionalSecond") {
-      const stepPrecision = decimalPlaces(this.step);
-      if (typeof value === "number") {
-        this.fractionalSecond =
-          value === 0 ? "".padStart(stepPrecision, "0") : formatTimePart(value, stepPrecision);
-      } else {
-        this.fractionalSecond = value;
-      }
-      this.localizedFractionalSecond = localizeTimePart({
-        value: this.fractionalSecond,
-        part: "fractionalSecond",
-        locale,
-        numberingSystem,
-      });
     } else {
       this[key] = typeof value === "number" ? formatTimePart(value) : value;
       this[`localized${capitalize(key)}`] = localizeTimePart({
@@ -838,6 +845,7 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
         numberingSystem,
       });
     }
+
     let emit = false;
     let newValue;
     if (this.hour && this.minute) {
@@ -849,7 +857,7 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
         }
       }
     } else {
-      newValue = null;
+      newValue = "";
     }
     if (this.value !== newValue) {
       emit = true;
@@ -860,35 +868,17 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
           ?.localizedMeridiem || null
       : localizeTimePart({ value: this.meridiem, part: "meridiem", locale, numberingSystem });
     if (emit) {
-      this.calciteInternalTimePickerChange.emit();
+      this.calciteInputTimeChange.emit();
     }
+  };
+
+  private timePartFocusHandler = (event: FocusEvent): void => {
+    this.activeEl = event.currentTarget as HTMLSpanElement;
   };
 
   private toggleSecond(): void {
     this.showSecond = this.step < 60;
     this.showFractionalSecond = decimalPlaces(this.step) > 0;
-  }
-
-  private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
-    const locale = this.effectiveLocale;
-    const isRTLKind = locale === "ar" || locale === "he";
-    if (formatParts && !isRTLKind) {
-      const index = formatParts.findIndex((parts: { type: string; value: string }) => {
-        return parts.value === this.localizedMeridiem;
-      });
-      return index;
-    }
-    return 0;
-  }
-
-  private updateLocale() {
-    updateMessages(this, this.effectiveLocale);
-    this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
-    this.localizedDecimalSeparator = getLocalizedDecimalSeparator(
-      this.effectiveLocale,
-      this.numberingSystem,
-    );
-    this.setValue(this.sanitizeValue(this.value));
   }
 
   // --------------------------------------------------------------------------
@@ -897,18 +887,14 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     connectLocalized(this);
-    this.updateLocale();
     connectMessages(this);
+    this.setValue(this.value);
+    this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
+    connectLabel(this);
+    connectForm(this);
     this.toggleSecond();
-    this.meridiemOrder = this.getMeridiemOrder(
-      getTimeParts({
-        value: "0:00:00",
-        locale: this.effectiveLocale,
-        numberingSystem: this.numberingSystem,
-      }),
-    );
   }
 
   async componentWillLoad(): Promise<void> {
@@ -920,9 +906,15 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
     setComponentLoaded(this);
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
+    disconnectLabel(this);
+    disconnectForm(this);
   }
 
   // --------------------------------------------------------------------------
@@ -932,176 +924,83 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);
     const hourIsNumber = isValidNumber(this.hour);
-    const iconScale = getIconScale(this.scale);
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
-    const fractionalSecondIsNumber = isValidNumber(this.fractionalSecond);
     const showMeridiem = this.hourCycle === "12";
+    const emptyValue = "--";
     return (
-      <div
-        class={{
-          [CSS.timePicker]: true,
-          [CSS.showMeridiem]: showMeridiem,
-          [CSS.showSecond]: this.showSecond,
-          [CSS[`scale-${this.scale}`]]: true,
-        }}
-        dir="ltr"
-      >
-        <div class={CSS.column} role="group">
+      <Host>
+        <div
+          class={{
+            [CSS.container]: true,
+            [CSS.readonly]: this.readonly,
+            [CSS[`scale-${this.scale}`]]: true,
+          }}
+          dir="ltr"
+        >
+          <calcite-icon class={CSS.clockIcon} flipRtl={this.iconFlipRtl} icon="clock" scale="s" />
           <span
-            aria-label={this.messages.hourUp}
-            class={{
-              [CSS.button]: true,
-              [CSS.buttonHourUp]: true,
-              [CSS.buttonTopLeft]: true,
-            }}
-            onClick={this.hourUpClickHandler}
-            role="button"
-          >
-            <calcite-icon icon="chevron-up" scale={iconScale} />
-          </span>
-          <span
-            aria-label={this.messages.hour}
+            aria-label={this.intlHour}
             aria-valuemax="23"
             aria-valuemin="1"
             aria-valuenow={(hourIsNumber && parseInt(this.hour)) || "0"}
             aria-valuetext={this.hour}
             class={{
+              [CSS.empty]: !Boolean(this.localizedHour),
               [CSS.input]: true,
-              [CSS.hour]: true,
-              [CSS.inputFocus]: this.activeEl && this.activeEl === this.hourEl,
             }}
-            onClick={this.inputClickHandler}
-            onFocus={this.focusHandler}
+            onFocus={this.timePartFocusHandler}
             onKeyDown={this.hourKeyDownHandler}
             ref={this.setHourEl}
             role="spinbutton"
             tabIndex={0}
           >
-            {this.localizedHour || "--"}
+            {this.localizedHour || emptyValue}
           </span>
+          <span>{this.localizedHourSuffix}</span>
           <span
-            aria-label={this.messages.hourDown}
-            class={{
-              [CSS.button]: true,
-              [CSS.buttonHourDown]: true,
-              [CSS.buttonBottomLeft]: true,
-            }}
-            onClick={this.hourDownClickHandler}
-            role="button"
-          >
-            <calcite-icon icon="chevron-down" scale={iconScale} />
-          </span>
-        </div>
-        <span class={CSS.delimiter}>{this.localizedHourSuffix}</span>
-        <div class={CSS.column} role="group">
-          <span
-            aria-label={this.messages.minuteUp}
-            class={{
-              [CSS.button]: true,
-              [CSS.buttonMinuteUp]: true,
-            }}
-            onClick={this.minuteUpClickHandler}
-            role="button"
-          >
-            <calcite-icon icon="chevron-up" scale={iconScale} />
-          </span>
-          <span
-            aria-label={this.messages.minute}
+            aria-label={this.intlMinute}
             aria-valuemax="12"
             aria-valuemin="1"
             aria-valuenow={(minuteIsNumber && parseInt(this.minute)) || "0"}
             aria-valuetext={this.minute}
             class={{
+              [CSS.empty]: !Boolean(this.localizedMinute),
               [CSS.input]: true,
-              [CSS.minute]: true,
-              [CSS.inputFocus]: this.activeEl && this.activeEl === this.minuteEl,
             }}
-            onClick={this.inputClickHandler}
-            onFocus={this.focusHandler}
+            onFocus={this.timePartFocusHandler}
             onKeyDown={this.minuteKeyDownHandler}
             ref={this.setMinuteEl}
             role="spinbutton"
             tabIndex={0}
           >
-            {this.localizedMinute || "--"}
+            {this.localizedMinute || emptyValue}
           </span>
-          <span
-            aria-label={this.messages.minuteDown}
-            class={{
-              [CSS.button]: true,
-              [CSS.buttonMinuteDown]: true,
-            }}
-            onClick={this.minuteDownClickHandler}
-            role="button"
-          >
-            <calcite-icon icon="chevron-down" scale={iconScale} />
-          </span>
-        </div>
-        {this.showSecond && <span class={CSS.delimiter}>{this.localizedMinuteSuffix}</span>}
-        {this.showSecond && (
-          <div class={CSS.column} role="group">
+          {this.showSecond && <span>{this.localizedMinuteSuffix}</span>}
+          {this.showSecond && (
             <span
-              aria-label={this.messages.secondUp}
-              class={{
-                [CSS.button]: true,
-                [CSS.buttonSecondUp]: true,
-              }}
-              onClick={this.secondUpClickHandler}
-              role="button"
-            >
-              <calcite-icon icon="chevron-up" scale={iconScale} />
-            </span>
-            <span
-              aria-label={this.messages.second}
+              aria-label={this.intlSecond}
               aria-valuemax="59"
               aria-valuemin="0"
               aria-valuenow={(secondIsNumber && parseInt(this.second)) || "0"}
               aria-valuetext={this.second}
               class={{
+                [CSS.empty]: !Boolean(this.localizedSecond),
                 [CSS.input]: true,
-                [CSS.second]: true,
-                [CSS.inputFocus]: this.activeEl && this.activeEl === this.secondEl,
               }}
-              onClick={this.inputClickHandler}
-              onFocus={this.focusHandler}
+              onFocus={this.timePartFocusHandler}
               onKeyDown={this.secondKeyDownHandler}
               ref={this.setSecondEl}
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedSecond || "--"}
+              {this.localizedSecond || emptyValue}
             </span>
-            <span
-              aria-label={this.messages.secondDown}
-              class={{
-                [CSS.button]: true,
-                [CSS.buttonSecondDown]: true,
-              }}
-              onClick={this.secondDownClickHandler}
-              role="button"
-            >
-              <calcite-icon icon="chevron-down" scale={iconScale} />
-            </span>
-          </div>
-        )}
-        {this.showFractionalSecond && (
-          <span class={CSS.delimiter}>{this.localizedDecimalSeparator}</span>
-        )}
-        {this.showFractionalSecond && (
-          <div class={CSS.column} role="group">
-            <span
-              aria-label={this.messages.fractionalSecondUp}
-              class={{
-                [CSS.button]: true,
-                [CSS.buttonFractionalSecondUp]: true,
-              }}
-              onClick={this.fractionalSecondUpClickHandler}
-              role="button"
-            >
-              <calcite-icon icon="chevron-up" scale={iconScale} />
-            </span>
+          )}
+          {this.showFractionalSecond && <span>{this.localizedDecimalSeparator}</span>}
+          {this.showFractionalSecond && (
             <span
               aria-label={this.messages.fractionalSecond}
               aria-valuemax="999"
@@ -1109,90 +1008,43 @@ export class TimePicker implements LoadableComponent, LocalizedComponent, T9nCom
               aria-valuenow={(fractionalSecondIsNumber && parseInt(this.fractionalSecond)) || "0"}
               aria-valuetext={this.localizedFractionalSecond}
               class={{
+                [CSS.empty]: !Boolean(this.localizedFractionalSecond),
                 [CSS.input]: true,
-                [CSS.fractionalSecond]: true,
-                [CSS.inputFocus]: this.activeEl && this.activeEl === this.fractionalSecondEl,
               }}
-              onClick={this.inputClickHandler}
-              onFocus={this.focusHandler}
+              onFocus={this.timePartFocusHandler}
               onKeyDown={this.fractionalSecondKeyDownHandler}
               ref={this.setFractionalSecondEl}
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedFractionalSecond || "--"}
+              {this.localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
             </span>
+          )}
+          {this.localizedSecondSuffix && <span>{this.localizedSecondSuffix}</span>}
+          {showMeridiem && (
             <span
-              aria-label={this.messages.fractionalSecondDown}
-              class={{
-                [CSS.button]: true,
-                [CSS.buttonFractionalSecondDown]: true,
-              }}
-              onClick={this.fractionalSecondDownClickHandler}
-              role="button"
-            >
-              <calcite-icon icon="chevron-down" scale={iconScale} />
-            </span>
-          </div>
-        )}
-        {this.localizedSecondSuffix && (
-          <span class={CSS.delimiter}>{this.localizedSecondSuffix}</span>
-        )}
-        {showMeridiem && (
-          <div
-            class={{
-              [CSS.column]: true,
-              [CSS.meridiemStart]: this.meridiemOrder === 0,
-            }}
-            role="group"
-          >
-            <span
-              aria-label={this.messages.meridiemUp}
-              class={{
-                [CSS.button]: true,
-                [CSS.buttonMeridiemUp]: true,
-                [CSS.buttonTopRight]: true,
-              }}
-              onClick={this.meridiemUpClickHandler}
-              role="button"
-            >
-              <calcite-icon icon="chevron-up" scale={iconScale} />
-            </span>
-            <span
-              aria-label={this.messages.meridiem}
+              aria-label={this.intlMeridiem}
               aria-valuemax="2"
               aria-valuemin="1"
               aria-valuenow={(this.meridiem === "PM" && "2") || "1"}
               aria-valuetext={this.meridiem}
               class={{
+                [CSS.empty]: !Boolean(this.localizedMeridiem),
                 [CSS.input]: true,
                 [CSS.meridiem]: true,
-                [CSS.inputFocus]: this.activeEl && this.activeEl === this.meridiemEl,
               }}
-              onClick={this.inputClickHandler}
-              onFocus={this.focusHandler}
+              onFocus={this.timePartFocusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
               ref={this.setMeridiemEl}
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedMeridiem || "--"}
+              {this.localizedMeridiem || emptyValue}
             </span>
-            <span
-              aria-label={this.messages.meridiemDown}
-              class={{
-                [CSS.button]: true,
-                [CSS.buttonMeridiemDown]: true,
-                [CSS.buttonBottomRight]: true,
-              }}
-              onClick={this.meridiemDownClickHandler}
-              role="button"
-            >
-              <calcite-icon icon="chevron-down" scale={iconScale} />
-            </span>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+        <HiddenFormInputSlot component={this} />
+      </Host>
     );
   }
 }
