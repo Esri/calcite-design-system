@@ -780,7 +780,6 @@ describe("calcite-button", () => {
           },
         ],
         "--calcite-button-shadow": {
-          shadowSelector: `.${CSS.button}`,
           targetProp: "boxShadow",
         },
         "--calcite-button-text-color": {
@@ -824,10 +823,6 @@ describe("calcite-button", () => {
         "--calcite-button-corner-radius": {
           shadowSelector: `.${CSS.button}`,
           targetProp: "borderRadius",
-        },
-        "--calcite-button-shadow": {
-          shadowSelector: `.${CSS.button}`,
-          targetProp: "boxShadow",
         },
         "--calcite-button-text-color": {
           shadowSelector: `.${CSS.button}`,
