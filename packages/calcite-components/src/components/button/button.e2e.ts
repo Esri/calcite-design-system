@@ -1,5 +1,5 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden, t9n } from "../../tests/commonTests";
+import { accessible, disabled, HYDRATED_ATTR, labelable, defaults, hidden, t9n, themed } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -757,5 +757,96 @@ describe("calcite-button", () => {
     expect(elementAsButton).not.toBeNull();
     expect(elementHost).toEqualAttribute("width", "full");
     expect(await elementAsButton.getComputedStyle()["width"]).toEqual(await elementHost.getComputedStyle()["width"]);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-button", {
+        "--calcite-button-background-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-button-border-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-button-corner-radius": [
+          {
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.button}`,
+            targetProp: "borderRadius",
+          },
+        ],
+        "--calcite-button-shadow": {
+          targetProp: "boxShadow",
+        },
+        "--calcite-button-text-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("fine-grained round corners", () => {
+      themed("calcite-button", {
+        "--calcite-button-corner-radius-start-start": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartStartRadius",
+        },
+        "--calcite-button-corner-radius-start-end": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartEndRadius",
+        },
+        "--calcite-button-corner-radius-end-start": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndStartRadius",
+        },
+        "--calcite-button-corner-radius-end-end": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndEndRadius",
+        },
+      });
+    });
+
+    describe("link", () => {
+      themed(html`<calcite-button href="https://www.esri.com">button</calcite-button>`, {
+        "--calcite-button-background-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-button-border-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-button-corner-radius": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-button-text-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("with icons", () => {
+      themed(html`<calcite-button icon-start="banana">button</calcite-button>`, {
+        "--calcite-button-icon-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("loading", () => {
+      themed(html`<calcite-button loading>button</calcite-button>`, {
+        "--calcite-button-loader-color": {
+          shadowSelector: `calcite-loader`,
+          targetProp: "--calcite-loader-color-start",
+        },
+      });
+    });
   });
 });
