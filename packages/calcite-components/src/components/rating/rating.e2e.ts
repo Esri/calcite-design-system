@@ -797,7 +797,16 @@ describe("calcite-rating", () => {
           state: { press: { attribute: "class", value: "star" } },
         },
       };
-      themed(html`<calcite-rating></calcite-rating>`, tokens);
+      themed("calcite-rating", tokens);
+    });
+    describe("deprecated", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-rating-spacing-unit": {
+          shadowSelector: `.${CSS.fieldset}`,
+          targetProp: "gap",
+        },
+      };
+      themed("calcite-rating", tokens);
     });
     describe("average with chip", () => {
       const tokens: ComponentTestTokens = {
