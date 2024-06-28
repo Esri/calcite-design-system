@@ -292,6 +292,7 @@ export class FlowItem
 
   handlePanelClose = (event: CustomEvent<void>): void => {
     event.stopPropagation();
+    this.closed = true;
     this.calciteFlowItemClose.emit();
   };
 
