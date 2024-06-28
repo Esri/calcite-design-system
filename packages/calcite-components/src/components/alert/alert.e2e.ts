@@ -1,8 +1,10 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, HYDRATED_ATTR, renders, t9n, themed } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { getElementXY } from "../../tests/utils";
 import { openClose } from "../../tests/commonTests";
+import { CSS as CHIP_CSS } from "../chip/resources";
 import { CSS, DURATIONS } from "./resources";
 
 describe("defaults", () => {
@@ -41,6 +43,124 @@ describe("calcite-alert", () => {
 
   describe("openClose", () => {
     openClose("calcite-alert");
+  });
+
+  describe("theme", () => {
+    const alertHtml = html`<calcite-alert open icon closable>
+      <div slot="title">Title Text</div>
+      <div slot="message">Message Text</div>
+    </calcite-alert>`;
+
+    const alertQueueHtml = html` <calcite-button
+        id="button"
+        onclick="document.querySelector('#alert-to-be-queued').setAttribute('open', '')"
+        >open alert</calcite-button
+      >
+      <calcite-alert open icon="3d-glasses">
+        <div slot="title">Title of alert Uno</div>
+        <div slot="message">Message text of the alert Uno</div>
+        <a slot="link" href="#">Retry</a>
+      </calcite-alert>
+
+      <calcite-alert id="alert-to-be-queued">
+        <div slot="title">Title of alert Dos</div>
+        <div slot="message">Message text of the alert Dos</div>
+        <a slot="link" href="#">Retry</a>
+      </calcite-alert>`;
+
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-alert-accent-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBlockStartColor",
+        },
+        "--calcite-alert-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-alert-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineColor",
+        },
+        "--calcite-alert-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-alert-shadow": {
+          targetProp: "boxShadow",
+          shadowSelector: `.${CSS.container}`,
+        },
+        "--calcite-alert-icon-color": {
+          shadowSelector: `.${CSS.icon} >>> calcite-icon`,
+          targetProp: "color",
+        },
+        "--calcite-alert-close-background-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-alert-close-background-color-hover": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: { hover: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-alert-close-background-color-active": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-alert-close-background-color-focus": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "backgroundColor",
+          state: { focus: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-alert-close-icon-color-hover": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "color",
+          state: { hover: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-alert-close-icon-color-active": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "color",
+          state: { press: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-alert-close-icon-color-focus": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "color",
+          state: { focus: { attribute: "class", value: CSS.close } },
+        },
+      };
+      themed(alertHtml, tokens);
+    });
+    describe("queued Alerts", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-alert-chip-background-color": {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.queueCount} >>> calcite-chip >>> .${CHIP_CSS.container}`,
+        },
+        "--calcite-alert-chip-border-color": {
+          targetProp: "borderColor",
+          shadowSelector: `.${CSS.queueCount} >>> calcite-chip >>> .${CHIP_CSS.container}`,
+        },
+        "--calcite-alert-chip-corner-radius": {
+          targetProp: "borderRadius",
+          shadowSelector: `.${CSS.queueCount} >>> calcite-chip >>> .${CHIP_CSS.container}`,
+        },
+        "--calcite-alert-chip-text-color": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.queueCount} >>> calcite-chip >>> .${CHIP_CSS.container}`,
+        },
+      };
+      themed(async () => {
+        const page = await newE2EPage();
+        await page.setContent(alertQueueHtml);
+        await page.$eval("#button", (button: HTMLCalciteButtonElement) => {
+          button.click();
+        });
+        await page.waitForChanges();
+
+        return { tag: "calcite-alert", page };
+      }, tokens);
+    });
   });
 
   it("renders default props when none are provided", async () => {

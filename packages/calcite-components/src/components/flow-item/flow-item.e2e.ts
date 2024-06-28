@@ -10,8 +10,10 @@ import {
   renders,
   slots,
   t9n,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-flow-item", () => {
@@ -286,5 +288,86 @@ describe("calcite-flow-item", () => {
     await page.waitForChanges();
 
     expect(toggleSpy).toHaveReceivedEventTimes(1);
+  });
+
+  describe("theme", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-flow-item-action-background-color": {
+        selector: "calcite-flow-item",
+        targetProp: "--calcite-action-background-color",
+        shadowSelector: "calcite-action",
+      },
+      "--calcite-flow-item-action-background-color-hover": {
+        targetProp: "--calcite-action-background-color",
+        shadowSelector: "calcite-action",
+        selector: "calcite-flow-item",
+        state: "hover",
+      },
+      "--calcite-flow-item-action-background-color-active": {
+        targetProp: "--calcite-action-background-color",
+        shadowSelector: "calcite-action",
+        selector: "calcite-flow-item",
+        state: { press: { attribute: "class", value: CSS.backButton } },
+      },
+      "--calcite-flow-item-background-color": [
+        {
+          targetProp: "backgroundColor",
+          selector: "calcite-flow-item",
+        },
+        {
+          targetProp: "--calcite-panel-background-color",
+          selector: "calcite-flow-item",
+          shadowSelector: "calcite-panel",
+        },
+      ],
+      "--calcite-flow-item-border-color": [
+        {
+          targetProp: "borderColor",
+          selector: "calcite-flow-item",
+          shadowSelector: `.${CSS.backButton}`,
+        },
+        {
+          shadowSelector: "calcite-panel",
+          selector: "calcite-flow-item",
+          targetProp: "--calcite-panel-border-color",
+        },
+      ],
+      "--calcite-flow-item-description-text-color": {
+        targetProp: "--calcite-panel-description-text-color",
+        selector: "calcite-flow-item",
+        shadowSelector: "calcite-panel",
+      },
+      "--calcite-flow-item-fab-z-index": {
+        targetProp: "--calcite-panel-fab-z-index",
+        selector: "calcite-flow-item",
+        shadowSelector: "calcite-panel",
+      },
+      "--calcite-flow-item-footer-background-color": {
+        targetProp: "--calcite-panel-footer-background-color",
+        selector: "calcite-flow-item",
+        shadowSelector: "calcite-panel",
+      },
+      "--calcite-flow-item-footer-space": {
+        targetProp: "--calcite-panel-footer-space",
+        selector: "calcite-flow-item",
+        shadowSelector: "calcite-panel",
+      },
+      "--calcite-flow-item-header-background-color": {
+        targetProp: "--calcite-panel-header-background-color",
+        selector: "calcite-flow-item",
+        shadowSelector: "calcite-panel",
+      },
+      "--calcite-flow-item-header-z-index": {
+        targetProp: "--calcite-panel-header-z-index",
+        selector: "calcite-flow-item",
+        shadowSelector: "calcite-panel",
+      },
+      "--calcite-flow-item-heading-text-color": {
+        targetProp: "--calcite-panel-heading-text-color",
+        selector: "calcite-flow-item",
+        shadowSelector: "calcite-panel",
+      },
+    };
+    themed(`calcite-action-bar`, tokens);
   });
 });

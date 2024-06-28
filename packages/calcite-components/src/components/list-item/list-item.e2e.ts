@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, disabled, focusable, hidden, renders, slots } from "../../tests/commonTests";
+import { defaults, disabled, focusable, hidden, renders, slots, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-list-item", () => {
@@ -340,5 +341,150 @@ describe("calcite-list-item", () => {
     await page.waitForChanges();
     expect(await listItem.getProperty("dragSelected")).toBe(false);
     expect(calciteListItemDragHandleChange).toHaveReceivedEventTimes(2);
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-list-item-background-color-active": {
+          selector: "calcite-list-item",
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.container } },
+        },
+        "--calcite-list-item-background-color-hover": {
+          selector: "calcite-list-item",
+          shadowSelector: `.${CSS.containerHover}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        "--calcite-list-item-background-color": [
+          {
+            selector: "calcite-list-item",
+            targetProp: "backgroundColor",
+          },
+          {
+            selector: "calcite-list-item",
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+          },
+        ],
+        "--calcite-list-item-border-color": {
+          selector: "calcite-list-item",
+          shadowSelector: `.${CSS.nestedContainer}`,
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-list-item-description-text-color-selected": {
+          selector: "calcite-list-item[selected]",
+          shadowSelector: `.${CSS.description}`,
+          targetProp: "color",
+        },
+        "--calcite-list-item-description-text-color": {
+          selector: "calcite-list-item",
+          shadowSelector: `.${CSS.description}`,
+          targetProp: "color",
+        },
+        "--calcite-list-item-label-text-color": {
+          selector: "calcite-list-item",
+          shadowSelector: `.${CSS.label}`,
+          targetProp: "color",
+        },
+        "--calcite-list-item-spacing-indent": {
+          selector: "calcite-list-item",
+          targetProp: "marginInlineStart",
+          shadowSelector: `.${CSS.nestedContainer}`,
+        },
+        "--calcite-list-item-indicator-color": {
+          selector: "calcite-list-item",
+          shadowSelector: `.${CSS.selectionContainer}`,
+          targetProp: "color",
+        },
+        "--calcite-list-item-indicator-color-hover": {
+          selector: "calcite-list-item",
+          shadowSelector: `.${CSS.selectionContainer}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-list-item-indicator-color-selected": {
+          selector: "calcite-list-item[selected]",
+          shadowSelector: `.${CSS.selectionContainer}`,
+          targetProp: "color",
+        },
+      };
+      themed(
+        html`<calcite-list selection-mode="single">
+          <calcite-list-item label="Apples" description="Apples are cool" value="apples" open>
+            <calcite-list>
+              <calcite-list-item label="Red" description="Red is cool" value="red"></calcite-list-item>
+              <calcite-list-item label="Green" description="Green is cool" value="green"></calcite-list-item>
+              <calcite-list-item label="Yellow" description="Yellow is cool" value="yellow"></calcite-list-item>
+            </calcite-list>
+          </calcite-list-item>
+          <calcite-list-item
+            label="Oranges"
+            description="Oranges are cool"
+            value="oranges"
+            selected
+          ></calcite-list-item>
+          <calcite-list-item label="Pears" description="Pears are cool" value="pears"></calcite-list-item>
+        </calcite-list>`,
+        tokens,
+      );
+    });
+    describe("border", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-list-item-border-color": {
+          selector: "calcite-list-item[selected]",
+          shadowSelector: `.${CSS.wrapperBordered}`,
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-list-item-indicator-color": {
+          selector: "calcite-list-item[selected]",
+          shadowSelector: `.${CSS.containerBorder}`,
+          targetProp: "borderInlineStartColor",
+        },
+        "--calcite-list-item-indicator-color-hover": {
+          selector: "calcite-list-item[selected]",
+          shadowSelector: `.${CSS.containerBorder}`,
+          targetProp: "borderInlineStartColor",
+          state: "hover",
+        },
+        "--calcite-list-item-indicator-color-selected": {
+          selector: "calcite-list-item[selected]",
+          shadowSelector: `.${CSS.containerBorder}`,
+          targetProp: "borderInlineStartColor",
+        },
+      };
+      themed(
+        html`<calcite-list selection-appearance="border" selection-mode="single">
+          <calcite-list-item label="Apples" description="Apples are cool" value="apples" open selected>
+            <calcite-list>
+              <calcite-list-item label="Red" description="Red is cool" value="red"></calcite-list-item>
+              <calcite-list-item label="Green" description="Green is cool" value="green"></calcite-list-item>
+              <calcite-list-item label="Yellow" description="Yellow is cool" value="yellow"></calcite-list-item>
+            </calcite-list>
+          </calcite-list-item>
+          <calcite-list-item label="Oranges" description="Oranges are cool" value="oranges"></calcite-list-item>
+          <calcite-list-item label="Pears" description="Pears are cool" value="pears"></calcite-list-item>
+        </calcite-list>`,
+        tokens,
+      );
+    });
+    describe("filtered fallback", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-list-background-color": {
+          selector: "calcite-list-item",
+          targetProp: "backgroundColor",
+        },
+      };
+      themed(
+        html`<calcite-list>
+          <calcite-list-item label="Apples" value="apples"></calcite-list-item>
+          <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
+          <calcite-list-item label="Pears" value="pears"></calcite-list-item>
+        </calcite-list>`,
+        tokens,
+      );
+    });
   });
 });

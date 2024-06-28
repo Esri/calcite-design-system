@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, hidden } from "../../tests/commonTests";
+import { renders, hidden, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-segmented-control-item", () => {
@@ -105,6 +106,45 @@ describe("calcite-segmented-control-item", () => {
       expect(element).not.toHaveAttribute("value");
       expect(element).not.toHaveAttribute("icon-start");
       expect(element).not.toHaveAttribute("icon-end");
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-segmented-control-item", {
+        "--calcite-segmented-control-item-background-color": {
+          targetProp: "backgroundColor",
+        },
+        "--calcite-segmented-control-item-border-color": {
+          shadowSelector: `.${CSS.label}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-segmented-control-item-text-color": {
+          shadowSelector: `.${CSS.label}`,
+          targetProp: "color",
+        },
+      });
+    });
+
+    describe("checked", () => {
+      themed(
+        html`<calcite-segmented-control-item checked appearance="outline-fill"></calcite-segmented-control-item>`,
+        {
+          "--calcite-segmented-control-item-border-color": {
+            shadowSelector: `.${CSS.label}`,
+            targetProp: "borderColor",
+          },
+        },
+      );
+    });
+
+    describe("with icon", () => {
+      themed(html`<calcite-segmented-control-item icon-start="3d-glasses">3d!</calcite-segmented-control-item>`, {
+        "--calcite-segmented-control-item-icon-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "--calcite-icon-color",
+        },
+      });
     });
   });
 });

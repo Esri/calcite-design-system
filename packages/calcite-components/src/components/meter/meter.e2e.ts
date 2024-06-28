@@ -1,6 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, renders, hidden, defaults, reflects } from "../../tests/commonTests";
+import { accessible, renders, hidden, defaults, reflects, themed } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-meter", () => {
   describe("renders", () => {
@@ -95,6 +97,61 @@ describe("calcite-meter", () => {
 
   describe("accessible", () => {
     accessible(`<calcite-meter label="A great meter"></calcite-meter>`);
+  });
+
+  describe("theme", () => {
+    const meterHtml = html`<calcite-meter
+      group-separator
+      unit-label="GB"
+      value-label
+      range-labels
+      min="0"
+      max="12400"
+      low="4600"
+      high="7600"
+      value="-2200"
+      value-label-type="units"
+    ></calcite-meter>`;
+
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-meter-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-meter-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-meter-corner-radius": [
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.fill}`,
+            targetProp: "borderRadius",
+          },
+        ],
+        "--calcite-meter-shadow": {
+          targetProp: "boxShadow",
+          shadowSelector: `.${CSS.container}`,
+        },
+        "--calcite-meter-fill-color": {
+          shadowSelector: `.${CSS.fill}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-meter-range-text-color": {
+          shadowSelector: `.${CSS.labelRange}`,
+          targetProp: "color",
+        },
+        "--calcite-meter-value-text-color": {
+          shadowSelector: `.${CSS.labelValue}`,
+          targetProp: "color",
+        },
+      };
+      themed(meterHtml, tokens);
+    });
   });
 
   describe("correctly sets range and value properties", () => {

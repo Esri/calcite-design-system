@@ -36,8 +36,7 @@ describe("calcite-option-group", () => {
     const page = await newE2EPage({
       html: `<calcite-option-group label="test-group"></calcite-option-group>`,
     });
-
-    const group = await page.find("calcite-option-group");
-    expect(group.shadowRoot.textContent).toBe("test-group");
+    const el = await page.find("calcite-option-group >>> div");
+    expect(el.textContent).toBe("test-group");
   });
 });

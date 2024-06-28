@@ -9,6 +9,7 @@ import {
   reflects,
   renders,
   slots,
+  themed,
 } from "../../tests/commonTests";
 import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS, activeAttr } from "./resources";
@@ -524,6 +525,122 @@ describe("calcite-action-menu", () => {
 
       expect(await actionMenu.getProperty("open")).toBe(false);
       expect(clickSpy).toHaveReceivedEventTimes(1);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens = {
+        "--calcite-action-menu-trigger-background-color-active": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-background-color",
+          state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+        },
+        "--calcite-action-menu-trigger-background-color-focus": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-background-color",
+          state: "focus",
+        },
+        "--calcite-action-menu-trigger-background-color-hover": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-background-color",
+          state: "hover",
+        },
+        "--calcite-action-menu-trigger-background-color": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-action-menu-trigger-icon-color-active": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-icon-color",
+          state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+        },
+        "--calcite-action-menu-trigger-icon-color-focus": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-icon-color",
+          state: "focus",
+        },
+        "--calcite-action-menu-trigger-icon-color-hover": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-icon-color",
+          state: "hover",
+        },
+        "--calcite-action-menu-trigger-icon-color": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-icon-color",
+        },
+        "--calcite-action-menu-trigger-shadow-active": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-shadow",
+          state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+        },
+        "--calcite-action-menu-trigger-shadow-focus": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-shadow",
+          state: "focus",
+        },
+        "--calcite-action-menu-trigger-shadow-hover": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-shadow",
+          state: "hover",
+        },
+        "--calcite-action-menu-trigger-shadow": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-shadow",
+        },
+        "--calcite-action-menu-trigger-text-color-active": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-text-color",
+          state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+        },
+        "--calcite-action-menu-trigger-text-color-focus": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-text-color",
+          state: "focus",
+        },
+        "--calcite-action-menu-trigger-text-color-hover": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-text-color",
+          state: "hover",
+        },
+        "--calcite-action-menu-trigger-text-color": {
+          shadowSelector: "calcite-action",
+          targetProp: "--calcite-action-text-color",
+        },
+      } as const;
+      themed("calcite-action-menu", tokens);
+    });
+    describe("popover", () => {
+      const tokens = {
+        "--calcite-action-menu-popover-background-color": {
+          shadowSelector: "calcite-popover",
+          targetProp: "--calcite-popover-background-color",
+        },
+        "--calcite-action-menu-popover-border-color": {
+          shadowSelector: "calcite-popover",
+          targetProp: "--calcite-popover-border-color",
+        },
+        "--calcite-action-menu-popover-corner-radius": {
+          shadowSelector: "calcite-popover",
+          targetProp: "--calcite-popover-corner-radius",
+        },
+        "--calcite-action-menu-popover-shadow": {
+          shadowSelector: "calcite-popover",
+          targetProp: "--calcite-popover-shadow",
+        },
+        "--calcite-action-menu-popover-text-color": {
+          shadowSelector: "calcite-popover",
+          targetProp: "--calcite-popover-text-color",
+        },
+      } as const;
+      themed(
+        html`<calcite-action-menu open>
+          <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+          <calcite-action text="Add" icon="plus"></calcite-action
+        ></calcite-action-menu>`,
+        tokens,
+      );
     });
   });
 });

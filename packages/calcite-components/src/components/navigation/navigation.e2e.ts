@@ -1,6 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-navigation", () => {
   describe("renders", () => {
@@ -66,5 +68,43 @@ describe("calcite-navigation", () => {
 
     await hamburgerMenu.click();
     expect(eventSpy).toHaveReceivedEventTimes(3);
+  });
+
+  describe("theme", () => {
+    const navigationHtml = html` <calcite-navigation navigation-action>
+      <calcite-navigation-logo heading="Walt's Chips"> </calcite-navigation-logo>
+    </calcite-navigation>`;
+
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-navigation-action-background-color": {
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-navigation-action-background-color-active": {
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color",
+          state: { press: { attribute: "appearance", value: "solid" } },
+        },
+        "--calcite-navigation-action-background-color-hover": {
+          shadowSelector: `calcite-action`,
+          targetProp: "--calcite-action-background-color",
+          state: { hover: { attribute: "appearance", value: "solid" } },
+        },
+        "--calcite-navigation-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-navigation-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-navigation-width": {
+          shadowSelector: `.${CSS.containerContent}`,
+          targetProp: "width",
+        },
+      };
+      themed(navigationHtml, tokens);
+    });
   });
 });

@@ -1,3 +1,16 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-text-area-background-color: Specifies the background color of the component.
+ * @prop --calcite-text-area-border-color: Specifies the border color of the component.
+ * @prop --calcite-text-area-color-invalid: Specifies the color used to indicate an invalid state.
+ * @prop --calcite-text-area-character-limit-text-color: Specifies the color of the character limit text displayed in footer of the component.
+ * @prop --calcite-text-area-text-color: Specifies the color of text in the component.
+ *
+ */
+
 :host {
   @apply inline-block
   relative
@@ -7,28 +20,32 @@
 
 textarea {
   @apply font-sans
-    text-color-1
     relative
     block
-    bg-foreground-1
     box-border
-    border-color-input
     border
     w-full
     m-0;
   min-inline-size: theme("spacing.48");
   border-block-end: 1px solid var(--calcite-color-border-3);
+  color: var(--calcite-text-area-text-color, var(--calcite-color-text-1));
+  background-color: var(--calcite-text-area-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
+
   @media screen and (max-width: 480px) {
     @apply resize-none;
   }
+
   &:focus {
     @apply focus-inset;
   }
+
   &.text-area--invalid {
-    @apply border-color-danger
-    border
+    @apply border
     border-solid
     border-b;
+    border-color: var(--calcite-text-area-color-invalid, var(--calcite-color-status-danger));
+
     &:focus {
       @apply focus-inset-danger;
     }
@@ -40,27 +57,31 @@ textarea {
 
 .footer {
   @apply flex
-  bg-foreground-1
   box-border
-  border-color-input
   border
   border-solid
   border-t-0
   items-center;
+
+  background-color: var(--calcite-text-area-background-color, var(--calcite-color-foreground-1));
+  border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
 }
 
 .character-limit {
   @apply flex
   justify-end
-  text-color-2
   items-center
   font-normal
   whitespace-nowrap;
+
+  color: var(--calcite-text-area-character-limit-text-color, var(--calcite-color-text-2));
 }
 
 .character--over-limit {
   @apply font-bold
   text-danger;
+
+  color: var(--calcite-text-area-color-invalid, var(--calcite-color-status-danger));
 }
 
 :host([resize="none"]) textarea {
@@ -136,7 +157,7 @@ textarea {
 
 :host([status="invalid"]) {
   textarea {
-    @apply border-color-danger;
+    border-color: var(--calcite-text-area-color-invalid, var(--calcite-color-status-danger));
   }
   textarea:focus {
     @apply focus-inset-danger;
@@ -144,11 +165,14 @@ textarea {
 }
 
 .readonly {
-  @apply bg-background font-medium;
+  @apply font-medium;
+  background-color: var(--calcite-text-area-background-color-readonly, var(--calcite-color-background));
 }
 
 .border--color {
-  @apply border-b border-color-input;
+  @apply border-b;
+  border-color: var(--calcite-text-area-border-color, var(--calcite-color-border-input));
+
   &:focus {
     @apply border-b-2;
   }

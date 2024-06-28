@@ -254,7 +254,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         <InteractiveContainer disabled={disabled}>
           <div
             class={`container scale--${this.scale}`}
-            style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
+            style={{ "--calcite-internal-combobox-item-depth": `${depth}` }}
           >
             <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
               {this.renderSelectIndicator(showDot, iconPath)}

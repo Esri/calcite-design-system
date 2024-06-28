@@ -1,5 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, renders, themed } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { html } from "../../../support/formatting";
 
 describe("calcite-link", () => {
   describe("renders", () => {
@@ -69,8 +71,8 @@ describe("calcite-link", () => {
     const element = await page.find("calcite-link");
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
 
     expect(element).not.toHaveAttribute("icon-flip-rtl");
     expect(elementAsLink).toBeNull();
@@ -105,8 +107,8 @@ describe("calcite-link", () => {
     const element = await page.find("calcite-link");
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
 
     expect(element).not.toHaveAttribute("icon-flip-rtl");
     expect(elementAsLink).not.toBeNull();
@@ -120,8 +122,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link>Continue</calcite-link>`);
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
 
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
@@ -134,8 +136,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link href="/">Continue</calcite-link>`);
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
 
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
@@ -150,8 +152,8 @@ describe("calcite-link", () => {
     );
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
 
     expect(elementAsLink).not.toBeNull();
     expect(elementAsSpan).toBeNull();
@@ -168,8 +170,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link icon-start='plus'>Continue</calcite-link>`);
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
     expect(iconStart).not.toBeNull();
@@ -181,8 +183,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link icon-end='plus'>Continue</calcite-link>`);
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
     expect(iconStart).toBeNull();
@@ -194,8 +196,8 @@ describe("calcite-link", () => {
     await page.setContent(`<calcite-link icon-start='plus' icon-end='plus'>Continue</calcite-link>`);
     const elementAsSpan = await page.find("calcite-link >>> span");
     const elementAsLink = await page.find("calcite-link >>> a");
-    const iconStart = await page.find("calcite-link >>> .calcite-link--icon.icon-start");
-    const iconEnd = await page.find("calcite-link >>> .calcite-link--icon.icon-end");
+    const iconStart = await page.find("calcite-link >>> .icon-start");
+    const iconEnd = await page.find("calcite-link >>> .icon-end");
     expect(elementAsLink).toBeNull();
     expect(elementAsSpan).not.toBeNull();
     expect(iconStart).not.toBeNull();
@@ -317,6 +319,47 @@ describe("calcite-link", () => {
       linkUnderlineStyle = await linkStyles.getPropertyValue("background-image");
       expect(linkUnderlineStyle).toEqual(
         `linear-gradient(rgb(0, 97, 155), rgb(0, 97, 155)), linear-gradient(${overrideStyle}, ${overrideStyle})`,
+      );
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-link-text-color": {
+          shadowSelector: "span",
+          targetProp: "color",
+        },
+
+        "--calcite-link-background-color": {
+          shadowSelector: "span",
+          targetProp: "backgroundColor",
+        },
+
+        "--calcite-link-icon-color": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+      };
+      themed(html` <calcite-link icon-start="smile" icon-end="smile"> Themed link. </calcite-link> `, tokens);
+    });
+    describe("external link", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-link-text-color": {
+          shadowSelector: "a",
+          targetProp: "color",
+        },
+
+        "--calcite-link-background-color": {
+          shadowSelector: "a",
+          targetProp: "backgroundColor",
+        },
+      };
+      themed(
+        html` <calcite-link href="http://google.com" rel="noopener noreferrer" target="_blank" icon-start="launch"
+          >A link to Google with an icon</calcite-link
+        >`,
+        tokens,
       );
     });
   });

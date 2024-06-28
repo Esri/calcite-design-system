@@ -11,6 +11,7 @@ import {
   openClose,
   reflects,
   renders,
+  themed,
 } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
@@ -18,6 +19,7 @@ import {
   isElementFocused,
   skipAnimations,
 } from "../../tests/utils";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown", () => {
   const simpleDropdownHTML = html`
@@ -1307,6 +1309,26 @@ describe("calcite-dropdown", () => {
       await page.waitForChanges();
 
       expect(await isElementFocused(page, "#item-3")).toBe(true);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-dropdown", {
+        "--calcite-dropdown-background-color": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
+        },
+      });
+    });
+
+    describe("deprecated", () => {
+      themed("calcite-dropdown", {
+        "--calcite-dropdown-width": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "inlineSize",
+        },
+      });
     });
   });
 });
