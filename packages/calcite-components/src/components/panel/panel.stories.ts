@@ -431,3 +431,89 @@ export const footerSlotPrecedence = (): string => html`
     ${footerHTML}
   </calcite-panel>
 `;
+
+export const panelFlowScaleInPopoverAndInShellPanel = (): string => html`
+  <div class="shell-container" style="width: 500px; height: 400px">
+    <calcite-shell>
+      <div>Shell Content</div>
+      <calcite-shell-panel layout="horizontal" slot="panel-bottom" position="end">
+        <calcite-action-bar slot="action-bar" expand-disabled>
+          <calcite-button appearance="outline" id="popover-button-right" icon-start="popup">
+            Clickable popover</calcite-button
+          >
+        </calcite-action-bar>
+        <calcite-flow custom-item-selectors="custom-flow-item">
+          <calcite-flow-item heading="flow-item-1">
+            <div slot="content-top">Slot for a content-top.</div>
+            <img width="100" height="100" src="./_assets/images/placeholder.svg" />
+            <div slot="content-bottom">Content bottom!</div>
+            <div slot="footer">Footer!</div>
+          </calcite-flow-item>
+          <custom-flow-item heading="custom-flow-item">
+            <div slot="content-top">Slot for a content-top.</div>
+            <img width="100" height="100" src="./_assets/images/placeholder.svg" />
+            <div slot="content-bottom">Content bottom!</div>
+            <div slot="footer">Footer!</div>
+          </custom-flow-item>
+          <calcite-flow-item heading="flow-item-2">
+            <div slot="content-top">Slot for a content-top.</div>
+            <img width="100" height="100" src="./_assets/images/placeholder.svg" />
+            <div slot="content-bottom">Content bottom!</div>
+            <calcite-button
+              appearance="outline"
+              type="button"
+              slot="footer-start"
+              scale="s"
+              icon-start="check"
+              width="full"
+            ></calcite-button>
+            <calcite-button
+              appearance="outline"
+              slot="footer-end"
+              type="button"
+              scale="s"
+              icon-end="ellipsis"
+              width="full"
+            ></calcite-button>
+          </calcite-flow-item>
+        </calcite-flow>
+      </calcite-shell-panel>
+      <footer slot="footer">Footer</footer>
+    </calcite-shell>
+  </div>
+  <calcite-popover
+    label="right start popover"
+    reference-element="popover-button-right"
+    placement="bottom"
+    id="popover-right"
+    open
+  >
+    <div style="padding: 12px 16px">Hello! I am some popover content!</div>
+    <calcite-flow custom-item-selectors="custom-flow-item">
+      <calcite-flow-item heading="flow-item-1">
+        <div slot="content-top">Slot for a content-top.</div>
+        <img width="100" height="100" src="./_assets/images/placeholder.svg" />
+        <div slot="content-bottom">Content bottom!</div>
+        <div slot="footer">Footer!</div>
+      </calcite-flow-item>
+      <custom-flow-item heading="custom-flow-item">
+        <div slot="content-top">Slot for a content-top.</div>
+        <img width="100" height="100" src="./_assets/images/placeholder.svg" />
+        <div slot="content-bottom">Content bottom!</div>
+        <div slot="footer">Footer!</div>
+      </custom-flow-item>
+      <calcite-flow-item heading="flow-item-2">
+        <div slot="content-top">Slot for a content-top.</div>
+        <img width="100" height="100" src="./_assets/images/placeholder.svg" />
+        <div slot="content-bottom">Content bottom!</div>
+        <calcite-button
+          appearance="outline"
+          type="button"
+          scale="s"
+          icon-start="ellipsis"
+          width="full"
+        ></calcite-button>
+      </calcite-flow-item>
+    </calcite-flow>
+  </calcite-popover>
+`;
