@@ -779,9 +779,6 @@ describe("calcite-rating", () => {
           targetProp: "gap",
         },
         "--calcite-rating-spacing-unit": {
-          targetProp: "--calcite-internal-rating-spacing",
-        },
-        "--calcite-internal-rating-spacing": {
           shadowSelector: `.${CSS.fieldset}`,
           targetProp: "gap",
         },
