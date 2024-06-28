@@ -1,6 +1,6 @@
 .container {
-  padding-inline-start: var(--calcite-inernal-chip-padding-start);
-  padding-inline-end: var(--calcite-inernal-chip-padding-end);
+  padding-inline-start: var(--calcite-internal-chip-padding-start);
+  padding-inline-end: var(--calcite-internal-chip-padding-end);
 }
 
 :host([scale="s"]) {
@@ -25,8 +25,8 @@
   .multiple {
     .select-icon {
       padding-inline: var(--calcite-spacing-xxs);
-      // --calcite-inernal-chip-padding-start: var(--calcite-spacing-xxs);
-      // --calcite-inernal-chip-padding-end: var(--calcite-spacing-xxs);
+      // --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+      // --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
     }
   }
 
@@ -34,33 +34,33 @@
     .select-icon {
       padding-inline-start: var(--calcite-spacing-xs);
       padding-inline-end: var(--calcite-spacing-sm);
-      // --calcite-inernal-chip-padding-start: var(--calcite-spacing-xs);
-      // --calcite-inernal-chip-padding-end: var(--calcite-spacing-sm);
+      // --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+      // --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
     }
   }
 
   .multiple.container.image--slotted.text--slotted {
-    --calcite-inernal-chip-padding-start: var(--calcite-spacing-px);
-    --calcite-inernal-chip-padding-end: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   }
 
   .container {
-    --calcite-inernal-chip-padding-start: var(--calcite-spacing-xxs);
-    --calcite-inernal-chip-padding-end: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   }
 
   .container.image--slotted {
-    --calcite-inernal-chip-padding-end: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   }
 
   .container.image--slotted.closable {
-    --calcite-inernal-chip-padding-end: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   }
 }
 
 :host([scale="s"][closable]) .container {
-  --calcite-inernal-chip-padding-start: var(--calcite-spacing-xxs);
-  --calcite-inernal-chip-padding-end: var(--calcite-spacing-xxs);
+  --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+  --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
 }
 
 :host([scale="m"]) {
@@ -74,8 +74,8 @@
     @apply h-6 w-6;
 
     padding-inline: var(--calcite-spacing-xxs);
-    // --calcite-inernal-chip-padding-start: var(--calcite-spacing-xxs);
-    // --calcite-inernal-chip-padding-end: var(--calcite-spacing-xxs);
+    // --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+    // --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   }
 
   .container.is-circle {
@@ -85,8 +85,8 @@
   .multiple {
     .select-icon {
       padding-inline: var(--calcite-spacing-base);
-      // --calcite-inernal-chip-padding-start: var(--calcite-spacing-base);
-      // --calcite-inernal-chip-padding-end: var(--calcite-spacing-base);
+      // --calcite-internal-chip-padding-start: var(--calcite-spacing-base);
+      // --calcite-internal-chip-padding-end: var(--calcite-spacing-base);
     }
   }
 
@@ -94,35 +94,35 @@
     .select-icon {
       padding-inline-start: var(--calcite-spacing-xxs);
       padding-inline-end: var(--calcite-spacing-sm);
-      // --calcite-inernal-chip-padding-start: var(--calcite-spacing-xxs);
-      // --calcite-inernal-chip-padding-end: var(--calcite-spacing-sm);
+      // --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+      // --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
     }
   }
 
   .multiple.container.image--slotted.text--slotted {
-    --calcite-inernal-chip-padding-start: var(--calcite-spacing-xxs);
-    --calcite-inernal-chip-padding-end: var(--calcite-spacing-xs);
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
   }
 
   .container {
-    --calcite-inernal-chip-padding-start: var(--calcite-spacing-xs);
-    --calcite-inernal-chip-padding-end: var(--calcite-spacing-xs);
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
   }
 
   .container.image--slotted {
-    --calcite-inernal-chip-padding-start: var(--calcite-spacing-xxs);
-    --calcite-inernal-chip-padding-end: var(--calcite-spacing-xs);
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
   }
 
   .container.image--slotted.closable {
-    --calcite-inernal-chip-padding-start: var(--calcite-spacing-xxs);
-    --calcite-inernal-chip-padding-end: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   }
 }
 
 :host([scale="m"][closable]) .container {
-  --calcite-inernal-chip-padding-start: var(--calcite-spacing-xs);
-  --calcite-inernal-chip-padding-end: var(--calcite-spacing-xxs);
+  --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+  --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
 }
 
 :host([scale="l"]) {
@@ -137,8 +137,8 @@
     @apply h-8 w-8;
 
     padding-inline: var(--calcite-spacing-xxs);
-    // --calcite-inernal-chip-padding-start: var(--calcite-spacing-xxs);
-    // --calcite-inernal-chip-padding-end: var(--calcite-spacing-xxs);
+    // --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+    // --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   }
 
   .container.is-circle {
@@ -148,8 +148,8 @@
   .multiple {
     .select-icon {
       padding-inline: var(--calcite-spacing-xxs);
-      // --calcite-inernal-chip-padding-start: var(--calcite-spacing-xxs);
-      // --calcite-inernal-chip-padding-end: var(--calcite-spacing-xxs);
+      // --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+      // --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
     }
   }
 
@@ -157,30 +157,30 @@
     .select-icon {
       padding-inline-start: var(--calcite-spacing-xs);
       padding-inline-end: var(--calcite-spacing-md);
-      // --calcite-inernal-chip-padding-start: var(--calcite-spacing-xs);
-      // --calcite-inernal-chip-padding-end: var(--calcite-spacing-md);
+      // --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+      // --calcite-internal-chip-padding-end: var(--calcite-spacing-md);
     }
   }
 
   .container {
-    --calcite-inernal-chip-padding-start: var(--calcite-spacing-sm);
-    --calcite-inernal-chip-padding-end: var(--calcite-spacing-sm);
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-sm);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
   }
 
   .container.image--slotted {
-    --calcite-inernal-chip-padding-start: var(--calcite-spacing-xs);
-    --calcite-inernal-chip-padding-end: var(--calcite-spacing-sm);
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
   }
 
   .container.image--slotted.closable {
-    --calcite-inernal-chip-padding-start: var(--calcite-spacing-xs);
-    --calcite-inernal-chip-padding-end: var(--calcite-spacing-xs);
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
   }
 }
 
 :host([scale="l"][closable]) .container {
-  --calcite-inernal-chip-padding-start: var(--calcite-spacing-sm);
-  --calcite-inernal-chip-padding-end: var(--calcite-spacing-xs);
+  --calcite-internal-chip-padding-start: var(--calcite-spacing-sm);
+  --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
 }
 
 :host {
@@ -209,23 +209,23 @@
 }
 
 :host([scale="s"]) .container.selectable.single.image--slotted {
-  --calcite-inernal-chip-padding-end: calc(theme("spacing[0.5]") / 2);
+  --calcite-internal-chip-padding-end: calc(theme("spacing[0.5]") / 2);
 }
 
 :host([scale="s"]) .container:not(.selected):not(.multiple).image--slotted {
-  --calcite-inernal-chip-padding-start: calc(theme("spacing[0.5]") / 2);
+  --calcite-internal-chip-padding-start: calc(theme("spacing[0.5]") / 2);
 }
 
 :host([scale="s"]) .container.is-circle {
-  --calcite-inernal-chip-padding-start: 0;
-  --calcite-inernal-chip-padding-end: 0;
+  --calcite-internal-chip-padding-start: 0;
+  --calcite-internal-chip-padding-end: 0;
 }
 
 .container.text--slotted .title {
   @apply truncate;
   padding-inline: var(--calcite-chip-spacing-s-internal);
-  // --calcite-inernal-chip-padding-start: var(--calcite-chip-spacing-s-internal);
-  // --calcite-inernal-chip-padding-end: var(--calcite-chip-spacing-s-internal);
+  // --calcite-internal-chip-padding-start: var(--calcite-chip-spacing-s-internal);
+  // --calcite-internal-chip-padding-end: var(--calcite-chip-spacing-s-internal);
 }
 
 .container:not(.text--slotted) .title {
