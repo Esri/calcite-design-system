@@ -44,21 +44,21 @@ jobs:
         id: release
         with:
           token: ${{ secrets.ADMIN_TOKEN }}
-          target-branch: ${{ github.ref_name }}
+          target-branch: main
       - name: Checkout Repository
-        if: ${{ steps.release.outputs.releases_created }}
+        if: steps.release.outputs.releases_created == 'true'
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
       - name: Setup Node
-        if: ${{ steps.release.outputs.releases_created }}
+        if: steps.release.outputs.releases_created == 'true'
         uses: actions/setup-node@v4
         with:
           node-version-file: package.json
           registry-url: "https://registry.npmjs.org"
       - name: Build Packages and Publish to NPM
-        if: ${{ steps.release.outputs.releases_created }}
+        if: steps.release.outputs.releases_created == 'true'
         env:
           RELEASED_PATHS: ${{ toJSON(steps.release.outputs.paths_released) }}
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

@@ -2,7 +2,7 @@ import { Build } from "@stencil/core";
 
 export interface ExtendedMutationObserver extends MutationObserver {
   new: () => ExtendedMutationObserver;
-  unobserve(target: Node): void;
+  unobserve: (target: Node) => void;
 }
 
 declare const ExtendedMutationObserver: {
