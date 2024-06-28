@@ -775,7 +775,8 @@ describe("calcite-rating", () => {
     describe("default", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-rating-spacing": {
-          targetProp: "--calcite-internal-rating-spacing",
+          shadowSelector: `.${CSS.fieldset}`,
+          targetProp: "gap",
         },
         "--calcite-rating-spacing-unit": {
           targetProp: "--calcite-internal-rating-spacing",
