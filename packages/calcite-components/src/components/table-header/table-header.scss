@@ -6,8 +6,8 @@
  * @prop --calcite-table-header-background: [Deprecated] Use the `--calcite-table-header-background-color` property instead. Specifies the background color of the component.
  * @prop --calcite-table-header-background-color: Specifies the background color of the component.
  * @prop --calcite-table-header-border-color: Specifies the border color of the component.
- * @prop --calcite-table-header-heading-color: Specifies the heading color of the component.
- * @prop --calcite-table-header-description-color: Specifies the description color of the component.
+ * @prop --calcite-table-header-heading-text-color: Specifies the heading color of the component.
+ * @prop --calcite-table-header-description-text-color: Specifies the description color of the component.
 
  */
 
@@ -113,10 +113,10 @@ th.last-cell {
 }
 
 .heading {
-  color: var(--calcite-table-header-heading-color, var(--calcite-color-text-1));
+  color: var(--calcite-table-header-heading-text-color, var(--calcite-color-text-1));
 }
 
 .description {
-  color: var(--calcite-table-header-description-color, var(--calcite-color-text-3));
+  color: var(--calcite-table-header-description-text-color, var(--calcite-color-text-3));
   font-size: var(--calcite-internal-table-cell-font-size-secondary);
 }
