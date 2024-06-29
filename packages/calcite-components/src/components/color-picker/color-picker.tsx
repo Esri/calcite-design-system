@@ -881,7 +881,7 @@ export class ColorPicker
               tabindex="0"
             />
           </div>
-          <div class={CSS.previewAndSliders} onClick={this.handleOnClick}>
+          <div class={CSS.previewAndSliders} onClick={this.blurInputFields}>
             <calcite-color-picker-swatch
               class={CSS.preview}
               color={selectedColorInHex}
@@ -942,7 +942,7 @@ export class ColorPicker
                 [CSS.controlSection]: true,
                 [CSS.section]: true,
               }}
-              onClick={this.handleOnClick}
+              onClick={this.blurInputFields}
             >
               <div class={CSS.hexAndChannelsGroup}>
                 {noHex ? null : (
@@ -984,7 +984,7 @@ export class ColorPicker
           {noSaved ? null : (
             <div
               class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}
-              onClick={this.handleOnClick}
+              onClick={this.blurInputFields}
             >
               <div class={CSS.header}>
                 <label>{messages.saved}</label>
@@ -1763,7 +1763,7 @@ export class ColorPicker
     return [left - SCOPE_SIZE / 2, top - SCOPE_SIZE / 2];
   }
 
-  private handleOnClick = (event: PointerEvent): void => {
+  private blurInputFields = (event: PointerEvent): void => {
     const clickedElement = event.composedPath()[0] as HTMLCalciteInputElement;
     if (!this.focusedInput || clickedElement.tagName === "INPUT") {
       return;
