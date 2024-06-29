@@ -18,6 +18,7 @@ import {
   hexChar,
   hexify,
   isLonghandHex,
+  isShorthandHex,
   isValidHex,
   normalizeHex,
   opacityToAlpha,
@@ -146,7 +147,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     const willClearValue = allowEmpty && !inputValue;
     const isLonghand = isLonghandHex(hex);
 
-    if (this.validateShortHandValue(inputValue)) {
+    if (isShorthandHex(hex, this.alphaChannel)) {
       // ensure modified pasted hex values are committed since we prevent default to remove the # char.
       this.onHexInputChange();
     }
