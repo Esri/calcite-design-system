@@ -1,0 +1,7 @@
+/*!
+ * All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+ * See https://github.com/Esri/calcite-design-system/blob/dev/LICENSE.md for details.
+ * v2.10.2-next.2
+ */
+import{d as _}from"./p-122af3a1.js";import"./p-753eb06c.js";import"./p-afef9357.js";import"./p-cbf6730a.js";import"./p-6e07f06d.js";import"./p-0654a842.js";import"./p-be03464d.js";import"./p-f515d0c7.js";import"./p-2cdc0006.js";import"./p-c056796d.js";import"./p-dfd871d8.js";import"./p-9f8875aa.js";import"./p-f60eb8ac.js";import"./p-c808d5fe.js";import"./p-0bf6a8c2.js";import"./p-296fa72b.js";import"./p-179818c0.js";import"./p-441215d6.js";import"./p-9d5e0f59.js";import"./p-e9537213.js";import"./p-871f4a72.js";var p={name:"mk",weekdays:"недела_понеделник_вторник_среда_четврток_петок_сабота".split("_"),months:"јануари_февруари_март_април_мај_јуни_јули_август_септември_октомври_ноември_декември".split("_"),weekStart:1,weekdaysShort:"нед_пон_вто_сре_чет_пет_саб".split("_"),monthsShort:"јан_фев_мар_апр_мај_јун_јул_авг_сеп_окт_ное_дек".split("_"),weekdaysMin:"нe_пo_вт_ср_че_пе_сa".split("_"),ordinal:function _(p){return p},formats:{LT:"H:mm",LTS:"H:mm:ss",L:"D.MM.YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY H:mm",LLLL:"dddd, D MMMM YYYY H:mm"},relativeTime:{future:"после %s",past:"пред %s",s:"неколку секунди",m:"минута",mm:"%d минути",h:"час",hh:"%d часа",d:"ден",dd:"%d дена",M:"месец",MM:"%d месеци",y:"година",yy:"%d години"}};_.locale(p,null,true);export{p as default};
+//# sourceMappingURL=p-ece3e67d.js.map

@@ -1,0 +1,7 @@
+/*!
+ * All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+ * See https://github.com/Esri/calcite-design-system/blob/dev/LICENSE.md for details.
+ * v2.10.2-next.2
+ */
+import{d as e}from"./p-122af3a1.js";import"./p-753eb06c.js";import"./p-afef9357.js";import"./p-cbf6730a.js";import"./p-6e07f06d.js";import"./p-0654a842.js";import"./p-be03464d.js";import"./p-f515d0c7.js";import"./p-2cdc0006.js";import"./p-c056796d.js";import"./p-dfd871d8.js";import"./p-9f8875aa.js";import"./p-f60eb8ac.js";import"./p-c808d5fe.js";import"./p-0bf6a8c2.js";import"./p-296fa72b.js";import"./p-179818c0.js";import"./p-441215d6.js";import"./p-9d5e0f59.js";import"./p-e9537213.js";import"./p-871f4a72.js";var m={name:"es",monthsShort:"ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic".split("_"),weekdays:"domingo_lunes_martes_miércoles_jueves_viernes_sábado".split("_"),weekdaysShort:"dom._lun._mar._mié._jue._vie._sáb.".split("_"),weekdaysMin:"do_lu_ma_mi_ju_vi_sá".split("_"),months:"enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre".split("_"),weekStart:1,formats:{LT:"H:mm",LTS:"H:mm:ss",L:"DD/MM/YYYY",LL:"D [de] MMMM [de] YYYY",LLL:"D [de] MMMM [de] YYYY H:mm",LLLL:"dddd, D [de] MMMM [de] YYYY H:mm"},relativeTime:{future:"en %s",past:"hace %s",s:"unos segundos",m:"un minuto",mm:"%d minutos",h:"una hora",hh:"%d horas",d:"un día",dd:"%d días",M:"un mes",MM:"%d meses",y:"un año",yy:"%d años"},ordinal:function e(m){return m+"º"}};e.locale(m,null,true);export{m as default};
+//# sourceMappingURL=p-eff5f48c.js.map

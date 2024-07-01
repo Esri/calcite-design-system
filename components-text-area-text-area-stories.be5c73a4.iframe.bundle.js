@@ -1,0 +1,76 @@
+"use strict";(globalThis.webpackChunk_esri_calcite_components=globalThis.webpackChunk_esri_calcite_components||[]).push([[7279],{"./src/components/text-area/text-area.stories.ts":(__unused_webpack_module,__webpack_exports__,__webpack_require__)=>{__webpack_require__.r(__webpack_exports__),__webpack_require__.d(__webpack_exports__,{__namedExportsOrder:()=>__namedExportsOrder,chineseLang_TestOnly:()=>chineseLang_TestOnly,darkModeRTL_TestOnly:()=>darkModeRTL_TestOnly,default:()=>__WEBPACK_DEFAULT_EXPORT__,disabled_TestOnly:()=>disabled_TestOnly,exceedingMaxLength_TestOnly:()=>exceedingMaxLength_TestOnly,groupSeparator_TestOnly:()=>groupSeparator_TestOnly,insideContainerWithHeightAndWidth_TestOnly:()=>insideContainerWithHeightAndWidth_TestOnly,readonly_TestOnly:()=>readonly_TestOnly,resizeDisabled_TestOnly:()=>resizeDisabled_TestOnly,simple:()=>simple,validationMessageAllScales_TestOnly:()=>validationMessageAllScales_TestOnly,withSlottedElements:()=>withSlottedElements,withSlottedElementsDarkModeRTL_TestOnly:()=>withSlottedElementsDarkModeRTL_TestOnly});var _storybook_utils__WEBPACK_IMPORTED_MODULE_0__=__webpack_require__("./.storybook/utils.ts"),_storybook_helpers__WEBPACK_IMPORTED_MODULE_1__=__webpack_require__("./.storybook/helpers.ts"),_support_formatting__WEBPACK_IMPORTED_MODULE_2__=__webpack_require__("./support/formatting.ts"),_storybook_resources__WEBPACK_IMPORTED_MODULE_3__=__webpack_require__("./.storybook/resources.ts");const{scale,status}=_storybook_resources__WEBPACK_IMPORTED_MODULE_3__.i,__WEBPACK_DEFAULT_EXPORT__={title:"Components/TextArea",args:{scale:scale.defaultValue,status:status.defaultValue,placeholder:"Add Notes",disabled:!1,columns:20,resize:"both",rows:2,label:"",name:"",validationMessage:"",validationIcon:""},argTypes:{scale:{options:scale.values,control:{type:"select"}},status:{options:status.values,control:{type:"select"}},validationIcon:{options:_storybook_helpers__WEBPACK_IMPORTED_MODULE_1__.k,control:{type:"select"}}}},simple=args=>_support_formatting__WEBPACK_IMPORTED_MODULE_2__.q`
+  <calcite-text-area
+    scale="${args.scale}"
+    status="${args.status}"
+    placeholder="${args.placeholder}"
+    ${(0,_storybook_utils__WEBPACK_IMPORTED_MODULE_0__.zM)("disabled",args.disabled)}
+    columns="${args.columns}"
+    resize="${args.resize}"
+    rows="${args.rows}"
+    label="${args.label}"
+    name="${args.name}"
+    validation-message="${args.validationMessage}"
+    validation-icon="${args.validationIcon}"
+  >
+  </calcite-text-area>
+`,darkModeRTL_TestOnly=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_2__.q`
+  <calcite-text-area
+    dir="rtl"
+    class="calcite-mode-dark"
+    validation-message="This should not appear because the status is not 'invalid'"
+  >
+  </calcite-text-area>
+`,withSlottedElements=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_2__.q`
+  <calcite-text-area placeholder="Add Notes" max-length="50" scale="m" placeholder="Add Notes" columns="20" rows="2">
+    <calcite-button slot="footer-start">RESET</calcite-button>
+    <calcite-action icon="code" slot="footer-end"></calcite-action>
+  </calcite-text-area>
+`,withSlottedElementsDarkModeRTL_TestOnly=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_2__.q`
+  <calcite-text-area max-length="50" placeholder="Add Notes" dir="rtl" class="calcite-mode-dark">
+    <calcite-button slot="footer-start">RESET</calcite-button>
+    <calcite-action icon="code" slot="footer-end"></calcite-action>
+  </calcite-text-area>
+`,disabled_TestOnly=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_2__.q` <calcite-text-area disabled> </calcite-text-area> `,readonly_TestOnly=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_2__.q` <calcite-text-area readonly> </calcite-text-area> `,resizeDisabled_TestOnly=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_2__.q` <calcite-text-area resize="none"> </calcite-text-area> `,groupSeparator_TestOnly=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_2__.q`
+  <calcite-text-area value="Rocky Mountains National Park" lang="fr" max-length="123456" group-separator>
+  </calcite-text-area>
+`,exceedingMaxLength_TestOnly=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_2__.q`
+  <calcite-text-area value="Rocky Mountains National Park" max-length="10"> </calcite-text-area>
+`,chineseLang_TestOnly=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_2__.q`
+  <calcite-text-area value="Rocky Mountains National Park" lang="zh-cn" group-separator max-length="654321">
+  </calcite-text-area>
+`,insideContainerWithHeightAndWidth_TestOnly=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_2__.q`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`,wrapperStyles=_support_formatting__WEBPACK_IMPORTED_MODULE_2__.q`
+  <style>
+    .wrapper {
+      display: flex;
+      width: 800px;
+      height: 250px;
+      padding: 64px;
+      gap: 10px;
+    }
+  </style>
+`,validationMessageAllScales_TestOnly=()=>_support_formatting__WEBPACK_IMPORTED_MODULE_2__.q`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-text-area
+      scale="s"
+      status="invalid"
+      validation-message="This field is required."
+      validation-icon="frown"
+    ></calcite-text-area>
+    <calcite-text-area
+      scale="m"
+      status="invalid"
+      validation-message="Less than the minimum length of 6 characters"
+      validation-icon
+      value="Hi"
+    ></calcite-text-area>
+    <calcite-text-area
+      scale="l"
+      status="invalid"
+      validation-message="Exceeds the maximum length of 9 characters"
+      validation-icon
+      value="Lorem ipsum"
+    ></calcite-text-area>
+  </div>
+`;simple.parameters={...simple.parameters,docs:{...simple.parameters?.docs,source:{originalSource:'(args: TextAreaStoryArgs): string => html`\n  <calcite-text-area\n    scale="${args.scale}"\n    status="${args.status}"\n    placeholder="${args.placeholder}"\n    ${boolean("disabled", args.disabled)}\n    columns="${args.columns}"\n    resize="${args.resize}"\n    rows="${args.rows}"\n    label="${args.label}"\n    name="${args.name}"\n    validation-message="${args.validationMessage}"\n    validation-icon="${args.validationIcon}"\n  >\n  </calcite-text-area>\n`',...simple.parameters?.docs?.source}}},darkModeRTL_TestOnly.parameters={...darkModeRTL_TestOnly.parameters,docs:{...darkModeRTL_TestOnly.parameters?.docs,source:{originalSource:'(): string => html`\n  <calcite-text-area\n    dir="rtl"\n    class="calcite-mode-dark"\n    validation-message="This should not appear because the status is not \'invalid\'"\n  >\n  </calcite-text-area>\n`',...darkModeRTL_TestOnly.parameters?.docs?.source}}},withSlottedElements.parameters={...withSlottedElements.parameters,docs:{...withSlottedElements.parameters?.docs,source:{originalSource:'(): string => html`\n  <calcite-text-area placeholder="Add Notes" max-length="50" scale="m" placeholder="Add Notes" columns="20" rows="2">\n    <calcite-button slot="footer-start">RESET</calcite-button>\n    <calcite-action icon="code" slot="footer-end"></calcite-action>\n  </calcite-text-area>\n`',...withSlottedElements.parameters?.docs?.source}}},withSlottedElementsDarkModeRTL_TestOnly.parameters={...withSlottedElementsDarkModeRTL_TestOnly.parameters,docs:{...withSlottedElementsDarkModeRTL_TestOnly.parameters?.docs,source:{originalSource:'(): string => html`\n  <calcite-text-area max-length="50" placeholder="Add Notes" dir="rtl" class="calcite-mode-dark">\n    <calcite-button slot="footer-start">RESET</calcite-button>\n    <calcite-action icon="code" slot="footer-end"></calcite-action>\n  </calcite-text-area>\n`',...withSlottedElementsDarkModeRTL_TestOnly.parameters?.docs?.source}}},disabled_TestOnly.parameters={...disabled_TestOnly.parameters,docs:{...disabled_TestOnly.parameters?.docs,source:{originalSource:"(): string => html` <calcite-text-area disabled> </calcite-text-area> `",...disabled_TestOnly.parameters?.docs?.source}}},readonly_TestOnly.parameters={...readonly_TestOnly.parameters,docs:{...readonly_TestOnly.parameters?.docs,source:{originalSource:"(): string => html` <calcite-text-area readonly> </calcite-text-area> `",...readonly_TestOnly.parameters?.docs?.source}}},resizeDisabled_TestOnly.parameters={...resizeDisabled_TestOnly.parameters,docs:{...resizeDisabled_TestOnly.parameters?.docs,source:{originalSource:'(): string => html` <calcite-text-area resize="none"> </calcite-text-area> `',...resizeDisabled_TestOnly.parameters?.docs?.source}}},groupSeparator_TestOnly.parameters={...groupSeparator_TestOnly.parameters,docs:{...groupSeparator_TestOnly.parameters?.docs,source:{originalSource:'(): string => html`\n  <calcite-text-area value="Rocky Mountains National Park" lang="fr" max-length="123456" group-separator>\n  </calcite-text-area>\n`',...groupSeparator_TestOnly.parameters?.docs?.source}}},exceedingMaxLength_TestOnly.parameters={...exceedingMaxLength_TestOnly.parameters,docs:{...exceedingMaxLength_TestOnly.parameters?.docs,source:{originalSource:'(): string => html`\n  <calcite-text-area value="Rocky Mountains National Park" max-length="10"> </calcite-text-area>\n`',...exceedingMaxLength_TestOnly.parameters?.docs?.source}}},chineseLang_TestOnly.parameters={...chineseLang_TestOnly.parameters,docs:{...chineseLang_TestOnly.parameters?.docs,source:{originalSource:'(): string => html`\n  <calcite-text-area value="Rocky Mountains National Park" lang="zh-cn" group-separator max-length="654321">\n  </calcite-text-area>\n`',...chineseLang_TestOnly.parameters?.docs?.source}}},insideContainerWithHeightAndWidth_TestOnly.parameters={...insideContainerWithHeightAndWidth_TestOnly.parameters,docs:{...insideContainerWithHeightAndWidth_TestOnly.parameters?.docs,source:{originalSource:'(): string => html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`',...insideContainerWithHeightAndWidth_TestOnly.parameters?.docs?.source}}},validationMessageAllScales_TestOnly.parameters={...validationMessageAllScales_TestOnly.parameters,docs:{...validationMessageAllScales_TestOnly.parameters?.docs,source:{originalSource:'(): string => html`\n  ${wrapperStyles}\n  <div class="wrapper">\n    <calcite-text-area\n      scale="s"\n      status="invalid"\n      validation-message="This field is required."\n      validation-icon="frown"\n    ></calcite-text-area>\n    <calcite-text-area\n      scale="m"\n      status="invalid"\n      validation-message="Less than the minimum length of 6 characters"\n      validation-icon\n      value="Hi"\n    ></calcite-text-area>\n    <calcite-text-area\n      scale="l"\n      status="invalid"\n      validation-message="Exceeds the maximum length of 9 characters"\n      validation-icon\n      value="Lorem ipsum"\n    ></calcite-text-area>\n  </div>\n`',...validationMessageAllScales_TestOnly.parameters?.docs?.source}}};const __namedExportsOrder=["simple","darkModeRTL_TestOnly","withSlottedElements","withSlottedElementsDarkModeRTL_TestOnly","disabled_TestOnly","readonly_TestOnly","resizeDisabled_TestOnly","groupSeparator_TestOnly","exceedingMaxLength_TestOnly","chineseLang_TestOnly","insideContainerWithHeightAndWidth_TestOnly","validationMessageAllScales_TestOnly"]},"./.storybook/helpers.ts":(__unused_webpack_module,__webpack_exports__,__webpack_require__)=>{__webpack_require__.d(__webpack_exports__,{k:()=>iconNames});var _esri_calcite_ui_icons__WEBPACK_IMPORTED_MODULE_0__=__webpack_require__("../../node_modules/@esri/calcite-ui-icons/index.js");const iconNames=Object.keys(_esri_calcite_ui_icons__WEBPACK_IMPORTED_MODULE_0__).filter((iconName=>iconName.endsWith("16"))).map((iconName=>iconName.replace("16",""))).sort(((a,b)=>{const iPrefixedNumberIconNamePattern=/^i(\d)/;return a.replace(iPrefixedNumberIconNamePattern,"$1").localeCompare(b.replace(iPrefixedNumberIconNamePattern,"$1"))}))},"./.storybook/resources.ts":(__unused_webpack_module,__webpack_exports__,__webpack_require__)=>{__webpack_require__.d(__webpack_exports__,{i:()=>ATTRIBUTES});const logicalFlowPositionOptions=["inline-start","inline-end","block-start","block-end"],positionOptions=["start","end","top","bottom"],scaleOptions=["s","m","l"],alignmentOptions=["start","center","end"],appearanceOptions=["solid","outline","outline-fill","transparent"],statusOptions=["invalid","valid","idle"],kindOptions=["brand","danger","info","inverse","neutral","warning","success"],widthOptions=["auto","half","full"],selectionModeOptions=["single","none","children","single-persist","multichildren","ancestors","multiple"],arrowTypeOptions=["inline","edge","none"],displayModeOptions=["float","overlay"],toggleDisplayOptions=["button","switch"],layoutOptions=["horizontal","vertical","grid","inline","center","auto","fixed","none","horizontal-single"],dirOptions=["ltr","rtl"],buttonTypeOptions=["radio","checkbox"],interactionModeOptions=["interactive","static"],iconTypeOptions=["chevron","caret","ellipsis","overflow","plus-minus"],determinateTypeOptions=["determinate","indeterminate"],fillTypeOptions=["single","range"],labelTypeOptions=["percent","units"],clickTypeOptions=["click","hover"],collapseDirectionOptions=["down","up"],textTypeOptions=["text","textarea","email","password","tel","number","search","file","time","date"],modeOptions=["offset","name"],selectionAppearanceOptions=["icon","border"],shellDisplayModeOptions=["dock","float","overlay"],ATTRIBUTES={alignment:{values:alignmentOptions,defaultValue:alignmentOptions[0]},appearance:{values:appearanceOptions,defaultValue:appearanceOptions[0]},logicalFlowPosition:{values:logicalFlowPositionOptions,defaultValue:logicalFlowPositionOptions[2]},position:{values:positionOptions,defaultValue:positionOptions[0]},scale:{values:scaleOptions,defaultValue:scaleOptions[1]},status:{values:statusOptions,defaultValue:statusOptions[2]},kind:{values:kindOptions,defaultValue:kindOptions[0]},width:{values:widthOptions,defaultValue:widthOptions[0]},selectionMode:{values:selectionModeOptions,defaultValue:selectionModeOptions[6]},arrowType:{values:arrowTypeOptions,defaultValue:arrowTypeOptions[0]},displayMode:{values:displayModeOptions,defaultValue:displayModeOptions[0]},toggleDisplay:{values:toggleDisplayOptions,defaultValue:toggleDisplayOptions[0]},layout:{values:layoutOptions,defaultValue:layoutOptions[0]},dir:{values:dirOptions,defaultValue:dirOptions[0]},buttonType:{values:buttonTypeOptions,defaultValue:buttonTypeOptions[0]},interactionMode:{values:interactionModeOptions,defaultValue:interactionModeOptions[0]},iconType:{values:iconTypeOptions,defaultValue:iconTypeOptions[0]},determinateType:{values:determinateTypeOptions,defaultValue:determinateTypeOptions[0]},fillType:{values:fillTypeOptions,defaultValue:fillTypeOptions[1]},labelType:{values:labelTypeOptions,defaultValue:labelTypeOptions[0]},clickType:{values:clickTypeOptions,defaultValue:clickTypeOptions[0]},collapseDirection:{values:collapseDirectionOptions,defaultValue:collapseDirectionOptions[0]},textType:{values:textTypeOptions,defaultValue:textTypeOptions[0]},mode:{values:modeOptions,defaultValue:modeOptions[0]},selectionAppearance:{values:selectionAppearanceOptions,defaultValue:selectionAppearanceOptions[0]},shellDisplayMode:{values:shellDisplayModeOptions,defaultValue:shellDisplayModeOptions[0]}}}}]);
+//# sourceMappingURL=components-text-area-text-area-stories.be5c73a4.iframe.bundle.js.map

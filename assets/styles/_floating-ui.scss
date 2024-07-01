@@ -1,0 +1,112 @@
+$floating-ui-transform-bottom: translateY(-5px);
+$floating-ui-transform-top: translateY(5px);
+$floating-ui-transform-left: translateX(5px);
+$floating-ui-transform-right: translateX(-5px);
+
+@mixin floating-ui-base {
+  --calcite-floating-ui-transition: var(--calcite-animation-timing);
+  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
+}
+
+@mixin floatingUIAnim {
+  .calcite-floating-ui-anim {
+    position: relative;
+    transition: var(--calcite-floating-ui-transition);
+    transition-property: transform, visibility, opacity;
+    opacity: 0;
+    box-shadow: $shadow-2;
+    @apply rounded z-default;
+  }
+}
+
+@mixin floatingUIAnimActive {
+  opacity: 1;
+  transform: translate(0);
+}
+
+@mixin floatingUIElemAnim($selector) {
+  #{$selector} {
+    @include floatingUIAnim();
+
+    &[data-placement^="bottom"] .calcite-floating-ui-anim {
+      transform: $floating-ui-transform-bottom;
+    }
+
+    &[data-placement^="top"] .calcite-floating-ui-anim {
+      transform: $floating-ui-transform-top;
+    }
+
+    &[data-placement^="left"] .calcite-floating-ui-anim {
+      transform: $floating-ui-transform-left;
+    }
+
+    &[data-placement^="right"] .calcite-floating-ui-anim {
+      transform: $floating-ui-transform-right;
+    }
+
+    &[data-placement] .calcite-floating-ui-anim--active {
+      @include floatingUIAnimActive();
+    }
+  }
+}
+
+@mixin floatingUIHostAnim {
+  @include floatingUIAnim();
+
+  :host([data-placement^="bottom"]) .calcite-floating-ui-anim {
+    transform: $floating-ui-transform-bottom;
+  }
+
+  :host([data-placement^="top"]) .calcite-floating-ui-anim {
+    transform: $floating-ui-transform-top;
+  }
+
+  :host([data-placement^="left"]) .calcite-floating-ui-anim {
+    transform: $floating-ui-transform-left;
+  }
+
+  :host([data-placement^="right"]) .calcite-floating-ui-anim {
+    transform: $floating-ui-transform-right;
+  }
+
+  :host([data-placement]) .calcite-floating-ui-anim--active {
+    @include floatingUIAnimActive();
+  }
+}
+
+@mixin floatingUIContainer() {
+  display: block;
+  position: absolute;
+  z-index: var(--calcite-floating-ui-z-index);
+}
+
+@mixin floatingUIWrapper {
+  visibility: hidden;
+}
+
+@mixin floatingUIWrapperActive {
+  visibility: visible;
+}
+
+@mixin floatingUIHost() {
+  :host {
+    @include floatingUIContainer();
+  }
+
+  @include floatingUIHostAnim();
+
+  @include calciteHydratedHidden();
+}
+
+@mixin floatingUIArrow {
+  .calcite-floating-ui-arrow {
+    @apply -z-default
+    absolute
+    pointer-events-none
+    fill-background-foreground-1;
+  }
+
+  .calcite-floating-ui-arrow__stroke {
+    stroke: theme("borderColor.color.3");
+  }
+}
