@@ -41,4 +41,4 @@ export const ICONS = {
   closed: "chevron-down",
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
-};
+} as const;
