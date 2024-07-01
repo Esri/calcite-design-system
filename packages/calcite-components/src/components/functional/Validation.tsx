@@ -18,8 +18,9 @@ export const Validation: FunctionalComponent<ValidationProps> = ({
   status,
   icon,
   message,
+  key = "validation-container",
 }) => (
-  <div class={CSS.validationContainer}>
+  <div class={CSS.validationContainer} key={key}>
     <calcite-input-message icon={icon} scale={scale} status={status}>
       {message}
     </calcite-input-message>
