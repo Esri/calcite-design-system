@@ -285,7 +285,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": string;
+        "icon": IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -1012,7 +1012,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": string;
+        "icon": IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -1384,7 +1384,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": string;
+        "icon": IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -2018,7 +2018,7 @@ export namespace Components {
           * Displays a specific icon.
           * @see [Icons](https://esri.github.io/calcite-ui-icons)
          */
-        "icon": string;
+        "icon": IconName;
         /**
           * Specifies the size of the component.
          */
@@ -3481,7 +3481,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": string;
+        "icon": IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -5294,7 +5294,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": string;
+        "icon": IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -5396,7 +5396,7 @@ export namespace Components {
         /**
           * Specifies an icon to display.
          */
-        "icon": string;
+        "icon": IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8045,7 +8045,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: string;
+        "icon"?: IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -8810,7 +8810,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: string;
+        "icon"?: IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -9211,7 +9211,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: string;
+        "icon"?: IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -9879,7 +9879,7 @@ declare namespace LocalJSX {
           * Displays a specific icon.
           * @see [Icons](https://esri.github.io/calcite-ui-icons)
          */
-        "icon"?: string;
+        "icon"?: IconName;
         /**
           * Specifies the size of the component.
          */
@@ -11438,7 +11438,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: string;
+        "icon"?: IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -13306,7 +13306,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: string;
+        "icon"?: IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -13413,7 +13413,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display.
          */
-        "icon"?: string;
+        "icon"?: IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
