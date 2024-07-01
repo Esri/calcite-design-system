@@ -502,8 +502,8 @@ export class DatePickerMonth {
         <calcite-date-picker-day
           active={active}
           class={{
-            "hover--inside-range": this.startDate && isHoverInRange,
-            "hover--outside-range": this.startDate && !isHoverInRange,
+            "inside-range--hover": this.startDate && isHoverInRange,
+            "outside-range--hover": this.startDate && !isHoverInRange,
             "focused--start": isFocusedOnStart,
             "focused--end": !isFocusedOnStart,
             noncurrent: this.range && !currentMonth,

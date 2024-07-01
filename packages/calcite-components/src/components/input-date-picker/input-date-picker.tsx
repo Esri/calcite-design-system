@@ -1021,8 +1021,6 @@ export class InputDatePicker
     return !!(endValue && !startValue && this.focusedInput === "end" && this.startInput);
   }
 
-  //update these logics to allow focus restoration during editing
-  // these values might always be false considering focusInput is changed in restoreInputFocus method.
   private shouldFocusRangeEnd(): boolean {
     const startValue = this.value[0];
     const endValue = this.value[1];

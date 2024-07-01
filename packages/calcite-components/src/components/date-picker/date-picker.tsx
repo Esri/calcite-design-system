@@ -68,7 +68,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
 
   @Watch("activeDate")
   activeDateWatcher(newValue: Date | Date[]): void {
-    //updates activeDate when user is typing in input and avoid updating activeDates when value is set programmatically
     if (this.range && !this.userChangeRangeValue) {
       if (Array.isArray(newValue)) {
         if (newValue[0] || newValue[1]) {
@@ -545,7 +544,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         this.activeEndDate = new Date(valueAsDate[1]);
       }
     }
-    //resets hoverRange when user is navigating via keyboard and closes date-picker
     this.hoverRange = undefined;
   };
 

@@ -90,7 +90,7 @@
 }
 
 :host([highlighted]),
-:host([selected]:not(.hover--outside-range)) {
+:host([selected]:not(.outside-range--hover)) {
   .day-wrapper {
     background-color: var(--calcite-color-foreground-current);
   }
@@ -104,19 +104,10 @@
 
 :host([range-hover][start-of-range][range-edge="end"]),
 :host([range-hover][end-of-range][range-edge="start"]),
-:host([start-of-range][range-edge="end"].hover--inside-range),
+:host([start-of-range][range-edge="end"].inside-range--hover),
 :host([end-of-range]) {
   .day-wrapper {
     content: unset;
-  }
-}
-
-:host(:hover[range-hover]:not([selected]).focused--start),
-:host(:hover[range-hover]:not([selected]).focused--end),
-:host(:hover[range-hover]:not([selected]).focused--start.hover--outside-range),
-:host(:hover[range-hover]:not([selected]).focused--end.hover--outside-range) {
-  .day {
-    box-shadow: 0 0 0 2px var(--calcite-color-foreground-1);
   }
 }
 

@@ -196,7 +196,7 @@ export class DatePickerDay implements InteractiveComponent, LoadableComponent {
         tabIndex={this.active && !this.disabled ? 0 : -1}
       >
         <InteractiveContainer disabled={this.disabled}>
-          <div class="day-wrapper">
+          <div aria-hidden="true" class="day-wrapper">
             <span class="day">
               <span class="text">{formattedDay}</span>
             </span>

@@ -28,6 +28,7 @@ import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { Position, Scale } from "../interfaces";
+import { componentOnReady } from "../../utils/component";
 import { CSS, ICON } from "./resources";
 
 @Component({
@@ -67,6 +68,12 @@ export class DatePickerMonthHeader {
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale;
+
+  @Watch("scale")
+  updateScale(): void {
+    this.setSelectChevronEl(this.monthPickerEl);
+    this.setSelectChevronEl(this.yearPickerEl);
+  }
 
   /** CLDR locale data for translated calendar info. */
   @Prop() localeData: DateLocaleData;
@@ -123,9 +130,9 @@ export class DatePickerMonthHeader {
     this.setNextPrevMonthDates();
   }
 
-  componentDidRender(): void {
-    this.setSelectWidth(this.monthPickerEl);
-    this.setSelectWidth(this.yearPickerEl);
+  componentDidLoad(): void {
+    this.setSelectChevronEl(this.monthPickerEl);
+    this.setSelectChevronEl(this.yearPickerEl);
   }
 
   render(): VNode {
@@ -185,7 +192,7 @@ export class DatePickerMonthHeader {
     return (
       <calcite-select
         class={CSS.monthPicker}
-        label="month"
+        label="Month menu"
         onCalciteSelectChange={this.handleMonthChange}
         ref={(el) => (this.monthPickerEl = el)}
         width="auto"
@@ -209,7 +216,7 @@ export class DatePickerMonthHeader {
     return (
       <calcite-select
         class={CSS.yearPicker}
-        label="year"
+        label="Year menu"
         onCalciteSelectChange={this.handleYearChange}
         ref={(el) => (this.yearPickerEl = el)}
         width="auto"
@@ -248,6 +255,7 @@ export class DatePickerMonthHeader {
           ) || !inRange(this.activeDate, this.min, this.max)
         }
         icon={isDirectionRight ? ICON.chevronRight : ICON.chevronLeft}
+        iconFlipRtl={true}
         onClick={isDirectionRight ? this.nextMonthClick : this.prevMonthClick}
         onKeyDown={isDirectionRight ? this.nextMonthKeydown : this.prevMonthKeydown}
         role="button"
@@ -296,6 +304,8 @@ export class DatePickerMonthHeader {
 
   private defaultMaxISOYear = new Date("2050-12-31");
 
+  private selectChevronOffSetWidth: number;
+
   @Watch("min")
   @Watch("max")
   @Watch("activeDate")
@@ -306,6 +316,16 @@ export class DatePickerMonthHeader {
 
     this.nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
     this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
+  }
+
+  @Watch("activeDate")
+  handleSelectWidth(newValue: Date, oldValue: Date): void {
+    if (!oldValue) {
+      return;
+    }
+
+    this.setSelectWidth(this.monthPickerEl);
+    this.setSelectWidth(this.yearPickerEl);
   }
 
   //--------------------------------------------------------------------------
@@ -419,13 +439,37 @@ export class DatePickerMonthHeader {
     }
   }
 
+  private async setSelectChevronEl(select: HTMLCalciteSelectElement): Promise<void> {
+    const chevronEl = select.shadowRoot.querySelector("calcite-icon");
+    await componentOnReady(chevronEl);
+    const chevronContainer = select.shadowRoot.querySelector(".icon-container");
+    const chevronElWidth = chevronEl.getBoundingClientRect().width;
+    const chevronContainerElWidth = chevronContainer.getBoundingClientRect().width;
+    this.selectChevronOffSetWidth =
+      chevronContainerElWidth + (chevronContainerElWidth - chevronElWidth) / 2;
+    this.setSelectWidth(select);
+  }
+
   private setSelectWidth(select: HTMLCalciteSelectElement): void {
     const selectEl = select.shadowRoot.querySelector("select");
-    if (selectEl) {
-      const width = getTextWidth(select.value, getComputedStyle(selectEl).font);
-      const chevronOffSet = this.scale === "l" ? 40 : this.scale === "m" ? 28 : 22;
-      select.style.width = `${width + chevronOffSet}px`;
+    let selectedOptionWidth: number;
+    if (select === this.monthPickerEl) {
+      const { abbreviated, wide } = this.localeData.months;
+      const localeMonths = this.monthAbbreviations ? abbreviated : wide;
+      const activeMonthIndex = this.activeDate.getMonth();
+      selectedOptionWidth = getTextWidth(
+        localeMonths[activeMonthIndex],
+        getComputedStyle(selectEl).font,
+      );
+    } else {
+      selectedOptionWidth = getTextWidth(
+        numberStringFormatter.localize(
+          `${parseCalendarYear(this.activeDate.getFullYear(), this.localeData)}`,
+        ),
+        getComputedStyle(selectEl).font,
+      );
     }
+    selectEl.style.width = `${selectedOptionWidth + this.selectChevronOffSetWidth}px`;
   }
 
   private isMonthInRange = (index: number): boolean => {
