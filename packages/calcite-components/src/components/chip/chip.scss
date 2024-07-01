@@ -1,6 +1,6 @@
 .container,
 .select-icon,
-title {
+.title {
   padding-inline-start: var(--calcite-internal-chip-padding-start);
   padding-inline-end: var(--calcite-internal-chip-padding-end);
 }
@@ -215,9 +215,9 @@ title {
 .container.text--slotted .title {
   @apply truncate;
 
-  padding-inline: var(--calcite-chip-spacing-s-internal);
-  // --calcite-internal-chip-padding-start: var(--calcite-chip-spacing-s-internal);
-  // --calcite-internal-chip-padding-end: var(--calcite-chip-spacing-s-internal);
+  // padding-inline: var(--calcite-chip-spacing-s-internal);
+  --calcite-internal-chip-padding-start: var(--calcite-chip-spacing-s-internal);
+  --calcite-internal-chip-padding-end: var(--calcite-chip-spacing-s-internal);
 }
 
 .container:not(.text--slotted) .title {
