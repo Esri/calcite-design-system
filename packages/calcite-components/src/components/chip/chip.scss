@@ -20,8 +20,12 @@
     @apply h-5 w-5;
   }
 
-  .container.is-circle {
+  .container.is-circle,
+  .container.is-circle.image--slotted {
     @apply w-6 h-6;
+
+    --calcite-internal-chip-padding-start: 0;
+    --calcite-internal-chip-padding-end: 0;
   }
 
   .multiple {
@@ -76,8 +80,12 @@
     --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   }
 
-  .container.is-circle {
+  .container.is-circle,
+  .container.is-circle.image--slotted {
     @apply w-8 h-8;
+
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   }
 
   .multiple {
@@ -135,8 +143,12 @@
     --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   }
 
-  .container.is-circle {
+  .container.is-circle,
+  .container.is-circle.image--slotted {
     @apply w-11 h-11;
+
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
   }
 
   .multiple {
@@ -207,15 +219,9 @@
   --calcite-internal-chip-padding-start: calc(theme("spacing[0.5]") / 2);
 }
 
-:host([scale="s"]) .container.is-circle {
-  --calcite-internal-chip-padding-start: 0;
-  --calcite-internal-chip-padding-end: 0;
-}
-
 .container.text--slotted .title {
   @apply truncate;
 
-  // padding-inline: var(--calcite-chip-spacing-s-internal);
   --calcite-internal-chip-padding-start: var(--calcite-chip-spacing-s-internal);
   --calcite-internal-chip-padding-end: var(--calcite-chip-spacing-s-internal);
 }
@@ -289,8 +295,8 @@
   justify-content: center;
   --calcite-chip-transparent-hover: var(--calcite-color-transparent-hover);
   --calcite-chip-transparent-press: var(--calcite-color-transparent-press);
-  --calcite-inernal-chip-padding-start: var(--calcite-spacing-xxs);
-  --calcite-inernal-chip-padding-end: var(--calcite-spacing-xxs);
+  --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+  --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   &:hover {
     background-color: var(--calcite-chip-transparent-hover);
   }
