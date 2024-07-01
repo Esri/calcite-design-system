@@ -1,7 +1,7 @@
 import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
-import { filterElementsByTagName, slotChangeGetAssignedElements } from "../../utils/dom";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { TabLayout, TabPosition } from "./interfaces";
 import { SLOTS } from "./resources";
 
@@ -56,7 +56,7 @@ export class Tabs {
   @Listen("calciteInternalTabNavSlotChange")
   calciteInternalTabNavSlotChangeHandler(event: CustomEvent): void {
     if (event.detail.length !== this.titles.length) {
-      this.titles = filterElementsByTagName(event.detail, "calcite-tab-title");
+      this.titles = event.detail;
     }
   }
 

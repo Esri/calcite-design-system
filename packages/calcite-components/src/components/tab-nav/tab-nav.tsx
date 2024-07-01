@@ -23,6 +23,7 @@ import {
   focusElementInGroup,
   FocusElementInGroupDestination,
   getElementDir,
+  slotChangeGetAssignedElements,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
@@ -507,7 +508,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   private onSlotChange = (event: Event): void => {
     this.intersectionObserver?.disconnect();
 
-    const slottedElements = (event.target as HTMLSlotElement).assignedElements();
+    const slottedElements = slotChangeGetAssignedElements(event, "calcite-tab-title");
     slottedElements.forEach((child) => {
       this.intersectionObserver?.observe(child);
     });
