@@ -371,7 +371,7 @@ describe("calcite-tooltip", () => {
     expect(await tooltip.getProperty("open")).toBe(false);
   });
 
-  it("should not open tooltip when clicked", async () => {
+  it("should handle touch events", async () => {
     const page = await newE2EPage();
 
     await page.setContent(html`
@@ -388,7 +388,37 @@ describe("calcite-tooltip", () => {
 
     await page.evaluate(() => {
       const ref = document.getElementById("ref");
-      ref.click();
+      const event1 = new Event("click", {
+        cancelable: true,
+        bubbles: true,
+      });
+      ref.dispatchEvent(event1);
+    });
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(true);
+
+    await page.evaluate(() => {
+      const ref = document.getElementById("ref");
+      const event1 = new Event("click", {
+        cancelable: true,
+        bubbles: true,
+      });
+      ref.dispatchEvent(event1);
+    });
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(true);
+
+    await page.evaluate(() => {
+      const ref = document.getElementById("test");
+      const event1 = new Event("click", {
+        cancelable: true,
+        bubbles: true,
+      });
+      ref.dispatchEvent(event1);
     });
 
     await page.waitForChanges();

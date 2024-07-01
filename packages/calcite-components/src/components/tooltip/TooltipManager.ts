@@ -119,8 +119,16 @@ export default class TooltipManager {
     }
   };
 
-  private clickHandler = (event: PointerEvent): void => {
+  private clickHandler = (event: Event): void => {
     const clickedTooltip = this.queryTooltip(event.composedPath());
+
+    if (clickedTooltip !== this.activeTooltip) {
+      this.closeActiveTooltip();
+
+      if (clickedTooltip) {
+        this.toggleTooltip(clickedTooltip, true);
+      }
+    }
 
     this.clickedTooltip = clickedTooltip;
 
