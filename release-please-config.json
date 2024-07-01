@@ -2,7 +2,6 @@
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "release-type": "node",
   "tag-separator": "@",
-  "label": "skip visual snapshots",
   "draft-pull-request": true,
   "include-v-in-tag": false,
   "packages": {
@@ -13,7 +12,6 @@
     "packages/calcite-components-react": {
       "component": "@esri/calcite-components-react"
     },
-
     "packages/calcite-components-angular/projects/component-library": {
       "component": "@esri/calcite-components-angular"
     },

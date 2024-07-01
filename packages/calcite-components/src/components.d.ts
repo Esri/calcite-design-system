@@ -28,7 +28,7 @@ import { FlowItemLikeElement } from "./components/flow/interfaces";
 import { ColorStop, DataSeries } from "./components/graph/interfaces";
 import { HandleChange, HandleNudge } from "./components/handle/interfaces";
 import { InputPlacement } from "./components/input/interfaces";
-import { TimeZoneMode } from "./components/input-time-zone/interfaces";
+import { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 import { ListDragDetail } from "./components/list/interfaces";
 import { ItemData } from "./components/list-item/interfaces";
 import { SelectionAppearance } from "./components/list/resources";
@@ -70,7 +70,7 @@ export { FlowItemLikeElement } from "./components/flow/interfaces";
 export { ColorStop, DataSeries } from "./components/graph/interfaces";
 export { HandleChange, HandleNudge } from "./components/handle/interfaces";
 export { InputPlacement } from "./components/input/interfaces";
-export { TimeZoneMode } from "./components/input-time-zone/interfaces";
+export { OffsetStyle, TimeZoneMode } from "./components/input-time-zone/interfaces";
 export { ListDragDetail } from "./components/list/interfaces";
 export { ItemData } from "./components/list-item/interfaces";
 export { SelectionAppearance } from "./components/list/resources";
@@ -2644,6 +2644,11 @@ export namespace Components {
          */
         "form": string;
         /**
+          * Specifies the maximum value.
+          * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
+         */
+        "max": string;
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides": Partial<InputTimePickerMessages & TimePickerMessages>;
@@ -2651,6 +2656,11 @@ export namespace Components {
           * Made into a prop for testing purposes only
          */
         "messages": InputTimePickerMessages;
+        /**
+          * Specifies the minimum value.
+          * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
+         */
+        "min": string;
         /**
           * Specifies the name of the component on form submission.
          */
@@ -2754,6 +2764,11 @@ export namespace Components {
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
         "name": string;
+        /**
+          * Specifies how the offset will be displayed, where  `"user"` uses `UTC` or `GMT` depending on the user's locale, `"gmt"` always uses `GMT`, and `"utc"` always uses `UTC`.  This only applies to the `offset` mode.
+          * @default "user"
+         */
+        "offsetStyle": OffsetStyle;
         /**
           * When `true`, displays and positions the component.
          */
@@ -10513,6 +10528,11 @@ declare namespace LocalJSX {
          */
         "form"?: string;
         /**
+          * Specifies the maximum value.
+          * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
+         */
+        "max"?: string;
+        /**
           * Use this property to override individual strings used by the component.
          */
         "messageOverrides"?: Partial<InputTimePickerMessages & TimePickerMessages>;
@@ -10520,6 +10540,11 @@ declare namespace LocalJSX {
           * Made into a prop for testing purposes only
          */
         "messages"?: InputTimePickerMessages;
+        /**
+          * Specifies the minimum value.
+          * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
+         */
+        "min"?: string;
         /**
           * Specifies the name of the component on form submission.
          */
@@ -10634,6 +10659,11 @@ declare namespace LocalJSX {
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
         "name"?: string;
+        /**
+          * Specifies how the offset will be displayed, where  `"user"` uses `UTC` or `GMT` depending on the user's locale, `"gmt"` always uses `GMT`, and `"utc"` always uses `UTC`.  This only applies to the `offset` mode.
+          * @default "user"
+         */
+        "offsetStyle"?: OffsetStyle;
         /**
           * Fires when the component is requested to be closed and before the closing transition begins.
          */
