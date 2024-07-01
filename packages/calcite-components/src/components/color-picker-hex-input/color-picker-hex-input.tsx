@@ -210,6 +210,18 @@ export class ColorPickerHexInput implements LoadableComponent {
     this.internalSetValue(value, this.value);
   };
 
+  private onHexInput = (): void => {
+    const hexInputValue = `#${this.hexInputNode.value}`;
+    const oldValue = this.value;
+
+    if (
+      isValidHex(hexInputValue, this.alphaChannel) &&
+      isLonghandHex(hexInputValue, this.alphaChannel)
+    ) {
+      this.internalSetValue(hexInputValue, oldValue);
+    }
+  };
+
   protected onInputKeyDown = (event: KeyboardEvent): void => {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
     const { alphaChannel, hexInputNode, internalColor, value } = this;
@@ -271,9 +283,10 @@ export class ColorPickerHexInput implements LoadableComponent {
   private onHexInputPaste = (event: ClipboardEvent): void => {
     const hex = event.clipboardData.getData("text");
 
-    if (isValidHex(hex)) {
+    if (isValidHex(hex, this.alphaChannel) && isLonghandHex(hex, this.alphaChannel)) {
       event.preventDefault();
       this.hexInputNode.value = hex.slice(1);
+      this.internalSetValue(hex, this.value);
     }
   };
 
@@ -315,6 +328,7 @@ export class ColorPickerHexInput implements LoadableComponent {
           label={messages?.hex || hexLabel}
           maxLength={6}
           onCalciteInputTextChange={this.onHexInputChange}
+          onCalciteInputTextInput={this.onHexInput}
           onCalciteInternalInputTextBlur={this.onHexInputBlur}
           onKeyDown={this.onInputKeyDown}
           onPaste={this.onHexInputPaste}

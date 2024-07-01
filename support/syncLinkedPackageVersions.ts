@@ -43,7 +43,7 @@
          * the future if a TRACKING linked package with frequent deployable changes is added.
          */
         throw new Error(
-          `A TRACKING linked package's version (${trackingPackageData.name}@${trackingPackageData.version}) cannot be greater than the HEAD linked package's version (${headPackageData.name}@${headPackageData.version}). Blocking next releases until HEAD catches up.`
+          `A TRACKING linked package's version (${trackingPackageData.name}@${trackingPackageData.version}) cannot be greater than the HEAD linked package's version (${headPackageData.name}@${headPackageData.version}). Blocking next releases until HEAD catches up.`,
         );
       } else if (semver.gt(headPackageData.version, trackingPackageData.version)) {
         console.log(
@@ -52,7 +52,7 @@
           "from",
           trackingPackageData.version,
           "to",
-          headPackageData.version
+          headPackageData.version,
         );
 
         // update to HEAD version in package.json and package-lock.json
@@ -72,7 +72,7 @@
           .replace(`## [${trackingPackageData.version}]`, `## [${headPackageData.version}]`)
           .replace(
             `...${trackingPackageData.name}@${trackingPackageData.version}`,
-            `...${trackingPackageData.name}@${headPackageData.version}`
+            `...${trackingPackageData.name}@${headPackageData.version}`,
           );
 
         await fs.writeFile(packageChangelogPath, updatedChangelogContent);
@@ -87,7 +87,9 @@
     await exec("markdownlint packages/{*,calcite-components-angular/projects/component-library}/CHANGELOG.md --fix");
 
     // add/commit changed files
-    await exec(`git add --all && git commit -m 'chore: release ${releaseTarget}'`);
+    await exec(
+      `git add --all && git commit -m 'chore: release ${releaseTarget === "latest" ? "main" : releaseTarget}'`,
+    );
 
     // create git tags with the updated versions
     for (const pkg of changedPackagesData) {

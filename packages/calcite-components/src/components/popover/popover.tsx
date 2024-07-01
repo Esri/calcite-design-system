@@ -16,8 +16,8 @@ import {
   connectFloatingUI,
   defaultOffsetDistance,
   disconnectFloatingUI,
-  EffectivePlacement,
-  filterComputedPlacements,
+  filterValidFlipPlacements,
+  FlipPlacement,
   FloatingCSS,
   FloatingLayout,
   FloatingUIComponent,
@@ -121,7 +121,7 @@ export class Popover
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements: EffectivePlacement[];
+  @Prop() flipPlacements: FlipPlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -253,7 +253,7 @@ export class Popover
     this.updateFocusTrapElements(),
   );
 
-  filteredFlipPlacements: EffectivePlacement[];
+  filteredFlipPlacements: FlipPlacement[];
 
   @State() effectiveLocale = "";
 
@@ -292,12 +292,11 @@ export class Popover
     this.setFilteredPlacements();
     connectLocalized(this);
     connectMessages(this);
-    this.setUpReferenceElement(this.hasLoaded);
     connectFocusTrap(this);
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
+
+    // we set up the ref element in the next frame to ensure PopoverManager
+    // event handlers are invoked after connect (mainly for `components` output target)
+    requestAnimationFrame(() => this.setUpReferenceElement(this.hasLoaded));
   }
 
   async componentWillLoad(): Promise<void> {
@@ -310,7 +309,10 @@ export class Popover
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
+
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
     this.hasLoaded = true;
   }
 
@@ -414,7 +416,7 @@ export class Popover
     const { el, flipPlacements } = this;
 
     this.filteredFlipPlacements = flipPlacements
-      ? filterComputedPlacements(flipPlacements, el)
+      ? filterValidFlipPlacements(flipPlacements, el)
       : null;
   };
 

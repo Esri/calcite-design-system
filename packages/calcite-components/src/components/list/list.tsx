@@ -30,7 +30,6 @@ import {
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
-  dragActive,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 import {
@@ -59,7 +58,6 @@ import { ListMessages } from "./assets/list/t9n";
 import { ListDragDetail } from "./interfaces";
 
 const listItemSelector = "calcite-list-item";
-const listItemSelectorDirect = `:scope > calcite-list-item`;
 const parentSelector = "calcite-list-item-group, calcite-list-item";
 
 /**
@@ -160,6 +158,16 @@ export class List
    * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
+
+  /**
+   * Specifies the properties to match against when filtering. If not set, all properties will be matched (label, description, metadata, value).
+   */
+  @Prop() filterProps: string[];
+
+  @Watch("filterProps")
+  async handlefilterPropsChange(): Promise<void> {
+    this.performFilter();
+  }
 
   /**
    * Use this property to override individual strings used by the component.
@@ -400,10 +408,6 @@ export class List
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     connectLocalized(this);
     connectMessages(this);
     this.connectObserver();
@@ -427,10 +431,6 @@ export class List
   }
 
   disconnectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     this.disconnectObserver();
     disconnectSortableComponent(this);
     disconnectInteractive(this);
@@ -526,6 +526,7 @@ export class List
       hasFilterActionsStart,
       hasFilterActionsEnd,
       hasFilterNoResults,
+      filterProps,
     } = this;
     return (
       <InteractiveContainer disabled={this.disabled}>
@@ -557,6 +558,7 @@ export class List
                       <calcite-filter
                         aria-label={filterPlaceholder}
                         disabled={disabled}
+                        filterProps={filterProps}
                         items={dataForFilter}
                         onCalciteFilterChange={this.handleFilterChange}
                         placeholder={filterPlaceholder}
@@ -813,13 +815,14 @@ export class List
   }
 
   private async performFilter(): Promise<void> {
-    const { filterEl, filterText } = this;
+    const { filterEl, filterText, filterProps } = this;
 
     if (!filterEl) {
       return;
     }
 
     filterEl.value = filterText;
+    filterEl.filterProps = filterProps;
     await filterEl.filter(filterText);
     this.updateFilteredData();
   }
@@ -846,17 +849,16 @@ export class List
   };
 
   private updateListItems = debounce((emit = false): void => {
-    const { selectionAppearance, selectionMode, dragEnabled } = this;
+    const { selectionAppearance, selectionMode, dragEnabled, el } = this;
 
-    const items = this.queryListItems();
+    const items = Array.from(this.el.querySelectorAll(listItemSelector));
+
     items.forEach((item) => {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
-    });
-
-    const directItems = this.queryListItems(true);
-    directItems.forEach((item) => {
-      item.dragHandle = dragEnabled;
+      if (item.closest("calcite-list") === el) {
+        item.dragHandle = dragEnabled;
+      }
     });
 
     if (this.parentListEl) {
@@ -879,10 +881,6 @@ export class List
     this.updateSelectedItems(emit);
     this.setUpSorting();
   }, debounceTimeout);
-
-  private queryListItems = (direct = false): HTMLCalciteListItemElement[] => {
-    return Array.from(this.el.querySelectorAll(direct ? listItemSelectorDirect : listItemSelector));
-  };
 
   private focusRow = (focusEl: HTMLCalciteListItemElement): void => {
     const { focusableItems } = this;

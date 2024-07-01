@@ -1,4 +1,5 @@
 import { initModeChangeEvent } from "./mode";
+import { stampVersion } from "./config";
 
 /**
  * This file is imported in Stencil's `globalScript` config option.
@@ -20,4 +21,6 @@ export default function (): void {
       document.addEventListener("DOMContentLoaded", () => initModeChangeEvent(), { once: true });
     }
   }
+
+  stampVersion();
 }

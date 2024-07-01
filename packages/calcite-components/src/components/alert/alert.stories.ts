@@ -1,5 +1,4 @@
-import { select } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
+import { iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
@@ -28,17 +27,12 @@ export const titleMessageLink = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
-      ${boolean("icon", true)}
-      ${boolean("auto-close", false)}
-      auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
-      placement="${select(
-        "placement",
-        ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-        "bottom",
-      )}"
-      ${boolean("open", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "brand")}"
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="brand"
       style="--calcite-alert-width:450px;"
     >
       <div slot="title">Here's a general bit of information</div>
@@ -54,17 +48,12 @@ export const titleMessage = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
-      ${boolean("icon", true)}
-      ${boolean("auto-close", false)}
-      auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
-      placement="${select(
-        "placement",
-        ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-        "bottom",
-      )}"
-      ${boolean("open", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "danger")}"
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="danger"
       style="--calcite-alert-width:450px;"
     >
       <div slot="title">Something failed</div>
@@ -79,17 +68,12 @@ export const messageLink = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
-      ${boolean("icon", true)}
-      ${boolean("auto-close", false)}
-      auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
-      placement="${select(
-        "placement",
-        ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-        "bottom",
-      )}"
-      ${boolean("open", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "success")}"
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="success"
       style="--calcite-alert-width:450px;"
     >
       <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
@@ -104,17 +88,12 @@ export const message = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
-      ${boolean("icon", true)}
-      ${boolean("auto-close", false)}
-      auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
-      placement="${select(
-        "placement",
-        ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-        "bottom",
-      )}"
-      ${boolean("open", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "warning")}"
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="warning"
       style="--calcite-alert-width:450px;"
     >
       <div slot="message">Network connection interruption detected</div>
@@ -126,17 +105,12 @@ export const customIcon = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
-      icon="${select("icon", iconNames, iconNames[0])}"
-      ${boolean("auto-close", false)}
-      auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
-      placement="${select(
-        "placement",
-        ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-        "bottom",
-      )}"
-      ${boolean("open", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "success")}"
+      icon="${iconNames[0]}"
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="success"
       style="--calcite-alert-width:450px;"
     >
       <div slot="message">Successfully duplicated <strong>2019 Sales Demographics by County</strong> layer</div>
@@ -150,17 +124,12 @@ export const darkModeRTL_TestOnly = (): string => html`
   <div class="wrapper">
     <calcite-alert
       class="calcite-mode-dark"
-      ${boolean("icon", true)}
-      ${boolean("auto-close", false)}
-      auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
-      placement="${select(
-        "placement",
-        ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
-        "bottom",
-      )}"
-      ${boolean("open", true)}
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      kind="${select("kind", ["brand", "info", "danger", "success", "warning"], "danger")}"
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="danger"
       style="--calcite-alert-width:450px;"
     >
       <div slot="title">Something failed</div>

@@ -159,11 +159,10 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.setUpReferenceElement(this.hasLoaded);
+    this.setUpReferenceElement(true);
     if (this.open) {
       onToggleOpenCloseComponent(this);
     }
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -176,7 +175,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
     this.hasLoaded = true;
   }
 

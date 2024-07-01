@@ -23,15 +23,15 @@ import {
   dateToISO,
   inRange,
 } from "../../utils/date";
-import { toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
   disconnectFloatingUI,
-  EffectivePlacement,
-  filterComputedPlacements,
+  filterValidFlipPlacements,
   FloatingCSS,
   FloatingUIComponent,
+  FlipPlacement,
   MenuPlacement,
   OverlayPositioning,
   reposition,
@@ -88,6 +88,7 @@ import { guid } from "../../utils/guid";
 import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
+import { syncHiddenFormInput } from "../input/common/input";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
 import { CSS } from "./resources";
@@ -201,7 +202,7 @@ export class InputDatePicker
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements: EffectivePlacement[];
+  @Prop() flipPlacements: FlipPlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -243,23 +244,19 @@ export class InputDatePicker
   @Prop({ mutable: true }) maxAsDate: Date;
 
   /** Specifies the earliest allowed date ("yyyy-mm-dd"). */
-  @Prop() min: string;
+  @Prop({ reflect: true }) min: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
-    if (min) {
-      this.minAsDate = dateFromISO(min);
-    }
+    this.minAsDate = dateFromISO(min);
   }
 
   /** Specifies the latest allowed date ("yyyy-mm-dd"). */
-  @Prop() max: string;
+  @Prop({ reflect: true }) max: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
-    if (max) {
-      this.maxAsDate = dateFromISO(max);
-    }
+    this.maxAsDate = dateFromISO(max);
   }
 
   /** When `true`, displays the `calcite-date-picker` component. */
@@ -433,7 +430,7 @@ export class InputDatePicker
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.el);
   }
 
   /**
@@ -724,7 +721,7 @@ export class InputDatePicker
 
   private dialogId = `date-picker-dialog--${guid()}`;
 
-  filteredFlipPlacements: EffectivePlacement[];
+  filteredFlipPlacements: FlipPlacement[];
 
   private focusOnOpen = false;
 
@@ -818,7 +815,7 @@ export class InputDatePicker
     const { el, flipPlacements } = this;
 
     this.filteredFlipPlacements = flipPlacements
-      ? filterComputedPlacements(flipPlacements, el)
+      ? filterValidFlipPlacements(flipPlacements, el)
       : null;
   };
 
@@ -856,6 +853,10 @@ export class InputDatePicker
     this.restoreInputFocus();
     this.focusOnOpen = false;
     this.datePickerEl.reset();
+  }
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    syncHiddenFormInput("date", this, input);
   }
 
   setStartInput = (el: HTMLCalciteInputElement): void => {
