@@ -350,13 +350,13 @@ export class Chip
 
   renderSelectionIcon(): VNode {
     const icon =
-      this.selectionMode === "multiple" && this.selected
-        ? ICONS.checked
-        : this.selectionMode === "multiple"
-          ? ICONS.unchecked
-          : this.selected
-            ? ICONS.checkedSingle
-            : undefined;
+      this.selectionMode === "multiple"
+        ? this.selected
+          ? ICONS.checkedMultiple
+          : ICONS.uncheckedMultiple
+        : this.selected
+          ? ICONS.checkedSingle
+          : undefined;
 
     return (
       <div
@@ -424,6 +424,9 @@ export class Chip
               [CSS.imageSlotted]: this.hasImage,
               [CSS.selectable]: this.selectionMode !== "none",
               [CSS.multiple]: this.selectionMode === "multiple",
+              [CSS.single]:
+                this.selectionMode === "single" || this.selectionMode === "single-persist",
+              [CSS.selected]: this.selected,
               [CSS.closable]: this.closable,
               [CSS.nonInteractive]: !this.interactive,
               [CSS.isCircle]:
