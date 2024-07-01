@@ -423,7 +423,7 @@ export function formAssociated(
     await submitButton.click();
     await page.waitForChanges();
 
-    await expectValidationProps(page, component, { message, icon: "banana", status: "invalid" });
+    await expectValidationProps(page, component, { message, icon: "", status: "invalid" });
   }
 
   async function assertClearsValidationOnValueChange(

@@ -211,7 +211,7 @@ function hasRegisteredFormComponentParent(
 export interface ValidationProps {
   status: Status;
   message: string;
-  icon: IconName | boolean;
+  icon: IconName | boolean | "";
 }
 
 function displayValidationMessage(
