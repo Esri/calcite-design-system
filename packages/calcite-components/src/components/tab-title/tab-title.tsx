@@ -219,9 +219,10 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         <InteractiveContainer disabled={this.disabled}>
           <div
             class={{
-              container: true,
+              [CSS.container]: true,
+              [CSS.containerBottom]: this.position === "bottom",
               [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd,
-              [`scale-${this.scale}`]: true,
+              [CSS.scale(this.scale)]: true,
             }}
             hidden={closed}
             ref={(el) => this.resizeObserver?.observe(el)}
@@ -232,6 +233,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
               {this.iconEnd ? iconEndEl : null}
             </div>
             {this.renderCloseButton()}
+            <div class={CSS.selectedIndicator} />
           </div>
         </InteractiveContainer>
       </Host>
