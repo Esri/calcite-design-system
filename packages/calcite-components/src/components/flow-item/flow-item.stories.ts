@@ -8,7 +8,7 @@ const { collapseDirection, scale } = ATTRIBUTES;
 interface FlowItemStoryArgs
   extends Pick<
     FlowItem,
-    "closed" | "disabled" | "closable" | "collapsible" | "collapsed" | "collapseDirection" | "loading"
+    "closed" | "disabled" | "closable" | "collapsible" | "collapsed" | "collapseDirection" | "loading" | "selected"
   > {
   heightScale: string;
 }
@@ -24,6 +24,7 @@ export default {
     collapseDirection: collapseDirection.defaultValue,
     heightScale: scale.defaultValue,
     loading: false,
+    selected: false,
   },
   argTypes: {
     collapseDirection: {
@@ -87,6 +88,7 @@ export const simple = (args: FlowItemStoryArgs): string => html`
     collapse-direction="${args.collapseDirection}"
     height-scale="${args.heightScale}"
     ${boolean("loading", args.loading)}
+    ${boolean("selected", args.selected)}
   >
     ${headerHTML}
     <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>

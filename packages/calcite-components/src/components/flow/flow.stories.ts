@@ -8,6 +8,7 @@ interface FlowStoryArgs {
   loading: boolean;
   menuOpen: boolean;
   description: string;
+  selected: boolean;
 }
 
 export default {
@@ -121,6 +122,7 @@ export const simple = (args: FlowStoryArgs): string => html`
       heading="${args.heading}"
       ${boolean("loading", args.loading)}
       ${boolean("menu-open", args.menuOpen)}
+      ${boolean("selected", args.selected)}
       description="${args.description}"
     >
       ${createItemHTML(item1HTML)}
