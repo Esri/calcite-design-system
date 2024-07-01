@@ -62,36 +62,6 @@ export class Tabs {
 
   //--------------------------------------------------------------------------
   //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
-
-  connectedCallback(): void {
-    this.mutationObserver.observe(this.el, { childList: true });
-    this.updateItems();
-  }
-
-  async componentWillLoad(): Promise<void> {
-    this.updateItems();
-  }
-
-  disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
-  }
-
-  render(): VNode {
-    return (
-      <Fragment>
-        <slot name={SLOTS.titleGroup} />
-        <section>
-          <slot onSlotchange={this.defaultSlotChangeHandler} />
-        </section>
-      </Fragment>
-    );
-  }
-
-  //--------------------------------------------------------------------------
-  //
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
@@ -137,29 +107,6 @@ export class Tabs {
       }
     }
   });
-
-  private updateItems(): void {
-    const { position, scale } = this;
-
-    const nav = this.el.querySelector("calcite-tab-nav");
-    if (nav) {
-      nav.position = position;
-      nav.scale = scale;
-    }
-
-    Array.from(this.el.querySelectorAll("calcite-tab")).forEach((tab: HTMLCalciteTabElement) => {
-      if (tab.parentElement === this.el) {
-        tab.scale = scale;
-      }
-    });
-
-    Array.from(this.el.querySelectorAll("calcite-tab-nav > calcite-tab-title")).forEach(
-      (title: HTMLCalciteTabTitleElement) => {
-        title.position = position;
-        title.scale = scale;
-      },
-    );
-  }
 
   //--------------------------------------------------------------------------
   //
@@ -212,5 +159,58 @@ export class Tabs {
     console.log(this.tabs.length, this.titles.length);
     this.tabs.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
     this.titles.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
+  }
+
+  private updateItems(): void {
+    const { position, scale } = this;
+
+    const nav = this.el.querySelector("calcite-tab-nav");
+    if (nav) {
+      nav.position = position;
+      nav.scale = scale;
+    }
+
+    Array.from(this.el.querySelectorAll("calcite-tab")).forEach((tab: HTMLCalciteTabElement) => {
+      if (tab.parentElement === this.el) {
+        tab.scale = scale;
+      }
+    });
+
+    Array.from(this.el.querySelectorAll("calcite-tab-nav > calcite-tab-title")).forEach(
+      (title: HTMLCalciteTabTitleElement) => {
+        title.position = position;
+        title.scale = scale;
+      },
+    );
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    this.mutationObserver.observe(this.el, { childList: true });
+    this.updateItems();
+  }
+
+  async componentWillLoad(): Promise<void> {
+    this.updateItems();
+  }
+
+  disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
+
+  render(): VNode {
+    return (
+      <Fragment>
+        <slot name={SLOTS.titleGroup} />
+        <section>
+          <slot onSlotchange={this.defaultSlotChangeHandler} />
+        </section>
+      </Fragment>
+    );
   }
 }
