@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.2-next.0...@esri/calcite-components@2.10.2-next.1) (2024-07-01)
+
+### Bug Fixes
+
+- **flow-item:** set closed property to true when internal panel is closed ([#9715](https://github.com/Esri/calcite-design-system/issues/9715)) ([69661bc](https://github.com/Esri/calcite-design-system/commit/69661bcdee0f189fa9f7eed95fc98e584a115d06)), closes [#9714](https://github.com/Esri/calcite-design-system/issues/9714)
+
 ## [2.10.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.1-next.0...@esri/calcite-components@2.10.2-next.0) (2024-06-28)
 
 ### Bug Fixes
