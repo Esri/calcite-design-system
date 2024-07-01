@@ -70,6 +70,7 @@ module.exports = {
         ],
       },
     ],
+    "@typescript-eslint/method-signature-style": ["error", "property"],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "error",
     curly: "error",
