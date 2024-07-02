@@ -49,6 +49,12 @@ export class DatePickerMonthHeader {
   /** The focused date is indicated and will become the selected date if the user proceeds. */
   @Prop() activeDate: Date;
 
+  @Watch("activeDate")
+  updateSelectMenuWidth(): void {
+    this.setSelectMenuWidth(this.monthPickerEl);
+    this.setSelectMenuWidth(this.yearPickerEl);
+  }
+
   /**
    * Specifies the number at which section headings should start.
    */
@@ -71,8 +77,8 @@ export class DatePickerMonthHeader {
 
   @Watch("scale")
   updateScale(): void {
-    this.setSelectChevronEl(this.monthPickerEl);
-    this.setSelectChevronEl(this.yearPickerEl);
+    this.setSelectMenuIconOffset(this.monthPickerEl);
+    this.setSelectMenuIconOffset(this.yearPickerEl);
   }
 
   /** CLDR locale data for translated calendar info. */
@@ -131,8 +137,8 @@ export class DatePickerMonthHeader {
   }
 
   componentDidLoad(): void {
-    this.setSelectChevronEl(this.monthPickerEl);
-    this.setSelectChevronEl(this.yearPickerEl);
+    this.setSelectMenuIconOffset(this.monthPickerEl);
+    this.setSelectMenuIconOffset(this.yearPickerEl);
   }
 
   render(): VNode {
@@ -304,7 +310,7 @@ export class DatePickerMonthHeader {
 
   private defaultMaxISOYear = new Date("2050-12-31");
 
-  private selectChevronOffSetWidth: number;
+  private selectMenuIconOffsetWidth: number;
 
   @Watch("min")
   @Watch("max")
@@ -316,16 +322,6 @@ export class DatePickerMonthHeader {
 
     this.nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
     this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
-  }
-
-  @Watch("activeDate")
-  handleSelectWidth(newValue: Date, oldValue: Date): void {
-    if (!oldValue) {
-      return;
-    }
-
-    this.setSelectWidth(this.monthPickerEl);
-    this.setSelectWidth(this.yearPickerEl);
   }
 
   //--------------------------------------------------------------------------
@@ -341,7 +337,7 @@ export class DatePickerMonthHeader {
         `${parseCalendarYear(Number(target.value), this.localeData)}`,
       ),
     });
-    this.setSelectWidth(this.yearPickerEl);
+    this.setSelectMenuWidth(this.yearPickerEl);
   };
 
   private prevMonthClick = (event: KeyboardEvent | MouseEvent): void => {
@@ -382,7 +378,7 @@ export class DatePickerMonthHeader {
       newDate = dateFromRange(newDate, this.min, this.max);
     }
     this.calciteInternalDatePickerMonthHeaderSelect.emit(newDate);
-    this.setSelectWidth(this.monthPickerEl);
+    this.setSelectMenuWidth(this.monthPickerEl);
   };
 
   private getInRangeDate({
@@ -439,18 +435,17 @@ export class DatePickerMonthHeader {
     }
   }
 
-  private async setSelectChevronEl(select: HTMLCalciteSelectElement): Promise<void> {
-    const chevronEl = select.shadowRoot.querySelector("calcite-icon");
-    await componentOnReady(chevronEl);
-    const chevronContainer = select.shadowRoot.querySelector(".icon-container");
-    const chevronElWidth = chevronEl.getBoundingClientRect().width;
-    const chevronContainerElWidth = chevronContainer.getBoundingClientRect().width;
-    this.selectChevronOffSetWidth =
-      chevronContainerElWidth + (chevronContainerElWidth - chevronElWidth) / 2;
-    this.setSelectWidth(select);
+  private async setSelectMenuIconOffset(select: HTMLCalciteSelectElement): Promise<void> {
+    const iconEl = select.shadowRoot.querySelector("calcite-icon");
+    await componentOnReady(iconEl);
+    const iconContainer = select.shadowRoot.querySelector(".icon-container");
+    const iconWidth = iconEl.getBoundingClientRect().width;
+    const iconContainerWidth = iconContainer.getBoundingClientRect().width;
+    this.selectMenuIconOffsetWidth = iconContainerWidth + (iconContainerWidth - iconWidth) / 2;
+    this.setSelectMenuWidth(select);
   }
 
-  private setSelectWidth(select: HTMLCalciteSelectElement): void {
+  private setSelectMenuWidth(select: HTMLCalciteSelectElement): void {
     const selectEl = select.shadowRoot.querySelector("select");
     let selectedOptionWidth: number;
     if (select === this.monthPickerEl) {
@@ -469,7 +464,7 @@ export class DatePickerMonthHeader {
         getComputedStyle(selectEl).font,
       );
     }
-    selectEl.style.width = `${selectedOptionWidth + this.selectChevronOffSetWidth}px`;
+    selectEl.style.width = `${selectedOptionWidth + this.selectMenuIconOffsetWidth}px`;
   }
 
   private isMonthInRange = (index: number): boolean => {
