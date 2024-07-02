@@ -81,7 +81,7 @@
   padding-block: var(--calcite-internal-select-spacing-block);
   border-inline-end-width: theme("borderWidth.0");
   font-weight: var(--calcite-select-font-weight, 400);
-  line-height: var(--calcite-select-line-height, 14px);
+  line-height: var(--calcite-select-line-height, normal);
   &:focus {
     @apply focus-inset;
   }
