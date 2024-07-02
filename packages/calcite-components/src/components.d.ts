@@ -728,7 +728,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd": string;
+        "iconEnd": IconName;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -1290,7 +1290,7 @@ export namespace Components {
         /**
           * Specifies the placeholder icon for the input.
          */
-        "placeholderIcon": string;
+        "placeholderIcon": IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -4633,7 +4633,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the end of the primary button.
          */
-        "primaryIconEnd": string;
+        "primaryIconEnd": IconName;
         /**
           * Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -4641,7 +4641,7 @@ export namespace Components {
         /**
           * Specifies an icon to display at the start of the primary button.
          */
-        "primaryIconStart": string;
+        "primaryIconStart": IconName;
         /**
           * Accessible name for the primary button.
          */
@@ -8513,7 +8513,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the component.
          */
-        "iconEnd"?: string;
+        "iconEnd"?: IconName;
         /**
           * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -9127,7 +9127,7 @@ declare namespace LocalJSX {
         /**
           * Specifies the placeholder icon for the input.
          */
-        "placeholderIcon"?: string;
+        "placeholderIcon"?: IconName;
         /**
           * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -12642,7 +12642,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the end of the primary button.
          */
-        "primaryIconEnd"?: string;
+        "primaryIconEnd"?: IconName;
         /**
           * Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
          */
@@ -12650,7 +12650,7 @@ declare namespace LocalJSX {
         /**
           * Specifies an icon to display at the start of the primary button.
          */
-        "primaryIconStart"?: string;
+        "primaryIconStart"?: IconName;
         /**
           * Accessible name for the primary button.
          */
