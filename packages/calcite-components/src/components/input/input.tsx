@@ -480,7 +480,7 @@ export class Input
   private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
-  private requestedIcon?: string;
+  private requestedIcon?: IconName;
 
   private nudgeNumberValueIntervalId: number;
 

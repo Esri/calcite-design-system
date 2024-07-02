@@ -66,7 +66,7 @@ export class InputMessage {
   @Element() el: HTMLCalciteInputMessageElement;
 
   /** the computed icon to render */
-  private requestedIcon?: string;
+  private requestedIcon?: IconName;
 
   //--------------------------------------------------------------------------
   //
@@ -74,7 +74,7 @@ export class InputMessage {
   //
   //--------------------------------------------------------------------------
 
-  private renderIcon(iconName: string): VNode {
+  private renderIcon(iconName: IconName): VNode {
     if (iconName) {
       return (
         <calcite-icon

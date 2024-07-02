@@ -309,7 +309,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     );
   }
 
-  private renderIcon(icon: string): VNode {
+  private renderIcon(icon: IconName): VNode {
     return (
       <div class={CSS.icon}>
         <calcite-icon flipRtl={this.iconFlipRtl} icon={icon} scale={getIconScale(this.scale)} />

@@ -282,7 +282,7 @@ export class Notice
   private closeButton?: HTMLButtonElement;
 
   /** The computed icon to render. */
-  private requestedIcon?: string;
+  private requestedIcon?: IconName;
 
   @State() effectiveLocale: string;
 

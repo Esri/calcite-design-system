@@ -183,7 +183,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  renderIcon(iconPath: string): VNode {
+  renderIcon(iconPath: IconName): VNode {
     return this.icon ? (
       <calcite-icon
         class={{
@@ -199,7 +199,9 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     ) : null;
   }
 
-  renderSelectIndicator(showDot: boolean, iconPath: string): VNode {
+  renderSelectIndicator(showDot: boolean): VNode;
+  renderSelectIndicator(showDot: boolean, iconPath: IconName): VNode;
+  renderSelectIndicator(showDot: boolean, iconPath?: IconName): VNode {
     return showDot ? (
       <span
         class={{
@@ -239,8 +241,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     const { disabled } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
     const showDot = isSingleSelect && !disabled;
-    const defaultIcon = isSingleSelect ? "dot" : "check";
-    const iconPath = disabled ? "" : defaultIcon;
+    const defaultIcon = isSingleSelect ? undefined : "check";
+    const iconPath = disabled ? undefined : defaultIcon;
 
     const classes = {
       [CSS.label]: true,

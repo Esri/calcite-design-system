@@ -78,7 +78,7 @@ export class SegmentedControlItem {
   //
   //--------------------------------------------------------------------------
 
-  private renderIcon(icon: string, solo: boolean = false): VNode {
+  private renderIcon(icon: IconName, solo: boolean = false): VNode {
     return icon ? (
       <calcite-icon
         class={{
