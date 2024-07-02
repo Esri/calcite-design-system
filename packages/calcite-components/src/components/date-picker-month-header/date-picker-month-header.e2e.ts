@@ -56,6 +56,8 @@ describe("calcite-date-picker-month-header", () => {
       dateMonthHeader.messages = {
         nextMonth: "Next month",
         prevMonth: "Previous month",
+        monthMenu: "Month menu",
+        yearMenu: "Year menu",
         year: "Year",
       };
 
@@ -85,6 +87,8 @@ describe("calcite-date-picker-month-header", () => {
       dateMonthHeader.messages = {
         nextMonth: "Next month",
         prevMonth: "Previous month",
+        monthMenu: "Month menu",
+        yearMenu: "Year menu",
         year: "Year",
       };
 
