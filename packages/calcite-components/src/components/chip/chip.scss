@@ -33,31 +33,31 @@
       --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
       --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
     }
-  }
 
-  .multiple.image--slotted {
-    .select-icon {
-      --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
-      --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
+    &.image--slotted {
+      .select-icon {
+        --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
+      }
+
+      &.text--slotted {
+        --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+      }
     }
-  }
-
-  .multiple.container.image--slotted.text--slotted {
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
   }
 
   .container {
     --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
     --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-  }
 
-  .container.image--slotted {
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
-  }
+    &.image--slotted {
+      --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
 
-  .container.image--slotted.closable {
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+      &.closable {
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+      }
+    }
   }
 }
 
@@ -93,33 +93,33 @@
       --calcite-internal-chip-padding-start: var(--calcite-spacing-base);
       --calcite-internal-chip-padding-end: var(--calcite-spacing-base);
     }
-  }
 
-  .multiple.image--slotted {
-    .select-icon {
-      --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-      --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
+    &.image--slotted {
+      .select-icon {
+        --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
+      }
+
+      &.text--slotted {
+        --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
+      }
     }
-  }
-
-  .multiple.container.image--slotted.text--slotted {
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
   }
 
   .container {
     --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
     --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
-  }
 
-  .container.image--slotted {
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
-  }
+    &.image--slotted {
+      --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+      --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
 
-  .container.image--slotted.closable {
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+      &.closable {
+        --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+      }
+    }
   }
 }
 
@@ -156,28 +156,28 @@
       --calcite-internal-chip-padding-start: var(--calcite-spacing-xxs);
       --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
     }
-  }
 
-  .multiple.image--slotted {
-    .select-icon {
-      --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
-      --calcite-internal-chip-padding-end: var(--calcite-spacing-md);
+    &.image--slotted {
+      .select-icon {
+        --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-md);
+      }
     }
   }
 
   .container {
     --calcite-internal-chip-padding-start: var(--calcite-spacing-sm);
     --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
-  }
 
-  .container.image--slotted {
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
-  }
+    &.image--slotted {
+      --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+      --calcite-internal-chip-padding-end: var(--calcite-spacing-sm);
 
-  .container.image--slotted.closable {
-    --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
-    --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
+      &.closable {
+        --calcite-internal-chip-padding-start: var(--calcite-spacing-xs);
+        --calcite-internal-chip-padding-end: var(--calcite-spacing-xs);
+      }
+    }
   }
 }
 
