@@ -67,6 +67,7 @@ import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { componentOnReady, getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { IconName } from "../icon/interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
@@ -177,7 +178,7 @@ export class Combobox
   @Prop() placeholder: string;
 
   /** Specifies the placeholder icon for the input. */
-  @Prop({ reflect: true }) placeholderIcon: string;
+  @Prop({ reflect: true }) placeholderIcon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) placeholderIconFlipRtl = false;
@@ -194,7 +195,7 @@ export class Combobox
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconName | boolean;
 
   /**
    * The current validation state of the component.

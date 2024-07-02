@@ -5,7 +5,7 @@ export const CSS = {
 
 export const ICONS = {
   drag: "drag",
-};
+} as const;
 
 export const SUBSTITUTIONS = {
   itemLabel: "{itemLabel}",

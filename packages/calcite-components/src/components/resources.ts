@@ -4,4 +4,4 @@ export const KindIcons = {
   info: "information",
   success: "checkCircle",
   warning: "exclamationMarkTriangle",
-};
+} as const;

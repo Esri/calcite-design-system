@@ -25,6 +25,7 @@ import {
 } from "../../utils/loadable";
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
+import { IconName } from "../icon/interfaces";
 import { CSS } from "./resources";
 
 /**
@@ -112,13 +113,13 @@ export class SplitButton implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) placement: MenuPlacement = "bottom-end";
 
   /** Specifies an icon to display at the end of the primary button. */
-  @Prop({ reflect: true }) primaryIconEnd: string;
+  @Prop({ reflect: true }) primaryIconEnd: IconName;
 
   /**  Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) primaryIconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */
-  @Prop({ reflect: true }) primaryIconStart: string;
+  @Prop({ reflect: true }) primaryIconStart: IconName;
 
   /** Accessible name for the primary button. */
   @Prop({ reflect: true }) primaryLabel: string;

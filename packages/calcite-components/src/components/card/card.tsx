@@ -35,6 +35,7 @@ import {
   updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import { IconName } from "../icon/interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { CardMessages } from "./assets/card/t9n";
 
@@ -276,7 +277,7 @@ export class Card
   }
 
   private renderSelectionIcon(): VNode {
-    const icon =
+    const icon: IconName =
       this.selectionMode === "multiple" && this.selected
         ? ICONS.selected
         : this.selectionMode === "multiple"

@@ -16,7 +16,7 @@ export const ICONS = {
   chevronLeft: "chevron-left",
   chevronRight: "chevron-right",
   close: "x",
-};
+} as const;
 
 export const TEXT = {
   defaultGroupTitle: "Tips",

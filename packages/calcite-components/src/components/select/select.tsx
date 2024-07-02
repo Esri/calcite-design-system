@@ -38,6 +38,7 @@ import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { IconName } from "../icon/interfaces";
 import { CSS } from "./resources";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
@@ -92,7 +93,7 @@ export class Select
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconName | boolean;
 
   /**
    * The current validation state of the component.

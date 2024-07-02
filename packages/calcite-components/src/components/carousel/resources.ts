@@ -25,4 +25,4 @@ export const ICONS = {
   active: "bullet-point-large",
   pause: "pause-f",
   play: "play-f",
-};
+} as const;

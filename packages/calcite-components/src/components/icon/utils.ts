@@ -1,9 +1,10 @@
 import { CalciteIconPath } from "@esri/calcite-ui-icons";
 import { getAssetPath } from "@stencil/core";
 import { Scale } from "../interfaces";
+import { IconName } from "./interfaces";
 
 export interface FetchIconProps {
-  icon: string;
+  icon: IconName;
   scale: Scale;
 }
 
