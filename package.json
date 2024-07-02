@@ -51,7 +51,6 @@
     "@storybook/html-webpack5": "8.1.9",
     "@storybook/manager-api": "8.1.9",
     "@storybook/preview-api": "8.1.9",
-    "@storybook/storybook-deployer": "2.8.16",
     "@storybook/test": "8.1.9",
     "@tokens-studio/sd-transforms": "0.12.2",
     "@types/dedent": "0.7.2",
