@@ -108,6 +108,66 @@ describe("calcite-color-picker-hex-input", () => {
     expect(await input.getProperty("value")).toBe("#fafafafa");
   });
 
+  it("commits shorthand hex on blur", async () => {
+    const defaultHex = "#b33f33";
+    const editedHex = "#aabbcc";
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-color-picker-hex-input value='${defaultHex}'></calcite-color-picker-hex-input>`);
+
+    const input = await page.find(`calcite-color-picker-hex-input`);
+    await selectText(input);
+    await page.keyboard.type("ab");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(defaultHex);
+
+    await selectText(input);
+    await page.keyboard.type("abc");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(editedHex);
+
+    await selectText(input);
+    await page.keyboard.type("abcd");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(editedHex);
+  });
+
+  it("commits shorthand hexa on blur", async () => {
+    const defaultHexa = "#b33f33ff";
+    const editedHexa = "#aabbccdd";
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-color-picker-hex-input alpha-channel value='${defaultHexa}'></calcite-color-picker-hex-input>`,
+    );
+
+    const input = await page.find(`calcite-color-picker-hex-input`);
+    await selectText(input);
+    await page.keyboard.type("abc");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(defaultHexa);
+
+    await selectText(input);
+    await page.keyboard.type("abcd");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(editedHexa);
+
+    await selectText(input);
+    await page.keyboard.type("abcde");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await input.getProperty("value")).toBe(editedHexa);
+  });
+
   it("normalizes value when initialized", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-color-picker-hex-input value='#f0f'></calcite-color-picker-hex-input>");

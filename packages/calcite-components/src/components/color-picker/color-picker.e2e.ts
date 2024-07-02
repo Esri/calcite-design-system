@@ -249,6 +249,115 @@ describe("calcite-color-picker", () => {
     expect(inputSpy.length).toBe(previousInputEventLength);
   });
 
+  // same should apply for other channel inputs
+  it("increments channel's value by 1 when clearing input and pressing ArrowUp", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker></calcite-color-picker>");
+    const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
+    const currentValue = await channelInput.getProperty("value");
+
+    await selectText(channelInput);
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
+
+    expect(await channelInput.getProperty("value")).toBe(`${Number(currentValue) + 1}`);
+  });
+
+  // same should apply for other channel inputs
+  it("decrements channel's value by 1 when clearing input and pressing ArrowDown", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker value='#b33f33'></calcite-color-picker>");
+    const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
+    const currentValue = await channelInput.getProperty("value");
+
+    await selectText(channelInput);
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+
+    expect(await channelInput.getProperty("value")).toBe(`${Number(currentValue) - 1}`);
+  });
+
+  // same should apply for other channel inputs
+  it("prevents channel's value from going over its limit when clearing input and pressing ArrowUp", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker value='#ffffff'></calcite-color-picker>");
+    const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
+
+    await selectText(channelInput);
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
+
+    expect(await channelInput.getProperty("value")).toBe("255");
+  });
+
+  // same should apply for other channel inputs
+  it("prevents channel's value from being less than 0 when clearing input and pressing ArrowDown", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker></calcite-color-picker>");
+    const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
+
+    await selectText(channelInput);
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+
+    expect(await channelInput.getProperty("value")).toBe("0");
+  });
+
+  // same should apply for other channel inputs
+  it("restores original channel value when input is cleared and blur is triggered", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker></calcite-color-picker>");
+    const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
+    const currentValue = await channelInput.getProperty("value");
+
+    await selectText(channelInput);
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await channelInput.getProperty("value")).toBe(currentValue);
+  });
+
+  // same should apply for other channel inputs
+  it("auto commits channel value when typing", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker></calcite-color-picker>");
+
+    const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
+    const picker = await page.find("calcite-color-picker");
+    const changeSpy = await picker.spyOnEvent("calciteColorPickerChange");
+
+    await selectText(channelInput);
+    await page.keyboard.type("123");
+    await page.waitForChanges();
+
+    expect(changeSpy).toHaveReceivedEventTimes(3);
+    expect(await channelInput.getProperty("value")).toBe("123");
+  });
+
+  // it should apply to all inputs
+  it("blurs focused input when clicking anywhere within the component", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker></calcite-color-picker>");
+
+    const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
+    const currentValue = await channelInput.getProperty("value");
+    const picker = await page.find("calcite-color-picker");
+    const blurSpy = await picker.spyOnEvent("calciteInternalInputNumberBlur");
+
+    await selectText(channelInput);
+    await page.keyboard.press("Backspace");
+    await page.mouse.click(0, 0);
+    await page.waitForChanges();
+
+    expect(blurSpy).toHaveReceivedEventTimes(1);
+    expect(await channelInput.getProperty("value")).toBe(currentValue);
+  });
+
   it("does not emit on initialization", async () => {
     const page = await newProgrammaticE2EPage();
 

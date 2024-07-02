@@ -340,9 +340,9 @@ export class ColorPicker
 
   private shiftKeyChannelAdjustment = 0;
 
-  private arrowUpOrDownTracker = "";
+  private arrowKeyTracker: "up" | "down" | null = null;
 
-  private channelInputClear = false;
+  private isChannelInputEmpty: boolean = false;
 
   private hexInputRef: HTMLCalciteColorPickerHexInputElement;
 
@@ -492,9 +492,9 @@ export class ColorPicker
 
     if (!input.value) {
       inputValue = "";
-      this.channelInputClear = true;
-      // reset this to allow typing in new value when channel input is empty
-      this.arrowUpOrDownTracker = "";
+      this.isChannelInputEmpty = true;
+      // reset this to allow typing in new value, when channel input is cleared after ArrowUp or ArrowDown have been pressed
+      this.arrowKeyTracker = null;
     } else {
       const value = Number(input.value);
       const adjustedValue = value + this.shiftKeyChannelAdjustment;
@@ -564,10 +564,10 @@ export class ColorPicker
           : 0;
 
     if (key === "ArrowUp") {
-      this.arrowUpOrDownTracker = "arrowUp";
+      this.arrowKeyTracker = "up";
     }
     if (key === "ArrowDown") {
-      this.arrowUpOrDownTracker = "arrowDown";
+      this.arrowKeyTracker = "down";
     }
   }
 
@@ -592,16 +592,16 @@ export class ColorPicker
 
     const isAlphaChannel = channelIndex === 3;
 
-    if (this.channelInputClear && this.arrowUpOrDownTracker !== "") {
+    if (this.isChannelInputEmpty && this.arrowKeyTracker) {
       input.value =
-        this.arrowUpOrDownTracker === "arrowUp"
+        this.arrowKeyTracker === "up"
           ? (channels[channelIndex] + 1 <= this.getChannelInputLimit(channelIndex)
               ? channels[channelIndex] + 1
               : this.getChannelInputLimit(channelIndex)
             ).toString()
           : (channels[channelIndex] - 1 >= 0 ? channels[channelIndex] - 1 : 0).toString();
-      this.channelInputClear = false;
-      this.arrowUpOrDownTracker = "";
+      this.isChannelInputEmpty = false;
+      this.arrowKeyTracker = null;
     }
     const value = input.value ? Number(input.value) : channels[channelIndex];
 
