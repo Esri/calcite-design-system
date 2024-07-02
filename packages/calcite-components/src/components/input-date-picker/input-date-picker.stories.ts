@@ -86,6 +86,7 @@ export const rangeWithMinMax = (): string => html`
       prev-month-label="Previous month"
       range
       layout="horizontal"
+      open
     ></calcite-input-date-picker>
   </div>
 `;
@@ -249,7 +250,7 @@ export const rangeWithValueAsDate = (): string => html`
 `;
 
 rangeWithValueAsDate.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: 2000 },
 };
 
 export const rangeWithValue = (): string => html`
@@ -261,7 +262,7 @@ export const rangeWithValue = (): string => html`
 `;
 
 rangeWithValue.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: 2000 },
 };
 
 export const rangeWithMinBeforeCurrentDate = (): string => html`
@@ -269,7 +270,7 @@ export const rangeWithMinBeforeCurrentDate = (): string => html`
 `;
 
 rangeWithMinBeforeCurrentDate.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: 2000 },
 };
 
 export const rangeWithMaxBeforeCurrentDate = (): string => html`
@@ -277,7 +278,7 @@ export const rangeWithMaxBeforeCurrentDate = (): string => html`
 `;
 
 rangeWithMaxBeforeCurrentDate.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: 2000 },
 };
 
 export const rangeWithMinAsDateAfterCurrentDate = (): string => html`
@@ -291,7 +292,7 @@ export const rangeWithMinAsDateAfterCurrentDate = (): string => html`
 `;
 
 rangeWithMinAsDateAfterCurrentDate.parameters = {
-  chromatic: { delay: 1000 },
+  chromatic: { delay: 2000 },
 };
 
 export const Focus = (): string =>

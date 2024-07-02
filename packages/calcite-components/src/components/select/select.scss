@@ -32,6 +32,7 @@
   --calcite-select-font-size: theme("fontSize.n2h");
   --calcite-select-spacing-inline: theme("spacing.2") theme("spacing.8");
   --calcite-internal-select-icon-container-padding-inline: 0.5rem;
+  --calcite-internal-select-block-size: 1.5rem;
 }
 
 :host([scale="m"]) {
