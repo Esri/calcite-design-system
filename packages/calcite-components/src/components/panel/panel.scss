@@ -20,7 +20,8 @@
 
 :host([scale="s"]) {
   .content-top,
-  .content-bottom {
+  .content-bottom,
+  .footer {
     padding: var(--calcite-spacing-sm);
   }
 
@@ -37,7 +38,8 @@
 
 :host([scale="m"]) {
   .content-top,
-  .content-bottom {
+  .content-bottom,
+  .footer {
     padding: var(--calcite-spacing-md);
   }
 
@@ -54,8 +56,9 @@
 
 :host([scale="l"]) {
   .content-top,
-  .content-bottom {
-    padding: var(--calcite-spacing-xl);
+  .content-bottom,
+  .footer {
+    padding: var(--calcite-spacing-lg);
   }
 
   .header-content {
