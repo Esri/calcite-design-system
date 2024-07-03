@@ -13,7 +13,9 @@ interface TargetInfo {
   shadowSelector: string;
 }
 
-const pseudoElementPattern = /:{1,2}(before|after)/;
+// only `before`, `after`, `first-letter` and `first-line` support the legacy syntax (single `:`)
+const pseudoElementPattern =
+  /:{1,2}(before|after|first-letter|first-line|selection|backdrop|placeholder|marker|spelling-error|grammar-error|slotted|file-selector-button|cue|cue-region|part|shadow|content|footnote-call|footnote-marker)/;
 
 /**
  * This object that represents component tokens and their respective test options.
