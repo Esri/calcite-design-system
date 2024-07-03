@@ -20,7 +20,7 @@ import dedent from "dedent";
  * ```
  *
  * ```ts
- * icon.stories.ts
+ * // select.stories.ts
  * export const simple = (): string => html`
  *   <calcite-select>
  *     <calcite-option id="1">uno</calcite-option>
