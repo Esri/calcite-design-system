@@ -1,5 +1,7 @@
 {
   "nextMonth": "Seuraava kuukausi",
   "prevMonth": "Edellinen kuukausi",
+  "monthMenu": "Month menu",
+  "yearMenu": "Year menu",
   "year": "Vuosi"
 }

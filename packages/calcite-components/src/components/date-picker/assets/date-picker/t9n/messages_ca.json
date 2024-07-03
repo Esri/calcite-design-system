@@ -1,5 +1,7 @@
 {
   "nextMonth": "El mes vinent",
   "prevMonth": "El mes passat",
+  "monthMenu": "Month menu",
+  "yearMenu": "Year menu",
   "year": "Any"
 }

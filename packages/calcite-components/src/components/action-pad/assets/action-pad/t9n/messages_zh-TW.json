@@ -1,4 +1,6 @@
 {
   "expand": "展開",
-  "collapse": "摺疊"
+  "collapse": "摺疊",
+  "expandLabel": "Expand",
+  "collapseLabel": "Collapse"
 }

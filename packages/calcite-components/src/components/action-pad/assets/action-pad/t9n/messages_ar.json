@@ -1,4 +1,6 @@
 {
   "expand": "توسيع",
-  "collapse": "طي"
+  "collapse": "طي",
+  "expandLabel": "Expand",
+  "collapseLabel": "Collapse"
 }

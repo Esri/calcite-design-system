@@ -1,5 +1,7 @@
 {
   "nextMonth": "下个月",
   "prevMonth": "上个月",
+  "monthMenu": "Month menu",
+  "yearMenu": "Year menu",
   "year": "年"
 }

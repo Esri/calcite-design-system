@@ -1,4 +1,6 @@
 {
   "expand": "Mở rộng",
-  "collapse": "Thu gọn"
+  "collapse": "Thu gọn",
+  "expandLabel": "Expand",
+  "collapseLabel": "Collapse"
 }
