@@ -1,8 +1,8 @@
 {
   "previous": "Föregående",
   "next": "Nästa",
-  "play": "Play",
-  "pause": "Pause",
-  "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "play": "Spela",
+  "pause": "Pausa",
+  "carousel": "Karusell",
+  "carouselItemProgress": "Förloppsindikator för karusellobjekt"
 }

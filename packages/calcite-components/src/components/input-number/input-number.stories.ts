@@ -1,31 +1,101 @@
-import { number, select, text } from "../../../.storybook/fake-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { InputNumber } from "./input-number";
+const { scale, status, alignment, layout } = ATTRIBUTES;
+
+type InputNumberStoryArgs = Pick<
+  InputNumber,
+  | "scale"
+  | "status"
+  | "alignment"
+  | "numberButtonType"
+  | "min"
+  | "max"
+  | "step"
+  | "prefixText"
+  | "suffixText"
+  | "loading"
+  | "clearable"
+  | "disabled"
+  | "value"
+  | "placeholder"
+  | "validationMessage"
+  | "validationIcon"
+>;
 
 export default {
   title: "Components/Controls/Input Number",
+  args: {
+    scale: scale.defaultValue,
+    status: status.defaultValue,
+    alignment: alignment.defaultValue,
+    numberButtonType: layout.defaultValue,
+    min: 0,
+    max: 100,
+    step: 1,
+    prefixText: "",
+    suffixText: "",
+    loading: false,
+    clearable: false,
+    disabled: false,
+    value: "",
+    placeholder: "Placeholder text",
+    validationMessage: "",
+    validationIcon: "",
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    alignment: {
+      options: alignment.values.filter((option) => option !== "center"),
+      control: { type: "select" },
+    },
+    numberButtonType: {
+      options: layout.values.filter(
+        (option) =>
+          option !== "grid" &&
+          option !== "inline" &&
+          option !== "center" &&
+          option !== "auto" &&
+          option !== "fixed" &&
+          option !== "horizontal-single",
+      ),
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: InputNumberStoryArgs): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-number
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-      alignment="${select("alignment", ["start", "end"], "start")}"
-      number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
-      min="${number("min", 0)}"
-      max="${number("max", 100)}"
-      step="${number("step", 1)}"
-      prefix-text="${text("prefix-text", "")}"
-      suffix-text="${text("suffix-text", "")}"
-      ${boolean("loading", false)}
-      ${boolean("clearable", false)}
-      ${boolean("disabled", false)}
-      value="${text("value", "")}"
-      placeholder="${text("placeholder", "Placeholder text")}"
-      validation-message="${text("validation-message", "")}"
-      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+      scale="${args.scale}"
+      status="${args.status}"
+      alignment="${args.alignment}"
+      number-button-type="${args.numberButtonType}"
+      min="${args.min}"
+      max="${args.max}"
+      step="${args.step}"
+      prefix-text="${args.prefixText}"
+      suffix-text="${args.suffixText}"
+      ${boolean("loading", args.loading)}
+      ${boolean("clearable", args.clearable)}
+      ${boolean("disabled", args.disabled)}
+      value="${args.value}"
+      placeholder="${args.placeholder}"
+      validation-message="${args.validationMessage}"
+      validation-icon="${args.validationIcon}"
     >
     </calcite-input-number>
   </div>
@@ -35,50 +105,32 @@ export const withSlottedAction = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-number
       id="input-with-slotted-action"
-      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-      alignment="${select("alignment", ["start", "end"], "start")}"
-      number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
-      min="${number("min", 0)}"
-      max="${number("max", 100)}"
-      step="${number("step", 1)}"
-      prefix-text="${text("prefix-text", "")}"
-      suffix-text="${text("suffix-text", "")}"
-      ${boolean("loading", false)}
-      ${boolean("clearable", false)}
-      ${boolean("disabled", false)}
-      value="${text("value", "")}"
-      placeholder="${text("placeholder", "Placeholder text")}"
-      validation-message="${text("validation-message", "")}"
-      validation-icon="${select("validation-icon", ["", ...iconNames], "")}"
+      status="idle"
+      alignment="start"
+      number-button-type="horizontal"
+      min="0"
+      max="100"
+      step="1"
+      placeholder="Placeholder text"
     >
-      <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
+      <calcite-button slot="action">Go</calcite-button>
     </calcite-input-number>
   </div>
 `;
 
 export const darkModeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label
-      class="calcite-mode-dark"
-      status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      for="input-dark-mode"
-    >
-      ${text("label text", "My great label")}
+    <calcite-label class="calcite-mode-dark" status="idle" for="input-dark-mode">
+      My great label
       <calcite-input-number
         id="input-dark-mode"
-        status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-        alignment="${select("alignment", ["start", "end"], "start")}"
-        number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
-        min="${number("min", 0)}"
-        max="${number("max", 100)}"
-        step="${number("step", 1)}"
-        prefix-text="${text("prefix-text", "")}"
-        suffix-text="${text("suffix-text", "")}"
-        ${boolean("loading", false)}
-        ${boolean("clearable", false)}
-        ${boolean("disabled", false)}
-        value="${text("value", "")}"
-        placeholder="${text("placeholder", "Placeholder text")}"
+        status="idle"
+        alignment="start"
+        number-button-type="horizontal"
+        min="0"
+        max="100"
+        step="1"
+        placeholder="Placeholder text"
         validation-message="This should not appear because the status is not 'invalid'"
       >
       </calcite-input-number>

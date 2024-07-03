@@ -6,6 +6,7 @@ export const CSS = {
   textContentContainer: "text-content-container",
   description: "description",
   heading: "heading",
+  icon: "icon",
   interactive: "interactive",
   largeVisualDeprecated: "large-visual-deprecated",
   row: "row",
@@ -19,7 +20,7 @@ export const ICONS = {
   selectedSingle: "circle-f",
   unselectedMultiple: "square",
   unselectedSingle: "circle",
-};
+} as const;
 
 export const SLOTS = {
   contentBottom: "content-bottom",

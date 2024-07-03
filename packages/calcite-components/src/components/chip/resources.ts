@@ -26,4 +26,4 @@ export const ICONS = {
   checkedSingle: "circle-f",
   uncheckedMultiple: "square",
   checkedMultiple: "check-square-f",
-};
+} as const;

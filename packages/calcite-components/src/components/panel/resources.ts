@@ -2,6 +2,8 @@ export const CSS = {
   actionBarContainer: "action-bar-container",
   backButton: "back-button",
   container: "container",
+  contentBottom: "content-bottom",
+  contentTop: "content-top",
   header: "header",
   headerContainer: "header-container",
   headerContainerBorderEnd: "header-container--border-end",
@@ -24,16 +26,20 @@ export const ICONS = {
   backRight: "chevron-right",
   expand: "chevron-down",
   collapse: "chevron-up",
-};
+} as const;
 
 export const SLOTS = {
   actionBar: "action-bar",
+  contentBottom: "content-bottom",
+  contentTop: "content-top",
   headerActionsStart: "header-actions-start",
   headerActionsEnd: "header-actions-end",
   headerMenuActions: "header-menu-actions",
   headerContent: "header-content",
   fab: "fab",
   footer: "footer",
+  footerEnd: "footer-end",
+  footerStart: "footer-start",
   footerActions: "footer-actions",
 };
 

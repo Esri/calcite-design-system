@@ -63,7 +63,6 @@ import {
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent,
-  dragActive,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 import { ValueListMessages } from "./assets/value-list/t9n";
@@ -71,7 +70,7 @@ import { CSS, ICON_TYPES } from "./resources";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 
 /**
- * @deprecated Use the `list` component instead.
+ * @deprecated Use the `calcite-list` component instead.
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
@@ -240,10 +239,6 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
@@ -267,10 +262,6 @@ export class ValueList<
   }
 
   disconnectedCallback(): void {
-    if (dragActive(this)) {
-      return;
-    }
-
     disconnectInteractive(this);
     disconnectSortableComponent(this);
     disconnectLocalized(this);

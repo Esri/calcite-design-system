@@ -91,7 +91,7 @@ export const positionFloatingUI =
       overlayPositioning: Strategy;
       placement: LogicalPlacement;
       flipDisabled?: boolean;
-      flipPlacements?: EffectivePlacement[];
+      flipPlacements?: FlipPlacement[];
       offsetDistance?: number;
       offsetSkidding?: number;
       arrowEl?: SVGElement;
@@ -117,7 +117,7 @@ export const positionFloatingUI =
       middleware: getMiddleware({
         placement,
         flipDisabled,
-        flipPlacements,
+        flipPlacements: flipPlacements?.map((placement) => getEffectivePlacement(floatingEl, placement)),
         offsetDistance,
         offsetSkidding,
         arrowEl,
@@ -244,7 +244,9 @@ export const menuEffectivePlacements: EffectivePlacement[] = [
   "bottom-end",
 ];
 
-export const flipPlacements: EffectivePlacement[] = [
+export type FlipPlacement = Exclude<LogicalPlacement, "auto" | "auto-start" | "auto-end">;
+
+export const flipPlacements: FlipPlacement[] = [
   "top",
   "bottom",
   "right",
@@ -257,6 +259,12 @@ export const flipPlacements: EffectivePlacement[] = [
   "right-end",
   "left-start",
   "left-end",
+  "leading",
+  "trailing",
+  "leading-start",
+  "leading-end",
+  "trailing-start",
+  "trailing-end",
 ];
 
 export type MenuPlacement = Extract<
@@ -290,7 +298,7 @@ export interface FloatingUIComponent {
    *
    * @param delayed – (internal) when true, it will reposition the component after a delay. the default is false. This is useful for components that have multiple watched properties that schedule repositioning.
    */
-  reposition(delayed?: boolean): Promise<void>;
+  reposition: (delayed?: boolean) => Promise<void>;
 
   /**
    * Used to store the effective floating layout for components that use arrows.
@@ -303,7 +311,7 @@ export interface FloatingUIComponent {
    *
    * Possible values: "vertical" or "horizontal".
    *
-   * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/main/src/components/functional/FloatingArrow.tsx)
+   * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/dev/src/components/functional/FloatingArrow.tsx)
    */
   floatingLayout?: FloatingLayout;
 }
@@ -374,14 +382,14 @@ function getMiddleware({
   return [];
 }
 
-export function filterComputedPlacements(placements: string[], el: HTMLElement): EffectivePlacement[] {
+export function filterValidFlipPlacements(placements: string[], el: HTMLElement): EffectivePlacement[] {
   const filteredPlacements = placements.filter((placement: EffectivePlacement) =>
-    effectivePlacements.includes(placement),
+    flipPlacements.includes(placement),
   ) as EffectivePlacement[];
 
   if (filteredPlacements.length !== placements.length) {
     console.warn(
-      `${el.tagName}: Invalid value found in: flipPlacements. Try any of these: ${effectivePlacements
+      `${el.tagName}: Invalid value found in: flipPlacements. Try any of these: ${flipPlacements
         .map((placement) => `"${placement}"`)
         .join(", ")
         .trim()}`,
@@ -427,13 +435,19 @@ export async function reposition(
   options: Parameters<typeof positionFloatingUI>[1],
   delayed = false,
 ): Promise<void> {
-  if (!component.open) {
+  if (!component.open || !options.floatingEl || !options.referenceEl) {
     return;
+  }
+
+  const trackedState = autoUpdatingComponentMap.get(component);
+
+  if (!trackedState) {
+    return runAutoUpdate(component, options.referenceEl, options.floatingEl);
   }
 
   const positionFunction = delayed ? getDebouncedReposition(component) : positionFloatingUI;
 
-  return positionFunction(component, options);
+  await positionFunction(component, options);
 }
 
 function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunc<typeof positionFloatingUI> {
@@ -460,14 +474,66 @@ const ARROW_CSS_TRANSFORM = {
   right: "rotate(90deg)",
 };
 
+type PendingFloatingUIState = {
+  state: "pending";
+};
+
+type ActiveFloatingUIState = {
+  state: "active";
+  cleanUp: () => void;
+};
+
+type TrackedFloatingUIState = PendingFloatingUIState | ActiveFloatingUIState;
+
 /**
  * Exported for testing purposes only
  *
  * @internal
  */
-export const cleanupMap = new WeakMap<FloatingUIComponent, () => void>();
+export const autoUpdatingComponentMap = new WeakMap<FloatingUIComponent, TrackedFloatingUIState>();
 
 const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, DebouncedFunc<typeof positionFloatingUI>>();
+
+async function runAutoUpdate(
+  component: FloatingUIComponent,
+  referenceEl: ReferenceElement,
+  floatingEl: HTMLElement,
+): Promise<void> {
+  if (!floatingEl.isConnected) {
+    return;
+  }
+
+  const effectiveAutoUpdate = Build.isBrowser
+    ? autoUpdate
+    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
+        updateCallback();
+        return () => {
+          /* noop */
+        };
+      };
+
+  // we set initial state here to make it available for `reposition` calls
+  autoUpdatingComponentMap.set(component, { state: "pending" });
+
+  let repositionPromise: Promise<void>;
+
+  const cleanUp = effectiveAutoUpdate(
+    referenceEl,
+    floatingEl,
+    // callback is invoked immediately
+    () => {
+      const promise = component.reposition();
+
+      if (!repositionPromise) {
+        repositionPromise = promise;
+      }
+    },
+  );
+
+  autoUpdatingComponentMap.set(component, { state: "active", cleanUp });
+
+  return repositionPromise;
+}
 
 /**
  * Helper to set up floating element interactions on connectedCallback.
@@ -476,11 +542,11 @@ const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, Debou
  * @param referenceEl - The `referenceElement` used to position the component according to its `placement` value.
  * @param floatingEl - The `floatingElement` containing the floating ui.
  */
-export function connectFloatingUI(
+export async function connectFloatingUI(
   component: FloatingUIComponent,
   referenceEl: ReferenceElement,
   floatingEl: HTMLElement,
-): void {
+): Promise<void> {
   if (!floatingEl || !referenceEl) {
     return;
   }
@@ -495,19 +561,11 @@ export function connectFloatingUI(
     position: component.overlayPositioning,
   });
 
-  const runAutoUpdate = Build.isBrowser
-    ? autoUpdate
-    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
-        updateCallback();
-        return () => {
-          /* noop */
-        };
-      };
+  if (!component.open) {
+    return;
+  }
 
-  cleanupMap.set(
-    component,
-    runAutoUpdate(referenceEl, floatingEl, () => component.reposition()),
-  );
+  return runAutoUpdate(component, referenceEl, floatingEl);
 }
 
 /**
@@ -526,8 +584,13 @@ export function disconnectFloatingUI(
     return;
   }
 
-  cleanupMap.get(component)?.();
-  cleanupMap.delete(component);
+  const trackedState = autoUpdatingComponentMap.get(component);
+
+  if (trackedState?.state === "active") {
+    trackedState.cleanUp();
+  }
+
+  autoUpdatingComponentMap.delete(component);
 
   componentToDebouncedRepositionMap.get(component)?.cancel();
   componentToDebouncedRepositionMap.delete(component);

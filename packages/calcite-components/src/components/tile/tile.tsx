@@ -25,6 +25,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { SelectableComponent } from "../../utils/selectableComponent";
+import { IconName } from "../icon/interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
@@ -83,7 +84,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
   @Prop({ reflect: true }) href: string;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: string;
+  @Prop({ reflect: true }) icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
 
@@ -107,7 +108,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
    *
    * @internal
    */
-  @Prop({ reflect: true }) layout: Exclude<Layout, "grid"> = "horizontal";
+  @Prop({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
   /**
    * Specifies the size of the component.
@@ -116,8 +117,6 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
   /**
    * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
-   *
-   * @internal
    */
   @Prop({ reflect: true }) selected = false;
 
@@ -328,7 +327,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
       interactive,
       selectionMode,
     } = this;
-    const isLargeVisual = heading && icon && !Boolean(description);
+    const isLargeVisual = heading && icon && !description;
     const disableInteraction = Boolean(this.href) || !interactive;
     const role =
       selectionMode === "multiple" && interactive
@@ -356,10 +355,9 @@ export class Tile implements InteractiveComponent, SelectableComponent {
           [CSS.selected]: this.selected,
         }}
         onClick={this.clickHandler}
+        ref={this.setContainerEl}
         role={role}
         tabIndex={disableInteraction ? undefined : 0}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setContainerEl}
       >
         {this.renderSelectionIcon()}
         <div
@@ -374,7 +372,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
             name={SLOTS.contentTop}
             onSlotchange={this.handleSlotChange}
           />
-          {icon && <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" />}
+          {icon && <calcite-icon class={CSS.icon} flipRtl={iconFlipRtl} icon={icon} scale="l" />}
           <div class={{ [CSS.textContentContainer]: true, [CSS.row]: true }}>
             <slot
               data-name="ContentStart"
@@ -406,7 +404,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
     return (
       <InteractiveContainer disabled={disabled}>
-        {!!this.href ? (
+        {this.href ? (
           <calcite-link disabled={disabled} href={this.href}>
             {this.renderTile()}
           </calcite-link>

@@ -37,6 +37,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Alignment, Appearance, Scale } from "../interfaces";
+import { IconName } from "../icon/interfaces";
 import { ActionMessages } from "./assets/action/t9n";
 import { CSS, SLOTS } from "./resources";
 
@@ -83,7 +84,7 @@ export class Action
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @Prop() icon: string;
+  @Prop() icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -322,7 +323,6 @@ export class Action
             class={buttonClasses}
             disabled={disabled}
             id={buttonId}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
             ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
           >
             {this.renderIconContainer()}

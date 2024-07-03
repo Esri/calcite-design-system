@@ -35,6 +35,10 @@ function mergeMessages(component: T9nComponent): void {
   };
 }
 
+function noop(): void {
+  // intentionally empty
+}
+
 /**
  * This utility sets up the messages used by the component. It should be awaited in the `componentWillLoad` lifecycle hook.
  *
@@ -94,7 +98,8 @@ export function connectMessages(component: T9nComponent): void {
  * @param component
  */
 export function disconnectMessages(component: T9nComponent): void {
-  component.onMessagesChange = undefined;
+  // we set this to noop to for watchers triggered when components are disconnected
+  component.onMessagesChange = noop;
 }
 
 /**
@@ -137,7 +142,7 @@ export interface T9nComponent extends LocalizedComponent {
    *  \/* wired up by t9n util *\/
    * }
    */
-  onMessagesChange(): void;
+  onMessagesChange: () => void;
 }
 
 function defaultOnMessagesChange(this: T9nComponent): void {

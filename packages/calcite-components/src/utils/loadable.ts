@@ -117,7 +117,7 @@ export function componentLoaded(component: LoadableComponent): Promise<void> {
 /**
  * This helper util can be used to ensuring the component is loaded and rendered by the browser (The "componentDidLoad" Stencil lifecycle method has been called and any internal elements are focusable).
  *
- * Requires requires `LoadableComponent` to be implemented.
+ * Requires `LoadableComponent` to be implemented.
  *
  * A component developer can await this method before proceeding with any logic that requires a component to be loaded first and then an internal element be focused.
  *

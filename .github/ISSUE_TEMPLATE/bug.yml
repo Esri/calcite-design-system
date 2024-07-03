@@ -78,11 +78,10 @@ body:
       multiple: false
       description: What is the impact to you, your team, or organization? Use discretion and only select "need" or "emergency" priorities for high user impact and quality issues. For instance, would someone notice, in a bad way, if this issue were present in the release?
       options:
-        - p4 - not time sensitive
-        - p3 - want for upcoming milestone
-        - p2 - want for current milestone
-        - p1 - need for current milestone
-        - p0 - emergency
+        - impact - p3 - not time sensitive
+        - impact - p2 - want for an upcoming milestone
+        - impact - p1 - need for current milestone
+        - impact - p0 - emergency
   - type: textarea
     id: impact
     attributes:
@@ -94,7 +93,7 @@ body:
     id: packages
     attributes:
       label: Calcite package
-      description: Select the relevant [package(s)](https://github.com/Esri/calcite-design-system/tree/main/packages) related to the request.
+      description: Select the relevant [package(s)](https://github.com/Esri/calcite-design-system/tree/dev/packages) related to the request.
       options:
         - label: "@esri/calcite-components"
         - label: "@esri/calcite-components-angular"

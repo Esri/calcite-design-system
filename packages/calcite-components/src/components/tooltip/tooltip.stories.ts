@@ -1,26 +1,39 @@
-import { select, number } from "../../../.storybook/fake-knobs";
 import { html } from "../../../support/formatting";
-import { boolean } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { Tooltip } from "./tooltip";
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
 
 const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appearance="transparent" kind="neutral" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
+type TooltipStoryArgs = Pick<Tooltip, "placement" | "offsetDistance" | "offsetSkidding" | "open">;
+
 export default {
   title: "Components/Tooltip",
+  args: {
+    placement: placements[0],
+    offsetDistance: 6,
+    offsetSkidding: 0,
+    open: false,
+  },
+  argTypes: {
+    placements: {
+      options: placements,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: TooltipStoryArgs): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-tooltip
       reference-element="reference-element"
-      placement="${select("placement", placements, "auto")}"
-      offset-distance="${number("offset-distance", 6)}"
-      offset-skidding="${number("offset-skidding", 0)}"
-      ${boolean("open", false)}
+      placement="${args.placement}"
+      offset-distance="${args.offsetDistance}"
+      offset-skidding="${args.offsetSkidding}"
+      ${boolean("open", args.open)}
     >
       <span> ${contentHTML} </span>
     </calcite-tooltip>
@@ -32,10 +45,10 @@ export const open_TestOnly = (): string => html`
     ${referenceElementHTML}
     <calcite-tooltip
       reference-element="reference-element"
-      placement="${select("placement", placements, "auto")}"
-      offset-distance="${number("offset-distance", 6)}"
-      offset-skidding="${number("offset-skidding", 0)}"
-      ${boolean("open", true)}
+      placement="auto"
+      offset-distance="6"
+      offset-skidding="0"
+      open
     >
       <span> ${contentHTML} </span>
     </calcite-tooltip>
@@ -49,10 +62,9 @@ export const darkModeRTL_TestOnly = (): string => html`
       class="calcite-mode-dark"
       dir="rtl"
       reference-element="reference-element"
-      placement="${select("placement", placements, "auto")}"
-      offset-distance="${number("offset-distance", 6)}"
-      offset-skidding="${number("offset-skidding", 0)}"
-      ${boolean("open", false)}
+      placement="auto"
+      offset-distance="6"
+      offset-skidding="0"
     >
       <span> ${contentHTML} </span>
     </calcite-tooltip>

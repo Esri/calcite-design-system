@@ -36,7 +36,7 @@ import { ListItemAndHandle } from "./interfaces";
 import { ICONS, SLOTS } from "./resources";
 
 /**
- * @deprecated Use the `list` component instead.
+ * @deprecated Use the `calcite-list` component instead.
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
@@ -82,7 +82,7 @@ export class ValueListItem
   /**
    * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
    *
-   * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/main/src/components/pick-list/resources.ts#L5)
+   * @see [ICON_TYPES](https://github.com/Esri/calcite-design-system/blob/dev/src/components/pick-list/resources.ts#L5)
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
 
@@ -274,10 +274,9 @@ export class ValueListItem
           data-js-handle
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
+          ref={(el) => (this.handleEl = el as HTMLSpanElement)}
           role="button"
           tabindex="0"
-          // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-          ref={(el) => (this.handleEl = el as HTMLSpanElement)}
         >
           <calcite-icon flipRtl={iconFlipRtl} icon={ICONS.drag} scale="s" />
         </span>
@@ -298,11 +297,10 @@ export class ValueListItem
             metadata={this.metadata}
             nonInteractive={this.nonInteractive}
             onCalciteListItemChange={this.handleSelectChange}
+            ref={this.getPickListRef}
             removable={this.removable}
             selected={this.selected}
             value={this.value}
-            // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-            ref={this.getPickListRef}
           >
             {this.renderActionsStart()}
             {this.renderActionsEnd()}

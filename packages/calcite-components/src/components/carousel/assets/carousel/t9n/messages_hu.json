@@ -1,8 +1,8 @@
 {
   "previous": "Előző",
   "next": "Tovább",
-  "play": "Play",
-  "pause": "Pause",
-  "carousel": "Carousel",
-  "carouselItemProgress": "Progress indicator for Carousel Item"
+  "play": "Lejátszás",
+  "pause": "Felfüggesztés",
+  "carousel": "Forgótár",
+  "carouselItemProgress": "Folyamatjelző a Forgótár elemhez"
 }

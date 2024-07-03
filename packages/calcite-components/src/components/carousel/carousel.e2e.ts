@@ -678,6 +678,78 @@ describe("calcite-carousel", () => {
       expect(await carousel.getProperty("paused")).toBe(false);
       expect(selectedItem.id).toEqual("three");
     });
+
+    it("does not begin autoplay after keyboard interaction if not enabled via property", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent(
+        `<calcite-carousel label="Carousel example" id="example-carousel>
+          <calcite-carousel-item label="Carousel Item 1" id="one"><p>no pre-selected attribute</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 2" id="two" selected><p>pre-selected and not first</p></calcite-carousel-item>
+          <calcite-carousel-item label="Carousel Item 3" id="three"><p>no pre-selected attribute</p></calcite-carousel-item>
+        </calcite-carousel>`,
+      );
+
+      const carousel = await page.find("calcite-carousel");
+      const playSpy = await page.spyOnEvent("calciteCarouselPlay");
+      const stopSpy = await page.spyOnEvent("calciteCarouselStop");
+      const pauseSpy = await page.spyOnEvent("calciteCarouselPause");
+      const resumeSpy = await page.spyOnEvent("calciteCarouselResume");
+
+      let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("two");
+      expect(playSpy).not.toHaveReceivedEvent();
+      expect(stopSpy).not.toHaveReceivedEvent();
+      expect(pauseSpy).not.toHaveReceivedEvent();
+      expect(resumeSpy).not.toHaveReceivedEvent();
+      expect(await carousel.getProperty("paused")).toBe(undefined);
+
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+      expect(selectedItem.id).toEqual("two");
+      expect(playSpy).not.toHaveReceivedEvent();
+      expect(stopSpy).not.toHaveReceivedEvent();
+      expect(pauseSpy).not.toHaveReceivedEvent();
+      expect(resumeSpy).not.toHaveReceivedEvent();
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(carousel.id);
+
+      await page.waitForTimeout(slideDurationWaitTimer);
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("two");
+
+      await page.keyboard.press("Enter");
+      await page.waitForChanges();
+      expect(selectedItem.id).toEqual("two");
+      expect(playSpy).not.toHaveReceivedEvent();
+      expect(stopSpy).not.toHaveReceivedEvent();
+      expect(pauseSpy).not.toHaveReceivedEvent();
+      expect(resumeSpy).not.toHaveReceivedEvent();
+      expect(await carousel.getProperty("paused")).toBe(undefined);
+      expect(selectedItem.id).toEqual("two");
+
+      await page.waitForTimeout(slideDurationWaitTimer);
+      selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
+      expect(selectedItem.id).toEqual("two");
+
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+      expect(playSpy).not.toHaveReceivedEvent();
+      expect(stopSpy).not.toHaveReceivedEvent();
+      expect(pauseSpy).not.toHaveReceivedEvent();
+      expect(resumeSpy).not.toHaveReceivedEvent();
+      expect(await carousel.getProperty("paused")).toBe(undefined);
+
+      expect(selectedItem.id).toEqual("two");
+
+      await page.keyboard.press("Space");
+      await page.waitForChanges();
+      expect(playSpy).not.toHaveReceivedEvent();
+      expect(stopSpy).not.toHaveReceivedEvent();
+      expect(pauseSpy).not.toHaveReceivedEvent();
+      expect(resumeSpy).not.toHaveReceivedEvent();
+      expect(await carousel.getProperty("paused")).toBe(undefined);
+      expect(selectedItem.id).toEqual("two");
+    });
   });
 
   describe("pagination", () => {
@@ -773,6 +845,7 @@ describe("calcite-carousel", () => {
       expect(selectedItem.id).toEqual("two");
     });
   });
+
   describe("public methods", () => {
     it("plays and stops correctly when autoplay", async () => {
       const page = await newE2EPage();
@@ -929,5 +1002,56 @@ describe("calcite-carousel", () => {
       selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
       expect(selectedItem.id).toEqual("two");
     });
+  });
+
+  it("item slide animation finishes between paging/selection", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-carousel label="carousel">
+        <calcite-carousel-item label="item 1" selected><p>first</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 2"><p>second</p></calcite-carousel-item>
+        <calcite-carousel-item label="item 3"><p>third</p></calcite-carousel-item>
+      </calcite-carousel>`,
+    );
+
+    const container = await page.find(`calcite-carousel >>> .${CSS.container}`);
+    const animationStartSpy = await container.spyOnEvent("animationstart");
+    const animationEndSpy = await container.spyOnEvent("animationend");
+    const nextButton = await page.find(`calcite-carousel >>> .${CSS.pageNext}`);
+
+    await nextButton.click();
+    await page.waitForChanges();
+    await nextButton.click();
+    await page.waitForChanges();
+
+    expect(animationStartSpy).toHaveReceivedEventTimes(2);
+    expect(animationEndSpy).toHaveReceivedEventTimes(2);
+
+    const previousButton = await page.find(`calcite-carousel >>> .${CSS.pagePrevious}`);
+    await previousButton.click();
+    await page.waitForChanges();
+    await previousButton.click();
+    await page.waitForChanges();
+
+    expect(animationStartSpy).toHaveReceivedEventTimes(4);
+    expect(animationEndSpy).toHaveReceivedEventTimes(4);
+
+    const [item1, item2, item3] = await page.findAll(`calcite-carousel >>> .${CSS.paginationItemIndividual}`);
+
+    await item2.click();
+    await page.waitForChanges();
+    await item3.click();
+    await page.waitForChanges();
+
+    expect(animationStartSpy).toHaveReceivedEventTimes(6);
+    expect(animationEndSpy).toHaveReceivedEventTimes(6);
+
+    await item2.click();
+    await page.waitForChanges();
+    await item1.click();
+    await page.waitForChanges();
+
+    expect(animationStartSpy).toHaveReceivedEventTimes(8);
+    expect(animationEndSpy).toHaveReceivedEventTimes(8);
   });
 });

@@ -1,9 +1,9 @@
-name: "Chromatic - Main"
+name: Chromatic
 on:
   push:
-    branches: [main]
+    branches: [rc, dev]
   pull_request:
-    branches: [main]
+    branches: [rc, dev]
     types: [labeled, synchronize]
 jobs:
   run:
@@ -20,12 +20,12 @@ jobs:
       - run: npm install
       - run: npm --workspace="packages/calcite-design-tokens" run build
       - name: Publish to Chromatic
-        uses: chromaui/action@v1
+        uses: chromaui/action@v11
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           zip: true
           exitOnceUploaded: true
-          autoAcceptChanges: main
+          autoAcceptChanges: ${{ github.base_ref || github.ref_name }}
           workingDir: packages/calcite-components
         env:
           STORYBOOK_SCREENSHOT_TEST_BUILD: true

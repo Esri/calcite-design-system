@@ -82,8 +82,10 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
    * Made into a prop for testing purposes only.
    *
    * @internal
+   * @readonly
    */
-  @Prop() messages: HandleMessages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: HandleMessages;
 
   /**
    *
@@ -116,7 +118,8 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop() messageOverrides: Partial<HandleMessages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<HandleMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -306,14 +309,13 @@ export class Handle implements LoadableComponent, T9nComponent, InteractiveCompo
         class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
+        ref={(el): void => {
+          this.handleButton = el;
+        }}
         // role of radio is being applied to allow space key to select in screen readers
         role="radio"
         tabIndex={this.disabled ? null : 0}
         title={this.getTooltip()}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={(el): void => {
-          this.handleButton = el;
-        }}
       >
         <calcite-icon icon={ICONS.drag} scale="s" />
       </span>

@@ -66,6 +66,10 @@ describe("calcite-list", () => {
         propertyName: "dragEnabled",
         defaultValue: false,
       },
+      {
+        propertyName: "filterProps",
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -88,7 +92,7 @@ describe("calcite-list", () => {
     hidden("calcite-list");
   });
 
-  describe.skip("translation support", () => {
+  describe("translation support", () => {
     t9n("calcite-list");
   });
 
@@ -126,6 +130,112 @@ describe("calcite-list", () => {
       </calcite-list>`,
       { focusTarget: "child" },
     );
+
+    it("should set the dragHandle property on items", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-list id="root" drag-enabled group="my-list">
+          <calcite-list-item open label="Depth 1" description="Item 1">
+            <calcite-list group="my-list">
+              <calcite-list-item open label="Depth 2" description="Item 2">
+                <calcite-list drag-enabled group="my-list">
+                  <calcite-list-item label="Depth 3" description="Item 3">
+                    <calcite-list drag-enabled group="my-list"></calcite-list>
+                  </calcite-list-item>
+                  <calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item>
+                </calcite-list>
+              </calcite-list-item>
+              <calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item>
+            </calcite-list>
+          </calcite-list-item>
+          <calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item>
+          <calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item>
+        </calcite-list>`,
+      );
+
+      await page.waitForChanges();
+      await page.waitForTimeout(listDebounceTimeout);
+
+      let dragHandleValues = [true, false, true, true, false, true, true];
+
+      const items = await page.findAll("calcite-list-item");
+
+      expect(items.length).toBe(dragHandleValues.length);
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
+      }
+
+      const rootList = await page.find("#root");
+
+      rootList.setProperty("dragEnabled", false);
+      await page.waitForChanges();
+      await page.waitForTimeout(listDebounceTimeout);
+
+      dragHandleValues = [false, false, true, true, false, false, false];
+
+      expect(items.length).toBe(dragHandleValues.length);
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
+      }
+    });
+
+    it("should set the dragHandle property on items which are not direct children", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-list id="root" drag-enabled group="my-list">
+          <div>
+            <calcite-list-item open label="Depth 1" description="Item 1">
+              <calcite-list group="my-list">
+                <div>
+                  <calcite-list-item open label="Depth 2" description="Item 2">
+                    <calcite-list drag-enabled group="my-list">
+                      <div>
+                        <calcite-list-item label="Depth 3" description="Item 3">
+                          <calcite-list drag-enabled group="my-list"></calcite-list>
+                        </calcite-list-item>
+                      </div>
+                      <div><calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item></div>
+                    </calcite-list>
+                  </calcite-list-item>
+                </div>
+                <div><calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item></div>
+              </calcite-list>
+            </calcite-list-item>
+          </div>
+          <div><calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item></div>
+          <div><calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item></div>
+        </calcite-list>`,
+      );
+
+      await page.waitForChanges();
+      await page.waitForTimeout(listDebounceTimeout);
+
+      let dragHandleValues = [true, false, true, true, false, true, true];
+
+      const items = await page.findAll("calcite-list-item");
+
+      expect(items.length).toBe(dragHandleValues.length);
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
+      }
+
+      const rootList = await page.find("#root");
+
+      rootList.setProperty("dragEnabled", false);
+      await page.waitForChanges();
+      await page.waitForTimeout(listDebounceTimeout);
+
+      dragHandleValues = [false, false, true, true, false, false, false];
+
+      expect(items.length).toBe(dragHandleValues.length);
+
+      for (let i = 0; i < items.length; i++) {
+        expect(await items[i].getProperty("dragHandle")).toBe(dragHandleValues[i]);
+      }
+    });
 
     it("disabling and enabling an item restores actions from being tabbable", async () => {
       const page = await newE2EPage();
@@ -371,6 +481,51 @@ describe("calcite-list", () => {
     const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
 
     expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match", "value-match"]);
+  });
+
+  it("filters initially with filterProps", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-list filter-enabled filter-text="match">
+        <calcite-list-item
+          id="label-match"
+          label="match"
+          description="description-1"
+          value="value-1"
+        ></calcite-list-item>
+        <calcite-list-item
+          id="description-match"
+          label="label-2"
+          description="match"
+          value="value-1"
+        ></calcite-list-item>
+        <calcite-list-item
+          id="value-match"
+          label="label-3"
+          description="description-3"
+          value="match"
+        ></calcite-list-item>
+        <calcite-list-item
+          id="no-match"
+          label="label-4"
+          description="description-4"
+          value="value-4"
+        ></calcite-list-item>
+      </calcite-list>
+    `);
+
+    await page.waitForChanges();
+    const list = await page.find("calcite-list");
+    list.setProperty("filterProps", ["label", "description"]);
+    await page.waitForChanges();
+    await page.waitForTimeout(listDebounceTimeout);
+
+    expect(await list.getProperty("filteredItems")).toHaveLength(2);
+    expect(await list.getProperty("filteredData")).toHaveLength(2);
+
+    const visibleItems = await page.findAll("calcite-list-item:not([filter-hidden])");
+
+    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match"]);
   });
 
   it("should support shift click to select multiple items", async () => {

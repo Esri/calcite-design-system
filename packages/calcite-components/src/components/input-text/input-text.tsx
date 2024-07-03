@@ -51,6 +51,7 @@ import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { IconName } from "../icon/interfaces";
 import { CSS, SLOTS } from "./resources";
 import { InputTextMessages } from "./assets/input-text/t9n";
 
@@ -98,7 +99,7 @@ export class InputText
   /**
    * Adds global prop, missing from Stencil's `HTMLElement` type, see https://github.com/ionic-team/stencil/issues/5726
    *
-   * @internal
+   * @ignore
    */
   // eslint-disable-next-line @stencil-community/reserved-member-names
   @Prop() autofocus: boolean;
@@ -142,7 +143,7 @@ export class InputText
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @Prop({ reflect: true }) icon: string | boolean;
+  @Prop({ reflect: true }) icon: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -180,7 +181,7 @@ export class InputText
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconName | boolean;
 
   /**
    * The current validation state of the component.
@@ -331,7 +332,7 @@ export class InputText
   private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
-  private requestedIcon?: string;
+  private requestedIcon?: IconName;
 
   mutationObserver = createObserver("mutation", () => this.setDisabledAction());
 
@@ -683,12 +684,11 @@ export class InputText
         pattern={this.pattern}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
+        ref={this.setChildElRef}
         required={this.required ? true : null}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
         type="text"
         value={this.value}
-        // eslint-disable-next-line react/jsx-sort-props -- ref should be last so node attrs/props are in sync (see https://github.com/Esri/calcite-design-system/pull/6530)
-        ref={this.setChildElRef}
       />
     );
 

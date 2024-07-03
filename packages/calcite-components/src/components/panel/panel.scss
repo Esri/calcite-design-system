@@ -18,8 +18,38 @@
 
 @import "../../assets/styles/header";
 
+:host([scale="s"]) {
+  .content-top,
+  .content-bottom {
+    padding: var(--calcite-spacing-sm);
+  }
+}
+
+:host([scale="m"]) {
+  .content-top,
+  .content-bottom {
+    padding: var(--calcite-spacing-md);
+  }
+}
+
+:host([scale="l"]) {
+  .content-top,
+  .content-bottom {
+    padding: var(--calcite-spacing-xl);
+  }
+}
+
+.content-top,
+.content-bottom {
+  @apply flex items-start self-stretch;
+
+  padding: var(--calcite-spacing-md);
+  border-block-start: 1px solid var(--calcite-color-border-3);
+  background-color: var(--calcite-color-foreground-1);
+}
+
 .container {
-  @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
+  @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
   transition:
     max-block-size var(--calcite-animation-timing),
@@ -31,8 +61,7 @@
 }
 
 .header {
-  @apply bg-foreground-1 flex flex-col
-    z-header;
+  @apply bg-foreground-1 flex flex-col z-header;
   border-block-end: var(--calcite-panel-header-border-block-end, 1px solid var(--calcite-color-border-3));
 }
 
@@ -109,14 +138,25 @@
 }
 
 .footer {
-  @apply bg-foreground-1
-  flex
-  w-full
-  justify-evenly;
+  @apply flex mt-auto flex-row content-between justify-center items-center bg-foreground-1;
 
-  flex: 0 0 auto;
-  padding: var(--calcite-panel-footer-padding, theme("spacing.2"));
   border-block-start: 1px solid var(--calcite-color-border-3);
+  padding: var(--calcite-spacing-sm);
+  column-gap: 0;
+  row-gap: var(--calcite-spacing-md);
+}
+
+@include slotted("footer-start", "*") {
+  @apply flex text-n2-wrap self-center;
+
+  margin-inline-end: auto;
+  gap: var(--calcite-spacing-md);
+}
+
+@include slotted("footer-end", "*") {
+  @apply flex text-n2-wrap self-center;
+
+  gap: var(--calcite-spacing-md);
 }
 
 .fab-container {
