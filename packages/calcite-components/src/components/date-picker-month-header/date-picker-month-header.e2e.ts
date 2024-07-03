@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { DateLocaleData } from "../date-picker/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-date-picker-month-header", () => {
   const localeDataFixture = {
@@ -50,6 +51,8 @@ describe("calcite-date-picker-month-header", () => {
       dateMonthHeader.messages = {
         nextMonth: "Next month",
         prevMonth: "Previous month",
+        monthMenu: "Month menu",
+        yearMenu: "Year menu",
         year: "Year",
       };
 
@@ -62,5 +65,34 @@ describe("calcite-date-picker-month-header", () => {
 
     expect(await prev.isVisible()).toBe(true);
     expect(await next.isVisible()).toBe(true);
+  });
+
+  it("should set the input aria-label to year", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
+
+    await page.evaluate((localeData) => {
+      const dateMonthHeader = document.createElement(
+        "calcite-date-picker-month-header",
+      ) as HTMLCalciteDatePickerMonthHeaderElement;
+      const now = new Date();
+      dateMonthHeader.activeDate = now;
+      dateMonthHeader.selectedDate = now;
+      dateMonthHeader.localeData = localeData;
+      dateMonthHeader.messages = {
+        nextMonth: "Next month",
+        prevMonth: "Previous month",
+        monthMenu: "Month menu",
+        yearMenu: "Year menu",
+        year: "Year",
+      };
+
+      document.body.innerHTML = "";
+      document.body.append(dateMonthHeader);
+    }, localeDataFixture);
+    await page.waitForChanges();
+    const date = await page.find(`calcite-date-picker-month-header >>> input`);
+
+    expect(await date.getAttribute("aria-label")).toBe("Year");
   });
 });

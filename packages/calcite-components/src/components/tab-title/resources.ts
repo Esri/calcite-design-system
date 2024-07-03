@@ -11,4 +11,4 @@ export const CSS = {
 
 export const ICONS = {
   close: "x",
-};
+} as const;

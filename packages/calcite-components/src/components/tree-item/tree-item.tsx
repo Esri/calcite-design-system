@@ -33,6 +33,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
+import { IconName } from "../icon/interfaces";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 
@@ -70,7 +71,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconName;
 
   /** When `true`, the component is selected. */
   @Prop({ mutable: true, reflect: true }) selected = false;

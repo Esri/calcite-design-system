@@ -14,4 +14,4 @@ export const CSS = {
 export const ICON = {
   chevronLeft: "chevron-left",
   chevronRight: "chevron-right",
-};
+} as const;
