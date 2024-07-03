@@ -24,6 +24,7 @@
     transition-default
     w-full
     relative;
+  line-height: var(--calcite-font-line-height-fixed-base);
   background: none;
   block-size: var(--calcite-internal-day-size);
   outline-color: transparent;
@@ -60,10 +61,16 @@
   @apply opacity-disabled;
 }
 
-:host(:hover:not([disabled]):not([selected])),
-:host([active]:not([range]):not([selected])) {
+:host(:hover:not([disabled]):not([selected])) {
   & .day {
     @apply bg-foreground-2 text-color-1;
+  }
+}
+
+:host([active]:not([range]):not([selected])) {
+  & .day {
+    color: var(--calcite-color-text-1);
+    font-weight: var(--calcite-font-weight-medium);
   }
 }
 
@@ -82,32 +89,25 @@
   color: var(--calcite-color-foreground-1);
 }
 
-:host([range-hover]:not([selected])),
-:host([highlighted]:not([selected])) {
+:host([range-hover]:not([selected])) {
   .day {
+    @apply bg-foreground-2;
     @apply text-color-1;
   }
 }
 
-:host([highlighted]),
-:host([selected]:not(.outside-range--hover)) {
-  .day-wrapper {
+:host([highlighted]:not([selected])) {
+  .day {
+    color: var(--calcite-color-brand);
     background-color: var(--calcite-color-foreground-current);
   }
 }
 
-:host([range-hover]:not([selected])) {
-  .day-wrapper {
-    @apply bg-foreground-2;
-  }
-}
-
-:host([range-hover][start-of-range][range-edge="end"]),
-:host([range-hover][end-of-range][range-edge="start"]),
-:host([start-of-range][range-edge="end"].inside-range--hover),
-:host([end-of-range]) {
-  .day-wrapper {
-    content: unset;
+:host(:hover[highlighted]:not([selected]).inside-range--hover) {
+  .day {
+    background-color: var(--calcite-color-foreground-current);
+    color: var(--calcite-color-brand);
+    @apply focus-inset;
   }
 }
 
@@ -129,7 +129,7 @@
   :host([range][selected]),
   :host([highlighted]),
   :host([range-hover]:not([selected])) {
-    .day-wrapper {
+    .day {
       background-color: highlight;
     }
   }
@@ -137,7 +137,7 @@
   :host([range-hover]),
   :host([range][selected][start-of-range]),
   :host([range][selected][end-of-range]) {
-    .day-wrapper {
+    .day {
       background-color: canvas;
     }
   }

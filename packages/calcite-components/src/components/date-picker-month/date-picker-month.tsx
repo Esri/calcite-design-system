@@ -498,7 +498,7 @@ export class DatePickerMonth {
       (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate));
 
     return (
-      <div class="day" key={key} role="gridcell">
+      <div class="day-container" key={key} role="gridcell">
         <calcite-date-picker-day
           active={active}
           class={{

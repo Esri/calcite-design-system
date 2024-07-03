@@ -28,13 +28,11 @@
   inline-size: calc(100% / 7);
 }
 
-.day {
+.day-container {
   @apply flex
   min-w-0
   justify-center 
   w-full;
-  line-height: var(--calcite-font-line-height-fixed-base);
-
   calcite-date-picker-day {
     @apply w-full;
   }
