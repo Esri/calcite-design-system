@@ -106,6 +106,8 @@
   .text-content {
     text-align: center;
   }
+  slot[name="content-start"]::slotted(*),
+  slot[name="content-end"]::slotted(*),
   slot[name="content-top"]::slotted(*),
   slot[name="content-bottom"]::slotted(*) {
     align-self: center;
