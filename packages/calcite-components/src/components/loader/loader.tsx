@@ -1,7 +1,7 @@
 import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
-import { CSS } from "../resources";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-loader",
@@ -77,8 +77,8 @@ export class Loader {
             <svg
               aria-hidden="true"
               class={{
-                [CSS.loaderPart()]: true,
-                [CSS.loaderPart(index)]: true,
+                [CSS.loaderPart]: true,
+                [CSS.loaderPartId(index)]: true,
               }}
               key={index}
               viewBox={viewbox}
