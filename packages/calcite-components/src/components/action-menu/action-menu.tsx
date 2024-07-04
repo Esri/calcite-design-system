@@ -21,6 +21,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Appearance, Scale } from "../interfaces";
 import { activeAttr, CSS, ICONS, SLOTS } from "./resources";
 
@@ -36,7 +37,7 @@ const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
   styleUrl: "action-menu.scss",
   shadow: true,
 })
-export class ActionMenu implements LoadableComponent {
+export class ActionMenu implements LoadableComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -49,6 +50,10 @@ export class ActionMenu implements LoadableComponent {
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
+
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentDidLoad(): void {
@@ -96,6 +101,7 @@ export class ActionMenu implements LoadableComponent {
 
   @Watch("open")
   openHandler(open: boolean): void {
+    onToggleOpenCloseComponent(this);
     this.activeMenuItemIndex = this.open ? 0 : -1;
     if (this.menuButtonEl) {
       this.menuButtonEl.active = open;
@@ -130,10 +136,16 @@ export class ActionMenu implements LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
-  /**
-   * Fires when the `open` property is toggled.
-   *
-   */
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteActionMenuBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteActionMenuClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteActionMenuBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
   @Event({ cancelable: false }) calciteActionMenuOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
@@ -158,7 +170,11 @@ export class ActionMenu implements LoadableComponent {
 
   menuButtonId = `${this.guid}-menu-button`;
 
+  openTransitionProp = "opacity";
+
   tooltipEl: HTMLCalciteTooltipElement;
+
+  transitionEl: HTMLDivElement;
 
   @State() activeMenuItemIndex = -1;
 
@@ -507,4 +523,20 @@ export class ActionMenu implements LoadableComponent {
   private handlePopoverClose = (): void => {
     this.open = false;
   };
+
+  onBeforeOpen(): void {
+    this.calciteActionMenuBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteActionMenuOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteActionMenuBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteActionMenuClose.emit();
+  }
 }

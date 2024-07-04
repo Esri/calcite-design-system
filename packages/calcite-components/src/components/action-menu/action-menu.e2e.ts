@@ -6,6 +6,7 @@ import {
   delegatesToFloatingUiOwningComponent,
   focusable,
   hidden,
+  openClose,
   reflects,
   renders,
   slots,
@@ -91,6 +92,10 @@ describe("calcite-action-menu", () => {
         value: "auto",
       },
     ]);
+  });
+
+  describe("openClose", () => {
+    openClose(`<calcite-action-menu id="actionMenuOpenClose"></calcite-action-menu>`);
   });
 
   describe("delegates to floating-ui-owner component", () => {

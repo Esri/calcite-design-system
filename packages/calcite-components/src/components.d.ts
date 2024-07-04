@@ -6162,6 +6162,9 @@ declare global {
         new (): HTMLCalciteActionGroupElement;
     };
     interface HTMLCalciteActionMenuElementEventMap {
+        "calciteActionMenuBeforeClose": void;
+        "calciteActionMenuClose": void;
+        "calciteActionMenuBeforeOpen": void;
         "calciteActionMenuOpen": void;
     }
     interface HTMLCalciteActionMenuElement extends Components.CalciteActionMenu, HTMLStencilElement {
@@ -8186,7 +8189,19 @@ declare namespace LocalJSX {
          */
         "label": string;
         /**
-          * Fires when the `open` property is toggled.
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteActionMenuBeforeClose"?: (event: CalciteActionMenuCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteActionMenuBeforeOpen"?: (event: CalciteActionMenuCustomEvent<void>) => void;
+        /**
+          * Fires when the component is closed and animation is complete.
+         */
+        "onCalciteActionMenuClose"?: (event: CalciteActionMenuCustomEvent<void>) => void;
+        /**
+          * Fires when the component is open and animation is complete.
          */
         "onCalciteActionMenuOpen"?: (event: CalciteActionMenuCustomEvent<void>) => void;
         /**
