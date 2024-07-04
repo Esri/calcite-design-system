@@ -6249,6 +6249,10 @@ declare global {
     };
     interface HTMLCalciteBlockSectionElementEventMap {
         "calciteBlockSectionToggle": void;
+        "calciteBlockSectionBeforeClose": void;
+        "calciteBlockSectionClose": void;
+        "calciteBlockSectionBeforeOpen": void;
+        "calciteBlockSectionOpen": void;
     }
     interface HTMLCalciteBlockSectionElement extends Components.CalciteBlockSection, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteBlockSectionElementEventMap>(type: K, listener: (this: HTMLCalciteBlockSectionElement, ev: CalciteBlockSectionCustomEvent<HTMLCalciteBlockSectionElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8475,6 +8479,22 @@ declare namespace LocalJSX {
           * Made into a prop for testing purposes only
          */
         "messages"?: BlockSectionMessages;
+        /**
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteBlockSectionBeforeClose"?: (event: CalciteBlockSectionCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteBlockSectionBeforeOpen"?: (event: CalciteBlockSectionCustomEvent<void>) => void;
+        /**
+          * Fires when the component is closed and animation is complete.
+         */
+        "onCalciteBlockSectionClose"?: (event: CalciteBlockSectionCustomEvent<void>) => void;
+        /**
+          * Fires when the component is open and animation is complete.
+         */
+        "onCalciteBlockSectionOpen"?: (event: CalciteBlockSectionCustomEvent<void>) => void;
         /**
           * Fires when the header has been clicked.
          */

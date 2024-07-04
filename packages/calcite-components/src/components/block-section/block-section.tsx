@@ -29,6 +29,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { IconName } from "../icon/interfaces";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { BlockSectionMessages } from "./assets/block-section/t9n";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { CSS, ICONS, IDS } from "./resources";
@@ -42,7 +43,9 @@ import { CSS, ICONS, IDS } from "./resources";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class BlockSection implements LocalizedComponent, T9nComponent, LoadableComponent {
+export class BlockSection
+  implements LocalizedComponent, T9nComponent, LoadableComponent, OpenCloseComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -62,6 +65,11 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
    * When `true`, expands the component and its contents.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
+
+  @Watch("open")
+  openHandler(): void {
+    onToggleOpenCloseComponent(this);
+  }
 
   /**
    * Displays a status-related indicator icon.
@@ -119,6 +127,22 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
     focusFirstTabbable(this.el);
   }
 
+  onBeforeOpen(): void {
+    this.calciteBlockSectionBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteBlockSectionOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteBlockSectionBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteBlockSectionClose.emit();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -136,6 +160,10 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
 
   @State() defaultMessages: BlockSectionMessages;
 
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
+
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -146,6 +174,18 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
    * Fires when the header has been clicked.
    */
   @Event({ cancelable: false }) calciteBlockSectionToggle: EventEmitter<void>;
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteBlockSectionBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteBlockSectionClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteBlockSectionBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event({ cancelable: false }) calciteBlockSectionOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -180,6 +220,10 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
     setUpLoadableComponent(this);
+
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentDidLoad(): void {

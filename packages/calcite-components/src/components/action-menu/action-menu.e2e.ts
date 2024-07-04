@@ -95,7 +95,7 @@ describe("calcite-action-menu", () => {
   });
 
   describe("openClose", () => {
-    openClose(`<calcite-action-menu id="actionMenuOpenClose"></calcite-action-menu>`);
+    openClose("calcite-action-menu");
   });
 
   describe("delegates to floating-ui-owner component", () => {

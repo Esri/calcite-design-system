@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, openClose, reflects, renders, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -36,6 +36,10 @@ describe("calcite-block-section", () => {
 
   describe("translation support", () => {
     t9n("calcite-block-section");
+  });
+
+  describe("openClose", () => {
+    openClose("calcite-block-section");
   });
 
   describe("setFocus", () => {

@@ -106,7 +106,6 @@ export class ActionMenu implements LoadableComponent, OpenCloseComponent {
     if (this.menuButtonEl) {
       this.menuButtonEl.active = open;
     }
-    this.calciteActionMenuOpen.emit();
 
     this.setTooltipReferenceElement();
   }
