@@ -215,15 +215,14 @@ export class BlockSection
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
     setUpLoadableComponent(this);
-
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   componentDidLoad(): void {

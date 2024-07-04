@@ -38,20 +38,24 @@ describe("calcite-block-section", () => {
     t9n("calcite-block-section");
   });
 
+  const simpleBlockSectionHTML = html` <calcite-block-section
+    id="myBlockSection"
+    text="text"
+    toggle-display="switch"
+    open
+  >
+    <div>some content</div>
+  </calcite-block-section>`;
+
   describe("openClose", () => {
-    openClose("calcite-block-section");
+    openClose(simpleBlockSectionHTML);
   });
 
   describe("setFocus", () => {
     describe("focuses toggle switch", () => {
-      focusable(
-        html`<calcite-block-section text="text" toggle-display="switch" open>
-          <div>some content</div>
-        </calcite-block-section>`,
-        {
-          shadowFocusTargetSelector: `.${CSS.toggle}`,
-        },
-      );
+      focusable(simpleBlockSectionHTML, {
+        shadowFocusTargetSelector: `.${CSS.toggle}`,
+      });
     });
 
     describe("focuses toggle button", () => {

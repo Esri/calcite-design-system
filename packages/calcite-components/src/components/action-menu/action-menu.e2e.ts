@@ -94,37 +94,16 @@ describe("calcite-action-menu", () => {
     ]);
   });
 
+  const simpleActionMenuHTML = html`<calcite-action-menu>
+    <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
+  </calcite-action-menu>`;
+
   describe("openClose", () => {
-    openClose("calcite-action-menu");
+    openClose(simpleActionMenuHTML);
   });
 
   describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(
-      html`<calcite-action-menu>
-        <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
-      </calcite-action-menu>`,
-      "calcite-popover",
-    );
-  });
-
-  it("should emit 'calciteActionMenuOpen' event", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-action-menu>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>`,
-    });
-
-    await page.waitForChanges();
-
-    const clickSpy = await page.spyOnEvent("calciteActionMenuOpen");
-
-    const actionMenu = await page.find("calcite-action-menu");
-
-    actionMenu.setProperty("open", true);
-
-    await page.waitForChanges();
-
-    expect(clickSpy).toHaveReceivedEventTimes(1);
+    delegatesToFloatingUiOwningComponent(simpleActionMenuHTML, "calcite-popover");
   });
 
   describe("should focus on menu button", () => {
