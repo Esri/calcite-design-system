@@ -42,6 +42,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { SortableComponentItem } from "../../utils/sortableComponent";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { ListItemMessages } from "./assets/list-item/t9n";
 import {
   getDepth,
@@ -74,6 +75,7 @@ export class ListItem
     InteractiveComponent,
     LoadableComponent,
     LocalizedComponent,
+    OpenCloseComponent,
     T9nComponent,
     SortableComponentItem
 {
@@ -171,6 +173,7 @@ export class ListItem
 
   @Watch("open")
   handleOpenChange(): void {
+    onToggleOpenCloseComponent(this);
     this.emitCalciteInternalListItemToggle();
   }
 
@@ -251,11 +254,6 @@ export class ListItem
   @Event({ cancelable: false }) calciteListItemSelect: EventEmitter<void>;
 
   /**
-   * Fires when the close button is clicked.
-   */
-  @Event({ cancelable: false }) calciteListItemClose: EventEmitter<void>;
-
-  /**
    * Fires when the drag handle is selected.
    */
   @Event({ cancelable: false }) calciteListItemDragHandleChange: EventEmitter<void>;
@@ -311,6 +309,18 @@ export class ListItem
     this.handleOpenableChange(this.defaultSlotEl);
   }
 
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteListItemBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteListItemClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteListItemBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event({ cancelable: false }) calciteListItemOpen: EventEmitter<void>;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -358,6 +368,10 @@ export class ListItem
 
   defaultSlotEl: HTMLSlotElement;
 
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -377,6 +391,10 @@ export class ListItem
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     await setUpMessages(this);
+
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentDidLoad(): void {
@@ -946,4 +964,20 @@ export class ListItem
     this.setFocusCell(focusEl, focusedEl, saveFocusIndex);
     focusedEl?.focus();
   };
+
+  onBeforeOpen(): void {
+    this.calciteListItemBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteListItemOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteListItemBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteListItemClose.emit();
+  }
 }

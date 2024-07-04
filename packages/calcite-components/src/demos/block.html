@@ -53,7 +53,7 @@
 
         <div class="child">
           <calcite-block heading="Heading" description="summary" collapsible open>
-            <calcite-block-section text="input block-section" open>
+            <calcite-block-section text="input block-section" open id="block-section">
               <calcite-input
                 icon="form-field"
                 placeholder="This is an input field... enter something here"
@@ -62,6 +62,25 @@
 
             <calcite-block-section text="a block-section"> </calcite-block-section>
           </calcite-block>
+          <script>
+            const blockSection = document.getElementById("block-section");
+            console.log(blockSection);
+
+            window.onload = () => {
+              blockSection.addEventListener("calciteBlockSectionBeforeOpen", () => {
+                console.log("calciteBlockSectionBeforeOpen event was emitted");
+              });
+              blockSection.addEventListener("calciteBlockSectionOpen", () => {
+                console.log("calciteBlockSectionOpen event was emitted");
+              });
+              blockSection.addEventListener("calciteBlockSectionBeforeClose", () => {
+                console.log("calciteBlockSectionBeforeClose event was emitted");
+              });
+              blockSection.addEventListener("calciteBlockSectionClose", () => {
+                console.log("calciteBlockSectionClose event was emitted");
+              });
+            };
+          </script>
         </div>
       </div>
 

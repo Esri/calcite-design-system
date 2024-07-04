@@ -6894,7 +6894,6 @@ declare global {
     };
     interface HTMLCalciteListItemElementEventMap {
         "calciteListItemSelect": void;
-        "calciteListItemClose": void;
         "calciteListItemDragHandleChange": void;
         "calciteListItemToggle": void;
         "calciteInternalListItemSelect": void;
@@ -6905,6 +6904,10 @@ declare global {
         "calciteInternalFocusPreviousItem": void;
         "calciteInternalListItemChange": void;
         "calciteInternalListItemToggle": void;
+        "calciteListItemBeforeClose": void;
+        "calciteListItemClose": void;
+        "calciteListItemBeforeOpen": void;
+        "calciteListItemOpen": void;
     }
     interface HTMLCalciteListItemElement extends Components.CalciteListItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteListItemElementEventMap>(type: K, listener: (this: HTMLCalciteListItemElement, ev: CalciteListItemCustomEvent<HTMLCalciteListItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -11106,13 +11109,25 @@ declare namespace LocalJSX {
   }>) => void;
         "onCalciteInternalListItemToggle"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
-          * Fires when the close button is clicked.
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteListItemBeforeClose"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteListItemBeforeOpen"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the component is closed and animation is complete.
          */
         "onCalciteListItemClose"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Fires when the drag handle is selected.
          */
         "onCalciteListItemDragHandleChange"?: (event: CalciteListItemCustomEvent<void>) => void;
+        /**
+          * Fires when the component is open and animation is complete.
+         */
+        "onCalciteListItemOpen"?: (event: CalciteListItemCustomEvent<void>) => void;
         /**
           * Fires when the component is selected.
          */

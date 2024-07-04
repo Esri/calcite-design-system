@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, disabled, focusable, hidden, renders, slots } from "../../tests/commonTests";
+import { defaults, disabled, focusable, hidden, openClose, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
@@ -65,6 +65,10 @@ describe("calcite-list-item", () => {
 
   describe("disabled", () => {
     disabled(`<calcite-list-item label="test" active></calcite-list-item>`);
+  });
+
+  describe("openClose", () => {
+    openClose("calcite-list-item");
   });
 
   it("always displays hover class", async () => {
