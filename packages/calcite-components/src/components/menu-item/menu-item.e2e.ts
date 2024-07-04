@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { accessible, focusable, hidden, openClose, reflects, renders, t9n } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils";
 
 describe("calcite-menu-item", () => {
@@ -35,6 +35,10 @@ describe("calcite-menu-item", () => {
 
   describe("translation support", () => {
     t9n("calcite-menu-item");
+  });
+
+  describe("openClose", () => {
+    openClose("calcite-menu-item");
   });
 
   it("should emit calciteMenuItemSelect event on user click", async () => {

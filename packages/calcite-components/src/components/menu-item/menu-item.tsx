@@ -22,6 +22,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { CSS_UTILITY } from "../../utils/resources";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import {
   connectMessages,
   disconnectMessages,
@@ -46,7 +47,9 @@ type Layout = "horizontal" | "vertical";
   shadow: true,
   assetsDirs: ["assets"],
 })
-export class CalciteMenuItem implements LoadableComponent, T9nComponent, LocalizedComponent {
+export class CalciteMenuItem
+  implements LoadableComponent, T9nComponent, LocalizedComponent, OpenCloseComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -106,6 +109,11 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu.*/
   @Prop({ mutable: true, reflect: true }) open = false;
 
+  @Watch("open")
+  openHandler(): void {
+    onToggleOpenCloseComponent(this);
+  }
+
   /**
    * Defines the relationship between the `href` value and the current document.
    *
@@ -155,6 +163,10 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
 
   isFocused: boolean;
 
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -168,6 +180,22 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     this.anchorEl.focus();
   }
 
+  onBeforeOpen(): void {
+    this.calciteMenuItemBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteMenuItemOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteMenuItemBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteMenuItemClose.emit();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -178,6 +206,18 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
 
   /** Emits when the component is selected.*/
   @Event() calciteMenuItemSelect: EventEmitter<void>;
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteMenuItemBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteMenuItemClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteMenuItemBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event({ cancelable: false }) calciteMenuItemOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -215,6 +255,9 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+    if (this.open) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   async componentWillLoad(): Promise<void> {

@@ -6955,6 +6955,10 @@ declare global {
     interface HTMLCalciteMenuItemElementEventMap {
         "calciteInternalMenuItemKeyEvent": MenuItemCustomEvent;
         "calciteMenuItemSelect": void;
+        "calciteMenuItemBeforeClose": void;
+        "calciteMenuItemClose": void;
+        "calciteMenuItemBeforeOpen": void;
+        "calciteMenuItemOpen": void;
     }
     interface HTMLCalciteMenuItemElement extends Components.CalciteMenuItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteMenuItemElementEventMap>(type: K, listener: (this: HTMLCalciteMenuItemElement, ev: CalciteMenuItemCustomEvent<HTMLCalciteMenuItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -11270,6 +11274,22 @@ declare namespace LocalJSX {
          */
         "messages"?: MenuItemMessages;
         "onCalciteInternalMenuItemKeyEvent"?: (event: CalciteMenuItemCustomEvent<MenuItemCustomEvent>) => void;
+        /**
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteMenuItemBeforeClose"?: (event: CalciteMenuItemCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteMenuItemBeforeOpen"?: (event: CalciteMenuItemCustomEvent<void>) => void;
+        /**
+          * Fires when the component is closed and animation is complete.
+         */
+        "onCalciteMenuItemClose"?: (event: CalciteMenuItemCustomEvent<void>) => void;
+        /**
+          * Fires when the component is open and animation is complete.
+         */
+        "onCalciteMenuItemOpen"?: (event: CalciteMenuItemCustomEvent<void>) => void;
         /**
           * Emits when the component is selected.
          */
