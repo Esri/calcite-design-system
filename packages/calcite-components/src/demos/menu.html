@@ -365,7 +365,7 @@
                   </calcite-menu-item>
                 </calcite-menu-item>
               </calcite-menu-item>
-              <calcite-menu-item href="#" slot="submenu-item" text="It's stupendous">
+              <calcite-menu-item href="#" slot="submenu-item" text="It's stupendous" id="menuItemTested">
                 <calcite-menu-item slot="submenu-item" text="Very nice example"> </calcite-menu-item>
                 <calcite-menu-item slot="submenu-item" text="Short one">
                   <calcite-menu-item slot="submenu-item" text="Another thing">
@@ -445,5 +445,23 @@
         console.log(event);
       });
     });
+
+    const menuItem = document.getElementById("menuItemTested");
+    console.log(menuItem);
+
+    window.onload = () => {
+      menuItem.addEventListener("calciteMenuItemBeforeOpen", () => {
+        console.log("calciteMenuItemBeforeOpen event was emitted");
+      });
+      menuItem.addEventListener("calciteMenuItemOpen", () => {
+        console.log("calciteMenuItemOpen event was emitted");
+      });
+      menuItem.addEventListener("calciteMenuItemBeforeClose", () => {
+        console.log("calciteMenuItemBeforeClose event was emitted");
+      });
+      menuItem.addEventListener("calciteMenuItemClose", () => {
+        console.log("calciteMenuItemClose event was emitted");
+      });
+    };
   </script>
 </html>

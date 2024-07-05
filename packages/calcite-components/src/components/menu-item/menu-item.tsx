@@ -165,7 +165,7 @@ export class CalciteMenuItem
 
   openTransitionProp = "opacity";
 
-  transitionEl: HTMLDivElement;
+  transitionEl: HTMLElement;
 
   //--------------------------------------------------------------------------
   //
@@ -307,6 +307,10 @@ export class CalciteMenuItem
       }
     });
     this.hasSubmenu = this.submenuItems.length > 0;
+  };
+
+  private setTransitionEl = (el: HTMLElement): void => {
+    this.transitionEl = el;
   };
 
   private keyDownHandler = async (event: KeyboardEvent): Promise<void> => {
@@ -465,6 +469,7 @@ export class CalciteMenuItem
         }}
         label={this.messages.submenu}
         layout="vertical"
+        ref={this.setTransitionEl}
         role="menu"
       >
         <slot name="submenu-item" onSlotchange={this.handleMenuItemSlotChange} />
@@ -508,6 +513,7 @@ export class CalciteMenuItem
             [CSS.container]: true,
             [CSS.isParentVertical]: this.topLevelMenuLayout === "vertical",
           }}
+          ref={this.setTransitionEl}
           role="none"
         >
           <div class={CSS.itemContent}>
