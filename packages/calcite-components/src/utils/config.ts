@@ -34,7 +34,9 @@ const version = "__CALCITE_VERSION__"; // version number is set by build
 export function stampVersion(): void {
   if (customConfig && customConfig.version) {
     console.warn(
-      `[calcite-components] while initializing v${version}, an existing configuration with version "${customConfig.version}" was found. This may cause unexpected behavior. The version will not be added to the existing global configuration.`,
+      customConfig.version === version
+        ? `[calcite-components] while initializing v${version}, an existing configuration with the same version was found. This may be caused by the initialization script running more than once.`
+        : `[calcite-components] while initializing v${version}, an existing configuration with version "${customConfig.version}" was found. This may cause unexpected behavior. The version will not be added to the existing global configuration.`,
     );
     return;
   }
