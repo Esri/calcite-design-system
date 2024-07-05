@@ -606,6 +606,7 @@ export class ListItem
           [CSS.nestedContainer]: true,
           [CSS.nestedContainerOpen]: this.openable && this.open,
         }}
+        ref={this.setTransitionEl}
       >
         <slot
           onSlotchange={this.handleDefaultSlotChange}
@@ -793,6 +794,10 @@ export class ListItem
 
   private handleContentBottomSlotChange = (event: Event): void => {
     this.hasContentBottom = slotChangeHasAssignedElement(event);
+  };
+
+  private setTransitionEl = (el: HTMLDivElement): void => {
+    this.transitionEl = el;
   };
 
   private setSelectionDefaults(): void {
