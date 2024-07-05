@@ -204,7 +204,6 @@
 
 :host([status="invalid"]) {
   --calcite-internal-text-area-border-color: var(--calcite-text-area-border-color, var(--calcite-color-status-danger));
-  //--calcite-internal-text-area-border-block-end-color: var(--calcite-internal-text-area-border-color);
 
   .text-area:focus {
     @apply focus-inset-danger;
