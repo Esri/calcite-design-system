@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.2-next.2...@esri/calcite-components@2.11.0-next.0) (2024-07-02)
+
+### Features
+
+- **icon:** type icon names ([#9650](https://github.com/Esri/calcite-design-system/issues/9650)) ([9c2ba2f](https://github.com/Esri/calcite-design-system/commit/9c2ba2fb21f195387a8dc0a95009c620f070378d)), closes [#8858](https://github.com/Esri/calcite-design-system/issues/8858)
+
+## [2.10.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.2-next.1...@esri/calcite-components@2.10.2-next.2) (2024-07-01)
+
+### Bug Fixes
+
+- **block-section:** apply missing CSS class to start/end icon ([#9688](https://github.com/Esri/calcite-design-system/issues/9688)) ([bceeab5](https://github.com/Esri/calcite-design-system/commit/bceeab50480c5011505704eb80af85968eb5a972)), closes [#9703](https://github.com/Esri/calcite-design-system/issues/9703)
+
 ## [2.10.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.2-next.0...@esri/calcite-components@2.10.2-next.1) (2024-07-01)
 
 ### Bug Fixes

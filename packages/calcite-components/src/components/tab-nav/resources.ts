@@ -1,7 +1,7 @@
 export const ICON = {
   chevronRight: "chevron-right",
   chevronLeft: "chevron-left",
-};
+} as const;
 
 export const CSS = {
   container: "tab-nav",
