@@ -206,6 +206,10 @@ export class BlockSection
     this.calciteBlockSectionToggle.emit();
   };
 
+  private setTransitionEl = (el: HTMLDivElement): void => {
+    this.transitionEl = el;
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -342,7 +346,13 @@ export class BlockSection
     return (
       <Host>
         {headerNode}
-        <section aria-labelledby={IDS.toggle} class={CSS.content} hidden={!open} id={IDS.content}>
+        <section
+          aria-labelledby={IDS.toggle}
+          class={CSS.content}
+          hidden={!open}
+          id={IDS.content}
+          ref={this.setTransitionEl}
+        >
           <slot />
         </section>
       </Host>
