@@ -157,14 +157,14 @@ describe("calcite-segmented-control", () => {
     expect(selectedValue).toBe("3");
   });
 
-  it("allows items to be selected", async () => {
-    async function getSelectedItemValue(page: E2EPage): Promise<string> {
-      return page.$eval(
-        "calcite-segmented-control",
-        (segmentedControl: HTMLCalciteSegmentedControlElement) => segmentedControl.selectedItem.value,
-      );
-    }
+  async function getSelectedItemValue(page: E2EPage): Promise<string> {
+    return page.$eval(
+      "calcite-segmented-control",
+      (segmentedControl: HTMLCalciteSegmentedControlElement) => segmentedControl.selectedItem.value,
+    );
+  }
 
+  it("allows items to be selected", async () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-segmented-control>
@@ -194,12 +194,6 @@ describe("calcite-segmented-control", () => {
   });
 
   it("updates selection when cleared with undefined", async () => {
-    async function getSelectedItemValue(page: E2EPage): Promise<string> {
-      return page.$eval(
-        "calcite-segmented-control",
-        (segmentedControl: HTMLCalciteSegmentedControlElement) => segmentedControl.selectedItem.value,
-      );
-    }
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-segmented-control>
@@ -209,11 +203,13 @@ describe("calcite-segmented-control", () => {
     );
     await page.waitForChanges();
     expect(await getSelectedItemValue(page)).toBe("1");
+
     const [first, second] = await page.findAll("calcite-segmented-control-item");
     first.setProperty("checked", undefined);
     second.setProperty("checked", true);
     await page.waitForChanges();
     expect(await getSelectedItemValue(page)).toBe("2");
+
     first.setProperty("checked", true);
     second.setProperty("checked", undefined);
     await page.waitForChanges();
