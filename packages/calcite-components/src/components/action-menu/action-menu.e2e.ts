@@ -94,16 +94,17 @@ describe("calcite-action-menu", () => {
     ]);
   });
 
-  const simpleActionMenuHTML = html`<calcite-action-menu>
-    <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
-  </calcite-action-menu>`;
-
   describe("openClose", () => {
-    openClose(simpleActionMenuHTML);
+    openClose("calcite-action-menu");
   });
 
   describe("delegates to floating-ui-owner component", () => {
-    delegatesToFloatingUiOwningComponent(simpleActionMenuHTML, "calcite-popover");
+    delegatesToFloatingUiOwningComponent(
+      html`<calcite-action-menu>
+        <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
+      </calcite-action-menu>`,
+      "calcite-popover",
+    );
   });
 
   describe("should focus on menu button", () => {
