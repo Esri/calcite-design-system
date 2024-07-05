@@ -249,8 +249,7 @@ describe("calcite-color-picker", () => {
     expect(inputSpy.length).toBe(previousInputEventLength);
   });
 
-  // same should apply for other channel inputs
-  it("increments channel's value by 1 when clearing input and pressing ArrowUp", async () => {
+  it("increments channel's value by 1 when clearing input and pressing ArrowUp. Same should apply to other channel inputs", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-color-picker></calcite-color-picker>");
     const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
@@ -264,8 +263,7 @@ describe("calcite-color-picker", () => {
     expect(await channelInput.getProperty("value")).toBe(`${Number(currentValue) + 1}`);
   });
 
-  // same should apply for other channel inputs
-  it("decrements channel's value by 1 when clearing input and pressing ArrowDown", async () => {
+  it("decrements channel's value by 1 when clearing input and pressing ArrowDown. Same should apply to other channel inputs", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-color-picker value='#b33f33'></calcite-color-picker>");
     const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
@@ -279,8 +277,7 @@ describe("calcite-color-picker", () => {
     expect(await channelInput.getProperty("value")).toBe(`${Number(currentValue) - 1}`);
   });
 
-  // same should apply for other channel inputs
-  it("prevents channel's value from going over its limit when clearing input and pressing ArrowUp", async () => {
+  it("prevents channel's value from going over its limit when clearing input and pressing ArrowUp. Same should apply to other channel inputs", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-color-picker value='#ffffff'></calcite-color-picker>");
     const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
@@ -293,8 +290,7 @@ describe("calcite-color-picker", () => {
     expect(await channelInput.getProperty("value")).toBe("255");
   });
 
-  // same should apply for other channel inputs
-  it("prevents channel's value from being less than 0 when clearing input and pressing ArrowDown", async () => {
+  it("prevents channel's value from being less than 0 when clearing input and pressing ArrowDown. Same should apply to other channel inputs", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-color-picker></calcite-color-picker>");
     const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
@@ -307,8 +303,7 @@ describe("calcite-color-picker", () => {
     expect(await channelInput.getProperty("value")).toBe("0");
   });
 
-  // same should apply for other channel inputs
-  it("restores original channel value when input is cleared and blur is triggered", async () => {
+  it("restores original channel value when input is cleared and blur is triggered. Same should apply to other channel inputs", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-color-picker></calcite-color-picker>");
     const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
@@ -322,8 +317,7 @@ describe("calcite-color-picker", () => {
     expect(await channelInput.getProperty("value")).toBe(currentValue);
   });
 
-  // same should apply for other channel inputs
-  it("auto commits channel value when typing", async () => {
+  it("auto commits channel value when typing. Same should apply to other channel inputs", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-color-picker></calcite-color-picker>");
 
@@ -339,8 +333,7 @@ describe("calcite-color-picker", () => {
     expect(await channelInput.getProperty("value")).toBe("123");
   });
 
-  // it should apply to all inputs
-  it("blurs focused input when clicking anywhere within the component", async () => {
+  it("blurs focused input when clicking anywhere within the component. It should apply to all inputs", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-color-picker></calcite-color-picker>");
 

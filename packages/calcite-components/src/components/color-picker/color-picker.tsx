@@ -13,7 +13,12 @@ import {
 } from "@stencil/core";
 import Color from "color";
 import { throttle } from "lodash-es";
-import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
+import {
+  Direction,
+  focusFirstTabbable,
+  getElementDir,
+  isPrimaryPointerButton,
+} from "../../utils/dom";
 import { Scale } from "../interfaces";
 import {
   connectInteractive,
@@ -79,9 +84,7 @@ const throttleFor60FpsInMs = 16;
 @Component({
   tag: "calcite-color-picker",
   styleUrl: "color-picker.scss",
-  shadow: {
-    delegatesFocus: true,
-  },
+  shadow: {},
   assetsDirs: ["assets"],
 })
 export class ColorPicker
@@ -340,15 +343,9 @@ export class ColorPicker
 
   private shiftKeyChannelAdjustment = 0;
 
-  private arrowKeyTracker: "up" | "down" | null = null;
+  private upOrDownArrowKeyTracker: "down" | null | "up" = null;
 
-  private isChannelInputEmpty: boolean = false;
-
-  private hexInputRef: HTMLCalciteColorPickerHexInputElement;
-
-  private tabsRef: HTMLCalciteTabsElement;
-
-  private focusedInput: boolean = false;
+  private isActiveChannelInputEmpty: boolean = false;
 
   @State() channelMode: ColorMode = "rgb";
 
@@ -468,10 +465,6 @@ export class ColorPicker
     }
   };
 
-  private setFocusedInput = (): void => {
-    this.focusedInput = true;
-  };
-
   private handleSavedColorSelect = (event: Event): void => {
     const swatch = event.currentTarget as HTMLCalciteColorPickerSwatchElement;
     this.internalColorSet(Color(swatch.color));
@@ -492,9 +485,9 @@ export class ColorPicker
 
     if (!input.value) {
       inputValue = "";
-      this.isChannelInputEmpty = true;
+      this.isActiveChannelInputEmpty = true;
       // reset this to allow typing in new value, when channel input is cleared after ArrowUp or ArrowDown have been pressed
-      this.arrowKeyTracker = null;
+      this.upOrDownArrowKeyTracker = null;
     } else {
       const value = Number(input.value);
       const adjustedValue = value + this.shiftKeyChannelAdjustment;
@@ -517,9 +510,9 @@ export class ColorPicker
     const input = event.currentTarget as HTMLCalciteInputNumberElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
     const channels = [...this.channels] as this["channels"];
+    const restoreValueDueToEmptyInput = !input.value && !this.isClearable;
 
-    // restore original value when input field is left blank
-    if (!input.value && !this.isClearable) {
+    if (restoreValueDueToEmptyInput) {
       input.value = channels[channelIndex]?.toString();
     }
   };
@@ -527,7 +520,6 @@ export class ColorPicker
   handleChannelFocus = (event: Event): void => {
     const input = event.currentTarget as HTMLCalciteInputNumberElement;
     input.selectText();
-    this.setFocusedInput();
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -564,10 +556,10 @@ export class ColorPicker
           : 0;
 
     if (key === "ArrowUp") {
-      this.arrowKeyTracker = "up";
+      this.upOrDownArrowKeyTracker = "up";
     }
     if (key === "ArrowDown") {
-      this.arrowKeyTracker = "down";
+      this.upOrDownArrowKeyTracker = "down";
     }
   }
 
@@ -592,16 +584,16 @@ export class ColorPicker
 
     const isAlphaChannel = channelIndex === 3;
 
-    if (this.isChannelInputEmpty && this.arrowKeyTracker) {
+    if (this.isActiveChannelInputEmpty && this.upOrDownArrowKeyTracker) {
       input.value =
-        this.arrowKeyTracker === "up"
+        this.upOrDownArrowKeyTracker === "up"
           ? (channels[channelIndex] + 1 <= this.getChannelInputLimit(channelIndex)
               ? channels[channelIndex] + 1
               : this.getChannelInputLimit(channelIndex)
             ).toString()
           : (channels[channelIndex] - 1 >= 0 ? channels[channelIndex] - 1 : 0).toString();
-      this.isChannelInputEmpty = false;
-      this.arrowKeyTracker = null;
+      this.isActiveChannelInputEmpty = false;
+      this.upOrDownArrowKeyTracker = null;
     }
     const value = input.value ? Number(input.value) : channels[channelIndex];
 
@@ -631,8 +623,14 @@ export class ColorPicker
       bounds: this.colorFieldRenderingContext.canvas.getBoundingClientRect(),
     };
     this.captureColorFieldColor(offsetX, offsetY);
-    this.colorFieldScopeNode.focus();
+    this.focusScope(this.colorFieldScopeNode);
   };
+
+  private focusScope(focusEl: HTMLElement): void {
+    requestAnimationFrame(() => {
+      focusEl.focus();
+    });
+  }
 
   private handleHueSliderPointerDown = (event: PointerEvent): void => {
     if (!isPrimaryPointerButton(event)) {
@@ -649,7 +647,7 @@ export class ColorPicker
       bounds: this.hueSliderRenderingContext.canvas.getBoundingClientRect(),
     };
     this.captureHueSliderColor(offsetX);
-    this.hueScopeNode.focus();
+    this.focusScope(this.hueScopeNode);
   };
 
   private handleOpacitySliderPointerDown = (event: PointerEvent): void => {
@@ -667,7 +665,7 @@ export class ColorPicker
       bounds: this.opacitySliderRenderingContext.canvas.getBoundingClientRect(),
     };
     this.captureOpacitySliderValue(offsetX);
-    this.opacityScopeNode.focus();
+    this.focusScope(this.opacityScopeNode);
   };
 
   private globalPointerUpHandler = (event: PointerEvent): void => {
@@ -740,7 +738,8 @@ export class ColorPicker
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+
+    focusFirstTabbable(this.el);
   }
 
   //--------------------------------------------------------------------------
@@ -881,7 +880,7 @@ export class ColorPicker
               tabindex="0"
             />
           </div>
-          <div class={CSS.previewAndSliders} onClick={this.blurInputFields}>
+          <div class={CSS.previewAndSliders}>
             <calcite-color-picker-swatch
               class={CSS.preview}
               color={selectedColorInHex}
@@ -942,7 +941,6 @@ export class ColorPicker
                 [CSS.controlSection]: true,
                 [CSS.section]: true,
               }}
-              onClick={this.blurInputFields}
             >
               <div class={CSS.hexAndChannelsGroup}>
                 {noHex ? null : (
@@ -954,8 +952,6 @@ export class ColorPicker
                       messages={messages}
                       numberingSystem={this.numberingSystem}
                       onCalciteColorPickerHexInputChange={this.handleHexInputChange}
-                      onFocus={this.setFocusedInput}
-                      ref={this.setHexInputRef}
                       scale={scale}
                       value={selectedColorInHex}
                     />
@@ -967,7 +963,6 @@ export class ColorPicker
                       [CSS.colorModeContainer]: true,
                       [CSS.splitSection]: true,
                     }}
-                    ref={this.setTabsRef}
                     scale={scale === "l" ? "m" : "s"}
                   >
                     <calcite-tab-nav slot="title-group">
@@ -982,10 +977,7 @@ export class ColorPicker
             </div>
           )}
           {noSaved ? null : (
-            <div
-              class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}
-              onClick={this.blurInputFields}
-            >
+            <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
               <div class={CSS.header}>
                 <label>{messages.saved}</label>
                 <div class={CSS.savedColorsButtons}>
@@ -1707,14 +1699,6 @@ export class ColorPicker
     this.opacityScopeNode = node;
   };
 
-  private setHexInputRef = (el: HTMLCalciteColorPickerHexInputElement): void => {
-    this.hexInputRef = el;
-  };
-
-  private setTabsRef = (el: HTMLCalciteTabsElement): void => {
-    this.tabsRef = el;
-  };
-
   private handleOpacityScopeKeyDown = (event: KeyboardEvent): void => {
     const modifier = event.shiftKey ? 10 : 1;
     const { key } = event;
@@ -1762,24 +1746,4 @@ export class ColorPicker
   private getAdjustedScopePosition(left: number, top: number): [number, number] {
     return [left - SCOPE_SIZE / 2, top - SCOPE_SIZE / 2];
   }
-
-  private blurInputFields = (event: PointerEvent): void => {
-    const clickedElement = event.composedPath()[0] as HTMLCalciteInputElement;
-    if (!this.focusedInput || clickedElement.tagName === "INPUT") {
-      return;
-    }
-
-    this.focusedInput = false;
-
-    const channelInputs = Array.from(this.tabsRef.querySelectorAll(".channel"));
-    channelInputs.forEach((element: HTMLCalciteInputNumberElement) => element?.blur());
-
-    const hexInput: HTMLCalciteInputTextElement =
-      this.hexInputRef.shadowRoot.querySelector(".hex-input");
-    hexInput?.blur();
-
-    const opacityInput: HTMLCalciteInputNumberElement =
-      this.hexInputRef.shadowRoot.querySelector(".opacity-input");
-    opacityInput?.blur();
-  };
 }

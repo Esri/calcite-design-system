@@ -243,7 +243,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     const { key } = event;
     const composedPath = event.composedPath();
 
-    if ((key === "Tab" && this.validateShortHandValue(value)) || key === "Enter") {
+    if ((key === "Tab" && isShorthandHex(value, this.alphaChannel)) || key === "Enter") {
       if (composedPath.includes(hexInputNode)) {
         this.onHexInputChange();
       } else {
@@ -469,14 +469,4 @@ export class ColorPickerHexInput implements LoadableComponent {
 
     return Color(nudgedChannels);
   }
-
-  /* 
-      if alphaChannel is enabled, commit valid 4 digit hex codes.
-      if alphaChannel is disabled, commit valid 3 digit hex codes.
-    */
-  private validateShortHandValue = (value: string): boolean => {
-    return (
-      (this.alphaChannel && value?.length === 4) || (!this.alphaChannel && value?.length === 3)
-    );
-  };
 }
