@@ -1,7 +1,7 @@
 import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
-import { slotChangeGetAssignedElements } from "../../utils/dom";
+import { getSlotAssignedElements, slotChangeGetAssignedElements } from "../../utils/dom";
 import { TabLayout, TabPosition } from "./interfaces";
 import { SLOTS } from "./resources";
 
@@ -72,6 +72,8 @@ export class Tabs {
     this.tabs = slotChangeGetAssignedElements(event, "calcite-tab") as HTMLCalciteTabElement[];
   };
 
+  private slotEl: HTMLSlotElement;
+
   /**
    *
    * Stores an array of ids of `<calcite-tab-titles>`s to match up ARIA
@@ -123,12 +125,13 @@ export class Tabs {
   async registryHandler(): Promise<void> {
     let tabIds;
     let titleIds;
+    const tabs = getSlotAssignedElements<HTMLCalciteTabElement>(this.slotEl, "calcite-tab");
 
     // determine if we are using `tab` based or `index` based tab identifiers.
-    if (this.tabs.some((el) => el.tab) || this.titles.some((el) => el.tab)) {
+    if (tabs.some((el) => el.tab) || this.titles.some((el) => el.tab)) {
       // if we are using `tab` based identifiers sort by `tab` to account for
       // possible out of order tabs and get the id of each tab
-      tabIds = this.tabs.sort((a, b) => a.tab.localeCompare(b.tab)).map((el) => el.id);
+      tabIds = tabs.sort((a, b) => a.tab.localeCompare(b.tab)).map((el) => el.id);
       titleIds = this.titles.sort((a, b) => a.tab.localeCompare(b.tab)).map((el) => el.id);
     } else {
       // if we are using index based tabs then the `<calcite-tab>` and
@@ -136,14 +139,13 @@ export class Tabs {
       // order of `this.tabs` and `this.titles` might not reflect the DOM state,
       // and might not match each other so we need to get the index of all the
       // tabs and titles in the DOM order to match them up as a source of truth
-      const tabDomIndexes = await Promise.all(this.tabs.map((el) => el.getTabIndex()));
-
+      const tabDomIndexes = await Promise.all(tabs.map((el) => el.getTabIndex()));
       const titleDomIndexes = await Promise.all(this.titles.map((el) => el.getTabIndex()));
 
       // once we have the DOM order as a source of truth we can build the
       // matching tabIds and titleIds arrays
       tabIds = tabDomIndexes.reduce((ids, indexInDOM, registryIndex) => {
-        ids[indexInDOM] = this.tabs[registryIndex].id;
+        ids[indexInDOM] = tabs[registryIndex].id;
         return ids;
       }, []);
 
@@ -156,8 +158,7 @@ export class Tabs {
     // pass all our new aria information to each `<calcite-tab>` and
     // `<calcite-tab-title>` which will check if they can update their internal
     // `controlled` or `labeledBy` states and re-render if necessary
-    console.log(this.tabs.length, this.titles.length);
-    this.tabs.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
+    tabs.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
     this.titles.forEach((el) => el.updateAriaInfo(tabIds, titleIds));
   }
 
@@ -184,6 +185,8 @@ export class Tabs {
     );
   }
 
+  private setDefaultSlotRef = (el) => (this.slotEl = el);
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -208,7 +211,7 @@ export class Tabs {
       <Fragment>
         <slot name={SLOTS.titleGroup} />
         <section>
-          <slot onSlotchange={this.defaultSlotChangeHandler} />
+          <slot onSlotchange={this.defaultSlotChangeHandler} ref={this.setDefaultSlotRef} />
         </section>
       </Fragment>
     );

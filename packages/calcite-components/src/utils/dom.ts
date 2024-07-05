@@ -579,10 +579,14 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * @returns {Element[]} An array of elements.
  */
 export function slotChangeGetAssignedElements(event: Event, tagName?: string): Element[] {
-  const assignedElements = (event.target as HTMLSlotElement).assignedElements({
+  return getSlotAssignedElements(event.target as HTMLSlotElement, tagName);
+}
+
+export function getSlotAssignedElements<T>(slot: HTMLSlotElement, tagName?: string): T[] {
+  const assignedElements = slot.assignedElements({
     flatten: true,
   });
-  return tagName ? filterElementsByTagName(assignedElements, tagName) : assignedElements;
+  return tagName ? (filterElementsByTagName(assignedElements, tagName) as T[]) : (assignedElements as T[]);
 }
 
 /**

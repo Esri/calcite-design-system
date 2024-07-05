@@ -142,6 +142,7 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       tab: this.selectedTabId,
     });
 
+    console.log("selectedTabIdChanged");
     this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
   }
 
@@ -351,9 +352,15 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   @Listen("calciteInternalTabsClose")
   internalCloseTabHandler(event: CustomEvent<TabCloseEventDetail>): void {
+    console.log("calciteInternalTabsClose");
     const closedTabTitleEl = event.target as HTMLCalciteTabTitleElement;
     this.handleTabTitleClose(closedTabTitleEl);
     event.stopPropagation();
+  }
+
+  @Listen("calciteTabsClose", { target: "window" })
+  calciteTabsCloseHandler(): void {
+    console.log("calciteTabsClose in tab-nav!", this.tabTitles);
   }
 
   /**
@@ -649,6 +656,9 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   };
 
   async getTabTitleById(id: TabID): Promise<HTMLCalciteTabTitleElement | null> {
+    console.log("GETTABTITLEBYID!!", this.tabTitles);
+    // this.tabTitles is not always a correct reflection of the titles in the DOM at this point, because they can be removed in the calciteTabsClose handler
+    // after this function has already fired, and because it is async, it will try to get the tab info from a removed dom node that happens before this promise is resolved.
     return Promise.all(this.tabTitles.map((el) => el.getTabIdentifier())).then((ids) => {
       return this.tabTitles[ids.indexOf(id)];
     });
