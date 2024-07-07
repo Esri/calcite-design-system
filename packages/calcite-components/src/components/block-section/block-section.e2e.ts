@@ -45,7 +45,7 @@ describe("calcite-block-section", () => {
   describe("setFocus", () => {
     describe("focuses toggle switch", () => {
       focusable(
-        html`<calcite-block-section id="myBlockSection" text="text" toggle-display="switch" open>
+        html`<calcite-block-section text="text" toggle-display="switch" open>
           <div>some content</div>
         </calcite-block-section>`,
         {
