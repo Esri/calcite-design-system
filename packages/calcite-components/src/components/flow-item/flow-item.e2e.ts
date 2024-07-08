@@ -62,6 +62,10 @@ describe("calcite-flow-item", () => {
         defaultValue: "absolute",
       },
       {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
         propertyName: "showBackButton",
         defaultValue: false,
       },
