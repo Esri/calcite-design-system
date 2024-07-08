@@ -14,5 +14,6 @@ Dialog
 - content-bottom slot
 - content-top slot
 - footer slot
+- header-menu-actions slot
 
 deprecate modal component

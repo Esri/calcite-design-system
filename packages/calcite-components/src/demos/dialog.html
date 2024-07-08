@@ -1,0 +1,1178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Dialog</title>
+    <style>
+      .parent {
+        display: flex;
+        width: 60%;
+        align-items: center;
+        padding: 25px 0;
+      }
+
+      .child {
+        flex: 0 0 15%;
+        margin: 0 25px;
+        color: var(--calcite-color-text-3);
+        font-family: var(--calcite-font-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .right-aligned-text {
+        text-align: right;
+      }
+
+      hr {
+        margin: 25px 0;
+        border-top: 1px solid var(--calcite-color-border-2);
+      }
+    </style>
+
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Dialog</h1>
+
+      <!-- Sizes -->
+      <div class="parent">
+        <div class="child right-aligned-text"></div>
+        <div class="child">Small</div>
+        <div class="child">Medium</div>
+        <div class="child">Large</div>
+      </div>
+
+      <!--
+      **************************************************
+      * SMALL
+      **************************************************
+    -->
+      <div class="parent">
+        <div class="child right-aligned-text">WidthScale S</div>
+
+        <!-- small widthScale & scale -->
+        <div class="child">
+          <calcite-dialog
+            class="js-dialog-s-s"
+            width-scale="s"
+            scale="s"
+            heading="Small widthScale and small scale dialog"
+            description=""
+          >
+            <p>
+              The small dialog is perfect for short confirmation dialogs or very compact interfaces with few elements.
+            </p>
+            <calcite-button
+              slot="back"
+              width="full"
+              scale="s"
+              kind="neutral"
+              appearance="outline"
+              icon-start="chevron-left"
+              >Back</calcite-button
+            >
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="primary" width="full" scale="s">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-s-s')" appearance="outline" scale="s">
+            Scale Small
+          </calcite-button>
+        </div>
+
+        <!-- small widthScale & medium scale -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-s-m" width-scale="s" scale="m">
+            <h3 slot="header">Small widthScale and medium scale dialog</h3>
+            <div slot="content">
+              <p>
+                The small dialog is perfect for short confirmation dialogs or very compact interfaces with few elements.
+              </p>
+            </div>
+            <calcite-button
+              slot="back"
+              width="full"
+              scale="m"
+              kind="neutral"
+              appearance="outline"
+              icon-start="chevron-left"
+              >Back</calcite-button
+            >
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="primary" width="full" scale="m">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-s-m')" appearance="outline" scale="s">
+            Scale Medium
+          </calcite-button>
+        </div>
+
+        <!-- small widthScale & large scale -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-s-l" width-scale="s" scale="l">
+            <h3 slot="header">Small widthScale and large scale dialog</h3>
+            <div slot="content">
+              <p>
+                The small dialog is perfect for short confirmation dialogs or very compact interfaces with few elements.
+              </p>
+            </div>
+            <calcite-button
+              slot="back"
+              width="full"
+              scale="l"
+              kind="neutral"
+              appearance="outline"
+              icon-start="chevron-left"
+              >Back</calcite-button
+            >
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="primary" width="full" scale="l">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-s-l')" appearance="outline" scale="s">
+            Scale Large
+          </calcite-button>
+        </div>
+      </div>
+
+      <!--
+      **************************************************
+      * MEDIUM
+      **************************************************
+    -->
+      <div class="parent">
+        <div class="child right-aligned-text">WidthScale M</div>
+
+        <!-- medium widthScale & small scale -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-m-s" width-scale="m" scale="s">
+            <h3 slot="header">Medium wdithScale and small scale dialog</h3>
+            <div slot="content">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <p>
+                        The medium dialog is large enough to fit a two column layout where both columns will have a
+                        readable line-length on most desktop devices.
+                      </p>
+                    </td>
+                    <td>
+                      <p>Single column layouts will still be within a readable line length on the medium size.</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <calcite-button
+              slot="back"
+              width="full"
+              scale="s"
+              kind="neutral"
+              appearance="outline"
+              icon-start="chevron-left"
+              >Back</calcite-button
+            >
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="primary" width="full" scale="s">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-m-s')" appearance="outline" scale="s">
+            Scale Small
+          </calcite-button>
+        </div>
+
+        <!-- medium widthScale & medium scale -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-m-m" width-scale="m" scale="m">
+            <h3 slot="header">Medium widthScale and medium scale dialog</h3>
+            <div slot="content">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <p>
+                        The medium dialog is large enough to fit a two column layout where both columns will have a
+                        readable line-length on most desktop devices.
+                      </p>
+                    </td>
+                    <td>
+                      <p>Single column layouts will still be within a readable line length on the medium size.</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <calcite-button
+              slot="back"
+              width="full"
+              scale="m"
+              kind="neutral"
+              appearance="outline"
+              icon-start="chevron-left"
+              >Back</calcite-button
+            >
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="primary" width="full" scale="m">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-m-m')" appearance="outline" scale="s">
+            Scale Medium
+          </calcite-button>
+        </div>
+
+        <!-- medium widthScale & large scale -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-m-l" width-scale="m" scale="l">
+            <h3 slot="header">Medium widthScale and large scale dialog</h3>
+            <div slot="content">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <p>
+                        The medium dialog is large enough to fit a two column layout where both columns will have a
+                        readable line-length on most desktop devices.
+                      </p>
+                    </td>
+                    <td>
+                      <p>Single column layouts will still be within a readable line length on the medium size.</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <calcite-button
+              slot="back"
+              width="full"
+              scale="l"
+              kind="neutral"
+              appearance="outline"
+              icon-start="chevron-left"
+              >Back</calcite-button
+            >
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="primary" width="full" scale="l">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-m-l')" appearance="outline" scale="s">
+            Scale Large
+          </calcite-button>
+        </div>
+      </div>
+
+      <!--
+      **************************************************
+      * LARGE
+      **************************************************
+    -->
+      <div class="parent">
+        <div class="child right-aligned-text">WidthScale L</div>
+
+        <!-- large widthScale & small scale -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-l-s" width-scale="l" scale="s">
+            <h3 slot="header">Large widthScale and small scale dialog</h3>
+            <div slot="content">
+              <p>
+                This dialog will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you
+                to use gridded layouts within the dialog and keeps your dialog from growing beyond a readable line
+                length.
+              </p>
+            </div>
+            <calcite-button
+              slot="back"
+              width="full"
+              scale="s"
+              kind="neutral"
+              appearance="outline"
+              icon-start="chevron-left"
+            >
+              Back</calcite-button
+            >
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="primary" width="full" scale="s">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-l-s')" appearance="outline" scale="s">
+            Scale Small
+          </calcite-button>
+        </div>
+
+        <!-- large widthScale & medium scale -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-l-m" width-scale="l" scale="m">
+            <h3 slot="header">Large widthScale and medium scale dialog</h3>
+            <div slot="content">
+              <p>
+                This dialog will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you
+                to use gridded layouts within the dialog and keeps your dialog from growing beyond a readable line
+                length.
+              </p>
+            </div>
+            <calcite-button
+              slot="back"
+              width="full"
+              scale="m"
+              kind="neutral"
+              appearance="outline"
+              icon-start="chevron-left"
+            >
+              Back</calcite-button
+            >
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="primary" width="full" scale="m">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-l-m')" appearance="outline" scale="s">
+            Scale Medium
+          </calcite-button>
+        </div>
+
+        <!-- large widthScale & large scale -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-l-l" width-scale="l" scale="l">
+            <h3 slot="header">Large widthScale and large scale dialog</h3>
+            <div slot="content">
+              <p>
+                This dialog will be fullscreen until it is as wide as the calcite-web grid's max-width. This enables you
+                to use gridded layouts within the dialog and keeps your dialog from growing beyond a readable line
+                length.
+              </p>
+            </div>
+            <calcite-button
+              slot="back"
+              width="full"
+              scale="l"
+              kind="neutral"
+              appearance="outline"
+              icon-start="chevron-left"
+            >
+              Back</calcite-button
+            >
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="primary" width="full" scale="l">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-l-l')" appearance="outline" scale="s">
+            Scale Large
+          </calcite-button>
+        </div>
+      </div>
+
+      <hr />
+      <!-- A horizontal line -->
+      <!--
+        **************************************************
+        * BRAND
+        **************************************************
+      -->
+      <div class="parent">
+        <div class="child right-aligned-text">Brand</div>
+
+        <!-- small width brand -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-brand-s" kind="brand" scale="s">
+            <h3 slot="header">Brand content!</h3>
+            <div slot="content">
+              <p>This is some great content</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline" kind="danger"
+              >Cancel</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="s">Add members now</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-brand-s')" appearance="outline" scale="s">
+            Scale Small
+          </calcite-button>
+        </div>
+
+        <!-- medium width brand -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-brand-m" kind="brand" scale="m">
+            <h3 slot="header">Brand content!</h3>
+            <div slot="content">
+              <p>This is some great content</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline" kind="danger"
+              >Cancel</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="m">Add members now</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-brand-m')" appearance="outline" scale="s">
+            Scale Medium
+          </calcite-button>
+        </div>
+
+        <!-- large width brand -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-brand-l" kind="brand" scale="l">
+            <h3 slot="header">Brand content!</h3>
+            <div slot="content">
+              <p>This is some great content</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline" kind="danger"
+              >Cancel</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="l">Add members now</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-brand-l')" appearance="outline" scale="s">
+            Scale Large
+          </calcite-button>
+        </div>
+      </div>
+      <!--
+      **************************************************
+      * DANGER
+      **************************************************
+    -->
+      <div class="parent">
+        <div class="child right-aligned-text">Danger</div>
+
+        <!-- small width danger -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-danger-s" kind="danger" scale="s">
+            <h3 slot="header">Delete</h3>
+            <div slot="content">
+              <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline" kind="danger"
+              >Cancel</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="s" kind="danger">Delete</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-danger-s')" appearance="outline" scale="s">
+            Scale Small
+          </calcite-button>
+        </div>
+
+        <!-- medium width danger -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-danger-m" kind="danger" scale="m">
+            <h3 slot="header">Delete</h3>
+            <div slot="content">
+              <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline" kind="danger"
+              >Cancel</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="m" kind="danger">Delete</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-danger-m')" appearance="outline" scale="s">
+            Scale Medium
+          </calcite-button>
+        </div>
+
+        <!-- large width danger -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-danger-l" kind="danger" scale="l">
+            <h3 slot="header">Delete</h3>
+            <div slot="content">
+              <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline" kind="danger"
+              >Cancel</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="l" kind="danger">Delete</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-danger-l')" appearance="outline" scale="s">
+            Scale Large
+          </calcite-button>
+        </div>
+      </div>
+
+      <!--
+      **************************************************
+      * INFO
+      **************************************************
+    -->
+      <div class="parent">
+        <div class="child right-aligned-text">Info</div>
+
+        <!-- small width info -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-info-s" kind="info" scale="s">
+            <h3 slot="header">Information</h3>
+            <div slot="content">
+              <p>This dialog should be used when choosing two viable paths.</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline"
+              >Start with no members</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="s">Add members now</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-info-s')" appearance="outline" scale="s">
+            Scale Small
+          </calcite-button>
+        </div>
+
+        <!-- medium width info -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-info-m" kind="info" scale="m">
+            <h3 slot="header">Information</h3>
+            <div slot="content">
+              <p>This dialog should be used when choosing two viable paths.</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline"
+              >Start with no members</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="m">Add members now</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-info-m')" appearance="outline" scale="s">
+            Scale Medium
+          </calcite-button>
+        </div>
+
+        <!-- large width info -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-info-l" kind="info" scale="l">
+            <h3 slot="header">Information</h3>
+            <div slot="content">
+              <p>This dialog should be used when choosing two viable paths.</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline"
+              >Start with no members</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="l">Add members now</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-info-l')" appearance="outline" scale="s">
+            Scale Large
+          </calcite-button>
+        </div>
+      </div>
+      <!--
+        **************************************************
+        * SUCCESS
+        **************************************************
+      -->
+      <div class="parent">
+        <div class="child right-aligned-text">Success</div>
+
+        <!-- small width success -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-success-s" kind="success" scale="s">
+            <h3 slot="header">Rejoice!</h3>
+            <div slot="content">
+              <p>Something successful happened</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline" kind="danger"
+              >Cancel</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="s">Next</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-success-s')" appearance="outline" scale="s">
+            Scale Small
+          </calcite-button>
+        </div>
+
+        <!-- medium width success -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-success-m" kind="success" scale="m">
+            <h3 slot="header">Rejoice!</h3>
+            <div slot="content">
+              <p>Something successful happened</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline" kind="danger"
+              >Cancel</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="m">Next</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-success-m')" appearance="outline" scale="s">
+            Scale Medium
+          </calcite-button>
+        </div>
+
+        <!-- large width success -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-success-l" kind="success" scale="l">
+            <h3 slot="header">Rejoice!</h3>
+            <div slot="content">
+              <p>Something successful happened</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline" kind="danger"
+              >Cancel</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="l">Next</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-success-l')" appearance="outline" scale="s">
+            Scale Large
+          </calcite-button>
+        </div>
+      </div>
+      <!--
+                **************************************************
+                * WARNING
+                **************************************************
+              -->
+      <div class="parent">
+        <div class="child right-aligned-text">Warning</div>
+
+        <!-- small width warning -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-warning-s" kind="warning" scale="s">
+            <h3 slot="header">Hold on a second...</h3>
+            <div slot="content">
+              <p>Something warningful happened</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline" kind="danger"
+              >Cancel</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="l">Next</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-warning-s')" appearance="outline" scale="s">
+            Scale Small
+          </calcite-button>
+        </div>
+
+        <!-- medium width warning -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-warning-m" kind="warning" scale="m">
+            <h3 slot="header">Hold on a second...</h3>
+            <div slot="content">
+              <p>Something warningful happened</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline" kind="danger"
+              >Cancel</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="l">Next</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-warning-m')" appearance="outline" scale="s">
+            Scale Medium
+          </calcite-button>
+        </div>
+
+        <!-- large width warning -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-warning-l" kind="warning" scale="l">
+            <h3 slot="header">Hold on a second...</h3>
+            <div slot="content">
+              <p>Something warningful happened</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline" kind="danger"
+              >Cancel</calcite-button
+            >
+            <calcite-button slot="primary" width="full" scale="l">Next</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-warning-l')" appearance="outline" scale="s">
+            Scale Large
+          </calcite-button>
+        </div>
+      </div>
+      <!--
+      **************************************************
+      * ESC DISABLED
+      **************************************************
+    -->
+      <div class="parent">
+        <div class="child right-aligned-text">ESC Disabled</div>
+
+        <!-- small width disabled -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-esc-disabled-s" escape-disabled scale="s">
+            <h3 slot="header">Dialog title</h3>
+            <div slot="content">
+              <p>This dialog has <code>escape-disabled</code> set, so pressing the escape key will not dismiss it.</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline">Cancel</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-esc-disabled-s')" appearance="outline" scale="s">
+            Scale Small
+          </calcite-button>
+        </div>
+
+        <!-- medium width disabled -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-esc-disabled-m" escape-disabled scale="m">
+            <h3 slot="header">Dialog title</h3>
+            <div slot="content">
+              <p>This dialog has <code>escape-disabled</code> set, so pressing the escape key will not dismiss it.</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline">Cancel</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-esc-disabled-m')" appearance="outline" scale="s">
+            Scale Medium
+          </calcite-button>
+        </div>
+
+        <!-- large width disabled -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-esc-disabled-l" escape-disabled scale="l">
+            <h3 slot="header">Dialog title</h3>
+            <div slot="content">
+              <p>This dialog has <code>escape-disabled</code> set, so pressing the escape key will not dismiss it.</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline">Cancel</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-esc-disabled-l')" appearance="outline" scale="s">
+            Scale Large
+          </calcite-button>
+        </div>
+      </div>
+
+      <!--
+      **************************************************
+      * NO CLOSE BUTTON
+      **************************************************
+    -->
+      <div class="parent">
+        <div class="child right-aligned-text">No close button</div>
+
+        <!-- small width no close button -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-no-close-s" close-button-disabled scale="s">
+            <h3 slot="header">Dialog title</h3>
+            <div slot="content">
+              <p>This dialog has no close button.</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="s" appearance="outline">Cancel</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-no-close-s')" appearance="outline" scale="s">
+            Scale Small
+          </calcite-button>
+        </div>
+
+        <!-- medium width no close button -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-no-close-m" close-button-disabled scale="m">
+            <h3 slot="header">Dialog title</h3>
+            <div slot="content">
+              <p>This dialog has no close button.</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="m" appearance="outline">Cancel</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-no-close-m')" appearance="outline" scale="s">
+            Scale Medium
+          </calcite-button>
+        </div>
+
+        <!-- large width no close button -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-no-close-l" close-button-disabled scale="l">
+            <h3 slot="header">Dialog title</h3>
+            <div slot="content">
+              <p>This dialog has no close button.</p>
+            </div>
+            <calcite-button slot="secondary" width="full" scale="l" appearance="outline">Cancel</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-no-close-l')" appearance="outline" scale="s">
+            Scale Large
+          </calcite-button>
+        </div>
+      </div>
+
+      <!--
+      **************************************************
+      * NO FOOTER
+      **************************************************
+    -->
+      <div class="parent">
+        <div class="child right-aligned-text">No footer</div>
+
+        <!-- small width no footer -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-no-footer-s" scale="s">
+            <h3 slot="header">Small Dialog</h3>
+            <div slot="content">
+              <calcite-loader label="loading" />
+            </div>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-no-footer-s')" appearance="outline" scale="s">
+            Scale Small
+          </calcite-button>
+        </div>
+
+        <!-- medium width no footer -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-no-footer-m" scale="m">
+            <h3 slot="header">Small Dialog</h3>
+            <div slot="content">
+              <calcite-loader label="loading" />
+            </div>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-no-footer-m')" appearance="outline" scale="s">
+            Scale Medium
+          </calcite-button>
+        </div>
+
+        <!-- large width no footer -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-no-footer-l" scale="l">
+            <h3 slot="header">Small Dialog</h3>
+            <div slot="content">
+              <calcite-loader label="loading" />
+            </div>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-no-footer-l')" appearance="outline" scale="s">
+            Scale Large
+          </calcite-button>
+        </div>
+      </div>
+
+      <hr />
+      <!-- A horizontal line -->
+
+      <!--
+      **************************************************
+      * FULLSCREEN
+      **************************************************
+    -->
+      <div class="parent">
+        <div class="child right-aligned-text"></div>
+
+        <div class="child">
+          <calcite-dialog
+            class="js-dialog-fs-s"
+            fullscreen
+            style="--calcite-dialog-height: 100%, --calcite-dialog-height: 100%"
+          >
+            <h3 slot="header">Fullscreen dialog</h3>
+            <div slot="content">
+              <p>
+                This dialog will <em>always</em> be fullscreen. Use in situations where the elements contained inside
+                your dialog need the full screen real estate (maps, etc)
+              </p>
+            </div>
+            <calcite-button slot="back" width="full" kind="neutral" appearance="outline" icon-left="chevron-left"
+              >Back</calcite-button
+            >
+            <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="primary" width="full">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-fs-s')" appearance="outline" scale="s">
+            Fullscreen
+          </calcite-button>
+        </div>
+
+        <!--
+        **************************************************
+        * DOCKED
+        **************************************************
+       -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-docked" status="info" docked width-scale="s">
+            <h3 slot="header">Docked</h3>
+            <div slot="content">
+              <p>
+                For devices smaller than a tablet this dialog will "dock" to the bottom. This makes action selection
+                more thumb-friendly.
+              </p>
+            </div>
+            <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+            <calcite-button slot="primary" width="full">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-docked')" appearance="outline" scale="s">
+            Docked
+          </calcite-button>
+        </div>
+
+        <!--
+              **************************************************
+              * CSS Variable BACKGROUND
+              **************************************************
+            -->
+        <div class="child">
+          <calcite-dialog
+            class="js-dialog-custom-background"
+            fullscreen
+            style="--calcite-dialog-content-background: var(--calcite-color-background)"
+          >
+            <h3 slot="header">Ui Background css overriding --calcite-dialog-content-background</h3>
+            <div slot="content">
+              <p>
+                By using the --calcite-dialog-content-background css variable, you can create a dialog with a light grey
+                background rather than white.
+              </p>
+              <p>This allows you to have white components inside the dialog with good separation.</p>
+              <h4>Card Example</h4>
+              <div class="flex">
+                <calcite-card selected selectable>
+                  <img slot="thumbnail" width="260" height="160" src="./_assets/images/placeholder.svg" />
+
+                  <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                  <calcite-link slot="footer-start">Lead füt</calcite-link>
+                  <calcite-link slot="footer-end">Trail füt</calcite-link>
+                </calcite-card>
+                <calcite-card selected selectable>
+                  <img slot="thumbnail" width="206" height="160" src="./_assets/images/placeholder.svg" />
+
+                  <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                  <calcite-link slot="footer-start">Lead füt</calcite-link>
+                  <calcite-link slot="footer-end">Trail füt</calcite-link>
+                </calcite-card>
+                <calcite-card selected selectable>
+                  <img slot="thumbnail" width="206" height="160" src="./_assets/images/placeholder.svg" />
+
+                  <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
+                  <span slot="subtitle"
+                    >A great example of a study description that might wrap to a line or two, but isn't overly
+                    verbose.</span
+                  >
+                  <calcite-link slot="footer-start">Lead füt</calcite-link>
+                  <calcite-link slot="footer-end">Trail füt</calcite-link>
+                </calcite-card>
+              </div>
+            </div>
+            <calcite-button
+              scale="m"
+              slot="back"
+              width="full"
+              kind="neutral"
+              appearance="outline"
+              icon-left="chevron-left"
+              width="full"
+              >Back</calcite-button
+            >
+            <calcite-button scale="m" slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+            <calcite-button scale="m" slot="primary" width="full">Save</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-custom-background')" appearance="outline" scale="s">
+            Custom background via css var
+          </calcite-button>
+        </div>
+      </div>
+      <div class="parent">
+        <div class="child right-aligned-text"></div>
+
+        <!--
+        **************************************************
+        * CUSTOM WIDTH
+        **************************************************
+        -->
+        <div class="child">
+          <calcite-dialog class="js-dialog-custom-width-2" style="--calcite-dialog-width: 1200px">
+            <h3 slot="header">Dialog title</h3>
+            <div slot="content">
+              <p>This dialog will be 1200 pixels wide on larger screens and become fullscreen below that.</p>
+            </div>
+            <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-custom-width-2')" appearance="outline" scale="s">
+            Custom width via css var
+          </calcite-button>
+        </div>
+
+        <!--
+        **************************************************
+        * CUSTOM WIDTH AND HEIGHT
+        **************************************************
+       -->
+        <div class="child">
+          <calcite-dialog
+            class="js-dialog-custom-width"
+            style="--calcite-dialog-width: 900px; --calcite-dialog-height: 600px"
+          >
+            <h3 slot="header">Dialog title</h3>
+            <div slot="content">
+              <p>
+                This dialog will be 900 pixels wide and 600px tall on larger screens and become fullscreen below that.
+              </p>
+            </div>
+            <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-custom-width')" appearance="outline" scale="s">
+            Custom width and height via css var
+          </calcite-button>
+        </div>
+
+        <!--
+      **************************************************
+      * CUSTOM WIDTH AND HEIGHT
+      **************************************************
+      -->
+        <div class="child">
+          <calcite-dialog
+            class="js-dialog-custom-width-extreme"
+            style="--calcite-dialog-width: 2400px; --calcite-dialog-height: 2400px"
+          >
+            <h3 slot="header">Dialog title</h3>
+            <div slot="content">
+              <p>
+                This dialog with "too big proportions" should never exceed page viewport, and will become fullscreen
+              </p>
+            </div>
+            <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-custom-width-extreme')" appearance="outline" scale="s">
+            "too big but doesn't overflow"
+          </calcite-button>
+        </div>
+
+        <!--
+      **************************************************
+      * CUSTOM WIDTH with VW
+      **************************************************
+      --></div>
+      <div class="parent">
+        <div class="child right-aligned-text"></div>
+
+        <div class="child">
+          <calcite-dialog
+            class="js-dialog-custom-width-vwvh"
+            style="--calcite-dialog-width: 96vw; --calcite-dialog-height: 96vh"
+          >
+            <h3 slot="header">Dialog title</h3>
+            <div slot="content">
+              <p>Will be `"--calcite-dialog-width: 96vw; --calcite-dialog-height: 96vh"` width and height</p>
+            </div>
+            <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          </calcite-dialog>
+
+          <calcite-button onClick="openDialog('.js-dialog-custom-width-vwvh')" appearance="outline" scale="s">
+            Custom width and height distance with VH / VW
+          </calcite-button>
+        </div>
+
+        <!--
+        **************************************************
+        * CUSTOM WIDTH / HEIGHT
+        **************************************************
+        -->
+        <div class="child">
+          <calcite-dialog
+            id="js-dialog-custom-size"
+            style="--calcite-dialog-width: 900px; --calcite-dialog-height: 600px"
+          >
+            <h3 slot="header">Test custom sizes</h3>
+            <div slot="content">
+              <calcite-label>
+                --calcite-dialog-width
+                <calcite-input id="css-dialog-width-adjuster" value="900px" />
+              </calcite-label>
+              <calcite-label>
+                --calcite-dialog-height
+                <calcite-input id="css-dialog-height-adjuster" value="600px" />
+              </calcite-label>
+              <calcite-label>
+                options
+                <calcite-segmented-control id="css-dialog-options-adjuster">
+                  <calcite-segmented-control-item checked value="none">none</calcite-segmented-control-item>
+                  <calcite-segmented-control-item value="fullscreen">fullscreen</calcite-segmented-control-item>
+                  <calcite-segmented-control-item value="docked">docked</calcite-segmented-control-item>
+                </calcite-segmented-control>
+              </calcite-label>
+              Expected behavior: none: css var for height + width adhered to. Below width, goes to fullscreen.
+              fullscreen: ignores css var for height + width. docked: css var for height + width adhered to. Below
+              width, docks, with provided height
+            </div>
+            <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          </calcite-dialog>
+          <calcite-button onClick="openDialog('#js-dialog-custom-size')" appearance="outline" scale="s">
+            Custom width and height preview
+          </calcite-button>
+        </div>
+
+        <!--
+        **************************************************
+        * beforeClose rejected
+        **************************************************
+        -->
+        <div class="child">
+          <calcite-dialog id="js-dialog-before-close">
+            <h3 slot="header">Test rejected beforeClose</h3>
+            <div slot="content">test</div>
+            <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          </calcite-dialog>
+          <calcite-button onClick="openDialog('#js-dialog-before-close')" appearance="outline" scale="s">
+            beforeClose rejected
+          </calcite-button>
+        </div>
+      </div>
+
+      <!-- Magic code that makes every calcite link work -->
+      <script>
+        const customSizeDialog = document.querySelector("#js-dialog-custom-size");
+        const heightInput = document.querySelector("#css-dialog-height-adjuster");
+        const widthInput = document.querySelector("#css-dialog-width-adjuster");
+        const optionsSegmentedControl = document.querySelector("#css-dialog-options-adjuster");
+        const beforeCloseRejected = document.getElementById("js-dialog-before-close");
+
+        beforeCloseRejected.beforeClose = () => {
+          return new Promise((_resolve, reject) => setTimeout(reject, 300));
+        };
+
+        heightInput.addEventListener("calciteInputInput", (event) => {
+          customSizeDialog.style.setProperty("--calcite-dialog-height", event.target.value);
+        });
+        widthInput.addEventListener("calciteInputInput", (event) => {
+          customSizeDialog.style.setProperty("--calcite-dialog-width", event.target.value);
+        });
+
+        optionsSegmentedControl.addEventListener("calciteSegmentedControlChange", (event) => {
+          switch (event.target.selectedItem.value) {
+            case "fullscreen":
+              customSizeDialog.fullscreen = true;
+              customSizeDialog.docked = false;
+              break;
+            case "docked":
+              customSizeDialog.fullscreen = false;
+              customSizeDialog.docked = true;
+              break;
+            case "none":
+              customSizeDialog.fullscreen = false;
+              customSizeDialog.docked = false;
+              break;
+          }
+          customSizeDialog.style.setProperty("--calcite-dialog-height", heightInput.value);
+          customSizeDialog.style.setProperty("--calcite-dialog-width", widthInput.value);
+        });
+
+        function openDialog(selector) {
+          document.querySelector(selector).open = true;
+        }
+        // const link = document.querySelector('calcite-link');
+        //     link.forEach(item => {
+        //       item.style.textDecoration="none";
+        //       console.log(item);
+        //   })
+
+        // let link = document.querySelectorAll("calcite-link");
+        // for (let i = 0; i < link.length; i++) {
+        //   link[i].style.textDecoration = "none";
+        // }
+      </script>
+    </demo-dom-swapper>
+  </body>
+</html>
