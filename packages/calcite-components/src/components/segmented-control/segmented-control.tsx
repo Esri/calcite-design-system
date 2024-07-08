@@ -239,7 +239,10 @@ export class SegmentedControl
   @Listen("calciteInternalSegmentedControlItemChange")
   protected handleSelected(event: Event): void {
     event.preventDefault();
-    this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement);
+    const el = event.target as HTMLCalciteSegmentedControlItemElement;
+    if (el.checked) {
+      this.selectItem(el);
+    }
     event.stopPropagation();
   }
 
