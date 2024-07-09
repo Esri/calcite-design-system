@@ -431,3 +431,39 @@ export const footerSlotPrecedence = (): string => html`
     ${footerHTML}
   </calcite-panel>
 `;
+
+export const scalesFontAndPadding = (): string => html`
+  <calcite-panel
+    heading="This is a heading"
+    description="And that's a description"
+    scale="s"
+    style="height: 220px; margin: 50px;"
+  >
+    <div slot="content-top">Content Top</div>
+    <div>Instead of the mahi mahi, may I just get the one mahi because I’m not that hungry?</div>
+    <div slot="content-bottom">Content Bottom</div>
+    ${footerHTML}
+  </calcite-panel>
+  <calcite-panel
+    heading="This is a heading"
+    description="And that's a description"
+    scale="m"
+    style="height: 250px; margin: 50px;"
+  >
+    <div slot="content-top">Content Top</div>
+    <div>Instead of the mahi mahi, may I just get the one mahi because I’m not that hungry?</div>
+    <div slot="content-bottom">Content Bottom</div>
+    ${footerHTML}
+  </calcite-panel>
+  <calcite-panel
+    heading="This is a heading"
+    description="And that's a description"
+    scale="l"
+    style="height: 260px; margin: 50px;"
+  >
+    <div slot="content-top">Content Top</div>
+    <div>Instead of the mahi mahi, may I just get the one mahi because I’m not that hungry?</div>
+    <div slot="content-bottom">Content Bottom</div>
+    ${footerHTML}
+  </calcite-panel>
+`;
