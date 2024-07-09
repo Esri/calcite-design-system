@@ -1,3 +1,18 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-color-picker-hex-input-background-color: defines the background color of the input sub-component.
+ * @prop --calcite-color-picker-hex-input-border-color: defines the border color of the input sub-component.
+ * @prop --calcite-color-picker-hex-input-corner-radius: defines the corner radius of the input sub-component.
+ * @prop --calcite-color-picker-hex-input-prefix-background-color: defines the background color of the prefix sub-component.
+ * @prop --calcite-color-picker-hex-input-prefix-text-color: defines the text color of the prefix sub-component.
+ * @prop --calcite-color-picker-hex-input-suffix-background-color: defines the background color of the suffix sub-component.
+ * @prop --calcite-color-picker-hex-input-suffix-text-color: defines the text color of the suffix sub-component.
+ * @prop --calcite-color-picker-hex-input-text-color: defines the text color of the input sub-component.
+*/
+
 :host {
   @apply block;
 }
@@ -30,6 +45,18 @@
   .opacity-input {
     inline-size: 88px;
   }
+}
+
+calcite-input-text,
+calcite-input-number {
+  --calcite-input-suffix-background-color: var(--calcite-color-picker-hex-input-suffix-background-color);
+  --calcite-input-suffix-text-color: var(--calcite-color-picker-hex-input-suffix-text-color);
+  --calcite-input-prefix-background-color: var(--calcite-color-picker-hex-input-prefix-background-color);
+  --calcite-input-prefix-text-color: var(--calcite-color-picker-hex-input-prefix-text-color);
+  --calcite-input-text-color: var(--calcite-color-picker-hex-input-text-color);
+  --calcite-input-background-color: var(--calcite-color-picker-hex-input-background-color);
+  --calcite-input-border-color: var(--calcite-color-picker-hex-input-border-color);
+  --calcite-input-corner-radius: var(--calcite-color-picker-hex-input-corner-radius);
 }
 
 @include base-component();

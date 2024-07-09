@@ -1,6 +1,23 @@
+/*
+ *
+ * --calcite-list-item-background-color-active: Specifies the background color of the component when active.
+ * --calcite-list-item-background-color-hover: Specifies the background color of the component when hovered.
+ * --calcite-list-item-background-color: Specifies the background color of the component.
+ * --calcite-list-item-border-color: Specifies the border color of nested items.
+ * --calcite-list-item-description-text-color-selected: Specifies the text color of the description when selected.
+ * --calcite-list-item-description-text-color: Specifies the text color of the description.
+ * --calcite-list-item-indicator-color-hover: Specifies the color of the nested container or selector icon when the component is hovered.
+ * --calcite-list-item-indicator-color-selected: Specifies the color of the nested container or selector icon when the component is selected.
+ * --calcite-list-item-indicator-color: Specifies the default color of the nested container or selector icon.   
+ * --calcite-list-item-label-text-color: Specifies the text color of the label.
+ * --calcite-list-item-nested-text-color-hover: Specifies the text color of nested items when hovered.
+ * --calcite-list-item-nested-text-color: Specifies the text color of nested items.
+ * --calcite-list-item-spacing-indent: Specifies the indented spacing of nested items.
+*/
+
 :host {
-  @apply flex flex-col bg-foreground-1;
-  --calcite-list-item-icon-color: theme("colors.brand");
+  @apply flex flex-col;
+  background-color: var(--calcite-list-item-background-color, var(--calcite-color-foreground-1));
 }
 
 :host([filter-hidden]),
@@ -9,27 +26,35 @@
 }
 
 .wrapper--bordered {
-  border-block-end: 1px solid var(--calcite-color-border-3);
+  border-block-end-width: var(--calcite-border-width-sm);
+  border-block-end-style: solid;
+  border-block-end-color: var(--calcite-list-item-border-color, var(--calcite-color-border-3));
 }
 
 @include disabled();
 
 .container {
-  @apply bg-foreground-1
-  box-border
+  @apply box-border
   flex
   flex-1;
+
+  background-color: var(
+    --calcite-list-item-background-color,
+    var(--calcite-list-background-color, var(--calcite-color-foreground-1))
+  );
+
   * {
     @apply box-border;
   }
 }
 
 .container--hover:hover {
-  @apply bg-foreground-2 cursor-pointer;
+  @apply cursor-pointer;
+  background-color: var(--calcite-list-item-background-color-hover, var(--calcite-color-foreground-2));
 }
 
 .container:active {
-  @apply bg-foreground-1;
+  background-color: var(--calcite-list-item-background-color-active, var(--calcite-color-foreground-1));
 }
 
 .container--border {
@@ -38,25 +63,25 @@
 }
 
 .container--border-selected {
-  border-inline-start-color: theme("colors.brand");
+  border-inline-start-color: var(--calcite-list-item-indicator-color-selected, theme("colors.brand"));
 }
 
 .container--border-unselected {
-  border-inline-start-color: transparent;
+  border-inline-start-color: var(--calcite-list-item-indicator-color, theme("colors.transparent"));
 }
 
 .container:hover {
   &.container--border-unselected {
-    @apply border-color-1;
+    border-inline-start-color: var(--calcite-list-item-indicator-color-hover, theme("borderColor.color.1"));
   }
 }
 
 .nested-container {
   @apply hidden flex-col
     border-solid
-    border-0
-    border-color-3;
+    border-0;
 
+  border-color: var(--calcite-list-item-border-color, var(--calcite-color-border-3));
   margin-inline-start: var(--calcite-list-item-spacing-indent, theme("spacing.6"));
 }
 
@@ -65,13 +90,13 @@
 }
 
 .content-container {
-  @apply text-color-2
-    select-none
+  @apply select-none
     flex
     flex-auto
     font-normal
     items-stretch
     p-0;
+  color: var(--calcite-list-text-color, var(--calcite-color-text-2));
 }
 
 tr,
@@ -109,7 +134,7 @@ td:focus {
 }
 
 .label {
-  @apply text-color-1;
+  color: var(--calcite-list-item-label-text-color, var(--calcite-color-text-1));
 }
 
 :host([selected]) .label {
@@ -117,11 +142,13 @@ td:focus {
 }
 
 .description {
-  @apply text-color-3 mt-0.5;
+  @apply mt-0.5;
+
+  color: var(--calcite-list-item-description-text-color, var(--calcite-color-text-3));
 }
 
 :host([selected]) .description {
-  @apply text-color-2;
+  color: var(--calcite-list-item-description-text-color-selected, var(--calcite-color-text-2));
 }
 
 .content-start {
@@ -152,29 +179,21 @@ td:focus {
 
 .selection-container {
   @apply flex px-3 py-0;
-  color: theme("borderColor.color.input");
+  color: var(--calcite-list-item-indicator-color, theme("borderColor.color.input"));
 }
 
 .selection-container--single {
-  color: transparent;
+  color: var(--calcite-list-item-indicator-color, theme("colors.transparent"));
 }
 
 :host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
-  color: theme("borderColor.color.1");
+  color: var(--calcite-list-item-indicator-color-hover, theme("borderColor.color.1"));
 }
 
 :host([selected]:hover) .selection-container,
 :host([selected]:hover) .selection-container--single,
 :host([selected]) .selection-container {
-  color: var(--calcite-list-item-icon-color);
-}
-
-.open-container {
-  color: theme("textColor.color.3");
-}
-
-:host(:not([disabled])) .container:hover .open-container {
-  color: theme("textColor.color.1");
+  color: var(--calcite-list-item-indicator-color-selected, theme("colors.brand"));
 }
 
 .actions-start,

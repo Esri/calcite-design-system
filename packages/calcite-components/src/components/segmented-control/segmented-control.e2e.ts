@@ -9,7 +9,9 @@ import {
   labelable,
   reflects,
   renders,
+  themed,
 } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-segmented-control", () => {
   describe("defaults", () => {
@@ -455,5 +457,20 @@ describe("calcite-segmented-control", () => {
 
   describe("updates items when children are modified after initialization", () => {
     // TODO:
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-segmented-control", {
+        "--calcite-segmented-control-background-color": {
+          shadowSelector: `.${CSS.itemWrapper}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-segmented-control-border-color": {
+          shadowSelector: `.${CSS.itemWrapper}`,
+          targetProp: "outline",
+        },
+      });
+    });
   });
 });

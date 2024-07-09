@@ -1,4 +1,7 @@
-import { hidden, renders, disabled, defaults } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
+import { hidden, renders, disabled, defaults, themed } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { CSS } from "./resources";
 
 describe("calcite-list-item-group", () => {
   describe("renders", () => {
@@ -32,5 +35,34 @@ describe("calcite-list-item-group", () => {
         defaultValue: false,
       },
     ]);
+  });
+
+  describe("themed", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-list-item-group-background-color": {
+        selector: "calcite-list-item-group",
+        targetProp: "backgroundColor",
+      },
+      "--calcite-list-item-group-text-color": {
+        selector: "calcite-list-item-group",
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "color",
+      },
+    };
+    themed(
+      html`<calcite-list selection-mode="single">
+        <calcite-list-item-group>
+          <calcite-list-item label="Apples" description="Apples are cool" value="apples" open></calcite-list-item>
+          <calcite-list-item
+            label="Oranges"
+            description="Oranges are cool"
+            value="oranges"
+            selected
+          ></calcite-list-item>
+          <calcite-list-item label="Pears" description="Pears are cool" value="pears"></calcite-list-item>
+        </calcite-list-item-group>
+      </calcite-list>`,
+      tokens,
+    );
   });
 });

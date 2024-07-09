@@ -1,8 +1,30 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tree-item-checkbox-background-color-checked: defines the background-color of the sub-component when checked.
+ * @prop --calcite-tree-item-checkbox-background-color: defines the background-color of the sub-component.
+ * @prop --calcite-tree-item-checkbox-shadow-checked: defines the shadow of the sub-component when checked.
+ * @prop --calcite-tree-item-checkbox-shadow-hover: defines the shadow of the sub-component when hovered.
+ * @prop --calcite-tree-item-checkbox-shadow: defines the shadow of the sub-component.
+ * @prop --calcite-tree-item-chevron-color-active: defines the color of the component's chevron when active.
+ * @prop --calcite-tree-item-chevron-color-hover: defines the color of the component's chevron on hover.
+ * @prop --calcite-tree-item-chevron-color: defines the color of the component's chevron.
+ * @prop --calcite-tree-item-icon-color: defines the icon color of the component.
+ * @prop --calcite-tree-item-line-color: Specifies the line color of the component.
+ * @prop --calcite-tree-item-selection-icon-color: defines the color of the component's selection icon.
+ * @prop --calcite-tree-item-text-color: Specifies the text color of the component.
+ */
+
 :host {
-  @apply text-color-3
-    block
-    max-w-full
-    cursor-pointer;
+  --calcite-internal-tree-item-text-color: var(--calcite-color-text-3);
+
+  @apply block
+    cursor-pointer
+    max-w-full;
+
+  color: var(--calcite-tree-item-text-color, var(--calcite-internal-tree-item-text-color));
 }
 
 .node-actions-container {
@@ -77,7 +99,7 @@
 }
 
 :host([lines]) {
-  .children-container:after {
+  .children-container::after {
     @apply transition-default
         absolute
         top-0
@@ -87,11 +109,11 @@
     // ensure lines don't overlap focus outline
     block-size: 96%;
     content: "";
-    background-color: var(--calcite-color-border-2);
+    background-color: var(--calcite-tree-item-line-color, var(--calcite-color-border-2));
   }
 }
 
-:host(:not([lines])) .node-container:after {
+:host(:not([lines])) .node-container::after {
   @apply hidden;
 }
 
@@ -181,9 +203,12 @@
   }
 }
 
-:host([selected]) .node-container,
-:host([selected]) .node-container:hover {
-  @apply font-medium text-color-1;
+:host([selected]) {
+  --calcite-internal-tree-item-text-color: var(--calcite-color-text-1);
+}
+
+:host([selected]) .node-container {
+  @apply font-medium;
 
   .bullet-point,
   .checkmark {
@@ -233,7 +258,6 @@
 
 .chevron {
   @apply transition-default
-    text-color-3
     relative
     self-center;
   flex: 0 0 auto;
@@ -252,6 +276,36 @@
   .checkmark,
   .bullet-point {
     color: var(--calcite-color-brand);
+  }
+}
+
+calcite-checkbox {
+  --calcite-checkbox-background-color: var(--calcite-tree-item-checkbox-background-color);
+  --calcite-checkbox-background-color-checked: var(--calcite-tree-item-checkbox-background-color-checked);
+  --calcite-checkbox-icon-color: var(--calcite-tree-item-selection-icon-color);
+  --calcite-checkbox-shadow: var(--calcite-tree-item-checkbox-shadow);
+  --calcite-checkbox-shadow-checked: var(--calcite-tree-item-checkbox-shadow-checked);
+  --calcite-checkbox-shadow-hover: var(--calcite-tree-item-checkbox-shadow-hover);
+}
+
+calcite-icon {
+  &.chevron {
+    --calcite-icon-color: var(--calcite-tree-item-chevron-color);
+
+    &:hover,
+    &:focus {
+      --calcite-icon-color: var(--calcite-tree-item-chevron-color-hover);
+    }
+    &:active {
+      --calcite-icon-color: var(--calcite-tree-item-chevron-color-active);
+    }
+  }
+  &.checkmark,
+  &.bullet-point {
+    --calcite-icon-color: var(--calcite-tree-item-selection-icon-color);
+  }
+  &.icon-start {
+    --calcite-icon-color: var(--calcite-tree-item-icon-color);
   }
 }
 

@@ -1,5 +1,15 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, formAssociated, hidden, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import {
+  accessible,
+  disabled,
+  formAssociated,
+  hidden,
+  HYDRATED_ATTR,
+  labelable,
+  themed,
+} from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
+import { CSS } from "./resources";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -130,5 +140,89 @@ describe("calcite-switch", () => {
 
     const element = await page.find("calcite-switch");
     expect(element).toEqualAttribute("scale", "m");
+  });
+
+  describe("theme", () => {
+    themed(`calcite-switch`, {
+      "--calcite-switch-corner-radius": [
+        {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "borderRadius",
+        },
+        {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "borderRadius",
+        },
+      ],
+      "--calcite-switch-handle-background-color": [
+        {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+        },
+      ],
+      "--calcite-switch-handle-border-color": [
+        {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "borderColor",
+          state: "hover",
+        },
+        {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "boxShadow",
+          state: "hover",
+        },
+      ],
+      "--calcite-switch-track-background-color": {
+        shadowSelector: `.${CSS.track}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-switch-border-color": [
+        {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.track}`,
+          targetProp: "borderColor",
+        },
+      ],
+    });
+
+    describe("checked", () => {
+      themed(html`<calcite-switch checked></calcite-switch>`, {
+        "--calcite-switch-border-color": [
+          {
+            shadowSelector: `.${CSS.track}`,
+            targetProp: "borderColor",
+          },
+        ],
+        "--calcite-switch-handle-border-color": [
+          {
+            shadowSelector: `.${CSS.handle}`,
+            targetProp: "borderColor",
+          },
+          {
+            shadowSelector: `.${CSS.handle}`,
+            targetProp: "borderColor",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.handle}`,
+            targetProp: "boxShadow",
+            state: "hover",
+          },
+        ],
+        "--calcite-switch-track-background-color": [
+          {
+            shadowSelector: `.${CSS.track}`,
+            targetProp: "backgroundColor",
+          },
+        ],
+      });
+    });
   });
 });

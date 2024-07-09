@@ -1,6 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { HandleMessages } from "../../components";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { html } from "../../../support/formatting";
 import { CSS, SUBSTITUTIONS } from "./resources";
 
 describe("calcite-handle", () => {
@@ -142,5 +144,56 @@ describe("calcite-handle", () => {
 
     await page.waitForChanges();
     expect(internalHandle.getAttribute("aria-checked")).toBe("true");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-handle-icon-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "color",
+        },
+        "--calcite-handle-icon-color-hover": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-handle-icon-color-focus": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "color",
+          state: "focus",
+        },
+        "--calcite-handle-icon-color-selected": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "color",
+          state: { press: { attribute: "class", value: CSS.handle } },
+        },
+        "--calcite-handle-background-color": {
+          shadowSelector: `.${CSS.handle}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-handle-background-color-hover": {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.handle}`,
+          state: "hover",
+        },
+        "--calcite-handle-background-color-focus": {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.handle}`,
+          state: "focus",
+        },
+      };
+      themed(`calcite-handle`, tokens);
+    });
+
+    describe("selected", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-handle-background-color-selected": {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.handle}`,
+        },
+      };
+      themed(html`<calcite-handle selected></calcite-handle>`, tokens);
+    });
   });
 });

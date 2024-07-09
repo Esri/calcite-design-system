@@ -288,6 +288,7 @@ export class Button
           aria-label={!this.loading ? getLabelText(this) : this.messages.loading}
           aria-live="polite"
           class={{
+            [CSS.button]: true,
             [CSS.buttonPadding]: noStartEndIcons,
             [CSS.buttonPaddingShrunk]: !noStartEndIcons,
             [CSS.contentSlotted]: this.hasContent,

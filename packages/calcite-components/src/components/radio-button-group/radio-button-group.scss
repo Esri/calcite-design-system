@@ -1,30 +1,32 @@
 :host {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
 }
 
 :host > .item-wrapper {
-  @apply flex;
+  display: flex;
   max-inline-size: 100vw;
 }
 
 :host([layout="horizontal"]) > .item-wrapper {
-  @apply flex-row flex-wrap;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 :host([layout="horizontal"][scale="s"]) > .item-wrapper {
-  @apply gap-x-4;
+  column-gap: var(--calcite-spacing-xl);
 }
 
 :host([layout="horizontal"][scale="m"]) > .item-wrapper {
-  @apply gap-x-5;
+  column-gap: var(--calcite-spacing-xxl);
 }
 
 :host([layout="horizontal"][scale="l"]) > .item-wrapper {
-  @apply gap-x-6;
+  column-gap: #{$calcite-size-24}; // TODO: need new size token for this size
 }
 
 :host([layout="vertical"]) > .item-wrapper {
-  @apply flex-col;
+  flex-direction: column;
 }
 
 :host([scale="s"]) calcite-input-message {

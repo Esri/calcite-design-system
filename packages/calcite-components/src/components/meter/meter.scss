@@ -1,57 +1,127 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-meter-background-color: Specifies the background color of the component.
+ * @prop --calcite-meter-border-color: Specifies the border color of the component and displayed step lines.
+ * @prop --calcite-meter-shadow: Specifies the box shadow of the component.
+ * @prop --calcite-meter-corner-radius: Specifies the corner radius of the component.
+ * @prop --calcite-meter-fill-color: Specifies the color of the component's fill.
+ * @prop --calcite-meter-range-text-color: Specifies the color of the component's range labels.
+ * @prop --calcite-meter-value-text-color: Specifies the color of the component's value label.
+ *
+ */
+
+/**
+  * Local props
+  * These properties are intended for internal component use only. It is not recommended that these properties be overwritten.
+  *
+  * --calcite-internal-meter-space
+  * --calcite-internal-meter-height
+  * --calcite-internal-meter-font-size
+*/
+
 @include base-component();
 @include disabled();
 
 :host {
   @apply flex;
-  --calcite-meter-space-internal: theme("spacing[0.5]");
-  --calcite-meter-height-internal: theme("spacing.4");
-  --calcite-meter-font-size-internal: var(--calcite-font-size--1);
+  --calcite-internal-meter-space: var(--calcite-spacing-base);
+  --calcite-internal-meter-height: var(--calcite-size-lg);
+  --calcite-internal-meter-font-size: var(--calcite-font-size--1);
 }
 
 :host([scale="s"]) {
-  --calcite-meter-height-internal: theme("spacing.3");
-  --calcite-meter-font-size-internal: var(--calcite-font-size--2);
+  --calcite-internal-meter-height: var(--calcite-size-xxl);
+  --calcite-internal-meter-font-size: var(--calcite-font-size--2);
 }
 
 :host([scale="l"]) {
-  --calcite-meter-height-internal: theme("spacing.6");
-  --calcite-meter-font-size-internal: var(--calcite-font-size-0);
+  --calcite-internal-meter-height: var(--calcite-size-xxxl);
+  --calcite-internal-meter-font-size: var(--calcite-font-size-0);
 }
 
 .container {
-  @apply flex relative items-center w-full m-0;
-  block-size: var(--calcite-meter-height-internal);
-  background-color: var(--calcite-color-foreground-2);
-  border: 1px solid var(--calcite-color-border-3);
-  border-radius: var(--calcite-meter-height-internal);
+  @apply flex relative items-center;
+  margin: 0;
+  inline-size: var(--calcite-container-size-content-fluid);
+  block-size: var(--calcite-internal-meter-height);
+  background-color: var(--calcite-meter-background-color, var(--calcite-color-foreground-2));
+  border: var(--calcite-border-width-sm) solid var(--calcite-meter-border-color, var(--calcite-color-border-3));
+  border-radius: var(--calcite-meter-corner-radius, 9999px);
+  box-shadow: var(--calcite-meter-shadow, var(--calcite-shadow-none));
 }
 
-.solid {
-  border: 1px solid var(--calcite-color-foreground-3);
-  background-color: var(--calcite-color-foreground-3);
+.container.solid {
+  background-color: var(--calcite-meter-background-color, var(--calcite-color-foreground-3));
+  border-color: var(--calcite-meter-border-color, var(--calcite-color-foreground-3));
 }
 
-.outline {
-  @apply bg-transparent;
+.container.outline {
+  background-color: var(--calcite-meter-background-color, transparent);
+}
+
+.fill {
+  @apply block absolute duration-150 ease-in-out z-default;
+  inset-inline-start: var(--calcite-internal-meter-space);
+  inset-block: var(--calcite-internal-meter-space);
+  border-radius: var(--calcite-meter-corner-radius, 9999px);
+  max-inline-size: calc(100% - (var(--calcite-internal-meter-space) * 2));
+  min-inline-size: calc(var(--calcite-internal-meter-height) - (var(--calcite-internal-meter-space) * 2));
+  background-color: var(--calcite-meter-fill-color, var(--calcite-color-brand));
+  transition-property: inline-size, background-color, box-shadow;
+}
+
+.solid .fill {
+  inset-block: 0;
+  inset-inline-start: 0;
+  max-inline-size: 100%;
+  min-inline-size: calc(var(--calcite-internal-meter-height));
+  box-shadow: 0 0 0 1px var(--calcite-meter-fill-color, var(--calcite-color-brand));
+}
+
+.fill-danger {
+  background-color: var(--calcite-meter-fill-color, var(--calcite-color-status-danger));
+}
+
+.fill-success {
+  background-color: var(--calcite-meter-fill-color, var(--calcite-color-status-success));
+}
+
+.fill-warning {
+  background-color: var(--calcite-meter-fill-color, var(--calcite-color-status-warning));
+}
+
+.solid .fill-danger {
+  box-shadow: 0 0 0 1px var(--calcite-meter-fill-color, var(--calcite-color-status-danger));
+}
+
+.solid .fill-success {
+  box-shadow: 0 0 0 1px var(--calcite-meter-fill-color, var(--calcite-color-status-success));
+}
+
+.solid .fill-warning {
+  box-shadow: 0 0 0 1px var(--calcite-meter-fill-color, var(--calcite-color-status-warning));
 }
 
 .value-visible {
-  margin-block-start: theme("spacing.6");
+  margin-block-start: var(--calcite-size-xxl);
 }
 
 .steps-visible {
-  margin-block-end: theme("spacing.6");
+  margin-block-end: var(--calcite-size-xxl);
 }
 
 .step-line {
   @apply block absolute inset-y-0;
-  inline-size: var(--calcite-meter-space-internal);
-  background-color: var(--calcite-color-border-3);
+  inline-size: var(--calcite-internal-meter-space);
+  background-color: var(--calcite-meter-border-color, var(--calcite-color-border-3));
 }
 
 .label {
   @apply absolute;
-  font-size: var(--calcite-meter-font-size-internal);
+  font-size: var(--calcite-internal-meter-font-size);
 }
 
 .label-hidden {
@@ -61,60 +131,14 @@
 .label-value {
   inset-block-end: calc(100% + 0.5em);
   font-weight: var(--calcite-font-weight-bold);
-  color: var(--calcite-color-text-1);
+  color: var(--calcite-meter-value-text-color, var(--calcite-color-text-1));
 }
 
 .label-range {
-  @apply text-color-3;
+  color: var(--calcite-meter-range-text-color, var(--calcite-color-text-3));
   inset-block-start: calc(100% + 0.5em);
 }
 
-.unit-label {
-  @apply text-color-3 font-medium;
-}
-
-.label-value .unit-label {
-  @apply text-color-2 font-bold;
-}
-
-.fill {
-  @apply block absolute duration-150 ease-in-out bg-brand z-default;
-  inset-inline-start: var(--calcite-meter-space-internal);
-  inset-block: var(--calcite-meter-space-internal);
-  border-radius: var(--calcite-meter-height-internal);
-  max-inline-size: calc(100% - (var(--calcite-meter-space-internal) * 2));
-  min-inline-size: calc(var(--calcite-meter-height-internal) - (var(--calcite-meter-space-internal) * 2));
-  transition-property: inline-size, background-color, box-shadow;
-}
-
-.fill-danger {
-  background-color: var(--calcite-color-status-danger);
-}
-
-.fill-success {
-  background-color: var(--calcite-color-status-success);
-}
-
-.fill-warning {
-  background-color: var(--calcite-color-status-warning);
-}
-
-.solid .fill {
-  inset-block: 0;
-  inset-inline-start: 0;
-  max-inline-size: 100%;
-  min-inline-size: calc(var(--calcite-meter-height-internal));
-  box-shadow: 0 0 0 1px var(--calcite-color-brand);
-}
-
-.solid .fill-danger {
-  box-shadow: 0 0 0 1px var(--calcite-color-status-danger);
-}
-
-.solid .fill-success {
-  box-shadow: 0 0 0 1px var(--calcite-color-status-success);
-}
-
-.solid .fill-warning {
-  box-shadow: 0 0 0 1px var(--calcite-color-status-warning);
+.label-range .unit-label {
+  font-weight: var(--calcite-font-weight-medium);
 }

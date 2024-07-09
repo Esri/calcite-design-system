@@ -31,6 +31,20 @@
         margin: 25px 0;
         border-top: 1px solid var(--calcite-color-border-2);
       }
+
+      .theme-example {
+        --calcite-rating-spacing: 16px;
+        --calcite-rating-outline-color: lightgreen;
+        --calcite-rating-outline-color-hover: darkgreen;
+        --calcite-rating-value-fill-color: green;
+        --calcite-rating-average-fill-color: purple;
+        --calcite-rating-chip-background-color: green;
+        --calcite-rating-chip-border-color: darkgreen;
+        --calcite-rating-chip-shadow: var(--calcite-shadow-md);
+        --calcite-rating-chip-corner-radius: 12px;
+        --calcite-rating-chip-text-color: lightgreen;
+        --calcite-ui-focus-color: red;
+      }
     </style>
     <script src="./_assets/head.js"></script>
   </head>
@@ -53,6 +67,44 @@
       **************************************************
     -->
 
+      <!-- Default -->
+      <div class="parent">
+        <div class="child right-aligned-text">Themed</div>
+
+        <div class="child">
+          <calcite-rating class="theme-example" scale="s" show-chip></calcite-rating>
+        </div>
+
+        <div class="child">
+          <calcite-rating class="theme-example" average="3.65" count="136" show-chip></calcite-rating>
+        </div>
+
+        <div class="child">
+          <calcite-rating class="theme-example" value="2" show-chip></calcite-rating>
+        </div>
+      </div>
+
+      <!-- Default -->
+      <div class="parent">
+        <div class="child right-aligned-text">deprecated css spacing property test</div>
+
+        <div class="child">
+          <calcite-rating style="--calcite-rating-spacing-unit: 12px" scale="s" show-chip></calcite-rating>
+        </div>
+
+        <div class="child">
+          <calcite-rating
+            style="--calcite-rating-spacing-unit: 12px"
+            average="3.65"
+            count="136"
+            show-chip
+          ></calcite-rating>
+        </div>
+
+        <div class="child">
+          <calcite-rating style="--calcite-rating-spacing-unit: 12px" value="2" show-chip></calcite-rating>
+        </div>
+      </div>
       <!-- Default -->
       <div class="parent">
         <div class="child right-aligned-text">Default</div>

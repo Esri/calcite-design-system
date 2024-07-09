@@ -9,6 +9,7 @@ export const CSS = {
   loadingOut: "loading-out",
   iconStartEmpty: "icon-start-empty",
   iconEndEmpty: "icon-end-empty",
+  button: "button",
   buttonPadding: "button-padding",
   buttonPaddingShrunk: "button-padding--shrunk",
 };

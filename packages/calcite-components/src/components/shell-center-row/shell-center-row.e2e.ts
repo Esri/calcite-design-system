@@ -1,5 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, slots, themed } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell-center-row", () => {
@@ -90,5 +92,40 @@ describe("calcite-shell-center-row", () => {
       </calcite-action-bar>
     </calcite-shell-center-row>
     `);
+  });
+});
+
+describe("theme", () => {
+  const shellCenterHtml = html`
+    <calcite-shell-center-row detached slot="center-row">
+      <calcite-action-bar class="calcite-mode-dark" slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
+          <calcite-action text="Save" label="Save Item" icon="save"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+    </calcite-shell-center-row>
+  `;
+
+  describe("default", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-shell-center-row-border-radius": {
+        targetProp: "borderRadius",
+      },
+      "--calcite-shell-center-row-background-color": {
+        targetProp: "backgroundColor",
+      },
+    };
+    themed(shellCenterHtml, tokens);
+  });
+
+  describe("slotted overrides", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-shell-center-row-border-color": {
+        selector: `calcite-action-bar`,
+        targetProp: "borderColor",
+      },
+    };
+    themed(shellCenterHtml, tokens);
   });
 });

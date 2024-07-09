@@ -314,11 +314,11 @@ export class TextArea
             aria-label={getLabelText(this)}
             autofocus={this.el.autofocus}
             class={{
+              [CSS.textArea]: true,
               [CSS.readOnly]: this.readOnly,
               [CSS.textAreaInvalid]: this.isCharacterLimitExceeded(),
               [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
-              [CSS.blockSizeFull]: !hasFooter,
-              [CSS.borderColor]: !hasFooter,
+              [CSS.textAreaOnly]: !hasFooter,
             }}
             cols={this.columns}
             disabled={this.disabled}

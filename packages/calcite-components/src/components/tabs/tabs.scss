@@ -1,24 +1,60 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tabs-background-color: The background color of the component.
+ * @prop --calcite-tabs-border-color: The border color of the component.
+ */
+
 :host {
   @apply flex flex-col;
+
+  --calcite-internal-tabs-border-color: var(--calcite-tabs-border-color, var(--calcite-color-border-1));
+  --calcite-internal-tabs-background-color: var(--calcite-tabs-background-color, var(--calcite-color-foreground-1));
 }
 
 :host([bordered]) {
-  box-shadow: inset 0 1px 0 var(--calcite-color-border-1);
-  background-color: var(--calcite-color-foreground-1);
+  box-shadow: inset 0 1px 0 var(--calcite-internal-tabs-border-color);
+  background-color: var(--calcite-internal-tabs-background-color);
 
   section {
-    @apply border-color-1 border border-solid;
+    border-color: var(--calcite-internal-tabs-border-color);
+    border-style: solid;
   }
+
+  ::slotted(calcite-tab-nav) {
+    margin-block-end: -1px;
+  }
+}
+
+section {
+  @apply border flex flex-grow overflow-hidden;
+
+  border-block-start-style: solid;
+  border-block-start-color: var(--calcite-internal-tabs-border-color);
 }
 
 :host([bordered][position="bottom"]) {
   box-shadow:
-    inset 0 1px 0 var(--calcite-color-border-1),
-    inset 0 -1px 0 var(--calcite-color-border-1);
+    inset 0 1px 0 var(--calcite-internal-tabs-border-color),
+    inset 0 -1px 0 var(--calcite-internal-tabs-border-color);
+
+  ::slotted(calcite-tab-nav) {
+    margin-block-start: -1px;
+  }
 }
 
-:host([bordered]:not([position="bottom"])) ::slotted(calcite-tab-nav) {
-  margin-block-end: -1px;
+:host([position="bottom"]) {
+  @apply flex-col-reverse;
+
+  section {
+    @apply flex-col-reverse
+      border-t-0
+      border-b;
+
+    border-block-start-color: var(--calcite-internal-tabs-border-color);
+  }
 }
 
 :host([bordered][scale="s"]) section {
@@ -31,26 +67,6 @@
 
 :host([bordered][scale="l"]) section {
   @apply p-4;
-}
-
-:host([position="bottom"]) {
-  @apply flex-col-reverse;
-}
-
-section {
-  @apply border-t-color-1
-    flex
-    flex-grow
-    overflow-hidden
-    border-t;
-  border-block-start-style: solid;
-}
-
-:host([position="bottom"]) section {
-  @apply border-b-color-1
-    flex-col-reverse
-    border-t-0
-    border-b;
 }
 
 :host([position="bottom"]:not([bordered])) section {
