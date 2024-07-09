@@ -1650,6 +1650,10 @@ export namespace Components {
          */
         "beforeClose": (el: HTMLCalciteDialogElement) => Promise<void>;
         /**
+          * When `true`, disables the component's close button.
+         */
+        "closeButtonDisabled": boolean;
+        /**
           * A description for the component.
          */
         "description": string;
@@ -9642,6 +9646,10 @@ declare namespace LocalJSX {
           * Passes a function to run before the component closes.
          */
         "beforeClose"?: (el: HTMLCalciteDialogElement) => Promise<void>;
+        /**
+          * When `true`, disables the component's close button.
+         */
+        "closeButtonDisabled"?: boolean;
         /**
           * A description for the component.
          */

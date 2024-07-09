@@ -81,6 +81,9 @@ export class Dialog
   /** A description for the component. */
   @Prop() description: string;
 
+  /** When `true`, disables the component's close button. */
+  @Prop({ reflect: true }) closeButtonDisabled = false;
+
   /**
    *  When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
@@ -252,7 +255,7 @@ export class Dialog
           <div class={CSS.dialog} ref={this.setTransitionEl}>
             <slot name={SLOTS.content}>
               <calcite-panel
-                closable
+                closable={!this.closeButtonDisabled}
                 closed={!opened}
                 description={description}
                 disabled={this.disabled}
