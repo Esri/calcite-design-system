@@ -93,6 +93,7 @@
 
     <!-- scripts -->
     <script src="_assets/head.js"></script>
+    <script type="module" src="./_assets/demo-theme.js"></script>
   </head>
 
   <body>
@@ -2562,6 +2563,37 @@
           <calcite-button aria-label="Add layer">
             <calcite-icon scale="s" icon="layer"></calcite-icon>
           </calcite-button>
+        </div>
+      </div>
+
+      <!--
+      ***************************************************************
+      * SOLID INVERSE - THEMED
+      ***************************************************************
+    -->
+      <div class="main-container">
+        <div>
+          <p class="right-align">THEMED Solid Inverse</p>
+        </div>
+
+        <!-- Solid Inverse -->
+        <div>
+          <p>
+            <demo-theme
+              tokens="--calcite-button-background-color, 
+                --calcite-button-border-color, 
+                --calcite-button-corner-radius, 
+                --calcite-button-corner-radius-start-start, 
+                --calcite-button-corner-radius-start-end, 
+                --calcite-button-corner-radius-end-start, 
+                --calcite-button-corner-radius-end-end, 
+                --calcite-button-loader-color, 
+                --calcite-button-shadow, 
+                --calcite-button-text-color, 
+                --calcite-button-icon-color"
+              ><calcite-button kind="inverse" scale="l"> Button </calcite-button></demo-theme
+            >
+          </p>
         </div>
       </div>
     </demo-dom-swapper>
