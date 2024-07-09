@@ -37,16 +37,16 @@ describe("calcite-dialog", () => {
     t9n("calcite-dialog");
   });
 
-  // todo
-  // it("should hide closeButton when disabled", async () => {
-  //   const page = await newE2EPage();
-  //   await page.setContent("<calcite-dialog></calcite-dialog>");
-  //   const dialog = await page.find("calcite-dialog");
-  //   dialog.setProperty("closeButtonDisabled", true);
-  //   await page.waitForChanges();
-  //   const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> [data-test="close"]`);
-  //   expect(closeButton).toBe(null);
-  // });
+  it("should hide closeButton when disabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-dialog></calcite-dialog>");
+    const dialog = await page.find("calcite-dialog");
+    dialog.setProperty("closeButtonDisabled", true);
+    await page.waitForChanges();
+    const panel = await page.find(`calcite-dialog >>> calcite-panel`);
+    const closeable = await panel.getProperty("closeable");
+    expect(closeable).toBe(false);
+  });
 
   it("sets custom width correctly", async () => {
     const page = await newE2EPage();
