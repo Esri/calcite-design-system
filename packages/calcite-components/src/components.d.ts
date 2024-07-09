@@ -1666,6 +1666,10 @@ export namespace Components {
          */
         "focusTrapDisabled": boolean;
         /**
+          * Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`.
+         */
+        "fullscreen": boolean;
+        /**
           * The component header text.
          */
         "heading": string;
@@ -3468,6 +3472,9 @@ export namespace Components {
          */
         "valueLabelType": MeterLabelType;
     }
+    /**
+     * @deprecated Use the `calcite-dialog` component instead.
+     */
     interface CalciteModal {
         /**
           * Passes a function to run before the component closes.
@@ -6656,6 +6663,7 @@ declare global {
         "calciteDialogClose": void;
         "calciteDialogBeforeOpen": void;
         "calciteDialogOpen": void;
+        "calciteDialogScroll": void;
     }
     interface HTMLCalciteDialogElement extends Components.CalciteDialog, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDialogElementEventMap>(type: K, listener: (this: HTMLCalciteDialogElement, ev: CalciteDialogCustomEvent<HTMLCalciteDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7097,6 +7105,9 @@ declare global {
         "calciteModalBeforeOpen": void;
         "calciteModalOpen": void;
     }
+    /**
+     * @deprecated Use the `calcite-dialog` component instead.
+     */
     interface HTMLCalciteModalElement extends Components.CalciteModal, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteModalElementEventMap>(type: K, listener: (this: HTMLCalciteModalElement, ev: CalciteModalCustomEvent<HTMLCalciteModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -9640,6 +9651,10 @@ declare namespace LocalJSX {
          */
         "focusTrapDisabled"?: boolean;
         /**
+          * Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`.
+         */
+        "fullscreen"?: boolean;
+        /**
           * The component header text.
          */
         "heading"?: string;
@@ -9687,6 +9702,10 @@ declare namespace LocalJSX {
           * Fires when the component is open and animation is complete.
          */
         "onCalciteDialogOpen"?: (event: CalciteDialogCustomEvent<void>) => void;
+        /**
+          * Fires when the content is scrolled.
+         */
+        "onCalciteDialogScroll"?: (event: CalciteDialogCustomEvent<void>) => void;
         /**
           * When `true`, displays and positions the component.
          */
@@ -11546,6 +11565,9 @@ declare namespace LocalJSX {
          */
         "valueLabelType"?: MeterLabelType;
     }
+    /**
+     * @deprecated Use the `calcite-dialog` component instead.
+     */
     interface CalciteModal {
         /**
           * Passes a function to run before the component closes.
@@ -14213,6 +14235,9 @@ declare module "@stencil/core" {
             "calcite-menu": LocalJSX.CalciteMenu & JSXBase.HTMLAttributes<HTMLCalciteMenuElement>;
             "calcite-menu-item": LocalJSX.CalciteMenuItem & JSXBase.HTMLAttributes<HTMLCalciteMenuItemElement>;
             "calcite-meter": LocalJSX.CalciteMeter & JSXBase.HTMLAttributes<HTMLCalciteMeterElement>;
+            /**
+             * @deprecated Use the `calcite-dialog` component instead.
+             */
             "calcite-modal": LocalJSX.CalciteModal & JSXBase.HTMLAttributes<HTMLCalciteModalElement>;
             "calcite-navigation": LocalJSX.CalciteNavigation & JSXBase.HTMLAttributes<HTMLCalciteNavigationElement>;
             "calcite-navigation-logo": LocalJSX.CalciteNavigationLogo & JSXBase.HTMLAttributes<HTMLCalciteNavigationLogoElement>;

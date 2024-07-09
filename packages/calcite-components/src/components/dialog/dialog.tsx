@@ -104,6 +104,9 @@ export class Dialog
     focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
+  /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
+  @Prop({ reflect: true }) fullscreen: boolean;
+
   /**
    * The component header text.
    */
@@ -247,7 +250,7 @@ export class Dialog
           {this.renderStyle()}
           <div
             class={{
-              [CSS.modal]: true, // todo: rename class
+              [CSS.dialog]: true, // todo: rename class
             }}
             ref={this.setTransitionEl}
           >
@@ -263,8 +266,10 @@ export class Dialog
                 menuOpen={this.menuOpen}
                 messageOverrides={this.messageOverrides}
                 onCalcitePanelClose={this.handleCloseClick}
+                onCalcitePanelScroll={this.handleScroll}
                 overlayPositioning={this.overlayPositioning}
                 ref={(el) => (this.panelEl = el)}
+                // scale={this.scale} // todo: add
               />
               <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
               <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
@@ -286,16 +291,16 @@ export class Dialog
 
   // todo: why are we doing this? why not just use a css class?
   renderStyle(): VNode {
-    if (this.cssWidth || this.cssHeight) {
+    if (!this.fullscreen && (this.cssWidth || this.cssHeight)) {
       return (
         <style>
-          {`.${CSS.modal} {
+          {`.${CSS.dialog} {
               block-size: ${this.cssHeight ? this.cssHeight : "auto"} !important;
               ${this.cssWidth ? `inline-size: ${this.cssWidth} !important;` : ""}
               ${this.cssWidth ? `max-inline-size: ${this.cssWidth} !important;` : ""}
             }
             @media screen and (max-width: ${this.cssWidth}) {
-              .${CSS.modal} {
+              .${CSS.dialog} {
                 max-block-size: 100% !important;
                 inline-size: 100% !important;
                 max-inline-size: 100% !important;
@@ -385,7 +390,8 @@ export class Dialog
   /** Fires when the component is open and animation is complete. */
   @Event({ cancelable: false }) calciteDialogOpen: EventEmitter<void>;
 
-  // todo: scroll event from panel
+  /** Fires when the content is scrolled. */
+  @Event({ cancelable: false }) calciteDialogScroll: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -483,6 +489,10 @@ export class Dialog
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener("calciteDialogOpen", this.openEnd);
+  };
+
+  private handleScroll = (): void => {
+    this.calciteDialogScroll.emit();
   };
 
   private handleCloseClick = () => {

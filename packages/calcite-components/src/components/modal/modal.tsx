@@ -56,6 +56,7 @@ let totalOpenModals: number = 0;
 let initialDocumentOverflowStyle: string = "";
 
 /**
+ * @deprecated Use the `calcite-dialog` component instead.
  * @slot header - A slot for adding header text.
  * @slot content - A slot for adding the component's content.
  * @slot content-top - A slot for adding content to the component's sticky header, where content remains at the top of the component when scrolling up and down.
