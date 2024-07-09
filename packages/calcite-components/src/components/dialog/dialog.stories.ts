@@ -2,11 +2,26 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dialog } from "./dialog";
-const { kind, scale } = ATTRIBUTES;
+const { kind, scale, overlayPositioning } = ATTRIBUTES;
 
 type DialogStoryArgs = Pick<
   Dialog,
-  "open" | "kind" | "scale" | "widthScale" | "fullscreen" | "escapeDisabled" | "heading"
+  | "open"
+  | "kind"
+  | "scale"
+  | "widthScale"
+  | "fullscreen"
+  | "escapeDisabled"
+  | "heading"
+  | "description"
+  | "closeButtonDisabled"
+  | "disabled"
+  | "focusTrapDisabled"
+  | "loading"
+  | "menuOpen"
+  | "modal"
+  | "outsideCloseDisabled"
+  | "overlayPositioning"
 >;
 
 export default {
@@ -20,6 +35,14 @@ export default {
     docked: false,
     escapeDisabled: false,
     heading: "My Dialog",
+    description: "",
+    closeButtonDisabled: false,
+    disabled: false,
+    focusTrapDisabled: false,
+    loading: false,
+    menuOpen: false,
+    modal: false,
+    outsideCloseDisabled: false,
   },
   argTypes: {
     kind: {
@@ -34,6 +57,10 @@ export default {
       options: scale.values,
       control: { type: "select" },
     },
+    overlayPositioning: {
+      options: overlayPositioning.values,
+      control: { type: "select" },
+    },
   },
   parameters: {
     chromatic: {
@@ -44,13 +71,21 @@ export default {
 
 export const simple = (args: DialogStoryArgs): string => html`
   <calcite-dialog
+    ${boolean("modal", args.modal)}
     ${boolean("open", args.open)}
+    ${boolean("menuOpen", args.menuOpen)}
+    ${boolean("loading", args.loading)}
+    ${boolean("close-button-disabled", args.closeButtonDisabled)}
+    ${boolean("focus-trap-disabled", args.focusTrapDisabled)}
+    ${boolean("outside-close-disabled", args.outsideCloseDisabled)}
+    ${boolean("disabled", args.disabled)}
     kind="${args.kind}"
     scale="${args.scale}"
     width-scale="${args.widthScale}"
     ${boolean("fullscreen", args.fullscreen)}
     ${boolean("escape-disabled", args.escapeDisabled)}
     heading="${args.heading}"
+    description="${args.description}"
   >
     The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
     <calcite-button slot="footer-start" kind="neutral" appearance="outline" icon="chevron-left" width="full"
