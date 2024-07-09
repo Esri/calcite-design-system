@@ -2,6 +2,7 @@ export const CSS = {
   main: "main",
   content: "content",
   contentBehind: "content--behind",
+  contentBottom: "content-bottom",
   contentNonInteractive: "content--non-interactive",
   footer: "footer",
   positionedSlotWrapper: "positioned-slot-wrapper",

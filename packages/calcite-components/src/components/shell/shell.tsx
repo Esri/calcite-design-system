@@ -193,6 +193,13 @@ export class Shell implements ConditionalSlotComponent {
 
     const contentContainerKey = "content-container";
 
+    const shellPanels: Array<HTMLCalciteShellPanelElement> = Array.from(
+      this.el.querySelectorAll("calcite-shell-panel"),
+    );
+    const hasOnlyBottomPanel: boolean = !!(
+      shellPanels.length === 1 && shellPanels.find((element) => element.slot === "panel-bottom")
+    );
+
     const content = this.contentBehind
       ? [
           <div
@@ -204,14 +211,22 @@ export class Shell implements ConditionalSlotComponent {
           >
             {defaultSlotContainerNode}
           </div>,
-          <div class={CSS.contentBehindCenterContent}>
+          <div
+            class={{
+              [CSS.contentBehindCenterContent]: true,
+              [CSS.contentBottom]: hasOnlyBottomPanel,
+            }}
+          >
             {panelTopSlotNode}
             {panelBottomSlotNode}
             {deprecatedCenterRowSlotNode}
           </div>,
         ]
       : [
-          <div class={CSS.content} key={contentContainerKey}>
+          <div
+            class={{ [CSS.content]: true, [CSS.contentBottom]: hasOnlyBottomPanel }}
+            key={contentContainerKey}
+          >
             {panelTopSlotNode}
             {defaultSlotContainerNode}
             {panelBottomSlotNode}
