@@ -4,7 +4,7 @@ const defaultTheme = {
   shadowColor: "black",
   shadowValues: "0 1px 2px 0 1",
   space: "24px",
-  text: "green",
+  textColor: "green",
   zIndex: "9999",
 };
 
@@ -57,7 +57,7 @@ export class DemoTheme extends HTMLElement {
         tokensList.forEach((token) => {
           let value = "";
           if (textIconColorRegex.test(token)) {
-            value = this._theme.text;
+            value = this._theme.textColor;
           } else if (backgroundBorderRegex.test(token)) {
             value = this._theme.background;
           } else if (shadowRegex.test(token)) {
