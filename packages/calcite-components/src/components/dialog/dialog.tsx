@@ -104,7 +104,8 @@ export class Dialog
     focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
-  /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`. */
+  // todo: do we need to still say this?
+  /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-dialog-width` / `--calcite-dialog-height`. */
   @Prop({ reflect: true }) fullscreen: boolean;
 
   /**
@@ -555,7 +556,7 @@ export class Dialog
 
   // todo
   private updateSizeCssVars = (): void => {
-    this.cssWidth = getComputedStyle(this.el).getPropertyValue("--calcite-modal-width");
-    this.cssHeight = getComputedStyle(this.el).getPropertyValue("--calcite-modal-height");
+    this.cssWidth = getComputedStyle(this.el).getPropertyValue("--calcite-dialog-width");
+    this.cssHeight = getComputedStyle(this.el).getPropertyValue("--calcite-dialog-height");
   };
 }
