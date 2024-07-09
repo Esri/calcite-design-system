@@ -1,16 +1,16 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { Modal } from "./dialog";
+import { Dialog } from "./dialog";
 const { kind, scale } = ATTRIBUTES;
 
-type ModalStoryArgs = Pick<
-  Modal,
-  "open" | "kind" | "scale" | "widthScale" | "fullscreen" | "docked" | "escapeDisabled"
+type DialogStoryArgs = Pick<
+  Dialog,
+  "open" | "kind" | "scale" | "widthScale" | "fullscreen" | "escapeDisabled" | "heading"
 >;
 
 export default {
-  title: "Components/Modal",
+  title: "Components/Dialog",
   args: {
     open: true,
     kind: "",
@@ -19,6 +19,7 @@ export default {
     fullscreen: false,
     docked: false,
     escapeDisabled: false,
+    heading: "My Dialog",
   },
   argTypes: {
     kind: {
@@ -41,26 +42,23 @@ export default {
   },
 };
 
-export const simple = (args: ModalStoryArgs): string => html`
-  <calcite-modal
+export const simple = (args: DialogStoryArgs): string => html`
+  <calcite-dialog
     ${boolean("open", args.open)}
     kind="${args.kind}"
     scale="${args.scale}"
     width-scale="${args.widthScale}"
     ${boolean("fullscreen", args.fullscreen)}
-    ${boolean("docked", args.docked)}
     ${boolean("escape-disabled", args.escapeDisabled)}
+    heading="${args.heading}"
   >
-    <h3 slot="header">Small Modal</h3>
-    <div slot="content">
-      The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
-    </div>
-    <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full"
+    The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
+    <calcite-button slot="footer-start" kind="neutral" appearance="outline" icon="chevron-left" width="full"
       >Back</calcite-button
     >
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
+    <calcite-button slot="footer-end" width="full" appearance="outline">Cancel</calcite-button>
+    <calcite-button slot="footer-end" width="full">Save</calcite-button>
+  </calcite-dialog>
 `;
 
 const mightyLongTextToScroll = html`
@@ -74,36 +72,33 @@ const mightyLongTextToScroll = html`
 `;
 
 export const slots = (): string => html`
-  <calcite-modal open scale="m" width-scale="s">
-    <h3 slot="header">Slot for a header.</h3>
+  <calcite-dialog heading="My Dialog" open scale="m" width-scale="s">
     <div slot="content-top">Slot for a content-top.</div>
-    <div slot="content" style="height: 100px">${mightyLongTextToScroll}</div>
+    <div style="height: 100px">${mightyLongTextToScroll}</div>
     <div slot="content-bottom">Slot for a content-bottom.</div>
-    <calcite-button slot="primary" width="full">Button</calcite-button>
-  </calcite-modal>
+    <calcite-button slot="footer-end" width="full">Button</calcite-button>
+  </calcite-dialog>
 `;
 
 export const darkModeRTLCustomSizeCSSVars_TestOnly = (): string => html`
-  <calcite-modal
+  <calcite-dialog
+    heading="My Dialog"
     class="calcite-mode-dark"
     dir="rtl"
     open
     scale="m"
-    style="--calcite-modal-height: 500px; --calcite-modal-width: 600px;"
+    style="--calcite-dialog-height: 500px; --calcite-dialog-width: 600px;"
   >
-    <h3 slot="header">Small Modal</h3>
-    <div slot="content">
-      <p>
-        The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements. You can
-        customize the size using the width attribute.
-      </p>
-    </div>
-    <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full"
+    <p>
+      The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements. You can
+      customize the size using the width attribute.
+    </p>
+    <calcite-button slot="footer-start" kind="neutral" appearance="outline" icon="chevron-left" width="full"
       >Back</calcite-button
     >
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
+    <calcite-button slot="footer-end" width="full" appearance="outline">Cancel</calcite-button>
+    <calcite-button slot="footer-end" width="full">Save</calcite-button>
+  </calcite-dialog>
 `;
 
 darkModeRTLCustomSizeCSSVars_TestOnly.parameters = { themes: modesDarkDefault };
@@ -113,19 +108,18 @@ export const withTooltips_TestOnly = (): string => html`
   <calcite-tooltip style="--calcite-tooltip-z-index: 600;" open label="Open modal" reference-element="button"
     >Open modal</calcite-tooltip
   >
-  <calcite-modal open aria-labelledby="modal-title" id="modal">
-    <div slot="header" id="modal-title">Modal title</div>
-    <div slot="content">
-      Modal content lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+  <calcite-dialog open heading="Dialog title">
+    <div>
+      Dialog content lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
       et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
       commodo consequat.
     </div>
-    <calcite-button id="back-button-modal" slot="back" kind="neutral" icon="chevron-left" width="full"
+    <calcite-button id="back-button-modal" slot="footer-start" kind="neutral" icon="chevron-left" width="full"
       >Back
     </calcite-button>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
+    <calcite-button slot="footer-end" width="full" appearance="outline">Cancel</calcite-button>
+    <calcite-button slot="footer-end" width="full">Save</calcite-button>
+  </calcite-dialog>
   <calcite-tooltip open label="Back" reference-element="back-button-modal">Back</calcite-tooltip>
 `;
 
@@ -135,17 +129,16 @@ withTooltips_TestOnly.parameters = {
 
 export const withCSSVars_TestOnly = (): string => html`
   <button id="button">Open</button>
-  <calcite-modal open aria-labelledby="modal-title" id="modal" style="--calcite-modal-content-background: #ddd;">
-    <div slot="header" id="modal-title">Modal title</div>
-    <div slot="content">
-      Modal content lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+  <calcite-dialog open heading="Dialog title" id="modal" style="--calcite-dialog-content-background: #ddd;">
+    <div>
+      Dialog content lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
       et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
       commodo consequat.
     </div>
-    <calcite-button id="back-button-modal" slot="back" kind="neutral" icon="chevron-left" width="full"
+    <calcite-button id="back-button-modal" slot="footer-start" kind="neutral" icon="chevron-left" width="full"
       >Back
     </calcite-button>
-    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
-    <calcite-button slot="primary" width="full">Save</calcite-button>
-  </calcite-modal>
+    <calcite-button slot="footer-end" width="full" appearance="outline">Cancel</calcite-button>
+    <calcite-button slot="footer-end" width="full">Save</calcite-button>
+  </calcite-dialog>
 `;
