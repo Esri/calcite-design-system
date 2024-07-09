@@ -23,7 +23,9 @@ export class DemoTheme extends HTMLElement {
     const slot = document.createElement("slot");
     shadow.append(slot);
     this._slot = slot;
-    this._el = this._slot.assignedNodes()[0] as HTMLElement;
+    if (this._slot.assignedNodes().length === 1 && this._slot.assignedNodes()[0].nodeName.includes("calcite")) {
+      this._el = this._slot.assignedNodes()[0] as HTMLElement;
+    }
   }
 
   attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
@@ -79,7 +81,11 @@ export class DemoTheme extends HTMLElement {
         })
         .join(" ");
 
-      this._el.style.cssText = stringifiedTheme;
+      if (this._el) {
+        this._el.style.cssText = stringifiedTheme;
+      } else {
+        this.setAttribute("style", stringifiedTheme);
+      }
     }
   }
 }
