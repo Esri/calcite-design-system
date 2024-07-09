@@ -308,7 +308,6 @@ describe("calcite-dialog", () => {
       expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
     });
 
-    // todo
     it("restores focus to previously focused element when closed", async () => {
       const initiallyFocusedId = "initially-focused";
       const initiallyFocusedIdSelector = `#${initiallyFocusedId}`;
@@ -329,7 +328,6 @@ describe("calcite-dialog", () => {
       expect(await isElementFocused(page, initiallyFocusedIdSelector)).toBe(true);
     });
 
-    // todo
     it("traps focus within the dialog when open and disabled close button", async () => {
       const button1Id = "button1";
       const button2Id = "button2";
@@ -565,7 +563,6 @@ describe("calcite-dialog", () => {
       expect(await page.evaluate(() => document.documentElement.style.overflow)).toEqual("scroll");
     });
 
-    // todo: dialogs slot
     it("correctly does not add overflow style on document when open and slotted in shell dialogs slot", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-shell><calcite-dialog slot="dialogs"></calcite-dialog></calcite-shell>`);
