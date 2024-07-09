@@ -23,6 +23,7 @@ export const SLOTS = {
   headerMenuActions: "header-menu-actions",
   headerContent: "header-content",
   fab: "fab",
-  footer: "footer",
+  footerStart: "footer-start",
+  footerEnd: "footer-end",
   footerActions: "footer-actions",
 };

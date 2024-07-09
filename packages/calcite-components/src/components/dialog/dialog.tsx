@@ -49,6 +49,7 @@ import { CSS, SLOTS } from "./resources";
 let totalOpenDialogs: number = 0;
 let initialDocumentOverflowStyle: string = "";
 
+// todo: slot doc
 /**
  * @slot content - TODO
  * @slot content-top - A slot for adding content to the component's sticky header, where content remains at the top of the component when scrolling up and down.
@@ -81,6 +82,7 @@ export class Dialog
   /** A description for the component. */
   @Prop() description: string;
 
+  // todo: remove?
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) closeButtonDisabled = false;
 
@@ -93,6 +95,7 @@ export class Dialog
   /** When `true`, disables the default close on escape behavior. */
   @Prop({ reflect: true }) escapeDisabled = false;
 
+  // todo: remove?
   /**
    * When `true`, prevents focus trapping.
    */
@@ -166,6 +169,7 @@ export class Dialog
    */
   @Prop({ mutable: true, reflect: true }) opened = false;
 
+  // todo: remove?
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
@@ -278,7 +282,8 @@ export class Dialog
               <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
               <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
               <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
-              <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
+              <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
+              <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
               <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
               <slot />
             </slot>
@@ -329,6 +334,7 @@ export class Dialog
     this.handleMutationObserver(),
   );
 
+  // todo: remove?
   private cssVarObserver: MutationObserver = createObserver("mutation", () => {
     this.updateSizeCssVars();
   });

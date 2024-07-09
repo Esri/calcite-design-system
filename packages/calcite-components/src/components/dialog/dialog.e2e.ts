@@ -628,11 +628,11 @@ describe("calcite-dialog", () => {
       html: `
       <calcite-dialog modal heading="Title of the dialog" open>
         <div>The actual content of the dialog</div>
-        <calcite-button slot="footer" kind="neutral" appearance="outline" icon="chevron-left" width="full">
+        <calcite-button slot="footer-start" kind="neutral" appearance="outline" icon="chevron-left" width="full">
           Back
         </calcite-button>
-        <calcite-button slot="footer" width="full" appearance="outline"> Cancel </calcite-button>
-        <calcite-button slot="footer" width="full"> Save </calcite-button>
+        <calcite-button slot="footer-end" width="full" appearance="outline"> Cancel </calcite-button>
+        <calcite-button slot="footer-end" width="full"> Save </calcite-button>
       </calcite-dialog>
       `,
     });
@@ -649,11 +649,11 @@ describe("calcite-dialog", () => {
       html: `
       <calcite-dialog modal heading="Title of the dialog" open style="--calcite-dialog-scrim-background:${overrideStyle}">
         <div>The actual content of the dialog</div>
-        <calcite-button slot="footer" kind="neutral" appearance="outline" icon="chevron-left" width="full">
+        <calcite-button slot="footer-start" kind="neutral" appearance="outline" icon="chevron-left" width="full">
           Back
         </calcite-button>
-        <calcite-button slot="footer" width="full" appearance="outline"> Cancel </calcite-button>
-        <calcite-button slot="footer" width="full"> Save </calcite-button>
+        <calcite-button slot="footer-end" width="full" appearance="outline"> Cancel </calcite-button>
+        <calcite-button slot="footer-end" width="full"> Save </calcite-button>
       </calcite-dialog>
       `,
     });
