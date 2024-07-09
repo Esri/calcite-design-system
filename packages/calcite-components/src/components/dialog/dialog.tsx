@@ -149,7 +149,7 @@ export class Dialog
     /* wired up by t9n util */
   }
 
-  /** When `true`, TODO.  */
+  /** When `true`, displays a scrim blocking interaction underneath the component.  */
   @Prop({ reflect: true }) modal = false;
 
   /** When `true`, displays and positions the component.  */
@@ -248,12 +248,7 @@ export class Dialog
             <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
           ) : null}
           {this.renderStyle()}
-          <div
-            class={{
-              [CSS.dialog]: true, // todo: rename class
-            }}
-            ref={this.setTransitionEl}
-          >
+          <div class={CSS.dialog} ref={this.setTransitionEl}>
             <slot name={SLOTS.content}>
               <calcite-panel
                 closable
@@ -406,7 +401,13 @@ export class Dialog
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    focusFirstTabbable(this.el);
+    const { panelEl } = this;
+
+    if (panelEl) {
+      panelEl?.setFocus();
+    } else {
+      focusFirstTabbable(this.el);
+    }
   }
 
   /**

@@ -1698,7 +1698,7 @@ export namespace Components {
          */
         "messages": DialogMessages;
         /**
-          * When `true`, TODO.
+          * When `true`, displays a scrim blocking interaction underneath the component.
          */
         "modal": boolean;
         /**
@@ -9683,7 +9683,7 @@ declare namespace LocalJSX {
          */
         "messages"?: DialogMessages;
         /**
-          * When `true`, TODO.
+          * When `true`, displays a scrim blocking interaction underneath the component.
          */
         "modal"?: boolean;
         /**

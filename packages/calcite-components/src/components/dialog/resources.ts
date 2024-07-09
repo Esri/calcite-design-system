@@ -1,5 +1,5 @@
 export const CSS = {
-  // todo: cleanup
+  close: "close", //todo: remove
   dialog: "dialog",
   scrim: "scrim",
   container: "container",
