@@ -1,4 +1,4 @@
-import { Component, Element, Fragment, h, Listen, Prop, State, VNode } from "@stencil/core";
+import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -82,6 +82,12 @@ export class Shell implements ConditionalSlotComponent {
 
   @State() panelIsResizing = false;
 
+  @Watch("hasPanelTop")
+  @Watch("hasPanelBottom")
+  updateHasOnlyPanelBottom(): void {
+    this.hasOnlyPanelBottom = !this.hasPanelTop && this.hasPanelBottom;
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -138,21 +144,11 @@ export class Shell implements ConditionalSlotComponent {
   };
 
   handlePanelTopChange = (event: Event): void => {
-    const panelTop = event.target as HTMLSlotElement;
-    this.hasPanelTop = !!panelTop;
-
-    this.updateHasOnlyPanelBottom();
+    this.hasPanelTop = slotChangeHasAssignedElement(event);
   };
 
   handlePanelBottomChange = (event: Event): void => {
-    const panelBottom = event.target as HTMLSlotElement;
-    this.hasPanelBottom = !!panelBottom;
-
-    this.updateHasOnlyPanelBottom();
-  };
-
-  updateHasOnlyPanelBottom = (): void => {
-    this.hasOnlyPanelBottom = !this.hasPanelTop && this.hasPanelBottom;
+    this.hasPanelBottom = slotChangeHasAssignedElement(event);
   };
 
   // --------------------------------------------------------------------------
