@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.1...@esri/calcite-components@2.11.0-next.2) (2024-07-08)
+
+### Features
+
+- **panel, flow-item:** add scale property ([#9730](https://github.com/Esri/calcite-design-system/issues/9730)) ([1cc65e7](https://github.com/Esri/calcite-design-system/commit/1cc65e73ba6ba1119f6f9890c6c4ecf23922c6ca)), closes [#6980](https://github.com/Esri/calcite-design-system/issues/6980)
+
 ## [2.11.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.0...@esri/calcite-components@2.11.0-next.1) (2024-07-05)
 
 ### Bug Fixes

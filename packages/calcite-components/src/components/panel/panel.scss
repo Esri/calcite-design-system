@@ -20,22 +20,58 @@
 
 :host([scale="s"]) {
   .content-top,
-  .content-bottom {
+  .content-bottom,
+  .footer,
+  .header-content {
     padding: var(--calcite-spacing-sm);
+  }
+
+  .header-content {
+    .heading {
+      font-size: theme("fontSize.n1h");
+    }
+
+    .description {
+      font-size: theme("fontSize.n2h");
+    }
   }
 }
 
 :host([scale="m"]) {
   .content-top,
-  .content-bottom {
+  .content-bottom,
+  .footer,
+  .header-content {
     padding: var(--calcite-spacing-md);
+  }
+
+  .header-content {
+    .heading {
+      font-size: theme("fontSize.0h");
+    }
+
+    .description {
+      font-size: theme("fontSize.n1h");
+    }
   }
 }
 
 :host([scale="l"]) {
   .content-top,
-  .content-bottom {
+  .content-bottom,
+  .footer,
+  .header-content {
     padding: var(--calcite-spacing-xl);
+  }
+
+  .header-content {
+    .heading {
+      font-size: theme("fontSize.1h");
+    }
+
+    .description {
+      font-size: theme("fontSize.0h");
+    }
   }
 }
 
@@ -90,21 +126,26 @@
     overflow-hidden
     px-3
     py-3.5;
+
   margin-inline-end: auto;
+
   .heading,
   .description {
     @apply block
       break-words
       p-0;
   }
+
   .heading {
-    @apply text-0h mx-0 mt-0 mb-1 font-medium;
+    @apply mx-0 mt-0 mb-1 font-medium text-color-1;
+
     &:only-child {
       @apply mb-0;
     }
   }
+
   .description {
-    @apply text-color-2 text-n1h;
+    @apply text-color-2;
   }
 }
 
