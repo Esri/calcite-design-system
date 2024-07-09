@@ -1,5 +1,7 @@
 Dialog
 
+- don't need footer slot right?
+
 - modal default value?
 
 - panel properties
