@@ -273,19 +273,20 @@ export class Dialog
                 overlayPositioning={this.overlayPositioning}
                 ref={(el) => (this.panelEl = el)}
                 scale={this.scale}
-              />
-              <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
-              <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
-              <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
-              <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
-              <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
-              <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
-              <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
-              <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
-              <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
-              <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
-              <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
-              <slot />
+              >
+                <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
+                <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
+                <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+                <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
+                <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
+                <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
+                <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
+                <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
+                <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
+                <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
+                <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
+                <slot />
+              </calcite-panel>
             </slot>
           </div>
         </div>

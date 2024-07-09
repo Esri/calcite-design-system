@@ -16,7 +16,7 @@ Dialog
 - do we need escapeDisabled?
 
 - placement property: add as feat?
-- alerts slot: should this be on panel???
+- alerts slot: should this be on panel??? Add as separate feat?
 - overriding messages on internal components?
 - renderStyle??
 
@@ -25,7 +25,12 @@ Dialog
 TODO:
 
 - HTML DEMOS
+  - modal
+  - disabled
+  - description
+  - loading
+  - menuOpen
+  - overlayPositioning
 - STORYBOOK
 - CSS
   - all panel vars for css
-  - fix custom props
