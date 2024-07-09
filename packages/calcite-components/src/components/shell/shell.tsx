@@ -74,6 +74,12 @@ export class Shell implements ConditionalSlotComponent {
 
   @State() hasSheets = false;
 
+  @State() hasPanelTop = false;
+
+  @State() hasPanelBottom = false;
+
+  @State() hasOnlyPanelBottom = false;
+
   @State() panelIsResizing = false;
 
   // --------------------------------------------------------------------------
@@ -129,6 +135,24 @@ export class Shell implements ConditionalSlotComponent {
         (el as HTMLCalciteModalElement).slottedInShell = true;
       }
     });
+  };
+
+  handlePanelTopChange = (event: Event): void => {
+    const panelTop = event.target as HTMLSlotElement;
+    this.hasPanelTop = !!panelTop;
+
+    this.updateHasOnlyPanelBottom();
+  };
+
+  handlePanelBottomChange = (event: Event): void => {
+    const panelBottom = event.target as HTMLSlotElement;
+    this.hasPanelBottom = !!panelBottom;
+
+    this.updateHasOnlyPanelBottom();
+  };
+
+  updateHasOnlyPanelBottom = (): void => {
+    this.hasOnlyPanelBottom = !this.hasPanelTop && this.hasPanelBottom;
   };
 
   // --------------------------------------------------------------------------
@@ -188,17 +212,18 @@ export class Shell implements ConditionalSlotComponent {
     const deprecatedCenterRowSlotNode: VNode = (
       <slot key="center-row-slot" name={SLOTS.centerRow} />
     );
-    const panelBottomSlotNode: VNode = <slot key="panel-bottom-slot" name={SLOTS.panelBottom} />;
-    const panelTopSlotNode: VNode = <slot key="panel-top-slot" name={SLOTS.panelTop} />;
+    const panelBottomSlotNode: VNode = (
+      <slot
+        key="panel-bottom-slot"
+        name={SLOTS.panelBottom}
+        onSlotchange={this.handlePanelBottomChange}
+      />
+    );
+    const panelTopSlotNode: VNode = (
+      <slot key="panel-top-slot" name={SLOTS.panelTop} onSlotchange={this.handlePanelTopChange} />
+    );
 
     const contentContainerKey = "content-container";
-
-    const shellPanels: Array<HTMLCalciteShellPanelElement> = Array.from(
-      this.el.querySelectorAll("calcite-shell-panel"),
-    );
-    const hasOnlyBottomPanel: boolean = !!(
-      shellPanels.length === 1 && shellPanels.find((element) => element.slot === "panel-bottom")
-    );
 
     const content = this.contentBehind
       ? [
@@ -214,7 +239,7 @@ export class Shell implements ConditionalSlotComponent {
           <div
             class={{
               [CSS.contentBehindCenterContent]: true,
-              [CSS.contentBottom]: hasOnlyBottomPanel,
+              [CSS.contentBottom]: this.hasOnlyPanelBottom,
             }}
           >
             {panelTopSlotNode}
@@ -224,7 +249,7 @@ export class Shell implements ConditionalSlotComponent {
         ]
       : [
           <div
-            class={{ [CSS.content]: true, [CSS.contentBottom]: hasOnlyBottomPanel }}
+            class={{ [CSS.content]: true, [CSS.contentBottom]: this.hasOnlyPanelBottom }}
             key={contentContainerKey}
           >
             {panelTopSlotNode}
