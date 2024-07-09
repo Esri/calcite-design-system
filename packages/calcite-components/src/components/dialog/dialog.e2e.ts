@@ -399,14 +399,14 @@ describe("calcite-dialog", () => {
     const createDialogHTML = (contentHTML?: string, attrs?: string) =>
       `<calcite-dialog heading="Title" open ${attrs}>${contentHTML}</calcite-dialog>`;
 
-    const closeButtonTargetSelector = "calcite-panel";
     const focusableContentTargetClass = "test";
 
-    const focusableContentHTML = html`This is the content <button class=${focusableContentTargetClass}>test</button> `;
+    const focusableContentHTML = html`This is the content
+      <button class="${focusableContentTargetClass}">test</button> `;
 
     describe("focuses close button by default", () => {
       focusable(createDialogHTML(focusableContentHTML), {
-        shadowFocusTargetSelector: closeButtonTargetSelector,
+        shadowFocusTargetSelector: "calcite-panel",
       });
     });
 
