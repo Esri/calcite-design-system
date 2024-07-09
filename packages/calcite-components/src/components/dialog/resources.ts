@@ -26,6 +26,4 @@ export const SLOTS = {
   fab: "fab",
   footer: "footer",
   footerActions: "footer-actions",
-  footerEnd: "footer-end",
-  footerStart: "footer-start",
 };

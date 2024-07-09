@@ -20,4 +20,5 @@ export const SLOTS = {
   alerts: "alerts",
   sheets: "sheets",
   modals: "modals",
+  dialogs: "dialogs",
 };

@@ -499,7 +499,6 @@ export class Dialog
 
   private handleCloseClick = () => {
     this.open = false;
-    this.closeDialog();
   };
 
   private async openDialog(): Promise<void> {

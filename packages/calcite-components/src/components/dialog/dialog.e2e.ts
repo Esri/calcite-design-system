@@ -44,7 +44,7 @@ describe("calcite-dialog", () => {
   //   const dialog = await page.find("calcite-dialog");
   //   dialog.setProperty("closeButtonDisabled", true);
   //   await page.waitForChanges();
-  //   const closeButton = await page.find(`calcite-dialog >>> .${CSS.close}`);
+  //   const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> [data-test="close"]`);
   //   expect(closeButton).toBe(null);
   // });
 
@@ -62,7 +62,7 @@ describe("calcite-dialog", () => {
         const m = el.shadowRoot.querySelector(className);
         return window.getComputedStyle(m).getPropertyValue("width");
       },
-      CSS.dialog,
+      `.${CSS.dialog}`,
     );
     expect(style).toEqual("600px");
   });
@@ -81,7 +81,7 @@ describe("calcite-dialog", () => {
         const m = el.shadowRoot.querySelector(className);
         return window.getComputedStyle(m).getPropertyValue("height");
       },
-      CSS.dialog,
+      `.${CSS.dialog}`,
     );
     expect(style).toEqual("600px");
   });
@@ -100,7 +100,7 @@ describe("calcite-dialog", () => {
         const m = el.shadowRoot.querySelector(className);
         return window.getComputedStyle(m).getPropertyValue("width");
       },
-      CSS.dialog,
+      `.${CSS.dialog}`,
     );
     expect(style).not.toEqual("600px");
   });
@@ -119,7 +119,7 @@ describe("calcite-dialog", () => {
         const m = el.shadowRoot.querySelector(className);
         return window.getComputedStyle(m).getPropertyValue("height");
       },
-      CSS.dialog,
+      `.${CSS.dialog}`,
     );
     expect(style).not.toEqual("600px");
   });
@@ -140,7 +140,7 @@ describe("calcite-dialog", () => {
         const m = el.shadowRoot.querySelector(className);
         return window.getComputedStyle(m).getPropertyValue("width");
       },
-      CSS.dialog,
+      `.${CSS.dialog}`,
     );
     const styleH = await page.$eval(
       "calcite-dialog",
@@ -148,7 +148,7 @@ describe("calcite-dialog", () => {
         const m = el.shadowRoot.querySelector(className);
         return window.getComputedStyle(m).getPropertyValue("height");
       },
-      CSS.dialog,
+      `.${CSS.dialog}`,
     );
     expect(styleW).toEqual("800px");
     expect(styleH).toEqual("800px");
@@ -173,7 +173,7 @@ describe("calcite-dialog", () => {
     dialog.setProperty("open", true);
     await page.waitForChanges();
     expect(await dialog.getProperty("opened")).toBe(true);
-    const closeButton = await page.find(`calcite-dialog >>> .${CSS.close}`);
+    const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> [data-test="close"]`);
     await closeButton.click();
     await page.waitForChanges();
     expect(mockCallBack).toHaveBeenCalledTimes(1);
@@ -292,14 +292,14 @@ describe("calcite-dialog", () => {
       await page.waitForChanges();
       await opened;
 
-      expect(await isElementFocused(page, `.${CSS.close}`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, "calcite-panel", { shadowed: true })).toBe(true);
       await page.keyboard.press("Tab");
       expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
       await page.keyboard.press("Tab");
       expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
 
       await page.keyboard.press("Tab");
-      expect(await isElementFocused(page, `.${CSS.close}`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, "calcite-panel", { shadowed: true })).toBe(true);
       await page.keyboard.down("Shift");
       await page.keyboard.press("Tab");
       expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
@@ -365,11 +365,8 @@ describe("calcite-dialog", () => {
       const page = await newE2EPage();
       await skipAnimations(page);
       await page.setContent(html`
-        <calcite-dialog open id="dialog1">
-          <div slot="header">Dialog 1</div>
-          <div slot="content">
-            <calcite-button id="openButton">open second dialog</calcite-button>
-          </div>
+        <calcite-dialog open id="dialog1" heading="Dialog 1">
+          <calcite-button id="openButton">open second dialog</calcite-button>
         </calcite-dialog>
       `);
 
@@ -392,19 +389,22 @@ describe("calcite-dialog", () => {
       await page.click("#openButton");
       await page.waitForEvent("calciteDialogOpen");
 
+      await page.waitForChanges();
+
       expect(await isElementFocused(page, "#dialog2")).toBe(true);
     });
   });
 
   describe("setFocus", () => {
     const createDialogHTML = (contentHTML?: string, attrs?: string) =>
-      `<calcite-dialog open ${attrs}>${contentHTML}</calcite-dialog>`;
+      `<calcite-dialog heading="Title" open ${attrs}>${contentHTML}</calcite-dialog>`;
 
-    const closeButtonTargetSelector = `.${CSS.close}`;
+    const closeButtonTargetSelector = `calcite-dialog >>> calcite-panel >>> [data-test="close"]`;
     const focusableContentTargetClass = "test";
 
-    const focusableContentHTML = html`<h3 slot="header">Title</h3>
-      <p slot="content">This is the content <button class=${focusableContentTargetClass}>test</button></p>`;
+    const focusableContentHTML = html` <p>
+      This is the content <button class=${focusableContentTargetClass}>test</button>
+    </p>`;
 
     describe("focuses close button by default", () => {
       focusable(createDialogHTML(focusableContentHTML), {
@@ -419,18 +419,23 @@ describe("calcite-dialog", () => {
     });
   });
 
-  // todo
   it("has correct aria role/attribute", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-dialog></calcite-dialog>`);
     const dialog = await page.find("calcite-dialog");
     expect(dialog).toEqualAttribute("role", "dialog");
-    expect(dialog).toEqualAttribute("aria-dialog", "true");
+    expect(dialog).toEqualAttribute("aria-modal", "false");
+
+    dialog.setProperty("modal", true);
+    await page.waitForChanges();
+
+    expect(dialog).toEqualAttribute("role", "dialog");
+    expect(dialog).toEqualAttribute("aria-modal", "true");
   });
 
   it("closes and allows re-opening when Escape key is pressed", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog ></calcite-dialog>`);
+    await page.setContent(`<calcite-dialog></calcite-dialog>`);
     await skipAnimations(page);
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
@@ -470,7 +475,7 @@ describe("calcite-dialog", () => {
     dialog.setProperty("open", true);
     await page.waitForChanges();
     expect(await dialog.isVisible()).toBe(true);
-    const closeButton = await page.find(`calcite-dialog >>> .${CSS.close}`);
+    const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> [data-test="close"]`);
     await closeButton.click();
     await page.waitForChanges();
     expect(await dialog.isVisible()).toBe(false);
@@ -482,24 +487,32 @@ describe("calcite-dialog", () => {
 
   it("should close when the scrim is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog ></calcite-dialog>`);
+    await page.setContent(`<calcite-dialog modal></calcite-dialog>`);
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
     await page.waitForChanges();
     expect(dialog).toHaveAttribute("open");
-    await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
+
+    await page.evaluate((className) => {
+      const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
+      (scrim as HTMLElement).click();
+    }, `.${CSS.scrim}`);
+
     await page.waitForChanges();
     expect(await dialog.getProperty("open")).toBe(false);
   });
 
   it("should not close when the scrim is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog outside-close-disabled ></calcite-dialog>`);
+    await page.setContent(`<calcite-dialog modal outside-close-disabled></calcite-dialog>`);
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
     await page.waitForChanges();
     expect(dialog).toHaveAttribute("open");
-    await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
+    await page.evaluate((className) => {
+      const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
+      (scrim as HTMLElement).click();
+    }, `.${CSS.scrim}`);
     await page.waitForChanges();
     expect(await dialog.getProperty("open")).toBe(true);
   });
@@ -554,6 +567,7 @@ describe("calcite-dialog", () => {
       expect(await page.evaluate(() => document.documentElement.style.overflow)).toEqual("scroll");
     });
 
+    // todo: dialogs slot
     it("correctly does not add overflow style on document when open and slotted in shell dialogs slot", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-shell><calcite-dialog slot="dialogs"></calcite-dialog></calcite-shell>`);
@@ -574,16 +588,16 @@ describe("calcite-dialog", () => {
       const dialog1 = await page.find("#dialog-1");
       const dialog2 = await page.find("#dialog-2");
 
-      await dialog1.setProperty("open", true);
+      dialog1.setProperty("open", true);
       await page.waitForChanges();
-      await dialog2.setProperty("open", true);
+      dialog2.setProperty("open", true);
       await page.waitForChanges();
 
       expect(await hasOverflowStyle(page)).toEqual(true);
 
-      await dialog2.setProperty("open", false);
+      dialog2.setProperty("open", false);
       await page.waitForChanges();
-      await dialog1.setProperty("open", false);
+      dialog1.setProperty("open", false);
       await page.waitForChanges();
 
       expect(await hasOverflowStyle(page)).toEqual(false);
@@ -598,55 +612,39 @@ describe("calcite-dialog", () => {
       const dialog1 = await page.find("#dialog-1");
       const dialog2 = await page.find("#dialog-2");
 
-      await dialog1.setProperty("open", true);
+      dialog1.setProperty("open", true);
       await page.waitForChanges();
-      await dialog2.setProperty("open", true);
+      dialog2.setProperty("open", true);
       await page.waitForChanges();
 
       expect(await hasOverflowStyle(page)).toEqual(true);
 
-      await dialog1.setProperty("open", false);
+      dialog1.setProperty("open", false);
       await page.waitForChanges();
-      await dialog2.setProperty("open", false);
+      dialog2.setProperty("open", false);
       await page.waitForChanges();
 
       expect(await hasOverflowStyle(page)).toEqual(false);
     });
   });
 
-  it("renders correctly with no footer", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-dialog>
-        <calcite-button slot="primary">TEST</calcite-button>
-      </calcite-dialog>
-    `);
-    let footer = await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector(".footer"));
-    expect(footer).toBeDefined();
-    await page.$eval("calcite-button", (el) => el.parentElement.removeChild(el));
-    await page.waitForChanges();
-    footer = await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector(".footer"));
-    expect(footer).toBeFalsy();
-  });
-
   it("should render calcite-scrim with default background color", async () => {
     const page = await newE2EPage({
       html: `
-      <calcite-dialog aria-labelledby="dialog-title" open>
-        <h3 slot="header" id="dialog-title">Title of the dialog</h3>
-        <div slot="content">The actual content of the dialog</div>
-        <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full">
+      <calcite-dialog modal heading="Title of the dialog" open>
+        <div>The actual content of the dialog</div>
+        <calcite-button slot="footer" kind="neutral" appearance="outline" icon="chevron-left" width="full">
           Back
         </calcite-button>
-        <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
-        <calcite-button slot="primary" width="full"> Save </calcite-button>
+        <calcite-button slot="footer" width="full" appearance="outline"> Cancel </calcite-button>
+        <calcite-button slot="footer" width="full"> Save </calcite-button>
       </calcite-dialog>
       `,
     });
-    const scrimStyles = await page.evaluate(() => {
-      const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(".scrim");
+    const scrimStyles = await page.evaluate((className) => {
+      const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
       return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
-    });
+    }, `.${CSS.scrim}`);
     expect(scrimStyles.trim()).toEqual("rgba(0, 0, 0, 0.85)");
   });
 
@@ -654,41 +652,20 @@ describe("calcite-dialog", () => {
     const overrideStyle = "rgba(160, 20, 10, 0.5)";
     const page = await newE2EPage({
       html: `
-      <calcite-dialog aria-labelledby="dialog-title" open style="--calcite-dialog-scrim-background:${overrideStyle}">
-        <h3 slot="header" id="dialog-title">Title of the dialog</h3>
-        <div slot="content">The actual content of the dialog</div>
-        <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full">
+      <calcite-dialog modal heading="Title of the dialog" open style="--calcite-dialog-scrim-background:${overrideStyle}">
+        <div>The actual content of the dialog</div>
+        <calcite-button slot="footer" kind="neutral" appearance="outline" icon="chevron-left" width="full">
           Back
         </calcite-button>
-        <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
-        <calcite-button slot="primary" width="full"> Save </calcite-button>
+        <calcite-button slot="footer" width="full" appearance="outline"> Cancel </calcite-button>
+        <calcite-button slot="footer" width="full"> Save </calcite-button>
       </calcite-dialog>
       `,
     });
-    const scrimStyles = await page.evaluate(() => {
-      const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(".scrim");
+    const scrimStyles = await page.evaluate((className) => {
+      const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
       return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
-    });
+    }, `.${CSS.scrim}`);
     expect(scrimStyles).toEqual(overrideStyle);
-  });
-
-  it("correctly reflects the scale of the dialog on the close button icon", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html` <calcite-dialog open></calcite-dialog> `);
-    const dialog = await page.find("calcite-dialog");
-    dialog.setProperty("scale", "s");
-    await page.waitForChanges();
-    let closeIcon = await page.find('calcite-dialog >>> calcite-icon[scale="s"]');
-    expect(closeIcon).not.toBe(null);
-
-    dialog.setProperty("scale", "m");
-    await page.waitForChanges();
-    closeIcon = await page.find('calcite-dialog >>> calcite-icon[scale="s"]');
-    expect(closeIcon).not.toBe(null);
-
-    dialog.setProperty("scale", "l");
-    await page.waitForChanges();
-    closeIcon = await page.find('calcite-dialog >>> calcite-icon[scale="m"]');
-    expect(closeIcon).not.toBe(null);
   });
 });

@@ -1666,7 +1666,7 @@ export namespace Components {
          */
         "focusTrapDisabled": boolean;
         /**
-          * Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`.
+          * Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-dialog-width` / `--calcite-dialog-height`.
          */
         "fullscreen": boolean;
         /**
@@ -9659,7 +9659,7 @@ declare namespace LocalJSX {
          */
         "focusTrapDisabled"?: boolean;
         /**
-          * Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-modal-width` / `--calcite-modal-height`.
+          * Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-dialog-width` / `--calcite-dialog-height`.
          */
         "fullscreen"?: boolean;
         /**
