@@ -91,7 +91,7 @@
   inset-block-start: 0;
   inset-block-end: unset;
   inset-inline-start: -1px;
-  inset-inline-end: -1px;
+  inset-inline-end: 0;
   inline-size: calc(100% + 2px);
 }
 
@@ -109,11 +109,13 @@
   content: "";
 }
 
-/*
 :host([bordered][selected]) .container.container--bottom::after {
   inset-block-start: -1px;
 }
-*/
+
+:host([bordered]:not([selected]):hover) .selected-indicator {
+  display: none;
+}
 
 :host([bordered][selected]:hover) .container::after {
   background: var(--calcite-color-foreground-2);
@@ -122,13 +124,13 @@
 :host([bordered][selected]:focus) .container::after {
   background: transparent;
 }
-
 /*
-:host([selected]:focus) .selected-indicator {
+
+:host([selected]:not([bordered]):focus) .selected-indicator {
   inset-block-end: 2px;
 }
 
-:host([selected]:focus) .container--bottom .selected-indicator {
+:host([selected]:not([bordered]):focus) .container--bottom .selected-indicator {
   inset-block-start: 2px;
 }
 
@@ -136,8 +138,8 @@
   inset-block-end: 2px;
   inset-block-start: unset;
 }
-*/
 
+*/
 :host([bordered]) .container--bottom .selected-indicator {
   inset-block-start: unset;
   inset-block-end: 0;
@@ -241,7 +243,10 @@
   &:focus,
   &:hover {
     @apply text-color-1;
-    background-color: var(--calcite-color-foreground-2);
+    background-color: var(--calcite-color-foreground-3);
+    box-shadow:
+      0 0 0 1px var(--calcite-color-foreground-3),
+      0 1px 0 0 var(--calcite-color-foreground-3);
   }
 
   &:active {
@@ -277,7 +282,7 @@
   border-inline-start: 1px solid transparent;
   border-inline-end: 1px solid transparent;
   .close-button {
-    margin-inline-start: theme("margin.1");
+    margin-inline-start: theme("margin.2");
   }
 }
 
