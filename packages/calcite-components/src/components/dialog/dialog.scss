@@ -1,5 +1,3 @@
-@import "~@esri/calcite-design-tokens/dist/scss/core";
-
 /**
  * CSS Custom Properties
  *
@@ -204,10 +202,6 @@
     @apply border-0 border-t-4 border-solid;
   }
 }
-
-/**
- * Conditional styles for when dialog is slotted in Shell
- */
 
 .container.slotted-in-shell {
   position: absolute;

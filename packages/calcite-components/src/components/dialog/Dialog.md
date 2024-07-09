@@ -1,16 +1,29 @@
 Dialog
 
 - modal default value?
-- disabled property?
-- closeButtonDisabled property?
-- focusTrapDisabled?
-- loading propertY?
-- menuOpen property?
+
+- panel properties
+
+  - disabled property?
+  - closeButtonDisabled property?
+  - focusTrapDisabled?
+  - loading propertY?
+  - menuOpen property?
+
 - outsideCloseDisabled?
 - do we need escapeDisabled?
 
-- placement property: v2??
+- placement property: add as feat?
 - alerts slot: should this be on panel???
 - overriding messages on internal components?
 - renderStyle??
-- shell @slot modals need to create a dialogs slot?
+
+- shell @slot modals need to create a dialogs slot
+
+TODO:
+
+- HTML DEMOS
+- STORYBOOK
+- CSS
+  - all panel vars for css
+  - fix custom props
