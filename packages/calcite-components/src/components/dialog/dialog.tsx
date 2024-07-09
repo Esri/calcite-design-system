@@ -264,7 +264,7 @@ export class Dialog
                 onCalcitePanelScroll={this.handleScroll}
                 overlayPositioning={this.overlayPositioning}
                 ref={(el) => (this.panelEl = el)}
-                // scale={this.scale} // todo: add
+                scale={this.scale}
               />
               <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
               <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
