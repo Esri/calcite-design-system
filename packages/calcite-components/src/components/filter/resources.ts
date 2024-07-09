@@ -1,10 +1,11 @@
 export const CSS = {
   container: "container",
-  input: "input",
+  searchIcon: "search-icon",
 };
 
 export const ICONS = {
   search: "search",
-};
+  close: "x",
+} as const;
 
 export const DEBOUNCE_TIMEOUT = 250;

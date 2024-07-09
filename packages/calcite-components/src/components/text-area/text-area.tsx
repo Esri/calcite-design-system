@@ -55,6 +55,7 @@ import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { IconName } from "../icon/interfaces";
 import { CharacterLengthObj } from "./interfaces";
 import { TextAreaMessages } from "./assets/text-area/t9n";
 import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
@@ -156,7 +157,7 @@ export class TextArea
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconName | boolean;
 
   /**
    * The current validation state of the component.

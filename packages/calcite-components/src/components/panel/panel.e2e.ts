@@ -60,6 +60,10 @@ describe("calcite-panel", () => {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ]);
   });
 

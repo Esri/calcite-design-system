@@ -142,7 +142,7 @@ export interface T9nComponent extends LocalizedComponent {
    *  \/* wired up by t9n util *\/
    * }
    */
-  onMessagesChange(): void;
+  onMessagesChange: () => void;
 }
 
 function defaultOnMessagesChange(this: T9nComponent): void {
