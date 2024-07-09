@@ -8,6 +8,6 @@ function beforeClose() {
   });
 }
 
-const modal = document.getElementById("my-modal");
-modal.beforeClose = beforeClose;
+const dialog = document.getElementById("my-dialog");
+dialog.beforeClose = beforeClose;
 ```

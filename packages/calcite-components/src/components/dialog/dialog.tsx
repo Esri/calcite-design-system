@@ -240,8 +240,8 @@ export class Dialog
     const { description, heading, opened } = this;
     return (
       <Host
-        aria-describedby={description}
-        aria-labelledby={heading}
+        aria-description={description}
+        aria-label={heading}
         aria-modal={toAriaBoolean(this.modal)}
         role="dialog"
       >
