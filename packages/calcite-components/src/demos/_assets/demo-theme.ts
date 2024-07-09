@@ -1,3 +1,22 @@
+/*
+ * EXAMPLE USAGE:
+ *
+ * <demo-theme tokens="
+ *     --calcite-button-background-color,
+ *     --calcite-button-border-color,
+ *     --calcite-button-corner-radius,
+ *     --calcite-button-corner-radius-start-start,
+ *     --calcite-button-corner-radius-start-end,
+ *     --calcite-button-corner-radius-end-start,
+ *     --calcite-button-corner-radius-end-end,
+ *     --calcite-button-loader-color,
+ *     --calcite-button-shadow,
+ *     --calcite-button-text-color,
+ *     --calcite-button-icon-color"
+ * ><calcite-button kind="inverse" scale="l"> Button </calcite-button></demo-theme>
+ *
+ */
+
 const defaultTheme = {
   background: "blue",
   cornerRadius: "42px",
