@@ -14,6 +14,10 @@
         max-width: 1680px;
       }
 
+      .main-container.single {
+        display: flex;
+      }
+
       .main-container > div,
       #width,
       #alignment,
@@ -98,6 +102,154 @@
 
   <body>
     <demo-dom-swapper>
+      <!--
+      ***************************************************************
+      * INTERACTIVE
+      ***************************************************************
+     -->
+      <div class="main-container single">
+        <div>
+          <p>&nbsp;</p>
+          <p class="right-align">Interactive</p>
+        </div>
+
+        <section>
+          <calcite-label layout="inline">
+            <span> Toggle loading animation: </span>
+            <calcite-switch id="loading-switch"></calcite-switch>
+          </calcite-label>
+          <calcite-label layout="inline">
+            <span> Change scale: </span>
+            <calcite-segmented-control id="scale-group">
+              <calcite-segmented-control-item value="s">s</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="m" checked>m</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="l">l</calcite-segmented-control-item>
+            </calcite-segmented-control>
+          </calcite-label>
+          <calcite-label layout="inline">
+            <span> Change appearance: </span>
+            <calcite-segmented-control id="appearance-group">
+              <calcite-segmented-control-item value="solid" checked>solid</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="outline">outline</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="outline-fill">outline-fill</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="transparent">transparent</calcite-segmented-control-item>
+            </calcite-segmented-control>
+          </calcite-label>
+          <calcite-label layout="inline">
+            <span> Change kind: </span>
+            <calcite-segmented-control id="kind-group">
+              <calcite-segmented-control-item value="brand">brand</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="neutral">neutral</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="inverse">inverse</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="danger" checked>danger</calcite-segmented-control-item>
+            </calcite-segmented-control>
+          </calcite-label>
+          <script>
+            const loadingSwitch = document.querySelector("#loading-switch");
+            const scaleRadios = document.querySelector("#scale-group");
+            const appearanceRadios = document.querySelector("#appearance-group");
+            const kindRadios = document.querySelector("#kind-group");
+            window.onload = () => {
+              loadingSwitch.addEventListener("calciteSwitchChange", () => {
+                document.querySelectorAll(".loading-transition").forEach((button) => {
+                  button.toggleAttribute("loading");
+                });
+              });
+              scaleRadios.addEventListener("calciteSegmentedControlChange", (e) => {
+                document.querySelectorAll(".loading-transition").forEach((button) => {
+                  button.setAttribute("scale", e.target.selectedItem.value);
+                });
+              });
+              appearanceRadios.addEventListener("calciteSegmentedControlChange", (e) => {
+                document.querySelectorAll(".loading-transition").forEach((button) => {
+                  button.setAttribute("appearance", e.target.selectedItem.value);
+                });
+              });
+              kindRadios.addEventListener("calciteSegmentedControlChange", (e) => {
+                document.querySelectorAll(".loading-transition").forEach((button) => {
+                  button.setAttribute("kind", e.target.selectedItem.value);
+                });
+              });
+            };
+          </script>
+
+          <calcite-button
+            class="loading-transition"
+            kind="danger"
+            appearance="solid"
+            icon-start="attachment"
+          ></calcite-button>
+          <calcite-button
+            class="loading-transition"
+            kind="danger"
+            appearance="solid"
+            icon-end="download"
+            round
+          ></calcite-button>
+          <calcite-button
+            class="loading-transition"
+            kind="danger"
+            appearance="solid"
+            icon-start="attachment"
+            icon-end="download"
+          ></calcite-button>
+          <calcite-button
+            class="loading-transition"
+            kind="danger"
+            appearance="solid"
+            icon-start="attachment"
+            round
+            icon-end="download"
+          ></calcite-button>
+          <calcite-button class="loading-transition" kind="danger" appearance="solid">Attachments</calcite-button>
+          <calcite-button class="loading-transition" kind="danger" appearance="solid" round>Attachments</calcite-button>
+          <calcite-button class="loading-transition" kind="danger" appearance="solid" icon-end="download"
+            >Attachments</calcite-button
+          >
+          <calcite-button class="loading-transition" round kind="danger" appearance="solid" icon-end="download"
+            >Attachments</calcite-button
+          >
+          <calcite-button
+            class="loading-transition"
+            kind="danger"
+            appearance="solid"
+            icon-start="attachment"
+            icon-end="download"
+            >Attachments</calcite-button
+          >
+          <calcite-button
+            class="loading-transition"
+            round
+            kind="danger"
+            appearance="solid"
+            icon-start="attachment"
+            icon-end="download"
+            >Attachments</calcite-button
+          >
+          <demo-theme
+            tokens="--calcite-button-background-color, 
+                --calcite-button-border-color, 
+                --calcite-button-corner-radius, 
+                --calcite-button-corner-radius-start-start, 
+                --calcite-button-corner-radius-start-end, 
+                --calcite-button-corner-radius-end-start, 
+                --calcite-button-corner-radius-end-end, 
+                --calcite-button-loader-color, 
+                --calcite-button-shadow, 
+                --calcite-button-text-color, 
+                --calcite-button-icon-color"
+            ><calcite-button
+              class="loading-transition"
+              round
+              kind="danger"
+              appearance="solid"
+              icon-start="attachment"
+              icon-end="download"
+              >Themed</calcite-button
+            ></demo-theme
+          >
+        </section>
+      </div>
       <!--
       ***************************************************************
       * SOLID BRAND
@@ -2102,127 +2254,9 @@
 
       <!--
       ***************************************************************
-      * LOADER"
+      * UNIQUE CASES
       ***************************************************************"
     -->
-      <div class="loader">
-        <p class="loader-padding">Loader</p>
-
-        <section>
-          <calcite-label layout="inline">
-            <span> Toggle loading animation: </span>
-            <calcite-switch id="loading-switch"></calcite-switch>
-          </calcite-label>
-          <calcite-label layout="inline">
-            <span> Change scale: </span>
-            <calcite-segmented-control id="scale-group">
-              <calcite-segmented-control-item value="s">s</calcite-segmented-control-item>
-              <calcite-segmented-control-item value="m" checked>m</calcite-segmented-control-item>
-              <calcite-segmented-control-item value="l">l</calcite-segmented-control-item>
-            </calcite-segmented-control>
-          </calcite-label>
-          <calcite-label layout="inline">
-            <span> Change appearance: </span>
-            <calcite-segmented-control id="appearance-group">
-              <calcite-segmented-control-item value="solid" checked>solid</calcite-segmented-control-item>
-              <calcite-segmented-control-item value="outline">outline</calcite-segmented-control-item>
-              <calcite-segmented-control-item value="outline-fill">outline-fill</calcite-segmented-control-item>
-              <calcite-segmented-control-item value="transparent">transparent</calcite-segmented-control-item>
-            </calcite-segmented-control>
-          </calcite-label>
-          <calcite-label layout="inline">
-            <span> Change kind: </span>
-            <calcite-segmented-control id="kind-group">
-              <calcite-segmented-control-item value="brand">brand</calcite-segmented-control-item>
-              <calcite-segmented-control-item value="neutral">neutral</calcite-segmented-control-item>
-              <calcite-segmented-control-item value="inverse">inverse</calcite-segmented-control-item>
-              <calcite-segmented-control-item value="danger" checked>danger</calcite-segmented-control-item>
-            </calcite-segmented-control>
-          </calcite-label>
-          <script>
-            const loadingSwitch = document.querySelector("#loading-switch");
-            const scaleRadios = document.querySelector("#scale-group");
-            const appearanceRadios = document.querySelector("#appearance-group");
-            const kindRadios = document.querySelector("#kind-group");
-            window.onload = () => {
-              loadingSwitch.addEventListener("calciteSwitchChange", () => {
-                document.querySelectorAll(".loading-transition").forEach((button) => {
-                  button.toggleAttribute("loading");
-                });
-              });
-              scaleRadios.addEventListener("calciteSegmentedControlChange", (e) => {
-                document.querySelectorAll(".loading-transition").forEach((button) => {
-                  button.setAttribute("scale", e.target.selectedItem.value);
-                });
-              });
-              appearanceRadios.addEventListener("calciteSegmentedControlChange", (e) => {
-                document.querySelectorAll(".loading-transition").forEach((button) => {
-                  button.setAttribute("appearance", e.target.selectedItem.value);
-                });
-              });
-              kindRadios.addEventListener("calciteSegmentedControlChange", (e) => {
-                document.querySelectorAll(".loading-transition").forEach((button) => {
-                  button.setAttribute("kind", e.target.selectedItem.value);
-                });
-              });
-            };
-          </script>
-
-          <calcite-button
-            class="loading-transition"
-            kind="danger"
-            appearance="solid"
-            icon-start="attachment"
-          ></calcite-button>
-          <calcite-button
-            class="loading-transition"
-            kind="danger"
-            appearance="solid"
-            icon-end="download"
-            round
-          ></calcite-button>
-          <calcite-button
-            class="loading-transition"
-            kind="danger"
-            appearance="solid"
-            icon-start="attachment"
-            icon-end="download"
-          ></calcite-button>
-          <calcite-button
-            class="loading-transition"
-            kind="danger"
-            appearance="solid"
-            icon-start="attachment"
-            round
-            icon-end="download"
-          ></calcite-button>
-          <calcite-button class="loading-transition" kind="danger" appearance="solid">Attachments</calcite-button>
-          <calcite-button class="loading-transition" kind="danger" appearance="solid" round>Attachments</calcite-button>
-          <calcite-button class="loading-transition" kind="danger" appearance="solid" icon-end="download"
-            >Attachments</calcite-button
-          >
-          <calcite-button class="loading-transition" round kind="danger" appearance="solid" icon-end="download"
-            >Attachments</calcite-button
-          >
-          <calcite-button
-            class="loading-transition"
-            kind="danger"
-            appearance="solid"
-            icon-start="attachment"
-            icon-end="download"
-            >Attachments</calcite-button
-          >
-          <calcite-button
-            class="loading-transition"
-            round
-            kind="danger"
-            appearance="solid"
-            icon-start="attachment"
-            icon-end="download"
-            >Attachments</calcite-button
-          >
-        </section>
-      </div>
 
       <!-- Download Button -->
       <div class="loader">
@@ -2563,37 +2597,6 @@
           <calcite-button aria-label="Add layer">
             <calcite-icon scale="s" icon="layer"></calcite-icon>
           </calcite-button>
-        </div>
-      </div>
-
-      <!--
-      ***************************************************************
-      * SOLID INVERSE - THEMED
-      ***************************************************************
-    -->
-      <div class="main-container">
-        <div>
-          <p class="right-align">THEMED Solid Inverse</p>
-        </div>
-
-        <!-- Solid Inverse -->
-        <div>
-          <p>
-            <demo-theme
-              tokens="--calcite-button-background-color, 
-                --calcite-button-border-color, 
-                --calcite-button-corner-radius, 
-                --calcite-button-corner-radius-start-start, 
-                --calcite-button-corner-radius-start-end, 
-                --calcite-button-corner-radius-end-start, 
-                --calcite-button-corner-radius-end-end, 
-                --calcite-button-loader-color, 
-                --calcite-button-shadow, 
-                --calcite-button-text-color, 
-                --calcite-button-icon-color"
-              ><calcite-button kind="inverse" scale="l"> Button </calcite-button></demo-theme
-            >
-          </p>
         </div>
       </div>
     </demo-dom-swapper>
