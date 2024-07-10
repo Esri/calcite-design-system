@@ -151,14 +151,14 @@
 
 .checkbox-wrapper {
   @apply m-2 p-2 focus-base cursor-pointer pointer-events-auto;
-  background-color: var(--calcite-card-selection-background-color, transparent);
+  background-color: var(--calcite-card-selection-background-color,);
   display: flex;
   align-items: center;
   justify-items: center;
-  --calcite-ui-icon-color: var(--calcite-card-selection-icon-color, var(--calcite-color-text-3));
+  --calcite-icon-color: var(--calcite-card-selection-icon-color, var(--calcite-color-text-3));
   &:hover {
     background-color: var(--calcite-card-selection-background-color-hover, var(--calcite-color-transparent-hover));
-    --calcite-ui-icon-color: var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2));
+    --calcite-icon-color: var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2));
   }
   &:active {
     background-color: var(--calcite-card-selection-background-color-active, var(--calcite-color-transparent-press));
@@ -169,8 +169,10 @@
 }
 
 :host([selected]) .checkbox-wrapper {
-  --calcite-ui-icon-color: var(--calcite-card-selection-icon-color-selected, var(--calcite-color-brand));
+  --calcite-icon-color: var(--calcite-card-selection-icon-color-selected, var(--calcite-color-brand));
+
   background-color: var(--calcite-card-selection-background-color-selected, transparent);
+
   &:hover {
     background-color: var(--calcite-card-selection-background-color-hover, var(--calcite-color-transparent-hover));
   }
