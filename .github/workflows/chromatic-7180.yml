@@ -26,7 +26,7 @@ jobs:
           zip: true
           exitOnceUploaded: true
           workingDir: packages/calcite-components
-          # Renable this option once the snapshots are fixed on the epic branch. Until then, snapshots will need to be
+          # Re-enable this option once the snapshots are fixed on the epic branch. Until then, snapshots will need to be
           # approved/rejected in both the PR and the commit on epic/7180-component-tokens after installing
           # autoAcceptChanges: epic/7180-component-tokens
         env:
