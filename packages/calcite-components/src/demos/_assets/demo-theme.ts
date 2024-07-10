@@ -56,10 +56,10 @@ export class DemoTheme extends HTMLElement {
   updateTheme(newValue: string): void {
     if (typeof newValue === "string") {
       const textIconColorRegex = new RegExp(/(text|icon)-color/);
-      const backgroundBorderRegex = new RegExp(/(background|border)-color/);
+      const backgroundBorderRegex = new RegExp(/(background|border|fill|outline)-color/);
       const cornerRegex = new RegExp(/corner-radius/);
       const zIndexRegex = new RegExp(/z-index/);
-      const spaceRegex = new RegExp(/space/);
+      const spaceRegex = new RegExp(/spac(e|ing)/);
       const shadowRegex = new RegExp(/shadow(-color)*/);
 
       const theme = {};
