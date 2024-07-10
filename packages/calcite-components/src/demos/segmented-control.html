@@ -61,13 +61,52 @@
 
         <!-- solid -->
         <div class="child-flex">
-          <calcite-segmented-control scale="s">
-            <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
-            <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
-            <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
-            <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
+          <calcite-segmented-control>
+            <calcite-segmented-control-item value="transportation" checked
+              >Transportation</calcite-segmented-control-item
+            >
+            <calcite-segmented-control-item value="education">Education</calcite-segmented-control-item>
           </calcite-segmented-control>
+
+          <button id="first">select first</button>
+          <button id="second">select second</button>
+
+          <hr />
+
+          <label>clearing value</label>
+          <select id="clear-value">
+            <option value="false" selected>false</option>
+            <option value="undefined">undefined</option>
+          </select>
         </div>
+
+        <script>
+          const control = document.querySelector("calcite-segmented-control");
+          const items = document.querySelectorAll("calcite-segmented-control-item");
+          let clearValue = false;
+
+          document.querySelector("#first").addEventListener("click", () => {
+            items[0].checked = true;
+            items[1].checked = clearValue;
+
+            console.log("programmatically selected", control.selectedItem);
+          });
+
+          document.querySelector("#second").addEventListener("click", () => {
+            items[0].checked = clearValue;
+            items[1].checked = true;
+
+            console.log("programmatically selected", control.selectedItem);
+          });
+
+          document.querySelector("#clear-value").addEventListener("change", (event) => {
+            clearValue = event.currentTarget.value === "undefined" ? undefined : false;
+          });
+
+          document.addEventListener("calciteSegmentedControlChange", (event) => {
+            console.log("user selected", control.selectedItem);
+          });
+        </script>
 
         <div class="child-flex">
           <calcite-segmented-control scale="m">

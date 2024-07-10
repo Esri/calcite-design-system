@@ -3,9 +3,10 @@ export const CSS = {
   content: "content",
   contentHeader: "content__header",
   contentBody: "content__body",
-  contentFloat: "content--float",
+  contentDetached: "content--detached",
   contentOverlay: "content--overlay",
   separator: "separator",
+  float: "float",
 };
 
 export const SLOTS = {

@@ -103,8 +103,6 @@
   }
 
   &.float {
-    @apply rounded;
-    border: 1px solid var(--calcite-color-border-3);
     margin-block: 0.5rem;
     margin-inline: 0.5rem;
   }
@@ -297,7 +295,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   @apply border-color-3 border border-solid;
 }
 
-:host([position="start"]:not([slot="panel-end"])),
+:host([position="start"]:not([slot="panel-end"]):not([display-mode="float"])),
 :host([position="end"][slot="panel-start"]) {
   slot[name="action-bar"]::slotted(calcite-action-bar),
   .content ::slotted(calcite-flow),

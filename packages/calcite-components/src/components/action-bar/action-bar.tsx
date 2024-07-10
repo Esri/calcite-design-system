@@ -344,18 +344,21 @@ export class ActionBar
       overflowCount,
     });
 
+    // Overflow groups
     // let groupHeight = 0;
-    // actionGroups.reverse().forEach((group) => {
+    // let groupOverflowCount = 0;
+    // actionGroups.forEach((group) => {
     //   groupHeight += group.clientHeight;
     // });
     // if (layout === "vertical" && height > groupHeight) {
     //   while (height > groupHeight) {
-    //     actionGroups.pop();
+    //     ++groupOverflowCount;
     //     actionGroups.forEach((group) => {
     //       groupHeight += group.clientHeight;
     //     });
     //   }
-    //   forceUpdate(actionGroups);
+    //   el.replaceChildren(...actionGroups.slice(0, actionGroups.length - groupOverflowCount));
+    //   console.log(groupOverflowCount);
     // }
   }, overflowActionsDebounceInMs);
 
