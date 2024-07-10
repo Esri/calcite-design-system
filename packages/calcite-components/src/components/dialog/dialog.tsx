@@ -49,11 +49,21 @@ import { CSS, SLOTS } from "./resources";
 let totalOpenDialogs: number = 0;
 let initialDocumentOverflowStyle: string = "";
 
-// todo: slot doc
 /**
- * @slot content - TODO
- * @slot content-top - A slot for adding content to the component's sticky header, where content remains at the top of the component when scrolling up and down.
- * @slot content-bottom - A slot for adding content to the component's sticky footer, where content remains at the bottom of the component when scrolling up and down.
+ * @slot - A slot for adding content.
+ * @slot content - A slot for adding custom content.
+ * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
+ * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
+ * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
+ * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
+ * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
+ * @slot header-content - A slot for adding custom content to the header.
+ * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+ * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
+ * @slot footer - A slot for adding custom content to the component's footer.
+ * @slot footer-actions - [Deprecated] Use the `footer-start` and `footer-end` slots instead. A slot for adding `calcite-button`s to the component's footer.
+ * @slot footer-end - A slot for adding a trailing footer custom content.
+ * @slot footer-start - A slot for adding a leading footer custom content.
  */
 
 @Component({
@@ -207,7 +217,6 @@ export class Dialog
     await setUpMessages(this);
     setUpLoadableComponent(this);
     // when dialog initially renders, if active was set we need to open as watcher doesn't fire
-    // todo: still needed?
     if (this.open) {
       this.openDialog();
     }

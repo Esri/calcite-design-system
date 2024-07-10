@@ -1,4 +1,6 @@
-Dialog
+# Dialog
+
+## Questions
 
 - don't need footer slot right?
 - modal default value? only modal has scrim
@@ -19,11 +21,14 @@ Dialog
 - overriding messages on internal components?
 - renderStyle??
 
-- shell @slot modals need to create a dialogs slot
+## Notes
+
+- shell: created dialogs slot
 
 TODO:
 
-- HTML/Stories
+- pending tests to create
+- HTML
   - modal
   - disabled
   - description
@@ -33,3 +38,5 @@ TODO:
   - all slots
 - CSS
   - all panel vars for css
+- Stories
+  - theming

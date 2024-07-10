@@ -19,6 +19,10 @@ describe("calcite-dialog", () => {
   // todo: messageOverrides test
   // todo: overlayPositioning test
   // todo: scale test
+  // closeButtonDisabled
+  // description
+  // disabled
+  // heading
 
   describe("openClose", () => {
     const openCloseOptions = {
