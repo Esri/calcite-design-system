@@ -55,6 +55,7 @@
           --calcite-card-background-color,
           --calcite-card-border-color,
           --calcite-card-corner-radius,
+          --calcite-card-group-gap,
           --calcite-card-loader-color-end,
           --calcite-card-loader-color-middle,
           --calcite-card-loader-color-start,
@@ -67,22 +68,24 @@
           --calcite-card-selection-icon-color-selected,
           --calcite-card-shadow"
       >
-        <calcite-card>
-          <span slot="heading">Heading</span>
-          <span slot="description">Description</span>
-        </calcite-card>
-        <calcite-card selection-mode="single">
-          <span slot="heading">Heading</span>
-          <span slot="description">Description</span>
-        </calcite-card>
-        <calcite-card selected selection-mode="single">
-          <span slot="heading">Heading</span>
-          <span slot="description">Description</span>
-        </calcite-card>
-        <calcite-card loading>
-          <span slot="heading">Heading</span>
-          <span slot="description">Description</span>
-        </calcite-card>
+        <calcite-card-group>
+          <calcite-card>
+            <span slot="heading">Heading</span>
+            <span slot="description">Description</span>
+          </calcite-card>
+          <calcite-card selection-mode="single">
+            <span slot="heading">Heading</span>
+            <span slot="description">Description</span>
+          </calcite-card>
+          <calcite-card selected selection-mode="single">
+            <span slot="heading">Heading</span>
+            <span slot="description">Description</span>
+          </calcite-card>
+          <calcite-card loading>
+            <span slot="heading">Heading</span>
+            <span slot="description">Description</span>
+          </calcite-card>
+        </calcite-card-group>
       </demo-theme>
       <h1 style="margin: 0 auto; text-align: center">Card</h1>
       <div class="parent">
