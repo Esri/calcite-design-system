@@ -3,11 +3,12 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-scrim-background: Specifies the background color of the scrim.
+ * @prop --calcite-scrim-background-color: Specifies the background color of the component.
+ * @prop --calcite-scrim-background: [Deprecated] Use the `--calcite-scrim-background-color` property instead. Specifies the background color of the component.
+ * @prop --calcite-scrim-loader-color-end: Specifies the end color of the loader
+ * @prop --calcite-scrim-loader-color-middle: Specifies the middle color of the loader
+ * @prop --calcite-scrim-loader-color-start: Specifies the start color of the loader
  */
-:host {
-  --calcite-scrim-background: var(--calcite-color-transparent-scrim);
-}
 
 :host {
   @apply absolute
@@ -39,11 +40,20 @@
   justify-center
   overflow-hidden;
   animation: calcite-scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
-  background-color: var(--calcite-scrim-background, var(--calcite-color-transparent-scrim));
+  background-color: var(
+    --calcite-scrim-background-color,
+    var(--calcite-scrim-background, var(--calcite-color-transparent-scrim))
+  );
 }
 
 .content {
   @apply p-4;
+}
+
+calcite-loader {
+  --calcite-loader-color-middle: var(--calcite-scrim-loader-color-middle);
+  --calcite-loader-color-start: var(--calcite-scrim-loader-color-start);
+  --calcite-loader-color-end: var(--calcite-scrim-loader-color-end);
 }
 
 @include base-component();

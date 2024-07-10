@@ -11,10 +11,10 @@ export const CSS = {
   readOnly: "readonly",
   textAreaInvalid: "text-area--invalid",
   footerSlotted: "footer--slotted",
-  borderColor: "border--color",
   hide: "hide",
-  blockSizeFull: "block-size--full",
   footerEndSlotOnly: "footer--end-only",
+  textArea: "text-area",
+  textAreaOnly: "text-area--only",
 };
 
 export const SLOTS = {

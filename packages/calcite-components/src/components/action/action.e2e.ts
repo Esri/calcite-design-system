@@ -1,5 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders, slots, t9n, defaults } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, slots, t9n, defaults, themed } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action", () => {
@@ -204,5 +206,66 @@ describe("calcite-action", () => {
     expect(liveRegion.getAttribute("aria-live")).toBe("polite");
     expect(liveRegion.getAttribute("role")).toBe("region");
     expect(liveRegion.textContent).toBe("Indicator present");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-action-background-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-action-text-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "color",
+        },
+        "--calcite-action-shadow": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-action-icon-color": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+        "--calcite-action-indicator-color": {
+          shadowSelector: `.${CSS.actionIndicator}::after`,
+          targetProp: "backgroundColor",
+        },
+      };
+      themed(
+        html`<calcite-action
+          scale="s"
+          indicator
+          active
+          text="click-me"
+          label="hello world"
+          text-enabled
+          icon="configure-popup"
+        ></calcite-action>`,
+        tokens,
+      );
+    });
+    describe("loading", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-action-loader-color": {
+          shadowSelector: "calcite-loader",
+          targetProp: "--calcite-loader-color-start",
+        },
+      };
+
+      themed(
+        html`<calcite-action
+          scale="s"
+          indicator
+          active
+          text="click-me"
+          label="hello world"
+          text-enabled
+          icon="configure-popup"
+          loading
+        ></calcite-action>`,
+        tokens,
+      );
+    });
   });
 });

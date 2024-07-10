@@ -1,6 +1,7 @@
 export const CSS = {
   container: "container",
   searchIcon: "search-icon",
+  input: "input",
 };
 
 export const ICONS = {

@@ -1,5 +1,15 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  t9n,
+  themed,
+} from "../../tests/commonTests";
 import { CSS as INPUT_CSS } from "../input/resources";
 import { DEBOUNCE_TIMEOUT } from "./resources";
 
@@ -335,5 +345,62 @@ describe("calcite-filter", () => {
 
   describe("translation support", () => {
     t9n("calcite-filter");
+  });
+
+  describe("theme", () => {
+    const tokens = {
+      "--calcite-filter-background-color": {
+        targetProp: "backgroundColor",
+      },
+      "--calcite-filter-input-background-color": {
+        shadowSelector: "calcite-input",
+        targetProp: "--calcite-input-background-color",
+      },
+      "--calcite-filter-input-border-color": {
+        shadowSelector: "calcite-input",
+        targetProp: "--calcite-input-border-color",
+      },
+      "--calcite-filter-input-button-background-color": {
+        shadowSelector: "calcite-input",
+        targetProp: "--calcite-input-button-background-color",
+      },
+      "--calcite-filter-input-button-background-color-hover": {
+        shadowSelector: "calcite-input",
+        targetProp: "--calcite-input-button-background-color-hover",
+      },
+      "--calcite-filter-input-button-border-color": {
+        shadowSelector: "calcite-input",
+        targetProp: "--calcite-input-button-border-color",
+      },
+      "--calcite-filter-input-button-icon-color": {
+        shadowSelector: "calcite-input",
+        targetProp: "--calcite-input-button-icon-color",
+      },
+      "--calcite-filter-input-button-icon-color-active": {
+        shadowSelector: "calcite-input",
+        targetProp: "--calcite-input-button-icon-color-active",
+      },
+      "--calcite-filter-input-button-icon-color-hover": {
+        shadowSelector: "calcite-input",
+        targetProp: "--calcite-input-button-icon-color-hover",
+      },
+      "--calcite-filter-input-corner-radius": {
+        shadowSelector: "calcite-input",
+        targetProp: "--calcite-input-corner-radius",
+      },
+      "--calcite-filter-input-icon-color": {
+        shadowSelector: "calcite-input",
+        targetProp: "--calcite-input-icon-color",
+      },
+      "--calcite-filter-input-placeholder-text-color": {
+        shadowSelector: "calcite-input",
+        targetProp: "--calcite-input-placeholder-text-color",
+      },
+      "--calcite-filter-input-text-color": {
+        shadowSelector: "calcite-input",
+        targetProp: "--calcite-input-text-color",
+      },
+    } as const;
+    themed(`calcite-filter`, tokens);
   });
 });

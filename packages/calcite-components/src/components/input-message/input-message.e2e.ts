@@ -1,5 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, renders, themed } from "../../tests/commonTests";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
+import { html } from "../../../support/formatting";
 import { StatusIconDefaults } from "./interfaces";
 
 describe("calcite-input-message", () => {
@@ -138,6 +140,47 @@ describe("calcite-input-message", () => {
           expect(requestedIcon).toEqual("view-hide");
         });
       });
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-input-message-spacing-value": {
+          targetProp: "marginBlockStart",
+        },
+        "--calcite-input-message-text-color": {
+          targetProp: "color",
+        },
+      };
+      themed("calcite-input-message", tokens);
+    });
+    describe("custom status invalid", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-input-message-icon-color": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+      };
+      themed(html`<calcite-input-message icon status="invalid">Text</calcite-input-message>`, tokens);
+    });
+    describe("custom status valid", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-input-message-icon-color": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+      };
+      themed(html`<calcite-input-message icon status="valid">Text</calcite-input-message>`, tokens);
+    });
+    describe("custom status idle", () => {
+      const tokens: ComponentTestTokens = {
+        "--calcite-input-message-icon-color": {
+          shadowSelector: "calcite-icon",
+          targetProp: "--calcite-icon-color",
+        },
+      };
+      themed(html`<calcite-input-message icon status="idle">Text</calcite-input-message>`, tokens);
     });
   });
 });

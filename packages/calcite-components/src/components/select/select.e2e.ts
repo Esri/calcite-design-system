@@ -9,6 +9,7 @@ import {
   labelable,
   reflects,
   renders,
+  themed,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -433,5 +434,47 @@ describe("calcite-select", () => {
         changeValueKeys: ["t"],
       },
     );
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-select", {
+        "--calcite-select-background-color": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-select-border-color": [
+          {
+            shadowSelector: `.${CSS.select}`,
+            targetProp: "borderColor",
+          },
+          {
+            shadowSelector: `.${CSS.iconContainer}`,
+            targetProp: "borderColor",
+          },
+        ],
+        "--calcite-select-text-color": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "color",
+        },
+        "--calcite-select-icon-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "--calcite-icon-color",
+        },
+      });
+    });
+
+    describe("deprecated", () => {
+      themed("calcite-select", {
+        "--calcite-select-font-size": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "fontSize",
+        },
+        "--calcite-select-spacing": {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "paddingInline",
+        },
+      });
+    });
   });
 });

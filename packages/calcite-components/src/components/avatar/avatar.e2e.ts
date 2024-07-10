@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -97,5 +97,57 @@ describe("calcite-avatar", () => {
     expect(firstBgColor).not.toEqual(secondBgColor);
     expect(secondBgColor).not.toEqual(thirdBgColor);
     expect(firstBgColor).not.toEqual(thirdBgColor);
+  });
+
+  describe("theme", () => {
+    describe("thumbnail", () => {
+      themed(
+        html`<calcite-avatar
+          thumbnail="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII"
+        ></calcite-avatar>`,
+        {
+          "--calcite-avatar-corner-radius": [
+            {
+              targetProp: "borderRadius",
+            },
+            {
+              shadowSelector: `.${CSS.thumbnail}`,
+              targetProp: "borderRadius",
+            },
+          ],
+        },
+      );
+    });
+
+    describe("icon", () => {
+      themed(html`<calcite-avatar user-id="umonti"></calcite-avatar>`, {
+        "--calcite-avatar-icon-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "color",
+        },
+        "--calcite-avatar-corner-radius": [
+          {
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.background}`,
+            targetProp: "borderRadius",
+          },
+        ],
+      });
+    });
+
+    describe("initials", () => {
+      themed(html`<calcite-avatar full-name="Urbano Monti"></calcite-avatar>`, {
+        "--calcite-avatar-text-color": {
+          shadowSelector: `.${CSS.initials}`,
+          targetProp: "color",
+        },
+        "--calcite-avatar-corner-radius": {
+          shadowSelector: `.${CSS.background}`,
+          targetProp: "borderRadius",
+        },
+      });
+    });
   });
 });

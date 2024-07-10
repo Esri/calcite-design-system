@@ -83,6 +83,10 @@ There are some edge cases where you may wish to isolate and use only the values 
 }
 ```
 
+#### Component Tokens
+
+Component tokens provide custom theming to individual components. Component tokens inherit from the global semantic tokens provided by Calcite Design Tokens.
+
 ## Legacy Tokens
 
 In Calcite's [2.0.0](https://github.com/Esri/calcite-design-system/releases/tag/%40esri%2Fcalcite-design-tokens%402.0.0) release, design tokens were refactored, which included the removal and refactoring of legacy CSS custom properties. Refer to the [map of token changes from 2.0.0](https://github.com/Esri/calcite-design-tokens/CHANGELOG.md#20-map-of-token-changes) for a more comprehensive list of changes.

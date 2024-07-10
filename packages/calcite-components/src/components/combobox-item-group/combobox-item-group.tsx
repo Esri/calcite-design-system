@@ -80,7 +80,7 @@ export class ComboboxItemGroup {
           class={{ [CSS.label]: true }}
           id={this.guid}
           role="presentation"
-          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
+          style={{ "--calcite-internal-combobox-item-group-depth": `${depth}` }}
         >
           <span class={CSS.title}>{this.label}</span>
         </li>

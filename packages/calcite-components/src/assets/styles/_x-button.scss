@@ -1,0 +1,61 @@
+@mixin xButton(
+  $textColor: "--calcite-color-text-3",
+  $backgroundColor: "--calcite-color-foreground-2",
+  $hoverTextColor: "--calcite-color-text-3",
+  $hoverBackgroundColor: "--calcite-color-foreground-3",
+  $activeBorderColor: "--calcite-color-brand",
+  $borderWidth: "--calcite-border-width-md"
+) {
+  .x-button {
+    appearance: none;
+    align-content: center;
+    cursor: pointer;
+    display: flex;
+    outline-color: transparent;
+    align-items: center;
+    justify-content: center;
+    margin: 0px;
+    align-self: center;
+    color: var(#{$textColor}, var(--calcite-color-text-3));
+    transition:
+      color,
+      background-color,
+      border-color var(--calcite-animation-timing) ease-in-out 0s,
+      outline 0s,
+      outline-offset 0s;
+    border-width: var(#{$borderWidth}, var(--calcite-border-width-md));
+    border-radius: 50%;
+    border-color: transparent;
+    background-color: var(#{$backgroundColor}, var(--calcite-color-foreground-2));
+
+    &:active,
+    &:hover {
+      color: var(#{$hoverTextColor});
+      background-color: var(#{$hoverBackgroundColor}, var(--calcite-color-foreground-3));
+    }
+
+    &:active {
+      border-style: solid;
+      border-color: var(#{$activeBorderColor}, var(--calcite-color-brand));
+    }
+
+    & calcite-icon {
+      color: inherit;
+    }
+  }
+
+  :host([scale="s"]) .x-button {
+    inline-size: var(--calcite-spacing-lg);
+    block-size: var(--calcite-spacing-lg);
+  }
+
+  :host([scale="m"]) .x-button {
+    inline-size: var(--calcite-size-xxl);
+    block-size: var(--calcite-size-xxl);
+  }
+
+  :host([scale="l"]) .x-button {
+    inline-size: var(--calcite-size-xxxl);
+    block-size: var(--calcite-size-xxxl);
+  }
+}

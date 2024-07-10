@@ -1,6 +1,7 @@
 export const CSS = {
   menu: "menu",
   defaultTrigger: "default-trigger",
+  container: "container",
 };
 
 export const SLOTS = {

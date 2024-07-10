@@ -1,7 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils";
+import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
 const letterKeys = [
@@ -1235,5 +1236,60 @@ describe("calcite-time-picker", () => {
       const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
       expect(fractionalSecondEl.innerHTML).toEqual("000");
     });
+  });
+
+  describe("theme", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-time-picker-background-color": [
+        {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.timePicker}`,
+        },
+        {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.button}`,
+        },
+      ],
+      "--calcite-time-picker-background-color-hover": [
+        {
+          targetProp: "backgroundColor",
+          shadowSelector: `.${CSS.button}`,
+          state: "hover",
+        },
+      ],
+      "--calcite-time-picker-icon-color": [
+        {
+          targetProp: "--calcite-icon-color",
+          shadowSelector: `calcite-icon`,
+        },
+      ],
+      "--calcite-time-picker-input-border-color-hover": [
+        {
+          targetProp: "boxShadow",
+          shadowSelector: `.${CSS.input}`,
+          state: "hover",
+        },
+      ],
+      "--calcite-time-picker-input-border-color-focus": [
+        {
+          targetProp: "boxShadow",
+          shadowSelector: `.${CSS.input}`,
+          state: "focus",
+        },
+      ],
+      "--calcite-time-picker-shadow": [
+        {
+          targetProp: "boxShadow",
+          shadowSelector: `.${CSS.timePicker}`,
+        },
+      ],
+      "--calcite-time-picker-text-color": [
+        {
+          targetProp: "color",
+          shadowSelector: `.${CSS.timePicker}`,
+        },
+      ],
+    };
+    themed(`calcite-time-picker`, tokens);
   });
 });

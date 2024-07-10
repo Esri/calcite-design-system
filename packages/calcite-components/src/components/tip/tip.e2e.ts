@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders, defaults, slots, t9n } from "../../tests/commonTests";
+import { accessible, hidden, renders, defaults, slots, t9n, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tip", () => {
@@ -76,5 +77,48 @@ describe("calcite-tip", () => {
 
   describe("translation support", () => {
     t9n("calcite-tip");
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(html`<calcite-tip heading="heading"></calcite-tip>`, {
+        "--calcite-tip-background-color": {
+          targetProp: "backgroundColor",
+        },
+        "--calcite-tip-text-color": {
+          targetProp: "color",
+        },
+        "--calcite-tip-border-color": {
+          targetProp: "borderColor",
+        },
+        "--calcite-tip-heading-text-color": {
+          shadowSelector: `.${CSS.heading}`,
+          targetProp: "color",
+        },
+        "--calcite-tip-close-background-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-tip-close-background-color-hover": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color",
+          state: "hover",
+        },
+        "--calcite-tip-close-background-color-active": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-background-color",
+          state: { press: { attribute: "class", value: CSS.close } },
+        },
+        "--calcite-tip-close-text-color": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-text-color",
+        },
+        "--calcite-tip-close-text-color-hover": {
+          shadowSelector: `.${CSS.close}`,
+          targetProp: "--calcite-action-text-color",
+          state: "hover",
+        },
+      });
+    });
   });
 });

@@ -9,4 +9,5 @@ export const ICONS = {
 
 export const CSS = {
   container: "container",
+  expandToggle: "expand-toggle",
 };
