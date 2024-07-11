@@ -198,8 +198,6 @@ export class Dialog
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
-    this.updateSizeCssVars();
     connectLocalized(this);
     connectMessages(this);
     connectFocusTrap(this);
@@ -208,7 +206,6 @@ export class Dialog
   disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
-    this.cssVarObserver?.disconnect();
     deactivateFocusTrap(this);
     disconnectLocalized(this);
     disconnectMessages(this);
@@ -234,7 +231,6 @@ export class Dialog
           {this.modal ? (
             <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
           ) : null}
-          {this.renderStyle()}
           <div class={CSS.dialog} ref={this.setTransitionEl}>
             <slot name={SLOTS.content}>
               <calcite-panel
@@ -274,30 +270,6 @@ export class Dialog
     );
   }
 
-  // todo: why are we doing this? why not just use a css prop?
-  renderStyle(): VNode {
-    if (!this.fullscreen && (this.cssWidth || this.cssHeight)) {
-      return (
-        <style>
-          {`.${CSS.dialog} {
-              ${this.cssWidth ? `inline-size: ${this.cssWidth} !important;` : ""}
-              ${this.cssWidth ? `max-inline-size: ${this.cssWidth} !important;` : ""}
-            }
-            @media screen and (max-width: ${this.cssWidth}) {
-              .${CSS.dialog} {
-                max-block-size: 100% !important;
-                inline-size: 100% !important;
-                max-inline-size: 100% !important;
-                min-inline-size: 100% !important;
-                margin: 0 !important;
-              }
-            }
-          `}
-        </style>
-      );
-    }
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Private Properties/ State
@@ -318,20 +290,11 @@ export class Dialog
     this.handleMutationObserver(),
   );
 
-  // todo: remove?
-  private cssVarObserver: MutationObserver = createObserver("mutation", () => {
-    this.updateSizeCssVars();
-  });
-
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
 
   focusTrap: FocusTrap;
-
-  @State() cssWidth: string | number;
-
-  @State() cssHeight: string | number;
 
   @State() hasFooter = true;
 
@@ -542,11 +505,5 @@ export class Dialog
 
   private handleMutationObserver = (): void => {
     this.updateFocusTrapElements();
-  };
-
-  // todo: refactor
-  private updateSizeCssVars = (): void => {
-    this.cssWidth = getComputedStyle(this.el).getPropertyValue("--calcite-dialog-width");
-    this.cssHeight = getComputedStyle(this.el).getPropertyValue("--calcite-dialog-height");
   };
 }
