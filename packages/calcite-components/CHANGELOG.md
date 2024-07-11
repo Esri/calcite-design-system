@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.2...@esri/calcite-components@2.11.0-next.3) (2024-07-11)
+
+### Bug Fixes
+
+- **input-number:** restore decimal input mode default ([#9741](https://github.com/Esri/calcite-design-system/issues/9741)) ([9264011](https://github.com/Esri/calcite-design-system/commit/926401188ecf6f03b3e9b386863407172ceb0eab)), closes [#9740](https://github.com/Esri/calcite-design-system/issues/9740)
+
 ## [2.11.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.1...@esri/calcite-components@2.11.0-next.2) (2024-07-08)
 
 ### Features
