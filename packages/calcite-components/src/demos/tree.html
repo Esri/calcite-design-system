@@ -30,6 +30,85 @@
   </head>
 
   <body>
+    <demo-theme
+      tokens="
+        --calcite-tree-item-checkbox-background-color-checked,
+        --calcite-tree-item-checkbox-background-color,
+        --calcite-tree-item-checkbox-shadow-checked,
+        --calcite-tree-item-checkbox-shadow-hover,
+        --calcite-tree-item-checkbox-shadow,
+        --calcite-tree-item-chevron-color-active,
+        --calcite-tree-item-chevron-color-hover,
+        --calcite-tree-item-chevron-color,
+        --calcite-tree-item-icon-color,
+        --calcite-tree-item-line-color,
+        --calcite-tree-item-selection-icon-color,
+        --calcite-tree-item-text-color"
+    >
+      <calcite-tree id="root" lines>
+        <calcite-tree-item icon-start="palette" expanded>
+          Parent
+          <calcite-tree slot="children">
+            <calcite-tree-item id="child">child</calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+      <calcite-tree selection-mode="ancestors">
+        <calcite-tree-item selected><span>Child 1</span></calcite-tree-item>
+        <calcite-tree-item expanded>
+          <span>Child 2</span>
+          <calcite-tree slot="children">
+            <calcite-tree-item selected><span>Grandchild 1</span></calcite-tree-item>
+            <calcite-tree-item><span>Grandchild 2</span></calcite-tree-item>
+            <calcite-tree-item expanded>
+              <span>Grandchild 3</span>
+              <calcite-tree slot="children">
+                <calcite-tree-item><span>Great-Grandchild 1</span></calcite-tree-item>
+                <calcite-tree-item><span>Great-Grandchild 2</span></calcite-tree-item>
+                <calcite-tree-item><span>Great-Grandchild 3</span></calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+      <calcite-tree selection-mode="multiple">
+        <calcite-tree-item selected><span>Child 1</span></calcite-tree-item>
+        <calcite-tree-item expanded>
+          <span>Child 2</span>
+          <calcite-tree slot="children">
+            <calcite-tree-item selected><span>Grandchild 1</span></calcite-tree-item>
+            <calcite-tree-item><span>Grandchild 2</span></calcite-tree-item>
+            <calcite-tree-item expanded>
+              <span>Grandchild 3</span>
+              <calcite-tree slot="children">
+                <calcite-tree-item><span>Great-Grandchild 1</span></calcite-tree-item>
+                <calcite-tree-item><span>Great-Grandchild 2</span></calcite-tree-item>
+                <calcite-tree-item><span>Great-Grandchild 3</span></calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+      <calcite-tree selection-mode="single">
+        <calcite-tree-item selected><span>Child 1</span></calcite-tree-item>
+        <calcite-tree-item expanded>
+          <span>Child 2</span>
+          <calcite-tree slot="children">
+            <calcite-tree-item><span>Grandchild 1</span></calcite-tree-item>
+            <calcite-tree-item><span>Grandchild 2</span></calcite-tree-item>
+            <calcite-tree-item>
+              <span>Grandchild 3</span>
+              <calcite-tree slot="children">
+                <calcite-tree-item><span>Great-Grandchild 1</span></calcite-tree-item>
+                <calcite-tree-item><span>Great-Grandchild 2</span></calcite-tree-item>
+                <calcite-tree-item><span>Great-Grandchild 3</span></calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    </demo-theme>
+
     <demo-dom-swapper>
       <h1 style="margin: 0 auto; text-align: center">Tree</h1>
 
