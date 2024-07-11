@@ -62,6 +62,10 @@ describe("calcite-flow-item", () => {
         defaultValue: "absolute",
       },
       {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
         propertyName: "showBackButton",
         defaultValue: false,
       },
@@ -286,5 +290,19 @@ describe("calcite-flow-item", () => {
     await page.waitForChanges();
 
     expect(toggleSpy).toHaveReceivedEventTimes(1);
+  });
+
+  it("honors calciteFlowItemClose event", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-flow-item closable>test</calcite-flow-item>",
+    });
+
+    const toggleSpy = await page.spyOnEvent("calciteFlowItemClose");
+    const panel = await page.find("calcite-flow-item >>> calcite-panel");
+    panel.triggerEvent("calcitePanelClose");
+    await page.waitForChanges();
+
+    expect(toggleSpy).toHaveReceivedEventTimes(1);
+    expect(await panel.getProperty("closed")).toBe(true);
   });
 });

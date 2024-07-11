@@ -298,7 +298,7 @@ export interface FloatingUIComponent {
    *
    * @param delayed – (internal) when true, it will reposition the component after a delay. the default is false. This is useful for components that have multiple watched properties that schedule repositioning.
    */
-  reposition(delayed?: boolean): Promise<void>;
+  reposition: (delayed?: boolean) => Promise<void>;
 
   /**
    * Used to store the effective floating layout for components that use arrows.
@@ -311,7 +311,7 @@ export interface FloatingUIComponent {
    *
    * Possible values: "vertical" or "horizontal".
    *
-   * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/main/src/components/functional/FloatingArrow.tsx)
+   * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/dev/src/components/functional/FloatingArrow.tsx)
    */
   floatingLayout?: FloatingLayout;
 }

@@ -5,15 +5,20 @@ export const IDS = {
 };
 
 export const CSS = {
+  actionsEnd: "actions-end",
   button: "button",
   container: "container",
   content: "content",
+  contentStart: "content-start",
   controlContainer: "control-container",
   description: "description",
   header: "header",
   headerContainer: "header-container",
   heading: "heading",
   icon: "icon",
+  iconStart: "icon--start",
+  iconEnd: "icon--end",
+  iconEndContainer: "icon-end-container",
   invalid: "invalid",
   statusIcon: "status-icon",
   summary: "summary",
@@ -24,9 +29,11 @@ export const CSS = {
 };
 
 export const SLOTS = {
-  icon: "icon",
+  actionsEnd: "actions-end",
+  contentStart: "content-start",
   control: "control",
   headerMenuActions: "header-menu-actions",
+  icon: "icon",
 };
 
 export const ICONS = {
@@ -34,4 +41,4 @@ export const ICONS = {
   closed: "chevron-down",
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
-};
+} as const;

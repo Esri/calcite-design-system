@@ -27,6 +27,7 @@ import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
+import { IconName } from "../icon/interfaces";
 import { CSS } from "./resources";
 
 /**
@@ -62,7 +63,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true }) guid = guid();
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: string;
+  @Prop({ reflect: true }) icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -74,6 +75,13 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   /** The component's text. */
   @Prop({ reflect: true }) textLabel!: string;
+
+  /**
+   * Pattern for highlighting filter text matches.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) filterTextMatchPattern: RegExp;
 
   /** The component's value. */
   @Prop() value!: any;
@@ -175,7 +183,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  renderIcon(iconPath: string): VNode {
+  renderIcon(iconPath: IconName): VNode {
     return this.icon ? (
       <calcite-icon
         class={{
@@ -191,7 +199,9 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     ) : null;
   }
 
-  renderSelectIndicator(showDot: boolean, iconPath: string): VNode {
+  renderSelectIndicator(showDot: boolean): VNode;
+  renderSelectIndicator(showDot: boolean, iconPath: IconName): VNode;
+  renderSelectIndicator(showDot: boolean, iconPath?: IconName): VNode {
     return showDot ? (
       <span
         class={{
@@ -231,8 +241,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     const { disabled } = this;
     const isSingleSelect = isSingleLike(this.selectionMode);
     const showDot = isSingleSelect && !disabled;
-    const defaultIcon = isSingleSelect ? "dot" : "check";
-    const iconPath = disabled ? "" : defaultIcon;
+    const defaultIcon = isSingleSelect ? undefined : "check";
+    const iconPath = disabled ? undefined : defaultIcon;
 
     const classes = {
       [CSS.label]: true,
@@ -252,12 +262,27 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
             <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
               {this.renderSelectIndicator(showDot, iconPath)}
               {this.renderIcon(iconPath)}
-              <span class="title">{this.textLabel}</span>
+              <span class="title">{this.renderTextContent()}</span>
             </li>
             {this.renderChildren()}
           </div>
         </InteractiveContainer>
       </Host>
     );
+  }
+
+  private renderTextContent(): string | (string | VNode)[] {
+    if (!this.filterTextMatchPattern) {
+      return this.textLabel;
+    }
+
+    const parts: (string | VNode)[] = this.textLabel.split(this.filterTextMatchPattern);
+
+    if (parts.length > 1) {
+      // we only highlight the first match
+      parts[1] = <mark class={CSS.filterMatch}>{parts[1]}</mark>;
+    }
+
+    return parts;
   }
 }
