@@ -31,6 +31,23 @@
   </head>
 
   <body>
+    <demo-theme
+      tokens="
+        --calcite-tooltip-background-color,
+        --calcite-tooltip-border-color,
+        --calcite-tooltip-corner-radius,
+        --calcite-tooltip-shadow,
+        --calcite-tooltip-text-color,
+        --calcite-tooltip-z-index"
+    >
+      <calcite-tooltip placement="auto" reference-element="tooltip-auto-ref" open>
+        <p>placement: auto</p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua.
+      </calcite-tooltip>
+      <calcite-button appearance="outline" id="tooltip-auto-ref">auto</calcite-button>
+    </demo-theme>
+
     <demo-dom-swapper>
       <h1 style="margin: 0 auto; text-align: center">Tooltip</h1>
 
