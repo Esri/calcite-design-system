@@ -3,12 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-dialog-content-background: Specifies the background color of content placed in the component's `"content"` slot.
- * @prop --calcite-dialog-content-padding: Specifies the padding of the component's `"content"` slot.
  * @prop --calcite-dialog-scrim-background: Specifies the background color of the component's scrim.
  * @prop --calcite-dialog-width: Specifies the width of the component, using `px`, `em`, `rem`, `vw`, or `%`. Will never exceed the width of the viewport. Will not apply if `fullscreen` if set.
  * @prop --calcite-dialog-height: Specifies the height of the component, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` if set.
- *
+ * @prop --calcite-dialog-panel-footer-padding: Specifies the padding of the component's footer.
+ * @prop --calcite-dialog-panel-header-border-block-end: Specifies the component header's block end border.
  */
 
 :host {
@@ -70,6 +69,11 @@
 .scrim {
   --calcite-scrim-background: var(--calcite-dialog-scrim-background, var(--calcite-color-transparent-scrim));
   @apply fixed inset-0 flex overflow-y-hidden;
+}
+
+calcite-panel {
+  --calcite-panel-footer-padding: var(--calcite-dialog-panel-footer-padding);
+  --calcite-panel-header-border-block-end: var(--calcite-dialog-panel-header-border-block-end);
 }
 
 .dialog {

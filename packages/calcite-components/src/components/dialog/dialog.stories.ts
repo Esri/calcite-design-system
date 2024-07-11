@@ -275,5 +275,20 @@ export const widthScaleL = (): string => html`
   </calcite-dialog>
 `;
 
-// todo: add tests for the following:
-export const themed = (): string => html``;
+const themedStyle = html` --calcite-dialog-scrim-background: purple; --calcite-dialog-width: 400px;
+--calcite-dialog-height: 400px; --calcite-dialog-panel-footer-padding: 50px;
+--calcite-dialog-panel-header-border-block-end: 15px solid pink;`;
+
+export const themed = (): string =>
+  html`<calcite-dialog
+    style="${themedStyle}"
+    open
+    modal
+    heading="heading"
+    description="description"
+    scale="m"
+    width-scale="s"
+  >
+    <p>Slotted content!</p>
+    <div slot="footer">Footer!</div>
+  </calcite-dialog>`;
