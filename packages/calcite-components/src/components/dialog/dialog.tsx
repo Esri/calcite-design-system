@@ -156,6 +156,11 @@ export class Dialog
   /** When `true`, displays a scrim blocking interaction underneath the component.  */
   @Prop({ reflect: true }) modal = false;
 
+  @Watch("modal")
+  onModalChange(): void {
+    this.updateOverflowHiddenClass();
+  }
+
   /** When `true`, displays and positions the component.  */
   @Prop({ mutable: true, reflect: true }) open = false;
 
@@ -509,16 +514,7 @@ export class Dialog
     await componentOnReady(this.el);
     this.el.addEventListener("calciteDialogOpen", this.openEnd);
     this.opened = true;
-
-    if (!this.slottedInShell) {
-      if (Dialog.totalOpenDialogs === 0) {
-        Dialog.initialDocumentOverflowStyle = document.documentElement.style.overflow;
-      }
-
-      Dialog.totalOpenDialogs++;
-      // use an inline style instead of a utility class to avoid global class declarations.
-      document.documentElement.style.setProperty("overflow", "hidden");
-    }
+    this.updateOverflowHiddenClass();
   }
 
   private handleOutsideClose = (): void => {
@@ -546,8 +542,24 @@ export class Dialog
 
     Dialog.totalOpenDialogs--;
     this.opened = false;
-    this.removeOverflowHiddenClass();
+    this.updateOverflowHiddenClass();
   };
+
+  private updateOverflowHiddenClass = (): void => {
+    this.opened && !this.slottedInShell && this.modal
+      ? this.addOverflowHiddenClass()
+      : this.removeOverflowHiddenClass();
+  };
+
+  private addOverflowHiddenClass(): void {
+    if (Dialog.totalOpenDialogs === 0) {
+      Dialog.initialDocumentOverflowStyle = document.documentElement.style.overflow;
+    }
+
+    Dialog.totalOpenDialogs++;
+    // use an inline style instead of a utility class to avoid global class declarations.
+    document.documentElement.style.setProperty("overflow", "hidden");
+  }
 
   private removeOverflowHiddenClass(): void {
     document.documentElement.style.setProperty("overflow", Dialog.initialDocumentOverflowStyle);
