@@ -22,4 +22,3 @@ TODO:
   - all panel vars for css
 - Stories
   - theming
-- refactor renderStyle
