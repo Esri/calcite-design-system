@@ -1087,7 +1087,7 @@ export class InputNumber
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
         enterKeyHint={this.el.enterKeyHint || this.el.getAttribute("enterkeyhint")}
-        inputMode={this.el.inputMode || this.el.getAttribute("inputmode")}
+        inputMode={this.el.inputMode || this.el.getAttribute("inputmode") || "decimal"}
         key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}
