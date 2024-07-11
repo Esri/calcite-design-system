@@ -22,26 +22,26 @@ export interface CalciteConfig {
   version?: string;
 }
 
-const customConfig: CalciteConfig = globalThis["calciteConfig"];
+const existingConfig: CalciteConfig = globalThis["calciteConfig"];
 
-export const focusTrapStack: FocusTrap[] = customConfig?.focusTrapStack || [];
+export const focusTrapStack: FocusTrap[] = existingConfig?.focusTrapStack || [];
 
-const version = "__CALCITE_VERSION__"; // version number is set by build
+// the following placeholders are replaced by the build
+const version = "__CALCITE_VERSION__";
+const buildDate = "__CALCITE_BUILD_DATE__";
+const revision = "__CALCITE_REVISION__";
 
 /**
  * Stamp the version onto the global config.
  */
 export function stampVersion(): void {
-  if (customConfig && customConfig.version) {
-    console.warn(
-      customConfig.version === version
-        ? `[calcite-components] while initializing v${version}, an existing configuration with the same version was found. This may be caused by the initialization script running more than once.`
-        : `[calcite-components] while initializing v${version}, an existing configuration with version "${customConfig.version}" was found. This may cause unexpected behavior. The version will not be added to the existing global configuration.`,
-    );
+  if (existingConfig && existingConfig.version) {
     return;
   }
 
-  const target = customConfig || globalThis["calciteConfig"] || {};
+  console.info(`Using Calcite Components ${version} [Date: ${buildDate}, Revision: ${revision}]`);
+
+  const target = existingConfig || globalThis["calciteConfig"] || {};
 
   Object.defineProperty(target, "version", {
     value: version,
