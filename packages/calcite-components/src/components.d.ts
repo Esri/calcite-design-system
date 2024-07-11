@@ -1652,19 +1652,11 @@ export namespace Components {
         /**
           * When `true`, disables the component's close button.
          */
-        "closeButtonDisabled": boolean;
+        "closeDisabled": boolean;
         /**
           * A description for the component.
          */
         "description": string;
-        /**
-          * When `true`, disables the default close on escape behavior.
-         */
-        "escapeDisabled": boolean;
-        /**
-          * When `true`, prevents focus trapping.
-         */
-        "focusTrapDisabled": boolean;
         /**
           * Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-dialog-width` / `--calcite-dialog-height`.
          */
@@ -1709,10 +1701,6 @@ export namespace Components {
           * We use an internal property to handle styles for when a dialog is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is.
          */
         "opened": boolean;
-        /**
-          * When `true`, disables the closing of the component when clicked outside.
-         */
-        "outsideCloseDisabled": boolean;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
@@ -9646,19 +9634,11 @@ declare namespace LocalJSX {
         /**
           * When `true`, disables the component's close button.
          */
-        "closeButtonDisabled"?: boolean;
+        "closeDisabled"?: boolean;
         /**
           * A description for the component.
          */
         "description"?: string;
-        /**
-          * When `true`, disables the default close on escape behavior.
-         */
-        "escapeDisabled"?: boolean;
-        /**
-          * When `true`, prevents focus trapping.
-         */
-        "focusTrapDisabled"?: boolean;
         /**
           * Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-dialog-width` / `--calcite-dialog-height`.
          */
@@ -9723,10 +9703,6 @@ declare namespace LocalJSX {
           * We use an internal property to handle styles for when a dialog is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is.
          */
         "opened"?: boolean;
-        /**
-          * When `true`, disables the closing of the component when clicked outside.
-         */
-        "outsideCloseDisabled"?: boolean;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */

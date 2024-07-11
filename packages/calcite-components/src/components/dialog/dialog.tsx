@@ -57,7 +57,6 @@ import { CSS, SLOTS } from "./resources";
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - A slot for adding custom content to the component's footer.
- * @slot footer-actions - [Deprecated] Use the `footer-start` and `footer-end` slots instead. A slot for adding `calcite-button`s to the component's footer.
  * @slot footer-end - A slot for adding a trailing footer custom content.
  * @slot footer-start - A slot for adding a leading footer custom content.
  */
@@ -89,24 +88,7 @@ export class Dialog
   @Prop() description: string;
 
   /** When `true`, disables the component's close button. */
-  @Prop({ reflect: true }) closeButtonDisabled = false;
-
-  /** When `true`, disables the default close on escape behavior. */
-  @Prop({ reflect: true }) escapeDisabled = false;
-
-  /**
-   * When `true`, prevents focus trapping.
-   */
-  @Prop({ reflect: true }) focusTrapDisabled = false;
-
-  @Watch("focusTrapDisabled")
-  handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
-    if (!this.open) {
-      return;
-    }
-
-    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
-  }
+  @Prop({ reflect: true }) closeDisabled = false;
 
   /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-dialog-width` / `--calcite-dialog-height`. */
   @Prop({ reflect: true }) fullscreen = false;
@@ -170,9 +152,6 @@ export class Dialog
    * @internal
    */
   @Prop({ mutable: true, reflect: true }) opened = false;
-
-  /** When `true`, disables the closing of the component when clicked outside. */
-  @Prop({ reflect: true }) outsideCloseDisabled = false;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -260,7 +239,7 @@ export class Dialog
             <slot name={SLOTS.content}>
               <calcite-panel
                 class={CSS.panel}
-                closable={!this.closeButtonDisabled}
+                closable={!this.closeDisabled}
                 closed={!opened}
                 description={description}
                 heading={heading}
@@ -282,9 +261,10 @@ export class Dialog
                 <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
                 <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
                 <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
-                <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
-                <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
-                <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
+                <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer}>
+                  <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
+                  <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
+                </slot>
                 <slot />
               </calcite-panel>
             </slot>
@@ -300,7 +280,6 @@ export class Dialog
       return (
         <style>
           {`.${CSS.dialog} {
-              block-size: ${this.cssHeight ? this.cssHeight : "auto"} !important;
               ${this.cssWidth ? `inline-size: ${this.cssWidth} !important;` : ""}
               ${this.cssWidth ? `max-inline-size: ${this.cssWidth} !important;` : ""}
             }
@@ -377,7 +356,7 @@ export class Dialog
 
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
+    if (this.open && event.key === "Escape" && !event.defaultPrevented) {
       this.open = false;
       event.preventDefault();
     }
@@ -518,10 +497,6 @@ export class Dialog
   }
 
   private handleOutsideClose = (): void => {
-    if (this.outsideCloseDisabled) {
-      return;
-    }
-
     this.open = false;
   };
 

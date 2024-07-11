@@ -12,15 +12,12 @@ type DialogStoryArgs = Pick<
   | "scale"
   | "widthScale"
   | "fullscreen"
-  | "escapeDisabled"
   | "heading"
   | "description"
-  | "closeButtonDisabled"
-  | "focusTrapDisabled"
+  | "closeDisabled"
   | "loading"
   | "menuOpen"
   | "modal"
-  | "outsideCloseDisabled"
   | "overlayPositioning"
 >;
 
@@ -32,15 +29,12 @@ export default {
     scale: scale.defaultValue,
     widthScale: scale.values[0],
     fullscreen: false,
-    escapeDisabled: false,
     heading: "My Dialog",
     description: "My description!",
-    closeButtonDisabled: false,
-    focusTrapDisabled: false,
+    closeDisabled: false,
     loading: false,
     menuOpen: false,
     modal: false,
-    outsideCloseDisabled: false,
   },
   argTypes: {
     kind: {
@@ -89,14 +83,11 @@ export const simple = (args: DialogStoryArgs): string => html`
     ${boolean("open", args.open)}
     ${boolean("menuOpen", args.menuOpen)}
     ${boolean("loading", args.loading)}
-    ${boolean("close-button-disabled", args.closeButtonDisabled)}
-    ${boolean("focus-trap-disabled", args.focusTrapDisabled)}
-    ${boolean("outside-close-disabled", args.outsideCloseDisabled)}
+    ${boolean("close-disabled", args.closeDisabled)}
     kind="${args.kind}"
     scale="${args.scale}"
     width-scale="${args.widthScale}"
     ${boolean("fullscreen", args.fullscreen)}
-    ${boolean("escape-disabled", args.escapeDisabled)}
     heading="${args.heading}"
     description="${args.description}"
   >
@@ -253,10 +244,9 @@ export const menuOpen = (): string => html`
   </calcite-dialog>
 `;
 
-export const withFooterActions = (): string => html`
+export const withFooter = (): string => html`
   <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
-    <calcite-action text="Action" label="Action" slot="${SLOTS.footerActions}" icon="attachment"></calcite-action>
-    <calcite-action text="Action" label="Action" slot="${SLOTS.footerActions}" icon="banana"></calcite-action>
+    <calcite-action text="Action" label="Action" slot="${SLOTS.footer}" icon="attachment"></calcite-action>
     Hello world!
   </calcite-dialog>
 `;

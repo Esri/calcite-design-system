@@ -44,15 +44,7 @@ describe("calcite-dialog", () => {
   describe("reflects", () => {
     reflects("calcite-dialog", [
       {
-        propertyName: "closeButtonDisabled",
-        value: true,
-      },
-      {
-        propertyName: "escapeDisabled",
-        value: true,
-      },
-      {
-        propertyName: "focusTrapDisabled",
+        propertyName: "closeDisabled",
         value: true,
       },
       {
@@ -84,10 +76,6 @@ describe("calcite-dialog", () => {
         value: true,
       },
       {
-        propertyName: "outsideCloseDisabled",
-        value: true,
-      },
-      {
         propertyName: "overlayPositioning",
         value: "fixed",
       },
@@ -113,15 +101,7 @@ describe("calcite-dialog", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "closeButtonDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "escapeDisabled",
-        defaultValue: false,
-      },
-      {
-        propertyName: "focusTrapDisabled",
+        propertyName: "closeDisabled",
         defaultValue: false,
       },
       {
@@ -161,10 +141,6 @@ describe("calcite-dialog", () => {
         defaultValue: false,
       },
       {
-        propertyName: "outsideCloseDisabled",
-        defaultValue: false,
-      },
-      {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
       },
@@ -191,7 +167,7 @@ describe("calcite-dialog", () => {
 
     const messageOverrides = { close: "shut the front door" };
 
-    dialog.setProperty("closeButtonDisabled", true);
+    dialog.setProperty("closeDisabled", true);
     dialog.setProperty("loading", true);
     dialog.setProperty("menuOpen", true);
     dialog.setProperty("headingLevel", 1);
@@ -500,7 +476,7 @@ describe("calcite-dialog", () => {
       const button2Id = "button2";
       const page = await newE2EPage();
       await page.setContent(
-        html`<calcite-dialog close-button-disabled>
+        html`<calcite-dialog close-disabled>
           <div slot="content">
             <button id="${button1Id}">Focus1</button>
             <button id="${button2Id}">Focus2</button>
@@ -579,7 +555,7 @@ describe("calcite-dialog", () => {
     });
 
     describe("focuses content if there is no close button", () => {
-      focusable(createDialogHTML(focusableContentHTML, "close-button-disabled"), {
+      focusable(createDialogHTML(focusableContentHTML, "close-disabled"), {
         focusTargetSelector,
       });
     });
@@ -666,33 +642,6 @@ describe("calcite-dialog", () => {
 
     await page.waitForChanges();
     expect(await dialog.getProperty("open")).toBe(false);
-  });
-
-  it("should not close when the scrim is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog modal outside-close-disabled></calcite-dialog>`);
-    const dialog = await page.find("calcite-dialog");
-    dialog.setProperty("open", true);
-    await page.waitForChanges();
-    expect(dialog).toHaveAttribute("open");
-    await page.evaluate((className) => {
-      const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
-      (scrim as HTMLElement).click();
-    }, `.${CSS.scrim}`);
-    await page.waitForChanges();
-    expect(await dialog.getProperty("open")).toBe(true);
-  });
-
-  it("does not close when Escape is pressed and escape-disabled is set", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog escape-disabled></calcite-dialog>`);
-    const dialog = await page.find("calcite-dialog");
-    dialog.setProperty("open", true);
-    await page.waitForChanges();
-    expect(dialog).toHaveAttribute("open");
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
-    expect(dialog).toHaveAttribute("open");
   });
 
   describe("overflow prevention", () => {

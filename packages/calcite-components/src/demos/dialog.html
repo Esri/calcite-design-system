@@ -695,57 +695,6 @@
       </div>
       <!--
       **************************************************
-      * ESC DISABLED
-      **************************************************
-    -->
-      <div class="parent">
-        <div class="child right-aligned-text">ESC Disabled</div>
-
-        <!-- small width disabled -->
-        <div class="child">
-          <calcite-dialog heading="Dialog title" class="js-dialog-esc-disabled-s" escape-disabled scale="s">
-            <div>
-              <p>This dialog has <code>escape-disabled</code> set, so pressing the escape key will not dismiss it.</p>
-            </div>
-            <calcite-button slot="footer-end" width="full" scale="s" appearance="outline">Cancel</calcite-button>
-          </calcite-dialog>
-
-          <calcite-button onClick="openDialog('.js-dialog-esc-disabled-s')" appearance="outline" scale="s">
-            Scale Small
-          </calcite-button>
-        </div>
-
-        <!-- medium width disabled -->
-        <div class="child">
-          <calcite-dialog heading="Dialog title" class="js-dialog-esc-disabled-m" escape-disabled scale="m">
-            <div>
-              <p>This dialog has <code>escape-disabled</code> set, so pressing the escape key will not dismiss it.</p>
-            </div>
-            <calcite-button slot="footer-end" width="full" scale="m" appearance="outline">Cancel</calcite-button>
-          </calcite-dialog>
-
-          <calcite-button onClick="openDialog('.js-dialog-esc-disabled-m')" appearance="outline" scale="s">
-            Scale Medium
-          </calcite-button>
-        </div>
-
-        <!-- large width disabled -->
-        <div class="child">
-          <calcite-dialog heading="Dialog title" class="js-dialog-esc-disabled-l" escape-disabled scale="l">
-            <div>
-              <p>This dialog has <code>escape-disabled</code> set, so pressing the escape key will not dismiss it.</p>
-            </div>
-            <calcite-button slot="footer-end" width="full" scale="l" appearance="outline">Cancel</calcite-button>
-          </calcite-dialog>
-
-          <calcite-button onClick="openDialog('.js-dialog-esc-disabled-l')" appearance="outline" scale="s">
-            Scale Large
-          </calcite-button>
-        </div>
-      </div>
-
-      <!--
-      **************************************************
       * NO CLOSE BUTTON
       **************************************************
     -->
@@ -754,7 +703,7 @@
 
         <!-- small width no close button -->
         <div class="child">
-          <calcite-dialog heading="Dialog title" class="js-dialog-no-close-s" close-button-disabled scale="s">
+          <calcite-dialog heading="Dialog title" class="js-dialog-no-close-s" close-disabled scale="s">
             <div>
               <p>This dialog has no close button.</p>
             </div>
@@ -768,7 +717,7 @@
 
         <!-- medium width no close button -->
         <div class="child">
-          <calcite-dialog heading="Dialog title" class="js-dialog-no-close-m" close-button-disabled scale="m">
+          <calcite-dialog heading="Dialog title" class="js-dialog-no-close-m" close-disabled scale="m">
             <div>
               <p>This dialog has no close button.</p>
             </div>
@@ -782,7 +731,7 @@
 
         <!-- large width no close button -->
         <div class="child">
-          <calcite-dialog heading="Dialog title" class="js-dialog-no-close-l" close-button-disabled scale="l">
+          <calcite-dialog heading="Dialog title" class="js-dialog-no-close-l" close-disabled scale="l">
             <div>
               <p>This dialog has no close button.</p>
             </div>

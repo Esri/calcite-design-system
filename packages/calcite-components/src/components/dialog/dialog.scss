@@ -137,6 +137,22 @@
   }
 }
 
+:host(:not([fullscreen])) .dialog {
+  block-size: var(--calcite-dialog-height, "auto");
+  inline-size: var(--calcite-dialog-width);
+  max-inline-size: var(--calcite-dialog-width);
+}
+
+@media screen and (max-width: var(--calcite-dialog-width)) {
+  :host(:not([fullscreen])) .dialog {
+    max-block-size: 100% !important;
+    inline-size: 100% !important;
+    max-inline-size: 100% !important;
+    min-inline-size: 100% !important;
+    margin: 0 !important;
+  }
+}
+
 /**
  * Sizes
  */

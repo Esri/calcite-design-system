@@ -2,30 +2,14 @@
 
 ## Questions
 
-- don't need footer slot right?
-- modal default value? only modal has scrim
-
-- panel properties
-
-  - disabled property?
-  - loading propertY?
-  - menuOpen property?
-  - focusTrapDisabled?
-
-- closeButtonDisabled property?
-- outsideCloseDisabled?
-- escapeDisabled?
-
-- placement property: add as feat?
-- alerts slot: should this be on panel??? Add as separate feat?
-- overriding messages on internal components?
-- renderStyle??
-
 ## Notes
 
-- shell: created dialogs slot
-
 TODO:
+
+- alerts slot: should this be on panel??? Add as separate feat?
+
+- fullscreen => full, fill, cover??: touch base next week. placement: full.
+- placement property: try to make it in. could be as a feat in august.
 
 - HTML
   - modal
