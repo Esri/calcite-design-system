@@ -41,6 +41,35 @@
 
   <body>
     <demo-dom-swapper>
+      <demo-theme
+        tokens="
+          --calcite-stepper-action-background-color,
+          --calcite-stepper-action-background-color-hover,
+          --calcite-stepper-action-background-color-active,
+          --calcite-stepper-step-bar-fill-color,
+          --calcite-stepper-step-bar-fill-color-hover,
+          --calcite-stepper-step-bar-selected-fill-color,
+          --calcite-stepper-step-bar-complete-fill-color,
+          --calcite-stepper-step-bar-completed-fill-color-hover,
+          --calcite-stepper-step-bar-error-fill-color,
+          --calcite-stepper-step-bar-error-fill-color-hover"
+      >
+        <calcite-stepper layout="horizontal-single" numbered icon scale="s">
+          <calcite-stepper-item heading="Confirm and complete">
+            <div>Step 4 Content Goes Here</div>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Choose method" selected>
+            <div>Step 1 Content Goes Here</div>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Compile member list" complete>
+            <div>Step 2 Content Goes Here</div>
+          </calcite-stepper-item>
+          <calcite-stepper-item heading="Set member properties" description="Some subtext" error>
+            <div>Step 3 Content Goes Here</div>
+          </calcite-stepper-item>
+        </calcite-stepper>
+      </demo-theme>
+
       <!--
       **************************************************
       * SMALL horizontal-single
