@@ -45,10 +45,6 @@ import { OverlayPositioning } from "../../components";
 import { DialogMessages } from "./assets/dialog/t9n";
 import { CSS, SLOTS } from "./resources";
 
-// todo: static property?
-let totalOpenDialogs: number = 0;
-let initialDocumentOverflowStyle: string = "";
-
 /**
  * @slot - A slot for adding content.
  * @slot content - A slot for adding custom content.
@@ -293,7 +289,7 @@ export class Dialog
     );
   }
 
-  // todo: why are we doing this? why not just use a css class?
+  // todo: why are we doing this? why not just use a css prop?
   renderStyle(): VNode {
     if (!this.fullscreen && (this.cssWidth || this.cssHeight)) {
       return (
@@ -323,6 +319,10 @@ export class Dialog
   //  Private Properties/ State
   //
   //--------------------------------------------------------------------------
+
+  static totalOpenDialogs = 0;
+
+  static initialDocumentOverflowStyle = "";
 
   panelEl: HTMLCalcitePanelElement;
 
@@ -511,11 +511,11 @@ export class Dialog
     this.opened = true;
 
     if (!this.slottedInShell) {
-      if (totalOpenDialogs === 0) {
-        initialDocumentOverflowStyle = document.documentElement.style.overflow;
+      if (Dialog.totalOpenDialogs === 0) {
+        Dialog.initialDocumentOverflowStyle = document.documentElement.style.overflow;
       }
 
-      totalOpenDialogs++;
+      Dialog.totalOpenDialogs++;
       // use an inline style instead of a utility class to avoid global class declarations.
       document.documentElement.style.setProperty("overflow", "hidden");
     }
@@ -544,13 +544,13 @@ export class Dialog
       }
     }
 
-    totalOpenDialogs--;
+    Dialog.totalOpenDialogs--;
     this.opened = false;
     this.removeOverflowHiddenClass();
   };
 
   private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
+    document.documentElement.style.setProperty("overflow", Dialog.initialDocumentOverflowStyle);
   }
 
   private handleMutationObserver = (): void => {
