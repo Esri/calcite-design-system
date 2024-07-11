@@ -1658,10 +1658,6 @@ export namespace Components {
          */
         "description": string;
         /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled": boolean;
-        /**
           * When `true`, disables the default close on escape behavior.
          */
         "escapeDisabled": boolean;
@@ -1734,6 +1730,7 @@ export namespace Components {
         "scrollContentTo": (options?: ScrollToOptions) => Promise<void>;
         /**
           * Sets focus on the component's "close" button (the first focusable item).
+          * @returns - A promise that is resolved when the operation has completed.
          */
         "setFocus": () => Promise<void>;
         /**
@@ -9654,10 +9651,6 @@ declare namespace LocalJSX {
           * A description for the component.
          */
         "description"?: string;
-        /**
-          * When `true`, interaction is prevented and the component is displayed with lower opacity.
-         */
-        "disabled"?: boolean;
         /**
           * When `true`, disables the default close on escape behavior.
          */

@@ -16,7 +16,6 @@ type DialogStoryArgs = Pick<
   | "heading"
   | "description"
   | "closeButtonDisabled"
-  | "disabled"
   | "focusTrapDisabled"
   | "loading"
   | "menuOpen"
@@ -37,7 +36,6 @@ export default {
     heading: "My Dialog",
     description: "My description!",
     closeButtonDisabled: false,
-    disabled: false,
     focusTrapDisabled: false,
     loading: false,
     menuOpen: false,
@@ -94,7 +92,6 @@ export const simple = (args: DialogStoryArgs): string => html`
     ${boolean("close-button-disabled", args.closeButtonDisabled)}
     ${boolean("focus-trap-disabled", args.focusTrapDisabled)}
     ${boolean("outside-close-disabled", args.outsideCloseDisabled)}
-    ${boolean("disabled", args.disabled)}
     kind="${args.kind}"
     scale="${args.scale}"
     width-scale="${args.widthScale}"
@@ -230,12 +227,6 @@ export const withCustomHeader = (): string => html`
 export const withCustomContent = (): string => html`
   <calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="s">
     <div slot="${SLOTS.content}">Custom Content!</div>
-    <p>Slotted content!</p>
-  </calcite-dialog>
-`;
-
-export const disabled = (): string => html`
-  <calcite-dialog disabled open modal heading="heading" description="description" scale="m" width-scale="s">
     <p>Slotted content!</p>
   </calcite-dialog>
 `;

@@ -1,7 +1,18 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { focusable, hidden, openClose, renders, slots, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  focusable,
+  hidden,
+  openClose,
+  reflects,
+  renders,
+  slots,
+  t9n,
+} from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
+import { DialogMessages } from "./assets/dialog/t9n";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-dialog", () => {
@@ -12,17 +23,6 @@ describe("calcite-dialog", () => {
   describe("honors hidden attribute", () => {
     hidden("calcite-dialog");
   });
-
-  // todo: loading test
-  // todo: menuOpen test
-  // todo: headingLevel test
-  // todo: messageOverrides test
-  // todo: overlayPositioning test
-  // todo: scale test
-  // closeButtonDisabled
-  // description
-  // disabled
-  // heading
 
   describe("openClose", () => {
     const openCloseOptions = {
@@ -41,15 +41,178 @@ describe("calcite-dialog", () => {
     t9n("calcite-dialog");
   });
 
-  it("should honor closeButtonDisabled", async () => {
+  describe("reflects", () => {
+    reflects("calcite-dialog", [
+      {
+        propertyName: "closeButtonDisabled",
+        value: true,
+      },
+      {
+        propertyName: "escapeDisabled",
+        value: true,
+      },
+      {
+        propertyName: "focusTrapDisabled",
+        value: true,
+      },
+      {
+        propertyName: "fullscreen",
+        value: true,
+      },
+      {
+        propertyName: "headingLevel",
+        value: 1,
+      },
+      {
+        propertyName: "kind",
+        value: "brand",
+      },
+      {
+        propertyName: "loading",
+        value: true,
+      },
+      {
+        propertyName: "menuOpen",
+        value: true,
+      },
+      {
+        propertyName: "modal",
+        value: true,
+      },
+      {
+        propertyName: "open",
+        value: true,
+      },
+      {
+        propertyName: "outsideCloseDisabled",
+        value: true,
+      },
+      {
+        propertyName: "overlayPositioning",
+        value: "fixed",
+      },
+      {
+        propertyName: "scale",
+        value: "s",
+      },
+      {
+        propertyName: "widthScale",
+        value: "s",
+      },
+    ]);
+  });
+
+  describe("defaults", () => {
+    defaults("calcite-dialog", [
+      {
+        propertyName: "beforeClose",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "description",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "closeButtonDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "escapeDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "focusTrapDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "fullscreen",
+        defaultValue: false,
+      },
+      {
+        propertyName: "heading",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "headingLevel",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "kind",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "loading",
+        defaultValue: false,
+      },
+      {
+        propertyName: "menuOpen",
+        defaultValue: false,
+      },
+      {
+        propertyName: "messageOverrides",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "modal",
+        defaultValue: false,
+      },
+      {
+        propertyName: "open",
+        defaultValue: false,
+      },
+      {
+        propertyName: "outsideCloseDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
+        propertyName: "widthScale",
+        defaultValue: "m",
+      },
+    ]);
+  });
+
+  describe("accessible", () => {
+    accessible(`<calcite-dialog heading="My Dialog" description="My Description" open>Hello world!</calcite-dialog>`);
+  });
+
+  it("should set internal panel properties", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-dialog></calcite-dialog>");
     const panel = await page.find(`calcite-dialog >>> calcite-panel`);
     const dialog = await page.find("calcite-dialog");
-    expect(await panel.getProperty("closable")).toBe(true);
+
+    const messageOverrides = { close: "shut the front door" };
+
     dialog.setProperty("closeButtonDisabled", true);
+    dialog.setProperty("loading", true);
+    dialog.setProperty("menuOpen", true);
+    dialog.setProperty("headingLevel", 1);
+    dialog.setProperty("overlayPositioning", "fixed");
+    dialog.setProperty("heading", "My Heading");
+    dialog.setProperty("description", "My Description");
+    dialog.setProperty("scale", "l");
+    dialog.setProperty("messageOverrides", messageOverrides);
+
     await page.waitForChanges();
     expect(await panel.getProperty("closable")).toBe(false);
+    expect(await panel.getProperty("loading")).toBe(true);
+    expect(await panel.getProperty("menuOpen")).toBe(true);
+    expect(await panel.getProperty("headingLevel")).toBe(1);
+    expect(await panel.getProperty("overlayPositioning")).toBe("fixed");
+    expect(await panel.getProperty("heading")).toBe("My Heading");
+    expect(await panel.getProperty("description")).toBe("My Description");
+    expect(await panel.getProperty("scale")).toBe("l");
+    expect(((await panel.getProperty("messageOverrides")) as Partial<DialogMessages>).close).toBe(
+      messageOverrides.close,
+    );
   });
 
   it("sets custom width correctly", async () => {

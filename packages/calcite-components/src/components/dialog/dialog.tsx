@@ -96,11 +96,6 @@ export class Dialog
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) closeButtonDisabled = false;
 
-  /**
-   *  When `true`, interaction is prevented and the component is displayed with lower opacity.
-   */
-  @Prop({ reflect: true }) disabled = false;
-
   // todo: remove?
   /** When `true`, disables the default close on escape behavior. */
   @Prop({ reflect: true }) escapeDisabled = false;
@@ -122,7 +117,7 @@ export class Dialog
 
   // todo: do we need to still say this?
   /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-dialog-width` / `--calcite-dialog-height`. */
-  @Prop({ reflect: true }) fullscreen: boolean;
+  @Prop({ reflect: true }) fullscreen = false;
 
   /**
    * The component header text.
@@ -272,7 +267,6 @@ export class Dialog
                 closable={!this.closeButtonDisabled}
                 closed={!opened}
                 description={description}
-                disabled={this.disabled}
                 heading={heading}
                 headingLevel={this.headingLevel}
                 loading={this.loading}
@@ -418,6 +412,7 @@ export class Dialog
   /**
    * Sets focus on the component's "close" button (the first focusable item).
    *
+   * @returns {Promise<void>} - A promise that is resolved when the operation has completed.
    */
   @Method()
   async setFocus(): Promise<void> {
