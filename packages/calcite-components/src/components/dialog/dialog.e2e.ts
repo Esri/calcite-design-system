@@ -41,7 +41,7 @@ describe("calcite-dialog", () => {
     t9n("calcite-dialog");
   });
 
-  it("should hide closeButton when disabled", async () => {
+  it("should honor closeButtonDisabled", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-dialog></calcite-dialog>");
     const panel = await page.find(`calcite-dialog >>> calcite-panel`);
