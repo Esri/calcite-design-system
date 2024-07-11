@@ -372,12 +372,13 @@ describe("calcite-dialog", () => {
         </calcite-dialog>
       `);
 
+      await page.waitForChanges();
+
       await page.evaluate(() => {
         const btn = document.getElementById("openButton");
         btn.addEventListener("click", () => {
           const button = document.createElement("calcite-button");
           button.innerHTML = "focusable";
-          button.slot = "content";
 
           const dialog2 = document.createElement("calcite-dialog");
           dialog2.id = "dialog2";
@@ -402,19 +403,21 @@ describe("calcite-dialog", () => {
       `<calcite-dialog heading="Title" open ${attrs}>${contentHTML}</calcite-dialog>`;
 
     const focusableContentTargetClass = "test";
+    const shadowFocusTargetSelector = `.${CSS.panel}`;
+    const focusTargetSelector = `.${focusableContentTargetClass}`;
 
     const focusableContentHTML = html`This is the content
       <button class="${focusableContentTargetClass}">test</button> `;
 
-    describe("focuses close button by default", () => {
+    describe("focuses internal panel by default", () => {
       focusable(createDialogHTML(focusableContentHTML), {
-        shadowFocusTargetSelector: "calcite-panel",
+        shadowFocusTargetSelector,
       });
     });
 
     describe("focuses content if there is no close button", () => {
       focusable(createDialogHTML(focusableContentHTML, "close-button-disabled"), {
-        focusTargetSelector: `.${focusableContentTargetClass}`,
+        focusTargetSelector,
       });
     });
   });

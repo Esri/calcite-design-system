@@ -268,6 +268,7 @@ export class Dialog
           <div class={CSS.dialog} ref={this.setTransitionEl}>
             <slot name={SLOTS.content}>
               <calcite-panel
+                class={CSS.panel}
                 closable={!this.closeButtonDisabled}
                 closed={!opened}
                 description={description}
@@ -421,13 +422,7 @@ export class Dialog
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    const { panelEl } = this;
-
-    if (panelEl) {
-      panelEl?.setFocus();
-    } else {
-      focusFirstTabbable(this.el);
-    }
+    return this.panelEl?.setFocus() ?? focusFirstTabbable(this.el);
   }
 
   /**

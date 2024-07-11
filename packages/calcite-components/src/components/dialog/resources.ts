@@ -1,5 +1,6 @@
 export const CSS = {
   dialog: "dialog",
+  panel: "panel",
   scrim: "scrim",
   container: "container",
   containerOpen: "container--open",
