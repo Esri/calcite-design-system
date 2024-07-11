@@ -27,10 +27,8 @@
 
 TODO:
 
-- pending tests to create
 - HTML
   - modal
-  - disabled
   - description
   - loading
   - menuOpen

@@ -92,15 +92,12 @@ export class Dialog
   /** A description for the component. */
   @Prop() description: string;
 
-  // todo: remove?
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) closeButtonDisabled = false;
 
-  // todo: remove?
   /** When `true`, disables the default close on escape behavior. */
   @Prop({ reflect: true }) escapeDisabled = false;
 
-  // todo: remove?
   /**
    * When `true`, prevents focus trapping.
    */
@@ -115,7 +112,6 @@ export class Dialog
     focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
-  // todo: do we need to still say this?
   /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-dialog-width` / `--calcite-dialog-height`. */
   @Prop({ reflect: true }) fullscreen = false;
 
@@ -174,7 +170,6 @@ export class Dialog
    */
   @Prop({ mutable: true, reflect: true }) opened = false;
 
-  // todo: remove?
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
@@ -562,7 +557,7 @@ export class Dialog
     this.updateFocusTrapElements();
   };
 
-  // todo
+  // todo: refactor
   private updateSizeCssVars = (): void => {
     this.cssWidth = getComputedStyle(this.el).getPropertyValue("--calcite-dialog-width");
     this.cssHeight = getComputedStyle(this.el).getPropertyValue("--calcite-dialog-height");
