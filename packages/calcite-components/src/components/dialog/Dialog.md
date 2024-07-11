@@ -18,7 +18,3 @@ TODO:
   - menuOpen
   - overlayPositioning
   - all slots
-- CSS
-  - all panel vars for css
-- Stories
-  - theming
