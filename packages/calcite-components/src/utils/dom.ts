@@ -1,4 +1,5 @@
 import { tabbable } from "tabbable";
+import { IconName } from "../components/icon/interfaces";
 import { guid } from "./guid";
 import { CSS_UTILITY } from "./resources";
 
@@ -427,10 +428,10 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
  * @returns {string|undefined} The resulting icon value.
  */
 export function setRequestedIcon(
-  iconObject: Record<string, string>,
-  iconValue: string | boolean,
+  iconObject: Record<string, IconName>,
+  iconValue: IconName | boolean | "",
   matchedValue: string,
-): string | undefined {
+): IconName | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {
     return iconValue;
   } else if (iconValue === "") {
@@ -537,7 +538,7 @@ export function slotChangeHasAssignedNode(event: Event): boolean {
  * @returns {boolean} Whether the slot has any assigned nodes.
  */
 export function slotChangeGetAssignedNodes(event: Event): Node[] {
-  return (event.target as HTMLSlotElement).assignedNodes({
+  return (event.currentTarget as HTMLSlotElement).assignedNodes({
     flatten: true,
   });
 }
@@ -567,7 +568,7 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * @returns {boolean} Whether the slot has any assigned elements.
  */
 export function slotChangeGetAssignedElements(event: Event): Element[] {
-  return (event.target as HTMLSlotElement).assignedElements({
+  return (event.currentTarget as HTMLSlotElement).assignedElements({
     flatten: true,
   });
 }

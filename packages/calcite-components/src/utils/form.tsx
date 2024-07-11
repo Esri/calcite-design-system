@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "@stencil/core";
 import { Writable } from "type-fest";
-import { Status } from "../components";
+import { IconName, Status } from "../components";
 import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 
 /**
@@ -125,14 +125,14 @@ export interface FormComponent<T = any> extends FormOwner {
   /**
    * Hook for components to provide custom form reset behavior.
    */
-  onFormReset?(): void;
+  onFormReset?: () => void;
 
   /**
    * Hook for components to sync _extra_ props on the hidden input form element used for form-submitting.
    *
    * Note: The following props are set by default: disabled, hidden, name, required, value.
    */
-  syncHiddenFormInput?(input: HTMLInputElement): void;
+  syncHiddenFormInput?: (input: HTMLInputElement) => void;
 }
 
 /**
@@ -211,7 +211,7 @@ function hasRegisteredFormComponentParent(
 export interface ValidationProps {
   status: Status;
   message: string;
-  icon: string | boolean;
+  icon: IconName | boolean | "";
 }
 
 function displayValidationMessage(

@@ -79,6 +79,9 @@ import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/open
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { Validation } from "../functional/Validation";
+import { focusFirstTabbable } from "../../utils/dom";
+import { IconName } from "../icon/interfaces";
+import { syncHiddenFormInput } from "../input/common/input";
 import { CSS } from "./resources";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 
@@ -231,6 +234,20 @@ export class InputTimePicker
   }
 
   /**
+   * Specifies the maximum value.
+   *
+   * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
+   */
+  @Prop({ reflect: true }) max: string;
+
+  /**
+   * Specifies the minimum value.
+   *
+   * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
+   */
+  @Prop({ reflect: true }) min: string;
+
+  /**
    * Use this property to override individual strings used by the component.
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
@@ -253,7 +270,7 @@ export class InputTimePicker
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconName | boolean;
 
   /**
    * The current validation state of the component.
@@ -523,7 +540,7 @@ export class InputTimePicker
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.el);
   }
 
   /**
@@ -556,6 +573,10 @@ export class InputTimePicker
 
   onClose(): void {
     this.calciteInputTimePickerClose.emit();
+  }
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    syncHiddenFormInput("time", this, input);
   }
 
   private delocalizeTimeString(value: string): string {

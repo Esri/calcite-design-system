@@ -5,7 +5,7 @@ export const CSS = {
 export const ICONS = {
   backLeft: "chevron-left",
   backRight: "chevron-right",
-};
+} as const;
 
 export const SLOTS = {
   actionBar: "action-bar",
@@ -18,4 +18,6 @@ export const SLOTS = {
   fab: "fab",
   footer: "footer",
   footerActions: "footer-actions",
+  footerEnd: "footer-end",
+  footerStart: "footer-start",
 };

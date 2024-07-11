@@ -24,6 +24,7 @@ export const CSS = {
   selectionContainerSingle: "selection-container--single",
   openContainer: "open-container",
   dragContainer: "drag-container",
+  close: "close",
 };
 
 export const SLOTS = {
@@ -48,6 +49,6 @@ export const ICONS = {
   open: "chevron-down",
   blank: "blank",
   close: "x",
-};
+} as const;
 
 export const activeCellTestAttribute = "data-test-active";

@@ -139,10 +139,6 @@
   }
 }
 
-.input--transparent {
-  @apply opacity-0;
-}
-
 .input--single {
   @apply p-0;
   margin-block: var(--calcite-internal-combobox-input-margin-block);
