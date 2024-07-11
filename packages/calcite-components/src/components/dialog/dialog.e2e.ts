@@ -700,9 +700,25 @@ describe("calcite-dialog", () => {
       return page.evaluate(() => document.documentElement.style.overflow === "hidden");
     }
 
-    it("correctly sets overflow style on document when opened/closed", async () => {
+    it("does not set overflow style on document when opened/closed and non modal", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-dialog></calcite-dialog>`);
+      const dialog = await page.find("calcite-dialog");
+
+      dialog.setProperty("open", true);
+      await page.waitForChanges();
+
+      expect(await hasOverflowStyle(page)).toEqual(false);
+
+      dialog.setProperty("open", false);
+      await page.waitForChanges();
+
+      expect(await hasOverflowStyle(page)).toEqual(false);
+    });
+
+    it("correctly sets overflow style on document when opened/closed", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-dialog modal></calcite-dialog>`);
       const dialog = await page.find("calcite-dialog");
 
       dialog.setProperty("open", true);
@@ -718,7 +734,7 @@ describe("calcite-dialog", () => {
 
     it("preserves existing overflow style when dialog is opened/closed", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-dialog></calcite-dialog>`);
+      await page.setContent(`<calcite-dialog modal></calcite-dialog>`);
       await page.evaluate(() => (document.documentElement.style.overflow = "scroll"));
       const dialog = await page.find("calcite-dialog");
 
@@ -735,7 +751,7 @@ describe("calcite-dialog", () => {
 
     it("correctly does not add overflow style on document when open and slotted in shell dialogs slot", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-shell><calcite-dialog slot="dialogs"></calcite-dialog></calcite-shell>`);
+      await page.setContent(`<calcite-shell><calcite-dialog slot="dialogs" modal></calcite-dialog></calcite-shell>`);
       const dialog = await page.find("calcite-dialog");
 
       dialog.setProperty("open", true);
@@ -747,8 +763,8 @@ describe("calcite-dialog", () => {
     it("correctly removes overflow style on document when multiple dialogs are closed in first-in-last-out order", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-dialog id="dialog-1"></calcite-dialog>
-        <calcite-dialog id="dialog-2"></calcite-dialog>
+        <calcite-dialog id="dialog-1" modal></calcite-dialog>
+        <calcite-dialog id="dialog-2" modal></calcite-dialog>
       `);
       const dialog1 = await page.find("#dialog-1");
       const dialog2 = await page.find("#dialog-2");
@@ -771,8 +787,8 @@ describe("calcite-dialog", () => {
     it("correctly removes overflow style on document when multiple dialogs are closed in first-in-first-out order", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
-        <calcite-dialog id="dialog-1"></calcite-dialog>
-        <calcite-dialog id="dialog-2"></calcite-dialog>
+        <calcite-dialog id="dialog-1" modal></calcite-dialog>
+        <calcite-dialog id="dialog-2" modal></calcite-dialog>
       `);
       const dialog1 = await page.find("#dialog-1");
       const dialog2 = await page.find("#dialog-2");
