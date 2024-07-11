@@ -39,6 +39,35 @@
   </head>
 
   <body>
+    <demo-theme
+      tokens="
+        --calcite-tile-background-color,
+        --calcite-tile-border-color,
+        --calcite-tile-description-text-color,
+        --calcite-tile-heading-text-color,
+        --calcite-tile-icon-color,
+        --calcite-tile-selection-icon-color-hover"
+    >
+      <calcite-tile-group selection-mode="single">
+        <calcite-tile
+          heading="Tile heading lorem ipsum"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+          icon="layers"
+        ></calcite-tile>
+        <calcite-tile
+          heading="Tile heading lorem ipsum"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
+          icon="layers"
+          selected
+        ></calcite-tile>
+        <calcite-tile
+          heading="Tile heading lorem ipsum"
+          description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+          icon="layers"
+        ></calcite-tile>
+      </calcite-tile-group>
+    </demo-theme>
+
     <demo-dom-swapper>
       <div class="parent">
         <div class="child right-aligned-text">scale</div>
