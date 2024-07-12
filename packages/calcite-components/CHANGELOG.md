@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.3...@esri/calcite-components@2.11.0-next.4) (2024-07-12)
+
+### Bug Fixes
+
+- **panel, flow-item:** fix footer-padding CSS prop regression ([#9757](https://github.com/Esri/calcite-design-system/issues/9757)) ([94b808c](https://github.com/Esri/calcite-design-system/commit/94b808c7238cf0ba183adc1ab365efdedaaaa7a7))
+
 ## [2.11.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.2...@esri/calcite-components@2.11.0-next.3) (2024-07-11)
 
 ### Bug Fixes
