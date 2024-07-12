@@ -474,6 +474,7 @@ export class Dialog
         requestAnimationFrame(() => {
           this.ignoreOpenChange = true;
           this.open = true;
+          this.panelEl.closed = false;
           this.ignoreOpenChange = false;
         });
         return;

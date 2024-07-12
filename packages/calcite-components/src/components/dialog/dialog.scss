@@ -41,6 +41,30 @@
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
 }
 
+:host([placement="top"]) .container {
+  @apply justify-center items-start;
+}
+
+:host([placement="top-start"]) .container {
+  @apply justify-start items-start;
+}
+
+:host([placement="top-end"]) .container {
+  @apply justify-end items-start;
+}
+
+:host([placement="bottom"]) .container {
+  @apply justify-center items-end;
+}
+
+:host([placement="bottom-start"]) .container {
+  @apply justify-start items-end;
+}
+
+:host([placement="bottom-end"]) .container {
+  @apply justify-end items-end;
+}
+
 :host(:not([modal])) .container {
   @apply pointer-events-none;
 }

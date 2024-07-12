@@ -1027,10 +1027,16 @@
               </calcite-label>
               <calcite-label>
                 Placement
-                <calcite-segmented-control id="css-dialog-options-adjuster">
-                  <calcite-segmented-control-item checked value="center">center</calcite-segmented-control-item>
-                  <calcite-segmented-control-item value="cover">cover</calcite-segmented-control-item>
-                </calcite-segmented-control>
+                <calcite-select id="css-dialog-options-adjuster">
+                  <calcite-option value="center" selected>center</calcite-option>
+                  <calcite-option value="cover">cover</calcite-option>
+                  <calcite-option value="top">top</calcite-option>
+                  <calcite-option value="top-start">top-start</calcite-option>
+                  <calcite-option value="top-end">top-end</calcite-option>
+                  <calcite-option value="bottom">bottom</calcite-option>
+                  <calcite-option value="bottom-start">bottom-start</calcite-option>
+                  <calcite-option value="bottom-end">bottom-end</calcite-option>
+                </calcite-select>
               </calcite-label>
               Expected behavior: none: css var for height + width adhered to. Below width, goes to fullscreen.
               fullscreen: ignores css var for height + width.
@@ -1063,7 +1069,7 @@
         const customSizeDialog = document.querySelector("#js-dialog-custom-size");
         const heightInput = document.querySelector("#css-dialog-height-adjuster");
         const widthInput = document.querySelector("#css-dialog-width-adjuster");
-        const optionsSegmentedControl = document.querySelector("#css-dialog-options-adjuster");
+        const optionsSelect = document.querySelector("#css-dialog-options-adjuster");
         const beforeCloseRejected = document.getElementById("js-dialog-before-close");
 
         beforeCloseRejected.beforeClose = () => {
@@ -1077,15 +1083,8 @@
           customSizeDialog.style.setProperty("--calcite-dialog-width", event.target.value);
         });
 
-        optionsSegmentedControl.addEventListener("calciteSegmentedControlChange", (event) => {
-          switch (event.target.selectedItem.value) {
-            case "cover":
-              customSizeDialog.placement = "cover";
-              break;
-            case "center":
-              customSizeDialog.placement = "center";
-              break;
-          }
+        optionsSelect.addEventListener("calciteSelectChange", (event) => {
+          customSizeDialog.placement = event.target.value;
           customSizeDialog.style.setProperty("--calcite-dialog-height", heightInput.value);
           customSizeDialog.style.setProperty("--calcite-dialog-width", widthInput.value);
         });
