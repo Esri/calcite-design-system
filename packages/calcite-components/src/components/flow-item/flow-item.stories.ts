@@ -8,7 +8,7 @@ const { collapseDirection, scale } = ATTRIBUTES;
 interface FlowItemStoryArgs
   extends Pick<
     FlowItem,
-    "closed" | "disabled" | "closable" | "collapsible" | "collapsed" | "collapseDirection" | "loading"
+    "closed" | "disabled" | "closable" | "collapsible" | "collapsed" | "collapseDirection" | "loading" | "scale"
   > {
   heightScale: string;
 }

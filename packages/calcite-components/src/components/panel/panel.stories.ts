@@ -8,7 +8,7 @@ const { collapseDirection, scale } = ATTRIBUTES;
 interface PanelStoryArgs
   extends Pick<
     Panel,
-    "closed" | "disabled" | "closable" | "collapsed" | "collapsible" | "collapseDirection" | "loading"
+    "closed" | "disabled" | "closable" | "collapsed" | "collapsible" | "collapseDirection" | "loading" | "scale"
   > {
   heightScale: string;
 }
