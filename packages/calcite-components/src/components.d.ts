@@ -39,6 +39,7 @@ import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
 import { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 import { OverlayPositioning as OverlayPositioning1 } from "./components";
+import { DialogPlacement } from "./components/dialog/interfaces";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 import { FilterMessages } from "./components/filter/assets/filter/t9n";
@@ -133,6 +134,7 @@ export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
 export { DialogMessages } from "./components/dialog/assets/dialog/t9n";
 export { OverlayPositioning as OverlayPositioning1 } from "./components";
+export { DialogPlacement } from "./components/dialog/interfaces";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 export { FilterMessages } from "./components/filter/assets/filter/t9n";
@@ -1658,10 +1660,6 @@ export namespace Components {
          */
         "description": string;
         /**
-          * Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-dialog-width` / `--calcite-dialog-height`.
-         */
-        "fullscreen": boolean;
-        /**
           * The component header text.
          */
         "heading": string;
@@ -1705,6 +1703,10 @@ export namespace Components {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning": OverlayPositioning1;
+        /**
+          * Specifies the placement of the dialog.
+         */
+        "placement": DialogPlacement;
         /**
           * Specifies the size of the component.
          */
@@ -9640,10 +9642,6 @@ declare namespace LocalJSX {
          */
         "description"?: string;
         /**
-          * Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-dialog-width` / `--calcite-dialog-height`.
-         */
-        "fullscreen"?: boolean;
-        /**
           * The component header text.
          */
         "heading"?: string;
@@ -9707,6 +9705,10 @@ declare namespace LocalJSX {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning"?: OverlayPositioning1;
+        /**
+          * Specifies the placement of the dialog.
+         */
+        "placement"?: DialogPlacement;
         /**
           * Specifies the size of the component.
          */

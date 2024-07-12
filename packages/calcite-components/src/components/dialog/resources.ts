@@ -1,3 +1,5 @@
+import { DialogPlacement } from "./interfaces";
+
 export const CSS = {
   dialog: "dialog",
   panel: "panel",
@@ -28,3 +30,14 @@ export const SLOTS = {
   footerStart: "footer-start",
   footerEnd: "footer-end",
 };
+
+export const dialogPlacements: DialogPlacement[] = [
+  "top",
+  "top-start",
+  "top-end",
+  "bottom",
+  "bottom-start",
+  "bottom-end",
+  "cover",
+  "center",
+];

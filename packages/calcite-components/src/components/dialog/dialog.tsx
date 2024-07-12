@@ -44,6 +44,10 @@ import { HeadingLevel } from "../functional/Heading";
 import { OverlayPositioning } from "../../components";
 import { DialogMessages } from "./assets/dialog/t9n";
 import { CSS, SLOTS } from "./resources";
+import { DialogPlacement } from "./interfaces";
+
+let totalOpenDialogs: number = 0;
+let initialDocumentOverflowStyle: string = "";
 
 /**
  * @slot - A slot for adding content.
@@ -89,9 +93,6 @@ export class Dialog
 
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) closeDisabled = false;
-
-  /** Sets the component to always be fullscreen. Overrides `widthScale` and `--calcite-dialog-width` / `--calcite-dialog-height`. */
-  @Prop({ reflect: true }) fullscreen = false;
 
   /**
    * The component header text.
@@ -162,6 +163,11 @@ export class Dialog
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * Specifies the placement of the dialog.
+   */
+  @Prop({ reflect: true }) placement: DialogPlacement = "center";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -275,10 +281,6 @@ export class Dialog
   //  Private Properties/ State
   //
   //--------------------------------------------------------------------------
-
-  static totalOpenDialogs = 0;
-
-  static initialDocumentOverflowStyle = "";
 
   panelEl: HTMLCalcitePanelElement;
 
@@ -478,7 +480,7 @@ export class Dialog
       }
     }
 
-    Dialog.totalOpenDialogs--;
+    totalOpenDialogs--;
     this.opened = false;
     this.updateOverflowHiddenClass();
   };
@@ -490,17 +492,17 @@ export class Dialog
   };
 
   private addOverflowHiddenClass(): void {
-    if (Dialog.totalOpenDialogs === 0) {
-      Dialog.initialDocumentOverflowStyle = document.documentElement.style.overflow;
+    if (totalOpenDialogs === 0) {
+      initialDocumentOverflowStyle = document.documentElement.style.overflow;
     }
 
-    Dialog.totalOpenDialogs++;
+    totalOpenDialogs++;
     // use an inline style instead of a utility class to avoid global class declarations.
     document.documentElement.style.setProperty("overflow", "hidden");
   }
 
   private removeOverflowHiddenClass(): void {
-    document.documentElement.style.setProperty("overflow", Dialog.initialDocumentOverflowStyle);
+    document.documentElement.style.setProperty("overflow", initialDocumentOverflowStyle);
   }
 
   private handleMutationObserver = (): void => {

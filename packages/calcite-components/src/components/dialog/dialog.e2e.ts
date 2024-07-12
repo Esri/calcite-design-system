@@ -48,8 +48,8 @@ describe("calcite-dialog", () => {
         value: true,
       },
       {
-        propertyName: "fullscreen",
-        value: true,
+        propertyName: "placement",
+        value: "center",
       },
       {
         propertyName: "headingLevel",
@@ -105,8 +105,8 @@ describe("calcite-dialog", () => {
         defaultValue: false,
       },
       {
-        propertyName: "fullscreen",
-        defaultValue: false,
+        propertyName: "placement",
+        defaultValue: "center",
       },
       {
         propertyName: "heading",
@@ -229,11 +229,13 @@ describe("calcite-dialog", () => {
     expect(style).toEqual("600px");
   });
 
-  it("expectedly does not set custom width when `fullscreen` is true", async () => {
+  it(`expectedly does not set custom width when "placement=cover" is true`, async () => {
     const page = await newE2EPage();
     // set large page to ensure test dialog isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(`<calcite-dialog style="--calcite-dialog-width:600px;" fullscreen open></calcite-dialog>`);
+    await page.setContent(
+      `<calcite-dialog style="--calcite-dialog-width:600px;" placement="cover" open></calcite-dialog>`,
+    );
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
     await page.waitForChanges();
@@ -248,11 +250,13 @@ describe("calcite-dialog", () => {
     expect(style).not.toEqual("600px");
   });
 
-  it("expectedly does not set custom height when `fullscreen` is true", async () => {
+  it(`expectedly does not set custom height when "placement=cover" is true`, async () => {
     const page = await newE2EPage();
     // set large page to ensure test dialog isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(`<calcite-dialog style="--calcite-dialog-height:600px;" fullscreen open></calcite-dialog>`);
+    await page.setContent(
+      `<calcite-dialog style="--calcite-dialog-height:600px;" placement="cover" open></calcite-dialog>`,
+    );
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
     await page.waitForChanges();

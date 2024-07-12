@@ -796,10 +796,10 @@
       <!-- A horizontal line -->
 
       <!--
-      **************************************************
-      * FULLSCREEN
-      **************************************************
-    -->
+          **************************************************
+          * placement="cover"
+          **************************************************
+        -->
       <div class="parent">
         <div class="child right-aligned-text"></div>
 
@@ -807,7 +807,7 @@
           <calcite-dialog
             heading="Fullscreen dialog"
             class="js-dialog-fs-s"
-            fullscreen
+            placement="cover"
             style="--calcite-dialog-height: 100%, --calcite-dialog-height: 100%"
           >
             <div>
@@ -829,7 +829,7 @@
           </calcite-dialog>
 
           <calcite-button onClick="openDialog('.js-dialog-fs-s')" appearance="outline" scale="s">
-            Fullscreen
+            placement="cover"
           </calcite-button>
         </div>
 
@@ -842,7 +842,7 @@
           <calcite-dialog
             heading="Ui Background css overriding --calcite-dialog-content-background"
             class="js-dialog-custom-background"
-            fullscreen
+            placement="cover"
             style="--calcite-dialog-content-background: var(--calcite-color-background)"
           >
             <div>
@@ -1026,10 +1026,10 @@
                 <calcite-input id="css-dialog-height-adjuster" value="600px" />
               </calcite-label>
               <calcite-label>
-                options
+                Placement
                 <calcite-segmented-control id="css-dialog-options-adjuster">
-                  <calcite-segmented-control-item checked value="none">none</calcite-segmented-control-item>
-                  <calcite-segmented-control-item value="fullscreen">fullscreen</calcite-segmented-control-item>
+                  <calcite-segmented-control-item checked value="center">center</calcite-segmented-control-item>
+                  <calcite-segmented-control-item value="cover">cover</calcite-segmented-control-item>
                 </calcite-segmented-control>
               </calcite-label>
               Expected behavior: none: css var for height + width adhered to. Below width, goes to fullscreen.
@@ -1079,11 +1079,11 @@
 
         optionsSegmentedControl.addEventListener("calciteSegmentedControlChange", (event) => {
           switch (event.target.selectedItem.value) {
-            case "fullscreen":
-              customSizeDialog.fullscreen = true;
+            case "cover":
+              customSizeDialog.placement = "cover";
               break;
-            case "none":
-              customSizeDialog.fullscreen = false;
+            case "center":
+              customSizeDialog.placement = "center";
               break;
           }
           customSizeDialog.style.setProperty("--calcite-dialog-height", heightInput.value);

@@ -3,7 +3,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dialog } from "./dialog";
 const { kind, scale, overlayPositioning } = ATTRIBUTES;
-import { SLOTS } from "./resources";
+import { dialogPlacements, SLOTS } from "./resources";
 
 type DialogStoryArgs = Pick<
   Dialog,
@@ -11,10 +11,10 @@ type DialogStoryArgs = Pick<
   | "kind"
   | "scale"
   | "widthScale"
-  | "fullscreen"
   | "heading"
   | "description"
   | "closeDisabled"
+  | "placement"
   | "loading"
   | "menuOpen"
   | "modal"
@@ -28,7 +28,7 @@ export default {
     kind: "",
     scale: scale.defaultValue,
     widthScale: scale.values[0],
-    fullscreen: false,
+    placement: "center",
     heading: "My Dialog",
     description: "My description!",
     closeDisabled: false,
@@ -51,6 +51,10 @@ export default {
     },
     overlayPositioning: {
       options: overlayPositioning.values,
+      control: { type: "select" },
+    },
+    placement: {
+      options: dialogPlacements,
       control: { type: "select" },
     },
   },
@@ -87,7 +91,7 @@ export const simple = (args: DialogStoryArgs): string => html`
     kind="${args.kind}"
     scale="${args.scale}"
     width-scale="${args.widthScale}"
-    ${boolean("fullscreen", args.fullscreen)}
+    placement="${args.placement}"
     heading="${args.heading}"
     description="${args.description}"
   >
