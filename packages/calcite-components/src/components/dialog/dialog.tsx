@@ -102,7 +102,7 @@ export class Dialog
   //--------------------------------------------------------------------------
 
   /** Passes a function to run before the component closes. */
-  @Prop() beforeClose: (el: HTMLCalciteDialogElement) => Promise<void>;
+  @Prop() beforeClose: () => Promise<void>;
 
   /** A description for the component. */
   @Prop() description: string;
@@ -256,7 +256,7 @@ export class Dialog
           <div class={CSS.dialog} ref={this.setTransitionEl}>
             <slot name={SLOTS.content}>
               <calcite-panel
-                beforeClose={this.handleBeforeClose(this.beforeClose)}
+                beforeClose={this.beforeClose}
                 class={CSS.panel}
                 closable={!this.closeDisabled}
                 closed={!opened}
@@ -458,12 +458,6 @@ export class Dialog
     onToggleOpenCloseComponent(this);
   }
 
-  private handleBeforeClose = (
-    fn: (el: HTMLCalciteDialogElement) => Promise<void>,
-  ): (() => Promise<void>) => {
-    return fn ? () => fn(this.el) : undefined;
-  };
-
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener("calciteDialogOpen", this.openEnd);
@@ -491,7 +485,7 @@ export class Dialog
   closeDialog = async (): Promise<void> => {
     if (this.beforeClose) {
       try {
-        await this.beforeClose(this.el);
+        await this.beforeClose();
       } catch (_error) {
         // close prevented
         requestAnimationFrame(() => {

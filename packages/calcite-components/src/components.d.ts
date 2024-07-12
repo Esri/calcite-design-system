@@ -1650,7 +1650,7 @@ export namespace Components {
         /**
           * Passes a function to run before the component closes.
          */
-        "beforeClose": (el: HTMLCalciteDialogElement) => Promise<void>;
+        "beforeClose": () => Promise<void>;
         /**
           * When `true`, disables the component's close button.
          */
@@ -1972,6 +1972,10 @@ export namespace Components {
           * When provided, the method will be called before it is removed from its parent `calcite-flow`.
          */
         "beforeBack": () => Promise<void>;
+        /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose": () => Promise<void>;
         /**
           * When `true`, displays a close button in the trailing side of the component's header.
          */
@@ -9636,7 +9640,7 @@ declare namespace LocalJSX {
         /**
           * Passes a function to run before the component closes.
          */
-        "beforeClose"?: (el: HTMLCalciteDialogElement) => Promise<void>;
+        "beforeClose"?: () => Promise<void>;
         /**
           * When `true`, disables the component's close button.
          */
@@ -9959,6 +9963,10 @@ declare namespace LocalJSX {
           * When provided, the method will be called before it is removed from its parent `calcite-flow`.
          */
         "beforeBack"?: () => Promise<void>;
+        /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose"?: () => Promise<void>;
         /**
           * When `true`, displays a close button in the trailing side of the component's header.
          */

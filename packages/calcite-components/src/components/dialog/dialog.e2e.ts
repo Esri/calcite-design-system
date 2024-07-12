@@ -161,12 +161,19 @@ describe("calcite-dialog", () => {
 
   it("should set internal panel properties", async () => {
     const page = await newE2EPage();
+    await page.exposeFunction("beforeClose", () => Promise.reject());
     await page.setContent("<calcite-dialog></calcite-dialog>");
+
     const panel = await page.find(`calcite-dialog >>> calcite-panel`);
     const dialog = await page.find("calcite-dialog");
 
     const messageOverrides = { close: "shut the front door" };
 
+    await page.$eval(
+      "calcite-dialog",
+      (el: HTMLCalciteDialogElement) =>
+        (el.beforeClose = (window as typeof window & Pick<typeof el, "beforeClose">).beforeClose),
+    );
     dialog.setProperty("closeDisabled", true);
     dialog.setProperty("loading", true);
     dialog.setProperty("menuOpen", true);
@@ -176,8 +183,8 @@ describe("calcite-dialog", () => {
     dialog.setProperty("description", "My Description");
     dialog.setProperty("scale", "l");
     dialog.setProperty("messageOverrides", messageOverrides);
-
     await page.waitForChanges();
+
     expect(await panel.getProperty("closable")).toBe(false);
     expect(await panel.getProperty("loading")).toBe(true);
     expect(await panel.getProperty("menuOpen")).toBe(true);
@@ -189,6 +196,7 @@ describe("calcite-dialog", () => {
     expect(((await panel.getProperty("messageOverrides")) as Partial<DialogMessages>).close).toBe(
       messageOverrides.close,
     );
+    expect(await panel.getProperty("beforeClose")).toBeDefined();
   });
 
   it("sets custom width correctly", async () => {
