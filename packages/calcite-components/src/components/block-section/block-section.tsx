@@ -195,16 +195,15 @@ export class BlockSection
 
   handleHeaderKeyDown = (event: KeyboardEvent): void => {
     if (isActivationKey(event.key)) {
-      this.toggleSection(event);
+      this.toggleSection();
       event.preventDefault();
       event.stopPropagation();
     }
   };
 
-  toggleSection = (event: Event): void => {
+  toggleSection = (): void => {
     this.open = !this.open;
     this.calciteBlockSectionToggle.emit();
-    event.stopPropagation();
   };
 
   private setTransitionEl = (el: HTMLDivElement): void => {
