@@ -1,14 +1,17 @@
+import { Scale } from "../interfaces";
+
 export const CSS = {
   active: "label--active",
   centerContent: "center-content",
+  container: "container",
   custom: "icon--custom",
   description: "description",
   dot: "icon--dot",
   filterMatch: "filter-match",
   icon: "icon",
   iconActive: "icon--active",
-  iconIndent: "icon--indent",
   label: "label",
+  scale: (scale: Scale) => `scale--${scale}` as const,
   selected: "label--selected",
   shortText: "short-text",
   single: "label--single",

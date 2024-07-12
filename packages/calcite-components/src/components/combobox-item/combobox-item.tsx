@@ -204,7 +204,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         class={{
           [CSS.custom]: !!this.icon,
           [CSS.iconActive]: this.icon && this.selected,
-          [CSS.iconIndent]: true,
         }}
         flipRtl={this.iconFlipRtl}
         icon={this.icon || iconPath}
@@ -222,7 +221,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         class={{
           [CSS.icon]: true,
           [CSS.dot]: true,
-          [CSS.iconIndent]: true,
         }}
       />
     ) : (
@@ -230,7 +228,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         class={{
           [CSS.icon]: true,
           [CSS.iconActive]: this.selected,
-          [CSS.iconIndent]: true,
         }}
         flipRtl={this.iconFlipRtl}
         icon={iconPath}
@@ -265,13 +262,16 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect,
     };
-    const depth = getDepth(this.el);
+    const depth = getDepth(this.el) + 1;
 
     return (
       <Host aria-hidden="true">
         <InteractiveContainer disabled={disabled}>
           <div
-            class={`container scale--${this.scale}`}
+            class={{
+              [CSS.container]: true,
+              [CSS.scale(this.scale)]: true,
+            }}
             style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
           >
             <li class={classes} id={this.guid} onClick={this.itemClickHandler}>

@@ -61,10 +61,10 @@ ul:focus {
   duration-150
   ease-in-out;
   @include word-break();
-  padding-block: var(--calcite-combobox-item-spacing-unit-s);
-  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
   justify-content: space-around;
   gap: var(--calcite-combobox-item-spacing-unit-l);
+  padding-block: var(--calcite-combobox-item-spacing-unit-s);
+  padding-inline: var(--calcite-combobox-item-indent-value);
 }
 
 :host([disabled]) .label {
@@ -94,10 +94,6 @@ ul:focus {
     duration-150
     ease-in-out;
   color: theme("borderColor.color.1");
-}
-
-.icon--indent {
-  padding-inline-start: var(--calcite-combobox-item-indent-value);
 }
 
 .icon--custom {
