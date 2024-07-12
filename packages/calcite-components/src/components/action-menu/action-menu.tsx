@@ -167,8 +167,6 @@ export class ActionMenu implements LoadableComponent {
 
   tooltipEl: HTMLCalciteTooltipElement;
 
-  transitionEl: HTMLDivElement;
-
   @State() activeMenuItemIndex = -1;
 
   @Watch("activeMenuItemIndex")
