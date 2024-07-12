@@ -339,6 +339,10 @@ export class ActionMenu implements LoadableComponent, OpenCloseComponent {
       <Fragment>
         {this.renderMenuButton()}
         {this.renderMenuItems()}
+        onActionMenuBeforeOpen = {this.onActionMenuBeforeOpen}
+        onActionMenuOpen = {this.onActionMenuOpen}
+        onActionMenuBeforeClose = {this.onActionMenuBeforeClose}
+        onActionMenuClose = {this.onActionMenuClose}
         <slot name={SLOTS.tooltip} onSlotchange={this.updateTooltip} />
       </Fragment>
     );
@@ -523,19 +527,23 @@ export class ActionMenu implements LoadableComponent, OpenCloseComponent {
     this.open = false;
   };
 
-  onBeforeOpen(): void {
+  private onActionMenuBeforeOpen = (event: CustomEvent): void => {
+    event.stopPropagation();
     this.calciteActionMenuBeforeOpen.emit();
-  }
+  };
 
-  onOpen(): void {
+  private onActionMenuOpen = (event: CustomEvent): void => {
+    event.stopPropagation();
     this.calciteActionMenuOpen.emit();
-  }
+  };
 
-  onBeforeClose(): void {
+  private onActionMenuBeforeClose = (event: CustomEvent): void => {
+    event.stopPropagation();
     this.calciteActionMenuBeforeClose.emit();
-  }
+  };
 
-  onClose(): void {
+  private onActionMenuClose = (event: CustomEvent): void => {
+    event.stopPropagation();
     this.calciteActionMenuClose.emit();
-  }
+  };
 }
