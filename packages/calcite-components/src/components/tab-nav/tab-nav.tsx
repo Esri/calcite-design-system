@@ -142,7 +142,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
       tab: this.selectedTabId,
     });
 
-    console.log("selectedTabIdChanged");
     this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
   }
 
@@ -352,7 +351,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
 
   @Listen("calciteInternalTabsClose")
   internalCloseTabHandler(event: CustomEvent<TabCloseEventDetail>): void {
-    console.log("calciteInternalTabsClose");
     const closedTabTitleEl = event.target as HTMLCalciteTabTitleElement;
     this.handleTabTitleClose(closedTabTitleEl);
     event.stopPropagation();
