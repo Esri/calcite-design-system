@@ -46,6 +46,21 @@ import { DialogMessages } from "./assets/dialog/t9n";
 import { CSS, SLOTS } from "./resources";
 import { DialogPlacement } from "./interfaces";
 
+/*
+TODO:
+
+- alerts slot: should this be on panel??? Add as separate feat?
+
+- HTML
+  - modal
+  - description
+  - loading
+  - menuOpen
+  - overlayPositioning
+  - all slots
+
+*/
+
 let totalOpenDialogs: number = 0;
 let initialDocumentOverflowStyle: string = "";
 
