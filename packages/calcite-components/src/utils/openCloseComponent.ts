@@ -44,22 +44,22 @@ export interface OpenCloseComponent {
   /**
    * Defines method for `beforeOpen` event handler.
    */
-  onBeforeOpen: () => void;
+  onBeforeOpen: (event?: CustomEvent) => void;
 
   /**
    * Defines method for `open` event handler:
    */
-  onOpen: () => void;
+  onOpen: (event?: CustomEvent) => void;
 
   /**
    * Defines method for `beforeClose` event handler:
    */
-  onBeforeClose: () => void;
+  onBeforeClose: (event?: CustomEvent) => void;
 
   /**
    * Defines method for `close` event handler:
    */
-  onClose: () => void;
+  onClose: (event?: CustomEvent) => void;
 }
 
 function isOpen(component: OpenCloseComponent): boolean {
