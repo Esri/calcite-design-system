@@ -49,6 +49,7 @@ import { DialogPlacement } from "./interfaces";
 /*
 TODO:
 
+- get rid of opened property, can use hidden attribute internally
 - alerts slot: should this be on panel??? Add as separate feat?
 
 - HTML
@@ -255,6 +256,7 @@ export class Dialog
           <div class={CSS.dialog} ref={this.setTransitionEl}>
             <slot name={SLOTS.content}>
               <calcite-panel
+                beforeClose={this.handleBeforeClose(this.beforeClose)}
                 class={CSS.panel}
                 closable={!this.closeDisabled}
                 closed={!opened}
@@ -456,6 +458,12 @@ export class Dialog
     onToggleOpenCloseComponent(this);
   }
 
+  private handleBeforeClose = (
+    fn: (el: HTMLCalciteDialogElement) => Promise<void>,
+  ): (() => Promise<void>) => {
+    return fn ? () => fn(this.el) : undefined;
+  };
+
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener("calciteDialogOpen", this.openEnd);
@@ -489,7 +497,6 @@ export class Dialog
         requestAnimationFrame(() => {
           this.ignoreOpenChange = true;
           this.open = true;
-          this.panelEl.closed = false;
           this.ignoreOpenChange = false;
         });
         return;
