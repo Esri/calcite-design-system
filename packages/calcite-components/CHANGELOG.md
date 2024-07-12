@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.5...@esri/calcite-components@2.11.0-next.6) (2024-07-12)
+
+### Bug Fixes
+
+- **shell:** update shell to correctly position calcite shell panel at shell's bottom ([#9748](https://github.com/Esri/calcite-design-system/issues/9748)) ([f56c625](https://github.com/Esri/calcite-design-system/commit/f56c625188c634b7fcc51d70f9e3ab2e287fda72)), closes [#8269](https://github.com/Esri/calcite-design-system/issues/8269)
+
 ## [2.11.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.4...@esri/calcite-components@2.11.0-next.5) (2024-07-12)
 
 ### Bug Fixes
