@@ -71,10 +71,18 @@ import { IconName } from "../icon/interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement, SelectionDisplay } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
-import { getItemAncestors, getItemChildren, hasActiveChildren, isSingleLike } from "./utils";
+import {
+  getItemAncestors,
+  getItemChildren,
+  getLabel,
+  hasActiveChildren,
+  isSingleLike,
+} from "./utils";
 
 interface ItemData {
   label: string;
+  labelShort: string;
+  description: string;
   value: string;
 }
 
@@ -577,7 +585,7 @@ export class Combobox
 
   textInput: HTMLInputElement = null;
 
-  data: ItemData[];
+  private data: ItemData[];
 
   mutationObserver = createObserver("mutation", () => this.updateItems());
 
@@ -1153,7 +1161,7 @@ export class Combobox
       this.emitComboboxChange();
 
       if (this.textInput) {
-        this.textInput.value = item.textLabel;
+        this.textInput.value = getLabel(item);
       }
       this.open = false;
       this.updateActiveItemIndex(-1);
@@ -1242,9 +1250,11 @@ export class Combobox
 
   getData(): ItemData[] {
     return this.items.map((item) => ({
+      description: item.description,
       filterDisabled: item.filterDisabled,
-      value: item.value,
       label: item.textLabel,
+      labelShort: item.textLabelShort,
+      value: item.value,
     }));
   }
 
@@ -1404,8 +1414,9 @@ export class Combobox
         "chip--active": activeChipIndex === i,
       };
       const ancestors = [...getItemAncestors(item)].reverse();
-      const pathLabel = [...ancestors, item].map((el) => el.textLabel);
-      const label = selectionMode !== "ancestors" ? item.textLabel : pathLabel.join(" / ");
+      const itemLabel = getLabel(item);
+      const pathLabel = [...ancestors, item].map((el) => getLabel(el));
+      const label = selectionMode !== "ancestors" ? itemLabel : pathLabel.join(" / ");
 
       return (
         <calcite-chip
@@ -1416,7 +1427,7 @@ export class Combobox
           icon={item.icon}
           iconFlipRtl={item.iconFlipRtl}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
-          key={item.textLabel}
+          key={itemLabel}
           messageOverrides={{ dismissLabel: messages.removeTag }}
           onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
           onFocusin={() => (this.activeChipIndex = i)}
@@ -1607,7 +1618,7 @@ export class Combobox
             }}
             key="label"
           >
-            {selectedItem.textLabel}
+            {getLabel(selectedItem)}
           </span>
         )}
         <input

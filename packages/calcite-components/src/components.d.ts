@@ -1366,6 +1366,10 @@ export namespace Components {
          */
         "ancestors": ComboboxChildElement[];
         /**
+          * A description for the component, which displays below the label.
+         */
+        "description": string;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
@@ -1408,6 +1412,10 @@ export namespace Components {
           * The component's text.
          */
         "textLabel": string;
+        /**
+          * The component's short label.  When provided, the short label will be displayed in the component's selection.  It is recommended to use 5 chars or less.
+         */
+        "textLabelShort": string;
         /**
           * The component's value.
          */
@@ -9201,6 +9209,10 @@ declare namespace LocalJSX {
          */
         "ancestors"?: ComboboxChildElement[];
         /**
+          * A description for the component, which displays below the label.
+         */
+        "description"?: string;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
@@ -9247,6 +9259,10 @@ declare namespace LocalJSX {
           * The component's text.
          */
         "textLabel": string;
+        /**
+          * The component's short label.  When provided, the short label will be displayed in the component's selection.  It is recommended to use 5 chars or less.
+         */
+        "textLabelShort"?: string;
         /**
           * The component's value.
          */

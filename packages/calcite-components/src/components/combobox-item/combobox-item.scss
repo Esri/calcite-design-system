@@ -6,6 +6,7 @@
   --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-item-spacing-indent: theme("spacing.2");
   --calcite-combobox-item-selector-icon-size: theme("spacing.4");
+  --calcite-combobox-item-description-font-size: var(--calcite-font-size--3);
 }
 
 .scale--m {
@@ -48,20 +49,22 @@ ul:focus {
 
 .label {
   @apply text-color-3
-    focus-base
-    relative
-    box-border
-    flex
-    w-full
-    min-w-full
-    cursor-pointer
-    items-center
-    no-underline
-    duration-150
-    ease-in-out;
+  focus-base
+  relative
+  box-border
+  flex
+  w-full
+  min-w-full
+  cursor-pointer
+  items-center
+  no-underline
+  duration-150
+  ease-in-out;
   @include word-break();
   padding-block: var(--calcite-combobox-item-spacing-unit-s);
   padding-inline: var(--calcite-combobox-item-spacing-unit-l);
+  justify-content: space-around;
+  gap: var(--calcite-combobox-item-spacing-unit-l);
 }
 
 :host([disabled]) .label {
@@ -85,11 +88,6 @@ ul:focus {
     shadow-none;
 }
 
-.title {
-  padding-block: 0;
-  padding-inline: var(--calcite-combobox-item-spacing-unit-l);
-}
-
 .icon {
   @apply inline-flex
     opacity-0
@@ -104,7 +102,6 @@ ul:focus {
 
 .icon--custom {
   margin-block-start: -1px;
-  padding-inline-start: var(--calcite-combobox-item-spacing-unit-l);
   @apply text-color-3;
 }
 
@@ -139,4 +136,26 @@ ul:focus {
   font-weight: var(--calcite-font-weight-bold);
   color: var(--calcite-color-text-1);
   background-color: var(--calcite-color-foreground-current);
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-block: 0;
+}
+
+.description {
+  font-size: var(--calcite-combobox-item-description-font-size);
+}
+
+:host([selected]),
+:host(:hover) {
+  .description {
+    color: var(--calcite-color-text-2);
+  }
+}
+
+.short-text {
+  color: var(--calcite-color-text-3);
 }

@@ -28,10 +28,11 @@ import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
 import { Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
+ * @slot content-end - A slot for adding non-actionable elements after the component's content.
  */
 @Component({
   tag: "calcite-combobox-item",
@@ -59,6 +60,11 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /** Specifies the parent and grandparent items, which are set on `calcite-combobox`. */
   @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
 
+  /**
+   * A description for the component, which displays below the label.
+   */
+  @Prop() description: string;
+
   /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true }) guid = guid();
 
@@ -75,6 +81,15 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   /** The component's text. */
   @Prop({ reflect: true }) textLabel!: string;
+
+  /**
+   * The component's short label.
+   *
+   * When provided, the short label will be displayed in the component's selection.
+   *
+   * It is recommended to use 5 chars or less.
+   */
+  @Prop({ reflect: true }) textLabelShort: string;
 
   /**
    * Pattern for highlighting filter text matches.
@@ -262,7 +277,12 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
             <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
               {this.renderSelectIndicator(showDot, iconPath)}
               {this.renderIcon(iconPath)}
-              <span class="title">{this.renderTextContent()}</span>
+              <div class={CSS.centerContent}>
+                <div class={CSS.title}>{this.renderTextContent(this.textLabel)}</div>
+                <div class={CSS.description}>{this.renderTextContent(this.description)}</div>
+              </div>
+              <div class={CSS.shortText}>{this.renderTextContent(this.textLabelShort)}</div>
+              <slot name={SLOTS.contentEnd} />
             </li>
             {this.renderChildren()}
           </div>
@@ -271,12 +291,14 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     );
   }
 
-  private renderTextContent(): string | (string | VNode)[] {
-    if (!this.filterTextMatchPattern) {
-      return this.textLabel;
+  private renderTextContent(text: string): string | (string | VNode)[] {
+    const pattern = this.filterTextMatchPattern;
+
+    if (!pattern || !text) {
+      return text;
     }
 
-    const parts: (string | VNode)[] = this.textLabel.split(this.filterTextMatchPattern);
+    const parts: (string | VNode)[] = text.split(pattern);
 
     if (parts.length > 1) {
       // we only highlight the first match
