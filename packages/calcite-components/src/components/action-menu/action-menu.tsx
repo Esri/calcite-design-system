@@ -21,7 +21,6 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
-import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { Appearance, Scale } from "../interfaces";
 import { activeAttr, CSS, ICONS, SLOTS } from "./resources";
 
@@ -37,7 +36,7 @@ const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
   styleUrl: "action-menu.scss",
   shadow: true,
 })
-export class ActionMenu implements LoadableComponent, OpenCloseComponent {
+export class ActionMenu implements LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -50,10 +49,6 @@ export class ActionMenu implements LoadableComponent, OpenCloseComponent {
 
   componentWillLoad(): void {
     setUpLoadableComponent(this);
-
-    if (this.open) {
-      onToggleOpenCloseComponent(this);
-    }
   }
 
   componentDidLoad(): void {
@@ -101,7 +96,6 @@ export class ActionMenu implements LoadableComponent, OpenCloseComponent {
 
   @Watch("open")
   openHandler(open: boolean): void {
-    onToggleOpenCloseComponent(this);
     this.activeMenuItemIndex = this.open ? 0 : -1;
     if (this.menuButtonEl) {
       this.menuButtonEl.active = open;
@@ -311,8 +305,10 @@ export class ActionMenu implements LoadableComponent, OpenCloseComponent {
         focusTrapDisabled={true}
         label={label}
         offsetDistance={0}
-        onCalcitePopoverClose={this.handlePopoverClose}
-        onCalcitePopoverOpen={this.handlePopoverOpen}
+        onCalcitePopoverBeforeClose={this.onPopoverBeforeClose}
+        onCalcitePopoverBeforeOpen={this.onPopoverBeforeOpen}
+        onCalcitePopoverClose={this.onPopoverClose}
+        onCalcitePopoverOpen={this.onPopoverOpen}
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
@@ -339,10 +335,6 @@ export class ActionMenu implements LoadableComponent, OpenCloseComponent {
       <Fragment>
         {this.renderMenuButton()}
         {this.renderMenuItems()}
-        onActionMenuBeforeOpen = {this.onActionMenuBeforeOpen}
-        onActionMenuOpen = {this.onActionMenuOpen}
-        onActionMenuBeforeClose = {this.onActionMenuBeforeClose}
-        onActionMenuClose = {this.onActionMenuClose}
         <slot name={SLOTS.tooltip} onSlotchange={this.updateTooltip} />
       </Fragment>
     );
@@ -519,30 +511,24 @@ export class ActionMenu implements LoadableComponent, OpenCloseComponent {
     this.open = value;
   };
 
-  private handlePopoverOpen = (): void => {
-    this.open = true;
-  };
-
-  private handlePopoverClose = (): void => {
-    this.open = false;
-  };
-
-  private onActionMenuBeforeOpen = (event: CustomEvent): void => {
+  private onPopoverBeforeOpen = (event: CustomEvent): void => {
     event.stopPropagation();
+    this.open = true;
     this.calciteActionMenuBeforeOpen.emit();
   };
 
-  private onActionMenuOpen = (event: CustomEvent): void => {
+  private onPopoverOpen = (event: CustomEvent): void => {
     event.stopPropagation();
     this.calciteActionMenuOpen.emit();
   };
 
-  private onActionMenuBeforeClose = (event: CustomEvent): void => {
+  private onPopoverBeforeClose = (event: CustomEvent): void => {
     event.stopPropagation();
     this.calciteActionMenuBeforeClose.emit();
   };
 
-  private onActionMenuClose = (event: CustomEvent): void => {
+  private onPopoverClose = (event: CustomEvent): void => {
+    this.open = false;
     event.stopPropagation();
     this.calciteActionMenuClose.emit();
   };
