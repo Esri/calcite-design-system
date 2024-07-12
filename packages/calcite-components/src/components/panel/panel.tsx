@@ -85,7 +85,7 @@ export class Panel
 
   @Watch("closed")
   toggleDialog(value: boolean): void {
-    value ? this.close() : (this.isClosed = false);
+    value ? this.close() : this.open();
   }
 
   /**
@@ -308,6 +308,10 @@ export class Panel
     this.calcitePanelClose.emit();
   };
 
+  open = (): void => {
+    this.isClosed = false;
+  };
+
   close = async (): Promise<void> => {
     const beforeClose = this.beforeClose ?? (() => Promise.resolve());
 
@@ -321,7 +325,6 @@ export class Panel
       return;
     }
 
-    this.closed = true;
     this.isClosed = true;
   };
 
