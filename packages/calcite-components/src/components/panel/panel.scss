@@ -19,12 +19,7 @@
 @import "../../assets/styles/header";
 
 :host([scale="s"]) {
-  .content-top,
-  .content-bottom,
-  .footer,
-  .header-content {
-    padding: var(--calcite-spacing-sm);
-  }
+  --calcite-internal-panel-default-padding: var(--calcite-spacing-sm);
 
   .header-content {
     .heading {
@@ -38,12 +33,7 @@
 }
 
 :host([scale="m"]) {
-  .content-top,
-  .content-bottom,
-  .footer,
-  .header-content {
-    padding: var(--calcite-spacing-md);
-  }
+  --calcite-internal-panel-default-padding: var(--calcite-spacing-md);
 
   .header-content {
     .heading {
@@ -57,12 +47,7 @@
 }
 
 :host([scale="l"]) {
-  .content-top,
-  .content-bottom,
-  .footer,
-  .header-content {
-    padding: var(--calcite-spacing-xl);
-  }
+  --calcite-internal-panel-default-padding: var(--calcite-spacing-xl);
 
   .header-content {
     .heading {
@@ -79,7 +64,6 @@
 .content-bottom {
   @apply flex items-start self-stretch;
 
-  padding: var(--calcite-spacing-md);
   border-block-start: 1px solid var(--calcite-color-border-3);
   background-color: var(--calcite-color-foreground-1);
 }
@@ -178,11 +162,17 @@
   h-full;
 }
 
+.content-top,
+.content-bottom,
+.header-content {
+  padding: var(--calcite-internal-panel-default-padding);
+}
+
 .footer {
   @apply flex mt-auto flex-row content-between justify-center items-center bg-foreground-1;
 
   border-block-start: 1px solid var(--calcite-color-border-3);
-  padding: var(--calcite-spacing-sm);
+  padding: var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-padding));
   column-gap: 0;
   row-gap: var(--calcite-spacing-md);
 }
