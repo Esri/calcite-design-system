@@ -848,7 +848,7 @@ export const slottedPanelTop_TestOnly = (): string =>
   </calcite-shell>
 `);
 
-export const contentBehindPanelBottom_TestOnly = (): string =>
+export const contentBehindPanelBottom = (): string =>
   html(`
   <calcite-shell
     content-behind
