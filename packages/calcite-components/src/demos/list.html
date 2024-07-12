@@ -673,7 +673,7 @@
                   </calcite-dropdown-group>
                 </calcite-dropdown>
               </calcite-list-item>
-              <calcite-list-item label="Rivers" value="rivers" open id="listItemTested">
+              <calcite-list-item label="Rivers" value="rivers" open>
                 <calcite-list-item label="Estuaries" value="estuaries">
                   <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
                     <calcite-action
@@ -727,26 +727,6 @@
               </calcite-list-item>
             </calcite-list-item-group>
           </calcite-list>
-
-          <script>
-            const listItem = document.getElementById("listItemTested");
-            console.log(listItem);
-
-            window.onload = () => {
-              listItem.addEventListener("calciteListItemBeforeOpen", () => {
-                console.log("calciteListItemBeforeOpen event was emitted");
-              });
-              listItem.addEventListener("calciteListItemOpen", () => {
-                console.log("calciteBListItemOpen event was emitted");
-              });
-              listItem.addEventListener("calciteListItemBeforeClose", () => {
-                console.log("calciteListItemBeforeClose event was emitted");
-              });
-              listItem.addEventListener("calciteListItemClose", () => {
-                console.log("calciteListItemClose event was emitted");
-              });
-            };
-          </script>
         </div>
       </div>
 
