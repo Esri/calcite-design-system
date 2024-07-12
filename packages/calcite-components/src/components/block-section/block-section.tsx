@@ -127,23 +127,19 @@ export class BlockSection
     focusFirstTabbable(this.el);
   }
 
-  onBeforeOpen(event: CustomEvent): void {
-    event.stopPropagation();
+  onBeforeOpen(): void {
     this.calciteBlockSectionBeforeOpen.emit();
   }
 
-  onOpen(event: CustomEvent): void {
-    event.stopPropagation();
+  onOpen(): void {
     this.calciteBlockSectionOpen.emit();
   }
 
-  onBeforeClose(event: CustomEvent): void {
-    event.stopPropagation();
+  onBeforeClose(): void {
     this.calciteBlockSectionBeforeClose.emit();
   }
 
-  onClose(event: CustomEvent): void {
-    event.stopPropagation();
+  onClose(): void {
     this.calciteBlockSectionClose.emit();
   }
 
@@ -199,15 +195,16 @@ export class BlockSection
 
   handleHeaderKeyDown = (event: KeyboardEvent): void => {
     if (isActivationKey(event.key)) {
-      this.toggleSection();
+      this.toggleSection(event);
       event.preventDefault();
       event.stopPropagation();
     }
   };
 
-  toggleSection = (): void => {
+  toggleSection = (event: Event): void => {
     this.open = !this.open;
     this.calciteBlockSectionToggle.emit();
+    event.stopPropagation();
   };
 
   private setTransitionEl = (el: HTMLDivElement): void => {
