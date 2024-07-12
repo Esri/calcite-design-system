@@ -127,19 +127,23 @@ export class BlockSection
     focusFirstTabbable(this.el);
   }
 
-  onBeforeOpen(): void {
+  onBeforeOpen(event: CustomEvent): void {
+    event.stopPropagation();
     this.calciteBlockSectionBeforeOpen.emit();
   }
 
-  onOpen(): void {
+  onOpen(event: CustomEvent): void {
+    event.stopPropagation();
     this.calciteBlockSectionOpen.emit();
   }
 
-  onBeforeClose(): void {
+  onBeforeClose(event: CustomEvent): void {
+    event.stopPropagation();
     this.calciteBlockSectionBeforeClose.emit();
   }
 
-  onClose(): void {
+  onClose(event: CustomEvent): void {
+    event.stopPropagation();
     this.calciteBlockSectionClose.emit();
   }
 
