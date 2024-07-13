@@ -147,9 +147,9 @@ export const create: () => Config = () => ({
     before: [
       replace({
         values: {
-          __CALCITE_VERSION__: version,
           __CALCITE_BUILD_DATE__: () => new Date().toISOString().split("T")[0],
-          __CALCITE_REVISION__: execSync("git rev-parse HEAD").toString().trim().slice(0, 7),
+          __CALCITE_REVISION__: execSync("git rev-parse HEAD", { encoding: "utf-8" }).trim(),
+          __CALCITE_VERSION__: version,
         },
         include: ["src/utils/config.ts"],
         preventAssignment: true,
