@@ -50,7 +50,6 @@ import { DialogPlacement } from "./interfaces";
 TODO:
 
 - get rid of opened property, can use hidden attribute internally
-- alerts slot: should this be on panel??? Add as separate feat?
 
 - HTML
   - modal
@@ -256,7 +255,7 @@ export class Dialog
           <div class={CSS.dialog} ref={this.setTransitionEl}>
             <slot name={SLOTS.content}>
               <calcite-panel
-                beforeClose={this.beforeClose}
+                // beforeClose={this.beforeClose} // todo: add back once installed.
                 class={CSS.panel}
                 closable={!this.closeDisabled}
                 closed={!opened}

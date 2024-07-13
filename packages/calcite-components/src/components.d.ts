@@ -1973,10 +1973,6 @@ export namespace Components {
          */
         "beforeBack": () => Promise<void>;
         /**
-          * Passes a function to run before the component closes.
-         */
-        "beforeClose": () => Promise<void>;
-        /**
           * When `true`, displays a close button in the trailing side of the component's header.
          */
         "closable": boolean;
@@ -3775,10 +3771,6 @@ export namespace Components {
         "totalItems": number;
     }
     interface CalcitePanel {
-        /**
-          * Passes a function to run before the component closes.
-         */
-        "beforeClose": () => Promise<void>;
         /**
           * When `true`, displays a close button in the trailing side of the header.
          */
@@ -9964,10 +9956,6 @@ declare namespace LocalJSX {
          */
         "beforeBack"?: () => Promise<void>;
         /**
-          * Passes a function to run before the component closes.
-         */
-        "beforeClose"?: () => Promise<void>;
-        /**
           * When `true`, displays a close button in the trailing side of the component's header.
          */
         "closable"?: boolean;
@@ -11867,10 +11855,6 @@ declare namespace LocalJSX {
         "totalItems"?: number;
     }
     interface CalcitePanel {
-        /**
-          * Passes a function to run before the component closes.
-         */
-        "beforeClose"?: () => Promise<void>;
         /**
           * When `true`, displays a close button in the trailing side of the header.
          */
