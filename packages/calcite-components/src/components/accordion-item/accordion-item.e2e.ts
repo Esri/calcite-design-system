@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots, hidden, focusable } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden, focusable, openClose } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, IDS, SLOTS } from "./resources";
 
@@ -22,6 +22,10 @@ describe("calcite-accordion-item", () => {
 
   describe("is focusable", () => {
     focusable("calcite-accordion-item");
+  });
+
+  describe("openClose", () => {
+    openClose("calcite-accordion-item", { openPropName: "expanded" });
   });
 
   it("properly uses ARIA and roles", async () => {

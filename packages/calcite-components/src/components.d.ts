@@ -6125,6 +6125,10 @@ declare global {
     interface HTMLCalciteAccordionItemElementEventMap {
         "calciteInternalAccordionItemSelect": RequestedItem1;
         "calciteInternalAccordionItemClose": void;
+        "calciteAccordionItemBeforeClose": void;
+        "calciteAccordionItemClose": void;
+        "calciteAccordionItemBeforeOpen": void;
+        "calciteAccordionItemOpen": void;
     }
     interface HTMLCalciteAccordionItemElement extends Components.CalciteAccordionItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteAccordionItemElementEventMap>(type: K, listener: (this: HTMLCalciteAccordionItemElement, ev: CalciteAccordionItemCustomEvent<HTMLCalciteAccordionItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8022,6 +8026,22 @@ declare namespace LocalJSX {
           * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
          */
         "iconType"?: Extract<"chevron" | "caret" | "plus-minus", IconType>;
+        /**
+          * Fires when the component is requested to be closed and before the closing transition begins.
+         */
+        "onCalciteAccordionItemBeforeClose"?: (event: CalciteAccordionItemCustomEvent<void>) => void;
+        /**
+          * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+         */
+        "onCalciteAccordionItemBeforeOpen"?: (event: CalciteAccordionItemCustomEvent<void>) => void;
+        /**
+          * Fires when the component is closed and animation is complete.
+         */
+        "onCalciteAccordionItemClose"?: (event: CalciteAccordionItemCustomEvent<void>) => void;
+        /**
+          * Fires when the component is open and animation is complete.
+         */
+        "onCalciteAccordionItemOpen"?: (event: CalciteAccordionItemCustomEvent<void>) => void;
         "onCalciteInternalAccordionItemClose"?: (event: CalciteAccordionItemCustomEvent<void>) => void;
         "onCalciteInternalAccordionItemSelect"?: (event: CalciteAccordionItemCustomEvent<RequestedItem1>) => void;
         /**

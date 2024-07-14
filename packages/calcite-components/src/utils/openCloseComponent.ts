@@ -27,6 +27,11 @@ export interface OpenCloseComponent {
   opened?: boolean;
 
   /**
+   * When true, the component is expanded.
+   */
+  expanded?: boolean;
+
+  /**
    *  Specifies the name of transitionProp.
    */
   transitionProp?: string;
@@ -63,7 +68,7 @@ export interface OpenCloseComponent {
 }
 
 function isOpen(component: OpenCloseComponent): boolean {
-  return "opened" in component ? component.opened : component.open;
+  return "opened" in component ? component.opened : "expanded" in component ? component.expanded : component.open;
 }
 
 /**

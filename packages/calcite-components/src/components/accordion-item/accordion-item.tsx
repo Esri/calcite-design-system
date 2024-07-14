@@ -9,6 +9,7 @@ import {
   Method,
   Prop,
   VNode,
+  Watch,
 } from "@stencil/core";
 import {
   ConditionalSlotComponent,
@@ -30,6 +31,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { IconName } from "../icon/interfaces";
 import { SLOTS, CSS, IDS } from "./resources";
 import { RequestedItem } from "./interfaces";
@@ -44,7 +46,9 @@ import { RequestedItem } from "./interfaces";
   styleUrl: "accordion-item.scss",
   shadow: true,
 })
-export class AccordionItem implements ConditionalSlotComponent, LoadableComponent {
+export class AccordionItem
+  implements ConditionalSlotComponent, LoadableComponent, OpenCloseComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -53,6 +57,11 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
 
   /** When `true`, the component is expanded. */
   @Prop({ reflect: true, mutable: true }) expanded = false;
+
+  @Watch("expanded")
+  openHandler(): void {
+    onToggleOpenCloseComponent(this);
+  }
 
   /** Specifies heading text for the component. */
   @Prop() heading: string;
@@ -96,6 +105,16 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
    */
   @Prop() scale: Scale;
 
+  // --------------------------------------------------------------------------
+  //
+  //  Private Properties
+  //
+  // --------------------------------------------------------------------------
+
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -112,6 +131,18 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
    */
   @Event({ cancelable: false }) calciteInternalAccordionItemClose: EventEmitter<void>;
 
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteAccordionItemBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteAccordionItemClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteAccordionItemBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event({ cancelable: false }) calciteAccordionItemOpen: EventEmitter<void>;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -120,6 +151,9 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    if (this.expanded) {
+      onToggleOpenCloseComponent(this);
+    }
   }
 
   componentWillLoad(): void {
@@ -224,7 +258,12 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
             </div>
             {this.renderActionsEnd()}
           </div>
-          <section aria-labelledby={IDS.sectionToggle} class={CSS.content} id={IDS.section}>
+          <section
+            aria-labelledby={IDS.sectionToggle}
+            class={CSS.content}
+            id={IDS.section}
+            ref={this.setTransitionEl}
+          >
             <slot />
           </section>
         </div>
@@ -318,6 +357,22 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
     this.headerEl.focus();
   }
 
+  onBeforeOpen(): void {
+    this.calciteAccordionItemBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteAccordionItemOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteAccordionItemBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteAccordionItemClose.emit();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -326,6 +381,10 @@ export class AccordionItem implements ConditionalSlotComponent, LoadableComponen
 
   private storeHeaderEl = (el: HTMLDivElement): void => {
     this.headerEl = el;
+  };
+
+  private setTransitionEl = (el: HTMLDivElement): void => {
+    this.transitionEl = el;
   };
 
   /** handle clicks on item header */
