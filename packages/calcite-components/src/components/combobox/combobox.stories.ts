@@ -884,7 +884,12 @@ export const filterHighlighting = (): string => html`
     </calcite-combobox-item>
     <calcite-combobox-item value="Flowers" text-label="Flowers">
       <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-      <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+      <calcite-combobox-item
+        value="Black Eyed Susan"
+        description="The Black Eyed Susan is a yellow flower with a dark center."
+        text-label="Black Eyed Susan"
+        text-label-short="Susan"
+      ></calcite-combobox-item>
       <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
     </calcite-combobox-item>
     <calcite-combobox-item value="Animals" text-label="Animals">
