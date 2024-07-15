@@ -6,7 +6,7 @@ export const CSS = {
   scrim: "scrim",
   container: "container",
   containerOpen: "container--open",
-  slottedInShell: "slotted-in-shell",
+  containerEmbedded: "container--embedded",
 
   // these classes help apply the animation in phases to only set transform on open/close
   // this helps avoid a positioning issue for any floating-ui-owning children
@@ -18,6 +18,7 @@ export const CSS = {
 
 export const SLOTS = {
   actionBar: "action-bar",
+  alerts: "alerts",
   content: "content",
   contentTop: "content-top",
   contentBottom: "content-bottom",

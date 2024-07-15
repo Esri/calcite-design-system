@@ -53,6 +53,7 @@ let initialDocumentOverflowStyle: string = "";
  * @slot - A slot for adding content.
  * @slot content - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
+ * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
@@ -93,6 +94,14 @@ export class Dialog
 
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) closeDisabled = false;
+
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) embedded = false;
 
   /**
    * The component header text.
@@ -165,14 +174,6 @@ export class Dialog
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /**
-   * This internal property, managed by a containing calcite-shell, is used
-   * to inform the component if special configuration or styles are needed
-   *
-   * @internal
-   */
-  @Prop({ mutable: true }) slottedInShell: boolean;
-
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
@@ -208,7 +209,7 @@ export class Dialog
     deactivateFocusTrap(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-    this.slottedInShell = false;
+    this.embedded = false;
   }
 
   render(): VNode {
@@ -224,7 +225,7 @@ export class Dialog
           class={{
             [CSS.container]: true,
             [CSS.containerOpen]: opened,
-            [CSS.slottedInShell]: this.slottedInShell,
+            [CSS.containerEmbedded]: this.embedded,
           }}
         >
           {this.modal ? (
@@ -250,6 +251,7 @@ export class Dialog
                 scale={this.scale}
               >
                 <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
+                {/* <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} /> */}
                 <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
                 <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
                 <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
@@ -482,7 +484,7 @@ export class Dialog
   };
 
   private updateOverflowHiddenClass = (): void => {
-    this.opened && !this.slottedInShell && this.modal
+    this.opened && !this.embedded && this.modal
       ? this.addOverflowHiddenClass()
       : this.removeOverflowHiddenClass();
   };

@@ -15,6 +15,10 @@ import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/u
 import { DialogMessages } from "./assets/dialog/t9n";
 import { CSS, SLOTS } from "./resources";
 
+type TestWindow = GlobalTestProps<{
+  beforeClose: () => Promise<void>;
+}>;
+
 describe("calcite-dialog", () => {
   describe("renders", () => {
     renders("calcite-dialog", { display: "flex", visible: true });
@@ -171,8 +175,7 @@ describe("calcite-dialog", () => {
 
     await page.$eval(
       "calcite-dialog",
-      (el: HTMLCalciteDialogElement) =>
-        (el.beforeClose = (window as typeof window & Pick<typeof el, "beforeClose">).beforeClose),
+      (el: HTMLCalciteDialogElement) => (el.beforeClose = (window as TestWindow).beforeClose),
     );
     dialog.setProperty("closeDisabled", true);
     dialog.setProperty("loading", true);
@@ -319,10 +322,7 @@ describe("calcite-dialog", () => {
     const dialog = await page.find("calcite-dialog");
     await page.$eval(
       "calcite-dialog",
-      (el: HTMLCalciteDialogElement) =>
-        (el.beforeClose = (
-          window as GlobalTestProps<{ beforeClose: HTMLCalciteDialogElement["beforeClose"] }>
-        ).beforeClose),
+      (el: HTMLCalciteDialogElement) => (el.beforeClose = (window as TestWindow).beforeClose),
     );
     await page.waitForChanges();
     dialog.setProperty("open", true);
@@ -345,10 +345,7 @@ describe("calcite-dialog", () => {
     const dialog = await page.find("calcite-dialog");
     await page.$eval(
       "calcite-dialog",
-      (el: HTMLCalciteDialogElement) =>
-        (el.beforeClose = (
-          window as GlobalTestProps<{ beforeClose: HTMLCalciteDialogElement["beforeClose"] }>
-        ).beforeClose),
+      (el: HTMLCalciteDialogElement) => (el.beforeClose = (window as TestWindow).beforeClose),
     );
     await page.waitForChanges();
     dialog.setProperty("open", true);
@@ -371,10 +368,7 @@ describe("calcite-dialog", () => {
     const dialog = await page.find("calcite-dialog");
     await page.$eval(
       "calcite-dialog",
-      (el: HTMLCalciteDialogElement) =>
-        (el.beforeClose = (
-          window as GlobalTestProps<{ beforeClose: HTMLCalciteDialogElement["beforeClose"] }>
-        ).beforeClose),
+      (el: HTMLCalciteDialogElement) => (el.beforeClose = (window as TestWindow).beforeClose),
     );
     await page.waitForChanges();
     dialog.setProperty("open", true);
@@ -396,8 +390,7 @@ describe("calcite-dialog", () => {
 
     await page.$eval(
       "calcite-dialog",
-      (elm: HTMLCalciteDialogElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
+      (elm: HTMLCalciteDialogElement) => (elm.beforeClose = (window as TestWindow).beforeClose),
     );
     await page.waitForChanges();
 
@@ -416,8 +409,7 @@ describe("calcite-dialog", () => {
 
     await page.$eval(
       "calcite-dialog",
-      (elm: HTMLCalciteDialogElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
+      (elm: HTMLCalciteDialogElement) => (elm.beforeClose = (window as TestWindow).beforeClose),
     );
 
     const dialog = await page.find("calcite-dialog");
@@ -812,5 +804,22 @@ describe("calcite-dialog", () => {
       return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
     }, `.${CSS.scrim}`);
     expect(scrimStyles).toEqual(overrideStyle);
+  });
+
+  it("should set embedded on slotted alerts", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-dialog open>
+        test
+        <calcite-alert slot="alerts" open label="this is a default alert">
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+        </calcite-alert>
+      </calcite-dialog>`,
+    });
+    await page.waitForChanges();
+
+    const alert = await page.find("calcite-alert");
+
+    expect(await alert.getProperty("embedded")).toBe(true);
   });
 });

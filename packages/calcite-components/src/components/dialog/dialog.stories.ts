@@ -279,6 +279,16 @@ export const widthScaleL = (): string => html`
   </calcite-dialog>
 `;
 
+export const withAlertsSlot = (): string => html`
+  <calcite-dialog open heading="heading" description="description" scale="m" width-scale="l">
+    <p>Slotted content!</p>
+    <calcite-alert slot="alerts" open label="this is a default alert" scale="s">
+      <div slot="title">Hello there!</div>
+      <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+    </calcite-alert>
+  </calcite-dialog>
+`;
+
 const themedStyle = html` --calcite-dialog-scrim-background: purple; --calcite-dialog-width: 400px;
 --calcite-dialog-height: 400px; --calcite-dialog-panel-footer-padding: 50px;
 --calcite-dialog-panel-header-border-block-end: 15px solid pink;`;
