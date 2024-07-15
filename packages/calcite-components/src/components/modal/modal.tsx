@@ -122,6 +122,14 @@ export class Modal
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @Prop({ reflect: true }) docked: boolean;
 
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) embedded = false;
+
   /** When `true`, disables the default close on escape behavior. */
   @Prop({ reflect: true }) escapeDisabled = false;
 
@@ -155,14 +163,6 @@ export class Modal
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
-
-  /**
-   * This internal property, managed by a containing calcite-shell, is used
-   * to inform the component if special configuration or styles are needed
-   *
-   * @internal
-   */
-  @Prop({ mutable: true }) embedded = false;
 
   //--------------------------------------------------------------------------
   //

@@ -58,6 +58,14 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
    */
   @Prop({ reflect: true }) displayMode: DisplayMode = "overlay";
 
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop() embedded = false;
+
   /** When `true`, disables the default close on escape behavior. */
   @Prop({ reflect: true }) escapeDisabled = false;
 
@@ -118,14 +126,6 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
 
   /** Determines where the component will be positioned. */
   @Prop({ reflect: true }) position: LogicalFlowPosition = "inline-start";
-
-  /**
-   * This internal property, managed by a containing calcite-shell, is used
-   * to inform the component if special configuration or styles are needed
-   *
-   * @internal
-   */
-  @Prop() embedded = false;
 
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
