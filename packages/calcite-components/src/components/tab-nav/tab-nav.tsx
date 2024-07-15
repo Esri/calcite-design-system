@@ -347,9 +347,10 @@ export class TabNav implements LocalizedComponent, T9nComponent {
    * @param event
    */
   @Listen("calciteInternalTabTitleRegister")
-  updateTabTitles(event: CustomEvent<TabID>): void {
+  async updateTabTitles(event: CustomEvent<TabID>): Promise<void> {
     if ((event.target as HTMLCalciteTabTitleElement).selected) {
       this.selectedTabId = event.detail;
+      this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
     }
   }
 
