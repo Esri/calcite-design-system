@@ -233,7 +233,7 @@ export class Dialog
           <div class={CSS.dialog} ref={this.setTransitionEl}>
             <slot name={SLOTS.content}>
               <calcite-panel
-                // beforeClose={this.beforeClose} // todo: add back once installed.
+                beforeClose={this.beforeClose}
                 class={CSS.panel}
                 closable={!this.closeDisabled}
                 closed={!opened}
