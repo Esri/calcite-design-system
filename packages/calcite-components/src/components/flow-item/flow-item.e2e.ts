@@ -12,7 +12,12 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { GlobalTestProps } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
+
+type TestWindow = GlobalTestProps<{
+  beforeClose: () => Promise<void>;
+}>;
 
 describe("calcite-flow-item", () => {
   describe("renders", () => {
@@ -210,8 +215,7 @@ describe("calcite-flow-item", () => {
 
     await page.$eval(
       "calcite-flow-item",
-      (el: HTMLCalciteFlowItemElement) =>
-        (el.beforeClose = (window as typeof window & Pick<typeof el, "beforeClose">).beforeClose),
+      (el: HTMLCalciteFlowItemElement) => (el.beforeClose = (window as TestWindow).beforeClose),
     );
 
     await page.waitForChanges();

@@ -12,7 +12,12 @@ import {
   slots,
   t9n,
 } from "../../tests/commonTests";
+import { GlobalTestProps } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
+
+type TestWindow = GlobalTestProps<{
+  beforeClose: () => Promise<void>;
+}>;
 
 const panelTemplate = (scrollable = false) =>
   html`<div style="height: 200px; display: flex">
@@ -143,8 +148,7 @@ describe("calcite-panel", () => {
 
     await page.$eval(
       "calcite-panel",
-      (el: HTMLCalcitePanelElement) =>
-        (el.beforeClose = (window as typeof window & Pick<typeof el, "beforeClose">).beforeClose),
+      (el: HTMLCalcitePanelElement) => (el.beforeClose = (window as TestWindow).beforeClose),
     );
     await page.waitForChanges();
 
@@ -164,8 +168,7 @@ describe("calcite-panel", () => {
 
     await page.$eval(
       "calcite-panel",
-      (el: HTMLCalcitePanelElement) =>
-        (el.beforeClose = (window as typeof window & Pick<typeof el, "beforeClose">).beforeClose),
+      (el: HTMLCalcitePanelElement) => (el.beforeClose = (window as TestWindow).beforeClose),
     );
 
     const panel = await page.find("calcite-panel");
