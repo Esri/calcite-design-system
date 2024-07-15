@@ -12,6 +12,7 @@ import {
 } from "@stencil/core";
 import { slotChangeHasContent, toAriaBoolean } from "../../utils/dom";
 import { Appearance, Layout, Scale } from "../interfaces";
+import { IconName } from "../icon/interfaces";
 import { CSS, SLOTS } from "./resources";
 
 @Component({
@@ -39,10 +40,10 @@ export class SegmentedControlItem {
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconName;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop({ reflect: true }) iconEnd: IconName;
 
   /**
    * The component's value.
@@ -62,7 +63,7 @@ export class SegmentedControlItem {
    *
    * @internal
    */
-  @Prop() layout: Layout = "horizontal";
+  @Prop() layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "horizontal";
 
   /**
    * Specifies the size of the component inherited from the `calcite-segmented-control`, defaults to `m`.
@@ -77,7 +78,7 @@ export class SegmentedControlItem {
   //
   //--------------------------------------------------------------------------
 
-  private renderIcon(icon: string, solo: boolean = false): VNode {
+  private renderIcon(icon: IconName, solo: boolean = false): VNode {
     return icon ? (
       <calcite-icon
         class={{

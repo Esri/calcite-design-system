@@ -70,6 +70,8 @@ module.exports = {
         ],
       },
     ],
+    "@typescript-eslint/lines-between-class-members": ["error", "always"],
+    "@typescript-eslint/method-signature-style": ["error", "property"],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "error",
     curly: "error",
@@ -83,7 +85,7 @@ module.exports = {
     "jsdoc/require-property-type": "off",
     "jsdoc/require-returns-type": "off",
     "jsdoc/tag-lines": ["error", "any", { startLines: 1 }],
-    "lines-between-class-members": ["error", "always"],
+    "lines-between-class-members": "off",
     "no-eval": "error",
     "no-implied-eval": "error",
     "no-multiple-empty-lines": [

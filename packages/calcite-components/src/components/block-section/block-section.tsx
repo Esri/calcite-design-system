@@ -14,7 +14,6 @@ import {
 import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { FlipContext } from "../interfaces";
 import {
   connectMessages,
   disconnectMessages,
@@ -22,13 +21,14 @@ import {
   T9nComponent,
   updateMessages,
 } from "../../utils/t9n";
-import { Status } from "../interfaces";
+import { FlipContext, Status } from "../interfaces";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent,
 } from "../../utils/loadable";
+import { IconName } from "../icon/interfaces";
 import { BlockSectionMessages } from "./assets/block-section/t9n";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { CSS, ICONS, IDS } from "./resources";
@@ -50,13 +50,13 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
   // --------------------------------------------------------------------------
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop({ reflect: true }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconName;
 
   /**
    * When `true`, expands the component and its contents.
@@ -225,10 +225,10 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
     /** Icon scale is not variable as the component does not have a scale property */
     return (
       <calcite-icon
-        class={isIconStart ? this.iconStart : this.iconEnd}
+        class={isIconStart ? CSS.iconStart : CSS.iconEnd}
         flipRtl={isIconStart ? flipRtlStart : flipRtlEnd}
         icon={isIconStart ? this.iconStart : this.iconEnd}
-        key={isIconStart ? CSS.iconStart : CSS.iconEnd}
+        key={isIconStart ? this.iconStart : this.iconEnd}
         scale="s"
       />
     );
@@ -268,11 +268,8 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
 
             {this.renderIcon(this.iconEnd)}
             {this.renderStatusIcon()}
-            {/* we use calcite-label to use a simple component that will allow us to prevent keyboard focus by setting tabindex="-1" on the host */}
+            <calcite-switch checked={open} class={CSS.switch} inert label={toggleLabel} scale="s" />
           </div>
-          <calcite-label class={CSS.label} layout="inline" tabIndex={-1}>
-            <calcite-switch checked={open} class={CSS.switch} label={toggleLabel} scale="s" />
-          </calcite-label>
         </div>
       ) : (
         <div

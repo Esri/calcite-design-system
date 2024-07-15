@@ -6,11 +6,9 @@ export const IDS = {
 export const CSS = {
   chevronIcon: "chevron-icon",
   content: "content",
-  focusGuard: "focus-guard",
   iconStart: "icon--start",
   iconEnd: "icon--end",
   invalid: "invalid",
-  label: "label",
   sectionHeader: "section-header",
   sectionHeaderText: "section-header__text",
   statusIcon: "status-icon",
@@ -28,4 +26,4 @@ export const ICONS = {
   menuClosed: "chevron-down",
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
-};
+} as const;

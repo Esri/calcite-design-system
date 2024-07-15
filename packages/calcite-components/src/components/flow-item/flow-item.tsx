@@ -36,6 +36,8 @@ import {
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import { CollapseDirection } from "../interfaces";
+import { Scale } from "../interfaces";
 import { FlowItemMessages } from "./assets/flow-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
@@ -49,8 +51,10 @@ import { CSS, ICONS, SLOTS } from "./resources";
  * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer-actions - [Deprecated] Use the `"footer"` slot instead. A slot for adding `calcite-button`s to the component's footer.
  * @slot footer - A slot for adding custom content to the component's footer.
+ * @slot footer-actions - [Deprecated] Use the `"footer"` slot instead. A slot for adding `calcite-button`s to the component's footer.
+ * @slot footer-end - A slot for adding a trailing footer custom content.
+ * @slot footer-start - A slot for adding a leading footer custom content.
  */
 @Component({
   tag: "calcite-flow-item",
@@ -83,7 +87,7 @@ export class FlowItem
    *
    * @internal
    */
-  @Prop() collapseDirection: "down" | "up" = "down";
+  @Prop() collapseDirection: CollapseDirection = "down";
 
   /**
    * When `true`, the component is collapsible.
@@ -151,6 +155,9 @@ export class FlowItem
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * When `true`, displays a back button in the component's header.
@@ -291,6 +298,7 @@ export class FlowItem
 
   handlePanelClose = (event: CustomEvent<void>): void => {
     event.stopPropagation();
+    this.closed = true;
     this.calciteFlowItemClose.emit();
   };
 
@@ -379,6 +387,7 @@ export class FlowItem
             onCalcitePanelToggle={this.handlePanelToggle}
             overlayPositioning={overlayPositioning}
             ref={this.setContainerRef}
+            scale={this.scale}
           >
             {this.renderBackButton()}
             <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
@@ -389,8 +398,11 @@ export class FlowItem
             <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
             <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
             <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
+            <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer}>
+              <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
+              <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
+            </slot>
             <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
-            <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
             <slot />
           </calcite-panel>
         </InteractiveContainer>

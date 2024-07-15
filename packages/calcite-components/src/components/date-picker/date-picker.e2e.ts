@@ -348,6 +348,8 @@ describe("calcite-date-picker", () => {
     expect(await date.getProperty("messages")).toEqual({
       nextMonth: "Next month",
       prevMonth: "Previous month",
+      monthMenu: "Month menu",
+      yearMenu: "Year menu",
       year: "Year",
     });
   });
@@ -451,7 +453,7 @@ describe("calcite-date-picker", () => {
 
     it("should be able to navigate between months and select date using arrow keys and page keys in range", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
+      await page.setContent("<calcite-date-picker range></calcite-date-picker>");
       await page.waitForChanges();
 
       const datePicker = await page.find("calcite-date-picker");
@@ -564,6 +566,58 @@ describe("calcite-date-picker", () => {
     await selectDay("20200930", page, "mouse");
     await page.waitForChanges();
     expect(await datePicker.getProperty("value")).toEqual(["2020-09-15", "2020-09-30"]);
+  });
+
+  describe("cross-century date values", () => {
+    async function assertCenturyDateValue(year: number, timezone?: string) {
+      const initialValue = `${year}-03-12`;
+      const page = await newE2EPage();
+      if (timezone) {
+        await page.emulateTimezone(timezone);
+      }
+      await page.setContent(html` <calcite-date-picker value="${initialValue}"></calcite-date-picker> `);
+      const datePicker = await page.find("calcite-date-picker");
+
+      expect(await datePicker.getProperty("value")).toBe(initialValue);
+
+      const selectedDateInCentury = `${year}0307`;
+      await selectDay(selectedDateInCentury, page, "mouse");
+      await page.waitForChanges();
+
+      expect(await datePicker.getProperty("value")).toBe(`${year}-03-07`);
+    }
+
+    it("sets value to the selected day in the 2000s", async () => {
+      await assertCenturyDateValue(2005);
+    });
+
+    it("sets value to the selected day in the 1900s", async () => {
+      await assertCenturyDateValue(1950);
+    });
+
+    it("sets value to the selected day in the 1800s", async () => {
+      await assertCenturyDateValue(1850);
+    });
+
+    it("sets value to the selected day in the 1700s", async () => {
+      await assertCenturyDateValue(1750);
+    });
+
+    it("sets value to the selected day in 2000s in Zurich timezone", async () => {
+      await assertCenturyDateValue(2050, "Europe/Zurich");
+    });
+
+    it("sets value to the selected day in 1900s in Zurich timezone", async () => {
+      await assertCenturyDateValue(1950, "Europe/Zurich");
+    });
+
+    it("sets value to the selected day in 1800s in Zurich timezone", async () => {
+      await assertCenturyDateValue(1850, "Europe/Zurich");
+    });
+
+    it("sets value to the selected day in 1700s in Zurich timezone", async () => {
+      await assertCenturyDateValue(1750, "Europe/Zurich");
+    });
   });
 });
 

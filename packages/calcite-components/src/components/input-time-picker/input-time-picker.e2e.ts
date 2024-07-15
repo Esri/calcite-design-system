@@ -600,6 +600,7 @@ describe("calcite-input-time-picker", () => {
       submitsOnEnter: true,
       validation: true,
       validUserInputTestValue: "03:23 AM",
+      inputType: "time",
     });
   });
 
@@ -630,15 +631,14 @@ describe("calcite-input-time-picker", () => {
     await page.setContent(`<calcite-input-time-picker step="1" value="14:00:00"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
-
     await inputTimePicker.callMethod("setFocus");
     await page.waitForChanges();
     await page.keyboard.press("ArrowLeft");
-    await page.keyboard.press("ArrowRight");
-    await page.keyboard.press("ArrowRight");
-    await page.keyboard.press("ArrowRight");
-    await page.keyboard.press("ArrowRight");
-    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
     await page.keyboard.press("Backspace");
     await page.keyboard.press("5");
 

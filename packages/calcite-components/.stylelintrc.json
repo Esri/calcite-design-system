@@ -3,6 +3,7 @@
   "extends": "stylelint-config-recommended-scss",
   "plugins": ["stylelint-use-logical-spec"],
   "rules": {
+    "length-zero-no-unit": true,
     "liberty/use-logical-spec": "always",
     "no-descending-specificity": [
       true,
@@ -21,6 +22,12 @@
       "0,5,5",
       {
         "message": "selector is too complex, consider applying multiple classes dynamically during rendering"
+      }
+    ],
+    "selector-pseudo-element-colon-notation": [
+      "double",
+      {
+        "message": "Use double colons for pseudo-elements"
       }
     ],
     "selector-type-no-unknown": [

@@ -25,6 +25,7 @@ import {
   setUpLoadableComponent,
 } from "../../utils/loadable";
 import { SelectableComponent } from "../../utils/selectableComponent";
+import { IconName } from "../icon/interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
@@ -83,7 +84,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
   @Prop({ reflect: true }) href: string;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: string;
+  @Prop({ reflect: true }) icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
 
@@ -107,7 +108,7 @@ export class Tile implements InteractiveComponent, SelectableComponent {
    *
    * @internal
    */
-  @Prop({ reflect: true }) layout: Exclude<Layout, "grid"> = "horizontal";
+  @Prop({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
   /**
    * Specifies the size of the component.
@@ -116,8 +117,6 @@ export class Tile implements InteractiveComponent, SelectableComponent {
 
   /**
    * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
-   *
-   * @internal
    */
   @Prop({ reflect: true }) selected = false;
 
