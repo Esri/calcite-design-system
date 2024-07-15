@@ -411,7 +411,7 @@ slot[name="primary"] {
  * Conditional styles for when Modal is slotted in Shell
  */
 
-.container.embedded {
+.container--embedded {
   position: absolute;
   pointer-events: auto;
   calcite-scrim {

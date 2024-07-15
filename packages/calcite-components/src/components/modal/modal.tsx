@@ -217,7 +217,7 @@ export class Modal
           class={{
             [CSS.container]: true,
             [CSS.containerOpen]: this.opened,
-            [CSS.embedded]: this.embedded,
+            [CSS.containerEmbedded]: this.embedded,
           }}
         >
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
