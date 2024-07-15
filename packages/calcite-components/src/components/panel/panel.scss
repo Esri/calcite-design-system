@@ -19,23 +19,44 @@
 @import "../../assets/styles/header";
 
 :host([scale="s"]) {
-  .content-top,
-  .content-bottom {
-    padding: var(--calcite-spacing-sm);
+  --calcite-internal-panel-default-padding: var(--calcite-spacing-sm);
+
+  .header-content {
+    .heading {
+      font-size: theme("fontSize.n1h");
+    }
+
+    .description {
+      font-size: theme("fontSize.n2h");
+    }
   }
 }
 
 :host([scale="m"]) {
-  .content-top,
-  .content-bottom {
-    padding: var(--calcite-spacing-md);
+  --calcite-internal-panel-default-padding: var(--calcite-spacing-md);
+
+  .header-content {
+    .heading {
+      font-size: theme("fontSize.0h");
+    }
+
+    .description {
+      font-size: theme("fontSize.n1h");
+    }
   }
 }
 
 :host([scale="l"]) {
-  .content-top,
-  .content-bottom {
-    padding: var(--calcite-spacing-xl);
+  --calcite-internal-panel-default-padding: var(--calcite-spacing-xl);
+
+  .header-content {
+    .heading {
+      font-size: theme("fontSize.1h");
+    }
+
+    .description {
+      font-size: theme("fontSize.0h");
+    }
   }
 }
 
@@ -43,7 +64,6 @@
 .content-bottom {
   @apply flex items-start self-stretch;
 
-  padding: var(--calcite-spacing-md);
   border-block-start: 1px solid var(--calcite-color-border-3);
   background-color: var(--calcite-color-foreground-1);
 }
@@ -90,21 +110,26 @@
     overflow-hidden
     px-3
     py-3.5;
+
   margin-inline-end: auto;
+
   .heading,
   .description {
     @apply block
       break-words
       p-0;
   }
+
   .heading {
-    @apply text-0h mx-0 mt-0 mb-1 font-medium;
+    @apply mx-0 mt-0 mb-1 font-medium text-color-1;
+
     &:only-child {
       @apply mb-0;
     }
   }
+
   .description {
-    @apply text-color-2 text-n1h;
+    @apply text-color-2;
   }
 }
 
@@ -137,11 +162,17 @@
   h-full;
 }
 
+.content-top,
+.content-bottom,
+.header-content {
+  padding: var(--calcite-internal-panel-default-padding);
+}
+
 .footer {
   @apply flex mt-auto flex-row content-between justify-center items-center bg-foreground-1;
 
   border-block-start: 1px solid var(--calcite-color-border-3);
-  padding: var(--calcite-spacing-sm);
+  padding: var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-padding));
   column-gap: 0;
   row-gap: var(--calcite-spacing-md);
 }

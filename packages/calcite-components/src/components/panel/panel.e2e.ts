@@ -36,6 +36,10 @@ describe("calcite-panel", () => {
   describe("defaults", () => {
     defaults("calcite-panel", [
       {
+        propertyName: "beforeClose",
+        defaultValue: undefined,
+      },
+      {
         propertyName: "widthScale",
         defaultValue: undefined,
       },
@@ -58,6 +62,10 @@ describe("calcite-panel", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
     ]);
   });
@@ -123,6 +131,49 @@ describe("calcite-panel", () => {
     expect(await element.getProperty("closed")).toBe(true);
 
     expect(await container.isVisible()).toBe(false);
+  });
+
+  it("should handle rejected 'beforeClose' promise'", async () => {
+    const page = await newE2EPage();
+
+    const mockCallBack = jest.fn().mockReturnValue(() => Promise.reject());
+    await page.exposeFunction("beforeClose", mockCallBack);
+
+    await page.setContent(`<calcite-panel closable></calcite-panel>`);
+
+    await page.$eval(
+      "calcite-panel",
+      (el: HTMLCalcitePanelElement) =>
+        (el.beforeClose = (window as typeof window & Pick<typeof el, "beforeClose">).beforeClose),
+    );
+    await page.waitForChanges();
+
+    const panel = await page.find("calcite-panel");
+    expect(await panel.getProperty("closed")).toBe(false);
+    panel.setProperty("closed", true);
+    await page.waitForChanges();
+
+    expect(mockCallBack).toHaveBeenCalledTimes(1);
+  });
+
+  it("should remain open with rejected 'beforeClose' promise'", async () => {
+    const page = await newE2EPage();
+
+    await page.exposeFunction("beforeClose", () => Promise.reject());
+    await page.setContent(`<calcite-panel closable></calcite-panel>`);
+
+    await page.$eval(
+      "calcite-panel",
+      (el: HTMLCalcitePanelElement) =>
+        (el.beforeClose = (window as typeof window & Pick<typeof el, "beforeClose">).beforeClose),
+    );
+
+    const panel = await page.find("calcite-panel");
+    panel.setProperty("closed", true);
+    await page.waitForChanges();
+
+    expect(await panel.getProperty("closed")).toBe(false);
+    expect(panel.getAttribute("closed")).toBe(null); // Makes sure attribute is added back
   });
 
   it("honors collapsed & collapsible properties", async () => {

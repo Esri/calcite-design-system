@@ -1877,6 +1877,10 @@ export namespace Components {
          */
         "beforeBack": () => Promise<void>;
         /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose": () => Promise<void>;
+        /**
           * When `true`, displays a close button in the trailing side of the component's header.
          */
         "closable": boolean;
@@ -1932,6 +1936,10 @@ export namespace Components {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning": OverlayPositioning;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
         /**
           * Scrolls the component's content to a specified set of coordinates.
           * @example myCalciteFlowItem.scrollContentTo({   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value). });
@@ -3669,6 +3677,10 @@ export namespace Components {
     }
     interface CalcitePanel {
         /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose": () => Promise<void>;
+        /**
           * When `true`, displays a close button in the trailing side of the header.
          */
         "closable": boolean;
@@ -3724,6 +3736,10 @@ export namespace Components {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning": OverlayPositioning;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale": Scale;
         /**
           * Scrolls the component's content to a specified set of coordinates.
           * @example myCalciteFlowItem.scrollContentTo({   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value). });
@@ -9726,6 +9742,10 @@ declare namespace LocalJSX {
          */
         "beforeBack"?: () => Promise<void>;
         /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose"?: () => Promise<void>;
+        /**
           * When `true`, displays a close button in the trailing side of the component's header.
          */
         "closable"?: boolean;
@@ -9797,6 +9817,10 @@ declare namespace LocalJSX {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning"?: OverlayPositioning;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
         /**
           * When `true`, displays a back button in the component's header.
          */
@@ -11619,6 +11643,10 @@ declare namespace LocalJSX {
     }
     interface CalcitePanel {
         /**
+          * Passes a function to run before the component closes.
+         */
+        "beforeClose"?: () => Promise<void>;
+        /**
           * When `true`, displays a close button in the trailing side of the header.
          */
         "closable"?: boolean;
@@ -11686,6 +11714,10 @@ declare namespace LocalJSX {
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning"?: OverlayPositioning;
+        /**
+          * Specifies the size of the component.
+         */
+        "scale"?: Scale;
     }
     /**
      * @deprecated Use the `calcite-list` component instead.

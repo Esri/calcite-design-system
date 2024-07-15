@@ -23,6 +23,7 @@ export default {
     collapsible: false,
     collapseDirection: collapseDirection.defaultValue,
     heightScale: scale.defaultValue,
+    scale: scale.defaultValue,
     loading: false,
   },
   argTypes: {
@@ -31,6 +32,10 @@ export default {
       control: { type: "select" },
     },
     heightScale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    scale: {
       options: scale.values,
       control: { type: "select" },
     },
@@ -84,9 +89,11 @@ export const simple = (args: PanelStoryArgs): string => html`
     ${boolean("collapsible", args.collapsible)}
     collapseDirection="${args.collapseDirection}"
     heightScale="${args.heightScale}"
+    scale="${args.scale}"
     ${boolean("loading", args.loading)}
+    heading="Heading"
+    description="A great panel description"
   >
-    ${headerHTML}
     <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsStart}" icon="bluetooth"></calcite-action>
     <calcite-action text="Action" label="Action" slot="${SLOTS.headerActionsEnd}" icon="attachment"></calcite-action>
     ${contentHTML}
@@ -428,6 +435,42 @@ export const footerSlotPrecedence = (): string => html`
       icon-start="check"
       width="full"
     ></calcite-button>
+    ${footerHTML}
+  </calcite-panel>
+`;
+
+export const scalesFontAndPadding = (): string => html`
+  <calcite-panel
+    heading="This is a heading"
+    description="And that's a description"
+    scale="s"
+    style="height: 220px; margin: 50px;"
+  >
+    <div slot="content-top">Content Top</div>
+    <div>Instead of the mahi mahi, may I just get the one mahi because I’m not that hungry?</div>
+    <div slot="content-bottom">Content Bottom</div>
+    ${footerHTML}
+  </calcite-panel>
+  <calcite-panel
+    heading="This is a heading"
+    description="And that's a description"
+    scale="m"
+    style="height: 250px; margin: 50px;"
+  >
+    <div slot="content-top">Content Top</div>
+    <div>Instead of the mahi mahi, may I just get the one mahi because I’m not that hungry?</div>
+    <div slot="content-bottom">Content Bottom</div>
+    ${footerHTML}
+  </calcite-panel>
+  <calcite-panel
+    heading="This is a heading"
+    description="And that's a description"
+    scale="l"
+    style="height: 260px; margin: 50px;"
+  >
+    <div slot="content-top">Content Top</div>
+    <div>Instead of the mahi mahi, may I just get the one mahi because I’m not that hungry?</div>
+    <div slot="content-bottom">Content Bottom</div>
     ${footerHTML}
   </calcite-panel>
 `;

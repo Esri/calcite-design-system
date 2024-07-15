@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.7...@esri/calcite-components@2.11.0-next.8) (2024-07-15)
+
+### Features
+
+- **panel, flow-item:** add beforeClose property ([#9770](https://github.com/Esri/calcite-design-system/issues/9770)) ([fe32441](https://github.com/Esri/calcite-design-system/commit/fe32441883f3c793e5994fec594325362e5bef61)), closes [#9769](https://github.com/Esri/calcite-design-system/issues/9769)
+
+## [2.11.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.6...@esri/calcite-components@2.11.0-next.7) (2024-07-15)
+
+### Bug Fixes
+
+- **tile:** center align slot's text when alignment is equal to center ([#9773](https://github.com/Esri/calcite-design-system/issues/9773)) ([4a26398](https://github.com/Esri/calcite-design-system/commit/4a263988b72faca473e993aebe0c7f61b12a6d19)), closes [#9540](https://github.com/Esri/calcite-design-system/issues/9540)
+
+## [2.11.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.5...@esri/calcite-components@2.11.0-next.6) (2024-07-12)
+
+### Bug Fixes
+
+- **shell:** update shell to correctly position calcite shell panel at shell's bottom ([#9748](https://github.com/Esri/calcite-design-system/issues/9748)) ([f56c625](https://github.com/Esri/calcite-design-system/commit/f56c625188c634b7fcc51d70f9e3ab2e287fda72)), closes [#8269](https://github.com/Esri/calcite-design-system/issues/8269)
+
+## [2.11.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.4...@esri/calcite-components@2.11.0-next.5) (2024-07-12)
+
+### Bug Fixes
+
+- **tile:** center align contentTop and contentBottom slots when alignment prop equals "center" ([#9732](https://github.com/Esri/calcite-design-system/issues/9732)) ([a462498](https://github.com/Esri/calcite-design-system/commit/a462498a0afd85a72cc78cdc8d119c582628247e)), closes [#9540](https://github.com/Esri/calcite-design-system/issues/9540)
+
+## [2.11.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.3...@esri/calcite-components@2.11.0-next.4) (2024-07-12)
+
+### Bug Fixes
+
+- **panel, flow-item:** fix footer-padding CSS prop regression ([#9757](https://github.com/Esri/calcite-design-system/issues/9757)) ([94b808c](https://github.com/Esri/calcite-design-system/commit/94b808c7238cf0ba183adc1ab365efdedaaaa7a7))
+
+## [2.11.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.2...@esri/calcite-components@2.11.0-next.3) (2024-07-11)
+
+### Bug Fixes
+
+- **input-number:** restore decimal input mode default ([#9741](https://github.com/Esri/calcite-design-system/issues/9741)) ([9264011](https://github.com/Esri/calcite-design-system/commit/926401188ecf6f03b3e9b386863407172ceb0eab)), closes [#9740](https://github.com/Esri/calcite-design-system/issues/9740)
+
+## [2.11.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.1...@esri/calcite-components@2.11.0-next.2) (2024-07-08)
+
+### Features
+
+- **panel, flow-item:** add scale property ([#9730](https://github.com/Esri/calcite-design-system/issues/9730)) ([1cc65e7](https://github.com/Esri/calcite-design-system/commit/1cc65e73ba6ba1119f6f9890c6c4ecf23922c6ca)), closes [#6980](https://github.com/Esri/calcite-design-system/issues/6980)
+
+## [2.11.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.0...@esri/calcite-components@2.11.0-next.1) (2024-07-05)
+
+### Bug Fixes
+
+- **segmented-control:** Make check state update correctly ([#9733](https://github.com/Esri/calcite-design-system/issues/9733)) ([a2f3741](https://github.com/Esri/calcite-design-system/commit/a2f37415513a2f2e8471dcef982351b7c82b225b)), closes [#6860](https://github.com/Esri/calcite-design-system/issues/6860)
+
 ## [2.11.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.10.2-next.2...@esri/calcite-components@2.11.0-next.0) (2024-07-02)
 
 ### Features
