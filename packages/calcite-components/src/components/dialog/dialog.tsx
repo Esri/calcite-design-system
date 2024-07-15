@@ -46,19 +46,6 @@ import { DialogMessages } from "./assets/dialog/t9n";
 import { CSS, SLOTS } from "./resources";
 import { DialogPlacement } from "./interfaces";
 
-/*
-TODO:
-
-- HTML
-  - modal
-  - description
-  - loading
-  - menuOpen
-  - overlayPositioning
-  - all slots
-
-*/
-
 let totalOpenDialogs: number = 0;
 let initialDocumentOverflowStyle: string = "";
 
