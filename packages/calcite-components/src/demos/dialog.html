@@ -58,7 +58,7 @@
         <!-- small widthScale & scale -->
         <div class="child">
           <calcite-dialog
-            class="js-dialog-s-s"
+            id="js-dialog-s-s"
             width-scale="s"
             scale="s"
             heading="Small widthScale and small scale dialog"
@@ -80,9 +80,7 @@
             <calcite-button slot="footer-end" width="full" scale="s">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-s-s')" appearance="outline" scale="s">
-            Scale Small
-          </calcite-button>
+          <calcite-button data-dialog-ref="js-dialog-s-s" appearance="outline" scale="s"> Scale Small </calcite-button>
         </div>
 
         <!-- small widthScale & medium scale -->
@@ -90,7 +88,7 @@
           <calcite-dialog
             heading="Small widthScale and medium scale dialog"
             description="My description"
-            class="js-dialog-s-m"
+            id="js-dialog-s-m"
             width-scale="s"
             scale="m"
           >
@@ -110,9 +108,7 @@
             <calcite-button slot="footer-end" width="full" scale="m">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-s-m')" appearance="outline" scale="s">
-            Scale Medium
-          </calcite-button>
+          <calcite-button data-dialog-ref="js-dialog-s-m" appearance="outline" scale="s"> Scale Medium </calcite-button>
         </div>
 
         <!-- small widthScale & large scale -->
@@ -120,7 +116,7 @@
           <calcite-dialog
             heading="Small widthScale and large scale dialog"
             description="My description"
-            class="js-dialog-s-l"
+            id="js-dialog-s-l"
             width-scale="s"
             scale="l"
           >
@@ -142,9 +138,7 @@
             <calcite-button slot="footer-end" width="full" scale="l">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-s-l')" appearance="outline" scale="s">
-            Scale Large
-          </calcite-button>
+          <calcite-button data-dialog-ref="js-dialog-s-l" appearance="outline" scale="s"> Scale Large </calcite-button>
         </div>
       </div>
 
@@ -160,7 +154,7 @@
         <div class="child">
           <calcite-dialog
             heading="Medium wdithScale and small scale dialog"
-            class="js-dialog-m-s"
+            id="js-dialog-m-s"
             width-scale="m"
             scale="s"
           >
@@ -194,16 +188,14 @@
             <calcite-button slot="footer-end" width="full" scale="s">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-m-s')" appearance="outline" scale="s">
-            Scale Small
-          </calcite-button>
+          <calcite-button data-dialog-ref="js-dialog-m-s" appearance="outline" scale="s"> Scale Small </calcite-button>
         </div>
 
         <!-- medium widthScale & medium scale -->
         <div class="child">
           <calcite-dialog
             heading="Medium widthScale and medium scale dialog"
-            class="js-dialog-m-m"
+            id="js-dialog-m-m"
             width-scale="m"
             scale="m"
           >
@@ -237,16 +229,14 @@
             <calcite-button slot="footer-end" width="full" scale="m">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-m-m')" appearance="outline" scale="s">
-            Scale Medium
-          </calcite-button>
+          <calcite-button data-dialog-ref="js-dialog-m-m" appearance="outline" scale="s"> Scale Medium </calcite-button>
         </div>
 
         <!-- medium widthScale & large scale -->
         <div class="child">
           <calcite-dialog
             heading="Medium widthScale and large scale dialog"
-            class="js-dialog-m-l"
+            id="js-dialog-m-l"
             width-scale="m"
             scale="l"
           >
@@ -280,9 +270,7 @@
             <calcite-button slot="footer-end" width="full" scale="l">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-m-l')" appearance="outline" scale="s">
-            Scale Large
-          </calcite-button>
+          <calcite-button data-dialog-ref="js-dialog-m-l" appearance="outline" scale="s"> Scale Large </calcite-button>
         </div>
       </div>
 
@@ -298,7 +286,7 @@
         <div class="child">
           <calcite-dialog
             heading="Large widthScale and small scale dialog"
-            class="js-dialog-l-s"
+            id="js-dialog-l-s"
             width-scale="l"
             scale="s"
           >
@@ -323,16 +311,14 @@
             <calcite-button slot="footer-end" width="full" scale="s">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-l-s')" appearance="outline" scale="s">
-            Scale Small
-          </calcite-button>
+          <calcite-button data-dialog-ref="js-dialog-l-s" appearance="outline" scale="s"> Scale Small </calcite-button>
         </div>
 
         <!-- large widthScale & medium scale -->
         <div class="child">
           <calcite-dialog
             heading="Large widthScale and medium scale dialog"
-            class="js-dialog-l-m"
+            id="js-dialog-l-m"
             width-scale="l"
             scale="m"
           >
@@ -357,16 +343,14 @@
             <calcite-button slot="footer-end" width="full" scale="m">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-l-m')" appearance="outline" scale="s">
-            Scale Medium
-          </calcite-button>
+          <calcite-button data-dialog-ref="js-dialog-l-m" appearance="outline" scale="s"> Scale Medium </calcite-button>
         </div>
 
         <!-- large widthScale & large scale -->
         <div class="child">
           <calcite-dialog
             heading="Large widthScale and large scale dialog"
-            class="js-dialog-l-l"
+            id="js-dialog-l-l"
             width-scale="l"
             scale="l"
           >
@@ -391,9 +375,7 @@
             <calcite-button slot="footer-end" width="full" scale="l">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-l-l')" appearance="outline" scale="s">
-            Scale Large
-          </calcite-button>
+          <calcite-button data-dialog-ref="js-dialog-l-l" appearance="outline" scale="s"> Scale Large </calcite-button>
         </div>
       </div>
 
@@ -405,7 +387,7 @@
         <div class="child">
           <calcite-dialog
             loading
-            class="js-dialog-loading-s"
+            id="js-dialog-loading-s"
             width-scale="s"
             scale="s"
             heading="Small widthScale and small scale dialog"
@@ -427,7 +409,7 @@
             <calcite-button slot="footer-end" width="full" scale="s">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-loading-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-loading-s" appearance="outline" scale="s">
             Scale Small
           </calcite-button>
         </div>
@@ -438,7 +420,7 @@
             loading
             heading="Small widthScale and medium scale dialog"
             description="My description"
-            class="js-dialog-loading-m"
+            id="js-dialog-loading-m"
             width-scale="s"
             scale="m"
           >
@@ -458,7 +440,7 @@
             <calcite-button slot="footer-end" width="full" scale="m">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-loading-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-loading-m" appearance="outline" scale="s">
             Scale Medium
           </calcite-button>
         </div>
@@ -469,7 +451,7 @@
             loading
             heading="Small widthScale and large scale dialog"
             description="My description"
-            class="js-dialog-loading-l"
+            id="js-dialog-loading-l"
             width-scale="s"
             scale="l"
           >
@@ -491,7 +473,7 @@
             <calcite-button slot="footer-end" width="full" scale="l">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-loading-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-loading-l" appearance="outline" scale="s">
             Scale Large
           </calcite-button>
         </div>
@@ -511,7 +493,7 @@
         <div class="child">
           <calcite-dialog
             modal
-            class="js-dialog-modal-s-s"
+            id="js-dialog-modal-s-s"
             width-scale="s"
             scale="s"
             heading="Small widthScale and small scale dialog"
@@ -533,7 +515,7 @@
             <calcite-button slot="footer-end" width="full" scale="s">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-modal-s-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-modal-s-s" appearance="outline" scale="s">
             Scale Small
           </calcite-button>
         </div>
@@ -543,7 +525,7 @@
           <calcite-dialog
             modal
             heading="Small widthScale and medium scale dialog"
-            class="js-dialog-modal-s-m"
+            id="js-dialog-modal-s-m"
             width-scale="s"
             scale="m"
           >
@@ -563,7 +545,7 @@
             <calcite-button slot="footer-end" width="full" scale="m">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-modal-s-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-modal-s-m" appearance="outline" scale="s">
             Scale Medium
           </calcite-button>
         </div>
@@ -573,7 +555,7 @@
           <calcite-dialog
             modal
             heading="Small widthScale and large scale dialog"
-            class="js-dialog-modal-s-l"
+            id="js-dialog-modal-s-l"
             width-scale="s"
             scale="l"
           >
@@ -595,7 +577,7 @@
             <calcite-button slot="footer-end" width="full" scale="l">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-modal-s-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-modal-s-l" appearance="outline" scale="s">
             Scale Large
           </calcite-button>
         </div>
@@ -614,7 +596,7 @@
           <calcite-dialog
             modal
             heading="Medium wdithScale and small scale dialog"
-            class="js-dialog-modal-m-s"
+            id="js-dialog-modal-m-s"
             width-scale="m"
             scale="s"
           >
@@ -648,7 +630,7 @@
             <calcite-button slot="footer-end" width="full" scale="s">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-modal-m-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-modal-m-s" appearance="outline" scale="s">
             Scale Small
           </calcite-button>
         </div>
@@ -658,7 +640,7 @@
           <calcite-dialog
             modal
             heading="Medium widthScale and medium scale dialog"
-            class="js-dialog-modal-m-m"
+            id="js-dialog-modal-m-m"
             width-scale="m"
             scale="m"
           >
@@ -692,7 +674,7 @@
             <calcite-button slot="footer-end" width="full" scale="m">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-modal-m-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-modal-m-m" appearance="outline" scale="s">
             Scale Medium
           </calcite-button>
         </div>
@@ -702,7 +684,7 @@
           <calcite-dialog
             modal
             heading="Medium widthScale and large scale dialog"
-            class="js-dialog-modal-m-l"
+            id="js-dialog-modal-m-l"
             width-scale="m"
             scale="l"
           >
@@ -736,7 +718,7 @@
             <calcite-button slot="footer-end" width="full" scale="l">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-modal-m-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-modal-m-l" appearance="outline" scale="s">
             Scale Large
           </calcite-button>
         </div>
@@ -755,7 +737,7 @@
           <calcite-dialog
             modal
             heading="Large widthScale and small scale dialog"
-            class="js-dialog-modal-l-s"
+            id="js-dialog-modal-l-s"
             width-scale="l"
             scale="s"
           >
@@ -780,7 +762,7 @@
             <calcite-button slot="footer-end" width="full" scale="s">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-modal-l-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-modal-l-s" appearance="outline" scale="s">
             Scale Small
           </calcite-button>
         </div>
@@ -790,7 +772,7 @@
           <calcite-dialog
             modal
             heading="Large widthScale and medium scale dialog"
-            class="js-dialog-modal-l-m"
+            id="js-dialog-modal-l-m"
             width-scale="l"
             scale="m"
           >
@@ -815,7 +797,7 @@
             <calcite-button slot="footer-end" width="full" scale="m">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-modal-l-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-modal-l-m" appearance="outline" scale="s">
             Scale Medium
           </calcite-button>
         </div>
@@ -825,7 +807,7 @@
           <calcite-dialog
             modal
             heading="Large widthScale and large scale dialog"
-            class="js-dialog-modal-l-l"
+            id="js-dialog-modal-l-l"
             width-scale="l"
             scale="l"
           >
@@ -850,7 +832,7 @@
             <calcite-button slot="footer-end" width="full" scale="l">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-modal-l-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-modal-l-l" appearance="outline" scale="s">
             Scale Large
           </calcite-button>
         </div>
@@ -868,38 +850,38 @@
 
         <!-- small width -->
         <div class="child">
-          <calcite-dialog placement="center" heading="My Dialog" class="js-dialog-placement-center-s" scale="s">
+          <calcite-dialog placement="center" heading="My Dialog" id="js-dialog-placement-center-s" scale="s">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-center-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-center-s" appearance="outline" scale="s">
             Center Small
           </calcite-button>
         </div>
 
         <!-- medium -->
         <div class="child">
-          <calcite-dialog placement="center" heading="My Heading" class="js-dialog-placement-center-m" scale="m">
+          <calcite-dialog placement="center" heading="My Heading" id="js-dialog-placement-center-m" scale="m">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-center-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-center-m" appearance="outline" scale="s">
             Center Medium
           </calcite-button>
         </div>
 
         <!-- large -->
         <div class="child">
-          <calcite-dialog placement="center" heading="My Heading" class="js-dialog-placement-center-l" scale="l">
+          <calcite-dialog placement="center" heading="My Heading" id="js-dialog-placement-center-l" scale="l">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
-          <calcite-button onClick="openDialog('.js-dialog-placement-center-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-center-l" appearance="outline" scale="s">
             Center Large
           </calcite-button>
         </div>
@@ -910,38 +892,38 @@
 
         <!-- small width -->
         <div class="child">
-          <calcite-dialog placement="top" heading="My Dialog" class="js-dialog-placement-top-s" scale="s">
+          <calcite-dialog placement="top" heading="My Dialog" id="js-dialog-placement-top-s" scale="s">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-top-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-top-s" appearance="outline" scale="s">
             top Small
           </calcite-button>
         </div>
 
         <!-- medium -->
         <div class="child">
-          <calcite-dialog placement="top" heading="My Heading" class="js-dialog-placement-top-m" scale="m">
+          <calcite-dialog placement="top" heading="My Heading" id="js-dialog-placement-top-m" scale="m">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-top-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-top-m" appearance="outline" scale="s">
             top Medium
           </calcite-button>
         </div>
 
         <!-- large -->
         <div class="child">
-          <calcite-dialog placement="top" heading="My Heading" class="js-dialog-placement-top-l" scale="l">
+          <calcite-dialog placement="top" heading="My Heading" id="js-dialog-placement-top-l" scale="l">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
-          <calcite-button onClick="openDialog('.js-dialog-placement-top-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-top-l" appearance="outline" scale="s">
             top Large
           </calcite-button>
         </div>
@@ -952,38 +934,38 @@
 
         <!-- small width -->
         <div class="child">
-          <calcite-dialog placement="top-start" heading="My Dialog" class="js-dialog-placement-top-start-s" scale="s">
+          <calcite-dialog placement="top-start" heading="My Dialog" id="js-dialog-placement-top-start-s" scale="s">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-top-start-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-top-start-s" appearance="outline" scale="s">
             top-start Small
           </calcite-button>
         </div>
 
         <!-- medium -->
         <div class="child">
-          <calcite-dialog placement="top-start" heading="My Heading" class="js-dialog-placement-top-start-m" scale="m">
+          <calcite-dialog placement="top-start" heading="My Heading" id="js-dialog-placement-top-start-m" scale="m">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-top-start-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-top-start-m" appearance="outline" scale="s">
             top-start Medium
           </calcite-button>
         </div>
 
         <!-- large -->
         <div class="child">
-          <calcite-dialog placement="top-start" heading="My Heading" class="js-dialog-placement-top-start-l" scale="l">
+          <calcite-dialog placement="top-start" heading="My Heading" id="js-dialog-placement-top-start-l" scale="l">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
-          <calcite-button onClick="openDialog('.js-dialog-placement-top-start-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-top-start-l" appearance="outline" scale="s">
             top-start Large
           </calcite-button>
         </div>
@@ -994,38 +976,38 @@
 
         <!-- small width -->
         <div class="child">
-          <calcite-dialog placement="top-end" heading="My Dialog" class="js-dialog-placement-top-end-s" scale="s">
+          <calcite-dialog placement="top-end" heading="My Dialog" id="js-dialog-placement-top-end-s" scale="s">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-top-end-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-top-end-s" appearance="outline" scale="s">
             top-end Small
           </calcite-button>
         </div>
 
         <!-- medium -->
         <div class="child">
-          <calcite-dialog placement="top-end" heading="My Heading" class="js-dialog-placement-top-end-m" scale="m">
+          <calcite-dialog placement="top-end" heading="My Heading" id="js-dialog-placement-top-end-m" scale="m">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-top-end-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-top-end-m" appearance="outline" scale="s">
             top-end Medium
           </calcite-button>
         </div>
 
         <!-- large -->
         <div class="child">
-          <calcite-dialog placement="top-end" heading="My Heading" class="js-dialog-placement-top-end-l" scale="l">
+          <calcite-dialog placement="top-end" heading="My Heading" id="js-dialog-placement-top-end-l" scale="l">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
-          <calcite-button onClick="openDialog('.js-dialog-placement-top-end-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-top-end-l" appearance="outline" scale="s">
             top-end Large
           </calcite-button>
         </div>
@@ -1036,38 +1018,38 @@
 
         <!-- small width -->
         <div class="child">
-          <calcite-dialog placement="bottom" heading="My Dialog" class="js-dialog-placement-bottom-s" scale="s">
+          <calcite-dialog placement="bottom" heading="My Dialog" id="js-dialog-placement-bottom-s" scale="s">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-bottom-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-bottom-s" appearance="outline" scale="s">
             bottom Small
           </calcite-button>
         </div>
 
         <!-- medium -->
         <div class="child">
-          <calcite-dialog placement="bottom" heading="My Heading" class="js-dialog-placement-bottom-m" scale="m">
+          <calcite-dialog placement="bottom" heading="My Heading" id="js-dialog-placement-bottom-m" scale="m">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-bottom-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-bottom-m" appearance="outline" scale="s">
             bottom Medium
           </calcite-button>
         </div>
 
         <!-- large -->
         <div class="child">
-          <calcite-dialog placement="bottom" heading="My Heading" class="js-dialog-placement-bottom-l" scale="l">
+          <calcite-dialog placement="bottom" heading="My Heading" id="js-dialog-placement-bottom-l" scale="l">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
-          <calcite-button onClick="openDialog('.js-dialog-placement-bottom-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-bottom-l" appearance="outline" scale="s">
             bottom Large
           </calcite-button>
         </div>
@@ -1081,7 +1063,7 @@
           <calcite-dialog
             placement="bottom-start"
             heading="My Dialog"
-            class="js-dialog-placement-bottom-start-s"
+            id="js-dialog-placement-bottom-start-s"
             scale="s"
           >
             <div>
@@ -1089,7 +1071,7 @@
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-bottom-start-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-bottom-start-s" appearance="outline" scale="s">
             bottom-start Small
           </calcite-button>
         </div>
@@ -1099,7 +1081,7 @@
           <calcite-dialog
             placement="bottom-start"
             heading="My Heading"
-            class="js-dialog-placement-bottom-start-m"
+            id="js-dialog-placement-bottom-start-m"
             scale="m"
           >
             <div>
@@ -1107,7 +1089,7 @@
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-bottom-start-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-bottom-start-m" appearance="outline" scale="s">
             bottom-start Medium
           </calcite-button>
         </div>
@@ -1117,14 +1099,14 @@
           <calcite-dialog
             placement="bottom-start"
             heading="My Heading"
-            class="js-dialog-placement-bottom-start-l"
+            id="js-dialog-placement-bottom-start-l"
             scale="l"
           >
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
-          <calcite-button onClick="openDialog('.js-dialog-placement-bottom-start-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-bottom-start-l" appearance="outline" scale="s">
             bottom-start Large
           </calcite-button>
         </div>
@@ -1135,48 +1117,38 @@
 
         <!-- small width -->
         <div class="child">
-          <calcite-dialog placement="bottom-end" heading="My Dialog" class="js-dialog-placement-bottom-end-s" scale="s">
+          <calcite-dialog placement="bottom-end" heading="My Dialog" id="js-dialog-placement-bottom-end-s" scale="s">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-bottom-end-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-bottom-end-s" appearance="outline" scale="s">
             bottom-end Small
           </calcite-button>
         </div>
 
         <!-- medium -->
         <div class="child">
-          <calcite-dialog
-            placement="bottom-end"
-            heading="My Heading"
-            class="js-dialog-placement-bottom-end-m"
-            scale="m"
-          >
+          <calcite-dialog placement="bottom-end" heading="My Heading" id="js-dialog-placement-bottom-end-m" scale="m">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-placement-bottom-end-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-bottom-end-m" appearance="outline" scale="s">
             bottom-end Medium
           </calcite-button>
         </div>
 
         <!-- large -->
         <div class="child">
-          <calcite-dialog
-            placement="bottom-end"
-            heading="My Heading"
-            class="js-dialog-placement-bottom-end-l"
-            scale="l"
-          >
+          <calcite-dialog placement="bottom-end" heading="My Heading" id="js-dialog-placement-bottom-end-l" scale="l">
             <div>
               <p>This is some great content</p>
             </div>
           </calcite-dialog>
-          <calcite-button onClick="openDialog('.js-dialog-placement-bottom-end-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-placement-bottom-end-l" appearance="outline" scale="s">
             bottom-end Large
           </calcite-button>
         </div>
@@ -1194,7 +1166,7 @@
 
         <!-- small width brand -->
         <div class="child">
-          <calcite-dialog heading="Brand content!" class="js-dialog-brand-s" kind="brand" scale="s">
+          <calcite-dialog heading="Brand content!" id="js-dialog-brand-s" kind="brand" scale="s">
             <div>
               <p>This is some great content</p>
             </div>
@@ -1204,14 +1176,14 @@
             <calcite-button slot="footer-end" width="full" scale="s">Add members now</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-brand-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-brand-s" appearance="outline" scale="s">
             Scale Small
           </calcite-button>
         </div>
 
         <!-- medium width brand -->
         <div class="child">
-          <calcite-dialog heading="Brand content!" class="js-dialog-brand-m" kind="brand" scale="m">
+          <calcite-dialog heading="Brand content!" id="js-dialog-brand-m" kind="brand" scale="m">
             <div>
               <p>This is some great content</p>
             </div>
@@ -1221,14 +1193,14 @@
             <calcite-button slot="footer-end" width="full" scale="m">Add members now</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-brand-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-brand-m" appearance="outline" scale="s">
             Scale Medium
           </calcite-button>
         </div>
 
         <!-- large width brand -->
         <div class="child">
-          <calcite-dialog heading="Brand content!" class="js-dialog-brand-l" kind="brand" scale="l">
+          <calcite-dialog heading="Brand content!" id="js-dialog-brand-l" kind="brand" scale="l">
             <div>
               <p>This is some great content</p>
             </div>
@@ -1238,7 +1210,7 @@
             <calcite-button slot="footer-end" width="full" scale="l">Add members now</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-brand-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-brand-l" appearance="outline" scale="s">
             Scale Large
           </calcite-button>
         </div>
@@ -1253,7 +1225,7 @@
 
         <!-- small width danger -->
         <div class="child">
-          <calcite-dialog heading="Delete" class="js-dialog-danger-s" kind="danger" scale="s">
+          <calcite-dialog heading="Delete" id="js-dialog-danger-s" kind="danger" scale="s">
             <div>
               <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
             </div>
@@ -1263,14 +1235,14 @@
             <calcite-button slot="footer-end" width="full" scale="s" kind="danger">Delete</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-danger-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-danger-s" appearance="outline" scale="s">
             Scale Small
           </calcite-button>
         </div>
 
         <!-- medium width danger -->
         <div class="child">
-          <calcite-dialog heading="Delete" class="js-dialog-danger-m" kind="danger" scale="m">
+          <calcite-dialog heading="Delete" id="js-dialog-danger-m" kind="danger" scale="m">
             <div>
               <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
             </div>
@@ -1280,14 +1252,14 @@
             <calcite-button slot="footer-end" width="full" scale="m" kind="danger">Delete</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-danger-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-danger-m" appearance="outline" scale="s">
             Scale Medium
           </calcite-button>
         </div>
 
         <!-- large width danger -->
         <div class="child">
-          <calcite-dialog heading="Delete" class="js-dialog-danger-l" kind="danger" scale="l">
+          <calcite-dialog heading="Delete" id="js-dialog-danger-l" kind="danger" scale="l">
             <div>
               <p>This will delete things and perform some desctructive action, do you wish to continue?</p>
             </div>
@@ -1297,7 +1269,7 @@
             <calcite-button slot="footer-end" width="full" scale="l" kind="danger">Delete</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-danger-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-danger-l" appearance="outline" scale="s">
             Scale Large
           </calcite-button>
         </div>
@@ -1313,7 +1285,7 @@
 
         <!-- small width info -->
         <div class="child">
-          <calcite-dialog heading="Information" class="js-dialog-info-s" kind="info" scale="s">
+          <calcite-dialog heading="Information" id="js-dialog-info-s" kind="info" scale="s">
             <div>
               <p>This dialog should be used when choosing two viable paths.</p>
             </div>
@@ -1323,14 +1295,14 @@
             <calcite-button slot="footer-end" width="full" scale="s">Add members now</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-info-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-info-s" appearance="outline" scale="s">
             Scale Small
           </calcite-button>
         </div>
 
         <!-- medium width info -->
         <div class="child">
-          <calcite-dialog heading="Information" class="js-dialog-info-m" kind="info" scale="m">
+          <calcite-dialog heading="Information" id="js-dialog-info-m" kind="info" scale="m">
             <div>
               <p>This dialog should be used when choosing two viable paths.</p>
             </div>
@@ -1340,14 +1312,14 @@
             <calcite-button slot="footer-end" width="full" scale="m">Add members now</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-info-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-info-m" appearance="outline" scale="s">
             Scale Medium
           </calcite-button>
         </div>
 
         <!-- large width info -->
         <div class="child">
-          <calcite-dialog heading="Information" class="js-dialog-info-l" kind="info" scale="l">
+          <calcite-dialog heading="Information" id="js-dialog-info-l" kind="info" scale="l">
             <div>
               <p>This dialog should be used when choosing two viable paths.</p>
             </div>
@@ -1357,7 +1329,7 @@
             <calcite-button slot="footer-end" width="full" scale="l">Add members now</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-info-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-info-l" appearance="outline" scale="s">
             Scale Large
           </calcite-button>
         </div>
@@ -1372,7 +1344,7 @@
 
         <!-- small width success -->
         <div class="child">
-          <calcite-dialog heading="Rejoice!" class="js-dialog-success-s" kind="success" scale="s">
+          <calcite-dialog heading="Rejoice!" id="js-dialog-success-s" kind="success" scale="s">
             <div>
               <p>Something successful happened</p>
             </div>
@@ -1382,14 +1354,14 @@
             <calcite-button slot="footer-end" width="full" scale="s">Next</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-success-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-success-s" appearance="outline" scale="s">
             Scale Small
           </calcite-button>
         </div>
 
         <!-- medium width success -->
         <div class="child">
-          <calcite-dialog heading="Rejoice!" class="js-dialog-success-m" kind="success" scale="m">
+          <calcite-dialog heading="Rejoice!" id="js-dialog-success-m" kind="success" scale="m">
             <div>
               <p>Something successful happened</p>
             </div>
@@ -1399,14 +1371,14 @@
             <calcite-button slot="footer-end" width="full" scale="m">Next</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-success-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-success-m" appearance="outline" scale="s">
             Scale Medium
           </calcite-button>
         </div>
 
         <!-- large width success -->
         <div class="child">
-          <calcite-dialog heading="Rejoice!" class="js-dialog-success-l" kind="success" scale="l">
+          <calcite-dialog heading="Rejoice!" id="js-dialog-success-l" kind="success" scale="l">
             <div>
               <p>Something successful happened</p>
             </div>
@@ -1416,7 +1388,7 @@
             <calcite-button slot="footer-end" width="full" scale="l">Next</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-success-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-success-l" appearance="outline" scale="s">
             Scale Large
           </calcite-button>
         </div>
@@ -1431,7 +1403,7 @@
 
         <!-- small width warning -->
         <div class="child">
-          <calcite-dialog heading="Hold on a second..." class="js-dialog-warning-s" kind="warning" scale="s">
+          <calcite-dialog heading="Hold on a second..." id="js-dialog-warning-s" kind="warning" scale="s">
             <div>
               <p>Something warningful happened</p>
             </div>
@@ -1441,14 +1413,14 @@
             <calcite-button slot="footer-end" width="full" scale="l">Next</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-warning-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-warning-s" appearance="outline" scale="s">
             Scale Small
           </calcite-button>
         </div>
 
         <!-- medium width warning -->
         <div class="child">
-          <calcite-dialog heading="Hold on a second..." class="js-dialog-warning-m" kind="warning" scale="m">
+          <calcite-dialog heading="Hold on a second..." id="js-dialog-warning-m" kind="warning" scale="m">
             <div>
               <p>Something warningful happened</p>
             </div>
@@ -1458,14 +1430,14 @@
             <calcite-button slot="footer-end" width="full" scale="l">Next</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-warning-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-warning-m" appearance="outline" scale="s">
             Scale Medium
           </calcite-button>
         </div>
 
         <!-- large width warning -->
         <div class="child">
-          <calcite-dialog heading="Hold on a second..." class="js-dialog-warning-l" kind="warning" scale="l">
+          <calcite-dialog heading="Hold on a second..." id="js-dialog-warning-l" kind="warning" scale="l">
             <div>
               <p>Something warningful happened</p>
             </div>
@@ -1475,7 +1447,7 @@
             <calcite-button slot="footer-end" width="full" scale="l">Next</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-warning-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-warning-l" appearance="outline" scale="s">
             Scale Large
           </calcite-button>
         </div>
@@ -1490,42 +1462,42 @@
 
         <!-- small width no close button -->
         <div class="child">
-          <calcite-dialog heading="Dialog title" class="js-dialog-no-close-s" close-disabled scale="s">
+          <calcite-dialog heading="Dialog title" id="js-dialog-no-close-s" close-disabled scale="s">
             <div>
               <p>This dialog has no close button.</p>
             </div>
             <calcite-button slot="footer-end" width="full" scale="s" appearance="outline">Cancel</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-no-close-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-no-close-s" appearance="outline" scale="s">
             Scale Small
           </calcite-button>
         </div>
 
         <!-- medium width no close button -->
         <div class="child">
-          <calcite-dialog heading="Dialog title" class="js-dialog-no-close-m" close-disabled scale="m">
+          <calcite-dialog heading="Dialog title" id="js-dialog-no-close-m" close-disabled scale="m">
             <div>
               <p>This dialog has no close button.</p>
             </div>
             <calcite-button slot="footer-end" width="full" scale="m" appearance="outline">Cancel</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-no-close-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-no-close-m" appearance="outline" scale="s">
             Scale Medium
           </calcite-button>
         </div>
 
         <!-- large width no close button -->
         <div class="child">
-          <calcite-dialog heading="Dialog title" class="js-dialog-no-close-l" close-disabled scale="l">
+          <calcite-dialog heading="Dialog title" id="js-dialog-no-close-l" close-disabled scale="l">
             <div>
               <p>This dialog has no close button.</p>
             </div>
             <calcite-button slot="footer-end" width="full" scale="l" appearance="outline">Cancel</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-no-close-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-no-close-l" appearance="outline" scale="s">
             Scale Large
           </calcite-button>
         </div>
@@ -1541,39 +1513,39 @@
 
         <!-- small width no footer -->
         <div class="child">
-          <calcite-dialog heading="Small Dialog" class="js-dialog-no-footer-s" scale="s">
+          <calcite-dialog heading="Small Dialog" id="js-dialog-no-footer-s" scale="s">
             <div>
               <calcite-loader label="loading" />
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-no-footer-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-no-footer-s" appearance="outline" scale="s">
             Scale Small
           </calcite-button>
         </div>
 
         <!-- medium width no footer -->
         <div class="child">
-          <calcite-dialog heading="Small Dialog" class="js-dialog-no-footer-m" scale="m">
+          <calcite-dialog heading="Small Dialog" id="js-dialog-no-footer-m" scale="m">
             <div>
               <calcite-loader label="loading" />
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-no-footer-m')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-no-footer-m" appearance="outline" scale="s">
             Scale Medium
           </calcite-button>
         </div>
 
         <!-- large width no footer -->
         <div class="child">
-          <calcite-dialog heading="Small Dialog" class="js-dialog-no-footer-l" scale="l">
+          <calcite-dialog heading="Small Dialog" id="js-dialog-no-footer-l" scale="l">
             <div>
               <calcite-loader label="loading" />
             </div>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-no-footer-l')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-no-footer-l" appearance="outline" scale="s">
             Scale Large
           </calcite-button>
         </div>
@@ -1593,7 +1565,7 @@
         <div class="child">
           <calcite-dialog
             heading="Fullscreen dialog"
-            class="js-dialog-fs-s"
+            id="js-dialog-fs-s"
             placement="cover"
             style="--calcite-dialog-height: 100%, --calcite-dialog-height: 100%"
           >
@@ -1615,7 +1587,7 @@
             <calcite-button slot="footer-end" width="full">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-fs-s')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-fs-s" appearance="outline" scale="s">
             placement="cover"
           </calcite-button>
         </div>
@@ -1628,7 +1600,7 @@
         <div class="child">
           <calcite-dialog
             heading="Ui Background css overriding --calcite-dialog-content-background"
-            class="js-dialog-custom-background"
+            id="js-dialog-custom-background"
             placement="cover"
             style="--calcite-dialog-content-background: var(--calcite-color-background)"
           >
@@ -1689,7 +1661,7 @@
             <calcite-button scale="m" slot="footer-end" width="full">Save</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-custom-background')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-custom-background" appearance="outline" scale="s">
             Custom background via css var
           </calcite-button>
         </div>
@@ -1703,18 +1675,14 @@
         **************************************************
         -->
         <div class="child">
-          <calcite-dialog
-            heading="Dialog title"
-            class="js-dialog-custom-width-2"
-            style="--calcite-dialog-width: 1200px"
-          >
+          <calcite-dialog heading="Dialog title" id="js-dialog-custom-width-2" style="--calcite-dialog-width: 1200px">
             <div>
               <p>This dialog will be 1200 pixels wide on larger screens and become fullscreen below that.</p>
             </div>
             <calcite-button slot="footer-end" width="full" appearance="outline">Cancel</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-custom-width-2')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-custom-width-2" appearance="outline" scale="s">
             Custom width via css var
           </calcite-button>
         </div>
@@ -1727,7 +1695,7 @@
         <div class="child">
           <calcite-dialog
             heading="Dialog title"
-            class="js-dialog-custom-width"
+            id="js-dialog-custom-width"
             style="--calcite-dialog-width: 900px; --calcite-dialog-height: 600px"
           >
             <div>
@@ -1738,7 +1706,7 @@
             <calcite-button slot="footer-end" width="full" appearance="outline">Cancel</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-custom-width')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-custom-width" appearance="outline" scale="s">
             Custom width and height via css var
           </calcite-button>
         </div>
@@ -1751,7 +1719,7 @@
         <div class="child">
           <calcite-dialog
             heading="Dialog title"
-            class="js-dialog-custom-width-extreme"
+            id="js-dialog-custom-width-extreme"
             style="--calcite-dialog-width: 2400px; --calcite-dialog-height: 2400px"
           >
             <div>
@@ -1762,7 +1730,7 @@
             <calcite-button slot="footer-end" width="full" appearance="outline">Cancel</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-custom-width-extreme')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-custom-width-extreme" appearance="outline" scale="s">
             "too big but doesn't overflow"
           </calcite-button>
         </div>
@@ -1778,7 +1746,7 @@
         <div class="child">
           <calcite-dialog
             heading="Dialog title"
-            class="js-dialog-custom-width-vwvh"
+            id="js-dialog-custom-width-vwvh"
             style="--calcite-dialog-width: 96vw; --calcite-dialog-height: 96vh"
           >
             <div>
@@ -1787,7 +1755,7 @@
             <calcite-button slot="footer-end" width="full" appearance="outline">Cancel</calcite-button>
           </calcite-dialog>
 
-          <calcite-button onClick="openDialog('.js-dialog-custom-width-vwvh')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-custom-width-vwvh" appearance="outline" scale="s">
             Custom width and height distance with VH / VW
           </calcite-button>
         </div>
@@ -1830,7 +1798,7 @@
             </div>
             <calcite-button slot="footer-end" width="full" appearance="outline">Cancel</calcite-button>
           </calcite-dialog>
-          <calcite-button onClick="openDialog('#js-dialog-custom-size')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-custom-size" appearance="outline" scale="s">
             Custom width and height preview
           </calcite-button>
         </div>
@@ -1845,7 +1813,7 @@
             <div>test</div>
             <calcite-button slot="footer-end" width="full" appearance="outline">Cancel</calcite-button>
           </calcite-dialog>
-          <calcite-button onClick="openDialog('#js-dialog-before-close')" appearance="outline" scale="s">
+          <calcite-button data-dialog-ref="js-dialog-before-close" appearance="outline" scale="s">
             beforeClose rejected
           </calcite-button>
         </div>
@@ -1876,9 +1844,25 @@
           customSizeDialog.style.setProperty("--calcite-dialog-width", widthInput.value);
         });
 
-        function openDialog(selector) {
-          document.querySelector(selector).open = true;
-        }
+        document.addEventListener("click", (event) => {
+          const dataAttr = "data-dialog-ref";
+          const dataAttrSelector = `[${dataAttr}]`;
+
+          const referenceElement = event.composedPath().find((el) => "matches" in el && el.matches(dataAttrSelector));
+
+          if (!referenceElement) {
+            return;
+          }
+
+          const id = referenceElement.getAttribute(dataAttr);
+          const dialog = referenceElement.getRootNode().getElementById(id);
+
+          if (!dialog) {
+            return;
+          }
+
+          dialog.open = true;
+        });
       </script>
     </demo-dom-swapper>
   </body>
