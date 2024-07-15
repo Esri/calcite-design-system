@@ -30,6 +30,8 @@ describe("config", () => {
   describe("stampVersion", () => {
     const calciteVersionPreBuildPlaceholder = "__CALCITE_VERSION__";
 
+    beforeEach(() => delete globalThis.calciteConfig);
+
     it("creates global config and stamps the version onto it", async () => {
       config = await loadConfig();
       config.stampVersion();
@@ -43,12 +45,19 @@ describe("config", () => {
       expect(globalThis.calciteConfig.version).toBe(calciteVersionPreBuildPlaceholder);
     });
 
-    it("warns if the version is already set", async () => {
-      globalThis.calciteConfig = { version: "1.33.7" };
+    it("bails if version is already stamped onto existing config", async () => {
+      const testVersion = "1.33.7";
+      globalThis.calciteConfig = { version: testVersion };
       config = await loadConfig();
-      const warnSpy = jest.spyOn(console, "warn");
       config.stampVersion();
-      expect(warnSpy).toHaveBeenCalled();
+      expect(globalThis.calciteConfig.version).toBe(testVersion);
+    });
+
+    it("logs info with registered version", async () => {
+      expect(console.info).not.toHaveBeenCalled();
+      config = await loadConfig();
+      config.stampVersion();
+      expect(console.info).toHaveBeenCalled();
     });
   });
 });
