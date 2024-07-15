@@ -37,6 +37,7 @@ import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { CollapseDirection } from "../interfaces";
+import { Scale } from "../interfaces";
 import { FlowItemMessages } from "./assets/flow-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
@@ -98,6 +99,9 @@ export class FlowItem
    */
   @Prop() beforeBack: () => Promise<void>;
 
+  /** Passes a function to run before the component closes. */
+  @Prop() beforeClose: () => Promise<void>;
+
   /** A description for the component. */
   @Prop() description: string;
 
@@ -154,6 +158,9 @@ export class FlowItem
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * When `true`, displays a back button in the component's header.
@@ -361,11 +368,13 @@ export class FlowItem
       menuOpen,
       messages,
       overlayPositioning,
+      beforeClose,
     } = this;
     return (
       <Host>
         <InteractiveContainer disabled={disabled}>
           <calcite-panel
+            beforeClose={beforeClose}
             closable={closable}
             closed={closed}
             collapseDirection={collapseDirection}
@@ -383,6 +392,7 @@ export class FlowItem
             onCalcitePanelToggle={this.handlePanelToggle}
             overlayPositioning={overlayPositioning}
             ref={this.setContainerRef}
+            scale={this.scale}
           >
             {this.renderBackButton()}
             <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />

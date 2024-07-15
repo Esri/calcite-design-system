@@ -1,4 +1,4 @@
-import { Component, Element, Fragment, h, Listen, Prop, State, VNode } from "@stencil/core";
+import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -74,7 +74,19 @@ export class Shell implements ConditionalSlotComponent {
 
   @State() hasSheets = false;
 
+  @State() hasPanelTop = false;
+
+  @State() hasPanelBottom = false;
+
+  @State() hasOnlyPanelBottom = false;
+
   @State() panelIsResizing = false;
+
+  @Watch("hasPanelTop")
+  @Watch("hasPanelBottom")
+  updateHasOnlyPanelBottom(): void {
+    this.hasOnlyPanelBottom = !this.hasPanelTop && this.hasPanelBottom;
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -129,6 +141,14 @@ export class Shell implements ConditionalSlotComponent {
         (el as HTMLCalciteModalElement).slottedInShell = true;
       }
     });
+  };
+
+  handlePanelTopChange = (event: Event): void => {
+    this.hasPanelTop = slotChangeHasAssignedElement(event);
+  };
+
+  handlePanelBottomChange = (event: Event): void => {
+    this.hasPanelBottom = slotChangeHasAssignedElement(event);
   };
 
   // --------------------------------------------------------------------------
@@ -188,8 +208,16 @@ export class Shell implements ConditionalSlotComponent {
     const deprecatedCenterRowSlotNode: VNode = (
       <slot key="center-row-slot" name={SLOTS.centerRow} />
     );
-    const panelBottomSlotNode: VNode = <slot key="panel-bottom-slot" name={SLOTS.panelBottom} />;
-    const panelTopSlotNode: VNode = <slot key="panel-top-slot" name={SLOTS.panelTop} />;
+    const panelBottomSlotNode: VNode = (
+      <slot
+        key="panel-bottom-slot"
+        name={SLOTS.panelBottom}
+        onSlotchange={this.handlePanelBottomChange}
+      />
+    );
+    const panelTopSlotNode: VNode = (
+      <slot key="panel-top-slot" name={SLOTS.panelTop} onSlotchange={this.handlePanelTopChange} />
+    );
 
     const contentContainerKey = "content-container";
 
@@ -204,14 +232,22 @@ export class Shell implements ConditionalSlotComponent {
           >
             {defaultSlotContainerNode}
           </div>,
-          <div class={CSS.contentBehindCenterContent}>
+          <div
+            class={{
+              [CSS.contentBehindCenterContent]: true,
+              [CSS.contentBottom]: this.hasOnlyPanelBottom,
+            }}
+          >
             {panelTopSlotNode}
             {panelBottomSlotNode}
             {deprecatedCenterRowSlotNode}
           </div>,
         ]
       : [
-          <div class={CSS.content} key={contentContainerKey}>
+          <div
+            class={{ [CSS.content]: true, [CSS.contentBottom]: this.hasOnlyPanelBottom }}
+            key={contentContainerKey}
+          >
             {panelTopSlotNode}
             {defaultSlotContainerNode}
             {panelBottomSlotNode}
