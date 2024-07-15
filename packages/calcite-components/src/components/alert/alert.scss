@@ -315,7 +315,7 @@ $alertDurations:
 /**
  * Conditional styles for when Alert is slotted in Shell
  */
-.container--slotted-in-shell {
+.container--embedded {
   @apply absolute;
 }
 

@@ -125,7 +125,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
    *
    * @internal
    */
-  @Prop() slottedInShell: boolean;
+  @Prop() embedded: boolean;
 
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
@@ -159,7 +159,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
     deactivateFocusTrap(this);
-    this.slottedInShell = false;
+    this.embedded = false;
   }
 
   render(): VNode {
@@ -175,7 +175,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
           class={{
             [CSS.container]: true,
             [CSS.containerOpen]: this.opened,
-            [CSS.containerSlottedInShell]: this.slottedInShell,
+            [CSS.containerEmbedded]: this.embedded,
             [CSS_UTILITY.rtl]: dir === "rtl",
           }}
         >
@@ -310,7 +310,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
   private openSheet(): void {
     this.el.addEventListener("calciteSheetOpen", this.openEnd);
     this.opened = true;
-    if (!this.slottedInShell) {
+    if (!this.embedded) {
       this.initialOverflowCSS = document.documentElement.style.overflow;
       // use an inline style instead of a utility class to avoid global class declarations.
       document.documentElement.style.setProperty("overflow", "hidden");

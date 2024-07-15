@@ -147,7 +147,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    *
    * @internal
    */
-  @Prop({ mutable: true }) slottedInShell: boolean;
+  @Prop({ mutable: true }) embedded: boolean;
 
   @Watch("autoCloseDuration")
   updateDuration(): void {
@@ -205,7 +205,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     window.clearTimeout(this.queueTimeout);
     disconnectLocalized(this);
     disconnectMessages(this);
-    this.slottedInShell = false;
+    this.embedded = false;
   }
 
   render(): VNode {
@@ -227,7 +227,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
             [CSS.container]: true,
             [CSS.containerQueued]: queued,
             [`${CSS.container}--${placement}`]: true,
-            [CSS.containerSlottedInShell]: this.slottedInShell,
+            [CSS.containerEmbedded]: this.embedded,
             [CSS.focused]: this.keyBoardFocus,
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}

@@ -162,7 +162,7 @@ export class Modal
    *
    * @internal
    */
-  @Prop({ mutable: true }) slottedInShell: boolean;
+  @Prop({ mutable: true }) embedded: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -202,7 +202,7 @@ export class Modal
     deactivateFocusTrap(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-    this.slottedInShell = false;
+    this.embedded = false;
   }
 
   render(): VNode {
@@ -217,7 +217,7 @@ export class Modal
           class={{
             [CSS.container]: true,
             [CSS.containerOpen]: this.opened,
-            [CSS.slottedInShell]: this.slottedInShell,
+            [CSS.embedded]: this.embedded,
           }}
         >
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
@@ -534,7 +534,7 @@ export class Modal
     this.titleId = ensureId(titleEl);
     this.contentId = ensureId(contentEl);
 
-    if (!this.slottedInShell) {
+    if (!this.embedded) {
       if (totalOpenModals === 0) {
         initialDocumentOverflowStyle = document.documentElement.style.overflow;
       }
