@@ -12,11 +12,7 @@
 
 :host {
   --calcite-dialog-scrim-background: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
-  @apply flex inset-0 opacity-0 z-overlay;
-  visibility: hidden !important;
-  transition:
-    visibility 0ms linear var(--calcite-internal-animation-timing-slow),
-    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+  @apply flex inset-0 z-overlay pointer-events-none;
   // the dialog should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
   --calcite-dialog-scrim-background-internal: #{rgba($calcite-color-neutral-blk-240, $calcite-opacity-85)};
 }
@@ -26,7 +22,7 @@
 }
 
 .container {
-  @apply text-color-2
+  @apply text-color-2 pointer-events-auto
     fixed
     inset-0
     flex
@@ -35,7 +31,7 @@
     overflow-y-hidden
     opacity-0
     z-overlay;
-  visibility: hidden !important;
+  visibility: hidden;
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) $easing-function;
@@ -143,15 +139,9 @@ calcite-panel {
   }
 }
 
-:host([opened]) {
-  @apply opacity-100;
-  visibility: visible !important;
-  transition-delay: 0ms;
-}
-
 .container--open {
   @apply opacity-100;
-  visibility: visible !important;
+  visibility: visible;
   transition-delay: 0ms;
   .dialog {
     @apply pointer-events-auto visible opacity-100;

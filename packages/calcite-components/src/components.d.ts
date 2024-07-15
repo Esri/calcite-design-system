@@ -1696,10 +1696,6 @@ export namespace Components {
          */
         "open": boolean;
         /**
-          * We use an internal property to handle styles for when a dialog is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is.
-         */
-        "opened": boolean;
-        /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */
         "overlayPositioning": OverlayPositioning1;
@@ -9697,10 +9693,6 @@ declare namespace LocalJSX {
           * When `true`, displays and positions the component.
          */
         "open"?: boolean;
-        /**
-          * We use an internal property to handle styles for when a dialog is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is.
-         */
-        "opened"?: boolean;
         /**
           * Determines the type of positioning to use for the overlaid content.  Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.  `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
          */

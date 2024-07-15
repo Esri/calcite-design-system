@@ -49,8 +49,6 @@ import { DialogPlacement } from "./interfaces";
 /*
 TODO:
 
-- get rid of opened property, can use hidden attribute internally
-
 - HTML
   - modal
   - description
@@ -161,13 +159,6 @@ export class Dialog
 
   /** When `true`, displays and positions the component.  */
   @Prop({ mutable: true, reflect: true }) open = false;
-
-  /**
-   * We use an internal property to handle styles for when a dialog is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is.
-   *
-   * @internal
-   */
-  @Prop({ mutable: true, reflect: true }) opened = false;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -313,6 +304,8 @@ export class Dialog
   transitionEl: HTMLDivElement;
 
   focusTrap: FocusTrap;
+
+  @State() opened = false;
 
   @State() hasFooter = true;
 
