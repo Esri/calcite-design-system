@@ -251,7 +251,7 @@ export class Dialog
                 scale={this.scale}
               >
                 <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
-                {/* <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} /> */}
+                <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
                 <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
                 <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
                 <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
