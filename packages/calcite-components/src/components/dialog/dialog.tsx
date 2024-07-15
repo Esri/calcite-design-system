@@ -289,21 +289,7 @@ export class Dialog
   //
   //--------------------------------------------------------------------------
 
-  panelEl: HTMLCalcitePanelElement;
-
-  ignoreOpenChange = false;
-
   @Element() el: HTMLCalciteDialogElement;
-
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver(),
-  );
-
-  openTransitionProp = "opacity";
-
-  transitionEl: HTMLDivElement;
-
-  focusTrap: FocusTrap;
 
   @State() opened = false;
 
@@ -321,6 +307,20 @@ export class Dialog
   }
 
   @State() defaultMessages: DialogMessages;
+
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
+
+  focusTrap: FocusTrap;
+
+  private panelEl: HTMLCalcitePanelElement;
+
+  private ignoreOpenChange = false;
+
+  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.handleMutationObserver(),
+  );
 
   //--------------------------------------------------------------------------
   //
@@ -404,10 +404,6 @@ export class Dialog
   //
   //--------------------------------------------------------------------------
 
-  private setTransitionEl = (el: HTMLDivElement): void => {
-    this.transitionEl = el;
-  };
-
   onBeforeOpen(): void {
     this.transitionEl.classList.add(CSS.openingActive);
     this.calciteDialogBeforeOpen.emit();
@@ -450,6 +446,10 @@ export class Dialog
     onToggleOpenCloseComponent(this);
   }
 
+  private setTransitionEl = (el: HTMLDivElement): void => {
+    this.transitionEl = el;
+  };
+
   private openEnd = (): void => {
     this.setFocus();
     this.el.removeEventListener("calciteDialogOpen", this.openEnd);
@@ -474,7 +474,7 @@ export class Dialog
     this.open = false;
   };
 
-  closeDialog = async (): Promise<void> => {
+  private closeDialog = async (): Promise<void> => {
     if (this.beforeClose) {
       try {
         await this.beforeClose();
