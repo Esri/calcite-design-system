@@ -429,8 +429,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
     this.calciteInternalTabChange.emit({
       tab: this.selectedTabId,
     });
-
-    this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
   }
 
   private activeIndicatorEl: HTMLElement;
