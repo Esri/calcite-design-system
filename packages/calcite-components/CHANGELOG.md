@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.9...@esri/calcite-components@2.11.0-next.10) (2024-07-15)
+
+### Features
+
+- **chip:** enhance multi-select group affordance ([#9286](https://github.com/Esri/calcite-design-system/issues/9286)) ([93a17a1](https://github.com/Esri/calcite-design-system/commit/93a17a17c670aaa2a6f443ecc6b9d3fdfde859ac)), closes [#9055](https://github.com/Esri/calcite-design-system/issues/9055) [#7425](https://github.com/Esri/calcite-design-system/issues/7425)
+
+### Bug Fixes
+
+- **block:** remove top padding when no heading is defined ([#9782](https://github.com/Esri/calcite-design-system/issues/9782)) ([d71e064](https://github.com/Esri/calcite-design-system/commit/d71e0648b03f138cdef2e8e9f2868d849e1ed04a)), closes [#9753](https://github.com/Esri/calcite-design-system/issues/9753)
+
 ## [2.11.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.8...@esri/calcite-components@2.11.0-next.9) (2024-07-15)
 
 ### Features
