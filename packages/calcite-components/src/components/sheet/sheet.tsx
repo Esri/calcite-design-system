@@ -125,7 +125,7 @@ export class Sheet implements OpenCloseComponent, FocusTrapComponent, LoadableCo
    *
    * @internal
    */
-  @Prop() embedded: boolean;
+  @Prop() embedded = false;
 
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.

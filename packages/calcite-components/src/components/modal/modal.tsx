@@ -162,7 +162,7 @@ export class Modal
    *
    * @internal
    */
-  @Prop({ mutable: true }) embedded: boolean;
+  @Prop({ mutable: true }) embedded = false;
 
   //--------------------------------------------------------------------------
   //

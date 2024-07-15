@@ -147,7 +147,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    *
    * @internal
    */
-  @Prop({ mutable: true }) embedded: boolean;
+  @Prop({ mutable: true }) embedded = false;
 
   @Watch("autoCloseDuration")
   updateDuration(): void {
