@@ -194,7 +194,8 @@ calcite-action-menu {
   }
 }
 
-:host([heading]) {
+:host([heading]),
+:host([description]) {
   .header {
     padding: var(--calcite-spacing-md);
   }
