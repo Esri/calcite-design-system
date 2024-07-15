@@ -733,6 +733,84 @@ export const allVariants = (): string => html`
     </div>
   </div>
 
+  <!-- content-top slot centered -->
+  <div class="parent">
+    <div class="child right-aligned-text">content-top slot centered</div>
+
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top" scale="s">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top" scale="l">New</calcite-chip>
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- content-bottom slot centered-->
+  <div class="parent">
+    <div class="child right-aligned-text">content-bottom slot centered</div>
+
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom" scale="s">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom" scale="l">New</calcite-chip>
+      </calcite-tile>
+    </div>
+  </div>
+
   <!-- link centered -->
   <div class="parent">
     <div class="child right-aligned-text">link centered</div>

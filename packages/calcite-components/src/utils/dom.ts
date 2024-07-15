@@ -1,4 +1,5 @@
 import { tabbable } from "tabbable";
+import { IconName } from "../components/icon/interfaces";
 import { guid } from "./guid";
 import { CSS_UTILITY } from "./resources";
 
@@ -438,10 +439,10 @@ export function filterElementsByTagName<T extends Element>(elements: Element[], 
  * @returns {string|undefined} The resulting icon value.
  */
 export function setRequestedIcon(
-  iconObject: Record<string, string>,
-  iconValue: string | boolean,
+  iconObject: Record<string, IconName>,
+  iconValue: IconName | boolean | "",
   matchedValue: string,
-): string | undefined {
+): IconName | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {
     return iconValue;
   } else if (iconValue === "") {
