@@ -26,6 +26,10 @@ describe("calcite-flow-item", () => {
   describe("defaults", () => {
     defaults("calcite-flow-item", [
       {
+        propertyName: "beforeClose",
+        defaultValue: undefined,
+      },
+      {
         propertyName: "closable",
         defaultValue: false,
       },
@@ -197,6 +201,24 @@ describe("calcite-flow-item", () => {
     });
 
     expect(calciteFlowItemBack).toHaveReceivedEvent();
+  });
+
+  it("sets beforeClose on internal panel", async () => {
+    const page = await newE2EPage();
+    await page.exposeFunction("beforeClose", () => Promise.reject());
+    await page.setContent("<calcite-flow-item closable></calcite-flow-item>");
+
+    await page.$eval(
+      "calcite-flow-item",
+      (el: HTMLCalciteFlowItemElement) =>
+        (el.beforeClose = (window as typeof window & Pick<typeof el, "beforeClose">).beforeClose),
+    );
+
+    await page.waitForChanges();
+
+    const panel = await page.find(`calcite-flow-item >>> calcite-panel`);
+
+    expect(await panel.getProperty("beforeClose")).toBeDefined();
   });
 
   it("sets collapsible and collapsed on internal panel", async () => {
