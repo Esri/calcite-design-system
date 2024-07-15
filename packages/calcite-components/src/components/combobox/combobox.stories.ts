@@ -888,7 +888,7 @@ export const filterHighlighting = (): string => html`
         value="Black Eyed Susan"
         description="The Black Eyed Susan is a yellow flower with a dark center."
         text-label="Black Eyed Susan"
-        text-label-short="Susan"
+        short-heading="Susan"
       ></calcite-combobox-item>
       <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
     </calcite-combobox-item>
@@ -905,27 +905,27 @@ export const filterHighlighting = (): string => html`
 
 export const withDescriptionShortLabelAndContentEndSlot = (): string => html`
   <calcite-combobox-item
-    value="one"
-    text-label="1ne"
-    selected
-    text-label-short="#1"
     description="the first installment in this thrilling series"
+    selected
+    short-heading="#1"
+    text-label="1ne"
+    value="one"
   >
     <calcite-icon icon="number-circle-1" slot="content-end"></calcite-icon>
   </calcite-combobox-item>
   <calcite-combobox-item
-    value="two"
-    text-label="2woo"
-    text-label-short="#2"
     description="the sequel to the smash hit 'one'"
+    short-heading="#2"
+    text-label="2woo"
+    value="two"
   >
     <calcite-icon icon="number-circle-2" slot="content-end"></calcite-icon>
   </calcite-combobox-item>
   <calcite-combobox-item
-    value="three"
-    text-label="Thr333"
-    text-label-short="#3"
     description="the thrilling conclusion to the number series"
+    short-heading="#3"
+    text-label="Thr333"
+    value="three"
   >
     <calcite-icon icon="number-circle-3" slot="content-end"></calcite-icon>
   </calcite-combobox-item>

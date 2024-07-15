@@ -83,28 +83,23 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true }) textLabel!: string;
 
   /**
-   * The component's short label.
-   *
-   * When provided, the short label will be displayed in the component's selection.
-   *
-   * It is recommended to use 5 chars or less.
-   */
-  @Prop({ reflect: true }) textLabelShort: string;
-
-  /**
    * Pattern for highlighting filter text matches.
    *
    * @internal
    */
   @Prop({ reflect: true }) filterTextMatchPattern: RegExp;
 
-  /** The component's value. */
-  @Prop() value!: any;
-
   /**
    * When `true`, omits the component from the `calcite-combobox` filtered search results.
    */
   @Prop({ reflect: true }) filterDisabled: boolean;
+
+  /**
+   * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
+   *
+   * @internal
+   */
+  @Prop() scale: Scale = "m";
 
   /**
    * Specifies the selection mode of the component, where:
@@ -125,11 +120,16 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   > = "multiple";
 
   /**
-   * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
+   * The component's short heading.
    *
-   * @internal
+   * When provided, the short heading will be displayed in the component's selection.
+   *
+   * It is recommended to use 5 characters or fewer.
    */
-  @Prop() scale: Scale = "m";
+  @Prop({ reflect: true }) shortHeading: string;
+
+  /** The component's value. */
+  @Prop() value!: any;
 
   // --------------------------------------------------------------------------
   //
@@ -283,8 +283,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
                   <div class={CSS.description}>{this.renderTextContent(this.description)}</div>
                 ) : null}
               </div>
-              {this.textLabelShort ? (
-                <div class={CSS.shortText}>{this.renderTextContent(this.textLabelShort)}</div>
+              {this.shortHeading ? (
+                <div class={CSS.shortText}>{this.renderTextContent(this.shortHeading)}</div>
               ) : null}
               <slot name={SLOTS.contentEnd} />
             </li>
