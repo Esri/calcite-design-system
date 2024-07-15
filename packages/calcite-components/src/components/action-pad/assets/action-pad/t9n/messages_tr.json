@@ -1,6 +1,6 @@
 {
   "expand": "Genişlet",
   "collapse": "Daralt",
-  "expandLabel": "Expand",
-  "collapseLabel": "Collapse"
+  "expandLabel": "Genişlet",
+  "collapseLabel": "Daralt"
 }
