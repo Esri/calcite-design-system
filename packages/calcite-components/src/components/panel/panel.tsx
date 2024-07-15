@@ -298,12 +298,12 @@ export class Panel
 
   panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      this.handleCloseClick();
+      this.handleUserClose();
       event.preventDefault();
     }
   };
 
-  private handleCloseClick = (): void => {
+  private handleUserClose = (): void => {
     this.closed = true;
     this.calcitePanelClose.emit();
   };
@@ -516,7 +516,7 @@ export class Panel
         aria-label={close}
         data-test="close"
         icon={ICONS.close}
-        onClick={this.handleCloseClick}
+        onClick={this.handleUserClose}
         scale={this.scale}
         text={close}
         title={close}
