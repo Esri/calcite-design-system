@@ -17,7 +17,7 @@ import { CSS, SLOTS } from "./resources";
 
 describe("calcite-dialog", () => {
   describe("renders", () => {
-    renders("calcite-dialog", { display: "flex", visible: false });
+    renders("calcite-dialog", { display: "flex", visible: true });
   });
 
   describe("honors hidden attribute", () => {
@@ -314,7 +314,7 @@ describe("calcite-dialog", () => {
     const mockCallBack = jest.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
-      <calcite-dialog open></calcite-dialog>
+      <calcite-dialog></calcite-dialog>
     `);
     const dialog = await page.find("calcite-dialog");
     await page.$eval(
@@ -327,12 +327,12 @@ describe("calcite-dialog", () => {
     await page.waitForChanges();
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    expect(await dialog.getProperty("opened")).toBe(true);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
     const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> [data-test="close"]`);
     await closeButton.click();
     await page.waitForChanges();
-    expect(mockCallBack).toHaveBeenCalledTimes(1);
-    expect(await dialog.getProperty("opened")).toBe(false);
+    expect(mockCallBack).toHaveBeenCalledTimes(2);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
   });
 
   it("calls the beforeClose method prior to closing via ESC key", async () => {
@@ -340,7 +340,7 @@ describe("calcite-dialog", () => {
     const mockCallBack = jest.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
-      <calcite-dialog open></calcite-dialog>
+      <calcite-dialog></calcite-dialog>
     `);
     const dialog = await page.find("calcite-dialog");
     await page.$eval(
@@ -353,12 +353,12 @@ describe("calcite-dialog", () => {
     await page.waitForChanges();
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    expect(await dialog.getProperty("opened")).toBe(true);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
     await page.keyboard.press("Escape");
     await page.waitForChanges();
     await page.waitForChanges();
-    expect(mockCallBack).toHaveBeenCalledTimes(1);
-    expect(await dialog.getProperty("opened")).toBe(false);
+    expect(mockCallBack).toHaveBeenCalledTimes(2);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
   });
 
   it("calls the beforeClose method prior to closing via attribute", async () => {
@@ -366,7 +366,7 @@ describe("calcite-dialog", () => {
     const mockCallBack = jest.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
     await page.setContent(`
-    <calcite-dialog open></calcite-dialog>
+    <calcite-dialog></calcite-dialog>
   `);
     const dialog = await page.find("calcite-dialog");
     await page.$eval(
@@ -379,11 +379,11 @@ describe("calcite-dialog", () => {
     await page.waitForChanges();
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    expect(await dialog.getProperty("opened")).toBe(true);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
     dialog.removeAttribute("open");
     await page.waitForChanges();
-    expect(mockCallBack).toHaveBeenCalledTimes(1);
-    expect(await dialog.getProperty("opened")).toBe(false);
+    expect(mockCallBack).toHaveBeenCalledTimes(2);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
   });
 
   it("should handle rejected 'beforeClose' promise'", async () => {
@@ -399,12 +399,13 @@ describe("calcite-dialog", () => {
       (elm: HTMLCalciteDialogElement) =>
         (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose),
     );
+    await page.waitForChanges();
 
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", false);
     await page.waitForChanges();
 
-    expect(mockCallBack).toHaveBeenCalledTimes(1);
+    expect(mockCallBack).toHaveBeenCalledTimes(2);
   });
 
   it("should remain open with rejected 'beforeClose' promise'", async () => {
@@ -424,7 +425,7 @@ describe("calcite-dialog", () => {
     await page.waitForChanges();
 
     expect(await dialog.getProperty("open")).toBe(true);
-    expect(await dialog.getProperty("opened")).toBe(true);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
     expect(dialog.getAttribute("open")).toBe(""); // Makes sure attribute is added back
   });
 
@@ -592,16 +593,17 @@ describe("calcite-dialog", () => {
     await page.setContent(`<calcite-dialog></calcite-dialog>`);
     await skipAnimations(page);
     const dialog = await page.find("calcite-dialog");
+    const container = await page.find(`calcite-dialog >>> .${CSS.container}`);
     dialog.setProperty("open", true);
     await page.waitForChanges();
     expect(await dialog.isVisible()).toBe(true);
     await page.keyboard.press("Escape");
     await page.waitForChanges();
-    expect(await dialog.isVisible()).toBe(false);
+    expect(await container.isVisible()).toBe(false);
     expect(await dialog.getProperty("open")).toBe(false);
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    expect(await dialog.isVisible()).toBe(true);
+    expect(await container.isVisible()).toBe(true);
   });
 
   it("closes when Escape key is pressed and dialog is open on page load", async () => {
@@ -626,17 +628,18 @@ describe("calcite-dialog", () => {
     await page.setContent(`<calcite-dialog></calcite-dialog>`);
     await skipAnimations(page);
     const dialog = await page.find("calcite-dialog");
+    const container = await page.find(`calcite-dialog >>> .${CSS.container}`);
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    expect(await dialog.isVisible()).toBe(true);
+    expect(await container.isVisible()).toBe(true);
     const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> [data-test="close"]`);
     await closeButton.click();
     await page.waitForChanges();
-    expect(await dialog.isVisible()).toBe(false);
+    expect(await container.isVisible()).toBe(false);
     expect(await dialog.getProperty("open")).toBe(false);
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    expect(await dialog.isVisible()).toBe(true);
+    expect(await container.isVisible()).toBe(true);
   });
 
   it("should close when the scrim is clicked", async () => {

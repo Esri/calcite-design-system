@@ -298,7 +298,7 @@ export class Panel
 
   panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      this.closed = true;
+      this.handleCloseClick();
       event.preventDefault();
     }
   };
