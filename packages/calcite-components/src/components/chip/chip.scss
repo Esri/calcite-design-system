@@ -142,7 +142,7 @@
   .container:not(.is-circle):not(.multiple) {
     &:not(.image-slotted) .select-icon.select-icon--active {
       padding-inline-start: 0;
-      padding-inline-end: var(--calcite-spacing-px); // should be 2px, but xxxs doesn't work
+      padding-inline-end: var(--calcite-spacing-px);
     }
 
     &.image--slotted .select-icon.select-icon--active {
@@ -261,7 +261,6 @@
 
 :host([scale="s"]) .container:not(.selected):not(.multiple).image--slotted {
   --calcite-internal-chip-padding-start: calc(theme("spacing[0.5]") / 2);
-  // --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
 }
 
 .container.text--slotted .title {

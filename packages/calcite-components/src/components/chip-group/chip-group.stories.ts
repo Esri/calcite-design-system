@@ -44,12 +44,12 @@ export const singleWithIcon_TestOnly = (): string => html`
   </calcite-chip-group>
 `;
 
-export const multiple_TestOnly = (): string => html`
+export const multipleClosable_TestOnly = (): string => html`
   <calcite-chip-group selection-mode="multiple">
-    <calcite-chip value="forest">Forest</calcite-chip>
-    <calcite-chip selected value="tundra">Tundra</calcite-chip>
-    <calcite-chip value="shore">Seashore</calcite-chip>
-    <calcite-chip selected value="estuary">Estuary</calcite-chip>
+    <calcite-chip value="forest" closable>Forest</calcite-chip>
+    <calcite-chip selected value="tundra" closable>Tundra</calcite-chip>
+    <calcite-chip value="shore" closable>Seashore</calcite-chip>
+    <calcite-chip selected value="estuary" closable>Estuary</calcite-chip>
   </calcite-chip-group>
 `;
 
@@ -62,21 +62,21 @@ export const multipleWithIcon_TestOnly = (): string => html`
   </calcite-chip-group>
 `;
 
-export const multipleWithAvatar_TestOnly = (): string => html`
+export const multipleClosableWithAvatar_TestOnly = (): string => html`
   <calcite-chip-group selection-mode="multiple">
-    <calcite-chip icon="layer" value="forest">
+    <calcite-chip icon="layer" value="forest" closable>
       <calcite-avatar slot="image" user-id="25684463a00c449585dbb32a065f6b74" full-name="user name"></calcite-avatar>
       Forest</calcite-chip
     >
-    <calcite-chip icon="layer" value="tundra">
+    <calcite-chip icon="layer" value="tundra" closable>
       <calcite-avatar slot="image" user-id="25684463a00c449585dbb32a065f6b74" full-name="user name"></calcite-avatar>
       Tundra</calcite-chip
     >
-    <calcite-chip icon="layer" value="shore">
+    <calcite-chip icon="layer" value="shore" closable>
       <calcite-avatar slot="image" user-id="25684463a00c449585dbb32a065f6b74" full-name="user name"></calcite-avatar>
       Seashore</calcite-chip
     >
-    <calcite-chip icon="layer" value="estuary">
+    <calcite-chip icon="layer" value="estuary" closable>
       <calcite-avatar slot="image" user-id="25684463a00c449585dbb32a065f6b74" full-name="user name"></calcite-avatar>
       Estuary</calcite-chip
     >
@@ -104,36 +104,3 @@ export const darkThemeRTL_TestOnly = (): string => html`
 `;
 
 darkThemeRTL_TestOnly.parameters = { themes: modesDarkDefault };
-
-export const multiPadding = (): string => html`
-  <div style="display: flex; flex-direction: row; gap: 50px;">
-    <div>
-      <calcite-chip-group label="demo-group-label" selection-mode="multiple" scale="s">
-        <calcite-chip kind="inverse" selected closable value="KML"> KML </calcite-chip>
-      </calcite-chip-group>
-      <calcite-chip-group label="demo-group-label" selection-mode="multiple" scale="m" style="padding-top: 16px">
-        <calcite-chip kind="inverse" selected closable value="KML"> KML </calcite-chip>
-      </calcite-chip-group>
-      <calcite-chip-group label="demo-group-label" selection-mode="multiple" scale="l" style="padding-top: 16px">
-        <calcite-chip kind="inverse" selected closable value="KML"> KML </calcite-chip>
-      </calcite-chip-group>
-    </div>
-    <div>
-      <calcite-chip-group label="demo-group-label" selection-mode="multiple" scale="s">
-        <calcite-chip kind="inverse" selected icon="file-kml" closable value="KML">
-          KML <calcite-avatar slot="image" full-name="Alluvial"></calcite-avatar
-        ></calcite-chip>
-      </calcite-chip-group>
-      <calcite-chip-group label="demo-group-label" selection-mode="multiple" scale="m" style="padding-top: 16px">
-        <calcite-chip kind="inverse" selected icon="file-kml" closable value="KML">
-          KML<calcite-avatar slot="image" full-name="Alluvial"></calcite-avatar>
-        </calcite-chip>
-      </calcite-chip-group>
-      <calcite-chip-group label="demo-group-label" selection-mode="multiple" scale="l" style="padding-top: 16px">
-        <calcite-chip kind="inverse" selected closable value="KML">
-          KML<calcite-avatar slot="image" full-name="Alluvial"></calcite-avatar>
-        </calcite-chip>
-      </calcite-chip-group>
-    </div>
-  </div>
-`;
