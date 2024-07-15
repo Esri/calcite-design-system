@@ -305,4 +305,21 @@ describe("calcite-flow-item", () => {
     expect(toggleSpy).toHaveReceivedEventTimes(1);
     expect(await panel.getProperty("closed")).toBe(true);
   });
+
+  it("should set embedded on slotted alerts", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-flow-item closable>
+        test
+        <calcite-alert slot="alerts" open label="this is a default alert">
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+        </calcite-alert>
+      </calcite-flow-item>`,
+    });
+    await page.waitForChanges();
+
+    const alert = await page.find("calcite-alert");
+
+    expect(await alert.getProperty("embedded")).toBe(true);
+  });
 });
