@@ -1660,6 +1660,10 @@ export namespace Components {
          */
         "description": string;
         /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded": boolean;
+        /**
           * The component header text.
          */
         "heading": string;
@@ -1719,10 +1723,6 @@ export namespace Components {
           * @returns - A promise that is resolved when the operation has completed.
          */
         "setFocus": () => Promise<void>;
-        /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "slottedInShell": boolean;
         /**
           * Updates the element(s) that are used within the focus-trap of the component.
          */
@@ -9646,6 +9646,10 @@ declare namespace LocalJSX {
          */
         "description"?: string;
         /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded"?: boolean;
+        /**
           * The component header text.
          */
         "heading"?: string;
@@ -9713,10 +9717,6 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
-        /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "slottedInShell"?: boolean;
         /**
           * Specifies the width of the component.
          */

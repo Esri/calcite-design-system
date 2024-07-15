@@ -219,11 +219,11 @@ calcite-panel {
   @apply border-color-warning;
 }
 
-:host([kind="brand"]),
-:host([kind="danger"]),
-:host([kind="info"]),
-:host([kind="success"]),
-:host([kind="warning"]) {
+:host([kind="brand"][open]),
+:host([kind="danger"][open]),
+:host([kind="info"][open]),
+:host([kind="success"][open]),
+:host([kind="warning"][open]) {
   .dialog {
     @apply border-0 border-t-4 border-solid;
   }

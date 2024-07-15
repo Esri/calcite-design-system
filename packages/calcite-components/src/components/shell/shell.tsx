@@ -158,7 +158,7 @@ export class Shell implements ConditionalSlotComponent {
     this.hasDialogs = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
       if (el.nodeName === "CALCITE-DIALOG") {
-        (el as HTMLCalciteDialogElement).slottedInShell = true;
+        (el as HTMLCalciteDialogElement).embedded = true;
       }
     });
   };
