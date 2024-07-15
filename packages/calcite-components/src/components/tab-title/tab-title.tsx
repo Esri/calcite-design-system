@@ -420,8 +420,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
    */
   @Method()
   async getTabIdentifier(): Promise<TabID> {
-    const result = this.tab ? this.tab : await this.getTabIndex();
-    return result;
+    return this.tab ? this.tab : this.getTabIndex();
   }
 
   /**
