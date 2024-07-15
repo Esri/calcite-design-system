@@ -21,7 +21,6 @@
 
 .header {
   @apply justify-start;
-  padding: var(--calcite-spacing-md);
 }
 
 .header,
@@ -192,6 +191,12 @@ calcite-action-menu {
 
   .header .title .heading {
     @apply text-color-1;
+  }
+}
+
+:host([heading]) {
+  .header {
+    padding: var(--calcite-spacing-md);
   }
 }
 
