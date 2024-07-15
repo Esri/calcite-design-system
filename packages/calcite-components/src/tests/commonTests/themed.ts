@@ -106,7 +106,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
 
       // Set up styleTargets and testTargets
       for (let i = 0; i < selectors.length; i++) {
-        const { shadowSelector, targetProp, state } = selectors[i];
+        const { shadowSelector, targetProp, state, expectOverride } = selectors[i];
         const selector = selectors[i].selector || tag;
 
         if (selector.includes(">>>")) {
@@ -150,7 +150,7 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
           targetProp,
           contextSelector,
           state: stateName,
-          expectedValue: setTokens[token],
+          expectedValue: expectOverride || setTokens[token],
           token: token as CalciteCSSCustomProp,
         });
       }
@@ -230,6 +230,11 @@ type MappedCalciteCSSCustomProp = CalciteCSSCustomProp;
  * Describes a test selector for themed components.
  */
 export type TestSelectToken = {
+  /**
+   * The overridden value of the CSS custom property.
+   */
+  expectOverride?: string;
+
   /**
    * The selector of the target element. When not provided, the component tag is used.
    */
