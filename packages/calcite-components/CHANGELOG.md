@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.7...@esri/calcite-components@2.11.0-next.8) (2024-07-15)
+
+### Features
+
+- **panel, flow-item:** add beforeClose property ([#9770](https://github.com/Esri/calcite-design-system/issues/9770)) ([fe32441](https://github.com/Esri/calcite-design-system/commit/fe32441883f3c793e5994fec594325362e5bef61)), closes [#9769](https://github.com/Esri/calcite-design-system/issues/9769)
+
 ## [2.11.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.6...@esri/calcite-components@2.11.0-next.7) (2024-07-15)
 
 ### Bug Fixes
