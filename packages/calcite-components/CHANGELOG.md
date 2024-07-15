@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.6...@esri/calcite-components@2.11.0-next.7) (2024-07-15)
+
+### Bug Fixes
+
+- **tile:** center align slot's text when alignment is equal to center ([#9773](https://github.com/Esri/calcite-design-system/issues/9773)) ([4a26398](https://github.com/Esri/calcite-design-system/commit/4a263988b72faca473e993aebe0c7f61b12a6d19)), closes [#9540](https://github.com/Esri/calcite-design-system/issues/9540)
+
 ## [2.11.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.5...@esri/calcite-components@2.11.0-next.6) (2024-07-12)
 
 ### Bug Fixes
