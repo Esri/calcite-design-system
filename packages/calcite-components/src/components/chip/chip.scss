@@ -56,6 +56,7 @@
     --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
 
     &.image--slotted {
+      --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
       --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
 
       &.closable {
@@ -67,11 +68,11 @@
   .container:not(.is-circle):not(.multiple) {
     &:not(.image-slotted) .select-icon.select-icon--active {
       padding-inline-start: 0;
-      padding-inline-end: var(--calcite-spacing-xs); // why is this 6px
+      padding-inline-end: var(--calcite-spacing-xs);
     }
 
     &.image--slotted .select-icon.select-icon--active {
-      padding-inline-start: var(--calcite-spacing-px); //xxxs (2px) doesn't work
+      padding-inline-start: var(--calcite-spacing-base);
       padding-inline-end: var(--calcite-spacing-sm);
     }
   }
@@ -260,7 +261,7 @@
 
 :host([scale="s"]) .container:not(.selected):not(.multiple).image--slotted {
   --calcite-internal-chip-padding-start: calc(theme("spacing[0.5]") / 2);
-  --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
+  // --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
 }
 
 .container.text--slotted .title {
