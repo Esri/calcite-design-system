@@ -29,7 +29,38 @@ export type ComponentTestTokens = Record<CalciteCSSCustomProp, TestSelectToken |
  * @example
  * describe("theme", () => {
  *   const tokens: ComponentTestTokens = {
- *      "--calcite-action-menu-border-color": [
+ *      "--calcite-token-test-style-prop-on-host": {
+ *          targetProp: "backgroundColor",
+ *      },
+ *      "--calcite-token-test-style-prop-on-selector": {
+ *        selector: "calcite-action",
+ *        targetProp: "backgroundColor",
+ *      },
+ *      "--calcite-token-test-style-prop-on-sub-element": {
+ *        shadowSelector: ".${CSS.actionText}",
+ *        targetProp: "backgroundColor",
+ *      },
+ *      "--calcite-token-test-tokens-applied-on-state-active": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
+ *      },
+ *      "--calcite-token-test-tokens-applied-on-state-focus": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: "focus",
+ *      },
+ *      "--calcite-token-test-tokens-applied-on-state-hover": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "--calcite-action-background-color",
+ *        state: "hover",
+ *      },
+ *      "--calcite-token-test-for-expected-override-value": {
+ *        shadowSelector: "calcite-action",
+ *        targetProp: "backgroundColor",
+ *        expectOverride: "rgb(0, 191, 255)",
+ *      },
+ *      "--calcite-token-test-multiple-applications-of-token": [
  *        {
  *          targetProp: "borderLeftColor",
  *        },
@@ -43,29 +74,6 @@ export type ComponentTestTokens = Record<CalciteCSSCustomProp, TestSelectToken |
  *          targetProp: "borderColor",
  *        },
  *     ],
- *     "--calcite-action-menu-background-color": {
- *          targetProp: "backgroundColor",
- *          shadowSelector: ".container",
- *     },
- *     "--calcite-action-menu-trigger-background-color-active": {
- *        shadowSelector: "calcite-action",
- *        targetProp: "--calcite-action-background-color",
- *        state: { press: { attribute: "class", value: CSS.defaultTrigger } },
- *      },
- *      "--calcite-action-menu-trigger-background-color-focus": {
- *        shadowSelector: "calcite-action",
- *        targetProp: "--calcite-action-background-color",
- *        state: "focus",
- *      },
- *      "--calcite-action-menu-trigger-background-color-hover": {
- *        shadowSelector: "calcite-action",
- *        targetProp: "--calcite-action-background-color",
- *        state: "hover",
- *      },
- *      "--calcite-action-menu-trigger-background-color": {
- *        shadowSelector: "calcite-action",
- *        targetProp: "--calcite-action-background-color",
- *      },
  *   };
  *   themed(`calcite-action-bar`, tokens);
  * });
