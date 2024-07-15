@@ -74,6 +74,11 @@ export class TabNav implements LocalizedComponent, T9nComponent {
    */
   @Prop({ mutable: true }) selectedTitle: HTMLCalciteTabTitleElement = null;
 
+  @Watch("selectedTitle")
+  selectedTitleChanged(): void {
+    this.updateActiveIndicator();
+  }
+
   /**
    * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
    *
@@ -125,29 +130,6 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
-  }
-
-  @Watch("selectedTabId")
-  async selectedTabIdChanged(): Promise<void> {
-    if (
-      localStorage &&
-      this.storageId &&
-      this.selectedTabId !== undefined &&
-      this.selectedTabId !== null
-    ) {
-      localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTabId));
-    }
-
-    this.calciteInternalTabChange.emit({
-      tab: this.selectedTabId,
-    });
-
-    this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
-  }
-
-  @Watch("selectedTitle")
-  selectedTitleChanged(): void {
-    this.updateActiveIndicator();
   }
 
   //--------------------------------------------------------------------------
@@ -434,6 +416,24 @@ export class TabNav implements LocalizedComponent, T9nComponent {
   @State() private hasOverflowingEndTabTitle = false;
 
   @State() private selectedTabId: TabID;
+
+  @Watch("selectedTabId")
+  async selectedTabIdChanged(): Promise<void> {
+    if (
+      localStorage &&
+      this.storageId &&
+      this.selectedTabId !== undefined &&
+      this.selectedTabId !== null
+    ) {
+      localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTabId));
+    }
+
+    this.calciteInternalTabChange.emit({
+      tab: this.selectedTabId,
+    });
+
+    this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
+  }
 
   private activeIndicatorEl: HTMLElement;
 
