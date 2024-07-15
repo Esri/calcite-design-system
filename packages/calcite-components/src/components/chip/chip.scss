@@ -28,8 +28,8 @@
   .container.is-circle.image--slotted {
     @apply w-6 h-6;
 
-    --calcite-internal-chip-padding-start: 0;
-    --calcite-internal-chip-padding-end: 0;
+    --calcite-internal-chip-padding-start: var(--calcite-spacing-px);
+    --calcite-internal-chip-padding-end: var(--calcite-spacing-px);
   }
 
   .multiple {
@@ -61,6 +61,18 @@
       &.closable {
         --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
       }
+    }
+  }
+
+  .container:not(.is-circle):not(.multiple) {
+    &:not(.image-slotted) .select-icon.select-icon--active {
+      padding-inline-start: 0;
+      padding-inline-end: var(--calcite-spacing-xs); // why is this 6px
+    }
+
+    &.image--slotted .select-icon.select-icon--active {
+      padding-inline-start: var(--calcite-spacing-px); //xxxs (2px) doesn't work
+      padding-inline-end: var(--calcite-spacing-sm);
     }
   }
 }
@@ -125,6 +137,18 @@
       }
     }
   }
+
+  .container:not(.is-circle):not(.multiple) {
+    &:not(.image-slotted) .select-icon.select-icon--active {
+      padding-inline-start: 0;
+      padding-inline-end: var(--calcite-spacing-px); // should be 2px, but xxxs doesn't work
+    }
+
+    &.image--slotted .select-icon.select-icon--active {
+      padding-inline-start: 0;
+      padding-inline-end: var(--calcite-spacing-sm);
+    }
+  }
 }
 
 :host([scale="m"][closable]) .container {
@@ -183,6 +207,18 @@
       }
     }
   }
+
+  .container:not(.is-circle):not(.multiple) {
+    &:not(.image-slotted) .select-icon.select-icon--active {
+      padding-inline-start: 0;
+      padding-inline-end: var(--calcite-spacing-xxs);
+    }
+
+    &.image--slotted .select-icon.select-icon--active {
+      padding-inline-start: 0;
+      padding-inline-end: var(--calcite-spacing-md);
+    }
+  }
 }
 
 :host([scale="l"][closable]) .container {
@@ -224,6 +260,7 @@
 
 :host([scale="s"]) .container:not(.selected):not(.multiple).image--slotted {
   --calcite-internal-chip-padding-start: calc(theme("spacing[0.5]") / 2);
+  --calcite-internal-chip-padding-end: var(--calcite-spacing-xxs);
 }
 
 .container.text--slotted .title {
@@ -336,9 +373,6 @@
     visibility: visible;
     opacity: 0.5;
   }
-}
-.container:not(.is-circle):not(.multiple).image--slotted .select-icon.select-icon--active {
-  margin-inline-end: var(--calcite-chip-spacing-s-internal);
 }
 
 :host([selected]) .select-icon {
