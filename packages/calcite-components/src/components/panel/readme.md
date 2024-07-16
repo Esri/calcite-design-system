@@ -4,117 +4,6 @@ For comprehensive guidance on using and implementing `calcite-panel`, refer to t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-Renders a basic panel with a header.
-
-```html
-<calcite-panel>
-  <div slot="header-content">Header!</div>
-  <p>Slotted content!</p>
-</calcite-panel>
-```
-
-### Closable
-
-Renders a panel that is closable with a click of the "x".
-
-```html
-<calcite-panel closable id="closable-panel">
-  <div slot="header-content">Closable Header</div>
-  <p>Click the X and I go away!</p>
-</calcite-panel>
-```
-
-### Collapsible
-
-Renders a panel that is collapsible with a click of the chevron.
-
-```html
-<calcite-panel collapsible id="collapsible-panel">
-  <div slot="header-content">Collapsible Header</div>
-  <p>Click the chevron and I go away!</p>
-</calcite-panel>
-```
-
-### Header-with-actions
-
-Renders a panel with leading and trailing `calcite-action`s.
-
-```html
-<calcite-panel>
-  <calcite-action
-    label="Performs my custom action"
-    text="Perform Action!"
-    text-enabled
-    icon="home"
-    slot="header-actions-start"
-  ></calcite-action>
-  <div slot="header-content">Header!</div>
-  <calcite-action
-    label="Performs another custom action"
-    text="Perform Another Action!"
-    text-enabled
-    icon="blog"
-    slot="header-actions-end"
-  ></calcite-action>
-  <p>Actions are in the top left and right.</p>
-</calcite-panel>
-```
-
-### With-action-bar
-
-Renders a panel with an action bar.
-
-```html
-<calcite-panel heading="Map Options">
-  <calcite-action-bar slot="action-bar" expand-disabled>
-    <calcite-action-group>
-      <calcite-action text="Save" icon="save"></calcite-action>
-      <calcite-action text="Duplicate" icon="duplicate"></calcite-action>
-    </calcite-action-group>
-    <calcite-action-group>
-      <calcite-action text="Undo" icon="undo"></calcite-action>
-      <calcite-action text="Redo" icon="redo"></calcite-action>
-    </calcite-action-group>
-  </calcite-action-bar>
-</calcite-panel>
-```
-
-### With-fab
-
-Renders a panel with a fab (floating action button).
-
-```html
-<calcite-panel heading="layer">
-  <calcite-list>
-    <calcite-list-item-group heading="Outdoor recreation">
-      <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
-        <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
-      </calcite-list-item>
-      <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
-        <calcite-action slot="actions-end" icon="layer" text="Rivers layer"></calcite-action>
-      </calcite-list-item>
-    </calcite-list-item-group>
-  </calcite-list>
-  <calcite-fab slot="fab" text="Add layer" text-enabled></calcite-fab>
-</calcite-panel>
-```
-
-### With-footer
-
-Renders a panel with a header and a footer.
-
-```html
-<calcite-panel>
-  <div slot="header-content">Header!</div>
-  <p>I have a footer.</p>
-  <div slot="footer">Footer!</div>
-</calcite-panel>
-```
-
 ## Properties
 
 | Property             | Attribute             | Description                                                                                                                                                                                                                                                                                                                                                                 | Type                         | Default      |
@@ -131,6 +20,7 @@ Renders a panel with a header and a footer.
 | `menuOpen`           | `menu-open`           | When `true`, the action menu items in the `header-menu-actions` slot are open.                                                                                                                                                                                                                                                                                              | `boolean`                    | `false`      |
 | `messageOverrides`   | `message-overrides`   | Use this property to override individual strings used by the component.                                                                                                                                                                                                                                                                                                     | `PanelMessages`              | `undefined`  |
 | `overlayPositioning` | `overlay-positioning` | Determines the type of positioning to use for the overlaid content. Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`. | `"absolute" \| "fixed"`      | `"absolute"` |
+| `scale`              | `scale`               | Specifies the size of the component.                                                                                                                                                                                                                                                                                                                                        | `"l" \| "m" \| "s"`          | `"m"`        |
 
 ## Events
 
