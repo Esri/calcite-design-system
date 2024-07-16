@@ -12,6 +12,7 @@ import {
   VNode,
   Watch,
 } from "@stencil/core";
+import interact from "interactjs";
 import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import {
   activateFocusTrap,
@@ -92,6 +93,11 @@ export class Dialog
   /** A description for the component. */
   @Prop() description: string;
 
+  /**
+   * When `true`, the component is draggable.
+   */
+  @Prop({ reflect: true }) dragEnabled = true;
+
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) closeDisabled = false;
 
@@ -171,6 +177,11 @@ export class Dialog
    */
   @Prop({ reflect: true }) placement: DialogPlacement = "center";
 
+  /**
+   * When `true`, the component is resizable.
+   */
+  @Prop({ reflect: true }) resizable = true;
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -210,6 +221,7 @@ export class Dialog
     disconnectLocalized(this);
     disconnectMessages(this);
     this.embedded = false;
+    this.interaction?.unset();
   }
 
   render(): VNode {
@@ -302,6 +314,8 @@ export class Dialog
   transitionEl: HTMLDivElement;
 
   focusTrap: FocusTrap;
+
+  private interaction: Interact.Interactable;
 
   private panelEl: HTMLCalcitePanelElement;
 
@@ -437,6 +451,59 @@ export class Dialog
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
+
+    this.interaction?.unset();
+
+    const position = { x: 0, y: 0 };
+
+    const restrictToParent = interact.modifiers.restrictRect({
+      restriction: "parent",
+    });
+
+    if (this.resizable || this.dragEnabled) {
+      this.interaction = interact(el);
+    }
+
+    if (this.resizable) {
+      this.interaction.resizable({
+        edges: {
+          top: true,
+          left: true,
+          bottom: true,
+          right: true,
+        },
+        modifiers: [restrictToParent],
+        listeners: {
+          move: function (event) {
+            let { x, y } = event.target.dataset;
+
+            x = (parseFloat(x) || 0) + event.deltaRect.left;
+            y = (parseFloat(y) || 0) + event.deltaRect.top;
+
+            Object.assign(event.target.style, {
+              inlineSize: `${event.rect.width}px`,
+              blockSize: `${event.rect.height}px`,
+            });
+
+            Object.assign(event.target.dataset, { x, y });
+          },
+        },
+      });
+    }
+
+    if (this.dragEnabled) {
+      this.interaction.draggable({
+        modifiers: [restrictToParent],
+        listeners: {
+          move(event) {
+            position.x += event.dx;
+            position.y += event.dy;
+
+            event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
+          },
+        },
+      });
+    }
   };
 
   private openEnd = (): void => {
