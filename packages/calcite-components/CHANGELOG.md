@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.11...@esri/calcite-components@2.11.0-next.12) (2024-07-16)
+
+### Features
+
+- **combobox, combobox-item:** add `description`, `shortHeading` props and `content-end` slot ([#9771](https://github.com/Esri/calcite-design-system/issues/9771)) ([25a4778](https://github.com/Esri/calcite-design-system/commit/25a4778cf7ebbdcfbe6f7da7e0c86238e7cbf819)), closes [#3695](https://github.com/Esri/calcite-design-system/issues/3695)
+
 ## [2.11.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.10...@esri/calcite-components@2.11.0-next.11) (2024-07-16)
 
 ### Features
