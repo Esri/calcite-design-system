@@ -48,21 +48,22 @@
   z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.header") + 1));
 }
 
+:host([layout="vertical"]) .content {
+  flex: 2;
+}
+
 :host([layout="vertical"][width-scale="s"]) .content {
   --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 12vw);
-  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 300px);
   --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 150px);
 }
 
 :host([layout="vertical"][width-scale="m"]) .content {
   --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 20vw);
-  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 420px);
   --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 240px);
 }
 
 :host([layout="vertical"][width-scale="l"]) .content {
   --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 45vw);
-  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 680px);
   --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 340px);
 }
 
@@ -313,12 +314,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 }
 
-:host([layout="horizontal"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
+:host([layout="horizontal"]:not([display-mode="float"])) slot[name="action-bar"]::slotted(calcite-action-bar) {
   border-inline: 0;
 }
 
-:host([layout="horizontal"][position="start"]) .content ::slotted(calcite-flow),
-:host([layout="horizontal"][position="start"]) .content ::slotted(calcite-panel) {
+:host([layout="horizontal"][position="start"]:not([display-mode="float"])) .content ::slotted(calcite-flow),
+:host([layout="horizontal"][position="start"]:not([display-mode="float"])) .content ::slotted(calcite-panel) {
   border-inline: 0;
   border-block-start: 0;
 }

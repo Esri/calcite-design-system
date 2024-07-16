@@ -344,23 +344,30 @@ export class ActionBar
       overflowCount,
     });
 
-    // Overflow groups
-    // let groupHeight = 0;
-    // let groupOverflowCount = 0;
-    // actionGroups.forEach((group) => {
-    //   groupHeight += group.clientHeight;
-    // });
-    // if (layout === "vertical" && height > groupHeight) {
-    //   while (height > groupHeight) {
-    //     ++groupOverflowCount;
-    //     actionGroups.forEach((group) => {
-    //       groupHeight += group.clientHeight;
-    //     });
-    //   }
-    //   el.replaceChildren(...actionGroups.slice(0, actionGroups.length - groupOverflowCount));
-    //   console.log(groupOverflowCount);
-    // }
+    this.removeOverflowGroups(height, actionGroups, layout);
   }, overflowActionsDebounceInMs);
+
+  private removeOverflowGroups(
+    height: number,
+    actionGroups: HTMLCalciteActionGroupElement[],
+    layout: "horizontal" | "vertical",
+  ) {
+    let groupHeight = 0;
+    if (layout === "vertical") {
+      actionGroups.forEach((group) => {
+        groupHeight += group.clientHeight;
+      });
+      while (height > groupHeight || Math.abs(height - groupHeight) <= 20) {
+        const group = actionGroups.shift();
+        group.style.display = "none";
+        actionGroups.forEach((group) => {
+          groupHeight += group.clientHeight;
+        });
+      }
+    } else {
+      actionGroups.forEach((a) => (a.style.display = "inline-block"));
+    }
+  }
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
