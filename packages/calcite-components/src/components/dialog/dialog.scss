@@ -175,9 +175,6 @@ calcite-panel {
         @apply m-0 h-full max-h-full w-full max-w-full;
       }
     }
-    :host([width-scale="#{$size}"][docked]) .container {
-      align-items: flex-end;
-    }
   }
 }
 

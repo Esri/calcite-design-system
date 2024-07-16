@@ -44,3 +44,7 @@ export function getDepth(element: HTMLElement): number {
 export function isSingleLike(selectionMode: Combobox["selectionMode"]): boolean {
   return selectionMode.includes("single");
 }
+
+export function getLabel(item: HTMLCalciteComboboxItemElement): string {
+  return item.shortHeading || item.textLabel;
+}
