@@ -256,13 +256,13 @@ export const withFooter = (): string => html`
 `;
 
 export const scaleS = (): string => html`
-  <calcite-dialog open heading="heading" description="description" scale="s" width-scale="m">
+  <calcite-dialog open heading="heading" description="description" scale="s" width-scale="s">
     <p>Slotted content!</p>
   </calcite-dialog>
 `;
 
 export const scaleL = (): string => html`
-  <calcite-dialog open heading="heading" description="description" scale="l" width-scale="m">
+  <calcite-dialog open heading="heading" description="description" scale="l" width-scale="s">
     <p>Slotted content!</p>
   </calcite-dialog>
 `;
@@ -280,12 +280,80 @@ export const widthScaleL = (): string => html`
 `;
 
 export const withAlertsSlot = (): string => html`
-  <calcite-dialog open heading="heading" description="description" scale="m" width-scale="l">
+  <calcite-dialog open heading="heading" description="description" scale="m" width-scale="s">
     <p>Slotted content!</p>
     <calcite-alert slot="alerts" open label="this is a default alert" scale="s">
       <div slot="title">Hello there!</div>
       <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
     </calcite-alert>
+  </calcite-dialog>
+`;
+
+export const placementTop = (): string => html`
+  <calcite-dialog modal placement="top" kind="brand" open heading="heading" description="description" width-scale="s">
+    <p>Slotted content!</p>
+  </calcite-dialog>
+`;
+
+export const placementTopStart = (): string => html`
+  <calcite-dialog
+    modal
+    placement="top-start"
+    kind="danger"
+    open
+    heading="heading"
+    description="description"
+    width-scale="s"
+  >
+    <p>Slotted content!</p>
+  </calcite-dialog>
+`;
+
+export const placementTopEnd = (): string => html`
+  <calcite-dialog
+    modal
+    placement="top-end"
+    kind="info"
+    open
+    heading="heading"
+    description="description"
+    width-scale="s"
+  >
+    <p>Slotted content!</p>
+  </calcite-dialog>
+`;
+
+export const placementBottom = (): string => html`
+  <calcite-dialog
+    modal
+    placement="bottom"
+    kind="success"
+    open
+    heading="heading"
+    description="description"
+    width-scale="s"
+  >
+    <p>Slotted content!</p>
+  </calcite-dialog>
+`;
+
+export const placementBottomStart = (): string => html`
+  <calcite-dialog
+    modal
+    placement="bottom-start"
+    kind="warning"
+    open
+    heading="heading"
+    description="description"
+    width-scale="s"
+  >
+    <p>Slotted content!</p>
+  </calcite-dialog>
+`;
+
+export const placementBottomEnd = (): string => html`
+  <calcite-dialog modal placement="bottom-end" open heading="heading" description="description" width-scale="s">
+    <p>Slotted content!</p>
   </calcite-dialog>
 `;
 
