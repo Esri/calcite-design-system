@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.12...@esri/calcite-components@2.11.0-next.13) (2024-07-16)
+
+### Bug Fixes
+
+- **deps:** move @types/sortablejs as a dependency so the public types resolve properly ([#9786](https://github.com/Esri/calcite-design-system/issues/9786)) ([e36268b](https://github.com/Esri/calcite-design-system/commit/e36268babbd311b3405d376063f0ae5fbb35f873)), closes [#9505](https://github.com/Esri/calcite-design-system/issues/9505)
+
 ## [2.11.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.11...@esri/calcite-components@2.11.0-next.12) (2024-07-16)
 
 ### Features
