@@ -1,6 +1,7 @@
 import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-loader",
@@ -71,24 +72,24 @@ export class Loader {
         role="progressbar"
         {...(isDeterminate ? hostAttributes : {})}
       >
-        <div class="loader__svgs">
-          <svg aria-hidden="true" class="loader__svg loader__svg--1" viewBox={viewbox}>
-            <circle {...svgAttributes} />
-          </svg>
-          <svg aria-hidden="true" class="loader__svg loader__svg--2" viewBox={viewbox}>
-            <circle {...svgAttributes} />
-          </svg>
-          <svg
-            aria-hidden="true"
-            class="loader__svg loader__svg--3"
-            viewBox={viewbox}
-            {...(isDeterminate ? { style: determinateStyle } : {})}
-          >
-            <circle {...svgAttributes} />
-          </svg>
+        <div class={CSS.loaderParts}>
+          {[1, 2, 3].map((index) => (
+            <svg
+              aria-hidden="true"
+              class={{
+                [CSS.loaderPart]: true,
+                [CSS.loaderPartId(index)]: true,
+              }}
+              key={index}
+              viewBox={viewbox}
+              {...(index === 3 && isDeterminate ? { style: determinateStyle } : {})}
+            >
+              <circle {...svgAttributes} />
+            </svg>
+          ))}
         </div>
-        {text && <div class="loader__text">{text}</div>}
-        {isDeterminate && <div class="loader__percentage">{value}</div>}
+        {text && <div class={CSS.loaderText}>{text}</div>}
+        {isDeterminate && <div class={CSS.loaderPercentage}>{value}</div>}
       </Host>
     );
   }

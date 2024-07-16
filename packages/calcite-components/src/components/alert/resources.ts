@@ -27,7 +27,7 @@ export const CSS = {
   dismissProgress: "dismiss-progress",
   footer: "footer",
   icon: "icon",
-  containerSlottedInShell: "container--slotted-in-shell",
+  containerEmbedded: "container--embedded",
   queueCount: "queue-count",
   queueCountActive: "queue-count--active",
   textContainer: "text-container",
