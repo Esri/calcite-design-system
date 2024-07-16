@@ -4,14 +4,6 @@ For comprehensive guidance on using and implementing `calcite-progress`, refer t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-progress type="indeterminate"></calcite-progress>
-```
-
 ## Properties
 
 | Property   | Attribute  | Description                                                                                         | Type                               | Default         |

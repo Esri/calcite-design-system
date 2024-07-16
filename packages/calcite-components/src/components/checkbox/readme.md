@@ -4,30 +4,6 @@ For comprehensive guidance on using and implementing `calcite-checkbox`, refer t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-checkbox id="first-name" name="first-name"></calcite-checkbox>
-```
-
-### Checked-with-calcite-label
-
-```html
-<calcite-label layout="inline" for="checked-item">
-  To do
-  <calcite-checkbox checked id="checked-item" name="checked-item"></calcite-checkbox>
-</calcite-label>
-```
-
-### Indeterminate-with-native-label
-
-```html
-<calcite-label for="checked-indeterminate">Status</calcite-label>
-<calcite-checkbox checked indeterminate id="checked-indeterminate" name="checked-indeterminate"></calcite-checkbox>
-```
-
 ## Properties
 
 | Property        | Attribute       | Description                                                                                                                                                             | Type                                                                                                                                                                                                                                                | Default                                                                                                                                                                                                                                                                     |

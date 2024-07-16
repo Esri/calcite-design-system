@@ -4,33 +4,12 @@ For comprehensive guidance on using and implementing `calcite-notice`, refer to 
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-notice scale="l" width="half" open>
-  <div slot="title">Operation failed</div>
-  <div slot="message">The operation you attempted has encountered an unexpected issue.</div>
-  <calcite-link slot="link" href="/">View details</calcite-link>
-  <calcite-action id="retry-action" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-</calcite-notice>
-```
-
-### Set-focus
-
-You can programmatically focus the close button of a `dismissible` `calcite-notice` with the `setFocus()` method:
-
-```html
-<div onclick="document.querySelector('#my-notice').setFocus();">Focus!</div>
-```
-
 ## Properties
 
 | Property           | Attribute           | Description                                                                                                           | Type                                                      | Default     |
 | ------------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
 | `closable`         | `closable`          | When `true`, a close button is added to the component.                                                                | `boolean`                                                 | `false`     |
-| `icon`             | `icon`              | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                       | `undefined` |
+| `icon`             | `icon`              | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| IconName`                                     | `undefined` |
 | `iconFlipRtl`      | `icon-flip-rtl`     | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                 | `false`     |
 | `kind`             | `kind`              | Specifies the kind of the component, which will apply to top border and icon.                                         | `"brand" \| "danger" \| "info" \| "success" \| "warning"` | `"brand"`   |
 | `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                               | `NoticeMessages`                                          | `undefined` |
