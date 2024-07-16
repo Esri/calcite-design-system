@@ -2511,18 +2511,6 @@ describe("calcite-color-picker", () => {
             targetProp: "--calcite-color-picker-hex-input-background-color",
           },
         ],
-        "--calcite-color-picker-input-background-color-hover": [
-          {
-            shadowSelector: `.${CSS.channel}`,
-            targetProp: "--calcite-input-background-color",
-            state: "hover",
-          },
-          {
-            shadowSelector: `.${CSS.hexInput}`,
-            targetProp: "--calcite-color-picker-hex-input-background-color",
-            state: "hover",
-          },
-        ],
         "--calcite-color-picker-input-border-color": [
           {
             shadowSelector: `.${CSS.channel}`,
@@ -2589,17 +2577,9 @@ describe("calcite-color-picker", () => {
           shadowSelector: `.${CSS.colorModes}`,
           targetProp: "--calcite-tab-nav-indicator-color",
         },
-        "--calcite-color-picker-tab-title-background-color": {
-          shadowSelector: `.${CSS.colorMode}`,
-          targetProp: "--calcite-tab-title-background-color",
-        },
         "--calcite-color-picker-tab-title-text-color": {
           shadowSelector: `.${CSS.colorMode}`,
           targetProp: "--calcite-tab-title-text-color",
-        },
-        "--calcite-color-picker-tabs-background-color": {
-          shadowSelector: `.${CSS.colorModeContainer}`,
-          targetProp: "--calcite-tabs-background-color",
         },
         "--calcite-color-picker-tabs-border-color": {
           shadowSelector: `.${CSS.colorModeContainer}`,
