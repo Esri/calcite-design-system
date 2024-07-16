@@ -1268,6 +1268,10 @@ export namespace Components {
          */
         "ancestors": ComboboxChildElement[];
         /**
+          * A description for the component, which displays below the label.
+         */
+        "description": string;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled": boolean;
@@ -1306,6 +1310,10 @@ export namespace Components {
     "single" | "single-persist" | "ancestors" | "multiple",
     SelectionMode
   >;
+        /**
+          * The component's short heading.  When provided, the short heading will be displayed in the component's selection.  It is recommended to use 5 characters or fewer.
+         */
+        "shortHeading": string;
         /**
           * The component's text.
          */
@@ -9111,6 +9119,10 @@ declare namespace LocalJSX {
          */
         "ancestors"?: ComboboxChildElement[];
         /**
+          * A description for the component, which displays below the label.
+         */
+        "description"?: string;
+        /**
           * When `true`, interaction is prevented and the component is displayed with lower opacity.
          */
         "disabled"?: boolean;
@@ -9153,6 +9165,10 @@ declare namespace LocalJSX {
     "single" | "single-persist" | "ancestors" | "multiple",
     SelectionMode
   >;
+        /**
+          * The component's short heading.  When provided, the short heading will be displayed in the component's selection.  It is recommended to use 5 characters or fewer.
+         */
+        "shortHeading"?: string;
         /**
           * The component's text.
          */
