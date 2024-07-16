@@ -46,5 +46,5 @@ export function isSingleLike(selectionMode: Combobox["selectionMode"]): boolean 
 }
 
 export function getLabel(item: HTMLCalciteComboboxItemElement): string {
-  return item.textLabelShort || item.textLabel;
+  return item.shortHeading || item.textLabel;
 }

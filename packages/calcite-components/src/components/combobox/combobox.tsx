@@ -81,7 +81,7 @@ import {
 
 interface ItemData {
   label: string;
-  labelShort: string;
+  shortHeading: string;
   description: string;
   value: string;
 }
@@ -1253,7 +1253,7 @@ export class Combobox
       description: item.description,
       filterDisabled: item.filterDisabled,
       label: item.textLabel,
-      labelShort: item.textLabelShort,
+      shortHeading: item.shortHeading,
       value: item.value,
     }));
   }

@@ -1409,13 +1409,13 @@ export namespace Components {
     SelectionMode
   >;
         /**
+          * The component's short heading.  When provided, the short heading will be displayed in the component's selection.  It is recommended to use 5 characters or fewer.
+         */
+        "shortHeading": string;
+        /**
           * The component's text.
          */
         "textLabel": string;
-        /**
-          * The component's short label.  When provided, the short label will be displayed in the component's selection.  It is recommended to use 5 chars or less.
-         */
-        "textLabelShort": string;
         /**
           * The component's value.
          */
@@ -9256,13 +9256,13 @@ declare namespace LocalJSX {
     SelectionMode
   >;
         /**
+          * The component's short heading.  When provided, the short heading will be displayed in the component's selection.  It is recommended to use 5 characters or fewer.
+         */
+        "shortHeading"?: string;
+        /**
           * The component's text.
          */
         "textLabel": string;
-        /**
-          * The component's short label.  When provided, the short label will be displayed in the component's selection.  It is recommended to use 5 chars or less.
-         */
-        "textLabelShort"?: string;
         /**
           * The component's value.
          */
