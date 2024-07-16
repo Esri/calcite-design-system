@@ -43,12 +43,14 @@ import {
 } from "../../utils/t9n";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { CollapseDirection } from "../interfaces";
+import { Scale } from "../interfaces";
 import { PanelMessages } from "./assets/panel/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
+ * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
@@ -76,8 +78,16 @@ export class Panel
   //
   // --------------------------------------------------------------------------
 
+  /** Passes a function to run before the component closes. */
+  @Prop() beforeClose: () => Promise<void>;
+
   /** When `true`, the component will be hidden. */
   @Prop({ mutable: true, reflect: true }) closed = false;
+
+  @Watch("closed")
+  toggleDialog(value: boolean): void {
+    value ? this.close() : this.open();
+  }
 
   /**
    *  When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -156,6 +166,9 @@ export class Panel
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -201,6 +214,8 @@ export class Panel
   panelScrollEl: HTMLElement;
 
   resizeObserver = createObserver("resize", () => this.resizeHandler());
+
+  @State() isClosed = false;
 
   @State() hasStartActions = false;
 
@@ -284,14 +299,34 @@ export class Panel
 
   panelKeyDownHandler = (event: KeyboardEvent): void => {
     if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      this.close();
+      this.closed = true;
       event.preventDefault();
     }
   };
 
-  close = (): void => {
+  private handleCloseClick = (): void => {
     this.closed = true;
     this.calcitePanelClose.emit();
+  };
+
+  open = (): void => {
+    this.isClosed = false;
+  };
+
+  close = async (): Promise<void> => {
+    const beforeClose = this.beforeClose ?? (() => Promise.resolve());
+
+    try {
+      await beforeClose();
+    } catch (_error) {
+      // close prevented
+      requestAnimationFrame(() => {
+        this.closed = false;
+      });
+      return;
+    }
+
+    this.isClosed = true;
   };
 
   collapse = (): void => {
@@ -471,6 +506,7 @@ export class Panel
         data-test="collapse"
         icon={collapsed ? icons[0] : icons[1]}
         onClick={this.collapse}
+        scale={this.scale}
         text={collapse}
         title={collapsed ? expand : collapse}
       />
@@ -481,7 +517,8 @@ export class Panel
         aria-label={close}
         data-test="close"
         icon={ICONS.close}
-        onClick={this.close}
+        onClick={this.handleCloseClick}
+        scale={this.scale}
         text={close}
         title={close}
       />
@@ -522,6 +559,7 @@ export class Panel
       >
         <calcite-action
           icon={ICONS.menu}
+          scale={this.scale}
           slot={ACTION_MENU_SLOTS.trigger}
           text={messages.options}
         />
@@ -643,14 +681,22 @@ export class Panel
     );
   }
 
+  handleAlertsSlotChange = (event: Event): void => {
+    slotChangeGetAssignedElements(event)?.map((el) => {
+      if (el.nodeName === "CALCITE-ALERT") {
+        (el as HTMLCalciteAlertElement).embedded = true;
+      }
+    });
+  };
+
   render(): VNode {
-    const { disabled, loading, panelKeyDownHandler, closed, closable } = this;
+    const { disabled, loading, panelKeyDownHandler, isClosed, closable } = this;
 
     const panelNode = (
       <article
         aria-busy={toAriaBoolean(loading)}
         class={CSS.container}
-        hidden={closed}
+        hidden={isClosed}
         ref={this.setContainerRef}
         tabIndex={closable ? 0 : -1}
       >
@@ -658,6 +704,7 @@ export class Panel
         {this.renderContent()}
         {this.renderContentBottom()}
         {this.renderFooterNode()}
+        <slot key="alerts" name={SLOTS.alerts} onSlotchange={this.handleAlertsSlotChange} />
       </article>
     );
 

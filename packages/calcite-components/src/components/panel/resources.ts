@@ -26,10 +26,11 @@ export const ICONS = {
   backRight: "chevron-right",
   expand: "chevron-down",
   collapse: "chevron-up",
-};
+} as const;
 
 export const SLOTS = {
   actionBar: "action-bar",
+  alerts: "alerts",
   contentBottom: "content-bottom",
   contentTop: "content-top",
   headerActionsStart: "header-actions-start",
