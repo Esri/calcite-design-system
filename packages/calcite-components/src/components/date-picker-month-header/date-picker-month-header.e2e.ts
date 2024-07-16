@@ -1,13 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { html } from "../../../support/formatting";
-import { renders } from "../../tests/commonTests";
 import { DateLocaleData } from "../date-picker/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-date-picker-month-header", () => {
-  describe("renders", () => {
-    renders("calcite-date-picker-month-header", { display: "block" });
-  });
-
   const localeDataFixture = {
     "default-calendar": "gregorian",
     separator: "/",

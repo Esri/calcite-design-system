@@ -70,6 +70,12 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
 
 export const range = (): string => html`
   <div style="width: 400px">
+  <calcite-input-date-picker range></calcite-input-date-picker
+  </div>
+`;
+
+export const rangeWithMinMax = (): string => html`
+  <div style="width: 400px">
     <calcite-input-date-picker
       scale="m"
       status="idle"
@@ -80,6 +86,7 @@ export const range = (): string => html`
       prev-month-label="Previous month"
       range
       layout="horizontal"
+      open
     ></calcite-input-date-picker>
   </div>
 `;
@@ -233,6 +240,60 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
   createBreakpointStories(
     html`<calcite-input-date-picker scale="{scale}" value="2020-12-12"></calcite-input-date-picker>`,
   );
+
+export const rangeWithValueAsDate = (): string => html`
+  <calcite-input-date-picker range open></calcite-input-date-picker>
+  <script>
+    const datePicker = document.querySelector("calcite-input-date-picker");
+    datePicker.valueAsDate = [new Date("2025-09-08"), new Date("2025-12-10")];
+  </script>
+`;
+
+rangeWithValueAsDate.parameters = {
+  chromatic: { delay: 2000 },
+};
+
+export const rangeWithValue = (): string => html`
+  <calcite-input-date-picker range open></calcite-input-date-picker>
+  <script>
+    const datePicker = document.querySelector("calcite-input-date-picker");
+    datePicker.value = ["2025-09-08", "2026-12-10"];
+  </script>
+`;
+
+rangeWithValue.parameters = {
+  chromatic: { delay: 2000 },
+};
+
+export const rangeWithMinBeforeCurrentDate = (): string => html`
+  <calcite-input-date-picker range open min="2016-08-09"></calcite-input-date-picker>
+`;
+
+rangeWithMinBeforeCurrentDate.parameters = {
+  chromatic: { delay: 2000 },
+};
+
+export const rangeWithMaxBeforeCurrentDate = (): string => html`
+  <calcite-input-date-picker range open max="2016-08-09"></calcite-input-date-picker>
+`;
+
+rangeWithMaxBeforeCurrentDate.parameters = {
+  chromatic: { delay: 2000 },
+};
+
+export const rangeWithMinAsDateAfterCurrentDate = (): string => html`
+  <calcite-input-date-picker range open></calcite-input-date-picker>
+  <script>
+    const datePicker = document.querySelector("calcite-input-date-picker");
+    const currentDate = new Date();
+    currentDate.setMonth(currentDate.getMonth() + 10);
+    datePicker.minAsDate = currentDate;
+  </script>
+`;
+
+rangeWithMinAsDateAfterCurrentDate.parameters = {
+  chromatic: { delay: 2000 },
+};
 
 export const Focus = (): string =>
   html`<calcite-input-date-picker></calcite-input-date-picker>

@@ -35,8 +35,8 @@ import { ColorPickerMessages } from "./components/color-picker/assets/color-pick
 import { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
 import { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 import { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
-import { DateLocaleData } from "./components/date-picker/utils";
 import { HoverRange } from "./utils/date";
+import { DateLocaleData } from "./components/date-picker/utils";
 import { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 import { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 import { FilterMessages } from "./components/filter/assets/filter/t9n";
@@ -127,8 +127,8 @@ export { ColorPickerMessages } from "./components/color-picker/assets/color-pick
 export { ComboboxChildElement, SelectionDisplay } from "./components/combobox/interfaces";
 export { ComboboxMessages } from "./components/combobox/assets/combobox/t9n";
 export { DatePickerMessages } from "./components/date-picker/assets/date-picker/t9n";
-export { DateLocaleData } from "./components/date-picker/utils";
 export { HoverRange } from "./utils/date";
+export { DateLocaleData } from "./components/date-picker/utils";
 export { RequestedItem as RequestedItem2 } from "./components/dropdown-group/interfaces";
 export { ItemKeyboardEvent } from "./components/dropdown/interfaces";
 export { FilterMessages } from "./components/filter/assets/filter/t9n";
@@ -1445,6 +1445,10 @@ export namespace Components {
          */
         "headingLevel": HeadingLevel;
         /**
+          * Defines the layout of the component.
+         */
+        "layout": "horizontal" | "vertical";
+        /**
           * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
         "max": string;
@@ -1468,6 +1472,10 @@ export namespace Components {
           * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
          */
         "minAsDate": Date;
+        /**
+          * Specifies if the month abbreviations are used by the component.
+         */
+        "monthAbbreviations": boolean;
         /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
@@ -1577,9 +1585,17 @@ export namespace Components {
          */
         "endDate"?: Date;
         /**
+          * Specifies the number at which section headings should start.
+         */
+        "headingLevel": HeadingLevel;
+        /**
           * The range of dates currently being hovered.
          */
         "hoverRange": HoverRange;
+        /**
+          * Specifies the layout of the component.
+         */
+        "layout": "horizontal" | "vertical";
         /**
           * CLDR locale data for current locale.
          */
@@ -1589,9 +1605,21 @@ export namespace Components {
          */
         "max": Date;
         /**
+          * Made into a prop for testing purposes only
+         */
+        "messages": DatePickerMessages;
+        /**
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        /**
+          * When `true`, month will be abbreviated.
+         */
+        "monthAbbreviations": boolean;
+        /**
+          * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
+         */
+        "range": boolean;
         /**
           * Specifies the size of the component.
          */
@@ -1631,6 +1659,14 @@ export namespace Components {
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min": Date;
+        /**
+          * When `true`, month will be abbreviated.
+         */
+        "monthAbbreviations": boolean;
+        /**
+          * Specifies the position of the component in a range date-picker.
+         */
+        "position": Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the component.
          */
@@ -2328,6 +2364,10 @@ export namespace Components {
           * Specifies the earliest allowed date as a full date object.
          */
         "minAsDate": Date;
+        /**
+          * When `true`, month will be abbreviated.
+         */
+        "monthAbbreviations": boolean;
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
@@ -6526,10 +6566,14 @@ declare global {
         new (): HTMLCalciteDatePickerDayElement;
     };
     interface HTMLCalciteDatePickerMonthElementEventMap {
-        "calciteInternalDatePickerSelect": Date;
-        "calciteInternalDatePickerHover": Date;
-        "calciteInternalDatePickerActiveDateChange": Date;
-        "calciteInternalDatePickerMouseOut": void;
+        "calciteInternalDatePickerDaySelect": Date;
+        "calciteInternalDatePickerDayHover": Date;
+        "calciteInternalDatePickerMonthActiveDateChange": Date;
+        "calciteInternalDatePickerMonthMouseOut": void;
+        "calciteInternalDatePickerMonthChange": {
+    date: Date;
+    position: string;
+  };
     }
     interface HTMLCalciteDatePickerMonthElement extends Components.CalciteDatePickerMonth, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthElement, ev: CalciteDatePickerMonthCustomEvent<HTMLCalciteDatePickerMonthElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6546,7 +6590,7 @@ declare global {
         new (): HTMLCalciteDatePickerMonthElement;
     };
     interface HTMLCalciteDatePickerMonthHeaderElementEventMap {
-        "calciteInternalDatePickerSelect": Date;
+        "calciteInternalDatePickerMonthHeaderSelect": Date;
     }
     interface HTMLCalciteDatePickerMonthHeaderElement extends Components.CalciteDatePickerMonthHeader, HTMLStencilElement {
         addEventListener<K extends keyof HTMLCalciteDatePickerMonthHeaderElementEventMap>(type: K, listener: (this: HTMLCalciteDatePickerMonthHeaderElement, ev: CalciteDatePickerMonthHeaderCustomEvent<HTMLCalciteDatePickerMonthHeaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -9292,6 +9336,10 @@ declare namespace LocalJSX {
          */
         "headingLevel"?: HeadingLevel;
         /**
+          * Defines the layout of the component.
+         */
+        "layout"?: "horizontal" | "vertical";
+        /**
           * Specifies the latest allowed date (`"yyyy-mm-dd"`).
          */
         "max"?: string;
@@ -9315,6 +9363,10 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
          */
         "minAsDate"?: Date;
+        /**
+          * Specifies if the month abbreviations are used by the component.
+         */
+        "monthAbbreviations"?: boolean;
         /**
           * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
          */
@@ -9428,9 +9480,17 @@ declare namespace LocalJSX {
          */
         "endDate"?: Date;
         /**
+          * Specifies the number at which section headings should start.
+         */
+        "headingLevel"?: HeadingLevel;
+        /**
           * The range of dates currently being hovered.
          */
         "hoverRange"?: HoverRange;
+        /**
+          * Specifies the layout of the component.
+         */
+        "layout"?: "horizontal" | "vertical";
         /**
           * CLDR locale data for current locale.
          */
@@ -9440,22 +9500,41 @@ declare namespace LocalJSX {
          */
         "max"?: Date;
         /**
+          * Made into a prop for testing purposes only
+         */
+        "messages"?: DatePickerMessages;
+        /**
           * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
          */
         "min"?: Date;
         /**
-          * Active date for the user keyboard access.
+          * When `true`, month will be abbreviated.
          */
-        "onCalciteInternalDatePickerActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        "monthAbbreviations"?: boolean;
         /**
           * Fires when user hovers the date.
          */
-        "onCalciteInternalDatePickerHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
-        "onCalciteInternalDatePickerMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
+        "onCalciteInternalDatePickerDayHover"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
         /**
           * Fires when user selects the date.
          */
-        "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        "onCalciteInternalDatePickerDaySelect"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        /**
+          * Active date for the user keyboard access.
+         */
+        "onCalciteInternalDatePickerMonthActiveDateChange"?: (event: CalciteDatePickerMonthCustomEvent<Date>) => void;
+        /**
+          * Emits when user updates month or year using `calcite-date-picker-month-header` component.
+         */
+        "onCalciteInternalDatePickerMonthChange"?: (event: CalciteDatePickerMonthCustomEvent<{
+    date: Date;
+    position: string;
+  }>) => void;
+        "onCalciteInternalDatePickerMonthMouseOut"?: (event: CalciteDatePickerMonthCustomEvent<void>) => void;
+        /**
+          * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
+         */
+        "range"?: boolean;
         /**
           * Specifies the size of the component.
          */
@@ -9496,9 +9575,17 @@ declare namespace LocalJSX {
          */
         "min"?: Date;
         /**
+          * When `true`, month will be abbreviated.
+         */
+        "monthAbbreviations"?: boolean;
+        /**
           * Fires to active date
          */
-        "onCalciteInternalDatePickerSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        "onCalciteInternalDatePickerMonthHeaderSelect"?: (event: CalciteDatePickerMonthHeaderCustomEvent<Date>) => void;
+        /**
+          * Specifies the position of the component in a range date-picker.
+         */
+        "position"?: Extract<"start" | "end", Position>;
         /**
           * Specifies the size of the component.
          */
@@ -10212,6 +10299,10 @@ declare namespace LocalJSX {
           * Specifies the earliest allowed date as a full date object.
          */
         "minAsDate"?: Date;
+        /**
+          * When `true`, month will be abbreviated.
+         */
+        "monthAbbreviations"?: boolean;
         /**
           * Specifies the name of the component.  Required to pass the component's `value` on form submission.
          */
