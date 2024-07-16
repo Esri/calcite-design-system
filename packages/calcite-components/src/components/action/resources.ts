@@ -1,16 +1,15 @@
 export const CSS = {
-  actionIndicator: "action-indicator",
   button: "button",
-  buttonCompact: "button--compact",
   buttonTextVisible: "button--text-visible",
-  iconContainer: "icon-container",
+  buttonCompact: "button--compact",
   indicatorText: "indicator-text",
-  icon: "icon",
-  indicatorWithoutIcon: "indicator-without-icon",
+  iconContainer: "icon-container",
   slotContainer: "slot-container",
   slotContainerHidden: "slot-container--hidden",
   textContainer: "text-container",
   textContainerVisible: "text-container--visible",
+  indicatorWithIcon: "indicator-with-icon",
+  indicatorWithoutIcon: "indicator-without-icon",
 };
 
 export const SLOTS = {
