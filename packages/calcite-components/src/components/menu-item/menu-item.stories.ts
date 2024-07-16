@@ -1,16 +1,11 @@
 import { boolean } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
+import { CalciteMenuItem } from "./menu-item";
 
-interface MenuItemArgs {
-  text: string;
+interface MenuItemStoryArgs
+  extends Pick<CalciteMenuItem, "text" | "href" | "rel" | "target" | "label" | "active" | "breadcrumb"> {
   src: string;
-  href: string;
-  rel: string;
-  target: string;
-  label: string;
-  active: boolean;
-  breadcrumb: boolean;
 }
 
 export default {
@@ -27,7 +22,7 @@ export default {
   },
 };
 
-export const simple = (args: MenuItemArgs): string => html`
+export const simple = (args: MenuItemStoryArgs): string => html`
   <calcite-menu>
     <calcite-menu-item
       text="${args.text}"

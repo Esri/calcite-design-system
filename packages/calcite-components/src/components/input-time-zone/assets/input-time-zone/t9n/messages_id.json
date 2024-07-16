@@ -1,5 +1,7 @@
 {
   "chooseTimeZone": "Pilih zona waktu.",
+  "offsetPlaceholder": "Car berdasarkan kota, wilayah, atau offset",
+  "namePlaceholder": "Cari berdasarkan zona waktu",
   "timeZoneLabel": "({offset}) {cities}",
   "Africa/Abidjan": "Abidjan",
   "Africa/Accra": "Accra",

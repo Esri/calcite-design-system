@@ -1,16 +1,13 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { ColorPicker } from "./color-picker";
 const { scale } = ATTRIBUTES;
 
-interface ColorPickerArgs {
-  channelsDisabled: boolean;
-  hexDisabled: boolean;
-  savedDisabled: boolean;
-  scale: string;
-  clearable: boolean;
-  value: string;
-}
+type ColorPickerStoryArgs = Pick<
+  ColorPicker,
+  "channelsDisabled" | "hexDisabled" | "savedDisabled" | "scale" | "clearable" | "value"
+>;
 
 export default {
   title: "Components/Controls/ColorPicker",
@@ -30,7 +27,7 @@ export default {
   },
 };
 
-export const simple = (args: ColorPickerArgs): string => html`
+export const simple = (args: ColorPickerStoryArgs): string => html`
   <calcite-color-picker
     ${boolean("channels-disabled", args.channelsDisabled)}
     ${boolean("hex-disabled", args.hexDisabled)}
@@ -41,8 +38,10 @@ export const simple = (args: ColorPickerArgs): string => html`
   ></calcite-color-picker>
 `;
 
-export const alphaChannel = (): string => html`
+export const alphaChannelAllScales = (): string => html`
+  <calcite-color-picker scale="s" alpha-channel value="#b33f3333"></calcite-color-picker>
   <calcite-color-picker scale="m" alpha-channel value="#b33f3333"></calcite-color-picker>
+  <calcite-color-picker scale="l" alpha-channel value="#b33f3333"></calcite-color-picker>
 `;
 
 export const disabled_TestOnly = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;

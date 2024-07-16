@@ -1,13 +1,10 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { ActionPad } from "./action-pad";
 const { position } = ATTRIBUTES;
 
-interface ActionPadArgs {
-  expandDisabled: boolean;
-  expanded: boolean;
-  position: string;
-}
+type ActionPadStoryArgs = Pick<ActionPad, "expandDisabled" | "expanded" | "position">;
 
 export default {
   title: "Components/Action Pad",
@@ -29,7 +26,7 @@ export default {
   },
 };
 
-export const simple = (args: ActionPadArgs): string => html`
+export const simple = (args: ActionPadStoryArgs): string => html`
   <calcite-action-pad
     ${boolean("expand-disabled", args.expandDisabled)}
     ${boolean("expanded", args.expanded)}

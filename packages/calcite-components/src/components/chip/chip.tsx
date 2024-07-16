@@ -38,6 +38,7 @@ import {
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
+import { IconName } from "../icon/interfaces";
 import { ChipMessages } from "./assets/chip/t9n";
 import { CSS, SLOTS, ICONS } from "./resources";
 
@@ -73,7 +74,7 @@ export class Chip
   @Prop({ reflect: true }) closable = false;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon: string;
+  @Prop({ reflect: true }) icon: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -350,13 +351,13 @@ export class Chip
 
   renderSelectionIcon(): VNode {
     const icon =
-      this.selectionMode === "multiple" && this.selected
-        ? ICONS.checked
-        : this.selectionMode === "multiple"
-          ? ICONS.unchecked
-          : this.selected
-            ? ICONS.checkedSingle
-            : undefined;
+      this.selectionMode === "multiple"
+        ? this.selected
+          ? ICONS.checkedMultiple
+          : ICONS.uncheckedMultiple
+        : this.selected
+          ? ICONS.checkedSingle
+          : undefined;
 
     return (
       <div
@@ -424,6 +425,9 @@ export class Chip
               [CSS.imageSlotted]: this.hasImage,
               [CSS.selectable]: this.selectionMode !== "none",
               [CSS.multiple]: this.selectionMode === "multiple",
+              [CSS.single]:
+                this.selectionMode === "single" || this.selectionMode === "single-persist",
+              [CSS.selected]: this.selected,
               [CSS.closable]: this.closable,
               [CSS.nonInteractive]: !this.interactive,
               [CSS.isCircle]:

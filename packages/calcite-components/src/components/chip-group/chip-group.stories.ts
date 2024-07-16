@@ -1,12 +1,10 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { ChipGroup } from "./chip-group";
 const { selectionMode, scale } = ATTRIBUTES;
 
-interface ChipGroupArgs {
-  selectionMode: string;
-  scale: string;
-}
+type ChipGroupStoryArgs = Pick<ChipGroup, "selectionMode" | "scale">;
 
 export default {
   title: "Components/Chip Group",
@@ -28,7 +26,7 @@ export default {
   },
 };
 
-export const simple = (args: ChipGroupArgs): string => html`
+export const simple = (args: ChipGroupStoryArgs): string => html`
   <calcite-chip-group selection-mode="${args.selectionMode}" scale="${args.scale}">
     <calcite-chip value="forest">Forest</calcite-chip>
     <calcite-chip value="tundra">Tundra</calcite-chip>
@@ -46,12 +44,12 @@ export const singleWithIcon_TestOnly = (): string => html`
   </calcite-chip-group>
 `;
 
-export const multiple_TestOnly = (): string => html`
+export const multipleClosable_TestOnly = (): string => html`
   <calcite-chip-group selection-mode="multiple">
-    <calcite-chip value="forest">Forest</calcite-chip>
-    <calcite-chip selected value="tundra">Tundra</calcite-chip>
-    <calcite-chip value="shore">Seashore</calcite-chip>
-    <calcite-chip selected value="estuary">Estuary</calcite-chip>
+    <calcite-chip value="forest" closable>Forest</calcite-chip>
+    <calcite-chip selected value="tundra" closable>Tundra</calcite-chip>
+    <calcite-chip value="shore" closable>Seashore</calcite-chip>
+    <calcite-chip selected value="estuary" closable>Estuary</calcite-chip>
   </calcite-chip-group>
 `;
 
@@ -64,21 +62,21 @@ export const multipleWithIcon_TestOnly = (): string => html`
   </calcite-chip-group>
 `;
 
-export const multipleWithAvatar_TestOnly = (): string => html`
+export const multipleClosableWithAvatar_TestOnly = (): string => html`
   <calcite-chip-group selection-mode="multiple">
-    <calcite-chip icon="layer" value="forest">
+    <calcite-chip icon="layer" value="forest" closable>
       <calcite-avatar slot="image" user-id="25684463a00c449585dbb32a065f6b74" full-name="user name"></calcite-avatar>
       Forest</calcite-chip
     >
-    <calcite-chip icon="layer" value="tundra">
+    <calcite-chip icon="layer" value="tundra" closable>
       <calcite-avatar slot="image" user-id="25684463a00c449585dbb32a065f6b74" full-name="user name"></calcite-avatar>
       Tundra</calcite-chip
     >
-    <calcite-chip icon="layer" value="shore">
+    <calcite-chip icon="layer" value="shore" closable>
       <calcite-avatar slot="image" user-id="25684463a00c449585dbb32a065f6b74" full-name="user name"></calcite-avatar>
       Seashore</calcite-chip
     >
-    <calcite-chip icon="layer" value="estuary">
+    <calcite-chip icon="layer" value="estuary" closable>
       <calcite-avatar slot="image" user-id="25684463a00c449585dbb32a065f6b74" full-name="user name"></calcite-avatar>
       Estuary</calcite-chip
     >

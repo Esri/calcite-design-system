@@ -2,7 +2,7 @@ import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../panel/resources";
 
-interface FlowArgs {
+interface FlowStoryArgs {
   disabled: boolean;
   heading: string;
   loading: boolean;
@@ -114,7 +114,7 @@ const item2HTML = html`
   </ul>
 `;
 
-export const simple = (args: FlowArgs): string => html`
+export const simple = (args: FlowStoryArgs): string => html`
   <calcite-flow>
     <calcite-flow-item
       ${boolean("disabled", args.disabled)}
@@ -188,4 +188,18 @@ export const noDoubleScrollbars_TestOnly = (): string => html`
       </calcite-flow-item>
     </calcite-flow>
   </div>
+`;
+
+export const scales = (): string => html`
+  <calcite-flow style="height: 100px; width: 300px;">
+    <calcite-flow-item heading="Flow-item heading" description="Flow-item description" scale="s" />
+  </calcite-flow>
+
+  <calcite-flow style="height: 100px">
+    <calcite-flow-item heading="Flow-item heading" description="Flow-item description" scale="m" />
+  </calcite-flow>
+
+  <calcite-flow style="height: 100px">
+    <calcite-flow-item heading="Flow-item heading" description="Flow-item description" scale="l" />
+  </calcite-flow>
 `;

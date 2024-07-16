@@ -2,38 +2,68 @@ name: Deploy Latest
 on:
   workflow_dispatch:
   push:
-    branches: [main, hotfix]
+    branches: [main]
 permissions:
   contents: write
   pull-requests: write
 jobs:
-  release-please:
+  sync-dev-to-main:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       id-token: write
     steps:
-      - uses: google-github-actions/release-please-action@v3.7.13
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.ADMIN_TOKEN }}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+      - name: Sync dev to main
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git rebase --autostash origin/dev
+          git pull --rebase origin main
+          npm install
+          npm run build
+          npm test
+          git push origin main
+
+  release-please:
+    if: github.event_name != 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: googleapis/release-please-action@v4
         id: release
         with:
-          command: manifest
           token: ${{ secrets.ADMIN_TOKEN }}
-          default-branch: ${{ github.ref_name }}
-          extra-files: |
-            packages/calcite-components/readme.md
+          target-branch: main
       - name: Checkout Repository
-        if: ${{ steps.release.outputs.releases_created }}
+        if: steps.release.outputs.releases_created == 'true'
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
       - name: Setup Node
-        if: ${{ steps.release.outputs.releases_created }}
+        if: steps.release.outputs.releases_created == 'true'
         uses: actions/setup-node@v4
         with:
           node-version-file: package.json
           registry-url: "https://registry.npmjs.org"
       - name: Build Packages and Publish to NPM
-        if: ${{ steps.release.outputs.releases_created }}
+        if: steps.release.outputs.releases_created == 'true'
+        env:
+          RELEASED_PATHS: ${{ toJSON(steps.release.outputs.paths_released) }}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NPM_CONFIG_PROVENANCE: true
+          GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
         run: |
           npm install
           npm run build
@@ -42,6 +72,8 @@ jobs:
           # For more info, see: https://github.com/Esri/calcite-design-system/pull/9011
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+
+          release_commit="$(git rev-parse HEAD)"
 
           # The "|| true" prevents failure if there are no changes
           git add packages/calcite-components/src/components.d.ts package-lock.json || true
@@ -61,7 +93,21 @@ jobs:
 
           npm run publish:latest
           npm run util:upload-release-assets -- "$RELEASED_PATHS"
-        env:
-          RELEASED_PATHS: ${{ toJSON(steps.release.outputs.paths_released) }}
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-          NPM_CONFIG_PROVENANCE: true
+
+          git checkout -b ci/cherry-pick-release-commit origin/dev
+
+          if ! git cherry-pick "$release_commit"; then
+            git checkout --theirs \
+              ${{github.workspace}}/packages/*/CHANGELOG.md \
+              ${{github.workspace}}/packages/calcite-components-angular/projects/component-library/CHANGELOG.md
+
+            git checkout --theirs
+              ${{github.workspace}}/packages/*/package.json \
+              ${{github.workspace}}/packages/calcite-components-angular/projects/component-library/package.json
+
+            git cherry-pick --continue
+          fi
+
+          git push -u origin HEAD
+          gh pr create --fill --head "ci/cherry-pick-release-commit" --base "dev" \
+            --label "skip visual snapshots"

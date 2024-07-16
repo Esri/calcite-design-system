@@ -3,16 +3,12 @@ import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.st
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Tile } from "./tile";
 const { scale } = ATTRIBUTES;
-interface TileArgs {
-  active: boolean;
-  description: string;
-  disabled: boolean;
-  heading: string;
+
+interface TileStoryArgs
+  extends Pick<Tile, "active" | "description" | "disabled" | "heading" | "href" | "icon" | "scale"> {
   hidden: boolean;
-  href: string;
-  icon: string;
-  scale: string;
 }
 
 export default {
@@ -40,7 +36,7 @@ export default {
   },
 };
 
-export const simple = (args: TileArgs): string => html`
+export const simple = (args: TileStoryArgs): string => html`
   <calcite-tile
     ${boolean("active", args.active)}
     description="${args.description}"
@@ -733,6 +729,84 @@ export const allVariants = (): string => html`
         icon="layers"
         scale="l"
       >
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- content-top slot centered -->
+  <div class="parent">
+    <div class="child right-aligned-text">content-top slot centered</div>
+
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top" scale="s">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-top" scale="l">New</calcite-chip>
+      </calcite-tile>
+    </div>
+  </div>
+
+  <!-- content-bottom slot centered-->
+  <div class="parent">
+    <div class="child right-aligned-text">content-bottom slot centered</div>
+
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="s"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom" scale="s">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="m"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom">New</calcite-chip>
+      </calcite-tile>
+    </div>
+    <div class="child">
+      <calcite-tile
+        alignment="center"
+        description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+        heading="Tile title lorem ipsum"
+        icon="layers"
+        scale="l"
+      >
+        <calcite-chip class="new" kind="brand" slot="content-bottom" scale="l">New</calcite-chip>
       </calcite-tile>
     </div>
   </div>

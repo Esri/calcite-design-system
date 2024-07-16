@@ -16,8 +16,8 @@ import {
   connectFloatingUI,
   defaultMenuPlacement,
   disconnectFloatingUI,
-  EffectivePlacement,
-  filterComputedPlacements,
+  filterValidFlipPlacements,
+  FlipPlacement,
   FloatingCSS,
   FloatingUIComponent,
   MenuPlacement,
@@ -43,7 +43,6 @@ import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
-import { componentOnReady } from "../../utils/component";
 import { ItemKeyboardEvent } from "./interfaces";
 import { SLOTS } from "./resources";
 
@@ -107,7 +106,7 @@ export class Dropdown
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements: EffectivePlacement[];
+  @Prop() flipPlacements: FlipPlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -198,7 +197,7 @@ export class Dropdown
   //
   //--------------------------------------------------------------------------
 
-  async connectedCallback(): Promise<void> {
+  connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
     if (this.open) {
@@ -207,8 +206,6 @@ export class Dropdown
     }
     connectInteractive(this);
     this.updateItems();
-
-    await componentOnReady(this.el);
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
@@ -218,6 +215,7 @@ export class Dropdown
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   componentDidRender(): void {
@@ -421,7 +419,7 @@ export class Dropdown
 
   @Element() el: HTMLCalciteDropdownElement;
 
-  filteredFlipPlacements: EffectivePlacement[];
+  filteredFlipPlacements: FlipPlacement[];
 
   private items: HTMLCalciteDropdownItemElement[] = [];
 
@@ -466,7 +464,7 @@ export class Dropdown
     const { el, flipPlacements } = this;
 
     this.filteredFlipPlacements = flipPlacements
-      ? filterComputedPlacements(flipPlacements, el)
+      ? filterValidFlipPlacements(flipPlacements, el)
       : null;
   };
 

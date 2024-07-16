@@ -2,13 +2,11 @@ import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { TileGroup } from "./tile-group";
 const { dir, layout, scale } = ATTRIBUTES;
 
-interface TitleGroupArgs {
+interface TileGroupStoryArgs extends Pick<TileGroup, "disabled" | "layout" | "scale"> {
   dir: string;
-  disabled: boolean;
-  layout: string;
-  scale: string;
 }
 
 export default {
@@ -47,7 +45,7 @@ export default {
   },
 };
 
-export const simple = (args: TitleGroupArgs): string => html`
+export const simple = (args: TileGroupStoryArgs): string => html`
   <calcite-tile-group
     dir="${args.dir}"
     ${boolean("disabled", args.disabled)}

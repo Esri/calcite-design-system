@@ -492,3 +492,38 @@ export async function createSelectedItemsAsserter(
     expectedItemIds.forEach((itemId, index) => expect(selectedItemIds[index]).toEqual(itemId));
   };
 }
+
+/**
+ * Asserts the caret position of an input or textarea element.
+ *
+ * @param options - test options
+ * @param options.page - the e2e page
+ * @param options.componentTag  - the component tag
+ * @param options.shadowInputTypeSelector - the shadow input type selector
+ * @param options.position - the expected caret position
+ * @returns {Promise<void>}
+ */
+export async function assertCaretPosition({
+  page,
+  componentTag,
+  shadowInputTypeSelector = "input",
+  position,
+}: {
+  page: E2EPage;
+  componentTag: string;
+  shadowInputTypeSelector?: "textarea" | "input";
+  position?: number;
+}): Promise<void> {
+  expect(
+    await page.evaluate(
+      (position, componentTag, shadowInputTypeSelector) => {
+        const element = document.querySelector(componentTag) as HTMLElement;
+        const el = element.shadowRoot.querySelector(shadowInputTypeSelector);
+        return el.selectionStart === (position !== undefined ? position : el.value.length);
+      },
+      position,
+      componentTag,
+      shadowInputTypeSelector,
+    ),
+  ).toBeTruthy();
+}

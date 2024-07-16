@@ -2,14 +2,12 @@ import { iconNames } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { Icon } from "./icon";
 const { scale } = ATTRIBUTES;
 
 const sampleIcon = iconNames.find((item) => item === "arrowRight");
 
-interface IconArgs {
-  icon: string;
-  scale: string;
-}
+type IconStoryArgs = Pick<Icon, "icon" | "scale">;
 
 export default {
   title: "Components/Icon",
@@ -29,7 +27,7 @@ export default {
   },
 };
 
-export const simple = (args: IconArgs): string => html`
+export const simple = (args: IconStoryArgs): string => html`
   <calcite-icon icon="${args.icon}" scale="${args.scale}"></calcite-icon>
 `;
 

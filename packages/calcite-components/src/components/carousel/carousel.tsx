@@ -498,7 +498,9 @@ export class Carousel
       case " ":
       case "Enter":
         event.preventDefault();
-        this.toggleRotation();
+        if (this.autoplay === "" || this.autoplay || this.autoplay === "paused") {
+          this.toggleRotation();
+        }
         break;
       case "ArrowRight":
         this.direction = "forward";

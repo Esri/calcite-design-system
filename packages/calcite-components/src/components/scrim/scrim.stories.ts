@@ -1,16 +1,15 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { Scrim } from "./scrim";
 
-interface ScrimArgs {
-  loading: boolean;
-}
+type ScrimStoryArgs = Pick<Scrim, "loading">;
 
 export default {
   title: "Components/Scrim",
   loading: false,
 };
 
-export const simple = (args: ScrimArgs): string => html`
+export const simple = (args: ScrimStoryArgs): string => html`
   <div tabindex="0" style="position: relative; width: 400px; height: 400px">
     <calcite-scrim ${boolean("loading", args.loading)}></calcite-scrim>
     <div style="width: 400px; height: 400px; overflow: auto">

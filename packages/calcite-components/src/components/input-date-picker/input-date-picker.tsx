@@ -23,15 +23,15 @@ import {
   dateToISO,
   inRange,
 } from "../../utils/date";
-import { toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
   disconnectFloatingUI,
-  EffectivePlacement,
-  filterComputedPlacements,
+  filterValidFlipPlacements,
   FloatingCSS,
   FloatingUIComponent,
+  FlipPlacement,
   MenuPlacement,
   OverlayPositioning,
   reposition,
@@ -85,9 +85,11 @@ import {
   FocusTrapComponent,
 } from "../../utils/focusTrapComponent";
 import { guid } from "../../utils/guid";
-import { componentOnReady, getIconScale } from "../../utils/component";
+import { getIconScale } from "../../utils/component";
 import { Status } from "../interfaces";
 import { Validation } from "../functional/Validation";
+import { IconName } from "../icon/interfaces";
+import { syncHiddenFormInput } from "../input/common/input";
 import { normalizeToCurrentCentury, isTwoDigitYear } from "./utils";
 import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
 import { CSS } from "./resources";
@@ -201,7 +203,7 @@ export class InputDatePicker
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements: EffectivePlacement[];
+  @Prop() flipPlacements: FlipPlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
@@ -277,7 +279,7 @@ export class InputDatePicker
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconName | boolean;
 
   /**
    * The current validation state of the component.
@@ -429,7 +431,7 @@ export class InputDatePicker
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    this.el.focus();
+    focusFirstTabbable(this.el);
   }
 
   /**
@@ -461,7 +463,7 @@ export class InputDatePicker
   //
   // --------------------------------------------------------------------------
 
-  async connectedCallback(): Promise<void> {
+  connectedCallback(): void {
     connectInteractive(this);
     connectLocalized(this);
 
@@ -508,9 +510,7 @@ export class InputDatePicker
       onToggleOpenCloseComponent(this);
     }
 
-    await componentOnReady(this.el);
     connectFloatingUI(this, this.referenceEl, this.floatingEl);
-    this.localizeInputValues();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -522,6 +522,8 @@ export class InputDatePicker
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    this.localizeInputValues();
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   }
 
   disconnectedCallback(): void {
@@ -720,7 +722,7 @@ export class InputDatePicker
 
   private dialogId = `date-picker-dialog--${guid()}`;
 
-  filteredFlipPlacements: EffectivePlacement[];
+  filteredFlipPlacements: FlipPlacement[];
 
   private focusOnOpen = false;
 
@@ -814,7 +816,7 @@ export class InputDatePicker
     const { el, flipPlacements } = this;
 
     this.filteredFlipPlacements = flipPlacements
-      ? filterComputedPlacements(flipPlacements, el)
+      ? filterValidFlipPlacements(flipPlacements, el)
       : null;
   };
 
@@ -852,6 +854,10 @@ export class InputDatePicker
     this.restoreInputFocus();
     this.focusOnOpen = false;
     this.datePickerEl.reset();
+  }
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    syncHiddenFormInput("date", this, input);
   }
 
   setStartInput = (el: HTMLCalciteInputElement): void => {

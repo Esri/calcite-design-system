@@ -34,6 +34,7 @@ import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
+import { IconName } from "../icon/interfaces";
 import { NoticeMessages } from "./assets/notice/t9n";
 import { CSS, SLOTS } from "./resources";
 
@@ -91,7 +92,7 @@ export class Notice
   /**
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
-  @Prop({ reflect: true }) icon: string | boolean;
+  @Prop({ reflect: true }) icon: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -281,7 +282,7 @@ export class Notice
   private closeButton?: HTMLButtonElement;
 
   /** The computed icon to render. */
-  private requestedIcon?: string;
+  private requestedIcon?: IconName;
 
   @State() effectiveLocale: string;
 

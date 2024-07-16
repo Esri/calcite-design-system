@@ -38,6 +38,7 @@ import {
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { Validation } from "../functional/Validation";
+import { IconName } from "../icon/interfaces";
 import { CSS } from "./resources";
 
 /**
@@ -136,7 +137,7 @@ export class SegmentedControl
   @Prop() validationMessage: string;
 
   /** Specifies the validation icon to display under the component. */
-  @Prop({ reflect: true }) validationIcon: string | boolean;
+  @Prop({ reflect: true }) validationIcon: IconName | boolean;
 
   /**
    * The current validation state of the component.
@@ -238,7 +239,10 @@ export class SegmentedControl
   @Listen("calciteInternalSegmentedControlItemChange")
   protected handleSelected(event: Event): void {
     event.preventDefault();
-    this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement);
+    const el = event.target as HTMLCalciteSegmentedControlItemElement;
+    if (el.checked) {
+      this.selectItem(el);
+    }
     event.stopPropagation();
   }
 

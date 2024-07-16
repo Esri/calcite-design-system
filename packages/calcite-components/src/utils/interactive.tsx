@@ -144,11 +144,31 @@ function getParentElement(component: InteractiveComponent): ParentElement {
   ); /* assume element is host if it has no parent when connected */
 }
 
+function isInteractiveHTMLElement(el: Element): el is InteractiveHTMLElement {
+  return "disabled" in el;
+}
+
 function restoreInteraction(component: InteractiveComponent): void {
   delete component.el.click; // fallback on HTMLElement.prototype.click
 
   if (isFirefox) {
-    removeInteractionListeners(disabledElementToParent.get(component.el));
+    const parent = disabledElementToParent.get(component.el);
+
+    let hasDisabledSiblingElements = false;
+
+    if (parent?.children) {
+      for (const child of parent.children) {
+        if (isInteractiveHTMLElement(child) && child.disabled && child !== component.el) {
+          hasDisabledSiblingElements = true;
+          break;
+        }
+      }
+    }
+
+    if (!hasDisabledSiblingElements) {
+      removeInteractionListeners(parent);
+    }
+
     disabledElementToParent.delete(component.el);
     return;
   }

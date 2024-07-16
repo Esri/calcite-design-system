@@ -91,7 +91,7 @@ export const positionFloatingUI =
       overlayPositioning: Strategy;
       placement: LogicalPlacement;
       flipDisabled?: boolean;
-      flipPlacements?: EffectivePlacement[];
+      flipPlacements?: FlipPlacement[];
       offsetDistance?: number;
       offsetSkidding?: number;
       arrowEl?: SVGElement;
@@ -117,7 +117,7 @@ export const positionFloatingUI =
       middleware: getMiddleware({
         placement,
         flipDisabled,
-        flipPlacements,
+        flipPlacements: flipPlacements?.map((placement) => getEffectivePlacement(floatingEl, placement)),
         offsetDistance,
         offsetSkidding,
         arrowEl,
@@ -244,7 +244,9 @@ export const menuEffectivePlacements: EffectivePlacement[] = [
   "bottom-end",
 ];
 
-export const flipPlacements: EffectivePlacement[] = [
+export type FlipPlacement = Exclude<LogicalPlacement, "auto" | "auto-start" | "auto-end">;
+
+export const flipPlacements: FlipPlacement[] = [
   "top",
   "bottom",
   "right",
@@ -257,6 +259,12 @@ export const flipPlacements: EffectivePlacement[] = [
   "right-end",
   "left-start",
   "left-end",
+  "leading",
+  "trailing",
+  "leading-start",
+  "leading-end",
+  "trailing-start",
+  "trailing-end",
 ];
 
 export type MenuPlacement = Extract<
@@ -290,7 +298,7 @@ export interface FloatingUIComponent {
    *
    * @param delayed – (internal) when true, it will reposition the component after a delay. the default is false. This is useful for components that have multiple watched properties that schedule repositioning.
    */
-  reposition(delayed?: boolean): Promise<void>;
+  reposition: (delayed?: boolean) => Promise<void>;
 
   /**
    * Used to store the effective floating layout for components that use arrows.
@@ -303,7 +311,7 @@ export interface FloatingUIComponent {
    *
    * Possible values: "vertical" or "horizontal".
    *
-   * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/main/src/components/functional/FloatingArrow.tsx)
+   * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/dev/src/components/functional/FloatingArrow.tsx)
    */
   floatingLayout?: FloatingLayout;
 }
@@ -374,14 +382,14 @@ function getMiddleware({
   return [];
 }
 
-export function filterComputedPlacements(placements: string[], el: HTMLElement): EffectivePlacement[] {
+export function filterValidFlipPlacements(placements: string[], el: HTMLElement): EffectivePlacement[] {
   const filteredPlacements = placements.filter((placement: EffectivePlacement) =>
-    effectivePlacements.includes(placement),
+    flipPlacements.includes(placement),
   ) as EffectivePlacement[];
 
   if (filteredPlacements.length !== placements.length) {
     console.warn(
-      `${el.tagName}: Invalid value found in: flipPlacements. Try any of these: ${effectivePlacements
+      `${el.tagName}: Invalid value found in: flipPlacements. Try any of these: ${flipPlacements
         .map((placement) => `"${placement}"`)
         .join(", ")
         .trim()}`,

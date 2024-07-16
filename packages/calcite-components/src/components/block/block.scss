@@ -20,7 +20,7 @@
 @import "../../assets/styles/header";
 
 .header {
-  @apply justify-start p-0;
+  @apply justify-start;
 }
 
 .header,
@@ -31,9 +31,31 @@
 .header-container {
   @apply grid items-stretch;
   grid-template: auto / auto 1fr auto auto;
-  grid-template-areas: "handle header control menu";
-  grid-column: header-start / menu-end;
+  grid-template-areas: "handle header control menu actions-end";
+  grid-column: header-start / actions-end;
   grid-row: 1 / 2;
+}
+
+.content-start,
+.icon,
+.icon--start,
+.icon--end {
+  margin-inline-end: var(--calcite-spacing-md);
+}
+
+.icon {
+  & calcite-loader {
+    margin-inline-end: var(--calcite-spacing-xxxs);
+  }
+}
+
+.icon--start,
+.icon--end {
+  @apply text-color-3;
+}
+
+.actions-end {
+  grid-area: actions-end;
 }
 
 .toggle {
@@ -47,9 +69,10 @@
     justify-between
     border-none
     p-0;
-  text-align: initial;
 
+  text-align: initial;
   background-color: transparent;
+
   &:hover {
     @apply bg-foreground-2;
   }
@@ -69,7 +92,6 @@ calcite-handle {
 
 .title {
   @apply m-0;
-  padding: theme("spacing.3");
 }
 
 .header .title .heading {
@@ -93,9 +115,7 @@ calcite-handle {
 }
 
 .icon {
-  display: flex;
-  margin-inline-start: theme("spacing.3");
-  margin-inline-end: 0px;
+  @apply flex;
 }
 
 .status-icon.valid {
@@ -118,16 +138,21 @@ calcite-handle {
   }
 }
 
+.icon-end-container {
+  @apply flex items-center;
+
+  margin-inline-start: auto;
+}
+
 .toggle-icon {
   @apply text-color-3
   transition-color
-  my-3
   self-center
   justify-self-end
   duration-150
   ease-in-out;
-  margin-inline-end: theme("spacing.3");
-  margin-inline-start: auto;
+
+  margin-inline-end: var(--calcite-spacing-md);
 }
 
 .toggle:hover .toggle-icon {
@@ -144,6 +169,10 @@ calcite-handle {
   padding-inline: var(--calcite-block-padding, var(--calcite-spacing-md));
 }
 
+.content-start {
+  @apply text-color-3 flex items-center;
+}
+
 .control-container {
   @apply m-0 flex;
   grid-area: control;
@@ -153,11 +182,22 @@ calcite-action-menu {
   grid-area: menu;
 }
 
+.actions-end {
+  @apply flex items-stretch;
+}
+
 :host([open]) {
   @apply my-2;
 
   .header .title .heading {
     @apply text-color-1;
+  }
+}
+
+:host([heading]),
+:host([description]) {
+  .header {
+    padding: var(--calcite-spacing-md);
   }
 }
 

@@ -23,8 +23,14 @@ import {
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
-import { FlipContext, Position, Scale, SelectionMode } from "../interfaces";
-import { componentFocusable } from "../../utils/component";
+import { FlipContext, Position, Scale, SelectionMode, IconType } from "../interfaces";
+import {
+  componentFocusable,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent,
+} from "../../utils/loadable";
+import { IconName } from "../icon/interfaces";
 import { SLOTS, CSS, IDS } from "./resources";
 import { RequestedItem } from "./interfaces";
 
@@ -38,7 +44,7 @@ import { RequestedItem } from "./interfaces";
   styleUrl: "accordion-item.scss",
   shadow: true,
 })
-export class AccordionItem implements ConditionalSlotComponent {
+export class AccordionItem implements ConditionalSlotComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -55,10 +61,10 @@ export class AccordionItem implements ConditionalSlotComponent {
   @Prop() description: string;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconName;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop({ reflect: true }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
@@ -74,7 +80,7 @@ export class AccordionItem implements ConditionalSlotComponent {
    *
    * @internal
    */
-  @Prop() iconType: "chevron" | "caret" | "plus-minus";
+  @Prop() iconType: Extract<"chevron" | "caret" | "plus-minus", IconType>;
 
   /**
    * The containing `accordion` element.
@@ -114,6 +120,14 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+  }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -300,7 +314,7 @@ export class AccordionItem implements ConditionalSlotComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentFocusable(this.el);
+    await componentFocusable(this);
     this.headerEl.focus();
   }
 

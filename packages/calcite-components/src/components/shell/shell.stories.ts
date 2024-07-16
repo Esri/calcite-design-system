@@ -1,25 +1,27 @@
+import { ShellPanel } from "../shell-panel/shell-panel";
+import { ShellCenterRow } from "../shell-center-row/shell-center-row";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-const { displayMode, position, scale } = ATTRIBUTES;
+const { shellDisplayMode, position, scale } = ATTRIBUTES;
 
-interface ShellArgs {
-  collapsed: boolean;
-  displayMode: string;
-  leadingPanelPosition: string;
-  trailingPanelPosition: string;
-  resizable: boolean;
-  detached: boolean;
-  heightScale: string;
-  shellCenterRowPosition: string;
+interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "resizable"> {
+  leadingPanelPosition: ShellPanel["position"];
+  trailingPanelPosition: ShellPanel["position"];
 }
+
+interface ShellCenterRowArgs extends Pick<ShellCenterRow, "detached" | "heightScale"> {
+  shellCenterRowPosition: ShellCenterRow["position"];
+}
+
+type ShellStoryArgs = ShellPanelArgs & ShellCenterRowArgs;
 
 export default {
   title: "Components/Shell",
   args: {
     collapsed: false,
-    displayMode: displayMode.defaultValue,
+    displayMode: shellDisplayMode.defaultValue,
     leadingPanelPosition: position.values[0],
     trailingPanelPosition: position.values[1],
     resizable: true,
@@ -29,7 +31,7 @@ export default {
   },
   argTypes: {
     displayMode: {
-      options: displayMode.values,
+      options: shellDisplayMode.values,
       control: { type: "select" },
     },
     leadingPanelPosition: {
@@ -93,6 +95,12 @@ const leadingPanelHTML = html`
 
 const centerRowHTML = html`
   <calcite-panel heading="Center row content">
+    <div>Content</div>
+  </calcite-panel>
+`;
+
+const bottomPanelHTML = html`
+  <calcite-panel heading="Panel bottom content">
     <div>Content</div>
   </calcite-panel>
 `;
@@ -295,7 +303,7 @@ const advancedTrailingPanelHTMl = html(`
   </calcite-flow>
 `);
 
-export const simple = (args: ShellArgs): string => html`
+export const simple = (args: ShellStoryArgs): string => html`
   <calcite-shell>
     ${headerHTML}
     <calcite-shell-panel
@@ -839,6 +847,30 @@ export const slottedPanelTop_TestOnly = (): string =>
     <footer slot="footer">Footer Example</footer>
   </calcite-shell>
 `);
+
+export const contentBehindPanelBottom = (): string =>
+  html(`
+  <calcite-shell
+    content-behind
+    style="
+    width:700px;
+    height:700px;
+    position:relative;
+    "
+  >
+      <div
+      style="
+      width:100%;
+      height:100%;
+      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"></div>
+      <calcite-shell-panel slot="panel-bottom" display-mode="float" layout="horizontal">${bottomPanelHTML}</calcite-shell-panel>
+    </calcite-shell>
+  `);
 
 export const slottedPanelBottom_TestOnly = (): string =>
   html(`

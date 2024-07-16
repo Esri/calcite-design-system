@@ -35,6 +35,7 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { getIconScale } from "../../utils/component";
+import { IconName } from "../icon/interfaces";
 import { TabTitleMessages } from "./assets/tab-title/t9n";
 import { CSS, ICONS } from "./resources";
 
@@ -82,13 +83,13 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop({ reflect: true }) iconEnd: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop({ reflect: true }) iconStart: IconName;
 
   /**
    * @internal
@@ -348,7 +349,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
    *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts#L1)
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts#L1)
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalTabsActivate: EventEmitter<TabChangeEventDetail>;
@@ -361,7 +362,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   /**
    * Fires when `calcite-tab` is closed (`event.details`).
    *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/main/src/components/tab/interfaces.ts)
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/src/components/tab/interfaces.ts)
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalTabsClose: EventEmitter<TabCloseEventDetail>;

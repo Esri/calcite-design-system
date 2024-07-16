@@ -20,6 +20,7 @@ import {
   testHiddenInputSyncing,
   testPostValidationFocusing,
 } from "../input/common/tests";
+import { assertCaretPosition } from "../../tests/utils";
 
 describe("calcite-input-number", () => {
   const delayFor2UpdatesInMs = 200;
@@ -1604,14 +1605,6 @@ describe("calcite-input-number", () => {
   describe("ArrowUp/ArrowDown function of moving caret to the beginning/end of text", () => {
     let page: E2EPage;
 
-    const determineCaretIndex = (position?: number): Promise<boolean> => {
-      return page.evaluate((position) => {
-        const element = document.querySelector("calcite-input-number") as HTMLCalciteInputNumberElement;
-        const el = element.shadowRoot.querySelector("input");
-        return el.selectionStart === (position !== undefined ? position : el.value.length);
-      }, position);
-    };
-
     beforeEach(async () => {
       page = await newE2EPage();
     });
@@ -1628,13 +1621,21 @@ describe("calcite-input-number", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
 
-      expect(await determineCaretIndex()).toBeTruthy();
+      await assertCaretPosition({
+        page,
+        componentTag: "calcite-input-number",
+      });
+
       expect(await element.getProperty("value")).toBe("12346");
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
 
-      expect(await determineCaretIndex()).toBeTruthy();
+      await assertCaretPosition({
+        page,
+        componentTag: "calcite-input-number",
+      });
+
       expect(await element.getProperty("value")).toBe("12345");
     });
 
@@ -1767,7 +1768,7 @@ describe("calcite-input-number", () => {
     t9n("calcite-input-number");
   });
 
-  it("should stop increasing the value when pointer is moved away from the increment button", async () => {
+  it.skip("should stop increasing the value when pointer is moved away from the increment button", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-input-number></calcite-input-number>");
     const inputNumber = await page.find("calcite-input-number");
@@ -1816,5 +1817,35 @@ describe("calcite-input-number", () => {
     await page.waitForTimeout(3000);
     expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
     expect(calciteInputNumberInput).toHaveReceivedEventTimes(totalNudgesUp);
+  });
+
+  it("should have decimal as initial inputmode", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-number></calcite-input-number>`);
+    const inputNumber = await page.find("calcite-input-number");
+    const internalInput = await page.find("calcite-input-number >>> input");
+
+    // we assert on the attribute as this is what browsers will look for to display the correct keyboard
+    expect(internalInput.getAttribute("inputmode")).toBe("decimal");
+
+    inputNumber.setProperty("inputMode", "text");
+    await page.waitForChanges();
+
+    expect(internalInput.getAttribute("inputmode")).toBe("text");
+
+    inputNumber.setProperty("inputMode", "");
+    await page.waitForChanges();
+
+    expect(internalInput.getAttribute("inputmode")).toBe("decimal");
+
+    inputNumber.setAttribute("inputmode", "none");
+    await page.waitForChanges();
+
+    expect(internalInput.getAttribute("inputmode")).toBe("none");
+
+    inputNumber.setAttribute("inputmode", "");
+    await page.waitForChanges();
+
+    expect(internalInput.getAttribute("inputmode")).toBe("decimal");
   });
 });

@@ -2,18 +2,16 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { List } from "./list";
 const { selectionMode, selectionAppearance } = ATTRIBUTES;
 
-interface ListArgs {
-  selectionMode: string;
-  selectionAppearance: string;
-  loading: boolean;
+interface ListStoryArgs
+  extends Pick<
+    List,
+    "selectionMode" | "selectionAppearance" | "loading" | "filterEnabled" | "dragEnabled" | "disabled" | "label"
+  > {
   closable: boolean;
   closed: boolean;
-  filterEnabled: boolean;
-  dragEnabled: boolean;
-  disabled: boolean;
-  label: string;
 }
 
 export default {
@@ -52,7 +50,7 @@ const thumbnailImage = placeholderImage({ width: 44, height: 44 });
 
 const listHTML = (): string => html` selection-mode="none" selection-appearance="icon" label="My List" `;
 
-export const simple = (args: ListArgs): string => html`
+export const simple = (args: ListStoryArgs): string => html`
   <calcite-list
     selection-mode="${args.selectionMode}"
     selection-appearance="${args.selectionAppearance}"
@@ -1078,4 +1076,48 @@ export const closedItems_TestOnly = (): string =>
       value="hiking-trails"
     >
     </calcite-list-item>
+  </calcite-list>`;
+
+export const dragEnabledNestedLists = (): string =>
+  html`<calcite-list id="root" drag-enabled group="my-list">
+    <calcite-list-item open label="Depth 1" description="Item 1">
+      <calcite-list group="my-list">
+        <calcite-list-item open label="Depth 2" description="Item 2">
+          <calcite-list drag-enabled group="my-list">
+            <calcite-list-item label="Depth 3" description="Item 3">
+              <calcite-list drag-enabled group="my-list"></calcite-list>
+            </calcite-list-item>
+            <calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item>
+          </calcite-list>
+        </calcite-list-item>
+        <calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item>
+      </calcite-list>
+    </calcite-list-item>
+    <calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item>
+    <calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item>
+  </calcite-list>`;
+
+export const dragEnabledNestedListsIndirectChildren = (): string =>
+  html`<calcite-list id="root" drag-enabled group="my-list">
+    <div>
+      <calcite-list-item open label="Depth 1" description="Item 1">
+        <calcite-list group="my-list">
+          <div>
+            <calcite-list-item open label="Depth 2" description="Item 2">
+              <calcite-list drag-enabled group="my-list">
+                <div>
+                  <calcite-list-item label="Depth 3" description="Item 3">
+                    <calcite-list drag-enabled group="my-list"></calcite-list>
+                  </calcite-list-item>
+                </div>
+                <div><calcite-list-item label="Depth 3" description="Item 4"></calcite-list-item></div>
+              </calcite-list>
+            </calcite-list-item>
+          </div>
+          <div><calcite-list-item label="Depth 2" description="Item 5"></calcite-list-item></div>
+        </calcite-list>
+      </calcite-list-item>
+    </div>
+    <div><calcite-list-item label="Depth 1" description="Item 6"></calcite-list-item></div>
+    <div><calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item></div>
   </calcite-list>`;
