@@ -243,7 +243,7 @@ export class Dialog
           {this.modal ? (
             <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
           ) : null}
-          <div class={CSS.dialog} ref={this.setTransitionEl}>
+          <div class={CSS.dialog} onKeyDown={this.handleKeyDown} ref={this.setTransitionEl}>
             <slot name={SLOTS.content}>
               <calcite-panel
                 beforeClose={this.beforeClose}
@@ -448,6 +448,30 @@ export class Dialog
     this.transitionEl.classList.add(idleClass);
     onToggleOpenCloseComponent(this);
   }
+
+  private handleKeyDown = (event: KeyboardEvent): void => {
+    const { key, shiftKey } = event;
+    const step = 10;
+    const rect = this.transitionEl.getBoundingClientRect();
+
+    console.log({ step, shiftKey });
+
+    switch (key) {
+      case "ArrowUp":
+        this.transitionEl.style.blockSize = `${rect.height + step}px`;
+        event.preventDefault();
+        break;
+      case "ArrowDown":
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+        event.preventDefault();
+        break;
+      case "ArrowRight":
+        event.preventDefault();
+        break;
+    }
+  };
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
