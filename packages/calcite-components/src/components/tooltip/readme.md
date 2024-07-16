@@ -4,49 +4,6 @@ For comprehensive guidance on using and implementing `calcite-tooltip`, refer to
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-tooltip placement="auto" reference-element="tooltip-button" id="tooltip-content">
-  Honeybees communicate through intricate dances, navigate using the sun's position, and play a vital role in
-  maintaining biodiversity by pollinating flowers and crops.
-</calcite-tooltip>
-<span>
-  Discover fascinating facts about the
-  <a id="tooltip-button" href="#" aria-describedby="tooltip-content">secret lives of honeybees</a> and their crucial
-  role in pollination.
-</span>
-```
-
-### Virtual
-
-```html
-<!-- virtually positioned tooltip -->
-<calcite-tooltip id="virtual-tooltip" open>This is the message of the tooltip</calcite-tooltip>
-
-<script>
-  function generateGetBoundingClientRect() {
-    return () => ({
-      width: 0,
-      height: 0,
-      top: 100,
-      right: 100,
-      bottom: 100,
-      left: 600,
-    });
-  }
-
-  const virtualElement = {
-    getBoundingClientRect: generateGetBoundingClientRect(),
-  };
-
-  const tooltip = document.getElementById("virtual-tooltip");
-  tooltip.referenceElement = virtualElement;
-</script>
-```
-
 ## Properties
 
 | Property             | Attribute             | Description                                                                                                                                                                                                                                                                                                                                                                           | Type                                                                                                                                                                                                                                                                                                              | Default                 |
@@ -57,7 +14,7 @@ For comprehensive guidance on using and implementing `calcite-tooltip`, refer to
 | `offsetSkidding`     | `offset-skidding`     | Offset the position of the component along the `referenceElement`.                                                                                                                                                                                                                                                                                                                    | `number`                                                                                                                                                                                                                                                                                                          | `0`                     |
 | `open`               | `open`                | When `true`, the component is open.                                                                                                                                                                                                                                                                                                                                                   | `boolean`                                                                                                                                                                                                                                                                                                         | `false`                 |
 | `overlayPositioning` | `overlay-positioning` | Determines the type of positioning to use for the overlaid content. Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The `"fixed"` value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`. | `"absolute" \| "fixed"`                                                                                                                                                                                                                                                                                           | `"absolute"`            |
-| `placement`          | `placement`           | Determines where the component will be positioned relative to the `referenceElement`.                                                                                                                                                                                                                                                                                                 | `"auto" \| "top" \| "bottom" \| "right" \| "left" \| "top-start" \| "top-end" \| "bottom-start" \| "bottom-end" \| "right-start" \| "right-end" \| "left-start" \| "left-end" \| "leading" \| "trailing" \| "auto-start" \| "auto-end" \| "leading-start" \| "leading-end" \| "trailing-end" \| "trailing-start"` | `"auto"`                |
+| `placement`          | `placement`           | Determines where the component will be positioned relative to the `referenceElement`.                                                                                                                                                                                                                                                                                                 | `"auto" \| "top" \| "bottom" \| "left" \| "right" \| "top-start" \| "top-end" \| "bottom-start" \| "bottom-end" \| "left-start" \| "left-end" \| "right-start" \| "right-end" \| "leading" \| "trailing" \| "auto-start" \| "auto-end" \| "leading-start" \| "leading-end" \| "trailing-end" \| "trailing-start"` | `"auto"`                |
 | `referenceElement`   | `reference-element`   | The `referenceElement` to position the component according to its `"placement"` value. Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`. However, a string ID of the reference element can be used.                                                                                                               | `Element \| VirtualElement \| string`                                                                                                                                                                                                                                                                             | `undefined`             |
 
 ## Events

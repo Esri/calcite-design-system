@@ -4,26 +4,11 @@ For comprehensive guidance on using and implementing `calcite-input-message`, re
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-label>
-  Desired subdomain
-  <calcite-input suffix-text=".city-of-acme.gov" placeholder="Enter your subdomain" value="big-map-fan">
-  </calcite-input>
-  <calcite-input-message icon="check-circle" status="valid">
-    Excellent news - this domain is available.
-  </calcite-input-message>
-</calcite-label>
-```
-
 ## Properties
 
 | Property      | Attribute       | Description                                                                                  | Type                             | Default     |
 | ------------- | --------------- | -------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
-| `icon`        | `icon`          | Specifies an icon to display.                                                                | `boolean \| string`              | `undefined` |
+| `icon`        | `icon`          | Specifies an icon to display.                                                                | `boolean \| IconName`            | `undefined` |
 | `iconFlipRtl` | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). | `boolean`                        | `false`     |
 | `scale`       | `scale`         | Specifies the size of the component.                                                         | `"l" \| "m" \| "s"`              | `"m"`       |
 | `status`      | `status`        | Specifies the status of the input field, which determines message and icons.                 | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
