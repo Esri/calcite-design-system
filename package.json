@@ -132,5 +132,8 @@
   },
   "dependencies": {
     "patch-package": "8.0.0"
+  },
+  "optionalDependencies": {
+    "@nx/nx-darwin-arm64": "*"
   }
 }
