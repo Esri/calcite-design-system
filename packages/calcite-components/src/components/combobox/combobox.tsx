@@ -80,9 +80,10 @@ import {
 } from "./utils";
 
 interface ItemData {
-  label: string;
-  shortHeading: string;
   description: string;
+  label: string;
+  metadata: Record<string, unknown>;
+  shortHeading: string;
   value: string;
 }
 
@@ -1253,6 +1254,7 @@ export class Combobox
       description: item.description,
       filterDisabled: item.filterDisabled,
       label: item.textLabel,
+      metadata: item.metadata,
       shortHeading: item.shortHeading,
       value: item.value,
     }));

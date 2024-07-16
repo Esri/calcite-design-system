@@ -46,14 +46,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
-
-  /**
-   * When `true`, the component is selected.
-   */
-  @Prop({ reflect: true, mutable: true }) selected = false;
-
   /** When `true`, the component is active. */
   @Prop({ reflect: true }) active = false;
 
@@ -64,6 +56,21 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
    * A description for the component, which displays below the label.
    */
   @Prop() description: string;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * When `true`, omits the component from the `calcite-combobox` filtered search results.
+   */
+  @Prop({ reflect: true }) filterDisabled: boolean;
+
+  /**
+   * Pattern for highlighting filter text matches.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) filterTextMatchPattern: RegExp;
 
   /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true }) guid = guid();
@@ -79,20 +86,10 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     this.calciteComboboxItemChange.emit();
   }
 
-  /** The component's text. */
-  @Prop({ reflect: true }) textLabel!: string;
-
   /**
-   * Pattern for highlighting filter text matches.
-   *
-   * @internal
+   * Provides additional metadata to the component used in filtering.
    */
-  @Prop({ reflect: true }) filterTextMatchPattern: RegExp;
-
-  /**
-   * When `true`, omits the component from the `calcite-combobox` filtered search results.
-   */
-  @Prop({ reflect: true }) filterDisabled: boolean;
+  @Prop() metadata: Record<string, unknown>;
 
   /**
    * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
@@ -100,6 +97,11 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
    * @internal
    */
   @Prop() scale: Scale = "m";
+
+  /**
+   * When `true`, the component is selected.
+   */
+  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
    * Specifies the selection mode of the component, where:
@@ -127,6 +129,9 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
    * It is recommended to use 5 characters or fewer.
    */
   @Prop({ reflect: true }) shortHeading: string;
+
+  /** The component's text. */
+  @Prop({ reflect: true }) textLabel!: string;
 
   /** The component's value. */
   @Prop() value!: any;
