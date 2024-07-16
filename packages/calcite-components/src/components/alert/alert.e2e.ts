@@ -11,6 +11,10 @@ describe("defaults", () => {
       propertyName: "autoCloseDuration",
       defaultValue: "medium",
     },
+    {
+      propertyName: "embedded",
+      defaultValue: false,
+    },
   ]);
 });
 

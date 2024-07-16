@@ -8,7 +8,7 @@ const { collapseDirection, scale } = ATTRIBUTES;
 interface FlowItemStoryArgs
   extends Pick<
     FlowItem,
-    "closed" | "disabled" | "closable" | "collapsible" | "collapsed" | "collapseDirection" | "loading"
+    "closed" | "disabled" | "closable" | "collapsible" | "collapsed" | "collapseDirection" | "loading" | "scale"
   > {
   heightScale: string;
 }
@@ -263,3 +263,13 @@ export const withNoHeaderBorderBlockEnd_TestOnly = (): string =>
   html`<calcite-flow-item style="--calcite-flow-item-header-border-block-end:none;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-flow-item
   >`;
+
+export const withAlertsSlot = (): string => html`
+  <calcite-flow-item height-scale="s" heading="My Panel" style="width: 500px; height:200px">
+    Slotted content!
+    <calcite-alert slot="alerts" open label="this is a default alert" scale="s">
+      <div slot="title">Hello there!</div>
+      <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+    </calcite-alert>
+  </calcite-flow-item>
+`;
