@@ -421,6 +421,24 @@ export const footerStartAndEndSlots = (): string => html`
   </calcite-panel>
 `;
 
+export const withSlottedAlert = (): string => html`
+  <calcite-panel style="height: 500px; width: 800px;">
+    <calcite-alert slot="alerts" open label="this is a default alert" scale="s">
+      <div slot="title">Hello there!</div>
+      <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+    </calcite-alert>
+    <div slot="header-content">header-content slot</div>
+    <p>Slotted content!</p>
+    <div slot="content-bottom">Slot for a content-bottom.</div>
+    <calcite-button type="button" slot="footer-start" kind="neutral" scale="s" id="card-icon-test-1" icon-start="check"
+      >Footer start</calcite-button
+    >
+    <calcite-button type="button" slot="footer-end" kind="neutral" scale="s" id="card-icon-test-1" icon-start="check"
+      >Footer end</calcite-button
+    >
+  </calcite-panel>
+`;
+
 export const footerSlotPrecedence = (): string => html`
   <calcite-panel style="height: 200px">
     <p>Slotted content!</p>
