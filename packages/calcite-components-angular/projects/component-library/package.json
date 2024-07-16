@@ -18,7 +18,7 @@
   "sideEffects": false,
   "dependencies": {
     "@esri/calcite-components": "^2.11.0-next.10",
-    "tslib": "2.6.2"
+    "tslib": "2.6.3"
   },
   "peerDependencies": {
     "@angular/common": ">=16.0.0",
