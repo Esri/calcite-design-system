@@ -212,6 +212,7 @@ export class Dialog
     connectLocalized(this);
     connectMessages(this);
     connectFocusTrap(this);
+    this.setInteraction();
   }
 
   disconnectedCallback(): void {
@@ -243,7 +244,16 @@ export class Dialog
           {this.modal ? (
             <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
           ) : null}
-          <div class={CSS.dialog} onKeyDown={this.handleKeyDown} ref={this.setTransitionEl}>
+          <div
+            class={CSS.dialog}
+            onKeyDown={this.handleKeyDown}
+            ref={this.setTransitionEl}
+            style={{
+              inlineSize: `${this.dialogWidth}px`,
+              blockSize: `${this.dialogHeight}px`,
+              transform: `translate(${this.dialogPositionX}px, ${this.dialogPositionY}px)`,
+            }}
+          >
             <slot name={SLOTS.content}>
               <calcite-panel
                 beforeClose={this.beforeClose}
@@ -291,6 +301,14 @@ export class Dialog
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteDialogElement;
+
+  @State() dialogWidth: number;
+
+  @State() dialogHeight: number;
+
+  @State() dialogPositionX = 0;
+
+  @State() dialogPositionY = 0;
 
   @State() opened = false;
 
@@ -451,32 +469,51 @@ export class Dialog
 
   private handleKeyDown = (event: KeyboardEvent): void => {
     const { key, shiftKey } = event;
-    const step = 10;
+    const step = 25;
     const rect = this.transitionEl.getBoundingClientRect();
-
-    console.log({ step, shiftKey });
 
     switch (key) {
       case "ArrowUp":
-        this.transitionEl.style.blockSize = `${rect.height + step}px`;
+        if (shiftKey) {
+          this.dialogHeight = rect.height + step;
+        } else {
+          this.dialogPositionY = this.dialogPositionY + -step;
+        }
         event.preventDefault();
         break;
       case "ArrowDown":
+        if (shiftKey) {
+          this.dialogHeight = rect.height - step;
+        } else {
+          this.dialogPositionY = this.dialogPositionY + step;
+        }
         event.preventDefault();
         break;
       case "ArrowLeft":
+        if (shiftKey) {
+          this.dialogWidth = rect.width - step;
+        } else {
+          this.dialogPositionX = this.dialogPositionX + -step;
+        }
         event.preventDefault();
         break;
       case "ArrowRight":
+        if (shiftKey) {
+          this.dialogWidth = rect.width + step;
+        } else {
+          this.dialogPositionX = this.dialogPositionX + step;
+        }
         event.preventDefault();
         break;
     }
   };
 
-  private setTransitionEl = (el: HTMLDivElement): void => {
-    this.transitionEl = el;
-
+  private setInteraction = (): void => {
     this.interaction?.unset();
+
+    if (!this.transitionEl) {
+      return;
+    }
 
     const position = { x: 0, y: 0 };
 
@@ -485,7 +522,7 @@ export class Dialog
     });
 
     if (this.resizable || this.dragEnabled) {
-      this.interaction = interact(el);
+      this.interaction = interact(this.transitionEl, { context: this.el.getRootNode() });
     }
 
     if (this.resizable) {
@@ -498,18 +535,9 @@ export class Dialog
         },
         modifiers: [restrictToParent],
         listeners: {
-          move: function (event) {
-            let { x, y } = event.target.dataset;
-
-            x = (parseFloat(x) || 0) + event.deltaRect.left;
-            y = (parseFloat(y) || 0) + event.deltaRect.top;
-
-            Object.assign(event.target.style, {
-              inlineSize: `${event.rect.width}px`,
-              blockSize: `${event.rect.height}px`,
-            });
-
-            Object.assign(event.target.dataset, { x, y });
+          move: (event: Interact.ResizeEvent) => {
+            this.dialogWidth = event.rect.width;
+            this.dialogHeight = event.rect.height;
           },
         },
       });
@@ -519,15 +547,20 @@ export class Dialog
       this.interaction.draggable({
         modifiers: [restrictToParent],
         listeners: {
-          move(event) {
+          move: (event: Interact.DragEvent) => {
             position.x += event.dx;
             position.y += event.dy;
-
-            event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
+            this.dialogPositionX = position.x;
+            this.dialogPositionY = position.y;
           },
         },
       });
     }
+  };
+
+  private setTransitionEl = (el: HTMLDivElement): void => {
+    this.transitionEl = el;
+    this.setInteraction();
   };
 
   private openEnd = (): void => {
