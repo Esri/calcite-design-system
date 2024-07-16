@@ -77,7 +77,7 @@
 }
 
 :host([lines]) {
-  .children-container:after {
+  .children-container::after {
     @apply transition-default
         absolute
         top-0
@@ -91,7 +91,7 @@
   }
 }
 
-:host(:not([lines])) .node-container:after {
+:host(:not([lines])) .node-container::after {
   @apply hidden;
 }
 
