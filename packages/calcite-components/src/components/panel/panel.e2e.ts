@@ -12,7 +12,12 @@ import {
   slots,
   t9n,
 } from "../../tests/commonTests";
+import { GlobalTestProps } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
+
+type TestWindow = GlobalTestProps<{
+  beforeClose: () => Promise<void>;
+}>;
 
 const panelTemplate = (scrollable = false) =>
   html`<div style="height: 200px; display: flex">
@@ -143,8 +148,7 @@ describe("calcite-panel", () => {
 
     await page.$eval(
       "calcite-panel",
-      (el: HTMLCalcitePanelElement) =>
-        (el.beforeClose = (window as typeof window & Pick<typeof el, "beforeClose">).beforeClose),
+      (el: HTMLCalcitePanelElement) => (el.beforeClose = (window as TestWindow).beforeClose),
     );
     await page.waitForChanges();
 
@@ -164,8 +168,7 @@ describe("calcite-panel", () => {
 
     await page.$eval(
       "calcite-panel",
-      (el: HTMLCalcitePanelElement) =>
-        (el.beforeClose = (window as typeof window & Pick<typeof el, "beforeClose">).beforeClose),
+      (el: HTMLCalcitePanelElement) => (el.beforeClose = (window as TestWindow).beforeClose),
     );
 
     const panel = await page.find("calcite-panel");
@@ -223,6 +226,24 @@ describe("calcite-panel", () => {
     await toggleButton.click();
 
     expect(calcitePanelToggle).toHaveReceivedEventTimes(1);
+  });
+
+  it("should set embedded on slotted alerts", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-panel>
+        Hello World!
+        <calcite-alert slot="alerts" open label="this is a default alert">
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+        </calcite-alert>
+      </calcite-panel>`,
+    );
+    await page.waitForChanges();
+
+    const alert = await page.find("calcite-alert");
+
+    expect(await alert.getProperty("embedded")).toBe(true);
   });
 
   describe("accessible", () => {

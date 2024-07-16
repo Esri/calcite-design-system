@@ -123,7 +123,7 @@ export class Shell implements ConditionalSlotComponent {
     this.hasAlerts = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
       if (el.nodeName === "CALCITE-ALERT") {
-        (el as HTMLCalciteAlertElement).slottedInShell = true;
+        (el as HTMLCalciteAlertElement).embedded = true;
       }
     });
   };
@@ -132,7 +132,7 @@ export class Shell implements ConditionalSlotComponent {
     this.hasSheets = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
       if (el.nodeName === "CALCITE-SHEET") {
-        (el as HTMLCalciteSheetElement).slottedInShell = true;
+        (el as HTMLCalciteSheetElement).embedded = true;
       }
     });
   };
@@ -141,7 +141,7 @@ export class Shell implements ConditionalSlotComponent {
     this.hasModals = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
       if (el.nodeName === "CALCITE-MODAL") {
-        (el as HTMLCalciteModalElement).slottedInShell = true;
+        (el as HTMLCalciteModalElement).embedded = true;
       }
     });
   };

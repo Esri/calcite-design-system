@@ -12,7 +12,12 @@ import {
   t9n,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { GlobalTestProps } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
+
+type TestWindow = GlobalTestProps<{
+  beforeClose: () => Promise<void>;
+}>;
 
 describe("calcite-flow-item", () => {
   describe("renders", () => {
@@ -210,8 +215,7 @@ describe("calcite-flow-item", () => {
 
     await page.$eval(
       "calcite-flow-item",
-      (el: HTMLCalciteFlowItemElement) =>
-        (el.beforeClose = (window as typeof window & Pick<typeof el, "beforeClose">).beforeClose),
+      (el: HTMLCalciteFlowItemElement) => (el.beforeClose = (window as TestWindow).beforeClose),
     );
 
     await page.waitForChanges();
@@ -326,5 +330,22 @@ describe("calcite-flow-item", () => {
 
     expect(toggleSpy).toHaveReceivedEventTimes(1);
     expect(await panel.getProperty("closed")).toBe(true);
+  });
+
+  it("should set embedded on slotted alerts", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-flow-item closable>
+        test
+        <calcite-alert slot="alerts" open label="this is a default alert">
+          <div slot="title">Hello there!</div>
+          <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+        </calcite-alert>
+      </calcite-flow-item>`,
+    });
+    await page.waitForChanges();
+
+    const alert = await page.find("calcite-alert");
+
+    expect(await alert.getProperty("embedded")).toBe(true);
   });
 });

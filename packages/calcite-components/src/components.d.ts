@@ -516,6 +516,10 @@ export namespace Components {
          */
         "autoCloseDuration": AlertDuration;
         /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded": boolean;
+        /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
         "icon": IconName | boolean;
@@ -562,10 +566,6 @@ export namespace Components {
           * Sets focus on the component's "close" button, the first focusable item.
          */
         "setFocus": () => Promise<void>;
-        /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "slottedInShell": boolean;
     }
     interface CalciteAvatar {
         /**
@@ -3484,6 +3484,10 @@ export namespace Components {
          */
         "docked": boolean;
         /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded": boolean;
+        /**
           * When `true`, disables the default close on escape behavior.
          */
         "escapeDisabled": boolean;
@@ -3533,10 +3537,6 @@ export namespace Components {
           * Sets focus on the component's "close" button (the first focusable item).
          */
         "setFocus": () => Promise<void>;
-        /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "slottedInShell": boolean;
         /**
           * Updates the element(s) that are used within the focus-trap of the component.
          */
@@ -4427,6 +4427,10 @@ export namespace Components {
          */
         "displayMode": DisplayMode;
         /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded": boolean;
+        /**
           * When `true`, disables the default close on escape behavior.
          */
         "escapeDisabled": boolean;
@@ -4462,10 +4466,6 @@ export namespace Components {
           * Sets focus on the component's "close" button - the first focusable item.
          */
         "setFocus": () => Promise<void>;
-        /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "slottedInShell": boolean;
         /**
           * Updates the element(s) that are used within the focus-trap of the component.
          */
@@ -8398,6 +8398,10 @@ declare namespace LocalJSX {
          */
         "autoCloseDuration"?: AlertDuration;
         /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded"?: boolean;
+        /**
           * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
          */
         "icon"?: IconName | boolean;
@@ -8464,10 +8468,6 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
-        /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "slottedInShell"?: boolean;
     }
     interface CalciteAvatar {
         /**
@@ -11577,6 +11577,10 @@ declare namespace LocalJSX {
          */
         "docked"?: boolean;
         /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded"?: boolean;
+        /**
           * When `true`, disables the default close on escape behavior.
          */
         "escapeDisabled"?: boolean;
@@ -11632,10 +11636,6 @@ declare namespace LocalJSX {
           * Specifies the size of the component.
          */
         "scale"?: Scale;
-        /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "slottedInShell"?: boolean;
         /**
           * Specifies the width of the component.
          */
@@ -12548,6 +12548,10 @@ declare namespace LocalJSX {
          */
         "displayMode"?: DisplayMode;
         /**
+          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
+         */
+        "embedded"?: boolean;
+        /**
           * When `true`, disables the default close on escape behavior.
          */
         "escapeDisabled"?: boolean;
@@ -12595,10 +12599,6 @@ declare namespace LocalJSX {
           * Determines where the component will be positioned.
          */
         "position"?: LogicalFlowPosition;
-        /**
-          * This internal property, managed by a containing calcite-shell, is used to inform the component if special configuration or styles are needed
-         */
-        "slottedInShell"?: boolean;
         /**
           * When `position` is `"inline-start"` or `"inline-end"`, specifies the width of the component.
          */

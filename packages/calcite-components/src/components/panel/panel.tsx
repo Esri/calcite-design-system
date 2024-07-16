@@ -50,6 +50,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
 /**
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
+ * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
@@ -680,6 +681,14 @@ export class Panel
     );
   }
 
+  handleAlertsSlotChange = (event: Event): void => {
+    slotChangeGetAssignedElements(event)?.map((el) => {
+      if (el.nodeName === "CALCITE-ALERT") {
+        (el as HTMLCalciteAlertElement).embedded = true;
+      }
+    });
+  };
+
   render(): VNode {
     const { disabled, loading, panelKeyDownHandler, isClosed, closable } = this;
 
@@ -695,6 +704,7 @@ export class Panel
         {this.renderContent()}
         {this.renderContentBottom()}
         {this.renderFooterNode()}
+        <slot key="alerts" name={SLOTS.alerts} onSlotchange={this.handleAlertsSlotChange} />
       </article>
     );
 
