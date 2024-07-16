@@ -4402,6 +4402,10 @@ export namespace Components {
     }
     interface CalciteShellPanel {
         /**
+          * Specifies the action bar's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "actionBarPosition": Extract<"start" | "end", Position>;
+        /**
           * When `true`, hides the component's content area.
          */
         "collapsed": boolean;
@@ -4411,12 +4415,12 @@ export namespace Components {
          */
         "detached": boolean;
         /**
-          * When `displayMode` is `float`, specifies the maximum height of the component.
+          * When `displayMode` is `content-detached`, specifies the maximum height of the component.
           * @deprecated Use `heightScale` instead.
          */
         "detachedHeightScale": Scale;
         /**
-          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"content-detached"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
          */
         "displayMode": DisplayMode1;
         /**
@@ -4436,11 +4440,7 @@ export namespace Components {
          */
         "messages": ShellPanelMessages;
         /**
-          * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
-         */
-        "position": Extract<"start" | "end", Position>;
-        /**
-          * When `true` and `displayMode` is not `float`, the component's content area is resizable.
+          * When `true` and `displayMode` is not `content-detached`, the component's content area is resizable.
          */
         "resizable": boolean;
         /**
@@ -12409,6 +12409,10 @@ declare namespace LocalJSX {
     }
     interface CalciteShellPanel {
         /**
+          * Specifies the action bar's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
+         */
+        "actionBarPosition"?: Extract<"start" | "end", Position>;
+        /**
           * When `true`, hides the component's content area.
          */
         "collapsed"?: boolean;
@@ -12418,12 +12422,12 @@ declare namespace LocalJSX {
          */
         "detached"?: boolean;
         /**
-          * When `displayMode` is `float`, specifies the maximum height of the component.
+          * When `displayMode` is `content-detached`, specifies the maximum height of the component.
           * @deprecated Use `heightScale` instead.
          */
         "detachedHeightScale"?: Scale;
         /**
-          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+          * Specifies the display mode of the component, where:  `"dock"` displays at full height adjacent to center content,  `"overlay"` displays at full height on top of center content, and  `"content-detached"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
          */
         "displayMode"?: DisplayMode1;
         /**
@@ -12445,11 +12449,7 @@ declare namespace LocalJSX {
         "onCalciteInternalShellPanelResizeEnd"?: (event: CalciteShellPanelCustomEvent<void>) => void;
         "onCalciteInternalShellPanelResizeStart"?: (event: CalciteShellPanelCustomEvent<void>) => void;
         /**
-          * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
-         */
-        "position"?: Extract<"start" | "end", Position>;
-        /**
-          * When `true` and `displayMode` is not `float`, the component's content area is resizable.
+          * When `true` and `displayMode` is not `content-detached`, the component's content area is resizable.
          */
         "resizable"?: boolean;
         /**
