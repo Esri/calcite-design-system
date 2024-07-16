@@ -128,13 +128,13 @@
 calcite-action {
   @apply relative h-auto;
   border-inline-start: 1px solid var(--calcite-color-foreground-1);
-  &:after {
+  &::after {
     @apply block w-px  absolute -start-px;
     content: "";
     inset-block: theme("spacing.3");
     background-color: var(--calcite-color-border-3);
   }
-  &:hover:after {
+  &:hover::after {
     @apply h-full;
     inset-block: 0;
   }
