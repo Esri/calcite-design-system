@@ -577,6 +577,26 @@ describe("calcite-color-picker-hex-input", () => {
   describe("theme", () => {
     describe("default", () => {
       themed("calcite-color-picker-hex-input", {
+        "--calcite-color-picker-hex-input-affix-background-color": [
+          {
+            targetProp: "--calcite-input-prefix-background-color",
+            shadowSelector: `.${CSS.hexInput}`,
+          },
+          {
+            targetProp: "--calcite-input-suffix-background-color",
+            shadowSelector: `.${CSS.hexInput}`,
+          },
+        ],
+        "--calcite-color-picker-hex-input-affix-text-color": [
+          {
+            targetProp: "--calcite-input-prefix-text-color",
+            shadowSelector: `.${CSS.hexInput}`,
+          },
+          {
+            targetProp: "--calcite-input-suffix-text-color",
+            shadowSelector: `.${CSS.hexInput}`,
+          },
+        ],
         "--calcite-color-picker-hex-input-background-color": {
           targetProp: "--calcite-input-background-color",
           shadowSelector: `.${CSS.hexInput}`,
@@ -587,22 +607,6 @@ describe("calcite-color-picker-hex-input", () => {
         },
         "--calcite-color-picker-hex-input-corner-radius": {
           targetProp: "--calcite-input-corner-radius",
-          shadowSelector: `.${CSS.hexInput}`,
-        },
-        "--calcite-color-picker-hex-input-prefix-background-color": {
-          targetProp: "--calcite-input-prefix-background-color",
-          shadowSelector: `.${CSS.hexInput}`,
-        },
-        "--calcite-color-picker-hex-input-prefix-text-color": {
-          targetProp: "--calcite-input-prefix-text-color",
-          shadowSelector: `.${CSS.hexInput}`,
-        },
-        "--calcite-color-picker-hex-input-suffix-background-color": {
-          targetProp: "--calcite-input-suffix-background-color",
-          shadowSelector: `.${CSS.hexInput}`,
-        },
-        "--calcite-color-picker-hex-input-suffix-text-color": {
-          targetProp: "--calcite-input-suffix-text-color",
           shadowSelector: `.${CSS.hexInput}`,
         },
         "--calcite-color-picker-hex-input-text-color": {
@@ -626,22 +630,26 @@ describe("calcite-color-picker-hex-input", () => {
           targetProp: "--calcite-input-corner-radius",
           shadowSelector: `.${CSS.opacityInput}`,
         },
-        "--calcite-color-picker-hex-input-prefix-background-color": {
-          targetProp: "--calcite-input-prefix-background-color",
-          shadowSelector: `.${CSS.opacityInput}`,
-        },
-        "--calcite-color-picker-hex-input-prefix-text-color": {
-          targetProp: "--calcite-input-prefix-text-color",
-          shadowSelector: `.${CSS.opacityInput}`,
-        },
-        "--calcite-color-picker-hex-input-suffix-background-color": {
-          targetProp: "--calcite-input-suffix-background-color",
-          shadowSelector: `.${CSS.opacityInput}`,
-        },
-        "--calcite-color-picker-hex-input-suffix-text-color": {
-          targetProp: "--calcite-input-suffix-text-color",
-          shadowSelector: `.${CSS.opacityInput}`,
-        },
+        "--calcite-color-picker-hex-input-affix-background-color": [
+          {
+            targetProp: "--calcite-input-prefix-background-color",
+            shadowSelector: `.${CSS.opacityInput}`,
+          },
+          {
+            targetProp: "--calcite-input-suffix-background-color",
+            shadowSelector: `.${CSS.opacityInput}`,
+          },
+        ],
+        "--calcite-color-picker-hex-input-affix-text-color": [
+          {
+            targetProp: "--calcite-input-prefix-text-color",
+            shadowSelector: `.${CSS.opacityInput}`,
+          },
+          {
+            targetProp: "--calcite-input-suffix-text-color",
+            shadowSelector: `.${CSS.opacityInput}`,
+          },
+        ],
         "--calcite-color-picker-hex-input-text-color": {
           targetProp: "--calcite-input-text-color",
           shadowSelector: `.${CSS.opacityInput}`,
