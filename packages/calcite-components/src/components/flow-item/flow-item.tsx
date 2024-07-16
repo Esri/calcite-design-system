@@ -99,6 +99,9 @@ export class FlowItem
    */
   @Prop() beforeBack: () => Promise<void>;
 
+  /** Passes a function to run before the component closes. */
+  @Prop() beforeClose: () => Promise<void>;
+
   /** A description for the component. */
   @Prop() description: string;
 
@@ -365,11 +368,13 @@ export class FlowItem
       menuOpen,
       messages,
       overlayPositioning,
+      beforeClose,
     } = this;
     return (
       <Host>
         <InteractiveContainer disabled={disabled}>
           <calcite-panel
+            beforeClose={beforeClose}
             closable={closable}
             closed={closed}
             collapseDirection={collapseDirection}

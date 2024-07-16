@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.9...@esri/calcite-components@2.11.0-next.10) (2024-07-15)
+
+### Features
+
+- **chip:** enhance multi-select group affordance ([#9286](https://github.com/Esri/calcite-design-system/issues/9286)) ([93a17a1](https://github.com/Esri/calcite-design-system/commit/93a17a17c670aaa2a6f443ecc6b9d3fdfde859ac)), closes [#9055](https://github.com/Esri/calcite-design-system/issues/9055) [#7425](https://github.com/Esri/calcite-design-system/issues/7425)
+
+### Bug Fixes
+
+- **block:** remove top padding when no heading is defined ([#9782](https://github.com/Esri/calcite-design-system/issues/9782)) ([d71e064](https://github.com/Esri/calcite-design-system/commit/d71e0648b03f138cdef2e8e9f2868d849e1ed04a)), closes [#9753](https://github.com/Esri/calcite-design-system/issues/9753)
+
+## [2.11.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.8...@esri/calcite-components@2.11.0-next.9) (2024-07-15)
+
+### Features
+
+- provide info message on stamped version instead of warning ([#9739](https://github.com/Esri/calcite-design-system/issues/9739)) ([6ccb12a](https://github.com/Esri/calcite-design-system/commit/6ccb12a17ec371ba13fe144f8d37fdfb607dfce2)), closes [#9721](https://github.com/Esri/calcite-design-system/issues/9721)
+
+## [2.11.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.7...@esri/calcite-components@2.11.0-next.8) (2024-07-15)
+
+### Features
+
+- **panel, flow-item:** add beforeClose property ([#9770](https://github.com/Esri/calcite-design-system/issues/9770)) ([fe32441](https://github.com/Esri/calcite-design-system/commit/fe32441883f3c793e5994fec594325362e5bef61)), closes [#9769](https://github.com/Esri/calcite-design-system/issues/9769)
+
+## [2.11.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.6...@esri/calcite-components@2.11.0-next.7) (2024-07-15)
+
+### Bug Fixes
+
+- **tile:** center align slot's text when alignment is equal to center ([#9773](https://github.com/Esri/calcite-design-system/issues/9773)) ([4a26398](https://github.com/Esri/calcite-design-system/commit/4a263988b72faca473e993aebe0c7f61b12a6d19)), closes [#9540](https://github.com/Esri/calcite-design-system/issues/9540)
+
 ## [2.11.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.5...@esri/calcite-components@2.11.0-next.6) (2024-07-12)
 
 ### Bug Fixes
