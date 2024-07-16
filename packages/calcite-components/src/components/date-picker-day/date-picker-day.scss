@@ -5,8 +5,8 @@
 @include disabled();
 
 @mixin range-part-base() {
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     @apply absolute pointer-events-none;
     inset-block: 0;
     content: "";
@@ -16,10 +16,10 @@
 }
 
 @mixin range-part-edge-end() {
-  &:before {
+  &::before {
     inset-inline-end: 50%;
   }
-  &:after {
+  &::after {
     inset-inline-start: 50%;
     border-start-end-radius: var(--calcite-internal-day-size);
     border-end-end-radius: var(--calcite-internal-day-size);
@@ -28,23 +28,23 @@
 }
 
 @mixin range-part-edge-start() {
-  &:before {
+  &::before {
     inset-inline-end: 50%;
     border-start-start-radius: var(--calcite-internal-day-size);
     border-end-start-radius: var(--calcite-internal-day-size);
     inline-size: calc(var(--calcite-internal-day-size) / 2);
   }
-  &:after {
+  &::after {
     inset-inline-start: 50%;
   }
 }
 
 @mixin range-part-middle() {
-  &:before {
+  &::before {
     inset-inline-end: 50%;
     border-radius: 0;
   }
-  &:after {
+  &::after {
     inset-inline-start: 50%;
     border-radius: 0;
   }
@@ -180,8 +180,8 @@
 :host([highlighted]),
 :host([selected]:not(.hover--outside-range)) {
   .day-wrapper {
-    &:before,
-    &:after {
+    &::before,
+    &::after {
       background-color: var(--calcite-color-foreground-current);
     }
   }
@@ -189,8 +189,8 @@
 
 :host([range-hover]:not([selected])) {
   .day-wrapper {
-    &:before,
-    &:after {
+    &::before,
+    &::after {
       @apply bg-foreground-2;
     }
   }
@@ -222,8 +222,8 @@
 :host([start-of-range][range-edge="end"].hover--inside-range),
 :host([end-of-range]) {
   .day-wrapper {
-    &:after,
-    &:before {
+    &::after,
+    &::before {
       content: unset;
     }
   }
@@ -257,8 +257,8 @@
   :host([highlighted]),
   :host([range-hover]:not([selected])) {
     .day-wrapper {
-      &:before,
-      &:after {
+      &::before,
+      &::after {
         background-color: highlight;
       }
     }
@@ -268,8 +268,8 @@
   :host([range][selected][start-of-range]),
   :host([range][selected][end-of-range]) {
     .day-wrapper {
-      &:before,
-      &:after {
+      &::before,
+      &::after {
         background-color: canvas;
       }
     }

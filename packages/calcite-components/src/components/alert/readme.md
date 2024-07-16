@@ -4,27 +4,13 @@ For comprehensive guidance on using and implementing `calcite-alert`, refer to t
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-A single instance of an alert. Multiple alerts will aggregate in a queue.
-
-```html
-<calcite-alert open>
-  <div slot="title">Title of alert</div>
-  <div slot="message">Message text of the alert</div>
-  <a slot="link" href="#">Retry</a>
-</calcite-alert>
-```
-
 ## Properties
 
 | Property             | Attribute             | Description                                                                                                           | Type                                                                              | Default     |
 | -------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ----------- |
 | `autoClose`          | `auto-close`          | When `true`, the component closes automatically. Recommended for passive, non-blocking alerts.                        | `boolean`                                                                         | `false`     |
 | `autoCloseDuration`  | `auto-close-duration` | Specifies the duration before the component automatically closes - only use with `autoClose`.                         | `"fast" \| "medium" \| "slow"`                                                    | `"medium"`  |
-| `icon`               | `icon`                | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                                               | `undefined` |
+| `icon`               | `icon`                | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| IconName`                                                             | `undefined` |
 | `iconFlipRtl`        | `icon-flip-rtl`       | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                                         | `false`     |
 | `kind`               | `kind`                | Specifies the kind of the component, which will apply to top border and icon.                                         | `"brand" \| "danger" \| "info" \| "success" \| "warning"`                         | `"brand"`   |
 | `label` *(required)* | `label`               | Specifies an accessible name for the component.                                                                       | `string`                                                                          | `undefined` |

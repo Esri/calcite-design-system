@@ -4,14 +4,6 @@ For comprehensive guidance on using and implementing `calcite-rating`, refer to 
 
 <!-- Auto Generated Below -->
 
-## Usage
-
-### Basic
-
-```html
-<calcite-rating show-chip scale="m" value="0" average="4.4" count="10"></calcite-rating>
-```
-
 ## Properties
 
 | Property           | Attribute           | Description                                                                                                                                             | Type                | Default     |
