@@ -126,7 +126,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
    *
    * It is recommended to use 5 characters or fewer.
    */
-  @Prop({ reflect: true }) shortHeading: string;
+  @Prop() shortHeading: string;
 
   /** The component's value. */
   @Prop() value!: any;
