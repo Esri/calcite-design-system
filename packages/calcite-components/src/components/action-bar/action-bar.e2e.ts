@@ -534,112 +534,18 @@ describe("calcite-action-bar", () => {
     expect(await group.getProperty("layout")).toBe("vertical");
   });
 
-  describe("theme", () => {
-    describe("default", () => {
-      const tokens = {
-        "--calcite-action-bar-trigger-background-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "backgroundColor",
+  describe("themed", () => {
+    describe("expanded", () => {
+      themed(
+        html`<calcite-action-bar layout="vertical" expanded>
+          <calcite-action-group></calcite-action-group>
+        </calcite-action-bar>`,
+        {
+          "--calcite-action-bar-expanded-max-size": {
+            targetProp: "maxInlineSize",
+          },
         },
-        "--calcite-action-bar-trigger-icon-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> calcite-icon",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-shadow": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "boxShadow",
-        },
-        "--calcite-action-bar-trigger-text-color": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "color",
-        },
-        "--calcite-action-bar-trigger-background-color-active": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "backgroundColor",
-          state: { press: { attribute: "class", value: CSS.expandToggle } },
-        },
-        "--calcite-action-bar-trigger-background-color-focus": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "backgroundColor",
-          state: "focus",
-        },
-        "--calcite-action-bar-trigger-background-color-hover": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-action-bar-trigger-icon-color-active": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "color",
-          state: { press: { attribute: "class", value: CSS.expandToggle } },
-        },
-        "--calcite-action-bar-trigger-icon-color-focus": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "color",
-          state: "focus",
-        },
-        "--calcite-action-bar-trigger-icon-color-hover": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "color",
-          state: "hover",
-        },
-        "--calcite-action-bar-trigger-shadow-active": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "boxShadow",
-          state: { press: { attribute: "class", value: CSS.expandToggle } },
-        },
-        "--calcite-action-bar-trigger-shadow-focus": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "boxShadow",
-          state: "focus",
-        },
-        "--calcite-action-bar-trigger-shadow-hover": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "boxShadow",
-          state: "hover",
-        },
-        "--calcite-action-bar-trigger-text-color-active": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "color",
-          state: { press: { attribute: "class", value: CSS.expandToggle } },
-        },
-        "--calcite-action-bar-trigger-text-color-focus": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "color",
-          state: "focus",
-        },
-        "--calcite-action-bar-trigger-text-color-hover": {
-          selector: "calcite-action-bar",
-          shadowSelector: "calcite-action-group calcite-action >>> .button",
-          targetProp: "color",
-          state: "hover",
-        },
-      } as const;
-      themed(`calcite-action-bar`, tokens);
-    });
-    describe("vertical", () => {
-      const tokens = {
-        "--calcite-action-bar-expanded-max-width": {
-          selector: "calcite-action-bar",
-          targetProp: "maxWidth",
-        },
-      } as const;
-      themed(`<calcite-action-bar layout="vertical" expanded></calcite-action-bar>`, tokens);
+      );
     });
   });
 });

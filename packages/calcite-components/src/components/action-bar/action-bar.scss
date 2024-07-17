@@ -3,24 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-bar-expanded-max-width: When `layout` is `"vertical"`, specifies the expanded max width of the component.
- * @prop --calcite-action-bar-trigger-background-color-active: Specifies the background color of the nested trigger when active in the component.
- * @prop --calcite-action-bar-trigger-background-color-focus: Specifies the background color of the nested trigger when focused in the component.
- * @prop --calcite-action-bar-trigger-background-color-hover: Specifies the background color of the nested trigger when hovered in the component.
- * @prop --calcite-action-bar-trigger-background-color: Specifies the background color of the nested trigger in the component.
- * @prop --calcite-action-bar-trigger-icon-color-active: Specifies the icon color color of the nested trigger when active in the component
- * @prop --calcite-action-bar-trigger-icon-color-focus: Specifies the icon color of the nested trigger when focused in the component.
- * @prop --calcite-action-bar-trigger-icon-color-hover: Specifies the icon color of the nested trigger when hovered in the component.
- * @prop --calcite-action-bar-trigger-icon-color: Specifies the icon color of the nested trigger in the component.
- * @prop --calcite-action-bar-trigger-loader-color: Specifies the loader color of the nested trigger in the component component.
- * @prop --calcite-action-bar-trigger-shadow-active: Specifies the shadow of the nested trigger when active in the component.
- * @prop --calcite-action-bar-trigger-shadow-focus: Specifies the shadow of the nested trigger when focused in the component.
- * @prop --calcite-action-bar-trigger-shadow-hover: Specifies the shadow of the nested trigger when hovered in the component.
- * @prop --calcite-action-bar-trigger-shadow: Specifies the shadow of the nested trigger in the component.
- * @prop --calcite-action-bar-trigger-text-color-active: Specifies the text color of the nested trigger when active in the component.
- * @prop --calcite-action-bar-trigger-text-color-focus: Specifies the text color of the nested trigger when focused in the component.
- * @prop --calcite-action-bar-trigger-text-color-hover: Specifies the text color of the nested trigger when hovered in the component.
- * @prop --calcite-action-bar-trigger-text-color: Specifies the text color of the nested trigger in the component.
+ * @prop --calcite-action-bar-expanded-max-size: When `layout` is `"vertical"`, specifies the expanded max width of the component.
  */
 
 :host {
@@ -30,43 +13,8 @@
     self-stretch;
 }
 
-calcite-action {
-  --calcite-action-background-color: var(--calcite-action-bar-trigger-background-color);
-  --calcite-action-text-color: var(--calcite-action-bar-trigger-text-color);
-  --calcite-action-shadow: var(--calcite-action-bar-trigger-shadow);
-  --calcite-action-icon-color: var(--calcite-action-bar-trigger-icon-color);
-
-  &:hover {
-    --calcite-action-background-color: var(--calcite-action-bar-trigger-background-color-hover);
-    --calcite-action-text-color: var(--calcite-action-bar-trigger-text-color-hover);
-    --calcite-action-shadow: var(--calcite-action-bar-trigger-shadow-hover);
-  }
-  &:focus {
-    --calcite-action-background-color: var(--calcite-action-bar-trigger-background-color-focus);
-    --calcite-action-text-color: var(--calcite-action-bar-trigger-text-color-focus);
-    --calcite-action-shadow: var(--calcite-action-bar-trigger-shadow-focus);
-  }
-  &:active {
-    --calcite-action-background-color: var(--calcite-action-bar-trigger-background-color-active);
-    --calcite-action-text-color: var(--calcite-action-bar-trigger-text-color-active);
-    --calcite-action-shadow: var(--calcite-action-bar-trigger-shadow-active);
-  }
-}
-
-.action-group--end {
-  @apply justify-end;
-}
-
 :host([layout="vertical"]) {
   @apply flex-col;
-
-  &:host([overflow-actions-disabled]) {
-    overflow-y: auto;
-  }
-  &:host([expanded]) {
-    max-inline-size: var(--calcite-action-bar-expanded-max-width, auto);
-  }
-
   .action-group--end {
     margin-block-start: auto;
   }
@@ -74,24 +22,39 @@ calcite-action {
 
 :host([layout="horizontal"]) {
   @apply flex-row;
-
-  &:host([overflow-actions-disabled]) {
-    overflow-x: auto;
-  }
-  &:host([expand-disabled]) {
-    ::slotted(calcite-action-group:last-of-type) {
-      border-inline-end: 0;
-    }
-  }
-
   .action-group--end {
     @apply ms-auto;
   }
+}
 
-  ::slotted(calcite-action-group) {
-    border-block-end: 0;
-    border-inline-end-style: solid;
-  }
+:host([layout="vertical"][overflow-actions-disabled]) {
+  overflow-y: auto;
+}
+
+:host([layout="horizontal"][overflow-actions-disabled]) {
+  overflow-x: auto;
+}
+
+:host([layout="vertical"][expanded]) {
+  max-inline-size: var(--calcite-action-bar-expanded-max-size, auto);
+}
+
+:host([layout="horizontal"]) ::slotted(calcite-action-group) {
+  border-block-end: 0;
+  border-inline-end-width: 1px;
+}
+
+:host([layout="horizontal"][expand-disabled]) ::slotted(calcite-action-group:last-of-type) {
+  border-inline-end: 0;
+}
+
+::slotted(calcite-action-group:last-child) {
+  border-block-end: 0;
+  border-inline-end: 0;
+}
+
+.action-group--end {
+  @apply justify-end;
 }
 
 @include base-component();
