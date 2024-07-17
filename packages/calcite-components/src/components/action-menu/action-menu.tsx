@@ -9,7 +9,7 @@ import {
   State,
   Watch,
 } from "@stencil/core";
-import { VNode } from "@stencil/core/internal";
+import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
@@ -321,11 +321,11 @@ export class ActionMenu implements LoadableComponent {
 
   render(): VNode {
     return (
-      <div class={CSS.container}>
+      <Fragment>
         {this.renderMenuButton()}
         {this.renderMenuItems()}
         <slot name={SLOTS.tooltip} onSlotchange={this.updateTooltip} />
-      </div>
+      </Fragment>
     );
   }
 
