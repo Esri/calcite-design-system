@@ -1,7 +1,7 @@
 export const CSS = {
   actionGroupEnd: "action-group--end",
-  container: "container",
   expandToggle: "expand-toggle",
+  container: "container",
 };
 
 export const SLOTS = {

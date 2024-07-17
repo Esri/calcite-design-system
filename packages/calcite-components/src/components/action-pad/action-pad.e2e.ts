@@ -351,106 +351,33 @@ describe("calcite-action-pad", () => {
 
   describe("theme", () => {
     describe("default", () => {
-      const tokens = {
+      themed("calcite-action-pad", {
+        "--calcite-action-pad-corner-radius": [
+          {
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderRadius",
+          },
+        ],
         "--calcite-action-pad-background-color": {
-          shadowSelector: ".container",
+          shadowSelector: `.${CSS.container}`,
           targetProp: "backgroundColor",
         },
-        "--calcite-action-pad-corner-radius": {
-          shadowSelector: ".container",
-          targetProp: "borderRadius",
-        },
         "--calcite-action-pad-shadow": {
-          shadowSelector: ".container",
+          shadowSelector: `.${CSS.container}`,
           targetProp: "boxShadow",
         },
-        "--calcite-action-pad-trigger-background-color-active": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-background-color",
-          state: { press: { attribute: "class", value: CSS.expandToggle } },
-        },
-        "--calcite-action-pad-trigger-background-color-focus": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-background-color-focus",
-          state: "focus",
-        },
-        "--calcite-action-pad-trigger-background-color-hover": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-background-color-hover",
-          state: "hover",
-        },
-        "--calcite-action-pad-trigger-background-color": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-background-color",
-        },
-        "--calcite-action-pad-trigger-icon-color-active": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-icon-color-active",
-          state: { press: { attribute: "class", value: CSS.expandToggle } },
-        },
-        "--calcite-action-pad-trigger-icon-color-focus": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-icon-color-focus",
-          state: "focus",
-        },
-        "--calcite-action-pad-trigger-icon-color-hover": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-icon-color-hover",
-          state: "hover",
-        },
-        "--calcite-action-pad-trigger-icon-color": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-icon-color",
-        },
-        "--calcite-action-pad-trigger-shadow-active": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-shadow-active",
-          state: { press: { attribute: "title", value: "Expand" } },
-        },
-        "--calcite-action-pad-trigger-shadow-focus": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-shadow-focus",
-          state: "focus",
-        },
-        "--calcite-action-pad-trigger-shadow-hover": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-shadow-hover",
-          state: "hover",
-        },
-        "--calcite-action-pad-trigger-shadow": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-shadow",
-        },
-        "--calcite-action-pad-trigger-text-color-active": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-icon-color-active",
-          state: { press: { attribute: "class", value: CSS.expandToggle } },
-        },
-        "--calcite-action-pad-trigger-text-color-focus": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-icon-color-focus",
-          state: "focus",
-        },
-        "--calcite-action-pad-trigger-text-color-hover": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-icon-color-hover",
-          state: "hover",
-        },
-        "--calcite-action-pad-trigger-text-color": {
-          shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-icon-color",
-        },
-      } as const;
-      themed("calcite-action-pad", tokens);
+      });
     });
-    describe("expanded", () => {
-      const tokens = {
-        "--calcite-action-pad-expanded-max-width": {
-          targetProp: "maxWidth",
+    describe("expand vertical", () => {
+      themed("<calcite-action-pad></ calcite-action-pad>", {
+        "--calcite-action-pad-expanded-max-size-x": {
           shadowSelector: `.${CSS.container}`,
+          targetProp: "maxInlineSize",
         },
-      } as const;
-      themed(`<calcite-action-pad expanded></calcite-action-pad>`, tokens);
+      });
     });
   });
 });
