@@ -96,7 +96,7 @@ export class Dialog
   /**
    * When `true`, the component is draggable.
    */
-  @Prop({ reflect: true }) dragEnabled = true;
+  @Prop({ reflect: true }) dragEnabled = false;
 
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) closeDisabled = false;
@@ -180,7 +180,7 @@ export class Dialog
   /**
    * When `true`, the component is resizable.
    */
-  @Prop({ reflect: true }) resizable = true;
+  @Prop({ reflect: true }) resizable = false;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -222,7 +222,7 @@ export class Dialog
     disconnectLocalized(this);
     disconnectMessages(this);
     this.embedded = false;
-    this.interaction?.unset();
+    this.unsetInteraction();
   }
 
   render(): VNode {
@@ -512,6 +512,10 @@ export class Dialog
         event.preventDefault();
         break;
     }
+  };
+
+  private unsetInteraction = (): void => {
+    this.interaction?.unset();
   };
 
   private setInteraction = (): void => {

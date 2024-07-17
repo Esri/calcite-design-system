@@ -52,6 +52,10 @@ describe("calcite-dialog", () => {
         value: true,
       },
       {
+        propertyName: "dragEnabled",
+        value: true,
+      },
+      {
         propertyName: "placement",
         value: "center",
       },
@@ -84,6 +88,10 @@ describe("calcite-dialog", () => {
         value: "fixed",
       },
       {
+        propertyName: "resizable",
+        value: true,
+      },
+      {
         propertyName: "scale",
         value: "s",
       },
@@ -103,6 +111,10 @@ describe("calcite-dialog", () => {
       {
         propertyName: "description",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "dragEnabled",
+        defaultValue: false,
       },
       {
         propertyName: "closeDisabled",
@@ -147,6 +159,10 @@ describe("calcite-dialog", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
+      },
+      {
+        propertyName: "resizable",
+        defaultValue: false,
       },
       {
         propertyName: "scale",
