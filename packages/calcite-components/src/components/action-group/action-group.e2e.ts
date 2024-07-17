@@ -1,6 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, hidden, renders, slots, t9n, themed } from "../../tests/commonTests";
-import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS } from "./resources";
 
@@ -76,122 +75,32 @@ describe("calcite-action-group", () => {
   });
 
   describe("theme", () => {
-    const tokens: ComponentTestTokens = {
-      "--calcite-action-group-border-color": [
-        {
-          targetProp: "borderLeftColor",
+    describe("siblings", () => {
+      themed("<calcite-action-group></calcite-action-group><calcite-action-group></calcite-action-group>", {
+        "--calcite-action-group-border-color": {
+          targetProp: "borderColor",
         },
-        {
-          shadowSelector: "calcite-action-menu",
-          targetProp: "--calcite-action-menu-popover-border-color",
+      });
+    });
+    describe("layout grid", () => {
+      themed(html`<calcite-action-group layout="grid"></calcite-action-group>`, {
+        "--calcite-action-group-gap": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "gap",
         },
-      ],
-      "--calcite-action-group-popover-background-color": {
-        shadowSelector: "calcite-action-menu",
-        targetProp: "--calcite-action-menu-popover-background-color",
-      },
-      "--calcite-action-group-popover-border-color": {
-        shadowSelector: "calcite-action-menu",
-        targetProp: "--calcite-action-menu-popover-border-color",
-      },
-      "--calcite-action-group-popover-corner-radius": {
-        shadowSelector: "calcite-action-menu",
-        targetProp: "--calcite-action-menu-popover-corner-radius",
-      },
-      "--calcite-action-group-popover-shadow": {
-        shadowSelector: "calcite-action-menu",
-        targetProp: "--calcite-action-menu-popover-shadow",
-      },
-      "--calcite-action-group-trigger-background-color-active": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-background-color",
-        state: { press: { attribute: "class", value: CSS.expandToggle } },
-      },
-      "--calcite-action-group-trigger-background-color-focus": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-background-color",
-        state: "focus",
-      },
-      "--calcite-action-group-trigger-background-color-hover": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-background-color",
-        state: "hover",
-      },
-      "--calcite-action-group-trigger-background-color": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-background-color",
-      },
-      "--calcite-action-group-trigger-icon-color-active": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-icon-color",
-        state: { press: { attribute: "class", value: CSS.expandToggle } },
-      },
-      "--calcite-action-group-trigger-icon-color-focus": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-icon-color",
-        state: "focus",
-      },
-      "--calcite-action-group-trigger-icon-color-hover": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-icon-color",
-        state: "hover",
-      },
-      "--calcite-action-group-trigger-icon-color": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-icon-color",
-      },
-      "--calcite-action-group-trigger-indicator-color": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-indicator-color",
-      },
-      "--calcite-action-group-trigger-loader-color": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-loader-color",
-      },
-      "--calcite-action-group-trigger-shadow-active": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-shadow",
-        state: { press: { attribute: "class", value: CSS.expandToggle } },
-      },
-      "--calcite-action-group-trigger-shadow-hover": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-shadow",
-        state: "hover",
-      },
-      "--calcite-action-group-trigger-shadow-focus": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-shadow",
-        state: "focus",
-      },
-      "--calcite-action-group-trigger-shadow": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-shadow",
-      },
-      "--calcite-action-group-trigger-text-color-active": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-text-color",
-        state: { press: { attribute: "class", value: CSS.expandToggle } },
-      },
-      "--calcite-action-group-trigger-text-color-hover": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-text-color",
-        state: "hover",
-      },
-      "--calcite-action-group-trigger-text-color-focus": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-text-color",
-        state: "focus",
-      },
-      "--calcite-action-group-trigger-text-color": {
-        shadowSelector: `.${CSS.expandToggle}`,
-        targetProp: "--calcite-action-text-color",
-      },
-    };
-    themed(
-      html`<calcite-action-group
-        ><calcite-action slot="menu-actions" text="banana" icon="banana"></calcite-action
-      ></calcite-action-group>`,
-      tokens,
-    );
+        "--calcite-action-group-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-action-group-columns": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "gridTemplateColumns",
+        },
+        "--calcite-action-group-space": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "padding",
+        },
+      });
+    });
   });
 });

@@ -194,7 +194,6 @@ export class ActionGroup
         scale={scale}
       >
         <calcite-action
-          class={CSS.expandToggle}
           icon={ICONS.menu}
           scale={scale}
           slot={ACTION_MENU_SLOTS.trigger}
