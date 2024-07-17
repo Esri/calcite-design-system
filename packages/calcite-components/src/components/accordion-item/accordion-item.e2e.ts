@@ -25,46 +25,79 @@ describe("calcite-accordion-item", () => {
   });
 
   describe("theme", () => {
-    const tokens = {
-      "--calcite-accordion-item-text-color": {
-        selector: "calcite-accordion-item",
-        targetProp: "color",
-      },
-      "--calcite-accordion-item-background-color": {
-        selector: "calcite-accordion-item",
-        targetProp: "backgroundColor",
-      },
-      "--calcite-accordion-item-border-color": {
-        selector: "calcite-accordion-item",
-        shadowSelector: `.${CSS.header}`,
-        targetProp: "borderBottomColor",
-      },
-      "--calcite-accordion-item-description-text-color": {
-        selector: "calcite-accordion-item",
-        shadowSelector: `.${CSS.description}`,
-        targetProp: "color",
-      },
-      "--calcite-accordion-item-heading-text-color": {
-        selector: "calcite-accordion-item",
-        shadowSelector: `.${CSS.heading}`,
-        targetProp: "color",
-      },
-      "--calcite-accordion-item-icon-color": {
-        selector: "calcite-accordion-item",
-        shadowSelector: ".icon",
-        targetProp: "--calcite-icon-color",
-      },
-      "--calcite-accordion-item-expand-icon-color": {
-        selector: "calcite-accordion-item",
-        shadowSelector: ".expand-icon",
-        targetProp: "--calcite-icon-color",
-      },
-    } as const;
-
-    themed(
-      `<calcite-accordion><calcite-accordion-item description="Accordion Item Description" icon-start="brush-tip" heading="Accordion Title 1" id="2">Accordion Item Content </calcite-accordion-item></calcite-accordion>`,
-      tokens,
-    );
+    describe("default", () => {
+      themed(
+        html`<calcite-accordion-item heading="Heading" description="Description" icon-start="home" icon-end="home"
+          >content</calcite-accordion-item
+        >`,
+        {
+          "--calcite-accordion-item-background-color": {
+            targetProp: "backgroundColor",
+          },
+          "--calcite-accordion-item-text-color": [
+            {
+              shadowSelector: `.${CSS.content}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.expandIcon}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.description}`,
+              targetProp: "color",
+            },
+          ],
+          "--calcite-accordion-item-heading-text-color": [
+            {
+              shadowSelector: `.${CSS.heading}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.iconStart}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.iconEnd}`,
+              targetProp: "color",
+            },
+          ],
+          "--calcite-accordion-item-border-color": [
+            {
+              shadowSelector: `.${CSS.content}`,
+              targetProp: "borderBlockEndColor",
+            },
+            {
+              shadowSelector: `.${CSS.header}`,
+              targetProp: "borderBlockEndColor",
+            },
+          ],
+        },
+      );
+    });
+    describe("expanded", () => {
+      themed(
+        html`<calcite-accordion-item heading="Heading" description="Description" expanded
+          >content</calcite-accordion-item
+        >`,
+        {
+          "--calcite-accordion-item-text-color-expanded": [
+            {
+              shadowSelector: `.${CSS.description}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.content}`,
+              targetProp: "color",
+            },
+          ],
+          "--calcite-accordion-item-heading-text-color-expanded": {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
   });
 
   it("properly uses ARIA and roles", async () => {
