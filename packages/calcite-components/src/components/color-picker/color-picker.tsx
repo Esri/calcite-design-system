@@ -888,7 +888,10 @@ export class ColorPicker
                     <calcite-color-picker-hex-input
                       allowEmpty={this.isClearable}
                       alphaChannel={alphaChannel}
-                      class={CSS.control}
+                      class={{
+                        [CSS.control]: true,
+                        [CSS.hexInput]: true,
+                      }}
                       messages={messages}
                       numberingSystem={this.numberingSystem}
                       onCalciteColorPickerHexInputChange={this.handleHexInputChange}
@@ -905,7 +908,12 @@ export class ColorPicker
                     }}
                     scale={scale === "l" ? "m" : "s"}
                   >
-                    <calcite-tab-nav slot="title-group">
+                    <calcite-tab-nav
+                      class={{
+                        [CSS.colorModes]: true,
+                      }}
+                      slot="title-group"
+                    >
                       {this.renderChannelsTabTitle("rgb")}
                       {this.renderChannelsTabTitle("hsv")}
                     </calcite-tab-nav>
