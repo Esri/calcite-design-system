@@ -1,18 +1,19 @@
 /*
  *
- * --calcite-list-item-background-color-active: Specifies the background color of the component when active.
- * --calcite-list-item-background-color-hover: Specifies the background color of the component when hovered.
- * --calcite-list-item-background-color: Specifies the background color of the component.
- * --calcite-list-item-border-color: Specifies the border color of nested items.
- * --calcite-list-item-description-text-color-selected: Specifies the text color of the description when selected.
- * --calcite-list-item-description-text-color: Specifies the text color of the description.
- * --calcite-list-item-indicator-color-hover: Specifies the color of the nested container or selector icon when the component is hovered.
- * --calcite-list-item-indicator-color-selected: Specifies the color of the nested container or selector icon when the component is selected.
- * --calcite-list-item-indicator-color: Specifies the default color of the nested container or selector icon.   
- * --calcite-list-item-label-text-color: Specifies the text color of the label.
- * --calcite-list-item-nested-text-color-hover: Specifies the text color of nested items when hovered.
- * --calcite-list-item-nested-text-color: Specifies the text color of nested items.
- * --calcite-list-item-spacing-indent: Specifies the indented spacing of nested items.
+ * @prop --calcite-list-text-color: Specifies the component text color.
+ * @prop --calcite-list-item-background-color-active: Specifies the background color of the component when active.
+ * @prop --calcite-list-item-background-color-hover: Specifies the background color of the component when hovered.
+ * @prop --calcite-list-item-background-color: Specifies the background color of the component.
+ * @prop --calcite-list-item-border-color: Specifies the border color of nested items.
+ * @prop --calcite-list-item-description-text-color-selected: Specifies the text color of the description when selected.
+ * @prop --calcite-list-item-description-text-color: Specifies the text color of the description.
+ * @prop --calcite-list-item-indicator-color-hover: Specifies the color of the nested container or selector icon when the component is hovered.
+ * @prop --calcite-list-item-indicator-color-selected: Specifies the color of the nested container or selector icon when the component is selected.
+ * @prop --calcite-list-item-indicator-color: Specifies the default color of the nested container or selector icon.
+ * @prop --calcite-list-item-label-text-color: Specifies the text color of the label.
+ * @prop --calcite-list-item-nested-text-color-hover: Specifies the text color of nested items when hovered.
+ * @prop --calcite-list-item-nested-text-color: Specifies the text color of nested items.
+ * @prop --calcite-list-item-spacing-indent: Specifies the indented spacing of nested items.
 */
 
 :host {

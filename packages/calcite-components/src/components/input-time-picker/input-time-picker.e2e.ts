@@ -1012,6 +1012,7 @@ describe("calcite-input-time-picker", () => {
       };
       themed(`calcite-input-time-picker`, tokens);
     });
+
     describe("popover", () => {
       const tokens: ComponentTestTokens = {
         "--calcite-input-popover-border-color": {
@@ -1023,8 +1024,8 @@ describe("calcite-input-time-picker", () => {
           targetProp: "--calcite-popover-shadow",
         },
         "--calcite-input-time-picker-background-color-hover": {
-          shadowSelector: "calcite-popover",
-          targetProp: "--calcite-popover-border-color",
+          shadowSelector: "calcite-time-picker",
+          targetProp: "--calcite-time-picker-background-color-hover",
           state: "hover",
         },
         "--calcite-input-time-picker-background-color": [

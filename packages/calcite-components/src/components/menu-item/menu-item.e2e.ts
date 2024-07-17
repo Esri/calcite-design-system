@@ -153,6 +153,10 @@ describe("theme", () => {
         shadowSelector: `calcite-action`,
         targetProp: "--calcite-action-background-color",
       },
+      "--calcite-menu-item-action-text-color": {
+        shadowSelector: `calcite-action`,
+        targetProp: "--calcite-action-text-color",
+      },
       "--calcite-menu-item-sub-menu-corner-radius": {
         shadowSelector: `.dropdown--vertical`,
         targetProp: "borderRadius",
