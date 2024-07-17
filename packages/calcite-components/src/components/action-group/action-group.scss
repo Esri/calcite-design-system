@@ -8,6 +8,7 @@
  * @prop --calcite-action-group-border-color: Specifies the border color of the component.
  * @prop --calcite-action-group-columns: Specifies number of grid-template-columns when the `layout` property is `"grid"`.
  * @prop --calcite-action-group-space: Specifies the padding when the `layout` property is `"grid"`.
+ * @prop --calcite-action-group-padding: [Deprecated] Use --calcite-action-group-space instead. Specifies the padding when the `layout` property is `"grid"`.
  */
 
 :host {
@@ -64,7 +65,7 @@
   place-content-stretch;
   background-color: var(--calcite-action-group-background-color, var(--calcite-color-background));
   gap: var(--calcite-action-group-gap, theme("gap.px"));
-  padding: var(--calcite-action-group-space, theme("padding.px"));
+  padding: var(--calcite-action-group-space, var(--calcite-action-group-padding, theme("padding.px")));
   grid-template-columns: repeat(
     var(--calcite-action-group-columns, var(--calcite-internal-action-group-columns, auto))
   );

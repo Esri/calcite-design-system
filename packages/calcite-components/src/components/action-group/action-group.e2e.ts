@@ -102,5 +102,13 @@ describe("calcite-action-group", () => {
         },
       });
     });
+    describe("deprecated", () => {
+      themed(html`<calcite-action-group layout="grid"></calcite-action-group>`, {
+        "--calcite-action-group-padding": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "padding",
+        },
+      });
+    });
   });
 });
