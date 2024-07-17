@@ -420,14 +420,14 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
 }
 
 /**
- * Filters an array of elements by their tag name.
+ * Filters an array of HTML elements by the provided css selector string.
  *
  * @param {Element[]} elements An array of elements, such as one returned by HTMLSlotElement.assignedNodes().
- * @param {string} tagName The tag name to filter by.
+ * @param {string} selector The CSS selector string to filter the returned elements by.
  * @returns {Element[]} A filtered array of elements.
  */
-export function filterElementsByTagName<T extends Element>(elements: Element[], tagName: string): T[] {
-  return elements.filter((element): element is T => element.tagName == tagName.toUpperCase());
+export function filterElementsByCSSSelector<T extends Element>(elements: Element[], selector: string): T[] {
+  return elements.filter((element): element is T => element.matches(selector));
 }
 
 /**
@@ -576,18 +576,25 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * ```
  *
  * @param {Event} event The event.
- * @param {string} tagName Specifies the element tag name to which the slot's assigned elements are filtered by.
+ * @param {string} selector The CSS selector string to filter the returned elements by.
  * @returns {Element[]} An array of elements.
  */
-export function slotChangeGetAssignedElements(event: Event, tagName?: string): Element[] {
-  return getSlotAssignedElements(event.target as HTMLSlotElement, tagName);
+export function slotChangeGetAssignedElements(event: Event, selector?: string): Element[] {
+  return getSlotAssignedElements(event.target as HTMLSlotElement, selector);
 }
 
-export function getSlotAssignedElements<T>(slot: HTMLSlotElement, tagName?: string): T[] {
+/**
+ * This helper returns the assigned elements on a `slot` element, filtered by an optional css selector.
+ *
+ * @param {HTMLSlotElement} slot The slot element.
+ * @param {string} selector CSS selector string to filter the returned elements by.
+ * @returns {Element[]} An array of elements.
+ */
+export function getSlotAssignedElements<T>(slot: HTMLSlotElement, selector?: string): T[] {
   const assignedElements = slot.assignedElements({
     flatten: true,
   });
-  return tagName ? (filterElementsByTagName(assignedElements, tagName) as T[]) : (assignedElements as T[]);
+  return selector ? (filterElementsByCSSSelector(assignedElements, selector) as T[]) : (assignedElements as T[]);
 }
 
 /**
