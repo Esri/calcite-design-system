@@ -84,7 +84,7 @@ export class Tabs {
 
   @Watch("titles")
   titlesWatcher(): void {
-    this.registryHandler();
+    this.updateAriaSettings();
   }
 
   /**
@@ -95,7 +95,7 @@ export class Tabs {
 
   @Watch("tabs")
   tabsWatcher(): void {
-    this.registryHandler();
+    this.updateAriaSettings();
   }
 
   mutationObserver = createObserver("mutation", (mutationsList: MutationRecord[]) => {
@@ -123,7 +123,7 @@ export class Tabs {
    * update the ARIA attributes and link `<calcite-tab>` and
    * `<calcite-tab-title>` components.
    */
-  async registryHandler(): Promise<void> {
+  async updateAriaSettings(): Promise<void> {
     let tabIds;
     let titleIds;
     const tabs = getSlotAssignedElements<HTMLCalciteTabElement>(this.slotEl, "calcite-tab");
