@@ -19,6 +19,7 @@
   --calcite-internal-accordion-item-icon-space: var(--calcite-internal-accordion-space-large);
   --calcite-internal-accordion-item-content-space: var(--calcite-internal-accordion-space-small)
     var(--calcite-internal-accordion-space-large);
+  --calcite-internal-accordion-item-border-color: var(--calcite-accordion-border-color);
 }
 
 :host([appearance="transparent"]) {
