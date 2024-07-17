@@ -1567,7 +1567,7 @@
             heading="Fullscreen dialog"
             id="js-dialog-fs-s"
             placement="cover"
-            style="--calcite-dialog-height: 100%, --calcite-dialog-height: 100%"
+            style="--calcite-dialog-size-y: 100%, --calcite-dialog-size-y: 100%"
           >
             <div>
               <p>
@@ -1591,80 +1591,6 @@
             placement="cover"
           </calcite-button>
         </div>
-
-        <!--
-              **************************************************
-              * CSS Variable BACKGROUND
-              **************************************************
-            -->
-        <div class="child">
-          <calcite-dialog
-            heading="Ui Background css overriding --calcite-dialog-content-background"
-            id="js-dialog-custom-background"
-            placement="cover"
-            style="--calcite-dialog-content-background: var(--calcite-color-background)"
-          >
-            <div>
-              <p>
-                By using the --calcite-dialog-content-background css variable, you can create a dialog with a light grey
-                background rather than white.
-              </p>
-              <p>This allows you to have white components inside the dialog with good separation.</p>
-              <h4>Card Example</h4>
-              <div class="flex">
-                <calcite-card selected selectable>
-                  <img slot="thumbnail" width="260" height="160" src="./_assets/images/placeholder.svg" />
-
-                  <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
-                  <span slot="subtitle"
-                    >A great example of a study description that might wrap to a line or two, but isn't overly
-                    verbose.</span
-                  >
-                  <calcite-link slot="footer-start">Lead füt</calcite-link>
-                  <calcite-link slot="footer-end">Trail füt</calcite-link>
-                </calcite-card>
-                <calcite-card selected selectable>
-                  <img slot="thumbnail" width="206" height="160" src="./_assets/images/placeholder.svg" />
-
-                  <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
-                  <span slot="subtitle"
-                    >A great example of a study description that might wrap to a line or two, but isn't overly
-                    verbose.</span
-                  >
-                  <calcite-link slot="footer-start">Lead füt</calcite-link>
-                  <calcite-link slot="footer-end">Trail füt</calcite-link>
-                </calcite-card>
-                <calcite-card selected selectable>
-                  <img slot="thumbnail" width="206" height="160" src="./_assets/images/placeholder.svg" />
-
-                  <h3 slot="title">ArcGIS Online Sign In and Sign Up</h3>
-                  <span slot="subtitle"
-                    >A great example of a study description that might wrap to a line or two, but isn't overly
-                    verbose.</span
-                  >
-                  <calcite-link slot="footer-start">Lead füt</calcite-link>
-                  <calcite-link slot="footer-end">Trail füt</calcite-link>
-                </calcite-card>
-              </div>
-            </div>
-            <calcite-button
-              scale="m"
-              slot="footer-start"
-              width="full"
-              kind="neutral"
-              appearance="outline"
-              icon-left="chevron-left"
-              width="full"
-              >Back</calcite-button
-            >
-            <calcite-button scale="m" slot="footer-end" width="full" appearance="outline">Cancel</calcite-button>
-            <calcite-button scale="m" slot="footer-end" width="full">Save</calcite-button>
-          </calcite-dialog>
-
-          <calcite-button data-dialog-ref="js-dialog-custom-background" appearance="outline" scale="s">
-            Custom background via css var
-          </calcite-button>
-        </div>
       </div>
       <div class="parent">
         <div class="child right-aligned-text"></div>
@@ -1675,7 +1601,7 @@
         **************************************************
         -->
         <div class="child">
-          <calcite-dialog heading="Dialog title" id="js-dialog-custom-width-2" style="--calcite-dialog-width: 1200px">
+          <calcite-dialog heading="Dialog title" id="js-dialog-custom-width-2" style="--calcite-dialog-size-x: 1200px">
             <div>
               <p>This dialog will be 1200 pixels wide on larger screens and become fullscreen below that.</p>
             </div>
@@ -1696,7 +1622,7 @@
           <calcite-dialog
             heading="Dialog title"
             id="js-dialog-custom-width"
-            style="--calcite-dialog-width: 900px; --calcite-dialog-height: 600px"
+            style="--calcite-dialog-size-x: 900px; --calcite-dialog-size-y: 600px"
           >
             <div>
               <p>
@@ -1720,7 +1646,7 @@
           <calcite-dialog
             heading="Dialog title"
             id="js-dialog-custom-width-extreme"
-            style="--calcite-dialog-width: 2400px; --calcite-dialog-height: 2400px"
+            style="--calcite-dialog-size-x: 2400px; --calcite-dialog-size-y: 2400px"
           >
             <div>
               <p>
@@ -1747,10 +1673,10 @@
           <calcite-dialog
             heading="Dialog title"
             id="js-dialog-custom-width-vwvh"
-            style="--calcite-dialog-width: 96vw; --calcite-dialog-height: 96vh"
+            style="--calcite-dialog-size-x: 96vw; --calcite-dialog-size-y: 96vh"
           >
             <div>
-              <p>Will be `"--calcite-dialog-width: 96vw; --calcite-dialog-height: 96vh"` width and height</p>
+              <p>Will be `"--calcite-dialog-size-x: 96vw; --calcite-dialog-size-y: 96vh"` width and height</p>
             </div>
             <calcite-button slot="footer-end" width="full" appearance="outline">Cancel</calcite-button>
           </calcite-dialog>
@@ -1769,15 +1695,15 @@
           <calcite-dialog
             heading="Test custom sizes"
             id="js-dialog-custom-size"
-            style="--calcite-dialog-width: 900px; --calcite-dialog-height: 600px"
+            style="--calcite-dialog-size-x: 900px; --calcite-dialog-size-y: 600px"
           >
             <div>
               <calcite-label>
-                --calcite-dialog-width
+                --calcite-dialog-size-x
                 <calcite-input id="css-dialog-width-adjuster" value="900px" />
               </calcite-label>
               <calcite-label>
-                --calcite-dialog-height
+                --calcite-dialog-size-y
                 <calcite-input id="css-dialog-height-adjuster" value="600px" />
               </calcite-label>
               <calcite-label>
@@ -1832,16 +1758,16 @@
         };
 
         heightInput.addEventListener("calciteInputInput", (event) => {
-          customSizeDialog.style.setProperty("--calcite-dialog-height", event.target.value);
+          customSizeDialog.style.setProperty("--calcite-dialog-size-y", event.target.value);
         });
         widthInput.addEventListener("calciteInputInput", (event) => {
-          customSizeDialog.style.setProperty("--calcite-dialog-width", event.target.value);
+          customSizeDialog.style.setProperty("--calcite-dialog-size-x", event.target.value);
         });
 
         optionsSelect.addEventListener("calciteSelectChange", (event) => {
           customSizeDialog.placement = event.target.value;
-          customSizeDialog.style.setProperty("--calcite-dialog-height", heightInput.value);
-          customSizeDialog.style.setProperty("--calcite-dialog-width", widthInput.value);
+          customSizeDialog.style.setProperty("--calcite-dialog-size-y", heightInput.value);
+          customSizeDialog.style.setProperty("--calcite-dialog-size-x", widthInput.value);
         });
 
         document.addEventListener("click", (event) => {

@@ -206,7 +206,7 @@ describe("calcite-dialog", () => {
     const page = await newE2EPage();
     // set large page to ensure test dialog isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(`<calcite-dialog style="--calcite-dialog-width:600px;"></calcite-dialog>`);
+    await page.setContent(`<calcite-dialog style="--calcite-dialog-size-x:600px;"></calcite-dialog>`);
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
     await page.waitForChanges();
@@ -225,7 +225,7 @@ describe("calcite-dialog", () => {
     const page = await newE2EPage();
     // set large page to ensure test dialog isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(`<calcite-dialog style="--calcite-dialog-height:600px;" open></calcite-dialog>`);
+    await page.setContent(`<calcite-dialog style="--calcite-dialog-size-y:600px;" open></calcite-dialog>`);
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
     await page.waitForChanges();
@@ -245,7 +245,7 @@ describe("calcite-dialog", () => {
     // set large page to ensure test dialog isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
     await page.setContent(
-      `<calcite-dialog style="--calcite-dialog-width:600px;" placement="cover" open></calcite-dialog>`,
+      `<calcite-dialog style="--calcite-dialog-size-x:600px;" placement="cover" open></calcite-dialog>`,
     );
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
@@ -266,7 +266,7 @@ describe("calcite-dialog", () => {
     // set large page to ensure test dialog isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
     await page.setContent(
-      `<calcite-dialog style="--calcite-dialog-height:600px;" placement="cover" open></calcite-dialog>`,
+      `<calcite-dialog style="--calcite-dialog-size-y:600px;" placement="cover" open></calcite-dialog>`,
     );
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
@@ -287,7 +287,7 @@ describe("calcite-dialog", () => {
     // set small page to test overflow
     await page.setViewport({ width: 800, height: 800 });
     await page.setContent(
-      `<calcite-dialog style="--calcite-dialog-height:1200px;--calcite-dialog-width:1200px;" open></calcite-dialog>`,
+      `<calcite-dialog style="--calcite-dialog-size-y:1200px;--calcite-dialog-size-x:1200px;" open></calcite-dialog>`,
     );
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
@@ -789,7 +789,7 @@ describe("calcite-dialog", () => {
     const overrideStyle = "rgba(160, 20, 10, 0.5)";
     const page = await newE2EPage({
       html: `
-      <calcite-dialog modal heading="Title of the dialog" open style="--calcite-dialog-scrim-background:${overrideStyle}">
+      <calcite-dialog modal heading="Title of the dialog" open style="--calcite-dialog-scrim-background-color:${overrideStyle}">
         <div>The actual content of the dialog</div>
         <calcite-button slot="footer-start" kind="neutral" appearance="outline" icon="chevron-left" width="full">
           Back

@@ -163,7 +163,7 @@ export const darkModeRTLCustomSizeCSSVars = (): string => html`
     dir="rtl"
     open
     scale="m"
-    style="--calcite-dialog-height: 500px; --calcite-dialog-width: 600px;"
+    style="--calcite-dialog-size-y: 500px; --calcite-dialog-size-x: 600px;"
   >
     <p>
       The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements. You can
@@ -357,9 +357,8 @@ export const placementBottomEnd = (): string => html`
   </calcite-dialog>
 `;
 
-const themedStyle = html` --calcite-dialog-scrim-background: purple; --calcite-dialog-width: 400px;
---calcite-dialog-height: 400px; --calcite-dialog-panel-footer-padding: 50px;
---calcite-dialog-panel-header-border-block-end: 15px solid pink;`;
+const themedStyle = html` --calcite-dialog-scrim-background-color: purple; --calcite-dialog-size-x: 400px;
+--calcite-dialog-size-y: 400px; --calcite-dialog-panel-footer-space: 50px; --calcite-dialog-border-color: pink;`;
 
 export const themed = (): string =>
   html`<calcite-dialog
