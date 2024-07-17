@@ -240,6 +240,7 @@ export class Dialog
             [CSS.containerOpen]: opened,
             [CSS.containerEmbedded]: this.embedded,
           }}
+          ref={(el) => (this.containerEl = el)}
         >
           {this.modal ? (
             <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
@@ -330,6 +331,8 @@ export class Dialog
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
+
+  containerEl: HTMLDivElement;
 
   focusTrap: FocusTrap;
 
@@ -470,38 +473,41 @@ export class Dialog
   private handleKeyDown = (event: KeyboardEvent): void => {
     const { key, shiftKey } = event;
     const step = 25;
-    const rect = this.transitionEl.getBoundingClientRect();
+    const transitionRect = this.transitionEl.getBoundingClientRect();
+    const containerRect = this.containerEl.getBoundingClientRect();
+    const maxMoveY = containerRect.height / 2 - transitionRect.height / 2;
+    const maxMoveX = containerRect.width / 2 - transitionRect.width / 2;
 
     switch (key) {
       case "ArrowUp":
         if (shiftKey) {
-          this.dialogHeight = rect.height + step;
+          this.dialogHeight = transitionRect.height + step;
         } else {
-          this.dialogPositionY = this.dialogPositionY + -step;
+          this.dialogPositionY = Math.max(this.dialogPositionY + -step, -maxMoveY);
         }
         event.preventDefault();
         break;
       case "ArrowDown":
         if (shiftKey) {
-          this.dialogHeight = rect.height - step;
+          this.dialogHeight = transitionRect.height - step;
         } else {
-          this.dialogPositionY = this.dialogPositionY + step;
+          this.dialogPositionY = Math.min(this.dialogPositionY + step, maxMoveY);
         }
         event.preventDefault();
         break;
       case "ArrowLeft":
         if (shiftKey) {
-          this.dialogWidth = rect.width - step;
+          this.dialogWidth = transitionRect.width - step;
         } else {
-          this.dialogPositionX = this.dialogPositionX + -step;
+          this.dialogPositionX = Math.max(this.dialogPositionX + -step, -maxMoveX);
         }
         event.preventDefault();
         break;
       case "ArrowRight":
         if (shiftKey) {
-          this.dialogWidth = rect.width + step;
+          this.dialogWidth = transitionRect.width + step;
         } else {
-          this.dialogPositionX = this.dialogPositionX + step;
+          this.dialogPositionX = Math.min(this.dialogPositionX + step, maxMoveX);
         }
         event.preventDefault();
         break;
