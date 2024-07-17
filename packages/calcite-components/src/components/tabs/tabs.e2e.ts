@@ -374,15 +374,15 @@ describe("calcite-tabs", () => {
       await page.setContent(html`
         <calcite-tabs>
           <calcite-tab-nav slot="title-group">
-            <calcite-tab-title id="tab-title-1" data-name="1" closable>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title id="tab-title-2" data-name="2" closable>Tab 2 Title</calcite-tab-title>
-            <calcite-tab-title id="tab-title-3" data-name="3" closable>Tab 3 Title</calcite-tab-title>
-            <calcite-tab-title id="tab-title-4" data-name="4" closable selected>Tab 4 Title</calcite-tab-title>
+            <calcite-tab-title id="tab-title-1" closable>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title id="tab-title-2" closable>Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title id="tab-title-3" closable>Tab 3 Title</calcite-tab-title>
+            <calcite-tab-title id="tab-title-4" closable selected>Tab 4 Title</calcite-tab-title>
           </calcite-tab-nav>
-          <calcite-tab id="tab-1" data-name="1">Tab 1 Content</calcite-tab>
-          <calcite-tab id="tab-2" data-name="2">Tab 2 Content</calcite-tab>
-          <calcite-tab id="tab-3" data-name="3">Tab 3 Content</calcite-tab>
-          <calcite-tab id="tab-4" data-name="4" selected>Tab 4 Content</calcite-tab>
+          <calcite-tab id="tab-1">Tab 1 Content</calcite-tab>
+          <calcite-tab id="tab-2">Tab 2 Content</calcite-tab>
+          <calcite-tab id="tab-3">Tab 3 Content</calcite-tab>
+          <calcite-tab id="tab-4" selected>Tab 4 Content</calcite-tab>
         </calcite-tabs>
       `);
 
@@ -441,9 +441,9 @@ describe("calcite-tabs", () => {
         });
         document.addEventListener("calciteTabClose", (event) => {
           const closedTabTitleElement = event.target as HTMLCalciteTabTitleElement;
-          const name = closedTabTitleElement.dataset.name;
+          const id = closedTabTitleElement.id.split("").at(-1);
           closedTabTitleElement.remove();
-          document.querySelector(`calcite-tab[data-name]=${name}`).remove();
+          document.querySelector(`calcite-tab#tab-${id}`).remove();
         });
       });
 
