@@ -55,6 +55,7 @@ export class Tabs {
 
   @Listen("calciteInternalTabNavSlotChange")
   calciteInternalTabNavSlotChangeHandler(event: CustomEvent): void {
+    event.stopPropagation();
     if (event.detail.length !== this.titles.length) {
       this.titles = event.detail;
     }
