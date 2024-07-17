@@ -522,7 +522,7 @@ export class Dialog
     });
 
     if (this.resizable || this.dragEnabled) {
-      this.interaction = interact(this.transitionEl, { context: this.el.getRootNode() });
+      this.interaction = interact(this.transitionEl, { context: this.el.ownerDocument });
     }
 
     if (this.resizable) {
