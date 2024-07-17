@@ -23,8 +23,8 @@
 
 :host([appearance="transparent"]) {
   ::slotted(calcite-accordion-item) {
-    --calcite-accordion-item-border-color: var(--calcite-color-transparent);
-    --calcite-accordion-item-background-color: var(--calcite-color-transparent);
+    --calcite-internal-accordion-item-border-color: var(--calcite-color-transparent);
+    --calcite-internal-accordion-background-color: var(--calcite-color-transparent);
   }
 }
 
