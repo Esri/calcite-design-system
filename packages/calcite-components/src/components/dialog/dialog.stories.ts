@@ -87,7 +87,7 @@ const menuActionsContent = html` <calcite-action
 
 export const simple = (args: DialogStoryArgs): string => html`
   <calcite-dialog
-    ${boolean("dragEnabled", args.dragEnabled)}
+    ${boolean("drag-enabled", args.dragEnabled)}
     ${boolean("resizable", args.resizable)}
     ${boolean("modal", args.modal)}
     ${boolean("open", args.open)}
