@@ -861,42 +861,39 @@ describe("calcite-dialog", () => {
   });
 
   describe("keyboard movement", () => {
-    it.skip("should move properly via arrow keys", async () => {
+    it("should move properly via arrow keys", async () => {
       const page = await newE2EPage({
-        html: html`<calcite-dialog heading="Hello world" resizable open><p>Hello world!</p></calcite-dialog>`,
+        html: html`<calcite-dialog width-scale="s" heading="Hello world" drag-enabled open
+          >Hello world!</calcite-dialog
+        >`,
       });
+      await skipAnimations(page);
+      await page.setViewport({ width: 1200, height: 1200 });
       await page.waitForChanges();
       const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+      expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
 
-      let computedStyle = await container.getComputedStyle();
+      await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: false });
+      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, 0, ${dialogStep})`);
 
-      await dispatchDialogKeydown({ page, key: "ArrowDown" });
+      await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: false });
+      expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
 
-      computedStyle = await container.getComputedStyle();
-      expect(computedStyle.transform).toBe(``);
+      await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: false });
+      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, -${dialogStep}, 0)`);
 
-      await dispatchDialogKeydown({ page, key: "ArrowUp" });
-
-      computedStyle = await container.getComputedStyle();
-      expect(computedStyle.transform).toBe(``);
-
-      await dispatchDialogKeydown({ page, key: "ArrowLeft" });
-
-      computedStyle = await container.getComputedStyle();
-      expect(computedStyle.transform).toBe(``);
-
-      await dispatchDialogKeydown({ page, key: "ArrowRight" });
-
-      computedStyle = await container.getComputedStyle();
-      expect(computedStyle.transform).toBe(``);
+      await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: false });
+      expect((await container.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
     });
   });
 
   describe("keyboard resize", () => {
     it("should resize properly via shift and arrow keys", async () => {
       const page = await newE2EPage({
-        html: html`<calcite-dialog heading="Hello world" resizable open><p>Hello world!</p></calcite-dialog>`,
+        html: html`<calcite-dialog width-scale="s" heading="Hello world" resizable open>Hello world!</calcite-dialog>`,
       });
+      await skipAnimations(page);
+      await page.setViewport({ width: 1200, height: 1200 });
       await page.waitForChanges();
       const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
 
