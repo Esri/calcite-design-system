@@ -116,14 +116,4 @@
   color: var(--calcite-block-section-status-color-invalid, theme("colors.danger"));
 }
 
-calcite-switch {
-  --calcite-switch-border-color: var(--calcite-block-section-switch-border-color);
-  --calcite-switch-color-active: var(--calcite-block-section-switch-color-active);
-  --calcite-switch-color-hover: var(--calcite-block-section-switch-color-hover);
-  --calcite-switch-color: var(--calcite-block-section-switch-color);
-  --calcite-switch-corner-radius: var(--calcite-block-section-corner-radius);
-  --calcite-switch-track-border-color: var(--calcite-block-section-switch-track-border-color);
-  --calcite-switch-track-color: var(--calcite-block-section-switch-track-color);
-}
-
 @include base-component();
