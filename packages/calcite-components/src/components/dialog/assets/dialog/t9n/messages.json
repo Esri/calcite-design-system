@@ -1,3 +1,7 @@
 {
-  "close": "Close"
+  "close": "Close",
+  "resizeEnabled": "Resize enabled.",
+  "resizeInstructions": "Use the shift and arrow keys to resize the dialog.",
+  "dragEnabled": "Drag enabled.",
+  "dragInstructions": "Use the arrow keys to move the dialog."
 }

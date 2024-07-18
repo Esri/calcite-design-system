@@ -242,4 +242,8 @@ calcite-panel {
   }
 }
 
+.assistive-text {
+  @apply sr-only;
+}
+
 @include base-component();

@@ -227,7 +227,7 @@ export class Dialog
   }
 
   render(): VNode {
-    const { description, heading, opened } = this;
+    const { assistiveText, description, heading, opened } = this;
     return (
       <Host
         aria-description={description}
@@ -256,6 +256,11 @@ export class Dialog
               transform: `translate(${this.dialogPositionX}px, ${this.dialogPositionY}px)`,
             }}
           >
+            {assistiveText ? (
+              <div aria-live="polite" class={CSS.assistiveText} key="assistive-text">
+                {assistiveText}
+              </div>
+            ) : null}
             <slot name={SLOTS.content}>
               <calcite-panel
                 beforeClose={this.beforeClose}
@@ -328,6 +333,17 @@ export class Dialog
   }
 
   @State() defaultMessages: DialogMessages;
+
+  @State() assistiveText = "";
+
+  @Watch("dragEnabled")
+  @Watch("resizable")
+  updateAssistiveText(): void {
+    this.assistiveText = `
+    ${this.dragEnabled ? this.messages.dragEnabled + this.messages.dragInstructions : ""}
+    ${this.resizable ? this.messages.resizeEnabled + this.messages.resizeInstructions : ""}
+    `.trim();
+  }
 
   openTransitionProp = "opacity";
 
