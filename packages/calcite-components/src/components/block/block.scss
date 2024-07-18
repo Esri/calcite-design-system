@@ -105,10 +105,6 @@ calcite-loader[inline] {
 }
 
 calcite-handle {
-  --calcite-handle-background-color-active: var(--calcite-block-handle-background-color-active);
-  --calcite-handle-background-color-hover: var(--calcite-block-handle-background-color-hover);
-  --calcite-handle-color-hover: var(--calcite-block-handle-color-hover);
-  --calcite-handle-color: var(--calcite-block-handle-color);
   grid-area: handle;
 }
 
