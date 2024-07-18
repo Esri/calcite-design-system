@@ -42,3 +42,5 @@ export const dialogPlacements: DialogPlacement[] = [
   "cover",
   "center",
 ];
+
+export const dialogStep = 25;

@@ -13,6 +13,7 @@ import {
   Watch,
 } from "@stencil/core";
 import interact from "interactjs";
+import type { Interactable, ResizeEvent, DragEvent } from "@interactjs/types";
 import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import {
   activateFocusTrap,
@@ -44,7 +45,7 @@ import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
 import { OverlayPositioning } from "../../components";
 import { DialogMessages } from "./assets/dialog/t9n";
-import { CSS, SLOTS } from "./resources";
+import { CSS, dialogStep, SLOTS } from "./resources";
 import { DialogPlacement } from "./interfaces";
 
 let totalOpenDialogs: number = 0;
@@ -232,6 +233,7 @@ export class Dialog
         aria-description={description}
         aria-label={heading}
         aria-modal={toAriaBoolean(this.modal)}
+        onKeyDown={this.handleKeyDown}
         role="dialog"
       >
         <div
@@ -247,7 +249,6 @@ export class Dialog
           ) : null}
           <div
             class={CSS.dialog}
-            onKeyDown={this.handleKeyDown}
             ref={this.setTransitionEl}
             style={{
               inlineSize: `${this.dialogWidth}px`,
@@ -336,7 +337,7 @@ export class Dialog
 
   focusTrap: FocusTrap;
 
-  private interaction: Interact.Interactable;
+  private interaction: Interactable;
 
   private panelEl: HTMLCalcitePanelElement;
 
@@ -471,8 +472,12 @@ export class Dialog
   }
 
   private handleKeyDown = (event: KeyboardEvent): void => {
-    const { key, shiftKey } = event;
-    const step = 25;
+    const { key, shiftKey, defaultPrevented } = event;
+
+    if (defaultPrevented) {
+      return;
+    }
+
     const transitionRect = this.transitionEl.getBoundingClientRect();
     const containerRect = this.containerEl.getBoundingClientRect();
     const maxMoveY = containerRect.height / 2 - transitionRect.height / 2;
@@ -481,33 +486,33 @@ export class Dialog
     switch (key) {
       case "ArrowUp":
         if (shiftKey) {
-          this.dialogHeight = transitionRect.height + step;
+          this.dialogHeight = transitionRect.height + dialogStep;
         } else {
-          this.dialogPositionY = Math.max(this.dialogPositionY + -step, -maxMoveY);
+          this.dialogPositionY = Math.max(this.dialogPositionY + -dialogStep, -maxMoveY);
         }
         event.preventDefault();
         break;
       case "ArrowDown":
         if (shiftKey) {
-          this.dialogHeight = transitionRect.height - step;
+          this.dialogHeight = transitionRect.height - dialogStep;
         } else {
-          this.dialogPositionY = Math.min(this.dialogPositionY + step, maxMoveY);
+          this.dialogPositionY = Math.min(this.dialogPositionY + dialogStep, maxMoveY);
         }
         event.preventDefault();
         break;
       case "ArrowLeft":
         if (shiftKey) {
-          this.dialogWidth = transitionRect.width - step;
+          this.dialogWidth = transitionRect.width - dialogStep;
         } else {
-          this.dialogPositionX = Math.max(this.dialogPositionX + -step, -maxMoveX);
+          this.dialogPositionX = Math.max(this.dialogPositionX + -dialogStep, -maxMoveX);
         }
         event.preventDefault();
         break;
       case "ArrowRight":
         if (shiftKey) {
-          this.dialogWidth = transitionRect.width + step;
+          this.dialogWidth = transitionRect.width + dialogStep;
         } else {
-          this.dialogPositionX = Math.min(this.dialogPositionX + step, maxMoveX);
+          this.dialogPositionX = Math.min(this.dialogPositionX + dialogStep, maxMoveX);
         }
         event.preventDefault();
         break;
@@ -545,7 +550,7 @@ export class Dialog
         },
         modifiers: [restrictToParent],
         listeners: {
-          move: (event: Interact.ResizeEvent) => {
+          move: (event: ResizeEvent) => {
             this.dialogWidth = event.rect.width;
             this.dialogHeight = event.rect.height;
           },
@@ -557,7 +562,7 @@ export class Dialog
       this.interaction.draggable({
         modifiers: [restrictToParent],
         listeners: {
-          move: (event: Interact.DragEvent) => {
+          move: (event: DragEvent) => {
             position.x += event.dx;
             position.y += event.dy;
             this.dialogPositionX = position.x;

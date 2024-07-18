@@ -13,11 +13,32 @@ import {
 import { html } from "../../../support/formatting";
 import { GlobalTestProps, isElementFocused, skipAnimations } from "../../tests/utils";
 import { DialogMessages } from "./assets/dialog/t9n";
-import { CSS, SLOTS } from "./resources";
+import { CSS, dialogStep, SLOTS } from "./resources";
 
 type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
 }>;
+
+const dispatchDialogKeydown = async ({
+  page,
+  key,
+  shiftKey = false,
+}: {
+  page: E2EPage;
+  key: string;
+  shiftKey?: boolean;
+}): Promise<void> => {
+  await page.$eval(
+    "calcite-dialog",
+    (el: HTMLCalciteDialogElement, key, shiftKey) => {
+      el.dispatchEvent(new KeyboardEvent("keydown", { key, shiftKey, bubbles: true }));
+    },
+    key,
+    shiftKey,
+  );
+
+  await page.waitForChanges();
+};
 
 describe("calcite-dialog", () => {
   describe("renders", () => {
@@ -837,5 +858,77 @@ describe("calcite-dialog", () => {
     const alert = await page.find("calcite-alert");
 
     expect(await alert.getProperty("embedded")).toBe(true);
+  });
+
+  describe("keyboard movement", () => {
+    it.skip("should move properly via arrow keys", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-dialog heading="Hello world" resizable open><p>Hello world!</p></calcite-dialog>`,
+      });
+      await page.waitForChanges();
+      const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+
+      let computedStyle = await container.getComputedStyle();
+
+      await dispatchDialogKeydown({ page, key: "ArrowDown" });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.transform).toBe(``);
+
+      await dispatchDialogKeydown({ page, key: "ArrowUp" });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.transform).toBe(``);
+
+      await dispatchDialogKeydown({ page, key: "ArrowLeft" });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.transform).toBe(``);
+
+      await dispatchDialogKeydown({ page, key: "ArrowRight" });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.transform).toBe(``);
+    });
+  });
+
+  describe("keyboard resize", () => {
+    it("should resize properly via shift and arrow keys", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-dialog heading="Hello world" resizable open><p>Hello world!</p></calcite-dialog>`,
+      });
+      await page.waitForChanges();
+      const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+
+      let computedStyle = await container.getComputedStyle();
+      const initialBlockSize = computedStyle.blockSize;
+      const initialInlineSize = computedStyle.inlineSize;
+      const initialHeight = parseInt(initialBlockSize, 10);
+      const initialWidth = parseInt(initialInlineSize, 10);
+
+      await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: true });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight - dialogStep}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+
+      await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+
+      await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: true });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth - dialogStep}px`);
+
+      await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: true });
+
+      computedStyle = await container.getComputedStyle();
+      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+    });
   });
 });
