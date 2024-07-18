@@ -215,11 +215,5 @@ slot[name="footer-end"]::slotted(*) {
   @apply flex gap-1;
 }
 
-calcite-loader {
-  --calcite-loader-color-start: var(--calcite-card-loader-color-start);
-  --calcite-loader-color-middle: var(--calcite-card-loader-color-middle);
-  --calcite-loader-color-end: var(--calcite-card-loader-color-end);
-}
-
 @include base-component();
 @include disabled();
