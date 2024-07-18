@@ -1,5 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, t9n, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementRect } from "../../tests/utils";
 import { CSS } from "./resources";
@@ -279,6 +279,115 @@ describe("calcite-tab-nav", () => {
       await scrollEnd;
 
       await assertScrollButtonVisibility(true, false);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed(
+        html`<calcite-tab-nav>
+          <calcite-tab-title selected>hello darkness, my old friend</calcite-tab-title>
+        </calcite-tab-nav>`,
+        {
+          "--calcite-tab-nav-indicator-color": {
+            shadowSelector: `.${CSS.activeIndicator}`,
+            targetProp: "backgroundColor",
+          },
+        },
+      );
+    });
+
+    describe("responsive", () => {
+      themed(
+        html`<calcite-tab-nav style="width: 200px;">
+          <calcite-tab-title>The ocean floor is hidden from your viewing lens</calcite-tab-title>
+          <calcite-tab-title selected>A depth perception languished in the night</calcite-tab-title>
+          <calcite-tab-title>All my life I've been sowing the wounds</calcite-tab-title>
+          <calcite-tab-title>But the seeds sprout a lachrymal cloud</calcite-tab-title>
+        </calcite-tab-nav>`,
+        {
+          "--calcite-tab-nav-button-background-color-active": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-background-color",
+            state: { press: { attribute: "class", value: CSS.scrollButton } },
+          },
+          "--calcite-tab-nav-button-background-color-focus": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-background-color",
+            state: "focus",
+          },
+          "--calcite-tab-nav-button-background-color-hover": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-background-color",
+            state: "hover",
+          },
+          "--calcite-tab-nav-button-background-color": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-background-color",
+          },
+          "--calcite-tab-nav-button-border-color-active": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-border-color",
+            state: { press: { attribute: "class", value: CSS.scrollButton } },
+          },
+          "--calcite-tab-nav-button-border-color-focus": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-border-color",
+            state: "focus",
+          },
+          "--calcite-tab-nav-button-border-color-hover": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-border-color",
+            state: "hover",
+          },
+          "--calcite-tab-nav-button-border-color": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-border-color",
+          },
+          "--calcite-tab-nav-button-corner-radius": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-corner-radius",
+          },
+          "--calcite-tab-nav-button-icon-color-active": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-icon-color",
+            state: { press: { attribute: "class", value: CSS.scrollButton } },
+          },
+          "--calcite-tab-nav-button-icon-color-focus": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-icon-color",
+            state: "focus",
+          },
+          "--calcite-tab-nav-button-icon-color-hover": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-icon-color",
+            state: "hover",
+          },
+          "--calcite-tab-nav-button-icon-color": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-icon-color",
+          },
+          "--calcite-tab-nav-button-shadow-active": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-shadow",
+            state: { press: { attribute: "class", value: CSS.scrollButton } },
+          },
+          "--calcite-tab-nav-button-shadow-focus": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-shadow",
+            state: "focus",
+          },
+          "--calcite-tab-nav-button-shadow-hover": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-shadow",
+            state: "hover",
+          },
+          "--calcite-tab-nav-button-shadow": {
+            shadowSelector: `.${CSS.scrollButton}`,
+            targetProp: "--calcite-button-shadow",
+          },
+        },
+      );
     });
   });
 });

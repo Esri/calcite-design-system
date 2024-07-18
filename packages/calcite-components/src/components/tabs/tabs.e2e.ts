@@ -1,10 +1,11 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, themed } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { Scale } from "../interfaces";
 import { TabPosition } from "../tabs/interfaces";
 import { CSS as TabTitleCSS } from "../tab-title/resources";
+import { CSS } from "./resources";
 
 describe("calcite-tabs", () => {
   const tabsContent = html`
@@ -430,6 +431,34 @@ describe("calcite-tabs", () => {
       expect(await allTabs[1].isVisible()).toBe(false);
       expect(await allTabs[2].isVisible()).toBe(false);
       expect(await allTabs[3].isVisible()).toBe(true);
+    });
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-tabs", {
+        "--calcite-tabs-border-color": {
+          shadowSelector: `.${CSS.section}`,
+          targetProp: "borderBlockStartColor",
+        },
+      });
+    });
+
+    describe("bordered", () => {
+      themed(html`<calcite-tabs bordered></calcite-tabs>`, {
+        "--calcite-tabs-background-color": {
+          targetProp: "backgroundColor",
+        },
+        "--calcite-tabs-border-color": [
+          {
+            targetProp: "boxShadow",
+          },
+          {
+            shadowSelector: `.${CSS.section}`,
+            targetProp: "borderColor",
+          },
+        ],
+      });
     });
   });
 });
