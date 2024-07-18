@@ -365,184 +365,110 @@ describe("calcite-block", () => {
 
   describe("theme", () => {
     describe("default", () => {
-      themed(html`<calcite-block heading="heading" description="description"></calcite-block>`, {
-        "--calcite-block-background-color": {
-          targetProp: "backgroundColor",
+      themed("calcite-block", {
+        "--calcite-block-space-x": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "paddingInline",
         },
-        "--calcite-block-border-color": {
-          targetProp: "borderColor",
+        "--calcite-block-space-y": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "paddingBlock",
         },
-        "--calcite-block-description-text-color": {
-          shadowSelector: `.${CSS.description}`,
-          targetProp: "color",
-          state: "hover",
-        },
-        "--calcite-block-heading-text-color": [
-          {
-            shadowSelector: `.${CSS.header}`,
-            targetProp: "color",
-          },
-          {
-            shadowSelector: `.${CSS.heading}`,
-            targetProp: "color",
-          },
-        ],
+
         "--calcite-block-text-color": {
+          shadowSelector: `.${CSS.contentStart}`,
           targetProp: "color",
         },
-        "--calcite-block-content-space": [
-          {
-            shadowSelector: `.${CSS.content}`,
-            targetProp: "paddingBlock",
-          },
-          {
-            shadowSelector: `.${CSS.content}`,
-            targetProp: "paddingInline",
-          },
-        ],
       });
     });
-
-    describe("collapsible", () => {
-      themed(html`<calcite-block collapsible></calcite-block>`, {
-        "--calcite-block-header-background-color": {
-          shadowSelector: `.${CSS.toggle}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-block-header-background-color-hover": {
-          shadowSelector: `.${CSS.toggle}`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-block-toggle-icon-color": {
-          shadowSelector: `.${CSS.toggleIcon}`,
-          targetProp: "--calcite-icon-color",
-        },
-        "--calcite-block-toggle-icon-color-hover": {
-          shadowSelector: `.${CSS.toggleIcon}`,
-          targetProp: "--calcite-icon-color",
-          state: "hover",
-        },
-      });
-    });
-
-    describe("open", () => {
-      themed(html`<calcite-block open heading="heading"></calcite-block>`, {
-        "--calcite-block-heading-text-color-open": {
+    describe("heading", () => {
+      themed(html`<calcite-block heading="heading"></calcite-block>`, {
+        "--calcite-block-heading-text-color": {
           shadowSelector: `.${CSS.heading}`,
           targetProp: "color",
         },
       });
     });
-
-    describe("loading", () => {
-      themed(html`<calcite-block loading></calcite-block>`, {
-        "--calcite-block-loader-color-start": {
-          shadowSelector: `calcite-loader`,
-          targetProp: "--calcite-loader-color-start",
+    describe("description", () => {
+      themed(html`<calcite-block description="description"></calcite-block>`, {
+        "--calcite-block-text-color": [
+          {
+            shadowSelector: `.${CSS.description}`,
+            targetProp: "color",
+          },
+        ],
+      });
+    });
+    describe("toggle", () => {
+      themed(html`<calcite-block collapsible></calcite-block>`, {
+        "--calcite-block-text-color-hover": {
+          shadowSelector: `.${CSS.toggleIcon}`,
+          targetProp: "color",
+          state: "hover",
         },
-        "--calcite-block-loader-color-middle": {
-          shadowSelector: `calcite-loader`,
-          targetProp: "--calcite-loader-color-middle",
+        "--calcite-block-text-color": {
+          shadowSelector: `.${CSS.toggleIcon}`,
+          targetProp: "color",
         },
-        "--calcite-block-loader-color-end": {
-          shadowSelector: `calcite-loader`,
-          targetProp: "--calcite-loader-color-end",
+        "--calcite-block-toggle-background-color-hover": {
+          shadowSelector: `.${CSS.toggle}`,
+          targetProp: "backgroundColor",
+          state: "hover",
         },
-        "--calcite-block-scrim-background-color": {
-          shadowSelector: `calcite-scrim`,
-          targetProp: "--calcite-scrim-background-color",
+        "--calcite-block-toggle-background-color": {
+          shadowSelector: `.${CSS.toggle}`,
+          targetProp: "backgroundColor",
         },
       });
     });
-
     describe("draggable", () => {
       themed(html`<calcite-block drag-handle></calcite-block>`, {
-        "--calcite-block-handle-background-color": {
+        "--calcite-block-handle-background-color-active": {
           shadowSelector: "calcite-handle",
-          targetProp: "--calcite-handle-background-color",
+          targetProp: "--calcite-handle-background-color-active",
         },
         "--calcite-block-handle-background-color-hover": {
           shadowSelector: "calcite-handle",
           targetProp: "--calcite-handle-background-color-hover",
         },
-        "--calcite-block-handle-background-color-focus": {
+        "--calcite-block-handle-color-hover": {
           shadowSelector: "calcite-handle",
-          targetProp: "--calcite-handle-background-color-focus",
+          targetProp: "--calcite-handle-color-hover",
         },
-        "--calcite-block-handle-background-color-selected": {
+        "--calcite-block-handle-color": {
           shadowSelector: "calcite-handle",
-          targetProp: "--calcite-handle-background-color-selected",
-        },
-        "--calcite-block-handle-icon-color": {
-          shadowSelector: "calcite-handle",
-          targetProp: "--calcite-handle-icon-color",
-        },
-        "--calcite-block-handle-icon-color-hover": {
-          shadowSelector: "calcite-handle",
-          targetProp: "--calcite-handle-icon-color-hover",
-        },
-        "--calcite-block-handle-icon-color-focus": {
-          shadowSelector: "calcite-handle",
-          targetProp: "--calcite-handle-icon-color-focus",
-        },
-        "--calcite-block-handle-icon-color-selected": {
-          shadowSelector: "calcite-handle",
-          targetProp: "--calcite-handle-icon-color-selected",
+          targetProp: "--calcite-handle-color",
         },
       });
     });
-
-    describe("with action menu", () => {
-      themed(
-        html`<calcite-block>
-          <div slot="header-menu-actions">
-            <calcite-action text="Information" icon="information" text-enabled></calcite-action>
-          </div>
-        </calcite-block>`,
-        {
-          "--calcite-block-action-menu-border-color": {
-            shadowSelector: `calcite-action-menu`,
-            targetProp: "--calcite-action-menu-border-color",
-          },
-          "--calcite-block-action-menu-text-color": {
-            shadowSelector: `calcite-action-menu`,
-            targetProp: "--calcite-action-menu-text-color",
-          },
+    describe("open", () => {
+      themed(html`<calcite-block heading="heading" open></calcite-block>`, {
+        "--calcite-block-heading-text-color-active": {
+          shadowSelector: `.${CSS.heading}`,
+          targetProp: "color",
         },
-      );
+      });
     });
-
-    describe("status valid", () => {
-      themed(html`<calcite-block icon-start="banana" status="valid"></calcite-block>`, {
-        "--calcite-block-status-icon-color-valid": {
+    describe("status", () => {
+      themed(html`<calcite-block status="valid"></calcite-block>`, {
+        "--calcite-block-color-status": {
           shadowSelector: `.${CSS.statusIcon}`,
-          targetProp: "--calcite-icon-color",
+          targetProp: "color",
         },
       });
-    });
-
-    describe("status invalid", () => {
-      themed(html`<calcite-block icon-start="banana" status="invalid"></calcite-block>`, {
-        "--calcite-block-status-icon-color-invalid": {
+      themed(html`<calcite-block status="invalid"></calcite-block>`, {
+        "--calcite-block-color-status": {
           shadowSelector: `.${CSS.statusIcon}`,
-          targetProp: "--calcite-icon-color",
+          targetProp: "color",
         },
       });
     });
-
     describe("deprecated", () => {
-      themed(html`<calcite-block></calcite-block>`, {
-        "--calcite-block-padding": [
-          {
-            shadowSelector: `.${CSS.content}`,
-            targetProp: "paddingBlock",
-          },
-          {
-            shadowSelector: `.${CSS.content}`,
-            targetProp: "paddingInline",
-          },
-        ],
+      themed("calcite-block", {
+        "--calcite-block-padding": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "padding",
+        },
       });
     });
   });
