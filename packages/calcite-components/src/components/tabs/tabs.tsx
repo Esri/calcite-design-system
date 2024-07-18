@@ -1,6 +1,5 @@
 import { Component, Element, Fragment, h, Listen, Prop, State, VNode, Watch } from "@stencil/core";
 import { Scale } from "../interfaces";
-import { createObserver } from "../../utils/observers";
 import { getSlotAssignedElements, slotChangeGetAssignedElements } from "../../utils/dom";
 import { TabLayout, TabPosition } from "./interfaces";
 import { SLOTS } from "./resources";
@@ -85,6 +84,7 @@ export class Tabs {
   @Watch("titles")
   titlesWatcher(): void {
     this.updateAriaSettings();
+    this.updateItems();
   }
 
   /**
@@ -96,20 +96,8 @@ export class Tabs {
   @Watch("tabs")
   tabsWatcher(): void {
     this.updateAriaSettings();
+    this.updateItems();
   }
-
-  mutationObserver = createObserver("mutation", (mutationsList: MutationRecord[]) => {
-    for (const mutation of mutationsList) {
-      const target = mutation.target as HTMLElement;
-      if (
-        target.nodeName === "CALCITE-TAB-NAV" ||
-        target.nodeName === "CALCITE-TAB-TITLE" ||
-        target.nodeName === "CALCITE-TAB"
-      ) {
-        this.updateItems();
-      }
-    }
-  });
 
   //--------------------------------------------------------------------------
   //
@@ -195,7 +183,6 @@ export class Tabs {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.mutationObserver.observe(this.el, { childList: true });
     this.updateItems();
   }
 
@@ -203,9 +190,7 @@ export class Tabs {
     this.updateItems();
   }
 
-  disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
-  }
+  disconnectedCallback(): void {}
 
   render(): VNode {
     return (
