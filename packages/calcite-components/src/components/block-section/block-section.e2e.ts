@@ -233,93 +233,120 @@ describe("calcite-block-section", () => {
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
   }
 
-  describe("theme", () => {
+  describe("themed", () => {
     describe("default", () => {
-      themed(html`<calcite-block-section text="text"></calcite-block-section>`, {
+      themed("calcite-block-section", {
         "--calcite-block-section-background-color": {
           targetProp: "backgroundColor",
         },
-        "--calcite-block-section-heading-text-color": {
-          shadowSelector: `.${CSS.sectionHeader}`,
-          targetProp: "color",
-        },
-        "--calcite-block-section-heading-text-color-hover": {
-          shadowSelector: `.${CSS.sectionHeader}`,
+        "--calcite-block-section-icon-color-hover": {
+          shadowSelector: `.${CSS.chevronIcon}`,
           targetProp: "color",
           state: "hover",
+        },
+        "--calcite-block-section-icon-color": {
+          shadowSelector: `.${CSS.chevronIcon}`,
+          targetProp: "color",
         },
         "--calcite-block-section-text-color": {
           targetProp: "color",
         },
-        "--calcite-block-section-toggle-icon-color": {
-          shadowSelector: `.${CSS.chevronIcon}`,
+        "--calcite-block-section-toggle-text-color-hover": {
+          shadowSelector: `.${CSS.toggle}`,
+          targetProp: "color",
+          state: "hover",
+        },
+        "--calcite-block-section-toggle-text-color": {
+          shadowSelector: `.${CSS.toggle}`,
           targetProp: "color",
         },
       });
     });
-
-    describe("open", () => {
-      themed(`<calcite-block-section open></calcite-block-section>`, {
-        "--calcite-block-section-border-color": {
-          targetProp: "borderColor",
-        },
-      });
-    });
-
-    describe("status icon", () => {
-      themed(`<calcite-block-section status="valid"></calcite-block-section>`, {
-        "--calcite-block-section-status-icon-color": {
-          shadowSelector: `.${CSS.statusIcon}`,
-          targetProp: "--calcite-icon-color",
-        },
-      });
-    });
-
-    describe("switch toggle (open)", () => {
-      themed(`<calcite-block-section open toggle-display="switch"></calcite-block-section>`, {
-        "--calcite-block-section-switch-handle-border-color-checked": {
-          shadowSelector: `calcite-switch`,
-          targetProp: "--calcite-switch-handle-border-color",
-          state: "hover",
-        },
-        "--calcite-block-section-switch-track-background-color-checked": {
-          shadowSelector: `calcite-switch`,
-          targetProp: "--calcite-switch-track-background-color",
-        },
-        "--calcite-block-section-switch-border-color-checked": {
-          shadowSelector: `calcite-switch`,
+    describe("switch", () => {
+      themed(html`<calcite-block-section toggle-display="switch"></calcite-block-section>`, {
+        "--calcite-block-section-switch-border-color": {
+          shadowSelector: `.${CSS.switch}`,
           targetProp: "--calcite-switch-border-color",
         },
-      });
-    });
-
-    describe("switch toggle (closed)", () => {
-      themed(`<calcite-block-section toggle-display="switch"></calcite-block-section>`, {
-        "--calcite-block-section-switch-corner-radius": {
-          shadowSelector: `calcite-switch`,
+        "--calcite-block-section-switch-color-active": {
+          shadowSelector: `.${CSS.switch}`,
+          targetProp: "--calcite-switch-color-active",
+        },
+        "--calcite-block-section-switch-color-hover": {
+          shadowSelector: `.${CSS.switch}`,
+          targetProp: "--calcite-switch-color-hover",
+        },
+        "--calcite-block-section-switch-color": {
+          shadowSelector: `.${CSS.switch}`,
+          targetProp: "--calcite-switch-color",
+        },
+        "--calcite-block-section-corner-radius": {
+          shadowSelector: `.${CSS.switch}`,
           targetProp: "--calcite-switch-corner-radius",
         },
-        "--calcite-block-section-switch-handle-background-color": {
-          shadowSelector: `calcite-switch`,
-          targetProp: "--calcite-switch-handle-background-color",
+        "--calcite-block-section-switch-track-border-color": {
+          shadowSelector: `.${CSS.switch}`,
+          targetProp: "--calcite-switch-track-border-color",
         },
-        "--calcite-block-section-switch-handle-border-color": {
-          shadowSelector: `calcite-switch`,
-          targetProp: "--calcite-switch-handle-border-color",
+        "--calcite-block-section-switch-track-color": {
+          shadowSelector: `.${CSS.switch}`,
+          targetProp: "--calcite-switch-track-color",
         },
-        "--calcite-block-section-switch-handle-border-color-hover": {
-          shadowSelector: `calcite-switch`,
-          targetProp: "--calcite-switch-handle-border-color",
-          state: "hover",
+      });
+    });
+    describe("open", () => {
+      themed("<calcite-block-section open></calcite-block-section>", {
+        "--calcite-block-section-border-color": {
+          targetProp: "borderBlockEndColor",
         },
-        "--calcite-block-section-switch-track-background-color": {
-          shadowSelector: `calcite-switch`,
-          targetProp: "--calcite-switch-track-background-color",
+        "--calcite-block-section-toggle-text-color-active": {
+          shadowSelector: `.${CSS.toggle}`,
+          targetProp: "color",
         },
-        "--calcite-block-section-switch-border-color": {
-          shadowSelector: `calcite-switch`,
-          targetProp: "--calcite-switch-border-color",
-        },
+      });
+    });
+    describe("icons", () => {
+      themed(html`<calcite-block-section icon-start="book" icon-end="chevron-up"></calcite-block-section>`, {
+        "--calcite-block-section-icon-color-hover": [
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+            state: "hover",
+          },
+        ],
+        "--calcite-block-section-icon-color": [
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+          },
+        ],
+      });
+    });
+    describe("status", () => {
+      describe("valid", () => {
+        themed(html`<calcite-block-section status="valid"></calcite-block-section>`, {
+          "--calcite-block-section-status-color-valid": {
+            shadowSelector: `.${CSS.statusIcon}`,
+            targetProp: "color",
+          },
+        });
+      });
+      describe("invalid", () => {
+        themed(html`<calcite-block-section status="invalid"></calcite-block-section>`, {
+          "--calcite-block-section-status-color-invalid": {
+            shadowSelector: `.${CSS.statusIcon}`,
+            targetProp: "color",
+          },
+        });
       });
     });
   });
