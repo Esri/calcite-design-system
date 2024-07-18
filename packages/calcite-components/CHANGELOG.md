@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.13...@esri/calcite-components@2.11.0-next.14) (2024-07-16)
+
+### Bug Fixes
+
+- **radio-button-group:** remove blank clickable space outside of label ([#9793](https://github.com/Esri/calcite-design-system/issues/9793)) ([818a33e](https://github.com/Esri/calcite-design-system/commit/818a33edd8a8114b8a8a09f1bb8a5ad78fc9c8a0)), closes [#6703](https://github.com/Esri/calcite-design-system/issues/6703)
+
 ## [2.11.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@2.11.0-next.12...@esri/calcite-components@2.11.0-next.13) (2024-07-16)
 
 ### Bug Fixes
