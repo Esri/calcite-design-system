@@ -3,30 +3,28 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-alert-accent-color: Specifies the accent color of the component.
  * @prop --calcite-alert-background-color: Specifies the background color of the component.
  * @prop --calcite-alert-border-color: Specifies the border color of the component.
- * @prop --calcite-alert-chip-background-color: Specifies the background color of the queue count chip in the component.
- * @prop --calcite-alert-chip-border-color: Specifies the border color of the queue count chip in the component.
- * @prop --calcite-alert-chip-corner-radius: Specifies the corner radius of the queue count chip in the component.
- * @prop --calcite-alert-chip-text-color: Specifies the color of the queue count chip text in the component.
- * @prop --calcite-alert-close-background-color-active: Specifies the background color of the close button in the component when the close button is active.
- * @prop --calcite-alert-close-background-color-focus: Specifies the background color of the close button in the component when the close button is focused.
- * @prop --calcite-alert-close-background-color-hover: Specifies the background color of the close button in the component when the close button is hovered.
- * @prop --calcite-alert-close-background-color: Specifies the background color of the close button in the component.
- * @prop --calcite-alert-close-icon-color-active: Specifies the color of the close button icon in the component when the close button is active.
- * @prop --calcite-alert-close-icon-color-focus: Specifies the color of the close button icon in the component when the close button is focused.
- * @prop --calcite-alert-close-icon-color-hover: Specifies the color of the close button icon in the component when the close button is hovered.
- * @prop --calcite-alert-close-icon-color: Specifies the color of the close button icon in the component.
- * @prop --calcite-alert-corner-radius: Specifies the corner radius of the component.
- * @prop --calcite-alert-icon-color: Specifies the color of the icon in the component.
+ * @prop --calcite-alert-status-color: Specifies the status color at the top of the component.
+ * @prop --calcite-alert-close-background-color-active: Specifies the background color of the close button on active.
+ * @prop --calcite-alert-close-background-color-hover: Specifies the background color of the close button on hover.
+ * @prop --calcite-alert-close-background-color: Specifies the background color of the close button.
+ * @prop --calcite-alert-close-text-color-hover: Specifies the text color of the close button on hover.
+ * @prop --calcite-alert-close-text-color: Specifies the text color of the close button.
+ * @prop --calcite-alert-chip-text-color: Specifies the text color of the chip.
+ * @prop --calcite-alert-corner-radius: Specifies the border radius of the component.
+ * @prop --calcite-alert-link-text-color: Specifies the text color of the link.
+ * @prop --calcite-alert-message-text-color: Specifies the text color of the message.
  * @prop --calcite-alert-shadow: Specifies the shadow of the component.
- * @prop --calcite-alert-width: Specifies the width of the component.
+ * @prop --calcite-alert-size-x: Specifies the width of the component.
+ * @prop --calcite-alert-title-text-color: Specifies the text color of the title.
+ * @prop --calcite-alert-width: [Deprecated] use --calcite-alert-size-x. Specifies the width of the component.
  */
 
-:host {
-  --calcite-internal-alert-edge-distance: var(--calcite-spacing-xxxl);
+$border-style: var(--calcite-border-width-sm) solid var(--calcite-alert-border-color, var(--calcite-color-border-3));
 
+:host {
+  --calcite-internal-alert-edge-distance: theme("spacing.8");
   @apply block;
 }
 
@@ -45,17 +43,19 @@
   w-full
   z-toast;
 
-  --calcite-internal-alert-border-color: var(--calcite-alert-border-color, var(--calcite-color-border-3));
-  --calcite-internal-alert-corner-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
-
+  --tw-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  box-shadow: var(
+    --calcite-alert-shadow,
+    var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000),
+    var(--tw-shadow)
+  );
   background-color: var(--calcite-alert-background-color, var(--calcite-color-foreground-1));
-  border-radius: var(--calcite-internal-alert-corner-radius, var(--calcite-border-radius));
+  border-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius));
   border-block-start: 0 solid transparent;
-  border-inline: 1px solid var(--calcite-internal-alert-border-color);
-  border-block-end: 1px solid var(--calcite-internal-alert-border-color);
-  border-block-start-color: var(--calcite-internal-alert-status-color);
-  box-shadow: var(--calcite-alert-shadow, var(--calcite-shadow-sm));
-  inline-size: var(--calcite-internal-alert-width);
+  border-inline: $border-style;
+  border-block-end: $border-style;
+  inline-size: var(--calcite-alert-size-x, var(--calcite-alert-width, var(--calcite-internal-alert-width)));
   max-inline-size: calc(100% - (var(--calcite-internal-alert-edge-distance) * 2));
   transition:
     var(--calcite-internal-animation-timing-slow) $easing-function,
@@ -86,7 +86,6 @@
 }
 
 .icon {
-  --calcite-icon-color: var(--calcite-alert-icon-color, var(--calcite-internal-alert-status-color));
   @apply flex flex-col items-center justify-center p-0;
   margin-block: auto;
   margin-inline-end: auto;
@@ -97,26 +96,22 @@
   @apply border-none cursor-pointer flex items-center justify-end outline-none self-stretch;
   -webkit-appearance: none;
   padding: var(--calcite-internal-alert-spacing-token-large);
-
   background-color: var(--calcite-alert-close-background-color, var(--calcite-color-transparent));
-  color: var(--calcite-alert-close-icon-color);
+  color: var(--calcite-alert-close-text-color, var(--calcite-color-text-3));
 
   @apply focus-base;
   &:focus {
     @apply focus-inset;
   }
 
-  &:hover {
-    background-color: var(--calcite-alert-close-background-color-hover, var(--calcite-color-foreground-2));
-    color: var(--calcite-alert-close-icon-color-hover, var(--calcite-color-text-1));
-  }
+  &:hover,
   &:focus {
-    background-color: var(--calcite-alert-close-background-color-focus, var(--calcite-color-foreground-2));
-    color: var(--calcite-alert-close-icon-color-focus, var(--calcite-color-text-1));
+    background-color: var(--calcite-alert-close-background-color-hover, var(--calcite-color-foreground-2));
+    color: var(--calcite-alert-close-text-color-hover, var(--calcite-color-text-1));
   }
+
   &:active {
     background-color: var(--calcite-alert-close-background-color-active, var(--calcite-color-foreground-3));
-    color: var(--calcite-alert-close-icon-color-active, var(--calcite-color-text-1));
   }
 }
 
@@ -136,16 +131,15 @@
   border-inline: 0 solid transparent;
   border-start-end-radius: 0;
 
+  calcite-chip {
+    --calcite-chip-background-color: var(--calcite-alert-background-color, var(--calcite-color-foreground-1));
+    --calcite-chip-border-color: transparent;
+    --calcite-chip-text-color: var(--calcite-alert-chip-text-color, var(--calcite-color-text-2));
+  }
+
   &--active {
     @apply visible opacity-100;
   }
-}
-
-.queue-count calcite-chip {
-  --calcite-chip-background-color: var(--calcite-alert-chip-background-color);
-  --calcite-chip-border-color: var(--calcite-alert-chip-border-color);
-  --calcite-chip-corner-radius: var(--calcite-alert-chip-corner-radius);
-  --calcite-chip-text-color: var(--calcite-alert-chip-text-color, var(--calcite-color-text-2));
 }
 
 .dismiss-progress {
@@ -156,14 +150,14 @@
   inset-inline: 0;
   inset-block-start: -2px;
   block-size: 2px;
-  border-radius: var(--calcite-internal-alert-corner-radius) var(--calcite-internal-alert-corner-radius) 0 0;
-
+  border-radius: var(--calcite-alert-corner-radius, var(--calcite-border-radius))
+    var(--calcite-alert-corner-radius, var(--calcite-border-radius)) 0 0;
   &::after {
     @apply absolute
     top-0
     block;
-    block-size: 2px;
     content: "";
+    block-size: 2px;
     background-color: var(--calcite-color-transparent-tint);
     inset-inline-end: 0;
   }
@@ -186,7 +180,7 @@
 
 // scale variables
 :host([scale="s"]) {
-  --calcite-internal-alert-width: var(--calcite-alert-width, 40em);
+  --calcite-internal-alert-width: 40em;
   --calcite-internal-alert-spacing-token-small: theme("spacing.2");
   --calcite-internal-alert-spacing-token-large: theme("spacing.3");
   --calcite-internal-alert-footer-height: theme("height.8");
@@ -204,10 +198,13 @@
   .queue-count {
     @apply mx-2;
   }
+  .container {
+    --calcite-internal-alert-min-height: 3.5rem;
+  }
 }
 
 :host([scale="m"]) {
-  --calcite-internal-alert-width: var(--calcite-alert-width, 50em);
+  --calcite-internal-alert-width: 50em;
   --calcite-internal-alert-spacing-token-small: theme("spacing.3");
   --calcite-internal-alert-spacing-token-large: theme("spacing.4");
   --calcite-internal-alert-footer-height: theme("height.12");
@@ -225,10 +222,13 @@
   .queue-count {
     @apply mx-3;
   }
+  .container {
+    --calcite-internal-alert-min-height: 4.1875rem;
+  }
 }
 
 :host([scale="l"]) {
-  --calcite-internal-alert-width: var(--calcite-alert-width, 60em);
+  --calcite-internal-alert-width: 60em;
   --calcite-internal-alert-spacing-token-small: theme("spacing.4");
   --calcite-internal-alert-spacing-token-large: theme("spacing.5");
   --calcite-internal-alert-footer-height: theme("height.16");
@@ -245,6 +245,9 @@
   }
   .queue-count {
     @apply mx-4;
+  }
+  .container {
+    --calcite-internal-alert-min-height: 5.625rem;
   }
 }
 
@@ -266,41 +269,44 @@
 }
 
 @include slotted("title", "*") {
-  color: var(--calcite-color-text-1);
-
-  @apply font-medium
-    text-0-wrap;
+  @apply text-0-wrap
+    font-medium;
+  color: var(--calcite-alert-title-text-color, var(--calcite-color-text-1));
 }
 
 @include slotted("message", "*") {
-  color: var(--calcite-color-text-2);
-
-  @apply font-normal
-    inline
+  @apply text-n1-wrap
     m-0
-    text-n1-wrap;
+    inline
+    font-normal;
   margin-inline-end: theme("margin.2");
+  color: var(--calcite-alert-message-text-color, var(--calcite-color-text-2));
 }
 
 @include slotted("link", "*") {
-  color: var(--calcite-color-text-link);
-
   @apply inline-flex;
+  color: var(--calcite-alert-link-text-color, var(--calcite-color-text-link));
 }
 
 $alertKinds:
-  "brand" var(--calcite-alert-accent-color, var(--calcite-color-brand)),
-  "info" var(--calcite-alert-accent-color, var(--calcite-color-status-info)),
-  "danger" var(--calcite-alert-accent-color, var(--calcite-color-status-danger)),
-  "success" var(--calcite-alert-accent-color, var(--calcite-color-status-success)),
-  "warning" var(--calcite-alert-accent-color, var(--calcite-color-status-warning));
+  "brand" var(--calcite-alert-status-color, var(--calcite-color-brand)),
+  "info" var(--calcite-alert-status-color, var(--calcite-color-status-info)),
+  "danger" var(--calcite-alert-status-color, var(--calcite-color-status-danger)),
+  "success" var(--calcite-alert-status-color, var(--calcite-color-status-success)),
+  "warning" var(--calcite-alert-status-color, var(--calcite-color-status-warning));
 
 @each $alertKind in $alertKinds {
   $name: nth($alertKind, 1);
   $kind: nth($alertKind, 2);
 
   :host([kind="#{$name}"]) {
-    --calcite-internal-alert-status-color: #{$kind};
+    .container {
+      border-block-start-color: $kind;
+
+      & .icon {
+        color: $kind;
+      }
+    }
   }
 }
 
@@ -338,7 +344,7 @@ $alertDurations:
 /**
  * Conditional styles for when Alert is slotted in Shell
  */
-.container--slotted-in-shell {
+.container--embedded {
   @apply absolute;
 }
 
