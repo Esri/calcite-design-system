@@ -887,6 +887,61 @@ describe("calcite-dialog", () => {
     });
   });
 
+  describe("keyboard assistive text", () => {
+    it("should not have assistive text by default", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-dialog width-scale="s" heading="Hello world" open>Hello world!</calcite-dialog>`,
+      });
+      await skipAnimations(page);
+      await page.waitForChanges();
+      const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+      expect(assistiveTextElement).toBeNull();
+    });
+
+    it("should have assistive text when resizable", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-dialog width-scale="s" resizable heading="Hello world" open>Hello world!</calcite-dialog>`,
+      });
+      await skipAnimations(page);
+      await page.waitForChanges();
+      const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+      expect(assistiveTextElement).not.toBeNull();
+      expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
+      const messages = await import(`./assets/dialog/t9n/messages.json`);
+      expect(assistiveTextElement.textContent).toBe(messages.resizeEnabled);
+    });
+
+    it("should have assistive text when dragEnabled", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-dialog width-scale="s" drag-enabled heading="Hello world" open
+          >Hello world!</calcite-dialog
+        >`,
+      });
+      await skipAnimations(page);
+      await page.waitForChanges();
+      const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+      expect(assistiveTextElement).not.toBeNull();
+      expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
+      const messages = await import(`./assets/dialog/t9n/messages.json`);
+      expect(assistiveTextElement.textContent).toBe(messages.dragEnabled);
+    });
+
+    it("should have assistive text when resizable and dragEnabled", async () => {
+      const page = await newE2EPage({
+        html: html`<calcite-dialog width-scale="s" resizable drag-enabled heading="Hello world" open
+          >Hello world!</calcite-dialog
+        >`,
+      });
+      await skipAnimations(page);
+      await page.waitForChanges();
+      const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+      expect(assistiveTextElement).not.toBeNull();
+      expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
+      const messages = await import(`./assets/dialog/t9n/messages.json`);
+      expect(assistiveTextElement.textContent).toBe(`${messages.dragEnabled} ${messages.resizeEnabled}`.trim());
+    });
+  });
+
   describe("keyboard resize", () => {
     it("should resize properly via shift and arrow keys", async () => {
       const page = await newE2EPage({

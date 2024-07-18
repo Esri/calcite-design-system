@@ -336,13 +336,14 @@ export class Dialog
 
   @State() assistiveText = "";
 
+  @Watch("messages")
   @Watch("dragEnabled")
   @Watch("resizable")
   updateAssistiveText(): void {
-    this.assistiveText = `
-    ${this.dragEnabled ? this.messages.dragEnabled + this.messages.dragInstructions : ""}
-    ${this.resizable ? this.messages.resizeEnabled + this.messages.resizeInstructions : ""}
-    `.trim();
+    const { messages } = this;
+    this.assistiveText = messages
+      ? `${this.dragEnabled ? messages.dragEnabled : ""} ${this.resizable ? messages.resizeEnabled : ""}`.trim()
+      : "";
   }
 
   openTransitionProp = "opacity";
