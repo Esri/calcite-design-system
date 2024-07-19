@@ -18,10 +18,6 @@ export default class TooltipManager {
 
   private hoverCloseTimeout: number = null;
 
-  private hoveredTooltip: HTMLCalciteTooltipElement = null;
-
-  private clickedTooltip: HTMLCalciteTooltipElement = null;
-
   private activeTooltip: HTMLCalciteTooltipElement = null;
 
   private registeredElementCount = 0;
@@ -96,21 +92,13 @@ export default class TooltipManager {
   private pointerMoveHandler = (event: PointerEvent): void => {
     const composedPath = event.composedPath();
     const { activeTooltip } = this;
-    const hoveringActiveTooltip = activeTooltip?.open && composedPath.includes(activeTooltip);
 
-    if (hoveringActiveTooltip) {
+    const tooltip = this.queryTooltip(composedPath);
+
+    if (this.isOpen(tooltip, composedPath)) {
       this.clearHoverTimeout();
       return;
     }
-
-    const tooltip = this.queryTooltip(composedPath);
-    this.hoveredTooltip = tooltip;
-
-    if (this.isClosableClickedTooltip(tooltip)) {
-      return;
-    }
-
-    this.clickedTooltip = null;
 
     if (tooltip) {
       this.openHoveredTooltip(tooltip);
@@ -119,23 +107,37 @@ export default class TooltipManager {
     }
   };
 
+  private isOpen(tooltip: HTMLCalciteTooltipElement, composedPath: EventTarget[]): boolean {
+    const { activeTooltip } = this;
+
+    return (
+      (activeTooltip?.open && composedPath.includes(activeTooltip)) || (tooltip?.open && composedPath.includes(tooltip))
+    );
+  }
+
   private clickHandler = (event: Event): void => {
-    const clickedTooltip = this.queryTooltip(event.composedPath());
+    const composedPath = event.composedPath();
+    const tooltip = this.queryTooltip(composedPath);
 
-    if (clickedTooltip !== this.activeTooltip) {
-      this.closeActiveTooltip();
-
-      if (clickedTooltip) {
-        this.toggleTooltip(clickedTooltip, true);
-      }
-    }
-
-    this.clickedTooltip = clickedTooltip;
-
-    if (clickedTooltip?.closeOnClick) {
-      this.toggleTooltip(clickedTooltip, false);
+    if (this.isOpen(tooltip, composedPath)) {
       this.clearHoverTimeout();
+      return;
     }
+
+    this.closeActiveTooltip();
+
+    if (!tooltip) {
+      return;
+    }
+
+    if (tooltip.closeOnClick) {
+      this.toggleTooltip(tooltip, false);
+      this.clearHoverTimeout();
+      return;
+    }
+
+    this.toggleTooltip(tooltip, true);
+    this.clearHoverTimeout();
   };
 
   private focusInHandler = (event: FocusEvent): void => {
@@ -196,7 +198,9 @@ export default class TooltipManager {
   }
 
   private toggleFocusedTooltip(tooltip: HTMLCalciteTooltipElement, open: boolean): void {
-    this.closeActiveTooltip();
+    if (!tooltip) {
+      return;
+    }
 
     if (open) {
       this.clearHoverTimeout();
@@ -220,15 +224,7 @@ export default class TooltipManager {
 
         this.clearHoverCloseTimeout();
 
-        if (this.activeTooltip === this.hoveredTooltip) {
-          return;
-        }
-
         this.closeActiveTooltip();
-
-        if (tooltip !== this.hoveredTooltip) {
-          return;
-        }
 
         this.toggleTooltip(tooltip, true);
       },
@@ -247,17 +243,17 @@ export default class TooltipManager {
   };
 
   private queryFocusedTooltip(event: FocusEvent, open: boolean): void {
-    const tooltip = this.queryTooltip(event.composedPath());
+    const composedPath = event.composedPath();
+    const tooltip = this.queryTooltip(composedPath);
+    const { activeTooltip } = this;
 
-    if (!tooltip || this.isClosableClickedTooltip(tooltip)) {
+    // todo?
+    if (tooltip === activeTooltip && activeTooltip?.open === open) {
       return;
     }
 
+    this.closeActiveTooltip();
     this.toggleFocusedTooltip(tooltip, open);
-  }
-
-  private isClosableClickedTooltip(tooltip: HTMLCalciteTooltipElement): boolean {
-    return tooltip?.closeOnClick && tooltip === this.clickedTooltip;
   }
 
   private registerShadowRoot(shadowRoot: ShadowRoot): void {
