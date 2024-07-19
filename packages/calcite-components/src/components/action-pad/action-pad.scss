@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-pad-background-color: Specifies the background color of the component.
+ * @prop --calcite-action-container-background-color: Specifies the background color of the component.
  * @prop --calcite-action-pad-corner-radius: Specifies the corner radius of the component.
  * @prop --calcite-action-pad-expanded-max-size-x: When `layout` is `"vertical"`, specifies the expanded max width of the component.
  * @prop --calcite-action-pad-shadow: Specifies the shadow of the component.
@@ -27,9 +27,13 @@
   overflow-y-auto;
 
   --tw-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
-    var(--calcite-action-pad-shadow, var(--tw-shadow));
-  background-color: var(--calcite-action-pad-background-color, var(--calcite-color-background));
+  box-shadow: var(
+    --calcite-action-pad-shadow,
+    var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000),
+    var(--tw-shadow)
+  );
+  background-color: var(--calcite-action-container-background-color, var(--calcite-color-background));
   border-radius: calc(var(--calcite-action-pad-corner-radius, 0.125rem) * 2);
 }
 
