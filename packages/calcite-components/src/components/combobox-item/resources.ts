@@ -1,14 +1,24 @@
+import { Scale } from "../interfaces";
+
 export const CSS = {
+  active: "label--active",
+  centerContent: "center-content",
+  container: "container",
+  custom: "icon--custom",
+  description: "description",
+  dot: "icon--dot",
+  filterMatch: "filter-match",
   icon: "icon",
   iconActive: "icon--active",
-  iconIndent: "icon--indent",
-  custom: "icon--custom",
-  dot: "icon--dot",
-  single: "label--single",
   label: "label",
-  active: "label--active",
+  scale: (scale: Scale) => `scale--${scale}` as const,
   selected: "label--selected",
-  title: "title",
+  shortText: "short-text",
+  single: "label--single",
   textContainer: "text-container",
-  filterMatch: "filter-match",
+  title: "title",
+};
+
+export const SLOTS = {
+  contentEnd: "content-end",
 };
