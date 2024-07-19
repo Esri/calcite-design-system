@@ -73,14 +73,14 @@ export class ComboboxItemGroup {
     return (
       <ul
         aria-labelledby={this.guid}
-        class={{ [CSS.list]: true, [`scale--${scale}`]: true }}
+        class={{ [CSS.list]: true, [CSS.scale(scale)]: true }}
         role="group"
       >
         <li
           class={{ [CSS.label]: true }}
           id={this.guid}
           role="presentation"
-          style={{ "--calcite-internal-combobox-item-group-depth": `${depth}` }}
+          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
         >
           <span class={CSS.title}>{this.label}</span>
         </li>

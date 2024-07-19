@@ -5,12 +5,16 @@ describe("calcite-combobox-item-group", () => {
   describe("theme", () => {
     describe("default", () => {
       themed("calcite-combobox-item-group", {
-        "--calcite-combobox-item-group-border-color": {
+        "--calcite-combobox-border-color-highlight": {
           shadowSelector: `.${CSS.title}`,
           targetProp: "borderColor",
         },
-        "--calcite-combobox-item-group-text-color": {
+        "--calcite-combobox-text-color-highlight": {
           shadowSelector: `.${CSS.title}`,
+          targetProp: "color",
+        },
+        "--calcite-combobox-text-color": {
+          shadowSelector: `.${CSS.label}`,
           targetProp: "color",
         },
       });
