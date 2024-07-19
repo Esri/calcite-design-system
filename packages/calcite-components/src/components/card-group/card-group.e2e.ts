@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, renders, hidden, disabled } from "../../tests/commonTests";
+import { accessible, renders, hidden, disabled, themed } from "../../tests/commonTests";
 import { CSS } from "../card/resources";
 import { createSelectedItemsAsserter } from "../../tests/utils";
 
