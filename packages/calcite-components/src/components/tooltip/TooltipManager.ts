@@ -95,7 +95,7 @@ export default class TooltipManager {
 
     const tooltip = this.queryTooltip(composedPath);
 
-    if (this.isOpen(tooltip, composedPath)) {
+    if (this.pathHasOpenTooltip(tooltip, composedPath)) {
       this.clearHoverTimeout();
       return;
     }
@@ -107,7 +107,7 @@ export default class TooltipManager {
     }
   };
 
-  private isOpen(tooltip: HTMLCalciteTooltipElement, composedPath: EventTarget[]): boolean {
+  private pathHasOpenTooltip(tooltip: HTMLCalciteTooltipElement, composedPath: EventTarget[]): boolean {
     const { activeTooltip } = this;
 
     return (
@@ -119,7 +119,7 @@ export default class TooltipManager {
     const composedPath = event.composedPath();
     const tooltip = this.queryTooltip(composedPath);
 
-    if (this.isOpen(tooltip, composedPath)) {
+    if (this.pathHasOpenTooltip(tooltip, composedPath)) {
       this.clearHoverTimeout();
       return;
     }
@@ -189,6 +189,12 @@ export default class TooltipManager {
     this.clearHoverCloseTimeout();
   }
 
+  private closeTooltipIfNotActive(tooltip: HTMLCalciteTooltipElement): void {
+    if (this.activeTooltip !== tooltip) {
+      this.closeActiveTooltip();
+    }
+  }
+
   private closeActiveTooltip(): void {
     const { activeTooltip } = this;
 
@@ -223,9 +229,7 @@ export default class TooltipManager {
         }
 
         this.clearHoverCloseTimeout();
-
-        this.closeActiveTooltip();
-
+        this.closeTooltipIfNotActive(tooltip);
         this.toggleTooltip(tooltip, true);
       },
       this.activeTooltip ? 0 : TOOLTIP_OPEN_DELAY_MS,
@@ -245,14 +249,8 @@ export default class TooltipManager {
   private queryFocusedTooltip(event: FocusEvent, open: boolean): void {
     const composedPath = event.composedPath();
     const tooltip = this.queryTooltip(composedPath);
-    const { activeTooltip } = this;
 
-    // todo?
-    if (tooltip === activeTooltip && activeTooltip?.open === open) {
-      return;
-    }
-
-    this.closeActiveTooltip();
+    this.closeTooltipIfNotActive(tooltip);
     this.toggleFocusedTooltip(tooltip, open);
   }
 
