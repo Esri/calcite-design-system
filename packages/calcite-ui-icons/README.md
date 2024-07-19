@@ -115,7 +115,7 @@ This will give you an object containing all the icons in the library at all size
 
 *Note: path data omitted for brevity*.
 
-Most icons will have simple strings as path data, but some will be more complex as they need to store not only path, but opacity as well for multiple shapes. Icons of this structure will be anotated with the `multiPath` flag.
+Most icons will have simple strings as path data, but some will be more complex as they need to store not only path, but opacity as well for multiple shapes. Icons of this structure will be annotated with the `multiPath` flag.
 
 ### Individual icons structure
 
@@ -197,4 +197,4 @@ email: <contracts@esri.com>
 
 ## Contributing
 
-Please read the [contribute document](CONTRIBUTE.md).
+Please read the [contribute document](./CONTRIBUTE.md).
