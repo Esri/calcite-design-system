@@ -6,7 +6,7 @@
   --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-item-spacing-indent: theme("spacing.2");
   --calcite-combobox-item-selector-icon-size: theme("spacing.4");
-  --calcite-combobox-item-description-font-size: var(--calcite-font-size-xs);
+  --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size-xs);
 }
 
 .scale--m {
@@ -15,7 +15,7 @@
   --calcite-combobox-item-spacing-unit-s: theme("spacing[1.5]");
   --calcite-combobox-item-spacing-indent: theme("spacing.3");
   --calcite-combobox-item-selector-icon-size: theme("spacing.4");
-  --calcite-combobox-item-description-font-size: var(--calcite-font-size-sm);
+  --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size-sm);
 }
 
 .scale--l {
@@ -24,7 +24,7 @@
   --calcite-combobox-item-spacing-unit-s: theme("spacing[2.5]");
   --calcite-combobox-item-spacing-indent: theme("spacing.4");
   --calcite-combobox-item-selector-icon-size: theme("spacing.6");
-  --calcite-combobox-item-description-font-size: var(--calcite-font-size);
+  --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size);
 }
 
 .container {
@@ -148,7 +148,7 @@ ul:focus {
 }
 
 .description {
-  font-size: var(--calcite-combobox-item-description-font-size);
+  font-size: var(--calcite-internal-combobox-item-description-font-size);
 }
 
 :host([selected]),
