@@ -579,7 +579,7 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * @param {string} selector The CSS selector string to filter the returned elements by.
  * @returns {Element[]} An array of elements.
  */
-export function slotChangeGetAssignedElements(event: Event, selector?: string): Element[] {
+export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] | null {
   return getSlotAssignedElements(event.target as HTMLSlotElement, selector);
 }
 
@@ -590,11 +590,11 @@ export function slotChangeGetAssignedElements(event: Event, selector?: string): 
  * @param {string} selector CSS selector string to filter the returned elements by.
  * @returns {Element[]} An array of elements.
  */
-export function getSlotAssignedElements<T>(slot: HTMLSlotElement, selector?: string): T[] {
+export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] | null {
   const assignedElements = slot.assignedElements({
     flatten: true,
   });
-  return selector ? (filterElementsByCSSSelector(assignedElements, selector) as T[]) : (assignedElements as T[]);
+  return selector ? filterElementsByCSSSelector<T>(assignedElements, selector) : (assignedElements as T[]);
 }
 
 /**
