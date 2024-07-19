@@ -25,8 +25,10 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           zip: true
           exitOnceUploaded: true
-          autoAcceptChanges: epic/7180-component-tokens
           workingDir: packages/calcite-components
+          # Re-enable this option once the snapshots are fixed on the epic branch. Until then, snapshots will need to be
+          # approved/rejected in both the PR and the commit on epic/7180-component-tokens after installing
+          # autoAcceptChanges: epic/7180-component-tokens
         env:
           STORYBOOK_SCREENSHOT_TEST_BUILD: true
           CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}

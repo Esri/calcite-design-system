@@ -37,6 +37,7 @@ import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { CollapseDirection } from "../interfaces";
+import { Scale } from "../interfaces";
 import { FlowItemMessages } from "./assets/flow-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
@@ -154,6 +155,9 @@ export class FlowItem
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * When `true`, displays a back button in the component's header.
@@ -294,6 +298,7 @@ export class FlowItem
 
   handlePanelClose = (event: CustomEvent<void>): void => {
     event.stopPropagation();
+    this.closed = true;
     this.calciteFlowItemClose.emit();
   };
 
@@ -382,6 +387,7 @@ export class FlowItem
             onCalcitePanelToggle={this.handlePanelToggle}
             overlayPositioning={overlayPositioning}
             ref={this.setContainerRef}
+            scale={this.scale}
           >
             {this.renderBackButton()}
             <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />

@@ -163,7 +163,7 @@
     }
     .suffix {
       @apply order-5;
-      color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
+      color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
       background-color: var(--calcite-input-suffix-background-color, var(--calcite-color-background));
       border-inline-start-width: var(--calcite-border-width-none);
     }
@@ -276,7 +276,7 @@
     }
 
     .number-button-item {
-      padding-block: 0px;
+      padding-block: 0;
       padding-inline: 0.5rem /* 8px */;
     }
   }

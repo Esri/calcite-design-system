@@ -366,7 +366,7 @@ describe("calcite-action-pad", () => {
         },
         "--calcite-action-pad-trigger-background-color-active": {
           shadowSelector: "calcite-action-group",
-          targetProp: "--calcite-action-group-trigger-background-color-active",
+          targetProp: "--calcite-action-background-color",
           state: { press: { attribute: "class", value: CSS.expandToggle } },
         },
         "--calcite-action-pad-trigger-background-color-focus": {

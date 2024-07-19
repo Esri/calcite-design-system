@@ -7,15 +7,18 @@
  * @prop --calcite-block-section-border-color: Specifies the border color of the component. Applicable on bottom border when open.
  * @prop --calcite-block-section-heading-text-color-hover: Specifies the component's heading text color on hover.
  * @prop --calcite-block-section-heading-text-color: Specifies the component's heading text color.
+ * @prop --calcite-block-section-icon-color: Specifies the component's heading text color.
  * @prop --calcite-block-section-status-icon-color: Specifies the status icon color of the component.
  * @prop --calcite-block-section-switch-corner-radius: Specifies the border radius of the switch.
  * @prop --calcite-block-section-switch-handle-background-color: Specifies the background color of the switch handle.
+ * @prop --calcite-block-section-switch-handle-border-color-checked: Specifies the border color of the switch handle when checked.
  * @prop --calcite-block-section-switch-handle-border-color-hover: Specifies the border color of the switch handle on hover.
  * @prop --calcite-block-section-switch-handle-border-color: Specifies the border color of the switch handle.
  * @prop --calcite-block-section-switch-track-background-color-checked: Specifies the background color of the switch track when checked.
  * @prop --calcite-block-section-switch-track-background-color: Specifies the background color of the switch track.
  * @prop --calcite-block-section-switch-track-border-color-checked: Specifies the border color of the switch track when checked.
  * @prop --calcite-block-section-switch-track-border-color: Specifies the border color of the switch track.
+ * @prop --calcite-block-section-text-color: Specifies the text color of the component.
  * @prop --calcite-block-section-toggle-icon-color: Specifies the icon color of the toggle.
  */
 
@@ -25,7 +28,7 @@
     text-n1;
 
   background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-color-text-2);
+  color: var(--calcite-block-section-text-color, var(--calcite-color-text-2));
 }
 
 :host([open]) {
@@ -34,22 +37,6 @@
   @apply border-0
     border-b
     border-solid;
-
-  .toggle {
-    color: var(--calcite-color-text-1);
-
-    &:hover {
-      color: var(--calcite-color-text-1);
-    }
-  }
-
-  .chevron-icon {
-    color: var(--calcite-color-text-3);
-
-    &:hover {
-      color: var(--calcite-color-text-1);
-    }
-  }
 }
 
 :host(:last-child) {
@@ -61,10 +48,6 @@
 
   background-color: var(--calcite-color-transparent);
   gap: var(--calcite-spacing-md);
-
-  calcite-icon {
-    --calcite-icon-color: var(--calcite-block-section-toggle-icon-color);
-  }
 }
 
 .status-icon {
@@ -74,12 +57,7 @@
   );
 
   gap: var(--calcite-spacing-md);
-  color: var(--calcite-color-text-2);
   font-weight: var(--calcite-font-weight-normal);
-
-  &:hover {
-    color: var(--calcite-color-text-1);
-  }
 }
 
 .status-icon.valid {
@@ -109,7 +87,7 @@
     @apply focus-outset;
   }
   &:hover {
-    color: var(--calcite-block-section-heading-text-color, var(--calcite-color-text-1));
+    color: var(--calcite-block-section-heading-text-color-hover, var(--calcite-color-text-1));
   }
 }
 
@@ -135,49 +113,30 @@
     @apply flex flex-auto items-center;
   }
 
-  .icon--end,
-  .icon--start,
-  .chevron-icon {
-    @apply flex items-center;
-
-    color: var(--calcite-color-text-3);
-
-    &:hover {
-      color: var(--calcite-color-text-1);
-    }
-  }
-
   .switch {
     @apply flex items-center;
   }
 }
 
-.status-icon {
-  @apply flex items-center;
-}
-
-.status-icon.valid {
-  color: theme("colors.success");
-}
-
-.status-icon.invalid {
-  color: theme("colors.danger");
+.icon--start,
+.icon--end {
+  --calcite-icon-color: var(--calcite-internal-block-section-icon-color, var(--calcite-color-text-3));
 }
 
 .chevron-icon {
-  @apply flex items-center;
-}
+  --calcite-icon-color: var(--calcite-block-section-toggle-icon-color, var(--calcite-color-text-3));
 
-.chevron-icon {
-  @apply flex items-center;
+  &:hover {
+    --calcite-icon-color: var(--calcite-block-section-toggle-icon-color-hover, var(--calcite-color-text-1));
+  }
 }
 
 calcite-switch {
+  --calcite-switch-border-color: var(--calcite-block-section-switch-border-color);
   --calcite-switch-corner-radius: var(--calcite-block-section-switch-corner-radius);
   --calcite-switch-handle-background-color: var(--calcite-block-section-switch-handle-background-color);
   --calcite-switch-handle-border-color: var(--calcite-block-section-switch-handle-border-color);
   --calcite-switch-track-background-color: var(--calcite-block-section-switch-track-background-color);
-  --calcite-switch-track-border-color: var(--calcite-block-section-switch-track-border-color);
 
   &:focus,
   &:hover {
@@ -185,8 +144,9 @@ calcite-switch {
   }
 
   &[checked] {
+    --calcite-switch-border-color: var(--calcite-block-section-switch-border-color-checked);
+    --calcite-switch-handle-border-color: var(--calcite-block-section-switch-handle-border-color-checked);
     --calcite-switch-track-background-color: var(--calcite-block-section-switch-track-background-color-checked);
-    --calcite-switch-track-border-color: var(--calcite-block-section-switch-track-border-color-checked);
   }
 }
 

@@ -58,106 +58,85 @@ describe("calcite-loader", () => {
   });
 
   describe("theme", () => {
-    describe("loader colors", () => {
-      function buildStylesToFreezeAnimationAt(delayInSeconds: number): string {
-        return html`
-          :root { --calcite-duration-factor: 0; } calcite-loader { animation-play-state: paused; animation-duration:
-          10s; animation-direction: initial; animation-iteration-count: 1; animation-delay: -${delayInSeconds}s;
-          stroke-width: 10px; /* providing initial values for loader color segments to ensure true negatives */
-          --calcite-loader-color-start: black; --calcite-loader-color-middle: black; --calcite-loader-color-end: black;
-          }
-        `;
-      }
-
-      describe("start", () => {
-        themed(
-          async () => {
-            const page = await newE2EPage();
-            await page.setContent(html`<calcite-loader></calcite-loader>`);
-            await page.addStyleTag({
-              content: buildStylesToFreezeAnimationAt(1),
-            });
-
-            return { page, tag: "calcite-loader" };
+    describe("default", () => {
+      themed("calcite-loader", {
+        "--calcite-loader-color": {
+          targetProp: "stroke",
+        },
+        "--calcite-loader-size": [
+          {
+            targetProp: "minBlockSize",
           },
           {
-            "--calcite-loader-color-start": {
-              targetProp: "stroke",
-            },
-          },
-        );
-      });
-
-      describe("middle", () => {
-        themed(
-          async () => {
-            const page = await newE2EPage();
-            await page.setContent(html`<calcite-loader></calcite-loader>`);
-            await page.addStyleTag({
-              content: buildStylesToFreezeAnimationAt(4),
-            });
-
-            return { page, tag: "calcite-loader" };
+            shadowSelector: ".loader__svgs",
+            targetProp: "blockSize",
           },
           {
-            "--calcite-loader-color-middle": {
-              targetProp: "stroke",
-            },
-          },
-        );
-      });
-
-      describe("end", () => {
-        themed(
-          async () => {
-            const page = await newE2EPage();
-            await page.setContent(html`<calcite-loader></calcite-loader>`);
-            await page.addStyleTag({
-              content: buildStylesToFreezeAnimationAt(7),
-            });
-
-            return { page, tag: "calcite-loader" };
+            shadowSelector: ".loader__svgs",
+            targetProp: "inlineSize",
           },
           {
-            "--calcite-loader-color-end": {
-              targetProp: "stroke",
-            },
+            shadowSelector: ".loader__svg",
+            targetProp: "blockSize",
           },
-        );
+          {
+            shadowSelector: ".loader__svg",
+            targetProp: "inlineSize",
+          },
+        ],
       });
     });
 
     describe("determinate", () => {
-      themed(html`<calcite-loader type="determinate" value="10"></calcite-loader>`, {
-        "--calcite-loader-track-color-determinate": {
+      themed(html` <calcite-loader text="loading..." type="determinate" value="100"></calcite-loader>`, {
+        "--calcite-loader-color": {
+          shadowSelector: ".loader__percentage",
+          targetProp: "color",
+        },
+        "--calcite-loader-size": [
+          {
+            shadowSelector: ".loader__percentage",
+            targetProp: "inlineSize",
+          },
+        ],
+        "--calcite-loader-text-color": [
+          {
+            shadowSelector: ".loader__percentage",
+            targetProp: "color",
+          },
+          {
+            shadowSelector: ".loader__text",
+            targetProp: "color",
+          },
+        ],
+        "--calcite-loader-track-color": {
           targetProp: "stroke",
         },
+      });
+    });
+
+    describe("inline", () => {
+      themed(html`<calcite-loader inline></calcite-loader>`, {
+        "--calcite-loader-size": [
+          {
+            targetProp: "blockSize",
+          },
+          {
+            targetProp: "inlineSize",
+          },
+        ],
       });
     });
 
     describe("deprecated", () => {
       describe("default", () => {
         themed(`calcite-loader`, {
-          "--calcite-loader-bar-width": {
-            targetProp: "strokeWidth",
-          },
           "--calcite-loader-font-size": {
             targetProp: "fontSize",
           },
           "--calcite-loader-padding": {
             targetProp: "paddingBlock",
           },
-          "--calcite-loader-size": [
-            {
-              targetProp: "blockSize",
-            },
-            {
-              targetProp: "minBlockSize",
-            },
-            {
-              targetProp: "inlineSize",
-            },
-          ],
         });
 
         describe("inline", () => {

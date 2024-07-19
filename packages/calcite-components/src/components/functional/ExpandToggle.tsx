@@ -22,7 +22,7 @@ interface ExpandToggleProps {
 const ICONS = {
   chevronsLeft: "chevrons-left",
   chevronsRight: "chevrons-right",
-};
+} as const;
 
 function getCalcitePosition(position: Position, el: HTMLElement): Position {
   return position || el.closest("calcite-shell-panel")?.position || "start";

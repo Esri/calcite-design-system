@@ -43,6 +43,7 @@ import {
 } from "../../utils/t9n";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { CollapseDirection } from "../interfaces";
+import { Scale } from "../interfaces";
 import { PanelMessages } from "./assets/panel/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
@@ -155,6 +156,9 @@ export class Panel
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -471,6 +475,7 @@ export class Panel
         data-test="collapse"
         icon={collapsed ? icons[0] : icons[1]}
         onClick={this.collapse}
+        scale={this.scale}
         text={collapse}
         title={collapsed ? expand : collapse}
       />
@@ -482,6 +487,7 @@ export class Panel
         data-test="close"
         icon={ICONS.close}
         onClick={this.close}
+        scale={this.scale}
         text={close}
         title={close}
       />
@@ -522,6 +528,7 @@ export class Panel
       >
         <calcite-action
           icon={ICONS.menu}
+          scale={this.scale}
           slot={ACTION_MENU_SLOTS.trigger}
           text={messages.options}
         />

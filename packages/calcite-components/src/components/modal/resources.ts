@@ -33,7 +33,7 @@ export const DURATIONS = {
 
 export const ICONS = {
   close: "x",
-};
+} as const;
 
 export const SLOTS = {
   content: "content",
