@@ -99,13 +99,13 @@
     "lint-staged": "15.2.7",
     "markdownlint-cli": "0.41.0",
     "postcss": "8.4.39",
-    "prettier": "3.3.2",
+    "prettier": "3.3.3",
     "puppeteer": "21.5.0",
     "quicktype-core": "23.0.170",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "rimraf": "5.0.7",
-    "rollup": "4.18.0",
+    "rimraf": "5.0.9",
+    "rollup": "4.18.1",
     "semver": "7.6.2",
     "shell-quote": "1.8.1",
     "storybook": "8.2.2",
@@ -114,7 +114,7 @@
     "stylelint": "15.11.0",
     "stylelint-config-recommended-scss": "12.0.0",
     "stylelint-use-logical-spec": "5.0.1",
-    "tailwindcss": "3.4.4",
+    "tailwindcss": "3.4.6",
     "ts-jest": "29.1.2",
     "tsx": "4.16.2",
     "turbo": "1.13.4",
@@ -132,5 +132,10 @@
   },
   "dependencies": {
     "patch-package": "8.0.0"
+  },
+  "optionalDependencies": {
+    "@nx/nx-darwin-arm64": "19.5.1",
+    "@nx/nx-win32-x64-msvc": "19.5.1",
+    "@nx/nx-linux-x64-gnu": "18.3.5"
   }
 }
