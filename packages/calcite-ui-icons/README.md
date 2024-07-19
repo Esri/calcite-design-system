@@ -197,4 +197,4 @@ email: <contracts@esri.com>
 
 ## Contributing
 
-Please read the [contribute document](./CONTRIBUTE.md).
+Please read the [Contributing document](./CONTRIBUTING.md).
