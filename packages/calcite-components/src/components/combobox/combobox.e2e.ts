@@ -875,7 +875,7 @@ describe("calcite-combobox", () => {
       await input.press("Enter");
       await page.waitForChanges();
 
-      const item = await page.find("calcite-combobox-item:last-child");
+      const item = await page.find("calcite-combobox-item:first-child");
       expect(await item.getProperty("textLabel")).toBe("K");
 
       const combobox = await page.find("calcite-combobox");
@@ -889,8 +889,8 @@ describe("calcite-combobox", () => {
       await skipAnimations(page);
       await page.setContent(html`
         <calcite-combobox allow-custom-values selection-mode="single">
-          <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
+          <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
           <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
         </calcite-combobox>
       `);
@@ -902,23 +902,23 @@ describe("calcite-combobox", () => {
       await input.press("Enter");
       await page.waitForChanges();
 
-      const item1 = await page.find("calcite-combobox-item#one");
-      const item2 = await page.find("calcite-combobox-item:last-child");
+      const item1 = await page.find("calcite-combobox-item:first-child");
+      const item2 = await page.find("calcite-combobox-item#two");
 
-      expect(await item2.getProperty("textLabel")).toBe("K");
+      expect(await item1.getProperty("textLabel")).toBe("K");
 
       expect((await combobox.getProperty("selectedItems")).length).toBe(1);
-      expect(await item1.getProperty("selected")).toBe(false);
-      expect(await item2.getProperty("selected")).toBe(true);
+      expect(await item1.getProperty("selected")).toBe(true);
+      expect(await item2.getProperty("selected")).toBe(false);
     });
 
     it("should auto-select new custom values in multiple selection mode", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-combobox allow-custom-values>
-          <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+          <calcite-combobox-item id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
         </calcite-combobox>
       `);
       const combobox = await page.find("calcite-combobox");
@@ -930,9 +930,9 @@ describe("calcite-combobox", () => {
       await input.press("Escape");
       await page.waitForChanges();
 
-      const item1 = await page.find("calcite-combobox-item#one");
+      const item1 = await page.find("calcite-combobox-item:first-child");
       const item2 = await page.find("calcite-combobox-item#two");
-      const item3 = await page.find("calcite-combobox-item:last-child");
+      const item3 = await page.find("calcite-combobox-item#three");
       const chips = await page.findAll("calcite-combobox >>> calcite-chip");
 
       expect((await combobox.getProperty("selectedItems")).length).toBe(3);
@@ -1666,6 +1666,28 @@ describe("calcite-combobox", () => {
       await element.press("Enter");
       const chips = await page.findAll("calcite-combobox >>> calcite-chip");
       expect(chips.length).toBe(1);
+    });
+
+    it("should append unknown tag to top of list", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-combobox allow-custom-values selection-mode="single">
+          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+        </calcite-combobox>
+      `);
+      const input = await page.find("calcite-combobox >>> input");
+
+      await input.click();
+      await page.keyboard.type("one");
+      await input.press("Enter");
+      await page.waitForChanges();
+
+      const firstItem = await page.find("calcite-combobox-item:first-child");
+      expect(await firstItem.getProperty("textLabel")).toBe("one");
+
+      const lastItem = await page.find("calcite-combobox-item:last-child");
+      expect(await lastItem.getProperty("textLabel")).toBe("three");
     });
 
     it("should fire calciteComboboxChange when entering new unknown tag", async () => {

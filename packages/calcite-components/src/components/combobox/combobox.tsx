@@ -1292,7 +1292,7 @@ export class Combobox
       item.value = value;
       item.textLabel = value;
       item.selected = true;
-      this.el.appendChild(item);
+      this.el.prepend(item);
       this.resetText();
       if (focus) {
         this.setFocus();
