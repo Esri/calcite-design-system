@@ -422,11 +422,11 @@ export function filterDirectChildren<T extends Element>(el: Element, selector: s
 /**
  * Filters an array of HTML elements by the provided css selector string.
  *
- * @param {Element[]} elements An array of elements, such as one returned by HTMLSlotElement.assignedNodes().
+ * @param {Element[]} elements An array of elements, such as one returned by HTMLSlotElement.assignedElements().
  * @param {string} selector The CSS selector string to filter the returned elements by.
  * @returns {Element[]} A filtered array of elements.
  */
-export function filterElementsByCSSSelector<T extends Element>(elements: Element[], selector: string): T[] {
+export function filterElementsBySelector<T extends Element>(elements: Element[], selector: string): T[] {
   return elements.filter((element): element is T => element.matches(selector));
 }
 
@@ -594,7 +594,7 @@ export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement
   const assignedElements = slot.assignedElements({
     flatten: true,
   });
-  return selector ? filterElementsByCSSSelector<T>(assignedElements, selector) : (assignedElements as T[]);
+  return selector ? filterElementsBySelector<T>(assignedElements, selector) : (assignedElements as T[]);
 }
 
 /**
