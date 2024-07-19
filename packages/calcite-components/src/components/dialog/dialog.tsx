@@ -113,7 +113,7 @@ export class Dialog
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
-  /** Specifies the kind of the component, which will apply to top border. */
+  /** Specifies the kind of the component, which will style the top border. */
   @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
 
   /**
