@@ -183,10 +183,6 @@ export class ColorPickerHexInput implements LoadableComponent {
       allowEmpty && !internalColor ? "" : this.formatOpacityForInternalInput(internalColor);
   };
 
-  private onOpacityInputFocus = (): void => {
-    this.opacityInputNode.selectText();
-  };
-
   private onOpacityInputInput = (): void => {
     this.onOpacityInputChange();
   };
@@ -221,8 +217,10 @@ export class ColorPickerHexInput implements LoadableComponent {
     this.internalSetValue(value, this.value);
   };
 
-  private onHexInputFocus = (): void => {
-    this.hexInputNode.selectText();
+  private onInputFocus = (event: Event): void => {
+    event.type === "calciteInternalInputTextFocus"
+      ? this.hexInputNode.selectText()
+      : this.opacityInputNode.selectText();
   };
 
   private onHexInputInput = (): void => {
@@ -345,7 +343,7 @@ export class ColorPickerHexInput implements LoadableComponent {
           onCalciteInputTextChange={this.onHexInputChange}
           onCalciteInputTextInput={this.onHexInputInput}
           onCalciteInternalInputTextBlur={this.onHexInputBlur}
-          onCalciteInternalInputTextFocus={this.onHexInputFocus}
+          onCalciteInternalInputTextFocus={this.onInputFocus}
           onKeyDown={this.onInputKeyDown}
           onPaste={this.onHexInputPaste}
           prefixText="#"
@@ -365,7 +363,7 @@ export class ColorPickerHexInput implements LoadableComponent {
             numberingSystem={this.numberingSystem}
             onCalciteInputNumberInput={this.onOpacityInputInput}
             onCalciteInternalInputNumberBlur={this.onOpacityInputBlur}
-            onCalciteInternalInputNumberFocus={this.onOpacityInputFocus}
+            onCalciteInternalInputNumberFocus={this.onInputFocus}
             onKeyDown={this.onInputKeyDown}
             ref={this.storeOpacityInputRef}
             scale={inputScale}

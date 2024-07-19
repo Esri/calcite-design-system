@@ -84,7 +84,7 @@ const throttleFor60FpsInMs = 16;
 @Component({
   tag: "calcite-color-picker",
   styleUrl: "color-picker.scss",
-  shadow: {},
+  shadow: true,
   assetsDirs: ["assets"],
 })
 export class ColorPicker
@@ -331,6 +331,8 @@ export class ColorPicker
 
   private internalColorUpdateContext: "internal" | "initial" | "user-interaction" | null = null;
 
+  private isActiveChannelInputEmpty: boolean = false;
+
   private isClearable: boolean;
 
   private mode: SupportedMode = CSSColorMode.HEX;
@@ -343,9 +345,7 @@ export class ColorPicker
 
   private shiftKeyChannelAdjustment = 0;
 
-  private upOrDownArrowKeyTracker: "down" | null | "up" = null;
-
-  private isActiveChannelInputEmpty: boolean = false;
+  private upOrDownArrowKeyTracker: "down" | "up" | null = null;
 
   @State() channelMode: ColorMode = "rgb";
 
