@@ -1,7 +1,33 @@
-import { disabled, hidden, renders, slots, themed } from "../../tests/commonTests";
+import { defaults, disabled, hidden, reflects, renders, slots, themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-combobox-item", () => {
+  describe("defaults", () => {
+    defaults("calcite-combobox-item", [
+      { propertyName: "active", defaultValue: false },
+      { propertyName: "description", defaultValue: undefined },
+      { propertyName: "disabled", defaultValue: false },
+      { propertyName: "filterDisabled", defaultValue: undefined },
+      { propertyName: "icon", defaultValue: undefined },
+      { propertyName: "iconFlipRtl", defaultValue: false },
+      { propertyName: "selected", defaultValue: false },
+      { propertyName: "shortHeading", defaultValue: undefined },
+      { propertyName: "textLabel", defaultValue: undefined },
+      { propertyName: "value", defaultValue: undefined },
+    ]);
+  });
+
+  describe("reflects", () => {
+    reflects("calcite-combobox-item", [
+      { propertyName: "active", value: true },
+      { propertyName: "disabled", value: true },
+      { propertyName: "filterDisabled", value: true },
+      { propertyName: "icon", value: "banana" },
+      { propertyName: "iconFlipRtl", value: true },
+      { propertyName: "selected", value: true },
+    ]);
+  });
+
   describe("renders", () => {
     renders("calcite-combobox-item", { display: "flex" });
   });
@@ -19,55 +45,50 @@ describe("calcite-combobox-item", () => {
   });
 
   describe("theme", () => {
-    describe("default", () => {
-      themed("calcite-combobox-item", {
-        "--calcite-combobox-item-background-color": {
+    themed("calcite-combobox-item", {
+      "--calcite-combobox-background-color-highlight": [
+        {
           shadowSelector: `.${CSS.label}`,
           targetProp: "backgroundColor",
+          state: "hover",
         },
-        "--calcite-combobox-item-indicator-color": {
-          shadowSelector: `.${CSS.icon}`,
-          targetProp: "color",
-        },
-        "--calcite-combobox-item-shadow": {
+        {
           shadowSelector: `.${CSS.label}`,
-          targetProp: "boxShadow",
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.label } },
         },
-        "--calcite-combobox-item-text-color": {
-          shadowSelector: `.${CSS.label}`,
-          targetProp: "color",
-        },
-      });
-    });
-
-    describe("custom icon", () => {
-      themed("<calcite-combobox-item icon='banana'>test</calcite-combobox-item>", {
-        "--calcite-combobox-item-icon-color": {
+      ],
+      "--calcite-combobox-indicator-color-selected": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "color",
+      },
+      "--calcite-combobox-indicator-color": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "color",
+      },
+      "--calcite-combobox-text-color-highlight": {
+        shadowSelector: `.${CSS.description}`,
+        targetProp: "color",
+        state: "hover",
+      },
+      "--calcite-combobox-text-color-selected": {
+        shadowSelector: `.${CSS.label}`,
+        targetProp: "color",
+      },
+      "--calcite-combobox-text-color": [
+        {
           shadowSelector: `.${CSS.custom}`,
           targetProp: "color",
         },
-      });
-    });
-
-    describe("selected", () => {
-      themed("<calcite-combobox-item selected>test</calcite-combobox-item>", {
-        "--calcite-combobox-item-background-color-active": {
+        {
+          shadowSelector: `.${CSS.shortText}`,
+          targetProp: "color",
+        },
+        {
           shadowSelector: `.${CSS.label}`,
           targetProp: "color",
         },
-        "--calcite-combobox-item-text-color-active": {
-          shadowSelector: `.${CSS.label}`,
-          targetProp: "color",
-        },
-        "--calcite-combobox-item-icon-color-active": {
-          shadowSelector: `.${CSS.icon}`,
-          targetProp: "color",
-        },
-        "--calcite-combobox-item-indicator-color-active": {
-          shadowSelector: `.${CSS.iconActive}`,
-          targetProp: "color",
-        },
-      });
+      ],
     });
   });
 });
