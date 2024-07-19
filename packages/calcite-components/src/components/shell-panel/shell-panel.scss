@@ -202,7 +202,6 @@
 
 :host([layout="vertical"]) .content {
   inline-size: var(--calcite-shell-panel-width-internal);
-  max-inline-size: var(--calcite-shell-panel-max-width-internal);
   min-inline-size: var(--calcite-shell-panel-min-width-internal);
 }
 
