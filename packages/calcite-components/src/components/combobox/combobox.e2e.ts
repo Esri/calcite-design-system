@@ -2287,73 +2287,6 @@ describe("calcite-combobox", () => {
     expect(chips.length).toBe(2);
   });
 
-  describe("theme", () => {
-    describe("default", () => {
-      themed(
-        html`
-          <calcite-combobox>
-            <calcite-combobox-item value="first" text-label="First" selected></calcite-combobox-item>
-          </calcite-combobox>
-        `,
-        {
-          "--calcite-combobox-border-color": {
-            shadowSelector: `.${CSS.wrapper}`,
-            targetProp: "borderColor",
-          },
-          "--calcite-combobox-background-color": {
-            shadowSelector: `.${CSS.wrapper}`,
-            targetProp: "backgroundColor",
-          },
-          "--calcite-combobox-text-color": {
-            shadowSelector: `.${CSS.wrapper}`,
-            targetProp: "color",
-          },
-        },
-      );
-    });
-
-    describe("active chip", () => {
-      themed(
-        async () => {
-          const page = await newE2EPage();
-          await page.setContent(`html
-          <calcite-combobox>
-            <calcite-combobox-item value="first" text-label="First" selected></calcite-combobox-item>
-          </calcite-combobox>
-        `);
-          const combobox = await page.find("calcite-combobox");
-
-          await combobox.click();
-          await combobox.press("ArrowLeft");
-          await page.waitForChanges();
-
-          return { page, tag: "calcite-combobox" };
-        },
-        {
-          "--calcite-combobox-chip-background-color-active": {
-            shadowSelector: `.${CSS.chipActive}`,
-            targetProp: "--calcite-chip-background-color",
-          },
-        },
-      );
-    });
-
-    describe("deprecated", () => {
-      themed("calcite-combobox", {
-        "--calcite-combobox-input-height": [
-          {
-            shadowSelector: `.${CSS.input}`,
-            targetProp: "blockSize",
-          },
-          {
-            shadowSelector: `.${CSS.input}`,
-            targetProp: "lineHeight",
-          },
-        ],
-      });
-    });
-  });
-
   it("prevents opening a readonly combobox", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
@@ -2380,5 +2313,147 @@ describe("calcite-combobox", () => {
       document.body.append(combobox);
     });
     await page.waitForChanges();
+  });
+
+  describe("theme", () => {
+    describe("default", () => {
+      themed("calcite-combobox", {
+        "--calcite-combobox-background-color": {
+          shadowSelector: `.${CSS.wrapper}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-combobox-border-color": {
+          shadowSelector: `.${CSS.wrapper}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-combobox-text-color-selected": [
+          {
+            shadowSelector: `.${CSS.wrapper}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.input}`,
+            targetProp: "color",
+          },
+        ],
+        "--calcite-combobox-input-size": [
+          {
+            shadowSelector: `.${CSS.input}`,
+            targetProp: "blockSize",
+          },
+          {
+            shadowSelector: `.${CSS.input}`,
+            targetProp: "lineHeight",
+          },
+          {
+            shadowSelector: `.${CSS.label}`,
+            targetProp: "blockSize",
+          },
+          {
+            shadowSelector: `.${CSS.label}`,
+            targetProp: "lineHeight",
+          },
+        ],
+        "--calcite-combobox-z-index": {
+          shadowSelector: `.${CSS.floatingContainer}`,
+          targetProp: "zIndex",
+        },
+      });
+    });
+    describe("open", () => {
+      themed(html`<calcite-combobox open><calcite-combobox-item>one</calcite-combobox-item></calcite-combobox>`, {
+        "--calcite-combobox-background-color": {
+          shadowSelector: `.${CSS.listContainer}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-combobox-border-color": [
+          {
+            shadowSelector: `.${CSS.wrapper}`,
+            targetProp: "borderColor",
+          },
+          {
+            shadowSelector: `.${CSS.listContainer}`,
+            targetProp: "borderColor",
+          },
+        ],
+      });
+    });
+    describe("icons", () => {
+      themed(
+        html`<calcite-combobox icon-start="house"
+          ><calcite-combobox-item>one</calcite-combobox-item></calcite-combobox
+        >`,
+        {
+          "--calcite-combobox-text-color": {
+            shadowSelector: `.${CSS.icon}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
+    describe("invalid", () => {
+      themed(
+        html`<calcite-combobox status="invalid"
+          ><calcite-combobox-item>one</calcite-combobox-item
+          ><calcite-combobox-item>two</calcite-combobox-item></calcite-combobox
+        >`,
+        {
+          "--calcite-combobox-border-color-invalid": {
+            shadowSelector: `.${CSS.wrapper}`,
+            targetProp: "borderColor",
+          },
+        },
+      );
+    });
+    describe("read only", () => {
+      themed(html`<calcite-combobox readonly></calcite-combobox>`, {
+        "--calcite-combobox-background-color-disabled": {
+          shadowSelector: `.${CSS.wrapper}`,
+          targetProp: "backgroundColor",
+        },
+      });
+    });
+    describe("chip", () => {
+      themed(
+        html`<calcite-combobox selection-mode="ancestors"
+          ><calcite-combobox-item selected>one</calcite-combobox-item
+          ><calcite-combobox-item selected>two</calcite-combobox-item></calcite-combobox
+        >`,
+        {
+          "--calcite-combobox-chip-background-color-active": {
+            shadowSelector: `.${CSS.chip}`,
+            targetProp: "--calcite-chip-background-color-active",
+          },
+        },
+      );
+    });
+    describe("deprecated", () => {
+      themed(
+        html`<calcite-combobox selection-mode="single"
+          ><calcite-combobox-item selected>one</calcite-combobox-item
+          ><calcite-combobox-item>two</calcite-combobox-item></calcite-combobox
+        >`,
+        {
+          "--calcite-combobox-input-height": [
+            {
+              shadowSelector: `.${CSS.input}`,
+              targetProp: "blockSize",
+            },
+            {
+              shadowSelector: `.${CSS.input}`,
+              targetProp: "lineHeight",
+            },
+            {
+              shadowSelector: `.${CSS.label}`,
+              targetProp: "blockSize",
+            },
+            {
+              shadowSelector: `.${CSS.label}`,
+              targetProp: "lineHeight",
+            },
+          ],
+        },
+      );
+    });
   });
 });

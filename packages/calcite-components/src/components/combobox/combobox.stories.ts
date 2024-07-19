@@ -1,5 +1,66 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import type { Scale } from "../interfaces";
+import type { Combobox } from "./combobox";
+
+/**
+ * This decorator takes HTML for items and will create a composite story for all scales for each specified selection mode.
+ *
+ * @param itemsStory - the HTML story template for items
+ * @param context - the context object
+ * @param context.args - the args object
+ * @param context.args.selectionMode - the selection mode(s) to use for the combobox
+ *
+ * @returns the composite story for all scales for each specified selection mode
+ */
+function allScaleComboboxBuilder(
+  itemsStory: () => string,
+  context: { args: { selectionMode: Combobox["selectionMode"] | Combobox["selectionMode"][] } },
+): string {
+  const items = itemsStory();
+  const { selectionMode } = context.args;
+  const selectionModes = Array.isArray(selectionMode) ? selectionMode : [selectionMode];
+  const scales: Scale[] = ["s", "m", "l"];
+
+  return html`
+    <style>
+      calcite-combobox {
+        margin-bottom: 250px;
+      }
+      .selection-mode-group {
+        display: flex;
+        justify-content: space-between;
+      }
+      .combobox-container {
+        flex: 1;
+        margin-right: 10px;
+      }
+    </style>
+
+    ${selectionModes.map(
+      (selectionMode) => html`
+        <div class="selection-mode-group">
+          ${scales.map(
+            (scale) => html`
+              <div class="combobox-container">
+                <h3>${selectionMode} selection mode + ${scale} scale</h3>
+                <calcite-combobox
+                  placeholder="select element"
+                  max-items="6"
+                  selection-mode="${selectionMode}"
+                  open
+                  scale="${scale}"
+                >
+                  ${items}
+                </calcite-combobox>
+              </div>
+            `,
+          )}
+        </div>
+      `,
+    )}
+  `;
+}
 
 export default {
   title: "Components/Controls/Combobox",
@@ -823,7 +884,12 @@ export const filterHighlighting = (): string => html`
     </calcite-combobox-item>
     <calcite-combobox-item value="Flowers" text-label="Flowers">
       <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-      <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+      <calcite-combobox-item
+        value="Black Eyed Susan"
+        description="The Black Eyed Susan is a yellow flower with a dark center."
+        text-label="Black Eyed Susan"
+        short-heading="Susan"
+      ></calcite-combobox-item>
       <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
     </calcite-combobox-item>
     <calcite-combobox-item value="Animals" text-label="Animals">
@@ -836,3 +902,35 @@ export const filterHighlighting = (): string => html`
     <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
   </calcite-combobox>
 `;
+
+export const withDescriptionShortLabelAndContentEndSlot = (): string => html`
+  <calcite-combobox-item
+    description="the first installment in this thrilling series"
+    selected
+    short-heading="#1"
+    text-label="1ne"
+    value="one"
+  >
+    <calcite-icon icon="number-circle-1" slot="content-end"></calcite-icon>
+  </calcite-combobox-item>
+  <calcite-combobox-item
+    description="the sequel to the smash hit 'one'"
+    short-heading="#2"
+    text-label="2woo"
+    value="two"
+  >
+    <calcite-icon icon="number-circle-2" slot="content-end"></calcite-icon>
+  </calcite-combobox-item>
+  <calcite-combobox-item
+    description="the thrilling conclusion to the number series"
+    short-heading="#3"
+    text-label="Thr333"
+    value="three"
+  >
+    <calcite-icon icon="number-circle-3" slot="content-end"></calcite-icon>
+  </calcite-combobox-item>
+`;
+withDescriptionShortLabelAndContentEndSlot.decorators = [allScaleComboboxBuilder];
+withDescriptionShortLabelAndContentEndSlot.args = {
+  selectionMode: ["single", "multiple"],
+};
