@@ -132,5 +132,10 @@
   },
   "dependencies": {
     "patch-package": "8.0.0"
+  },
+  "optionalDependencies": {
+    "@nx/nx-darwin-arm64": "*",
+    "@nx/nx-win32-x64-msvc": "*",
+    "@nx/nx-linux-x64-gnu": "*"
   }
 }
