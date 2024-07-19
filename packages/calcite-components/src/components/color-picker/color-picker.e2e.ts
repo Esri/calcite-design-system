@@ -1,5 +1,15 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders, focusable, disabled, t9n } from "../../tests/commonTests";
+import {
+  accessible,
+  defaults,
+  hidden,
+  reflects,
+  renders,
+  focusable,
+  disabled,
+  t9n,
+  themed,
+} from "../../tests/commonTests";
 import {
   GlobalTestProps,
   selectText,
@@ -2343,6 +2353,34 @@ describe("calcite-color-picker", () => {
           expect(await picker.getProperty("value")).toBe("#fffffffa");
         });
       });
+    });
+  });
+  describe("theme", () => {
+    themed("calcite-color-picker", {
+      "--calcite-color-picker-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-color-picker-border-color": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: "calcite-tabs",
+          targetProp: "--calcite-tab-border-color",
+        },
+      ],
+      "--calcite-color-picker-text-color": [
+        {
+          shadowSelector: `.${CSS.header}`,
+          targetProp: "color",
+        },
+        {
+          shadowSelector: "calcite-tabs",
+          targetProp: "--calcite-tab-text-color-selected",
+        },
+      ],
     });
   });
 });
