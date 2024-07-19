@@ -102,7 +102,7 @@ export default class TooltipManager {
 
     if (tooltip) {
       this.openHoveredTooltip(tooltip);
-    } else if (activeTooltip) {
+    } else if (activeTooltip?.open) {
       this.closeHoveredTooltip();
     }
   };
@@ -130,14 +130,14 @@ export default class TooltipManager {
       return;
     }
 
+    this.clearHoverTimeout();
+
     if (tooltip.closeOnClick) {
       this.toggleTooltip(tooltip, false);
-      this.clearHoverTimeout();
       return;
     }
 
     this.toggleTooltip(tooltip, true);
-    this.clearHoverTimeout();
   };
 
   private focusInHandler = (event: FocusEvent): void => {
@@ -204,10 +204,6 @@ export default class TooltipManager {
   }
 
   private toggleFocusedTooltip(tooltip: HTMLCalciteTooltipElement, open: boolean): void {
-    if (!tooltip) {
-      return;
-    }
-
     if (open) {
       this.clearHoverTimeout();
     }
@@ -232,7 +228,7 @@ export default class TooltipManager {
         this.closeTooltipIfNotActive(tooltip);
         this.toggleTooltip(tooltip, true);
       },
-      this.activeTooltip ? 0 : TOOLTIP_OPEN_DELAY_MS,
+      this.activeTooltip?.open ? 0 : TOOLTIP_OPEN_DELAY_MS,
     );
   };
 
@@ -251,6 +247,11 @@ export default class TooltipManager {
     const tooltip = this.queryTooltip(composedPath);
 
     this.closeTooltipIfNotActive(tooltip);
+
+    if (!tooltip) {
+      return;
+    }
+
     this.toggleFocusedTooltip(tooltip, open);
   }
 
