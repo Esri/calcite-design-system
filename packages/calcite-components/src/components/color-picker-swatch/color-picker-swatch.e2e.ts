@@ -1,5 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
+import { accessible, defaults, reflects, renders, hidden, themed } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-color-picker-swatch", () => {
@@ -103,6 +104,28 @@ describe("calcite-color-picker-swatch", () => {
         const style = await swatch.getComputedStyle();
 
         expect(style["fill"]).toBe("rgba(255, 130, 0, 0.5)");
+      });
+    });
+  });
+  describe("theme", () => {
+    describe("color", () => {
+      themed(html`<calcite-color-picker-swatch color="#b33f33"></calcite-color-picker-swatch>`, {
+        "--calcite-color-picker-border-color ": {
+          shadowSelector: `.${CSS.checker}`,
+          targetProp: "fill",
+        },
+      });
+    });
+    describe("empty", () => {
+      themed("<calcite-color-picker-swatch active></calcite-color-picker-swatch>", {
+        "--calcite-color-picker-background-color": {
+          shadowSelector: `rect`,
+          targetProp: "fill",
+        },
+        "--calcite-color-picker-border-invalid": {
+          shadowSelector: `line`,
+          targetProp: "stroke",
+        },
       });
     });
   });

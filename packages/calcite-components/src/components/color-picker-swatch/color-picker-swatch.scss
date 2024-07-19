@@ -1,20 +1,31 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-color-picker-background-color: Specifies the color of the empty swatch.
+ * @prop --calcite-color-picker-border-invalid: Specifies the border color of the swatch when invalid.
+ * @prop --calcite-color-picker-border-color: Specifies the border color of the swatch.
+ */
+
+$size-s: 20px;
+$size-m: 24px;
+$size-l: 28px;
+
 :host {
   @apply relative inline-flex;
-
-  block-size: var(--calcite-internal-color-picker-swatch-size);
-  inline-size: var(--calcite-internal-color-picker-swatch-size);
 }
 
 :host([scale="s"]) {
-  --calcite-internal-color-picker-swatch-size: var(--calcite-size-xl);
+  @apply h-5 w-5;
 }
 
 :host([scale="m"]) {
-  --calcite-internal-color-picker-swatch-size: var(--calcite-size-xxl);
+  @apply h-6 w-6;
 }
 
 :host([scale="l"]) {
-  --calcite-internal-color-picker-swatch-size: var(--calcite-size-xxxl);
+  @apply h-8 w-8;
 }
 
 .swatch {
@@ -29,16 +40,16 @@
 
 .swatch--no-color {
   rect {
-    fill: var(--calcite-color-foreground-1);
+    fill: var(--calcite-color-picker-background-color, var(--calcite-color-foreground-1));
   }
 
   line {
-    stroke: var(--calcite-color-status-danger);
+    stroke: var(--calcite-color-picker-border-invalid, var(--calcite-color-status-danger));
   }
 }
 
 .checker {
-  fill: #{$calcite-color-neutral-blk-050};
+  fill: var(--calcite-color-picker-border-color, var(--calcite-color-border-1));
 }
 
 @include base-component();
