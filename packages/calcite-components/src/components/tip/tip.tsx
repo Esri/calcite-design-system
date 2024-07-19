@@ -25,8 +25,15 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
+import { logger } from "../../utils/logger";
 import { TipMessages } from "./assets/tip/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
+
+logger.deprecated("component", {
+  name: "calcite-tip",
+  removalVersion: 4,
+  suggested: ["calcite-card", "calcite-notice", "calcite-panel", "calcite-tile"],
+});
 
 /**
  * @deprecated Use the `calcite-card`, `calcite-notice`, `calcite-panel`, or `calcite-tile` component instead.

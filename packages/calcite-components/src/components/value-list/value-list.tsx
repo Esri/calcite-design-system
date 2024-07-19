@@ -65,9 +65,16 @@ import {
   SortableComponent,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
+import { logger } from "../../utils/logger";
 import { ValueListMessages } from "./assets/value-list/t9n";
 import { CSS, ICON_TYPES } from "./resources";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
+
+logger.deprecated("component", {
+  name: "calcite-value-list",
+  removalVersion: 3,
+  suggested: "calcite-list",
+});
 
 /**
  * @deprecated Use the `calcite-list` component instead.

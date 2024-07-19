@@ -6,7 +6,14 @@ import {
   InteractiveContainer,
   updateHostInteraction,
 } from "../../utils/interactive";
+import { logger } from "../../utils/logger";
 import { TileSelectGroupLayout } from "./interfaces";
+
+logger.deprecated("component", {
+  name: "calcite-tile-select-group",
+  removalVersion: 4,
+  suggested: ["calcite-tile", "calcite-tile-group"],
+});
 
 /**
  * @deprecated Use the `calcite-tile-group` component instead.

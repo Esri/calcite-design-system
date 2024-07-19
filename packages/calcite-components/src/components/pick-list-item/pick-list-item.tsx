@@ -38,8 +38,15 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { ICON_TYPES } from "../pick-list/resources";
+import { logger } from "../../utils/logger";
 import { PickListItemMessages } from "./assets/pick-list-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
+
+logger.deprecated("component", {
+  name: "calcite-pick-list",
+  removalVersion: 3,
+  suggested: "calcite-list",
+});
 
 /**
  * @deprecated Use the `calcite-list` component instead.

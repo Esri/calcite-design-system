@@ -25,6 +25,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { HeadingLevel } from "../functional/Heading";
 import type { ValueUnion } from "../types";
+import { logger } from "../../utils/logger";
 import { ICON_TYPES } from "./resources";
 import {
   calciteInternalListItemValueChangeHandler,
@@ -49,6 +50,12 @@ import {
   setUpItems,
 } from "./shared-list-logic";
 import List from "./shared-list-render";
+
+logger.deprecated("component", {
+  name: "calcite-pick-list-item",
+  removalVersion: 3,
+  suggested: "calcite-list-item",
+});
 
 /**
  * @deprecated Use the `calcite-list` component instead.

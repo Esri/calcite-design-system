@@ -20,8 +20,15 @@ import {
   updateMessages,
 } from "../../utils/t9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
+import { logger } from "../../utils/logger";
 import { TipManagerMessages } from "./assets/tip-manager/t9n";
 import { CSS, ICONS } from "./resources";
+
+logger.deprecated("component", {
+  name: "calcite-tip-manager",
+  removalVersion: 4,
+  suggested: "calcite-carousel",
+});
 
 /**
  * @deprecated Use the `calcite-carousel` and `calcite-carousel-item` components instead.
